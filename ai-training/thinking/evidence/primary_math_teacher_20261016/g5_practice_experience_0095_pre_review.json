@@ -1,0 +1,239 @@
+{
+  "schema_version": "primary_math.batch_pre_review.v1",
+  "batch": "g5_practice_experience_0095",
+  "created_utc": "2026-10-18T10:57:16.523659+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_water_displacement_volume_estimate_record",
+      "row_sha256": "9b532f400fb0597a48cedff5055739aba54c48c51711b89594f7f3370c08cb54",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1.82-1.35",
+          "(1.82-1.35)*1000",
+          "500-((1.82-1.35)*1000)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "row_sha256": "214eb51fc09eb74e1d0de92ecbae812afd34583711d3b433df3bb5023f21f719",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "276000-240000",
+          "330000-300000",
+          "(276000-240000)/240000*100",
+          "(330000-300000)/300000*100",
+          "(276000-240000)-(330000-300000)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_two_leg_walk_record_whole_trial_speed",
+      "row_sha256": "ad29dffba6b405d6f7bc9fb549ec41ff6b4854c6c749bcbbc329c3bb3f010ef9",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "62.4+43.2",
+          "1*60+28",
+          "(62.4+43.2)/(1*60+28)",
+          "1.5-((62.4+43.2)/(1*60+28))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_misconception_monthly_interest_vs_whole_period",
+      "row_sha256": "19e66fe3c5080c0eb9df71425979129de057487d454a2ad11fd9d178dc5655bf",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2000000*0.5/100",
+          "(2000000*0.5/100)*6",
+          "2000000+((2000000*0.5/100)*6)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_guard_tangram_target_outline_missing",
+      "row_sha256": "3d5a88d43950178e57bab345ec6c10898833ad271032402cbe6b1beda8a8d67b",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_water_displacement_volume_estimate_record",
+      "step_id": "s0",
+      "expression": "1.82-1.35",
+      "fraction": "47/100",
+      "decimal": "0.47",
+      "unit": "l"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_water_displacement_volume_estimate_record",
+      "step_id": "s1",
+      "expression": "(47/100)*1000",
+      "fraction": "470",
+      "decimal": "470.00",
+      "unit": "cm³"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_water_displacement_volume_estimate_record",
+      "step_id": "s2",
+      "expression": "500-470",
+      "fraction": "30",
+      "decimal": "30",
+      "unit": "cm³"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "step_id": "s0",
+      "expression": "276000-240000",
+      "fraction": "36000",
+      "decimal": "36000",
+      "unit": "đồng"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "step_id": "s1",
+      "expression": "330000-300000",
+      "fraction": "30000",
+      "decimal": "30000",
+      "unit": "đồng"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "step_id": "s2",
+      "expression": "36000/240000*100",
+      "fraction": "15",
+      "decimal": "15.00",
+      "unit": "%"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "step_id": "s3",
+      "expression": "30000/300000*100",
+      "fraction": "10",
+      "decimal": "10.0",
+      "unit": "%"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_school_fair_two_budgets_profit_vs_revenue",
+      "step_id": "s4",
+      "expression": "36000-30000",
+      "fraction": "6000",
+      "decimal": "6000",
+      "unit": "đồng"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_two_leg_walk_record_whole_trial_speed",
+      "step_id": "s0",
+      "expression": "62.4+43.2",
+      "fraction": "528/5",
+      "decimal": "105.6",
+      "unit": "m"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_two_leg_walk_record_whole_trial_speed",
+      "step_id": "s1",
+      "expression": "1*60+28",
+      "fraction": "88",
+      "decimal": "88",
+      "unit": "giây"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_two_leg_walk_record_whole_trial_speed",
+      "step_id": "s2",
+      "expression": "(528/5)/88",
+      "fraction": "6/5",
+      "decimal": "1.2",
+      "unit": "m/s"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_two_leg_walk_record_whole_trial_speed",
+      "step_id": "s3",
+      "expression": "1.5-(6/5)",
+      "fraction": "3/10",
+      "decimal": "0.3",
+      "unit": "m/s"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_misconception_monthly_interest_vs_whole_period",
+      "step_id": "s0",
+      "expression": "2000000*0.5/100",
+      "fraction": "10000",
+      "decimal": "10000.0",
+      "unit": "đồng"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_misconception_monthly_interest_vs_whole_period",
+      "step_id": "s1",
+      "expression": "10000*6",
+      "fraction": "60000",
+      "decimal": "60000",
+      "unit": "đồng"
+    },
+    {
+      "sample_id": "primary_20261018_g5_practice_experience_0095_misconception_monthly_interest_vs_whole_period",
+      "step_id": "s2",
+      "expression": "2000000+60000",
+      "fraction": "2060000",
+      "decimal": "2060000",
+      "unit": "đồng"
+    }
+  ],
+  "separate_oracles": {
+    "displaced_mL_unit_cells": 470,
+    "estimate_difference_cells": 30,
+    "ledger_profit_1000dong_tokens": [
+      36,
+      30
+    ],
+    "profit_percent_fraction": [
+      15,
+      10
+    ],
+    "walk_tenth_metre_time_cells": 88,
+    "walk_tenth_metre_total": 1056,
+    "monthly_interest_entries_dong": [
+      10000,
+      10000,
+      10000,
+      10000,
+      10000,
+      10000
+    ],
+    "tangram_QA_only_target_area_ratios": [
+      1,
+      4
+    ]
+  },
+  "actual_semantic_content_read": true,
+  "actual_image_or_physical_success": false,
+  "visual_outcome_pending": true,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "all_hint_count_read": 15,
+  "grade5_activity_volume_budget_motion_interest_and_tangram_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:57:54.114778+00:00",
+  "official_QA_method": "Same-author actualfullread5problems/givens/neutralrequest/studentquote/observations/initial/all15workedsteps/titles/reasons/explanations/results/expressions/units/answers and15hints. Grade5practice:waterdisplacementassumptionsandvolumeunits/estimate;twoexpense/revenueledgerswithprofit-percentcostdenominators;two-leg/timewhole-trialspeedwithoutuniformityclaim;fixedoriginal-principalmonthlyinterestvsfullperiodgroundedfeedback;tangrammissingtargetoutline/scaleguard. Fraction/Decimalall15numericsteps,separateunitmLenumeration/1000dongtokens/tenth-metre-timecells/monthlyledgerandQA-onlytangramareacountermodels. Parsernotsemanticproof;mappingandhintrolesread. Noactualimage/physicalsuccess/independentreview/newhumanattestation;visualoutcomepending. Existingthreeprotectedhashes/exclusionskept,noevalusedtoadjustdata.",
+  "official_review_sha256": "59c4a45e629a403477e4b5a7eba3f6be5f8c74cb9f494900f2d9f0cac180b5f0"
+}

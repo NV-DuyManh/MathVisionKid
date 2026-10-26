@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"DERIVED_SHARD_PREPARED_NOT_YET_MERGED\", \"derived_file\": {\"name\": \"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\", \"bytes\": 20463369, \"sha256\": \"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\", \"rows\": 511420}, \"changed_chat_rows\": 60, \"case_ids\": 15, \"only_changed_fields\": [\"case_group_id\", \"source_row_sha256\"], \"messages_unchanged\": true, \"all60_full_projection_match\": true, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"DERIVED_SHARD_PREPARED_NOT_YET_MERGED\", \"derived_file\": {\"name\": \"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\", \"bytes\": 20463369, \"sha256\": \"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\", \"rows\": 511420}, \"changed_chat_rows\": 60, \"case_ids\": 15, \"only_changed_fields\": [\"case_group_id\", \"source_row_sha256\"], \"messages_unchanged\": true, \"all60_full_projection_match\": true, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"state\\\": \\\"DERIVED_SHARD_PREPARED_NOT_YET_MERGED\\\", \\\"derived_file\\\": {\\\"name\\\": \\\"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\\\", \\\"bytes\\\": 20463369, \\\"sha256\\\": \\\"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\\\", \\\"rows\\\": 511420}, \\\"changed_chat_rows\\\": 60, \\\"case_ids\\\": 15, \\\"only_changed_fields\\\": [\\\"case_group_id\\\", \\\"source_row_sha256\\\"], \\\"messages_unchanged\\\": true, \\\"all60_full_projection_match\\\": true, \\\"training_started\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

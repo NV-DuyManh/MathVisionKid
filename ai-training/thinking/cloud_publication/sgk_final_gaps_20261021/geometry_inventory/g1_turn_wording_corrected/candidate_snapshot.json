@@ -1,0 +1,1009 @@
+{
+  "complementary_irregular_boundary_match": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V1_COMPLEMENTARY_BOUNDARY_MATCH"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "pair_irregular_complementary_pieces_to_named_whole"
+        ],
+        "grade": 1,
+        "printed_page": 53,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-54-1775728323783.png",
+        "source_image_sha256": "5314313e7764fe5b8b8d68def6373251616d78d192c13ddd7cfc05a7948f488e",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "complementary_irregular_boundary_match",
+    "nearest_refs": [
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V1_COMPLEMENTARY_BOUNDARY_MATCH": [
+        "414bbcd8559735127288c956"
+      ]
+    },
+    "original_master_reasons": [
+      "Restoring two triangles from one declared cut does not choose irregular complementary convex/concave boundaries. Explicit piece boundaries/legal transforms required."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V1_COMPLEMENTARY_BOUNDARY_MATCH",
+        "constraints": [
+          "Restoring two triangles from one declared cut does not choose irregular complementary convex/concave boundaries. Explicit piece boundaries/legal transforms required."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "composite_shape_square_nonaligned_inventory": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V1_COMPOSITE_SHAPE_COUNT"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "select_multiple_shapes_of_given_type",
+          "count_shapes_in_composite_picture"
+        ],
+        "grade": 1,
+        "printed_page": 47,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-48-1775728321881.png",
+        "source_image_sha256": "5a62269a8e9f6f09c3c6cc32c389022853f33160d85981c4c839ca123fb07e18",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "count_disjoint_flat_shapes",
+          "count_shapes_in_shared_stick_diagram"
+        ],
+        "grade": 1,
+        "printed_page": 48,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-49-1775728322225.png",
+        "source_image_sha256": "bc0777e34e95435a730decaaf192d48f8414dccf01791e100cadadcbdde03b1d",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "tabulate_counts_by_shape",
+          "select_nonmembers_of_shape_class"
+        ],
+        "grade": 1,
+        "printed_page": 49,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-50-1775728322527.png",
+        "source_image_sha256": "bad89db84c7cb4a2f2c9450e39c539697e75609218851fed51013d6101d8c8a0",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "repeating_colour_or_shape_pattern_completion",
+          "count_hidden_triangle_units_in_composite_silhouette"
+        ],
+        "grade": 1,
+        "printed_page": 55,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-56-1775728324461.png",
+        "source_image_sha256": "a00567689c647ad357b0b61bf71c0b33ffb12e68bcee0f4e78c23109aacd0c70",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 4,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "composite_shape_square_nonaligned_inventory",
+    "nearest_refs": [
+      {
+        "line": 70,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+        "sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 71,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+        "sha256": "69039fe0b83ffec96dcd529c2916f9c46396aeb5f3ee5b94b37350228acbfb07",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 72,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+        "sha256": "8acd2f371a6c559d7a2836e9d18b7de5917117e610fabf2b544c34c1addc2ce3",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 280,
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V1_COMPOSITE_SHAPE_COUNT": [
+        "69c4b4c289e5c002c182befd"
+      ]
+    },
+    "original_master_reasons": [
+      "Published triangle and axis-aligned rectangle enumeration establishes those subsets; it does not enumerate every G1 arbitrary composite/implicit-boundary shape. Keep original geometry and counting conventions."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V1_COMPOSITE_SHAPE_COUNT",
+        "constraints": [
+          "Published triangle and axis-aligned rectangle enumeration establishes those subsets; it does not enumerate every G1 arbitrary composite/implicit-boundary shape. Keep original geometry and counting conventions."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "fixed_piece_assembly_feasibility": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "fixed_piece_assembly_feasibility"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Alternating shape sequence; choose fourth rhombus vertex; check diagonal perpendicularity; impossible assembly from two congruent triangles"
+        ],
+        "image_sha256": "2384007c1bd0a3492766f8e09dafdd39cdc7e484bf9d3c66bea8c52dae99488d",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_110-1791255477001.png",
+        "printed_page": 108
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Assemble quadrilaterals from four congruent triangles; real rhombus examples; fold and cut symmetric rhombus"
+        ],
+        "image_sha256": "f25f948f865efe3e8902279194310f6e03e4edaacf0bf579734d756431608301",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_111-1791255477164.png",
+        "printed_page": 109
+      },
+      {
+        "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+        "book_id": "g3v2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-34-1776051212786.png",
+        "printed_page": 33,
+        "source_image_sha256": "11a089d4b5c60ec5f35ff2009d45519c81f1160468a7fc039f3fdbf199f24b86"
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "fixed_piece_assembly_feasibility",
+    "nearest_refs": [
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 13,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+        "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 14,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+        "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 15,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+        "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 340,
+        "sample_id": "primary_20261017_g2_drawing_assembly_0015_tile_grid_with_horizontal_piece",
+        "sha256": "bde56036964d52673776a14a8e01e6cb555eb3848825ac7dab3a61ae8c2dd75b",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "fixed_piece_assembly_feasibility": [
+        "4530f082f55796614e4e9264",
+        "9e1a2b15fc18f7d0310ab9d4",
+        "67706e9d74590177415d3094"
+      ]
+    },
+    "original_master_reasons": [
+      "Guaranteed restore does not prove feasible/impossible arbitrary target under fixed-piece geometry and legal transforms."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "fixed_piece_assembly_feasibility",
+        "constraints": [
+          "Guaranteed restore does not prove feasible/impossible arbitrary target under fixed-piece geometry and legal transforms."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "fixed_piece_silhouette_placement": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET",
+      "silhouette_piece_assembly",
+      "g5_candidate_tangram_assembly"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "assemble_five_given_pieces_to_two_target_silhouettes",
+          "free_shape_composition"
+        ],
+        "grade": 1,
+        "printed_page": 50,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-51-1775728322860.png",
+        "source_image_sha256": "d0bd10123add63bff8e7fa2f4d58cb64611f367e89e295e4b7a45cf0195a4d03",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "assemble_square_two_triangles_to_multiple_silhouettes"
+        ],
+        "grade": 1,
+        "printed_page": 51,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-52-1775728323137.png",
+        "source_image_sha256": "f605f4c528264b1f34b95245c1ecbe3a93d0fda42fba6d3932f6b7168f918029",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "four_triangle_cut_reassembly_to_target_silhouettes"
+        ],
+        "grade": 1,
+        "printed_page": 52,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-53-1775728323456.png",
+        "source_image_sha256": "f2241a45edf8fbe402bc759013d7c318a5be66b3718ad69deda0fb2b785adf5a",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "periodic_shape_pattern",
+          "four_triangle_silhouette_composition"
+        ],
+        "grade": 1,
+        "printed_page": 111,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-112-1775728342904.png",
+        "source_image_sha256": "9257bf91228887def481dadf20884aa00ef851c7a4c58a43f6e20fc6e8d49d4e",
+        "volume": 1
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Reassemble fixed polygon puzzle pieces into silhouettes; construct parallel line; start measured running-track design"
+        ],
+        "image_sha256": "86994aa7f547af2884ad1575de8a63ce93f9eba99a73cc40b32bc56809f9c1fb",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_105-1791255476176.png",
+        "printed_page": 103
+      },
+      {
+        "exercise_types": [
+          "compose perspective-looking cube pictures from flat pieces",
+          "seven-piece tangram silhouettes"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_116-1790914086254.png",
+        "printed_page": 114,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "e4c89f0cafce8f5ee279a5d91b9023096b973f3de6207e23a59348028182be5e",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 6,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "fixed_piece_silhouette_placement",
+    "nearest_refs": [
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 340,
+        "sample_id": "primary_20261017_g2_drawing_assembly_0015_tile_grid_with_horizontal_piece",
+        "sha256": "bde56036964d52673776a14a8e01e6cb555eb3848825ac7dab3a61ae8c2dd75b",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 147,
+        "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+        "sha256": "9bae313cbc03ad67cd9e6648526882141770c74f81109f9bd34f7c1a2e001dd4",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 148,
+        "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+        "sha256": "9b1943347a283359f331f505206a91f3e71991d59de1a130580802381bb687cb",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 149,
+        "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+        "sha256": "f0dee1cbd35ae424690e342af72d8b9519ebe53dc6d2ab4603c2c713cba231eb",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET": [
+        "3ff29357244c6912aafd6301"
+      ],
+      "g5_candidate_tangram_assembly": [
+        "820060389b89d03d4da97e24"
+      ],
+      "silhouette_piece_assembly": [
+        "0bc1427aa190c5deac7b6ce3",
+        "2e6751c712cdf1932f22898f"
+      ]
+    },
+    "original_master_reasons": [
+      "A known diagonal restoration is not legal placement of a fixed multi-piece inventory into a silhouette. Need explicit piece shapes, target, rotations/reflections, no-gap/no-overlap proof."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V1_MULTIPIECE_SILHOUETTE_ASSET",
+        "constraints": [
+          "A known diagonal restoration is not legal placement of a fixed multi-piece inventory into a silhouette. Need explicit piece shapes, target, rotations/reflections, no-gap/no-overlap proof."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "silhouette_piece_assembly",
+        "constraints": [
+          "A known diagonal restoration is not legal placement of a fixed multi-piece inventory into a silhouette. Need explicit piece shapes, target, rotations/reflections, no-gap/no-overlap proof."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "g5_candidate_tangram_assembly",
+        "constraints": [
+          "A known diagonal restoration is not legal placement of a fixed multi-piece inventory into a silhouette. Need explicit piece shapes, target, rotations/reflections, no-gap/no-overlap proof."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "geometric_edge_removal_relocation": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET",
+      "geometric_matchstick_relocation"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "matchstick_remove_edges_count_triangles",
+          "periodic_shape_and_solid_attributes"
+        ],
+        "grade": 1,
+        "printed_page": 101,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-102-1776045489953.png",
+        "source_image_sha256": "3d2c5537ff21dd4a67e0d9d80aad7343c46a6e962b016fa76d8b4f576adefd07",
+        "volume": 2
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Construct two line relations through same point; relocate fixed number of sticks to rhombi; grid relations"
+        ],
+        "image_sha256": "c56a8f8a1802a13628d4ac260ddee892d084ae97d8907fc3a24e0cc3541db285",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_113-1791255477493.png",
+        "printed_page": 111
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Verify optical length illusion using ruler; cut-rearrange parallelogram into rectangle; move three sticks to rhombi; clock perpendicular hands"
+        ],
+        "image_sha256": "b3f74ef56acd307de628aa4e29d76e3954fe8f5eb547b4c0ab8e4ee63a57f007",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_114-1791255478094.png",
+        "printed_page": 112
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "geometric_edge_removal_relocation",
+    "nearest_refs": [
+      {
+        "line": 70,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+        "sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 71,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+        "sha256": "69039fe0b83ffec96dcd529c2916f9c46396aeb5f3ee5b94b37350228acbfb07",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 72,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+        "sha256": "8acd2f371a6c559d7a2836e9d18b7de5917117e610fabf2b544c34c1addc2ce3",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 280,
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 935,
+        "sample_id": "exhaustive_structure_g4_cube_frame_assembly_plan",
+        "sha256": "cf3dd11b78b9d592dd27f9a826738b2246c4027cdd096c7b042a0885839fdfd6",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 966,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+        "sha256": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET": [
+        "f66190ae8026a9d73d120ed5"
+      ],
+      "geometric_matchstick_relocation": [
+        "5e57f868888b219efe85fdb9",
+        "2afbe1518b0ab35267a21ee9"
+      ]
+    },
+    "original_master_reasons": [
+      "Published static triangle listing does not remove/move a fixed number of edges and recount all surviving target shapes while preserving inventory. Explicit edge set/move legality required."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET",
+        "constraints": [
+          "Published static triangle listing does not remove/move a fixed number of edges and recount all surviving target shapes while preserving inventory. Explicit edge set/move legality required."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "geometric_matchstick_relocation",
+        "constraints": [
+          "Published static triangle listing does not remove/move a fixed number of edges and recount all surviving target shapes while preserving inventory. Explicit edge set/move legality required."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "irregular_region_unit_area_count": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V2_GRID_REGION_UNIT_COUNT_ASSET"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "match_shape_piece_to_labeled_whole",
+          "count_unit_squares_in_nonrectangular_grid_region"
+        ],
+        "grade": 1,
+        "printed_page": 25,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-26-1776045478834.png",
+        "source_image_sha256": "c385d1d3e2a7f0cae2f56d85a35a5680751a26283cd8479ea18be77aa8b0458e",
+        "volume": 2
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "irregular_region_unit_area_count",
+    "nearest_refs": [
+      {
+        "line": 70,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+        "sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 71,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+        "sha256": "69039fe0b83ffec96dcd529c2916f9c46396aeb5f3ee5b94b37350228acbfb07",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 72,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+        "sha256": "8acd2f371a6c559d7a2836e9d18b7de5917117e610fabf2b544c34c1addc2ce3",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 532,
+        "sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts:polish_v1",
+        "sha256": "90ff5c428c2ee2e0a021fb575d7c12d9a10ea7cf0fe0951c789f0c9c1e323c73",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 267,
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V2_GRID_REGION_UNIT_COUNT_ASSET": [
+        "88265256ddd2491f1fefed0e"
+      ]
+    },
+    "original_master_reasons": [
+      "Independent symbol counting and rectangular grid enumeration do not count full/partial equal-area cells of an irregular region. Explicit boundary, cell area, regrouping and no-overlap required."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V2_GRID_REGION_UNIT_COUNT_ASSET",
+        "constraints": [
+          "Independent symbol counting and rectangular grid enumeration do not count full/partial equal-area cells of an irregular region. Explicit boundary, cell area, regrouping and no-overlap required."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "midpoint_grid_multi_piece_dissection": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "midpoint_grid_dissection"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Parallel construction and midpoint grid dissection for physical six-piece puzzle"
+        ],
+        "image_sha256": "0682b287160eac2bb22f6575bcd4c87bb1d8170296ea35f1c9185e870b90c8eb",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_104-1791255475986.png",
+        "printed_page": 102
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "midpoint_grid_multi_piece_dissection",
+    "nearest_refs": [
+      {
+        "line": 308,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 13,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+        "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 14,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+        "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 15,
+        "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+        "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 456,
+        "sample_id": "primary_20261017_g3_midpoint_angles_0036_between_versus_midpoint:polish_v1",
+        "sha256": "2d08de3f2c11916a894aed75a43e2ea9f9e4979119a036cd347b4e1658b51329",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 3,
+        "sample_id": "primary_20261018_finish_g3_angle_midpoint_midpoint_construction_plan",
+        "sha256": "3637f9c6acf61feb812341d3a5f58f85a8eb7b1ec628eadbcd958aa256e31660",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "midpoint_grid_dissection": [
+        "a732309f2b1ad2900d2492f1",
+        "09fed6c6e01f843c3bb5bd02"
+      ]
+    },
+    "original_master_reasons": [
+      "Ruler midpoint and two-triangle restoration do not specify multi-piece midpoint cuts and a complete coverage proof."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "midpoint_grid_dissection",
+        "constraints": [
+          "Ruler midpoint and two-triangle restoration do not specify multi-piece midpoint cuts and a complete coverage proof."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "nonaxis_composite_quadrilateral_enumeration": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "composite_polygon_count"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Perpendicular/nonperpendicular intersecting sides; grid parallel construction; count composite rhombi; pattern drawing"
+        ],
+        "image_sha256": "f1ad374837b9e5e290e1399a06bae13606492fe1c447836e0c195d2bf8a71eb9",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_124-1791255480186.png",
+        "printed_page": 122
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "All composite parallelograms and parallel equal sides; time/area conversions; current-year age needs year context; tile a rectangle"
+        ],
+        "image_sha256": "028a3ddf299a944279dcc17770fd8a77ab1181fea60bd9cdc35f05757e830beb",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_115-1791255636610.png",
+        "printed_page": 113
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 2,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "nonaxis_composite_quadrilateral_enumeration",
+    "nearest_refs": [
+      {
+        "line": 70,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+        "sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 71,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+        "sha256": "69039fe0b83ffec96dcd529c2916f9c46396aeb5f3ee5b94b37350228acbfb07",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 72,
+        "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+        "sha256": "8acd2f371a6c559d7a2836e9d18b7de5917117e610fabf2b544c34c1addc2ce3",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 352,
+        "sample_id": "primary_20261017_g2_geometry_0013_closed_four_edges",
+        "sha256": "f17751e52f1dd2418c401c2a5894366b0bb042b6e340a6f1853196ac0634bd11",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 513,
+        "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal:polish_v1",
+        "sha256": "dbb16cc0cf52e68f66f732c22491d8c7834a5b47a1c5597b97550adf0f8aabe7",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 280,
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 267,
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "composite_polygon_count": [
+        "f13941846c82d69f4eb2672a",
+        "31116c1e306a64fd2e6bb307"
+      ]
+    },
+    "original_master_reasons": [
+      "Published G3 triangles and axis-aligned rectangles do not enumerate composite rhombi/parallelograms in different edge arrangements. Share enumeration method but preserve this finite geometric subform."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "composite_polygon_count",
+        "constraints": [
+          "Published G3 triangles and axis-aligned rectangles do not enumerate composite rhombi/parallelograms in different edge arrangements. Share enumeration method but preserve this finite geometric subform."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "seven_segment_glyph_inventory_relocation": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V2_MATCHSTICK_DIGIT_ASSET",
+      "G1V2_SINGLE_MATCH_EQUATION_REPAIR",
+      "seven_segment_single_move_minimum",
+      "seven_segment_relocation_with_digit_count_change"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "seven_segment_digit_construction",
+          "fixed_match_count_digit_selection"
+        ],
+        "grade": 1,
+        "printed_page": 92,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-93-1776045488736.png",
+        "source_image_sha256": "5eacc1e737254ae165df2e287ee946cda0c7e71ccc90c2f0bc659d4ca95a2d00",
+        "volume": 2
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "single_match_move_equation_repair",
+          "two_stage_gate_pair_sum_path"
+        ],
+        "grade": 1,
+        "printed_page": 93,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-94-1776045488880.png",
+        "source_image_sha256": "5449a68b38a02dbc446a7ce089fa8cf9d1efeb240e7a504c4acf8b0aad8c2775",
+        "volume": 2
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Điền thành phần khai triển theo đường nối; sắp nhãn ngày theo số liệu; chuyển1que chữ số để tối thiểu hóa"
+        ],
+        "image_sha256": "d821ce3e57251a3feb1081fe0e578e90fb4a200024ebf1cd597870952b8c1ef5",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_10-1791255462585.png",
+        "printed_page": 8
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Unknown digit in place table; all blank digits satisfying inequality; digit value; matchstick movement changing number of digits"
+        ],
+        "image_sha256": "92cd765afd99721a461df25ddbb76e479bb28930731e18e61e4dc6348573f2e3",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_54-1791255468275.png",
+        "printed_page": 52
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 4,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "seven_segment_glyph_inventory_relocation",
+    "nearest_refs": [
+      {
+        "line": 963,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+        "sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 964,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_02",
+        "sha256": "cc32090e58ca037f98651594e67c600af6e06dfdfbd00c44ae2dd8eb57282a51",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 965,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+        "sha256": "31c5da0332ad69edcea844bad3a31133277e82da302af8c37b52d27b75e62fd8",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 966,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+        "sha256": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 280,
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 267,
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 603,
+        "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes",
+        "sha256": "8324ec27b5699ada59d00a561c4ff17c265c18523d0f782438dc91e0f7e44d2f",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 1009,
+        "sample_id": "sgk_gap_20261019_g4_data_reconstruction_relabel_error",
+        "sha256": "cdb7779a5ce84f3d053fa85b97941a8ce7f94b233d5d07d8dc37253fa626b0f9",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V2_MATCHSTICK_DIGIT_ASSET": [
+        "88b6591aa1b61454a6130be8"
+      ],
+      "G1V2_SINGLE_MATCH_EQUATION_REPAIR": [
+        "dc3eced040232d6be668e329"
+      ],
+      "seven_segment_relocation_with_digit_count_change": [
+        "2fe4345eb3c415039ad69d9d"
+      ],
+      "seven_segment_single_move_minimum": [
+        "24b5861deec9ceaa6481dfa6"
+      ]
+    },
+    "original_master_reasons": [
+      "Moving/counting segments changes glyph shapes, unlike swapping whole digit cards. Shared master must state segment alphabet, allowed positions, exact move budget, minimum convention and whether digit-count/layout changes are legal."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V2_MATCHSTICK_DIGIT_ASSET",
+        "constraints": [
+          "Moving/counting segments changes glyph shapes, unlike swapping whole digit cards. Shared master must state segment alphabet, allowed positions, exact move budget, minimum convention and whether digit-count/layout changes are legal."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "G1V2_SINGLE_MATCH_EQUATION_REPAIR",
+        "constraints": [
+          "Moving/counting segments changes glyph shapes, unlike swapping whole digit cards. Shared master must state segment alphabet, allowed positions, exact move budget, minimum convention and whether digit-count/layout changes are legal."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "seven_segment_single_move_minimum",
+        "constraints": [
+          "Moving/counting segments changes glyph shapes, unlike swapping whole digit cards. Shared master must state segment alphabet, allowed positions, exact move budget, minimum convention and whether digit-count/layout changes are legal."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      },
+      {
+        "candidate_id": "seven_segment_relocation_with_digit_count_change",
+        "constraints": [
+          "Moving/counting segments changes glyph shapes, unlike swapping whole digit cards. Shared master must state segment alphabet, allowed positions, exact move budget, minimum convention and whether digit-count/layout changes are legal."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "solid_visible_face_direction_binding": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "list_shapes_left_to_right",
+          "between_shapes",
+          "identify_coloured_cube_front_top_right_faces"
+        ],
+        "grade": 1,
+        "printed_page": 99,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-100-1775728338979.png",
+        "source_image_sha256": "8b06ecbef9a4b76f327eecdb740a161074b6af67d9e5c430100c9f0f55e370fc",
+        "volume": 1
+      },
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "classify_multiple_solids",
+          "count_dots_on_front_right_top_cube_faces"
+        ],
+        "grade": 1,
+        "printed_page": 100,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-101-1775728339307.png",
+        "source_image_sha256": "3c3198a6ef25d72b0fbfc84c4df99ca91fb0e2f143510b2975a680ad67060a6f",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 2,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "solid_visible_face_direction_binding",
+    "nearest_refs": [
+      {
+        "line": 304,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_all_faces",
+        "sha256": "6d264dff153a315a2327111d7df1a4198b5ef4cdad03c0d79249574484dfc906",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 275,
+        "sample_id": "primary_20261016_g1_geometry_0004_left_right_anchor",
+        "sha256": "c11c5ecad28fbd1a5c2e91d84ad0435055616c98f0e05beabfdcda06355dceea",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 305,
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+        "sha256": "869d7e8d8d677b4d6a6187f55928b38ebd32de81074464ece0da39059f51e983",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS": [
+        "a2abc90add6e63a2c5e56837"
+      ]
+    },
+    "original_master_reasons": [
+      "Whole-solid classification does not bind each marked face to front/top/right in a specified viewpoint. Need explicit orientation/face inventory or actual image; do not infer hidden faces."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS",
+        "constraints": [
+          "Whole-solid classification does not bind each marked face to front/top/right in a specified viewpoint. Need explicit orientation/face inventory or actual image; do not infer hidden faces."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "abacus_budget": [
+    "g4v1",
+    [
+      49
+    ],
+    "natural_numbers_millions",
+    "Fixed total rings, at most nine per place, extremize position weights.",
+    [
+      "primary_20261018_finish_g4_millions_place_value_compose_inventory"
+    ]
+  ],
+  "unbounded_naturals": [
+    "g4v1",
+    [
+      50
+    ],
+    "natural_numbers_millions",
+    "Construct a successor to refute a largest natural number.",
+    [
+      "primary_20261018_g4_numbers_0049_successors_across_millions_and_parity"
+    ]
+  ],
+  "delete_one_digit": [
+    "g4v1",
+    [
+      51,
+      81
+    ],
+    "natural_numbers_millions",
+    "Delete one position while preserving all other order.",
+    [
+      "sgk_g12_20261019_one_digit_swap_repair_01"
+    ]
+  ],
+  "digit_inequality": [
+    "g4v1",
+    [
+      52
+    ],
+    "compare_round_naturals",
+    "Find all digits satisfying strict comparison of whole numerals.",
+    [
+      "primary_20261018_old_g1_compare_0097_select_card_to_satisfy_strict_inequality"
+    ]
+  ],
+  "global_card_assignment": [
+    "g4v1",
+    [
+      55
+    ],
+    "compare_round_naturals",
+    "Shared finite card inventory couples simultaneous comparisons.",
+    [
+      "sgk_gap_20261019_g4_parity_cards_three_digit_odd"
+    ]
+  ],
+  "column_multi_blank": [
+    "g4v1",
+    [
+      78,
+      81
+    ],
+    "addition_subtraction_many_digits",
+    "Interdependent missing columns including carry or exchange.",
+    [
+      "sgk_g12_20261019_blank_digit_column_constraints_01",
+      "sgk_g12_20261019_blank_digit_column_constraints_04"
+    ]
+  ],
+  "minimum_pair_swaps": [
+    "g4v1",
+    [
+      89
+    ],
+    "natural_numbers_millions",
+    "Shortest sequence of arbitrary pair swaps to a specified order.",
+    [
+      "sgk_g12_20261019_one_digit_swap_repair_01"
+    ]
+  ],
+  "insert_single_plus": [
+    "g4v1",
+    [
+      90
+    ],
+    "addition_subtraction_many_digits",
+    "Choose a cut in an ordered digit string; no reordering.",
+    [
+      "sgk_gap_20261019_g3_expression_choice_insert_bracket"
+    ]
+  ],
+  "prefix_difference": [
+    "g4v1",
+    [
+      115
+    ],
+    "natural_numbers_millions",
+    "Prepending a fixed place contribution leaves an invariant difference.",
+    [
+      "primary_20261018_finish_g4_millions_place_value_zero_placeholder"
+    ]
+  ],
+  "infer_rounding_place": [
+    "g4v1",
+    [
+      117
+    ],
+    "compare_round_naturals",
+    "Infer every possible rounding place from input and output.",
+    [
+      "sgk_gap_20261019_g4_rounding_preimage_all_integers"
+    ]
+  ],
+  "unit_fraction_decomposition": [
+    "g4v2",
+    [
+      110
+    ],
+    "fraction_operations",
+    "Decompose into two distinct positive unit fractions; prove completeness.",
+    [
+      "primary_20261018_g4_fraction_concepts_0056_equivalent_partition_eighths_twelfths"
+    ]
+  ],
+  "discrete_fraction_integrality": [
+    "g4v2",
+    [
+      101
+    ],
+    "fraction_operations",
+    "A fraction of an indivisible finite count must be integral.",
+    [
+      "primary_20261018_g4_practice_experience_0094_equal_card_fraction_colouring_plan_compare"
+    ]
+  ],
+  "finite_parameter_extrema": [
+    "g4v1",
+    [
+      17
+    ],
+    "expressions_letters_properties",
+    "Finite parameter domain and nonzero denominator, then compare values.",
+    [
+      "primary_20261018_finish_g4_letter_expression_rectangle_variable"
+    ]
+  ],
+  "structural_product_cancel": [
+    "g4v2",
+    [
+      61,
+      69,
+      100,
+      109
+    ],
+    "fraction_operations",
+    "Identify matching factors before multiplying; do not cancel summands.",
+    [
+      "primary_20261018_finish_g4_all_fraction_operations_multiply_divide_contrast"
+    ]
+  ],
+  "reverse_algorithm_error": [
+    "g4v2",
+    [
+      22
+    ],
+    "multiply_divide_two_digits",
+    "Recover operand from an explicitly supplied incorrect partial-product rule.",
+    [
+      "primary_20261018_g4_muldiv_0052_two_digit_partial_products"
+    ]
+  ],
+  "conjunctive_numeral_filter": [
+    "g4v1",
+    [
+      39,
+      40,
+      44,
+      54
+    ],
+    "natural_numbers_millions",
+    "Conjunction of class, position and parity conditions, not one filter.",
+    [
+      "primary_20261018_finish_g4_millions_place_value_contrast_same_digit"
+    ]
+  ]
+}

@@ -1,0 +1,2720 @@
+{
+  "schema_version": "mathvisionkid.curriculum_sources.v3.3",
+  "research_date": "2026-10-13",
+  "language": "vi",
+  "scope": "ElementaryMathematicsgrades1–5,current2018annexwithidentifiedamendmentsandlegacy2006research",
+  "complete_curriculum_claim": false,
+  "legal_currency_certified": false,
+  "knowledge_transfer_claim": "Teacher-authored observable educational examples, not transfer of model weights or all training knowledge.",
+  "sources": [
+    {
+      "source_id": "math_2018_annex",
+      "title": "Chương trình giáo dục phổ thông môn Toán (TT32/2018)",
+      "url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+      "issuer": "Bộ Giáo dục và Đào tạo",
+      "publication_date": "2018-12-26",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_ministry_document_education_portal_copy",
+      "retrieval": "123-page PDF retrieved and parsed in memory using pdfplumber; cover and grades1–5 checked",
+      "sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+      "pages_checked": [
+        1,
+        6,
+        7,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "limitations": "Ministry-issued 2018 Math annex on an education portal; grades1–5 printed pages21–46 read. This is not a certified consolidated2026text."
+    },
+    {
+      "source_id": "tt32_2018_law",
+      "title": "Thông tư32/2018/TT-BGDĐT",
+      "url": "https://vbpl.moj.gov.vn/bogiaoducdaotao/Pages/vbpq-toanvan.aspx?ItemID=146721",
+      "issuer": "Bộ Giáo dục và Đào tạo / CSDL quốc giaVBPL",
+      "publication_date": "2018-12-26",
+      "effective_date": "2019-02-15",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_legal_database",
+      "retrieval": "Official indexed text read; direct subsequent fetch had502",
+      "status_seen": "Hết hiệu lực một phần",
+      "limitations": "Do not infer all2018content expired; identified amendments recorded separately."
+    },
+    {
+      "source_id": "tt20_2021",
+      "title": "Thông tư20/2021/TT-BGDĐT",
+      "url": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=150034",
+      "issuer": "Bộ Giáo dục và Đào tạo / CSDL quốc giaVBPL",
+      "publication_date": "2021-07-01",
+      "effective_date": "2021-08-16",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_legal_database",
+      "verified_scope": "Transitional provision for lower-secondary Informatics; no elementary Mathematics outcomes amended."
+    },
+    {
+      "source_id": "tt13_2022",
+      "title": "Thông tư13/2022/TT-BGDĐT",
+      "url": "https://vbpl.vn/binhthuan/Pages/vbpq-toanvan.aspx?ItemID=156376",
+      "issuer": "Bộ Giáo dục và Đào tạo / CSDL quốc giaVBPL",
+      "publication_date": "2022-08-03",
+      "effective_date": "2022-08-03",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_legal_database",
+      "verified_scope": "Generalplan and History amendments focusing uppersecondary; no elementary Math annex amendment identified."
+    },
+    {
+      "source_id": "tt17_2025",
+      "title": "Thông tư17/2025/TT-BGDĐT",
+      "url": "https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=183284",
+      "issuer": "Bộ Giáo dục và Đào tạo / CSDL quốc giaVBPL",
+      "publication_date": "2025-09-12",
+      "effective_date": "2025-09-12",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_legal_database",
+      "verified_scope": "Five annexes amend History/Geography elementary+lowersecondary, Historygrade10, Geography, Civic Education; Math absent.",
+      "confirmation_url": "https://vanban.chinhphu.vn/?docid=215347&orggroupid=4&pageid=27160"
+    },
+    {
+      "source_id": "draft_2026_foreign_languages",
+      "title": "Dự thảo sửa CT tổng thể về ngoại ngữ",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-du-thao-thong-tu-sua-doi-bo-sung-mot-so-noi-dung-trong-chuong-trinh-giao-duc-pho-thong-119260820174117596.htm",
+      "issuer": "Cổng Thông tin điện tử Chính phủ",
+      "publication_date": "2026-08-21",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_draft_publication",
+      "legal_force": "draft_only_not_applied",
+      "verified_scope": "Foreign-language education/generaleducationplan proposal, not evidence for a changed Math learningoutcome.",
+      "limitations": "Enactment status after this draft publication was not conclusively resolved."
+    },
+    {
+      "source_id": "qd16_2006",
+      "title": "Quyết định16/2006/QĐ-BGDĐT ban hành CTGDPT",
+      "url": "https://moit.gov.vn/van-ban-phap-luat/van-ban-phap-quy/-quyet-dinh-ban-hanh-chuong-trinh-giao-duc-pho-thong.html",
+      "document_url": "https://moit.gov.vn/upload/2005517/20210623/QD%2016-2006-BGDDT.doc",
+      "issuer": "Bộ Giáo dục và Đào tạo / archive Bộ Công Thương",
+      "publication_date": "2006-05-05",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_government_archived_document",
+      "sha256": "0b3cca7a302c6702979b57498e6a8f873b1fa27014fb221d87f464683b8415ce",
+      "retrieval": "215040-byte OLEWordbinary retrieved; legibleUTF16decisiontext read in memory",
+      "verified_scope": "Decision creates overallprogram,curricula forprimary/secondary,and23subject/activityprograms; replacesprimaryDecision43/2001.",
+      "limitations": "AttachedDOCcontainsdecisiononly, not completegrade1–5Mathannex. Must not label legacygradebounds verifiedfromthisfile."
+    },
+    {
+      "source_id": "official_math_comparison_2019",
+      "title": "Tài liệu tìm hiểu CT môn Toán (ĐHSP Hà Nội,2019)",
+      "url": "https://dtbdtx.hnue.edu.vn/Portals/0/Tai%20lieu%20tim%20hieu%20chuong%20trinh%20mon%20Toan.pdf",
+      "download_url": "https://dtbdtx.hnue.edu.vn/Portals/0/Tai%20lieu%20tim%20hieu%20chuong%20trinh%20mon%20Toan.pdf?download=1",
+      "issuer": "Bộ GDĐT / Trường Đại học Sư phạm Hà Nội",
+      "publication_date": "2019",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_author_training_document",
+      "authors": [
+        "Đỗ Đức Thái",
+        "Đỗ Tiến Đạt",
+        "Nguyễn Hoài Anh",
+        "Phạm Xuân Chung",
+        "Nguyễn Sơn Hà",
+        "Phạm Sỹ Nam"
+      ],
+      "sha256": "aef20c2e5607befa73d0de1afbe72ce4f4686ac95981196cc630613405eb830a",
+      "pages_checked": [
+        1,
+        2,
+        42,
+        43
+      ],
+      "printed_pages_checked": [
+        41,
+        42
+      ],
+      "verified_scope": "Authorial comparison: legacyfourstrands arithmetic,measurement,geometry,wordproblems; 2018wordproblems integrated; simplerwrittenarithmetic; increasedstatistics/probability.",
+      "limitations": "Not completelegacyannex; explanatory2019text includes examples/draftphrasing. Binding2018annex takes priority for exactcurrentgradeoutcomes."
+    },
+    {
+      "source_id": "legacy_covid_adjustment_2021",
+      "title": "Phụ lục2 Công văn3969/BGDĐT-GDTH",
+      "url": "https://moet.gov.vn/content/tintuc/Lists/News/Attachments/7516/Ph%E1%BB%A5%20l%E1%BB%A5c%202%20-%20%C4%90%E1%BB%91i%20v%E1%BB%9Bi%20l%E1%BB%9Bp%203,%204,%205.pdf",
+      "issuer": "Bộ Giáo dục và Đào tạo",
+      "publication_date": "2021-09-10",
+      "accessed_date": "2026-10-13",
+      "source_type": "primary_ministry_document",
+      "retrieval": "Official cached72pagePDFcover/structureverifiedviaweb; contemporarydirecthostreturnsPageNotFound; Mathbody notfullyread",
+      "discovery_url": "https://tapchigiaoduc.edu.vn/article/87106/213/hu-o-ng-da-n-dieu-chinh-chuong-trinh-ca-p-tie-u-ho-c-na-m-ho-c-2021-2022/",
+      "verified_scope": "Historical2021–2022COVIDadjustment, grades3–5 thenlegacy; not current2026curriculum and not complete2006annex.",
+      "limitations": "Cannot establish exactlegacygradebounds fromunreadMathsubsection."
+    }
+  ],
+  "current_curriculum_nodes": [
+    {
+      "node_id": "current_g1_natural_numbers_100",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Đếm, đọc, viết số0–100; hàng chục và đơn vị; số tròn chục",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 100
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_compare_order_100",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "So sánh và xếp thứ tự nhóm tối đa4 số trong0–100",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 100,
+        "max_group_items": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ không nhớ trong0–100; ý nghĩa thêm/bớt",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 100,
+        "carry": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_mental_add_sub",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Nhẩm cộng/trừ trong10 và các số tròn chục",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "mental_within": 10
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_left_to_right_add_sub",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Hai dấu cộng/trừ, làm lần lượt trái sang phải",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_operation_signs": 2
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_word_add_sub",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Chọn phép cộng/trừ từ tình huống và câu hỏi",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_spatial_orientation",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Trên/dưới,trái/phải,trước/sau,ở giữa",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_plane_shapes",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Vuông,tròn,tam giác,chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_solid_shapes",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Lập phương,hộp chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_assemble_shapes",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Ghép/xếp hình đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_length_cm",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "So sánh dài/ngắn,đọc và viết độ dài cm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_physical",
+      "bounds": {
+        "max_cm": 100
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_measure_estimate_length",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Đo/ước lượng bằng thước,gang tay,bước chân",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_calendar_week",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Tuần7ngày,tên/thứ tự ngày,xem lịch ngày",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_clock_whole_hour",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Đọc giờ đúng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_natural_numbers_1000",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Đọc,viết0–1000; trăm/chục/đơn vị,số tròn trăm,liền trước/sau",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 1000
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_number_ray",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Vị trí số trên tia số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_compare_order_1000",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "So sánh,xếp thứ tự nhóm tối đa4 số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 1000,
+        "max_group_items": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_estimate_tens",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Ước lượng số đồ vật theo nhóm10",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_addition_subtraction_carry_once",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ trong1000,nhớ tối đa1lượt; tên thành phần",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 1000,
+        "max_carry_events": 1
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_mental_add_sub_20",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Nhẩm cộng/trừ trong20 và số tròn chục/trăm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "mental_within": 20
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_multiplication_division_tables_2_5",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Ý nghĩa/tên thành phần nhân/chia; bảng2 và5",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "tables": [
+          2,
+          5
+        ]
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_word_one_step",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Bài một bước tính,thêm/bớt,nhiều/ít hơn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_steps": 1
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_points_lines_polyline",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Điểm,đoạn,đường thẳng/cong/gấp khúc,ba điểm thẳng hàng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_quadrilateral",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Nhận dạng tứ giác",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_cylinder_sphere",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Nhận dạng khối trụ/cầu",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_draw_segment_assemble",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Vẽ đoạn theo độ dài,gấp/cắt/ghép/xếp hình",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_or_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_mass_kg_capacity_l",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Nặng/nhẹ,kg,l; đọc/viết số đo",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_physical",
+      "bounds": {
+        "max_value": 1000
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_length_dm_m_km",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Đơn vị dm,m,km và quan hệ các đơn vị đã học",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_time_calendar",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "24giờ/ngày,60phút/giờ,số ngày/tháng,lịch",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_clock_quarter_half",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Giờ với kim phút ở số3 hoặc6",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_money_vietnam",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Nhận biết tiền Việt Nam",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_convert_measurement",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính số đo và ước lượng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_polyline_length",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Độ dài đường gấp khúc từ các cạnh",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_collect_tally",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập,phân loại,kiểm đếm đối tượng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_pictogram_read",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả/nhận xét biểu đồ tranh",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_possible_certain_impossible",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "probability",
+      "outcome_summary": "Có thể,chắc chắn,không thể trong sự kiện đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_natural_numbers_100000",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Số đến100000;cấu tạo thập phân,tròn nghìn/mười nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 100000
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_roman_20",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Đọc/viết số La Mã trong20",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 20
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_compare_order_100000",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "So sánh/xếp thứ tự nhóm tối đa4số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_natural": 100000,
+        "max_group_items": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_round_naturals",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Làm tròn chục,trăm,nghìn,mười nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_addition_subtraction_5digits",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ đến5chữ số; nhớ≤2lượt không liên tiếp",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_digits": 5,
+        "max_carry_events": 2,
+        "consecutive_carry_allowed": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_multiply_divide_one_digit",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Nhân/chia số1chữ số,bảng2–9; chia hết/chia dư",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "operand_or_divisor_max_digits": 1,
+        "multiplication_max_carry_events": 2,
+        "consecutive_carry_allowed": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_operation_properties",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Giao hoán/kết hợp cộng,nhân và quan hệ phép tính",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_expressions_unknown",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Biểu thức≤2dấu,có/không ngoặc; tìm thành phần chưa biết",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_operation_signs": 2
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_word_two_steps",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Bài≤2bước,gấp/giảm theo số lần,so sánh gấp mấy lần",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_steps": 2
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_unit_fractions",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Nhận biết1/2…1/9,tìm phần bằng nhau của nhóm đồ vật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {
+        "unit_fraction_denominators": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_midpoint_angles",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Điểm giữa,trung điểm,góc vuông/không vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_shape_elements",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Đỉnh/cạnh/góc,hình chữ nhật/vuông; tâm/bán kính/đường kính",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_solid_elements",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Đỉnh,cạnh,mặt khối lập phương/hộp chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_draw_ekes_compass",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Êke,compa,góc vuông,đường tròn,vẽ hình trên ô vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_or_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_units_mm_cm2_g_ml_celsius",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "mm,cm²,g,ml,°C và quan hệ đơn vị",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_time_clock_minute",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Tháng/năm,đọc giờ đến5phút/từng phút",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_money_vietnam_100000",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Đọc mệnh giá đến100000; nhận diện200000/500000 không yêu cầu đọc số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_convert_measurements",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính độ dài,khối lượng,dung tích,thời gian,tiền",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_perimeter",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Chu vi tam giác,tứ giác,chữ nhật,vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_area_rectangle_square",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích chữ nhật/vuông,đơn vịcm²",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_table_collect_read",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập/phân loại theo tiêu chí,đọc/mô tả/nhận xét bảng số liệu",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_single_trial_outcomes",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "probability",
+      "outcome_summary": "Các khả năng của thí nghiệm1lần như tung đồng xu,lấy bóng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        33
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_natural_numbers_millions",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Đến lớp triệu,giá trị theo vị trí,dãy tự nhiên,chẵn/lẻ",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_place_class": "millions"
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_compare_round_naturals",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "So sánh≤4số,làm tròn đến trăm nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_group_items": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_addition_subtraction_many_digits",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ nhiều chữ số,nhớ≤3lượt không liên tiếp",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_carry_events": 3,
+        "consecutive_carry_allowed": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_multiply_divide_two_digits",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Nhân/chia với số≤2chữ số; nhân/chia10,100,1000",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "operand_or_divisor_max_digits": 2
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_average",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Trung bình cộng của hai hoặc nhiều số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_expressions_letters_properties",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Biểu thức1–3chữ; phân phối,giao hoán,kết hợp,tính hợp lí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_variables": 3
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_word_two_three_steps",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Bài2–3bước,trung bình,tổng-hiệu,rút về đơn vị",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_steps": 3
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_fraction_concepts_reduce",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Phân số,tử/mẫu,tính chất cơ bản,rút gọn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_fraction_compare_common_denominator",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Quy đồng/so sánh khi mẫu bằng nhau hoặc1mẫu chia hết mẫu còn lại",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_group_items": 4,
+        "denominator_relation": "same_or_one_divides_other"
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_fraction_operations",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ mẫubằng/chia hết; nhân/chia hai phân số;tìm phần của số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "add_sub_denominator_relation": "same_or_one_divides_other",
+        "max_steps": 3
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_angle_types",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Góc nhọn,tù,bẹt",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_parallel_perpendicular",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Hai đường vuông góc/song song; vẽ bằng thước/êke",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_parallelogram_rhombus_recognition",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Nhận biết hình bình hành/hình thoi",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_mass_yen_ta_tan",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Yến,tạ,tấn và quan hệkg",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_area_units_mm2_dm2_m2",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "mm²,dm²,m² và quan hệcm²",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_time_second_century",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Giây,thế kỉ và đơn vịthời gian đã học",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_angle_degree",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Đơn vịđộ; đo60°,90°,120°,180°",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_convert_measurements",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính/ước lượng độ dài,diện tích,khối lượng,dung tích,thời gian,tiền",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_data_sequences",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "statistics",
+      "outcome_summary": "Dãy số liệu và sắp xếp theo tiêu chí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        38,
+        39
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_bar_chart_mean",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả/sắp xếp số liệu biểu đồ cột,trung bình/nhận xét/quy luật đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        38,
+        39
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {
+        "drawing_required": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_repeated_trial_counts",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "probability",
+      "outcome_summary": "Kiểm đếm số lần lặp một khả năng qua nhiều thử nghiệm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        39,
+        39
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_natural_operations_four_steps",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Ôn số tự nhiên,phép tính,tính hợp lí,làm tròn,bài≤4bước",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "max_steps": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_fraction_operations_mixed",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Rút gọn,quy đồng,so sánh,4phép tính; cộng/trừ cómẫuchung làtích",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_decimal_fraction_mixed_number",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Phân số thập phân,hỗn số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_decimal_read_compare_round",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Đọc/viết,cấu tạo,vị trí chữ số,so sánh,làm tròn sốthập phân",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "round_decimal_places": [
+          0,
+          1,
+          2
+        ],
+        "max_group_items": 4
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_decimal_operations",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ thập phân; nhân/chia với sốthập phân dạnga,b hoặc0,ab; nhẩm10^n/0,1^n",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "multiplier_divisor_forms": [
+          "a,b",
+          "0,ab"
+        ],
+        "max_multiplier_divisor_decimal_digits": 2
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_ratio_percent",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tỉ số,tỉ số%,phần trăm của số,phần trăm giữa hai đại lượng cùng loại",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_sum_difference_ratio",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tìm hai số từ tổng/hiệu và tỉ số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_map_scale",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tỉ lệ bản đồ và vận dụng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_calculator_use",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Dùng máy tính để4phép tính và%",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_physical",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_trapezoid_circle_triangle_types",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Hình thang,đường tròn,tam giácnhọn/vuông/tù/đều",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_solid_nets",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Hình khai triển lập phương,hộp chữ nhật,trụ",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "image_or_explicit_description",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_draw_altitude_circle",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Vẽ đường cao tam giác,đường tròn từ bán kính/đường kính; hình trên lưới",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_or_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_area_km2_ha",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "km²,ha",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_volume_cm3_dm3_m3",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Thể tíchcm³,dm³,m³,chuyển đổi,tính số đo",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_triangle_trapezoid_area",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích tam giác/hình thang",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_circle_perimeter_area",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Chu vi/diện tích tròn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {
+        "pi_convention": "specify explicit3.14or exactpi; never silently mix"
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_cuboid_cube_surface_volume",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích xung quanh/toàn phần,thể tích hộp chữ nhật/lập phương",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_time_arithmetic",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Cộng/trừ/nhân/chia và chuyển đổi số đo thời gian",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_uniform_motion",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Vận tốc,quãng đường,thời gian;km/h,m/s",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_collect_classify",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập,phân loại,so sánh,sắp xếp theo tiêu chí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_pie_chart",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả,sắp số liệu biểu đồ quạt tròn,chọn biểu diễn,nhận xét/vấn đề",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text_or_confirmed_image",
+      "bounds": {
+        "drawing_required": false
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_experimental_frequency_ratio",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "probability",
+      "outcome_summary": "Tỉ số số lần lặp khả năng với tổng số lần thử",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "text",
+      "bounds": {
+        "not_general_probability_formula": true
+      },
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g1_practice_experience",
+      "curriculum": "2018_current_math_annex",
+      "grade": 1,
+      "strand": "practice_experience",
+      "outcome_summary": "Đếm và tính trong đời sống; định hướng không gian; đo cm,đọc giờ/lịch; trò chơi toán.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        24
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_image_or_real_world_activity",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g2_practice_experience",
+      "curriculum": "2018_current_math_annex",
+      "grade": 2,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo và ước lượng,thời gian biểu; thu thập/kiểm đếm; trò chơi ôn tập.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_image_or_real_world_activity",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g3_practice_experience",
+      "curriculum": "2018_current_math_annex",
+      "grade": 3,
+      "strand": "practice_experience",
+      "outcome_summary": "Thực hành chu vi/diện tích,cân/đong/đo,nhiệt độ; thống kê,mua bán,ghép hình,trò chơi ngẫu nhiên.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        34
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_image_or_real_world_activity",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g4_practice_experience",
+      "curriculum": "2018_current_math_annex",
+      "grade": 4,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo/ước lượng hình và đại lượng; thu thập/phân tích/biểu diễn số liệu; mua bán,trò chơi; giao lưu nếu có điều kiện.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        39,
+        40
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_image_or_real_world_activity",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "current_g5_practice_experience",
+      "curriculum": "2018_current_math_annex",
+      "grade": 5,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo/ước lượng thể tích và chuyển động; thống kê ứng dụng; chi tiêu,lãi/lỗ,lãi suất; tangram,thí nghiệm và giao lưu.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        46,
+        46
+      ],
+      "verification_status": "primary_annex_outcome_read",
+      "required_modality": "physical_image_or_real_world_activity",
+      "bounds": {},
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    }
+  ],
+  "legacy_curriculum_candidate_nodes": [
+    {
+      "node_id": "legacy_divisibility_2_3_5_9",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 4,
+      "outcome_summary": "Dấu hiệu chia hết2,3,5,9",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_division_three_digit_divisor",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 4,
+      "outcome_summary": "Phép chia cho sốcó3chữ số",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_general_fraction_add_sub",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 4,
+      "outcome_summary": "Cộng/trừ phân số cómẫu khác không hạnchế1mẫuchia hết",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_parallelogram_rhombus_area",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 4,
+      "outcome_summary": "Diện tích hình bình hành/hìnhthoi",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_sum_ratio_difference_ratio",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 4,
+      "outcome_summary": "Tổng/hiệu và tỉ số ởlớp4",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_inverse_percentage",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 5,
+      "outcome_summary": "Tìm số ban đầu biết giá trịmột tỉ lệ%",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_grade2_tables_3_4",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 2,
+      "outcome_summary": "Bảng nhân/chia3,4",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_grade2_unit_fractions",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 2,
+      "outcome_summary": "Một phần2,3,4,5",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    },
+    {
+      "node_id": "legacy_shape_cylinder_sphere",
+      "curriculum": "legacy_2006_candidate",
+      "provisional_grade": 5,
+      "outcome_summary": "Giới thiệu hìnhtrụ/hìnhcầu cuối tiểuhọc",
+      "verification_status": "domain_knowledge_candidate_legacy_annex_not_yet_verified",
+      "source_ids": [
+        "qd16_2006",
+        "official_math_comparison_2019"
+      ],
+      "eligible_for_official_legacy_grade_tag": false,
+      "eligible_for_teacher_authored_extension": true,
+      "trained_coverage_status": "not_asserted_by_this_registry"
+    }
+  ],
+  "verified_cross_curriculum_findings": [
+    {
+      "source_id": "official_math_comparison_2019",
+      "finding": "Legacyhadfourseparatestrands; currentintegrateswordproblemsintomathematicalstrands."
+    },
+    {
+      "source_id": "official_math_comparison_2019",
+      "finding": "2018reducescomplexityofsomewrittenarithmeticandaddsstatistics/probabilityexperiences; legacyextensionsmustbemarkedseparately."
+    }
+  ],
+  "pedagogical_tasks": [
+    "concept_explanation",
+    "worked_solution_with_units",
+    "single_socratic_hint",
+    "student_retry_feedback",
+    "observed_error_localization",
+    "clarify_missing_ambiguous_facts",
+    "unsupported_scope_refusal",
+    "alternate_valid_method",
+    "check_inverse_or_estimate",
+    "math_expression_reading_preserve_student_error"
+  ],
+  "coverage_gaps": [
+    {
+      "gap_id": "legacy_full_annex",
+      "severity": "high",
+      "description": "Complete2006primaryMathannexnotretrieved/read; exactlegacygradeboundsremainunverified. Decisiononlyverified."
+    },
+    {
+      "gap_id": "2026_full_legal_chain",
+      "severity": "medium",
+      "description": "20/2021,13/2022,17/2025and2026foreignlanguageDRAFTchecked; noexhaustiveassertionthatall2026laws/amendmentswerefound."
+    },
+    {
+      "gap_id": "multimodal_geometry",
+      "severity": "high",
+      "description": "Textonlytrainingcannotestablishrecognition/drawingofdiagrams,solidnets,clocks,pictograms,physicalmeasurement."
+    },
+    {
+      "gap_id": "physical_experiences",
+      "severity": "high",
+      "description": "Practicalconstruction/measurement/statisticalexperimentsrequirephysical/imageevaluation."
+    },
+    {
+      "gap_id": "teacher_review",
+      "severity": "high",
+      "description": "Teacherpedagogy/semanticaccuracyreviewnotperformedbythissourceinventory."
+    },
+    {
+      "gap_id": "all_textbook_editions",
+      "severity": "medium",
+      "description": "Nationaloutcomesread,notallapprovedtextbookeditioncontentsorlocalcurriculum/enrichment."
+    }
+  ],
+  "annotation_policy": {
+    "curriculum_verified_requires": "Eachgeneratedtaskmatchesnodegrade,bounds,andmodality; citationsourcedaloneisnottrainingcoverage.",
+    "extension_policy": "Permitownerrequestedlegacy/enrichmentwithseparatecurriculumtagandprovisionalgrade; do notfalselycallcurrentrequiredcurriculum.",
+    "human_verified": false,
+    "gold_dataset": false,
+    "teacher": "AI-authoredexamplesrequireexactmathchecksandsemantic/pedagogicalaudit.",
+    "student_mistakes": "Preserveobservedstudentworkverbatim; incorrectstudentanswerisnotteacheranswer."
+  },
+  "recommended_registry_policy": {
+    "current_node_count": 106,
+    "legacy_candidate_count": 9,
+    "per_grade_metrics_required": true,
+    "per_curriculum_metrics_required": true,
+    "holdout_group_fields": [
+      "template_family",
+      "semantic_paraphrase_family",
+      "numeric_case",
+      "source_document",
+      "writer_or_page_if_image"
+    ],
+    "do_not_train_from": "Legal/outcomesdocumentsusedonlyforknowledgemapping; generateoriginalexamplesratherthancopyingtextbookpages.",
+    "numeric_family_mapping_count": 57
+  },
+  "recommended_numeric_family_mapping": [
+    {
+      "family": "add_join",
+      "node_ids": [
+        "current_g1_word_add_sub"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "sub_remaining",
+      "node_ids": [
+        "current_g1_word_add_sub"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "missing_addend",
+      "node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Grade1missingaddend is owner-authored enrichment unless a matchinggrade1specificoutcome is separately established; explicitunknowncomponent currentgrade3."
+    },
+    {
+      "family": "compare_difference",
+      "node_ids": [
+        "current_g2_word_one_step"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "tens_place_value",
+      "node_ids": [
+        "current_g1_natural_numbers_100"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "equal_groups",
+      "node_ids": [
+        "current_g2_multiplication_division_tables_2_5"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "share_exact",
+      "node_ids": [
+        "current_g2_multiplication_division_tables_2_5"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "missing_factor",
+      "node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "multistep_add_sub",
+      "node_ids": [
+        "current_g3_word_two_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "groups_after_sale",
+      "node_ids": [
+        "current_g3_word_two_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "money_change",
+      "node_ids": [
+        "current_g2_money_vietnam",
+        "current_g2_word_one_step"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "elapsed_minutes",
+      "node_ids": [
+        "current_g2_time_calendar"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Currentgrade2covershour/minutemeaning and clockhalf/quarter; elapsedarithmetic complexity must be validatedagainststage."
+    },
+    {
+      "family": "division_remainder",
+      "node_ids": [
+        "current_g3_multiply_divide_one_digit"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "order_operations",
+      "node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "length_m_to_cm",
+      "node_ids": [
+        "current_g2_length_dm_m_km"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "hours_minutes",
+      "node_ids": [
+        "current_g2_time_calendar"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "mass_kg_to_g",
+      "node_ids": [
+        "current_g3_units_mm_cm2_g_ml_celsius"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "rectangle_perimeter",
+      "node_ids": [
+        "current_g3_perimeter"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "square_perimeter",
+      "node_ids": [
+        "current_g3_perimeter"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "rectangle_area",
+      "node_ids": [
+        "current_g3_area_rectangle_square"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "square_area",
+      "node_ids": [
+        "current_g3_area_rectangle_square"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "table_total",
+      "node_ids": [
+        "current_g3_table_collect_read"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "sum_difference_large",
+      "node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "sum_difference_small",
+      "node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "fraction_add",
+      "node_ids": [
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Grade4denominatorssameorone divides other; unrestrictedcommonproductdenominator currentgrade5."
+    },
+    {
+      "family": "fraction_subtract",
+      "node_ids": [
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Grade4denominatorssameorone divides other; unrestrictedcommonproductdenominator currentgrade5."
+    },
+    {
+      "family": "fraction_multiply",
+      "node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "fraction_divide",
+      "node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "average_three",
+      "node_ids": [
+        "current_g4_average"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "fraction_of_quantity",
+      "node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "ratio_share",
+      "node_ids": [
+        "current_g5_sum_difference_ratio"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "decimal_add",
+      "node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "decimal_subtract",
+      "node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "decimal_multiply",
+      "node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Currentgrade5explicitmultiplierforms a,b and0,ab; ensuregeneratedmultiplier complies."
+    },
+    {
+      "family": "decimal_divide",
+      "node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Currentgrade5explicitdivisorforms a,b and0,ab/nonzero; ensuregenerateddivisorcomplies."
+    },
+    {
+      "family": "percent_part",
+      "node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "percent_ratio",
+      "node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "triangle_area",
+      "node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "trapezoid_area",
+      "node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "circle_area",
+      "node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Declarepi=3.14orotherrequestedexactconvention; record squaredlengthunit."
+    },
+    {
+      "family": "circle_perimeter",
+      "node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Declarepi=3.14orotherrequestedexactconvention; recordlengthunit."
+    },
+    {
+      "family": "box_volume",
+      "node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "cube_surface",
+      "node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "distance_from_speed_time",
+      "node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "speed_from_distance_time",
+      "node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "time_from_distance_speed",
+      "node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "area_unit_conversion",
+      "node_ids": [
+        "current_g4_area_units_mm2_dm2_m2",
+        "current_g5_area_km2_ha"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "volume_unit_conversion",
+      "node_ids": [
+        "current_g5_volume_cm3_dm3_m3"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality."
+    },
+    {
+      "family": "proportional_direct",
+      "node_ids": [
+        "current_g4_word_two_three_steps",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Simpleunitary/directdependence; unsupportedcomplexratesremainextension."
+    },
+    {
+      "family": "vertical_add",
+      "node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g2_addition_subtraction_carry_once",
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Classroomcarrybounds applyforcurrenttag; capstonearbitrary1–6digitschaincarry isseparatelyowner-authorizedresearch."
+    },
+    {
+      "family": "vertical_subtract",
+      "node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g2_addition_subtraction_carry_once",
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Classroomcarrybounds applyforcurrenttag; capstonearbitrary1–6digitscascadingborrow isseparatelyowner-authorizedresearch."
+    },
+    {
+      "family": "parallelogram_area",
+      "node_ids": [
+        "legacy_parallelogram_rhombus_area"
+      ],
+      "curriculum_status": "legacy_enrichment_candidate_not_annex_verified",
+      "conditions": "2018grade4recognition is verified; areaformula is not in thatgrade4annex."
+    },
+    {
+      "family": "percent_whole",
+      "node_ids": [
+        "legacy_inverse_percentage"
+      ],
+      "curriculum_status": "legacy_enrichment_candidate_not_annex_verified",
+      "conditions": "Inversepercentagenotexplicitcurrentgrade5requiredoutcome; tag extension."
+    },
+    {
+      "family": "multiples_missing",
+      "node_ids": [
+        "legacy_divisibility_2_3_5_9"
+      ],
+      "curriculum_status": "inspect_semantics_before_tagging",
+      "conditions": "Ifthismeansunknownarithmeticcomponent,usecurrentgrade3; ifdivisibility/multiplespatterns,legacy/enrichmentunlessindependentlymapped."
+    },
+    {
+      "family": "proportional_inverse",
+      "node_ids": [],
+      "curriculum_status": "owner_requested_enrichment_legacy_mapping_unverified",
+      "conditions": "Equalproductinverseproportionnotexplicitinread2018primaryannex."
+    },
+    {
+      "family": "probability_count",
+      "node_ids": [],
+      "curriculum_status": "owner_requested_enrichment_if_theoretical_probability",
+      "conditions": "Theoreticalfavorableoutcomes/totaloutcomes differsfromcurrentgrade5empiricalobservedfrequencyratio; do notconflate."
+    },
+    {
+      "family": "empirical_frequency",
+      "node_ids": [
+        "current_g5_experimental_frequency_ratio"
+      ],
+      "source_id": "math_2018_annex",
+      "curriculum_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "conditions": "Counts are integers with0≤event_count≤trial_count and trial_count>0; ratio describes observed trials, not the guaranteed probability of future outcomes."
+    }
+  ],
+  "retrieval_failures": [
+    {
+      "source_id": "legacy_school_decision_copy",
+      "url": "https://thptlethanhtong.hcm.edu.vn/van-ban/quyet-dinh-16-nam-2006-ve-chuong-trinh-giao-duc-pho-thong/vbctmb/85924/439085",
+      "result": "Schoollinks11-pagePDFgeneraldecision; nofullMathannex."
+    },
+    {
+      "source_id": "legacy_tvpl_copy",
+      "url": "https://thuvienphapluat.vn/van-ban/giao-duc/quyet-dinh-16-2006-qd-bgddt-chuong-trinh-giao-duc-pho-thong-55984.aspx",
+      "result": "Decision+generalissuestextread; original44PDFpartsrequirememberaccess; nofullMathannexread."
+    },
+    {
+      "source_id": "legacy_olm_annex_copy",
+      "url": "https://olm.vn/HocLieu/Chung/Toan_Tieuhoc_Chuongtrinh_ChuanKienthuc_Kynang.pdf",
+      "result": "Referencedby2014article; directPDF404; notused."
+    },
+    {
+      "source_id": "legacy_school_adjustment_copy",
+      "url": "https://fileth.hcm.shieldix.app/data/hcmedu/thphongphuq9/3969-phuluc02_189202111.pdf",
+      "result": "SchoolHTMLlinksfile; downloadhostDNSfailure; notused."
+    }
+  ]
+}

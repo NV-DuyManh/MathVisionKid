@@ -1,0 +1,147 @@
+{
+  "batch_sha256": "8f55a889c4c9269b136f10ce4c3d101dcca6a889a533dd40e8bab2877fa57756",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss",
+      "row_sha256": "3958c2eb4c7c01f833d73008cd4ce61cb5075e45522a431401053bcdbff49254",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "417+83",
+          "(417+83)+26",
+          "417+(26+83)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways",
+      "row_sha256": "ba943ad958ec5acae24683e00da245d7cc3e67cbf95b152b5dcb0b109e506e69",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "16*5",
+          "(16*5)*2",
+          "5*2",
+          "16*(5*2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles",
+      "row_sha256": "9dd148463f66a9c295b6da81ff27aded1155b2e2af36c0b66af0b0d2cbae5785",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "775-147",
+          "775-628",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity",
+      "row_sha256": "bfca7f476133af513758806674dd60faebfa578c9abf64389ea52a85e5ad73e7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "23-13",
+          "86-(23-13)",
+          "86-23",
+          "(86-23)-13",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_guard_missing_original_operator",
+      "row_sha256": "d04154eb37712d5bbc0b73ab0a9e766918483aa52211cb02493f67d9d4e2e79a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "addition_disjoint_ids_union_count": 526,
+    "addition_multiset_preserved": [
+      417,
+      26,
+      83
+    ],
+    "multiplication_cartesian_product_cardinality": 160,
+    "both_groupings_are_bijective_with_same_triples": true,
+    "subtraction_counterexample": {
+      "left": 76,
+      "right": 50
+    },
+    "missing_operator_models": [
+      {
+        "operator": "+",
+        "result": 30,
+        "inverse": "30-6=24"
+      },
+      {
+        "operator": "*",
+        "result": 144,
+        "inverse": "144/6=24"
+      }
+    ]
+  },
+  "oracle_method": "Disjoint tagged sets for addition and Cartesian triple-set regrouping for multiplication; exact AST/Fraction separately checks calculations. One subtraction counterexample refutes universal associativity, not every numerical equality.",
+  "author_self_content_check": "Read commutativity versus grouping constraints, preservation of each operand, inverse roles, nonassociative subtraction, both missing guard fields and all15hints. Same-author checking is not independent semantic review.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Finite original text cases mapped to cited node; finite witnesses are not universal pedagogy proof. No new app calculator operators. Neutral schema is not live PlanDraft."
+}

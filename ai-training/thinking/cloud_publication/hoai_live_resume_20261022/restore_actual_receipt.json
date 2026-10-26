@@ -1,0 +1,39 @@
+{
+  "TRAINING_DATASET_READY": false,
+  "actual_rows_by_split": {},
+  "audit_identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+  "checkpoint_bytes": 2321960960,
+  "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+  "checkpoint_mutated": false,
+  "checkpoint_sha256": "ce71cd2e8d0c4e891333acf336e22152a7092cd4d0a1a3d3f42cf1d8a2409bde",
+  "first_issue_metadata": [
+    [
+      "79765b8281ff64675b4e3826c07b003237875a98d67e898f22f2a4c1f687b0d1",
+      1,
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN",
+      "exhaustive_v1_div_1563_43"
+    ]
+  ],
+  "fresh_raw_readback_verified": true,
+  "gpu_used": false,
+  "issues": {
+    "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+  },
+  "members_complete": 190,
+  "members_expected": 249,
+  "model_weights_loaded": false,
+  "next_member": {
+    "member": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000900_000924.jsonl.gz",
+    "role": "candidate_source",
+    "rows": 22825
+  },
+  "observed_utc": "2026-10-22T11:04:18.430512+00:00",
+  "recipe_sha256": "e4197a8e797a6c4d22b938779b663d0e306536dc8af75a5f81fb3c98f7e1a7a8",
+  "remote_metadata_unchanged_during_restore": true,
+  "source_versions_indexed": 1523689,
+  "sqlite_quick_check": "ok",
+  "state": "EXISTING_V3_CHECKPOINT_RAW_VERIFIED_READONLY",
+  "training_started": false,
+  "unique_chat_rows_processed": 0,
+  "worker_started_by_this_probe": false
+}

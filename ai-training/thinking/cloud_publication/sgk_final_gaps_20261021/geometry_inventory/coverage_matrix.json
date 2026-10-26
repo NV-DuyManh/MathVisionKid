@@ -1,0 +1,300 @@
+{
+  "masters": [
+    {
+      "master_id": "complementary_irregular_boundary_match",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_notched_piece_exact_complement",
+        "sgk_final_geometry_20261021_notched_piece_rotation_without_reflection"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "notched_piece_exact_complement",
+          "candidate_ids": [
+            "G1V1_COMPLEMENTARY_BOUNDARY_MATCH"
+          ]
+        },
+        {
+          "grade": 1,
+          "branch": "notched_piece_rotation_without_reflection",
+          "candidate_ids": [
+            "G1V1_COMPLEMENTARY_BOUNDARY_MATCH"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "composite_shape_square_nonaligned_inventory",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_tilted_square_complete_inventory",
+        "sgk_final_geometry_20261021_tilted_square_missing_side"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "tilted_square_complete_inventory",
+          "candidate_ids": [
+            "G1V1_COMPOSITE_SHAPE_COUNT"
+          ]
+        },
+        {
+          "grade": 1,
+          "branch": "tilted_square_missing_side",
+          "candidate_ids": [
+            "G1V1_COMPOSITE_SHAPE_COUNT"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "fixed_piece_assembly_feasibility",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_triangle_pair_selection_fixed_target",
+        "sgk_final_geometry_20261021_equal_area_nonfit_thin_rectangle"
+      ],
+      "grade_branches": [
+        {
+          "grade": 3,
+          "branch": "triangle_pair_selection_fixed_target",
+          "candidate_ids": [
+            "fixed_piece_assembly_feasibility",
+            "g2v1:piece_tiling"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "equal_area_nonfit_thin_rectangle",
+          "candidate_ids": [
+            "fixed_piece_assembly_feasibility"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "fixed_piece_silhouette_placement",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_square_two_triangles_house_silhouette",
+        "sgk_final_geometry_20261021_four_triangles_rotated_diamond_placement",
+        "sgk_final_geometry_20261021_seven_piece_tangram_exact_square_inventory"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "square_two_triangles_house_silhouette",
+          "candidate_ids": [
+            "G1V1_MULTIPIECE_SILHOUETTE_ASSET"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "four_triangles_rotated_diamond_placement",
+          "candidate_ids": [
+            "silhouette_piece_assembly"
+          ]
+        },
+        {
+          "grade": 5,
+          "branch": "seven_piece_tangram_exact_square_inventory",
+          "candidate_ids": [
+            "g5_candidate_tangram_assembly"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "geometric_edge_removal_relocation",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_remove_internal_stick_recount_all_triangles",
+        "sgk_final_geometry_20261021_relocate_three_sticks_complete_rhombi"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "remove_internal_stick_recount_all_triangles",
+          "candidate_ids": [
+            "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "relocate_three_sticks_complete_rhombi",
+          "candidate_ids": [
+            "geometric_matchstick_relocation"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "irregular_region_unit_area_count",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_irregular_staircase_full_unit_cells",
+        "sgk_final_geometry_20261021_diagonal_half_cells_regroup_without_doublecount"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "irregular_staircase_full_unit_cells",
+          "candidate_ids": [
+            "G1V2_GRID_REGION_UNIT_COUNT_ASSET"
+          ]
+        },
+        {
+          "grade": 1,
+          "branch": "diagonal_half_cells_regroup_without_doublecount",
+          "candidate_ids": [
+            "G1V2_GRID_REGION_UNIT_COUNT_ASSET"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "midpoint_grid_multi_piece_dissection",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_six_piece_midpoint_complete_dissection",
+        "sgk_final_geometry_20261021_six_piece_wrong_midpoint_equal_area_error"
+      ],
+      "grade_branches": [
+        {
+          "grade": 4,
+          "branch": "six_piece_midpoint_complete_dissection",
+          "candidate_ids": [
+            "midpoint_grid_dissection"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "six_piece_wrong_midpoint_equal_area_error",
+          "candidate_ids": [
+            "midpoint_grid_dissection"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "nonaxis_composite_quadrilateral_enumeration",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_three_direction_rhombi_complete",
+        "sgk_final_geometry_20261021_three_direction_rhombi_missing_outer"
+      ],
+      "grade_branches": [
+        {
+          "grade": 4,
+          "branch": "three_direction_rhombi_complete",
+          "candidate_ids": [
+            "composite_polygon_count"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "three_direction_rhombi_missing_outer",
+          "candidate_ids": [
+            "composite_polygon_count"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "seven_segment_glyph_inventory_relocation",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_seven_segment_exact_four_stick_build",
+        "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique",
+        "sgk_final_geometry_20261021_seven_segment_fixed_slots_global_minimum",
+        "sgk_final_geometry_20261021_seven_segment_digit_count_change_two_moves"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "seven_segment_exact_four_stick_build",
+          "candidate_ids": [
+            "G1V2_MATCHSTICK_DIGIT_ASSET"
+          ]
+        },
+        {
+          "grade": 1,
+          "branch": "seven_segment_one_move_equation_unique",
+          "candidate_ids": [
+            "G1V2_SINGLE_MATCH_EQUATION_REPAIR"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "seven_segment_fixed_slots_global_minimum",
+          "candidate_ids": [
+            "seven_segment_single_move_minimum",
+            "g2v1:seven_segment_relocation"
+          ]
+        },
+        {
+          "grade": 4,
+          "branch": "seven_segment_digit_count_change_two_moves",
+          "candidate_ids": [
+            "seven_segment_relocation_with_digit_count_change"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    },
+    {
+      "master_id": "solid_visible_face_direction_binding",
+      "accepted": false,
+      "status": "DRAFT_CROSS_REVIEW_PENDING",
+      "case_ids": [
+        "sgk_final_geometry_20261021_cube_marked_faces_fixed_view",
+        "sgk_final_geometry_20261021_face_direction_wrong_label_not_shape_name",
+        "sgk_final_geometry_20261021_top_faces_occlusion_selection"
+      ],
+      "grade_branches": [
+        {
+          "grade": 1,
+          "branch": "cube_marked_faces_fixed_view",
+          "candidate_ids": [
+            "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+          ]
+        },
+        {
+          "grade": 1,
+          "branch": "face_direction_wrong_label_not_shape_name",
+          "candidate_ids": [
+            "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+          ]
+        },
+        {
+          "grade": 2,
+          "branch": "top_faces_occlusion_selection",
+          "candidate_ids": [
+            "g2v1:solid_visible_face_directions"
+          ]
+        }
+      ],
+      "remaining": "Actual publisher-image/physical competence not claimed. Grade and exact candidate branches only as listed; no blanket closure."
+    }
+  ],
+  "core_added": 0,
+  "global_complete_claimed": false
+}

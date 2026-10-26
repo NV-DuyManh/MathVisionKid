@@ -1,0 +1,68 @@
+{
+  "schema_version": "remaining_requirements_review.v1",
+  "review_scope": "READ_ONLY_BOUNDED_LOCAL_EVIDENCE_NO_TRAIN",
+  "reviewed_utc": "2026-10-22",
+  "sources": {
+    "queue": {
+      "path": "thinking/cloud_publication/antigravity_intake_20261022/next_uncovered_tasks.json",
+      "sha256": "CC93642B29667FF2B071DB2368C99D8BB5144631DA68B88E99A7F9F821633507",
+      "status": "BOUNDED_G2_APPEND_ACCEPTED_FULL_ARCHIVE_AND_ACTUAL_OBSERVATIONS_PENDING"
+    },
+    "state": "thinking/cloud_publication/antigravity_intake_20261022/parent_state.json",
+    "latest_reference": "thinking/exhaustive_cloud_reference.json",
+    "local_bundle": {
+      "path": "thinking/cloud_publication/antigravity_intake_20261022/derived_g2_repair_append.zip",
+      "file_id": "1eor6VUIQ261dUpjGMPGP9gBwsvsBfYBI",
+      "bytes": 239047,
+      "sha256": "6322d9828567b84530b18d4b054ce1c17cce2664d3ae62993fcba975be376db0",
+      "members": 18,
+      "contains_media_asset_members": false
+    },
+    "page_audit_summary": {
+      "ten_sgk_books_have_content_pages_read": 1220,
+      "semantic_mapping_complete": false,
+      "all_sgk_exercise_forms_audited": false,
+      "interpretation": "Evidence of page reading exists, but the page receipts are not complete semantic task mappings and do not themselves close the specific G3 locator."
+    }
+  },
+  "requirements": {
+    "actual_observation_tasks": {
+      "required": 5,
+      "open": 5,
+      "constraints_open": 7,
+      "tasks": [
+        {"task_id":"g2_pending_21_actual_measurement_record","sample_id":"g2_meas_20261022_actual_measurement_missing_calibration_guard","existing_evidence_row_sha256":"67bd656ac136c26418a3bfb362a8264eb664f4c91bff8d5ac1e641c95f973afb","evidence_type":"accepted hypothetical/calibration guard","actual_observation_present":false,"constraint":"Actual learner ruler/scale reading or calibrated image with units, endpoint alignment, zero/offset, and measurement record."},
+        {"task_id":"g2_pending_27_actual_solid_assembly_record","sample_id":"g2_solid_20261022_actual_solid_assembly_support_guard","existing_evidence_row_sha256":"375d654103f1f04599aff7edc81c93563bd423d80ebd0c492431cdca518f01eb","evidence_type":"accepted hypothetical support/occlusion guard","actual_observation_present":false,"constraint":"Real or pictured piece inventory and actually assembled result with support/occlusion evidence; state observed and indeterminate parts."},
+        {"task_id":"g2_pending_29_actual_segment_construction_record","sample_id":"g2_draw_20261022_actual_segment_construction_zero_alignment_guard","existing_evidence_row_sha256":"cf814dfd016b5ef0c0188ef3f5bf3bd9040d606cf67ac2ba70416135b57cf1a8","evidence_type":"accepted hypothetical construction/zero-alignment guard","actual_observation_present":false,"constraint":"Actual endpoint/scale/zero-alignment evidence of the requested segment and measured length, or ask for the missing observation."},
+        {"task_id":"g2_pending_38_actual_trajectory_observation","sample_id":"g2_traj_20261022_trajectory_observation_guard","existing_evidence_row_sha256":"1f39fcdc4addafb62fc1ba3f148c2c8d0d1369928893efecf5833d4985ef51e7","evidence_type":"accepted hypothetical trajectory guard","actual_observation_present":false,"constraint":"An actually supplied path/image or authoritative complete path annotation; otherwise request a clear trace."},
+        {"task_id":"g2_pending_39_actual_personal_survey_room_schedule","sample_id":"g2_surv_20261022_personal_survey_classroom_tally","existing_evidence_row_sha256":"ba0cb0810a14b1f3ed34fd7c7e0f942198b5789f1cb47c64b3d52a5ffda14fc2","evidence_type":"accepted explicitly hypothetical finite tally example","actual_observation_present":false,"constraint":"Actual learner room/timetable/preferences/respondent records with respondent identity, one-choice/counting contract, and missing records; separate hypothetical examples from reported facts."}
+      ],
+      "closure_decision": "Do not close these observation requirements from current local evidence. Existing examples are valid bounded text/guard material for future text training when their explicit hypothetical/guard framing is preserved; they do not demonstrate actual measurement, assembly, construction, trajectory, survey, or whole physical capability."
+    },
+    "candidate_constraints": {"closed":43,"open":7,"note":"Queue leaves the seven observation-linked constraints open; no local evidence upgrades them to actual observation."},
+    "asset_masters": {
+      "required":10,
+      "closed":0,
+      "status":"REMAIN_SEPARATE",
+      "evidence_found":"The queue and publication state retain ten asset-only masters as separate unresolved requirements. The latest 18-member G2 repair ZIP has no media/asset member; current accepted G2 examples contain text-only/guard coverage and are not asset-master evidence.",
+      "closure_decision":"No closure supported from bounded local package metadata. Need identify each master and bind its specific source asset plus validated annotation/coverage before closure; do not synthesize an asset or claim image understanding."
+    },
+    "g3_source_locator": {
+      "required":1,
+      "closed":0,
+      "status":"REMAIN_SEPARATE",
+      "evidence_found":"State records complete page reading for G3 v1/v2, but semantic_mapping_complete=false; the queue explicitly retains one G3 source locator. Current G2 repair bundle contains no locator receipt/member.",
+      "closure_decision":"Do not infer the locator from a general page-read receipt. Close only by finding and hash-binding the exact G3 source page/exercise locator; this remains independent from G2 task and asset status."
+    }
+  },
+  "training_scope": {
+    "future_text_training": "The accepted finite text and explicitly labelled hypothetical/guard examples may be usable within the authorized candidate recipe after the archive-wide split/token/source-link audit passes. Preserve provenance and labels; this review does not approve training or change readiness.",
+    "training_dataset_ready": false,
+    "full_archive_audit_complete": false,
+    "all_sgk_forms_covered": false,
+    "whole_curriculum_or_physical_coverage_claimed": false,
+    "prohibited_claims": ["all SGK/page/forms covered", "physical observation verified", "image/asset mastery demonstrated", "archive-wide train split or token audit complete"]
+  },
+  "next_action": "Keep the five actual-observation tasks, seven linked constraints, ten asset masters, and one G3 locator open. Request or locate genuine learner/source evidence for the five observations; identify and bind each of the ten asset masters; find the exact G3 page/exercise locator. Continue only the existing bounded archive audit separately; do not train or auto-waive requirements."
+}
+

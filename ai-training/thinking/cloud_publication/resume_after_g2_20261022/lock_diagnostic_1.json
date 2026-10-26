@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"stage\": \"NEW64_INDEXED_AND_256_CHAT_VERIFIED\", \"migration_alive\": true, \"connections\": [{\"name\": \"con\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"con_probe\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"diagnostic_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"upgrade_check\", \"in_transaction\": false, \"databases\": [[0, \"main\", \"/content/mathvisionkid_data_only/batch_resume_809e20f201991f9d.sqlite\"], [1, \"temp\", \"\"]]}, {\"name\": \"phase_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"confirmation_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"g2db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"probe_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}], \"migration_stack\": [{\"function\": \"_bootstrap\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 1015}, {\"function\": \"_bootstrap_inner\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 1044}, {\"function\": \"run\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 995}, {\"function\": \"g2_migrate_resume\", \"file\": \"/tmp/ipykernel_2592/132813291.py\", \"line\": 112}], \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"stage\": \"NEW64_INDEXED_AND_256_CHAT_VERIFIED\", \"migration_alive\": true, \"connections\": [{\"name\": \"con\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"con_probe\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"diagnostic_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"upgrade_check\", \"in_transaction\": false, \"databases\": [[0, \"main\", \"/content/mathvisionkid_data_only/batch_resume_809e20f201991f9d.sqlite\"], [1, \"temp\", \"\"]]}, {\"name\": \"phase_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"confirmation_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"g2db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}, {\"name\": \"probe_db\", \"closed_or_error\": \"Cannot operate on a closed database.\"}], \"migration_stack\": [{\"function\": \"_bootstrap\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 1015}, {\"function\": \"_bootstrap_inner\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 1044}, {\"function\": \"run\", \"file\": \"/usr/lib/python3.13/threading.py\", \"line\": 995}, {\"function\": \"g2_migrate_resume\", \"file\": \"/tmp/ipykernel_2592/132813291.py\", \"line\": 112}], \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"stage\\\": \\\"NEW64_INDEXED_AND_256_CHAT_VERIFIED\\\", \\\"migration_alive\\\": true, \\\"connections\\\": [{\\\"name\\\": \\\"con\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"con_probe\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"diagnostic_db\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"upgrade_check\\\", \\\"in_transaction\\\": false, \\\"databases\\\": [[0, \\\"main\\\", \\\"/content/mathvisionkid_data_only/batch_resume_809e20f201991f9d.sqlite\\\"], [1, \\\"temp\\\", \\\"\\\"]]}, {\\\"name\\\": \\\"phase_db\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"confirmation_db\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"g2db\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}, {\\\"name\\\": \\\"probe_db\\\", \\\"closed_or_error\\\": \\\"Cannot operate on a closed database.\\\"}], \\\"migration_stack\\\": [{\\\"function\\\": \\\"_bootstrap\\\", \\\"file\\\": \\\"/usr/lib/python3.13/threading.py\\\", \\\"line\\\": 1015}, {\\\"function\\\": \\\"_bootstrap_inner\\\", \\\"file\\\": \\\"/usr/lib/python3.13/threading.py\\\", \\\"line\\\": 1044}, {\\\"function\\\": \\\"run\\\", \\\"file\\\": \\\"/usr/lib/python3.13/threading.py\\\", \\\"line\\\": 995}, {\\\"function\\\": \\\"g2_migrate_resume\\\", \\\"file\\\": \\\"/tmp/ipykernel_2592/132813291.py\\\", \\\"line\\\": 112}], \\\"training_started\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

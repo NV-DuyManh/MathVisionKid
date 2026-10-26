@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "U9663haxFySk"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"d6ab4e1273f5940ce2c1adb51192df69e7849af48e5b8b8e9dcc5c5f16d298ef\", \"run_metadata_sha256\": \"90777d592a641656dd761668b8424a0702d20ed5bdc22454018d1be215eadcd2\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "add_generation_prompt": true,
+  "decoding": {
+    "do_sample": true,
+    "max_new_tokens": 1024,
+    "min_p": 0.0,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "temperature": 0.7,
+    "top_k": 20,
+    "top_p": 0.8,
+    "use_cache": true
+  },
+  "enable_thinking": false,
+  "example_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "example_bank_source_files": {
+    "combined_approved_samples": 24,
+    "projection_preflight.json": {
+      "sample_count": 14,
+      "sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022"
+    },
+    "source_behavior_samples.json": {
+      "sample_count": 10,
+      "sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18"
+    }
+  },
+  "example_selections_by_fixture": {
+    "qrec20261024_v1_g1_compare_hint": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "qrec20261024_v1_g1_hidden_card_missing": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g1_inverse_facts": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g1_order_cards": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g1_place_value": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g1_student_place_error": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_calendar_conflict": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_door_gap": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_inclusive_ids": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_repeating_tile": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_student_group_error": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g2_table_leg_hint": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "qrec20261024_v1_g3_bracket_hint": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "qrec20261024_v1_g3_equilateral_wire": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g3_inverse_division": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g3_mass_remaining": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g3_missing_measurement_image": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g3_zero_dividend_error": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_disjoint_coloring_conflict": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_fraction_compare_error": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_fraction_cups": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_fraction_order": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_missing_average_score": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g4_unknown_fraction_hint": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "qrec20261024_v1_g5_area_conversion_error": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g5_cube_packing": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g5_missing_discount_rate": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g5_percent_reversal": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g5_pump_rate": [
+      "exhaustive_v1_sub_565_103:worked_solution",
+      "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution"
+    ],
+    "qrec20261024_v1_g5_relative_motion_hint": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ]
+  },
+  "fixture_ids": [
+    "qrec20261024_v1_g1_place_value",
+    "qrec20261024_v1_g1_order_cards",
+    "qrec20261024_v1_g1_inverse_facts",
+    "qrec20261024_v1_g1_compare_hint",
+    "qrec20261024_v1_g1_student_place_error",
+    "qrec20261024_v1_g1_hidden_card_missing",
+    "qrec20261024_v1_g2_inclusive_ids",
+    "qrec20261024_v1_g2_door_gap",
+    "qrec20261024_v1_g2_repeating_tile",
+    "qrec20261024_v1_g2_table_leg_hint",
+    "qrec20261024_v1_g2_student_group_error",
+    "qrec20261024_v1_g2_calendar_conflict",
+    "qrec20261024_v1_g3_inverse_division",
+    "qrec20261024_v1_g3_mass_remaining",
+    "qrec20261024_v1_g3_equilateral_wire",
+    "qrec20261024_v1_g3_bracket_hint",
+    "qrec20261024_v1_g3_zero_dividend_error",
+    "qrec20261024_v1_g3_missing_measurement_image",
+    "qrec20261024_v1_g4_fraction_order",
+    "qrec20261024_v1_g4_fraction_cups",
+    "qrec20261024_v1_g4_missing_average_score",
+    "qrec20261024_v1_g4_unknown_fraction_hint",
+    "qrec20261024_v1_g4_fraction_compare_error",
+    "qrec20261024_v1_g4_disjoint_coloring_conflict",
+    "qrec20261024_v1_g5_percent_reversal",
+    "qrec20261024_v1_g5_pump_rate",
+    "qrec20261024_v1_g5_cube_packing",
+    "qrec20261024_v1_g5_relative_motion_hint",
+    "qrec20261024_v1_g5_area_conversion_error",
+    "qrec20261024_v1_g5_missing_discount_rate"
+  ],
+  "fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "frozen_fixture_ids": [
+    "qrec20261024_v1_g1_place_value",
+    "qrec20261024_v1_g1_order_cards",
+    "qrec20261024_v1_g1_inverse_facts",
+    "qrec20261024_v1_g1_compare_hint",
+    "qrec20261024_v1_g1_student_place_error",
+    "qrec20261024_v1_g1_hidden_card_missing",
+    "qrec20261024_v1_g2_inclusive_ids",
+    "qrec20261024_v1_g2_door_gap",
+    "qrec20261024_v1_g2_repeating_tile",
+    "qrec20261024_v1_g2_table_leg_hint",
+    "qrec20261024_v1_g2_student_group_error",
+    "qrec20261024_v1_g2_calendar_conflict",
+    "qrec20261024_v1_g3_inverse_division",
+    "qrec20261024_v1_g3_mass_remaining",
+    "qrec20261024_v1_g3_equilateral_wire",
+    "qrec20261024_v1_g3_bracket_hint",
+    "qrec20261024_v1_g3_zero_dividend_error",
+    "qrec20261024_v1_g3_missing_measurement_image",
+    "qrec20261024_v1_g4_fraction_order",
+    "qrec20261024_v1_g4_fraction_cups",
+    "qrec20261024_v1_g4_missing_average_score",
+    "qrec20261024_v1_g4_unknown_fraction_hint",
+    "qrec20261024_v1_g4_fraction_compare_error",
+    "qrec20261024_v1_g4_disjoint_coloring_conflict",
+    "qrec20261024_v1_g5_percent_reversal",
+    "qrec20261024_v1_g5_pump_rate",
+    "qrec20261024_v1_g5_cube_packing",
+    "qrec20261024_v1_g5_relative_motion_hint",
+    "qrec20261024_v1_g5_area_conversion_error",
+    "qrec20261024_v1_g5_missing_discount_rate"
+  ],
+  "mode_map": {
+    "answer": "worked_solution",
+    "hint_no_answer": "hint_level_1",
+    "missing_or_contradictory_info": "worked_solution",
+    "student_error": "worked_solution"
+  },
+  "model": "Qwen/Qwen3-1.7B",
+  "prompt_token_limit": 3072,
+  "prompt_token_sha256": {
+    "qrec20261024_v1_g1_compare_hint": "87763d0071ed035d2408963ed1c02b56bc13cd7a7c0b83ec519159d9dc42a343",
+    "qrec20261024_v1_g1_hidden_card_missing": "3395c07beab82a91e00b7a82d327b74f96e0f9f00ae1c3824101a9f3b5c8559b",
+    "qrec20261024_v1_g1_inverse_facts": "083e6a4efe77fec2235d276fd71ccc2ab3f1bf7a863cc814fd83f2b12d77e7ca",
+    "qrec20261024_v1_g1_order_cards": "863e2169bc78ce9f1b08eeaa388c5de5623b5768a1610defb2cc348a51f097c9",
+    "qrec20261024_v1_g1_place_value": "7a769252fce3845eeee6bcbf836d051aa9ec8543e13a2a89c841bdbd00a228a9",
+    "qrec20261024_v1_g1_student_place_error": "ad2ab79200383017f40729e2604af06ea8a0eee49d1735686566f7794ce8db6e",
+    "qrec20261024_v1_g2_calendar_conflict": "f006b3214888e3bb6c42d40f4e07aee3ce96a1cb140cb8b740d75176e95553e0",
+    "qrec20261024_v1_g2_door_gap": "8cbc3958d4217aa21982e0345239791f6e2d0f39b4e19ed357b2b8409681fd7e",
+    "qrec20261024_v1_g2_inclusive_ids": "825ece3a1e85dd356191c1f52f2ae8ca3e7d2d86982d190d64dd306f0c6e0c7a",
+    "qrec20261024_v1_g2_repeating_tile": "e585e62f1e52815f7a2be719a748961723e8c36b2ea0195c8f225973e9da2163",
+    "qrec20261024_v1_g2_student_group_error": "dbd30dfa64f78c89c7f1d64e22ae0369d338f38745993e983fe35ab79ad9159d",
+    "qrec20261024_v1_g2_table_leg_hint": "a54326f60260914199e596b54670348f3f9150a9392af54e4691fac6de35dfa8",
+    "qrec20261024_v1_g3_bracket_hint": "0f47a59503e0de39bdfdca1cf6409c6237a5b40b0ec202511e2794441b7901e5",
+    "qrec20261024_v1_g3_equilateral_wire": "ddd8f7456ab470734c608809c2599113f8f2e62b4d01ed636ac606dfc8be50a2",
+    "qrec20261024_v1_g3_inverse_division": "0f917af07aa2edbc4a69cdb799869e5d230ebd68bee198c503ad288952b82410",
+    "qrec20261024_v1_g3_mass_remaining": "9f233eb487983b19a54186c23539a3cefa2a7e933957d63011d658c455679738",
+    "qrec20261024_v1_g3_missing_measurement_image": "0a0c8ec2e25f438c26be10d782fc85e580d400a29007c32c7e24a9129d9f3b28",
+    "qrec20261024_v1_g3_zero_dividend_error": "e5fc3ba8b0673a3b32665cfd7bf04b47266a0737055eba42cf788faf722067f2",
+    "qrec20261024_v1_g4_disjoint_coloring_conflict": "c5fae6e4b990a30149d6f5d03e5ee0169fce9786fbc4429c02ed211d16c7f1a2",
+    "qrec20261024_v1_g4_fraction_compare_error": "62f14e5a239e18e1af04d2b0105d5e438abb1319f769e2222e63b1eb84606eab",
+    "qrec20261024_v1_g4_fraction_cups": "6a5e6294066b16f133c990be2a6c3d807c738e2cc609ef426c9748ebd1758a0a",
+    "qrec20261024_v1_g4_fraction_order": "b3bd9089c0ee07670989bd646bc334ff5ffb1e8a1bd0d15a203974ebaefe5b9c",
+    "qrec20261024_v1_g4_missing_average_score": "d2ac9b94eaa03746059b189c4e86871107b8d7564be4ab3487ecde3f7a1e5a52",
+    "qrec20261024_v1_g4_unknown_fraction_hint": "d383bc8eda9dc5ec449fa9aa59e440d2a6bd84e74c05372bfa447e1799a29c24",
+    "qrec20261024_v1_g5_area_conversion_error": "6c617a0cda3af0eed3cfd6a18a5aefaf72ffa26b49a20bc90d2beadf1c7bec02",
+    "qrec20261024_v1_g5_cube_packing": "130395666e7bf31c4321924b4762c26fb71f485fc35e38a3c145e66ecc11c443",
+    "qrec20261024_v1_g5_missing_discount_rate": "1f9315cc0b8799fe48aae8ebbe64d2fb2255744942b733d03fc45a5d7921d895",
+    "qrec20261024_v1_g5_percent_reversal": "bd5fcf3baaf12e0b1f2806a4bb5f3d278a17c28f8f23a3807825e07e3840e0e6",
+    "qrec20261024_v1_g5_pump_rate": "50167657b1f9cc7c2884ee6f6ef9f7b043a695b9e166be283bfd5af4b16a3696",
+    "qrec20261024_v1_g5_relative_motion_hint": "c4afc4423a6e6f146eb4c344ecead14cf7525ca2f47bdc82cf0f6a05ff60e479"
+  },
+  "renderer_version": "behavior_render.v1",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "schema": "MathVisionKid.fewshot_matched_dev_eval.v1",
+  "seed_policy": "20261024 + first8hex fixtureID SHA modulo2^31; reset per fixture",
+  "selection_policy": "Examples selected only by requested mode; oracle labels and fixture metadata are excluded from prompt messages.",
+  "system": "Bạn là gia sư Toán tiểu học. Chỉ dùng dữ kiện trong đề và lời làm thực sự được cung cấp; không tự tạo lời làm của học sinh. Giải thích ngắn gọn, nhất quán với chế độ được yêu cầu; với lời giải đầy đủ, hãy kiểm tra kết quả. Không bịa dữ kiện khi đề thiếu thông tin.",
+  "system_sha256": "6431f7c59fa4e175483765d57fc6e869fbc530cba2176c279e3b1af6bda0c19c",
+  "truncation": "forbidden; over-limit prompts fail before generation"
+}

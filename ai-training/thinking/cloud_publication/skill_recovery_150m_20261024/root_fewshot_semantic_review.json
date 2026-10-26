@@ -1,0 +1,311 @@
+{
+  "all_actual_fields_read": true,
+  "base_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+  "contract_sha256": "ebf15d74a0bddca37b1c99cdc44c6e13a81f908fa07f1297d3b3875a4a891e0b",
+  "decisions": [
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Writes47and40with correct tens/unit decomposition and consistent check; both requested values supplied.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct47and40with full tens/unit construction and consistent check, no fabricated extra information.",
+      "fixture_id": "qrec20261024_v1_g1_place_value"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct final45,50,54order but explanation compares only units and falsely concludes45>50. Contradictory substantive reasoning.",
+      "critical_new_error": true,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Correct final order, but mislabels units0and4as tens and introduces40tickets from previous example as a purported check. New cross-example data contamination.",
+      "fixture_id": "qrec20261024_v1_g1_order_cards"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Both9−6=3and9−3=6and correct inverse explanation using original sum9; complete.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Both9−6=3and9−3=6and inverse relation correct, no unrelated example data.",
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts"
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicitly states8<9and comparison conclusion despite hint-only withholding request.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Computes8then asks to compare it with9without giving symbol or conclusion; useful hint meets exact comparison-withholding requirement.",
+      "fixture_id": "qrec20261024_v1_g1_compare_hint"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct16<61appears, but repeatedly misplaces digits in tens and claims6in16smaller than6in61, rather than comparing actual tens1and6.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Still asserts6in16is tens repeatedly and interchanges1position; correct final symbol does not repair wrong place-value teaching.",
+      "fixture_id": "qrec20261024_v1_g1_student_place_error"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correctly recognizes1..5as possible, but requests extra condition number>5, which contradicts the given number<6and leaves no feasible number.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Lists1..5and recognizes nonunique, but repeats contradictory>5condition and irrelevant tens information for single-digit numbers; requested extra data not sound.",
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct inclusive64−46+1=19cards and explicit complete list verifies both endpoints.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct inclusive64−46+1=19cards; listing and final count consistent.",
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct2m=200cm and200−185=15cm, consistent quantities and conclusion.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct200−185=15cm and185+15=200inverse check, correct conclusion.",
+      "fixture_id": "qrec20261024_v1_g2_door_gap"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct four-shape cycle,14=4*3+2and position2square, preserving one-based counting.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct cycle4and14mod4=2, verifies one-based sequence through14square.",
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile"
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicit20+6=26and final26legs despite hint-only request; reminder does not undo leak.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Withholds26but only asks legs of each already-given object and says add them; fails to guide multiplying5tables/2stools before combining totals. Nonleaking does not prove useful hint.",
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Restates supplied wrong3+2operation in checking sequence, then explicitly rejects it for this task and uses two groups3*2=6candies. Final correction grounded in supplied work; no invented hidden action.",
+      "critical_new_error": true,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Final6correct and recognizes contextual wrong operation, but invents an extra checking step as student error and alternates endorsement/rejection of provided work; new unsupported student-action diagnosis.",
+      "fixture_id": "qrec20261024_v1_g2_student_group_error"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Finds consecutive-date contradiction, but unconditionally accepts17Wednesday/18Thursday and never asks to verify original date/weekdays as requested.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Identifies consecutive-date contradiction with conditionalThursday, but never requests verification of original calendar or either weekday as asked; same incomplete guard as baseline.",
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Computes67and verifies9*7+4correctly, but omits frozen rubric remainder bound4<9; numerical answer correct, full-task check incomplete.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Correct inverse9*7+4=67but again no4<9remainder check required by frozen rubric.",
+      "fixture_id": "qrec20261024_v1_g3_inverse_division"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct3240−850=2390g=2kg390g with consistent units and both requested forms.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct3240−850=2390g=2kg390g, both forms and unit conversion consistent.",
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Recognizes full96cmwire as three equal sides, divides by3and checks32+32+32=96cm.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct wire perimeter divided by3=32cm and32+32+32=96cmcheck.",
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Useful hint computes parentheses first, then takes84minus that result; withholds42.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Useful initial hint: evaluate parentheses first, then perform the subtraction shown in the unchanged request. No reversal or42leak; not required to repeat every given numeral in an initial hint.",
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct final0and multiplication0*7=0, but contradictory checking commentary and no clear account of why the supplied check does not verify claimed quotient7.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Distinguishes false quotient7from true7*0=0and correctly uses it as evidence for quotient0; explicitly checks0*7=0without calling the supplied multiplication false.",
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Invents10cmthen claims it was measured without image or measurement, violating missing-source guard.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Still suggests arbitrary10cmas exact without measurement and does not request scale-valid image or unit-bearing measurement; missing-source guard fails.",
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct equivalents9/12and10/12but falsely orders9/12<7/12<10/12and final labels wrong.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct common12and7/12<9/12<10/12and final labels. Decimal7/12is rounded with imprecise equality notation, but exact comparison proof and conclusion are sound.",
+      "fixture_id": "qrec20261024_v1_g4_fraction_order"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct quantity division5/6by1/12=10cups; inverse volume check returns5/6litre.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct10cups via5/6divided by1/12and inverse volume check.",
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct31points and total112but calls it consistent with total average28without actually checking112/4=28as frozen rubric requests.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct31points and explicit112/4=28mean check as requested.",
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score"
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Reveals4/7multiple times in hint despite withholding request.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Suggests subtracting known2/7from both sides to isolate x; withholds4/7and supports correct unknown-addend relation.",
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correctly rejects numerator-only comparison; equivalent10/15and9/15and final2/3>3/5with explanation of common-sized parts.",
+      "critical_new_error": true,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Correct finalfractionrelation but wrongly teaches15is smallest common divisor of3and5; new substantive divisor/multiple misconception relative to baseline.",
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Uses disjoint-area sum17/12>1to reject simultaneous premises, no fabricated replacement data.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct17/12S>Scontradiction for disjoint contained regions; no replacement premises.",
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Wrongly subtracts0.2xfrom1.25xand asserts1.25*0.8=1.05; final105%wrong.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Corrects percentage bases and1.25*0.8=1.00, final100%with consistent check.",
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct7.2/0.3=24litres/minute and24*1.25=30litres, consistent units.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct24litres/minute,30litres and inverse-rate check24*0.3=7.2.",
+      "fixture_id": "qrec20261024_v1_g5_pump_rate"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Counts24,15,8blocks per dimension and product2880, checks product without volume-factor confusion.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Correct three-dimension counts24*15*8=2880and independent volume2.88/0.001=2880.",
+      "fixture_id": "qrec20261024_v1_g5_cube_packing"
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Computes full distances and final0.9km in hint despite withholding request.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Withholds0.9but vague relative-velocity question omits subtraction relation and required45minutes-to-hours conversion; incomplete useful hint under frozen rubric.",
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Explains squared conversion100cm*100cm=10000cm2and corrects0.6m2to6000cm2, grounded in provided work.",
+      "critical_new_error": true,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": false,
+      "fewshot_reason": "Final6000cm2correct but feedback asserts60cm2correct not6000cm2within explanation, a new contradictory correction relative to sound baseline.",
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error"
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Reverses percentage interval0.9x<=180000<=0.8xand derives impossible225000<=x<=200000; correct final request does not fix invalid explanation.",
+      "critical_new_error": false,
+      "fewshot_hint_leak": false,
+      "fewshot_pass": true,
+      "fewshot_reason": "Corrects final feasible original-price interval200000..225000and nonuniqueness; requests exact discount. Percentage-variable notation and reversed endpoint narration imprecise, but final interval and supplied relation correct.",
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate"
+    }
+  ],
+  "fewshot_output_sha256": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30",
+  "fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "human_review_claimed": false,
+  "schema": "MathVisionKid.source_context_root_dev_review.v1"
+}

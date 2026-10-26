@@ -1,0 +1,717 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer",
+      "userproblem": "Một số có 4 chục và 7 đơn vị. Viết số đó và cho biết chữ số 4 trong số vừa viết có giá trị bao nhiêu đơn vị.",
+      "exact_reference_answer": {
+        "number": "47",
+        "digit_4_value": "40",
+        "unit": "đơn vị"
+      },
+      "checker": {
+        "type": "exact_structured_integers",
+        "expected": {
+          "number": 47,
+          "digit_4_value": 40
+        }
+      },
+      "oracle": {
+        "calculation": "4 × 10 + 7 = 47; chữ số 4 ở hàng chục nên có giá trị 4 × 10 = 40.",
+        "expected": "Số 47; chữ số 4 có giá trị 40 đơn vị."
+      },
+      "rubric": [
+        "Viết đúng số 47 từ bốn chục và bảy đơn vị.",
+        "Phân biệt chữ số 4 với giá trị 40 của nó ở hàng chục."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "generated_tokens": 163,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1:** Viết số có 4 chục và 7 đơn vị.\n\n- 4 chục = $4 \\times 10 = 40$\n- 7 đơn vị = $7 \\times 1 = 7$\n\n**Số cần tìm:** $40 + 7 = 47$\n\n**Bước 2:** Xác định giá trị của chữ số 4 trong số 47.\n\n- Chữ số 4 ở vị trí chục (chục vị), nên giá trị của nó là $4 \\times 10 = 40$.\n\n**Kết luận:** Chữ số 4 trong số vừa viết có giá trị là $40$ đơn vị.\n\n**Đáp án:** $40$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5c9d16c187ffcf7682f88ded874daa47a9bac3a13f3172c2f838a184327a5401",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "generated_tokens": 236,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1:** Viết số có 4 chục và 7 đơn vị.\n\n- 4 chục = $4 \\times 10 = 40$\n- 7 đơn vị = $7 \\times 1 = 7$\n\n**Số cần tìm:** $40 + 7 = 47$\n\n**Bước 2:** Xác định giá trị của chữ số 4 trong số 47.\n\n- Chữ số 4 ở vị trí chục (chục vị), nên giá trị của nó là $4 \\times 10 = 40$.\n\n**Kết luận:** Chữ số 4 trong số vừa viết có giá trị là **40 đơn vị**.\n\n**Lời giải đầy đủ:**\n\n- Số có 4 chục và 7 đơn vị là $47$.\n- Chữ số 4 ở vị trí chục, nên giá trị của nó là $4 \\times 10 = 40$.\n\n**Đáp án:** Chữ số 4 trong số vừa viết có giá trị là $40$ đơn vị.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5c9d16c187ffcf7682f88ded874daa47a9bac3a13f3172c2f838a184327a5401",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer",
+      "userproblem": "Ba thẻ ghi các số 50, 45 và 54. Hãy xếp các thẻ theo thứ tự từ bé đến lớn và giải thích cách so sánh.",
+      "exact_reference_answer": {
+        "ordered_values": [
+          "45",
+          "50",
+          "54"
+        ]
+      },
+      "checker": {
+        "type": "ordered_integer_sequence",
+        "values": [
+          45,
+          50,
+          54
+        ]
+      },
+      "oracle": {
+        "calculation": "45 có 4 chục; 50 và 54 có 5 chục. Trong hai số có 5 chục, 0 đơn vị < 4 đơn vị.",
+        "expected": "45, 50, 54."
+      },
+      "rubric": [
+        "Đặt 45 trước hai số có năm chục.",
+        "So sánh hàng đơn vị để xếp 50 trước 54.",
+        "Giữ đúng chiều từ bé đến lớn."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "generated_tokens": 384,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\nCác thẻ ghi các số: 50, 45 và 54.\n\n**Bước 1: So sánh các số theo hàng đơn vị.**\n\n- So sánh các chữ số ở vị trí hàng chục:\n  - 50: hàng chục là 5\n  - 45: hàng chục là 4\n  - 54: hàng chục là 5\n\n- Vì 4 < 5 < 5, nên số có hàng chục nhỏ nhất là 45, số có hàng chục lớn nhất là 54, còn số còn lại là 50.\n\n**Bước 2: So sánh các số theo hàng đơn vị.**\n\n- So sánh hàng chục: 45 < 50 < 54\n\n**Kết luận:**\n\nCác số xếp theo thứ tự từ bé đến lớn là: **45, 50, 54**\n\n**Giải thích cách so sánh:**\n\n- So sánh hàng chục: 45 có hàng chục nhỏ nhất (4), 50 có hàng chục bằng 5, 54 có hàng chục lớn nhất (5). Do đó, 45 < 50 < 54.\n- Sau đó, so sánh các số còn lại: 50 và 54, vì hàng chục đều bằng 5, so sánh hàng đơn vị:\n  - 50 có hàng đơn vị là 0, 54 có hàng đơn vị là 4 → 0 > 4 → 50 > 54.\n\n**Kết luận cuối cùng:**\n- Thứ tự từ bé đến lớn: **45, 50, 54**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2ba373b4395950fd87b5b73a419003451c1a57f0d4486f777d3fbbc370f2bc24",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "generated_tokens": 384,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\nCác thẻ ghi các số: 50, 45 và 54.\n\n**Bước 1: So sánh các số theo hàng đơn vị.**\n\n- So sánh các chữ số ở vị trí hàng chục:\n  - 50: hàng chục là 5\n  - 45: hàng chục là 4\n  - 54: hàng chục là 5\n\n- Vì 4 < 5 < 5, nên số có hàng chục nhỏ nhất là 45, số có hàng chục lớn nhất là 54, còn số còn lại là 50.\n\n**Bước 2: So sánh các số theo hàng đơn vị.**\n\n- So sánh hàng chục: 45 < 50 < 54\n\n**Kết luận:**\n\nCác số xếp theo thứ tự từ bé đến lớn là: **45, 50, 54**\n\n**Giải thích cách so sánh:**\n\n- So sánh hàng chục: 45 có hàng chục nhỏ nhất (4), 50 có hàng chục bằng 5, 54 có hàng chục lớn nhất (5). Do đó, 45 < 50 < 54.\n- Sau đó, so sánh các số còn lại: 50 và 54, vì hàng chục đều bằng 5, so sánh hàng đơn vị:\n  - 50 có hàng đơn vị là 0, 54 có hàng đơn vị là 4 → 0 > 4 → 50 > 54.\n\n**Kết luận cuối cùng:**\n- Thứ tự từ bé đến lớn: **45, 50, 54**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2ba373b4395950fd87b5b73a419003451c1a57f0d4486f777d3fbbc370f2bc24",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_inverse_facts",
+      "grade": 1,
+      "mode": "answer",
+      "userproblem": "Biết phép cộng 6 + 3 = 9. Hãy viết hai phép trừ dùng chính ba số này để kiểm tra phép cộng.",
+      "exact_reference_answer": {
+        "equations": [
+          "9 - 6 = 3",
+          "9 - 3 = 6"
+        ]
+      },
+      "checker": {
+        "type": "equation_set",
+        "equations": [
+          "9-6=3",
+          "9-3=6"
+        ],
+        "order_irrelevant": true
+      },
+      "oracle": {
+        "calculation": "9 − 6 = 3 và 9 − 3 = 6; cộng lại số vừa bớt và số còn được 9.",
+        "expected": "9 − 6 = 3; 9 − 3 = 6."
+      },
+      "rubric": [
+        "Dùng 9 làm số bị trừ trong cả hai phép.",
+        "Viết đủ hai phép trừ đúng, không chỉ nhắc lại phép cộng."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "generated_tokens": 139,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nTa có phép cộng:  \n**6 + 3 = 9**\n\nTừ phép cộng này, ta có thể viết hai phép trừ như sau:\n\n1. **9 - 6 = 3**  \n   (Từ 9 lấy 6, còn lại 3)\n\n2. **9 - 3 = 6**  \n   (Từ 9 lấy 3, còn lại 6)\n\n**Kết luận:** Hai phép trừ dùng chính ba số 6, 3 và 9 để kiểm tra phép cộng là:  \n**9 - 6 = 3** và **9 - 3 = 6**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ffe5076f7133041b581c0322c4ce14b3a4745014a33a4e78bcde8cb625fc4c98",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "generated_tokens": 139,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nTa có phép cộng:  \n**6 + 3 = 9**\n\nTừ phép cộng này, ta có thể viết hai phép trừ như sau:\n\n1. **9 - 6 = 3**  \n   (Từ 9 lấy 6, còn lại 3)\n\n2. **9 - 3 = 6**  \n   (Từ 9 lấy 3, còn lại 6)\n\n**Kết luận:** Hai phép trừ dùng chính ba số 6, 3 và 9 để kiểm tra phép cộng là:  \n**9 - 6 = 3** và **9 - 3 = 6**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ffe5076f7133041b581c0322c4ce14b3a4745014a33a4e78bcde8cb625fc4c98",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_compare_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "userproblem": "Em cần điền một trong các dấu >, < hoặc = vào chỗ trống: 6 + 2 □ 9. Chỉ gợi ý cách chọn dấu, đừng điền dấu hay nói trước kết luận so sánh.",
+      "exact_reference_answer": {
+        "comparison_symbol": "<",
+        "left_value": "8",
+        "right_value": "9",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_withhold_comparison",
+        "withheld_symbol": "<",
+        "left_expression": "6+2",
+        "right_expression": "9"
+      },
+      "oracle": {
+        "calculation": "6 + 2 = 8; 8 < 9. Kết luận so sánh này chỉ dành cho người chấm.",
+        "expected": "Gợi ý tính vế trái rồi so với số ở vế phải; không điền dấu hoặc kết luận vế nào lớn hơn."
+      },
+      "rubric": [
+        "Gợi ý tìm giá trị ở bên trái trước rồi so sánh hai bên.",
+        "Không điền dấu < hoặc nói thẳng vế trái bé hơn vế phải.",
+        "Dùng lời ngắn gọn để học sinh tự chọn dấu."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "generated_tokens": 62,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để so sánh 6 + 2 với 9, ta cần tính giá trị của vế trái trước:\n\n6 + 2 = 8\n\nSo sánh 8 với 9:\n\n- 8 < 9\n\nVậy dấu cần điền là: **<**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f45d17828492e2c47c292abab2837c2d9fc128939ca6b7edf41236d3ab553c63",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "generated_tokens": 62,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để so sánh 6 + 2 với 9, ta cần tính giá trị của vế trái trước:\n\n6 + 2 = 8\n\nSo sánh 8 với 9:\n\n- 8 < 9\n\nVậy dấu cần điền là: **<**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f45d17828492e2c47c292abab2837c2d9fc128939ca6b7edf41236d3ab553c63",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_student_place_error",
+      "grade": 1,
+      "mode": "student_error",
+      "userproblem": "Em viết: \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\". Em so sánh đúng chưa? Hãy chỉ ra điều cần sửa trong câu em đã viết.",
+      "exact_reference_answer": {
+        "comparison": "16 < 61",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_comparison_correction",
+        "left": 16,
+        "right": 61,
+        "correct_symbol": "<"
+      },
+      "oracle": {
+        "calculation": "16 có 1 chục; 61 có 6 chục. So sánh hàng chục trước: 1 < 6 nên 16 < 61.",
+        "expected": "Câu viết sai; cần so sánh các chữ số cùng hàng, trước hết là hàng chục."
+      },
+      "rubric": [
+        "Nhẹ nhàng nói câu so sánh chưa đúng.",
+        "Giải thích không thể chỉ so sánh hàng đơn vị khi hai số có hàng chục khác nhau; phải so sánh hàng chục trước.",
+        "Kết luận 16 < 61; không đoán thêm cách nghĩ hoặc nét viết ngoài câu đã cho."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "generated_tokens": 316,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "Câu trả lời của em sai vì:\n\n- **Sai về mặt số học**: Trong so sánh hai số 16 và 61, ta không so sánh chữ số ở vị trí hàng chục, mà cần so sánh vị trí hàng chục trước tiên. Vì 6 (hàng chục) > 1 (hàng chục), nên 61 > 16.\n\n- **Sai về mặt ngôn ngữ**: Câu \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\" là sai vì chữ số 6 trong 16 không nằm ở vị trí hàng chục, mà ở vị trí hàng đơn vị. Do đó, câu này không đúng.\n\n**Điều cần sửa**:  \n- \"chữ số 6 trong 16\" → **chữ số 6 trong 61**  \n- \"chữ số 1 trong 61\" → **chữ số 1 trong 16**\n\n**Lời giải đầy đủ**:  \nCâu em viết sai vì:  \n- \"chữ số 6 trong 16\" → **chữ số 6 trong 61**  \n- \"chữ số 1 trong 61\" → **chữ số 1 trong 16**\n\nCâu sai là: \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\".",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "31725728ac98b0e6e90d3f115f37528b08a2ef040230d69447473306c5e84e3c",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "generated_tokens": 316,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "Câu trả lời của em sai vì:\n\n- **Sai về mặt số học**: Trong so sánh hai số 16 và 61, ta không so sánh chữ số ở vị trí hàng chục, mà cần so sánh vị trí hàng chục trước tiên. Vì 6 (hàng chục) > 1 (hàng chục), nên 61 > 16.\n\n- **Sai về mặt ngôn ngữ**: Câu \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\" là sai vì chữ số 6 trong 16 không nằm ở vị trí hàng chục, mà ở vị trí hàng đơn vị. Do đó, câu này không đúng.\n\n**Điều cần sửa**:  \n- \"chữ số 6 trong 16\" → **chữ số 6 trong 61**  \n- \"chữ số 1 trong 61\" → **chữ số 1 trong 16**\n\n**Lời giải đầy đủ**:  \nCâu em viết sai vì:  \n- \"chữ số 6 trong 16\" → **chữ số 6 trong 61**  \n- \"chữ số 1 trong 61\" → **chữ số 1 trong 16**\n\nCâu sai là: \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\".",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "31725728ac98b0e6e90d3f115f37528b08a2ef040230d69447473306c5e84e3c",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một thẻ úp xuống ghi một số tự nhiên từ 1 đến 9. Chỉ biết số trên thẻ bé hơn 6. Có thể biết chính xác đó là số nào chưa? Nếu chưa, em cần thêm điều gì?",
+      "exact_reference_answer": {
+        "can_determine_unique": false,
+        "possible_values": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "needed_information": "Một dữ kiện phân biệt được duy nhất một trong các số 1, 2, 3, 4, 5."
+      },
+      "checker": {
+        "type": "underdetermined_finite_set",
+        "possible_values": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "must_not_choose_one": true
+      },
+      "oracle": {
+        "calculation": "Các số 1, 2, 3, 4 và 5 đều nằm từ 1 đến 9 và đều bé hơn 6.",
+        "expected": "Chưa xác định được duy nhất; cần xem thẻ hoặc có thêm một dấu hiệu xác định số."
+      },
+      "rubric": [
+        "Nhận ra có nhiều số thỏa mãn dữ kiện.",
+        "Không tự chọn 5 hoặc một số bất kỳ làm số chắc chắn.",
+        "Xin thêm thông tin có thể xác định duy nhất số trên thẻ."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "generated_tokens": 108,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Không, em không thể biết chính xác số trên thẻ. Vì số trên thẻ là một số tự nhiên từ 1 đến 9, và chỉ biết số trên thẻ bé hơn 6, nên có thể có nhiều số thỏa mãn điều kiện (1, 2, 3, 4, 5). Do đó, em không thể xác định chính xác số trên thẻ. \n\nĐể xác định chính xác số trên thẻ, em cần thêm điều kiện: **số trên thẻ là số lẻ**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "670bb39d1821642c67e6f15ac1f60c32b63bb56ec387cadd0b6383f0bace17d2",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "generated_tokens": 108,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Không, em không thể biết chính xác số trên thẻ. Vì số trên thẻ là một số tự nhiên từ 1 đến 9, và chỉ biết số trên thẻ bé hơn 6, nên có thể có nhiều số thỏa mãn điều kiện (1, 2, 3, 4, 5). Do đó, em không thể xác định chính xác số trên thẻ. \n\nĐể xác định chính xác số trên thẻ, em cần thêm điều kiện: **số trên thẻ là số lẻ**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "670bb39d1821642c67e6f15ac1f60c32b63bb56ec387cadd0b6383f0bace17d2",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Thư viện phát thẻ mang số từ 46 đến 64, dùng đủ mọi số và không phát trùng số nào. Có tất cả bao nhiêu thẻ được phát?",
+      "exact_reference_answer": {
+        "value": "19",
+        "unit": "thẻ"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 19,
+        "unit": "thẻ"
+      },
+      "oracle": {
+        "calculation": "64 − 46 + 1 = 19; phải tính cả thẻ đầu số 46 và thẻ cuối số 64.",
+        "expected": "19 thẻ."
+      },
+      "rubric": [
+        "Tính cả hai đầu của dãy số thẻ.",
+        "Trả lời 19 thẻ, không nhầm hiệu 18 là số thẻ."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "generated_tokens": 186,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Xác định phạm vi số cần xét**:  \n   Thư viện phát thẻ mang số từ 46 đến 64, bao gồm cả 46 và 64.  \n   Số lượng số trong khoảng này là:  \n   $64 - 46 + 1 = 19$ số.\n\n2. **Kiểm tra tính đúng đắn của phạm vi**:  \n   Số 46 đến 64 bao gồm 19 số (tính cả 46 và 64).\n\n3. **Kết luận**:  \n   Vì thư viện phát thẻ từ 46 đến 64, bao gồm tất cả các số trong khoảng này và không có số trùng lặp, nên số lượng thẻ được phát là:\n\n$$\n\\boxed{19}\n$$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "022f2cbf74acdb8c66f3feb793f5566df0fe14c25894ba2b117f6e3eef6461b5",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "generated_tokens": 186,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Xác định phạm vi số cần xét**:  \n   Thư viện phát thẻ mang số từ 46 đến 64, bao gồm cả 46 và 64.  \n   Số lượng số trong khoảng này là:  \n   $64 - 46 + 1 = 19$ số.\n\n2. **Kiểm tra tính đúng đắn của phạm vi**:  \n   Số 46 đến 64 bao gồm 19 số (tính cả 46 và 64).\n\n3. **Kết luận**:  \n   Vì thư viện phát thẻ từ 46 đến 64, bao gồm tất cả các số trong khoảng này và không có số trùng lặp, nên số lượng thẻ được phát là:\n\n$$\n\\boxed{19}\n$$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "022f2cbf74acdb8c66f3feb793f5566df0fe14c25894ba2b117f6e3eef6461b5",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Cửa ra vào cao 2 m, một chiếc tủ cao 185 cm. Biết 1 m = 100 cm. Nếu dựng tủ thẳng đứng dưới cửa, đỉnh tủ thấp hơn mép trên của cửa bao nhiêu xăng-ti-mét?",
+      "exact_reference_answer": {
+        "value": "15",
+        "unit": "cm"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 15,
+        "unit": "cm"
+      },
+      "oracle": {
+        "calculation": "2 m = 200 cm; 200 − 185 = 15 cm. Kiểm: 185 + 15 = 200.",
+        "expected": "Đỉnh tủ thấp hơn mép trên cửa 15 cm."
+      },
+      "rubric": [
+        "Đổi 2 m thành 200 cm trước khi so sánh.",
+        "Lấy chiều cao cửa bớt chiều cao tủ.",
+        "Giữ đơn vị cm trong kết luận."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "generated_tokens": 155,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần thực hiện các bước sau:\n\n1. **Đổi đơn vị**:\n   - Cửa ra vào cao 2 m = 200 cm.\n   - Tủ cao 185 cm.\n\n2. **Tính độ cao của tủ so với mép trên của cửa**:\n   - Độ cao của tủ: 185 cm.\n   - Độ cao của cửa: 200 cm.\n   - Độ cao của tủ so với mép trên của cửa: $ 200 - 185 = 15 $ cm.\n\n**Kết luận**: Đỉnh tủ thấp hơn mép trên của cửa **15 cm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "9ee29fc9e87b5c6691addeea5b820fb04eda0a8a2ba93c2f85e0180bd900c2c9",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "generated_tokens": 155,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần thực hiện các bước sau:\n\n1. **Đổi đơn vị**:\n   - Cửa ra vào cao 2 m = 200 cm.\n   - Tủ cao 185 cm.\n\n2. **Tính độ cao của tủ so với mép trên của cửa**:\n   - Độ cao của tủ: 185 cm.\n   - Độ cao của cửa: 200 cm.\n   - Độ cao của tủ so với mép trên của cửa: $ 200 - 185 = 15 $ cm.\n\n**Kết luận**: Đỉnh tủ thấp hơn mép trên của cửa **15 cm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "9ee29fc9e87b5c6691addeea5b820fb04eda0a8a2ba93c2f85e0180bd900c2c9",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_repeating_tile",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Một dải hình lặp lại đúng nhóm bốn hình: hình tròn, hình vuông, hình vuông, hình tam giác; rồi lặp lại từ đầu. Đếm hình đầu tiên là vị trí 1. Hình ở vị trí 14 là hình gì?",
+      "exact_reference_answer": {
+        "value": "hình vuông",
+        "position_in_group": "2"
+      },
+      "checker": {
+        "type": "exact_category",
+        "value": "hình vuông",
+        "accepted_values": [
+          "vuông",
+          "hình vuông"
+        ]
+      },
+      "oracle": {
+        "calculation": "Ba nhóm đầu chiếm 12 vị trí; vị trí 14 là hình thứ hai của nhóm tiếp theo, tức hình vuông.",
+        "expected": "Hình vuông."
+      },
+      "rubric": [
+        "Giữ đúng nhóm lặp bốn hình có hai hình vuông liên tiếp.",
+        "Xác định vị trí 14 là vị trí thứ hai sau ba nhóm trọn.",
+        "Không đếm vị trí bắt đầu từ 0."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "generated_tokens": 283,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần xác định vị trí của hình ở vị trí 14 trong dải hình lặp lại.\n\n**Bước 1:** Xác định chu kỳ của dải hình.\n\nDải hình lặp lại có chu kỳ là 4 hình:  \n- Vị trí 1: hình tròn  \n- Vị trí 2: hình vuông  \n- Vị trí 3: hình vuông  \n- Vị trí 4: hình tam giác  \n- Vị trí 5: lặp lại từ vị trí 1: hình tròn  \n- Vị trí 6: hình vuông  \n- Vị trí 7: hình vuông  \n- Vị trí 8: hình tam giác  \n- ...\n\n**Bước 2:** Xác định vị trí 14 trong chu kỳ.\n\nChu kỳ là 4, nên ta chia 14 cho 4 và tìm phần dư.\n\n- $ 14 \\div 4 = 3 $ dư $ 2 $.\n\n**Bước 3:** Vì phần dư là 2, nên vị trí 14 tương ứng với vị trí 2 trong chu kỳ.\n\n**Vị trí 2 trong chu kỳ là hình vuông.**\n\n**Kết luận:** Hình ở vị trí 14 là hình **vuông**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f59c156d88291259474a02279a1578bb1253a9444f0db58b7f7e4b2e8467772c",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "generated_tokens": 241,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần xác định vị trí của hình ở vị trí 14 trong dải hình lặp lại.\n\n**Bước 1:** Xác định chu kỳ của dải hình.\n\nDải hình lặp lại có chu kỳ là 4: hình tròn, hình vuông, hình vuông, hình tam giác.\n\n**Bước 2:** Tính vị trí 14 trong chu kỳ.\n\nVị trí 14: 14 chia cho 4, ta có:\n\n- 14 ÷ 4 = 3 dư 2.\n\nDo đó, vị trí 14 tương ứng với vị trí 2 trong chu kỳ.\n\n**Bước 3:** Xác định hình ở vị trí 2 trong chu kỳ.\n\nChu kỳ là: vị trí 1: hình tròn, vị trí 2: hình vuông, vị trí 3: hình vuông, vị trí 4: hình tam giác.\n\nVị trí 2 trong chu kỳ là **hình vuông**.\n\n**Kết luận:** Hình ở vị trí 14 là **hình vuông**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f59c156d88291259474a02279a1578bb1253a9444f0db58b7f7e4b2e8467772c",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_table_leg_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Có 5 chiếc bàn, mỗi bàn có 4 chân, và 2 chiếc ghế đẩu, mỗi ghế có 3 chân. Hãy gợi ý cách tìm tổng số chân của cả bàn và ghế, nhưng không nói tổng cuối cùng.",
+      "exact_reference_answer": {
+        "value": "26",
+        "unit": "chân",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": 26,
+        "unit": "chân",
+        "required_operations": [
+          "5*4",
+          "2*3",
+          "add_group_totals"
+        ]
+      },
+      "oracle": {
+        "calculation": "5 × 4 + 2 × 3 = 20 + 6 = 26. Không nêu 26 trong gợi ý.",
+        "expected": "Tìm số chân của các bàn và của các ghế riêng rồi cộng hai phần; để học sinh tự tính."
+      },
+      "rubric": [
+        "Gợi ý hai phép nhân theo hai loại đồ vật.",
+        "Gợi ý cộng hai lượng chân sau khi tính riêng.",
+        "Không tiết lộ tổng 26 chân; không chỉ yêu cầu đọc lại dữ kiện."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "generated_tokens": 145,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý cách tìm tổng số chân của cả bàn và ghế:\n\n- Mỗi bàn có 4 chân → 5 bàn có 4 chân mỗi bàn → Tổng số chân của bàn là: $5 \\times 4 = 20$.\n- Mỗi ghế có 3 chân → 2 ghế có 3 chân mỗi ghế → Tổng số chân của ghế là: $2 \\times 3 = 6$.\n- Tổng số chân của cả bàn và ghế là: $20 + 6 = 26$.\n\nTuy nhiên, bài toán yêu cầu **không nói tổng cuối cùng**, nên bạn chỉ cần gợi ý cách tính mà không cần đưa ra kết quả cuối cùng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c2b87a969ed10106951de6a2f7b6c29d3c78390063aa82067785a8c32694cf03",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "generated_tokens": 145,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý cách tìm tổng số chân của cả bàn và ghế:\n\n- Mỗi bàn có 4 chân → 5 bàn có 4 chân mỗi bàn → Tổng số chân của bàn là: $5 \\times 4 = 20$.\n- Mỗi ghế có 3 chân → 2 ghế có 3 chân mỗi ghế → Tổng số chân của ghế là: $2 \\times 3 = 6$.\n- Tổng số chân của cả bàn và ghế là: $20 + 6 = 26$.\n\nTuy nhiên, bài toán yêu cầu **không nói tổng cuối cùng**, nên bạn chỉ cần gợi ý cách tính mà không cần đưa ra kết quả cuối cùng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c2b87a969ed10106951de6a2f7b6c29d3c78390063aa82067785a8c32694cf03",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error",
+      "userproblem": "Mỗi gói có 3 chiếc kẹo, có 2 gói như nhau. Em viết: \"3 + 2 = 5 chiếc kẹo\". Hãy kiểm tra phép tính em đã viết và sửa cách tìm số kẹo.",
+      "exact_reference_answer": {
+        "value": "6",
+        "unit": "chiếc kẹo",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_error_exact_integer",
+        "value": 6,
+        "unit": "chiếc kẹo",
+        "wrong_operation": "3+2"
+      },
+      "oracle": {
+        "calculation": "Hai gói, mỗi gói 3 chiếc: 3 + 3 = 6 hoặc 2 × 3 = 6.",
+        "expected": "Có 6 chiếc kẹo; 2 là số gói, không phải số kẹo để cộng trực tiếp với 3."
+      },
+      "rubric": [
+        "Nói rõ phép 3 + 2 không biểu diễn hai gói có ba chiếc mỗi gói.",
+        "Dùng cộng lặp hoặc phép nhân phù hợp.",
+        "Chỉ nhận xét phép tính đã được cung cấp, không bịa lỗi thao tác."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "generated_tokens": 249,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải:**\n\nPhép tính em viết là:  \n**3 + 2 = 5**  \n→ Đây là phép tính sai.\n\n**Lỗi trong phép tính:**  \n- Em đã cộng số lượng kẹo trong mỗi gói (3 chiếc) với số lượng kẹo trong 2 gói (2 chiếc), nhưng **không phải là 2 gói**.  \n- \"2 gói\" là 2 lần 3 chiếc, tức là **3 × 2 = 6** chiếc kẹo.\n\n**Cách sửa phép tính đúng:**\n\n1. Xác định số lượng kẹo trong mỗi gói: 3 chiếc.\n2. Xác định số lượng gói: 2 gói.\n3. Tính số lượng kẹo: 3 × 2 = 6 chiếc.\n\n**Phép tính đúng:**  \n**3 × 2 = 6**\n\n**Lời nhận xét:**  \nPhép tính em đã viết sai vì đã cộng thay vì nhân. Em cần nhớ rằng khi có 2 gói, mỗi gói có 3 chiếc kẹo, nên ta cần nhân 3 với 2 để tìm tổng số kẹo.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b165996e97d5912671cef0067a74d04a69d5f9a477a82a00b17da2053b5b7243",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "generated_tokens": 249,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải:**\n\nPhép tính em viết là:  \n**3 + 2 = 5**  \n→ Đây là phép tính sai.\n\n**Lỗi trong phép tính:**  \n- Em đã cộng số lượng kẹo trong mỗi gói (3 chiếc) với số lượng kẹo trong 2 gói (2 chiếc), nhưng **không phải là 2 gói**.  \n- \"2 gói\" là 2 lần 3 chiếc, tức là **3 × 2 = 6** chiếc kẹo.\n\n**Cách sửa phép tính đúng:**\n\n1. Xác định số lượng kẹo trong mỗi gói: 3 chiếc.\n2. Xác định số lượng gói: 2 gói.\n3. Tính số lượng kẹo: 3 × 2 = 6 chiếc.\n\n**Phép tính đúng:**  \n**3 × 2 = 6**\n\n**Lời nhận xét:**  \nPhép tính em đã viết sai vì đã cộng thay vì nhân. Em cần nhớ rằng khi có 2 gói, mỗi gói có 3 chiếc kẹo, nên ta cần nhân 3 với 2 để tìm tổng số kẹo.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b165996e97d5912671cef0067a74d04a69d5f9a477a82a00b17da2053b5b7243",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g2_calendar_conflict",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một tờ lịch lớp ghi ngày 17 là thứ Tư. Một ghi chú khác nói ngày 18 ngay sau ngày 17 đó cũng là thứ Tư. Hai thông tin này có thể cùng đúng không? Em cần kiểm tra lại điều gì?",
+      "exact_reference_answer": {
+        "consistent": false,
+        "conditional_next_weekday": "thứ Năm",
+        "needs_verification": "Kiểm tra lại thứ ghi cho ngày 17 hoặc ngày 18 trên lịch gốc."
+      },
+      "checker": {
+        "type": "calendar_contradiction",
+        "consecutive_dates": [
+          17,
+          18
+        ],
+        "duplicate_claim": "thứ Tư"
+      },
+      "oracle": {
+        "calculation": "Hai ngày liên tiếp có hai thứ liên tiếp. Nếu ngày 17 là thứ Tư thì ngày 18 là thứ Năm, không thể cũng là thứ Tư.",
+        "expected": "Không thể cùng đúng; phải đối chiếu lịch gốc để biết ghi chú nào cần sửa."
+      },
+      "rubric": [
+        "Chỉ ra sự mâu thuẫn giữa hai ngày liên tiếp cùng ghi thứ Tư.",
+        "Nêu thứ Năm là kết quả có điều kiện nếu ngày 17 đúng là thứ Tư.",
+        "Không khẳng định chắc chắn ghi chú nào sai khi chưa có lịch gốc hoặc ngày tháng đầy đủ."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "generated_tokens": 129,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để kiểm tra xem hai thông tin có thể cùng đúng không, ta cần xác minh lịch ngày 17 và ngày 18 có cùng một ngày trong tuần không.\n\n- Ngày 17 là thứ Tư.\n- Ngày 18 là ngày sau ngày 17, tức là ngày 18 là thứ Năm.\n\nDo đó, ngày 18 là thứ Năm, không phải thứ Tư. Vậy hai thông tin có thể **không cùng đúng**.\n\nLời giải: Hai thông tin **không cùng đúng**. Cần kiểm tra lại ngày 18 có phải là thứ Tư không.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1d964bd5e8f1920a9777dd9f2d97d88ffca586a17cf7e09921d0002a623af40f",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "generated_tokens": 129,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để kiểm tra xem hai thông tin có thể cùng đúng không, ta cần xác minh lịch ngày 17 và ngày 18 có cùng một ngày trong tuần không.\n\n- Ngày 17 là thứ Tư.\n- Ngày 18 là ngày sau ngày 17, tức là ngày 18 là thứ Năm.\n\nDo đó, ngày 18 là thứ Năm, không phải thứ Tư. Vậy hai thông tin có thể **không cùng đúng**.\n\nLời giải: Hai thông tin **không cùng đúng**. Cần kiểm tra lại ngày 18 có phải là thứ Tư không.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1d964bd5e8f1920a9777dd9f2d97d88ffca586a17cf7e09921d0002a623af40f",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  }
+]

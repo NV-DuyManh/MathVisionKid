@@ -1,0 +1,223 @@
+{
+  "batch_sha256": "8222a1663fa541c585ebcdefa5887c0679bba645f0d7704193c46acc5e81d7de",
+  "authored_cases": 9,
+  "core_cases": 6,
+  "misconception_cases": 2,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_compare_digit_count_boundary",
+      "row_sha256": "8db904200c95637ba2f1095b7258678d161d26d7aee955aa05b85c996da05dd6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_compare_shared_hundreds_zero_tens",
+      "row_sha256": "1a9295f9c551b59e93367a9b9f55c70cf79c83e7d5401e8f7b50999feb98ac06",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_sort_four_descending",
+      "row_sha256": "7ac58656d747c3bd1ad05a3b6994d514dad621f4b245178171de04e9e9f563b4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_misconception_wrong_sort_direction",
+      "row_sha256": "00d9eec647d942048318a96ded0c49f44d87dfc0514a744d92a495b226443872",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_estimate_from_ten_reference",
+      "row_sha256": "4528bfb0ffd84cb92ecf1d543d224074f8c38578dd11d2665e41fba8eead6cf7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_estimate_spread_invariance",
+      "row_sha256": "20e6d121cb020e5cb5d14eb8e5709b513b7cd02b841365f7ab1e6d69418e288f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10+10+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_estimate_then_count_check",
+      "row_sha256": "f039ac90987f382b59b3fad9e4a575a9ee4673618efab60b5a1871f1c3282312",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10+10+10+10+10+10",
+          "58",
+          "60-58"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_misconception_approx_is_exact",
+      "row_sha256": "d85c83d702fafc13f3a82f7c9ae65a45b19b5cf3724e6890f3486ebff943f6b3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_guard_no_reference_or_view",
+      "row_sha256": "d2bb47848313dd18c051a85f1cfd96f0f303e3b7507f0331c89b60681db32809",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "independent_semantic_review_completed": false,
+  "self_content_check": "Author checked every visible step/hint and preserved approximate versus exact roles. Independent semantic review remains pending.",
+  "oracles": {
+    "larger_boundary": 103,
+    "shared_hundreds_comparison": "430>403",
+    "descending": [
+      750,
+      705,
+      570,
+      507
+    ],
+    "corrected_ascending": [
+      127,
+      172,
+      217,
+      271
+    ],
+    "approximate_representatives": [
+      40,
+      50,
+      60,
+      30
+    ],
+    "given_exact_count": 58,
+    "estimate_minus_exact": 2,
+    "approximation_countermodels": {
+      "about_three_tens_possible_counts": [
+        29,
+        31
+      ],
+      "about_four_tens_possible_counts": [
+        39,
+        41
+      ],
+      "spread_without_change": true,
+      "spread_witness_distinct_ids": 53,
+      "horizontal_span_scale": 3
+    }
+  },
+  "limits": "Countermodels are compatible witnesses, not statistical confidence intervals or exhaustive meaning of about. No real image/physical performance verified.",
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "before_terminology_edit_sha256": "089923b14e6cdfd832118d97f7649356c319031e941e04d36517162487314900",
+  "author_self_revision": "Replaced two ambiguous phần trăm phrases by hàng trăm/giá trị hàng trăm before review or export; arithmetic unchanged."
+}

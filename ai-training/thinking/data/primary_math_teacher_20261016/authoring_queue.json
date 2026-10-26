@@ -1,0 +1,11 @@
+{
+  "status": "FINITE495_COMPLETE_NO_MORE_AUTHORING",
+  "coverage_sha256": "ca69c6c5cd1c7c5779b996af0e4dd0992acff0bfe4ee931bfaaaa6dbd9d713f5",
+  "curation_manifest_sha256": "b79e6cee4a7945b345b29c3a47b54cafa60e717c36d4575dd9cd50ea0bd41963",
+  "accepted_remaining_core_cases": 0,
+  "pending_core_slots_prepared": 0,
+  "protected_excluded_core_slots_already_authored": [],
+  "core_slots_not_authored": 0,
+  "nodes": [],
+  "next_action": "No further cases; finite data complete. Training outside authorized scope."
+}

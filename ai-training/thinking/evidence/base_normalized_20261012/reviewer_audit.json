@@ -1,0 +1,10 @@
+{
+  "status": "PASSED",
+  "normalizer_and_evaluator_hashes_verified": true,
+  "original_code_hashes_preserved": true,
+  "all_ids_and_scores_recomputed": true,
+  "base_retained_by_validation": true,
+  "no_weight_updates": true,
+  "test_role": "posthoc development/regression, not new untouched gold",
+  "does_not_certify_arbitrary_problem_or_explanation_correctness": true
+}

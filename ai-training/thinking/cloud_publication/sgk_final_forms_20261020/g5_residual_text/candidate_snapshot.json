@@ -1,0 +1,350 @@
+[
+  {
+    "candidate_id": "g5_candidate_unknown_fraction_operator",
+    "origins": [
+      "g5_audit\\page_review.jsonl"
+    ],
+    "page_receipts": [
+      {
+        "grade": 5,
+        "volume": 1,
+        "printed_page": 21,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_23-1790914075659.png",
+        "sha256": "8c0d8bffcc51916eb7e6fd7578cc4bfa78c01b3abb3e2c25b13eb7dfee41da6f",
+        "exercise_types": [
+          "unlike fraction subtraction discovery",
+          "fractional same-tank combined contribution",
+          "choose plus/minus sign to satisfy equality"
+        ],
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+      }
+    ],
+    "decision": {
+      "master_id": "finite_operator_synthesis",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "semantic_comparison": "A known fraction expression is not choice of plus/minus under equality; share finite operator-synthesis master and keep fraction operands.",
+      "owner": "UNASSIGNED",
+      "asset_residual": false,
+      "comparison_scope": "Actual full fields of listed nearest valid training rows; missing means missing demonstrated subform within inspected nearest sources, not an exhaustive absence proof over all archives."
+    },
+    "nearest_refs": [
+      {
+        "sample_id": "sgk_gap_20261019_g3_expression_choice_select_models",
+        "source_file": "current_sources.jsonl",
+        "line": 991,
+        "sha256": "51f4adda70b303afb43984d062565db18a4cb96845b975e160e489f788121efe"
+      },
+      {
+        "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+        "source_file": "current_sources.jsonl",
+        "line": 992,
+        "sha256": "cb14d41cecbf40e73f99dfe92fa1ecd72c9df5d991785f9b8e108a9605f1f20c"
+      },
+      {
+        "sample_id": "sgk_gap_20261019_g3_expression_choice_same_precedence_error",
+        "source_file": "current_sources.jsonl",
+        "line": 993,
+        "sha256": "57212d1aaf67fb1e927c3b1c83415b7bbfd49247461e99e9f7ca252b131eee46"
+      },
+      {
+        "sample_id": "sgk_gap_20261019_g3_expression_choice_guard",
+        "source_file": "current_sources.jsonl",
+        "line": 994,
+        "sha256": "6af63829ae26a8b631e2a8af19588e22d937911ab396960d9a7cc06e944e3e39"
+      },
+      {
+        "sample_id": "primary_20261018_g5_fraction_operations_0071_unlike_denominator_mix_then_use",
+        "source_file": "current_sources.jsonl",
+        "line": 680,
+        "sha256": "075893479112bbe81b58798196b8038e87c9bd00ee61d819c2e2820d6b816a3a"
+      },
+      {
+        "sample_id": "primary_20261018_g5_fraction_operations_0071_fraction_of_volume_then_equal_portions",
+        "source_file": "current_sources.jsonl",
+        "line": 681,
+        "sha256": "d282600a762be8077295dc193aeff196491dcd1c8cf8d6590bb96c0d3440582c"
+      },
+      {
+        "sample_id": "primary_20261018_g5_fraction_operations_0071_mixed_length_fraction_of_original_then_cut",
+        "source_file": "current_sources.jsonl",
+        "line": 682,
+        "sha256": "224065a644227e0c37e8524e3941d8e5a331d0b3923a0c3895e440f7572ce668"
+      }
+    ],
+    "prior_statuses": [],
+    "reconciliation": {
+      "prior_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_grades": [
+        5
+      ],
+      "matched_new_examples": [
+        {
+          "reference": {
+            "sample_id": "sgk_finish_20261020_g3_operator_synthesis_01",
+            "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl",
+            "line": 33,
+            "sha256": "a11cfe020ac7d7c73da37491f7463c09aa429e1f5992a920a8d1091a36b9944f"
+          },
+          "grade": 3,
+          "branch": "operator_synthesis",
+          "evidence_id": "392be80916a4e33957bfdabe"
+        },
+        {
+          "reference": {
+            "sample_id": "sgk_finish_20261020_g3_operator_synthesis_02",
+            "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl",
+            "line": 34,
+            "sha256": "1bcf38cc5dea91c775cdaac7f26e2f7cf4fe6235c5c3fc1828b04ce154664bfd"
+          },
+          "grade": 3,
+          "branch": "operator_synthesis",
+          "evidence_id": "e90844ad5d0c75b5e0974a3b"
+        }
+      ],
+      "publisher_image_recognition_or_physical_success_certified": false,
+      "whole_master_closed": false,
+      "status": "UNWORKED_CONSTRAINT_BRANCH",
+      "text_relation_demonstrated": true,
+      "semantic_basis": "Every legal finite operator placement is evaluated using declared precedence and operator-use budget. The examples use integer operands; they do not demonstrate G5 unlike-fraction operator synthesis.",
+      "remaining_constraints": [
+        "The G3 operator synthesis examples have integer operands. G5 plus/minus choices among fractions under equality remain unworked."
+      ],
+      "nearest_evidence_ids": [
+        "9acef5b490d9bb2ddff67b03",
+        "d245a0cc3a0c2ac51595cbc0",
+        "82250e8ba81942f3474b868f",
+        "b00f032c36ba6a0c54b38739",
+        "c7957ab4cac9ae8ac1573454",
+        "65212aafbd1984da0e40586a",
+        "1fe5170f1c65208337cab972"
+      ]
+    }
+  },
+  {
+    "candidate_id": "g5_candidate_equal_volume_surface",
+    "origins": [
+      "g5_audit\\page_review.jsonl"
+    ],
+    "page_receipts": [
+      {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 47,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_49-1790908244866.png",
+        "sha256": "5974a2e83202d0fa5dd903b7a07ec9984accffb76937cbc58af6a1fcc1088c87",
+        "exercise_types": [
+          "open top area",
+          "wood strip perimeter feasibility",
+          "rearranged cubes lateral and total surface optimization"
+        ],
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+      }
+    ],
+    "decision": {
+      "master_id": "fixed_volume_surface_arrangement_optimization",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "semantic_comparison": "Old source compares equal material volume in different arrays; published small assembly counts exposed faces. Neither enumerates arrangements and minimizes lateral/total area for fixed volume with explicit orientation.",
+      "owner": "UNASSIGNED",
+      "asset_residual": false,
+      "comparison_scope": "Actual full fields of listed nearest valid training rows; missing means missing demonstrated subform within inspected nearest sources, not an exhaustive absence proof over all archives."
+    },
+    "nearest_refs": [
+      {
+        "sample_id": "primary_20261018_g5_volume_units_0083_same_cube_volume_different_arrangements",
+        "source_file": "current_sources.jsonl",
+        "line": 736,
+        "sha256": "9c91f0fc803127f0970dc9d8bf06b831da489cf7ff8619fb28551b991c8d8376"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g5_cuboid_cube_surface_lateral_and_closed_surface",
+        "source_file": "current_sources.jsonl",
+        "line": 162,
+        "sha256": "e5a4c171b6d87b7658c852a9de2b674efa432998e6c5b26f796af02bada78e58"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g5_cuboid_cube_surface_cube_open_vs_closed",
+        "source_file": "current_sources.jsonl",
+        "line": 163,
+        "sha256": "e66814f47e18599f55bbec37aa33e8b1492b84c7709f2f391e5d2c54095e1484"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g5_cuboid_cube_surface_wall_paint_opening",
+        "source_file": "current_sources.jsonl",
+        "line": 164,
+        "sha256": "0534c904c2f891d0fb0b82f0e7e8f165e74dc8c083bdad8e5f206dabb55e7542"
+      }
+    ],
+    "prior_statuses": [],
+    "reconciliation": {
+      "prior_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_grades": [
+        5
+      ],
+      "matched_new_examples": [
+        {
+          "reference": {
+            "sample_id": "sgk_remaining_geom_20261020_fixed_twelve_cubes_closed_surface_minimum",
+            "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl",
+            "line": 23,
+            "sha256": "c73ce6b2ab5a04c0ae93653efc508afae343748fd1730841b73762f9c2ecb93e"
+          },
+          "grade": 5,
+          "branch": "fixed_twelve_cubes_closed_surface_minimum",
+          "evidence_id": "d5a1175d3996cfebadc76d62"
+        },
+        {
+          "reference": {
+            "sample_id": "sgk_remaining_geom_20261020_fixed_capacity_open_box_surface_two_optima",
+            "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl",
+            "line": 24,
+            "sha256": "010b3a161139b66348f9c01ce98cbbe81fcd47671f49aa8c43ead915fee67ac2"
+          },
+          "grade": 5,
+          "branch": "fixed_capacity_open_box_surface_two_optima",
+          "evidence_id": "4c73066d606da00f882310c6"
+        }
+      ],
+      "publisher_image_recognition_or_physical_success_certified": false,
+      "whole_master_closed": false,
+      "status": "UNWORKED_CONSTRAINT_BRANCH",
+      "text_relation_demonstrated": true,
+      "semantic_basis": "All unordered integer dimension triples of volume 12 are enumerated. Closed six-face surface and open-top five-face material objectives each have explicit minima/ties. No lateral-only four-wall objective is optimized.",
+      "remaining_constraints": [
+        "Closed total and open-top material minima are demonstrated, but the original candidate also requires orientation-sensitive lateral-only surface optimization; that objective remains unworked."
+      ],
+      "nearest_evidence_ids": [
+        "c2bf982419fb6e6acc87d440",
+        "0748b667ccd8863daa34110b",
+        "e973a480d3475ed5067c6392",
+        "b1d395d81fc79295593cdc44"
+      ]
+    }
+  },
+  {
+    "candidate_id": "g5_candidate_shortest_route",
+    "origins": [
+      "g5_audit\\page_review.jsonl"
+    ],
+    "page_receipts": [
+      {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 75,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_77-1790908246829.png",
+        "sha256": "e6291cabfcbe9811d8a57fb169d61c692b2ee2378984c7ff27937d80ec22c8ce",
+        "exercise_types": [
+          "average time over work sessions",
+          "shortest path on given network then round trip time"
+        ],
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+      }
+    ],
+    "decision": {
+      "master_id": "finite_route_total_optimization",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "semantic_comparison": "A single route sum and predicate-valid path do not compare totals over all connected routes and prove minimum. Explicit edge lengths/connectivity/direction and round-trip convention needed.",
+      "owner": "UNASSIGNED",
+      "asset_residual": false,
+      "comparison_scope": "Actual full fields of listed nearest valid training rows; missing means missing demonstrated subform within inspected nearest sources, not an exhaustive absence proof over all archives."
+    },
+    "nearest_refs": [
+      {
+        "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+        "source_file": "current_sources.jsonl",
+        "line": 967,
+        "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+        "source_file": "current_sources.jsonl",
+        "line": 968,
+        "sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+        "source_file": "current_sources.jsonl",
+        "line": 969,
+        "sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+        "source_file": "current_sources.jsonl",
+        "line": 970,
+        "sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g4_map_scale_scaled_field_fence",
+        "source_file": "current_sources.jsonl",
+        "line": 109,
+        "sha256": "b29e418b6036e3603bede4aecbf22349fef1becd55e296905297861be0eb3d0f"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g5_uniform_motion_equal_time_contrast",
+        "source_file": "current_sources.jsonl",
+        "line": 210,
+        "sha256": "fba80db5f73c150d3ebdc08d482f5d3098b7acbace65d410b6dbe0cbc18eb92e"
+      },
+      {
+        "sample_id": "primary_20261018_finish_g5_uniform_motion_unknown_time_distance",
+        "source_file": "current_sources.jsonl",
+        "line": 213,
+        "sha256": "84099ca17f64098f724c58f4af65e7883742de2bef9322a49b8dcc4bdd27b7bb"
+      },
+      {
+        "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+        "source_file": "current_sources.jsonl",
+        "line": 722,
+        "sha256": "0a69962ddd78f386ce06e4e2b6c236362b5950215665ede251869902d71c5000"
+      }
+    ],
+    "prior_statuses": [],
+    "reconciliation": {
+      "prior_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_grades": [
+        5
+      ],
+      "matched_new_examples": [
+        {
+          "reference": {
+            "sample_id": "sgk_finish_basic_20261020_route_global_minimum",
+            "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl",
+            "line": 63,
+            "sha256": "58bcf20a4cf30b7a33f288bc2b30585bca632755dfe3429f6c627308a3437c9a"
+          },
+          "grade": 1,
+          "branch": "route_global_minimum",
+          "evidence_id": "41ac282859765fe9312ecb04"
+        },
+        {
+          "reference": {
+            "sample_id": "sgk_finish_basic_20261020_route_tied_minima_error",
+            "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl",
+            "line": 64,
+            "sha256": "b4245de5376362eb9b16db2ae00b8c1730a7fc403865fd2c8b4f032b3d9b9753"
+          },
+          "grade": 1,
+          "branch": "route_tied_minima_error",
+          "evidence_id": "9b9ba4c7ad35a6be59afd9db"
+        }
+      ],
+      "publisher_image_recognition_or_physical_success_certified": false,
+      "whole_master_closed": false,
+      "status": "UNWORKED_CONSTRAINT_BRANCH",
+      "text_relation_demonstrated": true,
+      "semantic_basis": "All complete paths in the explicitly finite G1 graph are enumerated and their edge weights summed before selecting all minima. The error branch distinguishes a greedy first-edge choice and preserves tied optimal full paths. It contains no G5 round-trip-time calculation.",
+      "remaining_constraints": [
+        "The G1 finite-path comparison lacks the G5 shortest-network-route plus round-trip travel-time branch, including return-route and speed convention."
+      ],
+      "nearest_evidence_ids": [
+        "d13ba9ee5c522dee0baf410f",
+        "961133ec1307f53bf2b5122c",
+        "c79801df662eb17bfbc7710d",
+        "88ec79ef0fcaac3f860db819",
+        "9157a889af7ae4ebe3b5b160",
+        "015f1b0fc3c802c06974ce0d",
+        "5885c0d8393cf6cec34fd465",
+        "225d23aa407202196ec20896"
+      ]
+    }
+  }
+]

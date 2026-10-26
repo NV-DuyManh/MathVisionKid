@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "3hv5GwqC1EiQ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T12:13:14.953957+00:00\", \"state\": \"COMPLETE_RAW_VERIFIED\", \"thread_alive\": false, \"retained_files\": {\"four_controls_raw_verified.json\": {\"bytes\": 1673, \"modified_unix\": 1792843985.711556}, \"parents/parent_state.json\": {\"bytes\": 1278841, \"modified_unix\": 1792843820.4688523}, \"parents/parent_progress.zip\": {\"bytes\": 19782982, \"modified_unix\": 1792843808.955758}, \"parents/parent_context.md\": {\"bytes\": 847572, \"modified_unix\": 1792843816.7625}, \"parents/parent_chat.json\": {\"bytes\": 975884, \"modified_unix\": 1792843812.913134}, \"parents/parent_controls_raw_verified.json\": {\"bytes\": 1619, \"modified_unix\": 1792843820.4828534}, \"prepared/next_context.md\": {\"bytes\": 853753, \"modified_unix\": 1792843823.2481163}, \"prepared/next_state.json\": {\"bytes\": 1488786, \"modified_unix\": 1792843823.2471163}, \"prepared/prepared_control_updates.json\": {\"bytes\": 3128, \"modified_unix\": 1792843823.3151226}, \"prepared/parent_state.json\": {\"bytes\": 1278841, \"modified_unix\": 1792843820.6428688}, \"prepared/next_chat.json\": {\"bytes\": 1185829, \"modified_unix\": 1792843823.2211137}, \"prepared/parent_progress.zip\": {\"bytes\": 19782982, \"modified_unix\": 1792843820.5708618}, \"prepared/parent_context.md\": {\"bytes\": 847572, \"modified_unix\": 1792843820.6398685}, \"prepared/next_progress.zip\": {\"bytes\": 20196563, \"modified_unix\": 1792843822.730067}, \"prepared/parent_chat.json\": {\"bytes\": 975884, \"modified_unix\": 1792843820.6368682}}, \"verified_writes\": [{\"bytes\": 20196563, \"fresh_raw_readback_verified\": true, \"id\": \"1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX\", \"kind\": \"progress\", \"sha256\": \"74a946f3eea26f87684a76531dbaa76c2535b3323c8bdefdc1f7ca111605259d\"}, {\"bytes\": 1185829, \"fresh_raw_readback_verified\": true, \"id\": \"1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6\", \"kind\": \"chat\", \"sha256\": \"f1897562dfaa96b2ee1d258fd6d1d79dbee68c537bb0cf440dfa18afe2d5588b\"}, {\"bytes\": 853753, \"fresh_raw_readback_verified\": true, \"id\": \"13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9\", \"kind\": \"context\", \"sha256\": \"c9ce11e327a2795d4de1ebefe7e606d60f3eb7f154f97226fea7c9a84a5c4545\"}, {\"bytes\": 1488786, \"fresh_raw_readback_verified\": true, \"id\": \"1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme\", \"kind\": \"state\", \"sha256\": \"5783aa3e1950b4dfdf324672ed12d154e8f5b756ef1fdc900abe85b4e9413107\"}]}\n"
+        ]
+      }
+    ]
+  }
+}

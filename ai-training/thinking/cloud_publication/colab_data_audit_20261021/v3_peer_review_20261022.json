@@ -1,0 +1,65 @@
+{
+  "schema": "MathVisionKid.primary782_v3_bounded_peer_review.v1",
+  "reviewer": "CODEX_SUBAGENT_RESUME_V3_PEER",
+  "status": "PASS_BOUNDED_ADAPTER_AND_SOURCE_ONLY_MIGRATION_TESTS",
+  "scope": "Read-only code and existing accepted primary782 data review, plus new temporary-fixture tests. No Drive, Colab, global state, source dataset, frozen eval, owner attestation or training mutation.",
+  "reviewed_code_sha256": {
+    "math_data_full_audit_v3.py": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+    "math_data_primary782_bindings_v3.py": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+    "build_math_data_primary782_adapter_v3.py": "8976c0d96dd7cf22fca060ac212b73726236bd53380431db7fa26c3d6ef08e54",
+    "test_math_data_full_audit_v3.py": "6325e7c2532f5d0d92278ea43be8905bf521ab580f5224540e7daae77bc09a79",
+    "math_data_full_audit_v2.py": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+    "math_data_archive_audit.py": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+    "exhaustive_colab_loader.py": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+  },
+  "actual_source_sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+  "actual_chat_sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+  "actual_existing_binding_scope": {
+    "source_rows": 782,
+    "all_chat_prompt_target_and_hash_chains_checked": 3128,
+    "missing_can_solve_rows_explicitly_bound": 39,
+    "unchanged_current_exact_owner_attested_exports": 252,
+    "derived_polish_without_new_human_attestation": 47,
+    "source_and_chat_bytes_unchanged": true,
+    "semantic_teacher_review_claimed": false
+  },
+  "executed_tests": {
+    "command": "python.exe -X utf8 -m unittest test_math_data_full_audit_v3 -v",
+    "tests": 9,
+    "status": "PASS",
+    "elapsed_seconds": 10.2,
+    "tokenizer": "Existing pinned local Qwen3-1.7B tokenizer; no model weights or network",
+    "coverage": [
+      "All782 exact raw/canonical/export/original-source/verification bindings and all3128 full prompt/target fingerprints, without rewriting raw bytes",
+      "Missing-can_solve known legacy row links all four actual chats with actual tokenizer",
+      "Wrong source alias, exported canonical hash or verification digest cannot fall back",
+      "Matching hash metadata cannot hide changed prompt or assistant target",
+      "Changed source content or incorrect raw hash rejected",
+      "Unrecognized missing-can_solve source not blanket adapted",
+      "Separate V2->V3 source-only temporary copy preserves parent file hash, all source identities/signatures/labels, nonprimary projection, cursors, issues and zero chats",
+      "Migration rejects in-place destination, incorrect parent hash and unexpected source count",
+      "Opening V2 identity under V3 refuses before file mutation"
+    ]
+  },
+  "migration_test_limits": {
+    "temporary_source_rows": 3,
+    "temporary_primary_rows_adapted": 2,
+    "temporary_diagnostic_issue_preserved": 1,
+    "actual_cloud110666_row_migration_executed": false,
+    "actual_247_member_audit_executed": false
+  },
+  "deployment_requirements": [
+    "Recheck live MCP runtime, old worker stopped, and single intended writer before deployment; do not reuse stale v2_ref",
+    "Use fresh whole-raw-verified standalone V2 parent snapshot SHA485ae30c164a10c323527265053a7a2e88daa2ca3d781e6a52943a7ca9165245 and preserve its Drive ID",
+    "Preflight parent V2 recipe identity, expected110666 source rows,18 complete members,0 chats,247 declared members, and primary cursor256; require exact declared member keys/roles/expected counts",
+    "Call explicit migration to a new V3 database with exact expected source/complete/primary counts; publish V3 to a separate checkpoint identity",
+    "Keep existing regression_only finding pending and ineligible for candidate train linkage; source_chat_split_compatible already refuses it",
+    "Record actual cloud migration receipt and raw readback before claiming durable resume; fixture PASS is not a cloud migration or all-corpus audit",
+    "Pin unchanged shared dependency files listed in this review in the deployment"
+  ],
+  "TRAINING_DATASET_READY": false,
+  "training_started": false,
+  "gpu_used": false,
+  "model_weights_loaded": false,
+  "new_human_attestation": false
+}

@@ -1,0 +1,163 @@
+{
+  "authored_utc": "2026-10-18T03:02:52.314263+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:01:06.270Z",
+  "batch_sha256": "cacc370d9cda73b5893dad926b92c34114972cbbb2b54cbf623b36d84bfc3ffd",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_compare_round_0050_order_four_close_naturals",
+      "row_sha256": "58a457e0940a6aab41f8284ab8730654561a9a86fc42a043946fe140205b8a17",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_compare_round_0050_round_hundred_thousand_midpoint_boundary",
+      "row_sha256": "c45a50ac9be59e8728dea634405970d0fa2dd73dd47f1c6c0abc78a898b85f40",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "73*100000",
+          "74*100000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_compare_round_0050_compare_exact_counts_despite_equal_rounded_reports",
+      "row_sha256": "731bc82e30f3f713e421f69b13a54260f1e5feabe164d496acb7cd7684f848f2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "25*100000",
+          "25*100000",
+          "25*100000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_compare_round_0050_misconception_rounding_looks_at_wrong_place",
+      "row_sha256": "7879754740e196102f98da86d38f8e29cbd742efe3b1701e21b6afff7584ec81",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "62*100000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "four_number_order": [
+      8905007,
+      8905070,
+      8950007,
+      9005000
+    ],
+    "rounding_by_exact_distance": {
+      "7349999": 7300000,
+      "7350000": 7400000,
+      "2451320": 2500000,
+      "2488910": 2500000,
+      "2470005": 2500000,
+      "6248901": 6200000
+    },
+    "rounding_by_Decimal_HALF_UP_agrees": true,
+    "people_exact_order": [
+      "P",
+      "R",
+      "Q"
+    ],
+    "boundary_distances": {
+      "A": [
+        49999,
+        50001
+      ],
+      "B": [
+        50000,
+        50000
+      ]
+    },
+    "misconception_distances": [
+      48901,
+      51099
+    ]
+  },
+  "oracle_method": "Compare using Fraction and independent equal-width lexical ordering. Round by exact distances to adjacent100000 multiples with explicit upward tie rule, independently checked by Decimal quantize HALF_UP. // is offline oracle only, never a live calculator operation. All semantic/Vietnamese/hint checks require direct actual readback.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_previous_accepted303_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "limits": "Illustrative natural-number/fictional population data. Rounded equality does not imply equality of originals. No legal curriculum completeness or model mastery claim.",
+  "actual_full_readback_self_QA": {
+    "reviewed_utc": "2026-10-18T03:03:39.496583+00:00",
+    "cases": 4,
+    "hints": 12,
+    "all_actual_content_fields_read": true,
+    "same_author_not_independent": true,
+    "case_notes": {
+      "primary_20261018_g4_compare_round_0050_order_four_close_naturals": "Read all four exact naturals. Ascending8905007<8905070<8950007<9005000, first differing adjacent places tens/ten-thousands/millions. Same seven-digit length, first three share million8/hundred-thousands9. Fraction ordering and padded lexical oracle agree. Categorical comparison is directly reviewed, not treated as an arithmetic proof. All3hints omit ordered numbers/final ranking; no physical unit invented.",
+      "primary_20261018_g4_compare_round_0050_round_hundred_thousand_midpoint_boundary": "A7349999 lies49999 above7300000 and50001 below7400000, so rounds7300000. B7350000 is exact midpoint50000/50000; explicit upward tie rule gives7400000. Adjacent original inputs differ1 yet cross rounding boundary. Digit4/5 reasoning, exact distances and Decimal HALF_UP agree. All3hints identify target/adjacent-place/midpoint checks without giving rounded numbers or assigning final A/B branch labels.",
+      "primary_20261018_g4_compare_round_0050_compare_exact_counts_despite_equal_rounded_reports": "Fictional P2451320 Q2488910 R2470005 all round2500000 people to nearest100000, but exact order P<R<Q. Ten-thousands5/7/8 decides order, and all lie[2450000,2500000), so rounded equality does not imply equality of original counts. Reasons/units/precise-vs-approximate meanings checked directly; no real demographic claim. All3hints omit2500000 and final P/R/Q order.",
+      "primary_20261018_g4_compare_round_0050_misconception_rounding_looks_at_wrong_place": "Synthetic statement correctly says hundreds digit9 in6248901 but incorrectly uses that digit to round to100000 and gives6300000. Feedback preserves correct digit identification, points only to wrong deciding place; ten-thousands4 yields6200000. Exact distance48901 versus51099 corroborates. No unseen image/procedure or generalized pupil deficit inferred. Initial/all3hints give place/proximity guidance without final digit4 or result6200000."
+    },
+    "official_review_sha256": "5522e14d5665befff3c6bf03eb6fc865021439ed03cdb839c79eaf3971b57e61"
+  }
+}

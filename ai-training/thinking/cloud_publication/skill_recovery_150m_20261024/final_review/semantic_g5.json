@@ -1,0 +1,51 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "79b1726d98003e32397850b59c0010912cf335c32bdebab62d63822fcea73a62",
+  "decisions": [
+    {
+      "fixture_id": "skill150_locked_g5_1",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct5ratio parts,9perpart,18stickers for2parts and18+27=45check; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g5_2",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct12*5*4=240cm3with all three dimensions and cubic unit; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g5_3",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": true,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Baseline gives actionable800000*15%without final values. Selected only repeats take15%and asks how, omitting multiplication or10%+5%method required by frozen rubric; new useful-hint regression, no numerical leak."
+    },
+    {
+      "fixture_id": "skill150_locked_g5_4",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Recognizes4*5=20conflicts30but unconditionally calls area20true then replaces given length4by6and finalperimeter22without verifying which source is correct; exact baseline reuse."
+    }
+  ]
+}

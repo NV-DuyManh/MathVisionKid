@@ -1,0 +1,9 @@
+{
+  "full_size": 40280810,
+  "member_count": 721,
+  "directory_offset": 40183211,
+  "directory_bytes": 97577,
+  "next_range": "bytes=40183211-40280787",
+  "directory_contained_in_supplied_tail": false,
+  "full_archive_hash_verified_by_range": false
+}

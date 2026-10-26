@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "6d45476daf7ce9f9476b0de0966b34eec8a0102be9af69dffd297b7909d82a66",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_locked_v1_g2_clock_hour_later",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Misreads minute-hand6 as60minutes and then concludes6:00 and7:00, contradicting described8:30 and9:30.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g2_additive_sequence",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly derives constant difference5 and next values28,33, with both additions explained.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g2_equal_segments_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Valid division relation45/5 but explicitly supplies forbidden final9parts, so hint full task fails.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g2_dm_cm_error",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly converts3dm to30cm and adds2cm to32cm, showing addition rather than digit concatenation; no invented student actions.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

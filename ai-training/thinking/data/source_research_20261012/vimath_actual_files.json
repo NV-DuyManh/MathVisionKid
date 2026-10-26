@@ -1,0 +1,230 @@
+[
+  {
+    "file": "raw_train.jsonl",
+    "bytes": 17469091,
+    "sha256": "1a375a1df61954e52ba81f1ef94e3a5999f0e60cf46a4b4e8c820bfd5485904f",
+    "rows": 6861,
+    "schema_first": [
+      "url",
+      "question",
+      "choices",
+      "answer",
+      "question_text",
+      "answer_text",
+      "source"
+    ],
+    "sample_first": {
+      "url": "https://khoahoc.vietjack.com/question/910685/tim-mot-so-biet-rang-khi-lay-so-do-cong-them-2-duoc-bao-nhieu-nhan-voi",
+      "question": "<h1 class=\"title-question overflow-x-el\">\n <p>\n  Tìm một số, biết rằng khi lấy số đó cộng thêm 2, được bao nhiêu nhân với 5 thì được kết quả là 45.\n </p>\n</h1>\n",
+      "choices": [
+        "<div class=\"option-choices js-answer answer-correct\" data-answer-id=\"4200609\" data-answer-value=\"Y\" id=\"answer-4200609\">\n <label class=\"option-content overflow-x-el\">\n  <p>\n   A. 7\n  </p>\n </label>\n <div class=\"option-answer-text move-to-top text-correct\">\n  <strong>\n   Đáp án chính xác\n  </strong>\n </div>\n <div class=\"option-answer-text move-to-top\" id=\"text-4200609\">\n </div>\n</div>\n"
+      ],
+      "answer": [
+        "<div class=\"result\">\n <p>\n  Đáp án đúng là: A\n </p>\n <p>\n  Trước khi nhân 5, số đó là:\n </p>\n <p>\n  45 : 5 = 9\n </p>\n <p>\n  Trước khi cộng thêm 2, số đó là:\n </p>\n <p>\n  9 – 2 = 7\n </p>\n <p>\n  Vậy số cần tìm là 7.\n </p>\n</div>\n",
+        "<div class=\"option-choices js-answer answer-correct\" data-answer-id=\"4200609\" data-answer-value=\"Y\" id=\"answer-4200609\">\n <label class=\"option-content overflow-x-el\">\n  <p>\n   A. 7\n  </p>\n </label>\n <div class=\"option-answer-text move-to-top text-correct\">\n  <strong>\n   Đáp án chính xác\n  </strong>\n </div>\n <div class=\"option-answer-text move-to-top\" id=\"text-4200609\">\n </div>\n</div>\n"
+      ],
+      "question_text": "Tìm một số, biết rằng khi lấy số đó cộng thêm 2, được bao nhiêu nhân với 5 thì được kết quả là 45.",
+      "answer_text": "Đáp án đúng là: A Trước khi nhân 5, số đó là: 45 : 5 = 9 Trước khi cộng thêm 2, số đó là: 9 – 2 = 7 Vậy số cần tìm là 7.",
+      "source": "vietjack"
+    }
+  },
+  {
+    "file": "raw_test.jsonl",
+    "bytes": 2710118,
+    "sha256": "f6c68e1c8ebfe1d2d65c5c06727a7d880a059f26b02671c14a906f1bf5993248",
+    "rows": 1046,
+    "schema_first": [
+      "url",
+      "question",
+      "choices",
+      "answer",
+      "question_text",
+      "answer_text",
+      "source"
+    ],
+    "sample_first": {
+      "url": "https://khoahoc.vietjack.com/question/667063/thang-truoc-gia-1-lit-xang-la-20000-dong-thang-nay-gia-1-lit-xang-la-20500-dong",
+      "question": "<h1 class=\"title-question overflow-x-el\">\n <p>\n  Tháng trước giá 1 lít xăng là 20000 đồng, tháng này giá 1 lít xăng là 20500 đồng. Hỏi giá xăng tháng này đã bao nhiêu phần trăm so với giá xăng tháng trước?\n </p>\n</h1>\n",
+      "choices": [
+        "<div class=\"option-choices js-answer answer-correct\" data-answer-id=\"3235200\" data-answer-value=\"Y\" id=\"answer-3235200\">\n <label class=\"option-content overflow-x-el\">\n  <p>\n   <strong>\n    A.\n   </strong>\n   2,5%\n  </p>\n </label>\n <div class=\"option-answer-text move-to-top text-correct\">\n  <strong>\n   Đáp án chính xác\n  </strong>\n </div>\n <div class=\"option-answer-text move-to-top\" id=\"text-3235200\">\n </div>\n</div>\n"
+      ],
+      "answer": [
+        "<div class=\"result\">\n <p>\n  <strong>\n   Đáp án A\n  </strong>\n </p>\n <p>\n  Giá 1 lít xăng tháng này tăng so với tháng trước số tiền là:\n </p>\n <p>\n  20500 – 20000 = 500 (đồng)\n </p>\n <p>\n  Giá xăng tháng này đã tăng số phần trăm số so với giá xăng tháng trước là:\n </p>\n <p>\n  500 : 20000 = 0,025 = 2,5%\n </p>\n <p>\n  Đáp số: 2,5%\n </p>\n</div>\n",
+        "<div class=\"option-choices js-answer answer-correct\" data-answer-id=\"3235200\" data-answer-value=\"Y\" id=\"answer-3235200\">\n <label class=\"option-content overflow-x-el\">\n  <p>\n   <strong>\n    A.\n   </strong>\n   2,5%\n  </p>\n </label>\n <div class=\"option-answer-text move-to-top text-correct\">\n  <strong>\n   Đáp án chính xác\n  </strong>\n </div>\n <div class=\"option-answer-text move-to-top\" id=\"text-3235200\">\n </div>\n</div>\n"
+      ],
+      "question_text": "Tháng trước giá 1 lít xăng là 20000 đồng, tháng này giá 1 lít xăng là 20500 đồng. Hỏi giá xăng tháng này đã bao nhiêu phần trăm so với giá xăng tháng trước?",
+      "answer_text": "Đáp án A Giá 1 lít xăng tháng này tăng so với tháng trước số tiền là: 20500 – 20000 = 500 (đồng) Giá xăng tháng này đã tăng số phần trăm số so với giá xăng tháng trước là: 500 : 20000 = 0,025 = 2,5% Đáp số: 2,5%",
+      "source": "vietjack"
+    }
+  },
+  {
+    "file": "train_v1.jsonl",
+    "bytes": 11622117,
+    "sha256": "bccddf09497f4c491543572c5f78c9fa6218be4621605ae02171a7ddaf10e46d",
+    "rows": 7107,
+    "schema_first": [
+      "url",
+      "question",
+      "choices",
+      "answer",
+      "question_text",
+      "answer_text",
+      "source",
+      "right_choice",
+      "md_question",
+      "md_answer",
+      "md_choices",
+      "md_right_choice"
+    ],
+    "sample_first": {
+      "url": "",
+      "question": "",
+      "choices": [
+        ""
+      ],
+      "answer": "",
+      "question_text": "",
+      "answer_text": "",
+      "source": "zalo",
+      "right_choice": "",
+      "md_question": "Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là:",
+      "md_answer": "Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là: 30,651.",
+      "md_choices": [
+        "A. 30,516",
+        "B. 30,561",
+        "C. 30,651",
+        "D. 30,615"
+      ],
+      "md_right_choice": "C. 30,651"
+    }
+  },
+  {
+    "file": "test_v1.jsonl",
+    "bytes": 1861473,
+    "sha256": "efe6dda202dc3c3853141e80f77439d5c2f968a69f4d70d5091faeaaac32be4e",
+    "rows": 1104,
+    "schema_first": [
+      "url",
+      "question",
+      "choices",
+      "answer",
+      "question_text",
+      "answer_text",
+      "source",
+      "right_choice",
+      "md_question",
+      "md_answer",
+      "md_right_choice",
+      "md_choices"
+    ],
+    "sample_first": {
+      "url": "https://khoahoc.vietjack.com/question/1138219/so-ba-nghin-khong-tram-bon-muoi-sau-duoc-viet-la-72wyz",
+      "question": "<p>\n Số “Ba nghìn không trăm bốn mươi sáu” được viết là:\n</p>",
+      "choices": [
+        "<p>\n A. 3 406\n</p>",
+        "<p>\n B. 30 406\n</p>",
+        "<p>\n D. 34 046\n</p>",
+        "<p>\n C. 3 046\n</p>\nĐáp án chính xác"
+      ],
+      "answer": "<p>\n Đáp án đúng là: C\n</p>\n<p>\n Số “Ba nghìn không trăm bốn mươi sáu” được viết là: 3 046\n</p>",
+      "question_text": "Số “Ba nghìn không trăm bốn mươi sáu” được viết là:",
+      "answer_text": "Đáp án đúng là: C Số “Ba nghìn không trăm bốn mươi sáu” được viết là: 3 046",
+      "source": "vietjack",
+      "right_choice": "<p>\n C. 3 046\n</p>\nĐáp án chính xác\n",
+      "md_question": "Số “Ba nghìn không trăm bốn mươi sáu” được viết là:",
+      "md_answer": "Đáp án đúng là: C\nSố “Ba nghìn không trăm bốn mươi sáu” được viết là: 3 046",
+      "md_right_choice": "C. 3 046",
+      "md_choices": [
+        "A. 3 406",
+        "B. 30 406",
+        "D. 34 046",
+        "C. 3 046"
+      ]
+    }
+  },
+  {
+    "file": "instructcode_qwen.jsonl",
+    "bytes": 10269238,
+    "sha256": "aa616dc0a38384e394e5c48464b261d7079d0287c90d023947ff8c36b8edcd62",
+    "rows": 7107,
+    "schema_first": [
+      "input",
+      "output"
+    ],
+    "sample_first": {
+      "input": "Question: Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là:\nA. 30,516\nB. 30,561\nC. 30,651\nD. 30,615\n\nProvided answer: Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là: 30,651.",
+      "output": {
+        "response": {
+          "index": 0,
+          "logprobs": null,
+          "finish_reason": "eos",
+          "message": {
+            "role": "assistant",
+            "content": "```guidance\nBước 1: Xác định các số thập phân cần so sánh: 30,516; 30,561; 30,651; 30,615.\nBước 2: So sánh các số thập phân này với nhau. Để làm điều này, chúng ta sẽ xem xét từng chữ số từ trái sang phải.\nBước 3: Tìm ra số thập phân lớn nhất. Số thập phân lớn nhất sẽ là số có giá trị lớn nhất khi so sánh từ trái sang phải.\nBước 4: So sánh kết quả với các lựa chọn để đưa ra đáp án đúng.\n```\n\n```python\n# Danh sách các số thập phân\ndecimal_numbers = [30.516, 30.561, 30.651, 30.615]\n\n# Tìm số thập phân lớn nhất\nmax_decimal_number = max(decimal_numbers)\nprint(max_decimal_number)\n```\n```output\n30.651\n```\nVậy số thập phân lớn nhất là 30,651 nên đáp án đúng là C.",
+            "tool_calls": null
+          },
+          "seed": 868027173498332302
+        },
+        "usage": {
+          "prompt_tokens": 1077,
+          "completion_tokens": 252,
+          "total_tokens": 1329
+        }
+      }
+    }
+  },
+  {
+    "file": "vinh-02072024-instructcode-qwen2.jsonl",
+    "bytes": 95833350,
+    "sha256": "1e00398f6a617f3fdf78e21d52d7f19ab5c2467f84e2d6c94d3dbe4e7096bc81",
+    "rows": 7107,
+    "schema_first": [
+      "input",
+      "output"
+    ],
+    "sample_first": {
+      "input": {
+        "url": "",
+        "question": "",
+        "choices": [
+          ""
+        ],
+        "answer": "",
+        "question_text": "",
+        "answer_text": "",
+        "source": "zalo",
+        "right_choice": "",
+        "md_question": "Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là:",
+        "md_answer": "Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là: 30,651.",
+        "md_choices": [
+          "A. 30,516",
+          "B. 30,561",
+          "C. 30,651",
+          "D. 30,615"
+        ],
+        "md_right_choice": "C. 30,651",
+        "rewritten_answer": "```\n \nĐể tìm số thập phân lớn nhất trong các số 30,516; 30,561; 30,651; 30,615, chúng ta cần so sánh các số thập phân này với nhau. Đầu tiên, chúng ta có thể thấy rằng tất cả các số đều có phần nguyên là 30, nên chúng ta chỉ cần so sánh phần thập phân. Phần thập phân của các số lần lượt là 516, 561, 651, 615. Trong các phần thập phân này, 651 là lớn nhất. Do đó, số thập phân lớn nhất là 30,651. Vậy đáp án là C: 30,651.\n```",
+        "system": "You are an expert mathematics tutor, skilled at guiding students through mathematical problems at any level. However, you struggle with basic arithmetic (adding, subtracting, multiplying, dividing). When calculations are needed, you'll write Python code to get the answer.\n\n<Guidelines>\n- Provide step-by-step reasoning and guidance for the problem in Vietnamese. Clearly explain the mathematical concepts and reasoning behind each step, ensuring your student grasps the process.\n- If the problem requires arithmetic, write and execute a Python code snippet to perform the calculation. You only have access to the Python Interpreter one time per problem, so make sure your output contains all the necessary information to conclude the final answer.\n- Combine your Vietnamese explanation with the Python-calculated result (if applicable) to present the complete and final solution to the student.\n- You will be provided with the Gold Answer for the question as reference. Make use of it to guide your generation, ensure your final solution is identical with the Gold Answer.\n</Guidelines>\n\n<Notes>\n- If you want to write a Python code to compare two float or int variables, a and b (or two numbers), use `abs(a - b) < 1e-7` instead of `a == b`.\n- If using `pi` is neccessary, always set it equal to `3.14`.\n- Ensure your final solution's numerical format is the same as the given choices. This is important for directly comparing your answer to the choices. Specifically, if the answer choices are fractions, you MUST format your answer to fraction form, if the answer choices are in float form, you MUST round your result to match the precision of the given choices. For example, if there are 2 digits on the right of decimal point in given choices, you MUST round your final answer to two decimal places.\n</Notes>\n\n<Forbidden>\n- Carry out arithmetic calcalation manually in the guidance part instead of writing code and delegate it to Python interpreter.\n- Generate Python code if the question only asks about theory and there are no calculations in the provided Gold Answer.\n- ONLY use the `Fraction` class from the `fractions` library solely for the purpose of converting decimal numbers into their fractional representation. Do NOT use the `Fraction` class to represent a fraction itself. Instead, define a tuple consisting of a numerator and a denominator to represent a fraction.\n</Forbidden>\n\nYou strictly obey the instructions presented within <Guidelines> </Guidelines> and <Notes> </Notes>. or else someone might die.\n\nPlease return your answer in format: ```guidance\n# your guidance in Vietnamese\n```\n\n(Optional) ```python\n# your python code if necessary\n```\n```output\n# output of the above code\n```\n# final reasoning and conclusion in Vietnamese\nIn your conclusion, you should put your final choice in \\box{}.\n\n---------------------------------\nExample 1:\nQuestion: Trong tủ có 28 cái bát và 7 cái đĩa. Hỏi số đĩa bằng một phần mấy số bát đĩa trong tủ ?\nA. $\\frac{1}{4}$\nB. $\\frac{1}{5}$\nC. $\\frac{1}{6}$\nD. $\\frac{1}{7}$\n\nGold Answer: Đáp án B\nTrong tủ có số bát đĩa là:\n28 + 7 = 35 (cái)\nSố tỉ lệ số đĩa và số bát đĩa là:\n7 : 35 = $\\frac{1}{5}$ (lần)\nVậy số đĩa bằng $\\frac{1}{5}$ số bát đĩa có trong tủ.\n\nYour answer: ```guidance\nBước 1: Để tìm số đĩa bằng một phần mấy số bát đĩa trong tủ, trước hết chúng ta sẽ tính số bát đĩa trong tủ bằng tổng số bát cộng số đĩa.\nBước 2: Lấy số đĩa trong tủ chia cho tổng bát đĩa vừa tìm được.\nBước 3: Ở đây các lựa chọn đều ở dạng phân số nên khi in ra kết quả ta cũng nên giữ nguyên ở dạng phân số để dễ so sánh.\nBước 4: Chuyển kết quả về dạng phân số.\n```\n```python\nfrom fractions import Fraction\n\nnumber_of_bowls_plates = 28 + 7\nratio = 7 / number_of_bowls_plates\nratio = Fraction(ratio).limit_denominator()\nprint(f\"Ratio: {ratio}\")\n```\n```output\n1/5\n```\nSo sánh với các lựa chọn từ đề bài, ta thấy kết quả từ đoạn code trùng với đáp án B, nên đáp án đúng là \\box{B. $\\frac{1}{5}$}.\n\n---------------------------------\nExample 2:\nQuestion: Lựa chọn đáp án đúng nhất: h : k : g = ...............\nB. h : (k : g)\nC. h : (k – g)\nD. h : (k + g)\nA. h : (k × g)\n\nGold Answer: Dựa vào quy tắc chia 1 số cho 1 tích ta có: Khi chia một số cho một tích hai thừa số, ta có thể chia số đó cho một thừa số, rồi lấy kết quả tìm được chia tiếp cho thừa số kia Ngược lại: khi chia một số lần lượt cho hai số, ta có thể lấy số bị chia chia cho tích của hai số còn lại Ta có: h : k : g = h : (k × g) Vậy đáp án đúng là h : (k × g). Chọn A\n\nYour answer: ```guidance\nBước 1: Nhớ lại quy tắc chia một số cho một tích hai thừa số: Khi chia một số cho một tích hai thừa số, chúng ta có thể chia số đó cho một thừa số, rồi lấy kết quả tìm được chia tiếp cho thừa số kia. \nBước 2: Áp dụng quy tắc vào biểu thức đã cho.\nBước 3: So sánh kết quả với các lựa chọn để chọn đáp án đúng.\n```\nDo không cần thực hiện bất kỳ phép tính nào để đưa ra đáp án nên không cần viết code Python. Áp dụng quy tắc chia một số cho một tích hai thừa số vào biểu thức đã cho: h : k : g = h : (k × g). So sánh kết quả với các lựa chọn trong đề bài, ta thấy có đáp án A trùng với suy luận nên đáp án đúng là \\box{A}.\n\n---------------------------------\nExample 3:\nQuestion: Một hình hộp chữ nhật có diện tích xung quanh là 4800 cm², trong đó chiều dài đáy là 40 cm và chiều rộng là 30 cm. Tính chiều cao của hình hộp chữ nhật đó.\nA. 34,28 dm\nB. 17,14 cm\nC. 17,14 dm\nD. 34,28 cm\n\nGold Answer: chu vi mặt đáy hình hộp chữ nhật là \n(40 + 30) x 2 = 140 ( cm² )\nchiều cao hình hộp chữ nhật là : \n4800 : 140 = 34.28 ( cm )\nVậy đáp án là D.\n\nYour answer: ```guidance\nBước 1: Xác định các dữ kiện đã có: hình hộp chữ nhật có chiều dài đáy là 40 cm, chiều rộng là 30 cm, và diện tích xung quanh là 4800 cm². \nBước 2: Nhớ lại công thức tính diện tích xung quanh của hình hộp chữ nhật: diện tích xung quanh = chu vi đáy x chiều cao. Vì vậy để tìm chiều cao, ta phải tìm chu vi đáy\nBước 3: chu vi đáy = (chiều dài + chiều rộng) x 2. \nBước 4: Sau khi tính được chu vi đấy, chiều cao của hình hộp chữ nhật có thể được tính bằng công thức: chiều cao = diện tích xung quanh / chu vi đáy. \nBưóc 5: Đưa kết quả ở dạng dm và cm và được làm tròn đến hai số sau dầu phẩy để dễ so sánh.\n```\n```python\nlength_cm = 40\nwidth_cm = 30\nsurface_area_cm2 = 4800\nperimeter_of_base = (length_cm + width_cm) * 2\nheight_cm = surface_area_cm2 / perimeter_of_base\nheight_cm = round(height_cm, 2)\nheight_dm = height_cm / 10\nheight_dm = round(height_dm, 2)\nprint(\"Height in cm:\", height_cm)\nprint(\"Height in dm:\", height_dm)\n```\n```output\nHeight in cm: 34.29\nHeight in dm: 3.43\n```\nTa thấy có đáp D. 34,28 cm là gần với kết quả được tính ra từ đoạn code bên trên nhất nên đáp đúng là \\box{D. 34,28 cm}\n\n---------------------------------\nExample 4:\nQuestion: Giải bài toán dưới đây bằng cách suy luận từng bước:\n59,63  -  28,76  ?   30,85\nA. >\nB. <\nC. =\n\nGold Answer: Ta có 59,63 - 28,76 = 30,87\nMà 30,87 > 30,85\nNên 59,63 - 28,76 > 30,85\nTa chọn đáp đúng là: >\n\nYour answer: ```guidance\nBước 1: Thực hiện phép trừ 59,63 và 28,76 để tìm kết quả của vế trái. \nBước 2: So sánh kết quả vừa tìm được với 30,85 (vế phải). \nBưóc 3: Dựa vào kết quả tính được để chọn dấu thích hợp.\n```\n```python\nleft_hand_side = 59.63 - 28.76\nright_hand_side = 30.85\nprint(f\"Left hand side: {left_hand_side}\")\nprint(f\"Right hand side: {right_hand_side}\")\n```\n```output\nLeft hand side: 30.87\nRight hand side: 30.85\n```\nTa thấy kết quả của vế trái lớn hơn về phải nên đáp án đúng là \\box{A. >}\n\n---------------------------------\nExample 5:\nQuestion: Giá trị của chữ số 4 trong số 6 428 là:\nA. 4 000\nB. 400\nC. 40\nD. 4\n\nGold Answer: Đáp án đúng là: B\nSố 6 428 gồm 6 nghìn, 4 trăm, 2 chục, 8 đơn vị.\nVậy giá trị của chữ số 4 trong số 6 428 là: 400\n\nYour answer: ```guidance\nBước 1: Để tìm giá trị của chữ số 4 trong số 6 428, chúng ta cần phân tích số này thành các đơn vị, chục, trăm, nghìn. \nBước 2: Tìm giá trị của chữ số 4 trong số 6 428. \nBước 3: Đối chiều với các lựa chọn trong câu hỏi để đưa ra kết luận\n```\nGhi chú: không cần thực hiện bất kỳ phép tính nào nên không cần viết code Python. Số 6 428 gồm 6 nghìn, 4 trăm, 2 chục, 8 đơn vị. Vì vậy, giá trị của chữ số 4 trong số 6 428 là 400. Đáp án đúng là \\box{B}\n",
+        "message": "\nQuestion: Trong các số thập phân 30,516; 30,561; 30,651; 30,615. Số thập phân lớn nhất là:\nA. 30,516\nB. 30,561\nC. 30,651\nD. 30,615\n\nGold answer: ```\n \nĐể tìm số thập phân lớn nhất trong các số 30,516; 30,561; 30,651; 30,615, chúng ta cần so sánh các số thập phân này với nhau. Đầu tiên, chúng ta có thể thấy rằng tất cả các số đều có phần nguyên là 30, nên chúng ta chỉ cần so sánh phần thập phân. Phần thập phân của các số lần lượt là 516, 561, 651, 615. Trong các phần thập phân này, 651 là lớn nhất. Do đó, số thập phân lớn nhất là 30,651. Vậy đáp án là C: 30,651.\n```\n"
+      },
+      "output": {
+        "response": {
+          "index": 0,
+          "logprobs": null,
+          "finish_reason": "eos",
+          "message": {
+            "role": "assistant",
+            "content": "```guidance\nBước 1: Đầu tiên, chúng ta cần so sánh các số thập phân đã cho. Vì tất cả các số đều có phần nguyên là 30, nên chúng ta chỉ cần so sánh phần thập phân.\nBước 2: So sánh các phần thập phân của các số đã cho.\nBước 3: Phần thập phân lớn nhất sẽ xác định số thập phân lớn nhất.\n```\n```python\nnumbers = [30.516, 30.561, 30.651, 30.615]\nlargest_number = max(numbers)\nprint(f\"Largest number: {largest_number}\")\n```\n```output\nLargest number: 30.651\n```\nSố thập phân lớn nhất trong các số đã cho là 30,651. Vậy đáp án đúng là \\box{C. 30,651}.",
+            "tool_calls": null
+          },
+          "seed": 13312750144641839559
+        },
+        "usage": {
+          "prompt_tokens": 2834,
+          "completion_tokens": 203,
+          "total_tokens": 3037
+        }
+      }
+    }
+  }
+]

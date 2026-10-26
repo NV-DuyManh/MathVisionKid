@@ -1,0 +1,132 @@
+{
+  "authored_utc": "2026-10-18T08:56:27.918128+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T08:54:44.299Z",
+  "batch_sha256": "60c4de7255e0e2aa33be02e3048ad616b0b142c066ed015b398dd73b3e2585db",
+  "authored_cases": 4,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_ratio_percent_finish_0075_part_to_whole_fractional_percent",
+      "row_sha256": "0a8f4ecf0077adc472df734464c71b642a886906ff18383c0b55b2fd4d619d7a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "27/72",
+          "(27/72)*100",
+          "72*(((27/72)*100)/100)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_ratio_percent_finish_0075_same_kind_convert_units_reverse_reference",
+      "row_sha256": "36e18afb3526d825f0f6172b53469012010fa6ccc0ad17c489b04b4c8b50dfa3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1.2*1000",
+          "(1.2*1000)/750*100",
+          "750/(1.2*1000)*100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_ratio_percent_finish_0075_misconception_total_level_vs_increase",
+      "row_sha256": "52b324946761447a75f624e03229a70e973ddfea822fd74d27d1bec8679358cd",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "60-50",
+          "(60-50)/50*100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_ratio_percent_finish_0075_guard_missing_checked_total_reference",
+      "row_sha256": "6796778687b9d9dbefaa2ae0d4abb604ef942bd41c1845fbb351da35791054cf",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "tree_total_and_flowering": [
+      72,
+      27
+    ],
+    "flower_fraction": "3/8",
+    "flower_percent": "37.5",
+    "mass_counts_grams": [
+      1200,
+      750
+    ],
+    "forward_percent": "160",
+    "reverse_percent": "125/2",
+    "old_new_extra_members": [
+      50,
+      60,
+      10
+    ],
+    "increase_percent": "20",
+    "new_vs_old_percent": "120",
+    "missing_checked_total_countermodels": {
+      "60 checked": "60",
+      "80 checked": "45"
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "percent_is_output_unit_not_modulo_operation": true,
+  "same_kind_units_converted_before_ratio": true,
+  "existing_core02_initial31_unchanged": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous412_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "fa059971de80551f8c72cd63f3f8cd064ea4cf7aae59a39af8a833e5c9d5bd18",
+  "pre_official_QA_repairs": [
+    "Reference hint now uses question meaning rather than a keyword/order heuristic. Guard explicitly states complete pass/fail classification so using complement to recover total is grounded. No numerical/answer changes."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 12,
+  "repaired_reference_hint_and_guard_classification_reread": true,
+  "official_QA_utc": "2026-10-18T08:57:16.354963+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "8ed75eaf32f7a81d74e71a938d45f0e17635447220a9cb13ddb8ad254ed0e8c1"
+}

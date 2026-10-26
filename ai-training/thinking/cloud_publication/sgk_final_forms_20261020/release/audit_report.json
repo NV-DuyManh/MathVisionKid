@@ -1,0 +1,105 @@
+{
+  "all_sgk_forms_covered": false,
+  "by_grade": {
+    "5": 18
+  },
+  "by_topic": {
+    "apex_nonparallel_path_breaks_invariance": 1,
+    "apex_parallel_line_including_external_foot": 1,
+    "base_ratio_requires_equal_height": 1,
+    "comma_slot_no_strict_solution": 1,
+    "comma_slot_strict_selection": 1,
+    "cube_all_edges_triple_factors": 1,
+    "cube_half_edges_wrong_linear_scale": 1,
+    "decimal_cards_duplicate_identity_vs_value": 1,
+    "decimal_cards_fixed_slots_extrema": 1,
+    "fraction_no_legal_sign_error": 1,
+    "fraction_plus_minus_complete": 1,
+    "lateral_only_height_constraint_error": 1,
+    "lateral_only_volume12_all_heights": 1,
+    "painted_three_cube_all_categories": 1,
+    "painted_three_cube_unpainted_bottom": 1,
+    "shared_apex_split_base_ratio": 1,
+    "shortest_graph_roundtrip_cost": 1,
+    "tied_routes_independent_return_error": 1
+  },
+  "cases": 18,
+  "chat_rows": 72,
+  "core_unchanged": 495,
+  "full_archive_audit_complete": false,
+  "hash_numeric_exception_cases": 1,
+  "input_reviews": [
+    {
+      "cases": 12,
+      "directory": "g5_exact_text",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "16e9864a08a719d99dd0ef3a3aac218f06d64da40a835f262ebded03259add25"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "e2ec25c6b2cf30b38b696f0f7c563f4a7541d33033feb873c378819c621fe194"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "5da12c84bda8216fbc6b634a0e4fed2b7eeada528ec941161304e51c7d4d85d6"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "dbcdd173b8a1147f3502689c44122374945e126f3aede2137a6f66cd3af0e3c6"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "148346572d53654823f70a8781d13f6c035030d790cbcbc839c8455c3f97c97b"
+        },
+        {
+          "file": "peer_nearest_hash_evidence.jsonl",
+          "sha256": "e9698834e90f47a9ac48ad377fd26e605eab8b4ae1bace711c2fc18059959c24"
+        }
+      ],
+      "source_sha256": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a"
+    },
+    {
+      "cases": 6,
+      "directory": "g5_residual_text",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "4777a70e4248cef2e861800a69fd5bb5e51916e547b467cb89ea8f5bd0bf405d"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "8441a5f1232a020bccc51851840b7d32942463cda7b718cf11e83275eafc251e"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "7f8d5897d2db25e23dd3e196b0190bd560d30cfe3bac0a114e28bce247dbd9c7"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "c6f8d74cd62ea6d7e10f396f1e161f4841709d58b8822a1be8141c364488bce5"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "9ab96be1f011684122a87e802a82b1d4e07e7e1275f5f415dba520150c9928d4"
+        }
+      ],
+      "source_sha256": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002"
+    }
+  ],
+  "master_counts": {
+    "decimal_symbol_open_interval_synthesis": 2,
+    "edge_scale_square_cube_relation": 2,
+    "finite_decimal_digit_card_enumeration": 2,
+    "finite_operator_synthesis": 2,
+    "fixed_volume_surface_arrangement_optimization": 2,
+    "large_cube_painted_face_classification": 2,
+    "same_height_triangle_area_ratio": 2,
+    "shortest_route_roundtrip_time": 2,
+    "triangle_parallel_apex_area_invariant": 2
+  },
+  "numeric_steps": 20,
+  "old_sources_unchanged": true,
+  "training_started": false
+}

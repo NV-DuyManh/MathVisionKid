@@ -1,0 +1,151 @@
+{
+  "batch_sha256": "8282c64b37172ab60e2ef382ef5b458febe1a1dbe77c70360a7a5af5264e5774",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_events_0025_certain_all_blue",
+      "row_sha256": "7837e76edb95caba24d8e839577648a4e8ae2d78b9985542f03746123977ffe4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_events_0025_impossible_missing_shape",
+      "row_sha256": "8b4400a943a0ea41d65c6ba291501d14f7fc1708356721daf5ec603510543a37",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_events_0025_possible_not_certain_spinner",
+      "row_sha256": "5c7f3c45341ac50fabccefaf4fa895c274fffc28a132a439dea1be5cbb694259",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_events_0025_misconception_majority_not_guarantee",
+      "row_sha256": "5759677986f5293cb13a9360237d55f371064c93a1a87d25fb6990efc1d78fc8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "all_blue_outcomes": [
+      "A",
+      "B",
+      "C"
+    ],
+    "shapes_outcomes": [
+      "R1",
+      "R2",
+      "S1"
+    ],
+    "triangle_success_outcomes": [],
+    "square_success_outcomes": [
+      "S1"
+    ],
+    "spinner_outcomes": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "red_success_outcomes": [
+      "A",
+      "B"
+    ],
+    "majority_outcomes": [
+      "G",
+      "Y0",
+      "Y1",
+      "Y2",
+      "Y3",
+      "Y4",
+      "Y5",
+      "Y6",
+      "Y7",
+      "Y8"
+    ],
+    "nongold_counterexample": "G"
+  },
+  "oracle_method": "Exhaustive finite reachable outcome sets; certain=all, impossible=none, possible-not-certain=nonempty proper subset. No numeric probability is taught.",
+  "author_self_content_check": "Read every allowed selection rule, full contents, counterexample and all twelve hints. Same-author semantics check does not constitute independent content review. Hints ask to inspect outcomes without naming final category or giving the actual witness.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Finite hypothetical outcomes only; no physical random experiment, equal likelihood, probability fraction or future-result prediction claimed. Text is sufficient for this concept node. Neutral schema is not live PlanDraft."
+}

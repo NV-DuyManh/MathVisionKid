@@ -1,0 +1,89 @@
+{
+  "cases": 69,
+  "chat_rows": 216,
+  "excluded_from_candidate_view": [
+    {
+      "reason": "FIXED_REGRESSION",
+      "sample_id": "exhaustive_v1_div_1563_43"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_div_12345_25"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_div_100100_100"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_div_101001_100"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_12345_67"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_87654_321"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_50006_208"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_105_908"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_89_567"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_987654_100"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_120030_405"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_mul_3456_123"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_add_100000_99999"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_add_1000000_10001"
+    },
+    {
+      "reason": "PROTECTED_OR_HELDOUT_NUMERIC",
+      "sample_id": "exhaustive_v1_add_100002_99999"
+    }
+  ],
+  "fixed_regression_present_in_source_only": true,
+  "new_generated_cases": 69,
+  "numeric_steps_validated": 312,
+  "source_sha256": "44213c693cb33ede4f22b982f406fd2b1ed5b92c09d4d076c89d81ea464f90a6",
+  "status": "EXACT_ORACLES_AND_ACTUAL_BOUNDARY_SEMANTIC_REVIEW_PASSED",
+  "template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2",
+  "actual_content_review": true,
+  "actual_boundary_cases_reviewed": 69,
+  "seven_criteria": {
+    "correct_math_and_actual_column_or_group_relations": "PASS",
+    "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+    "units_and_source_bound_grade_scope": "PASS",
+    "step_reasons_trace_and_inverse_check": "PASS",
+    "initial_and_all_three_hints_no_final_answer": "PASS",
+    "no_student_work_or_image_hallucination": "PASS",
+    "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+  },
+  "semantic_review2_path": "thinking\\cloud_publication\\resume_20261018\\boundary_semantic_review2.json",
+  "semantic_review2_sha256": "63824e7c8a6f325fc5abb8fbd868d0a33f867c24067bf93a8f933456709d0fcd",
+  "reviewer_human_manual": false,
+  "independent_external_review": false,
+  "reviewed_module_sha256": "7a27fa97922b59ea0fca13751cfa7d621dc05dc775fbbf70bb163c22be52cfb2",
+  "reviewed_template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2"
+}

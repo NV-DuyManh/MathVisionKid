@@ -1,0 +1,14 @@
+{
+  "cases": 24,
+  "chats": 96,
+  "source_sha256": "4cd60aa892caf7bd1fa8e95cecebfdc87e46913b31d9fc10516f8d923569d0b1",
+  "chat_sha256": "65b36c7876a74ab63c0e94222ddeb64272c11cb742b6c37e7a7fc6b32c0b2361",
+  "manifest_sha256": "748f2e93c537df04ca2dbe350343711211c12ad73d51c34fdaa08524f2ceba37",
+  "other_rows_byte_identical": 23,
+  "other_chat_rows_byte_identical": 92,
+  "all24_oracles_pass": true,
+  "all96_source_chat_links": true,
+  "parent_hashes_preserved": true,
+  "training_started": false,
+  "drive_mutated": false
+}

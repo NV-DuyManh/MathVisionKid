@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "-i_Pa5gRZ4aW"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T00:55:26.855626+00:00\", \"read_only\": true, \"training_configuration_changed\": false, \"sample_window_seconds\": 15.006389617919922, \"sample_count\": 15, \"gpu_busy_percent_min_mean_max\": [23.0, 60.8, 99.0], \"used_MiB_min_max\": [3205.0, 3205.0], \"power_watts_mean\": 64.68733333333333, \"step\": 50, \"rows_done\": 800, \"training_wall_seconds\": 198.35095330700005}\n"
+        ]
+      }
+    ]
+  }
+}

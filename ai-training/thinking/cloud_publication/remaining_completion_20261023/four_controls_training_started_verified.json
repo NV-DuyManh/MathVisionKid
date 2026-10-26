@@ -1,0 +1,35 @@
+{
+  "verified": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 17295639,
+      "sha256": "1cf8735252c72944fa83134b4bdbb4454efc33e5fcf4086392fd1a500feb2371",
+      "kind": "progress",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 127038,
+      "sha256": "595b553c8f8d30802582222ae908f8b82bd190d309751dc6e2452b74270c4148",
+      "kind": "chat",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 817461,
+      "sha256": "94b4e52d3ce96263597bfa3ed6aa338345f5a2b975caf23ba0cd9061008ddf0c",
+      "kind": "context",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 438145,
+      "sha256": "d1b38b0f716c107116473bdc4ae81cb8f7b72c1829e3f74ab365b0000850680c",
+      "kind": "state",
+      "fresh_raw_readback_verified": true
+    }
+  ],
+  "training_started": true,
+  "state_written_last": true,
+  "observed_utc": "2026-10-23T11:59:18.815Z"
+}

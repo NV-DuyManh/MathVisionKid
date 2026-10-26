@@ -1,0 +1,41 @@
+{
+  "schema": "MathVisionKid.current_supplement_direct_member_audit.v1",
+  "members": [
+    {
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "sha256": "44213c693cb33ede4f22b982f406fd2b1ed5b92c09d4d076c89d81ea464f90a6",
+      "bytes": 543418,
+      "role": "candidate_source",
+      "rows": 69,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "original_member": "audit/boundary_cases.jsonl"
+    },
+    {
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "sha256": "65d3bc32f65a8399b09f6d18d2f7a556136d80187c074162b9e670cee480ef72",
+      "bytes": 287677,
+      "role": "candidate_source",
+      "rows": 60,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "original_member": "audit/pedagogy_cases_v3.jsonl"
+    },
+    {
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "sha256": "dba37e386170c3b7a3c78057c03ccb773fdb5e3c68b817a646515855938de423",
+      "bytes": 501027,
+      "role": "candidate_chat",
+      "rows": 216,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "original_member": "audit/boundary_chat.jsonl"
+    },
+    {
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "sha256": "6796ea43873bd9651c2432d763f9a576d50a014e53a9747d730a57c05c9f1f75",
+      "bytes": 491072,
+      "role": "candidate_chat",
+      "rows": 240,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "original_member": "audit/pedagogy_chat_v3.jsonl"
+    }
+  ]
+}

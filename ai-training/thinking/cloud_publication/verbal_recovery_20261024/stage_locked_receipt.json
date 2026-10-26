@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "n-8ALWgYrWx_"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"fixture_sha256\": \"b24339a30e9f0edfb8a4c5dbac538311f5ecea831abcb6d0ad7f8cd0e5f7edb3\", \"train_screen\": {\"fixtures\": 20, \"training_rows_screened\": 16000, \"collisions\": [], \"scope\": \"exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim\"}, \"dev_screen\": {\"fixtures\": 20, \"training_rows_screened\": 30, \"collisions\": [], \"scope\": \"exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim\"}, \"frozen_before_candidate_outputs_review\": true, \"old_locked20_not_loaded\": true, \"test_inference_executed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

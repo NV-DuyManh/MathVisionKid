@@ -1,0 +1,17 @@
+{
+  "complete": true,
+  "contract_sha256": "ebf15d74a0bddca37b1c99cdc44c6e13a81f908fa07f1297d3b3875a4a891e0b",
+  "example_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "finished_utc": "2026-10-24T13:46:41.721752+00:00",
+  "fixture_count": 30,
+  "fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "locked_test_accessed": false,
+  "model": "Qwen/Qwen3-1.7B",
+  "optimizer_loaded": false,
+  "outputs_sha256": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "stage": "base_fewshot_dev",
+  "started_utc": "2026-10-24T13:38:55.571559+00:00",
+  "state": "COMPLETE",
+  "training_performed": false
+}

@@ -1,0 +1,140 @@
+{
+  "cases": 64,
+  "chats": 256,
+  "cloud_collision_receipt_sha256": "0bcb99d204057ec1ac8973512fb2a2f010827ae2bc41e1d2bda43568932fba2d",
+  "cloud_source_ID_and_exact_problem_field_checks_passed": true,
+  "derived_originals": 53,
+  "final_review_actor": "Root actual full-field content review; no independent final peer approval claimed.",
+  "full_archive_complete": false,
+  "full_archive_normalized_question_check_pending": true,
+  "linkage_errors": 0,
+  "metadata_repairs": [
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained.",
+        "Removed contextual above reference; full supplied balance description retained."
+      ],
+      "sample_id": "g2_bal_20261022_balance_high_pan_misconception_error"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_boat_20261022_boat_watermark_inequality_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_pour_20261022_bounded_repour_impossible_overfill_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_subset_20261022_subset_sum_unproven_optimality_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_geom_20261022_collinear_triples_unaligned_distractor_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_solid_20261022_actual_solid_assembly_support_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_draw_20261022_actual_segment_construction_zero_alignment_guard"
+    },
+    {
+      "changes": [
+        "Added explicit observation claim_scope; excerpt/text retained."
+      ],
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_calendar_grid_boundary_first_weekday"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_missing_learner_date_location_guard"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_grid_target_copy_all_incidence"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_cut_origin_square_complete_cover"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_clock_continuous_hour_rollover"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_local_max_maze_ties_dead_end"
+    },
+    {
+      "changes": [
+        "Replaced inherited template coverage wording with exact new branch scope."
+      ],
+      "sample_id": "g2_codex_20261022_two_draw_all_unordered_events"
+    }
+  ],
+  "new_finite_branches": 11,
+  "numeric_steps": 63,
+  "original_intake_preserved": true,
+  "status": "ACCEPTED_BOUNDED_REPAIR_APPEND_FULL_ARCHIVE_AUDIT_REMAINS_PENDING",
+  "token_errors": 0,
+  "training_started": false
+}

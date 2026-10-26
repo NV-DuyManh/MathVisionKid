@@ -1,0 +1,80 @@
+{
+  "file_id": "1_MMP-ph0kfHJg2xkjKFkVUocIRa-6wRe",
+  "file_name": "MVK_division_dividend_0_100_divisor_two_digits__000000000_000009090_3cf6b41a57927e89.zip",
+  "expected_archive_sha256": "3cf6b41a57927e89d0b29053ba94f5498456617f83e13084187ce4bcb52ad623",
+  "total_bytes": 4349878,
+  "central_directory_offset": 4349669,
+  "central_directory_bytes": 187,
+  "entries": [
+    {
+      "name": "source.jsonl.gz",
+      "method": 0,
+      "crc32": 1465044070,
+      "compressed_bytes": 2835312,
+      "bytes": 2835312,
+      "local_header_offset": 0
+    },
+    {
+      "name": "chat.jsonl.gz",
+      "method": 0,
+      "crc32": 1937223426,
+      "compressed_bytes": 1513072,
+      "bytes": 1513072,
+      "local_header_offset": 2835357
+    },
+    {
+      "name": "manifest_payload.json",
+      "method": 0,
+      "crc32": 561573716,
+      "compressed_bytes": 1146,
+      "bytes": 1146,
+      "local_header_offset": 4348472
+    }
+  ],
+  "metadata_documents": [
+    {
+      "name": "manifest_payload.json",
+      "bytes": 1146,
+      "sha256": "1c63a290cb98d2d16c8c9743f01085856d44375be729fd6ab3962e8a62dc9b6a",
+      "document": {
+        "cases": 9090,
+        "chat_rows": 35864,
+        "cloud_domain_id": "division_dividend_0_100_divisor_two_digits",
+        "excluded_cases": {
+          "protected_numeric": 124
+        },
+        "grades": {
+          "4": 9090
+        },
+        "operation": "/",
+        "ordered_pair_sequence_sha256": "11c8c422f35e524bd32501881bfa8125dc6c066983ee103b246dd17486cf84f7",
+        "pair_validation": "Every reopened ordered pair, sourceID, trace and independent oracle checked; no overlap with preexisting ranges by finite domain specification.",
+        "parent_state_sha256": "68df9f23aca17d89fa0b877d640daf74c06f61a03051cd916c3056a549d9d7b3",
+        "schema_version": "exhaustive_cloud_resume.v1",
+        "shard_id": "division_dividend_0_100_divisor_two_digits__000000000_000009090",
+        "source": {
+          "bytes": 2835312,
+          "name": "source.jsonl.gz",
+          "sha256": "caf99443cb9e0898cb08f97d6c97b45cdeedfae429a4d22f10d5a045fc075429"
+        },
+        "start": 0,
+        "status": "PREPARED_NOT_COMMITTED",
+        "stop": 9090,
+        "template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2",
+        "topics": {
+          "multidigit_division_exact": 290,
+          "multidigit_division_remainder": 8800
+        },
+        "validated_pairs": 9090,
+        "view": {
+          "bytes": 1513072,
+          "name": "chat.jsonl.gz",
+          "sha256": "9788398c66bf5041cd87a65c621480ebb1195f127a34400563873f9ed06bd6cb"
+        }
+      }
+    }
+  ],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:49.733Z"
+}

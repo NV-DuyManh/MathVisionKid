@@ -1,0 +1,336 @@
+{
+  "source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "masters": [
+    {
+      "master_id": "bounded_color_multiset_without_replacement",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "two_draw_color_multisets",
+        "g5_candidate_multidraw_outcomes",
+        "two_draw_multiset_without_replacement"
+      ],
+      "candidate_occurrence_count": 5,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "One draw does not enumerate unordered pairs constrained by available multiplicities; ordered draws must not be counted twice.",
+        "Singledraw outcome/frequency examples do not enumerate unordered color multisets with bounded supply; same missing G2/G3/G4 master.",
+        "Finite unordered outcomes require multiplicity bounds and no double-counting."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls",
+          "source_file": "current_sources.jsonl",
+          "line": 483,
+          "sha256": "386be6c00a612844b70a468fa0a36a5f57b1dd11a4a871394ddad4fccac92879"
+        },
+        {
+          "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+          "source_file": "current_sources.jsonl",
+          "line": 677,
+          "sha256": "eecc6b99eec95a880d5162259780b40b4a25de12ff8a1df2e3dead1706a538fd"
+        },
+        {
+          "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+          "source_file": "current_sources.jsonl",
+          "line": 675,
+          "sha256": "ed43dc93a63716bd1243b3a332304f4897e715fff19c347809cdffa6de284928"
+        },
+        {
+          "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+          "source_file": "current_sources.jsonl",
+          "line": 676,
+          "sha256": "9e2071f9f12c7ede2e56aa8a4b291c5b8c7096fbb4d10bf344c6ad70504baea2"
+        },
+        {
+          "sample_id": "primary_20261018_g5_empirical_frequency_0091_guard_unread_outcomes_in_full_trial_scope",
+          "source_file": "current_sources.jsonl",
+          "line": 679,
+          "sha256": "26fca3b4b7d88cd2d99a41870e1ffd71038445c8e39fd1df54a20bfa3dea8651"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v2",
+          "printed_page": 45,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_47-1791255626071.png",
+          "image_sha256": "c1ce32d4bab07bbf0c6ade8eaa3e0952d694438fc36c82704962066929fefbd2",
+          "exercise_types_read": [
+            "Dice frequency tallies; enumerate possible color multisets from two simultaneous draws without replacement; record repeated trial frequencies"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "grade": 5,
+          "volume": 2,
+          "printed_page": 126,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_128-1790908250598.png",
+          "sha256": "97404d8e61d90757bc3f5b19de6a1bd7ad185df037ab91c22f83553167f16ad9",
+          "exercise_types": [
+            "two dice possible certain impossible sums",
+            "enumerate unordered colour multisets constrained supply"
+          ],
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 59,
+          "source_image_sha256": "bb864a25219ef9ede89db1002cd242c6851eadc6b801a132dda570495e4a659d",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-60-1776051220816.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 109,
+          "source_image_sha256": "fd8f367f9f7ad8175b26af38536fee4fe98e8f06aae7600abc37d8ea83450ef8",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-110-1776051238881.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 124,
+          "source_image_sha256": "5d0174c03ce2f520868bbf67ee19056d48f0380803af856e4327c567d76b6d7e",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-125-1776051243810.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "capacity_edge_filtered_path",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "capacity_constrained_network_route"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Existing path has node predicates; capacity belongs to an edge and must be checked for every traversed bridge while preserving connectivity."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+          "source_file": "current_sources.jsonl",
+          "line": 967,
+          "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+        },
+        {
+          "sample_id": "primary_20261018_g4_measurement_application_0066_estimate_not_sufficient_for_limit",
+          "source_file": "current_sources.jsonl",
+          "line": 594,
+          "sha256": "0016c43e21aebb4c04df7261d2962388e7845b701a5734796d18e48a1baf7572"
+        },
+        {
+          "sample_id": "primary_20261018_g4_mass_units_0062_warehouse_two_issues_common_unit",
+          "source_file": "current_sources.jsonl",
+          "line": 590,
+          "sha256": "e4e81f58621513b91ccc916c62e82786b6d9465b160b210a753e4328aa6780ac"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v1",
+          "printed_page": 59,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_61-1791255469032.png",
+          "image_sha256": "3db019bdee73bedd70abc5674ad6cf6c2a6a76226d093f4795c302a5be12bd94",
+          "exercise_types_read": [
+            "Difference of nested mass totals; unit arithmetic; route through bridge-capacity network; shuttle three people under boat load limit"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "inventory_rule_termination_guard",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "ambiguous_game_inventory_guard"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Unknown response branch guard does not resolve conflicting eligible-inventory versus stopping-count rules; ask precise missing rule without silently repairing it."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+          "source_file": "current_sources.jsonl",
+          "line": 974,
+          "sha256": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v2",
+          "printed_page": 70,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_72-1791255630836.png",
+          "image_sha256": "c30cfc08ba79a97572c6898c460fae92700c1476b583fc65c046c551dcc441f3",
+          "exercise_types_read": [
+            "Dice circuit and equivalent-fraction flower collection; illustration shows nine flowers while termination text says five: eligibility needs clarification before deterministic adaptation"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "nonoverlapping_schedule_interval_choice",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "non_overlapping_activity_interval_choice"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Actual old duration source is explicitly continuous and only computes end-start; time-budget source explicitly states activities do not overlap. Neither selects a feasible set from potentially overlapping intervals or applies endpoint-touch rules. Finite observed G3V2p84 activity-choice subform remains missing."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261018_finish_g3_calendar_elapsed_same_day",
+          "source_file": "current_sources.jsonl",
+          "line": 8,
+          "sha256": "4ecc9b8a4c64c9d2b65c57b9673c9fcf8e5106f2054046b20e86daa4b4195027"
+        },
+        {
+          "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+          "source_file": "current_sources.jsonl",
+          "line": 722,
+          "sha256": "0a69962ddd78f386ce06e4e2b6c236362b5950215665ede251869902d71c5000"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v2",
+          "printed_page": 84,
+          "source_image_sha256": "12c3b7c2393c07b1896c45ffbbfeb7ed36d43202fa61215dadead7c9dacaa856",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-85-1776051228143.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "running_operation_graph_target",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_route_running_quantity"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "A predicate on labels does not compose edge operations along alternative paths to a target quantity. Preserve path connectivity and intermediate states."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+          "source_file": "current_sources.jsonl",
+          "line": 967,
+          "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+          "source_file": "current_sources.jsonl",
+          "line": 968,
+          "sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+          "source_file": "current_sources.jsonl",
+          "line": 969,
+          "sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+          "source_file": "current_sources.jsonl",
+          "line": 970,
+          "sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_roman_routes_branch",
+          "source_file": "current_sources.jsonl",
+          "line": 979,
+          "sha256": "1d9599dfdc5101afa544ff6d31f5fbe9b7384a4b195cdb95501f61172370d015"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_roman_routes_increasing",
+          "source_file": "current_sources.jsonl",
+          "line": 980,
+          "sha256": "2d095f6811735f09b4bbb0b1771c12ca1f9749531a8459d90f26e9ed033c5b20"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_roman_routes_error",
+          "source_file": "current_sources.jsonl",
+          "line": 981,
+          "sha256": "1fa2f1fa6f8728b496e5ff7f0a7bcaaec22ed13d6a4b56d60c98509a201a8a8e"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_roman_routes_guard",
+          "source_file": "current_sources.jsonl",
+          "line": 982,
+          "sha256": "f227f89fc5354f7c17adc55a297684f229997d5abb13eb29e235d9f39de6c5a1"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g3_scale_scale_down_stock",
+          "source_file": "current_sources.jsonl",
+          "line": 59,
+          "sha256": "94ea97aedd9217461dfadeb04ad71ce105c3c3760c0c40d3ee7ddb654e4d81e6"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 80,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-81-1775743963855.png",
+          "image_sha256": "09c551210fdbefc1da1e4531e2ab1c8335cb35093f07eaf760368a93cf12fb82",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "skip_intermediate_nodes_k_plus_one",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "jump_skip_nodes_interpretation"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Moving k spaces excludes start, whereas skipping k intermediate nodes lands after k+1 edges. Must state exact convention and work it."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+          "source_file": "current_sources.jsonl",
+          "line": 973,
+          "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+          "source_file": "current_sources.jsonl",
+          "line": 967,
+          "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v1",
+          "printed_page": 78,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_80-1791255472585.png",
+          "image_sha256": "775b70d2d0c9aabeaae3f2888ee9e19a289d92efc2865d87c653a3a940310099",
+          "exercise_types_read": [
+            "Column addition; budget-feasible second item; multiple blank digits constrained by carries; graph hops skipping specified intermediate nodes"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    }
+  ]
+}

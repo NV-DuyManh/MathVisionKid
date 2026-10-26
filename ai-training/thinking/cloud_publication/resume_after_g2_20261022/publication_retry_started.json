@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'publication_retry_started': True, 'already_checked_chat_rows': 1078352, 'no_data_reinserted': True, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'publication_retry_started': True, 'already_checked_chat_rows': 1078352, 'no_data_reinserted': True, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{'publication_retry_started': True, 'already_checked_chat_rows': 1078352, 'no_data_reinserted': True, 'training_started': False}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

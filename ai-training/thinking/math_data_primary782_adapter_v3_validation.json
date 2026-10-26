@@ -1,0 +1,31 @@
+{
+  "schema": "MathVisionKid.primary782_exact_schema_adapter.v3",
+  "input_files_sha256": {
+    "exports/accepted_teacher_cases.jsonl": "917f541097c4cd7f8fc6ee2f4a23a6187f64a002df111f2eb984044897314911",
+    "exports/accepted_teacher_cases_polished.jsonl": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+    "exports/teacher_chat_train_polished.jsonl": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+    "exports/polished_export_manifest.jsonl": "a3189d7e6ab9c7960678813437dd25be50522ea40562f3f79df1efff6a69f6d1",
+    "curation_manifest.jsonl": "b79e6cee4a7945b345b29c3a47b54cafa60e717c36d4575dd9cd50ea0bd41963",
+    "owner_human_signoffs.jsonl": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+    "owner_human_attestations.json": "e0d59a9a5ee6e428bfe2c2bcc3cee9fa7b8b52f507140ca09491a39f269cf4ea"
+  },
+  "builder_code_sha256": "08ae70ec97055b51d6b5613171ced337df199114dd5e81193579c0265469826d",
+  "finalizer_code_sha256": "ce200fd1e2b8655e8a2858bef08ab026347d73470e8ce5b57e249d2ffa2b70da",
+  "parent_source_projection_code_sha256": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+  "source_hash_overlay_previous_scope": "Existing1130source/3596chat overlay is unchanged and does not bind this primary782 member.",
+  "known_source_member_sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+  "counts": {
+    "source_rows": 782,
+    "chat_rows_verified": 3128,
+    "missing_can_solve_explicitly_adapted": 39,
+    "existing_exact_owner_attested_exports": 252,
+    "derived_polish_not_human_attested": 47
+  },
+  "no_raw_data_rewritten": true,
+  "no_human_attestation_added": true,
+  "binding_table_sha256": "0be248c118f1a9a7fe38d6f49c05f0b3a335164f145cee6e7353eae9b4b30ec0",
+  "generated_helper_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+  "generated_helper_bytes": 630312,
+  "raw_source_sha256_after": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+  "raw_chat_sha256_after": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded"
+}

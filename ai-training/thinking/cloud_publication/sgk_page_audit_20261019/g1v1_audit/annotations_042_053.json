@@ -1,0 +1,155 @@
+{
+  "42": {
+    "exercise_types": [
+      "compare_numbers_by_relation_symbol",
+      "count_then_compare_groups"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Only text analogue is mapped; no actual image recognition or physical execution claim."
+  },
+  "43": {
+    "exercise_types": [
+      "dice_board_move_compare_max_ladders_slides"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_conditional_board_game_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Only text analogue is mapped; no actual image recognition or physical execution claim."
+  },
+  "44": {
+    "exercise_types": [
+      "compare_heterogeneous_toy_counts",
+      "compare_scene_category_counts"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Only text analogue is mapped; no actual image recognition or physical execution claim."
+  },
+  "45": {
+    "exercise_types": [
+      "sum_two_dice",
+      "part_whole_table_by_attributes"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Only text analogue is mapped; no actual image recognition or physical execution claim."
+  },
+  "46": {
+    "exercise_types": [
+      "match_real_object_flat_shape_to_name"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Only text analogue is mapped; no actual image recognition or physical execution claim."
+  },
+  "47": {
+    "exercise_types": [
+      "select_multiple_shapes_of_given_type",
+      "count_shapes_in_composite_picture"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_COMPOSITE_SHAPE_COUNT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "48": {
+    "exercise_types": [
+      "count_disjoint_flat_shapes",
+      "count_shapes_in_shared_stick_diagram"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_COMPOSITE_SHAPE_COUNT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "49": {
+    "exercise_types": [
+      "tabulate_counts_by_shape",
+      "select_nonmembers_of_shape_class"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_COMPOSITE_SHAPE_COUNT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "50": {
+    "exercise_types": [
+      "assemble_five_given_pieces_to_two_target_silhouettes",
+      "free_shape_composition"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "51": {
+    "exercise_types": [
+      "assemble_square_two_triangles_to_multiple_silhouettes"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "52": {
+    "exercise_types": [
+      "four_triangle_cut_reassembly_to_target_silhouettes"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  },
+  "53": {
+    "exercise_types": [
+      "pair_irregular_complementary_pieces_to_named_whole"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_COMPLEMENTARY_BOUNDARY_MATCH"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text shape recognition or two-piece restore is a nearest analogue. Multi-piece silhouettes and shared-boundary/complementary-piece reasoning need distinct asset/semantic adjudication; physical performance is unverified."
+  }
+}

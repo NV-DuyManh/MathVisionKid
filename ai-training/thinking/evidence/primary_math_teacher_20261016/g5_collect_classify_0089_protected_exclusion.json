@@ -1,0 +1,21 @@
+{
+  "phase": "PROTECTED_GATE_EXCLUSION_PRESERVED",
+  "source_case": {
+    "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+    "node_id": "current_g5_collect_classify",
+    "case_slot": "core_03",
+    "source_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+    "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+  },
+  "source_and_answer_unchanged_after_gate": true,
+  "gate_status": "PROTECTED_DEVELOPMENT_CASE_COLLISION",
+  "accepted": false,
+  "core_credit": false,
+  "chat_export_rows": 0,
+  "sealed_challenge_opened": false,
+  "protected_questions_answers_or_pilot_read_for_repair": false,
+  "pipeline_changed_to_bypass_gate": false,
+  "candidate_values_or_answers_changed_to_evade_gate": false,
+  "next_action": "Retain authored slot as protected-excluded; do not reauthor this occupied slot. Final finite completion requires source/protection adjudication under exclusion policy; continue other unauthored nodes.",
+  "limitation": "Gate collision is not itself a semantic-equivalence proof. No claim of false positive or actual leakage without further authorized evidence."
+}

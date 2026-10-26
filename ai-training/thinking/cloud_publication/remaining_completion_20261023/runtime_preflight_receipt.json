@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Gl_cQKUVir1x"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T11:34:59.533038+00:00\", \"probe_only\": true, \"training_launched_by_probe\": false, \"threads\": [\"MainThread\", \"IOPub\", \"Heartbeat\", \"Control\", \"Thread-2\"], \"publication\": null, \"numeric\": null, \"has_authenticated_drive_service\": false, \"has_root\": false, \"gpu_inventory\": \"NO_GPU_RUNTIME\", \"gpu_probe_error\": \"FileNotFoundError\"}\n"
+        ]
+      }
+    ]
+  }
+}

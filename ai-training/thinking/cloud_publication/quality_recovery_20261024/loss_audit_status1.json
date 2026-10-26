@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "EwsUI17En--2"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T11:16:04.163828+00:00\", \"alive\": true, \"exit\": null}\n"
+        ]
+      }
+    ]
+  }
+}

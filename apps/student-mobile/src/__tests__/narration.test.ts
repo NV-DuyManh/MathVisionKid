@@ -1,4 +1,4 @@
-import { completedNarration, narrationChunks, spokenMath, stepNarration, vietnameseVoices, voiceLabel } from '../features/tutoring/narration';
+import { completedNarration, narrationChunks, narrationSegments, spokenMath, stepNarration, vietnameseVoices, voiceLabel } from '../features/tutoring/narration';
 import type { LessonStep } from '../features/tutoring/api/TutorService';
 import type { Voice } from 'expo-speech';
 
@@ -25,6 +25,9 @@ it.each([
   ['(1)/(3) + (2)/(5) = (11)/(15)', '1 phần 3 cộng 2 phần 5 bằng 11 phần 15'],
   ['1 - 11/15 = 4/15', '1 trừ 11 phần 15 bằng 4 phần 15'],
   ['12 × 2 : 3 = 8 (cm²)', '12 nhân 2 chia 3 bằng 8 xăng ti mét vuông'],
+  ['(12 + 8) × 2 = 40', 'mở ngoặc 12 cộng 8 đóng ngoặc nhân 2 bằng 40'],
+  ['5 × -2 = -10', '5 nhân âm 2 bằng âm 10'],
+  ['3 kg và 15 cm', '3 ki lô gam và 15 xăng ti mét'],
   ['5dm² và 3 mm³', '5 đề xi mét vuông và 3 mi li mét khối'],
   ['-3 + 2 = -1', 'âm 3 cộng 2 bằng âm 1'],
   ['Ngày 12/10/2026.', 'Ngày 12/10/2026.'],
@@ -38,7 +41,16 @@ it('keeps compound fraction operands and separates long speech without losing wo
   const text = 'Em đọc kỹ dữ kiện và thử giải thích bằng lời. '.repeat(40).trim();
   const chunks = narrationChunks([text, 'Giữ 3.5 cm.']);
   expect(chunks.every(chunk => chunk.length <= 420)).toBe(true);
-  expect(chunks.join(' ')).toBe(text + ' Giữ 3.5 cm.');
+  expect(chunks.join(' ')).toBe(text + ' Giữ 3.5 xăng ti mét .');
+});
+
+it('groups short sentences into continuous audio while keeping long lessons bounded', () => {
+  expect(narrationSegments(['Em đọc đề.', 'Xác định câu hỏi.', 'Thử làm nhé.'])).toEqual(['Em đọc đề. Xác định câu hỏi. Thử làm nhé.']);
+  const text = 'Em xác định từng lượng đã cho rồi tự viết phép tính phù hợp. '.repeat(80).trim();
+  const segments = narrationSegments([text]);
+  expect(segments[0].length).toBeLessThanOrEqual(160);
+  expect(segments.slice(1).every(segment => segment.length <= 420)).toBe(true);
+  expect(segments.join(' ')).toBe(text);
 });
 
 it('selects Vietnamese voices, prefers enhanced quality and never falls back to English', () => {

@@ -1,0 +1,992 @@
+{
+  "schema": "mathvisionkid.pedagogy.semantic_review2.v1",
+  "status": "PASSED_AFTER_APPEND_ONLY_V2_POLISH",
+  "reviewer": "verify_pedagogy_AI_agent",
+  "review_scope": "All 60 actual questions/givens/requests/student_work/initial/180 hints/steps/titles/reasons/explanations/units/answers/alternatives read in full; then exact derivative changes and regenerated chats reviewed.",
+  "human_review_claimed": false,
+  "independent_external_review": false,
+  "source_original_sha256": "9db5483e0744daa1a5c7c9b8c0c41d83257ad0e7f400def5ce5c62aee34618ef",
+  "selected_source_path": "thinking\\cloud_publication\\resume_20261018\\pedagogy_cases_v2.jsonl",
+  "selected_source_sha256": "041613186bc6402f24dd74c892bdfbf80f02c33518ba4fe28480fe08cbecad15",
+  "selected_chat_path": "thinking\\cloud_publication\\resume_20261018\\pedagogy_chat_v2.jsonl",
+  "selected_chat_sha256": "d269b5682981abae5ea98b39c6b9e34e0cf7bca067e41112299183b958a9f77d",
+  "review_code_sha256": "0ab2d00cd5ca7b3cc266a7ca1254bd65a650f6650c87523cdd33cf4f1fee7edf",
+  "original_generator_sha256": "9847816e38573a914354afbec52c43bd904096c86cd97016a854dcf68b3939b5",
+  "cases": 60,
+  "chat_rows": 240,
+  "numeric_steps_review_exact_fraction_decimal": 141,
+  "selected_unique_story_count": 60,
+  "superseded_v1_preserved_for_audit_not_added_again": true,
+  "canonical_signatures_and_splits_unchanged": true,
+  "test_cases": 12,
+  "limits": [
+    "Human manual review is not claimed.",
+    "Not proof of full curriculum or physical/vision ability.",
+    "New authored holdout stories remain isolated by original case groups and canonical reservation metadata.",
+    "Template/keyword validation is supplemental to actual semantic reading."
+  ],
+  "row_reviews": [
+    {
+      "sample_id": "cloud_pedagogy_v2_001",
+      "parent_sample_id": "cloud_pedagogy_v1_001",
+      "source_row_sha256": "07a307374f2b770dbe6bdb9de8c542a6a384073f06e9b7eaaadc9c0e6fe57949",
+      "parent_row_sha256": "d365038cf01499e40d9f9c782b62b95aa81b88fbb3d7272a66c4983715756653",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Two sequential changes are an enrichment story for grade 1; this does not certify a required single-step grade-1 outcome."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_002",
+      "parent_sample_id": "cloud_pedagogy_v1_002",
+      "source_row_sha256": "b199063ba68116f91c45fa0766f78070fdfc4804af87db945a890766120510d9",
+      "parent_row_sha256": "e8e6aea94394589d68396499fc30e6770a2c226984e8f7b152f496921ecf1403",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Two-step comparison and total is enrichment at grade 2 pending textbook-level mapping."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_003",
+      "parent_sample_id": "cloud_pedagogy_v1_003",
+      "source_row_sha256": "987379932de4cfcf9ac20d9a81c475b5a5c535b64fab85f848d10d23fe94e97d",
+      "parent_row_sha256": "d463549a1d3d5fc6b3a5a40ce0756ab066b3fff2b739ef11bb9367f3d0b48978",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_004",
+      "parent_sample_id": "cloud_pedagogy_v1_004",
+      "source_row_sha256": "1e3a4ccaf2c05e27b6f24022f21e2f8c1cb4f1700509789d5e83b4b3dc8959ee",
+      "parent_row_sha256": "e756819346295f4591226c24c8560190adfe367eba046cbf78765a6988b84a23",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_005",
+      "parent_sample_id": "cloud_pedagogy_v1_005",
+      "source_row_sha256": "f3f5ae88b14445bc8cfbba51c86bbf48b0434da8bf9209332c3246f38dc488af",
+      "parent_row_sha256": "91842614a7535c6a00ff6edaae551aa422059d16e5d78b5998d17417930a49cb",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_006",
+      "parent_sample_id": "cloud_pedagogy_v1_006",
+      "source_row_sha256": "3c32c6334ac79703b0a68a87d84dfea8c4e7c1eb1a8c3e0a7f503a8b14c21be1",
+      "parent_row_sha256": "4633b7b0c56ae8b6e3f578042b4d1480b4ad32dd96fe7d2b14121da6fbe6ba7a",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_007",
+      "parent_sample_id": "cloud_pedagogy_v1_007",
+      "source_row_sha256": "5ee5953b906ba0defc5f56bd6fc0936cdf8a81583e0f62dc3620d1c7a43e7967",
+      "parent_row_sha256": "e4d8620edffe335baf508dea4e98b1d74a045059681c65d13676c55ab974a3ca",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_008",
+      "parent_sample_id": "cloud_pedagogy_v1_008",
+      "source_row_sha256": "86237b4aba8c0005b7c371c440a5bba15ce4bbf94abcaf4e3674fcbe6c4b81b9",
+      "parent_row_sha256": "9172b65d213b49d6bd64df53f150d877eaa9d6aa2773a8e05d69ce41b9197a75",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_009",
+      "parent_sample_id": "cloud_pedagogy_v1_009",
+      "source_row_sha256": "993f453d557e6666d9e842a7ad67ba4cc11cf685f791313f883c70c40fe826d8",
+      "parent_row_sha256": "91f7b25281dab99c2f90a3ddeb755f5d205b3f4ca3edf6d812e5a3b201af873f",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_010",
+      "parent_sample_id": "cloud_pedagogy_v1_010",
+      "source_row_sha256": "0e351d325c4ab3c22074b8ddfc3d5d51227711681bced2e2ad0e9bfbacdad97c",
+      "parent_row_sha256": "75d4f4aa5071bd60f99fdb02e04911fd23415b6a7748a2fd04e148611fcc879d",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_011",
+      "parent_sample_id": "cloud_pedagogy_v1_011",
+      "source_row_sha256": "0d92ea4b84a3b98d5de94510d938f63493e0f13e3ac0818a282b836033114b52",
+      "parent_row_sha256": "d640baaf3e9189e47d06d99774b252b81455fc8e8a5814d625411a90e6ca0812",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Total-and-ratio placement at grade 4 requires legacy/current textbook mapping; retain as enrichment, not a mandatory current-grade claim."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_012",
+      "parent_sample_id": "cloud_pedagogy_v1_012",
+      "source_row_sha256": "ba7fb6205cdbaaf7274c34104940cad8a52ac6659c686826b2907db935e2fd23",
+      "parent_row_sha256": "fa198ea43b84fcbd4f232ea5772889abffd1f8bdc6d9a57aca246ba42c1f97e5",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_013",
+      "parent_sample_id": "cloud_pedagogy_v1_013",
+      "source_row_sha256": "9fc14ca3ac59ed5801335b0a007f307cfdce2dcaea5126b914bfa7d0ecd46496",
+      "parent_row_sha256": "775b2a49707100012c0e7f1597e1e6c12ff090cc5b99bb919545f3c80be93f5e",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Symbolic x at grade 2 is an optional notation extension; missing-part arithmetic is suitable but the notation is not certified mandatory."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_014",
+      "parent_sample_id": "cloud_pedagogy_v1_014",
+      "source_row_sha256": "cc4d7323f17845c95d7ef15fef96ab1f0289e1c71605c7224f3fb2ab98c2897d",
+      "parent_row_sha256": "58709566e6291ca4a22b898a952306fc674f9f6c52de8984027f201dd7274c99",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_015",
+      "parent_sample_id": "cloud_pedagogy_v1_015",
+      "source_row_sha256": "580736d90a71d678f6c1e3b9be72ec97f218380d4159a80e96e84c1d7aa17b4f",
+      "parent_row_sha256": "7608b67c52cc4b9f25f9d099030ebabdef4fdad0a533671ad7bd57e1a692cfca",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_016",
+      "parent_sample_id": "cloud_pedagogy_v1_016",
+      "source_row_sha256": "07424464236cbb6d91e62f188e66c4d4303921d97f460cce612e72e0619daac4",
+      "parent_row_sha256": "053b3bbd8c93280ac22024bcd78c7ae0221e7a7820c91a5586b1d5673f96798a",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_017",
+      "parent_sample_id": "cloud_pedagogy_v1_017",
+      "source_row_sha256": "7321dd25f0e9217ba17e37650fbe7d60633cb5905d682d2a7939d84e8559b8f7",
+      "parent_row_sha256": "737fed3a82bf5ca1883b11c64ed4b5dd4aab45e4af528e90b3ce4b236caf9c8d",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_018",
+      "parent_sample_id": "cloud_pedagogy_v1_018",
+      "source_row_sha256": "e4e6270765bbe1cdb60a244c8a27dbbb4a812908dceedeeacfe8926249ef198e",
+      "parent_row_sha256": "4219b21db849293ef62e18a32683114742353717599631aa7cffbb8bb4e54c49",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_019",
+      "parent_sample_id": "cloud_pedagogy_v1_019",
+      "source_row_sha256": "bef4e075d9b682ead2f3cb1f8dce84919b769b8524d1d0ea93d77fe98e886fc5",
+      "parent_row_sha256": "b3ab2dfa4a92b6eca99121bfae0e38cd880fdb8b0a72216337e9873dba0a9faf",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_020",
+      "parent_sample_id": "cloud_pedagogy_v1_020",
+      "source_row_sha256": "a3d7270b1e05e8a5b13e1953af8b7d9a1f94c531a176d1c0b27e1290bf50d0fe",
+      "parent_row_sha256": "91d9d2bf09e51bf2034df1acd0e178f7f864834f81dabd758fac815c3d3b0688",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_021",
+      "parent_sample_id": "cloud_pedagogy_v1_021",
+      "source_row_sha256": "b489d6185088e64371d4353c5f6629e2244fd4f7bfd5fc7f09fde5a9b09a0cc7",
+      "parent_row_sha256": "a4fd3c34bae0f07ef250f330b22fa1e30c320c0d9d1aff71af6736e390b0558f",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_022",
+      "parent_sample_id": "cloud_pedagogy_v1_022",
+      "source_row_sha256": "7b0fe7db5aa40a31d27b98825233d82885bfaac7b9d7e00a85e7ff8b487dba26",
+      "parent_row_sha256": "27996ba21feaa739e9f220528e166ed48bd4798a683c6864d71bb4e20fb6c8d1",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_023",
+      "parent_sample_id": "cloud_pedagogy_v1_023",
+      "source_row_sha256": "c721121e71c7e75a908d8f519e1d71494c12b7b542dd11635069c8550ecd8803",
+      "parent_row_sha256": "1e9a6227e574a6158ef4da48b64de56efb66dd6006a34a31d11d91bf64c412d5",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_024",
+      "parent_sample_id": "cloud_pedagogy_v1_024",
+      "source_row_sha256": "4eff6a6a7eca9c497625813defed28f6f01e92e147cabb70cb0b2dd930566835",
+      "parent_row_sha256": "05436c362306ba1e962cf3b744714cbaf39676c4e7808a3cae5892ed9e98bd21",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_025",
+      "parent_sample_id": "cloud_pedagogy_v1_025",
+      "source_row_sha256": "904084c8931678e10272384af6c2f7c06ba2edf023f44aa16eb7ec98c84e3523",
+      "parent_row_sha256": "b3a672dfb52f363a0cdb288f27f2866d5a834a7f230a47f296957dc03ba4b950",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_026",
+      "parent_sample_id": "cloud_pedagogy_v1_026",
+      "source_row_sha256": "bf47a51cddf87b97a3be1f91b44c1bd550c82b78165e18716bdf046adb9d7ba7",
+      "parent_row_sha256": "8f29b639adede7943b18baaaea3e3cf4175443b1e286ca14b1b3bc463b606ea1",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_027",
+      "parent_sample_id": "cloud_pedagogy_v1_027",
+      "source_row_sha256": "fccaee1cd3afcf7156cf4db294992a66c0f6be675e898d98baba7e23a4abdc70",
+      "parent_row_sha256": "494dde5e0e82af5f02f01027ac81ac399aaea455d7cbffb79b90c3f9a8695fb6",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_028",
+      "parent_sample_id": "cloud_pedagogy_v1_028",
+      "source_row_sha256": "505c93182a74261c1c37532ee694aacc87d0fa2a982dc0e160a1d54f17bd2241",
+      "parent_row_sha256": "53b28b988d6c58ec5d5a9f5a0e00c449fb944c68aff1e3c24ef0e755775a7751",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_029",
+      "parent_sample_id": "cloud_pedagogy_v1_029",
+      "source_row_sha256": "56ece4f4119b9a68d12d587e09059cfb1264e042c1025168e278c981fda5f48b",
+      "parent_row_sha256": "eb8293e48495dcd7c5d8be10a19ac7fd1e48a3695600137f4f770ce8cdc2d400",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_030",
+      "parent_sample_id": "cloud_pedagogy_v1_030",
+      "source_row_sha256": "965014b5884e703827bc020a6f68a480002584a706c9d334ba2b05c6cd80be61",
+      "parent_row_sha256": "995d4af83d00d4b2e2244b888966534c7f8b71604c863e8dadabc30511876231",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_031",
+      "parent_sample_id": "cloud_pedagogy_v1_031",
+      "source_row_sha256": "400879c218d26f1d1a5e40ab54b82242aef05efb6637a5fd4daff7ab763856d0",
+      "parent_row_sha256": "447a499c99fd71bc04d5462e9b22dde86531d08a0818316cc31173b39cbb8200",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_032",
+      "parent_sample_id": "cloud_pedagogy_v1_032",
+      "source_row_sha256": "f3b2755376b1ff303004c89e2fc5d87d41e69fd377814484cab856da34177b47",
+      "parent_row_sha256": "45aecff333517e651b06c9fa76ed4f9cacba82caa208918d044c65e49a0f0912",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_033",
+      "parent_sample_id": "cloud_pedagogy_v1_033",
+      "source_row_sha256": "a85fafa953f03a924dd5fa642b1c2bdb373b16eea3b60162fd09599564f7c4a8",
+      "parent_row_sha256": "b9b5a6d3f0c9a2bb6f9292273953d5ddf59484ee535e604ff7cad7be93cdaf26",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_034",
+      "parent_sample_id": "cloud_pedagogy_v1_034",
+      "source_row_sha256": "3dc61d0ca03a38e661e8e9b0709d5ad2d23e674b6fe988a7f222b10c7acff095",
+      "parent_row_sha256": "22045ce3c7e9204de5ef22251ba2371b5245461ae304cdb46fcdc295a598b960",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Two-body meeting is a contextual enrichment application; no specific current textbook outcome is certified."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_035",
+      "parent_sample_id": "cloud_pedagogy_v1_035",
+      "source_row_sha256": "d1d32a79543ef32ad3bd30aa0b25a8d41be9fef7c7e3a645471714aeb8b12a7d",
+      "parent_row_sha256": "7286eb60655b55eb512b218dd2e1810e47f19e11b3e267115ec34cf1a6845c6d",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_036",
+      "parent_sample_id": "cloud_pedagogy_v1_036",
+      "source_row_sha256": "5383ba8c984b1134925daeff8d26cb95c9ddbba98ca74d0b471ff9ebcef95b9d",
+      "parent_row_sha256": "b1301d3db5d1f1259c7a64e7a495e455652ca10dafa6a6b450a19f5145698fdb",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_037",
+      "parent_sample_id": "cloud_pedagogy_v1_037",
+      "source_row_sha256": "3dfb36acbba4103790a5e70e0549bb69c56b6adfbe0a69f7628416ba9334d890",
+      "parent_row_sha256": "3d0d90169706223ce4e6dc65b3f7a7b810a415140bcd6c9501b7337d16498376",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_038",
+      "parent_sample_id": "cloud_pedagogy_v1_038",
+      "source_row_sha256": "74fb982c3d09396e2071bb21845a661bdbf525dd750d39cc41113f8d540ad675",
+      "parent_row_sha256": "7f2bc580f173c1eb996bfc60d37fbaa8f3ebbe3dc0e8f9bfa7d2da477992bc5c",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_039",
+      "parent_sample_id": "cloud_pedagogy_v1_039",
+      "source_row_sha256": "9d482a81763c6d95f430f0953ab0cb43a31bb013707a81b5b83cd58a0322d6e2",
+      "parent_row_sha256": "699b9464241e7dc9318e24b421c8be8403421dcaff8c92bc623f378a10e107fa",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_040",
+      "parent_sample_id": "cloud_pedagogy_v1_040",
+      "source_row_sha256": "63752008630faf67b624ef89885c7f4aea0f0100d142f271a1310261a042f504",
+      "parent_row_sha256": "90431e46b55556ac425fa697d09878b43dbf6814f597302c6033a9ef6e8e3973",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_041",
+      "parent_sample_id": "cloud_pedagogy_v1_041",
+      "source_row_sha256": "03647970bf89b702202895f11a9d914be5b65df4d12e0b32e685a7a708bdea21",
+      "parent_row_sha256": "2bf6147f8ec18134e627fd846dd8843cefd8f75e2a5c3c23957426415dfabbac",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_042",
+      "parent_sample_id": "cloud_pedagogy_v1_042",
+      "source_row_sha256": "778ffb0a036a655bcbc064f1481c9c98d390762b70f240543d63f7cac0521ab9",
+      "parent_row_sha256": "0bb64f4f004c307e1a5b13ab523d6ea36a9a8c1e6ca84884e7acb72bf5ee6267",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_043",
+      "parent_sample_id": "cloud_pedagogy_v1_043",
+      "source_row_sha256": "1927fac95a6c6d85a2922df59b74b3ec30ae3dd74f5e8e47ee3137b5ac7e6852",
+      "parent_row_sha256": "94f17739645eeb54db47e40263d209be7e99cea28659e8c4d1276fd7070408ae",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_044",
+      "parent_sample_id": "cloud_pedagogy_v1_044",
+      "source_row_sha256": "1b2270ecdc1b9f80a92f00c7c34d2ab31b546f60d3d66ab348e28341cea9eb2f",
+      "parent_row_sha256": "35f14e7da9569f3165597c8c2c4aebe327e68457cb28bae04217f2c5bc57291c",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_045",
+      "parent_sample_id": "cloud_pedagogy_v1_045",
+      "source_row_sha256": "9b508b81e68a6ea801bc3e12fe7501c9b4765ce00c22a99671e6f66d248ccce8",
+      "parent_row_sha256": "c6d5ffc692b2b9379b110058232088eca9d082d1dc7e07fda5348a869b885908",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_046",
+      "parent_sample_id": "cloud_pedagogy_v1_046",
+      "source_row_sha256": "4959df21f6c0829fdc47a128405f591d2d9633a057b4281e90c5dfe4b4086075",
+      "parent_row_sha256": "0eafbceca18168879c5f1edb96f064a83f806ae0d5f1684938d517e5fa42e6c3",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_047",
+      "parent_sample_id": "cloud_pedagogy_v1_047",
+      "source_row_sha256": "716494c8b4c0528bbafc936642ad2d56e68c9b0fce7c043993ec39dda88fce7d",
+      "parent_row_sha256": "b02b3d0b5217e88ba7d9f26cde3fb3b890b69f8bc193eb731c290bd16dcf4f36",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_048",
+      "parent_sample_id": "cloud_pedagogy_v1_048",
+      "source_row_sha256": "3e316d32367f0c61249535a133e9706d61b82e6abfa326668cee9d3394ab7f2a",
+      "parent_row_sha256": "87a1c523c4aab1c3ce1e108927adf39fd8d2690767b1e3f4a0fcacf124be2d5f",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_049",
+      "parent_sample_id": "cloud_pedagogy_v1_049",
+      "source_row_sha256": "650e25551ce94aabbb05aab2a69afac0501684ead4a8f23bb4a046ab57370f6e",
+      "parent_row_sha256": "0dff1f98500272b2a59953e3441324d17f40644d34a5d952b245e695e3aac633",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_050",
+      "parent_sample_id": "cloud_pedagogy_v1_050",
+      "source_row_sha256": "3c155d4e254c4b0c32a082ae75801ca0d28916959add6a18438322496e3284be",
+      "parent_row_sha256": "4d54b265e3dfdbd8f952b93d48895d81a4800ede8e96afceab36dea27730c997",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_051",
+      "parent_sample_id": "cloud_pedagogy_v1_051",
+      "source_row_sha256": "8f63cc6335b15d9091a3f01adde237af1b2d30f36b2d0c72229f8de275e280ac",
+      "parent_row_sha256": "b044e0f9ad82daa92400ca88561214f97c3c6ca99afb59afac8ce09ca36ea2fc",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_052",
+      "parent_sample_id": "cloud_pedagogy_v1_052",
+      "source_row_sha256": "8d24f99af3264ec3f0d8dc1fe563ce8957e44f2446912e44d66a6ab2af01e9f3",
+      "parent_row_sha256": "888002b36c39ee8d1c3c3f5b32091cb7a585f519074fb71936a0c514c7bb74df",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_053",
+      "parent_sample_id": "cloud_pedagogy_v1_053",
+      "source_row_sha256": "e3461fba5397d069bf36d754922e3596c16bf5e5596e9291d6032ef1085c44bd",
+      "parent_row_sha256": "ad96603094e546b7358c224022833c1bf5496a3125b7db85f1d936e3f93e5b9e",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_054",
+      "parent_sample_id": "cloud_pedagogy_v1_054",
+      "source_row_sha256": "de7002076ee04ce584a15c7ad7c09fcbe1fefabe291654a8c3cdd489d6a6c00e",
+      "parent_row_sha256": "542c977f2426dbb8b0cd281fb4175c5d5937bdc7255106b044a102cc0a51cf02",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_055",
+      "parent_sample_id": "cloud_pedagogy_v1_055",
+      "source_row_sha256": "47e4497e57dfe4e31338b127c655a2b26fa7c5093a59dbed52283c97b3ff8d09",
+      "parent_row_sha256": "28be19a8d03cfe121c8e0249d4f7853a07132f238dcab51270bcc573d3204d7a",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_056",
+      "parent_sample_id": "cloud_pedagogy_v1_056",
+      "source_row_sha256": "fc33d07b04d162abefec30b313b3abd2edccd354461047636b7a8f2145a0603a",
+      "parent_row_sha256": "4db6246dfe24de1d45c9f69cfe86b25a0ddcec350a78b3955c940ebcfea8b530",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_057",
+      "parent_sample_id": "cloud_pedagogy_v1_057",
+      "source_row_sha256": "c70678fa8878bbda1506f2afc9ee3b460551d4d2a479981bbf9f424df5cf9576",
+      "parent_row_sha256": "f49b690905e8775f746862790b822b09b7fa31edcf7922411957a74184094d9c",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_058",
+      "parent_sample_id": "cloud_pedagogy_v1_058",
+      "source_row_sha256": "fcfd793f3fb4a3951eb75a3032d343f8b839cabd0d2adcb016230586e5f38818",
+      "parent_row_sha256": "da718947639c202bb7e918d84dcf4690e4268d1344264c88e752f79027c9c5b1",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_059",
+      "parent_sample_id": "cloud_pedagogy_v1_059",
+      "source_row_sha256": "54d4ab55ed2f292ca861f128f57dc31704d8501b075f7da1e093b9166ae57bbe",
+      "parent_row_sha256": "25d83799444b56f53d89c64262e1ef56b0545216471c6909d3e222e285a4d410",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v2_060",
+      "parent_sample_id": "cloud_pedagogy_v1_060",
+      "source_row_sha256": "5f9545ab0620f339cdbe596330741b1f52d73ad8a44ca82597fc41bb11d2d983",
+      "parent_row_sha256": "fe5899617be3d0016588d5e36721f2d74b730885f9e0675712b592b9e51e04a4",
+      "criteria": {
+        "correct_math_and_story_relations": "PASS",
+        "complete_givens_or_genuine_guard": "PASS",
+        "grade_units_and_honest_scope": "PASS",
+        "step_reasons_and_check": "PASS",
+        "initial_and_all_three_hints_no_numeric_answer": "PASS",
+        "feedback_only_actual_student_work": "PASS",
+        "schema_provenance_and_grouping": "PASS"
+      },
+      "note": "Actual story, every worked/check relation and all hints were read; exact result checked against independent story oracle."
+    }
+  ],
+  "skills_matched": "none",
+  "skills_applied": "none"
+}

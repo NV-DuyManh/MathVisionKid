@@ -1,0 +1,25 @@
+{
+  "add": {
+    "newCellId": "cfJPtL34Y1fE"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"id\": \"1hw2I662iP35WZxtoYsVJs1e80xoRBqnh\", \"bytes\": 147446, \"sha256\": \"3eb96dbdf3709c5379b7bb3f83b40f0a126a11307d9c86b2171a89d93ea4db7e\", \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T05:30:17.716300+00:00\"}\n"
+        ]
+      }
+    ]
+  }
+}

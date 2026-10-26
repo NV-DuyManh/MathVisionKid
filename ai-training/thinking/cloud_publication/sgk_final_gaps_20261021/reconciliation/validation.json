@@ -1,0 +1,30 @@
+{
+  "accepted_cases_bound": 71,
+  "accepted_chat_links_declared": 284,
+  "all_sgk_forms_covered": false,
+  "asset_only_masters_separate": 10,
+  "external91_g2_records_preserved": true,
+  "external_g2_new_exact_text_candidates": 1,
+  "external_g2_remaining_separate": 54,
+  "finite_text_global_tasks_discharged": 28,
+  "inputs": {
+    "sgk_final_gaps_20261021/release/accepted_cases.jsonl": "9029fc339fbaf16a0395fc1ccfac10721a0e9ae102e7d17728a2cbc77fa7427c",
+    "sgk_final_gaps_20261021/release/cross_reviews.jsonl": "fe2cb6185f7d3910a5ff06b04db4e99bb105994895d0dcd257a6d2905481ede9",
+    "sgk_final_gaps_20261021/root_evidence/content_review.json": "90782edb4aaea1543c64d40b56c612c88a9a67856df3c8bae0e014fbf39a9db6",
+    "sgk_residual_20261021/reconciliation/candidate_adjudication.json": "eafc2c27ad3ede70701c9a67ac9ba0715a1a5c842496d3c19c39c8f5aa87fe7f",
+    "sgk_residual_20261021/reconciliation/next_uncovered_tasks.json": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051"
+  },
+  "original204_candidate_fields_preserved": true,
+  "original315_occurrences_preserved": true,
+  "outputs": {
+    "candidate_adjudication.json": "26df06892088af10ebc8d6fd8575ee88d87c843b3b67c65e4d2732d2ce966746",
+    "next_uncovered_tasks.json": "3e08fad0ef0ce50bffe8bd3a49d0a86dfda0e4420c8f2de6716979bbfc5db548",
+    "run7_accepted_binding.json": "a4905f67211d884f32015eae96dae4e88a160338a07c2220865e068827c50654"
+  },
+  "remaining_global_master_tasks": 2,
+  "remaining_global_text_math_authoring_tasks": 0,
+  "remaining_source_locator_only_tasks": 2,
+  "status": "PASS",
+  "training_started": false,
+  "untouched54_g2_pending_branches_preserved": true
+}

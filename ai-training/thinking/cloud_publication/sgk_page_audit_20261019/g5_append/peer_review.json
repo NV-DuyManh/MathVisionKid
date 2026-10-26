@@ -1,0 +1,780 @@
+{
+  "source_file_sha256": "7a4b57b2e414ea0931da54482d5899ae3082b3a70e9a4a3606ce6e8bf34f4ab6",
+  "source_file_bytes": 57715,
+  "case_count": 12,
+  "chat_file_sha256": "cf9f0815c03965059e6a1d859edc7ff6f59c1fe2ef542282af5980d7f0c84985",
+  "chat_count": 48,
+  "chat_exact_content_source_hash_schema_checks": "PASS",
+  "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED",
+  "seven_criteria_pass_count": 12,
+  "numeric_step_checks": 22,
+  "reviewer": "resume_g3_spatial",
+  "math_issues": [],
+  "pedagogy_blocking_issues": [],
+  "resolved_before_pass": [
+    "Previous-year timezone prose now explicitly states no midnight crossing at B and retains correct date.",
+    "Time elapsed expressions use actual hour-minute operands rather than numeric-result literals.",
+    "Net second and third examples now differ in topology and task, not only labels and size.",
+    "Draft chat records carry exact source line hash and match draft acceptance and quality status."
+  ],
+  "reviews": [
+    {
+      "sample_id": "sgk_page_g5_20261019_tiered_tariff_two_parts",
+      "source_row_sha256": "25e158b9508d1589adb18052daf00fb8d9c7393f14ddcbf8816884fcc78a6725",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "per_unit_accumulated_bill": 75000
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "13-8",
+          "fraction": "5",
+          "decimal": "5"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "8*5000",
+          "fraction": "40000",
+          "decimal": "40000"
+        },
+        {
+          "step_id": "s2",
+          "substituted_expression": "5*7000",
+          "fraction": "35000",
+          "decimal": "35000"
+        },
+        {
+          "step_id": "s3",
+          "substituted_expression": "(40000)+(35000)",
+          "fraction": "75000",
+          "decimal": "75000"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_tiered_tariff_boundary",
+      "source_row_sha256": "6f0d0d24d00552c33ad199627f61edf51228b113e355ac05019bc415930ca3b0",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "per_unit_accumulated_bill": 52
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "10-6",
+          "fraction": "4",
+          "decimal": "4"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "6*4+4*7",
+          "fraction": "52",
+          "decimal": "52"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_tiered_tariff_reverse_bill",
+      "source_row_sha256": "d5425a13dc62ed07905b6a6e6e2c56bc7e665295a901efe5cb035dc7428ce8d5",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "exhaustive_integer_domain_solutions": [
+          9
+        ]
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "5*4",
+          "fraction": "20",
+          "decimal": "20"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "44-(20)",
+          "fraction": "24",
+          "decimal": "24"
+        },
+        {
+          "step_id": "s2",
+          "substituted_expression": "(24)/6",
+          "fraction": "4",
+          "decimal": "4"
+        },
+        {
+          "step_id": "s3",
+          "substituted_expression": "5+(4)",
+          "fraction": "9",
+          "decimal": "9"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_rotated_water_stand_to_side",
+      "source_row_sha256": "ffde081491c57b23b5b99bc0cd72d1a22feb63b1fd7089d3610c88b9994b8730",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "height_ratio_exact": "24/5",
+        "water_volume": "576",
+        "new_container_height_checked": true
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "12*8*6",
+          "fraction": "576",
+          "decimal": "576"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "(576)/(12*10)",
+          "fraction": "24/5",
+          "decimal": "4.8"
+        },
+        {
+          "step_id": "s2",
+          "substituted_expression": "12*10*(4.8)",
+          "fraction": "576",
+          "decimal": "576.0"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_rotated_water_slim_to_flat",
+      "source_row_sha256": "5598d90b0e3215e2f9d8cf4edc7cbf05b7a99a77c94d07501552ee393f5b9de1",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "height_ratio_exact": "3",
+        "water_volume": "450",
+        "new_container_height_checked": true
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "15*6*5",
+          "fraction": "450",
+          "decimal": "450"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "(450)/(15*10)",
+          "fraction": "3",
+          "decimal": "3"
+        },
+        {
+          "step_id": "s2",
+          "substituted_expression": "15*10*(3)",
+          "fraction": "450",
+          "decimal": "450"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_rotated_water_reject_same_height",
+      "source_row_sha256": "16ea217e8515cdf683de30eb249660f7066491c089c5d92b9652f473f9e0c4a3",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "height_ratio_exact": "2",
+        "water_volume": "400",
+        "new_container_height_checked": true
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "20*5*4",
+          "fraction": "400",
+          "decimal": "400"
+        },
+        {
+          "step_id": "s1",
+          "substituted_expression": "20*10*4",
+          "fraction": "800",
+          "decimal": "800"
+        },
+        {
+          "step_id": "s2",
+          "substituted_expression": "(400)/(20*10)",
+          "fraction": "2",
+          "decimal": "2"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_timezone_given_table_next_day",
+      "source_row_sha256": "896b10d60b999f7d5b0846fa75d210a67659a13c0c101668ff1ccaa71ec4ae3f",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "absolute_ordinal_minute_elapsed": 105,
+        "offset_invariant": true,
+        "target_b": "2026-04-11T01:30"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "(20*60+0)-(18*60+15)",
+          "fraction": "105",
+          "decimal": "105"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_timezone_given_table_previous_year",
+      "source_row_sha256": "55334285874e9a74bf19e7027bf1232b6878923d4bc19f33dfdd223c36448650",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "absolute_ordinal_minute_elapsed": 210,
+        "offset_invariant": true,
+        "target_b": "2025-12-31T22:50"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "(5*60+50)-(2*60+20)",
+          "fraction": "210",
+          "decimal": "210"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_timezone_given_table_wrong_date",
+      "source_row_sha256": "cbf017d1a4f88e4f92ef1e452ba57606cd223812fdde9d19cdf27cc4c8223b85",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "absolute_ordinal_minute_elapsed": 240,
+        "offset_invariant": true,
+        "target_b": "2026-06-03T01:10"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "substituted_expression": "(12*60+10)-(8*60+10)",
+          "fraction": "240",
+          "decimal": "240"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_net_repair_cut_one_labels_AH",
+      "source_row_sha256": "86f66f66c691fe37354ae34ab949c6d287bc4649399191048a698e92a446e1cb",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "valid_cuts": [
+          "H"
+        ],
+        "folded_vertex_edge_incidence": {
+          "H": {
+            "valid": true,
+            "unique_faces": 6,
+            "vertex_counts": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "edge_counts": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "E": {
+            "valid": false,
+            "unique_faces": 5,
+            "vertex_counts": [
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4
+            ],
+            "edge_counts": [
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3
+            ]
+          },
+          "B": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 1
+          }
+        }
+      },
+      "numeric_checks": []
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_net_repair_cut_one_labels_PW",
+      "source_row_sha256": "e4b3248dcb046b01b0fcdf9973e0a946b9c578ef3efc6c05326f4563fd99dd56",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "valid_cuts": [
+          "U",
+          "W"
+        ],
+        "folded_vertex_edge_incidence": {
+          "P": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 5
+          },
+          "Q": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 2
+          },
+          "R": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 3
+          },
+          "S": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 4
+          },
+          "T": {
+            "valid": false,
+            "reason": "not six connected faces",
+            "connected": 5
+          },
+          "U": {
+            "valid": true,
+            "unique_faces": 6,
+            "vertex_counts": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "edge_counts": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "W": {
+            "valid": true,
+            "unique_faces": 6,
+            "vertex_counts": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "edge_counts": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        }
+      },
+      "numeric_checks": []
+    },
+    {
+      "sample_id": "sgk_page_g5_20261019_net_repair_cut_one_labels_JZ",
+      "source_row_sha256": "32ab6ff0498d71fb8a0c90570767f1b302bff0069e86de020a875d15d460fc6a",
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3",
+        "all_worked_steps",
+        "all_reasons",
+        "all_explanations",
+        "all_expected_answers",
+        "provenance"
+      ],
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS",
+        "schema_provenance_unique": "PASS"
+      },
+      "independent_representation_oracle": {
+        "valid_cuts": [
+          "Z"
+        ],
+        "folded_vertex_edge_incidence": {
+          "N": {
+            "valid": false,
+            "unique_faces": 5,
+            "vertex_counts": [
+              2,
+              2,
+              3,
+              3,
+              3,
+              3,
+              4,
+              4
+            ],
+            "edge_counts": [
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3
+            ]
+          },
+          "Z": {
+            "valid": true,
+            "unique_faces": 6,
+            "vertex_counts": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "edge_counts": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          }
+        }
+      },
+      "numeric_checks": []
+    }
+  ],
+  "scope_limitations": [
+    "Four selected original text form families, not twelve independent curriculum forms.",
+    "Numeric, label or topology variants do not establish exhaustive SGK coverage.",
+    "No actual visual/physical student outcome authenticated.",
+    "Author and peer agent review do not constitute human attestation or external credential verification."
+  ],
+  "drive_mutated": false,
+  "trained": false
+}

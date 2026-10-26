@@ -1,0 +1,396 @@
+{
+  "status": "OFFLINE_TUTORING_TESTS_PASSED_RESEARCH_MODULE_NOT_PRODUCT_INTEGRATION",
+  "date": "2026-10-12",
+  "timezone": "Asia/Bangkok",
+  "test_command": "python -m pytest test_verified_math_tutoring_v2.py -q",
+  "tests_passed": 24,
+  "tests_failed": 0,
+  "word_cases_checked": 2320,
+  "word_case_status_counts": {
+    "solve": 2090,
+    "clarify": 155,
+    "unsupported": 75
+  },
+  "evidence_scope": "Deterministic module and published full-match word templates. No neural/hint model metric, image test or teacher assessment.",
+  "files": [
+    {
+      "path": "verified_math_tutoring_v2.py",
+      "sha256": "53dcf5257b1ac7e61064e10e0c9f6d396653253e0758b6ab632743c2f042be53"
+    },
+    {
+      "path": "test_verified_math_tutoring_v2.py",
+      "sha256": "2115429fe3bcd0a2e4108abf3a011d98aec14f6a0111a7645e9183f76b3dc407"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-07",
+      "proposal_paragraph": 302,
+      "implemented": "Portable reference column arithmetic for two natural operands with1–6digits; carry and cascading borrow; inverse recheck. Offline unit tested.",
+      "not_implemented": "Image-layout reconstruction, handwritten carry/borrow-mark validation and app wiring."
+    },
+    {
+      "id": "FR-08",
+      "proposal_paragraph": 304,
+      "implemented": "First differing RESULT digit fromrighttoleft only on caller-confirmed or caller-highconfidence numeric tokens; no carrymark/rootcause accusation. Wrong student result is preserved verbatim in machine metadata.",
+      "not_implemented": "Real image bounding-box evidence, critical-token calibration, handwritten intermediate-step evidence and measured first-error localization precision."
+    },
+    {
+      "id": "FR-09",
+      "proposal_paragraph": 306,
+      "implemented": "Unsupported multiplication/division/fractions/decimals/negative result/seven-digit operand inverticalMVP returnsOUT_OF_SCOPE withoutanswer. Wordextension declines unsupported fullmatch orbadplan.",
+      "not_implemented": "Vision out-of-scope detector and full curriculum classifier."
+    },
+    {
+      "id": "FR-10",
+      "proposal_paragraph": 308,
+      "implemented": "No official grades/scores assigned. Machine metadata always reserves teacher final authority.",
+      "not_implemented": "Teacher role, RBAC, approve/override workflow, audit persistence and business authorization; callingapplicationmustenforce."
+    },
+    {
+      "id": "FR-11",
+      "proposal_paragraph": 310,
+      "implemented": "Default exactlyone Socratic Vietnamese question; computedsteps/finalanswer omitted frompublichintpayload. Fractionhintsprogress throughquyđồng andrútgọn. Explicit researchworked mode givesverified chronologicalcalculations andwhy.",
+      "not_implemented": "Teacher/tutor ratings for agefit, relevance andcorrectness; child UX/usability; caller-approvedgrade-topiccurriculum mapping."
+    },
+    {
+      "id": "FR-06 / uncertainty",
+      "proposal_paragraphs": [
+        300,
+        324,
+        338
+      ],
+      "implemented": "Low/unconfirmedOCRconfidence, ambiguousresulttoken, invalidmodelplan routesconfirmation; no studentwrongaccusation orworkedanswer. Manualconfirmedtokens canoverrideOCRscore explicitly.",
+      "not_implemented": "Actual OCR alternatives/confidences, retake qualityanalysis, per-token confirmation UI andcalibratedthreshold."
+    }
+  ],
+  "authority_distinction": {
+    "core_mvp": "Verticalnaturaladdition/subtractiontwooperands1–6digits andstudenttutoring.",
+    "word_fraction_decimal_geometry_extension": "ResearchextensionoutsideproposalcoreMVP, retained undercurrentownerrequestedbroadergrades1–5work. Notclaimcapstonecorecompletion.",
+    "current_weights_role": "Compactexpressionplanner; notvision/carrymarkdecoder orfreeprosehintteacher. Columnverification/tutoringrenderer isseparate deterministiccode.",
+    "explicit_worked_mode": "ResearchAPIrequirescallerenforcementofintent/roles; noauthenticationorbusinesspolicy bypassprovided.",
+    "grade_mapping": "Generatorgradeallocationisnotcurriculumcertification; nogradebaseddenialfromthatallocation. Callingapplicationmustapplyapprovedtopics.",
+    "human_verified": false,
+    "pedagogy_teacher_reviewed": false,
+    "capstone_complete": false
+  },
+  "examples": {
+    "three_step_word": {
+      "status": "WORKED_SOLUTION_READY",
+      "student_response": {
+        "title": "Lời giải từng bước",
+        "revealAnswer": true,
+        "retryAllowed": true,
+        "steps": [
+          {
+            "kind": "ast_calculation",
+            "operation": "add",
+            "why": "Cộng hai giá trị trong đề.",
+            "left_value": "9",
+            "right_value": "12",
+            "value": "21",
+            "unit": "",
+            "computation": "9 + 12 = 21",
+            "step_number": 1
+          },
+          {
+            "kind": "ast_calculation",
+            "operation": "add",
+            "why": "Cộng thêm giá trị còn lại để có tổng.",
+            "left_value": "21",
+            "right_value": "15",
+            "value": "36",
+            "unit": "",
+            "computation": "21 + 15 = 36",
+            "step_number": 2
+          },
+          {
+            "kind": "ast_calculation",
+            "operation": "divide",
+            "why": "Chia tổng cho số giá trị để tìm trung bình cộng.",
+            "left_value": "36",
+            "right_value": "3",
+            "value": "12",
+            "unit": "",
+            "computation": "36 : 3 = 12",
+            "step_number": 3
+          }
+        ],
+        "final_answer": "12"
+      },
+      "machine": {
+        "teacher_final_authority": true,
+        "official_grade_assigned": false,
+        "human_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "image_recognition_performed": false,
+        "topic": "average_three",
+        "verification": "EXACT_FRACTION_AND_SUPPORTED_RAW_TEMPLATE_CONTRACT",
+        "scope": "PUBLISHED_RAW_TEMPLATE_CONTRACT_ONLY",
+        "step_index": 0,
+        "student_error_asserted": false,
+        "adapter_role": "EXPRESSION_PLAN_ONLY",
+        "curriculum_mapping_certified": false,
+        "topic_approval_enforced_by": "CALLING_APPLICATION",
+        "explicit_worked_solution_requested": true,
+        "authorization_enforced_by": "CALLING_APPLICATION"
+      }
+    },
+    "fraction_common_denominator": {
+      "status": "WORKED_SOLUTION_READY",
+      "student_response": {
+        "title": "Lời giải từng bước",
+        "revealAnswer": true,
+        "retryAllowed": true,
+        "steps": [
+          {
+            "kind": "fraction_method",
+            "why": "Chọn mẫu số chung chia hết cho cả hai mẫu số.",
+            "computation": "Mẫu số chung: 21 (chia hết cho 3 và 7)",
+            "value": "21",
+            "unit": "",
+            "step_number": 1
+          },
+          {
+            "kind": "fraction_method",
+            "why": "Nhân tử và mẫu của phân số thứ nhất với cùng một số để giữ nguyên giá trị.",
+            "computation": "2/3 = 14/21",
+            "value": "2/3",
+            "unit": "",
+            "step_number": 2
+          },
+          {
+            "kind": "fraction_method",
+            "why": "Quy đồng phân số thứ hai về cùng mẫu số.",
+            "computation": "3/7 = 9/21",
+            "value": "3/7",
+            "unit": "",
+            "step_number": 3
+          },
+          {
+            "kind": "fraction_method",
+            "why": "Cộng các tử số và giữ nguyên mẫu số chung.",
+            "computation": "(14 + 9)/21 = 23/21",
+            "value": "23/21",
+            "unit": "",
+            "step_number": 4
+          },
+          {
+            "kind": "fraction_method",
+            "why": "Chia tử và mẫu cho ước chung để rút gọn; giá trị phân số được giữ nguyên.",
+            "computation": "23/21 = 23/21",
+            "value": "23/21",
+            "unit": "",
+            "step_number": 5
+          },
+          {
+            "kind": "ast_calculation",
+            "operation": "add",
+            "why": "Quy đồng mẫu số rồi cộng các tử số và rút gọn.",
+            "left_value": "2/3",
+            "right_value": "3/7",
+            "value": "23/21",
+            "unit": "",
+            "computation": "2/3 + 3/7 = 23/21",
+            "step_number": 6
+          }
+        ],
+        "final_answer": "23/21"
+      },
+      "machine": {
+        "teacher_final_authority": true,
+        "official_grade_assigned": false,
+        "human_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "image_recognition_performed": false,
+        "topic": "fraction_add",
+        "verification": "EXACT_FRACTION_AND_SUPPORTED_RAW_TEMPLATE_CONTRACT",
+        "scope": "PUBLISHED_RAW_TEMPLATE_CONTRACT_ONLY",
+        "step_index": 0,
+        "student_error_asserted": false,
+        "adapter_role": "EXPRESSION_PLAN_ONLY",
+        "curriculum_mapping_certified": false,
+        "topic_approval_enforced_by": "CALLING_APPLICATION",
+        "explicit_worked_solution_requested": true,
+        "authorization_enforced_by": "CALLING_APPLICATION"
+      }
+    },
+    "cascade_borrow": {
+      "status": "WORKED_SOLUTION_READY",
+      "student_response": {
+        "title": "Tính theo từng hàng",
+        "revealAnswer": true,
+        "retryAllowed": true,
+        "steps": [
+          {
+            "kind": "column",
+            "column_index": 0,
+            "place_value": "đơn vị",
+            "why": "Chữ số đang có ở hàng đơn vị nhỏ hơn chữ số cần trừ nên cần mượn từ hàng bên trái.",
+            "computation": "12 − 5 = 7",
+            "value": "7",
+            "written_digit": 7,
+            "carry_in": 0,
+            "carry_out": 0,
+            "borrow_chain": [
+              {
+                "from_column": 3,
+                "to_column": 2,
+                "donor_before": 3,
+                "donor_after": 2,
+                "receiver_after": 10,
+                "explanation": "Mượn một đơn vị ở hàng nghìn sang hàng trăm thành mười đơn vị; hàng nghìn từ 3 còn 2."
+              },
+              {
+                "from_column": 2,
+                "to_column": 1,
+                "donor_before": 10,
+                "donor_after": 9,
+                "receiver_after": 10,
+                "explanation": "Mượn một đơn vị ở hàng trăm sang hàng chục thành mười đơn vị; hàng trăm từ 10 còn 9."
+              },
+              {
+                "from_column": 1,
+                "to_column": 0,
+                "donor_before": 10,
+                "donor_after": 9,
+                "receiver_after": 12,
+                "explanation": "Mượn một đơn vị ở hàng chục sang hàng đơn vị thành mười đơn vị; hàng chục từ 10 còn 9."
+              }
+            ],
+            "instruction": "Viết 7 ở hàng đơn vị.",
+            "step_number": 1
+          },
+          {
+            "kind": "column",
+            "column_index": 1,
+            "place_value": "chục",
+            "why": "Trừ các chữ số ở hàng chục. Dùng chữ số đã đổi sau bước mượn trước.",
+            "computation": "9 − 8 = 1",
+            "value": "1",
+            "written_digit": 1,
+            "carry_in": 0,
+            "carry_out": 0,
+            "borrow_chain": [],
+            "instruction": "Viết 1 ở hàng chục.",
+            "step_number": 2
+          },
+          {
+            "kind": "column",
+            "column_index": 2,
+            "place_value": "trăm",
+            "why": "Trừ các chữ số ở hàng trăm. Dùng chữ số đã đổi sau bước mượn trước.",
+            "computation": "9 − 7 = 2",
+            "value": "2",
+            "written_digit": 2,
+            "carry_in": 0,
+            "carry_out": 0,
+            "borrow_chain": [],
+            "instruction": "Viết 2 ở hàng trăm.",
+            "step_number": 3
+          },
+          {
+            "kind": "column",
+            "column_index": 3,
+            "place_value": "nghìn",
+            "why": "Trừ các chữ số ở hàng nghìn. Dùng chữ số đã đổi sau bước mượn trước.",
+            "computation": "2 − 1 = 1",
+            "value": "1",
+            "written_digit": 1,
+            "carry_in": 0,
+            "carry_out": 0,
+            "borrow_chain": [],
+            "instruction": "Viết 1 ở hàng nghìn.",
+            "step_number": 4
+          }
+        ],
+        "recheck": {
+          "why": "Kiểm tra bằng phép tính ngược.",
+          "computation": "1217 + 1785 = 3002"
+        },
+        "final_answer": "1217"
+      },
+      "machine": {
+        "teacher_final_authority": true,
+        "official_grade_assigned": false,
+        "human_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "image_recognition_performed": false,
+        "scope": "VERTICAL_TWO_OPERAND_NATURAL_ADD_SUB_1_TO_6_DIGITS",
+        "input_evidence": "CALLER_SUPPLIED_NUMERIC_TOKENS",
+        "carry_borrow_marks_observed": false,
+        "carry_borrow_mark_error_diagnosed": false,
+        "student_error_asserted": false,
+        "recognition_threshold": 0.9,
+        "recognition_threshold_calibrated": false,
+        "explicit_worked_solution_requested": true,
+        "authorization_enforced_by": "CALLING_APPLICATION"
+      }
+    },
+    "student_default_one_hint": {
+      "status": "HINT_READY",
+      "student_response": {
+        "title": "Cùng xem lại bài nhé",
+        "revealAnswer": false,
+        "retryAllowed": true,
+        "hint": "Em kiểm tra phép cộng ở hàng chục và phần nhớ từ hàng trước như thế nào?"
+      },
+      "machine": {
+        "teacher_final_authority": true,
+        "official_grade_assigned": false,
+        "human_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "image_recognition_performed": false,
+        "scope": "VERTICAL_TWO_OPERAND_NATURAL_ADD_SUB_1_TO_6_DIGITS",
+        "input_evidence": "CALLER_SUPPLIED_NUMERIC_TOKENS",
+        "carry_borrow_marks_observed": false,
+        "carry_borrow_mark_error_diagnosed": false,
+        "student_error_asserted": true,
+        "recognition_threshold": 0.9,
+        "recognition_threshold_calibrated": false,
+        "observed_result_verbatim": "32",
+        "result_matches_verified_calculation": false,
+        "evidence": {
+          "type": "RESULT_DIGIT_MISMATCH",
+          "column_index": 1,
+          "place_value": "chục",
+          "observed_digit": "3",
+          "claim_scope": "EARLIEST_SUPPORTED_RESULT_DIGIT_ONLY"
+        }
+      }
+    },
+    "low_confidence_ocr": {
+      "status": "NEEDS_CONFIRMATION",
+      "student_response": {
+        "title": "Cùng xem lại bài nhé",
+        "revealAnswer": false,
+        "retryAllowed": true,
+        "hint": "Mình chưa đọc chắc các chữ số hoặc dấu phép tính, em có thể xác nhận lại hay chụp rõ hơn không?"
+      },
+      "machine": {
+        "teacher_final_authority": true,
+        "official_grade_assigned": false,
+        "human_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "image_recognition_performed": false,
+        "scope": "VERTICAL_TWO_OPERAND_NATURAL_ADD_SUB_1_TO_6_DIGITS",
+        "input_evidence": "CALLER_SUPPLIED_NUMERIC_TOKENS",
+        "carry_borrow_marks_observed": false,
+        "carry_borrow_mark_error_diagnosed": false,
+        "student_error_asserted": false,
+        "recognition_threshold": 0.9,
+        "recognition_threshold_calibrated": false,
+        "reason": "UNCONFIRMED_OR_LOW_CONFIDENCE_TOKENS",
+        "retake_allowed": true
+      }
+    }
+  },
+  "narration_review": "Average first-step purpose avoids claiming source order; fraction workings preserve unreduced source quotes and verify canonical Fraction result.",
+  "examples_generation": {
+    "method": "Fresh Python process imported current saved verified_math_tutoring_v2 module and executed all five API calls again.",
+    "module_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\verified_math_tutoring_v2.py",
+    "module_sha256": "53dcf5257b1ac7e61064e10e0c9f6d396653253e0758b6ab632743c2f042be53",
+    "first_word_step_why": "Cộng hai giá trị trong đề.",
+    "examples_canonical_sha256": "c9d8101f9f465df229349327c26a33a0b13fcb5804d21c4b33db7a4e934fe4e6"
+  }
+}

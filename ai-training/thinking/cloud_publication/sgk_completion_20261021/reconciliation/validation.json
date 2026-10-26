@@ -1,0 +1,24 @@
+{
+  "accepted_cases_bound": 18,
+  "asset_only_masters_separate": 10,
+  "external_g2_91_unchanged": true,
+  "full_sgk_coverage_claimed": false,
+  "inputs": {
+    "sgk_final_forms_20261020\\reconciliation_projection.json": "43939965e588b671b9670fffd92debb748be815b16cc583288f55f00eaec8868",
+    "sgk_final_forms_20261020\\release\\accepted_cases.jsonl": "8d80ff7f2cf5a00adb2c657a58121e19e9cf05b25d294355e19f5c00897da318",
+    "sgk_final_forms_20261020\\release\\cross_reviews.jsonl": "b5504bccba5e930c4bf79a97a4d06a081559c72bcbc2c05927c0efb9ded7f958",
+    "sgk_remaining_20261020\\reconciliation\\candidate_adjudication.json": "f5e37c846fb41ab349ab16c57a504bcebb14adc75c4305550f96acca604c088d",
+    "sgk_remaining_20261020\\reconciliation\\next_uncovered_tasks.json": "5b94f75936a98d4bf74dd5ddab821bfe24aab5df2b73c0401a32c15528f8279e"
+  },
+  "occurrences315_unchanged": true,
+  "original_204_candidate_fields_unchanged": true,
+  "outputs": {
+    "candidate_adjudication.json": "907da42d8a8e4396bd5b36743c3bd5e97d4332eba93ab6311fcf172e77d703cf",
+    "next_uncovered_tasks.json": "194214108bb3da81affdbf5a62fb2af0ccf0860605cae077a02cdbfdd014971e",
+    "run4_accepted_binding.json": "54ddb60c844341d397014d925e168d9d7e69975396589dec577c87ca0776baac"
+  },
+  "relations_bound": 9,
+  "remaining_global_master_tasks": 45,
+  "status": "PASS",
+  "training_started": false
+}

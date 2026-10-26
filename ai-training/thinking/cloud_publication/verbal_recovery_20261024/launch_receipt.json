@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "s1sBKq1fqRUm"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"worker_launched\": true, \"pid\": 28569, \"max_updates\": 50, \"optimizer_started_confirmed\": false, \"locked20_not_used\": true, \"factors_changed\": [\"prompt formatting\", \"target formatting\"]}\n"
+        ]
+      }
+    ]
+  }
+}

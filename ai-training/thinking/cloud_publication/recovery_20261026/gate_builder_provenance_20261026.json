@@ -1,0 +1,47 @@
+{
+  "schema": "MathVisionKid.recovery_20261026_gate_builder_provenance.v1",
+  "created_utc": "2026-10-26T09:09:42.925802+00:00",
+  "purpose": "Local CPU-only utility to validate root-authored paired decisions against the current branch frozen baseline and bound run outputs before producing a review gate.",
+  "files": {
+    "utility": "build_quality_gate_20261026.py",
+    "tests": "test_build_quality_gate_20261026.py"
+  },
+  "sha256": {
+    "build_quality_gate_20261026.py": "38db0bbb7020da0af591317eff14cce9a012f45964a26eca89298fba541e42e0",
+    "test_build_quality_gate_20261026.py": "63d4d0833204f35676c20460600dd3f3a587113e8e6689d7cf3c36791fd7009c",
+    "recovery_worker_20261026.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "recovery_policy_20261026.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "preflight_checks.py": "8a4333f198524c140658da5bd9b02c96980c8bbaa7f08f008e48e2be5ae050e9"
+  },
+  "bindings": {
+    "baseline_sha256": "computed from baseline_semantic_review_frozen.json at invocation; no prior baseline hash embedded",
+    "fixture_sha256": "compared at invocation to the frozen baseline record and current run config",
+    "base_output_sha256": "compared to current frozen baseline and actual eval binding",
+    "adapter_output_sha256": "compared to current eval binding and actual output bytes",
+    "checkpoint_manifest_sha256": "resolved from current eval binding and passed to the branch worker verifier"
+  },
+  "validation_order": [
+    "Check complete frozen baseline and exact fixture bytes",
+    "Check run config, base generation bytes and frozen baseline binding",
+    "Check candidate output, generation manifest and worker contract verifier",
+    "Require 30 root-authored unique decisions with unchanged baseline flags and reasons",
+    "Run current worker review validators and current policy validate_gate",
+    "Atomically publish summary first; publish gate last as the worker commit signal"
+  ],
+  "atomicity": "Same-directory fsynced temporary file and exclusive hard-link publication; refuses overwrite. If gate publication fails after summary publication, worker does not receive a gate commit signal.",
+  "test_result": "7 unittest cases PASS; py_compile PASS",
+  "tests_cover": [
+    "baseline flag drift",
+    "missing IDs and duplicate IDs",
+    "missing flags",
+    "candidate output truncation with pass judgment",
+    "output hash binding",
+    "atomic no-overwrite publication",
+    "import does not load worker/policy or read run artifacts"
+  ],
+  "limitations": [
+    "No gate was built or created.",
+    "No MCP, GPU, Drive, browser, corpus, or sealed/final data accessed.",
+    "Utility does not invent semantic classifications or claim human review."
+  ]
+}

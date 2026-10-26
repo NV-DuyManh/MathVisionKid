@@ -1,0 +1,236 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "value": "7/12"
+      },
+      "grade": 4,
+      "id": "skill150_locked_g4_1",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "1/3+1/4=4/12+3/12=7/12.",
+      "rubric": [
+        "Cộng hai phần cùng một cuốn và quy đồng đúng.",
+        "Nêu7/12cuốn, không cộng mẫu số."
+      ],
+      "userproblem": "Buổi sáng một bạn đọc 1/3 cuốn sách, buổi chiều đọc thêm 1/4 cuốn sách đó. Các phần đã đọc không trùng nhau. Bạn đã đọc tất cả bao nhiêu phần cuốn sách?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g4_1",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "5ae8ccb75c2e622a7b65aa026a4bd8618036b58787953c395755497315f2aa85",
+      "max_new_tokens": 1024,
+      "generated_tokens": 753,
+      "output": "**Giải bài toán:**\n\nChúng ta cần tìm tổng số phần cuốn sách đã đọc trong cả buổi sáng và buổi chiều.\n\n**Bước 1:** Gọi số cuốn sách là $ x $ phần.\n\n**Bước 2:** Buổi sáng bạn đọc $\\frac{1}{3}$ cuốn sách, tức là $\\frac{1}{3}x$.\n\n**Bước 3:** Buổi chiều bạn đọc thêm $\\frac{1}{4}$ cuốn sách của phần đã đọc (tức là $\\frac{1}{4}$ của $\\frac{1}{3}x$), tức là $\\frac{1}{4} \\times \\frac{1}{3}x = \\frac{1}{12}x$.\n\n**Bước 4:** Tổng số phần cuốn sách đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{12}x = \\frac{4}{12}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\n**Bước 5:** Vì các phần đã đọc không trùng nhau và bạn đã đọc tất cả cuốn sách, nên tổng số phần cuốn sách đã đọc bằng $ x $.\n\n**Bước 6:** Từ đó, ta có phương trình:\n\n$$\n\\frac{5}{12}x = x\n$$\n\nGiải phương trình:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x - \\frac{5}{12}x = 0 \\Rightarrow \\frac{7}{12}x = 0\n$$\n\nTuy nhiên, đây là một phương trình vô nghiệm (vì $ x $ là số dương), điều này có nghĩa là không có số cuốn sách nào được đọc. Tuy nhiên, ta thấy rằng bài toán có thể có lỗi trong lập trình hoặc thiếu thông tin.\n\n**Kiểm tra lại:** Nếu $ \\frac{5}{12}x = x $, thì $ x = 0 $, điều này không hợp lý.\n\n**Lời giải đúng:**\n\nTổng số phần cuốn sách đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\nVì bạn đã đọc tất cả cuốn sách, nên:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x = 0\n$$\n\n**Kết luận:** Không có cuốn sách nào được đọc. Tuy nhiên, điều này không hợp lý trong bối cảnh bài toán.\n\n**Lời giải đúng (nếu có):**\n\nGiả sử số cuốn sách là $ x $, thì tổng phần đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{4} \\times \\frac{1}{3}x = \\frac{1}{3}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\nVì bạn đã đọc tất cả cuốn sách, nên:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x = 0\n$$\n\n**Kết luận:** Không có cuốn sách nào được đọc. Tuy nhiên, điều này không hợp lý trong bối cảnh bài toán. Do đó, có thể có lỗi trong lập trình hoặc thiếu thông tin.\n\n---\n\n**Kết luận cuối cùng:** Không có cuốn sách nào được đọc. Tuy nhiên, nếu không có lỗi trong lập trình, thì số cuốn sách là $ x = 0 $.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1726221244,
+      "generation_seconds": 36.69731236000007
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g4_1",
+      "generated_tokens": 753,
+      "generation_seconds": 36.69731236000007,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta cần tìm tổng số phần cuốn sách đã đọc trong cả buổi sáng và buổi chiều.\n\n**Bước 1:** Gọi số cuốn sách là $ x $ phần.\n\n**Bước 2:** Buổi sáng bạn đọc $\\frac{1}{3}$ cuốn sách, tức là $\\frac{1}{3}x$.\n\n**Bước 3:** Buổi chiều bạn đọc thêm $\\frac{1}{4}$ cuốn sách của phần đã đọc (tức là $\\frac{1}{4}$ của $\\frac{1}{3}x$), tức là $\\frac{1}{4} \\times \\frac{1}{3}x = \\frac{1}{12}x$.\n\n**Bước 4:** Tổng số phần cuốn sách đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{12}x = \\frac{4}{12}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\n**Bước 5:** Vì các phần đã đọc không trùng nhau và bạn đã đọc tất cả cuốn sách, nên tổng số phần cuốn sách đã đọc bằng $ x $.\n\n**Bước 6:** Từ đó, ta có phương trình:\n\n$$\n\\frac{5}{12}x = x\n$$\n\nGiải phương trình:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x - \\frac{5}{12}x = 0 \\Rightarrow \\frac{7}{12}x = 0\n$$\n\nTuy nhiên, đây là một phương trình vô nghiệm (vì $ x $ là số dương), điều này có nghĩa là không có số cuốn sách nào được đọc. Tuy nhiên, ta thấy rằng bài toán có thể có lỗi trong lập trình hoặc thiếu thông tin.\n\n**Kiểm tra lại:** Nếu $ \\frac{5}{12}x = x $, thì $ x = 0 $, điều này không hợp lý.\n\n**Lời giải đúng:**\n\nTổng số phần cuốn sách đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\nVì bạn đã đọc tất cả cuốn sách, nên:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x = 0\n$$\n\n**Kết luận:** Không có cuốn sách nào được đọc. Tuy nhiên, điều này không hợp lý trong bối cảnh bài toán.\n\n**Lời giải đúng (nếu có):**\n\nGiả sử số cuốn sách là $ x $, thì tổng phần đã đọc là:\n\n$$\n\\frac{1}{3}x + \\frac{1}{4} \\times \\frac{1}{3}x = \\frac{1}{3}x + \\frac{1}{12}x = \\frac{5}{12}x\n$$\n\nVì bạn đã đọc tất cả cuốn sách, nên:\n\n$$\n\\frac{5}{12}x = x \\Rightarrow x = 0\n$$\n\n**Kết luận:** Không có cuốn sách nào được đọc. Tuy nhiên, điều này không hợp lý trong bối cảnh bài toán. Do đó, có thể có lỗi trong lập trình hoặc thiếu thông tin.\n\n---\n\n**Kết luận cuối cùng:** Không có cuốn sách nào được đọc. Tuy nhiên, nếu không có lỗi trong lập trình, thì số cuốn sách là $ x = 0 $.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5ae8ccb75c2e622a7b65aa026a4bd8618036b58787953c395755497315f2aa85",
+      "seed": 1726221244,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "decision_digit": "6",
+        "value": "43800000"
+      },
+      "grade": 4,
+      "id": "skill150_locked_g4_2",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "Hàng trăm nghìn là7, hàng chục nghìn là6>=5nên làm tròn lên43 800 000.",
+      "rubric": [
+        "Nêu43 800 000.",
+        "Dùng chữ số6ởhàng chục nghìn để quyết định."
+      ],
+      "userproblem": "Làm tròn số 43 760 000 đến hàng trăm nghìn. Nêu chữ số dùng để quyết định làm tròn."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g4_2",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "634c671762ea8dba780d9d20cb84062f84178c7c6d18f40a7c30356535cb21a1",
+      "max_new_tokens": 1024,
+      "generated_tokens": 616,
+      "output": "**Giải bài toán:**\n\nChúng ta cần làm tròn số **43 760 000** đến hàng **nghìn nghìn** (tức là đến hàng **thousands**), tức là đến hàng **thousands**.\n\n### Bước 1: Xác định vị trí hàng cần làm tròn\n- Số cần làm tròn: **43 760 000**\n- Vị trí cần làm tròn: **hàng nghìn** (tức là hàng **thousands**, tức là hàng **1000**)\n\n### Bước 2: Xác định vị trí hàng tiếp theo\n- Vị trí hàng nghìn: **43 760 000**\n- Vị trí sau đó (hàng nghìn): **43 760 000** → hàng nghìn là **000** (tức là **43 760 000 = 43 760 * 1000**)\n\n### Bước 3: Xác định chữ số dùng để quyết định làm tròn\n- Để làm tròn đến hàng nghìn, ta cần xem xét chữ số ở hàng **chục nghìn** (hàng **4** trong số 43 760 000).\n- Chữ số ở hàng chục nghìn là **7** (trong số 43 760 000).\n\n### Bước 4: Lập lại số sau khi làm tròn\n- Vì chữ số ở hàng chục nghìn là **7** (lớn hơn hoặc bằng 5), nên ta làm tròn lên 1 đơn vị ở hàng nghìn.\n- Khi làm tròn, ta thay thế số 43 760 000 thành **43 760 000** → **43 770 000** (vì 43 760 000 → 43 770 000).\n\n### Bước 5: Chữ số dùng để quyết định làm tròn\n- Chữ số dùng để quyết định là **7** (chữ số ở hàng chục nghìn).\n\n### Kiểm tra lại:\n- Số nguyên: **43 760 000**\n- Chữ số ở hàng chục nghìn: **7**\n- Vì 7 > 5, nên ta làm tròn lên 1 đơn vị ở hàng nghìn.\n- Kết quả: **43 770 000**\n\n### Kết luận:\n- Chữ số dùng để quyết định làm tròn là **7**.\n- Kết quả sau khi làm tròn: **43 770 000**\n\n**Đáp án:** Chữ số dùng để quyết định làm tròn là **7**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1848543579,
+      "generation_seconds": 28.538143521000165
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g4_2",
+      "generated_tokens": 616,
+      "generation_seconds": 28.538143521000165,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta cần làm tròn số **43 760 000** đến hàng **nghìn nghìn** (tức là đến hàng **thousands**), tức là đến hàng **thousands**.\n\n### Bước 1: Xác định vị trí hàng cần làm tròn\n- Số cần làm tròn: **43 760 000**\n- Vị trí cần làm tròn: **hàng nghìn** (tức là hàng **thousands**, tức là hàng **1000**)\n\n### Bước 2: Xác định vị trí hàng tiếp theo\n- Vị trí hàng nghìn: **43 760 000**\n- Vị trí sau đó (hàng nghìn): **43 760 000** → hàng nghìn là **000** (tức là **43 760 000 = 43 760 * 1000**)\n\n### Bước 3: Xác định chữ số dùng để quyết định làm tròn\n- Để làm tròn đến hàng nghìn, ta cần xem xét chữ số ở hàng **chục nghìn** (hàng **4** trong số 43 760 000).\n- Chữ số ở hàng chục nghìn là **7** (trong số 43 760 000).\n\n### Bước 4: Lập lại số sau khi làm tròn\n- Vì chữ số ở hàng chục nghìn là **7** (lớn hơn hoặc bằng 5), nên ta làm tròn lên 1 đơn vị ở hàng nghìn.\n- Khi làm tròn, ta thay thế số 43 760 000 thành **43 760 000** → **43 770 000** (vì 43 760 000 → 43 770 000).\n\n### Bước 5: Chữ số dùng để quyết định làm tròn\n- Chữ số dùng để quyết định là **7** (chữ số ở hàng chục nghìn).\n\n### Kiểm tra lại:\n- Số nguyên: **43 760 000**\n- Chữ số ở hàng chục nghìn: **7**\n- Vì 7 > 5, nên ta làm tròn lên 1 đơn vị ở hàng nghìn.\n- Kết quả: **43 770 000**\n\n### Kết luận:\n- Chữ số dùng để quyết định làm tròn là **7**.\n- Kết quả sau khi làm tròn: **43 770 000**\n\n**Đáp án:** Chữ số dùng để quyết định làm tròn là **7**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "634c671762ea8dba780d9d20cb84062f84178c7c6d18f40a7c30356535cb21a1",
+      "seed": 1848543579,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "withheld_value": "10/11"
+      },
+      "grade": 4,
+      "id": "skill150_locked_g4_3",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Cùng mẫu11: cộng hai tử và giữ mẫu;10/11chỉ cho người chấm.",
+      "rubric": [
+        "Cộng tử số, giữ mẫu11.",
+        "Không nêu10/11hoặc mười phần mười một."
+      ],
+      "userproblem": "Chỉ gợi ý cách cộng 7/11 + 3/11, đừng nêu phân số kết quả."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g4_3",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "12c90cca32a0bb4c55957fb2d97e7abb1ff53050f6b47fe7ccfb507f92d86377",
+      "max_new_tokens": 1024,
+      "generated_tokens": 72,
+      "output": "**Gợi ý bước đầu:**\n\nChúng ta cần cộng hai phân số có cùng mẫu số:  \n7/11 + 3/11.\n\nVì mẫu số giống nhau, ta chỉ cần cộng tử số:  \n7 + 3 = 10.\n\nVậy kết quả là:  \n10/11.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1973059157,
+      "generation_seconds": 2.863348543000029
+    },
+    "selected": {
+      "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+      "ended_eos": true,
+      "fewshot_example_ids": [
+        "exhaustive_v1_sub_565_103:hint_level_1",
+        "exhaustive_v1_div_788_1:hint_level_1"
+      ],
+      "fixture_id": "skill150_locked_g4_3",
+      "generated_tokens": 41,
+      "generation_seconds": 1.6979277179998462,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Xác định tử số và mẫu số của các phân số.  \nEm thử trả lời: Tử số của 7/11 và 3/11 là gì?",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a8c542b8554801ad4f5a8fe046e1a39a4817461054553463dd283d783756e7e6",
+      "prompt_tokens": 404,
+      "seed": 1973059157,
+      "selected_protocol": "fewshot_contract",
+      "source_output_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+      "stage": "fewshot_selected_after_base_review",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "value": "3/5"
+      },
+      "grade": 4,
+      "id": "skill150_locked_g4_4",
+      "mode": "student_error",
+      "not_training_data": true,
+      "oracle": "Phải chia cả6và10cho2:3/5; không chỉ chia mẫu.",
+      "rubric": [
+        "Nói rõ phải chia cả tử và mẫu cho cùng2.",
+        "Sửa3/5, chỉ dựa dòng tính được cung cấp."
+      ],
+      "userproblem": "Em viết: “Rút gọn 6/10, chia mẫu số cho 2 được 6/5”. Hãy kiểm tra đúng thao tác đã cho và sửa phân số rút gọn."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g4_4",
+      "grade": 4,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "8092cfd65198f693ffb7d4b2c8ab8e70ef9f74b9cafbd97482a70b966f088f07",
+      "max_new_tokens": 1024,
+      "generated_tokens": 230,
+      "output": "**Giải pháp:**\n\nChúng ta cần rút gọn phân số $\\frac{6}{10}$ bằng cách chia mẫu số cho 2.\n\n**Bước 1:** Chia mẫu số 10 cho 2:  \n$10 \\div 2 = 5$\n\n**Bước 2:** Chia tử số 6 cho 2:  \n$6 \\div 2 = 3$\n\n**Kết quả:** Rút gọn phân số $\\frac{6}{10}$ thành $\\frac{3}{5}$.\n\n**Kiểm tra lại:**  \n- $\\frac{3}{5}$ có thể phân tích lại:  \n  - Tử số 3 không chia hết cho 2, 3, 5, nên không thể rút gọn nữa.  \n  - Mẫu số 5 cũng không chia hết cho 2, 3, 5, nên không thể rút gọn nữa.\n\n**Kết luận:** Phân số rút gọn đúng là $\\frac{3}{5}$.\n\n**Đáp án:** $\\boxed{\\frac{3}{5}}$",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1646704369,
+      "generation_seconds": 9.359202855999683
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g4_4",
+      "generated_tokens": 230,
+      "generation_seconds": 9.359202855999683,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\nChúng ta cần rút gọn phân số $\\frac{6}{10}$ bằng cách chia mẫu số cho 2.\n\n**Bước 1:** Chia mẫu số 10 cho 2:  \n$10 \\div 2 = 5$\n\n**Bước 2:** Chia tử số 6 cho 2:  \n$6 \\div 2 = 3$\n\n**Kết quả:** Rút gọn phân số $\\frac{6}{10}$ thành $\\frac{3}{5}$.\n\n**Kiểm tra lại:**  \n- $\\frac{3}{5}$ có thể phân tích lại:  \n  - Tử số 3 không chia hết cho 2, 3, 5, nên không thể rút gọn nữa.  \n  - Mẫu số 5 cũng không chia hết cho 2, 3, 5, nên không thể rút gọn nữa.\n\n**Kết luận:** Phân số rút gọn đúng là $\\frac{3}{5}$.\n\n**Đáp án:** $\\boxed{\\frac{3}{5}}$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8092cfd65198f693ffb7d4b2c8ab8e70ef9f74b9cafbd97482a70b966f088f07",
+      "seed": 1646704369,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

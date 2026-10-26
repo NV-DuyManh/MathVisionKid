@@ -1,0 +1,104 @@
+{
+  "schema": "MathVisionKid.finite_worker_independent_code_review.v1",
+  "status": "REPAIR_REQUIRED_BEFORE_V3_RESUME",
+  "scope": "Read-only inspection of existing worker, V2 auditor, raw payload verifier, copied actual MCP observation and failing source. No live runtime, Drive or database mutation. No full-corpus test claim.",
+  "training_started": false,
+  "reviewed_files": [
+    {
+      "file": "finite_cloud_audit_worker.py",
+      "sha256": "78bbdaf83aebc81e9584986d51acbce70cc63d80b3b9911e26fc2e91ed12f339"
+    },
+    {
+      "file": "thinking/math_data_full_audit_v2.py",
+      "sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee"
+    },
+    {
+      "file": "thinking/math_data_archive_audit.py",
+      "sha256": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a"
+    },
+    {
+      "file": "thinking/math_data_drive_bootstrap.py",
+      "sha256": "99a9fe6d1ff83f70f2ba744edb540a2c579a77292a2d8e73cac9a6fddd3362a9"
+    },
+    {
+      "file": "data_only_source_diagnosis.json",
+      "sha256": "8dc5c704576d0a8aa06af8ed8b88290d541069795f9e4f03a915a32362e1b788"
+    },
+    {
+      "file": "data_only_worker_status_latest.json",
+      "sha256": "92271ca54c195f9cf9fbe51a9514a7b8583e5269bfe562fb8aa730dd4dd91b85"
+    }
+  ],
+  "observed_stop": {
+    "state": "STOPPED_REQUIRES_AUDIT_REPAIR",
+    "error_type": "KeyError",
+    "error": "can_solve",
+    "source_versions_indexed": 110666,
+    "members_complete": 18,
+    "members_expected": 247,
+    "chat_rows": 0,
+    "v2_identity": "9139670f1e76e34e8c8ee32cc541d33399e86445cbc4da6b668b664e915655b0",
+    "recipe_sha256": "93ec4110b9de95a84bb685ae60b1e4dc4b6df8c4fe568d88c60ca9c2e301c684",
+    "checkpoint": {
+      "id": "182zLHZU0XBpTfKm7ThJpfy37GgFJ7Ob2",
+      "bytes": 231927808,
+      "sha256": "485ae30c164a10c323527265053a7a2e88daa2ca3d781e6a52943a7ca9165245",
+      "fresh_raw_readback_verified_in_observation": true,
+      "independently_downloaded_in_this_review": false
+    },
+    "failing_member": "thinking/data/primary_math_teacher_20261016/exports/accepted_teacher_cases_polished.jsonl",
+    "member_sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+    "declared_rows": 782,
+    "committed_resume_line": 256,
+    "diagnosed_failure_line": 267,
+    "sample_id": "primary_20261016_g1_foundations_0002_count14",
+    "raw_row_sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+    "remaining_issue_preserved": "SOURCE_SPLIT_MISSING_OR_UNKNOWN:1 for regression_only; do not silently promote or erase."
+  },
+  "critical_findings": [
+    {
+      "id": "LEGACY_PROJECTION_FAILURE",
+      "evidence": "V2 _source calls A.source_projection which directly indexes row['can_solve']; actual primary line267 has none. consume rolls back rows after last256 commit; no silent skip. A content-preserving legacy adapter must be schema-bound, not row.get(can_solve,True) across arbitrary sources.",
+      "action": "New separately versioned V3 projection adapter with builder-backed accepted legacy schema and exact prompt/target comparison; preserve failing raw row and all source labels."
+    },
+    {
+      "id": "STALE_CHECKPOINT_REFERENCE_ON_RERUN",
+      "evidence": "Worker initialization checkpoint=dict(v2_ref); successful save updates closure checkpoint only. Global v2_ref can retain initial1.5MB SHA while remote now231927808 bytes, causing false concurrent-update stop on rerun.",
+      "action": "For V3 launch, resolve fresh remote metadata and whole-raw-verified saved checkpoint, compare latest expected SHA, and bind separate V3 checkpoint reference/identity. Never overwrite V2 evidence with an adapted V3 database."
+    },
+    {
+      "id": "SINGLE_WRITER_REQUIRED_NOT_ATOMIC_CAS",
+      "evidence": "Thread is_alive guard only covers one kernel; remote get appProperties then files.update is check-then-write, not an atomic conditional update.",
+      "action": "Explicitly verify old worker is stopped and only one runtime owns this audit/checkpoint before migration/start. Do not launch duplicate worker or claim cross-runtime atomic CAS."
+    }
+  ],
+  "positive_checks": [
+    "Finite loop follows FullArchiveAudit.next_entry over all declared source+chat entries. V2 consume forbids any chat until every declared source member complete.",
+    "Every member exact expected row count checked at EOF; bounded max_rows pauses advance committed cursors. An exact boundary needs one EOF confirmation call; zero-progress but complete accepted correctly.",
+    "On processing exception consume rolls back uncommitted rows; worker catches stop, records report, attempts checkpoint save and closes database.",
+    "SQLite backup creates a consistent snapshot, SHA computed streaming; Drive raw readback streamed through hashing sink verifies entire snapshot size and SHA without retaining second raw checkpoint in Python RAM.",
+    "LazyDriveCache verifies full compressed payload bytes/SHA; A.payload rechecks compressed payload and exact ZIP member SHA before exposing rows. Protected sealed/pilot/concept_challenge names refused.",
+    "Final flag requires all declared entries, clean findings, linked sources and four modes; readiness/human-review/training flags stay false."
+  ],
+  "migration_plan": {
+    "feasible": true,
+    "basis": "Current V2 observation has source-only progress, zero samples/occurrences. Numeric sources and18 completed member proofs can be retained if the V3 adapter yields identical old projections for their schemas.",
+    "steps": [
+      "Verify old thread not alive. Pin latest V2 whole snapshot SHA485ae30c...65245 and raw readback before migration. Preserve V2 Drive ID and immutable source snapshot; create a separate V3 copy via sqlite backup.",
+      "On copied DB validate original config equals exact V2 plan identity, sequence limit unchanged, same247 exact recipe member keys, no chat rows and no occurrences. Do not merely open V2 DB under new identity or drop all tables.",
+      "Read exact primary782 member from verified payload. Recompute V3 projections only for this member's exact(sample_id,raw_sha) pairs already indexed. source_versions lacks source-member ownership, so never DELETE all versions by loose id or assume the first256 are removable by position alone.",
+      "For existing primary versions preserve raw_sha, canonical_sha, signatures, source_split and all original labels; update derived projection only if adapter changes it, recording before/after projection fingerprints per exact key and policy provenance. New/unindexed rows remain for normal resume.",
+      "Retain nonprimary source_versions byte-for-byte at logical row level and all18 completed member/cursor records; retain issue rows including regression_only finding. If it cannot be proven no prior chat target was affected, revalidate affected chat linkage separately rather than reusing old linkage.",
+      "Record migration parent snapshot hash/V2 identity/new V3 identity/adapter hash/exact changed row hashes and logical table-count/digest comparisons. Change config only in copied DB after transactional validation; retain migration receipt.",
+      "Resume next_entry source indexing before any chat; use fresh V3 checkpoint metadata and V3 worker status paths. Save/readback new checkpoint before declaring migration durable. Preserve current primary cursor256 or explicitly rewalk primary782 with idempotent exact-key validation; do not discard110666 source proofs."
+    ],
+    "not_executed": true
+  },
+  "diagnostic_note": "Worker current_member updated only after consume returns, so on failure it can show previous completed append rather than failing primary member. Use diagnosis entry or V3 record current_member before consume for accurate status; this does not invalidate committed proof.",
+  "claims_excluded": [
+    "No live V3 migration performed",
+    "No full247 member or6.5M chat audit performed",
+    "No new human attestation",
+    "No credentials/auth material read into this report"
+  ]
+}

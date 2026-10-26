@@ -1,0 +1,1930 @@
+{
+  "adapter_promoted": false,
+  "app_or_production_modified": false,
+  "diagnosis_observed": [
+    "SFT repaired three requested-answer tasks but introduced wrong calendar and subtraction guidance; exact result alone is insufficient.",
+    "Mode-specific source demonstrations suppressed hint answer leaks on final20but did not improve full-task score and introduced new or unhelpful guidance.",
+    "Native thinking changes inference behavior and cost on unchanged base weights; a correct product may still use quantities from the wrong real-world grouping.",
+    "These experiments do not establish a unique causal reason for the remaining model errors."
+  ],
+  "limitations": [
+    "Small reused development sets and20new final tasks; exact/number-masked screening of actual16kview only, not proven independent of the full6.5M corpus.",
+    "Full-task grading requires sound explanation, requested checks, grounded feedback/guards and useful nonleaking hints; numerical-only answer accuracy is a different metric.",
+    "Semantic reviews are model-assisted root judgments with actual-output reasons and hash bindings, not newly verified human or independent external certification.",
+    "The frozen F helper nested completion proof carries locked_test_accessed=false even when its labeled selected-final stage used locked fixtures. The authoritative final evaluator complete.json records the actual once-only locked use; original helper bytes/proofs are preserved, not rewritten.",
+    "No proof of100percent correctness, whole-curriculum coverage, image/physical observation readiness, legal2026certification, or product acceptance.",
+    "The candidate adapters are retained for diagnosis; keeping the base does not claim the base is a finished reliable tutor."
+  ],
+  "native_thinking_probe": {
+    "dev_complete": {
+      "baseline_output_sha256": null,
+      "complete": true,
+      "contract_sha256": "7a048a5c8de95656fcfda3e4dd0730a8f91436b21a67daafcdb19264bf6afedf",
+      "dev_output_sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+      "finished_utc": "2026-10-24T14:20:33.445232+00:00",
+      "fixture_count": 15,
+      "fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+      "locked_test_accessed": false,
+      "model": "Qwen/Qwen3-1.7B",
+      "native_output_sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+      "optimizer_loaded": false,
+      "phase": "dev",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "schema": "MathVisionKid.native_probe_completion.v1",
+      "selection_policy_sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+      "started_utc": "2026-10-24T14:09:27.467643+00:00",
+      "training_performed": false
+    },
+    "does_not_reselect_original_context_trial": true,
+    "gate": {
+      "all_actual_final_answers_and_fixtures_read": true,
+      "candidate_eligible": false,
+      "decisions": [
+        {
+          "base_pass": true,
+          "base_reason": "Writes47and40with correct tens/unit decomposition and consistent check; both requested values supplied.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g1_place_value",
+          "grade": 1,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct47and40with consistent tens decomposition and check; retains baseline pass."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Correct final45,50,54order but explanation compares only units and falsely concludes45>50. Contradictory substantive reasoning.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g1_order_cards",
+          "grade": 1,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct45,50,54and explains tens first then units for equal tens; repairs baseline contradictory units-only comparison."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Correctly recognizes1..5as possible, but requests extra condition number>5, which contradicts the given number<6and leaves no feasible number.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+          "grade": 1,
+          "mode": "missing_or_contradictory_info",
+          "native_pass": false,
+          "native_reason": "Correct candidate set1..5and nonuniqueness, but proposes impossible zero-digit clue and wrongly says each specified digit could still mean all5numbers. Same unsound missing-information guidance class as baseline."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correct inclusive64−46+1=19cards and explicit complete list verifies both endpoints.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+          "grade": 2,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct inclusive64−46+1=19and explains adding1for both endpoints. Wording18numbers between is imprecise for18gap count, but formula, endpoint instruction and conclusion are sound."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correct2m=200cm and200−185=15cm, consistent quantities and conclusion.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g2_door_gap",
+          "grade": 2,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct2m=200cmthen200−185=15cmwith consistent check. TypoMèoonce in place of mép does not alter measured relation or conclusion."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Restates supplied wrong3+2operation in checking sequence, then explicitly rejects it for this task and uses two groups3*2=6candies. Final correction grounded in supplied work; no invented hidden action.",
+          "critical_new_error": true,
+          "fixture_id": "qrec20261024_v1_g2_student_group_error",
+          "grade": 2,
+          "mode": "student_error",
+          "native_pass": false,
+          "native_reason": "Correct final6and multiplication reasoning, but new check invents3packs with2candies each rather than supplied2packs with3each. Equal product does not justify swapping real group quantities in grounded feedback."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Computes67and verifies9*7+4correctly, but omits frozen rubric remainder bound4<9; numerical answer correct, full-task check incomplete.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g3_inverse_division",
+          "grade": 3,
+          "mode": "answer",
+          "native_pass": false,
+          "native_reason": "Correct67and remainder4from67−9*7, but still omits4<9bound required by frozen full-task rubric; no numeric-answer regression."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correct3240−850=2390g=2kg390g with consistent units and both requested forms.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+          "grade": 3,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct3240−850=2390g=2kg390gwith both requested forms and consistent units."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Correct final0and multiplication0*7=0, but contradictory checking commentary and no clear account of why the supplied check does not verify claimed quotient7.",
+          "critical_new_error": true,
+          "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+          "grade": 3,
+          "mode": "student_error",
+          "native_pass": false,
+          "native_reason": "Correct final quotient0but newly calls0the divisor and claims0cannot be divisible by7; substantive false division explanation despite correct multiplication check."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Correct equivalents9/12and10/12but falsely orders9/12<7/12<10/12and final labels wrong.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g4_fraction_order",
+          "grade": 4,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct common12fraction equivalents and7/12,3/4,5/6order, decimal checks use approximation properly."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correct quantity division5/6by1/12=10cups; inverse volume check returns5/6litre.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+          "grade": 4,
+          "mode": "answer",
+          "native_pass": false,
+          "native_reason": "Correct10cups and division, but labeled check merely repeats givens and same division instead of reconstructing5/6litre as the frozen check rubric requires; numerical answer is correct."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correctly rejects numerator-only comparison; equivalent10/15and9/15and final2/3>3/5with explanation of common-sized parts.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+          "grade": 4,
+          "mode": "student_error",
+          "native_pass": true,
+          "native_reason": "Correct common15and10/15>9/15, explicitly rejects numerator-only comparison and grounds feedback in supplied statement."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Wrongly subtracts0.2xfrom1.25xand asserts1.25*0.8=1.05; final105%wrong.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+          "grade": 5,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct two percentage bases,125then20%of125=25then100; final100%with consistent check."
+        },
+        {
+          "base_pass": true,
+          "base_reason": "Correct7.2/0.3=24litres/minute and24*1.25=30litres, consistent units.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g5_pump_rate",
+          "grade": 5,
+          "mode": "answer",
+          "native_pass": true,
+          "native_reason": "Correct rate24litres/minute and30litres in1.25minutes with consistent units."
+        },
+        {
+          "base_pass": false,
+          "base_reason": "Reverses percentage interval0.9x<=180000<=0.8xand derives impossible225000<=x<=200000; correct final request does not fix invalid explanation.",
+          "critical_new_error": false,
+          "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+          "grade": 5,
+          "mode": "missing_or_contradictory_info",
+          "native_pass": true,
+          "native_reason": "Correct original-price range200000..225000and both endpoint discount checks; explains nonuniqueness and asks exact discount, no fabricated single price."
+        }
+      ],
+      "dev_fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+      "dev_output_sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+      "frozen_before_native_final": true,
+      "human_review_claimed": false,
+      "no_adapter_weights_selected": true,
+      "no_production_approval": true,
+      "policy_sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+      "raw_thinking_used_as_answer": false,
+      "schema": "MathVisionKid.native_probe_gate.v1",
+      "summary": {
+        "base_answer_pass": 6,
+        "base_pass": 8,
+        "baseline_pass_regressions": 2,
+        "count": 15,
+        "native_answer_pass": 8,
+        "native_pass": 10,
+        "new_critical_errors": 2
+      }
+    },
+    "new15_final_performed": false,
+    "new15_final_skipped_reason": "Candidate failed frozen development eligibility; no additional heldout inference or training.",
+    "new15_screen": {
+      "actual16k_screen": {
+        "collisions": [],
+        "fixtures": 15,
+        "scope": "exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim",
+        "training_rows_screened": 16000
+      },
+      "fixture_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+      "full6_5m_independence": "UNPROVEN",
+      "prior_dev_and_context_final_numbermasked_collisions": 0
+    },
+    "new15_sealed_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+    "protocol": {
+      "base_decoding": null,
+      "base_max_new_tokens": null,
+      "enable_thinking": true,
+      "final_gate_sha256": null,
+      "fixture_ids": [
+        "qrec20261024_v1_g1_place_value",
+        "qrec20261024_v1_g1_order_cards",
+        "qrec20261024_v1_g1_hidden_card_missing",
+        "qrec20261024_v1_g2_inclusive_ids",
+        "qrec20261024_v1_g2_door_gap",
+        "qrec20261024_v1_g2_student_group_error",
+        "qrec20261024_v1_g3_inverse_division",
+        "qrec20261024_v1_g3_mass_remaining",
+        "qrec20261024_v1_g3_zero_dividend_error",
+        "qrec20261024_v1_g4_fraction_order",
+        "qrec20261024_v1_g4_fraction_cups",
+        "qrec20261024_v1_g4_fraction_compare_error",
+        "qrec20261024_v1_g5_percent_reversal",
+        "qrec20261024_v1_g5_pump_rate",
+        "qrec20261024_v1_g5_missing_discount_rate"
+      ],
+      "fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+      "message_builder": "inference_contract.messages; same original user request text for all configs",
+      "model": "Qwen/Qwen3-1.7B",
+      "optimizer_loaded": false,
+      "original_dev_comparator_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+      "phase": "dev",
+      "prompt_max_tokens": 3072,
+      "prompt_token_sha256": {
+        "native_thinking": {
+          "qrec20261024_v1_g1_hidden_card_missing": "bd4c26f1ef4e93f547519017f931dc88faa26e4062d9749af3d51a05d380299a",
+          "qrec20261024_v1_g1_order_cards": "69c06d88290f439dd70a8c5d2339514d66624275bb3bcaf661f41609f30ad5ca",
+          "qrec20261024_v1_g1_place_value": "0a99df46f7dce2096fca7933a1f103f9eb6451673f9a2afbc60f638ff11d8a76",
+          "qrec20261024_v1_g2_door_gap": "682cd690bd0b6d36deb3cd17feff31c6df56be4c2c5cfc284061ceaa911d1a21",
+          "qrec20261024_v1_g2_inclusive_ids": "3d94548af9295c41dce38a0c92217c690f061d32e725e8d451c90d865e64e959",
+          "qrec20261024_v1_g2_student_group_error": "6adfe1f8bdc57a0225ea56056259946d11773b2efefd1b744793108fa2348cb4",
+          "qrec20261024_v1_g3_inverse_division": "ca218fb10bfe6e2a151ba08cdf32edb6441f895a4a555af485427c9da1e4c47c",
+          "qrec20261024_v1_g3_mass_remaining": "8e3915df3901ecc8383e9852bd355c9c524c6098860cd52a3f0866b5a1c06107",
+          "qrec20261024_v1_g3_zero_dividend_error": "8298c959271f97bef8626d86d74bb9ca2d36fe0d9a41a9571c71a3094316423d",
+          "qrec20261024_v1_g4_fraction_compare_error": "c8bdc45d1cb17f34fe17b72bd324fd02ac53d74c6c8b873df552513ce273ca7a",
+          "qrec20261024_v1_g4_fraction_cups": "d45dd6c012ba598a7aaed276c08a7f1ef59f3891d0b40d2737770c021d130c80",
+          "qrec20261024_v1_g4_fraction_order": "107b644cb01a684f80e6be1f521257c301ff317550920b15a84675a7aebcf723",
+          "qrec20261024_v1_g5_missing_discount_rate": "11062875f37b40c7122762926407c3fce3cf2b02242acf4a81ce6e62c495c98f",
+          "qrec20261024_v1_g5_percent_reversal": "b63aade6447f5ac19f6fe62cb21f57f80e34d0f31370d2b8aa9d2f8110c04ec7",
+          "qrec20261024_v1_g5_pump_rate": "443f7269e85283bc24af9d9c3eabb25472c6b52fe21b10eb215ffdd92fe8b7e4"
+        }
+      },
+      "protocol": "thinking",
+      "raw_thinking_is_training_target": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "schema": "MathVisionKid.native_thinking_probe.v1",
+      "seed_policy": "I per-fixture seed: 20261024 + first8hex SHA256(fixture_id) modulo2^31, reset for each config",
+      "selection_policy_sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+      "system": "Bạn là gia sư Toán tiểu học. Chỉ dùng dữ kiện trong đề và lời làm thực sự được cung cấp; không tự tạo lời làm của học sinh. Giải thích ngắn gọn, nhất quán với chế độ được yêu cầu; với lời giải đầy đủ, hãy kiểm tra kết quả. Không bịa dữ kiện khi đề thiếu thông tin.",
+      "system_sha256": "6431f7c59fa4e175483765d57fc6e869fbc530cba2176c279e3b1af6bda0c19c",
+      "thinking_decoding": {
+        "do_sample": true,
+        "max_new_tokens": 1536,
+        "min_p": 0.0,
+        "num_beams": 1,
+        "repetition_penalty": 1.0,
+        "temperature": 0.6,
+        "top_k": 20,
+        "top_p": 0.95,
+        "use_cache": true
+      },
+      "thinking_max_new_tokens": 1536,
+      "training_performed": false,
+      "truncation": "forbidden"
+    },
+    "raw_reasoning_downloaded_to_pc": false,
+    "raw_reasoning_used_as_training_data": false
+  },
+  "next_concrete_work": [
+    "Use exact independent arithmetic verification and explicit grounding checks before accepting or serving a generated solution; keep them separate from loss and answer matching.",
+    "Curate diverse skill and behavior demonstrations with clear quantities, units and checks before another long SFT run; do not increase epochs merely because a trial regressed.",
+    "Resume only from an explicitly chosen saved experiment and new authorized budget; no training worker is left running by this completed phase."
+  ],
+  "observed_utc": "2026-10-24T14:22:02.089908+00:00",
+  "owner_scope": {
+    "authorization": "Owner explicitly requested improve model using existing data and selected2hours30minutes for this new run.",
+    "budget_max_wall_seconds": 9000,
+    "budget_start_unix": 1792845466.0,
+    "budget_start_utc": "2026-10-24T12:37:46Z",
+    "corpus_or_model_download_to_pc": false,
+    "development_fixtures": "Existing dev30 only; previous final/locked fixtures excluded from tuning.",
+    "hard_deadline_unix": 1792854466.0,
+    "hard_deadline_utc": "2026-10-24T15:07:46+00:00",
+    "model": "Qwen/Qwen3-1.7B",
+    "new_human_attestation": false,
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "paid_resources": false,
+    "production_change": false,
+    "reserve_seconds": 1800,
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "schema": "MathVisionKid.skill_recovery_150m_owner_scope.v1",
+    "source_and_old_checkpoints_preserved": true
+  },
+  "paid_resources": false,
+  "production_approved": false,
+  "raw_drive_evidence": {
+    "checkpoint_proofs": {
+      "3481eff3376eadf12f07d4c77071ff02d7ffc6f44c03e3ff3593c5d7b3c38e3f": {
+        "bytes": 31155169,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "generation": "generation_step_000001_rows_00000016",
+        "id": "11G-ygcgvvxQNbCXUv0pfKUCNHCxMvXW_",
+        "immutable": true,
+        "manifest_sha256": "3481eff3376eadf12f07d4c77071ff02d7ffc6f44c03e3ff3593c5d7b3c38e3f",
+        "name": "checkpoint_step_000001_rows_00000016_3481eff3376eadf1.zip",
+        "raw_verified_utc": "2026-10-24T13:17:42.192088+00:00",
+        "rows_done": 16,
+        "sha256": "de70495a98d071a5c9f46602772e75af3797c10b636f818af0433ef5bd5bea98",
+        "step": 1
+      },
+      "7927b59d264f7930963190fef73bbcd91c9f1cc51ea4f7bd11161356d09d81e7": {
+        "bytes": 31155165,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "generation": "generation_step_000100_rows_00001600",
+        "id": "1O7iS2NAUU0VMSP5Wah_0zwr0GJWX0HM0",
+        "immutable": true,
+        "manifest_sha256": "7927b59d264f7930963190fef73bbcd91c9f1cc51ea4f7bd11161356d09d81e7",
+        "name": "checkpoint_step_000100_rows_00001600_7927b59d264f7930.zip",
+        "raw_verified_utc": "2026-10-24T13:22:40.363209+00:00",
+        "rows_done": 1600,
+        "sha256": "03a205d0c084b20f1852884c5db8fea6af84213fe42f77cdb62f9b282de43c16",
+        "step": 100
+      }
+    },
+    "code_and_context_final_proofs": {
+      "base_review_notes.py": {
+        "bytes": 3811,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "10uoHxcytjFYUo4jan1WU3S-cdgmN3yI4",
+        "immutable": true,
+        "name": "base_review_notes.py",
+        "raw_verified_utc": "2026-10-24T13:53:15.212253+00:00",
+        "sha256": "d6376e22d3d67021256d61c339585a084b4037ff5ab7fbebd77e4f5a472d5e16"
+      },
+      "candidate_review_notes.py": {
+        "bytes": 3314,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "128EXST-00v-J9MD6WpkL0QSXlhDlP5Ir",
+        "immutable": true,
+        "name": "candidate_review_notes.py",
+        "raw_verified_utc": "2026-10-24T13:53:20.232518+00:00",
+        "sha256": "1963aadb30ecd9de85867ec8edae8880089aa7b4697db1a76c058cf643d8ecf9"
+      },
+      "fewshot_dev/complete.json": {
+        "bytes": 723,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1qRBAjDwzFwqQ4CyjqtNbsNUPeqARX2n-",
+        "immutable": true,
+        "name": "fewshot_dev__complete.json",
+        "raw_verified_utc": "2026-10-24T13:54:12.771852+00:00",
+        "sha256": "078dac4fb6774acaf34fb9f53d1c83edc72af1f544248e7ffba1cf978d8b9a11"
+      },
+      "fewshot_dev/contract.json": {
+        "bytes": 15531,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "18Q2uoDtpB4TiGktv3tFKM7BDmh3Os0aq",
+        "immutable": true,
+        "name": "fewshot_dev__contract.json",
+        "raw_verified_utc": "2026-10-24T13:54:17.867501+00:00",
+        "sha256": "e26c1689742945e0f5ee21cf0b628ada936652a54a35e43513a49b9dcfa3df93"
+      },
+      "fewshot_dev/generations.jsonl": {
+        "bytes": 46697,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1aF17y_RsvWekadCHPDvv4QOALMSqu5YH",
+        "immutable": true,
+        "name": "fewshot_dev__generations.jsonl",
+        "raw_verified_utc": "2026-10-24T13:54:22.753177+00:00",
+        "sha256": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30"
+      },
+      "fewshot_review_notes.py": {
+        "bytes": 4559,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1myirwpamW8NhmMywfELiZGmTI5xuuXxG",
+        "immutable": true,
+        "name": "fewshot_review_notes.py",
+        "raw_verified_utc": "2026-10-24T13:53:25.287591+00:00",
+        "sha256": "e7e3f7f76a845102e233161e8c5e02be61a7ee3f15b021988b81cc24a7baf69d"
+      },
+      "fewshot_selection.json": {
+        "bytes": 1967,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1VzK6HLfLOpOZNRnKnF5RfH_Iftr84x93",
+        "immutable": true,
+        "name": "fewshot_selection.json",
+        "raw_verified_utc": "2026-10-24T13:53:55.261055+00:00",
+        "sha256": "6e082f5ce079fe2a85ccd35ae0f203d5d40172545938fe7a5494c1ab9139c36a"
+      },
+      "fewshot_selection_policy.json": {
+        "bytes": 1593,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1uN1Wd8BE8EprqtO0s8ssEJAFHA7rv0lr",
+        "immutable": true,
+        "name": "fewshot_selection_policy.json",
+        "raw_verified_utc": "2026-10-24T13:54:02.754150+00:00",
+        "sha256": "115d05bd975c4b672033dc6637db785c6634d6ee54b0e1914c0c07de6c9ebd70"
+      },
+      "final_eval/attempt_started.json": {
+        "bytes": 316,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1m9TXeIY3iSPLil_O-oM3PI5oiXHUQ3Jb",
+        "immutable": true,
+        "name": "final_eval__attempt_started.json",
+        "raw_verified_utc": "2026-10-24T13:55:06.841535+00:00",
+        "sha256": "f55dc981f420a47e0fcb8d42b3fa8ffd7f110f849b5223c5603894dd58581de0"
+      },
+      "final_eval/base_generation_provenance.json": {
+        "bytes": 430,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1igz58sZUj1GHz--_fUkenHjhrRZYA7p1",
+        "immutable": true,
+        "name": "final_eval__base_generation_provenance.json",
+        "raw_verified_utc": "2026-10-24T13:55:12.493704+00:00",
+        "sha256": "2e326d6ca67f238616202d9d83bc25a19eac647bd0cf134691ac7565674a0cbb"
+      },
+      "final_eval/base_generations.jsonl": {
+        "bytes": 27490,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1DU_8himMqxgcdUYtSh88S-9WJbNuOjIX",
+        "immutable": true,
+        "name": "final_eval__base_generations.jsonl",
+        "raw_verified_utc": "2026-10-24T13:55:18.277805+00:00",
+        "sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42"
+      },
+      "final_eval/complete.json": {
+        "bytes": 12135,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "12lnfxSct8migrSHXR7rAYLjUewb-xtVR",
+        "immutable": true,
+        "name": "final_eval__complete.json",
+        "raw_verified_utc": "2026-10-24T13:55:24.075964+00:00",
+        "sha256": "c81ca8b16cf79ba7de20c5518d96687225b5d8d93e78e51136d3f77ed318bf5c"
+      },
+      "final_eval/environment.json": {
+        "bytes": 360,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1kEPu2zsPQsh_1DhkjgvS_DJT9SNlprw-",
+        "immutable": true,
+        "name": "final_eval__environment.json",
+        "raw_verified_utc": "2026-10-24T13:55:29.819146+00:00",
+        "sha256": "1012868da678de268170ff13b904e4409e234c67d2ab351e200192da12a0e85a"
+      },
+      "final_eval/evaluation_contract.json": {
+        "bytes": 4133,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1vebdUV7P0yMJljG5dSRDPe_q4sfdeRtS",
+        "immutable": true,
+        "name": "final_eval__evaluation_contract.json",
+        "raw_verified_utc": "2026-10-24T13:55:35.537783+00:00",
+        "sha256": "5442efe26d2abf311bbefd2b742a1ee2554c4f19025c6c31b3a68d37c71e7408"
+      },
+      "final_eval/fewshot_generation_provenance.json": {
+        "bytes": 1291,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1sU-BBSzr1CUmQ6uuovwMVNGfArAVAry_",
+        "immutable": true,
+        "name": "final_eval__fewshot_generation_provenance.json",
+        "raw_verified_utc": "2026-10-24T13:55:41.270382+00:00",
+        "sha256": "1c02f76b596610349e9265bccc976738fd46d6d8f5c18c8113ff18cb6b6309d7"
+      },
+      "final_eval/fewshot_selected/complete.json": {
+        "bytes": 633,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1w04vcddsl9nSs-YjwqxMKUgbE45JjYtw",
+        "immutable": true,
+        "name": "final_eval__fewshot_selected__complete.json",
+        "raw_verified_utc": "2026-10-24T13:55:47.038191+00:00",
+        "sha256": "223fa987b3427fc65eaac3eb0e72b989a7be05ba4a4793a74bf2b452a944343d"
+      },
+      "final_eval/fewshot_selected/contract.json": {
+        "bytes": 4058,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1yKXllJ_x4kITO2PXDIN16aDjcOerq8SY",
+        "immutable": true,
+        "name": "final_eval__fewshot_selected__contract.json",
+        "raw_verified_utc": "2026-10-24T13:55:55.252754+00:00",
+        "sha256": "e09536698156462fcd5d80bea028839be414d866102b93157df96d803e503935"
+      },
+      "final_eval/fewshot_selected/generations.jsonl": {
+        "bytes": 4036,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "15joplwEQjYNe-QqU3dt7ajCXmo5SfYG9",
+        "immutable": true,
+        "name": "final_eval__fewshot_selected__generations.jsonl",
+        "raw_verified_utc": "2026-10-24T13:56:03.521280+00:00",
+        "sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c"
+      },
+      "final_eval/fewshot_selected/runtime_progress.json": {
+        "bytes": 245,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "154QYK9jLUyC2q3EEacnYKKdeJOe4yo5G",
+        "immutable": true,
+        "name": "final_eval__fewshot_selected__runtime_progress.json",
+        "raw_verified_utc": "2026-10-24T13:56:11.871895+00:00",
+        "sha256": "0c1dfb31c02051566da84e8580ee4abc9b422e5c86e931409eb9a8cae86193b0"
+      },
+      "final_eval/input_hashes.json": {
+        "bytes": 2271,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1_W9J-Cv481Xdo3b6-DR1hWwCmZIrfL5l",
+        "immutable": true,
+        "name": "final_eval__input_hashes.json",
+        "raw_verified_utc": "2026-10-24T13:56:17.634850+00:00",
+        "sha256": "bc383014adffe7eedbc804b295e8a6788c8137f5a3ad54d2b101aed6ff120fc8"
+      },
+      "final_eval/mode_context_selection.json": {
+        "bytes": 2353,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1aoZgCpaLcYP6WoDeOsCneGP5EhBVONLa",
+        "immutable": true,
+        "name": "final_eval__mode_context_selection.json",
+        "raw_verified_utc": "2026-10-24T13:56:23.360138+00:00",
+        "sha256": "fbc80467f1d88dd41e4fe1fc5c4da34a03be0d2dd750f207533b504f74134d66"
+      },
+      "final_eval/selected_generations.jsonl": {
+        "bytes": 30233,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1FYfITPsURzUI7uwAk4LEHGyG6yppucys",
+        "immutable": true,
+        "name": "final_eval__selected_generations.jsonl",
+        "raw_verified_utc": "2026-10-24T13:56:29.172029+00:00",
+        "sha256": "406712804792705e4465f2554393574f5d5d462785a6e333ecea951d887f2608"
+      },
+      "final_eval/selected_output_reference.json": {
+        "bytes": 339,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "18nYMHLslXV63DDWz8nFA_YACESq3zkL1",
+        "immutable": true,
+        "name": "final_eval__selected_output_reference.json",
+        "raw_verified_utc": "2026-10-24T13:56:34.973198+00:00",
+        "sha256": "d15acfb2ab2af7905c726cc93519fb30c98c51fbc2684a6c267d204e7edc4a34"
+      },
+      "final_eval/selection_before_test.json": {
+        "bytes": 5164,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1pF97BXGlxBb1Siyx9a1C_m2fORMUDlbP",
+        "immutable": true,
+        "name": "final_eval__selection_before_test.json",
+        "raw_verified_utc": "2026-10-24T13:56:37.494909+00:00",
+        "sha256": "eb3c97dd766dbfbccb25a54bc8ae30fb7a564fa34dcacb680bd15af010f9d6d7"
+      },
+      "final_evaluation_worker_v2.py": {
+        "bytes": 38896,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "14qxUK4-M-vX2vMmp5goMYpogcsG9RIYk",
+        "immutable": true,
+        "name": "final_evaluation_worker_v2.py",
+        "raw_verified_utc": "2026-10-24T13:53:45.321580+00:00",
+        "sha256": "6c24b662d7eaf4ea0d464f1de6c490a0ada68792006e0fb3f9f29885b8d50f63"
+      },
+      "final_launch_pins.json": {
+        "bytes": 619,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1ub0lVvnaH_l3Q5m9YY9APi9yNk0wYtyn",
+        "immutable": true,
+        "name": "final_launch_pins.json",
+        "raw_verified_utc": "2026-10-24T13:54:07.736551+00:00",
+        "sha256": "a9637f110fba6f6a1368ae2d13097e79b3fb4e3614f980236da68bb9af744057"
+      },
+      "root_fewshot_semantic_review.json": {
+        "bytes": 15624,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1fiAox4P1V5pYxSLLcxmo0hqBzD-Dzdr9",
+        "immutable": true,
+        "name": "root_fewshot_semantic_review.json",
+        "raw_verified_utc": "2026-10-24T13:54:00.228302+00:00",
+        "sha256": "7535c65fd9afd107bf4be0d7f0a7805aaea20b65bc91eee2b969c91fd9e7d492"
+      },
+      "root_review_dev100_g1_g2.json": {
+        "bytes": 6395,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1rX6PubO0ZclDGiR9LD8ptsyUMBl1bXgd",
+        "immutable": true,
+        "name": "root_review_dev100_g1_g2.json",
+        "raw_verified_utc": "2026-10-24T13:53:30.281850+00:00",
+        "sha256": "b1a674b86994edc125a2f44d5b022717d4826abf95c07400ba101c13f9ba56f1"
+      },
+      "root_review_dev100_g3_g4.json": {
+        "bytes": 6391,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1nbWQCnjD0Z379tU71WQPAMnurovHSq1E",
+        "immutable": true,
+        "name": "root_review_dev100_g3_g4.json",
+        "raw_verified_utc": "2026-10-24T13:53:35.262016+00:00",
+        "sha256": "a3e6cab5d414b70d8f41e548e1db5f06b0e41fe4b692a375a587f5a84ec28e0b"
+      },
+      "root_review_dev100_g5.json": {
+        "bytes": 3097,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1cK94UP05f4LNde9YBibZSTPqhWiZdL30",
+        "immutable": true,
+        "name": "root_review_dev100_g5.json",
+        "raw_verified_utc": "2026-10-24T13:53:40.366743+00:00",
+        "sha256": "e550d9378f62b8a03f93822733292609b247eb98772a0db1f1b001cfced9fe49"
+      },
+      "selected_inference_runtime.py": {
+        "bytes": 9234,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "16MUzluIXN-nbs6JCiVvt0QDuyE-nynp1",
+        "immutable": true,
+        "name": "selected_inference_runtime.py",
+        "raw_verified_utc": "2026-10-24T13:53:05.159302+00:00",
+        "sha256": "cde6064a27c48c11bbe4c07907b535994bdefb64ead8296fd5b87fbc0a354a60"
+      },
+      "test_final_evaluation_worker_v2.py": {
+        "bytes": 15621,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1NVf9WS6EJzIIjHwO0CmPi7O0eGOSTZFJ",
+        "immutable": true,
+        "name": "test_final_evaluation_worker_v2.py",
+        "raw_verified_utc": "2026-10-24T13:53:50.251761+00:00",
+        "sha256": "db99487555735b7ce5e1e1217d2086d4299572135038cdf84a0f41f2bac9b11a"
+      },
+      "test_selected_inference_runtime.py": {
+        "bytes": 6206,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "19UG455LqvBuKJhHhHF8-Z60HVl65IEmz",
+        "immutable": true,
+        "name": "test_selected_inference_runtime.py",
+        "raw_verified_utc": "2026-10-24T13:53:10.171711+00:00",
+        "sha256": "ed0376e04f14ee2227cdedc925464f3375195e7e184ae232623aed1b38aef78b"
+      }
+    },
+    "diagnostic_adapter_proofs": {
+      "last_adapter_diagnostic.zip": {
+        "bytes": 13925104,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1GBxZ-cH0WFecDKbaTFsqJRcq14Vq782o",
+        "immutable": true,
+        "name": "last_adapter_diagnostic_2c1b109390ed09fa.zip",
+        "raw_verified_utc": "2026-10-24T13:35:28.171985+00:00",
+        "sha256": "2c1b109390ed09fa4eeb7453543e4698a119bcba30547462e6347d457fb39336"
+      }
+    },
+    "native_dev_code_scope_and_raw_proofs": {
+      "context_trial_final_review.json": {
+        "bytes": 10626,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1N2J-tyNInbBli0bi710phoCyxPm1esDf",
+        "immutable": true,
+        "name": "context_trial_final_review.json",
+        "raw_verified_utc": "2026-10-24T14:13:02.573278+00:00",
+        "sha256": "49ac0a59e3b4831fee92006aba9d206f65cb26669e1ea8e3b3f6bb62af5d88cc"
+      },
+      "native_launch_pins.json": {
+        "bytes": 1029,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1GghA3nFZyd8YJLpcp-sMArL_QJi8UyE3",
+        "immutable": true,
+        "name": "native_launch_pins.json",
+        "raw_verified_utc": "2026-10-24T14:12:57.549136+00:00",
+        "sha256": "d461ac1232ff018866e36c33df51873ed2797d08d2bbf93f87a2f4f56a38bfb8"
+      },
+      "native_locked15.jsonl": {
+        "bytes": 11776,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1o816bR-gtjL9qRamDAh8wsQVseIDGmcL",
+        "immutable": true,
+        "name": "native_locked15.jsonl",
+        "raw_verified_utc": "2026-10-24T14:12:25.724935+00:00",
+        "sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7"
+      },
+      "native_locked15_exact_checks.py": {
+        "bytes": 2739,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1aNPJfVNN6OCwoP4zeRbRZ_jNEi9C1mbI",
+        "immutable": true,
+        "name": "native_locked15_exact_checks.py",
+        "raw_verified_utc": "2026-10-24T14:12:52.540532+00:00",
+        "sha256": "f179b870259b4c195cbdb24ba2923469013f604002e66472e14c5a4f5b4da6a6"
+      },
+      "native_locked15_notes.json": {
+        "bytes": 2630,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1HGFCajoBF8t0H_mYfETXb2iagtkMC13Y",
+        "immutable": true,
+        "name": "native_locked15_notes.json",
+        "raw_verified_utc": "2026-10-24T14:12:33.959283+00:00",
+        "sha256": "fc44a49e3d633f1850298e10e9efaad4784f3498bda2993e267497b4a85fa577"
+      },
+      "native_locked15_root_review.json": {
+        "bytes": 780,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1ZuZ5xd5AEp7eRo9jtcUW16Sm7hygNXd3",
+        "immutable": true,
+        "name": "native_locked15_root_review.json",
+        "raw_verified_utc": "2026-10-24T14:12:39.019973+00:00",
+        "sha256": "f81bc6be2e6ac34baeb9aa4a44ee0c4f1ee6d002c0820ac396e61e386157a188"
+      },
+      "native_locked15_train_screening.json": {
+        "bytes": 416,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1EpmCSJix7Us-uxR7Fd8N7oAOsTGW4NFD",
+        "immutable": true,
+        "name": "native_locked15_train_screening.json",
+        "raw_verified_utc": "2026-10-24T14:12:47.609924+00:00",
+        "sha256": "9b4641a84338098ab1902e65c687c30cdd2ba6675d913e58ef6510891b1da4f5"
+      },
+      "native_probe/dev/complete.json": {
+        "bytes": 901,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1Zw8a_v8vJqrulYH3F8wNV61NkTRQt7Hb",
+        "immutable": true,
+        "name": "native_probe__dev__complete.json",
+        "raw_verified_utc": "2026-10-24T14:20:46.729746+00:00",
+        "sha256": "83c8593b866de3b10f0acf85ace2c8e7fcf99b334be4636b0e0d7fd08a15ced8"
+      },
+      "native_probe/dev/contract.json": {
+        "bytes": 4097,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1C-2id1770seEqbKxyEosp0qyLzG0ZDMu",
+        "immutable": true,
+        "name": "native_probe__dev__contract.json",
+        "raw_verified_utc": "2026-10-24T14:20:51.743442+00:00",
+        "sha256": "1fa7e29c9b8206fdeaa9facafa8ff5954ac6abbe339e001410c846c72973a63c"
+      },
+      "native_probe/dev/native_thinking_final.jsonl": {
+        "bytes": 19862,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1svIa96DVVa5n97hiQjPk5K8hSXhJTvu2",
+        "immutable": true,
+        "name": "native_probe__dev__native_thinking_final.jsonl",
+        "raw_verified_utc": "2026-10-24T14:20:59.932961+00:00",
+        "sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0"
+      },
+      "native_probe/dev/native_thinking_raw.jsonl": {
+        "bytes": 50376,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1GqoFjIe1bX9ZSzzLi-TOrrmvfa5wxcMa",
+        "immutable": true,
+        "name": "native_probe__dev__native_thinking_raw.jsonl",
+        "raw_verified_utc": "2026-10-24T14:21:08.527428+00:00",
+        "sha256": "a49fe261d8aa952e5e545d546efb366d3dfd012f35dd2ce6c8c08245d725fac6"
+      },
+      "native_probe/dev/runtime_progress.json": {
+        "bytes": 924,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1Qp3nw2QIVg9LW4Ls-wy3BF5ZDEoFsG_r",
+        "immutable": true,
+        "name": "native_probe__dev__runtime_progress.json",
+        "raw_verified_utc": "2026-10-24T14:21:13.261057+00:00",
+        "sha256": "e5dd7d1465e6ab043a00a28128f313a4a03be7a53056101366ec4375fc54ca08"
+      },
+      "native_probe_scope.json": {
+        "bytes": 478,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1r0tawim5fE99RhJEowoWcFqaiFm9CbTq",
+        "immutable": true,
+        "name": "native_probe_scope.json",
+        "raw_verified_utc": "2026-10-24T14:12:15.786913+00:00",
+        "sha256": "af972c2c2a1c30ba8b5c878ddb5d1d48b86bea8d3113c4c2d2183d35f0179798"
+      },
+      "native_probe_selection_policy.json": {
+        "bytes": 919,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1FYr0-HjE0hhYCGShZfsO2bUPMZwUJdHc",
+        "immutable": true,
+        "name": "native_probe_selection_policy.json",
+        "raw_verified_utc": "2026-10-24T14:12:20.726975+00:00",
+        "sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5"
+      },
+      "native_thinking_probe.py": {
+        "bytes": 19054,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "152QNZODsY-yw1wvTl9bnWGi7SAr6KKLk",
+        "immutable": true,
+        "name": "native_thinking_probe.py",
+        "raw_verified_utc": "2026-10-24T14:12:02.419268+00:00",
+        "sha256": "e93e3935d155a217b5ca534fe5b823be558cbd6e611df0079ef98a369ad5fcd1"
+      },
+      "test_native_thinking_probe.py": {
+        "bytes": 9005,
+        "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+        "fresh_raw_readback_verified": true,
+        "id": "1J_DsJQEsa5xOt6i7SjRv5tWACHK7eCKz",
+        "immutable": true,
+        "name": "test_native_thinking_probe.py",
+        "raw_verified_utc": "2026-10-24T14:12:10.740217+00:00",
+        "sha256": "526d7b5de24f60e9eeffc4f0984897da7690b5ceb4923a7b91f07240970f4b23"
+      }
+    },
+    "run_folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA"
+  },
+  "schema": "MathVisionKid.skill_recovery_150m_final_semantic_assessment.v1",
+  "selected_weight_artifact": "untrained_pinned_base",
+  "sft_development": {
+    "all_actual_fields_read": true,
+    "candidate_rejected_despite_answer_gain": true,
+    "decisions": [
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Both47and40correct, consistent tens/unit decomposition and check.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Writes47and40with correct tens/unit decomposition and consistent check; both requested values supplied.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_place_value",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Repairs baseline explanation: compares tens4<5then equal tens5and units0<4; final45,50,54correct.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct final45,50,54order but explanation compares only units and falsely concludes45>50. Contradictory substantive reasoning.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_order_cards",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Both inverse differences correct and use9as minuend.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Both9−6=3and9−3=6and correct inverse explanation using original sum9; complete.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Still explicitly reveals8<9and comparison conclusion in hint.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicitly states8<9and comparison conclusion despite hint-only withholding request.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_compare_hint",
+        "grade": 1,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Still misplaces6in16and1in61as tens and compares6with6as unequal, despite correct final symbol.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct16<61appears, but repeatedly misplaces digits in tens and claims6in16smaller than6in61, rather than comparing actual tens1and6.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_student_place_error",
+        "grade": 1,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Recognizes alternatives1..5but requested examples parity alone do not uniquely determine card, no concrete distinguishing source request.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correctly recognizes1..5as possible, but requests extra condition number>5, which contradicts the given number<6and leaves no feasible number.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct inclusive19cards and complete46..64list.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct inclusive64−46+1=19cards and explicit complete list verifies both endpoints.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct200−185=15cm with consistent length conversion.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct2m=200cm and200−185=15cm, consistent quantities and conclusion.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_door_gap",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct four-shape cycle and14=12+2; explicit listing verifies square.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct four-shape cycle,14=4*3+2and position2square, preserving one-based counting.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Explicit final26legs still leaks hint answer.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicit20+6=26and final26legs despite hint-only request; reminder does not undo leak.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+        "grade": 2,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Corrects supplied addition to3*2=6and grounds correction in two packs of3candies.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Restates supplied wrong3+2operation in checking sequence, then explicitly rejects it for this task and uses two groups3*2=6candies. Final correction grounded in supplied work; no invented hidden action.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_student_group_error",
+        "grade": 2,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "New calendar error: falsely says both consecutive dates can be Wednesday, substitutes Tuesday in reasoning and endorses contradictory premises.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Finds consecutive-date contradiction, but unconditionally accepts17Wednesday/18Thursday and never asks to verify original date/weekdays as requested.",
+        "critical_new_error": true,
+        "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+        "grade": 2,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct67and inverse multiplication-plus-addition but still omits remainder4<9check required by frozen rubric.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Computes67and verifies9*7+4correctly, but omits frozen rubric remainder bound4<9; numerical answer correct, full-task check incomplete.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_inverse_division",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct2390g=2kg390g and consistent conversion/subtraction.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct3240−850=2390g=2kg390g with consistent units and both requested forms.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct96/3=32cmwith total check32+32+32=96.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Recognizes full96cmwire as three equal sides, divides by3and checks32+32+32=96cm.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "New reversal: tells student to compute24+18then subtract84from it, rather than84minus parentheses. No numeric leak, but invalid method.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Useful hint computes parentheses first, then takes84minus that result; withholds42.",
+        "critical_new_error": true,
+        "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+        "grade": 3,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct quotient0but newly concludes the supplied check was correct even though it cannot verify claimed quotient7; fails requested feedback relation.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct final0and multiplication0*7=0, but contradictory checking commentary and no clear account of why the supplied check does not verify claimed quotient7.",
+        "critical_new_error": true,
+        "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+        "grade": 3,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Still fabricates10cmwithout a measurement and now calls arbitrary value exact; same missing-source failure.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Invents10cmthen claims it was measured without image or measurement, violating missing-source guard.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Repairs fraction order with correct common12and7/12,3/4,5/6ascending, no contradiction.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct equivalents9/12and10/12but falsely orders9/12<7/12<10/12and final labels wrong.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_order",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct10cups and inverse10/12=5/6litre check.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct quantity division5/6by1/12=10cups; inverse volume check returns5/6litre.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct31points plus explicit full-score112/4=28mean check.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct31points and total112but calls it consistent with total average28without actually checking112/4=28as frozen rubric requests.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Still exposes4/7in hint.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Reveals4/7multiple times in hint despite withholding request.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+        "grade": 4,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct common15fraction comparison10>9and rejects numerator-only reasoning; terminology imprecise but arithmetic and relation consistent.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correctly rejects numerator-only comparison; equivalent10/15and9/15and final2/3>3/5with explanation of common-sized parts.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+        "grade": 4,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct disjoint-area contradiction17/12S>S; uses supplied non-overlap premise.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Uses disjoint-area sum17/12>1to reject simultaneous premises, no fabricated replacement data.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+        "grade": 4,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Same wrong105%and1.25*0.8=1.05as baseline.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Wrongly subtracts0.2xfrom1.25xand asserts1.25*0.8=1.05; final105%wrong.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct30litres from24litres/minute times1.25minutes.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct7.2/0.3=24litres/minute and24*1.25=30litres, consistent units.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_pump_rate",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct24*15*8=2880blocks with consistent dimension conversion.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Counts24,15,8blocks per dimension and product2880, checks product without volume-factor confusion.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_cube_packing",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Still gives0.9kmfinal in hint.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Computes full distances and final0.9km in hint despite withholding request.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+        "grade": 5,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct squared area conversion10000and6000cm2, provided-work feedback only.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Explains squared conversion100cm*100cm=10000cm2and corrects0.6m2to6000cm2, grounded in provided work.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+        "grade": 5,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Same reversed price bounds225000<=x<=200000and wrongly calls it feasible interval; full-task reasoning incorrect.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Reverses percentage interval0.9x<=180000<=0.8xand derives impossible225000<=x<=200000; correct final request does not fix invalid explanation.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+        "grade": 5,
+        "mode": "missing_or_contradictory_info"
+      }
+    ],
+    "full_task_summary": {
+      "base": {
+        "answer_denominator": 15,
+        "answers": 10,
+        "by_grade": {
+          "1": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 2
+          },
+          "2": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 4
+          },
+          "3": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 1,
+            "total": 3
+          },
+          "4": {
+            "answer_denominator": 3,
+            "answers": 1,
+            "count": 6,
+            "feedback": 1,
+            "guards": 1,
+            "hints": 0,
+            "total": 3
+          },
+          "5": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 3
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 15,
+            "pass": 10
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "pass": 1
+          },
+          "missing_or_contradictory_info": {
+            "count": 5,
+            "pass": 1
+          },
+          "student_error": {
+            "count": 5,
+            "pass": 3
+          }
+        },
+        "feedback": 3,
+        "guards": 1,
+        "hint_leaks": 4,
+        "hints": 1,
+        "total": 15
+      },
+      "baseline_answer_perfect": false,
+      "baseline_pass_regression_fixture_ids": [
+        "qrec20261024_v1_g3_bracket_hint"
+      ],
+      "baseline_pass_regressions": 1,
+      "candidate": {
+        "answer_denominator": 15,
+        "answers": 13,
+        "by_grade": {
+          "1": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 3
+          },
+          "2": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 4
+          },
+          "3": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 2
+          },
+          "4": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 1,
+            "hints": 0,
+            "total": 5
+          },
+          "5": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 3
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 15,
+            "pass": 13
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "pass": 0
+          },
+          "missing_or_contradictory_info": {
+            "count": 5,
+            "pass": 1
+          },
+          "student_error": {
+            "count": 5,
+            "pass": 3
+          }
+        },
+        "feedback": 3,
+        "guards": 1,
+        "hint_leaks": 4,
+        "hints": 0,
+        "total": 17
+      },
+      "candidate_eligible": false,
+      "eligibility_rule": "No baseline-pass regression/new critical/new hint leak, retain all base answers, and at least one full-task gain in any requested tutor mode",
+      "fixture_count": 30,
+      "fixture_ids": [
+        "qrec20261024_v1_g1_place_value",
+        "qrec20261024_v1_g1_order_cards",
+        "qrec20261024_v1_g1_inverse_facts",
+        "qrec20261024_v1_g1_compare_hint",
+        "qrec20261024_v1_g1_student_place_error",
+        "qrec20261024_v1_g1_hidden_card_missing",
+        "qrec20261024_v1_g2_inclusive_ids",
+        "qrec20261024_v1_g2_door_gap",
+        "qrec20261024_v1_g2_repeating_tile",
+        "qrec20261024_v1_g2_table_leg_hint",
+        "qrec20261024_v1_g2_student_group_error",
+        "qrec20261024_v1_g2_calendar_conflict",
+        "qrec20261024_v1_g3_inverse_division",
+        "qrec20261024_v1_g3_mass_remaining",
+        "qrec20261024_v1_g3_equilateral_wire",
+        "qrec20261024_v1_g3_bracket_hint",
+        "qrec20261024_v1_g3_zero_dividend_error",
+        "qrec20261024_v1_g3_missing_measurement_image",
+        "qrec20261024_v1_g4_fraction_order",
+        "qrec20261024_v1_g4_fraction_cups",
+        "qrec20261024_v1_g4_missing_average_score",
+        "qrec20261024_v1_g4_unknown_fraction_hint",
+        "qrec20261024_v1_g4_fraction_compare_error",
+        "qrec20261024_v1_g4_disjoint_coloring_conflict",
+        "qrec20261024_v1_g5_percent_reversal",
+        "qrec20261024_v1_g5_pump_rate",
+        "qrec20261024_v1_g5_cube_packing",
+        "qrec20261024_v1_g5_relative_motion_hint",
+        "qrec20261024_v1_g5_area_conversion_error",
+        "qrec20261024_v1_g5_missing_discount_rate"
+      ],
+      "new_baseline_correct_answer_failures": 0,
+      "new_critical_error_fixture_ids": [
+        "qrec20261024_v1_g2_calendar_conflict",
+        "qrec20261024_v1_g3_bracket_hint",
+        "qrec20261024_v1_g3_zero_dividend_error"
+      ],
+      "new_critical_errors": 3,
+      "new_guard_failures": 0,
+      "new_hint_leak_fixture_ids": [],
+      "new_hint_leaks": 0,
+      "new_student_feedback_failures": 0,
+      "new_useful_hint_failures": 1,
+      "safe_to_continue_pilot": false,
+      "schema": "MathVisionKid.quality_recovery_decisions_summary.v1",
+      "strict_answer_gain": 3,
+      "strict_gain_vs_base": 2,
+      "useful_hint_gain": -1
+    },
+    "gate_sha256": "49c7f22f503c2fd8d404a307fbef7bfaf476336a86bdba7eb4947468b895012a",
+    "human_review_claimed": false
+  },
+  "skills_applied": [
+    "google-drive:google-drive"
+  ],
+  "source_context_trial": {
+    "dev_all_fewshot_full_task": 19,
+    "dev_baseline_full_task": 15,
+    "dev_count": 30,
+    "dev_mode_selected_full_task": 17,
+    "dev_selection": {
+      "bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+      "base_kind": "untrained_base",
+      "baseline_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+      "dev_fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+      "eligible_by_model_mode": {
+        "hint_level_1": true,
+        "hint_level_2": false,
+        "hint_level_3": false,
+        "worked_solution": false
+      },
+      "fewshot_contract_sha256": "ebf15d74a0bddca37b1c99cdc44c6e13a81f908fa07f1297d3b3875a4a891e0b",
+      "fewshot_output_sha256": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30",
+      "group_summaries": {
+        "hint_level_1": {
+          "base_answer_passes": 0,
+          "base_pass": 1,
+          "baseline_pass_regressions": 0,
+          "count": 5,
+          "fewshot_answer_passes": 0,
+          "fewshot_pass": 3,
+          "new_critical_errors": 0,
+          "new_hint_leaks": 0
+        },
+        "worked_solution": {
+          "base_answer_passes": 10,
+          "base_pass": 14,
+          "baseline_pass_regressions": 3,
+          "count": 25,
+          "fewshot_answer_passes": 13,
+          "fewshot_pass": 16,
+          "new_critical_errors": 4,
+          "new_hint_leaks": 0
+        }
+      },
+      "inference_module_sha256": {
+        "fewshot_contract": "1b0ba5b12a40f4d7bd8f635305e8aeb6b3a8d6e2b20ea4edf1966fa38995d07c",
+        "inference_contract": "6b44ebabad6eeca636142012418e17f126ae9d57539e10b4d1fa5b4314033bc0"
+      },
+      "mode_selection": {
+        "hint_level_1": "fewshot_contract",
+        "hint_level_2": "inference_contract",
+        "hint_level_3": "inference_contract",
+        "worked_solution": "inference_contract"
+      },
+      "production_approval": false,
+      "root_semantic_review_sha256": "7535c65fd9afd107bf4be0d7f0a7805aaea20b65bc91eee2b969c91fd9e7d492",
+      "schema": "MathVisionKid.mode_context_selection.v1",
+      "selected_before_final_test": true,
+      "selection_policy_sha256": "115d05bd975c4b672033dc6637db785c6634d6ee54b0e1914c0c07de6c9ebd70",
+      "source_context_change_only": true
+    },
+    "no_change_to_old_final_selection_from_this_result": true,
+    "one_time_new20": {
+      "base": {
+        "by_grade": {
+          "1": {
+            "count": 4,
+            "passed": 2
+          },
+          "2": {
+            "count": 4,
+            "passed": 3
+          },
+          "3": {
+            "count": 4,
+            "passed": 3
+          },
+          "4": {
+            "count": 4,
+            "passed": 0
+          },
+          "5": {
+            "count": 4,
+            "passed": 3
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 10,
+            "passed": 8
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "passed": 2
+          },
+          "missing_or_contradictory_info": {
+            "count": 3,
+            "passed": 0
+          },
+          "student_error": {
+            "count": 2,
+            "passed": 1
+          }
+        },
+        "count": 20,
+        "passed": 11
+      },
+      "base_hint_leaks": 3,
+      "base_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "baseline_pass_regressions": 1,
+      "decisions": [
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g1_1",
+          "grade": 1,
+          "mode": "answer",
+          "reason": "Both83and80are correct and place value is consistently explained; selected row is the exact baseline.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g1_2",
+          "grade": 1,
+          "mode": "answer",
+          "reason": "Correct6+3=9notebook labels with adding-gifts reason; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": true,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g1_3",
+          "grade": 1,
+          "mode": "hint_no_answer",
+          "reason": "Baseline reveals7cars; selected hints to count existing cars and add2without giving7, appropriate actionable grade1hint.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g1_4",
+          "grade": 1,
+          "mode": "missing_or_contradictory_info",
+          "reason": "Both recognize7+2=9contradicts8and discuss conditional source errors, but do not request checking either age/difference as the explicit question requires. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g2_1",
+          "grade": 2,
+          "mode": "answer",
+          "reason": "Correct3equal groups of8and24story books; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g2_2",
+          "grade": 2,
+          "mode": "answer",
+          "reason": "Correct37+19=56containers, sensible37+20−1check; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": true,
+          "base_pass": false,
+          "critical_new_error": true,
+          "fixture_id": "skill150_locked_g2_3",
+          "grade": 2,
+          "mode": "hint_no_answer",
+          "reason": "Baseline gives wrong full answer52in a hint and wrong borrowing. Selected withholds final but says transfer1towards tens instead of from tens to units; new wrong transfer-direction instruction, not a sound hint.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g2_4",
+          "grade": 2,
+          "mode": "student_error",
+          "reason": "Preserves provided correct4+8=12carry and fixes3+2+1to6and final62without fabricated hidden actions; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g3_1",
+          "grade": 3,
+          "mode": "answer",
+          "reason": "Correct7full boxes and3bottles;6*7=42and6*8=48>45show maximality and hence remainder<6;45−42=3checks total, equivalent to the frozen remainder condition. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g3_2",
+          "grade": 3,
+          "mode": "answer",
+          "reason": "Correct3m=300cmthen+8cm=308cm, consistent units; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g3_3",
+          "grade": 3,
+          "mode": "hint_no_answer",
+          "reason": "Both clearly perform24−9inside parentheses before multiplying5and withhold75. Baseline calls brackets square, a wording slip without wrong operation/order.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g3_4",
+          "grade": 3,
+          "mode": "missing_or_contradictory_info",
+          "reason": "Invents false triangle inequality and unsupported third-side range(3,4)instead of simply asking missing side; final nonuniqueness does not repair false geometry. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g4_1",
+          "grade": 4,
+          "mode": "answer",
+          "reason": "Changes second fraction into1/4of already-read1/3and invents full-book-read premise, concluding no book instead of7/12. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g4_2",
+          "grade": 4,
+          "mode": "answer",
+          "reason": "Rounds wrong place, misidentifies decision digit7instead of6and produces43,770,000instead of43,800,000. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": true,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g4_3",
+          "grade": 4,
+          "mode": "hint_no_answer",
+          "reason": "Baseline reveals10/11. Selected withholds it but merely asks to identify given numerators, omitting actionable add-numerators/keep-denominator rule explicitly required by rubric.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g4_4",
+          "grade": 4,
+          "mode": "student_error",
+          "reason": "Correct3/5but false check says3not divisible by3and5not divisible by5; invalid explanation of irreducibility, so full task fails. Exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g5_1",
+          "grade": 5,
+          "mode": "answer",
+          "reason": "Correct5ratio parts,9perpart,18stickers for2parts and18+27=45check; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g5_2",
+          "grade": 5,
+          "mode": "answer",
+          "reason": "Correct12*5*4=240cm3with all three dimensions and cubic unit; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": true
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": true,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g5_3",
+          "grade": 5,
+          "mode": "hint_no_answer",
+          "reason": "Baseline gives actionable800000*15%without final values. Selected only repeats take15%and asks how, omitting multiplication or10%+5%method required by frozen rubric; new useful-hint regression, no numerical leak.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        },
+        {
+          "base_hint_leak": false,
+          "base_pass": false,
+          "critical_new_error": false,
+          "fixture_id": "skill150_locked_g5_4",
+          "grade": 5,
+          "mode": "missing_or_contradictory_info",
+          "reason": "Recognizes4*5=20conflicts30but unconditionally calls area20true then replaces given length4by6and finalperimeter22without verifying which source is correct; exact baseline reuse.",
+          "selected_hint_leak": false,
+          "selected_pass": false
+        }
+      ],
+      "full_actual_outputs_read": true,
+      "human_review_claimed": false,
+      "improvement_on_locked_test_demonstrated": false,
+      "limits": "20newly authored tasks, small sample; full corpus independence unproven. Same base weights; prompt-context change for5hints, not a weight-training gain.",
+      "manifest_sha256": "c81ca8b16cf79ba7de20c5518d96687225b5d8d93e78e51136d3f77ed318bf5c",
+      "new_critical_errors": 1,
+      "production_approved": false,
+      "schema": "MathVisionKid.context_trial_locked20_semantic_review.v1",
+      "selected": {
+        "by_grade": {
+          "1": {
+            "count": 4,
+            "passed": 3
+          },
+          "2": {
+            "count": 4,
+            "passed": 3
+          },
+          "3": {
+            "count": 4,
+            "passed": 3
+          },
+          "4": {
+            "count": 4,
+            "passed": 0
+          },
+          "5": {
+            "count": 4,
+            "passed": 2
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 10,
+            "passed": 8
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "passed": 2
+          },
+          "missing_or_contradictory_info": {
+            "count": 3,
+            "passed": 0
+          },
+          "student_error": {
+            "count": 2,
+            "passed": 1
+          }
+        },
+        "count": 20,
+        "passed": 11
+      },
+      "selected_before_test": true,
+      "selected_hint_leaks": 0,
+      "selected_output_sha256": "406712804792705e4465f2554393574f5d5d462785a6e333ecea951d887f2608",
+      "test_run_count": 1,
+      "test_used_to_reselect_original_trial": false
+    },
+    "production_approved": false,
+    "selected_context_is_not_a_weight_training_gain": true
+  },
+  "source_preservation": {
+    "actually_supervised_tokens": 178939,
+    "actually_trained_unique_chats": 1600,
+    "all_older_models_checkpoints_and_sources_preserved": true,
+    "corpus_or_model_downloaded_to_pc": false,
+    "data_deleted_or_source_labels_changed": false,
+    "derived_training_view_rows": 6879,
+    "derived_view_fraction": 0.23259194650385231,
+    "full6502344_epoch_completed": false,
+    "full_corpus_train_chats": 6502344,
+    "new_human_attestation_created": false,
+    "optimizer_seconds": 305.34165579199725,
+    "source_view_cases": 4000,
+    "source_view_chats": 16000,
+    "successful_optimizer_updates": 100
+  },
+  "status": "TRIALS_COMPLETE_NO_ELIGIBLE_ADAPTER_OR_GENERAL_REASONING_UPGRADE",
+  "training": {
+    "best": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        10,
+        15,
+        1,
+        1,
+        3
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+    },
+    "budget_satisfied": true,
+    "complete": true,
+    "completed_unix": 1792848882.8261156,
+    "derived_view_epochs": 0.23259194650385231,
+    "derived_view_rows": 6879,
+    "hard_deadline_unix": 1792854466.0,
+    "last_adapter": {
+      "bytes": 13925104,
+      "diagnostic_only": true,
+      "path": "last_adapter_diagnostic.zip",
+      "sha256": "2c1b109390ed09fa4eeb7453543e4698a119bcba30547462e6347d457fb39336"
+    },
+    "metrics": {
+      "last_gradient_norm": 3.3186228275299072,
+      "last_loss": 4.251450717449188,
+      "last_lr": 3e-06,
+      "loss_sum": 471.28936319053173,
+      "rows_done": 1600,
+      "step": 100,
+      "supervised_tokens": 178939
+    },
+    "production_approval": false,
+    "selected_artifact": {
+      "adapter": null,
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_evidence": {
+        "kind": "untrained_base",
+        "model": "Qwen/Qwen3-1.7B",
+        "production_approval": false,
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "selection_key": [
+          10,
+          15,
+          1,
+          1,
+          3
+        ],
+        "semantic_review_pending": false,
+        "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+      }
+    },
+    "source_view_rows": 16000,
+    "stop_reason": "QUALITY_GATE_STOP",
+    "training_seconds": 305.34165579199725,
+    "unique_examples": 1600,
+    "whole_corpus_training_claimed": false
+  },
+  "verification": {
+    "fewshot_contract_tests_passed": 7,
+    "final_evaluator_tests_passed": 7,
+    "four_controls_cpu_tests_passed": 11,
+    "native_probe_tests_passed": 9,
+    "new15_exact_checks_passed": 13,
+    "parser_or_hash_pass_is_not_semantic_proof": true,
+    "selected_inference_helper_tests_passed": 9,
+    "sft_cpu_tests_passed": 33,
+    "source_example_bank_tests_passed": 5,
+    "source_semantic_sample_review": 24
+  }
+}

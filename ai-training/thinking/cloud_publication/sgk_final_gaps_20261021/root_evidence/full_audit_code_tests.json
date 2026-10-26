@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tests": 10,
+  "command": "python -X utf8 -m unittest discover -s thinking -p test_math_data_full_audit.py",
+  "elapsed_seconds": 10.184,
+  "actual_pinned_tokenizer": true,
+  "code_sha256": "642343937c54c1c761ec38708d76fb46e26165563ab2045e9bc6c45adf0624a1",
+  "test_sha256": "44589c5009a579fc1c269a260217d23119006671d0c0b97d82f563a8c45ff5e9",
+  "whole_archive_audited": false,
+  "training_started": false
+}

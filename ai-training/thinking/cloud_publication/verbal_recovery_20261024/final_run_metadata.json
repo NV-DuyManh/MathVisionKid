@@ -1,0 +1,30 @@
+{
+  "branch": "verbal_recovery_20261024",
+  "phase": "FINAL_SEMANTIC_CLOSEOUT",
+  "status": "REPRESENTATION_TRIAL_NOT_ELIGIBLE_DO_NOT_PROMOTE_ADAPTER",
+  "new_adapter_improvement_demonstrated": false,
+  "selected_kind": "untrained_base",
+  "actual_steps": 50,
+  "actual_unique_chats": 800,
+  "supervised_tokens": 169406,
+  "training_seconds": 171.06867578100355,
+  "dev_base_fulltask": 12,
+  "dev_adapter_fulltask": 15,
+  "dev_count": 30,
+  "locked_selected_fulltask": 9,
+  "locked_count": 20,
+  "final_report_proof": {
+    "id": "1cUetu3wbo_d8ARwe9HvES3Js5GQAzt0O",
+    "sha256": "445586a3e8ed7fc82563b4408108d59ddf7e6b8263eda34dca9083e3ca4a3f54",
+    "bytes": 81847,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T12:08:54.537776+00:00",
+    "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+    "name": "training__final_semantic_assessment.json",
+    "immutable": false
+  },
+  "source_data_or_labels_modified": false,
+  "production_approved": false,
+  "further_training_started": false,
+  "next": "STOP; retain all artifacts. Diagnose behavior retention and prompt/target distribution before any later long run."
+}

@@ -1,0 +1,357 @@
+{
+  "verified_utc": "2026-10-18T15:29:28.259Z",
+  "all14verified": true,
+  "parts": [
+    {
+      "file_id": "1mVnZRvKOicelMkn6dFCX-dSOuJO8kHLr",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_01_of_07.zip",
+      "bytes": 40280810,
+      "sha256": "dcc09edf5c61e5a235eb10f544a53c8c24da2974a57fcdbb530a1466c43cf84a",
+      "verified": true
+    },
+    {
+      "file_id": "1pOxE705Ag6e_TAokHZ-l4LLsI0EMr0YG",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_02_of_07.zip",
+      "bytes": 75695710,
+      "sha256": "d900577f8d451246b71fe130319b27048a1c8be46eba6ab25f09fa5747c38b8c",
+      "verified": true
+    },
+    {
+      "file_id": "1Gktq05M6XzRjZfg1GRHRIr-Z9GtOp7i2",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_03_of_07.zip",
+      "bytes": 74624227,
+      "sha256": "20c0c17afac874ab9890d936cbbd3f078612b239f15a18cce6aa3b3c81ed56a1",
+      "verified": true
+    },
+    {
+      "file_id": "1BSGrs-IMa9i7TCvrwJydl02rHrkWNQDi",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_04_of_07.zip",
+      "bytes": 73816249,
+      "sha256": "9d2fd8126f4771348207962b229d58b10586523d53e0a955a3f3978bae2c004f",
+      "verified": true
+    },
+    {
+      "file_id": "12IKlbyJn79pcGWE8PGjkR8ph0y7SCq7-",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_06_of_07.zip",
+      "bytes": 72805289,
+      "sha256": "1ee9e1af6a95438d8b9bc501717f1c804eb5d63828e42017d810ef4b7b5526ac",
+      "verified": true
+    },
+    {
+      "file_id": "1glUJCoMPx3dp_PiDfZZd17I2tKCbS4fJ",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_05_of_07.zip",
+      "bytes": 76862596,
+      "sha256": "748d6eff9d8614e369c1645e074fde3f8cfdf93068d4a219195d34f4e5248d50",
+      "verified": true
+    },
+    {
+      "file_id": "1xGxZFqD8tgUjDO8tZpMLWWk-ZTnNANwV",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_07_of_07.zip",
+      "bytes": 66182244,
+      "sha256": "e1d95aa91363c51dcfcdd4e49e186e5c9281185bc7328bb4c2508d9856e7aef9",
+      "verified": true
+    },
+    {
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "bytes": 75191056,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "verified": true
+    },
+    {
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "bytes": 71168825,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "verified": true
+    },
+    {
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "bytes": 70720600,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "verified": true
+    },
+    {
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "bytes": 71573224,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "verified": true
+    },
+    {
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "bytes": 75237855,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "verified": true
+    },
+    {
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "bytes": 39328574,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "verified": true
+    },
+    {
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "bytes": 71246149,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "verified": true
+    }
+  ],
+  "metadataRestored": [
+    {
+      "member": "thinking/data/exhaustive_math_v1/curriculum_blueprint_additions.json",
+      "bytes": 8726,
+      "sha256": "ae3fb6e18943ec5565e7f5d1a4b3200f7ebc7d7deb9a70f470fe5259b6317b3e"
+    },
+    {
+      "member": "thinking/data/exhaustive_math_v1/protected_numeric_signatures.json",
+      "bytes": 55690,
+      "sha256": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8"
+    },
+    {
+      "member": "thinking/data/exhaustive_math_v1/template_catalog.json",
+      "bytes": 4942,
+      "sha256": "ff4857c5e35526a548b153a40647d0945fdb67e4c4de00236dc11a8be1da7552"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/curriculum_2026_27_research.json",
+      "bytes": 22675,
+      "sha256": "c40eb54a8a46f4e788ebaa19a30b44f27aeccc801ae0c6d9b8a9729c3698e076"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/curriculum_math2018_annex.pdf",
+      "bytes": 1035429,
+      "sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_audit_summary.json",
+      "bytes": 38477,
+      "sha256": "ac8a015f33aaa750a87f42a851b6ba50a1e79c21085e7bb41a9e78843924ce77"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/gzip_repro/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/large_scope/template_catalog.json",
+      "bytes": 149,
+      "sha256": "553991889b3294c1ebec6fe15bbfcc808bcafcb74926bab82a5fd3df471779c3"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/large_scope/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/orphan/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/overlapping_shards/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/overlapping_shells/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/partial/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/resume/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/stale_template/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/views/protected_numeric_signatures.json",
+      "bytes": 157,
+      "sha256": "aecf20695e426ae19e2d4b41166d8914c2de17b24a9e27a0c64a26954606591d"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/preservation_generator_test_runs/20261018T144113925610Z/views/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/gzip_repro/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/large_scope/template_catalog.json",
+      "bytes": 149,
+      "sha256": "553991889b3294c1ebec6fe15bbfcc808bcafcb74926bab82a5fd3df471779c3"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/large_scope/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/orphan/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/overlapping_shards/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/overlapping_shells/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/partial/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/resume/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/stale_template/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/views/protected_numeric_signatures.json",
+      "bytes": 157,
+      "sha256": "aecf20695e426ae19e2d4b41166d8914c2de17b24a9e27a0c64a26954606591d"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144133437977Z/views/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/gzip_repro/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/large_scope/template_catalog.json",
+      "bytes": 149,
+      "sha256": "8f89f442980ea1bb4dc97ddd672a6af2103b398d94ee9aed0a1831ce446af5e5"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/large_scope/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/orphan/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/overlapping_shards/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/overlapping_shells/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/partial/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/resume/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/stale_template/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/views/protected_numeric_signatures.json",
+      "bytes": 157,
+      "sha256": "aecf20695e426ae19e2d4b41166d8914c2de17b24a9e27a0c64a26954606591d"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T144135213758Z/views/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/gzip_repro/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/large_scope/template_catalog.json",
+      "bytes": 149,
+      "sha256": "8f89f442980ea1bb4dc97ddd672a6af2103b398d94ee9aed0a1831ce446af5e5"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/large_scope/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/orphan/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/overlapping_shards/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/overlapping_shells/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/partial/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/resume/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/stale_template/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/views/protected_numeric_signatures.json",
+      "bytes": 157,
+      "sha256": "aecf20695e426ae19e2d4b41166d8914c2de17b24a9e27a0c64a26954606591d"
+    },
+    {
+      "member": "thinking/evidence/exhaustive_math_20261018/qa/T145619328836Z/views/test_evidence/preservation_audit_summary.json",
+      "bytes": 50,
+      "sha256": "6a96d8ae368756ec2977cbe33bfe5740265aa3ecebb70c8ca0a438584ba7a2fb"
+    }
+  ],
+  "local_payload_files_created": 0
+}

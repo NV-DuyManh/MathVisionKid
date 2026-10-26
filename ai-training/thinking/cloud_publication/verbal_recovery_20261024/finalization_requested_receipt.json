@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "oYBQ-QQbz_gJ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"finalization_requested\": true, \"report_proof\": {\"id\": \"1cUetu3wbo_d8ARwe9HvES3Js5GQAzt0O\", \"sha256\": \"445586a3e8ed7fc82563b4408108d59ddf7e6b8263eda34dca9083e3ca4a3f54\", \"bytes\": 81847, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T12:07:38.640141+00:00\", \"folder_id\": \"18kRud04F04OF34HcI2l9okHYUmzFVY4M\", \"name\": \"training__final_semantic_assessment.json\", \"immutable\": false}, \"final_eval_raw_verified_files\": 10, \"source_rows_or_labels_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

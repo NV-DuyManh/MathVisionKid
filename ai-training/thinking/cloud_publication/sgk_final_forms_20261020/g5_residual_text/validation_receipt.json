@@ -1,0 +1,37 @@
+{
+  "schema": "MathVisionKid.residual_author_validation.v1",
+  "cases": 6,
+  "chats": 24,
+  "source_chat_field_and_hash_links_checked": 24,
+  "finite_oracle_rows": 6,
+  "fraction_decimal_numeric_steps": 12,
+  "source_case_sha256": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002",
+  "chat_sha256": "cab230016ad010e15e267ddf098bf8480e0b32c052e47f62adc3383f97703a99",
+  "nearest_actual_source_refs_read": 25,
+  "candidate_snapshots": 3,
+  "old_file_hashes_readonly": [
+    {
+      "path": "thinking\\cloud_publication\\sgk_page_audit_20261019\\current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+    },
+    {
+      "path": "thinking\\cloud_publication\\sgk_page_audit_20261019\\release\\accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45"
+    },
+    {
+      "path": "thinking\\cloud_publication\\sgk_finish_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025"
+    },
+    {
+      "path": "thinking\\cloud_publication\\sgk_remaining_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296"
+    }
+  ],
+  "normalized_duplicate_question_and_sourceID_check": "PASS_AGAINST_OLD5784_PLUS_ACCEPTED110_94_36",
+  "selfqa7_rows": 6,
+  "root_cross_review_pending": true,
+  "human_review_claimed": false,
+  "training_started": false,
+  "drive_mutated": false,
+  "draft_chat_quality_not_premature_acceptance": true
+}

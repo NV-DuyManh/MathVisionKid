@@ -1,0 +1,459 @@
+{
+  "schema": "MathVisionKid.G2IntakeRepairReview.v1",
+  "created_utc": "2026-10-22T12:19:33.286115+00:00",
+  "skills_applied": [],
+  "original_batches": [
+    2,
+    3,
+    4
+  ],
+  "original_case_count": 18,
+  "new_original_case_count": 2,
+  "derived_case_count": 20,
+  "expected_future_chat_count": 80,
+  "original_zip_refs": [
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\MathVisionKid_G2_FINITE_APPEND_BATCH2_20261022_d257397c8b68cca7.zip",
+      "bytes": 21334,
+      "sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda",
+      "cases": 6,
+      "chats": 24
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\MathVisionKid_G2_FINITE_APPEND_BATCH3_20261022_2be0e9201b283ca9.zip",
+      "bytes": 18511,
+      "sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b",
+      "cases": 6,
+      "chats": 24
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\MathVisionKid_G2_FINITE_APPEND_BATCH4_20261022_373c8e52f58b4f4a.zip",
+      "bytes": 18985,
+      "sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6",
+      "cases": 6,
+      "chats": 24
+    }
+  ],
+  "original_row_bindings": {
+    "g2_attr_20261022_conjunctive_attribute_expression_extrema": {
+      "raw_row_sha256": "4ca7cf55ac51ee5c9d56c7ef5f9c0e7408b113370438da03975e6f567a39c92e",
+      "canonical_row_sha256": "4ca7cf55ac51ee5c9d56c7ef5f9c0e7408b113370438da03975e6f567a39c92e",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_attr_20261022_attractive_wrong_attribute_error": {
+      "raw_row_sha256": "7a040705304af1bfedc2436a62654754e509891a3e6a20874fe6d07fddf6e70c",
+      "canonical_row_sha256": "7a040705304af1bfedc2436a62654754e509891a3e6a20874fe6d07fddf6e70c",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_cube_20261022_unit_cube_column_height_assembly": {
+      "raw_row_sha256": "fee00375dd319eea5988516174167d610342c46d4b9cfae7dd2f59190e6a379a",
+      "canonical_row_sha256": "fee00375dd319eea5988516174167d610342c46d4b9cfae7dd2f59190e6a379a",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_cube_20261022_cube_support_ambiguity_guard": {
+      "raw_row_sha256": "ad0422e99c85fa944f8311673d2b94664eb09846f786f920328a0ef515973cdc",
+      "canonical_row_sha256": "ad0422e99c85fa944f8311673d2b94664eb09846f786f920328a0ef515973cdc",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_game_20261022_card_collection_inventory_state": {
+      "raw_row_sha256": "91c1065d029b7a9ea934355e39732b75dad093b46c5e5c464b97052a15222028",
+      "canonical_row_sha256": "91c1065d029b7a9ea934355e39732b75dad093b46c5e5c464b97052a15222028",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_game_20261022_board_cell_ownership_collinear_win": {
+      "raw_row_sha256": "5203afea0a4eeb9aaaa2ecbb2864293e608b17d23e85b9ac95f196764de72596",
+      "canonical_row_sha256": "5203afea0a4eeb9aaaa2ecbb2864293e608b17d23e85b9ac95f196764de72596",
+      "batch": 2,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda"
+    },
+    "g2_bal_20261022_balance_orientation_transitivity_side_swap": {
+      "raw_row_sha256": "39d92f0766e46e29d7e0ae3217617d408794c77b99ca32214603468a6eec392e",
+      "canonical_row_sha256": "39d92f0766e46e29d7e0ae3217617d408794c77b99ca32214603468a6eec392e",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_bal_20261022_balance_high_pan_misconception_error": {
+      "raw_row_sha256": "a24069a85d34156f0b64746911a85ba5147495f0659e0449422b98433e58365b",
+      "canonical_row_sha256": "a24069a85d34156f0b64746911a85ba5147495f0659e0449422b98433e58365b",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_sub_20261022_balance_group_multiplicity_substitution": {
+      "raw_row_sha256": "0dfb37cdb21ae1d9ea0839192ea94e9b2f1a832d2cf2a0c533a6a68ff812aded",
+      "canonical_row_sha256": "0dfb37cdb21ae1d9ea0839192ea94e9b2f1a832d2cf2a0c533a6a68ff812aded",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_sub_20261022_balance_substitution_mixed_group_repair": {
+      "raw_row_sha256": "90c04fb055169f55e14fda53cf99f9be8080b6bdcc1846ce0b1ffd82e16049dd",
+      "canonical_row_sha256": "90c04fb055169f55e14fda53cf99f9be8080b6bdcc1846ce0b1ffd82e16049dd",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_boat_20261022_boat_watermark_equal_mass_substitution": {
+      "raw_row_sha256": "ff1099a92c80d1ddb4ef786e3dcf55faa2ee3d91fddefe1956c6e58514aaecd7",
+      "canonical_row_sha256": "ff1099a92c80d1ddb4ef786e3dcf55faa2ee3d91fddefe1956c6e58514aaecd7",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_boat_20261022_boat_watermark_inequality_guard": {
+      "raw_row_sha256": "bcf7f2c6a93070b450e9fd4a59b498faef9d349f2947c69819d6daf6e527caec",
+      "canonical_row_sha256": "bcf7f2c6a93070b450e9fd4a59b498faef9d349f2947c69819d6daf6e527caec",
+      "batch": 3,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b"
+    },
+    "g2_pour_20261022_bounded_repour_state_choices_transition": {
+      "raw_row_sha256": "1d7d322bbb3895cf57184ea86c48da6897edf96d802121373f301af9d16553d3",
+      "canonical_row_sha256": "1d7d322bbb3895cf57184ea86c48da6897edf96d802121373f301af9d16553d3",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    },
+    "g2_pour_20261022_bounded_repour_impossible_overfill_guard": {
+      "raw_row_sha256": "af807f570f6e3e8ba5a82dbc0ee5f80946a8115c08b3d63fa0d78c0f66672bad",
+      "canonical_row_sha256": "af807f570f6e3e8ba5a82dbc0ee5f80946a8115c08b3d63fa0d78c0f66672bad",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    },
+    "g2_scale_20261022_pointer_scale_reading_with_tare": {
+      "raw_row_sha256": "8431ec3ec78e5a5e125bfb7b631655c1fa4e680e2df6cb77b92cb8b68e2242b3",
+      "canonical_row_sha256": "8431ec3ec78e5a5e125bfb7b631655c1fa4e680e2df6cb77b92cb8b68e2242b3",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    },
+    "g2_subset_20261022_fixed_cardinality_exact_pair_subset_sum": {
+      "raw_row_sha256": "1bb60c342f6333ba027e8967066094b16b73311d503a9b9e56afc5a387493b02",
+      "canonical_row_sha256": "1bb60c342f6333ba027e8967066094b16b73311d503a9b9e56afc5a387493b02",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    },
+    "g2_subset_20261022_subset_sum_cardinality_extrema_enumeration": {
+      "raw_row_sha256": "99333d685bbd1b76e39396552a7e27091f289fad6db4d633d5c6366e6658025c",
+      "canonical_row_sha256": "99333d685bbd1b76e39396552a7e27091f289fad6db4d633d5c6366e6658025c",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    },
+    "g2_subset_20261022_subset_sum_unproven_optimality_guard": {
+      "raw_row_sha256": "2637302799ede3e8696836d38e394cdaeb9820785b01f277f4619c67971717dc",
+      "canonical_row_sha256": "2637302799ede3e8696836d38e394cdaeb9820785b01f277f4619c67971717dc",
+      "batch": 4,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6"
+    }
+  },
+  "original_chat_structural_checks": [
+    {
+      "batch": 2,
+      "rows": 24,
+      "source_hashes_match": true,
+      "prompt_and_target_match_original": true,
+      "prompt_field_presence": {
+        "givens": 0,
+        "requested_quantity": 0,
+        "student_work": 8
+      },
+      "optional_prompt_fields_not_a_frozen_schema_violation": true
+    },
+    {
+      "batch": 3,
+      "rows": 24,
+      "source_hashes_match": true,
+      "prompt_and_target_match_original": true,
+      "prompt_field_presence": {
+        "givens": 0,
+        "requested_quantity": 0,
+        "student_work": 8
+      },
+      "optional_prompt_fields_not_a_frozen_schema_violation": true
+    },
+    {
+      "batch": 4,
+      "rows": 24,
+      "source_hashes_match": true,
+      "prompt_and_target_match_original": true,
+      "prompt_field_presence": {
+        "givens": 0,
+        "requested_quantity": 0,
+        "student_work": 8
+      },
+      "optional_prompt_fields_not_a_frozen_schema_violation": true
+    }
+  ],
+  "originals_unchanged": true,
+  "original_chat_count": 72,
+  "all_original_valid_answers_preserved": true,
+  "source_draft_hashes_only_cross_referenced_not_draft_content_reaudited": true,
+  "findings_original": [
+    "Standalone card-error prompt omitted the six-card context used by its answer.",
+    "Cube support explanation referenced a companion arrangement absent from standalone prompt.",
+    "Several hints stated the final verdict or complete requested explanation.",
+    "Generic hint follow-up questions were unrelated to the actual task.",
+    "Task09 memory-pair and finite-token subbranches were absent despite claimed complete task closure.",
+    "Several exact duplicate candidate aliases were omitted or game-subbranch aliases overclaimed.",
+    "Boat equal-baseline assumptions and circular pointer interval specification needed explicit text.",
+    "Mutation evidence appended _MUTATED_WRONG without a meaningful wrong-model experiment."
+  ],
+  "repairs_complete_self_qa": true,
+  "original_manifest_parent_queue_sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+  "actual_reviewed_queue_sha256": "bce4848aea672cbaa88b2ebcb0bd17e3d104a17545dfe3ca9c31a949a72365c9",
+  "parent_queue_byte_hash_differs": true,
+  "queue_task_identity_and_actual_constraints_read": true,
+  "coverage_bindings": [
+    {
+      "task_id": "g2_pending_07_expression_truth_attribute_extrema",
+      "candidate_ids": [
+        "g2v1:conjunctive_attribute_expression_filter",
+        "g2v1:conjunctive_attribute_filter"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Evaluate each arithmetic statement/expression, conjoin its truth with a supplied color/shape annotation, then select extrema only among surviving objects. Test an attractive wrong-attribute extremum."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_attr_20261022_conjunctive_attribute_expression_extrema",
+          "repaired_row_sha256": "d4b6f195a7b7ffc18e949b67fc377ee6e4afb4446f5695817a15476c6b2063c0",
+          "branch": "conjunctive_attribute_expression_extrema"
+        },
+        {
+          "sample_id": "g2_attr_20261022_attractive_wrong_attribute_error",
+          "repaired_row_sha256": "d6d03c67a22528d07c767f2868ce141dd136e26f0ba8e3240ade32ea4b743b2b",
+          "branch": "attractive_wrong_attribute_error"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_08_irregular_cube_support_layers",
+      "candidate_ids": [
+        "g2v1:unit_cube_count_assembly"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Specify an irregular occupied-cell or column-height arrangement, viewing direction and support/no-floating convention; count visible and genuinely required hidden units, with ambiguity guard if hidden support is not determined."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_cube_20261022_unit_cube_column_height_assembly",
+          "repaired_row_sha256": "0652d493d3f5776ee001d8d7984796978b0c4f500e584ce4030c36baf2c93a92",
+          "branch": "unit_cube_column_height_assembly"
+        },
+        {
+          "sample_id": "g2_cube_20261022_cube_support_ambiguity_guard",
+          "repaired_row_sha256": "b5572a53c553db90e1c5306bcd56652e21176f2ca283a861e5733782371c60ec",
+          "branch": "cube_support_ambiguity_guard"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_09_mutable_game_inventory_ownership",
+      "candidate_ids": [
+        "g2v1:finite_inventory_collection_state",
+        "g2v1:finite_inventory_game_state",
+        "g2v2:finite_board_ownership",
+        "g2v2:finite_token_game"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Subbranch1: collect a named card once, remove it permanently and track owner/remainingstock.",
+        "Subbranch2: memory-pair match state; mismatch resets face state, match removes pair; all values supplied.",
+        "Subbranch3: finite token availability restricts later placements; keep turn order and legal move budget.",
+        "Subbranch4: board cell ownership plus explicit collinear winning lines; evaluate stop/win from supplied moves."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_game_20261022_card_collection_inventory_state",
+          "repaired_row_sha256": "6021c7fae793cdd17f0c4d479e45f20b10cb7aa4150428205c7d69cc4bb14110",
+          "branch": "card_collection_inventory_state"
+        },
+        {
+          "sample_id": "g2_game_20261022_board_cell_ownership_collinear_win",
+          "repaired_row_sha256": "74936b3e2b3989c864ce776fdda70824ab6d05639badaa4e4cfc2b29275226f7",
+          "branch": "board_cell_ownership_collinear_win"
+        },
+        {
+          "sample_id": "g2_codex_20261022_memory_pair_reset_and_remove",
+          "repaired_row_sha256": "cc6ec05245af53705b13474d762d2c2be26d0ce36f5d9464f582a6f9ed3ad436",
+          "branch": "memory_pair_reset_and_remove"
+        },
+        {
+          "sample_id": "g2_codex_20261022_finite_tokens_and_move_budget",
+          "repaired_row_sha256": "abc335627d8858923f32a66dcec2719b46fb98370b9166b236ae915b0b3e95fa",
+          "branch": "finite_tokens_and_move_budget"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_10_balance_down_pan_transitivity",
+      "candidate_ids": [
+        "g2v1:balance_orientation_order",
+        "g2v2:balance_orientation_order"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Grade2 integer/symbolic stable-object pans; explicit low=heavy convention; object changes side across observations; chain inequalities and verify every pan."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_bal_20261022_balance_orientation_transitivity_side_swap",
+          "repaired_row_sha256": "82b4b894222e0318f3629843be0ddfaeb0dbc4fe01f47014e73ea8446d9afa98",
+          "branch": "balance_orientation_transitivity_side_swap"
+        },
+        {
+          "sample_id": "g2_bal_20261022_balance_high_pan_misconception_error",
+          "repaired_row_sha256": "2cdb90b1b08c79bef498e22d5ca1263a1009a023d38d9dab76a0549d3bbe929a",
+          "branch": "balance_high_pan_misconception_error"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_11_pan_group_substitution_chain",
+      "candidate_ids": [
+        "g2v1:balance_chain_substitution"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Replace a group by an explicitly equal-weight group through several balances, keeping item multiplicities; derive an unknown quantity or compare totals and substitute back into every original equality."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_sub_20261022_balance_group_multiplicity_substitution",
+          "repaired_row_sha256": "f9d4ca2d623446c463dd91493bb4a3800fce9f8f91063e26262dc5c1d236382d",
+          "branch": "balance_group_multiplicity_substitution"
+        },
+        {
+          "sample_id": "g2_sub_20261022_balance_substitution_mixed_group_repair",
+          "repaired_row_sha256": "59eb49872412d2d1083f77ea31991fbddeb18e56deebc0bff380f8f314a94324",
+          "branch": "balance_substitution_mixed_group_repair"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_12_boat_equal_watermark_substitution",
+      "candidate_ids": [
+        "g2v2:substitution_equal_mark"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Supply equal baseline boat/load conditions and equal observed water marks as an explicit mass-equivalence rule; replace entire load groups with equal groups and preserve passenger/item identities."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_boat_20261022_boat_watermark_equal_mass_substitution",
+          "repaired_row_sha256": "f10d30b6d4829de9a3628c220e62620453cb0686f41ee12b12e28e7a5a056c15",
+          "branch": "boat_watermark_equal_mass_substitution"
+        },
+        {
+          "sample_id": "g2_boat_20261022_boat_watermark_inequality_guard",
+          "repaired_row_sha256": "e1694c468b96367e433cdd9e1198be621d4b593890ab2a0a3b4f193b80ebfe32",
+          "branch": "boat_watermark_inequality_guard"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_13_bounded_repour_state_choices",
+      "candidate_ids": [
+        "g2v1:capacity_conservation_repour"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Give finite container capacities, initial amounts, allowed fill/empty/repour actions and target; enumerate legal state transitions with recipient capacity, amount conservation and no impossible overfill."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_pour_20261022_bounded_repour_state_choices_transition",
+          "repaired_row_sha256": "4d90f904181cbd09f333d1853ce9101b82ee7cacc61784e29dd4d12de9c1ad97",
+          "branch": "bounded_repour_state_choices_transition"
+        },
+        {
+          "sample_id": "g2_pour_20261022_bounded_repour_impossible_overfill_guard",
+          "repaired_row_sha256": "8c6c79e217c07066273a0029dbc9fde4aa61e6e26e0e121324df260efa158366",
+          "branch": "bounded_repour_impossible_overfill_guard"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_14_pointer_scale_direction_tare",
+      "candidate_ids": [
+        "g2v1:instrument_scale_reading"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Circular pointer with explicit tick values, equal interval count, increasing direction, needle location and tare/gross condition; read and check actual intended quantity."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_scale_20261022_pointer_scale_reading_with_tare",
+          "repaired_row_sha256": "689beb573aa37c998c96b431522add386edf18b6e1f1d2470f8364f73494610c",
+          "branch": "pointer_scale_reading_with_tare"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_15_subset_fixed_cardinality_target",
+      "candidate_ids": [
+        "g2v1:fixed_cardinality_subset_sum",
+        "g2v2:fixed_cardinality_subset_sum"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Finite named items/weights, exact selected cardinality2or3, target and boundary constraints; enumerate all lawful subsets and conserve item availability."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_subset_20261022_fixed_cardinality_exact_pair_subset_sum",
+          "repaired_row_sha256": "f48bfe88ea7183bd845cd208af2fed93600d92d8a0b37c6bb41b2f1ea8d9e55c",
+          "branch": "fixed_cardinality_exact_pair_subset_sum"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    },
+    {
+      "task_id": "g2_pending_16_subset_sum_extrema",
+      "candidate_ids": [
+        "g2v1:finite_subset_sum_extrema"
+      ],
+      "minimal_required_specific_branches_read": [
+        "Among subsets satisfying a stated cardinality/eligibility/budget domain, minimize or maximize selected total and enumerate tied optima; one feasible target does not prove optimality."
+      ],
+      "evidence": [
+        {
+          "sample_id": "g2_subset_20261022_subset_sum_cardinality_extrema_enumeration",
+          "repaired_row_sha256": "f21ed46a3d23b77a0514000aa622292cfd0dfbceeac92167dc38f9622c6f9a68",
+          "branch": "subset_sum_cardinality_extrema_enumeration"
+        },
+        {
+          "sample_id": "g2_subset_20261022_subset_sum_unproven_optimality_guard",
+          "repaired_row_sha256": "0f139c576f1a6587ba961f1f7523b19ab8eeb103c2008b4ae2ea9eb5fa1eb56e",
+          "branch": "subset_sum_unproven_optimality_guard"
+        }
+      ],
+      "text_mathematical_relation_status": "SELF_QA_DEMONSTRATED_PENDING_ROOT_FINAL_BINDING",
+      "physical_or_publisher_image_result_claimed": false
+    }
+  ],
+  "independent_oracle_count": 20,
+  "meaningful_negative_tests": 20,
+  "Fraction_Decimal_step_checks": 21,
+  "all_meaningful_negative_tests_detected": true,
+  "full_root_and_tokenizer_check_still_required": true,
+  "all_rows_semantically_human_reviewed": false,
+  "TRAINING_DATASET_READY": false,
+  "no_network_or_cloud_calls": true,
+  "no_train_weights_GPU": true,
+  "files": {
+    "repaired_b2_b4_cases.jsonl": "f7ed7437f53bc5d587b274c28010a1c5c08099dbe12748ae7bf1a8c51f37013b",
+    "qa7_b2_b4.jsonl": "e97694287f83d9a7273b222fa8305f7ee9170334ce951d9e06af980daab31214",
+    "repair_validation_b2_b4.py": "f9dd5f6ff86dddabc207944e236d2c6a20acd7692b4a7f6c4b5972a84a70699f"
+  }
+}

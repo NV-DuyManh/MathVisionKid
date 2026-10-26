@@ -1,0 +1,100 @@
+{
+  "events": [
+    {
+      "entry": 270,
+      "first": {
+        "already_complete": false,
+        "rows": 110,
+        "complete": true
+      },
+      "after_first": {
+        "schema": "MathVisionKid.archive_audit_progress.v1",
+        "rows_processed": 0,
+        "members_complete": 1,
+        "max_sequence_tokens": null,
+        "max_completion_tokens": null,
+        "missing_source_signatures_rows": 0,
+        "untokenized_rows": 0,
+        "source_linkage_unverified_rows": 0,
+        "source_raw_row_hash_unverified_rows": 0,
+        "incomplete_four_mode_cases": 0,
+        "issues": {},
+        "full_archive_token_split_audit_complete": false,
+        "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+        "training_started": false,
+        "gpu_used": false
+      }
+    },
+    {
+      "entry": 271,
+      "first": {
+        "already_complete": false,
+        "rows": 128,
+        "bounded_pause": true
+      },
+      "after_first": {
+        "schema": "MathVisionKid.archive_audit_progress.v1",
+        "rows_processed": 128,
+        "members_complete": 1,
+        "max_sequence_tokens": 440,
+        "max_completion_tokens": 280,
+        "missing_source_signatures_rows": 0,
+        "untokenized_rows": 0,
+        "source_linkage_unverified_rows": 0,
+        "source_raw_row_hash_unverified_rows": 0,
+        "incomplete_four_mode_cases": 0,
+        "issues": {},
+        "full_archive_token_split_audit_complete": false,
+        "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+        "training_started": false,
+        "gpu_used": false
+      },
+      "resumed": {
+        "already_complete": false,
+        "rows": 440,
+        "complete": true
+      },
+      "after_resume": {
+        "schema": "MathVisionKid.archive_audit_progress.v1",
+        "rows_processed": 440,
+        "members_complete": 2,
+        "max_sequence_tokens": 724,
+        "max_completion_tokens": 525,
+        "missing_source_signatures_rows": 0,
+        "untokenized_rows": 0,
+        "source_linkage_unverified_rows": 0,
+        "source_raw_row_hash_unverified_rows": 0,
+        "incomplete_four_mode_cases": 0,
+        "issues": {},
+        "full_archive_token_split_audit_complete": false,
+        "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+        "training_started": false,
+        "gpu_used": false
+      }
+    }
+  ],
+  "final": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 440,
+    "members_complete": 2,
+    "max_sequence_tokens": 724,
+    "max_completion_tokens": 525,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 0,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  },
+  "archive_sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+  "tokenizer_model": "Qwen/Qwen3-1.7B",
+  "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "data_only": true,
+  "reopened_sqlite_cursor_test": true,
+  "no_weights_loaded": true,
+  "all_archived_6501044_chat_audited": false
+}

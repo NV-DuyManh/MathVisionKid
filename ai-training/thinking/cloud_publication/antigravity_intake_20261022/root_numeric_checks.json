@@ -1,0 +1,569 @@
+[
+  {
+    "Decimal": "26",
+    "Fraction": "26",
+    "expression": "14 + 12",
+    "passed": true,
+    "result": "26",
+    "sample_id": "g2_roles_20261022_role_pool_addition_triples",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "50",
+    "Fraction": "50",
+    "expression": "38 + 12",
+    "passed": true,
+    "result": "50",
+    "sample_id": "g2_roles_20261022_role_pool_addition_triples",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "3",
+    "Fraction": "3",
+    "expression": "1 + 2",
+    "passed": true,
+    "result": "3",
+    "sample_id": "g2_roles_20261022_role_pool_addition_triples",
+    "step_id": "s3"
+  },
+  {
+    "Decimal": "26",
+    "Fraction": "26",
+    "expression": "20 + 6",
+    "passed": true,
+    "result": "26",
+    "sample_id": "g2_roles_20261022_role_pool_cross_role_error",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "39",
+    "Fraction": "39",
+    "expression": "15 + 24",
+    "passed": true,
+    "result": "39",
+    "sample_id": "g2_vertex_20261022_vertex_sum_triangle_rule_apply",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "55",
+    "Fraction": "55",
+    "expression": "24 + 31",
+    "passed": true,
+    "result": "55",
+    "sample_id": "g2_vertex_20261022_vertex_sum_triangle_rule_apply",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "46",
+    "Fraction": "46",
+    "expression": "31 + 15",
+    "passed": true,
+    "result": "46",
+    "sample_id": "g2_vertex_20261022_vertex_sum_triangle_rule_apply",
+    "step_id": "s3"
+  },
+  {
+    "Decimal": "40",
+    "Fraction": "40",
+    "expression": "24 + 16",
+    "passed": true,
+    "result": "40",
+    "sample_id": "g2_attr_20261022_conjunctive_attribute_expression_extrema",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "90",
+    "Fraction": "90",
+    "expression": "55 + 35",
+    "passed": true,
+    "result": "90",
+    "sample_id": "g2_attr_20261022_attractive_wrong_attribute_error",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "7",
+    "Fraction": "7",
+    "expression": "1 + 2 + 3 + 1",
+    "passed": true,
+    "result": "7",
+    "sample_id": "g2_cube_20261022_unit_cube_column_height_assembly",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "2",
+    "Fraction": "2",
+    "expression": "7 - 5",
+    "passed": true,
+    "result": "2",
+    "sample_id": "g2_cube_20261022_unit_cube_column_height_assembly",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "5",
+    "Fraction": "5",
+    "expression": "6 - 1",
+    "passed": true,
+    "result": "5",
+    "sample_id": "g2_game_20261022_card_collection_inventory_state",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "5 - 1",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_game_20261022_card_collection_inventory_state",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "3",
+    "Fraction": "3",
+    "expression": "4 - 1",
+    "passed": true,
+    "result": "3",
+    "sample_id": "g2_game_20261022_card_collection_inventory_state",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "22",
+    "Fraction": "22",
+    "expression": "8 + 14",
+    "passed": true,
+    "result": "22",
+    "sample_id": "g2_game_20261022_card_collection_inventory_state",
+    "step_id": "s3"
+  },
+  {
+    "Decimal": "6",
+    "Fraction": "6",
+    "expression": "2 * 3",
+    "passed": true,
+    "result": "6",
+    "sample_id": "g2_sub_20261022_balance_group_multiplicity_substitution",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "1",
+    "Fraction": "1",
+    "expression": "5 - 4",
+    "passed": true,
+    "result": "1",
+    "sample_id": "g2_sub_20261022_balance_substitution_mixed_group_repair",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "80",
+    "Fraction": "80",
+    "expression": "35 + 25 + 20",
+    "passed": true,
+    "result": "80",
+    "sample_id": "g2_boat_20261022_boat_watermark_equal_mass_substitution",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "60",
+    "Fraction": "60",
+    "expression": "35 + 25",
+    "passed": true,
+    "result": "60",
+    "sample_id": "g2_boat_20261022_boat_watermark_inequality_guard",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "2",
+    "Fraction": "2",
+    "expression": "5 - 3",
+    "passed": true,
+    "result": "2",
+    "sample_id": "g2_pour_20261022_bounded_repour_state_choices_transition",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "1",
+    "Fraction": "1",
+    "expression": "2 - 1",
+    "passed": true,
+    "result": "1",
+    "sample_id": "g2_pour_20261022_bounded_repour_impossible_overfill_guard",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "5 - 1",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_scale_20261022_pointer_scale_reading_with_tare",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "50",
+    "Fraction": "50",
+    "expression": "18 + 32",
+    "passed": true,
+    "result": "50",
+    "sample_id": "g2_subset_20261022_fixed_cardinality_exact_pair_subset_sum",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "30",
+    "Fraction": "30",
+    "expression": "12 + 18",
+    "passed": true,
+    "result": "30",
+    "sample_id": "g2_subset_20261022_subset_sum_cardinality_extrema_enumeration",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "67",
+    "Fraction": "67",
+    "expression": "32 + 35",
+    "passed": true,
+    "result": "67",
+    "sample_id": "g2_subset_20261022_subset_sum_cardinality_extrema_enumeration",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "67",
+    "Fraction": "67",
+    "expression": "32 + 35",
+    "passed": true,
+    "result": "67",
+    "sample_id": "g2_subset_20261022_subset_sum_unproven_optimality_guard",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "6",
+    "Fraction": "6",
+    "expression": "2 + 2 + 2",
+    "passed": true,
+    "result": "6",
+    "sample_id": "g2_codex_20261022_memory_pair_reset_and_remove",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "0",
+    "Fraction": "0",
+    "expression": "3 - 3",
+    "passed": true,
+    "result": "0",
+    "sample_id": "g2_codex_20261022_finite_tokens_and_move_budget",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "12",
+    "Fraction": "12",
+    "expression": "5 + 7",
+    "passed": true,
+    "result": "12",
+    "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "13",
+    "Fraction": "13",
+    "expression": "12 + 1",
+    "passed": true,
+    "result": "13",
+    "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "15",
+    "Fraction": "15",
+    "expression": "3 * 5",
+    "passed": true,
+    "result": "15",
+    "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "15",
+    "Fraction": "15",
+    "expression": "3 * 5",
+    "passed": true,
+    "result": "15",
+    "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "6",
+    "Fraction": "6",
+    "expression": "3 + 2 + 1",
+    "passed": true,
+    "result": "6",
+    "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs",
+    "step_id": "s3"
+  },
+  {
+    "Decimal": "6",
+    "Fraction": "6",
+    "expression": "8 - 2",
+    "passed": true,
+    "result": "6",
+    "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "3",
+    "Fraction": "3",
+    "expression": "2 + 1",
+    "passed": true,
+    "result": "3",
+    "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "5",
+    "Fraction": "5",
+    "expression": "3 + 2",
+    "passed": true,
+    "result": "5",
+    "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "5",
+    "Fraction": "5",
+    "expression": "2 + 3",
+    "passed": true,
+    "result": "5",
+    "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "5",
+    "Fraction": "5",
+    "expression": "1 + 1 + 2 + 1",
+    "passed": true,
+    "result": "5",
+    "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "2 + 2",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "19",
+    "Fraction": "19",
+    "expression": "12 + 7",
+    "passed": true,
+    "result": "19",
+    "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "5",
+    "Fraction": "5",
+    "expression": "12 - 7",
+    "passed": true,
+    "result": "5",
+    "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "15",
+    "Fraction": "15",
+    "expression": "12 + 3",
+    "passed": true,
+    "result": "15",
+    "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "30",
+    "Fraction": "30",
+    "expression": "5 * 6",
+    "passed": true,
+    "result": "30",
+    "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "30",
+    "Fraction": "30",
+    "expression": "15 + 15",
+    "passed": true,
+    "result": "30",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "50",
+    "Fraction": "50",
+    "expression": "20 + 30",
+    "passed": true,
+    "result": "50",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "30",
+    "Fraction": "30",
+    "expression": "42 - 12",
+    "passed": true,
+    "result": "30",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "50",
+    "Fraction": "50",
+    "expression": "65 - 15",
+    "passed": true,
+    "result": "50",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s3"
+  },
+  {
+    "Decimal": "30",
+    "Fraction": "30",
+    "expression": "50 - 20",
+    "passed": true,
+    "result": "30",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s4"
+  },
+  {
+    "Decimal": "70",
+    "Fraction": "70",
+    "expression": "40 + 30",
+    "passed": true,
+    "result": "70",
+    "sample_id": "g2_expr_20261022_expression_class_count",
+    "step_id": "s5"
+  },
+  {
+    "Decimal": "7",
+    "Fraction": "7",
+    "expression": "12 - 5",
+    "passed": true,
+    "result": "7",
+    "sample_id": "g2_cap_20261022_unit_capacity_bijection",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "7",
+    "Fraction": "7",
+    "expression": "16 - 9",
+    "passed": true,
+    "result": "7",
+    "sample_id": "g2_len_20261022_aligned_endpoint_length_diff",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "18",
+    "Fraction": "18",
+    "expression": "8 + 6 + 4",
+    "passed": true,
+    "result": "18",
+    "sample_id": "g2_surv_20261022_personal_survey_classroom_tally",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "6 - 2",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_grid_20261022_grid_copy_rectangle",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "3",
+    "Fraction": "3",
+    "expression": "5 - 2",
+    "passed": true,
+    "result": "3",
+    "sample_id": "g2_grid_20261022_grid_copy_rectangle",
+    "step_id": "s2"
+  },
+  {
+    "Decimal": "1",
+    "Fraction": "1",
+    "expression": "2 - 1",
+    "passed": true,
+    "result": "1",
+    "sample_id": "g2_prob_20261022_sequential_draw_balls",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "3 + 1",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_codex_20261022_calendar_grid_boundary_first_weekday",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "2",
+    "Fraction": "2",
+    "expression": "1 * 2",
+    "passed": true,
+    "result": "2",
+    "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "2 * 2",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "2 + 2",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+    "step_id": "s4"
+  },
+  {
+    "Decimal": "4",
+    "Fraction": "4",
+    "expression": "2 + 2",
+    "passed": true,
+    "result": "4",
+    "sample_id": "g2_codex_20261022_cut_origin_square_complete_cover",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "75",
+    "Fraction": "75",
+    "expression": "45 + 30",
+    "passed": true,
+    "result": "75",
+    "sample_id": "g2_codex_20261022_clock_continuous_hour_rollover",
+    "step_id": "s0"
+  },
+  {
+    "Decimal": "15",
+    "Fraction": "15",
+    "expression": "75 - 60",
+    "passed": true,
+    "result": "15",
+    "sample_id": "g2_codex_20261022_clock_continuous_hour_rollover",
+    "step_id": "s1"
+  },
+  {
+    "Decimal": "1",
+    "Fraction": "1",
+    "expression": "2 - 1",
+    "passed": true,
+    "result": "1",
+    "sample_id": "g2_codex_20261022_two_draw_all_unordered_events",
+    "step_id": "s0"
+  }
+]

@@ -1,0 +1,231 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g1_number_line_moves",
+      "grade": 1,
+      "mode": "answer",
+      "userproblem": "Trên tia số, em bắt đầu ở số 20, lùi lại một chục đơn vị rồi tiến thêm 3 đơn vị. Em dừng ở số nào? Hãy giải thích hai lần di chuyển.",
+      "exact_reference_answer": {
+        "value": "13",
+        "unit": ""
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 13,
+        "unit": ""
+      },
+      "oracle": {
+        "calculation": "Một chục là 10; 20 − 10 = 10; 10 + 3 = 13.",
+        "expected": "Dừng ở số 13."
+      },
+      "rubric": [
+        "Hiểu một chục đơn vị là 10 đơn vị.",
+        "Lùi trước rồi tiến sau, không đảo chiều hoặc cộng cả hai lần.",
+        "Nêu đúng vị trí cuối cùng và giải thích cả hai lần di chuyển."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_number_line_moves",
+      "generated_tokens": 133,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải thích lần đầu:**\n\n- Bắt đầu ở số 20.\n- Lùi một chục đơn vị: 20 - 10 = 10.\n- Tiến thêm 3 đơn vị: 10 + 3 = 13.\n\n**Giải thích lần thứ hai:**\n\n- Bắt đầu ở số 20.\n- Lùi một chục đơn vị: 20 - 10 = 10.\n- Tiến thêm 3 đơn vị: 10 + 3 = 13.\n\n**Kết luận:** Em dừng ở số 13.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "e3221a918d54b04ad8f0245808d5bad8fb26f240864ddd2c4eaedd365cc9437e",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_number_line_moves",
+      "generated_tokens": 133,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải thích lần đầu:**\n\n- Bắt đầu ở số 20.\n- Lùi một chục đơn vị: 20 - 10 = 10.\n- Tiến thêm 3 đơn vị: 10 + 3 = 13.\n\n**Giải thích lần thứ hai:**\n\n- Bắt đầu ở số 20.\n- Lùi một chục đơn vị: 20 - 10 = 10.\n- Tiến thêm 3 đơn vị: 10 + 3 = 13.\n\n**Kết luận:** Em dừng ở số 13.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "e3221a918d54b04ad8f0245808d5bad8fb26f240864ddd2c4eaedd365cc9437e",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g1_offset_ruler",
+      "grade": 1,
+      "mode": "answer",
+      "userproblem": "Đầu trái của một chiếc bút đặt đúng vạch 2 cm trên thước, đầu phải đặt đúng vạch 7 cm. Chiếc bút dài bao nhiêu xăng-ti-mét? Vì sao không lấy ngay số 7 làm độ dài?",
+      "exact_reference_answer": {
+        "value": "5",
+        "unit": "cm"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 5,
+        "unit": "cm"
+      },
+      "oracle": {
+        "calculation": "Khoảng từ vạch 2 đến vạch 7 dài 7 − 2 = 5 cm; kiểm 2 + 5 = 7.",
+        "expected": "Chiếc bút dài 5 cm."
+      },
+      "rubric": [
+        "Tính độ dài khoảng giữa hai vạch, không coi vạch cuối là độ dài khi đầu không ở vạch 0.",
+        "Kết luận bằng cm.",
+        "Không cộng hai số chỉ vạch thước."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_offset_ruler",
+      "generated_tokens": 171,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để tìm độ dài của chiếc bút, ta cần xác định khoảng cách giữa hai điểm đầu trái và đầu phải trên thước.\n\n- Đầu trái được đặt đúng vạch 2 cm.\n- Đầu phải được đặt đúng vạch 7 cm.\n\nDo đó, độ dài của chiếc bút là:\n\n$$\n7 \\, \\text{cm} - 2 \\, \\text{cm} = 5 \\, \\text{cm}\n$$\n\nLý do không lấy ngay số 7 làm độ dài là vì đầu phải của bút không phải là điểm cuối cùng của chiếc bút. Đầu phải chỉ là điểm đặt vạch 7 cm trên thước, nhưng không phải là điểm cuối của bút. Do đó, độ dài của bút không thể là 7 cm mà phải là 5 cm.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a46e1dbff3af6aa92de807b6cbc255e9c18004dfec10235b22da70af9abb39e5",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_offset_ruler",
+      "generated_tokens": 171,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để tìm độ dài của chiếc bút, ta cần xác định khoảng cách giữa hai điểm đầu trái và đầu phải trên thước.\n\n- Đầu trái được đặt đúng vạch 2 cm.\n- Đầu phải được đặt đúng vạch 7 cm.\n\nDo đó, độ dài của chiếc bút là:\n\n$$\n7 \\, \\text{cm} - 2 \\, \\text{cm} = 5 \\, \\text{cm}\n$$\n\nLý do không lấy ngay số 7 làm độ dài là vì đầu phải của bút không phải là điểm cuối cùng của chiếc bút. Đầu phải chỉ là điểm đặt vạch 7 cm trên thước, nhưng không phải là điểm cuối của bút. Do đó, độ dài của bút không thể là 7 cm mà phải là 5 cm.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a46e1dbff3af6aa92de807b6cbc255e9c18004dfec10235b22da70af9abb39e5",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g1_triangle_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "userproblem": "Hình A được ghép bằng 3 đoạn thẳng nối kín. Hình B được ghép bằng 4 đoạn thẳng nối kín. Em cần chọn hình tam giác. Chỉ gợi ý cách nhận ra, đừng chọn A hay B thay em.",
+      "exact_reference_answer": {
+        "value": "A",
+        "category": "hình tam giác",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_withhold_category",
+        "withheld_selection": "A",
+        "required_concept": "triangle_has_three_straight_sides"
+      },
+      "oracle": {
+        "calculation": "Tam giác có ba cạnh thẳng nối kín; A thỏa mô tả đó. Lựa chọn A chỉ dành cho người chấm.",
+        "expected": "Gợi ý đếm cạnh thẳng của mỗi hình và đối chiếu đặc điểm tam giác, không chọn hộ chữ cái."
+      },
+      "rubric": [
+        "Gợi ý tam giác có ba cạnh thẳng khép kín và đề nghị tự đếm, đối chiếu.",
+        "Không nêu hình A là tam giác hoặc trực tiếp chọn một chữ cái.",
+        "Không cần bịa thêm hình vẽ hoặc độ dài cạnh."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_triangle_hint",
+      "generated_tokens": 95,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Hình tam giác là hình có 3 cạnh thẳng và không giao nhau. Hình A có 3 đoạn thẳng nối kín, nhưng không thể xác định được đó là tam giác mà chỉ có thể là hình khác. Hình B có 4 đoạn thẳng nối kín, nhưng cũng không thể xác định được đó là tam giác. Cần phân tích thêm về hình dạng và vị trí của các đoạn thẳng để nhận ra hình tam giác.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b81f2d5aa3096a583c2ddbc3aaba33b9baffbff40c855312e8c5a81f21236ad4",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_triangle_hint",
+      "generated_tokens": 95,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Hình tam giác là hình có 3 cạnh thẳng và không giao nhau. Hình A có 3 đoạn thẳng nối kín, nhưng không thể xác định được đó là tam giác mà chỉ có thể là hình khác. Hình B có 4 đoạn thẳng nối kín, nhưng cũng không thể xác định được đó là tam giác. Cần phân tích thêm về hình dạng và vị trí của các đoạn thẳng để nhận ra hình tam giác.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b81f2d5aa3096a583c2ddbc3aaba33b9baffbff40c855312e8c5a81f21236ad4",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g1_line_position_conflict",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Bốn bạn khác nhau đứng thành một hàng thẳng, mỗi bạn đứng một vị trí. Phiếu ghi An vừa đứng đầu hàng vừa đứng cuối hàng. Hai điều ghi về An có thể cùng đúng không? Hãy giải thích.",
+      "exact_reference_answer": {
+        "consistent": false,
+        "reason": "Với bốn vị trí riêng biệt, vị trí đầu và cuối khác nhau nên một bạn không thể đồng thời ở cả hai."
+      },
+      "checker": {
+        "type": "position_contradiction",
+        "line_size": 4,
+        "claims": [
+          "first",
+          "last"
+        ],
+        "same_person": true
+      },
+      "oracle": {
+        "calculation": "Hàng có 4 vị trí: vị trí đầu là 1, vị trí cuối là 4. Vì 1 khác 4, An không thể ở đồng thời cả hai vị trí.",
+        "expected": "Không thể cùng đúng; cần kiểm tra lại phiếu ghi vị trí."
+      },
+      "rubric": [
+        "Dùng điều kiện bốn bạn khác nhau, mỗi bạn một vị trí.",
+        "Phân biệt đầu hàng và cuối hàng trong hàng thẳng.",
+        "Không tự đổi hàng thành vòng tròn hoặc xóa bớt bạn để làm hai câu cùng đúng."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_line_position_conflict",
+      "generated_tokens": 374,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi này yêu cầu phân tích các điều kiện và khả năng xảy ra trong trường hợp bốn bạn đứng thành một hàng thẳng, mỗi bạn một vị trí, và An vừa đứng đầu hàng vừa đứng cuối hàng.\n\n### Phân tích:\n\n- **Tổng cộng có 4 bạn**: gọi là A, B, C, D.\n- **An (A) đứng đầu hàng**: nghĩa là An đứng ở vị trí đầu tiên trong hàng.\n- **An (A) đứng cuối hàng**: nghĩa là An đứng ở vị trí cuối cùng trong hàng.\n\nTuy nhiên, trong trường hợp này, nếu An vừa đứng đầu hàng vừa đứng cuối hàng, thì An phải đứng ở vị trí vừa đầu vừa cuối, tức là **vị trí trung tâm** của hàng. Tuy nhiên, trong một hàng có 4 người, vị trí trung tâm không tồn tại (vì 4 vị trí: 1, 2, 3, 4). Vị trí trung tâm là vị trí thứ 2.5, nhưng không có vị trí này.\n\n### Kết luận:\n\n- Không thể có một người vừa đứng đầu hàng vừa đứng cuối hàng trong một hàng có 4 người.\n- Do đó, **hai điều ghi về An có thể cùng đúng không?**  \n  **Không**, vì điều kiện này **không thể xảy ra** trong trường hợp này.\n\n### Giải thích chi tiết:\n\n- Nếu An đứng đầu hàng, thì An phải ở vị trí 1.\n- Nếu An đứng cuối hàng, thì An phải ở vị trí 4.\n- Vì vậy, An không thể đứng vừa ở vị trí 1 vừa ở vị trí 4 trong cùng một hàng.\n\n→ **Kết luận**: Hai điều ghi về An có thể cùng đúng không? **Không**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8d2c8775aff4cf57397fc0a786ff9d35adf3287aadfd2d0c3b94b639f269b2db",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g1_line_position_conflict",
+      "generated_tokens": 374,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi này yêu cầu phân tích các điều kiện và khả năng xảy ra trong trường hợp bốn bạn đứng thành một hàng thẳng, mỗi bạn một vị trí, và An vừa đứng đầu hàng vừa đứng cuối hàng.\n\n### Phân tích:\n\n- **Tổng cộng có 4 bạn**: gọi là A, B, C, D.\n- **An (A) đứng đầu hàng**: nghĩa là An đứng ở vị trí đầu tiên trong hàng.\n- **An (A) đứng cuối hàng**: nghĩa là An đứng ở vị trí cuối cùng trong hàng.\n\nTuy nhiên, trong trường hợp này, nếu An vừa đứng đầu hàng vừa đứng cuối hàng, thì An phải đứng ở vị trí vừa đầu vừa cuối, tức là **vị trí trung tâm** của hàng. Tuy nhiên, trong một hàng có 4 người, vị trí trung tâm không tồn tại (vì 4 vị trí: 1, 2, 3, 4). Vị trí trung tâm là vị trí thứ 2.5, nhưng không có vị trí này.\n\n### Kết luận:\n\n- Không thể có một người vừa đứng đầu hàng vừa đứng cuối hàng trong một hàng có 4 người.\n- Do đó, **hai điều ghi về An có thể cùng đúng không?**  \n  **Không**, vì điều kiện này **không thể xảy ra** trong trường hợp này.\n\n### Giải thích chi tiết:\n\n- Nếu An đứng đầu hàng, thì An phải ở vị trí 1.\n- Nếu An đứng cuối hàng, thì An phải ở vị trí 4.\n- Vì vậy, An không thể đứng vừa ở vị trí 1 vừa ở vị trí 4 trong cùng một hàng.\n\n→ **Kết luận**: Hai điều ghi về An có thể cùng đúng không? **Không**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8d2c8775aff4cf57397fc0a786ff9d35adf3287aadfd2d0c3b94b639f269b2db",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

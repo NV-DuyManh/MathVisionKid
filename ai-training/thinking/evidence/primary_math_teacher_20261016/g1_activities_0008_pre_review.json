@@ -1,0 +1,174 @@
+{
+  "batch_sha256": "4e1f00f01ddfd0862a4613fcd5ace2b13aa86907486a97aacec9d6d7fd6a4df7",
+  "authored_cases": 8,
+  "core_cases": 3,
+  "misconception_cases": 4,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_count_game_cards",
+      "row_sha256": "d7f64855f5c652fcc1f9d7bc71b0a958343fceecb484fa7b8c0499fa5a9de1c7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "12+5",
+          "(12+5)-5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_check_position_game",
+      "row_sha256": "98f9cbfeec964e9475d5b9652bc9daec462569b3dbb85134ec78ff914f0e4885",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_calendar_clock_activity",
+      "row_sha256": "3174ad485a801dfad91428cfaa6311bec09bfdace29ef08484a32851ac4d0a21",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_duplicate_group",
+      "row_sha256": "d38aba1ec9bec667b8b89074063d35d50f9dd20b85fafd5ef659054397c22b05",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "12+4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_guard_unseen_card_game",
+      "row_sha256": "68523d3d333dbe10398c4758e2424bb1ecaee33a6df576ecb08fff03cf80ba9f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_units_reversed",
+      "row_sha256": "389575b8b118dde556011d9c5479052583f63453e726076e44ef12000eff41ce",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "10+10+10+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_compare_ones_only",
+      "row_sha256": "ecf1ff5d42266db5ea03cae823547b240c32e3a461e5bdc6cd8e10a60b479293",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_unit_dropped",
+      "row_sha256": "6f9f925e72392cd40d4de450cf31e9f42954ae9b780041a64706c03e51f9b70a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "6-2",
+          "10+10+10+10",
+          "(10+10+10+10)+20"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "self_content_check": "Author read all visible solutions and hints; needs independent semantic reviewer before acceptance.",
+  "independent_semantic_review_completed": false,
+  "arithmetic_oracle_is_semantic_proof": false,
+  "oracles": {
+    "card_total": 17,
+    "position_target_order": [
+      "cốc",
+      "sách",
+      "hộp bút"
+    ],
+    "calendar_clock_joint_match": "Thứ Sáu,8giờsáng→đo cạnh bàn",
+    "distinct_group_cards": 16,
+    "three_tens_two_ones": 32,
+    "compare": "58<64",
+    "tens_subtract_sticks": 40
+  },
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

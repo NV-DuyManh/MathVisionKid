@@ -1,0 +1,33 @@
+{
+  "add": {
+    "newCellId": "q2TVYpPHeG8D"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "\n",
+          "Traceback (most recent call last):\n",
+          "  File \"<string>\", line 13, in <module>\n",
+          "    print(json.dumps(out))\n",
+          "          ~~~~~~~~~~^^^^^\n",
+          "  File \"/usr/lib/python3.13/json/__init__.py\", line 235, in dumps\n",
+          "    return _default_encoder.encode(obj)\n",
+          "           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n",
+          "  File \"/usr/lib/python3.13/json/encoder.py\", line 202, in encode\n",
+          "    chunks = self.iterencode(o, _one_shot=True)\n",
+          "  File \"/usr/lib/python3.13/json/encoder.py\", line 263, in iterencode\n",
+          "    return _iterencode(o, 0)\n",
+          "  File \"/usr/lib/python3.13/json/encoder.py\", line 182, in default\n",
+          "    raise TypeError(f'Object of type {o.__class__.__name__} '\n",
+          "                    f'is not JSON serializable')\n",
+          "TypeError: Object of type Tensor is not JSON serializable\n",
+          "\n"
+        ]
+      }
+    ]
+  }
+}

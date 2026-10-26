@@ -1,0 +1,621 @@
+{
+  "adapter_output_sha256": "e57499b849c6f21adbf2f3cd8605d3eef50b09d709d5bf64ee42f320ad00cbea",
+  "all_actual_outputs_reviewed": true,
+  "base_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529",
+  "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+  "decision": "STOP",
+  "decisions": [
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Writes47and40withcorrect4*10+7 andtens/unit explanation, no false position claim.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Writes47and40 correctly, but explicitly places digit4 as second from left in47, contradicting actual tens place. Full explanation contains a positional error.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct final order but false5<5 is used to justify50<54 before a later correct units comparison. Both full-task outputs fail for contradictory reasoning.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct final ordering and later unit comparison, but false4<5<5 chain remains in explanation.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct9−6=3and9−3=6 and inverse3+6=9check; imprecise use of so-hang term does not change actual arithmetic relation.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Both required subtraction equations and checks are correct, but twice calls3or6 the result of original6+3 addition; original sum is9. Full explanation is inconsistent.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Only repeats instruction to give a hint and withhold answer, without a task-specific next step. No answer leak but no useful hint.",
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicit8<9reveals withheld comparison.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "grade": 1,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct inequality appears, but repeatedly misplaces1in61as tens and claims digit6is not larger than1. Full mathematical explanation is inconsistent.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct16<61 appears, but falsely claims1in61is tens and6in16is tens elsewhere, contradicting actual digit positions.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "grade": 1,
+      "mode": "student_error"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Recognizes1..5and nonuniqueness, but proposed extra condition is circular: number must be determinable. No concrete sufficient request such as revealing card or distinguishing property.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Identifies candidates1..5and lack of uniqueness, but proposes only parity to determine more exactly; explicit own examples leave2or3 possibilities. Does not supply/request a condition sufficient for unique identification.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct inclusive calculation19cards and lists all19labels without omission.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct inclusive64−46+1=19cards and covers both endpoints, consistent verification.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct common-unit conversion200cm, difference15cm and check; full answer supplied.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct2m=200cm and200−185=15cm with inverse-sized difference and consistent units.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct4shape cycle and remainder2⇒square, no zero-based counting or false shape claim.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct4shape period,14=3*4+2and square at position2, consistent complete explanation. Mod notation is more advanced but translated into remainder meaning.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": true,
+      "adapter_pass": false,
+      "adapter_reason": "Explicit20+6=26and repeated final26leak, so hint-only failure.",
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicitly gives26legs despite hint-only request.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Explicitly distinguishes true arithmetic3+2=5 from wrong contextual operation and correctly supplies6candies.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct repeated3+3=6 and multiplication, flags the provided addition as inappropriate for this two-group context.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Finds contradiction but unconditionally selects17Wednesday and18Thursday without the required source verification.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Finds contradiction but unconditionally treats17Wednesday as verified, gives18Thursday and never asks to check original calendar.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct67with inverse check but never verifies4<9 as required by the rubric.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct67with9*7+4and inverse check, but omits the explicitly required remainder-less-than-divisor check.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct3240−850=2390g=2kg390g with consistent unit conversion and no false check.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct2390g/2kg390g final, but asserts2390−850=2390 in its check; substantive false equality.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct equal-three-side division32cm and multiplication check96.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct three equal sides total96cm, each32cm and sum check96.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": true,
+      "adapter_pass": false,
+      "adapter_reason": "Leaks42 at intermediate and final positions and supplies the whole solution despite hint-only request.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Useful parentheses-then-subtraction cue, but then says either left-to-right or right-to-left is allowed without conditions, contradicting required operation order.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct quotient0 and inverse relation, but explicitly endorses student check as correct for the supplied wrong quotient; does not identify wrong factor substitution.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Corrects quotient0, but says supplied check is unrelated and concludes student result was correct, contradicting actual claimed quotient7.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Refuses a numeric guess, but accepts an unspecified image alone as sufficient; never requests measurable scale or a recorded measurement with unit as rubric requires.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Invents20cm and claims it is exact without any measurement source.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct conversions and left-to-right order7/12,3/4,5/6, with consistent inequality.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct common-denominator comparison7/12<9/12<10/12 and original labels in ascending ray order.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct10cups by reciprocal multiplication and verifies original water volume.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct measured-quantity division10cups and10/12=5/6litre check.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct31points, but omits the explicitly required check of all-four-game average, so full requested task is incomplete.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct112total,81known,31missing and explicitly checks112/4=28 average.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": true,
+      "adapter_pass": false,
+      "adapter_reason": "Explicitly reveals4/7 then repeats until1024token cap, nonEOS and truncated; hint leak plus completion failure.",
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicitly reveals4/7 despite hint-only request.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Correct common-denominator inequality, but falsely attributes numerator-versus-denominator comparison to the supplied student work, which actually compares two numerators; feedback is not grounded in the stated error.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct inequality but calls15a common divisor and supplies a false same-numerator heading; also truncates beforeEOS.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Explicitly normalizes whole to1 and uses17/12>1 plus nonoverlap condition; correctly concludes impossible without changing supplied fractions.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Correct contradiction conclusion, but repeatedly asserts17/12*S>1 for arbitrary areaS and falsely restricts total area to1unit.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Incorrectly subtracts.2*x rather than.2*1.25*x and claims1.25*.8=1.05, giving105percent instead of100percent; new critical arithmetic error.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct different percentage bases,1.25*.8=1and100percent original.",
+      "critical_new_error": true,
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "grade": 5,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct proportional-rate calculation24litres/minute then30litres, no changed time unit.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct24litres/minute and24*1.25=30litres, with consistent decimal calculations and units.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "grade": 5,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Explicitly divides all three lengths by.1dm then multiplies24*15*8=2880, consistent checks.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct conversion to24,15,8cm and cube edge1cm, then24*15*8=2880. Generic dimension/edge shorthand is imprecise but actual three-axis calculation is supplied and consistent.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "grade": 5,
+      "mode": "answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": false,
+      "adapter_reason": "Useful time conversion and individual-distance prompts without final leak, but stops before relating these distances by subtraction, omitting the required same-direction difference relation.",
+      "base_hint_leak": true,
+      "base_pass": false,
+      "base_reason": "Explicitly reveals forbidden.9km final distance.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "grade": 5,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct10000square-centimetres-per-square-metre explanation and6000cm2, with incorrect60cm2 clearly marked as the supplied error rather than endorsed.",
+      "base_hint_leak": false,
+      "base_pass": true,
+      "base_reason": "Correct square-unit explanation100*100=10000 and.6m2=6000cm2; addresses supplied length-factor error.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "grade": 5,
+      "mode": "student_error"
+    },
+    {
+      "adapter_hint_leak": false,
+      "adapter_pass": true,
+      "adapter_reason": "Correct conditional.9x/.8x examples, recognizes unknown exact discount and requests exact percentage without choosing a unique original price.",
+      "base_hint_leak": false,
+      "base_pass": false,
+      "base_reason": "Eventually gives correct200000..225000range and lack of uniqueness, but earlier reversed inequality225000<=x<=200000 falsely declares no feasible value. Contradictory mathematical explanation.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    }
+  ],
+  "derived_summary": {
+    "base": {
+      "answer_denominator": 15,
+      "answers": 10,
+      "by_grade": {
+        "1": {
+          "answer_denominator": 3,
+          "answers": 0,
+          "count": 6,
+          "feedback": 0,
+          "guards": 0,
+          "hints": 0,
+          "total": 0
+        },
+        "2": {
+          "answer_denominator": 3,
+          "answers": 3,
+          "count": 6,
+          "feedback": 1,
+          "guards": 0,
+          "hints": 0,
+          "total": 4
+        },
+        "3": {
+          "answer_denominator": 3,
+          "answers": 1,
+          "count": 6,
+          "feedback": 0,
+          "guards": 0,
+          "hints": 0,
+          "total": 1
+        },
+        "4": {
+          "answer_denominator": 3,
+          "answers": 3,
+          "count": 6,
+          "feedback": 0,
+          "guards": 0,
+          "hints": 0,
+          "total": 3
+        },
+        "5": {
+          "answer_denominator": 3,
+          "answers": 3,
+          "count": 6,
+          "feedback": 1,
+          "guards": 0,
+          "hints": 0,
+          "total": 4
+        }
+      },
+      "by_mode": {
+        "answer": {
+          "count": 15,
+          "pass": 10
+        },
+        "hint_no_answer": {
+          "count": 5,
+          "pass": 0
+        },
+        "missing_or_contradictory_info": {
+          "count": 5,
+          "pass": 0
+        },
+        "student_error": {
+          "count": 5,
+          "pass": 2
+        }
+      },
+      "feedback": 2,
+      "guards": 0,
+      "hint_leaks": 4,
+      "hints": 0,
+      "total": 12
+    },
+    "baseline_answer_perfect": false,
+    "baseline_pass_regression_fixture_ids": [
+      "qrec20261024_v1_g4_missing_average_score",
+      "qrec20261024_v1_g5_percent_reversal"
+    ],
+    "baseline_pass_regressions": 2,
+    "candidate": {
+      "answer_denominator": 15,
+      "answers": 11,
+      "by_grade": {
+        "1": {
+          "answer_denominator": 3,
+          "answers": 2,
+          "count": 6,
+          "feedback": 0,
+          "guards": 0,
+          "hints": 0,
+          "total": 2
+        },
+        "2": {
+          "answer_denominator": 3,
+          "answers": 3,
+          "count": 6,
+          "feedback": 1,
+          "guards": 0,
+          "hints": 0,
+          "total": 4
+        },
+        "3": {
+          "answer_denominator": 3,
+          "answers": 2,
+          "count": 6,
+          "feedback": 0,
+          "guards": 0,
+          "hints": 0,
+          "total": 2
+        },
+        "4": {
+          "answer_denominator": 3,
+          "answers": 2,
+          "count": 6,
+          "feedback": 0,
+          "guards": 1,
+          "hints": 0,
+          "total": 3
+        },
+        "5": {
+          "answer_denominator": 3,
+          "answers": 2,
+          "count": 6,
+          "feedback": 1,
+          "guards": 1,
+          "hints": 0,
+          "total": 4
+        }
+      },
+      "by_mode": {
+        "answer": {
+          "count": 15,
+          "pass": 11
+        },
+        "hint_no_answer": {
+          "count": 5,
+          "pass": 0
+        },
+        "missing_or_contradictory_info": {
+          "count": 5,
+          "pass": 2
+        },
+        "student_error": {
+          "count": 5,
+          "pass": 2
+        }
+      },
+      "feedback": 2,
+      "guards": 2,
+      "hint_leaks": 3,
+      "hints": 0,
+      "total": 15
+    },
+    "candidate_eligible": false,
+    "fixture_count": 30,
+    "fixture_ids": [
+      "qrec20261024_v1_g1_place_value",
+      "qrec20261024_v1_g1_order_cards",
+      "qrec20261024_v1_g1_inverse_facts",
+      "qrec20261024_v1_g1_compare_hint",
+      "qrec20261024_v1_g1_student_place_error",
+      "qrec20261024_v1_g1_hidden_card_missing",
+      "qrec20261024_v1_g2_inclusive_ids",
+      "qrec20261024_v1_g2_door_gap",
+      "qrec20261024_v1_g2_repeating_tile",
+      "qrec20261024_v1_g2_table_leg_hint",
+      "qrec20261024_v1_g2_student_group_error",
+      "qrec20261024_v1_g2_calendar_conflict",
+      "qrec20261024_v1_g3_inverse_division",
+      "qrec20261024_v1_g3_mass_remaining",
+      "qrec20261024_v1_g3_equilateral_wire",
+      "qrec20261024_v1_g3_bracket_hint",
+      "qrec20261024_v1_g3_zero_dividend_error",
+      "qrec20261024_v1_g3_missing_measurement_image",
+      "qrec20261024_v1_g4_fraction_order",
+      "qrec20261024_v1_g4_fraction_cups",
+      "qrec20261024_v1_g4_missing_average_score",
+      "qrec20261024_v1_g4_unknown_fraction_hint",
+      "qrec20261024_v1_g4_fraction_compare_error",
+      "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "qrec20261024_v1_g5_percent_reversal",
+      "qrec20261024_v1_g5_pump_rate",
+      "qrec20261024_v1_g5_cube_packing",
+      "qrec20261024_v1_g5_relative_motion_hint",
+      "qrec20261024_v1_g5_area_conversion_error",
+      "qrec20261024_v1_g5_missing_discount_rate"
+    ],
+    "new_baseline_correct_answer_failures": 2,
+    "new_critical_error_fixture_ids": [
+      "qrec20261024_v1_g5_percent_reversal"
+    ],
+    "new_critical_errors": 1,
+    "new_guard_failures": 0,
+    "new_hint_leak_fixture_ids": [
+      "qrec20261024_v1_g3_bracket_hint"
+    ],
+    "new_hint_leaks": 1,
+    "new_student_feedback_failures": 0,
+    "new_useful_hint_failures": 0,
+    "safe_to_continue_pilot": false,
+    "schema": "MathVisionKid.quality_recovery_decisions_summary.v1",
+    "strict_answer_gain": 1,
+    "strict_gain_vs_base": 3,
+    "useful_hint_gain": 0
+  },
+  "dev_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "final_stage": true,
+  "fixture_ids": [
+    "qrec20261024_v1_g1_place_value",
+    "qrec20261024_v1_g1_order_cards",
+    "qrec20261024_v1_g1_inverse_facts",
+    "qrec20261024_v1_g1_compare_hint",
+    "qrec20261024_v1_g1_student_place_error",
+    "qrec20261024_v1_g1_hidden_card_missing",
+    "qrec20261024_v1_g2_inclusive_ids",
+    "qrec20261024_v1_g2_door_gap",
+    "qrec20261024_v1_g2_repeating_tile",
+    "qrec20261024_v1_g2_table_leg_hint",
+    "qrec20261024_v1_g2_student_group_error",
+    "qrec20261024_v1_g2_calendar_conflict",
+    "qrec20261024_v1_g3_inverse_division",
+    "qrec20261024_v1_g3_mass_remaining",
+    "qrec20261024_v1_g3_equilateral_wire",
+    "qrec20261024_v1_g3_bracket_hint",
+    "qrec20261024_v1_g3_zero_dividend_error",
+    "qrec20261024_v1_g3_missing_measurement_image",
+    "qrec20261024_v1_g4_fraction_order",
+    "qrec20261024_v1_g4_fraction_cups",
+    "qrec20261024_v1_g4_missing_average_score",
+    "qrec20261024_v1_g4_unknown_fraction_hint",
+    "qrec20261024_v1_g4_fraction_compare_error",
+    "qrec20261024_v1_g4_disjoint_coloring_conflict",
+    "qrec20261024_v1_g5_percent_reversal",
+    "qrec20261024_v1_g5_pump_rate",
+    "qrec20261024_v1_g5_cube_packing",
+    "qrec20261024_v1_g5_relative_motion_hint",
+    "qrec20261024_v1_g5_area_conversion_error",
+    "qrec20261024_v1_g5_missing_discount_rate"
+  ],
+  "generation_manifest_sha256": "787a628640450c320eddd42ecaa208259aa0abb922a47628267c935fa8b7cf50",
+  "human_review_claimed": false,
+  "review_evidence_sha256": {
+    "g1_g2": "840feb4ed66456863ffbb26f78c0da1b3f4b45c9f5efd1ede16f180a357f30e4",
+    "g3_g4": "a905f71e1aea98ff99ac683a7ad9b2f7a9ebc57d635ce6b56227dc63330227a7",
+    "g5": "702e4a5c366287e33ff79790e5235b1593765574d1b85cc0dd63a8d3a2d63631"
+  },
+  "reviewer_role": "LLM semantic review, not human certification",
+  "root_actual_outputs_reviewed": true,
+  "source_plan_sha256": "f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad",
+  "step": 50
+}

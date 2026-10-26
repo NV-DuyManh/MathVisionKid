@@ -1,0 +1,19 @@
+{
+  "human_snapshot_rows": 299,
+  "raw_source_unchanged": true,
+  "sha256": {
+    "authoring_queue.json": "3fd00093e8c2cb476a3bccc1793a6046cad1299b4bf584aa731b9e524dce0102",
+    "coverage_adjudication_queue.json": "b922a78c662232c8327037268c9a80a203a7ccbe7b48bd774f827f8a2ccfdb3b",
+    "data_build_state.json": "fd3e6a7f7a95c1f0614e53cbb651632e3377c52fc82e9dcaf97efab1d3ea4966",
+    "owner_acceptance_policy.json": "086c5588c47cc90ec079678857b24dbb65601246cca6b208a700212c7dea6c6e",
+    "owner_human_attestations.json": "e0d59a9a5ee6e428bfe2c2bcc3cee9fa7b8b52f507140ca09491a39f269cf4ea",
+    "owner_human_signoffs.jsonl": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+    "supplementary_queue.json": "177a3a7bc33ae71a7220866b39e91da12c086559ffc85602eb290f6713629712"
+  },
+  "frozen_scanner_adapter_sha256": {
+    "math_data_full_audit_v3.py": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+    "math_data_batch_token_audit.py": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92"
+  },
+  "observed_utc": "2026-10-23T01:30:21.309264+00:00",
+  "verified": true
+}

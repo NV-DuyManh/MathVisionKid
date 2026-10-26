@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "rydjmwyFSgKk"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"EVALUATION_OUTPUT_CEILING_PRESERVES_COMPLETE_STEPS\", \"base_outputs_reused\": 28, \"base_cap_binding\": false, \"new_output_cap\": 1536, \"training_started\": false, \"worker_sha256_before\": \"cab5b5e202f5ed04f2fa9ef317c3b4ef533c617f78741fd70318d64ea89f800b\", \"worker_sha256_after\": \"3d2ba446f80cbd43ef56cbce061794516c00256db93987b480625a88c5b572ac\"}\n"
+        ]
+      }
+    ]
+  }
+}

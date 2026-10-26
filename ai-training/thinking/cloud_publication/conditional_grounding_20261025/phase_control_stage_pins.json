@@ -1,0 +1,32 @@
+{
+  "path": "D:\\nhom6\\train th\u1eed\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\conditional_grounding_20261025\\publish_phase_controls_runtime.py",
+  "bytes": 513885,
+  "sha256": "6964b6a8d413f682aa56ad777c1b24dcfb369f4d17dba57920bd6aa9c8ce1dba",
+  "canonical_context_sha256": "8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73",
+  "run_metadata_sha256": "91b46ac40df595702207350b906f8014e3dbb517ab388617be75bd0dc161ecb0",
+  "runtime_root": "/content/mathvisionkid_conditional_grounding_20261025",
+  "source_hashes": {
+    "code_repair_snapshot_binding.json": "075f1bec8033c131da4ae79f5c8bee5a4e662b5f3f84d68f57b49242098f1427",
+    "conditional_behavior_renderer.py": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+    "connection_status_02.json": "64d6e90c4434f6be684de66fe5f3ee920cb66cded90c6b8238e03b090e1eeb79",
+    "cpu_validation.json": "d0b8e2c7951db2fa1138c68ba6fc711e8735d04e6529c28859f5140c399e7c7d",
+    "development_author_notes.json": "d1fd02d23a70994f8dba32b51c45c535d0bc19c8e5ca74e340032552365cee71",
+    "development_root_review.json": "76dd51b53a48942b0b067f01247c4bf71ebbf37f5063994124c8f3025006834e",
+    "four_controls_transaction.py": "a564ad14bbeaf59419c9cb5901368fe38a301842998e882bffc3d38dc2fdfdd4",
+    "inference_contract.py": "a8398e1c6a414aa0c9d343ebaa737f7e744f6892b8298497c317ea83927a0642",
+    "native_backend_v2.py": "edacd60755ff5135e9d658662f3427d7410924788a78c7b977fdbf9d199a394f",
+    "native_restore_receipt.json": "ca46e1f532c40d6a36b738cd5bea903739782a798acce9564055794581c9197a",
+    "phase_run_metadata.json": "e04fae35c5d169e93d25ea7bb6f66d711615f395239cee410c38159fa14f5f44",
+    "preparation_code_provenance.json": "b94ff5afbb4976d922e6d16aefc842c24aa1017aa5a6a669240c08450825a12c",
+    "prepare_control_stage.py": "0588ebea0149fee3ae8e550616a79c0259da54a257446affc5ef91ce22642376",
+    "prepare_four_controls_runtime.py": "4ddfedc971d0e7cafb25642506e124f9aee01b365b46ffa86279b18fd5360f69",
+    "recovery_policy_v2.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "recovery_worker_v4.py": "3ce1b3c24a9741e1f93915930da5552ab41787daa6b13276b0892c7b2a529868",
+    "runtime_identity_01.json": "74d95b19d2725c8a55e3c546e15435379b89ab52f60b5dfb89644801265be2ef",
+    "runtime_identity_02.json": "56688e9474f813711a1590fb06c8579849691dcd0fb963252e3c96cf9ab6f2f7",
+    "runtime_identity_03.json": "949e174c4413ff0be0cdba9840522b5195e8c6fa991c6bc3c3fcc904b022752a",
+    "snapshot_repair_receipt.json": "2f1997617d8650f426e2d8b297d14faac21cabd7a71ea4f382455a2c681b7c98"
+  },
+  "stage_executed": false,
+  "drive_calls_made": false
+}

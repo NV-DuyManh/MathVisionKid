@@ -1,0 +1,88 @@
+{
+  "pages": [
+    {
+      "book_id": "g4v1",
+      "array_index": 0,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered approval page",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_2-1791255461236.png",
+      "image_sha256": "417e6bb251ab0b5e3df45a00d516e67d305d195ccbf2b5059a1369be7df3d5fe",
+      "image_bytes": 195853
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 1,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered title page; third reprint",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_3-1791255461311.png",
+      "image_sha256": "4e896da63a9442c8bde2c28ce86d3a835fc9ea8c9b3677e5318f9e0d46751510",
+      "image_bytes": 314894
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 2,
+      "printed_page": 2,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Book usage guide",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_4-1791255461876.png",
+      "image_sha256": "c044f8c2c0301514683a48a94ee65b21b2a18559f3d97268fe64b3a96df6e48b",
+      "image_bytes": 738524
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 3,
+      "printed_page": 3,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Preface",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_5-1791255462043.png",
+      "image_sha256": "32efb99ef8265564de023a43dd15c2ba5e0f6b03bbe2b5e4e468bcadc591e764",
+      "image_bytes": 747713
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 4,
+      "printed_page": 4,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Table of contents part 1",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_6-1791255462145.png",
+      "image_sha256": "c225133b300ed9399fc88e2bd8731feecc02034d0e793f639fbffaf175bf3789",
+      "image_bytes": 625148
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 5,
+      "printed_page": 5,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Table of contents part 2",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_7-1791255462238.png",
+      "image_sha256": "49910f02363e10cc7dc783750fa4374a3b4ac7859d1dfd43066ad434fb8407ca",
+      "image_bytes": 561611
+    },
+    {
+      "book_id": "g4v1",
+      "array_index": 132,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered publication colophon; 2026 registration",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_134-1791255481472.png",
+      "image_sha256": "c5b85c56244c510a55c36a6ea98e46d47c4fed787bdfaa537c35faa582915873",
+      "image_bytes": 393517
+    }
+  ],
+  "content_printed_range": [
+    6,
+    130
+  ],
+  "content_pages": 125,
+  "glossary_page": 131,
+  "all_133_publisher_images_accounted_for": true
+}

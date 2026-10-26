@@ -1,0 +1,461 @@
+{
+  "model": "baseline",
+  "status": "COMPLETE_AI_RESEARCH_REVIEW_ALL_173_VISIBLE_WORKED_OUTPUTS",
+  "review_kind": "AI_SEMANTIC_RESEARCH_REVIEW",
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "reviewed_at_utc": "2026-10-13T06:38:33.369428+00:00",
+  "source_packet_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\evidence\\teacher_math_v3_20261013\\full_thinking_semantic_review\\baseline_worked_solution_review_packets.jsonl",
+  "source_packet_file_sha256": "5a93ea613415d019909da8e33c85f984932d5ee44c2b9accbcbe49340ff38eb8",
+  "decisions_file_sha256": "6696b9aff34935f1b221daad4c49238778da0139de7c98dcb3d594bf168259da",
+  "overall": {
+    "samples": 173,
+    "semantic_correct": 150,
+    "instruction_followed": 150,
+    "grade_appropriate": 143,
+    "invented_data_or_image": 4,
+    "severe_error": 21,
+    "explanation_operation_consistent": 161,
+    "data_roles_correct": 169,
+    "displayed_method_valid": 155,
+    "step_by_step_guidance_useful": 129,
+    "final_numeric_correct": 171,
+    "meaningful_unit_correct": 126,
+    "locale_notation_ambiguous": 4
+  },
+  "per_grade": {
+    "1": {
+      "samples": 15,
+      "semantic_correct": 13,
+      "instruction_followed": 13,
+      "grade_appropriate": 12,
+      "invented_data_or_image": 2,
+      "severe_error": 2,
+      "explanation_operation_consistent": 14,
+      "data_roles_correct": 14,
+      "displayed_method_valid": 15,
+      "step_by_step_guidance_useful": 13,
+      "final_numeric_correct": 15,
+      "meaningful_unit_correct": 14,
+      "locale_notation_ambiguous": 0
+    },
+    "2": {
+      "samples": 15,
+      "semantic_correct": 15,
+      "instruction_followed": 14,
+      "grade_appropriate": 15,
+      "invented_data_or_image": 1,
+      "severe_error": 0,
+      "explanation_operation_consistent": 15,
+      "data_roles_correct": 15,
+      "displayed_method_valid": 15,
+      "step_by_step_guidance_useful": 15,
+      "final_numeric_correct": 15,
+      "meaningful_unit_correct": 15,
+      "locale_notation_ambiguous": 0
+    },
+    "3": {
+      "samples": 38,
+      "semantic_correct": 36,
+      "instruction_followed": 32,
+      "grade_appropriate": 30,
+      "invented_data_or_image": 0,
+      "severe_error": 2,
+      "explanation_operation_consistent": 36,
+      "data_roles_correct": 38,
+      "displayed_method_valid": 36,
+      "step_by_step_guidance_useful": 28,
+      "final_numeric_correct": 38,
+      "meaningful_unit_correct": 33,
+      "locale_notation_ambiguous": 0
+    },
+    "4": {
+      "samples": 36,
+      "semantic_correct": 32,
+      "instruction_followed": 28,
+      "grade_appropriate": 21,
+      "invented_data_or_image": 0,
+      "severe_error": 4,
+      "explanation_operation_consistent": 33,
+      "data_roles_correct": 35,
+      "displayed_method_valid": 33,
+      "step_by_step_guidance_useful": 23,
+      "final_numeric_correct": 36,
+      "meaningful_unit_correct": 13,
+      "locale_notation_ambiguous": 1
+    },
+    "5": {
+      "samples": 69,
+      "semantic_correct": 54,
+      "instruction_followed": 63,
+      "grade_appropriate": 65,
+      "invented_data_or_image": 1,
+      "severe_error": 13,
+      "explanation_operation_consistent": 63,
+      "data_roles_correct": 67,
+      "displayed_method_valid": 56,
+      "step_by_step_guidance_useful": 50,
+      "final_numeric_correct": 67,
+      "meaningful_unit_correct": 51,
+      "locale_notation_ambiguous": 3
+    }
+  },
+  "raw_primary_metrics_unchanged": {
+    "samples": 173,
+    "numeric_correct": 165,
+    "answer_unit_correct": 101,
+    "truncated": 1
+  },
+  "decision_definitions": {
+    "semantic_correct": "Visible mathematical solution (including statements/hint and step expression-result consistency) and data meaning are correct; harmless wording/schema/placeholder-unit issues are reported separately.",
+    "severe_error": "Wrong/absent answer, materially wrong entity, false displayed mathematical step, wrong stated formula/concept or wrong diagnosis of observed student work. Format-only, grade-level formality and minor wording alone are not severe.",
+    "instruction_followed": "Attempts the requested worked solution with requested structured fields and Vietnamese guidance; schema/language failures and absent requested vertical calculation guidance fail separately from mathematical correctness.",
+    "grade_appropriate": "AI pedagogical judgment of the displayed method for assigned grade; formal simultaneous equations and multiplication beyond basic assigned grade without support fail. This is not certification of the engineered grade assignment.",
+    "final_numeric_correct": "Manual mathematical meaning of the visible final value; includes readable invalid-JSON final values and Western grouping interpretation where context proves intended integer. This is supplemental and NEVER replaces raw frozen parser metrics.",
+    "meaningful_unit_correct": "Actual quantity unit/clear dimensionlessness; unit, số, phân số, tỉ số, tỷ lệ and other placeholders/types do not count as correct units. Units meaninglessly invented from pure numbers fail.",
+    "step_by_step_guidance_useful": "Explains operation selection and enough steps at assigned level; mathematically false steps, overly formal methods or bare answers to vertical/decimal algorithm requests fail."
+  },
+  "severe_examples": [
+    {
+      "sample_id": "0de5235b19e2de0765fb2083",
+      "packet_index": 2,
+      "grade": 1,
+      "topic": "add_join",
+      "reason": "10+29=39 đúng số; unit candies đổi viên bi thành kẹo nên sai đối tượng và đơn vị."
+    },
+    {
+      "sample_id": "bad2211d7c4796f6be6eeb9b",
+      "packet_index": 13,
+      "grade": 1,
+      "topic": "tens_place_value",
+      "reason": "5 chục=50 đúng; hint nói giá trị hàng chục bằng10 lần chữ số hàng đơn vị là sai (51 có hàng đơn vị1)."
+    },
+    {
+      "sample_id": "3d9d46beabd461b1efdfe61e",
+      "packet_index": 36,
+      "grade": 3,
+      "topic": "division_remainder",
+      "reason": "Dư2 bánh đúng; lại ghi số hộp có thể đóng=57.2857 hộp và không nói lấy57 hộp đủ; sai nghĩa nhóm trọn và gần đúng không ký hiệu."
+    },
+    {
+      "sample_id": "f3f268d31081d9285730ceac",
+      "packet_index": 38,
+      "grade": 3,
+      "topic": "division_remainder",
+      "reason": "Dư2 bánh đúng;22.5 hộp được gọi là số hộp có thể đóng, rồi dùng22 không giải thích lấy phần nguyên."
+    },
+    {
+      "sample_id": "0967666d3b9458490b27314b",
+      "packet_index": 74,
+      "grade": 4,
+      "topic": "fraction_add",
+      "reason": "Final29/14 đúng; result12 của biểu thức6/7=12/14 và result29 của17/14+12/14 bỏ mẫu14, gây sai các bước hiển thị."
+    },
+    {
+      "sample_id": "1611f57cfed5dbf487279f34",
+      "packet_index": 101,
+      "grade": 5,
+      "topic": "decimal_add",
+      "reason": "Final61.56 đúng; hai result đầu14.20 cho toàn biểu thức14.20+47.36 là sai, nhãn hàng phần mười/chục và số dư không chuẩn dù các cột cuối đúng."
+    },
+    {
+      "sample_id": "5345562824cb95aa4c8917af",
+      "packet_index": 104,
+      "grade": 5,
+      "topic": "decimal_subtract",
+      "reason": "70.17-20.46=49.71 đúng số; đề số thuần túy nhưng gán đồng thành tiền là bịa đơn vị."
+    },
+    {
+      "sample_id": "aab92624e57d33030f89d8e8",
+      "packet_index": 106,
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "reason": "Final232.458 đúng; viết8.6×27.03=(8.6×10)×(27.03×100) thiếu chia1000, là đẳng thức sai dù bước cuối chia1000."
+    },
+    {
+      "sample_id": "5056549708534ebd8d17767f",
+      "packet_index": 107,
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "reason": "Không có closed visible answer, output null và truncated; không có đáp số hoặc lời giải để chấp nhận."
+    },
+    {
+      "sample_id": "afab0863ec07e6f9894b1fc5",
+      "packet_index": 109,
+      "grade": 5,
+      "topic": "decimal_divide",
+      "reason": "Final42 và1176÷28 đúng; result1176 được gắn với expression117.6÷2.8 thay vì phép nhân10, sai bước hiển thị."
+    },
+    {
+      "sample_id": "6cdbd01f0469e907e0fadbbc",
+      "packet_index": 110,
+      "grade": 5,
+      "topic": "decimal_divide",
+      "reason": "Final82.9 và1160.6÷14 đúng; expression116.06×10÷1.4×10 thiếu ngoặc nên không biểu thị nhân cả số chia và số bị chia cùng10."
+    },
+    {
+      "sample_id": "0a9b9df945bf8bdd8f8897a9",
+      "packet_index": 114,
+      "grade": 5,
+      "topic": "percent_whole",
+      "reason": "Final9800 đúng; bước công thức toàn bộ(6468/66)×100 lại gán result98, sai với expression rồi lặp lại bước đúng."
+    },
+    {
+      "sample_id": "57a96b6bc0ebb7c4d1ef104a",
+      "packet_index": 118,
+      "grade": 5,
+      "topic": "percent_ratio",
+      "reason": "Final59% đúng ý nghĩa; result0.590 gắn unit% là0.590% sai thay59%, thiếu bước nhân100; answer kèm% cần tránh renderer lặp%%."
+    },
+    {
+      "sample_id": "5b6b251732e78298a2fbd276",
+      "packet_index": 123,
+      "grade": 5,
+      "topic": "trapezoid_area",
+      "reason": "Final2451cm² và57/2=28.5 rồi nhân86 đúng; explanation cuối ghi(tổng đáy×cao)/2×cao là công thức nhân chiều cao hai lần sai."
+    },
+    {
+      "sample_id": "852a73261d2b474a8b78a82b",
+      "packet_index": 124,
+      "grade": 5,
+      "topic": "trapezoid_area",
+      "reason": "Final415cm² đúng; full expression(36+47)×10/2 gán83cm sai, bước83×10=830 gọi tính tổng và gáncm thaycm²."
+    },
+    {
+      "sample_id": "783fa823bce22aa027636474",
+      "packet_index": 130,
+      "grade": 5,
+      "topic": "circle_perimeter",
+      "reason": "Final615.44cm đúng chu vi từ đường kính196; explanation gọi diện tích=3.14×đường kính là sai khái niệm."
+    },
+    {
+      "sample_id": "3f88cadb9fa2d7e6f37a91df",
+      "packet_index": 137,
+      "grade": 5,
+      "topic": "cube_surface",
+      "reason": "258²=66564 đúng nhưng6×66564=399384, model ghi400384 cả step vàfinal; sai số1000."
+    },
+    {
+      "sample_id": "6570552fe88b830f2e1ac87e",
+      "packet_index": 164,
+      "grade": 5,
+      "topic": "empirical_frequency",
+      "reason": "Final197/202 đúng rút gọn394/404; expression394÷2/404÷2 thiếu ngoặc, theo trái sang phải ra197/808 thay197/202."
+    },
+    {
+      "sample_id": "352f9470e8f8148776a866e0",
+      "packet_index": 166,
+      "grade": 4,
+      "topic": "vertical_add",
+      "reason": "Các cột cộng cho963637 đúng, bảo toàn bài học sinh963638; lại nói thiếu1 đơn vị trong khi học sinh thừa1, còn dùng chữ hàng十万."
+    },
+    {
+      "sample_id": "f5642fed4ca768c3490c62d6",
+      "packet_index": 171,
+      "grade": 4,
+      "topic": "vertical_subtract",
+      "reason": "Final761463 đúng; cột5-9=6,3-9=4 thiếu phần mượn, hàng trăm nghìn8 thay7 và result364163 sai; hint cộng số bị trừ với kết quả cũng sai kiểm tra."
+    },
+    {
+      "sample_id": "a8968631e04557d2a41debeb",
+      "packet_index": 172,
+      "grade": 4,
+      "topic": "vertical_subtract",
+      "reason": "Final442305 đúng; initial result957147 không phải hiệu, explanation gọi sai hàng đơn vị/chục/nghìn, unit nhiều hơn vô nghĩa và không hướng dẫn mượn/ghép rõ."
+    }
+  ],
+  "all_semantic_failures": [
+    {
+      "sample_id": "0de5235b19e2de0765fb2083",
+      "packet_index": 2,
+      "grade": 1,
+      "topic": "add_join",
+      "severe_error": true,
+      "reason": "10+29=39 đúng số; unit candies đổi viên bi thành kẹo nên sai đối tượng và đơn vị."
+    },
+    {
+      "sample_id": "bad2211d7c4796f6be6eeb9b",
+      "packet_index": 13,
+      "grade": 1,
+      "topic": "tens_place_value",
+      "severe_error": true,
+      "reason": "5 chục=50 đúng; hint nói giá trị hàng chục bằng10 lần chữ số hàng đơn vị là sai (51 có hàng đơn vị1)."
+    },
+    {
+      "sample_id": "3d9d46beabd461b1efdfe61e",
+      "packet_index": 36,
+      "grade": 3,
+      "topic": "division_remainder",
+      "severe_error": true,
+      "reason": "Dư2 bánh đúng; lại ghi số hộp có thể đóng=57.2857 hộp và không nói lấy57 hộp đủ; sai nghĩa nhóm trọn và gần đúng không ký hiệu."
+    },
+    {
+      "sample_id": "f3f268d31081d9285730ceac",
+      "packet_index": 38,
+      "grade": 3,
+      "topic": "division_remainder",
+      "severe_error": true,
+      "reason": "Dư2 bánh đúng;22.5 hộp được gọi là số hộp có thể đóng, rồi dùng22 không giải thích lấy phần nguyên."
+    },
+    {
+      "sample_id": "0967666d3b9458490b27314b",
+      "packet_index": 74,
+      "grade": 4,
+      "topic": "fraction_add",
+      "severe_error": true,
+      "reason": "Final29/14 đúng; result12 của biểu thức6/7=12/14 và result29 của17/14+12/14 bỏ mẫu14, gây sai các bước hiển thị."
+    },
+    {
+      "sample_id": "1611f57cfed5dbf487279f34",
+      "packet_index": 101,
+      "grade": 5,
+      "topic": "decimal_add",
+      "severe_error": true,
+      "reason": "Final61.56 đúng; hai result đầu14.20 cho toàn biểu thức14.20+47.36 là sai, nhãn hàng phần mười/chục và số dư không chuẩn dù các cột cuối đúng."
+    },
+    {
+      "sample_id": "5345562824cb95aa4c8917af",
+      "packet_index": 104,
+      "grade": 5,
+      "topic": "decimal_subtract",
+      "severe_error": true,
+      "reason": "70.17-20.46=49.71 đúng số; đề số thuần túy nhưng gán đồng thành tiền là bịa đơn vị."
+    },
+    {
+      "sample_id": "aab92624e57d33030f89d8e8",
+      "packet_index": 106,
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "severe_error": true,
+      "reason": "Final232.458 đúng; viết8.6×27.03=(8.6×10)×(27.03×100) thiếu chia1000, là đẳng thức sai dù bước cuối chia1000."
+    },
+    {
+      "sample_id": "5056549708534ebd8d17767f",
+      "packet_index": 107,
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "severe_error": true,
+      "reason": "Không có closed visible answer, output null và truncated; không có đáp số hoặc lời giải để chấp nhận."
+    },
+    {
+      "sample_id": "c379f77742eee8a293d04d7b",
+      "packet_index": 108,
+      "grade": 5,
+      "topic": "decimal_divide",
+      "severe_error": false,
+      "reason": "503.2÷17=29.6 đúng sau nhân cả hai số10; nói chuyển thành số nguyên sai với503.2 vẫn thập phân."
+    },
+    {
+      "sample_id": "afab0863ec07e6f9894b1fc5",
+      "packet_index": 109,
+      "grade": 5,
+      "topic": "decimal_divide",
+      "severe_error": true,
+      "reason": "Final42 và1176÷28 đúng; result1176 được gắn với expression117.6÷2.8 thay vì phép nhân10, sai bước hiển thị."
+    },
+    {
+      "sample_id": "6cdbd01f0469e907e0fadbbc",
+      "packet_index": 110,
+      "grade": 5,
+      "topic": "decimal_divide",
+      "severe_error": true,
+      "reason": "Final82.9 và1160.6÷14 đúng; expression116.06×10÷1.4×10 thiếu ngoặc nên không biểu thị nhân cả số chia và số bị chia cùng10."
+    },
+    {
+      "sample_id": "0a9b9df945bf8bdd8f8897a9",
+      "packet_index": 114,
+      "grade": 5,
+      "topic": "percent_whole",
+      "severe_error": true,
+      "reason": "Final9800 đúng; bước công thức toàn bộ(6468/66)×100 lại gán result98, sai với expression rồi lặp lại bước đúng."
+    },
+    {
+      "sample_id": "57a96b6bc0ebb7c4d1ef104a",
+      "packet_index": 118,
+      "grade": 5,
+      "topic": "percent_ratio",
+      "severe_error": true,
+      "reason": "Final59% đúng ý nghĩa; result0.590 gắn unit% là0.590% sai thay59%, thiếu bước nhân100; answer kèm% cần tránh renderer lặp%%."
+    },
+    {
+      "sample_id": "5b6b251732e78298a2fbd276",
+      "packet_index": 123,
+      "grade": 5,
+      "topic": "trapezoid_area",
+      "severe_error": true,
+      "reason": "Final2451cm² và57/2=28.5 rồi nhân86 đúng; explanation cuối ghi(tổng đáy×cao)/2×cao là công thức nhân chiều cao hai lần sai."
+    },
+    {
+      "sample_id": "852a73261d2b474a8b78a82b",
+      "packet_index": 124,
+      "grade": 5,
+      "topic": "trapezoid_area",
+      "severe_error": true,
+      "reason": "Final415cm² đúng; full expression(36+47)×10/2 gán83cm sai, bước83×10=830 gọi tính tổng và gáncm thaycm²."
+    },
+    {
+      "sample_id": "783fa823bce22aa027636474",
+      "packet_index": 130,
+      "grade": 5,
+      "topic": "circle_perimeter",
+      "severe_error": true,
+      "reason": "Final615.44cm đúng chu vi từ đường kính196; explanation gọi diện tích=3.14×đường kính là sai khái niệm."
+    },
+    {
+      "sample_id": "3f88cadb9fa2d7e6f37a91df",
+      "packet_index": 137,
+      "grade": 5,
+      "topic": "cube_surface",
+      "severe_error": true,
+      "reason": "258²=66564 đúng nhưng6×66564=399384, model ghi400384 cả step vàfinal; sai số1000."
+    },
+    {
+      "sample_id": "db1421b0428238c910070c1e",
+      "packet_index": 157,
+      "grade": 5,
+      "topic": "proportional_inverse",
+      "severe_error": false,
+      "reason": "600/12=50ngày đúng; bước tích5người×120ngày gán600ngày thay600người-ngày, sai đơn vị trung gian."
+    },
+    {
+      "sample_id": "6570552fe88b830f2e1ac87e",
+      "packet_index": 164,
+      "grade": 5,
+      "topic": "empirical_frequency",
+      "severe_error": true,
+      "reason": "Final197/202 đúng rút gọn394/404; expression394÷2/404÷2 thiếu ngoặc, theo trái sang phải ra197/808 thay197/202."
+    },
+    {
+      "sample_id": "352f9470e8f8148776a866e0",
+      "packet_index": 166,
+      "grade": 4,
+      "topic": "vertical_add",
+      "severe_error": true,
+      "reason": "Các cột cộng cho963637 đúng, bảo toàn bài học sinh963638; lại nói thiếu1 đơn vị trong khi học sinh thừa1, còn dùng chữ hàng十万."
+    },
+    {
+      "sample_id": "f5642fed4ca768c3490c62d6",
+      "packet_index": 171,
+      "grade": 4,
+      "topic": "vertical_subtract",
+      "severe_error": true,
+      "reason": "Final761463 đúng; cột5-9=6,3-9=4 thiếu phần mượn, hàng trăm nghìn8 thay7 và result364163 sai; hint cộng số bị trừ với kết quả cũng sai kiểm tra."
+    },
+    {
+      "sample_id": "a8968631e04557d2a41debeb",
+      "packet_index": 172,
+      "grade": 4,
+      "topic": "vertical_subtract",
+      "severe_error": true,
+      "reason": "Final442305 đúng; initial result957147 không phải hiệu, explanation gọi sai hàng đơn vị/chục/nghìn, unit nhiều hơn vô nghĩa và không hướng dẫn mượn/ghép rõ."
+    }
+  ],
+  "notes": [
+    "All173 visible outputs and corresponding problems/reference facts were actually read in nine batches; no hidden thinking was used for the decisions.",
+    "Mathematically valid alternative operation order, variables, prose and intermediate expressions are accepted for semantic meaning even when strict-reference scoring fails.",
+    "The single previously known collision sample91d23b441cd60a087952fa5c remains in these primary173 reviews; supplemental exclusion belongs to the independent sensitivity report.",
+    "Correct final numeric meaning does not imply correct teaching: false intermediate result fields/formulas are counted even if later final value recovers.",
+    "No frozen source, data, evaluation protocol, primary metrics, selection decision, training, Colab runtime or held concept challenge was modified."
+  ]
+}

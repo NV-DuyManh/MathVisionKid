@@ -1,0 +1,188 @@
+{
+  "authored_utc": "2026-10-18T09:15:58.209831+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:13:14.570Z",
+  "batch_sha256": "acab3caa7ccbce68fb88f340fe702469fe0371c89584f3aa1a6271066ab38522",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_shape_types_0079_trapezoid_parallel_bases_roles",
+      "row_sha256": "221ae27885203ac384814c3c1037cac96bae9949a3b97a3d2e4e86c431fe0991",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_shape_types_0079_circle_distance_membership_and_diameter",
+      "row_sha256": "e73300840aa5dc36144f7e613ed7163966aa27b402ca05989a092c86bd700fd1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "4.5*2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_shape_types_0079_triangle_angle_and_equal_side_classification",
+      "row_sha256": "f342b8e8dc19325bc9aa3d31f83b1ff944cb542cdf146405ec6d516ee3180dd7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_shape_types_0079_misconception_one_acute_angle_labels_whole_triangle",
+      "row_sha256": "90eab6125e8e301527f8d8aefb1a70dc58ae32d54e1923353f0dc7773c45bc96",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_shape_types_0079_guard_missing_triangle_image_or_properties",
+      "row_sha256": "c7fcb395237e478353c4db6361eecae4d5f2a05a63dc07bfdf7f9ab2742e2ead",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "trapezoid_coordinate_witness_QA_only": {
+      "A": [
+        "2",
+        "4"
+      ],
+      "B": [
+        "8",
+        "4"
+      ],
+      "C": [
+        "10",
+        "0"
+      ],
+      "D": [
+        "0",
+        "0"
+      ]
+    },
+    "convex_turn_crosses": [
+      "-24",
+      "-40",
+      "-40",
+      "-24"
+    ],
+    "squared_centre_distances": {
+      "A": "81/4",
+      "B": "4",
+      "C": "36"
+    },
+    "diameter_cm": "9",
+    "angle_type_checks": {
+      "P": "acute",
+      "Q": "right",
+      "R": "obtuse",
+      "M": "obtuse"
+    },
+    "equilateral_sides_cm": [
+      6,
+      6,
+      6
+    ]
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "angle_sums_QA_consistency_only_not_taught_or_used_as_classification_rule": true,
+  "trapezoid_example_exactly_one_parallel_pair_no_definition_boundary_claim": true,
+  "circle_boundary_vs_inside_distinguished": true,
+  "visual_outcome_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous429_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "499cc04d8a8e7e14563d91685eedfa3603e90f3c8db1c5149b411e504fef1cd2",
+  "pre_official_QA_repairs": [
+    "Remove unrequested definition-boundary discussion from child-facing trapezoid explanation; ground classification in given relation. Make already-given triangle angle values explicit in given texts, not just problem and role. No facts/answers changed."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "polished_explanation_and_explicit_angle_givens_reread": true,
+  "official_QA_utc": "2026-10-18T09:16:59.300117+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "91661da3fd0ea43e74b4c5187ddd748621da153635f87b10d8f4af7b3bea8f9d"
+}

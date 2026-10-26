@@ -1,0 +1,39 @@
+{
+  "schema": "MathVisionKid.SupplementalReleaseManifest.v1",
+  "run_id": "g2_finite_append_batch4_20261022",
+  "total_files": 8,
+  "entries": {
+    "accepted_cases.jsonl": {
+      "bytes": 29617,
+      "sha256": "8f41e1b5af5cff938151dda35ab8119efa339671246888c3da6d1332eb69b59b"
+    },
+    "accepted_chat.jsonl": {
+      "bytes": 55996,
+      "sha256": "25e1dd0f733950dc5b4fb3e03ff8b257a773e2f00df818ec3658cf3fb5063953"
+    },
+    "coverage_delta.json": {
+      "bytes": 3209,
+      "sha256": "d84c5dd58f7b1097ad47f9274a0f10110f80880e4b38358c13e4bec25b406951"
+    },
+    "independent_mutation_checks.json": {
+      "bytes": 1661,
+      "sha256": "e5e57321fe2b6667ebb615dc03d2ec774e3dc9467221e3847130f9e54549a5dc"
+    },
+    "pending_remaining.json": {
+      "bytes": 857,
+      "sha256": "3038beca2fd3b5d30a5574c53822bed48c5945a62bbec5d2454cb858f31bbdcc"
+    },
+    "qa7.jsonl": {
+      "bytes": 6758,
+      "sha256": "cb8855cec5e5f62138f6f21bd48b11f18c5d760a68f381c9eabeb659891a5fee"
+    },
+    "source_draft_export_hashes.json": {
+      "bytes": 2463,
+      "sha256": "ab3eb6b81be1cbef0c71bd5e4d7167bb319c32792dddf3be41f7095a91327e6a"
+    },
+    "token_audit.json": {
+      "bytes": 4833,
+      "sha256": "399d24f5fa0cbc2f227b3f553426cd700b4e55f86c436a0e68205833beb62fbe"
+    }
+  }
+}

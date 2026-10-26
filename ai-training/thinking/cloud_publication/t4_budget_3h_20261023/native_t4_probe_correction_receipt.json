@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "0Naxujr4XOgx"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"T4_NATIVE_CAPABILITY_CHECK_CORRECTED\", \"reason\": \"torch is_bf16_supported includes software emulation; hardware7.5 remains FP16\", \"prior_optimizer_updates\": 0, \"orchestrator_pid\": 59101}\n"
+        ]
+      }
+    ]
+  }
+}

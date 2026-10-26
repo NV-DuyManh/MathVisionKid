@@ -1,0 +1,140 @@
+{
+  "batch_sha256": "3f47a6bd41a8c15acb0e2d413d3b6071d4243e39bca54dcf37e686b78ac3f829",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order",
+      "row_sha256": "757bc85fd55b22970053d19f60d56a9d0d97eda9205e065268576b62a1391cf7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "24/3",
+          "96-(24/3)",
+          "96-24",
+          "(96-24)/3",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend",
+      "row_sha256": "8919719699ea60e3034117a20e545f7561f2291a1cb74ed8ccb365026030c1d5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "328+247",
+          "(328+247)-247"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor",
+      "row_sha256": "fa0f726d0a63b8ea38a62cc89e1de3617d14fd4c9565d91aee394414a34f9a09",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "213*4",
+          "(213*4)/4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role",
+      "row_sha256": "f77634a88c3cbde0ad7ac55199249c57442ccd31da135b7eea77ae12cafb6a5d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "684-239",
+          "684-(684-239)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "explicit_parenthesis_parse_values": {
+      "A": "88",
+      "B": "24"
+    },
+    "unknown_minuend_enumerated_solutions_0_to_1000": [
+      575
+    ],
+    "unknown_dividend_enumerated_solutions_0_to_1000": [
+      852
+    ],
+    "unknown_subtrahend_enumerated_solutions_0_to_684": [
+      445
+    ],
+    "all_original_expressions_at_most_two_operation_signs": true
+  },
+  "oracle_method": "Independent Fraction constructions for expression parse plus finite enumeration of original unknown-component predicates, not just generated inverse formula. Bounds and nonzero divisor checked.",
+  "author_self_content_check": "Read original operator positions/parentheses, at-most2sign scope, unknown minuend versus subtrahend, unknown dividend, nonzero divisor, substitutions and all12hints. Same-author checking is not independent content review.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Original grade3 text cases; enumeration uniqueness stated within bounded search and visible inverse relationships, not general model ability. //,%onlyofflineoracle,notlivecalculator. Neutral schema is not live PlanDraft.",
+  "classroom_carry_refinement": {
+    "before_batch_sha256": "fdabf2eda2d01e89876492a7735a736c4d9c212a3245e225685b1f614ad237b6",
+    "after_batch_sha256": "3f47a6bd41a8c15acb0e2d413d3b6071d4243e39bca54dcf37e686b78ac3f829",
+    "before_row_sha256": "b5513894de586166f1ee1c36bb1b0ba565e983225973e9d54c53c67c6e7f2634",
+    "after_row_sha256": "8919719699ea60e3034117a20e545f7561f2291a1cb74ed8ccb365026030c1d5",
+    "snapshot": "thinking\\evidence\\primary_math_teacher_20261016\\g3_expressions_0033_before_classroom_carry_refinement.jsonl",
+    "reason": "Original368+247 had consecutive carries. Replace this new unreviewed example with328+247=575 so both forward/inverse classroom arithmetic need only one regroup. No accuracy target or protected case altered; new signatures checked before writing.",
+    "refined_original_equation": "box-247=328",
+    "new_answer": 575,
+    "forward_sum_carry_columns_from_units": [
+      0
+    ],
+    "inverse_borrow_columns_from_units": [
+      0
+    ]
+  }
+}

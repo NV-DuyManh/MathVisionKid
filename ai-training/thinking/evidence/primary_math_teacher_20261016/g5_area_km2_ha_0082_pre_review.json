@@ -1,0 +1,157 @@
+{
+  "authored_utc": "2026-10-18T09:38:55.131885+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:36:44.945Z",
+  "batch_sha256": "187d7c53051161aa71963d65502c6587c4fbcf7455ca79374cfe82450561a863",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_area_km2_ha_0082_forest_area_square_unit_scale",
+      "row_sha256": "e6d29fe626289e9fc8d27f14af790896bb722fb6b2a34d2c582d6f44b38972f6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "1.47*100",
+          "(1.47*100)*10000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_area_km2_ha_0082_compare_mixed_area_records_equal_and_larger",
+      "row_sha256": "6b1703c5de839461fa43f50d84f76cf62ac2a557d216d584c9493c6f593eefad",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2*10000+850",
+          "0.0209*1000000",
+          "2.085*10000",
+          "",
+          "(0.0209*1000000)-(2*10000+850)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_area_km2_ha_0082_partition_total_area_across_units",
+      "row_sha256": "5e4dac8600bf843466be94f1b07dbd609b0bd164eff7519e9072427d6cdd83a1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "7.2*10000",
+          "0.034*1000000",
+          "(7.2*10000)-(0.034*1000000)-8500",
+          "((7.2*10000)-(0.034*1000000)-8500)/10000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_area_km2_ha_0082_misconception_length_factor_used_for_hectare",
+      "row_sha256": "92693389a0c156f8b8843f8293fe753e470097009bc2d25478ae7d50bfafb1e7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "100*100",
+          "1.6*(100*100)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_area_km2_ha_0082_guard_missing_source_area_unit",
+      "row_sha256": "7fd45ca75d7efb334d0398f2c2fcd2c55078a83df9ef0a68ca8bfddca542234d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "unit_square_tile_counts": {
+      "ha_m2": 10000,
+      "km2_m2": 1000000
+    },
+    "forest147_whole_hectare_tile_groups_m2": 1470000,
+    "comparison_integer_area_ledgers_m2": {
+      "A": 20850,
+      "B": 20900,
+      "C": 20850,
+      "difference_B_A": 50
+    },
+    "disjoint_partition_tile_counts_m2": {
+      "universe": 72000,
+      "garden": 34000,
+      "pond": 8500,
+      "paths_and_shared_yard": 29500,
+      "mixed_ha_plus_m2_rebuilt": 29500
+    },
+    "field_sixteen_thousand_tile_ledger_m2": 16000,
+    "missing_unit_countermodels_QA_only": {
+      "source_km2_to_ha": "240",
+      "source_ha_to_ha": "2.4",
+      "source_m2_to_ha": "3/12500"
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "same_quantity_area_units_squared_not_length": true,
+  "no_missing_unit_answer_in_hint": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous444_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "pre_official_QA_repairs": [],
+  "official_QA_utc": "2026-10-18T09:39:42.317523+00:00",
+  "official_QA_method": "Same-author read actual5fullproblems/givens/request/student quote/observations/initial guidance/all worked titles/reasons/explanations/expressions/results/units/answers and15hints. Grade5 semantic QA of square area-unit scales, additive mixed notation, equal-labelled comparison, disjoint total-minus-parts and mixed remainder, explicit wrong-factor quote, missing source-unit clarification. Fraction/Decimal and independent square-tile enumeration, integer area ledgers, disjoint1m2 label-set partition and distinct unit countermodels corroborate. Parser not semantic proof; no physical/source-table observation, external reviewer or new human review. No content repairs needed before official QA.",
+  "official_review_sha256": "22e8342bae4a71ac64be287a417c5d17c9b07909da2d4199d8fd07ca6e686e43"
+}

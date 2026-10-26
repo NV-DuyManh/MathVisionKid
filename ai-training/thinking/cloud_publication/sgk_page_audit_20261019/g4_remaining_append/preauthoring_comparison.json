@@ -1,0 +1,16 @@
+[
+  {
+    "path": "release/accepted_cases.jsonl",
+    "sha256": "1fa6cdc267d652eb3700f6ed55b66078ebe35c9fb410e9bcc2b4dca10915ead4",
+    "rows": 90,
+    "actual_problem_and_topic_read": true,
+    "semantic_overlap": "78 release: G1 inequality/order/pattern/resource/card equations,16 G4 numeric forms,3 spatial forms. G5 12: tiered tariff,rotated water,timezone table,cube-net repair. None supplies the ten additional requested state/guard/representation tasks. Nearest full-field comparisons retained in mapping; no global archive absence claim."
+  },
+  {
+    "path": "g5_append/draft_cases.jsonl",
+    "sha256": "7a4b57b2e414ea0931da54482d5899ae3082b3a70e9a4a3606ce6e8bf34f4ab6",
+    "rows": 12,
+    "actual_problem_and_topic_read": true,
+    "semantic_overlap": "78 release: G1 inequality/order/pattern/resource/card equations,16 G4 numeric forms,3 spatial forms. G5 12: tiered tariff,rotated water,timezone table,cube-net repair. None supplies the ten additional requested state/guard/representation tasks. Nearest full-field comparisons retained in mapping; no global archive absence claim."
+  }
+]

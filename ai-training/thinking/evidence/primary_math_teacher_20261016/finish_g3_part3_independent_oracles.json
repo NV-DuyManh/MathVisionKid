@@ -1,0 +1,102 @@
+{
+  "metre_unit_cells": {
+    "2hm4dam": 240,
+    "A5dam8m": 58,
+    "B6dam": 60,
+    "route3hm7dam20m": 390,
+    "4hm_in_dam": 40
+  },
+  "ruler_unit_interval_counts": [
+    {
+      "start": 3,
+      "end": 16,
+      "unit_intervals": 13
+    },
+    {
+      "start": 0,
+      "end": 12,
+      "unit_intervals": 12
+    },
+    {
+      "start": 5,
+      "end": 17,
+      "unit_intervals": 12
+    },
+    {
+      "start": 4,
+      "end": 23,
+      "unit_intervals": 19
+    },
+    {
+      "start": 2,
+      "end": 11,
+      "unit_intervals": 9
+    }
+  ],
+  "midpoint_conjunction_checks": [
+    {
+      "on_segment": true,
+      "AM": 3,
+      "MB": 3,
+      "whole": 6,
+      "midpoint": true
+    },
+    {
+      "on_segment": false,
+      "NA": 4,
+      "NB": 4,
+      "whole": 6,
+      "midpoint": false,
+      "consistent_off_segment_coordinate_squared_height": 7
+    },
+    {
+      "on_segment": true,
+      "AM": 5,
+      "MB": 5,
+      "whole": 10,
+      "midpoint": true
+    },
+    {
+      "on_segment": true,
+      "CP": 3,
+      "PD": 5,
+      "whole": 8,
+      "midpoint": false
+    }
+  ],
+  "angle_predicates": {
+    "A_both_edges_match_right_template": true,
+    "B_strictly_smaller_than_template": true,
+    "classification_from_explicit_description_only": true
+  },
+  "calendar_datetime": {
+    "feb2025_days": 28,
+    "start": "2025-02-26",
+    "after4": "2025-03-02"
+  },
+  "clock_minute_ticks": {
+    "A": 40,
+    "B": 20,
+    "mis": 15,
+    "elapsed": 50
+  },
+  "guard_countermodels": {
+    "length_unit12": [
+      "12m",
+      "12dam gives120m"
+    ],
+    "clock_missing_minute": [
+      "4h10",
+      "4h40"
+    ],
+    "table_length_missing": [
+      "90cm",
+      "120cm"
+    ],
+    "missing_angle": [
+      "right",
+      "acute"
+    ]
+  },
+  "real_physical_or_image_verification": false
+}

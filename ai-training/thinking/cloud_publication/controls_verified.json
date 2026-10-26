@@ -1,0 +1,34 @@
+{
+  "all_controls_verified": true,
+  "verified_utc": "2026-10-18T15:13:06.353Z",
+  "artifacts": [
+    {
+      "key": "progress",
+      "file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 5638748,
+      "sha256": "b4e663716b92101e82684566b34fc5330a8f2f0d1c11e54847b6e4e1049d2187",
+      "all_bytes_equal": true
+    },
+    {
+      "key": "chat",
+      "file_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 3581,
+      "sha256": "cb4cb7c7c86c00a9ef7bc8dc3a838f2c6db038531bfe9cb6253d8e830d79f3bc",
+      "all_bytes_equal": true
+    },
+    {
+      "key": "state",
+      "file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 9618,
+      "sha256": "10c18124326ce8aae1f9b5db92c022b8d8bf652417ff72ba4d5e189225eae5bd",
+      "all_bytes_equal": true
+    },
+    {
+      "key": "context",
+      "file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 718236,
+      "sha256": "f65cb8eb3a444ab321670abfac53926ee502af5dbc3b154056517571b3851eaf",
+      "all_bytes_equal": true
+    }
+  ]
+}

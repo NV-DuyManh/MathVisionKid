@@ -1,0 +1,75 @@
+{
+  "schema_version": "primary_math.drive_artifact_verification.v2",
+  "status": "VERIFIED_RAW_BYTES",
+  "verified_utc": "2026-10-18T14:28:12.854Z",
+  "latest_local_phase": "finite495_final_release",
+  "latest_local_counts": {
+    "accepted_cases": 782,
+    "chat_rows": 3128,
+    "accepted_core_cases": 495,
+    "remaining_core_cases": 0,
+    "core_nodes_complete": 165,
+    "core_slots_not_authored": 0,
+    "remaining_required_supplementary": 0,
+    "pending_cases": 0,
+    "polish47_resolved": true
+  },
+  "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+  "profile_id": "103000002357306706048",
+  "same_existing_ids": true,
+  "all_equal": true,
+  "current_phase_sync_status": "VERIFIED_RAW_BYTES",
+  "current_phase_readback_verified": true,
+  "final_context_confirmation_verified": true,
+  "superseded": false,
+  "superseded_by_local_changes": false,
+  "artifacts": [
+    {
+      "artifact": "progress_zip",
+      "file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\evidence\\primary_math_teacher_20261016\\Primary_Math_Teacher_20261016_PROGRESS.zip",
+      "local_bytes": 5645287,
+      "remote_bytes": 5645287,
+      "local_sha256": "70071b60a78412b4d8709959414be795d2076fb9d7f71d4547a247e8e714217a",
+      "remote_sha256": "70071b60a78412b4d8709959414be795d2076fb9d7f71d4547a247e8e714217a",
+      "bytes_equal": true
+    },
+    {
+      "artifact": "chat_train",
+      "file_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\exports\\teacher_chat_train_polished.jsonl",
+      "local_bytes": 6971304,
+      "remote_bytes": 6971304,
+      "local_sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+      "remote_sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+      "bytes_equal": true
+    },
+    {
+      "artifact": "state",
+      "file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\data_build_state.json",
+      "local_bytes": 24514,
+      "remote_bytes": 24514,
+      "local_sha256": "fd3e6a7f7a95c1f0614e53cbb651632e3377c52fc82e9dcaf97efab1d3ea4966",
+      "remote_sha256": "fd3e6a7f7a95c1f0614e53cbb651632e3377c52fc82e9dcaf97efab1d3ea4966",
+      "bytes_equal": true
+    },
+    {
+      "artifact": "context",
+      "file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "path": "D:/nhom6/train thử/MathVisionKid/ai-training/MATH_TRAINING_CONTEXT.md",
+      "local_bytes": 713417,
+      "remote_bytes": 713417,
+      "local_sha256": "3be32c4f0aa847d043b7af8878c063d8a83c97d93ff45b6463b5a891657af6f7",
+      "remote_sha256": "3be32c4f0aa847d043b7af8878c063d8a83c97d93ff45b6463b5a891657af6f7",
+      "bytes_equal": true,
+      "final_context_confirmation": true
+    }
+  ],
+  "final_context_verified_utc": "2026-10-18T14:29:05.487Z",
+  "automation": {
+    "id": "t-o-d-li-u-to-n-ti-u-h-c-mathvisionkid",
+    "deleteStatus": "deleted",
+    "basis": "Successful app automation_update delete response after complete data audit and all4fresh raw byte checks"
+  }
+}

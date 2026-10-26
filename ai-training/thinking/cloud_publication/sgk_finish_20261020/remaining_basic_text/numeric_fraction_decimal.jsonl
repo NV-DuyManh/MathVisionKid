@@ -1,0 +1,11 @@
+{"Decimal":"10","Fraction":"10","expression":"12-2","sample_id":"sgk_finish_basic_20261020_transfer_equalizes","step_id":"s0"}
+{"Decimal":"10","Fraction":"10","expression":"8+2","sample_id":"sgk_finish_basic_20261020_transfer_equalizes","step_id":"s1"}
+{"Decimal":"20","Fraction":"20","expression":"10+10","sample_id":"sgk_finish_basic_20261020_transfer_equalizes","step_id":"s2"}
+{"Decimal":"11","Fraction":"11","expression":"14-3","sample_id":"sgk_finish_basic_20261020_transfer_reverses_order","step_id":"s0"}
+{"Decimal":"13","Fraction":"13","expression":"10+3","sample_id":"sgk_finish_basic_20261020_transfer_reverses_order","step_id":"s1"}
+{"Decimal":"2","Fraction":"2","expression":"13-11","sample_id":"sgk_finish_basic_20261020_transfer_reverses_order","step_id":"s2"}
+{"Decimal":"11","Fraction":"11","expression":"2+9","sample_id":"sgk_finish_basic_20261020_route_global_minimum","step_id":"s0"}
+{"Decimal":"7","Fraction":"7","expression":"3+4","sample_id":"sgk_finish_basic_20261020_route_tied_minima_error","step_id":"s0"}
+{"Decimal":"24","Fraction":"24","expression":"4*6","sample_id":"sgk_finish_basic_20261020_factor_pairs_unordered","step_id":"s2"}
+{"Decimal":"18","Fraction":"18","expression":"9*2","sample_id":"sgk_finish_basic_20261020_factor_pairs_ordered_bounds","step_id":"s2"}
+{"Decimal":"4","Fraction":"4","expression":"2+2","sample_id":"sgk_finish_basic_20261020_inventory_no_extra_duplicate","step_id":"s2"}

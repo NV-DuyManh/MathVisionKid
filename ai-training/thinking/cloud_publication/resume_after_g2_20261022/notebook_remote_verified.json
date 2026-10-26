@@ -1,0 +1,12 @@
+{
+  "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "bytes": 343587,
+  "sha256": "87f117b28185177d136c21c97302ace0ee2af2272172b236e523f03d7f44bda1",
+  "cells": 34,
+  "all_parent_sources_preserved": true,
+  "training_started": false,
+  "fresh_raw_readback_verified": true,
+  "all_bytes_equal": true,
+  "source_save_point": "MCP_CELLS_0_TO_33",
+  "url": "https://colab.research.google.com/drive/1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l"
+}

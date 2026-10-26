@@ -1,0 +1,182 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g2_answer_01",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Một khay có 5 hàng bánh, mỗi hàng có 4 chiếc. Hỏi khay có tất cả bao nhiêu chiếc bánh?",
+      "expected_answer": "20 chiếc bánh",
+      "rubric": [
+        "Use familiar grade2 five-times table.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_answer_01",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "d6b47202dc9cb1c576e72e63856816dd854549b614d0fc1fd704b11df2500db6",
+      "max_new_tokens": 1024,
+      "generated_tokens": 228,
+      "output": "**Dữ kiện:**  \n- Khay có 5 hàng bánh.  \n- Mỗi hàng có 4 chiếc bánh.  \n\n**Yêu cầu:**  \n- Tính số chiếc bánh trong khay.  \n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu.**  \n- Dữ kiện đủ và nhất quán.  \n- Số liệu rõ ràng, không mâu thuẫn.  \n\n---\n\n**Bước 2: Giải bài toán.**  \n- Mỗi hàng có 4 chiếc bánh.  \n- Khay có 5 hàng bánh.  \n\n**Phép tính:**  \n$$\n5 \\text{ hàng} \\times 4 \\text{ chiếc bánh/hàng} = 20 \\text{ chiếc bánh}\n$$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- Mỗi hàng có 4 chiếc bánh → 5 hàng → $5 \\times 4 = 20$.  \n- Kết quả hợp lý, không có sai sót.\n\n---\n\n**Lời giải:**  \nKhay có tổng cộng **20 chiếc bánh**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 19965139,
+      "generation_seconds": 19.442672974999823
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_answer_02",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Thư viện lớp có 42 quyển truyện. Các bạn mượn 17 quyển. Hỏi còn lại bao nhiêu quyển truyện?",
+      "expected_answer": "25 quyển truyện",
+      "rubric": [
+        "subtraction; count items",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_answer_02",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "66c61184c80b6d90351ce64efeaf975a98a7540ce765c3bbe60f0b06efb5271c",
+      "max_new_tokens": 1024,
+      "generated_tokens": 264,
+      "output": "**Dữ kiện:**  \n- Thư viện có 42 quyển truyện.  \n- Các bạn mượn 17 quyển.  \n\n**Yêu cầu:**  \nTính số quyển truyện còn lại.\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**  \n- Dữ kiện đủ và nhất quán.  \n- Đề yêu cầu tính số quyển truyện còn lại sau khi các bạn mượn 17 quyển.\n\n---\n\n**Bước 2: Giải bài toán.**  \n- Số quyển truyện ban đầu: 42.  \n- Số quyển truyện mượn: 17.  \n- Số quyển truyện còn lại = Số ban đầu - Số mượn = $42 - 17$.\n\n**Phép tính:**  \n$42 - 17 = 25$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- 42 - 17 = 25.  \n- 25 là số quyển truyện còn lại.  \n- Dữ kiện và phép tính đúng, không có mâu thuẫn.\n\n---\n\n**Kết luận:**  \nCó **25 quyển truyện** còn lại.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1202748989,
+      "generation_seconds": 16.6091482129998
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_hint_no_answer_01",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Có 5 túi, mỗi túi đựng 3 quả bóng bàn. Em hãy tìm số quả bóng bàn trong các túi.",
+      "expected_answer": "Gợi ý: Các túi có số quả bằng nhau. Có thể cộng cùng một số nhiều lần hoặc dùng phép nhân.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_hint_no_answer_01",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "8a7e557c4c36c7b23288c8f86f56fdf06a6b6060f79c4af2c72489afc03eb733",
+      "max_new_tokens": 1024,
+      "generated_tokens": 79,
+      "output": "**Bước đầu:**  \nEm hãy tính số quả bóng bàn trong các túi. Mỗi túi có 3 quả, và có 5 túi.  \nEm có thể tính như sau: 3 quả/buộc × 5 túi = ?  \n\n**Lời giải:**  \n3 × 5 = 15  \n\n**Kết quả:** 15 quả bóng bàn.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 275091846,
+      "generation_seconds": 4.988622759000009
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_hint_no_answer_02",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Một sợi dây dài 36 cm được cắt đi 14 cm. Hỏi đoạn dây còn lại dài bao nhiêu?",
+      "expected_answer": "Gợi ý: Độ dài còn lại bằng độ dài ban đầu trừ phần đã cắt. Giữ đơn vị cm trong đáp số.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_hint_no_answer_02",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "34ca17ed5515cd5e9de53fb8bcd0efdbaffc40caaf828967afd8ce873698b96a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 81,
+      "output": "**Bước đầu:**  \n- Đoạn dây ban đầu dài 36 cm.  \n- Được cắt đi 14 cm.  \n- Vậy đoạn dây còn lại là: 36 cm - 14 cm = ?\n\n**Lời giải:**  \n- 36 cm - 14 cm = 22 cm.\n\n**Đáp án:** 22 cm.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1804538381,
+      "generation_seconds": 5.02446153599999
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_missing_or_contradictory_info_01",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Có 4 hộp bút, mỗi hộp có 6 chiếc bút. Dòng ghi chú lại nói “mỗi hộp có 5 chiếc”. Hỏi có tất cả bao nhiêu chiếc bút?",
+      "expected_answer": "Hai thông tin mâu thuẫn: cần kiểm tra mỗi hộp có 6 hay 5 chiếc bút trước khi tính tổng.",
+      "rubric": [
+        "identify contradiction; no arbitrary choice",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_missing_or_contradictory_info_01",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "6032d744daeb5fb85cbb95eadb3cb2468543b1d80de6ae10bedb92a9d471a3e8",
+      "max_new_tokens": 1024,
+      "generated_tokens": 512,
+      "output": "**Dữ kiện và yêu cầu:**\n\n- Có 4 hộp bút.\n- Mỗi hộp có 6 chiếc bút.\n- Dòng ghi chú lại nói “mỗi hộp có 5 chiếc” (có thể là sai thông tin).\n\n**Phân tích:**\n\n- Dữ kiện được cung cấp: 4 hộp, mỗi hộp có 6 chiếc bút.\n- Dữ kiện có mâu thuẫn: \"mỗi hộp có 5 chiếc\" (trong đề có ghi \"mỗi hộp có 5 chiếc\", nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\").\n\n**Lời giải:**\n\n- Dữ kiện có mâu thuẫn: Trong đề có ghi \"mỗi hộp có 5 chiếc\" (có thể là sai thông tin), nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\".\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu:**\n- Dữ kiện không nhất quán: đề có ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n\n**Bước 2: Xác định số liệu cần bổ sung:**\n- Cần xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không, hay có thể là thông tin bổ sung cần kiểm lại.\n\n**Bước 3: Giải bài toán theo dữ kiện đã được cung cấp (mỗi hộp có 6 chiếc):**\n\n- Số hộp: 4\n- Số bút trong mỗi hộp: 6\n- Tổng số bút: $4 \\times 6 = 24$\n\n**Kết quả:**\n- Có tổng cộng $24$ chiếc bút.\n\n**Lời giải đầy đủ:**\n- Dữ kiện có mâu thuẫn do đề ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n- Cần kiểm lại thông tin để xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không.\n- Nếu lấy dữ kiện \"mỗi hộp có 6 chiếc\", thì tổng số bút là $4 \\times 6 = 24$.\n\n**Kết luận:**\n- Có tổng cộng $24$ chiếc bút.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 2005065355,
+      "generation_seconds": 34.780345147999924
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_student_error_01",
+      "grade": 2,
+      "mode": "student_error",
+      "userproblem": "Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9 quả mận.” Hãy nhận xét đúng dòng Minh đã viết.",
+      "expected_answer": "Phép cộng 2 + 7 = 9 đúng về số học, nhưng không biểu diễn tổng số quả. Có 2 nhóm, mỗi nhóm 7 quả nên cần 2 × 7 = 14 quả mận.",
+      "rubric": [
+        "Distinguish true arithmetic from wrong relation; grade2 two-times table.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g2_student_error_01",
+      "grade": 2,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "1cd3096300e6724e535ef15c6c68ef4bb675bdaa4a9fe55dd9c1f000b9fe38e1",
+      "max_new_tokens": 1024,
+      "generated_tokens": 419,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9”.\n- **Yêu cầu:** Nhận xét đúng dòng Minh đã viết.\n\n**2. Giải thích:**\n\n- **Dữ kiện:** Đúng, đề đã cung cấp thông tin rõ ràng: 2 đĩa, mỗi đĩa có 7 quả mận.\n- **Phép tính:** 2 + 7 = 9.\n  - **Giải thích:** Đây là phép tính cộng có nghĩa là: 2 + 7 = 9.\n  - **Tính toán:** 2 + 7 = 9 (đúng).\n  - **Đơn vị:** Đơn vị của số liệu là “quả mận”.\n  - **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng số quả mận là 2 + 7 = 9.\n\n**3. Kiểm lại kết quả:**\n\n- **Tổng số quả mận:** 2 + 7 = 9 (đúng).\n- **Đơn vị:** Đúng.\n- **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng là 9 quả mận.\n\n**4. Nhận xét:**\n\n- **Dòng Minh đã viết:** “2 + 7 = 9” là phép tính đúng.\n- **Đúng:** 2 + 7 = 9.\n- **Không mâu thuẫn:** Dữ kiện đầy đủ và nhất quán.\n- **Không thiếu dữ kiện:** Đề đã cung cấp đủ thông tin.\n\n**5. Kết luận:**\n\nDòng “2 + 7 = 9” của Minh là **đúng**, vì phép tính cộng đúng và đơn vị, ý nghĩa đều phù hợp với dữ kiện đã cho.\n\n**Đáp án:** Đúng.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 979905331,
+      "generation_seconds": 26.200461271999984
+    }
+  }
+]

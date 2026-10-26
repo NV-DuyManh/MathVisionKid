@@ -1,0 +1,56 @@
+{
+  "checkpoint_id": "182zLHZU0XBpTfKm7ThJpfy37GgFJ7Ob2",
+  "checkpoint_sha256": "5ec824151d0acfec641a1ab15bc9f8ee2ea1995c1dedd95292c44741fb9f9e1b",
+  "checkpoint_bytes": 1540096,
+  "fresh_raw_readback_verified": true,
+  "span": {
+    "member_key": "c9fa305a1bf0904b794e243ad39409d5e5616e081777e3431349365955e209d5",
+    "rows": 1000,
+    "processed": 1000,
+    "bounded_pause": true
+  },
+  "report": {
+    "schema": "MathVisionKid.full_current_archive_audit.v2",
+    "identity": "9139670f1e76e34e8c8ee32cc541d33399e86445cbc4da6b668b664e915655b0",
+    "derivation_provenance": {
+      "parent_file": "math_data_full_audit.py",
+      "parent_sha256": "642343937c54c1c761ec38708d76fb46e26165563ab2045e9bc6c45adf0624a1",
+      "source_label_evidence_file": "exhaustive_primary_math.py",
+      "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+      "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+      "raw_source_rewritten": false,
+      "candidate_pool_promoted_to_train": false,
+      "v1_checkpoint_and_issues_preserved": true
+    },
+    "source_versions_indexed": 1000,
+    "source_labels_indexed": {
+      "train_candidate": 1000
+    },
+    "candidate_source_train_chat_links": 0,
+    "unique_chat_rows_processed": 0,
+    "actual_rows_by_split": {},
+    "source_hash_origins": {},
+    "physical_chat_occurrences_processed": 0,
+    "exact_duplicate_references": 0,
+    "members_complete": 0,
+    "members_expected": 247,
+    "all_declared_members_scanned": false,
+    "max_sequence_tokens": null,
+    "max_completion_tokens": null,
+    "source_linkage_unverified_rows": 0,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_linkage_split_audit_complete": false,
+    "all_rows_semantically_human_reviewed": false,
+    "whole_curriculum_certified": false,
+    "TRAINING_DATASET_READY": false,
+    "training_started": false,
+    "gpu_used": false,
+    "model_weights_loaded": false
+  },
+  "v1_checkpoint_preserved": "18vXFDzqBNxLSawKWvAUhCgYZPW2fNEb3",
+  "old_token_checkpoint_preserved": "1o3Q1uXA2ZTUAIHDpLCslHalg5qCbL-gr",
+  "runtime_accelerator": "none",
+  "training_started": false,
+  "TRAINING_DATASET_READY": false
+}

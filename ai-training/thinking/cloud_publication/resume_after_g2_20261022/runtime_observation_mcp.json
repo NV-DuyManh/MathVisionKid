@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'observed_utc': '2026-10-22T13:54:05.352454+00:00', 'worker_alive': False, 'live_batch_stats': {'batches': 3443, 'rows_batched': 878352, 'cache_hits': 878352, 'single_row_fallbacks': 0, 'skipped_resume_lines': 9350000, 'max_cache_rows': 256, 'max_rendered_chars': 288558, 'max_raw_chars': 454766, 'batch_prepare_fallbacks': 0, 'row_prepare_fallbacks': 0, 'cache_key_fallbacks': 0, 'stream_error_buffered_rows': 0}, 'training_started': False, 'unique_chat_rows_committed': 1078096, 'issues_committed': {'SOURCE_SPLIT_MISSING_OR_UNKNOWN': 1}}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'observed_utc': '2026-10-22T13:54:05.352454+00:00', 'worker_alive': False, 'live_batch_stats': {'batches': 3443, 'rows_batched': 878352, 'cache_hits': 878352, 'single_row_fallbacks': 0, 'skipped_resume_lines': 9350000, 'max_cache_rows': 256, 'max_rendered_chars': 288558, 'max_raw_chars': 454766, 'batch_prepare_fallbacks': 0, 'row_prepare_fallbacks': 0, 'cache_key_fallbacks': 0, 'stream_error_buffered_rows': 0}, 'training_started': False, 'unique_chat_rows_committed': 1078096, 'issues_committed': {'SOURCE_SPLIT_MISSING_OR_UNKNOWN': 1}}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{'observed_utc': '2026-10-22T13:54:05.352454+00:00', 'worker_alive': False, 'live_batch_stats': {'batches': 3443, 'rows_batched': 878352, 'cache_hits': 878352, 'single_row_fallbacks': 0, 'skipped_resume_lines': 9350000, 'max_cache_rows': 256, 'max_rendered_chars': 288558, 'max_raw_chars': 454766, 'batch_prepare_fallbacks': 0, 'row_prepare_fallbacks': 0, 'cache_key_fallbacks': 0, 'stream_error_buffered_rows': 0}, 'training_started': False, 'unique_chat_rows_committed': 1078096, 'issues_committed': {'SOURCE_SPLIT_MISSING_OR_UNKNOWN': 1}}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

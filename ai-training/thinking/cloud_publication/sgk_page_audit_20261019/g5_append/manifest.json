@@ -1,0 +1,12 @@
+{
+  "draft_count": 12,
+  "chat_count": 48,
+  "form_count": 4,
+  "source_sha256": "7a4b57b2e414ea0931da54482d5899ae3082b3a70e9a4a3606ce6e8bf34f4ab6",
+  "chat_sha256": "cf9f0815c03965059e6a1d859edc7ff6f59c1fe2ef542282af5980d7f0c84985",
+  "self_qa_sha256": "f5757cc61ab642d36d8f36c028a2bee399354ca3d1d3cedece111e6bb8edb264",
+  "independent_oracle_sha256": "4d192ae32475515c9d87321be21c382d51b983b724e0f5f01e757ed85bfe46a9",
+  "status": "DRAFT_CROSS_REVIEW_PENDING_NO_DRIVE_PUBLICATION",
+  "provenance": "Original AI authoring; owner preauthorized self-QA pipeline; human content attestation not claimed",
+  "training_or_gpu_started": false
+}

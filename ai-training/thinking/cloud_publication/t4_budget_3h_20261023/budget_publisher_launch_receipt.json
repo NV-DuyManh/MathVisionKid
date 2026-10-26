@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "TlyWH1IkOUSY"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"publisher_started\": true, \"folder_name\": \"MathVisionKid_T4_BUDGET3H_RUN_20261023_141552\", \"deadline_utc\": \"2026-10-23T17:15:52.441626+00:00\", \"drive_calls_in_current_cell\": false, \"thread\": \"MathVisionKidBudgetDrivePublisher\"}\n"
+        ]
+      }
+    ]
+  }
+}

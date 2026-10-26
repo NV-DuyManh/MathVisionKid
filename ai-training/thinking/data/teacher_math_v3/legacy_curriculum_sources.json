@@ -1,0 +1,1765 @@
+{
+  "schema_version": "legacy_supplement_v1",
+  "research_date": "2026-10-13",
+  "language": "vi",
+  "status": "PARTIAL_HISTORICAL_EVIDENCE_VERIFIED_COMPLETE_2006_MATH_ANNEX_PENDING",
+  "complete_curriculum_claim": false,
+  "current_2026_legal_currency_certified": false,
+  "original_2006_math_annex_downloaded": false,
+  "original_2006_all_grade_outcomes_reviewed": false,
+  "all_old_textbooks_reviewed": false,
+  "scope": "Supplementary historical source ledger; original teacher-authored summaries of actually read evidence. Does not change frozen numericalV3 or certify neural mastery.",
+  "sources": [
+    {
+      "source_id": "old_decision16_moit",
+      "title": "Quyết định16/2006/QĐ-BGDĐT ban hành Chương trình giáo dục phổ thông",
+      "issuer": "Bộ Giáo dục và Đào tạo",
+      "publication_date": "2006-05-05",
+      "url": "https://moit.gov.vn/van-ban-phap-luat/van-ban-phap-quy/-quyet-dinh-ban-hanh-chuong-trinh-giao-duc-pho-thong.html",
+      "download_url": "https://moit.gov.vn/upload/2005517/20210623/QD%2016-2006-BGDDT.doc",
+      "source_type": "PRIMARY_MINISTRY_DECISION_GOVERNMENT_MIRROR",
+      "retrieval": "READ_DECISION_BODY_ONLY",
+      "sha256": "0b3cca7a302c6702979b57498e6a8f873b1fa27014fb221d87f464683b8415ce",
+      "bytes": 215040,
+      "math_annex_retrieved": false,
+      "limitations": [
+        "Decision establishes the curriculum and replacement of the previous primary decision; downloaded file does not contain the grade1–5 Math annex.",
+        "Never confuse it with the separate equipment decision also numbered16/2006."
+      ]
+    },
+    {
+      "source_id": "old_adjustment_school2015",
+      "title": "Hướng dẫn điều chỉnh nội dung dạy học tiểu học — phần Toán lớp1–5",
+      "issuer": "School reproduction; originating guidance number not independently authenticated in this HTML",
+      "publisher": "Trường Tiểu học Trần Quang Diệu, Hồ Chí Minh",
+      "publication_date": "2015-12-24",
+      "url": "https://thtranquangdieu.hcm.edu.vn/tai-nguyen/huong-dan-dieu-chinh-noi-dung-day-hoc-tieu-hoc/ctmb/21524/94981",
+      "source_type": "PRIMARY_PUBLIC_SCHOOL_HISTORICAL_IMPLEMENTATION_REPRODUCTION",
+      "retrieval": "READ_ENTIRE_MATH_SECTION_ALL_FIVE_GRADES",
+      "sha256_html": "c7c274353d9706164daecbeed67346b1b582e15a8069fbcc24240e6612d7ba89",
+      "bytes_html": 709719,
+      "pages_checked": null,
+      "locator": "Heading HƯỚNG DẪN ĐIỀU CHỈNH NỘI DUNG DẠY HỌC MÔN TOÁN; grade, week and textbook-page rows",
+      "original_2006_annex": false,
+      "limitations": [
+        "This is historical implementation adjustment, not the complete2006 curriculum annex.",
+        "Several older Vietnamese headings use a legacy font encoding; unambiguous numerals and neighboring explanations were cross-read.",
+        "Do not infer that an omitted topic was absent from the old curriculum; only adjusted rows are listed.",
+        "Do not treat this guidance as current2026 requirements."
+      ]
+    },
+    {
+      "source_id": "old_adjustment3969_annex2",
+      "title": "Phụ lục2 — hướng dẫn điều chỉnh nội dung dạy học đối với lớp3,4,5, năm2021–2022",
+      "issuer": "Bộ Giáo dục và Đào tạo — document reproduction",
+      "publisher": "Trường Tiểu học Cách Mạng Tháng Tám, Hồ Chí Minh",
+      "publication_date": "2021-09-10",
+      "url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+      "download_url": "https://fileth.hcm.shieldix.app/Data/hcmedu/thcachmangthangtam/2021_10/phu-luc-2-doi-voi-lop-3-4-5_10102021183732.pdf",
+      "source_type": "PRIMARY_MINISTRY_ORIGIN_ADJUSTMENT_PUBLIC_SCHOOL_MIRROR",
+      "retrieval": "ACTUALLY_DOWNLOADED_PDF_AND_READ_MATH_PAGES19_TO32",
+      "sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+      "bytes": 1150699,
+      "page_count": 72,
+      "pages_checked": [
+        1,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "original_2006_annex": false,
+      "official_release_context_url": "https://tapchigiaoduc.edu.vn/article/87106/213/hu-o-ng-da-n-dieu-chinh-chuong-trinh-ca-p-tie-u-ho-c-na-m-ho-c-2021-2022/",
+      "paired_cover_url": "https://fileth.hcm.shieldix.app/Data/hcmedu/thcachmangthangtam/2021_10/3969-ctgdpt2018_10102021181941.pdf",
+      "paired_cover_sha256": "df66bb3d6475941d3cb5a0929dcc7d981fc77b1ef57994b6f847b3e93f02a025",
+      "paired_cover_pages_read": [
+        1,
+        2
+      ],
+      "pdf_number_date_fields_blank": true,
+      "signed_execution_authenticated": false,
+      "limitations": [
+        "School publication identifies3969 and2021-09-10, but downloaded cover and annex have blank number/day fields. Publication context verifies association; this is not a signature/authenticity certification.",
+        "This is targeted COVID guidance2021–22, not every original2006 learning outcome.",
+        "At that transition grades3–5 were the old program; do not use annex1 grades1–2 as old-program evidence.",
+        "Never use not-taught COVID adjustments as a claim that the underlying historical topic never existed."
+      ]
+    },
+    {
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "title": "Tài liệu tập huấn, bồi dưỡng giáo viên sử dụng sách giáo khoa môn Toán lớp5 — Kết nối tri thức với cuộc sống",
+      "issuer": "Nhà Xuất bản Giáo dục Việt Nam; authored teacher-training document",
+      "authors": [
+        "Hà Huy Khoái",
+        "Lê Anh Vinh",
+        "Nguyễn Áng",
+        "Vũ Văn Dương",
+        "Nguyễn Minh Hải",
+        "Hoàng Quế Hường",
+        "Bùi Bá Mạnh"
+      ],
+      "publication_date": null,
+      "url": "https://drive.google.com/file/d/1vVoQe1D3tr1BBWdS0M2YnA_A-TOBYOeg/view",
+      "download_url": "https://drive.google.com/uc?export=download&id=1vVoQe1D3tr1BBWdS0M2YnA_A-TOBYOeg",
+      "source_type": "PRIMARY_PUBLISHER_AUTHOR_TRAINING_DOCUMENT_PUBLIC_MIRROR",
+      "retrieval": "ACTUALLY_DOWNLOADED_PDF_AND_READ_EXPLICIT_2006_COMPARISONS",
+      "sha256": "d7fa40187ee2eecb37495b7c59db870ad46f1241da3ca40d992f0a2e70982b07",
+      "bytes": 21282613,
+      "page_count": 80,
+      "pages_checked": [
+        1,
+        2,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "original_2006_annex": false,
+      "mirror_owner_authenticated": false,
+      "limitations": [
+        "Cover and named authors/publisher verified in the downloaded document; public mirror owner and exact publication date were not authenticated.",
+        "The document describes actual differences versus CT2006 but is not the2006 statutory annex or an exhaustive historical syllabus.",
+        "Examples reproduced within the book were not copied into training data."
+      ]
+    },
+    {
+      "source_id": "old_comparison_hnue2019",
+      "title": "Tài liệu tập huấn hướng dẫn thực hiện chương trình môn Toán2018",
+      "issuer": "Bộ Giáo dục và Đào tạo; Trường Đại học Sư phạm Hà Nội",
+      "publication_date": "2019",
+      "url": "https://dtbdtx.hnue.edu.vn/Portals/0/Tai%20lieu%20tap%20huan%20mon%20Toan.pdf",
+      "download_url": "https://dtbdtx.hnue.edu.vn/Portals/0/Tai%20lieu%20tap%20huan%20mon%20Toan.pdf?download=1",
+      "source_type": "PRIMARY_MINISTRY_UNIVERSITY_AUTHOR_TRAINING_DOCUMENT",
+      "retrieval": "ACTUALLY_DOWNLOADED_PDF_READ_COMPARISON_PAGES",
+      "sha256": "b17efef91bf1a7936e88b261b33be1cdc0bad75e6d4e125fb0bcfbd985b7e0c6",
+      "bytes": 1337696,
+      "page_count": 69,
+      "pages_checked": [
+        1,
+        3,
+        38,
+        39,
+        41,
+        42
+      ],
+      "original_2006_annex": false,
+      "limitations": [
+        "Explains the four historical strands and reduced complexity of2018; comparison tasks are blank exercises, not a full old-grade registry."
+      ]
+    }
+  ],
+  "legacy_knowledge_nodes": [
+    {
+      "node_id": "old_g1_numbers_100",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 1,
+      "outcome_summary": "Số một/hai chữ số và ôn các số đến10.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade1; weeks2,26,32–33; textbookpp11,136,138,170–171",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_upper_bound": 100
+      },
+      "related_v3_numeric_families": [
+        "tens_place_value"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g1_compare",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 1,
+      "outcome_summary": "So sánh bé hơn với dấu<.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade1; week3; textbookp17",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "compare_difference"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g1_add_sub_no_carry_100",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 1,
+      "outcome_summary": "Cộng/trừ không nhớ trong phạm vi100.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade1; week30; textbookp162",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "range": 0,
+        "max": 100,
+        "carry": false
+      },
+      "related_v3_numeric_families": [
+        "add_join",
+        "sub_remaining",
+        "vertical_add",
+        "vertical_subtract"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g1_word_problem",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 1,
+      "outcome_summary": "Lập câu hỏi và giải bài toán có lời văn từ tóm tắt.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade1; weeks17,21,22,28; textbookpp92,115,117,148",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "add_join",
+        "sub_remaining"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g1_draw_segment",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 1,
+      "outcome_summary": "Vẽ đoạn thẳng có độ dài cho trước.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade1; week29; textbookp156",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "Text-only description cannot verify drawing accuracy."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g2_subtraction_borrow",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 2,
+      "outcome_summary": "Trừ số hai chữ số có mượn qua chục.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade2; weeks8–9; textbookpp53,62",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_examples": [
+          "32-8",
+          "34-8"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "vertical_subtract"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g2_many_addends",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 2,
+      "outcome_summary": "Tổng của nhiều số.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade2; week15; textbookp91",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "multistep_add_sub"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g2_unit_fractions_2_3_4_5",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 2,
+      "outcome_summary": "Nhận biết, đọc và viết1/2,1/3,1/4,1/5.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade2; weeks18–21; textbookpp110,114,119,122",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "unit_fraction_denominators": [
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "related_v3_numeric_families": [
+        "fraction_of_quantity"
+      ],
+      "current_2018_comparison": "Unit fractions are placed at grade3 in current2018, including denominators2–9.",
+      "notes": [
+        "Historical adjustment limits work to recognition/read/write; fraction-of-quantity numeric examples are related, not full direct coverage."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g2_multiplication_division",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 2,
+      "outcome_summary": "Ôn phép nhân và phép chia; exact table set not recovered.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade2; week34; textbookp173",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "table_set": null
+      },
+      "related_v3_numeric_families": [
+        "equal_groups",
+        "share_exact",
+        "missing_factor"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "This row cannot verify that grade2 tables3,4 were required."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g2_money_transition",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 2,
+      "outcome_summary": "Tiền Việt Nam listed at grade2 then moved alongside grade3 lesson.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade2; week27; textbookp162",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "money_change"
+      ],
+      "current_2018_comparison": "Current2018 includes money at grade2.",
+      "notes": [
+        "Historical lesson location and adjusted teaching grade are distinct."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_natural_100000",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Đọc/viết, giá trị hàng, so sánh và sắp xếp số đến100000.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp21,23,24; textbookpp91–96,140–149,169–170",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "max": 100000
+      },
+      "related_v3_numeric_families": [
+        "tens_place_value"
+      ],
+      "current_2018_comparison": "Shared main number range; not every source bounds/carry condition established.",
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_add_sub_10000",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Đặt tính, cộng/trừ và nhẩm số tròn trăm/nghìn trong10000.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp21–22; textbookpp102–105",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "max": 10000
+      },
+      "related_v3_numeric_families": [
+        "vertical_add",
+        "vertical_subtract",
+        "add_join",
+        "sub_remaining"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_add_sub_100000",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Đặt tính cộng/trừ trong100000 và bài toán liên quan.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp23–24; textbookpp155–160",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "max": 100000
+      },
+      "related_v3_numeric_families": [
+        "vertical_add",
+        "vertical_subtract",
+        "multistep_add_sub"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_multiply_two_by_one_digits",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Nhân số hai chữ số với số một chữ số, có/không nhớ.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp19; textbookpp21–23",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "multiplicand_digits": 2,
+        "multiplier_digits": 1
+      },
+      "related_v3_numeric_families": [
+        "equal_groups"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_multiply_four_by_one_digits",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Nhân số bốn chữ số với một chữ số; điều chỉnh nhớ1 hoặc2lần không liền.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp22; textbookpp113–116",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "multiplicand_digits": 4,
+        "multiplier_digits": 1,
+        "adjustment_max_carries": 2,
+        "two_carries_nonconsecutive": true
+      },
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "These are2021–22 adjusted requirements, not certification of original2006 carry limits."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_multiply_divide_five_by_one_digits",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Nhân/chia số năm chữ số cho số một chữ số.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp24; textbookpp165–166",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "large_operand_digits": 5,
+        "small_operand_digits": 1
+      },
+      "related_v3_numeric_families": [
+        "division_remainder",
+        "share_exact"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_division_remainder",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Phép chia hết và có dư.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp19; textbookpp29–30",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "division_remainder",
+        "share_exact"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_scale_up_down",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Gấp lên nhiều lần và giảm một số lần.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp19–20; textbookpp33–38",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "equal_groups",
+        "share_exact"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_find_divisor",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Tìm số chia chưa biết.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp20; textbookpp39–40",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "missing_factor"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "Frozen missing_factor is a different relation; cannot call full direct coverage."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_two_step_problems",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Bài toán giải bằng hai phép tính.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp20; textbookpp50–52",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "max_steps_in_named_lesson": 2
+      },
+      "related_v3_numeric_families": [
+        "multistep_add_sub",
+        "groups_after_sale"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_multiplicative_comparison",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "So sánh số lớn gấp mấy lần và số bé bằng một phần mấy.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp20; textbookpp57–62",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "fraction_of_quantity"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "Existing quantity-fraction family does not cover all comparison forms."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_dam_hm_length_table",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Đề-ca-mét, héc-tô-mét và bảng đơn vị độ dài.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp20; textbookpp44–46",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "dam",
+          "hm"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "length_m_to_cm"
+      ],
+      "current_2018_comparison": "Current primary registry uses common units without introducing dam/hm.",
+      "notes": [
+        "Related m→cm conversion does not cover historical dam/hm units."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_measure_length",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Thực hành đo độ dài.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp20; textbookpp47–48",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "Requires actual instrument/image or physical task verification."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_right_angle_midpoint",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Góc vuông, êke và trung điểm đoạn thẳng.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp20,24; textbookpp41–43,174–175",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "Image/drawing evaluation absent from numeric training."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_calendar_clock",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Tháng/năm và thực hành xem đồng hồ.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp22; textbookpp107–109,123–126",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "elapsed_minutes"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "Text elapsed-minutes examples do not verify calendar or clock images."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_unitary_word_problems",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Giải bài toán rút về đơn vị.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "proportional_direct"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_vietnam_money",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Tiền Việt Nam.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp23; textbookpp130–132",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "money_change"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_statistics",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Làm quen thống kê số liệu.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp23; textbookpp134–138",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "table_total"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g3_rectangle_square_perimeter_area",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 3,
+      "outcome_summary": "Chu vi và diện tích hình chữ nhật, hình vuông.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp24; textbookpp174–175",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "rectangle_perimeter",
+        "square_perimeter",
+        "rectangle_area",
+        "square_area"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_millions_place_value",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Hàng/lớp; triệu và lớp triệu.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp25; textbookpp13–17",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "tens_place_value"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_letter_expression",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Biểu thức có một chữ.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade4; week1; textbookpp6–7",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_number_of_letters": 1
+      },
+      "related_v3_numeric_families": [
+        "order_operations"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_mass_yen_ta_tan",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Yến, tạ, tấn và bảng đơn vị khối lượng.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp25; textbookpp23–24",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "yến",
+          "tạ",
+          "tấn"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "mass_kg_to_g"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_second_century",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Giây và thế kỉ.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp25; textbookpp25–26",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "giây",
+          "thế kỉ"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "hours_minutes"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_charts",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Biểu đồ.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp25; textbookpp28–30",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "table_total"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "The abbreviated adjustment title does not independently establish every chart type."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_add_associative",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Tính chất kết hợp phép cộng.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp26; textbookpp45–46",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "order_operations"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_sum_difference",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Tìm hai số biết tổng và hiệu.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp26; textbookpp47–48",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "sum_difference_large",
+        "sum_difference_small"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_two_digit_divisor",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Chia cho số có hai chữ số.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp26; textbookpp81–84",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "divisor_digits": 2
+      },
+      "related_v3_numeric_families": [
+        "share_exact",
+        "division_remainder"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_three_digit_divisor",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Chia cho số có ba chữ số; một số bài tập được giảm.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade4; week16; textbookpp86–89",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "divisor_digits": 3
+      },
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": "Current2018 written division at grade4 restricts divisor to at most2digits.",
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_draw_rectangle_square",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Thực hành vẽ hình chữ nhật và hình vuông.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade4; week9; textbookpp54–55",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "Actual drawing correctness not covered by text calculations."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_parallelogram_area",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Nhận biết, chu vi và diện tích bình hành.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp27; textbookpp102–105",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "parallelogram_area"
+      ],
+      "current_2018_comparison": "Current2018 grade4 recognizes parallelogram/rhombus but does not specify their area formulas.",
+      "notes": [
+        "Rhombus area is not verified by this source row; keep it separate/pending."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_fraction_common_denominator",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Quy đồng mẫu số phân số.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade4; week21; textbookp116",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "fraction_add",
+        "fraction_subtract"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_all_fraction_operations",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Toàn bộ phép tính phân số, gồm cộng/trừ mẫu khác nhau.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp12",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "fraction_add",
+        "fraction_subtract",
+        "fraction_multiply",
+        "fraction_divide"
+      ],
+      "current_2018_comparison": "Current2018 splits simpler add/sub into grade4 and general add/sub into grade5.",
+      "notes": [
+        "Original2006 legal annex is not recovered; this is explicit primary-author historical comparison."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_sum_difference_ratio",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Tỉ số và hai số biết tổng/hiệu với tỉ số.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp16",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "ratio_share"
+      ],
+      "current_2018_comparison": "Current2018 locates these problem types at grade5.",
+      "notes": [
+        "ratio_share trains sum-ratio only; difference-ratio is not in frozen numericV3."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_map_scale",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Tỉ lệ bản đồ và ứng dụng.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp16",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": "Current2018 introduces this at grade5.",
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g4_km2",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 4,
+      "outcome_summary": "Đơn vị diện tíchkm².",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp19",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "km²"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "area_unit_conversion"
+      ],
+      "current_2018_comparison": "Current2018 introduceskm² at grade5.",
+      "notes": [
+        "Frozen area-unit familym²→cm² does not coverkm²."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_mixed_numbers",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Hỗn số và ôn phân số.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp28,31; textbookpp13–14,148–150",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "fraction_add",
+        "fraction_subtract"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_decimal_read_compare",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Đọc/viết, so sánh và sắp xếp số thập phân.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp31; textbookpp150–151",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "decimal_add",
+        "decimal_subtract"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "Arithmetic families do not cover every notation/comparison question."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_decimal_operations",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Phép tính số thập phân; chương trình cũ có kỹ thuật phức tạp hơn.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp15",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "full_original_operand_bounds": null
+      },
+      "related_v3_numeric_families": [
+        "decimal_add",
+        "decimal_subtract",
+        "decimal_multiply",
+        "decimal_divide"
+      ],
+      "current_2018_comparison": "Current2018 reduces multiplication/division operand forms toa,b or0,ab.",
+      "notes": [
+        "Do not invent the old upper digit bounds from this comparison.2021–22 COVID guidance also restricts these operand forms."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_decimal_measurements",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Viết số đo dài, khối lượng, diện tích, thể tích dưới dạng thập phân.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp31; textbookpp152–155",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "length_m_to_cm",
+        "mass_kg_to_g",
+        "area_unit_conversion",
+        "volume_unit_conversion"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_percentage_three_types",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Ba dạng phần trăm: tỉ lệ, phần đã biết toàn bộ, toàn bộ đã biết phần.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp16",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "percent_ratio",
+        "percent_part",
+        "percent_whole"
+      ],
+      "current_2018_comparison": "Current2018 explicitly specifies ratio and part; inverse-whole is historical extension.",
+      "notes": [
+        "The inverse-whole lesson was removed in2021–22 COVID guidance at old textbookp78; do not call it a current mandatory outcome."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_calculator",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Máy tính bỏ túi, hỗ trợ bài phần trăm.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp16",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "percent_ratio",
+        "percent_part"
+      ],
+      "current_2018_comparison": null,
+      "notes": [
+        "Actual device-use skills are not tested by numeric text output."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_circle_area",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Diện tích hình tròn biết bán kính hoặc chu vi trong điều chỉnh2021.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp30; textbookpp99–101",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "circle_area",
+        "circle_perimeter"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_surface",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Diện tích xung quanh/toàn phần hộp chữ nhật và lập phương.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFpp30–31; textbookpp110–112",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "cube_surface"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_volume",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Thể tích hộp chữ nhật và lập phương; bài kết hợp hình học.",
+      "source_id": "old_adjustment3969_annex2",
+      "source_locator": "PDFp31; textbookpp120–124",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "box_volume"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_mm2_dam2_hm2",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "mm²,dam²,hm² và bảng đơn vị diện tích.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade5; week5; textbookpp25–27",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "mm²",
+          "dam²",
+          "hm²"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "area_unit_conversion"
+      ],
+      "current_2018_comparison": "Current2018 introducesmm² at grade4; does not explicitly introduce uncommondam²/hm².",
+      "notes": [
+        "Frozenm²→cm² examples do not cover these unit conversions."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_m3",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Mét khối.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade5; week23; textbookp117",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {
+        "observed_units": [
+          "m³"
+        ]
+      },
+      "related_v3_numeric_families": [
+        "volume_unit_conversion"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_uniform_motion",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Quan hệ vận tốc, thời gian và quãng đường.",
+      "source_id": "old_adjustment_school2015",
+      "source_locator": "Grade5; week28; textbookp145",
+      "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [
+        "distance_from_speed_time",
+        "speed_from_distance_time",
+        "time_from_distance_speed"
+      ],
+      "current_2018_comparison": null,
+      "notes": [],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_cylinder_sphere",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Giới thiệu hình trụ/hình cầu; hướng dẫn2015 chuyển đọc thêm.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp18",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": "Current2018 introduces cylinder/sphere earlier; cylinder net is new at grade5.",
+      "notes": [
+        "Historical presence is verified; mandatory-vs-reading-extension depends on guidance year."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    },
+    {
+      "node_id": "old_g5_altitude_circle_drawing",
+      "curriculum": "LEGACY_2006_OR_HISTORICAL_IMPLEMENTATION",
+      "grade": 5,
+      "outcome_summary": "Vẽ đường cao và đường tròn, cách vẽ tương tự chương trình2018.",
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "source_locator": "PDF/printedp18",
+      "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+      "grade_observed_in_source": true,
+      "original_2006_math_annex_verified": false,
+      "bounds": {},
+      "related_v3_numeric_families": [],
+      "current_2018_comparison": null,
+      "notes": [
+        "Drawing procedure is referenced, not independently assessed."
+      ],
+      "training_status": "NOT_ADDED_TO_FROZEN_NUMERIC_V3",
+      "teacher_authored_extension_allowed": true,
+      "full_outcome_training_coverage": false,
+      "human_verified": false
+    }
+  ],
+  "candidate_resolution": [
+    {
+      "candidate_id": "legacy_divisibility_2_3_5_9",
+      "status": "PENDING_PRIMARY_GRADE_SOURCE",
+      "supporting_nodes": []
+    },
+    {
+      "candidate_id": "legacy_division_three_digit_divisor",
+      "status": "HISTORICAL_GRADE4_VERIFIED_SCHOOL_ADJUSTMENT",
+      "supporting_nodes": [
+        "old_g4_three_digit_divisor"
+      ]
+    },
+    {
+      "candidate_id": "legacy_general_fraction_add_sub",
+      "status": "CT2006_GRADE4_VERIFIED_PRIMARY_AUTHOR_COMPARISON",
+      "supporting_nodes": [
+        "old_g4_all_fraction_operations"
+      ]
+    },
+    {
+      "candidate_id": "legacy_parallelogram_rhombus_area",
+      "status": "PARTIALLY_VERIFIED_PARALLELOGRAM_ONLY_RHOMBUS_PENDING",
+      "supporting_nodes": [
+        "old_g4_parallelogram_area"
+      ]
+    },
+    {
+      "candidate_id": "legacy_sum_ratio_difference_ratio",
+      "status": "CT2006_GRADE4_VERIFIED_PRIMARY_AUTHOR_COMPARISON",
+      "supporting_nodes": [
+        "old_g4_sum_difference_ratio"
+      ]
+    },
+    {
+      "candidate_id": "legacy_inverse_percentage",
+      "status": "CT2006_GRADE5_VERIFIED_PRIMARY_AUTHOR_COMPARISON",
+      "supporting_nodes": [
+        "old_g5_percentage_three_types"
+      ]
+    },
+    {
+      "candidate_id": "legacy_grade2_tables_3_4",
+      "status": "PENDING_EXACT_TABLE_SET_PRIMARY_SOURCE",
+      "supporting_nodes": [
+        "old_g2_multiplication_division"
+      ]
+    },
+    {
+      "candidate_id": "legacy_grade2_unit_fractions",
+      "status": "HISTORICAL_GRADE2_DENOMINATORS2_3_4_5_VERIFIED_SCHOOL_ADJUSTMENT",
+      "supporting_nodes": [
+        "old_g2_unit_fractions_2_3_4_5"
+      ]
+    },
+    {
+      "candidate_id": "legacy_shape_cylinder_sphere",
+      "status": "CT2006_GRADE5_VERIFIED_PRIMARY_AUTHOR_COMPARISON",
+      "supporting_nodes": [
+        "old_g5_cylinder_sphere"
+      ]
+    }
+  ],
+  "coverage": {
+    "verified_historical_topic_nodes": 59,
+    "grade_counts": {
+      "1": 5,
+      "2": 5,
+      "3": 19,
+      "4": 16,
+      "5": 14
+    },
+    "full_2006_grade_outcomes_covered": 0,
+    "training_status": "NOT_USED_TO_MUTATE_OR_RETRAIN_FROZEN_NUMERIC_V3",
+    "knowledge_transfer_or_neural_accuracy_claim": false,
+    "human_verified": false,
+    "pedagogy_verified": false
+  },
+  "verified_differences": [
+    {
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "pages": [
+        12
+      ],
+      "finding": "General fractionaddition/subtraction was introduced at grade4 in2006; current2018 distributes simpler grade4 and general grade5."
+    },
+    {
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "pages": [
+        16
+      ],
+      "finding": "Sum/difference with ratio and mapscale move from oldgrade4 to currentgrade5; inversepercentage existed oldgrade5 but is not an explicit current compulsory outcome."
+    },
+    {
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "pages": [
+        18,
+        19
+      ],
+      "finding": "Oldcylinder/sphere at grade5; oldkm² at grade4 andmm² at grade5. Current placement differs."
+    },
+    {
+      "source_id": "old_comparison_nxbgd_kntt5",
+      "pages": [
+        14
+      ],
+      "finding": "Decimalrounding is described as new versus2006; do not retroactively label it a legacyrequired node."
+    },
+    {
+      "source_id": "old_adjustment_school2015",
+      "locator": "Grade2weeks18–21,27;grade5week24",
+      "finding": "Historicaladjustment retains only unitfractionrecognition2–5 at grade2, movesmoneylesson towardgrade3, and changescylinder/sphere toreading-extension."
+    },
+    {
+      "source_id": "old_adjustment3969_annex2",
+      "pages": [
+        29,
+        32
+      ],
+      "finding": "COVID2021–22 removed inversepercentage lesson and reduced decimaloperandcomplexity; these temporaryadjustments must be distinguished from original2006 and current2018."
+    }
+  ],
+  "remaining_gaps": [
+    {
+      "priority": "HIGH",
+      "gap": "Full original2006Mathannex/officialChuẩnkiếnthứckĩnăng for allgrades1–5 remains unretrieved; observed adjustment tables list only selected lessons."
+    },
+    {
+      "priority": "HIGH",
+      "gap": "Grade2exact multiplication/divisiontables3,4 and grade4divisibility2,3,5,9, rhombusarea notverified by readprimary sources."
+    },
+    {
+      "priority": "HIGH",
+      "gap": "Originaloperandbounds/carrylimits and every measurement, geometry, statistics and wordproblem outcome cannot be reconstructed from partial comparisons."
+    },
+    {
+      "priority": "HIGH",
+      "gap": "No claim alloldcurricula before2006 arecovered; replacementdecision43/2001 isidentified but itsfullMathcontents werenotread."
+    },
+    {
+      "priority": "MEDIUM",
+      "gap": "Publicmirrorauthenticity/signature and publisherdate notcertified; allcontentverification scopes above areexplicit."
+    }
+  ],
+  "retrieval_attempts_not_used_as_evidence": [
+    {
+      "url": "https://thptlethanhtong.hcm.edu.vn/van-ban/quyet-dinh-16-nam-2006-ve-chuong-trinh-giao-duc-pho-thong/vbctmb/85924/439085",
+      "result": "School decision PDF11pages found; not the complete primaryMath annex."
+    },
+    {
+      "url": "https://thuvienphapluat.vn/van-ban/giao-duc/quyet-dinh-16-2006-qd-bgddt-chuong-trinh-giao-duc-pho-thong-55984.aspx",
+      "result": "Decision webpage found; original multipart annex requires membership. No access bypass attempted."
+    },
+    {
+      "url": "https://vnies.edu.vn/upload/Boiduong/LeHongChi1.pdf",
+      "result": "Indexed thesis appendix has legacygrade4/5 content, but actualPDFHTTP403; NOT used to verify nodes."
+    },
+    {
+      "url": "https://vnies.edu.vn/upload/Boiduong/Toanvan_TranNgocBich.pdf",
+      "result": "HTTP403; no actualpages read, NOT used."
+    },
+    {
+      "url": "https://olm.vn/HocLieu/Chung/Toan_Tieuhoc_Chuongtrinh_ChuanKienthuc_Kynang.pdf",
+      "result": "Old linked filenameHTTP404; NOT used."
+    },
+    {
+      "url": "https://f2.hcm.edu.vn/%2FData%2Fhcmedu%5Cthletrongtan%5CAttachments%2FTai_lieu%2F2016-2017%2FM%C3%B4n%20To%C3%A1n.pdf",
+      "result": "Indexed2016trainingfileHTTP404 including normalizedpaths; search snippet is not verification."
+    },
+    {
+      "url": "https://fileth.hcm.edu.vn/data/doc/2024/thnguyenvanba/2024_7/17/tlbdgv-toan-5-fullctst_177202418.pdf",
+      "result": "HTTP404 in actualfetch; not used. Found separateKNTTprimaryauthorPDF instead."
+    },
+    {
+      "url": "https://vjes.vnies.edu.vn/sites/default/files/khgdvn_-_tap_19_-_so_12_-35-42.pdf",
+      "result": "TLSself-signed certificate error; securityverification notdisabled; NOT used."
+    },
+    {
+      "url": "https://journal.hcmue.edu.vn/index.php/hcmuejos/article/download/3456/3108/9166",
+      "result": "TLSexpired certificate; securityverification notdisabled; NOT used."
+    }
+  ],
+  "next_data_version_policy": [
+    "Use new datasetversion for any newlyverifiedlegacyfamilies; do not relabel frozenV3 asfully2006verified.",
+    "Keep current2018required outcomes separate fromhistorical or enrichment topics.",
+    "Do not count sourcepresence as actualtrainingcoverage, studentpedagogyvalidation or NNmastery.",
+    "Retain numericexactanswerchecks and independent evaluation; image/drawing/physical tasks require their own modality assessments."
+  ],
+  "knowledge_cards_peer_review": {
+    "path": "knowledge_cards.jsonl",
+    "sha256": "d4be0db009a471986150c4d9e9b3e1d21be5ff6fd93a8c716c99c6871355bfdf",
+    "concept_example_hint_cards_read": 106,
+    "independently_exact_checked_expressions": 106,
+    "exact_arithmetic_failures": 0,
+    "fixed_issue": "Grade2tablecard20:4=5 was replaced with20:5=4 to respect currenttable2/5scope.",
+    "status": "NO_REMAINING_CONCRETE_MATH_ERROR_FOUND_IN_READ_CARDS",
+    "human_verified": false,
+    "pedagogy_verified": false,
+    "coverage_complete": false,
+    "training_status": "NOT_USED_IN_NUMERIC_V3_TRAINING"
+  },
+  "frozen_inputs_before": {
+    "curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "generated\\train.jsonl": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "generated\\val.jsonl": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "generated\\challenge.jsonl": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "frozen_inputs_unchanged": true,
+  "frozen_inputs_after": {
+    "curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "generated\\train.jsonl": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "generated\\val.jsonl": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "generated\\challenge.jsonl": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  }
+}

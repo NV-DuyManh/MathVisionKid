@@ -1,0 +1,53 @@
+# Fine-tuning Configuration for MathVision Kids CRNN Line OCR
+
+model:
+  architecture: "CRNN"
+  base_checkpoint: "artifacts/checkpoints/adapted_init.pth"
+  vocab_path: "configs/unified_vocab.json"
+  input_height: 64
+  input_width: 1024
+  dropout: 0.2
+
+training:
+  device: "auto"              # auto | cuda | cpu
+  use_amp: true               # Automatic Mixed Precision
+  batch_size: 8
+  gradient_accumulation_steps: 2
+  max_epochs: 30
+  max_steps: 2000
+  val_check_interval: 50
+  save_interval: 100
+
+optimizer:
+  type: "AdamW"
+  weight_decay: 0.0001
+  stage1_freeze_backbone: true
+  stage1_steps: 200            # Freeze CNN backbone for first 200 steps
+  backbone_lr: 0.00001        # 1e-5 for CNN layers once unfrozen
+  head_lr: 0.0001             # 1e-4 for BiLSTM and Linear classifier
+  scheduler: "CosineAnnealingLR"
+  min_lr: 0.000001
+
+regularization:
+  gradient_clip_norm: 5.0
+
+early_stopping:
+  enabled: true
+  patience: 8
+  min_steps_before_early_stop: 150   # Grace period to prevent premature stopping
+
+monitoring:
+  blank_collapse_threshold: 0.15     # If empty_rate > 0.15, trigger CTC_BLANK_COLLAPSE_WARNING
+
+augmentation:
+  enabled: true
+  random_rotation_degrees: 3.0
+  brightness_jitter: 0.1
+  contrast_jitter: 0.1
+  gaussian_blur_prob: 0.2
+
+output:
+  checkpoints_dir: "artifacts/checkpoints"
+  logs_dir: "artifacts/logs"
+  reports_dir: "artifacts/reports"
+  drive_backup_root: "/content/drive/MyDrive/MathVisionKid_AI/checkpoints"

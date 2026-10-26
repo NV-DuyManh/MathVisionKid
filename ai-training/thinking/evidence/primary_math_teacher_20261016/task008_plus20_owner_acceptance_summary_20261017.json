@@ -1,0 +1,76 @@
+{
+  "accepted_utc": "2026-10-17T14:07:07.223281+00:00",
+  "owner_instruction_exact": "hãy chấp nhận toàn bộ đi",
+  "report_rows": 87,
+  "hash_matched_rows": 87,
+  "newly_accepted_for_ai_research": 87,
+  "task008_members": 67,
+  "other_report_members": 20,
+  "outside_report_not_auto_accepted": 18,
+  "report_raw_sha256": "66efe6b99c9fc3aa1592f877a42d4c2aeb4bd849c19fc19208ea55145b39716e",
+  "official_review_path": "thinking\\data\\primary_math_teacher_20261016\\reviews\\task008_plus20_owner_accepted_user_AI_report_87_20261017.jsonl",
+  "official_review_sha256": "b4abb9fc69323b5c4bece1b955070468c72fc8cf5ea2e11d60cfaf1479ce55e7",
+  "state_counts": {
+    "authored_cases": 277,
+    "accepted_cases": 259,
+    "chat_train_rows": 1036,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 259,
+      "PENDING_AI_CONTENT_REVIEW": 18
+    },
+    "core_nodes_complete": 51,
+    "remaining_core_cases": 329,
+    "grades_accepted": {
+      "1": 70,
+      "2": 105,
+      "3": 71,
+      "4": 5,
+      "5": 8
+    }
+  },
+  "accepted_core_cases": 166,
+  "pending_core_slots": 9,
+  "core_slots_not_authored": 320,
+  "required_supplementary_remaining": 191,
+  "issue_frequencies": {
+    "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý.": 55,
+    "Một số hint nhắc lại chữ số của đề; không thể đưa thẳng vào runtime /guide nếu quy định cấm chữ số.": 4,
+    "Hai bước trong lời giải lặp số bút vàng; nên gộp để diễn đạt gọn.": 1,
+    "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.": 43,
+    "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.": 29
+  },
+  "pre_sft_polish_case_count": 47,
+  "all_sources_unchanged": true,
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_and_packet_unchanged": true,
+  "all_previous_accepted_cases_preserved": true,
+  "all87reported_cases_in_export": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "independent_external_reviewer_verified": false,
+  "new_root_independent_semantic_certification": false,
+  "training_started": false,
+  "production_approved": false,
+  "sft_release_approved": false,
+  "chat_sha256": "3c38f9ac5f7c24b0e99761290f3ddcb89118e017169618d56de9d17797a5aafe",
+  "limits": [
+    "Seven semantic/pedagogic bools are imported reviewer claims accepted by the owner, not newly independently established by Codex.",
+    "Reviewer identity/runtime and Google Drive provenance are declarations in the pasted report and not authenticated.",
+    "Readability/step redundancy and digit-bearing hints remain documented; neutral teacher data is not automatically live /guide or PlanDraft.",
+    "Visual/physical skills, teacher certification, full curriculum coverage and model accuracy are not established."
+  ],
+  "next_nodes": [
+    "current_g3_convert_measurements",
+    "current_g3_perimeter",
+    "current_g3_area_rectangle_square"
+  ]
+}

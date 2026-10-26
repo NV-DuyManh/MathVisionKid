@@ -1,0 +1,54 @@
+---
+task_categories:
+- text-generation
+pretty_name: Vietnamese School Math Dataset
+size_categories:
+- 1K<n<10K
+---
+
+# Vietnamese School Math Dataset
+
+`vi_math_school_full` is a Vietnamese-language dataset containing 8,656
+school-level mathematics problems and related explanations.
+
+## Main Uses
+
+* Vietnamese math question answering
+* Mathematical reasoning and problem solving
+* Instruction tuning / supervised fine-tuning
+* Educational AI applications
+* Evaluation of Vietnamese language models on school mathematics
+
+## Language
+
+Vietnamese
+
+## Domain
+
+School mathematics, educational content, and mathematical reasoning.
+
+## Data layout
+
+The recommended upload is one JSON object per line in `data/train.jsonl`.
+Each line is one sample with these columns:
+
+* `id`: original sample identifier. IDs are not globally unique because two
+  source groups reuse numeric IDs.
+* `question`: question text.
+* `choices`: list of answer choices; the original data contains 2–5 choices
+  depending on the sample (most samples contain 4).
+* `explanation`: solution/explanation text.
+* `answer`: answer text; one original sample has a null answer.
+
+The source data was originally stored as six nested arrays. It was flattened
+without deduplication or content rewriting so that every object is one row.
+
+## Notes
+
+This dataset was collected and prepared primarily for experimentation with
+Vietnamese NLP and language models. Data quality and formatting may vary across
+samples, so additional cleaning or filtering may be recommended depending on
+the intended use.
+
+Users should independently verify generated mathematical answers when using
+models trained on this dataset in educational or high-stakes applications.

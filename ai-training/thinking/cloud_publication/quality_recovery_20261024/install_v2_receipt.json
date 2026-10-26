@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "UqbbZXGgUH35"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"installer_started\": true, \"wall_budget_hours\": 3, \"optimizer_updates\": 0}\n"
+        ]
+      }
+    ]
+  }
+}

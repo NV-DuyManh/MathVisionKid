@@ -1,0 +1,157 @@
+{
+  "authored_utc": "2026-10-18T03:43:23.116002+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:42:06.884Z",
+  "batch_sha256": "84467804119e75818da94770a10d8f97a7c535a829e253f4ed3dd4fd2633f667",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_fraction_compare_0057_order_four_same_denominator_with_one",
+      "row_sha256": "fe28672f04529ee50e806f9696d0b9fbf25863542b7f802822f7a81803e73f03",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "16/15",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_compare_0057_common_multiple_denominator_keep_value",
+      "row_sha256": "bcc5490379f89c5c287e7b36098fedf6a950cd2fb2c6852dfdd15f24b4dcceef",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(5*3)/(6*3)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_compare_0057_compare_three_measured_volumes",
+      "row_sha256": "73a3389d1bb2364809816cbd15afe760a46cd8d0e086ad3b3415dd4661ff5d8e",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "3/5",
+          "4/5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_compare_0057_misconception_compare_numerators_unlike_units",
+      "row_sha256": "3c3a11f349ed1fbcc0732e3bf30fb59de51e6ebb283e03c9fd2724a7419e1c8b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(2*4)/(3*4)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "same15_order_indices": [
+      1,
+      3,
+      0,
+      2
+    ],
+    "parts18": [
+      15,
+      11
+    ],
+    "parts25": [
+      15,
+      19,
+      20
+    ],
+    "parts12": [
+      8,
+      5
+    ]
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "bounds": {
+    "group_items_max4": true,
+    "all_denominators_same_or_one_divides_other": true,
+    "denominator_sets": [
+      [
+        15
+      ],
+      [
+        6,
+        18
+      ],
+      [
+        5,
+        25
+      ],
+      [
+        3,
+        12
+      ]
+    ]
+  },
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous331_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_review_guidance_repair": "Core01 initial no longer implies a fraction exceeds1; leaves that classification to student using given numbers."
+}

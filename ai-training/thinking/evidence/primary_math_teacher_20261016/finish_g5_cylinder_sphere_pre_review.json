@@ -1,0 +1,95 @@
+{
+  "batch": "finish_g5_cylinder_sphere",
+  "utc": "2026-10-18T14:14:47.713794+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions",
+      "row_sha256": "75a387608d1ada71fefe7a919698af777a354b65a9eb1ce0968b475661fe1c53",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape",
+      "row_sha256": "db55f659b5da5f3ba1da47c7af06936922240fdcdbbe6a6f9a5b7651948ef37f",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records",
+      "row_sha256": "7f520a9befb5b438b435717a812a6f53b84455d8c6383e007e3a3bd8a746038a",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_sphere_flat_face_claim",
+      "row_sha256": "133ad8bdc7ad198ad3512d962116231f02429f0e97f1aa1e14a62b4cb4a6ac55",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_unseen_round_object",
+      "row_sha256": "0fe52d6fba3cacc6a5fdca8d7951b77a4bd1008d41e5ee0ff02fabee872f9295",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "pre_QA_revision_evidence": "finish_g5_cylinder_sphere_pre_QA_semantic_revision.json",
+  "official_review_sha256": "2b3723111475f47210c686ebcf5122d2cc5fc228a36f71ad181a6f930b671666",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

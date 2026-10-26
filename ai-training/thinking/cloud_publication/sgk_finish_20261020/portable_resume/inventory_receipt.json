@@ -1,0 +1,22 @@
+{
+  "artifacts": 31,
+  "members_catalogued": 291,
+  "member_roles": {
+    "candidate_chat": 25,
+    "candidate_source": 18,
+    "audit_history_or_metadata": 241,
+    "evaluation_only": 2,
+    "diagnostic_duplicate_excluded": 3,
+    "metadata_only": 2
+  },
+  "finite_tasks": 271,
+  "remote_discoveries_pending": 0,
+  "base_catalog_metadata_requests": 22,
+  "latest110_included": true,
+  "completed_tasks": 32,
+  "remaining_tasks": 239,
+  "candidate_rows_reconciled": 6501044,
+  "full_archive_token_split_audit_complete": false,
+  "no_new_drive_files_or_folder_created": true,
+  "training_started": false
+}

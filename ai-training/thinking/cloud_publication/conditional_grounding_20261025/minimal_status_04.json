@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:42:16.611773+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 100, \"rows_done\": 1600, \"supervised_tokens\": 338187, \"last_loss\": 3.134763613343239, \"last_gradient_norm\": 2.314725875854492}, \"publication/publication_status.json\": {\"state\": \"RUNNING\", \"artifact_count\": 41, \"checkpoint_count\": 2}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30, \"training/eval_step_000100/adapter_generations.partial.jsonl\": 19}, \"gpu\": \"8693 MiB, 25 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:42:16.611773+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 100, \"rows_done\": 1600, \"supervised_tokens\": 338187, \"last_loss\": 3.134763613343239, \"last_gradient_norm\": 2.314725875854492}, \"publication/publication_status.json\": {\"state\": \"RUNNING\", \"artifact_count\": 41, \"checkpoint_count\": 2}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30, \"training/eval_step_000100/adapter_generations.partial.jsonl\": 19}, \"gpu\": \"8693 MiB, 25 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-25T03:42:16.611773+00:00\\\", \\\"worker_exit\\\": null, \\\"training/progress.json\\\": {\\\"state\\\": \\\"TRAINING\\\", \\\"step\\\": 100, \\\"rows_done\\\": 1600, \\\"supervised_tokens\\\": 338187, \\\"last_loss\\\": 3.134763613343239, \\\"last_gradient_norm\\\": 2.314725875854492}, \\\"publication/publication_status.json\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"artifact_count\\\": 41, \\\"checkpoint_count\\\": 2}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": 30, \\\"training/eval_step_000100/adapter_generations.partial.jsonl\\\": 19}, \\\"gpu\\\": \\\"8693 MiB, 25 %\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

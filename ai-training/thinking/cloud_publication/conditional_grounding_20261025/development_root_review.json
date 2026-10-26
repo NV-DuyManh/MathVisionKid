@@ -1,0 +1,30 @@
+{
+  "schema": "MathVisionKid.development_root_author_review.v1",
+  "fixture_count": 30,
+  "agent_original_sha256": "df881b7ae40e37209d78b81e662c98afd89fbdca43ac31cf85759bc7d805ba0f",
+  "reviewed_raw_sha256": "450a642e328e232dcfaf7c7d289d45c75203ef5e7ee5c5181e305af159fadd85",
+  "all_30_actual_problems_expected_answers_and_rubrics_read": true,
+  "root_grade_and_semantic_edits": {
+    "dev25_g1_hint_no_answer_02": "Clarify initial/final time; not an already-included fallen subset.",
+    "dev25_g2_answer_01": "Use familiar grade2 five-times table.",
+    "dev25_g2_student_error_01": "Distinguish true arithmetic from wrong relation; grade2 two-times table.",
+    "dev25_g3_answer_01": "Add division-with-remainder and reconstruct/check constraints.",
+    "dev25_g4_answer_01": "Replace grade5 decimal topic by grade4 fraction addition.",
+    "dev25_g4_hint_no_answer_01": "Grade4 fractions; no final numerical answer in hint.",
+    "dev25_g4_missing_or_contradictory_info_01": "Replace grade5 velocity with grade4 area/contradiction; do not pick value arbitrarily.",
+    "dev25_g4_student_error_01": "Grade4 fraction subtraction and correct supplied work acceptance."
+  },
+  "exact_checks": {
+    "g2_product": true,
+    "g2_feedback": true,
+    "g3_division_reconstruction": true,
+    "g4_fraction_add": true,
+    "g4_hint_oracle": true,
+    "g4_feedback": true
+  },
+  "review_nature": "Root LLM review plus exact arithmetic; no human/external credential claim.",
+  "model_outputs_seen_before_authoring": false,
+  "model_inference_on_this_set_performed": false,
+  "use": "development evaluation only; never training targets",
+  "independence_scope": "Needs cloud exact/number-masked screening versus selected actual16k and prior used development; not proven independent of full6.5M corpus."
+}

@@ -1,0 +1,151 @@
+{
+  "batch_sha256": "e3015f84c510725caa4d108bd26dcba45ebad9fb7a778902e1d4547c301225e4",
+  "authored_cases": 6,
+  "core_cases": 5,
+  "misconception_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_subtract_one_borrow_units",
+      "row_sha256": "38aca25ce1fa9a6bcfed8bdb40d009efe46b6272a84c348bfba469df31e97a46",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "453-128",
+          "(453-128)+128",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_missing_addend_one_borrow_tens",
+      "row_sha256": "34ebe317d4233c17e1327c487f7ab59900b94c76bb20dba1bde041a86fc84280",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "427-156",
+          "156+(427-156)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_mental_make_ten",
+      "row_sha256": "a5df6cd83ea7da2b11a059274f63dd2ef548a5e64c9cf50efd78d65ff9da8d30",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10-9",
+          "6-(10-9)",
+          "9+(10-9)",
+          "(9+(10-9))+(6-(10-9))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_mental_subtract_via_ten",
+      "row_sha256": "c4e76125981e9a266035ca424cbcb1053e87d71b4ecaf87f3f62c4ce66e9d77a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "15-10",
+          "15-(15-10)",
+          "7-(15-10)",
+          "(15-(15-10))-(7-(15-10))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_mental_round_hundreds_transfer",
+      "row_sha256": "166644cefe8ecbc25cc35532daa58126a10fb5be18a72fe8a7928e523580925c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3+4",
+          "100+100+100+100+100+100+100",
+          "(100+100+100+100+100+100+100)-400"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_regroup_mental_0011_misconception_added_bridge_twice",
+      "row_sha256": "213b0f2061cdbfd253a7713f34c23f666fcf79d1ec2234246ef56727c88c0a25",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "10-9",
+          "5-(10-9)",
+          "10+(5-(10-9))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "independent_semantic_review_completed": false,
+  "self_content_check": "Author checked whole-object roles, units, every regrouping trace and all hints; independent content review required before export.",
+  "oracles": {
+    "regroup_events": {
+      "453-128": 1,
+      "427-156": 1,
+      "325+128": 1,
+      "156+271": 1
+    },
+    "subtraction_results": [
+      325,
+      271
+    ],
+    "mental_results": [
+      15,
+      8,
+      700,
+      14
+    ]
+  },
+  "domain_note": "Within20 cases remain within20; round-hundreds case is the explicit round-tens/hundreds extension in this node outcome, not a claim that700 is within20.",
+  "protected_candidates_not_authored": [
+    "14-8",
+    "8+6"
+  ],
+  "limits": "Exclusion checks are bounded; decimal digit oracles do not prove teaching quality. Modulo/floor division here only implement metadata verification, not the live calculator.",
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

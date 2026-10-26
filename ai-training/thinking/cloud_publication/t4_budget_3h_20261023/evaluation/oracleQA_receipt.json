@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "artifact": "thinking\\cloud_publication\\t4_budget_3h_20261023\\evaluation\\new_eval_candidates.jsonl",
+  "candidate_count": 28,
+  "grade_counts": {
+    "1": 6,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 7
+  },
+  "mode_counts": {
+    "answer": 13,
+    "hint_no_answer": 5,
+    "student_error": 4,
+    "missing_or_contradictory_info": 6
+  },
+  "language": "Vietnamese prompts, reference units and answers, oracle expected text, and rubrics",
+  "arithmetic_validation": "Every determinate reference answer checked against independent exact expected values with Python Fraction or Decimal; integer division and underdetermined cases checked structurally.",
+  "content_scope": "Synthetic contexts authored for evaluation. No corpus or protected evaluation, validation, or test content was read or used.",
+  "limitations": "Candidates only. Frozen-index deduplication and holdout-by-hash remain for root. No source-origination certification. Not training data."
+}

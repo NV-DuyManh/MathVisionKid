@@ -1,0 +1,40 @@
+{
+  "artifacts": [
+    {
+      "key": "progress",
+      "file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\MathVisionKid_PROGRESS_CLOUD_INDEX.zip",
+      "name": "MathVisionKid_PROGRESS_CLOUD_INDEX.zip",
+      "mime_type": "application/zip",
+      "sha256": "b4e663716b92101e82684566b34fc5330a8f2f0d1c11e54847b6e4e1049d2187",
+      "bytes": 5638748
+    },
+    {
+      "key": "chat",
+      "file_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\MathVisionKid_CHAT_PARTS.json",
+      "name": "MathVisionKid_CHAT_PARTS.json",
+      "mime_type": "application/json",
+      "sha256": "cb4cb7c7c86c00a9ef7bc8dc3a838f2c6db038531bfe9cb6253d8e830d79f3bc",
+      "bytes": 3581
+    },
+    {
+      "key": "state",
+      "file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\exhaustive_cloud_reference.json",
+      "name": "MathVisionKid_CLOUD_STATE.json",
+      "mime_type": "application/json",
+      "sha256": "10c18124326ce8aae1f9b5db92c022b8d8bf652417ff72ba4d5e189225eae5bd",
+      "bytes": 9618
+    },
+    {
+      "key": "context",
+      "file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\MATH_TRAINING_CONTEXT.md",
+      "name": "MATH_TRAINING_CONTEXT.md",
+      "mime_type": "text/markdown",
+      "sha256": "f65cb8eb3a444ab321670abfac53926ee502af5dbc3b154056517571b3851eaf",
+      "bytes": 718236
+    }
+  ]
+}

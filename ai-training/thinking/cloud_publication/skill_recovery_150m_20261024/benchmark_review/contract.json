@@ -1,0 +1,33 @@
+{
+  "decoding": [
+    {
+      "name": "official_nonthinking",
+      "temperature": 0.7,
+      "thinking": false,
+      "top_k": 20,
+      "top_p": 0.8
+    },
+    {
+      "name": "official_thinking",
+      "temperature": 0.6,
+      "thinking": true,
+      "top_k": 20,
+      "top_p": 0.95
+    }
+  ],
+  "fixture_ids": [
+    "qrec20261024_v1_g5_percent_reversal",
+    "qrec20261024_v1_g3_bracket_hint",
+    "qrec20261024_v1_g3_zero_dividend_error",
+    "qrec20261024_v1_g3_missing_measurement_image"
+  ],
+  "max_new_tokens": 1536,
+  "model": "Qwen/Qwen3-1.7B",
+  "paid_resource": false,
+  "renderer_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "same_prompt_text_except_enable_thinking": true,
+  "seed": 20261024,
+  "source": "Previously used dev30; calibration only, not independent heldout.",
+  "system": "Bạn là gia sư Toán tiểu học. Trả lời bằng tiếng Việt theo yêu cầu. Chỉ đưa lời giải đầy đủ khi được yêu cầu; gợi ý không điền đáp số. Chỉ nhận xét lời làm thực sự được cung cấp."
+}

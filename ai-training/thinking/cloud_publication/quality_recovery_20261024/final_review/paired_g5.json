@@ -1,0 +1,238 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g5_trapezoid_cutout",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một miếng bìa hình thang có hai đáy 7,5 cm và 4,5 cm, chiều cao 3,2 cm. Người ta cắt bỏ một tam giác nằm trọn trong miếng bìa, đáy 2,5 cm và chiều cao tương ứng 2,4 cm. Diện tích bìa còn lại là bao nhiêu?",
+      "exact_reference_answer": {
+        "value": "16.2",
+        "unit": "cm²"
+      },
+      "checker": {
+        "type": "exact_decimal",
+        "value": "16.2",
+        "unit": "cm²"
+      },
+      "oracle": {
+        "calculation": "Diện tích hình thang = (7,5 + 4,5) × 3,2 : 2 = 19,2 cm². Diện tích tam giác bỏ đi = 2,5 × 2,4 : 2 = 3 cm². Còn 19,2 − 3 = 16,2 cm².",
+        "expected": "16,2 cm²."
+      },
+      "rubric": [
+        "Dùng đúng hai công thức diện tích và chiều cao tương ứng.",
+        "Trừ phần tam giác bị cắt khỏi toàn bộ hình thang.",
+        "Giữ đúng đơn vị cm² và không lấy tổng diện tích hai hình."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_trapezoid_cutout",
+      "generated_tokens": 471,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán, ta thực hiện các bước sau:\n\n### **Bước 1: Tính diện tích miếng bìa hình thang ban đầu**\n\nHình thang có:\n- Hai đáy: $ a = 7,5 \\, \\text{cm} $, $ b = 4,5 \\, \\text{cm} $\n- Chiều cao: $ h = 3,2 \\, \\text{cm} $\n\nDiện tích hình thang được tính theo công thức:\n$$\nS_{\\text{thang}} = \\frac{(a + b) \\cdot h}{2}\n$$\n\nThay số vào công thức:\n$$\nS_{\\text{thang}} = \\frac{(7,5 + 4,5) \\cdot 3,2}{2} = \\frac{12 \\cdot 3,2}{2} = \\frac{38,4}{2} = 19,2 \\, \\text{cm}^2\n$$\n\n---\n\n### **Bước 2: Tính diện tích tam giác bị cắt bỏ**\n\nTam giác có:\n- Đáy: $ a = 2,5 \\, \\text{cm} $\n- Chiều cao: $ h = 2,4 \\, \\text{cm} $\n\nDiện tích tam giác được tính theo công thức:\n$$\nS_{\\text{tam giác}} = \\frac{a \\cdot h}{2} = \\frac{2,5 \\cdot 2,4}{2} = \\frac{6}{2} = 3 \\, \\text{cm}^2\n$$\n\n---\n\n### **Bước 3: Tính diện tích bìa còn lại**\n\nDiện tích bìa còn lại là:\n$$\nS_{\\text{còn lại}} = S_{\\text{thang}} - S_{\\text{tam giác}} = 19,2 - 3 = 16,2 \\, \\text{cm}^2\n$$\n\n---\n\n### **Kết quả cuối cùng:**\nDiện tích bìa còn lại là $\\boxed{16,2}$ cm².",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "bf18938115b43f09c51636e595ea290926c6a79473a8720a916b01345e5e9f45",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_trapezoid_cutout",
+      "generated_tokens": 471,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán, ta thực hiện các bước sau:\n\n### **Bước 1: Tính diện tích miếng bìa hình thang ban đầu**\n\nHình thang có:\n- Hai đáy: $ a = 7,5 \\, \\text{cm} $, $ b = 4,5 \\, \\text{cm} $\n- Chiều cao: $ h = 3,2 \\, \\text{cm} $\n\nDiện tích hình thang được tính theo công thức:\n$$\nS_{\\text{thang}} = \\frac{(a + b) \\cdot h}{2}\n$$\n\nThay số vào công thức:\n$$\nS_{\\text{thang}} = \\frac{(7,5 + 4,5) \\cdot 3,2}{2} = \\frac{12 \\cdot 3,2}{2} = \\frac{38,4}{2} = 19,2 \\, \\text{cm}^2\n$$\n\n---\n\n### **Bước 2: Tính diện tích tam giác bị cắt bỏ**\n\nTam giác có:\n- Đáy: $ a = 2,5 \\, \\text{cm} $\n- Chiều cao: $ h = 2,4 \\, \\text{cm} $\n\nDiện tích tam giác được tính theo công thức:\n$$\nS_{\\text{tam giác}} = \\frac{a \\cdot h}{2} = \\frac{2,5 \\cdot 2,4}{2} = \\frac{6}{2} = 3 \\, \\text{cm}^2\n$$\n\n---\n\n### **Bước 3: Tính diện tích bìa còn lại**\n\nDiện tích bìa còn lại là:\n$$\nS_{\\text{còn lại}} = S_{\\text{thang}} - S_{\\text{tam giác}} = 19,2 - 3 = 16,2 \\, \\text{cm}^2\n$$\n\n---\n\n### **Kết quả cuối cùng:**\nDiện tích bìa còn lại là $\\boxed{16,2}$ cm².",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "bf18938115b43f09c51636e595ea290926c6a79473a8720a916b01345e5e9f45",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g5_decimal_hours_hms",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một đoạn ghi âm dài 2,375 giờ. Viết thời lượng này thành giờ, phút và giây, với phần phút và phần giây đều nhỏ hơn 60.",
+      "exact_reference_answer": {
+        "hours": "2",
+        "minutes": "22",
+        "seconds": "30"
+      },
+      "checker": {
+        "type": "duration_hms",
+        "hours": 2,
+        "minutes": 22,
+        "seconds": 30
+      },
+      "oracle": {
+        "calculation": "2,375 giờ = 2 giờ + 0,375 giờ; 0,375 × 60 = 22,5 phút; 0,5 phút × 60 = 30 giây. Kiểm 2 × 3600 + 22 × 60 + 30 = 8550 giây = 2,375 × 3600.",
+        "expected": "2 giờ 22 phút 30 giây."
+      },
+      "rubric": [
+        "Đổi phần lẻ của giờ bằng hệ số 60, không đọc 375 là số phút.",
+        "Tiếp tục đổi nửa phút thành giây.",
+        "Nêu đủ ba phần giờ, phút, giây đúng dạng đã yêu cầu."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_decimal_hours_hms",
+      "generated_tokens": 237,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để chuyển đổi thời gian từ giờ sang giờ, phút và giây, ta thực hiện các bước sau:\n\n1. **Xác định phần giờ:**  \n   Thời gian ghi âm là 2,375 giờ.  \n   → Phần giờ là: **2 giờ**\n\n2. **Xác định phần còn lại sau khi lấy đi 2 giờ:**  \n   2,375 giờ - 2 giờ = **0,375 giờ**\n\n3. **Chuyển đổi phần còn lại (0,375 giờ) thành phút và giây:**  \n   - **Phần phút:**  \n     0,375 giờ × 60 phút/giờ = **22,5 phút**  \n   - **Phần giây:**  \n     0,5 phút × 60 giây/phút = **30 giây**\n\n4. **Kết quả cuối cùng:**  \n   - 2 giờ  \n   - 22 phút  \n   - 30 giây\n\n**Đáp án:** 2 giờ 22 phút 30 giây.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d81335f792975e5655438ee2c1947d30ce8ad68887b27bd4572a0385e7f9a820",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_decimal_hours_hms",
+      "generated_tokens": 237,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để chuyển đổi thời gian từ giờ sang giờ, phút và giây, ta thực hiện các bước sau:\n\n1. **Xác định phần giờ:**  \n   Thời gian ghi âm là 2,375 giờ.  \n   → Phần giờ là: **2 giờ**\n\n2. **Xác định phần còn lại sau khi lấy đi 2 giờ:**  \n   2,375 giờ - 2 giờ = **0,375 giờ**\n\n3. **Chuyển đổi phần còn lại (0,375 giờ) thành phút và giây:**  \n   - **Phần phút:**  \n     0,375 giờ × 60 phút/giờ = **22,5 phút**  \n   - **Phần giây:**  \n     0,5 phút × 60 giây/phút = **30 giây**\n\n4. **Kết quả cuối cùng:**  \n   - 2 giờ  \n   - 22 phút  \n   - 30 giây\n\n**Đáp án:** 2 giờ 22 phút 30 giây.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d81335f792975e5655438ee2c1947d30ce8ad68887b27bd4572a0385e7f9a820",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g5_cube_surface_to_volume_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Một khối lập phương có tổng diện tích sáu mặt là 54 cm². Hãy gợi ý cách tìm thể tích khối đó, không cho số thể tích cuối cùng.",
+      "exact_reference_answer": {
+        "value": "27",
+        "unit": "cm³",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": 27,
+        "unit": "cm³",
+        "required_steps": [
+          "surface_area_divided_by_six",
+          "find_square_side_from_face_area",
+          "cube_side"
+        ]
+      },
+      "oracle": {
+        "calculation": "Diện tích một mặt = 54 : 6 = 9 cm²; cạnh 3 cm vì 3 × 3 = 9; thể tích 3 × 3 × 3 = 27 cm³. Không tiết lộ thể tích trong gợi ý.",
+        "expected": "Gợi ý tìm diện tích một mặt, suy ra cạnh vuông, rồi lấy cạnh nhân với chính nó ba lần."
+      },
+      "rubric": [
+        "Phân biệt tổng diện tích sáu mặt với diện tích của một mặt.",
+        "Nêu cần tìm cạnh từ diện tích mặt trước khi tính thể tích, không lấy 54 chia 3.",
+        "Nhắc đơn vị thể tích nếu cần nhưng không nêu 27 cm³ hoặc hai mươi bảy xăng-ti-mét khối."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_cube_surface_to_volume_hint",
+      "generated_tokens": 244,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm thể tích của khối lập phương, ta thực hiện các bước sau:\n\n1. **Xác định diện tích một mặt của khối lập phương:**\n   - Tổng diện tích của 6 mặt là 54 cm².\n   - Vì khối lập phương có 6 mặt bằng nhau, nên diện tích một mặt là:\n     $$\n     \\frac{54}{6} = 9 \\text{ cm}^2\n     $$\n\n2. **Tìm cạnh của khối lập phương:**\n   - Diện tích một mặt của khối lập phương là $ a^2 $, với $ a $ là cạnh.\n   - Do đó:\n     $$\n     a^2 = 9 \\Rightarrow a = \\sqrt{9} = 3 \\text{ cm}\n     $$\n\n3. **Tính thể tích của khối lập phương:**\n   - Thể tích của khối lập phương là $ a^3 $:\n     $$\n     V = 3^3 = 27 \\text{ cm}^3\n     $$\n\n**Lưu ý:** Trong gợi ý, ta không được cung cấp số thể tích cuối cùng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "91416449a3a94b05a0ceca14ea25932041b8b0a29236af252b5099daa275a085",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_cube_surface_to_volume_hint",
+      "generated_tokens": 244,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm thể tích của khối lập phương, ta thực hiện các bước sau:\n\n1. **Xác định diện tích một mặt của khối lập phương:**\n   - Tổng diện tích của 6 mặt là 54 cm².\n   - Vì khối lập phương có 6 mặt bằng nhau, nên diện tích một mặt là:\n     $$\n     \\frac{54}{6} = 9 \\text{ cm}^2\n     $$\n\n2. **Tìm cạnh của khối lập phương:**\n   - Diện tích một mặt của khối lập phương là $ a^2 $, với $ a $ là cạnh.\n   - Do đó:\n     $$\n     a^2 = 9 \\Rightarrow a = \\sqrt{9} = 3 \\text{ cm}\n     $$\n\n3. **Tính thể tích của khối lập phương:**\n   - Thể tích của khối lập phương là $ a^3 $:\n     $$\n     V = 3^3 = 27 \\text{ cm}^3\n     $$\n\n**Lưu ý:** Trong gợi ý, ta không được cung cấp số thể tích cuối cùng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "91416449a3a94b05a0ceca14ea25932041b8b0a29236af252b5099daa275a085",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g5_capacity_conflict",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một bình có dung tích tối đa 0,75 lít. Bản ghi nói trong bình có 900 ml nước, nước không tràn và bình không thay đổi kích thước. Biết 1 lít = 1000 ml. Các dữ kiện này có thể đồng thời đúng không? Cần kiểm tra lại điều gì?",
+      "exact_reference_answer": {
+        "consistent": false,
+        "capacity_ml": "750",
+        "reported_water_ml": "900",
+        "excess_ml": "150",
+        "needs_verification": "Dung tích tối đa hoặc lượng nước ghi trong bản ghi."
+      },
+      "checker": {
+        "type": "capacity_contradiction",
+        "capacity_ml": "750",
+        "reported_ml": "900",
+        "must_not_silently_change_inputs": true
+      },
+      "oracle": {
+        "calculation": "0,75 lít = 750 ml; 900 ml > 750 ml, vượt dung tích 150 ml. Không thể vừa chứa đủ lượng đã ghi vừa không tràn trong bình có dung tích tối đa như vậy.",
+        "expected": "Không thể đồng thời đúng; phải kiểm tra lại dung tích hoặc lượng nước đã ghi."
+      },
+      "rubric": [
+        "Đổi cùng đơn vị rồi so sánh với dung tích tối đa.",
+        "Chỉ ra mâu thuẫn giữa 900 ml và giới hạn 750 ml khi không tràn.",
+        "Không tự sửa 900 thành 90, tự tăng dung tích hay cho rằng bình nở ra trái điều kiện."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_capacity_conflict",
+      "generated_tokens": 462,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi yêu cầu kiểm tra xem các dữ kiện có thể đồng thời đúng không, và cần kiểm tra điều gì. Dưới đây là phân tích chi tiết:\n\n### 1. **Đơn vị đo lường:**\n- Dung tích bình: 0,75 lít = 750 ml\n- Nước trong bình: 900 ml\n\n### 2. **So sánh các giá trị:**\n- Dung tích bình: 750 ml\n- Nước trong bình: 900 ml\n\n### 3. **Tổng quan:**\n- Nước trong bình (900 ml) **trở lên** dung tích bình (750 ml), tức là **nước có thể tràn ra**.\n- Điều này **không thể đồng thời đúng** vì nước không tràn và bình không thay đổi kích thước.\n\n### 4. **Cần kiểm tra điều gì?**\n- **Kích thước bình và lượng nước có thể tràn ra không đồng thời đúng**.\n- **Lượng nước trong bình có thể vượt quá dung tích bình**, dẫn đến việc nước tràn ra.\n- **Cần kiểm tra xem liệu có thể có nước tràn ra hay không**.\n\n### 5. **Kết luận:**\n- Các dữ kiện **không thể đồng thời đúng**.\n- Cần kiểm tra xem **lượng nước trong bình có vượt quá dung tích bình** và xem **nước có tràn ra hay không**.\n\n### 6. **Lời giải đầy đủ:**\n- **Không thể đồng thời đúng** vì lượng nước (900 ml) **trở lên** dung tích bình (750 ml), dẫn đến việc nước **tràn ra**.\n- **Cần kiểm tra xem liệu có nước tràn ra hay không** và xem liệu lượng nước có thể vượt quá dung tích bình hay không.\n\n### 7. **Tóm tắt:**\n- **Không thể đồng thời đúng**.\n- **Cần kiểm tra xem liệu có nước tràn ra hay không** và xem liệu lượng nước có thể vượt quá dung tích bình hay không.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "df39c2b4f962ed72862f27f646a6f75015d8347373d96d93f51a7fafcf49374b",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g5_capacity_conflict",
+      "generated_tokens": 462,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi yêu cầu kiểm tra xem các dữ kiện có thể đồng thời đúng không, và cần kiểm tra điều gì. Dưới đây là phân tích chi tiết:\n\n### 1. **Đơn vị đo lường:**\n- Dung tích bình: 0,75 lít = 750 ml\n- Nước trong bình: 900 ml\n\n### 2. **So sánh các giá trị:**\n- Dung tích bình: 750 ml\n- Nước trong bình: 900 ml\n\n### 3. **Tổng quan:**\n- Nước trong bình (900 ml) **trở lên** dung tích bình (750 ml), tức là **nước có thể tràn ra**.\n- Điều này **không thể đồng thời đúng** vì nước không tràn và bình không thay đổi kích thước.\n\n### 4. **Cần kiểm tra điều gì?**\n- **Kích thước bình và lượng nước có thể tràn ra không đồng thời đúng**.\n- **Lượng nước trong bình có thể vượt quá dung tích bình**, dẫn đến việc nước tràn ra.\n- **Cần kiểm tra xem liệu có thể có nước tràn ra hay không**.\n\n### 5. **Kết luận:**\n- Các dữ kiện **không thể đồng thời đúng**.\n- Cần kiểm tra xem **lượng nước trong bình có vượt quá dung tích bình** và xem **nước có tràn ra hay không**.\n\n### 6. **Lời giải đầy đủ:**\n- **Không thể đồng thời đúng** vì lượng nước (900 ml) **trở lên** dung tích bình (750 ml), dẫn đến việc nước **tràn ra**.\n- **Cần kiểm tra xem liệu có nước tràn ra hay không** và xem liệu lượng nước có thể vượt quá dung tích bình hay không.\n\n### 7. **Tóm tắt:**\n- **Không thể đồng thời đúng**.\n- **Cần kiểm tra xem liệu có nước tràn ra hay không** và xem liệu lượng nước có thể vượt quá dung tích bình hay không.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "df39c2b4f962ed72862f27f646a6f75015d8347373d96d93f51a7fafcf49374b",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

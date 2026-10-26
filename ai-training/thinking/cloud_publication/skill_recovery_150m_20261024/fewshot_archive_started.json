@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "CtwLlqsDIyKM"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"context_archive_thread_started\": true, \"train_process_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

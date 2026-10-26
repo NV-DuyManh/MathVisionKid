@@ -1,0 +1,25 @@
+{
+  "add": {
+    "newCellId": "ZZG2CpKpbDyg"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"SOURCE_RESTORED_INSTALLING_ONLY_BITSANDBYTES\", \"kernel_hostname\": \"fb7636900c84\", \"install_pid\": 2076, \"scope\": {\"schema\": \"MathVisionKid.owner_training_scope.v1\", \"authorization\": \"Owner explicitly requested continued free-T4 training/evaluation on Hoai and capped total work at2h20 including preparation,training,evaluation,Drivepublication.\", \"budget_start_utc\": \"2026-10-26T08:54:18Z\", \"hard_deadline_utc\": \"2026-10-26T11:14:18Z\", \"budget_start_unix\": 1793004858.0, \"hard_deadline_unix\": 1793013258.0, \"reserve_seconds\": 1500, \"paid_resources\": false, \"previous_adapters_loaded\": false, \"source_and_old_checkpoints_preserved\": true, \"corpus_or_model_download_to_pc\": false, \"production_change\": false, \"new_human_attestation\": false, \"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\"}}\n"
+        ]
+      }
+    ]
+  }
+}

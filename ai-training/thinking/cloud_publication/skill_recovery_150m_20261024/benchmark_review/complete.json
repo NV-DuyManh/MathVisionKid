@@ -1,0 +1,15 @@
+{
+  "complete": true,
+  "count": 8,
+  "files": {
+    "attempt_started.json": "81f697f1a57296ea4f2b896e7ac4893a12b7cc2bc0c37193cebc09ab8591ebd1",
+    "contract.json": "0329468b21a7abd9c735751252b7b61202dcc0926a52bf4bddaf8c07654fef23",
+    "final_generations.jsonl": "85c8477e828066837382c33de6bd78a81a64e7e5c0dbb2d5625d190fb42b7b3a",
+    "progress.json": "6727d4ff72a5469dd7ae35efdfa1255287d3dbef607c031999ccb9f4f0b6ecb5",
+    "raw_generations.jsonl": "b52cf193bea9045d8b3c09e795b842af642cb9edcda3e5a706cb377e836df0c6"
+  },
+  "finished_utc": "2026-10-24T12:45:59.558321+00:00",
+  "locked_test_accessed": false,
+  "optimizer_loaded": false,
+  "training_performed": false
+}

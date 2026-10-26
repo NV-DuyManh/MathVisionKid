@@ -1,0 +1,10 @@
+{"Decimal":"2500","Fraction":"2500","expression":"2*1000+500","sample_id":"sgk_finish_network_20261020_capacity_common_unit_cut","step_id":"s0"}
+{"Decimal":"3","Fraction":"3","expression":"6/2","sample_id":"sgk_finish_network_20261020_colors_order_vs_multiset","step_id":"s2"}
+{"Decimal":"20","Fraction":"20","expression":"(6+4)*2","sample_id":"sgk_finish_network_20261020_running_state_unique_path","step_id":"s0"}
+{"Decimal":"16","Fraction":"16","expression":"6*2+4","sample_id":"sgk_finish_network_20261020_running_state_unique_path","step_id":"s1"}
+{"Decimal":"24","Fraction":"24","expression":"(12-4)*3","sample_id":"sgk_finish_network_20261020_running_state_shared_node","step_id":"s0"}
+{"Decimal":"6","Fraction":"6","expression":"(12+6)/3","sample_id":"sgk_finish_network_20261020_running_state_shared_node","step_id":"s1"}
+{"Decimal":"4","Fraction":"4","expression":"6-2","sample_id":"sgk_finish_network_20261020_running_state_shared_node","step_id":"s2"}
+{"Decimal":"3","Fraction":"3","expression":"2+1","sample_id":"sgk_finish_network_20261020_skip_two_interior_nodes","step_id":"s2"}
+{"Decimal":"3","Fraction":"3","expression":"1+2","sample_id":"sgk_finish_network_20261020_skip_zero_then_one_error","step_id":"s2"}
+{"Decimal":"60","Fraction":"60","expression":"10*60-9*60","sample_id":"sgk_finish_network_20261020_interval_positive_gap_required","step_id":"s2"}

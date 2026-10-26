@@ -1,0 +1,223 @@
+{
+  "schema_version": "primary_math_pipeline_peer_review.v1",
+  "status": "PASSED_TECHNICAL_GATES_NOT_SEMANTIC_APPROVAL",
+  "reviewer": "independent_curriculum_coverage_agent",
+  "reviewed_utc": "2026-10-16T15:11:32.335637+00:00",
+  "source_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\primary_math_data_pipeline.py",
+  "source_sha256_reviewed": "bfbc597c3198a2fc52629ee5654eccbc0e7408f978aa57d1ee5d7479522005ac",
+  "seed_sha256_reviewed": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8",
+  "writes_to_root_code": false,
+  "training_started": false,
+  "paid_api_calls": false,
+  "checks": {
+    "core_aux_never_counted_as_core": true,
+    "same_mathcase_three_slots_counts_one": true,
+    "unknown_node_rejected": true,
+    "grade_scope_mismatch_rejected": true,
+    "all30concept_development_questions_protected": true,
+    "no_sealed_concept_challenge_read": true,
+    "unaryplus_rejected": true,
+    "guidance_string_rejected": true,
+    "no_review_stays_pending": true,
+    "negative_semantic_review_not_accepted": true,
+    "stale_review_hash_rejected": true,
+    "hint_targets_exclude_answers_and_steps": true,
+    "malformed_objects_return_case_failure": true
+  },
+  "current_findings": [],
+  "regressions_reported_and_now_resolved": [
+    "Auxiliary rows previously counted as core quota",
+    "Unknown node/grade/scope previously not checked",
+    "Known conceptvalidation30 previously not protected",
+    "Empty optional studentwork dictionary previously rejected20rows",
+    "Unaryplus helper mismatch now rejected by newpipeline",
+    "initial_guidance string now rejected"
+  ],
+  "gate_reproductions": {
+    "coverage_three_same_math_rows": {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "grade": 1,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 1,
+      "accepted_core_slots": [
+        "core_01"
+      ],
+      "remaining_core_slots": [
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 2
+    },
+    "coverage_three_auxiliary_rows": {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "grade": 1,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 0,
+      "accepted_core_slots": [],
+      "remaining_core_slots": [
+        "core_01",
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 3,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 3
+    },
+    "unknown_mapping": "UNKNOWN_CURRICULUM_NODE",
+    "wrong_grade_mapping": "CURRICULUM_GRADE_OR_SCOPE_MISMATCH",
+    "review_absent": "PENDING_AI_CONTENT_REVIEW",
+    "review_semantic_false": "REQUIRES_CONTENT_REVISION",
+    "review_stale_hash": "REVIEW_HASH_MISMATCH",
+    "malformed_object_results": [
+      {
+        "field": "provenance",
+        "uncaught_exception": null,
+        "passed": false,
+        "errors": [
+          "provenance must be an object"
+        ]
+      },
+      {
+        "field": "hints",
+        "uncaught_exception": null,
+        "passed": false,
+        "errors": [
+          "hints must be objects"
+        ]
+      },
+      {
+        "field": "student_work",
+        "uncaught_exception": null,
+        "passed": false,
+        "errors": [
+          "'list' object has no attribute 'get'"
+        ]
+      }
+    ]
+  },
+  "mechanical_seed25": {
+    "cases": 25,
+    "passed": 23,
+    "errors_by_sample": [
+      {
+        "sample_id": "original_tutor25_g3_01",
+        "errors": [
+          "only + - * / allowed"
+        ]
+      },
+      {
+        "sample_id": "original_tutor25_g3_04",
+        "errors": [
+          "only + - * / allowed"
+        ]
+      }
+    ]
+  },
+  "protected_data_probe": {
+    "signature_count": 701,
+    "normalized_question_count": 3884,
+    "dataset_fingerprints": {
+      "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+      "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+      "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+      "v4_fresh_val": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+      "known_concept_development_val30": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+      "independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+      "base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928"
+    },
+    "read_paths": [
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\concept_validation_v4.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\challenge.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\train.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\val.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\independent_anchor.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v4\\base_choice_pilot30.jsonl",
+      "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v4\\generated\\val.jsonl"
+    ],
+    "sealed_concept_challenge_read": false
+  },
+  "semantic_limits": [
+    "These fixture gates do not establish semantic quality of teaching examples.",
+    "Actual node grouped review must check context/method diversity; matching slotmetadata alone is not proof.",
+    "Answer grounding matches checkednumericstep and unit; factrole/quantity meaning stillrequires contentreview.",
+    "Hint export excludes answerfields structurally; actual phrase-level answerleaks stillrequire semanticreview.",
+    "Euclidean // remains unsupported and must stay pendingcapability unless reviewed neutralproof support is added; do not expand liveappAST implicitly."
+  ],
+  "seed_mapping_status": "31_PROPOSALS_DELIVERED_ROOT_ASSIGNED_VARIANT_REVIEW_SEPARATE",
+  "seed25_curriculum_mapping": [],
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "skills_applied": [],
+  "seed25_curriculum_mapping_file": "thinking/evidence/primary_math_teacher_20261016/tutoring_seed25_curriculum_mapping.json",
+  "seed_mapping_sha256": "3fb52eae71c7b53f1165e64c6ba812baaa9635b97febca80c08a566e72dc05cb",
+  "revised_seed25_sha256": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8",
+  "remediation6_sha256": "d224d2030be3feb3458c5917f832542d84b7e8291f00637728ad91cd448ff7b7",
+  "latest_identity_and_endtoend_probes": {
+    "source_sha256": "bfbc597c3198a2fc52629ee5654eccbc0e7408f978aa57d1ee5d7479522005ac",
+    "known401percent7_collision_detected": true,
+    "missing_operations_rejected": true,
+    "missing_canonical_case_rejected": true,
+    "curate_ram_only_malformed_probes": [
+      {
+        "field": "problem",
+        "uncaught_exception": null,
+        "decisions": {
+          "MECHANICAL_CHECK_FAILED": 1
+        },
+        "accepted_cases": 0
+      },
+      {
+        "field": "worked_steps",
+        "uncaught_exception": null,
+        "decisions": {
+          "MECHANICAL_CHECK_FAILED": 1
+        },
+        "accepted_cases": 0
+      },
+      {
+        "field": "canonical_case",
+        "uncaught_exception": null,
+        "decisions": {
+          "MECHANICAL_CHECK_FAILED": 1
+        },
+        "accepted_cases": 0
+      }
+    ],
+    "fixture_training_files_written": false
+  },
+  "source_sha256_final_reviewed": "bfbc597c3198a2fc52629ee5654eccbc0e7408f978aa57d1ee5d7479522005ac",
+  "prior_source_sha256_reviewed": "bf6acecbe4e3cc35c2e6738899779818d5b50b58b51e97ea8a88fa10c34b6fd1",
+  "review_completed_utc": "2026-10-16T15:18:58.082944+00:00",
+  "pytest_validation": {
+    "command": "python -B -m pytest test_primary_math_data_pipeline.py -q -p no:cacheprovider",
+    "workdir": "thinking",
+    "passed": 19,
+    "failed": 0,
+    "elapsed_seconds": 0.29,
+    "source_sha256": "bfbc597c3198a2fc52629ee5654eccbc0e7408f978aa57d1ee5d7479522005ac"
+  },
+  "semantic_acceptance_granted": false,
+  "content_review_scope": "Technical peerreview and source/mapping proposals only; root assignedvariant semanticreview is separate and hashbound.",
+  "read_only_actual_data_state_snapshot": {
+    "authored_cases": 31,
+    "accepted_cases": 28,
+    "chat_train_rows": 112,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 28,
+      "EUCLIDEAN_CAPABILITY_PENDING_NOT_APP_EXECUTABLE": 2,
+      "PENDING_CURRICULUM_MAPPING": 1
+    },
+    "core_nodes_complete": 0,
+    "remaining_core_cases": 474,
+    "human_verified": false,
+    "teacher_certified": false,
+    "production_approved": false,
+    "completion": false
+  },
+  "read_only_actual_data_state_sha256": "310804566e0c1ba3e6727ead91b3ee61cc9714853f57fb93d9bd06320a240a9c"
+}

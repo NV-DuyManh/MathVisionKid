@@ -29,6 +29,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class MathTutorControllerTest {
+
+    @Test void anonymousCannotSynthesizeSpeech() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/speech").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles="TEACHER") void teacherCannotSynthesizeThroughStudentEndpoint() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/speech").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(roles="STUDENT") void studentGetsPrivateVietnameseSpeechAndInvalidVoicesAreRejected() throws Exception {
+        when(service.speech(any())).thenReturn(new byte[]{1, 2, 3});
+        mvc.perform(post("/api/v1/student/tutor/speech").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"Chào em.\",\"voice\":\"vi-VN-NamMinhNeural\",\"rate\":0.9}"))
+                .andExpect(status().isOk()).andExpect(content().contentType("audio/mpeg"))
+                .andExpect(header().string("Cache-Control", "no-store"));
+        mvc.perform(post("/api/v1/student/tutor/speech").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"Chào em.\",\"voice\":\"en-US-test\",\"rate\":0.9}"))
+                .andExpect(status().isBadRequest());
+    }
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper json;
     @MockBean MathTutorService service;

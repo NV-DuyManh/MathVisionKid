@@ -1,0 +1,25 @@
+---
+dataset_info:
+  features:
+  - name: instruction
+    dtype: string
+  - name: input
+    dtype: string
+  - name: output
+    dtype: string
+  - name: type
+    dtype: string
+  - name: output_reasoning
+    dtype: string
+  splits:
+  - name: train
+    num_bytes: 960160
+    num_examples: 474
+  download_size: 397050
+  dataset_size: 960160
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: data/train-*
+---

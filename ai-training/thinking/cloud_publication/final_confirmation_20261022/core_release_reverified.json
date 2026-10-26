@@ -1,0 +1,49 @@
+{
+  "schema": "MathVisionKid.finite_core_release_reverification.v1",
+  "observed_utc": "2026-10-22T11:58:30.812325+00:00",
+  "finite_core_generation_complete": true,
+  "finite_core_cases": 495,
+  "finite_core_nodes": 165,
+  "finite_core_chat_rows": 1980,
+  "finite_release_all_cases": 782,
+  "finite_release_all_chat_rows": 3128,
+  "release_index_sha256": "cfa444ef18a469999d7272437def57fa8c338a8685110fbd563bc3a213d4f959",
+  "release_files": {
+    "accepted_cases": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\accepted_teacher_cases_polished.jsonl",
+      "sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+      "bytes": 4161711,
+      "rows": 782,
+      "matches_frozen_release": true
+    },
+    "chat_train": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\teacher_chat_train_polished.jsonl",
+      "sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+      "bytes": 6971304,
+      "rows": 3128,
+      "matches_frozen_release": true
+    },
+    "manifest": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\polished_export_manifest.jsonl",
+      "sha256": "a3189d7e6ab9c7960678813437dd25be50522ea40562f3f79df1efff6a69f6d1",
+      "bytes": 565940,
+      "rows": 782,
+      "matches_frozen_release": true
+    }
+  },
+  "final_core_audit_sha256": "1592402a90e3117772e33258b82254cf7aa7c44eacf3fedcc0dd6f25ffd2db66",
+  "final_core_audit_status": "PASSED_FINITE_DATA_AUDIT",
+  "decision": "CONFIRMED_COMPLETE_FINITE495_RELEASE",
+  "scope_note": "Confirmation covers the already published finite495 release. It does not mark full expanded corpus, SGK extension queues, physical assets or legal2026 coverage complete, and does not select a subset for training.",
+  "expanded_archive_audit_complete": false,
+  "sgk_extension_complete": false,
+  "all_rows_newly_human_reviewed": false,
+  "original_owner299_signoffs_unchanged": true,
+  "source_rows_changed": false,
+  "new_cases": 0,
+  "new_chat_rows": 0,
+  "TRAINING_DATASET_READY": false,
+  "training_started": false,
+  "gpu_used": false,
+  "model_weights_loaded": false
+}

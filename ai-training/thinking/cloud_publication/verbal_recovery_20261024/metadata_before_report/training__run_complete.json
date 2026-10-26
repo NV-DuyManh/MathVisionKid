@@ -1,0 +1,65 @@
+{
+  "best": {
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "production_approval": false,
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_key": [
+      10,
+      12,
+      0,
+      0,
+      2
+    ],
+    "semantic_review_pending": false,
+    "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+  },
+  "budget_satisfied": true,
+  "complete": true,
+  "completed_unix": 1792843162.8530695,
+  "derived_view_epochs": 0.12075471698113208,
+  "derived_view_rows": 6625,
+  "hard_deadline_unix": 1792845958.0,
+  "last_adapter": {
+    "bytes": 65976553,
+    "diagnostic_only": true,
+    "path": "last_adapter_diagnostic.zip",
+    "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817"
+  },
+  "metrics": {
+    "last_gradient_norm": 0.8634874820709229,
+    "last_loss": 2.0610498189926147,
+    "last_lr": 1e-05,
+    "loss_sum": 139.49508994817734,
+    "rows_done": 800,
+    "step": 50,
+    "supervised_tokens": 169406
+  },
+  "production_approval": false,
+  "selected_artifact": {
+    "adapter": null,
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_evidence": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        10,
+        12,
+        0,
+        0,
+        2
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+    }
+  },
+  "source_view_rows": 16000,
+  "stop_reason": "QUALITY_GATE_STOP",
+  "training_seconds": 171.06867578100355,
+  "unique_examples": 800,
+  "whole_corpus_training_claimed": false
+}

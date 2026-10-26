@@ -1,0 +1,9 @@
+{
+  "cases": 24,
+  "chats": 96,
+  "source_sha256": "68955882a4b3427effb790ee6a6a971acaefce477c4bf0ec69637107e732b781",
+  "chat_sha256": "c0ce9640a9d7102cfb229bfccca8aebac905bb999944fed3798f307da8e36ad9",
+  "all_source_chat_hash_and_target_links": true,
+  "prior_sources_unchanged": true,
+  "training_started": false
+}

@@ -1,0 +1,5778 @@
+[
+  {
+    "file": "D:\\cap1\\tailieu\\MathVision_Kids_Proposal_v3.1_Concise_finaldocx.docx",
+    "sha256": "141cb4a8bdecc7a2f21a2649dfab567f5503750f587e04b7f80341b51fb605df",
+    "paragraphs": [
+      {
+        "paragraph_index": 0,
+        "text": "DUY TAN UNIVERSITY"
+      },
+      {
+        "paragraph_index": 1,
+        "text": "INTERNATIONAL SCHOOL"
+      },
+      {
+        "paragraph_index": 2,
+        "text": "SOFTWARE ENGINEERING CAPSTONE"
+      },
+      {
+        "paragraph_index": 3,
+        "text": "PROJECT PROPOSAL"
+      },
+      {
+        "paragraph_index": 4,
+        "text": "MATHVISION KIDS"
+      },
+      {
+        "paragraph_index": 5,
+        "text": "An AI-Assisted Handwritten Arithmetic Grading and Tutoring Platformfor Vietnamese Primary Education"
+      },
+      {
+        "paragraph_index": 6,
+        "text": "Nền tảng AI hỗ trợ chấm và hướng dẫn bài tính viết taycho giáo dục tiểu học Việt Nam"
+      },
+      {
+        "paragraph_index": 7,
+        "text": "Project Baseline"
+      },
+      {
+        "paragraph_index": 8,
+        "text": "Value"
+      },
+      {
+        "paragraph_index": 9,
+        "text": "Project type"
+      },
+      {
+        "paragraph_index": 10,
+        "text": "Research-based Software Engineering Capstone / AI Product Prototype"
+      },
+      {
+        "paragraph_index": 11,
+        "text": "Primary users"
+      },
+      {
+        "paragraph_index": 12,
+        "text": "Primary-school teachers and Vietnamese students, Grades 1-5"
+      },
+      {
+        "paragraph_index": 13,
+        "text": "Core MVP"
+      },
+      {
+        "paragraph_index": 14,
+        "text": "Vertical natural-number addition/subtraction; carry/borrow; one exercise per image"
+      },
+      {
+        "paragraph_index": 15,
+        "text": "Teacher workflow"
+      },
+      {
+        "paragraph_index": 16,
+        "text": "Batch upload approximately 10-30 images; AI pre-grading; teacher approve/override"
+      },
+      {
+        "paragraph_index": 17,
+        "text": "Development"
+      },
+      {
+        "paragraph_index": 18,
+        "text": "1 inception week + 7 fixed two-week Sprints (15 weeks)"
+      },
+      {
+        "paragraph_index": 19,
+        "text": "Technology baseline"
+      },
+      {
+        "paragraph_index": 20,
+        "text": "React / React Native + Java Spring Boot + Python FastAPI AI service"
+      },
+      {
+        "paragraph_index": 22,
+        "text": "Version 3.1 | 03 September 2026"
+      },
+      {
+        "paragraph_index": 23,
+        "text": "Da Nang, Viet Nam - 2026"
+      },
+      {
+        "paragraph_index": 25,
+        "text": "Document Control"
+      },
+      {
+        "paragraph_index": 26,
+        "text": "Item"
+      },
+      {
+        "paragraph_index": 27,
+        "text": "Value"
+      },
+      {
+        "paragraph_index": 28,
+        "text": "Document ID"
+      },
+      {
+        "paragraph_index": 29,
+        "text": "MVK-PP-003.1"
+      },
+      {
+        "paragraph_index": 30,
+        "text": "Status"
+      },
+      {
+        "paragraph_index": 31,
+        "text": "Proposed for approval"
+      },
+      {
+        "paragraph_index": 32,
+        "text": "Document owner"
+      },
+      {
+        "paragraph_index": 33,
+        "text": "Nguyễn Văn Duy Mạnh - Product Owner & Scrum Master"
+      },
+      {
+        "paragraph_index": 34,
+        "text": "Scope baseline"
+      },
+      {
+        "paragraph_index": 35,
+        "text": "Grades 1-5; 15 weeks; teacher batch grading + student tutoring; vertical addition/subtraction MVP"
+      },
+      {
+        "paragraph_index": 36,
+        "text": "Architecture baseline"
+      },
+      {
+        "paragraph_index": 37,
+        "text": "Spring Boot modular monolith + dedicated asynchronous Python AI service"
+      },
+      {
+        "paragraph_index": 38,
+        "text": "Standards baseline"
+      },
+      {
+        "paragraph_index": 39,
+        "text": "ISO/IEC/IEEE 29148:2018; ISO/IEC/IEEE 12207:2026; ISO/IEC/IEEE 42010:2022; ISO/IEC 25010:2023"
+      },
+      {
+        "paragraph_index": 41,
+        "text": "Revision History"
+      },
+      {
+        "paragraph_index": 42,
+        "text": "Version"
+      },
+      {
+        "paragraph_index": 43,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 44,
+        "text": "Change"
+      },
+      {
+        "paragraph_index": 45,
+        "text": "2.0"
+      },
+      {
+        "paragraph_index": 46,
+        "text": "26 Aug 2026"
+      },
+      {
+        "paragraph_index": 47,
+        "text": "Re-scoped to Grades 1-5 and rebuilt for 15-week Agile delivery."
+      },
+      {
+        "paragraph_index": 48,
+        "text": "3.0"
+      },
+      {
+        "paragraph_index": 49,
+        "text": "03 Sep 2026"
+      },
+      {
+        "paragraph_index": 50,
+        "text": "Added teacher batch grading and froze React/Spring Boot/FastAPI technology baseline."
+      },
+      {
+        "paragraph_index": 51,
+        "text": "3.1"
+      },
+      {
+        "paragraph_index": 52,
+        "text": "03 Sep 2026"
+      },
+      {
+        "paragraph_index": 53,
+        "text": "Condensed proposal; aligned Scrum accountabilities; clarified architecture, scope, and acceptance evidence."
+      },
+      {
+        "paragraph_index": 55,
+        "text": "Senior review decision:  Keep the product teacher-first and student-support, keep the mathematical MVP narrow, and evaluate safety/precision before expanding arithmetic coverage. The proposal deliberately avoids full microservices and fully autonomous grading within the 15-week capstone."
+      },
+      {
+        "paragraph_index": 58,
+        "text": "Table of Contents"
+      },
+      {
+        "paragraph_index": 59,
+        "text": "Executive Summary"
+      },
+      {
+        "paragraph_index": 60,
+        "text": "4"
+      },
+      {
+        "paragraph_index": 61,
+        "text": "1. Project Title"
+      },
+      {
+        "paragraph_index": 62,
+        "text": "5"
+      },
+      {
+        "paragraph_index": 63,
+        "text": "2. Team Members"
+      },
+      {
+        "paragraph_index": 64,
+        "text": "5"
+      },
+      {
+        "paragraph_index": 65,
+        "text": "3. Supervisor"
+      },
+      {
+        "paragraph_index": 66,
+        "text": "6"
+      },
+      {
+        "paragraph_index": 67,
+        "text": "4. Problem Statement"
+      },
+      {
+        "paragraph_index": 68,
+        "text": "7"
+      },
+      {
+        "paragraph_index": 69,
+        "text": "5. Survey of Existing Solutions"
+      },
+      {
+        "paragraph_index": 70,
+        "text": "8"
+      },
+      {
+        "paragraph_index": 71,
+        "text": "6. Objectives and Scope"
+      },
+      {
+        "paragraph_index": 72,
+        "text": "9"
+      },
+      {
+        "paragraph_index": 73,
+        "text": "7. Key Features and Requirements"
+      },
+      {
+        "paragraph_index": 74,
+        "text": "10"
+      },
+      {
+        "paragraph_index": 75,
+        "text": "8. Constraints and Assumptions"
+      },
+      {
+        "paragraph_index": 76,
+        "text": "12"
+      },
+      {
+        "paragraph_index": 77,
+        "text": "9. Target Users and Stakeholders"
+      },
+      {
+        "paragraph_index": 78,
+        "text": "13"
+      },
+      {
+        "paragraph_index": 79,
+        "text": "10. Technology Stack"
+      },
+      {
+        "paragraph_index": 80,
+        "text": "14"
+      },
+      {
+        "paragraph_index": 81,
+        "text": "11. Methodology and 15-Week Development Plan"
+      },
+      {
+        "paragraph_index": 82,
+        "text": "15"
+      },
+      {
+        "paragraph_index": 83,
+        "text": "12. System Architecture Overview"
+      },
+      {
+        "paragraph_index": 84,
+        "text": "18"
+      },
+      {
+        "paragraph_index": 85,
+        "text": "13. Potential Risks and Mitigation Strategies"
+      },
+      {
+        "paragraph_index": 86,
+        "text": "21"
+      },
+      {
+        "paragraph_index": 87,
+        "text": "14. Expected Outcomes and Deliverables"
+      },
+      {
+        "paragraph_index": 88,
+        "text": "21"
+      },
+      {
+        "paragraph_index": 89,
+        "text": "15. References"
+      },
+      {
+        "paragraph_index": 90,
+        "text": "23"
+      },
+      {
+        "paragraph_index": 91,
+        "text": "Appendix A. MVP Support & Error Taxonomy"
+      },
+      {
+        "paragraph_index": 92,
+        "text": "24"
+      },
+      {
+        "paragraph_index": 93,
+        "text": "Appendix B. Traceability & Minimum Evaluation"
+      },
+      {
+        "paragraph_index": 94,
+        "text": "25"
+      },
+      {
+        "paragraph_index": 95,
+        "text": "Appendix C. Approval"
+      },
+      {
+        "paragraph_index": 96,
+        "text": "26"
+      },
+      {
+        "paragraph_index": 98,
+        "text": "Executive Summary"
+      },
+      {
+        "paragraph_index": 99,
+        "text": "MathVision Kids is a 15-week AI-assisted grading and tutoring platform for Vietnamese primary education. It serves two connected workflows: teachers upload approximately 10-30 photographed student exercises for AI pre-grading and review, while students submit one exercise to receive step-aware hints and retry guidance."
+      },
+      {
+        "paragraph_index": 100,
+        "text": "The core MVP is intentionally narrow: one clearly bounded vertical addition or subtraction exercise per image, natural numbers only, with or without carry/borrow. The system reconstructs what the learner wrote, validates supported arithmetic deterministically, locates the earliest supported error, and routes uncertain cases to confirmation, retake, abstention, or teacher review."
+      },
+      {
+        "paragraph_index": 101,
+        "text": "The software uses a Java 21 Spring Boot 3 modular-monolith business core with Clean Architecture, React teacher web, React Native student mobile, PostgreSQL, MinIO/S3-compatible storage, and a separate Python FastAPI AI service. Celery/Redis is internal to the AI subsystem for asynchronous batch processing. The deterministic rule engine is the source of truth for supported arithmetic; an optional VLM is restricted to structured comparison and hint wording."
+      },
+      {
+        "paragraph_index": 102,
+        "text": "Success is measured by reproducible recognition/localization metrics, low false accusation/over-correction, observable batch processing, teacher approve/override evidence, and safe student feedback. Teacher authority remains final; the system does not perform fully autonomous official grading."
+      },
+      {
+        "paragraph_index": 103,
+        "text": "Project thesis:  MathVision Kids reduces repetitive teacher checking through confidence-aware batch pre-grading while helping students understand where to retry, without confusing AI uncertainty with a student mistake."
+      },
+      {
+        "paragraph_index": 106,
+        "text": "1. Project Title"
+      },
+      {
+        "paragraph_index": 107,
+        "text": "Field"
+      },
+      {
+        "paragraph_index": 108,
+        "text": "Approved Baseline"
+      },
+      {
+        "paragraph_index": 109,
+        "text": "Project name"
+      },
+      {
+        "paragraph_index": 110,
+        "text": "MathVision Kids"
+      },
+      {
+        "paragraph_index": 111,
+        "text": "Title"
+      },
+      {
+        "paragraph_index": 112,
+        "text": "An AI-Assisted Handwritten Arithmetic Grading and Tutoring Platform for Vietnamese Primary Education"
+      },
+      {
+        "paragraph_index": 113,
+        "text": "Academic area"
+      },
+      {
+        "paragraph_index": 114,
+        "text": "Software Engineering, Artificial Intelligence, Computer Vision, Educational Technology"
+      },
+      {
+        "paragraph_index": 115,
+        "text": "Duration"
+      },
+      {
+        "paragraph_index": 116,
+        "text": "15 weeks"
+      },
+      {
+        "paragraph_index": 117,
+        "text": "Primary users"
+      },
+      {
+        "paragraph_index": 118,
+        "text": "Primary-school teachers and Vietnamese students in Grades 1-5"
+      },
+      {
+        "paragraph_index": 120,
+        "text": "1.1 Product Definition"
+      },
+      {
+        "paragraph_index": 121,
+        "text": "MathVision Kids is a teacher-first, student-support platform that processes class-sized batches of handwritten arithmetic for AI-assisted grading and also provides individual students with confidence-aware, step-level feedback."
+      },
+      {
+        "paragraph_index": 122,
+        "text": "1.2 Product Goal"
+      },
+      {
+        "paragraph_index": 123,
+        "text": "Deliver and evaluate a working MVP for teacher batch grading and student self-correction in a constrained vertical-arithmetic domain, while preserving teacher authority over final grades and separating system uncertainty from student error."
+      },
+      {
+        "paragraph_index": 124,
+        "text": "2. Team Members"
+      },
+      {
+        "paragraph_index": 125,
+        "text": "Member"
+      },
+      {
+        "paragraph_index": 126,
+        "text": "Student ID"
+      },
+      {
+        "paragraph_index": 127,
+        "text": "Scrum Accountability"
+      },
+      {
+        "paragraph_index": 128,
+        "text": "Primary Technical / Project Responsibility"
+      },
+      {
+        "paragraph_index": 129,
+        "text": "Nguyễn Văn Duy Mạnh"
+      },
+      {
+        "paragraph_index": 130,
+        "text": "29211100024"
+      },
+      {
+        "paragraph_index": 131,
+        "text": "Product Owner & Scrum Master"
+      },
+      {
+        "paragraph_index": 132,
+        "text": "Business analysis; Product Goal/Backlog; stakeholder alignment; acceptance; Scrum facilitation; project coordination."
+      },
+      {
+        "paragraph_index": 133,
+        "text": "Phan Quang Hiếu"
+      },
+      {
+        "paragraph_index": 134,
+        "text": "29211164747"
+      },
+      {
+        "paragraph_index": 135,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 136,
+        "text": "AI/ML: image preprocessing, layout, OCR/recognition, recognition evaluation."
+      },
+      {
+        "paragraph_index": 137,
+        "text": "Trần Hoài Nam"
+      },
+      {
+        "paragraph_index": 138,
+        "text": "29211159058"
+      },
+      {
+        "paragraph_index": 139,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 140,
+        "text": "Backend/MLOps: Java Spring Boot, Spring Security/JWT, PostgreSQL, AI-service integration, CI/CD, deployment."
+      },
+      {
+        "paragraph_index": 141,
+        "text": "Trần Viết Lộc"
+      },
+      {
+        "paragraph_index": 142,
+        "text": "29211352994"
+      },
+      {
+        "paragraph_index": 143,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 144,
+        "text": "Frontend/Mobile/UX: React teacher portal, React Native student app, camera and batch-grading UX."
+      },
+      {
+        "paragraph_index": 145,
+        "text": "Lê Minh Trường Khả"
+      },
+      {
+        "paragraph_index": 146,
+        "text": "29211158908"
+      },
+      {
+        "paragraph_index": 147,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 148,
+        "text": "Data/QA/Research: consent, annotation quality, testing, metrics, reproducibility."
+      },
+      {
+        "paragraph_index": 150,
+        "text": "For this five-person capstone, Nguyễn Văn Duy Mạnh combines Product Owner and Scrum Master accountabilities. Product decisions (value, priority, acceptance) and Scrum facilitation (cadence, impediments, transparency) are treated as separate responsibilities even though they are held by one person. Developers remain self-managing in how Sprint work is executed."
+      },
+      {
+        "paragraph_index": 151,
+        "text": "2.1 Governance"
+      },
+      {
+        "paragraph_index": 152,
+        "text": "Product Owner: owns Product Goal, Product Backlog ordering, stakeholder decisions, and acceptance."
+      },
+      {
+        "paragraph_index": 153,
+        "text": "Scrum Master: facilitates Scrum events, removes/escalates impediments, and protects transparency and the Sprint cadence."
+      },
+      {
+        "paragraph_index": 154,
+        "text": "Developers: jointly own implementation quality and the usable Increment; technical ownership does not create hierarchy."
+      },
+      {
+        "paragraph_index": 155,
+        "text": "High-impact technical decisions are recorded as Architecture Decision Records (ADRs)."
+      },
+      {
+        "paragraph_index": 156,
+        "text": "3. Supervisor"
+      },
+      {
+        "paragraph_index": 157,
+        "text": "Field"
+      },
+      {
+        "paragraph_index": 158,
+        "text": "Information"
+      },
+      {
+        "paragraph_index": 159,
+        "text": "Full name"
+      },
+      {
+        "paragraph_index": 160,
+        "text": "TS. Nguyễn Đức Mận"
+      },
+      {
+        "paragraph_index": 161,
+        "text": "Department / Faculty"
+      },
+      {
+        "paragraph_index": 162,
+        "text": "International School - CMU"
+      },
+      {
+        "paragraph_index": 163,
+        "text": "Email"
+      },
+      {
+        "paragraph_index": 164,
+        "text": "mannd@duytan.edu.vn"
+      },
+      {
+        "paragraph_index": 165,
+        "text": "Phone"
+      },
+      {
+        "paragraph_index": 166,
+        "text": "0904235945"
+      },
+      {
+        "paragraph_index": 168,
+        "text": "Supervisor reviews are planned at Weeks 5, 9, 13, and 15. Material changes to privacy, research validity, architecture, or mathematical scope require supervisor review."
+      },
+      {
+        "paragraph_index": 169,
+        "text": "4. Problem Statement"
+      },
+      {
+        "paragraph_index": 170,
+        "text": "4.1 User Problem"
+      },
+      {
+        "paragraph_index": 171,
+        "text": "Primary-school teachers repeatedly inspect handwritten arithmetic to reconstruct digits, check place-value alignment and carry/borrow, identify the first error, and assign or confirm a result. The workload becomes significant when 10-30 photographed submissions are checked in one session. Students, meanwhile, often receive only a correct/incorrect outcome and may not know where their work first diverged."
+      },
+      {
+        "paragraph_index": 172,
+        "text": "Camera-based math tools are strong at solving a photographed problem, but MathVision Kids focuses on evaluating the learner’s own handwritten work. This distinction creates a safety requirement: a recognition error by the system must not be presented as a student mistake."
+      },
+      {
+        "paragraph_index": 173,
+        "text": "4.2 Core Problem"
+      },
+      {
+        "paragraph_index": 174,
+        "text": "Core problem:  How can the system reliably reconstruct handwritten vertical arithmetic, verify the earliest supported error, propose a grading result at class scale, and provide safe hints while explicitly managing uncertainty?"
+      },
+      {
+        "paragraph_index": 176,
+        "text": "4.3 Design Consequences"
+      },
+      {
+        "paragraph_index": 177,
+        "text": "Observed Gap"
+      },
+      {
+        "paragraph_index": 178,
+        "text": "Design Response"
+      },
+      {
+        "paragraph_index": 179,
+        "text": "Manual review of many submissions"
+      },
+      {
+        "paragraph_index": 180,
+        "text": "Asynchronous 10-30 image batch processing and review-by-exception."
+      },
+      {
+        "paragraph_index": 181,
+        "text": "2D arithmetic layout"
+      },
+      {
+        "paragraph_index": 182,
+        "text": "Preserve bounding boxes, rows, place-value columns, and carry/borrow state."
+      },
+      {
+        "paragraph_index": 183,
+        "text": "Ambiguous handwriting"
+      },
+      {
+        "paragraph_index": 184,
+        "text": "Top-k/confidence signals; confirmation, retake, abstention, or review."
+      },
+      {
+        "paragraph_index": 185,
+        "text": "Error propagation"
+      },
+      {
+        "paragraph_index": 186,
+        "text": "Report the earliest supported error instead of flagging every downstream digit."
+      },
+      {
+        "paragraph_index": 187,
+        "text": "Risk of AI overconfidence"
+      },
+      {
+        "paragraph_index": 188,
+        "text": "Deterministic validator for supported arithmetic; teacher final authority."
+      },
+      {
+        "paragraph_index": 190,
+        "text": "4.4 Validation and Research Question"
+      },
+      {
+        "paragraph_index": 191,
+        "text": "The problem will be validated in the first two weeks through at least five semi-structured interviews with primary teachers, tutors, or parents. The team will confirm the value of batch grading, acceptable workflow, review behavior, and hint style without expanding the frozen core domain."
+      },
+      {
+        "paragraph_index": 192,
+        "text": "Primary research question: Can a Hybrid recognition-and-rule pipeline with calibrated abstention support AI-assisted batch grading and earliest-error localization more safely than an OCR/rule baseline or a VLM-only baseline within the 15-week constraint?"
+      },
+      {
+        "paragraph_index": 193,
+        "text": "5. Survey of Existing Solutions"
+      },
+      {
+        "paragraph_index": 194,
+        "text": "Solution / Research"
+      },
+      {
+        "paragraph_index": 195,
+        "text": "Relevant Capability"
+      },
+      {
+        "paragraph_index": 196,
+        "text": "Gap Relative to MathVision Kids"
+      },
+      {
+        "paragraph_index": 197,
+        "text": "Photomath [3]"
+      },
+      {
+        "paragraph_index": 198,
+        "text": "Camera-based solving and step-by-step explanations."
+      },
+      {
+        "paragraph_index": 199,
+        "text": "Focused on solving problems rather than confidence-aware review of a child’s own multi-column work and teacher batch grading."
+      },
+      {
+        "paragraph_index": 200,
+        "text": "Mathpix [4]"
+      },
+      {
+        "paragraph_index": 201,
+        "text": "Handwritten math recognition into structured text/LaTeX with confidence."
+      },
+      {
+        "paragraph_index": 202,
+        "text": "Recognition service; no primary-school carry/borrow validator, tutoring policy, or grading workflow."
+      },
+      {
+        "paragraph_index": 203,
+        "text": "FERMAT [5]"
+      },
+      {
+        "paragraph_index": 204,
+        "text": "Handwritten solution error detection/localization benchmark for Grades 7-12."
+      },
+      {
+        "paragraph_index": 205,
+        "text": "Older learners; different data and no Vietnamese primary product workflow."
+      },
+      {
+        "paragraph_index": 206,
+        "text": "VEHME [6]"
+      },
+      {
+        "paragraph_index": 207,
+        "text": "VLM-based grading of handwritten mathematical expressions."
+      },
+      {
+        "paragraph_index": 208,
+        "text": "Training-heavy research approach; less suitable as the sole correctness authority for a 15-week constrained MVP."
+      },
+      {
+        "paragraph_index": 209,
+        "text": "MathWriting [7]"
+      },
+      {
+        "paragraph_index": 210,
+        "text": "Large handwritten-expression dataset."
+      },
+      {
+        "paragraph_index": 211,
+        "text": "Useful for recognition research but not student-error processes in mobile photos of primary work."
+      },
+      {
+        "paragraph_index": 213,
+        "text": "5.1 Proposed Differentiation"
+      },
+      {
+        "paragraph_index": 214,
+        "text": "Vietnamese primary context with Grades 1-5 as the product audience."
+      },
+      {
+        "paragraph_index": 215,
+        "text": "Narrow, testable vertical addition/subtraction domain with carry/borrow state."
+      },
+      {
+        "paragraph_index": 216,
+        "text": "Teacher batch pre-grading plus human-in-the-loop approval, not autonomous official grading."
+      },
+      {
+        "paragraph_index": 217,
+        "text": "Student-work reconstruction before correctness judgment or hint generation."
+      },
+      {
+        "paragraph_index": 218,
+        "text": "Confidence-aware routing and explicit safety metrics such as over-correction/false accusation."
+      },
+      {
+        "paragraph_index": 219,
+        "text": "The contribution is not a claim that OCR, VLMs, or automated grading are individually new. The contribution is the engineering and evaluation of a confidence-controlled, teacher-first workflow that combines deterministic arithmetic validation, asynchronous batch processing, human approval, and student tutoring."
+      },
+      {
+        "paragraph_index": 220,
+        "text": "6. Objectives and Scope"
+      },
+      {
+        "paragraph_index": 221,
+        "text": "6.1 General Objective"
+      },
+      {
+        "paragraph_index": 222,
+        "text": "Design, implement, and evaluate a confidence-aware platform that converts supported handwritten arithmetic images into structured representations, validates vertical addition/subtraction deterministically, localizes the earliest supported error, proposes a grading result for teacher confirmation, and provides students with guided hints or clarification."
+      },
+      {
+        "paragraph_index": 223,
+        "text": "6.2 SMART Objectives"
+      },
+      {
+        "paragraph_index": 224,
+        "text": "ID"
+      },
+      {
+        "paragraph_index": 225,
+        "text": "Target"
+      },
+      {
+        "paragraph_index": 226,
+        "text": "Evidence"
+      },
+      {
+        "paragraph_index": 227,
+        "text": "OBJ-01"
+      },
+      {
+        "paragraph_index": 228,
+        "text": "W5: consent/annotation workflow + at least 100 verified pilot images."
+      },
+      {
+        "paragraph_index": 229,
+        "text": "Approved guide, pilot report, initial agreement check."
+      },
+      {
+        "paragraph_index": 230,
+        "text": "OBJ-02"
+      },
+      {
+        "paragraph_index": 231,
+        "text": "W11: at least 500 de-identified gold images; target 700; >=20% double annotation."
+      },
+      {
+        "paragraph_index": 232,
+        "text": "Versioned manifest, labels, adjudication report."
+      },
+      {
+        "paragraph_index": 233,
+        "text": "OBJ-03"
+      },
+      {
+        "paragraph_index": 234,
+        "text": "W7: reproducible digit/operator/layout recognition baseline."
+      },
+      {
+        "paragraph_index": 235,
+        "text": "P1 metrics and error analysis."
+      },
+      {
+        "paragraph_index": 236,
+        "text": "OBJ-04"
+      },
+      {
+        "paragraph_index": 237,
+        "text": "W9: deterministic carry/borrow validator and earliest-error localization."
+      },
+      {
+        "paragraph_index": 238,
+        "text": "Rule tests and first-error cases."
+      },
+      {
+        "paragraph_index": 239,
+        "text": "OBJ-05"
+      },
+      {
+        "paragraph_index": 240,
+        "text": "W11: 10-30 image async batch, confidence routing, proposed grading, approve/override, student hints."
+      },
+      {
+        "paragraph_index": 241,
+        "text": "Integrated beta and audit evidence."
+      },
+      {
+        "paragraph_index": 242,
+        "text": "OBJ-06"
+      },
+      {
+        "paragraph_index": 243,
+        "text": "W13: compare P1 OCR+rules, P2 VLM zero-shot, P3 Hybrid."
+      },
+      {
+        "paragraph_index": 244,
+        "text": "Frozen-protocol evaluation report."
+      },
+      {
+        "paragraph_index": 245,
+        "text": "OBJ-07"
+      },
+      {
+        "paragraph_index": 246,
+        "text": "W15: release web/mobile/backend/AI MVP, docs, tests, deployment, final demo."
+      },
+      {
+        "paragraph_index": 247,
+        "text": "Tagged release and acceptance checklist."
+      },
+      {
+        "paragraph_index": 249,
+        "text": "6.3 Scope Boundary"
+      },
+      {
+        "paragraph_index": 250,
+        "text": "Scope"
+      },
+      {
+        "paragraph_index": 251,
+        "text": "Included"
+      },
+      {
+        "paragraph_index": 252,
+        "text": "Core MVP"
+      },
+      {
+        "paragraph_index": 253,
+        "text": "Grades 1-5 product context; one exercise per image; vertical natural-number addition/subtraction; 2 operands/addends; 1-6 digits; carry/borrow; teacher 10-30 image batch; student single-image tutoring."
+      },
+      {
+        "paragraph_index": 254,
+        "text": "Stretch"
+      },
+      {
+        "paragraph_index": 255,
+        "text": "Multiplication/short division, student history, class analytics, model fine-tuning, multiple-exercise capture."
+      },
+      {
+        "paragraph_index": 256,
+        "text": "Out of scope"
+      },
+      {
+        "paragraph_index": 257,
+        "text": "Fractions/decimals, geometry, word problems, secondary mathematics, complex partial-credit rubrics, fully autonomous official grading, ranking, parent app, LMS/payment, production-scale deployment."
+      },
+      {
+        "paragraph_index": 259,
+        "text": "7. Key Features and Requirements"
+      },
+      {
+        "paragraph_index": 260,
+        "text": "7.1 Core Features"
+      },
+      {
+        "paragraph_index": 261,
+        "text": "ID"
+      },
+      {
+        "paragraph_index": 262,
+        "text": "Feature"
+      },
+      {
+        "paragraph_index": 263,
+        "text": "MVP Behavior"
+      },
+      {
+        "paragraph_index": 264,
+        "text": "KF-01"
+      },
+      {
+        "paragraph_index": 265,
+        "text": "Teacher batch grading intake"
+      },
+      {
+        "paragraph_index": 266,
+        "text": "Create/select assignment, set simple score value, upload ~10-30 supported images."
+      },
+      {
+        "paragraph_index": 267,
+        "text": "KF-02"
+      },
+      {
+        "paragraph_index": 268,
+        "text": "Student capture + image quality"
+      },
+      {
+        "paragraph_index": 269,
+        "text": "Camera/gallery, crop/rotate, blur/glare/skew/incomplete-crop checks."
+      },
+      {
+        "paragraph_index": 270,
+        "text": "KF-03"
+      },
+      {
+        "paragraph_index": 271,
+        "text": "Structured recognition"
+      },
+      {
+        "paragraph_index": 272,
+        "text": "Digits/operators + boxes + rows/columns + carry/borrow + confidence."
+      },
+      {
+        "paragraph_index": 273,
+        "text": "KF-04"
+      },
+      {
+        "paragraph_index": 274,
+        "text": "Deterministic verification"
+      },
+      {
+        "paragraph_index": 275,
+        "text": "Validate place value, columns, carry/borrow, earliest invalid item."
+      },
+      {
+        "paragraph_index": 276,
+        "text": "KF-05"
+      },
+      {
+        "paragraph_index": 277,
+        "text": "Confidence-aware pre-grading"
+      },
+      {
+        "paragraph_index": 278,
+        "text": "Propose result only with sufficient evidence; otherwise clarify/retake/review."
+      },
+      {
+        "paragraph_index": 279,
+        "text": "KF-06"
+      },
+      {
+        "paragraph_index": 280,
+        "text": "Teacher review and final decision"
+      },
+      {
+        "paragraph_index": 281,
+        "text": "Evidence, proposed score/result, approve/override, audit trail."
+      },
+      {
+        "paragraph_index": 282,
+        "text": "KF-07"
+      },
+      {
+        "paragraph_index": 283,
+        "text": "Student tutoring and retry"
+      },
+      {
+        "paragraph_index": 284,
+        "text": "Confirm ambiguous token, receive one Socratic hint, retry without default answer reveal."
+      },
+      {
+        "paragraph_index": 286,
+        "text": "7.2 Functional Requirements"
+      },
+      {
+        "paragraph_index": 287,
+        "text": "ID"
+      },
+      {
+        "paragraph_index": 288,
+        "text": "Requirement"
+      },
+      {
+        "paragraph_index": 289,
+        "text": "FR-01"
+      },
+      {
+        "paragraph_index": 290,
+        "text": "Teacher creates/selects a supported assignment and a batch of approximately 10-30 JPG/PNG submission images."
+      },
+      {
+        "paragraph_index": 291,
+        "text": "FR-02"
+      },
+      {
+        "paragraph_index": 292,
+        "text": "Student captures/selects and crops one supported exercise; each batch image also contains one bounded exercise."
+      },
+      {
+        "paragraph_index": 293,
+        "text": "FR-03"
+      },
+      {
+        "paragraph_index": 294,
+        "text": "System checks blur, brightness, glare, severe skew, and crop completeness."
+      },
+      {
+        "paragraph_index": 295,
+        "text": "FR-04"
+      },
+      {
+        "paragraph_index": 296,
+        "text": "Teacher batches create asynchronous AI jobs with per-image and aggregate progress."
+      },
+      {
+        "paragraph_index": 297,
+        "text": "FR-05"
+      },
+      {
+        "paragraph_index": 298,
+        "text": "AI returns structured tokens, boxes, row/column coordinates, carry/borrow, alternatives, and confidence."
+      },
+      {
+        "paragraph_index": 299,
+        "text": "FR-06"
+      },
+      {
+        "paragraph_index": 300,
+        "text": "Student or teacher can confirm/correct a critical recognized token before acceptance."
+      },
+      {
+        "paragraph_index": 301,
+        "text": "FR-07"
+      },
+      {
+        "paragraph_index": 302,
+        "text": "Deterministic rules validate supported vertical addition/subtraction and carry/borrow transitions."
+      },
+      {
+        "paragraph_index": 303,
+        "text": "FR-08"
+      },
+      {
+        "paragraph_index": 304,
+        "text": "System identifies the earliest INVALID item only when evidence is sufficient."
+      },
+      {
+        "paragraph_index": 305,
+        "text": "FR-09"
+      },
+      {
+        "paragraph_index": 306,
+        "text": "Unsupported operation/layout returns OUT_OF_SCOPE."
+      },
+      {
+        "paragraph_index": 307,
+        "text": "FR-10"
+      },
+      {
+        "paragraph_index": 308,
+        "text": "AI-proposed grading is advisory and subject to teacher approve/override."
+      },
+      {
+        "paragraph_index": 309,
+        "text": "FR-11"
+      },
+      {
+        "paragraph_index": 310,
+        "text": "Student flow returns one age-appropriate Socratic hint without revealing the complete answer by default."
+      },
+      {
+        "paragraph_index": 311,
+        "text": "FR-12"
+      },
+      {
+        "paragraph_index": 312,
+        "text": "Teacher review queue includes low-confidence/disputed/flagged cases, evidence, and audit logging."
+      },
+      {
+        "paragraph_index": 313,
+        "text": "FR-13"
+      },
+      {
+        "paragraph_index": 314,
+        "text": "Stored data follows active consent, retention, and deletion policy."
+      },
+      {
+        "paragraph_index": 316,
+        "text": "7.3 Non-Functional Requirements and Acceptance Targets"
+      },
+      {
+        "paragraph_index": 317,
+        "text": "Area"
+      },
+      {
+        "paragraph_index": 318,
+        "text": "Minimum Target / Rule"
+      },
+      {
+        "paragraph_index": 319,
+        "text": "Usability"
+      },
+      {
+        "paragraph_index": 320,
+        "text": ">=80% supervised student users complete capture-confirm-retry with <=2 prompts; teacher creates a batch and reaches review queue without technical assistance."
+      },
+      {
+        "paragraph_index": 321,
+        "text": "Performance"
+      },
+      {
+        "paragraph_index": 322,
+        "text": "p95 AI analysis <=12 s per supported crop on the declared environment; batch processing is asynchronous and observable."
+      },
+      {
+        "paragraph_index": 323,
+        "text": "AI safety"
+      },
+      {
+        "paragraph_index": 324,
+        "text": "Low-confidence evidence never becomes a definite student error; explicit failure/recovery states."
+      },
+      {
+        "paragraph_index": 325,
+        "text": "Security/privacy"
+      },
+      {
+        "paragraph_index": 326,
+        "text": "TLS, Spring Security RBAC, no plaintext credentials/tokens, PII minimization, documented retention/deletion."
+      },
+      {
+        "paragraph_index": 327,
+        "text": "Recognition"
+      },
+      {
+        "paragraph_index": 328,
+        "text": "Critical-token accuracy target >=90% on frozen supported test set."
+      },
+      {
+        "paragraph_index": 329,
+        "text": "First-error localization"
+      },
+      {
+        "paragraph_index": 330,
+        "text": "High-confidence precision target >=85%; report recall and coverage separately."
+      },
+      {
+        "paragraph_index": 331,
+        "text": "Over-correction"
+      },
+      {
+        "paragraph_index": 332,
+        "text": "<=5% of correct supported solutions flagged in the high-confidence subset."
+      },
+      {
+        "paragraph_index": 333,
+        "text": "Hint quality"
+      },
+      {
+        "paragraph_index": 334,
+        "text": "Qualified reviewer mean >=4.0/5 for correctness, relevance, age fit, and answer non-disclosure."
+      },
+      {
+        "paragraph_index": 336,
+        "text": "7.4 Core Business Rules"
+      },
+      {
+        "paragraph_index": 337,
+        "text": "Earliest error = first supported mathematically invalid column/transition after reliable preceding evidence."
+      },
+      {
+        "paragraph_index": 338,
+        "text": "Recognition uncertainty is a system status, not a student-learning error."
+      },
+      {
+        "paragraph_index": 339,
+        "text": "Equivalent valid notation/layout is not penalized simply for differing from a reference rendering."
+      },
+      {
+        "paragraph_index": 340,
+        "text": "VLM disagreement on critical evidence triggers abstention/confirmation; it cannot override deterministic validation."
+      },
+      {
+        "paragraph_index": 341,
+        "text": "AI-proposed grades are advisory; teacher-approved or teacher-overridden results are final in Teacher Grading Mode."
+      },
+      {
+        "paragraph_index": 342,
+        "text": "8. Constraints and Assumptions"
+      },
+      {
+        "paragraph_index": 343,
+        "text": "Constraint"
+      },
+      {
+        "paragraph_index": 344,
+        "text": "Response"
+      },
+      {
+        "paragraph_index": 345,
+        "text": "15-week fixed schedule"
+      },
+      {
+        "paragraph_index": 346,
+        "text": "Freeze core in W1; stretch items never block core acceptance."
+      },
+      {
+        "paragraph_index": 347,
+        "text": "Five-person team"
+      },
+      {
+        "paragraph_index": 348,
+        "text": "Clear technical ownership, self-managing Developers, pair work at risky interfaces."
+      },
+      {
+        "paragraph_index": 349,
+        "text": "Child data / consent"
+      },
+      {
+        "paragraph_index": 350,
+        "text": "Use approved consent, de-identification, retention/deletion; synthetic/team data for early engineering."
+      },
+      {
+        "paragraph_index": 351,
+        "text": "Recognition variability"
+      },
+      {
+        "paragraph_index": 352,
+        "text": "One-exercise crop, capture guidance, top-k candidates, token confirmation, strict quality gate."
+      },
+      {
+        "paragraph_index": 353,
+        "text": "Compute/API budget"
+      },
+      {
+        "paragraph_index": 354,
+        "text": "Rules + zero-shot baseline are core; large-model fine-tuning is stretch only."
+      },
+      {
+        "paragraph_index": 355,
+        "text": "Latency / batch load"
+      },
+      {
+        "paragraph_index": 356,
+        "text": "Crop/resize, async FastAPI-Celery workers, profile per stage, route only necessary cases to VLM."
+      },
+      {
+        "paragraph_index": 357,
+        "text": "Pedagogical limits"
+      },
+      {
+        "paragraph_index": 358,
+        "text": "Qualified teacher/tutor reviewers validate taxonomy, ambiguous ground truth, and hint quality."
+      },
+      {
+        "paragraph_index": 360,
+        "text": "8.1 Go / No-Go Gates"
+      },
+      {
+        "paragraph_index": 361,
+        "text": "Gate"
+      },
+      {
+        "paragraph_index": 362,
+        "text": "Required Evidence"
+      },
+      {
+        "paragraph_index": 363,
+        "text": "Contingency"
+      },
+      {
+        "paragraph_index": 364,
+        "text": "W3"
+      },
+      {
+        "paragraph_index": 365,
+        "text": "Thin vertical slice: teacher small batch + student single submission through Spring/FastAPI stub."
+      },
+      {
+        "paragraph_index": 366,
+        "text": "Stop non-core UI and fix integration."
+      },
+      {
+        "paragraph_index": 367,
+        "text": "W5"
+      },
+      {
+        "paragraph_index": 368,
+        "text": ">=100 labelled pilot images + approved annotation guide."
+      },
+      {
+        "paragraph_index": 369,
+        "text": "Constrain worksheet/data target."
+      },
+      {
+        "paragraph_index": 370,
+        "text": "W7"
+      },
+      {
+        "paragraph_index": 371,
+        "text": "Critical-token recognition >=75% on pilot validation."
+      },
+      {
+        "paragraph_index": 372,
+        "text": "Require confirmation and narrow supported styles."
+      },
+      {
+        "paragraph_index": 373,
+        "text": "W9"
+      },
+      {
+        "paragraph_index": 374,
+        "text": "Validator passes rule suite and localizes first errors on clean ground truth."
+      },
+      {
+        "paragraph_index": 375,
+        "text": "Remove unsupported carry/borrow variants."
+      },
+      {
+        "paragraph_index": 376,
+        "text": "W11"
+      },
+      {
+        "paragraph_index": 377,
+        "text": "Integrated beta supports abstention and async teacher batch."
+      },
+      {
+        "paragraph_index": 378,
+        "text": "Drop analytics/fine-tuning; protect core flow."
+      },
+      {
+        "paragraph_index": 380,
+        "text": "9. Target Users and Stakeholders"
+      },
+      {
+        "paragraph_index": 381,
+        "text": "Stakeholder"
+      },
+      {
+        "paragraph_index": 382,
+        "text": "Primary Need"
+      },
+      {
+        "paragraph_index": 383,
+        "text": "Product Implication"
+      },
+      {
+        "paragraph_index": 384,
+        "text": "Teacher / tutor"
+      },
+      {
+        "paragraph_index": 385,
+        "text": "Reduce repetitive checking while retaining final control."
+      },
+      {
+        "paragraph_index": 386,
+        "text": "Assignment + 10-30 image batch, confidence triage, evidence, approve/override, audit."
+      },
+      {
+        "paragraph_index": 387,
+        "text": "Student, Grades 1-5"
+      },
+      {
+        "paragraph_index": 388,
+        "text": "Know where to retry without immediately seeing the answer."
+      },
+      {
+        "paragraph_index": 389,
+        "text": "Simple mobile capture, token confirmation, one hint at a time, retry."
+      },
+      {
+        "paragraph_index": 390,
+        "text": "Parent / guardian"
+      },
+      {
+        "paragraph_index": 391,
+        "text": "Understand and control child-data use."
+      },
+      {
+        "paragraph_index": 392,
+        "text": "Plain-language consent, deletion path, no unnecessary profiling."
+      },
+      {
+        "paragraph_index": 393,
+        "text": "School / education partner"
+      },
+      {
+        "paragraph_index": 394,
+        "text": "Safeguard students and data."
+      },
+      {
+        "paragraph_index": 395,
+        "text": "Access control, minimization, retention, incident process."
+      },
+      {
+        "paragraph_index": 396,
+        "text": "Supervisor / evaluator"
+      },
+      {
+        "paragraph_index": 397,
+        "text": "Verify feasibility, rigor, and ethical practice."
+      },
+      {
+        "paragraph_index": 398,
+        "text": "Milestone evidence, reproducible metrics, honest limitations."
+      },
+      {
+        "paragraph_index": 400,
+        "text": "Primary teacher scenario: Ms. Lan uploads 25 photographed exercises for one assignment. The system processes them asynchronously, proposes results with confidence tiers, and places only uncertain/flagged submissions in the review queue. She approves or overrides the result and remains the final grading authority."
+      },
+      {
+        "paragraph_index": 401,
+        "text": "Student scenario: Minh photographs one subtraction exercise. If a borrow mark is ambiguous, the app asks for confirmation; otherwise it highlights the earliest supported error and provides one retry-oriented hint."
+      },
+      {
+        "paragraph_index": 402,
+        "text": "10. Technology Stack"
+      },
+      {
+        "paragraph_index": 403,
+        "text": "Layer"
+      },
+      {
+        "paragraph_index": 404,
+        "text": "Frozen Technology"
+      },
+      {
+        "paragraph_index": 405,
+        "text": "Purpose"
+      },
+      {
+        "paragraph_index": 406,
+        "text": "Teacher web"
+      },
+      {
+        "paragraph_index": 407,
+        "text": "React + Vite + TypeScript; MUI; TanStack Query"
+      },
+      {
+        "paragraph_index": 408,
+        "text": "Batch upload, progress, grading evidence, review, reporting."
+      },
+      {
+        "paragraph_index": 409,
+        "text": "Student mobile"
+      },
+      {
+        "paragraph_index": 410,
+        "text": "React Native + Expo + TypeScript"
+      },
+      {
+        "paragraph_index": 411,
+        "text": "Camera/gallery, crop/rotate, confirmation, hint, retry."
+      },
+      {
+        "paragraph_index": 412,
+        "text": "Business backend"
+      },
+      {
+        "paragraph_index": 413,
+        "text": "Java 21 + Spring Boot 3.x"
+      },
+      {
+        "paragraph_index": 414,
+        "text": "Modular monolith; auth, classroom, assignment, batch, submission, grading, review, report, audit."
+      },
+      {
+        "paragraph_index": 415,
+        "text": "Security/API"
+      },
+      {
+        "paragraph_index": 416,
+        "text": "Spring Web, Spring Security, JWT/Refresh Token, RBAC, OpenAPI"
+      },
+      {
+        "paragraph_index": 417,
+        "text": "Secure versioned REST contracts."
+      },
+      {
+        "paragraph_index": 418,
+        "text": "Persistence"
+      },
+      {
+        "paragraph_index": 419,
+        "text": "Spring Data JPA + Hibernate + Flyway + PostgreSQL"
+      },
+      {
+        "paragraph_index": 420,
+        "text": "Transactional business state and database migrations."
+      },
+      {
+        "paragraph_index": 421,
+        "text": "AI service"
+      },
+      {
+        "paragraph_index": 422,
+        "text": "Python 3.12 + FastAPI + Pydantic"
+      },
+      {
+        "paragraph_index": 423,
+        "text": "Preprocess, recognize, parse, validate, confidence policy, structured results."
+      },
+      {
+        "paragraph_index": 424,
+        "text": "Async AI"
+      },
+      {
+        "paragraph_index": 425,
+        "text": "Celery + Redis"
+      },
+      {
+        "paragraph_index": 426,
+        "text": "Internal AI queue, parallel workers, retry, batch progress."
+      },
+      {
+        "paragraph_index": 427,
+        "text": "Vision/recognition"
+      },
+      {
+        "paragraph_index": 428,
+        "text": "OpenCV + PyTorch; PaddleOCR baseline"
+      },
+      {
+        "paragraph_index": 429,
+        "text": "Quality, normalization, layout, digit/operator/carry recognition."
+      },
+      {
+        "paragraph_index": 430,
+        "text": "Math validation"
+      },
+      {
+        "paragraph_index": 431,
+        "text": "Custom deterministic Python rule engine"
+      },
+      {
+        "paragraph_index": 432,
+        "text": "Source of truth for supported arithmetic correctness."
+      },
+      {
+        "paragraph_index": 433,
+        "text": "VLM"
+      },
+      {
+        "paragraph_index": 434,
+        "text": "Structured-output VLM behind adapter"
+      },
+      {
+        "paragraph_index": 435,
+        "text": "Zero-shot comparison and constrained hint/context wording only."
+      },
+      {
+        "paragraph_index": 436,
+        "text": "Storage/MLOps"
+      },
+      {
+        "paragraph_index": 437,
+        "text": "MinIO/S3 + DVC + MLflow"
+      },
+      {
+        "paragraph_index": 438,
+        "text": "Image retention, dataset/split versioning, experiment tracking."
+      },
+      {
+        "paragraph_index": 439,
+        "text": "DevOps/QA"
+      },
+      {
+        "paragraph_index": 440,
+        "text": "Docker Compose, GitHub Actions, JUnit/Mockito/Testcontainers, pytest, Playwright"
+      },
+      {
+        "paragraph_index": 441,
+        "text": "Reproducible local deployment and regression testing."
+      },
+      {
+        "paragraph_index": 443,
+        "text": "10.1 Architecture Decision Summary"
+      },
+      {
+        "paragraph_index": 444,
+        "text": "Decision"
+      },
+      {
+        "paragraph_index": 445,
+        "text": "Rationale"
+      },
+      {
+        "paragraph_index": 446,
+        "text": "Modular monolith, not full microservices"
+      },
+      {
+        "paragraph_index": 447,
+        "text": "Lower operational complexity for a five-person, 15-week capstone while preserving clear module boundaries."
+      },
+      {
+        "paragraph_index": 448,
+        "text": "Spring Boot for business core"
+      },
+      {
+        "paragraph_index": 449,
+        "text": "Strong fit for security, transactions, domain modules, REST APIs, and team Java direction."
+      },
+      {
+        "paragraph_index": 450,
+        "text": "Separate Python AI service"
+      },
+      {
+        "paragraph_index": 451,
+        "text": "Keeps AI/CV ecosystem independent from business logic and enables model replacement."
+      },
+      {
+        "paragraph_index": 452,
+        "text": "Celery/Redis inside AI subsystem"
+      },
+      {
+        "paragraph_index": 453,
+        "text": "Supports parallel image analysis without coupling Spring Boot to Python worker internals."
+      },
+      {
+        "paragraph_index": 454,
+        "text": "Deterministic validator as correctness authority"
+      },
+      {
+        "paragraph_index": 455,
+        "text": "Supported arithmetic is rule-verifiable; VLM hallucination must not define the final mathematical judgment."
+      },
+      {
+        "paragraph_index": 457,
+        "text": "11. Methodology and 15-Week Development Plan"
+      },
+      {
+        "paragraph_index": 458,
+        "text": "11.1 Scrum Model"
+      },
+      {
+        "paragraph_index": 459,
+        "text": "The project uses one inception week followed by seven fixed two-week Sprints. Research uncertainty is handled through time-boxed spikes with a hypothesis, dataset/split, baseline, metric, budget, result, and adopt/reject/narrow/defer decision."
+      },
+      {
+        "paragraph_index": 460,
+        "text": "Scrum Accountability"
+      },
+      {
+        "paragraph_index": 461,
+        "text": "Owner"
+      },
+      {
+        "paragraph_index": 462,
+        "text": "Key Responsibility"
+      },
+      {
+        "paragraph_index": 463,
+        "text": "Product Owner & Scrum Master"
+      },
+      {
+        "paragraph_index": 464,
+        "text": "Nguyễn Văn Duy Mạnh"
+      },
+      {
+        "paragraph_index": 465,
+        "text": "Product Goal/Backlog/acceptance plus Scrum facilitation, impediment handling, and process transparency."
+      },
+      {
+        "paragraph_index": 466,
+        "text": "Developers"
+      },
+      {
+        "paragraph_index": 467,
+        "text": "Hiếu, Nam, Lộc, Khả"
+      },
+      {
+        "paragraph_index": 468,
+        "text": "Create the usable Increment, self-manage Sprint work, test/integrate/document the product."
+      },
+      {
+        "paragraph_index": 470,
+        "text": "The combined Product Owner/Scrum Master accountability is an explicit small-team choice. Backlog priority and acceptance are product decisions; facilitation and impediment removal are process responsibilities. These are recorded separately to reduce role ambiguity."
+      },
+      {
+        "paragraph_index": 471,
+        "text": "11.2 Scrum Events and Quality Gates"
+      },
+      {
+        "paragraph_index": 472,
+        "text": "Event"
+      },
+      {
+        "paragraph_index": 473,
+        "text": "Cadence"
+      },
+      {
+        "paragraph_index": 474,
+        "text": "Output"
+      },
+      {
+        "paragraph_index": 475,
+        "text": "Sprint Planning"
+      },
+      {
+        "paragraph_index": 476,
+        "text": "Start of Sprint"
+      },
+      {
+        "paragraph_index": 477,
+        "text": "Sprint Goal, selected items, dependencies, evidence."
+      },
+      {
+        "paragraph_index": 478,
+        "text": "Daily Scrum"
+      },
+      {
+        "paragraph_index": 479,
+        "text": "15 min on working days"
+      },
+      {
+        "paragraph_index": 480,
+        "text": "Progress inspection and plan adaptation."
+      },
+      {
+        "paragraph_index": 481,
+        "text": "Backlog Refinement"
+      },
+      {
+        "paragraph_index": 482,
+        "text": "At least once/Sprint"
+      },
+      {
+        "paragraph_index": 483,
+        "text": "Clear acceptance, split/estimate, risk updates."
+      },
+      {
+        "paragraph_index": 484,
+        "text": "Sprint Review"
+      },
+      {
+        "paragraph_index": 485,
+        "text": "End of Sprint"
+      },
+      {
+        "paragraph_index": 486,
+        "text": "Demo increment + inspect metrics/research decisions."
+      },
+      {
+        "paragraph_index": 487,
+        "text": "Retrospective"
+      },
+      {
+        "paragraph_index": 488,
+        "text": "After Review"
+      },
+      {
+        "paragraph_index": 489,
+        "text": "1-2 concrete process improvements."
+      },
+      {
+        "paragraph_index": 491,
+        "text": "11.3 Sprint Plan"
+      },
+      {
+        "paragraph_index": 493,
+        "text": "Figure 1. Fixed 15-week Agile delivery plan."
+      },
+      {
+        "paragraph_index": 494,
+        "text": "Iteration"
+      },
+      {
+        "paragraph_index": 495,
+        "text": "Weeks"
+      },
+      {
+        "paragraph_index": 496,
+        "text": "Primary Outcome"
+      },
+      {
+        "paragraph_index": 497,
+        "text": "Inception"
+      },
+      {
+        "paragraph_index": 498,
+        "text": "W1"
+      },
+      {
+        "paragraph_index": 499,
+        "text": "Scope freeze, interviews, architecture/ADRs, repo/CI, consent plan, AI contract, backlog."
+      },
+      {
+        "paragraph_index": 500,
+        "text": "Sprint 1"
+      },
+      {
+        "paragraph_index": 501,
+        "text": "W2-3"
+      },
+      {
+        "paragraph_index": 502,
+        "text": "React/React Native shells, Spring auth/upload/batch, PostgreSQL/MinIO skeleton, FastAPI stub; thin vertical slice."
+      },
+      {
+        "paragraph_index": 503,
+        "text": "Sprint 2"
+      },
+      {
+        "paragraph_index": 504,
+        "text": "W4-5"
+      },
+      {
+        "paragraph_index": 505,
+        "text": "Consent/data pilot, >=100 images, annotation guide, quality gate, mobile capture flow."
+      },
+      {
+        "paragraph_index": 506,
+        "text": "Sprint 3"
+      },
+      {
+        "paragraph_index": 507,
+        "text": "W6-7"
+      },
+      {
+        "paragraph_index": 508,
+        "text": "Layout + recognition baseline, boxes/confidence, evaluation harness."
+      },
+      {
+        "paragraph_index": 509,
+        "text": "Sprint 4"
+      },
+      {
+        "paragraph_index": 510,
+        "text": "W8-9"
+      },
+      {
+        "paragraph_index": 511,
+        "text": "Parser, carry/borrow validator, earliest error, simple grading policy."
+      },
+      {
+        "paragraph_index": 512,
+        "text": "Sprint 5"
+      },
+      {
+        "paragraph_index": 513,
+        "text": "W10-11"
+      },
+      {
+        "paragraph_index": 514,
+        "text": "Celery/Redis batch workers, confidence policy, hints, review/approve/override, >=500 dataset target."
+      },
+      {
+        "paragraph_index": 515,
+        "text": "Sprint 6"
+      },
+      {
+        "paragraph_index": 516,
+        "text": "W12-13"
+      },
+      {
+        "paragraph_index": 517,
+        "text": "P1/P2/P3 comparison, batch/load/security/usability tests, release candidate."
+      },
+      {
+        "paragraph_index": 518,
+        "text": "Sprint 7"
+      },
+      {
+        "paragraph_index": 519,
+        "text": "W14-15"
+      },
+      {
+        "paragraph_index": 520,
+        "text": "Regression, expert review, packaging, final report, tagged release and defense demo."
+      },
+      {
+        "paragraph_index": 522,
+        "text": "11.4 Definition of Done"
+      },
+      {
+        "paragraph_index": 523,
+        "text": "Implementation merged through review and linked to backlog item."
+      },
+      {
+        "paragraph_index": 524,
+        "text": "Relevant automated/manual tests pass; no critical defect remains."
+      },
+      {
+        "paragraph_index": 525,
+        "text": "API/schema/ADR updated when changed; security/privacy checks completed when applicable."
+      },
+      {
+        "paragraph_index": 526,
+        "text": "Required metric/evidence is reproducible and demonstrated in Sprint Review."
+      },
+      {
+        "paragraph_index": 527,
+        "text": "12. System Architecture Overview"
+      },
+      {
+        "paragraph_index": 528,
+        "text": "12.1 System Context"
+      },
+      {
+        "paragraph_index": 530,
+        "text": "Figure 2. System context and trust boundary."
+      },
+      {
+        "paragraph_index": 531,
+        "text": "Teachers use the web portal for assignment context, 10-30 image batch grading, review, and final approval. Students use the mobile app for one-exercise capture, confirmation, hint, and retry. Parents/schools are consent and governance stakeholders. External AI, when used, receives only minimum necessary context."
+      },
+      {
+        "paragraph_index": 532,
+        "text": "12.2 Logical Architecture"
+      },
+      {
+        "paragraph_index": 534,
+        "text": "Figure 3. Logical architecture baseline."
+      },
+      {
+        "paragraph_index": 535,
+        "text": "Spring Boot owns business state and authorization. FastAPI owns AI inference. Spring communicates with FastAPI only through versioned REST/OpenAPI contracts; Celery/Redis remains an internal implementation detail of the AI subsystem. This boundary allows AI components to change without destabilizing classroom/grading business logic."
+      },
+      {
+        "paragraph_index": 536,
+        "text": "12.3 End-to-End Processing Flow"
+      },
+      {
+        "paragraph_index": 537,
+        "text": "Step"
+      },
+      {
+        "paragraph_index": 538,
+        "text": "Module"
+      },
+      {
+        "paragraph_index": 539,
+        "text": "Output"
+      },
+      {
+        "paragraph_index": 540,
+        "text": "1"
+      },
+      {
+        "paragraph_index": 541,
+        "text": "Submission intake"
+      },
+      {
+        "paragraph_index": 542,
+        "text": "Teacher batch or student single submission; authorized records and image references."
+      },
+      {
+        "paragraph_index": 543,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 544,
+        "text": "AI job orchestration"
+      },
+      {
+        "paragraph_index": 545,
+        "text": "FastAPI job IDs; batch items queued asynchronously."
+      },
+      {
+        "paragraph_index": 546,
+        "text": "3"
+      },
+      {
+        "paragraph_index": 547,
+        "text": "Quality + normalization"
+      },
+      {
+        "paragraph_index": 548,
+        "text": "PASS / RETAKE / CROP_REQUIRED and normalized crop."
+      },
+      {
+        "paragraph_index": 549,
+        "text": "4"
+      },
+      {
+        "paragraph_index": 550,
+        "text": "Layout + recognition"
+      },
+      {
+        "paragraph_index": 551,
+        "text": "Rows/columns, tokens, boxes, alternatives, confidence."
+      },
+      {
+        "paragraph_index": 552,
+        "text": "5"
+      },
+      {
+        "paragraph_index": 553,
+        "text": "Structured parser"
+      },
+      {
+        "paragraph_index": 554,
+        "text": "Arithmetic object with place values and carry/borrow state."
+      },
+      {
+        "paragraph_index": 555,
+        "text": "6"
+      },
+      {
+        "paragraph_index": 556,
+        "text": "Deterministic validator"
+      },
+      {
+        "paragraph_index": 557,
+        "text": "VALID/INVALID/UNCERTAIN per column; earliest-error evidence."
+      },
+      {
+        "paragraph_index": 558,
+        "text": "7"
+      },
+      {
+        "paragraph_index": 559,
+        "text": "Confidence + policy"
+      },
+      {
+        "paragraph_index": 560,
+        "text": "PROPOSED_GRADE / FEEDBACK_READY / NEEDS_CONFIRMATION / NEEDS_RETAKE / OUT_OF_SCOPE / REVIEW_REQUIRED."
+      },
+      {
+        "paragraph_index": 561,
+        "text": "8"
+      },
+      {
+        "paragraph_index": 562,
+        "text": "Delivery + audit"
+      },
+      {
+        "paragraph_index": 563,
+        "text": "Teacher approve/override or student hint/retry; final decision logged."
+      },
+      {
+        "paragraph_index": 565,
+        "text": "12.4 Core Data Contract"
+      },
+      {
+        "paragraph_index": 566,
+        "text": "Field"
+      },
+      {
+        "paragraph_index": 567,
+        "text": "Required Content"
+      },
+      {
+        "paragraph_index": 568,
+        "text": "status"
+      },
+      {
+        "paragraph_index": 569,
+        "text": "Decision state such as PROPOSED_GRADE, FEEDBACK_READY, REVIEW_REQUIRED, etc."
+      },
+      {
+        "paragraph_index": 570,
+        "text": "recognized_exercise"
+      },
+      {
+        "paragraph_index": 571,
+        "text": "Operator, ordered digits, row/column coordinates, carry/borrow marks, token boxes."
+      },
+      {
+        "paragraph_index": 572,
+        "text": "validation"
+      },
+      {
+        "paragraph_index": 573,
+        "text": "Per-column validity and first_invalid_index when supported."
+      },
+      {
+        "paragraph_index": 574,
+        "text": "confidence"
+      },
+      {
+        "paragraph_index": 575,
+        "text": "Calibrated recognition/structure/diagnosis signals; not VLM self-reported confidence."
+      },
+      {
+        "paragraph_index": 576,
+        "text": "evidence"
+      },
+      {
+        "paragraph_index": 577,
+        "text": "Bounding box, expected vs observed relation, rule identifier."
+      },
+      {
+        "paragraph_index": 578,
+        "text": "grading"
+      },
+      {
+        "paragraph_index": 579,
+        "text": "Batch/submission IDs, max score, AI-proposed result, confidence, teacher decision/final score."
+      },
+      {
+        "paragraph_index": 580,
+        "text": "audit"
+      },
+      {
+        "paragraph_index": 581,
+        "text": "Dataset/model/prompt/rule versions and user/teacher corrections."
+      },
+      {
+        "paragraph_index": 583,
+        "text": "12.5 Security and Privacy Boundary"
+      },
+      {
+        "paragraph_index": 584,
+        "text": "Clients authenticate only through Spring Boot; no direct access to PostgreSQL, MinIO, Redis, Celery, or AI workers."
+      },
+      {
+        "paragraph_index": 585,
+        "text": "Operational identities are separated from research identifiers; research exports remove names, IDs, faces, and unrelated page content."
+      },
+      {
+        "paragraph_index": 586,
+        "text": "Raw images receive retention dates; deletion removes expired objects and unnecessary derivatives."
+      },
+      {
+        "paragraph_index": 587,
+        "text": "External VLM calls, if enabled, use only the minimum crop/context and must pass provider-privacy review."
+      },
+      {
+        "paragraph_index": 588,
+        "text": "13. Potential Risks and Mitigation Strategies"
+      },
+      {
+        "paragraph_index": 589,
+        "text": "ID"
+      },
+      {
+        "paragraph_index": 590,
+        "text": "Risk"
+      },
+      {
+        "paragraph_index": 591,
+        "text": "Trigger / Mitigation"
+      },
+      {
+        "paragraph_index": 592,
+        "text": "R-01"
+      },
+      {
+        "paragraph_index": 593,
+        "text": "Scope expansion"
+      },
+      {
+        "paragraph_index": 594,
+        "text": "New math domain before core gates pass -> freeze core; move to stretch."
+      },
+      {
+        "paragraph_index": 595,
+        "text": "R-02"
+      },
+      {
+        "paragraph_index": 596,
+        "text": "Consent/data delay"
+      },
+      {
+        "paragraph_index": 597,
+        "text": "<100 approved samples by W5 -> use team/synthetic engineering data; constrain target transparently."
+      },
+      {
+        "paragraph_index": 598,
+        "text": "R-03"
+      },
+      {
+        "paragraph_index": 599,
+        "text": "Recognition accuracy low"
+      },
+      {
+        "paragraph_index": 600,
+        "text": "<75% critical-token accuracy at W7 -> narrow styles; specialist recognizer; required confirmation."
+      },
+      {
+        "paragraph_index": 601,
+        "text": "R-04"
+      },
+      {
+        "paragraph_index": 602,
+        "text": "VLM hallucination / unsafe feedback"
+      },
+      {
+        "paragraph_index": 603,
+        "text": "Contradicts validator or leaks answer -> constrained schema/templates, abstention, teacher review."
+      },
+      {
+        "paragraph_index": 604,
+        "text": "R-05"
+      },
+      {
+        "paragraph_index": 605,
+        "text": "Latency / cost"
+      },
+      {
+        "paragraph_index": 606,
+        "text": "p95 >12 s or cost exceeds plan -> crop/resize, async workers, smaller model, rules/templates."
+      },
+      {
+        "paragraph_index": 607,
+        "text": "R-06"
+      },
+      {
+        "paragraph_index": 608,
+        "text": "Annotation inconsistency"
+      },
+      {
+        "paragraph_index": 609,
+        "text": "Repeated label disputes -> revise guide, double annotate, expert adjudication, preserve ambiguity."
+      },
+      {
+        "paragraph_index": 610,
+        "text": "R-07"
+      },
+      {
+        "paragraph_index": 611,
+        "text": "Privacy/security incident"
+      },
+      {
+        "paragraph_index": 612,
+        "text": "PII leak/unauthorized access -> stop affected flow, isolate/delete, notify supervisor, fix controls."
+      },
+      {
+        "paragraph_index": 613,
+        "text": "R-08"
+      },
+      {
+        "paragraph_index": 614,
+        "text": "Integration delay"
+      },
+      {
+        "paragraph_index": 615,
+        "text": "No thin vertical slice by W3 -> stabilize contracts; pair integration; defer non-core work."
+      },
+      {
+        "paragraph_index": 616,
+        "text": "R-09"
+      },
+      {
+        "paragraph_index": 617,
+        "text": "Evaluation leakage"
+      },
+      {
+        "paragraph_index": 618,
+        "text": "Writer/problem overlap -> duplicate checks, writer-disjoint split, frozen manifest."
+      },
+      {
+        "paragraph_index": 619,
+        "text": "R-10"
+      },
+      {
+        "paragraph_index": 620,
+        "text": "Team availability gap"
+      },
+      {
+        "paragraph_index": 621,
+        "text": "Key owner blocked >2 workdays -> pair ownership, handover/runbook, re-plan Sprint."
+      },
+      {
+        "paragraph_index": 623,
+        "text": "Priority rule:  Safety before coverage. If schedule pressure increases, cut fine-tuning, analytics, history, and expanded arithmetic before cutting the vertical slice, validator, gold evaluation data, confidence handling, security/privacy, or required documentation."
+      },
+      {
+        "paragraph_index": 625,
+        "text": "14. Expected Outcomes and Deliverables"
+      },
+      {
+        "paragraph_index": 626,
+        "text": "ID"
+      },
+      {
+        "paragraph_index": 627,
+        "text": "Deliverable"
+      },
+      {
+        "paragraph_index": 628,
+        "text": "Core Acceptance Evidence"
+      },
+      {
+        "paragraph_index": 629,
+        "text": "D01"
+      },
+      {
+        "paragraph_index": 630,
+        "text": "Project Proposal"
+      },
+      {
+        "paragraph_index": 631,
+        "text": "Approved scope, team/Scrum roles, architecture, plan, risks, references."
+      },
+      {
+        "paragraph_index": 632,
+        "text": "D02"
+      },
+      {
+        "paragraph_index": 633,
+        "text": "Requirements & Traceability"
+      },
+      {
+        "paragraph_index": 634,
+        "text": "SRS/user stories, FR/NFR acceptance, links to backlog/tests."
+      },
+      {
+        "paragraph_index": 635,
+        "text": "D03"
+      },
+      {
+        "paragraph_index": 636,
+        "text": "Dataset & Annotation"
+      },
+      {
+        "paragraph_index": 637,
+        "text": ">=500 gold images, schema/guide, consent refs, quality/IAA, frozen split."
+      },
+      {
+        "paragraph_index": 638,
+        "text": "D04"
+      },
+      {
+        "paragraph_index": 639,
+        "text": "AI/ML Experiment Package"
+      },
+      {
+        "paragraph_index": 640,
+        "text": "P1/P2/P3 configs, metrics, error analysis, reproducibility metadata."
+      },
+      {
+        "paragraph_index": 641,
+        "text": "D05"
+      },
+      {
+        "paragraph_index": 642,
+        "text": "Teacher Web Grading Portal"
+      },
+      {
+        "paragraph_index": 643,
+        "text": "React web: assignment, 10-30 batch, progress, evidence, approve/override."
+      },
+      {
+        "paragraph_index": 644,
+        "text": "D06"
+      },
+      {
+        "paragraph_index": 645,
+        "text": "Student Android MVP"
+      },
+      {
+        "paragraph_index": 646,
+        "text": "React Native/Expo: capture, crop, confirm, hint/clarify, retry."
+      },
+      {
+        "paragraph_index": 647,
+        "text": "D07"
+      },
+      {
+        "paragraph_index": 648,
+        "text": "Backend + AI Deployment"
+      },
+      {
+        "paragraph_index": 649,
+        "text": "Spring Boot + PostgreSQL/MinIO + FastAPI/Celery/Redis + Docker Compose/CI/runbook."
+      },
+      {
+        "paragraph_index": 650,
+        "text": "D08"
+      },
+      {
+        "paragraph_index": 651,
+        "text": "Architecture & Technical Docs"
+      },
+      {
+        "paragraph_index": 652,
+        "text": "Context/logical/deployment views, APIs, ADRs, data and security decisions."
+      },
+      {
+        "paragraph_index": 653,
+        "text": "D09"
+      },
+      {
+        "paragraph_index": 654,
+        "text": "Test & Evaluation Report"
+      },
+      {
+        "paragraph_index": 655,
+        "text": "Functional/integration/performance/security/usability + recognition/localization/safety metrics."
+      },
+      {
+        "paragraph_index": 656,
+        "text": "D10"
+      },
+      {
+        "paragraph_index": 657,
+        "text": "Final Report & Demo"
+      },
+      {
+        "paragraph_index": 658,
+        "text": "Limitations, future work, tagged release, presentation/demo package."
+      },
+      {
+        "paragraph_index": 660,
+        "text": "14.1 Success Decision"
+      },
+      {
+        "paragraph_index": 661,
+        "text": "The capstone succeeds when the core teacher batch and student tutoring flows work end-to-end, safety behavior is enforced, evaluation is reproducible, and required documentation/deployment artifacts are complete. Stretch goals are optional; unmet research targets are acceptable when results and limitations are reported honestly."
+      },
+      {
+        "paragraph_index": 663,
+        "text": "15. References"
+      },
+      {
+        "paragraph_index": 664,
+        "text": "[1] Duy Tan University - International School, “Software Engineering Capstone Project Proposal Template” and Guided SE & NE Capstone Proposal Template, 2026."
+      },
+      {
+        "paragraph_index": 665,
+        "text": "[2] Ministry of Education and Training of Viet Nam, “General Education Curriculum 2018 - Overall Program,” Circular 32/2018/TT-BGDDT, as amended."
+      },
+      {
+        "paragraph_index": 666,
+        "text": "[3] Photomath, “Photomath - The Ultimate Math Help App” and product guidance on problem scanning and step-by-step explanations. Accessed Aug. 26, 2026."
+      },
+      {
+        "paragraph_index": 667,
+        "text": "[4] Mathpix, “Handwriting Recognition” and Convert API documentation. Accessed Aug. 26, 2026."
+      },
+      {
+        "paragraph_index": 668,
+        "text": "[5] O. Nath et al., “Can Vision-Language Models Evaluate Handwritten Math?” ACL 2025, pp. 14784-14814, doi:10.18653/v1/2025.acl-long.720."
+      },
+      {
+        "paragraph_index": 669,
+        "text": "[6] T. P. Nguyen et al., “VEHME: A Vision-Language Model for Evaluating Handwritten Mathematics Expressions,” EMNLP 2025, pp. 31793-31813."
+      },
+      {
+        "paragraph_index": 670,
+        "text": "[7] P. Gervais, A. Fadeeva, A. Maksai, “MathWriting: A Dataset for Handwritten Mathematical Expression Recognition,” arXiv:2404.10690, 2024; revised 2025."
+      },
+      {
+        "paragraph_index": 671,
+        "text": "[8] C. Guo, G. Pleiss, Y. Sun, K. Q. Weinberger, “On Calibration of Modern Neural Networks,” ICML 2017, PMLR 70, pp. 1321-1330."
+      },
+      {
+        "paragraph_index": 672,
+        "text": "[9] E. Jones, S. Sagawa, P. W. Koh, A. Kumar, P. Liang, “Selective Classification Can Magnify Disparities Across Groups,” ICLR 2021."
+      },
+      {
+        "paragraph_index": 673,
+        "text": "[10] K. Schwaber and J. Sutherland, “The Scrum Guide,” Nov. 2020."
+      },
+      {
+        "paragraph_index": 674,
+        "text": "[11] ISO/IEC/IEEE 29148:2018, Systems and software engineering - Life cycle processes - Requirements engineering."
+      },
+      {
+        "paragraph_index": 675,
+        "text": "[12] ISO/IEC/IEEE 12207:2026, Systems and software engineering - Software life cycle processes."
+      },
+      {
+        "paragraph_index": 676,
+        "text": "[13] ISO/IEC/IEEE 42010:2022, Software, systems and enterprise - Architecture description."
+      },
+      {
+        "paragraph_index": 677,
+        "text": "[14] ISO/IEC 25010:2023, Systems and software engineering - SQuaRE - Product quality model."
+      },
+      {
+        "paragraph_index": 678,
+        "text": "[15] National Assembly of the Socialist Republic of Viet Nam, Law No. 91/2025/QH15 on Personal Data Protection, effective Jan. 1, 2026."
+      },
+      {
+        "paragraph_index": 680,
+        "text": "Appendix A. MVP Support & Error Taxonomy"
+      },
+      {
+        "paragraph_index": 681,
+        "text": "Problem Type"
+      },
+      {
+        "paragraph_index": 682,
+        "text": "Status"
+      },
+      {
+        "paragraph_index": 683,
+        "text": "Supported Boundary / Behavior"
+      },
+      {
+        "paragraph_index": 684,
+        "text": "Vertical addition"
+      },
+      {
+        "paragraph_index": 685,
+        "text": "Core"
+      },
+      {
+        "paragraph_index": 686,
+        "text": "Two addends; 1-6 digits; with/without carry; one result line; validate alignment, per-column sum, carry, result digit."
+      },
+      {
+        "paragraph_index": 687,
+        "text": "Vertical subtraction"
+      },
+      {
+        "paragraph_index": 688,
+        "text": "Core"
+      },
+      {
+        "paragraph_index": 689,
+        "text": "Two operands; 1-6 digits; non-negative result; with/without borrowing; validate alignment, borrow state, per-column difference."
+      },
+      {
+        "paragraph_index": 690,
+        "text": "Horizontal add/subtract"
+      },
+      {
+        "paragraph_index": 691,
+        "text": "Limited"
+      },
+      {
+        "paragraph_index": 692,
+        "text": "Recognition sanity case only; no multi-step reasoning claim."
+      },
+      {
+        "paragraph_index": 693,
+        "text": "Multiplication / short division"
+      },
+      {
+        "paragraph_index": 694,
+        "text": "Stretch"
+      },
+      {
+        "paragraph_index": 695,
+        "text": "Only after core gates pass and a separate validator/test matrix is frozen."
+      },
+      {
+        "paragraph_index": 696,
+        "text": "Fractions / decimals / geometry / word problems"
+      },
+      {
+        "paragraph_index": 697,
+        "text": "Out of scope"
+      },
+      {
+        "paragraph_index": 698,
+        "text": "Return OUT_OF_SCOPE; do not claim automatic diagnosis."
+      },
+      {
+        "paragraph_index": 699,
+        "text": "Multiple exercises on one page"
+      },
+      {
+        "paragraph_index": 700,
+        "text": "Out of scope"
+      },
+      {
+        "paragraph_index": 701,
+        "text": "User must crop one exercise per submitted image."
+      },
+      {
+        "paragraph_index": 703,
+        "text": "A.1 System Status vs Student Error"
+      },
+      {
+        "paragraph_index": 704,
+        "text": "Code"
+      },
+      {
+        "paragraph_index": 705,
+        "text": "Class"
+      },
+      {
+        "paragraph_index": 706,
+        "text": "Meaning / Required Behavior"
+      },
+      {
+        "paragraph_index": 707,
+        "text": "S1"
+      },
+      {
+        "paragraph_index": 708,
+        "text": "Recognition uncertainty"
+      },
+      {
+        "paragraph_index": 709,
+        "text": "Critical token ambiguous/disagreement -> confirm, retake, or review; never assign student fault."
+      },
+      {
+        "paragraph_index": 710,
+        "text": "S2"
+      },
+      {
+        "paragraph_index": 711,
+        "text": "Image-quality failure"
+      },
+      {
+        "paragraph_index": 712,
+        "text": "Blur/glare/skew/incomplete crop -> request retake/crop."
+      },
+      {
+        "paragraph_index": 713,
+        "text": "S3"
+      },
+      {
+        "paragraph_index": 714,
+        "text": "Out of scope"
+      },
+      {
+        "paragraph_index": 715,
+        "text": "Unsupported operation/layout -> state scope and stop automatic diagnosis."
+      },
+      {
+        "paragraph_index": 716,
+        "text": "E1"
+      },
+      {
+        "paragraph_index": 717,
+        "text": "Computation error"
+      },
+      {
+        "paragraph_index": 718,
+        "text": "Clear tokens but column arithmetic incorrect -> highlight earliest column and prompt recalculation."
+      },
+      {
+        "paragraph_index": 719,
+        "text": "E2"
+      },
+      {
+        "paragraph_index": 720,
+        "text": "Carry/borrow error"
+      },
+      {
+        "paragraph_index": 721,
+        "text": "Omitted/incorrect/misapplied carry or borrow -> point to transition."
+      },
+      {
+        "paragraph_index": 722,
+        "text": "E3"
+      },
+      {
+        "paragraph_index": 723,
+        "text": "Place-value alignment error"
+      },
+      {
+        "paragraph_index": 724,
+        "text": "Digits/results aligned inconsistently -> highlight alignment evidence."
+      },
+      {
+        "paragraph_index": 725,
+        "text": "E4"
+      },
+      {
+        "paragraph_index": 726,
+        "text": "Notation/presentation issue"
+      },
+      {
+        "paragraph_index": 727,
+        "text": "Missing/unclear sign or result line -> conservative wording/confirmation when intent is ambiguous."
+      },
+      {
+        "paragraph_index": 729,
+        "text": "Appendix B. Traceability & Minimum Evaluation"
+      },
+      {
+        "paragraph_index": 730,
+        "text": "B.1 Initial Traceability"
+      },
+      {
+        "paragraph_index": 731,
+        "text": "Objective"
+      },
+      {
+        "paragraph_index": 732,
+        "text": "Linked Core Items"
+      },
+      {
+        "paragraph_index": 733,
+        "text": "Verification"
+      },
+      {
+        "paragraph_index": 734,
+        "text": "OBJ-01"
+      },
+      {
+        "paragraph_index": 735,
+        "text": "FR-13; privacy/reproducibility"
+      },
+      {
+        "paragraph_index": 736,
+        "text": "Consent package, annotation guide, pilot report."
+      },
+      {
+        "paragraph_index": 737,
+        "text": "OBJ-02"
+      },
+      {
+        "paragraph_index": 738,
+        "text": "FR-05/13; data quality"
+      },
+      {
+        "paragraph_index": 739,
+        "text": "Dataset manifest, gold labels, IAA/adjudication."
+      },
+      {
+        "paragraph_index": 740,
+        "text": "OBJ-03"
+      },
+      {
+        "paragraph_index": 741,
+        "text": "FR-03/05/06"
+      },
+      {
+        "paragraph_index": 742,
+        "text": "Recognition metrics and interface contract."
+      },
+      {
+        "paragraph_index": 743,
+        "text": "OBJ-04"
+      },
+      {
+        "paragraph_index": 744,
+        "text": "FR-07/08/09; BR-01..04"
+      },
+      {
+        "paragraph_index": 745,
+        "text": "Rule tests, first-error cases, validator evidence."
+      },
+      {
+        "paragraph_index": 746,
+        "text": "OBJ-05"
+      },
+      {
+        "paragraph_index": 747,
+        "text": "FR-01/04/06/10/11/12; BR-07"
+      },
+      {
+        "paragraph_index": 748,
+        "text": "Batch/policy tests, approve/override audit, hint review."
+      },
+      {
+        "paragraph_index": 749,
+        "text": "OBJ-06"
+      },
+      {
+        "paragraph_index": 750,
+        "text": "AI FRs + performance/reproducibility"
+      },
+      {
+        "paragraph_index": 751,
+        "text": "P1/P2/P3 comparison, latency, safety, coverage."
+      },
+      {
+        "paragraph_index": 752,
+        "text": "OBJ-07"
+      },
+      {
+        "paragraph_index": 753,
+        "text": "All core requirements"
+      },
+      {
+        "paragraph_index": 754,
+        "text": "Tagged release, regression, docs, demo checklist."
+      },
+      {
+        "paragraph_index": 756,
+        "text": "B.2 Minimum Evaluation Set"
+      },
+      {
+        "paragraph_index": 757,
+        "text": "Layer"
+      },
+      {
+        "paragraph_index": 758,
+        "text": "Primary Metrics / Coverage"
+      },
+      {
+        "paragraph_index": 759,
+        "text": "Image quality"
+      },
+      {
+        "paragraph_index": 760,
+        "text": "Quality status vs ground truth; clear, blurred, dark, glare, incomplete crop, skewed."
+      },
+      {
+        "paragraph_index": 761,
+        "text": "Recognition"
+      },
+      {
+        "paragraph_index": 762,
+        "text": "Critical-token/operator/layout accuracy on writer-disjoint supported images."
+      },
+      {
+        "paragraph_index": 763,
+        "text": "Validation"
+      },
+      {
+        "paragraph_index": 764,
+        "text": "Per-column validity and earliest-error exact accuracy/F1; correct, one-error, multi-error cases."
+      },
+      {
+        "paragraph_index": 765,
+        "text": "Safety"
+      },
+      {
+        "paragraph_index": 766,
+        "text": "Over-correction, false accusation, abstention coverage, ambiguous tokens, out-of-scope cases."
+      },
+      {
+        "paragraph_index": 767,
+        "text": "Feedback"
+      },
+      {
+        "paragraph_index": 768,
+        "text": "Qualified-reviewer rubric: correctness, relevance, age appropriateness, answer leakage, tone."
+      },
+      {
+        "paragraph_index": 769,
+        "text": "Product"
+      },
+      {
+        "paragraph_index": 770,
+        "text": "Functional pass rate, p50/p95 latency, 10-30 image batch completion, review/override flow, supervised student task completion."
+      },
+      {
+        "paragraph_index": 772,
+        "text": "Appendix C. Approval"
+      },
+      {
+        "paragraph_index": 773,
+        "text": "Approval confirms acceptance of the 15-week schedule, constrained MVP support matrix, Scrum accountabilities, privacy conditions, technology baseline, and evaluation approach. Approval does not certify future model performance."
+      },
+      {
+        "paragraph_index": 774,
+        "text": "Role"
+      },
+      {
+        "paragraph_index": 775,
+        "text": "Name"
+      },
+      {
+        "paragraph_index": 776,
+        "text": "Decision"
+      },
+      {
+        "paragraph_index": 777,
+        "text": "Signature / Date"
+      },
+      {
+        "paragraph_index": 778,
+        "text": "Product Owner & Scrum Master"
+      },
+      {
+        "paragraph_index": 779,
+        "text": "Nguyễn Văn Duy Mạnh"
+      },
+      {
+        "paragraph_index": 780,
+        "text": "Approve / Revise"
+      },
+      {
+        "paragraph_index": 781,
+        "text": "________________"
+      },
+      {
+        "paragraph_index": 782,
+        "text": "Faculty Supervisor"
+      },
+      {
+        "paragraph_index": 783,
+        "text": "TS. Nguyễn Đức Mận"
+      },
+      {
+        "paragraph_index": 784,
+        "text": "Approve / Revise"
+      },
+      {
+        "paragraph_index": 785,
+        "text": "________________"
+      },
+      {
+        "paragraph_index": 786,
+        "text": "Program / Proposal Reviewer"
+      },
+      {
+        "paragraph_index": 787,
+        "text": "________________"
+      },
+      {
+        "paragraph_index": 788,
+        "text": "Approve / Revise"
+      },
+      {
+        "paragraph_index": 789,
+        "text": "________________"
+      },
+      {
+        "paragraph_index": 791,
+        "text": "Pre-Submission Check"
+      },
+      {
+        "paragraph_index": 792,
+        "text": "All team names and student IDs match official records."
+      },
+      {
+        "paragraph_index": 793,
+        "text": "MVP scope remains limited to Appendix A Core rows unless formally changed."
+      },
+      {
+        "paragraph_index": 794,
+        "text": "15-week plan matches the course calendar and Scrum accountabilities are consistent throughout."
+      },
+      {
+        "paragraph_index": 795,
+        "text": "Consent/data-collection materials are approved before real child data is collected."
+      },
+      {
+        "paragraph_index": 796,
+        "text": "References, diagrams, tables, and TOC/page numbers are refreshed before submission."
+      }
+    ],
+    "matched": [
+      {
+        "paragraph_index": 5,
+        "text": "An AI-Assisted Handwritten Arithmetic Grading and Tutoring Platformfor Vietnamese Primary Education"
+      },
+      {
+        "paragraph_index": 6,
+        "text": "Nền tảng AI hỗ trợ chấm và hướng dẫn bài tính viết taycho giáo dục tiểu học Việt Nam"
+      },
+      {
+        "paragraph_index": 12,
+        "text": "Primary-school teachers and Vietnamese students, Grades 1-5"
+      },
+      {
+        "paragraph_index": 35,
+        "text": "Grades 1-5; 15 weeks; teacher batch grading + student tutoring; vertical addition/subtraction MVP"
+      },
+      {
+        "paragraph_index": 47,
+        "text": "Re-scoped to Grades 1-5 and rebuilt for 15-week Agile delivery."
+      },
+      {
+        "paragraph_index": 69,
+        "text": "5. Survey of Existing Solutions"
+      },
+      {
+        "paragraph_index": 99,
+        "text": "MathVision Kids is a 15-week AI-assisted grading and tutoring platform for Vietnamese primary education. It serves two connected workflows: teachers upload approximately 10-30 photographed student exercises for AI pre-grading and review, while students submit one exercise to receive step-aware hints and retry guidance."
+      },
+      {
+        "paragraph_index": 101,
+        "text": "The software uses a Java 21 Spring Boot 3 modular-monolith business core with Clean Architecture, React teacher web, React Native student mobile, PostgreSQL, MinIO/S3-compatible storage, and a separate Python FastAPI AI service. Celery/Redis is internal to the AI subsystem for asynchronous batch processing. The deterministic rule engine is the source of truth for supported arithmetic; an optional VLM is restricted to structured comparison and hint wording."
+      },
+      {
+        "paragraph_index": 102,
+        "text": "Success is measured by reproducible recognition/localization metrics, low false accusation/over-correction, observable batch processing, teacher approve/override evidence, and safe student feedback. Teacher authority remains final; the system does not perform fully autonomous official grading."
+      },
+      {
+        "paragraph_index": 112,
+        "text": "An AI-Assisted Handwritten Arithmetic Grading and Tutoring Platform for Vietnamese Primary Education"
+      },
+      {
+        "paragraph_index": 118,
+        "text": "Primary-school teachers and Vietnamese students in Grades 1-5"
+      },
+      {
+        "paragraph_index": 121,
+        "text": "MathVision Kids is a teacher-first, student-support platform that processes class-sized batches of handwritten arithmetic for AI-assisted grading and also provides individual students with confidence-aware, step-level feedback."
+      },
+      {
+        "paragraph_index": 123,
+        "text": "Deliver and evaluate a working MVP for teacher batch grading and student self-correction in a constrained vertical-arithmetic domain, while preserving teacher authority over final grades and separating system uncertainty from student error."
+      },
+      {
+        "paragraph_index": 174,
+        "text": "Core problem:  How can the system reliably reconstruct handwritten vertical arithmetic, verify the earliest supported error, propose a grading result at class scale, and provide safe hints while explicitly managing uncertainty?"
+      },
+      {
+        "paragraph_index": 191,
+        "text": "The problem will be validated in the first two weeks through at least five semi-structured interviews with primary teachers, tutors, or parents. The team will confirm the value of batch grading, acceptable workflow, review behavior, and hint style without expanding the frozen core domain."
+      },
+      {
+        "paragraph_index": 193,
+        "text": "5. Survey of Existing Solutions"
+      },
+      {
+        "paragraph_index": 194,
+        "text": "Solution / Research"
+      },
+      {
+        "paragraph_index": 198,
+        "text": "Camera-based solving and step-by-step explanations."
+      },
+      {
+        "paragraph_index": 202,
+        "text": "Recognition service; no primary-school carry/borrow validator, tutoring policy, or grading workflow."
+      },
+      {
+        "paragraph_index": 204,
+        "text": "Handwritten solution error detection/localization benchmark for Grades 7-12."
+      },
+      {
+        "paragraph_index": 205,
+        "text": "Older learners; different data and no Vietnamese primary product workflow."
+      },
+      {
+        "paragraph_index": 214,
+        "text": "Vietnamese primary context with Grades 1-5 as the product audience."
+      },
+      {
+        "paragraph_index": 217,
+        "text": "Student-work reconstruction before correctness judgment or hint generation."
+      },
+      {
+        "paragraph_index": 219,
+        "text": "The contribution is not a claim that OCR, VLMs, or automated grading are individually new. The contribution is the engineering and evaluation of a confidence-controlled, teacher-first workflow that combines deterministic arithmetic validation, asynchronous batch processing, human approval, and student tutoring."
+      },
+      {
+        "paragraph_index": 222,
+        "text": "Design, implement, and evaluate a confidence-aware platform that converts supported handwritten arithmetic images into structured representations, validates vertical addition/subtraction deterministically, localizes the earliest supported error, proposes a grading result for teacher confirmation, and provides students with guided hints or clarification."
+      },
+      {
+        "paragraph_index": 240,
+        "text": "W11: 10-30 image async batch, confidence routing, proposed grading, approve/override, student hints."
+      },
+      {
+        "paragraph_index": 253,
+        "text": "Grades 1-5 product context; one exercise per image; vertical natural-number addition/subtraction; 2 operands/addends; 1-6 digits; carry/borrow; teacher 10-30 image batch; student single-image tutoring."
+      },
+      {
+        "paragraph_index": 283,
+        "text": "Student tutoring and retry"
+      },
+      {
+        "paragraph_index": 284,
+        "text": "Confirm ambiguous token, receive one Socratic hint, retry without default answer reveal."
+      },
+      {
+        "paragraph_index": 310,
+        "text": "Student flow returns one age-appropriate Socratic hint without revealing the complete answer by default."
+      },
+      {
+        "paragraph_index": 332,
+        "text": "<=5% of correct supported solutions flagged in the high-confidence subset."
+      },
+      {
+        "paragraph_index": 333,
+        "text": "Hint quality"
+      },
+      {
+        "paragraph_index": 341,
+        "text": "AI-proposed grades are advisory; teacher-approved or teacher-overridden results are final in Teacher Grading Mode."
+      },
+      {
+        "paragraph_index": 357,
+        "text": "Pedagogical limits"
+      },
+      {
+        "paragraph_index": 358,
+        "text": "Qualified teacher/tutor reviewers validate taxonomy, ambiguous ground truth, and hint quality."
+      },
+      {
+        "paragraph_index": 384,
+        "text": "Teacher / tutor"
+      },
+      {
+        "paragraph_index": 387,
+        "text": "Student, Grades 1-5"
+      },
+      {
+        "paragraph_index": 389,
+        "text": "Simple mobile capture, token confirmation, one hint at a time, retry."
+      },
+      {
+        "paragraph_index": 401,
+        "text": "Student scenario: Minh photographs one subtraction exercise. If a borrow mark is ambiguous, the app asks for confirmation; otherwise it highlights the earliest supported error and provides one retry-oriented hint."
+      },
+      {
+        "paragraph_index": 411,
+        "text": "Camera/gallery, crop/rotate, confirmation, hint, retry."
+      },
+      {
+        "paragraph_index": 435,
+        "text": "Zero-shot comparison and constrained hint/context wording only."
+      },
+      {
+        "paragraph_index": 514,
+        "text": "Celery/Redis batch workers, confidence policy, hints, review/approve/override, >=500 dataset target."
+      },
+      {
+        "paragraph_index": 531,
+        "text": "Teachers use the web portal for assignment context, 10-30 image batch grading, review, and final approval. Students use the mobile app for one-exercise capture, confirmation, hint, and retry. Parents/schools are consent and governance stakeholders. External AI, when used, receives only minimum necessary context."
+      },
+      {
+        "paragraph_index": 537,
+        "text": "Step"
+      },
+      {
+        "paragraph_index": 560,
+        "text": "PROPOSED_GRADE / FEEDBACK_READY / NEEDS_CONFIRMATION / NEEDS_RETAKE / OUT_OF_SCOPE / REVIEW_REQUIRED."
+      },
+      {
+        "paragraph_index": 563,
+        "text": "Teacher approve/override or student hint/retry; final decision logged."
+      },
+      {
+        "paragraph_index": 569,
+        "text": "Decision state such as PROPOSED_GRADE, FEEDBACK_READY, REVIEW_REQUIRED, etc."
+      },
+      {
+        "paragraph_index": 602,
+        "text": "VLM hallucination / unsafe feedback"
+      },
+      {
+        "paragraph_index": 646,
+        "text": "React Native/Expo: capture, crop, confirm, hint/clarify, retry."
+      },
+      {
+        "paragraph_index": 661,
+        "text": "The capstone succeeds when the core teacher batch and student tutoring flows work end-to-end, safety behavior is enforced, evaluation is reproducible, and required documentation/deployment artifacts are complete. Stretch goals are optional; unmet research targets are acceptable when results and limitations are reported honestly."
+      },
+      {
+        "paragraph_index": 666,
+        "text": "[3] Photomath, “Photomath - The Ultimate Math Help App” and product guidance on problem scanning and step-by-step explanations. Accessed Aug. 26, 2026."
+      },
+      {
+        "paragraph_index": 692,
+        "text": "Recognition sanity case only; no multi-step reasoning claim."
+      },
+      {
+        "paragraph_index": 748,
+        "text": "Batch/policy tests, approve/override audit, hint review."
+      },
+      {
+        "paragraph_index": 767,
+        "text": "Feedback"
+      }
+    ]
+  },
+  {
+    "file": "C:\\Users\\My PC\\Downloads\\C1SE.01_Project_Plan_ver_1.1.docx",
+    "sha256": "976641486165a3e92a7e2daf9f15cc2c39a6b13543a1acfe4a38ae5067016c3a",
+    "paragraphs": [
+      {
+        "paragraph_index": 1,
+        "text": "International School"
+      },
+      {
+        "paragraph_index": 2,
+        "text": "CAPSTONE PROJECT 1"
+      },
+      {
+        "paragraph_index": 3,
+        "text": "CMU-SE 450 AIS"
+      },
+      {
+        "paragraph_index": 5,
+        "text": "Project Plan"
+      },
+      {
+        "paragraph_index": 6,
+        "text": "Version 1.1"
+      },
+      {
+        "paragraph_index": 7,
+        "text": "Date: Sep 30th, 2026"
+      },
+      {
+        "paragraph_index": 9,
+        "text": "Math Vision Kids"
+      },
+      {
+        "paragraph_index": 10,
+        "text": "AI-Assisted Handwritten Arithmetic Grading & Tutoringfor Vietnamese Primary Students"
+      },
+      {
+        "paragraph_index": 12,
+        "text": "Submitted by"
+      },
+      {
+        "paragraph_index": 13,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 14,
+        "text": "Le Minh Truong Kha"
+      },
+      {
+        "paragraph_index": 15,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 16,
+        "text": "Tran Hoai Nam"
+      },
+      {
+        "paragraph_index": 17,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 19,
+        "text": "Approved by "
+      },
+      {
+        "paragraph_index": 20,
+        "text": "MSc Huy, Truong Dinh"
+      },
+      {
+        "paragraph_index": 22,
+        "text": "Proposal Review Panel Representative:"
+      },
+      {
+        "paragraph_index": 25,
+        "text": "NameSignatureDate"
+      },
+      {
+        "paragraph_index": 28,
+        "text": "Capstone Project 1- Mentor:"
+      },
+      {
+        "paragraph_index": 31,
+        "text": "NameSignatureDate"
+      },
+      {
+        "paragraph_index": 32,
+        "text": "PROJECT INFORMATION"
+      },
+      {
+        "paragraph_index": 34,
+        "text": "Project acronym"
+      },
+      {
+        "paragraph_index": 35,
+        "text": "MVK"
+      },
+      {
+        "paragraph_index": 36,
+        "text": "Project Title"
+      },
+      {
+        "paragraph_index": 37,
+        "text": "Math Vision Kids – AI-Assisted Handwritten Arithmetic Grading & Tutoring for Vietnamese Primary Students "
+      },
+      {
+        "paragraph_index": 38,
+        "text": "Start Date"
+      },
+      {
+        "paragraph_index": 39,
+        "text": "16 Aug 2026"
+      },
+      {
+        "paragraph_index": 40,
+        "text": "End Date"
+      },
+      {
+        "paragraph_index": 41,
+        "text": "17 Dec 2026"
+      },
+      {
+        "paragraph_index": 42,
+        "text": "Lead Institution"
+      },
+      {
+        "paragraph_index": 43,
+        "text": "International School, Duy Tan University"
+      },
+      {
+        "paragraph_index": 44,
+        "text": "Project Mentor"
+      },
+      {
+        "paragraph_index": 45,
+        "text": "MSc Nguyen Duc Man"
+      },
+      {
+        "paragraph_index": 46,
+        "text": "Scrum master / Project Leader & contact details"
+      },
+      {
+        "paragraph_index": 47,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 48,
+        "text": "Email: duymanhdnvn20092005@gmail.com"
+      },
+      {
+        "paragraph_index": 49,
+        "text": "Tel: 0779534325"
+      },
+      {
+        "paragraph_index": 50,
+        "text": "Partner Organization"
+      },
+      {
+        "paragraph_index": 51,
+        "text": "Duy Tan University"
+      },
+      {
+        "paragraph_index": 52,
+        "text": "Project Web URL"
+      },
+      {
+        "paragraph_index": 54,
+        "text": "Team members"
+      },
+      {
+        "paragraph_index": 55,
+        "text": "Name"
+      },
+      {
+        "paragraph_index": 56,
+        "text": "Email"
+      },
+      {
+        "paragraph_index": 57,
+        "text": "Phone"
+      },
+      {
+        "paragraph_index": 59,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 60,
+        "text": "duymanhdnvn20092005@gmail.com"
+      },
+      {
+        "paragraph_index": 61,
+        "text": "0779534325"
+      },
+      {
+        "paragraph_index": 63,
+        "text": "Tran Hoai Nam"
+      },
+      {
+        "paragraph_index": 64,
+        "text": "namnam.trannam@gmail.com"
+      },
+      {
+        "paragraph_index": 65,
+        "text": "0969244060"
+      },
+      {
+        "paragraph_index": 67,
+        "text": "Le Minh Truong Kha"
+      },
+      {
+        "paragraph_index": 68,
+        "text": "kha0901le@gmail.com"
+      },
+      {
+        "paragraph_index": 69,
+        "text": "0934789230"
+      },
+      {
+        "paragraph_index": 71,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 72,
+        "text": "tranvietloc288@gmail.com"
+      },
+      {
+        "paragraph_index": 73,
+        "text": "0365957050"
+      },
+      {
+        "paragraph_index": 75,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 76,
+        "text": "phanquanghieusuper@gmail.com"
+      },
+      {
+        "paragraph_index": 77,
+        "text": "0795659121"
+      },
+      {
+        "paragraph_index": 79,
+        "text": "DOCUMENT APPROVALS"
+      },
+      {
+        "paragraph_index": 80,
+        "text": "The following signatures are required for approval of this document."
+      },
+      {
+        "paragraph_index": 82,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 83,
+        "text": "Student ID: 29211100024"
+      },
+      {
+        "paragraph_index": 84,
+        "text": "Scrum Master"
+      },
+      {
+        "paragraph_index": 85,
+        "text": "Signature"
+      },
+      {
+        "paragraph_index": 86,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 87,
+        "text": "Tran Hoai Nam"
+      },
+      {
+        "paragraph_index": 88,
+        "text": "Student ID: 29211159058"
+      },
+      {
+        "paragraph_index": 89,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 90,
+        "text": "Signature"
+      },
+      {
+        "paragraph_index": 91,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 92,
+        "text": "Le Minh Truong Kha"
+      },
+      {
+        "paragraph_index": 93,
+        "text": "Student ID: 29211158908"
+      },
+      {
+        "paragraph_index": 94,
+        "text": "Product Owner"
+      },
+      {
+        "paragraph_index": 95,
+        "text": "Signature"
+      },
+      {
+        "paragraph_index": 96,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 97,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 98,
+        "text": "Student ID: 29211352994"
+      },
+      {
+        "paragraph_index": 99,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 100,
+        "text": "Signature"
+      },
+      {
+        "paragraph_index": 101,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 102,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 103,
+        "text": "Student ID: 29211164747"
+      },
+      {
+        "paragraph_index": 104,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 105,
+        "text": "Signature"
+      },
+      {
+        "paragraph_index": 106,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 110,
+        "text": "DOCUMENT NAME"
+      },
+      {
+        "paragraph_index": 112,
+        "text": "Document Title"
+      },
+      {
+        "paragraph_index": 113,
+        "text": "Project Plan Document"
+      },
+      {
+        "paragraph_index": 114,
+        "text": "Author(s)"
+      },
+      {
+        "paragraph_index": 115,
+        "text": "C1SE.01"
+      },
+      {
+        "paragraph_index": 116,
+        "text": "Role"
+      },
+      {
+        "paragraph_index": 117,
+        "text": "Product Owner, Developer, Scrum Master"
+      },
+      {
+        "paragraph_index": 118,
+        "text": "Date"
+      },
+      {
+        "paragraph_index": 119,
+        "text": "September 30th, 2026"
+      },
+      {
+        "paragraph_index": 120,
+        "text": "File name:"
+      },
+      {
+        "paragraph_index": 121,
+        "text": "C1SE.01_ProjectPlan_LET_ver1.1.doc"
+      },
+      {
+        "paragraph_index": 123,
+        "text": "REVISION HISTORY"
+      },
+      {
+        "paragraph_index": 125,
+        "text": "Version "
+      },
+      {
+        "paragraph_index": 126,
+        "text": "Person(s) "
+      },
+      {
+        "paragraph_index": 127,
+        "text": "Date "
+      },
+      {
+        "paragraph_index": 128,
+        "text": "Description "
+      },
+      {
+        "paragraph_index": 129,
+        "text": "1.0"
+      },
+      {
+        "paragraph_index": 130,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 131,
+        "text": "24-Sep-2026"
+      },
+      {
+        "paragraph_index": 132,
+        "text": "Create Project plan document"
+      },
+      {
+        "paragraph_index": 133,
+        "text": "1.1"
+      },
+      {
+        "paragraph_index": 134,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 135,
+        "text": "30-Sep-2026"
+      },
+      {
+        "paragraph_index": 136,
+        "text": "Fix Project plan document"
+      },
+      {
+        "paragraph_index": 139,
+        "text": "TABLE OF CONTENTS"
+      },
+      {
+        "paragraph_index": 140,
+        "text": "1.1.Purpose:6"
+      },
+      {
+        "paragraph_index": 141,
+        "text": "1.2.Project Overview:6"
+      },
+      {
+        "paragraph_index": 142,
+        "text": "1.3.Project Deliverable:6"
+      },
+      {
+        "paragraph_index": 143,
+        "text": "2.Team Organization:7"
+      },
+      {
+        "paragraph_index": 144,
+        "text": "2.1.Scrum Team Information:7"
+      },
+      {
+        "paragraph_index": 145,
+        "text": "2.2.Role and Responsibility:8"
+      },
+      {
+        "paragraph_index": 146,
+        "text": "2.3.Communication Methodology:10"
+      },
+      {
+        "paragraph_index": 147,
+        "text": "2.4.Communication and Report:10"
+      },
+      {
+        "paragraph_index": 148,
+        "text": "3.Development Process:12"
+      },
+      {
+        "paragraph_index": 149,
+        "text": "4.Schedule and Cost:13"
+      },
+      {
+        "paragraph_index": 150,
+        "text": "4.1.Detailed Schedule:13"
+      },
+      {
+        "paragraph_index": 151,
+        "text": "4.2.Cost16"
+      },
+      {
+        "paragraph_index": 152,
+        "text": "5.Project Risk:17"
+      },
+      {
+        "paragraph_index": 153,
+        "text": "6.Deliverables20"
+      },
+      {
+        "paragraph_index": 155,
+        "text": "Introduction"
+      },
+      {
+        "paragraph_index": 156,
+        "text": "Purpose:"
+      },
+      {
+        "paragraph_index": 157,
+        "text": "This document defines how the Math Vision Kids project will be organized, executed, monitored, and delivered. It consolidates the approved project scope, Scrum responsibilities, communication approach, development process, detailed execution schedule, planned effort/cost baseline, project risks, and deliverables. The plan is based on the Math Vision Kids Project Proposal."
+      },
+      {
+        "paragraph_index": 159,
+        "text": "Project Overview:"
+      },
+      {
+        "paragraph_index": 160,
+        "text": "Reference to C1SE.01.Capstone_Project_Proposal.pdf"
+      },
+      {
+        "paragraph_index": 162,
+        "text": "Math Vision Kids is an AI-assisted platform for Vietnamese primary education with two connected workflows: teacher batch grading and student handwritten-arithmetic tutoring. The Core MVP supports one clearly bounded vertical addition or subtraction exercise per image, natural numbers with 1-6 digits, and carry/borrow operations for Grades 1-5. A teacher batch may contain 1-30 images (with 10-30 as the typical classroom batch), while the student flow processes one exercise at a time."
+      },
+      {
+        "paragraph_index": 163,
+        "text": "The system follows a hybrid safety-oriented pipeline: Computer Vision/OCR performs perception; a Structured Parser reconstructs rows, columns, place values, and carry/borrow state; a Deterministic Rule Engine is the mathematical source of truth; a Confidence Policy routes uncertain cases to confirmation, retake, or review; and the teacher retains final authority over grading decisions. Multiplication/division and other advanced mathematics remain outside the Core MVP."
+      },
+      {
+        "paragraph_index": 165,
+        "text": "Project Deliverable:"
+      },
+      {
+        "paragraph_index": 166,
+        "text": "- Teacher Web Grading Portal (React + Vite + TypeScript) for assignments, batch upload, progress, evidence review, and approve/override.- Student Mobile MVP (React Native + Expo) for capture, crop/rotate, confirmation, Socratic hints, and retry.- Java 21 Spring Boot 3 modular-monolith backend with JWT/RBAC, PostgreSQL, REST/OpenAPI contracts, audit and business workflows.- Python 3.12 FastAPI AI service with OpenCV/recognition pipeline, structured parsing, deterministic arithmetic validation, confidence policy, Celery/Redis asynchronous processing, and MinIO/S3 artifact storage.- PII-safe annotated dataset, AI evaluation package, architecture/API documentation, QA/NFR evidence, reproducible deployment/release package, final report and defense demo."
+      },
+      {
+        "paragraph_index": 167,
+        "text": "Team Organization:"
+      },
+      {
+        "paragraph_index": 168,
+        "text": "Scrum Team Information:"
+      },
+      {
+        "paragraph_index": 169,
+        "text": "Table 1: Scrum Team Organization."
+      },
+      {
+        "paragraph_index": 170,
+        "text": "Full Name"
+      },
+      {
+        "paragraph_index": 171,
+        "text": "Phone"
+      },
+      {
+        "paragraph_index": 172,
+        "text": "Email"
+      },
+      {
+        "paragraph_index": 173,
+        "text": "Position"
+      },
+      {
+        "paragraph_index": 174,
+        "text": "MSc Nguyen Duc Man"
+      },
+      {
+        "paragraph_index": 175,
+        "text": "0904235945"
+      },
+      {
+        "paragraph_index": 176,
+        "text": "mannd@duytan.edu.vn"
+      },
+      {
+        "paragraph_index": 177,
+        "text": "Mentor"
+      },
+      {
+        "paragraph_index": 178,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 179,
+        "text": "0779534325"
+      },
+      {
+        "paragraph_index": 180,
+        "text": "duymanhdnvn20092005@gmail.com"
+      },
+      {
+        "paragraph_index": 181,
+        "text": "Scrum Master"
+      },
+      {
+        "paragraph_index": 182,
+        "text": "Tran Hoai Nam"
+      },
+      {
+        "paragraph_index": 183,
+        "text": "0969244060"
+      },
+      {
+        "paragraph_index": 184,
+        "text": "namnam.trannam@gmail.com"
+      },
+      {
+        "paragraph_index": 185,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 186,
+        "text": "Le Minh Truong Kha"
+      },
+      {
+        "paragraph_index": 187,
+        "text": "0934789230"
+      },
+      {
+        "paragraph_index": 188,
+        "text": "kha0901le@gmail.com"
+      },
+      {
+        "paragraph_index": 189,
+        "text": "Product Owner"
+      },
+      {
+        "paragraph_index": 190,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 191,
+        "text": "0365957050"
+      },
+      {
+        "paragraph_index": 192,
+        "text": "tranvietloc288@gmail.com"
+      },
+      {
+        "paragraph_index": 193,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 194,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 195,
+        "text": "0795659121"
+      },
+      {
+        "paragraph_index": 196,
+        "text": "phanquanghieusuper@gmail.com"
+      },
+      {
+        "paragraph_index": 197,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 200,
+        "text": "Role and Responsibility:"
+      },
+      {
+        "paragraph_index": 201,
+        "text": "Table 2. Role and Responsibilities"
+      },
+      {
+        "paragraph_index": 202,
+        "text": "Role"
+      },
+      {
+        "paragraph_index": 203,
+        "text": "Responsibility"
+      },
+      {
+        "paragraph_index": 204,
+        "text": "Name/Title"
+      },
+      {
+        "paragraph_index": 205,
+        "text": "Product Owner"
+      },
+      {
+        "paragraph_index": 206,
+        "text": "Understand the user and customers with their needs."
+      },
+      {
+        "paragraph_index": 207,
+        "text": "Collaborate with the development team."
+      },
+      {
+        "paragraph_index": 208,
+        "text": "Manage the stakeholders."
+      },
+      {
+        "paragraph_index": 209,
+        "text": "Describe the user experience and product features."
+      },
+      {
+        "paragraph_index": 210,
+        "text": "Provides detail user stories."
+      },
+      {
+        "paragraph_index": 211,
+        "text": "Duy Tan University"
+      },
+      {
+        "paragraph_index": 212,
+        "text": "Scrum Master"
+      },
+      {
+        "paragraph_index": 213,
+        "text": "Communicate the value of Scrum"
+      },
+      {
+        "paragraph_index": 214,
+        "text": "Teach the organization on Scrum to maximize business value"
+      },
+      {
+        "paragraph_index": 215,
+        "text": "Attend all Scrum meetings"
+      },
+      {
+        "paragraph_index": 216,
+        "text": "Preserve the integrity and spirit of the Scrum framework"
+      },
+      {
+        "paragraph_index": 217,
+        "text": "Maintain the focus of the Team"
+      },
+      {
+        "paragraph_index": 218,
+        "text": "Make the Team aware of impediments and facilitate efforts to resolve them"
+      },
+      {
+        "paragraph_index": 219,
+        "text": "Serve as a coach and mentor to members of the Team"
+      },
+      {
+        "paragraph_index": 220,
+        "text": "Respectfully hold the Team, Product Owner and Stakeholders accountable for their commitments"
+      },
+      {
+        "paragraph_index": 221,
+        "text": "Continually work with the Team and business to find and implement improvements"
+      },
+      {
+        "paragraph_index": 222,
+        "text": "Manh, Nguyen Van Duy"
+      },
+      {
+        "paragraph_index": 223,
+        "text": "Secretary"
+      },
+      {
+        "paragraph_index": 224,
+        "text": "Record the content of group meetings and activities of the member"
+      },
+      {
+        "paragraph_index": 225,
+        "text": "Kha, Le Minh Truong"
+      },
+      {
+        "paragraph_index": 226,
+        "text": "Reviewer"
+      },
+      {
+        "paragraph_index": 227,
+        "text": "Review documents"
+      },
+      {
+        "paragraph_index": 228,
+        "text": "All Members"
+      },
+      {
+        "paragraph_index": 229,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 230,
+        "text": "Analysis of the functions and requirements of the product."
+      },
+      {
+        "paragraph_index": 231,
+        "text": "Code and test."
+      },
+      {
+        "paragraph_index": 232,
+        "text": "Fix error."
+      },
+      {
+        "paragraph_index": 233,
+        "text": "All Members"
+      },
+      {
+        "paragraph_index": 234,
+        "text": "Analyzer"
+      },
+      {
+        "paragraph_index": 235,
+        "text": "Gather user stories."
+      },
+      {
+        "paragraph_index": 236,
+        "text": "Analysis user story to do specify Document."
+      },
+      {
+        "paragraph_index": 237,
+        "text": "All Members"
+      },
+      {
+        "paragraph_index": 238,
+        "text": "Tester"
+      },
+      {
+        "paragraph_index": 239,
+        "text": "Do the Test plan"
+      },
+      {
+        "paragraph_index": 240,
+        "text": "Creation of test designs, test processes, test cases and test data."
+      },
+      {
+        "paragraph_index": 241,
+        "text": "Carry out testing as per the defined procedures."
+      },
+      {
+        "paragraph_index": 242,
+        "text": "Graph the results and make sure people know when test results decline."
+      },
+      {
+        "paragraph_index": 243,
+        "text": "Prepare all reports related to software testing carried out."
+      },
+      {
+        "paragraph_index": 244,
+        "text": "Analysis and evaluate the Test result."
+      },
+      {
+        "paragraph_index": 245,
+        "text": "Ensure that all tested related work is carried out as per the defined standards and procedures."
+      },
+      {
+        "paragraph_index": 246,
+        "text": "All Members"
+      },
+      {
+        "paragraph_index": 247,
+        "text": "Mentor"
+      },
+      {
+        "paragraph_index": 248,
+        "text": "Guide on the process."
+      },
+      {
+        "paragraph_index": 249,
+        "text": "Monitoring all activities of Team."
+      },
+      {
+        "paragraph_index": 250,
+        "text": "Help with anything."
+      },
+      {
+        "paragraph_index": 251,
+        "text": "MSc Man, Nguyen Duc "
+      },
+      {
+        "paragraph_index": 253,
+        "text": "Communication Methodology:"
+      },
+      {
+        "paragraph_index": 254,
+        "text": "Table 3: Communication Methodology."
+      },
+      {
+        "paragraph_index": 255,
+        "text": "Audience/ Attendees"
+      },
+      {
+        "paragraph_index": 256,
+        "text": "Topic/ Deliverable"
+      },
+      {
+        "paragraph_index": 257,
+        "text": "Frequency"
+      },
+      {
+        "paragraph_index": 258,
+        "text": "Method"
+      },
+      {
+        "paragraph_index": 259,
+        "text": "Mentor and Team member"
+      },
+      {
+        "paragraph_index": 260,
+        "text": "Project Progress Review"
+      },
+      {
+        "paragraph_index": 262,
+        "text": "Weekly"
+      },
+      {
+        "paragraph_index": 263,
+        "text": "Meeting, Email,"
+      },
+      {
+        "paragraph_index": 264,
+        "text": "Slack"
+      },
+      {
+        "paragraph_index": 265,
+        "text": "Team Member"
+      },
+      {
+        "paragraph_index": 266,
+        "text": "Project Progress Review and Daily Meeting"
+      },
+      {
+        "paragraph_index": 267,
+        "text": "Daily"
+      },
+      {
+        "paragraph_index": 268,
+        "text": "Jira, GitHub, Zoom, Zalo"
+      },
+      {
+        "paragraph_index": 270,
+        "text": "Communication and Report:"
+      },
+      {
+        "paragraph_index": 271,
+        "text": "Table 4: Communication and Report."
+      },
+      {
+        "paragraph_index": 272,
+        "text": "Type of communication"
+      },
+      {
+        "paragraph_index": 273,
+        "text": "Methods, tools"
+      },
+      {
+        "paragraph_index": 274,
+        "text": "Frequency"
+      },
+      {
+        "paragraph_index": 275,
+        "text": "Information"
+      },
+      {
+        "paragraph_index": 276,
+        "text": "People"
+      },
+      {
+        "paragraph_index": 277,
+        "text": "Communication among in group"
+      },
+      {
+        "paragraph_index": 278,
+        "text": "Scrum meeting"
+      },
+      {
+        "paragraph_index": 279,
+        "text": "Face to face or Hangouts"
+      },
+      {
+        "paragraph_index": 280,
+        "text": "Every two day"
+      },
+      {
+        "paragraph_index": 281,
+        "text": "Informed about what was done in the last 24 hours, working on plans for today, the difficulties encountered and the solutions required, just meeting 10-15 minutes."
+      },
+      {
+        "paragraph_index": 282,
+        "text": "Project team"
+      },
+      {
+        "paragraph_index": 283,
+        "text": "Sprint Planning Meeting"
+      },
+      {
+        "paragraph_index": 284,
+        "text": "Meet face to face"
+      },
+      {
+        "paragraph_index": 285,
+        "text": "15-20 days"
+      },
+      {
+        "paragraph_index": 286,
+        "text": "All members in team together to analyze the requirements, functions, working on the sprint going to do, planning and design for the sprint."
+      },
+      {
+        "paragraph_index": 287,
+        "text": "Project team"
+      },
+      {
+        "paragraph_index": 288,
+        "text": "Retrospective meeting"
+      },
+      {
+        "paragraph_index": 289,
+        "text": "Meet face to face"
+      },
+      {
+        "paragraph_index": 291,
+        "text": "15-20 days"
+      },
+      {
+        "paragraph_index": 293,
+        "text": "Complete   documentation.For each stage, sharing materials, given the strengths and weaknesses for each. Period for each member and the solution calculated measurement project."
+      },
+      {
+        "paragraph_index": 294,
+        "text": "Project team and Mentor"
+      },
+      {
+        "paragraph_index": 295,
+        "text": "Demo"
+      },
+      {
+        "paragraph_index": 296,
+        "text": "Meeting online"
+      },
+      {
+        "paragraph_index": 297,
+        "text": "Every day"
+      },
+      {
+        "paragraph_index": 298,
+        "text": "A web-based task tracking system. To manage or divide task, report bugs/issues."
+      },
+      {
+        "paragraph_index": 299,
+        "text": "Project team."
+      },
+      {
+        "paragraph_index": 308,
+        "text": "Development Process:"
+      },
+      {
+        "paragraph_index": 310,
+        "text": "Figure 1. i"
+      },
+      {
+        "paragraph_index": 311,
+        "text": "Scrum is an iterative and incremental agile software development framework for managing software projects and product or application development."
+      },
+      {
+        "paragraph_index": 312,
+        "text": "Scrum focuses on project management institutions where it is difficult to plan."
+      },
+      {
+        "paragraph_index": 313,
+        "text": "Mechanisms of empirical process control, where feedback loops that constitute the core management technique are used as opposed to traditional command-and-control management."
+      },
+      {
+        "paragraph_index": 314,
+        "text": "Its approach to planning and managing projects is by bringing decision-making authority to the level of operation properties and certainties."
+      },
+      {
+        "paragraph_index": 315,
+        "text": "Benefit of the methodology:"
+      },
+      {
+        "paragraph_index": 317,
+        "text": "Project can respond easily to change."
+      },
+      {
+        "paragraph_index": 318,
+        "text": "Problems are identified early."
+      },
+      {
+        "paragraph_index": 319,
+        "text": "Customers get the most beneficial work first."
+      },
+      {
+        "paragraph_index": 320,
+        "text": "Work done will better meet the customer’s needs."
+      },
+      {
+        "paragraph_index": 321,
+        "text": "Improved productivity."
+      },
+      {
+        "paragraph_index": 322,
+        "text": "Ability to maintain a predictable schedule for delivery. "
+      },
+      {
+        "paragraph_index": 325,
+        "text": "Schedule and Cost:"
+      },
+      {
+        "paragraph_index": 326,
+        "text": "Detailed Schedule:"
+      },
+      {
+        "paragraph_index": 327,
+        "text": "Table 5: Detailed Schedule."
+      },
+      {
+        "paragraph_index": 328,
+        "text": "No."
+      },
+      {
+        "paragraph_index": 329,
+        "text": "Task Name"
+      },
+      {
+        "paragraph_index": 330,
+        "text": "Start"
+      },
+      {
+        "paragraph_index": 331,
+        "text": "Finish"
+      },
+      {
+        "paragraph_index": 332,
+        "text": "Effort"
+      },
+      {
+        "paragraph_index": 333,
+        "text": "1"
+      },
+      {
+        "paragraph_index": 334,
+        "text": "Inception / Project Setup"
+      },
+      {
+        "paragraph_index": 335,
+        "text": "16/08/2026"
+      },
+      {
+        "paragraph_index": 336,
+        "text": "29/08/2026"
+      },
+      {
+        "paragraph_index": 337,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 338,
+        "text": "1.1"
+      },
+      {
+        "paragraph_index": 339,
+        "text": "Scope freeze, stakeholder validation and initial requirements baseline"
+      },
+      {
+        "paragraph_index": 340,
+        "text": "16/08/2026"
+      },
+      {
+        "paragraph_index": 341,
+        "text": "29/08/2026"
+      },
+      {
+        "paragraph_index": 342,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 343,
+        "text": "1.2"
+      },
+      {
+        "paragraph_index": 344,
+        "text": "Architecture/ADR baseline, repository and CI setup, AI interface contract"
+      },
+      {
+        "paragraph_index": 345,
+        "text": "16/08/2026"
+      },
+      {
+        "paragraph_index": 346,
+        "text": "29/08/2026"
+      },
+      {
+        "paragraph_index": 347,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 348,
+        "text": "1.3"
+      },
+      {
+        "paragraph_index": 349,
+        "text": "Consent/privacy plan, Product Backlog and acceptance-criteria baseline"
+      },
+      {
+        "paragraph_index": 350,
+        "text": "16/08/2026"
+      },
+      {
+        "paragraph_index": 351,
+        "text": "29/08/2026"
+      },
+      {
+        "paragraph_index": 352,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 353,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 354,
+        "text": "Sprint 1 - Perception, Validation and Dataset Foundation"
+      },
+      {
+        "paragraph_index": 355,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 356,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 357,
+        "text": "280 hrs"
+      },
+      {
+        "paragraph_index": 358,
+        "text": "2.1"
+      },
+      {
+        "paragraph_index": 359,
+        "text": "PB02 - Image Capture"
+      },
+      {
+        "paragraph_index": 360,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 361,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 362,
+        "text": "20 hrs"
+      },
+      {
+        "paragraph_index": 363,
+        "text": "2.2"
+      },
+      {
+        "paragraph_index": 364,
+        "text": "PB04 - Image Quality Check"
+      },
+      {
+        "paragraph_index": 365,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 366,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 367,
+        "text": "25 hrs"
+      },
+      {
+        "paragraph_index": 368,
+        "text": "2.3"
+      },
+      {
+        "paragraph_index": 369,
+        "text": "PB05 - PII Masking (Privacy)"
+      },
+      {
+        "paragraph_index": 370,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 371,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 372,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 373,
+        "text": "2.4"
+      },
+      {
+        "paragraph_index": 374,
+        "text": "PB08 - AI Recognition: Layout & Tokens"
+      },
+      {
+        "paragraph_index": 375,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 376,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 377,
+        "text": "40 hrs"
+      },
+      {
+        "paragraph_index": 378,
+        "text": "2.5"
+      },
+      {
+        "paragraph_index": 379,
+        "text": "PB09 - AI Recognition: Carry/Borrow & Confidence"
+      },
+      {
+        "paragraph_index": 380,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 381,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 382,
+        "text": "35 hrs"
+      },
+      {
+        "paragraph_index": 383,
+        "text": "2.6"
+      },
+      {
+        "paragraph_index": 384,
+        "text": "PB12 - Deterministic Math Validation"
+      },
+      {
+        "paragraph_index": 385,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 386,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 387,
+        "text": "35 hrs"
+      },
+      {
+        "paragraph_index": 388,
+        "text": "2.7"
+      },
+      {
+        "paragraph_index": 389,
+        "text": "PB13 - Earliest Error Logic"
+      },
+      {
+        "paragraph_index": 390,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 391,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 392,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 393,
+        "text": "2.8"
+      },
+      {
+        "paragraph_index": 394,
+        "text": "PB14 - Advisory AI Pre-grading"
+      },
+      {
+        "paragraph_index": 395,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 396,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 397,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 398,
+        "text": "2.9"
+      },
+      {
+        "paragraph_index": 399,
+        "text": "PB22 - Consent, Dataset & Annotation Foundation"
+      },
+      {
+        "paragraph_index": 400,
+        "text": "30/08/2026"
+      },
+      {
+        "paragraph_index": 401,
+        "text": "19/09/2026"
+      },
+      {
+        "paragraph_index": 402,
+        "text": "35 hrs"
+      },
+      {
+        "paragraph_index": 403,
+        "text": "3"
+      },
+      {
+        "paragraph_index": 404,
+        "text": "Sprint 2 - Teacher Workflow, Authentication and Confirmation"
+      },
+      {
+        "paragraph_index": 405,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 406,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 407,
+        "text": "240 hrs"
+      },
+      {
+        "paragraph_index": 408,
+        "text": "3.1"
+      },
+      {
+        "paragraph_index": 409,
+        "text": "PB01 - Assignment Setup"
+      },
+      {
+        "paragraph_index": 410,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 411,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 412,
+        "text": "25 hrs"
+      },
+      {
+        "paragraph_index": 413,
+        "text": "3.2"
+      },
+      {
+        "paragraph_index": 414,
+        "text": "PB03 - Image Crop/Rotate Pre-processing"
+      },
+      {
+        "paragraph_index": 415,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 416,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 417,
+        "text": "25 hrs"
+      },
+      {
+        "paragraph_index": 418,
+        "text": "3.3"
+      },
+      {
+        "paragraph_index": 419,
+        "text": "PB06 - Teacher Batch Upload (1-30 images; typical 10-30)"
+      },
+      {
+        "paragraph_index": 420,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 421,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 422,
+        "text": "40 hrs"
+      },
+      {
+        "paragraph_index": 423,
+        "text": "3.4"
+      },
+      {
+        "paragraph_index": 424,
+        "text": "PB11 - Ambiguous Token Confirmation"
+      },
+      {
+        "paragraph_index": 425,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 426,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 427,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 428,
+        "text": "3.5"
+      },
+      {
+        "paragraph_index": 429,
+        "text": "PB15 - Teacher Review Queue"
+      },
+      {
+        "paragraph_index": 430,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 431,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 432,
+        "text": "40 hrs"
+      },
+      {
+        "paragraph_index": 433,
+        "text": "3.6"
+      },
+      {
+        "paragraph_index": 434,
+        "text": "PB16 - Teacher Approve/Override Final Decision"
+      },
+      {
+        "paragraph_index": 435,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 436,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 437,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 438,
+        "text": "3.7"
+      },
+      {
+        "paragraph_index": 439,
+        "text": "PB21 - Authentication & RBAC"
+      },
+      {
+        "paragraph_index": 440,
+        "text": "20/09/2026"
+      },
+      {
+        "paragraph_index": 441,
+        "text": "10/10/2026"
+      },
+      {
+        "paragraph_index": 442,
+        "text": "50 hrs"
+      },
+      {
+        "paragraph_index": 443,
+        "text": "4"
+      },
+      {
+        "paragraph_index": 444,
+        "text": "Sprint 3 - Async Integration, Student Tutoring and Retry"
+      },
+      {
+        "paragraph_index": 445,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 446,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 447,
+        "text": "220 hrs"
+      },
+      {
+        "paragraph_index": 448,
+        "text": "4.1"
+      },
+      {
+        "paragraph_index": 449,
+        "text": "PB07 - Celery/Redis Asynchronous Processing"
+      },
+      {
+        "paragraph_index": 450,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 451,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 452,
+        "text": "40 hrs"
+      },
+      {
+        "paragraph_index": 453,
+        "text": "4.2"
+      },
+      {
+        "paragraph_index": 454,
+        "text": "PB10 - Out-of-Scope Handling"
+      },
+      {
+        "paragraph_index": 455,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 456,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 457,
+        "text": "25 hrs"
+      },
+      {
+        "paragraph_index": 458,
+        "text": "4.3"
+      },
+      {
+        "paragraph_index": 459,
+        "text": "PB17 - Student Socratic Hint"
+      },
+      {
+        "paragraph_index": 460,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 461,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 462,
+        "text": "40 hrs"
+      },
+      {
+        "paragraph_index": 463,
+        "text": "4.4"
+      },
+      {
+        "paragraph_index": 464,
+        "text": "PB18 - Student Retry / Resubmission"
+      },
+      {
+        "paragraph_index": 465,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 466,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 467,
+        "text": "30 hrs"
+      },
+      {
+        "paragraph_index": 468,
+        "text": "4.5"
+      },
+      {
+        "paragraph_index": 469,
+        "text": "PB20 - Notation Diversity / Equivalent Layout Handling"
+      },
+      {
+        "paragraph_index": 470,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 471,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 472,
+        "text": "35 hrs"
+      },
+      {
+        "paragraph_index": 473,
+        "text": "4.6"
+      },
+      {
+        "paragraph_index": 474,
+        "text": "PB24 - Spring Boot <-> FastAPI Integration / OpenAPI Contract"
+      },
+      {
+        "paragraph_index": 475,
+        "text": "11/10/2026"
+      },
+      {
+        "paragraph_index": 476,
+        "text": "31/10/2026"
+      },
+      {
+        "paragraph_index": 477,
+        "text": "50 hrs"
+      },
+      {
+        "paragraph_index": 478,
+        "text": "5"
+      },
+      {
+        "paragraph_index": 479,
+        "text": "Sprint 4 - Governance, Evaluation, QA and Release Packaging"
+      },
+      {
+        "paragraph_index": 480,
+        "text": "01/11/2026"
+      },
+      {
+        "paragraph_index": 481,
+        "text": "21/11/2026"
+      },
+      {
+        "paragraph_index": 482,
+        "text": "240 hrs"
+      },
+      {
+        "paragraph_index": 483,
+        "text": "5.1"
+      },
+      {
+        "paragraph_index": 484,
+        "text": "PB19 - Data & Audit Control"
+      },
+      {
+        "paragraph_index": 485,
+        "text": "01/11/2026"
+      },
+      {
+        "paragraph_index": 486,
+        "text": "21/11/2026"
+      },
+      {
+        "paragraph_index": 487,
+        "text": "50 hrs"
+      },
+      {
+        "paragraph_index": 488,
+        "text": "5.2"
+      },
+      {
+        "paragraph_index": 489,
+        "text": "PB23 - AI Evaluation Harness / P1-P2-P3 Comparison"
+      },
+      {
+        "paragraph_index": 490,
+        "text": "01/11/2026"
+      },
+      {
+        "paragraph_index": 491,
+        "text": "21/11/2026"
+      },
+      {
+        "paragraph_index": 492,
+        "text": "50 hrs"
+      },
+      {
+        "paragraph_index": 493,
+        "text": "5.3"
+      },
+      {
+        "paragraph_index": 494,
+        "text": "PB25 - QA & NFR Testing"
+      },
+      {
+        "paragraph_index": 495,
+        "text": "01/11/2026"
+      },
+      {
+        "paragraph_index": 496,
+        "text": "21/11/2026"
+      },
+      {
+        "paragraph_index": 497,
+        "text": "80 hrs"
+      },
+      {
+        "paragraph_index": 498,
+        "text": "5.4"
+      },
+      {
+        "paragraph_index": 499,
+        "text": "PB26 - Architecture/API/User/Deployment Docs and Release Packaging"
+      },
+      {
+        "paragraph_index": 500,
+        "text": "01/11/2026"
+      },
+      {
+        "paragraph_index": 501,
+        "text": "21/11/2026"
+      },
+      {
+        "paragraph_index": 502,
+        "text": "60 hrs"
+      },
+      {
+        "paragraph_index": 503,
+        "text": "6"
+      },
+      {
+        "paragraph_index": 504,
+        "text": "Integration, Pilot and Stabilization"
+      },
+      {
+        "paragraph_index": 505,
+        "text": "22/11/2026"
+      },
+      {
+        "paragraph_index": 506,
+        "text": "06/12/2026"
+      },
+      {
+        "paragraph_index": 507,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 508,
+        "text": "6.1"
+      },
+      {
+        "paragraph_index": 509,
+        "text": "End-to-end integration: Teacher Web + Student Mobile + Spring Boot + AI Service"
+      },
+      {
+        "paragraph_index": 510,
+        "text": "22/11/2026"
+      },
+      {
+        "paragraph_index": 511,
+        "text": "06/12/2026"
+      },
+      {
+        "paragraph_index": 512,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 513,
+        "text": "6.2"
+      },
+      {
+        "paragraph_index": 514,
+        "text": "Pilot with teacher/sample class; latency tuning and critical defect resolution"
+      },
+      {
+        "paragraph_index": 515,
+        "text": "22/11/2026"
+      },
+      {
+        "paragraph_index": 516,
+        "text": "06/12/2026"
+      },
+      {
+        "paragraph_index": 517,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 518,
+        "text": "7"
+      },
+      {
+        "paragraph_index": 519,
+        "text": "Final Acceptance and Defense Preparation"
+      },
+      {
+        "paragraph_index": 520,
+        "text": "07/12/2026"
+      },
+      {
+        "paragraph_index": 521,
+        "text": "17/12/2026"
+      },
+      {
+        "paragraph_index": 522,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 523,
+        "text": "7.1"
+      },
+      {
+        "paragraph_index": 524,
+        "text": "Finalize source code, gold dataset, report/paper, video demo and handover package"
+      },
+      {
+        "paragraph_index": 525,
+        "text": "07/12/2026"
+      },
+      {
+        "paragraph_index": 526,
+        "text": "17/12/2026"
+      },
+      {
+        "paragraph_index": 527,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 528,
+        "text": "7.2"
+      },
+      {
+        "paragraph_index": 529,
+        "text": "Final regression, acceptance evidence and Capstone defense preparation"
+      },
+      {
+        "paragraph_index": 530,
+        "text": "07/12/2026"
+      },
+      {
+        "paragraph_index": 531,
+        "text": "17/12/2026"
+      },
+      {
+        "paragraph_index": 532,
+        "text": "N/A"
+      },
+      {
+        "paragraph_index": 534,
+        "text": "Planned development effort in the four Sprint Backlogs"
+      },
+      {
+        "paragraph_index": 537,
+        "text": "980 hrs"
+      },
+      {
+        "paragraph_index": 539,
+        "text": "Cost"
+      },
+      {
+        "paragraph_index": 540,
+        "text": "Cost Person/Hours"
+      },
+      {
+        "paragraph_index": 541,
+        "text": "Full Name"
+      },
+      {
+        "paragraph_index": 542,
+        "text": "Role"
+      },
+      {
+        "paragraph_index": 543,
+        "text": "Salary Rate (USD/hour)"
+      },
+      {
+        "paragraph_index": 544,
+        "text": "Nguyen Van Duy Manh"
+      },
+      {
+        "paragraph_index": 545,
+        "text": "Scrum Master"
+      },
+      {
+        "paragraph_index": 546,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 547,
+        "text": "Le Minh Truong Kha"
+      },
+      {
+        "paragraph_index": 548,
+        "text": "Product Owner"
+      },
+      {
+        "paragraph_index": 549,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 550,
+        "text": "Tran Hoai Nam"
+      },
+      {
+        "paragraph_index": 551,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 552,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 553,
+        "text": "Tran Viet Loc"
+      },
+      {
+        "paragraph_index": 554,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 555,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 556,
+        "text": "Phan Quang Hieu"
+      },
+      {
+        "paragraph_index": 557,
+        "text": "Developer"
+      },
+      {
+        "paragraph_index": 558,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 559,
+        "text": "Table 1. Cost person/hours"
+      },
+      {
+        "paragraph_index": 560,
+        "text": "Total Cost Estimate"
+      },
+      {
+        "paragraph_index": 561,
+        "text": "No"
+      },
+      {
+        "paragraph_index": 562,
+        "text": "Criteria"
+      },
+      {
+        "paragraph_index": 563,
+        "text": "Price"
+      },
+      {
+        "paragraph_index": 564,
+        "text": "Total (USD)"
+      },
+      {
+        "paragraph_index": 565,
+        "text": "1 "
+      },
+      {
+        "paragraph_index": 566,
+        "text": "Working hours "
+      },
+      {
+        "paragraph_index": 567,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 568,
+        "text": "1960"
+      },
+      {
+        "paragraph_index": 569,
+        "text": "2 "
+      },
+      {
+        "paragraph_index": 570,
+        "text": "Other cost  "
+      },
+      {
+        "paragraph_index": 571,
+        "text": "100"
+      },
+      {
+        "paragraph_index": 572,
+        "text": "500"
+      },
+      {
+        "paragraph_index": 576,
+        "text": "2460"
+      },
+      {
+        "paragraph_index": 577,
+        "text": "Table 2. Total cost estimation "
+      },
+      {
+        "paragraph_index": 579,
+        "text": "Description"
+      },
+      {
+        "paragraph_index": 580,
+        "text": "Amount"
+      },
+      {
+        "paragraph_index": 581,
+        "text": "Unit"
+      },
+      {
+        "paragraph_index": 582,
+        "text": "Number of members "
+      },
+      {
+        "paragraph_index": 583,
+        "text": "5"
+      },
+      {
+        "paragraph_index": 584,
+        "text": "Person"
+      },
+      {
+        "paragraph_index": 585,
+        "text": "Number of working hours per day "
+      },
+      {
+        "paragraph_index": 586,
+        "text": "3"
+      },
+      {
+        "paragraph_index": 587,
+        "text": "Hours"
+      },
+      {
+        "paragraph_index": 588,
+        "text": "The cost per hour per member "
+      },
+      {
+        "paragraph_index": 589,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 590,
+        "text": "USD"
+      },
+      {
+        "paragraph_index": 591,
+        "text": "The number of working days "
+      },
+      {
+        "paragraph_index": 592,
+        "text": "90"
+      },
+      {
+        "paragraph_index": 593,
+        "text": "Days"
+      },
+      {
+        "paragraph_index": 595,
+        "text": "- The explanation for the table: "
+      },
+      {
+        "paragraph_index": 596,
+        "text": "Amount of working hours = 5 members * 3 hours * 90 days "
+      },
+      {
+        "paragraph_index": 597,
+        "text": "Other cost = 5 members * 100 USD "
+      },
+      {
+        "paragraph_index": 599,
+        "text": "Project Risk:"
+      },
+      {
+        "paragraph_index": 600,
+        "text": "Table 7: Rating for likelihood and seriousness for each risk."
+      },
+      {
+        "paragraph_index": 601,
+        "text": "RATING FOR LIKELIHOOD AND SERIOUSNESS FOR EACH RISK"
+      },
+      {
+        "paragraph_index": 602,
+        "text": "L"
+      },
+      {
+        "paragraph_index": 603,
+        "text": "Rated as Low"
+      },
+      {
+        "paragraph_index": 604,
+        "text": "E"
+      },
+      {
+        "paragraph_index": 605,
+        "text": "Rated as Extreme (Used for Seriousness only)"
+      },
+      {
+        "paragraph_index": 606,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 607,
+        "text": "Rated as Medium"
+      },
+      {
+        "paragraph_index": 608,
+        "text": "NA"
+      },
+      {
+        "paragraph_index": 609,
+        "text": "Not Assessed"
+      },
+      {
+        "paragraph_index": 610,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 611,
+        "text": "Rated as High"
+      },
+      {
+        "paragraph_index": 615,
+        "text": "Table 8: Project Risk."
+      },
+      {
+        "paragraph_index": 616,
+        "text": "Risk"
+      },
+      {
+        "paragraph_index": 617,
+        "text": "Definition"
+      },
+      {
+        "paragraph_index": 618,
+        "text": "Level"
+      },
+      {
+        "paragraph_index": 619,
+        "text": "Likelihood"
+      },
+      {
+        "paragraph_index": 620,
+        "text": "Mitigation Strategy"
+      },
+      {
+        "paragraph_index": 621,
+        "text": "R-01 Scope expansion"
+      },
+      {
+        "paragraph_index": 622,
+        "text": "New math domain or non-core features are introduced before Core MVP gates pass."
+      },
+      {
+        "paragraph_index": 623,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 624,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 625,
+        "text": "Freeze Core MVP; move new functionality to stretch scope; PO performs impact analysis and re-plans before any approved scope change."
+      },
+      {
+        "paragraph_index": 626,
+        "text": "R-02 Consent / data delay"
+      },
+      {
+        "paragraph_index": 627,
+        "text": "Insufficient approved, de-identified handwriting samples delay recognition training/evaluation."
+      },
+      {
+        "paragraph_index": 628,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 629,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 630,
+        "text": "Track dataset milestones; use team/synthetic engineering data for pipeline work; keep consent/annotation workflow active; transparently constrain evaluation if targets are missed."
+      },
+      {
+        "paragraph_index": 631,
+        "text": "R-03 Recognition accuracy low"
+      },
+      {
+        "paragraph_index": 632,
+        "text": "Critical-token accuracy is insufficient for reliable downstream diagnosis."
+      },
+      {
+        "paragraph_index": 633,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 634,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 635,
+        "text": "Constrain capture/crop styles; improve preprocessing/specialist recognizer; calibrate confidence; require token confirmation and abstain/review when evidence is weak."
+      },
+      {
+        "paragraph_index": 636,
+        "text": "R-04 VLM hallucination / unsafe feedback"
+      },
+      {
+        "paragraph_index": 637,
+        "text": "Optional VLM output contradicts deterministic validation or reveals the complete answer."
+      },
+      {
+        "paragraph_index": 638,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 639,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 640,
+        "text": "Keep deterministic validator as mathematical authority; constrain schemas/templates; block VLM override; use abstention, safe hint rules and teacher review."
+      },
+      {
+        "paragraph_index": 641,
+        "text": "R-05 Latency / cost"
+      },
+      {
+        "paragraph_index": 642,
+        "text": "Supported image analysis exceeds the p95 performance target or optional inference cost becomes unacceptable."
+      },
+      {
+        "paragraph_index": 643,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 644,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 645,
+        "text": "Crop/resize images, use async workers, cache/retry carefully, prefer smaller/specialized models and deterministic rules/templates."
+      },
+      {
+        "paragraph_index": 646,
+        "text": "R-06 Annotation inconsistency"
+      },
+      {
+        "paragraph_index": 647,
+        "text": "Repeated disagreements between annotators reduce ground-truth reliability."
+      },
+      {
+        "paragraph_index": 648,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 649,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 650,
+        "text": "Maintain annotation guide; double-annotate >=20%; adjudicate disputes; preserve ambiguous labels and version the dataset/manifest."
+      },
+      {
+        "paragraph_index": 651,
+        "text": "R-07 Privacy / security incident"
+      },
+      {
+        "paragraph_index": 652,
+        "text": "PII is transmitted/stored without required masking or an unauthorized user gains access."
+      },
+      {
+        "paragraph_index": 653,
+        "text": "E"
+      },
+      {
+        "paragraph_index": 654,
+        "text": "L"
+      },
+      {
+        "paragraph_index": 655,
+        "text": "Client-side PII masking before upload; JWT/RBAC/TLS; consent/retention/deletion controls; stop affected flow, isolate/delete data, notify mentor and correct controls."
+      },
+      {
+        "paragraph_index": 656,
+        "text": "R-08 Integration delay"
+      },
+      {
+        "paragraph_index": 657,
+        "text": "Spring Boot, FastAPI, clients, queue or storage contracts do not integrate on schedule."
+      },
+      {
+        "paragraph_index": 658,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 659,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 660,
+        "text": "Version OpenAPI contracts; maintain job/submission correlation; run thin vertical slices and E2E tests early; pair on integration and defer non-core work if needed."
+      },
+      {
+        "paragraph_index": 661,
+        "text": "R-09 Evaluation leakage"
+      },
+      {
+        "paragraph_index": 662,
+        "text": "Writer/problem overlap across train/validation/test data inflates evaluation results."
+      },
+      {
+        "paragraph_index": 663,
+        "text": "H"
+      },
+      {
+        "paragraph_index": 664,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 665,
+        "text": "Use duplicate checks, writer/problem-disjoint frozen split, versioned manifest and reproducible evaluation configuration."
+      },
+      {
+        "paragraph_index": 666,
+        "text": "R-10 Team availability gap"
+      },
+      {
+        "paragraph_index": 667,
+        "text": "A key technical owner is unavailable long enough to block dependent work."
+      },
+      {
+        "paragraph_index": 668,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 669,
+        "text": "M"
+      },
+      {
+        "paragraph_index": 670,
+        "text": "Use pair/support ownership, documented runbooks and handover notes; surface blockers in Daily Scrum; re-plan Sprint when a key owner is blocked for more than two working days."
+      },
+      {
+        "paragraph_index": 672,
+        "text": "Deliverables"
+      },
+      {
+        "paragraph_index": 673,
+        "text": "Table 9: Deliverables"
+      },
+      {
+        "paragraph_index": 674,
+        "text": "No."
+      },
+      {
+        "paragraph_index": 675,
+        "text": "Document"
+      },
+      {
+        "paragraph_index": 676,
+        "text": "Deadline"
+      },
+      {
+        "paragraph_index": 677,
+        "text": "File Name"
+      },
+      {
+        "paragraph_index": 678,
+        "text": "1"
+      },
+      {
+        "paragraph_index": 679,
+        "text": "Proposal Document."
+      },
+      {
+        "paragraph_index": 680,
+        "text": "6 –Sep – 2026"
+      },
+      {
+        "paragraph_index": 681,
+        "text": "C1SE.01.Capstone_Project_Proposal.pdf"
+      },
+      {
+        "paragraph_index": 682,
+        "text": "2"
+      },
+      {
+        "paragraph_index": 683,
+        "text": "Project Plan Document "
+      },
+      {
+        "paragraph_index": 684,
+        "text": "1 –Oct – 2026"
+      },
+      {
+        "paragraph_index": 685,
+        "text": "C1SE.01_Project_Plan_ver_1.1.docx"
+      }
+    ],
+    "matched": [
+      {
+        "paragraph_index": 10,
+        "text": "AI-Assisted Handwritten Arithmetic Grading & Tutoringfor Vietnamese Primary Students"
+      },
+      {
+        "paragraph_index": 37,
+        "text": "Math Vision Kids – AI-Assisted Handwritten Arithmetic Grading & Tutoring for Vietnamese Primary Students "
+      },
+      {
+        "paragraph_index": 162,
+        "text": "Math Vision Kids is an AI-assisted platform for Vietnamese primary education with two connected workflows: teacher batch grading and student handwritten-arithmetic tutoring. The Core MVP supports one clearly bounded vertical addition or subtraction exercise per image, natural numbers with 1-6 digits, and carry/borrow operations for Grades 1-5. A teacher batch may contain 1-30 images (with 10-30 as the typical classroom batch), while the student flow processes one exercise at a time."
+      },
+      {
+        "paragraph_index": 166,
+        "text": "- Teacher Web Grading Portal (React + Vite + TypeScript) for assignments, batch upload, progress, evidence review, and approve/override.- Student Mobile MVP (React Native + Expo) for capture, crop/rotate, confirmation, Socratic hints, and retry.- Java 21 Spring Boot 3 modular-monolith backend with JWT/RBAC, PostgreSQL, REST/OpenAPI contracts, audit and business workflows.- Python 3.12 FastAPI AI service with OpenCV/recognition pipeline, structured parsing, deterministic arithmetic validation, confidence policy, Celery/Redis asynchronous processing, and MinIO/S3 artifact storage.- PII-safe annotated dataset, AI evaluation package, architecture/API documentation, QA/NFR evidence, reproducible deployment/release package, final report and defense demo."
+      },
+      {
+        "paragraph_index": 281,
+        "text": "Informed about what was done in the last 24 hours, working on plans for today, the difficulties encountered and the solutions required, just meeting 10-15 minutes."
+      },
+      {
+        "paragraph_index": 293,
+        "text": "Complete   documentation.For each stage, sharing materials, given the strengths and weaknesses for each. Period for each member and the solution calculated measurement project."
+      },
+      {
+        "paragraph_index": 313,
+        "text": "Mechanisms of empirical process control, where feedback loops that constitute the core management technique are used as opposed to traditional command-and-control management."
+      },
+      {
+        "paragraph_index": 444,
+        "text": "Sprint 3 - Async Integration, Student Tutoring and Retry"
+      },
+      {
+        "paragraph_index": 459,
+        "text": "PB17 - Student Socratic Hint"
+      },
+      {
+        "paragraph_index": 514,
+        "text": "Pilot with teacher/sample class; latency tuning and critical defect resolution"
+      },
+      {
+        "paragraph_index": 636,
+        "text": "R-04 VLM hallucination / unsafe feedback"
+      },
+      {
+        "paragraph_index": 640,
+        "text": "Keep deterministic validator as mathematical authority; constrain schemas/templates; block VLM override; use abstention, safe hint rules and teacher review."
+      }
+    ]
+  }
+]

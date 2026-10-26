@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "DXDksgJHS9dX"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"finalization_requested\": true, \"report_drive_proof\": {\"id\": \"1y8fg8k5Mgr2XMCr5g_w2-yXAjydCpJG5\", \"sha256\": \"0d7e5e2fe032aeb3e03384892634f8c6b627594e8812ef3edccc3c7b5ce4c855\", \"bytes\": 83323, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T14:22:45.133079+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"training__final_semantic_assessment.json\", \"immutable\": false}, \"bundle_drive_proof\": {\"id\": \"1u3735Od9qWKAE_YQ2dVAlHh7YX_JFqW4\", \"sha256\": \"4636f1d6fb96d8f7de5dc941a72dbeb6b832ebf828fada95a16ebd104d787349\", \"bytes\": 228690, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T14:23:14.611284+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"quality_recovery_audit_bundle_4636f1d6fb96d8f7.zip\", \"immutable\": true}, \"no_new_training\": true}\n"
+        ]
+      }
+    ]
+  }
+}

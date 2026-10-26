@@ -1,0 +1,5147 @@
+{
+  "schema_version": "mathvisionkid.curriculum_training_coverage.v3.1",
+  "created_date": "2026-10-13",
+  "artifact_role": "SUPPLEMENTARY_COVERAGE_LEDGER_NOT_A_TRAINING_INPUT",
+  "numeric_dataset_version": "mvk_teacher_math_v3_20261013",
+  "current_curriculum_node_count": 106,
+  "actual_numeric_family_count": 57,
+  "actual_train_rows": 4170,
+  "source_fingerprints": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\train.jsonl": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\val.jsonl": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\teacher_math_v3\\generated\\challenge.jsonl": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "no_frozen_input_mutations": true,
+  "complete_curriculum_claim": false,
+  "neural_mastery_measured": false,
+  "human_verified": false,
+  "pedagogy_teacher_reviewed": false,
+  "coverage_status_counts": {
+    "PARTIAL_TEXT_EXAMPLES_SAME_GRADE": 38,
+    "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING": 61,
+    "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY": 7
+  },
+  "full_outcome_covered_count": 0,
+  "coverage_interpretation": "Presence of related original text exercises only. No conclusion about learned capability, national curriculum completeness, image recognition or teacher-approved pedagogy.",
+  "current_nodes": [
+    {
+      "node_id": "current_g1_natural_numbers_100",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Đếm, đọc, viết số0–100; hàng chục và đơn vị; số tròn chục",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "tens_place_value"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "1": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Giá trị hàng chục của số hai chữ số.",
+      "uncovered_subskills": [
+        "Đếm từ tập vật; đọc/viết số bằng lời; giá trị đơn vị; số tròn chục."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_compare_order_100",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "So sánh và xếp thứ tự nhóm tối đa4 số trong0–100",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "So sánh và xếp thứ tự nhóm tối đa4 số trong0–100"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ không nhớ trong0–100; ý nghĩa thêm/bớt",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "add_join",
+        "sub_remaining"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "1": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Chọn và tính cộng/trừ không nhớ từ tình huống thêm/bớt.",
+      "uncovered_subskills": [
+        "Phép tính viết trực tiếp và kiểm tra toàn miền0–100; bài dựa trên ảnh."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_mental_add_sub",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Nhẩm cộng/trừ trong10 và các số tròn chục",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "add_join",
+        "sub_remaining"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "1": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Kết quả phép cộng/trừ số nhỏ; không có nhiệm vụ nhẩm được ghi rõ.",
+      "uncovered_subskills": [
+        "Chiến lược nhẩm,nhẩm trong10 và số tròn chục được yêu cầu rõ."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_left_to_right_add_sub",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Hai dấu cộng/trừ, làm lần lượt trái sang phải",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Hai dấu cộng/trừ, làm lần lượt trái sang phải"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_word_add_sub",
+      "grade": 1,
+      "strand": "number",
+      "outcome_summary": "Chọn phép cộng/trừ từ tình huống và câu hỏi",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        21,
+        22
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "add_join",
+        "sub_remaining"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "1": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Bài lời văn thêm/bớt một bước, năm cách diễn đạt mỗi dạng.",
+      "uncovered_subskills": [
+        "Các cấu trúc ngôn ngữ chưa công bố; câu hỏi từ tranh/ảnh."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_spatial_orientation",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Trên/dưới,trái/phải,trước/sau,ở giữa",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Trên/dưới,trái/phải,trước/sau,ở giữa"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_plane_shapes",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Vuông,tròn,tam giác,chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Vuông,tròn,tam giác,chữ nhật"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_solid_shapes",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Lập phương,hộp chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Lập phương,hộp chữ nhật"
+      ],
+      "required_modality": "image_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_assemble_shapes",
+      "grade": 1,
+      "strand": "geometry",
+      "outcome_summary": "Ghép/xếp hình đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        22,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Ghép/xếp hình đơn giản"
+      ],
+      "required_modality": "image_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_length_cm",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "So sánh dài/ngắn,đọc và viết độ dài cm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "So sánh dài/ngắn,đọc và viết độ dài cm"
+      ],
+      "required_modality": "text_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_measure_estimate_length",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Đo/ước lượng bằng thước,gang tay,bước chân",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đo/ước lượng bằng thước,gang tay,bước chân"
+      ],
+      "required_modality": "physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_calendar_week",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Tuần7ngày,tên/thứ tự ngày,xem lịch ngày",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Tuần7ngày,tên/thứ tự ngày,xem lịch ngày"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_clock_whole_hour",
+      "grade": 1,
+      "strand": "measurement",
+      "outcome_summary": "Đọc giờ đúng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        23,
+        23
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc giờ đúng"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_natural_numbers_1000",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Đọc,viết0–1000; trăm/chục/đơn vị,số tròn trăm,liền trước/sau",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc,viết0–1000; trăm/chục/đơn vị,số tròn trăm,liền trước/sau"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_number_ray",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Vị trí số trên tia số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Vị trí số trên tia số"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_compare_order_1000",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "So sánh,xếp thứ tự nhóm tối đa4 số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "So sánh,xếp thứ tự nhóm tối đa4 số"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_estimate_tens",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Ước lượng số đồ vật theo nhóm10",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Ước lượng số đồ vật theo nhóm10"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_addition_subtraction_carry_once",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ trong1000,nhớ tối đa1lượt; tên thành phần",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "money_change"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "2": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tiền thừa bằng phép trừ số tiền tròn chục dưới1000.",
+      "uncovered_subskills": [
+        "Cộng và trừ đầy đủ phạm vi1000; tên thành phần; phân tầng mức nhớ≤1."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_mental_add_sub_20",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Nhẩm cộng/trừ trong20 và số tròn chục/trăm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "money_change"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "2": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Trừ hai số tiền tròn chục; không có nhiệm vụ nhẩm trong20 riêng.",
+      "uncovered_subskills": [
+        "Nhẩm trong20,nhẩm số tròn trăm."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_multiplication_division_tables_2_5",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Ý nghĩa/tên thành phần nhân/chia; bảng2 và5",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "equal_groups",
+        "share_exact",
+        "missing_factor"
+      ],
+      "actual_training_rows_linked": 46,
+      "actual_training_rows_same_grade": 46,
+      "actual_training_grades": {
+        "2": 46
+      },
+      "actual_training_modes": {
+        "worked_solution": 34,
+        "hint": 12
+      },
+      "covered_subskills": "Nhóm đều/chia đều và tìm thừa số với bảng2,5.",
+      "uncovered_subskills": [
+        "Giải thích ý nghĩa bảng và thuật ngữ tất cả thành phần; toàn bảng đầy đủ."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_word_one_step",
+      "grade": 2,
+      "strand": "number",
+      "outcome_summary": "Bài một bước tính,thêm/bớt,nhiều/ít hơn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "compare_difference",
+        "money_change",
+        "equal_groups",
+        "share_exact"
+      ],
+      "actual_training_rows_linked": 174,
+      "actual_training_rows_same_grade": 102,
+      "actual_training_grades": {
+        "1": 72,
+        "2": 102
+      },
+      "actual_training_modes": {
+        "worked_solution": 130,
+        "hint": 44
+      },
+      "covered_subskills": "Tiền thừa,nhóm đều/chia đều; bài chênh lệch mang nhãn lớp1.",
+      "uncovered_subskills": [
+        "Nhiều/ít hơn với nhãn lớp2; tình huống/diễn đạt ngoài các mẫu."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_points_lines_polyline",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Điểm,đoạn,đường thẳng/cong/gấp khúc,ba điểm thẳng hàng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Điểm,đoạn,đường thẳng/cong/gấp khúc,ba điểm thẳng hàng"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_quadrilateral",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Nhận dạng tứ giác",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Nhận dạng tứ giác"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_cylinder_sphere",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Nhận dạng khối trụ/cầu",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Nhận dạng khối trụ/cầu"
+      ],
+      "required_modality": "image_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_draw_segment_assemble",
+      "grade": 2,
+      "strand": "geometry",
+      "outcome_summary": "Vẽ đoạn theo độ dài,gấp/cắt/ghép/xếp hình",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        26
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Vẽ đoạn theo độ dài,gấp/cắt/ghép/xếp hình"
+      ],
+      "required_modality": "physical_or_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_mass_kg_capacity_l",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Nặng/nhẹ,kg,l; đọc/viết số đo",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Nặng/nhẹ,kg,l; đọc/viết số đo"
+      ],
+      "required_modality": "text_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_length_dm_m_km",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Đơn vị dm,m,km và quan hệ các đơn vị đã học",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "length_m_to_cm"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "3": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Đổi m→cm; các ví dụ mang nhãn lớp3.",
+      "uncovered_subskills": [
+        "dm,m,km và các hướng đổi khác; bài tại đúng nhãn lớp2."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_time_calendar",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "24giờ/ngày,60phút/giờ,số ngày/tháng,lịch",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "elapsed_minutes",
+        "hours_minutes"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "2": 72,
+        "3": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Hiệu hai mốc phút cùng một giờ; đổi giờ-phút→phút mang nhãn lớp3.",
+      "uncovered_subskills": [
+        "24giờ/ngày,60phút/giờ bằng câu hỏi khái niệm; số ngày tháng/lịch; đọc đồng hồ."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_clock_quarter_half",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Giờ với kim phút ở số3 hoặc6",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Giờ với kim phút ở số3 hoặc6"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_money_vietnam",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Nhận biết tiền Việt Nam",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "money_change"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "2": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tính tiền thừa từ giá và số tiền bằng chữ/số trong đề.",
+      "uncovered_subskills": [
+        "Nhận diện ảnh tiền,mệnh giá và mua bán thực tế; giá thấp trong mẫu cần giáo viên rà."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_convert_measurement",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính số đo và ước lượng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "length_m_to_cm",
+        "hours_minutes",
+        "money_change"
+      ],
+      "actual_training_rows_linked": 216,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "3": 144,
+        "2": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 162,
+        "hint": 54
+      },
+      "covered_subskills": "Đổi m→cm,giờ-phút→phút và tính tiền; chưa có nhãn lớp2 cho hai phép đổi.",
+      "uncovered_subskills": [
+        "kg,l,dm,km,hướng đổi khác và ước lượng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_polyline_length",
+      "grade": 2,
+      "strand": "measurement",
+      "outcome_summary": "Độ dài đường gấp khúc từ các cạnh",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        26,
+        27
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Độ dài đường gấp khúc từ các cạnh"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_collect_tally",
+      "grade": 2,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập,phân loại,kiểm đếm đối tượng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Thu thập,phân loại,kiểm đếm đối tượng"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_pictogram_read",
+      "grade": 2,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả/nhận xét biểu đồ tranh",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc/mô tả/nhận xét biểu đồ tranh"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_possible_certain_impossible",
+      "grade": 2,
+      "strand": "probability",
+      "outcome_summary": "Có thể,chắc chắn,không thể trong sự kiện đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Có thể,chắc chắn,không thể trong sự kiện đơn giản"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_natural_numbers_100000",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Số đến100000;cấu tạo thập phân,tròn nghìn/mười nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Số đến100000;cấu tạo thập phân,tròn nghìn/mười nghìn"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_roman_20",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Đọc/viết số La Mã trong20",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc/viết số La Mã trong20"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_compare_order_100000",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "So sánh/xếp thứ tự nhóm tối đa4số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "So sánh/xếp thứ tự nhóm tối đa4số"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_round_naturals",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Làm tròn chục,trăm,nghìn,mười nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Làm tròn chục,trăm,nghìn,mười nghìn"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_addition_subtraction_5digits",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ đến5chữ số; nhớ≤2lượt không liên tiếp",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "multistep_add_sub",
+        "vertical_add",
+        "vertical_subtract"
+      ],
+      "actual_training_rows_linked": 272,
+      "actual_training_rows_same_grade": 73,
+      "actual_training_grades": {
+        "3": 73,
+        "4": 199
+      },
+      "actual_training_modes": {
+        "worked_solution": 190,
+        "hint": 82
+      },
+      "covered_subskills": "Bài hai phép cộng/trừ số nhỏ; một phần dữ liệu đặt tính mang nhãn lớp3.",
+      "uncovered_subskills": [
+        "Độ phủ số5chữ số cân bằng; giới hạn nhớ≤2khôngliêntiếp của CT cần kiểm tra riêng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_multiply_divide_one_digit",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Nhân/chia số1chữ số,bảng2–9; chia hết/chia dư",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "division_remainder",
+        "groups_after_sale"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "3": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Phần dư của chia cho một chữ số; nhân nhóm rồi trừ lượng đã dùng.",
+      "uncovered_subskills": [
+        "Thuật toán nhân/chia dài; thương của chia hết; toàn bảng2–9; nhiều tình huống."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_operation_properties",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Giao hoán/kết hợp cộng,nhân và quan hệ phép tính",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Giao hoán/kết hợp cộng,nhân và quan hệ phép tính"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_expressions_unknown",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Biểu thức≤2dấu,có/không ngoặc; tìm thành phần chưa biết",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "order_operations",
+        "missing_addend",
+        "missing_factor"
+      ],
+      "actual_training_rows_linked": 160,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "3": 72,
+        "1": 72,
+        "2": 16
+      },
+      "actual_training_modes": {
+        "worked_solution": 120,
+        "hint": 40
+      },
+      "covered_subskills": "Biểu thức cộng với tích; tìm thành phần chưa biết nằm ở nhãn lớp1/2.",
+      "uncovered_subskills": [
+        "Biểu thức ngoặc; các phối hợp phép tính khác; tìm thành phần đúng nhãn lớp3."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_word_two_steps",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Bài≤2bước,gấp/giảm theo số lần,so sánh gấp mấy lần",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "multistep_add_sub",
+        "groups_after_sale"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "3": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Nhận thêm rồi bớt; nhân nhóm rồi bớt.",
+      "uncovered_subskills": [
+        "Gấp/giảm theo số lần,so sánh số lớn gấp mấy lần số bé; nhiều cách giải."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_unit_fractions",
+      "grade": 3,
+      "strand": "number",
+      "outcome_summary": "Nhận biết1/2…1/9,tìm phần bằng nhau của nhóm đồ vật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        29,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "fraction_of_quantity"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "4": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tìm phân số của lượng; hiện các ví dụ thuộc lớp4 và không chỉ phân số đơn vị.",
+      "uncovered_subskills": [
+        "Nhận dạng hình1/2…1/9; chia nhóm và ví dụ đúng nhãn lớp3."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_midpoint_angles",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Điểm giữa,trung điểm,góc vuông/không vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Điểm giữa,trung điểm,góc vuông/không vuông"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_shape_elements",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Đỉnh/cạnh/góc,hình chữ nhật/vuông; tâm/bán kính/đường kính",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đỉnh/cạnh/góc,hình chữ nhật/vuông; tâm/bán kính/đường kính"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_solid_elements",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Đỉnh,cạnh,mặt khối lập phương/hộp chữ nhật",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đỉnh,cạnh,mặt khối lập phương/hộp chữ nhật"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_draw_ekes_compass",
+      "grade": 3,
+      "strand": "geometry",
+      "outcome_summary": "Êke,compa,góc vuông,đường tròn,vẽ hình trên ô vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        31,
+        31
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Êke,compa,góc vuông,đường tròn,vẽ hình trên ô vuông"
+      ],
+      "required_modality": "physical_or_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_units_mm_cm2_g_ml_celsius",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "mm,cm²,g,ml,°C và quan hệ đơn vị",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "mass_kg_to_g",
+        "rectangle_area",
+        "square_area"
+      ],
+      "actual_training_rows_linked": 216,
+      "actual_training_rows_same_grade": 216,
+      "actual_training_grades": {
+        "3": 216
+      },
+      "actual_training_modes": {
+        "worked_solution": 162,
+        "hint": 54
+      },
+      "covered_subskills": "Đổi kg→g; tính diện tích và ghi cm².",
+      "uncovered_subskills": [
+        "mm,ml,°C; khái niệm diện tích; đo bằng dụng cụ."
+      ],
+      "required_modality": "text_or_physical",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_time_clock_minute",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Tháng/năm,đọc giờ đến5phút/từng phút",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "hours_minutes"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "3": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Đổi giờ-phút thành phút trong đề bằng chữ/số.",
+      "uncovered_subskills": [
+        "Đọc đồng hồ đến5phút/từng phút; tháng/năm/lịch."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_money_vietnam_100000",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Đọc mệnh giá đến100000; nhận diện200000/500000 không yêu cầu đọc số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc mệnh giá đến100000; nhận diện200000/500000 không yêu cầu đọc số"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_convert_measurements",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính độ dài,khối lượng,dung tích,thời gian,tiền",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "length_m_to_cm",
+        "mass_kg_to_g",
+        "hours_minutes"
+      ],
+      "actual_training_rows_linked": 216,
+      "actual_training_rows_same_grade": 216,
+      "actual_training_grades": {
+        "3": 216
+      },
+      "actual_training_modes": {
+        "worked_solution": 162,
+        "hint": 54
+      },
+      "covered_subskills": "m→cm,kg→g,giờ-phút→phút.",
+      "uncovered_subskills": [
+        "mm/dm/km,ml/l,phút-ngày-tuần-tháng-năm,tiền và đổi ngược."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_perimeter",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Chu vi tam giác,tứ giác,chữ nhật,vuông",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "rectangle_perimeter",
+        "square_perimeter"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "3": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Chu vi hình chữ nhật và hình vuông có số đo rõ.",
+      "uncovered_subskills": [
+        "Chu vi tam giác/tứ giác; bài hình và đường bao thực tế."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_area_rectangle_square",
+      "grade": 3,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích chữ nhật/vuông,đơn vịcm²",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        32,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "rectangle_area",
+        "square_area"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "3": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Diện tích chữ nhật/vuông từ kích thước và số ô vuông nêu rõ.",
+      "uncovered_subskills": [
+        "Nhận diện hình và xác định kích thước từ ảnh; đo/ước lượng thực tế."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_table_collect_read",
+      "grade": 3,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập/phân loại theo tiêu chí,đọc/mô tả/nhận xét bảng số liệu",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "table_total"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "3": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tổng ba số từ bảng được mô tả bằng văn bản.",
+      "uncovered_subskills": [
+        "Thu thập/phân loại dữ liệu; đọc hàng/cột và nhận xét so sánh ngoài tính tổng."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_single_trial_outcomes",
+      "grade": 3,
+      "strand": "probability",
+      "outcome_summary": "Các khả năng của thí nghiệm1lần như tung đồng xu,lấy bóng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        33
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Các khả năng của thí nghiệm1lần như tung đồng xu,lấy bóng"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_natural_numbers_millions",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Đến lớp triệu,giá trị theo vị trí,dãy tự nhiên,chẵn/lẻ",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đến lớp triệu,giá trị theo vị trí,dãy tự nhiên,chẵn/lẻ"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_compare_round_naturals",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "So sánh≤4số,làm tròn đến trăm nghìn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "So sánh≤4số,làm tròn đến trăm nghìn"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_addition_subtraction_many_digits",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ nhiều chữ số,nhớ≤3lượt không liên tiếp",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "vertical_add",
+        "vertical_subtract"
+      ],
+      "actual_training_rows_linked": 200,
+      "actual_training_rows_same_grade": 199,
+      "actual_training_grades": {
+        "4": 199,
+        "3": 1
+      },
+      "actual_training_modes": {
+        "worked_solution": 136,
+        "hint": 64
+      },
+      "covered_subskills": "Đặt tính cộng/trừ hai số tự nhiên đến6chữ số,cột tính và phép tính ngược.",
+      "uncovered_subskills": [
+        "Số tới lớp triệu toàn miền; kiểm tra nhớ≤3khôngliêntiếp; bằng chứng bài làm ảnh."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_multiply_divide_two_digits",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Nhân/chia với số≤2chữ số; nhân/chia10,100,1000",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "length_m_to_cm",
+        "mass_kg_to_g"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "3": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Phép nhân100/1000 trong đổi đơn vị; hiện ví dụ mang nhãn lớp3.",
+      "uncovered_subskills": [
+        "Nhân/chia thuật toán với số1–2chữ số; chia10/100/1000; nhãn lớp4."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_average",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Trung bình cộng của hai hoặc nhiều số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "average_three"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "4": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Trung bình cộng đúng ba số.",
+      "uncovered_subskills": [
+        "Hai số hoặc nhiều hơn ba số; trung bình có kết quả phân số/thập phân phù hợp."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_expressions_letters_properties",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Biểu thức1–3chữ; phân phối,giao hoán,kết hợp,tính hợp lí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Biểu thức1–3chữ; phân phối,giao hoán,kết hợp,tính hợp lí"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_word_two_three_steps",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Bài2–3bước,trung bình,tổng-hiệu,rút về đơn vị",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "sum_difference_large",
+        "sum_difference_small",
+        "average_three",
+        "proportional_direct"
+      ],
+      "actual_training_rows_linked": 288,
+      "actual_training_rows_same_grade": 216,
+      "actual_training_grades": {
+        "4": 216,
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 216,
+        "hint": 72
+      },
+      "covered_subskills": "Tổng-hiệu tìm số lớn/nhỏ; trung bình ba số;rút đơn giá thuộc nhãn lớp5.",
+      "uncovered_subskills": [
+        "Rút về đơn vị đúng lớp4; đa dạng quan hệ và bài3bước."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_fraction_concepts_reduce",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Phân số,tử/mẫu,tính chất cơ bản,rút gọn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "fraction_add",
+        "fraction_subtract",
+        "fraction_multiply",
+        "fraction_divide"
+      ],
+      "actual_training_rows_linked": 288,
+      "actual_training_rows_same_grade": 288,
+      "actual_training_grades": {
+        "4": 288
+      },
+      "actual_training_modes": {
+        "worked_solution": 216,
+        "hint": 72
+      },
+      "covered_subskills": "Rút gọn kết quả phân số trong lời giải phép tính.",
+      "uncovered_subskills": [
+        "Khái niệm tử/mẫu,đọc/viết,tính chất bằng nhau;rút gọn là nhiệm vụ riêng; ảnh."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_fraction_compare_common_denominator",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Quy đồng/so sánh khi mẫu bằng nhau hoặc1mẫu chia hết mẫu còn lại",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "fraction_add",
+        "fraction_subtract"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "4": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Quy đồng là bước phục vụ cộng/trừ; chưa có bài so sánh.",
+      "uncovered_subskills": [
+        "So sánh/xếp thứ tự/tìm max-min phân số; giải thích quy đồng riêng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_fraction_operations",
+      "grade": 4,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ mẫubằng/chia hết; nhân/chia hai phân số;tìm phần của số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        34,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "fraction_add",
+        "fraction_subtract",
+        "fraction_multiply",
+        "fraction_divide",
+        "fraction_of_quantity"
+      ],
+      "actual_training_rows_linked": 360,
+      "actual_training_rows_same_grade": 360,
+      "actual_training_grades": {
+        "4": 360
+      },
+      "actual_training_modes": {
+        "worked_solution": 270,
+        "hint": 90
+      },
+      "covered_subskills": "Cộng,trừ,nhân,chia hai phân số và tìm phân số của một số.",
+      "uncovered_subskills": [
+        "Bài2–3bước kết hợp và nhiều ngữ cảnh; lời giải quy đồng/rút gọn chi tiết hơn."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_angle_types",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Góc nhọn,tù,bẹt",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Góc nhọn,tù,bẹt"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_parallel_perpendicular",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Hai đường vuông góc/song song; vẽ bằng thước/êke",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Hai đường vuông góc/song song; vẽ bằng thước/êke"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_parallelogram_rhombus_recognition",
+      "grade": 4,
+      "strand": "geometry",
+      "outcome_summary": "Nhận biết hình bình hành/hình thoi",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        37
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Nhận biết hình bình hành/hình thoi"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_mass_yen_ta_tan",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Yến,tạ,tấn và quan hệkg",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Yến,tạ,tấn và quan hệkg"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_area_units_mm2_dm2_m2",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "mm²,dm²,m² và quan hệcm²",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "area_unit_conversion"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "m²→cm²; hiện ví dụ mang nhãn lớp5.",
+      "uncovered_subskills": [
+        "mm²,dm²,hướng đổi khác và câu hỏi khái niệm; nhãn lớp4."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_time_second_century",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Giây,thế kỉ và đơn vịthời gian đã học",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Giây,thế kỉ và đơn vịthời gian đã học"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_angle_degree",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Đơn vịđộ; đo60°,90°,120°,180°",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đơn vịđộ; đo60°,90°,120°,180°"
+      ],
+      "required_modality": "text_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_convert_measurements",
+      "grade": 4,
+      "strand": "measurement",
+      "outcome_summary": "Đổi/tính/ước lượng độ dài,diện tích,khối lượng,dung tích,thời gian,tiền",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        37,
+        38
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "length_m_to_cm",
+        "mass_kg_to_g",
+        "hours_minutes",
+        "area_unit_conversion"
+      ],
+      "actual_training_rows_linked": 288,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "3": 216,
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 216,
+        "hint": 72
+      },
+      "covered_subskills": "Một số phép đổi đơn vị đã học nhưng hiện nhãn lớp3/5.",
+      "uncovered_subskills": [
+        "Yến/tạ/tấn,giây/thếkỉ,ml/l,mm²/dm²; đổi đa bước/ước lượng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_data_sequences",
+      "grade": 4,
+      "strand": "statistics",
+      "outcome_summary": "Dãy số liệu và sắp xếp theo tiêu chí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        38,
+        39
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Dãy số liệu và sắp xếp theo tiêu chí"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_bar_chart_mean",
+      "grade": 4,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả/sắp xếp số liệu biểu đồ cột,trung bình/nhận xét/quy luật đơn giản",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        38,
+        39
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "average_three"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "4": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Trung bình cộng của ba số trong văn bản; không có biểu đồ cột.",
+      "uncovered_subskills": [
+        "Toàn bộ đọc/mô tả/sắp số liệu/nhận xét từ biểu đồ cột; trung bình từ biểu đồ."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_repeated_trial_counts",
+      "grade": 4,
+      "strand": "probability",
+      "outcome_summary": "Kiểm đếm số lần lặp một khả năng qua nhiều thử nghiệm",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        39,
+        39
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Kiểm đếm số lần lặp một khả năng qua nhiều thử nghiệm"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_natural_operations_four_steps",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Ôn số tự nhiên,phép tính,tính hợp lí,làm tròn,bài≤4bước",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "proportional_direct",
+        "vertical_add",
+        "vertical_subtract"
+      ],
+      "actual_training_rows_linked": 272,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "5": 72,
+        "4": 199,
+        "3": 1
+      },
+      "actual_training_modes": {
+        "worked_solution": 190,
+        "hint": 82
+      },
+      "covered_subskills": "Rút đơn giá rồi nhân số lượng; cộng/trừ dọc hiện thuộc lớp3/4.",
+      "uncovered_subskills": [
+        "Bài3–4bước,số tự nhiên đa dạng,nhẩm/làm tròn; bốn phép tính cân bằng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_fraction_operations_mixed",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Rút gọn,quy đồng,so sánh,4phép tính; cộng/trừ cómẫuchung làtích",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "fraction_add",
+        "fraction_subtract",
+        "fraction_multiply",
+        "fraction_divide"
+      ],
+      "actual_training_rows_linked": 288,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "4": 288
+      },
+      "actual_training_modes": {
+        "worked_solution": 216,
+        "hint": 72
+      },
+      "covered_subskills": "Phép tính phân số cơ bản có trong lớp4; không có nhãn lớp5 cho các dạng này.",
+      "uncovered_subskills": [
+        "Nhãn lớp5; phân số khác mẫu không chia hết;rút gọn,so sánh,hỗn số,bài kết hợp."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_decimal_fraction_mixed_number",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Phân số thập phân,hỗn số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Phân số thập phân,hỗn số"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_decimal_read_compare_round",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Đọc/viết,cấu tạo,vị trí chữ số,so sánh,làm tròn sốthập phân",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc/viết,cấu tạo,vị trí chữ số,so sánh,làm tròn sốthập phân"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_decimal_operations",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Cộng/trừ thập phân; nhân/chia với sốthập phân dạnga,b hoặc0,ab; nhẩm10^n/0,1^n",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "decimal_add",
+        "decimal_subtract",
+        "decimal_multiply",
+        "decimal_divide"
+      ],
+      "actual_training_rows_linked": 288,
+      "actual_training_rows_same_grade": 288,
+      "actual_training_grades": {
+        "5": 288
+      },
+      "actual_training_modes": {
+        "worked_solution": 216,
+        "hint": 72
+      },
+      "covered_subskills": "Bốn phép tính thập phân; thừa số/sốchia phù hợp dạng cơ bản đã chọn.",
+      "uncovered_subskills": [
+        "Nhẩm với10/100/1000 và0,1/0,01/0,001;tính chất;bài lời văn và thuật toán đặt tính thập phân."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_ratio_percent",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tỉ số,tỉ số%,phần trăm của số,phần trăm giữa hai đại lượng cùng loại",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "percent_part",
+        "percent_ratio",
+        "ratio_share"
+      ],
+      "actual_training_rows_linked": 216,
+      "actual_training_rows_same_grade": 216,
+      "actual_training_grades": {
+        "5": 216
+      },
+      "actual_training_modes": {
+        "worked_solution": 162,
+        "hint": 54
+      },
+      "covered_subskills": "Phần trăm của số,tỉ lệ%,tỉ số khi chia tổng thành phần.",
+      "uncovered_subskills": [
+        "Tỉ số khái niệm,so sánh đại lượng cùng loại trong nhiều ngữ cảnh; phần trăm tăng/giảm."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_sum_difference_ratio",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tìm hai số từ tổng/hiệu và tỉ số",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "ratio_share"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tổng+tỉ số, chỉ tìm lượng của nhóm thứ nhất.",
+      "uncovered_subskills": [
+        "Hiệu+tỉ số,tìm nhóm thứhai,phương pháp sơ đồ,nhiều ngữ cảnh."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_map_scale",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Tỉ lệ bản đồ và vận dụng",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Tỉ lệ bản đồ và vận dụng"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_calculator_use",
+      "grade": 5,
+      "strand": "number",
+      "outcome_summary": "Dùng máy tính để4phép tính và%",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        40,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Dùng máy tính để4phép tính và%"
+      ],
+      "required_modality": "text_or_physical",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_trapezoid_circle_triangle_types",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Hình thang,đường tròn,tam giácnhọn/vuông/tù/đều",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Hình thang,đường tròn,tam giácnhọn/vuông/tù/đều"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_solid_nets",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Hình khai triển lập phương,hộp chữ nhật,trụ",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Hình khai triển lập phương,hộp chữ nhật,trụ"
+      ],
+      "required_modality": "image_or_explicit_description",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_draw_altitude_circle",
+      "grade": 5,
+      "strand": "geometry",
+      "outcome_summary": "Vẽ đường cao tam giác,đường tròn từ bán kính/đường kính; hình trên lưới",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        43
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Vẽ đường cao tam giác,đường tròn từ bán kính/đường kính; hình trên lưới"
+      ],
+      "required_modality": "physical_or_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_area_km2_ha",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "km²,ha",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "km²,ha"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_volume_cm3_dm3_m3",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Thể tíchcm³,dm³,m³,chuyển đổi,tính số đo",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "volume_unit_conversion"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "dm³→cm³ với số đo thập phân.",
+      "uncovered_subskills": [
+        "m³ và các hướng đổi khác; ý nghĩa thể tích,dung tích; đo/ước lượng."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_triangle_trapezoid_area",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích tam giác/hình thang",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "triangle_area",
+        "trapezoid_area"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "5": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Diện tích tam giác/hình thang từ đáy và đường cao tương ứng.",
+      "uncovered_subskills": [
+        "Nhận diện đường cao/hình từ ảnh; bài ngược/tổng hợp; giải thích bằng cắt-ghép."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_circle_perimeter_area",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Chu vi/diện tích tròn",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "circle_area",
+        "circle_perimeter"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "5": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Chu vi/diện tích từ bán kính; đề xác định pi=3,14.",
+      "uncovered_subskills": [
+        "Từ đường kính hoặc tìm kích thước; hình/đo thực tế; phân biệt quyước pi."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_cuboid_cube_surface_volume",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Diện tích xung quanh/toàn phần,thể tích hộp chữ nhật/lập phương",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "box_volume",
+        "cube_surface"
+      ],
+      "actual_training_rows_linked": 144,
+      "actual_training_rows_same_grade": 144,
+      "actual_training_grades": {
+        "5": 144
+      },
+      "actual_training_modes": {
+        "worked_solution": 108,
+        "hint": 36
+      },
+      "covered_subskills": "Thể tích hộp chữ nhật và diện tích toàn phần lập phương.",
+      "uncovered_subskills": [
+        "Diện tích xung quanh/toàn phần hộp chữ nhật; thể tích lập phương; ảnh và bài kết hợp."
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_time_arithmetic",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Cộng/trừ/nhân/chia và chuyển đổi số đo thời gian",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "RELATED_TEXT_EXAMPLES_OTHER_GRADE_ONLY",
+      "numeric_family_ids": [
+        "hours_minutes"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {
+        "3": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Đổi giờ-phút→phút ở dữ liệu lớp3.",
+      "uncovered_subskills": [
+        "Cộng/trừ/nhân/chia số đo thời gian; chuyểnđổi nhiều đơn vị; nhãn lớp5."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_uniform_motion",
+      "grade": 5,
+      "strand": "measurement",
+      "outcome_summary": "Vận tốc,quãng đường,thời gian;km/h,m/s",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        43,
+        44
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "distance_from_speed_time",
+        "speed_from_distance_time",
+        "time_from_distance_speed"
+      ],
+      "actual_training_rows_linked": 216,
+      "actual_training_rows_same_grade": 216,
+      "actual_training_grades": {
+        "5": 216
+      },
+      "actual_training_modes": {
+        "worked_solution": 162,
+        "hint": 54
+      },
+      "covered_subskills": "Tìm quãng đường,vận tốc,thời gian chuyển động đều; km/giờ và giờ.",
+      "uncovered_subskills": [
+        "m/s và đổi đơn vị; thời gian có phút; nhiều giai đoạn/nghỉ nếu được dạy; sơ đồ."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_collect_classify",
+      "grade": 5,
+      "strand": "statistics",
+      "outcome_summary": "Thu thập,phân loại,so sánh,sắp xếp theo tiêu chí",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Thu thập,phân loại,so sánh,sắp xếp theo tiêu chí"
+      ],
+      "required_modality": "text",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_pie_chart",
+      "grade": 5,
+      "strand": "statistics",
+      "outcome_summary": "Đọc/mô tả,sắp số liệu biểu đồ quạt tròn,chọn biểu diễn,nhận xét/vấn đề",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đọc/mô tả,sắp số liệu biểu đồ quạt tròn,chọn biểu diễn,nhận xét/vấn đề"
+      ],
+      "required_modality": "text_or_confirmed_image",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_experimental_frequency_ratio",
+      "grade": 5,
+      "strand": "probability",
+      "outcome_summary": "Tỉ số số lần lặp khả năng với tổng số lần thử",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        45,
+        45
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "PARTIAL_TEXT_EXAMPLES_SAME_GRADE",
+      "numeric_family_ids": [
+        "empirical_frequency"
+      ],
+      "actual_training_rows_linked": 72,
+      "actual_training_rows_same_grade": 72,
+      "actual_training_grades": {
+        "5": 72
+      },
+      "actual_training_modes": {
+        "worked_solution": 54,
+        "hint": 18
+      },
+      "covered_subskills": "Tỉ số số lần xuất hiện với tổng lần thử, tách khỏi xác suất lý thuyết.",
+      "uncovered_subskills": [
+        "Thí nghiệm thực tế,thu thập kết quả; các mô tả ngoài năm khuôn đã công bố."
+      ],
+      "required_modality": "text",
+      "trained_input_modality": "text only",
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g1_practice_experience",
+      "grade": 1,
+      "strand": "practice_experience",
+      "outcome_summary": "Đếm và tính trong đời sống; định hướng không gian; đo cm,đọc giờ/lịch; trò chơi toán.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        24,
+        24
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đếm và tính trong đời sống; định hướng không gian; đo cm,đọc giờ/lịch; trò chơi toán."
+      ],
+      "required_modality": "physical_image_or_real_world_activity",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g2_practice_experience",
+      "grade": 2,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo và ước lượng,thời gian biểu; thu thập/kiểm đếm; trò chơi ôn tập.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        28,
+        28
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đo và ước lượng,thời gian biểu; thu thập/kiểm đếm; trò chơi ôn tập."
+      ],
+      "required_modality": "physical_image_or_real_world_activity",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g3_practice_experience",
+      "grade": 3,
+      "strand": "practice_experience",
+      "outcome_summary": "Thực hành chu vi/diện tích,cân/đong/đo,nhiệt độ; thống kê,mua bán,ghép hình,trò chơi ngẫu nhiên.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        33,
+        34
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Thực hành chu vi/diện tích,cân/đong/đo,nhiệt độ; thống kê,mua bán,ghép hình,trò chơi ngẫu nhiên."
+      ],
+      "required_modality": "physical_image_or_real_world_activity",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g4_practice_experience",
+      "grade": 4,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo/ước lượng hình và đại lượng; thu thập/phân tích/biểu diễn số liệu; mua bán,trò chơi; giao lưu nếu có điều kiện.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        39,
+        40
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đo/ước lượng hình và đại lượng; thu thập/phân tích/biểu diễn số liệu; mua bán,trò chơi; giao lưu nếu có điều kiện."
+      ],
+      "required_modality": "physical_image_or_real_world_activity",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    },
+    {
+      "node_id": "current_g5_practice_experience",
+      "grade": 5,
+      "strand": "practice_experience",
+      "outcome_summary": "Đo/ước lượng thể tích và chuyển động; thống kê ứng dụng; chi tiêu,lãi/lỗ,lãi suất; tangram,thí nghiệm và giao lưu.",
+      "source_id": "math_2018_annex",
+      "source_pages": [
+        46,
+        46
+      ],
+      "official_outcome_source_read": true,
+      "coverage_status": "NOT_INCLUDED_IN_NUMERIC_V3_TRAINING",
+      "numeric_family_ids": [],
+      "actual_training_rows_linked": 0,
+      "actual_training_rows_same_grade": 0,
+      "actual_training_grades": {},
+      "actual_training_modes": {},
+      "covered_subskills": "Không có nhiệm vụ số học tương ứng trong57nhóm bài numericV3.",
+      "uncovered_subskills": [
+        "Đo/ước lượng thể tích và chuyển động; thống kê ứng dụng; chi tiêu,lãi/lỗ,lãi suất; tangram,thí nghiệm và giao lưu."
+      ],
+      "required_modality": "physical_image_or_real_world_activity",
+      "trained_input_modality": null,
+      "image_recognition_training_examples": 0,
+      "physical_activity_verified": false,
+      "grade_bounds_certified": false,
+      "human_verified": false,
+      "pedagogy_teacher_reviewed": false,
+      "neural_mastery_measured": false,
+      "full_outcome_covered": false,
+      "mapping_caveat": "Linked row counts overlap across nodes and include hint/worked pairs; they are not independent examples or curriculum mastery percentages."
+    }
+  ],
+  "actual_numeric_families": [
+    {
+      "family": "add_join",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g1_word_add_sub"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g1_mental_add_sub",
+        "current_g1_word_add_sub"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "1": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "sub_remaining",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g1_word_add_sub"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g1_mental_add_sub",
+        "current_g1_word_add_sub"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "1": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "missing_addend",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "1": 72
+      },
+      "actual_curriculum_tags": {
+        "EARLY_GRADE_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "Grade1missingaddend is owner-authored enrichment unless a matchinggrade1specificoutcome is separately established; explicitunknowncomponent currentgrade3.",
+      "mastery_claim": false
+    },
+    {
+      "family": "compare_difference",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_word_one_step"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_word_one_step"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "1": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "tens_place_value",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g1_natural_numbers_100"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g1_natural_numbers_100"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "1": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "equal_groups",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_multiplication_division_tables_2_5"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_multiplication_division_tables_2_5",
+        "current_g2_word_one_step"
+      ],
+      "actual_train_rows": 14,
+      "actual_train_grades": {
+        "2": 14
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 14
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "share_exact",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_multiplication_division_tables_2_5"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_multiplication_division_tables_2_5",
+        "current_g2_word_one_step"
+      ],
+      "actual_train_rows": 16,
+      "actual_train_grades": {
+        "2": 16
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 16
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "missing_factor",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_multiplication_division_tables_2_5",
+        "current_g3_expressions_unknown"
+      ],
+      "actual_train_rows": 16,
+      "actual_train_grades": {
+        "2": 16
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 16
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "multistep_add_sub",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_word_two_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_addition_subtraction_5digits",
+        "current_g3_word_two_steps"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "groups_after_sale",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_word_two_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_multiply_divide_one_digit",
+        "current_g3_word_two_steps"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "money_change",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_money_vietnam",
+        "current_g2_word_one_step"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_addition_subtraction_carry_once",
+        "current_g2_mental_add_sub_20",
+        "current_g2_word_one_step",
+        "current_g2_money_vietnam",
+        "current_g2_convert_measurement"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "2": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "elapsed_minutes",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_time_calendar"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_time_calendar"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "2": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Currentgrade2covershour/minutemeaning and clockhalf/quarter; elapsedarithmetic complexity must be validatedagainststage.",
+      "mastery_claim": false
+    },
+    {
+      "family": "division_remainder",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_multiply_divide_one_digit"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_multiply_divide_one_digit"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "order_operations",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_expressions_unknown"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "length_m_to_cm",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_length_dm_m_km"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_length_dm_m_km",
+        "current_g2_convert_measurement",
+        "current_g3_convert_measurements",
+        "current_g4_multiply_divide_two_digits",
+        "current_g4_convert_measurements"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "hours_minutes",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g2_time_calendar"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g2_time_calendar",
+        "current_g2_convert_measurement",
+        "current_g3_time_clock_minute",
+        "current_g3_convert_measurements",
+        "current_g4_convert_measurements",
+        "current_g5_time_arithmetic"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "mass_kg_to_g",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_units_mm_cm2_g_ml_celsius"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_units_mm_cm2_g_ml_celsius",
+        "current_g3_convert_measurements",
+        "current_g4_multiply_divide_two_digits",
+        "current_g4_convert_measurements"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "rectangle_perimeter",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_perimeter"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_perimeter"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "square_perimeter",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_perimeter"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_perimeter"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "rectangle_area",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_area_rectangle_square"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_units_mm_cm2_g_ml_celsius",
+        "current_g3_area_rectangle_square"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "square_area",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_area_rectangle_square"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_units_mm_cm2_g_ml_celsius",
+        "current_g3_area_rectangle_square"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "table_total",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g3_table_collect_read"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_table_collect_read"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "3": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "sum_difference_large",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "sum_difference_small",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_word_two_three_steps"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "fraction_add",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_fraction_concepts_reduce",
+        "current_g4_fraction_compare_common_denominator",
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Grade4denominatorssameorone divides other; unrestrictedcommonproductdenominator currentgrade5.",
+      "mastery_claim": false
+    },
+    {
+      "family": "fraction_subtract",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_fraction_concepts_reduce",
+        "current_g4_fraction_compare_common_denominator",
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Grade4denominatorssameorone divides other; unrestrictedcommonproductdenominator currentgrade5.",
+      "mastery_claim": false
+    },
+    {
+      "family": "fraction_multiply",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_fraction_concepts_reduce",
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "fraction_divide",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_fraction_concepts_reduce",
+        "current_g4_fraction_operations",
+        "current_g5_fraction_operations_mixed"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "average_three",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_average"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_average",
+        "current_g4_word_two_three_steps",
+        "current_g4_bar_chart_mean"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "fraction_of_quantity",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_fraction_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_unit_fractions",
+        "current_g4_fraction_operations"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "ratio_share",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_sum_difference_ratio"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_ratio_percent",
+        "current_g5_sum_difference_ratio"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "decimal_add",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "decimal_subtract",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "decimal_multiply",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Currentgrade5explicitmultiplierforms a,b and0,ab; ensuregeneratedmultiplier complies.",
+      "mastery_claim": false
+    },
+    {
+      "family": "decimal_divide",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_decimal_operations"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Currentgrade5explicitdivisorforms a,b and0,ab/nonzero; ensuregenerateddivisorcomplies.",
+      "mastery_claim": false
+    },
+    {
+      "family": "percent_part",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "percent_ratio",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_ratio_percent"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "triangle_area",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "trapezoid_area",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_triangle_trapezoid_area"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "circle_area",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Declarepi=3.14orotherrequestedexactconvention; record squaredlengthunit.",
+      "mastery_claim": false
+    },
+    {
+      "family": "circle_perimeter",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_circle_perimeter_area"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Declarepi=3.14orotherrequestedexactconvention; recordlengthunit.",
+      "mastery_claim": false
+    },
+    {
+      "family": "box_volume",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "cube_surface",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_cuboid_cube_surface_volume"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "distance_from_speed_time",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "speed_from_distance_time",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "time_from_distance_speed",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_uniform_motion"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "area_unit_conversion",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_area_units_mm2_dm2_m2",
+        "current_g5_area_km2_ha"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_area_units_mm2_dm2_m2",
+        "current_g4_convert_measurements"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "volume_unit_conversion",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_volume_cm3_dm3_m3"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_volume_cm3_dm3_m3"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Match the cited node's grade, numeric limits, operation limits, and modality.",
+      "mastery_claim": false
+    },
+    {
+      "family": "proportional_direct",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g4_word_two_three_steps",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g4_word_two_three_steps",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Simpleunitary/directdependence; unsupportedcomplexratesremainextension.",
+      "mastery_claim": false
+    },
+    {
+      "family": "vertical_add",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g2_addition_subtraction_carry_once",
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_train_rows": 100,
+      "actual_train_grades": {
+        "4": 99,
+        "3": 1
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 100
+      },
+      "training_used": true,
+      "conditions": "Classroomcarrybounds applyforcurrenttag; capstonearbitrary1–6digitschaincarry isseparatelyowner-authorizedresearch.",
+      "mastery_claim": false
+    },
+    {
+      "family": "vertical_subtract",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g1_addition_subtraction_no_carry",
+        "current_g2_addition_subtraction_carry_once",
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g3_addition_subtraction_5digits",
+        "current_g4_addition_subtraction_many_digits",
+        "current_g5_natural_operations_four_steps"
+      ],
+      "actual_train_rows": 100,
+      "actual_train_grades": {
+        "4": 100
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 100
+      },
+      "training_used": true,
+      "conditions": "Classroomcarrybounds applyforcurrenttag; capstonearbitrary1–6digitscascadingborrow isseparatelyowner-authorizedresearch.",
+      "mastery_claim": false
+    },
+    {
+      "family": "parallelogram_area",
+      "current_vs_legacy_mapping_status": "legacy_enrichment_candidate_not_annex_verified",
+      "prospective_registry_node_ids": [
+        "legacy_parallelogram_rhombus_area"
+      ],
+      "actual_coverage_node_ids": [],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "LEGACY_OR_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "2018grade4recognition is verified; areaformula is not in thatgrade4annex.",
+      "mastery_claim": false
+    },
+    {
+      "family": "percent_whole",
+      "current_vs_legacy_mapping_status": "legacy_enrichment_candidate_not_annex_verified",
+      "prospective_registry_node_ids": [
+        "legacy_inverse_percentage"
+      ],
+      "actual_coverage_node_ids": [],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "LEGACY_OR_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "Inversepercentagenotexplicitcurrentgrade5requiredoutcome; tag extension.",
+      "mastery_claim": false
+    },
+    {
+      "family": "multiples_missing",
+      "current_vs_legacy_mapping_status": "inspect_semantics_before_tagging",
+      "prospective_registry_node_ids": [
+        "legacy_divisibility_2_3_5_9"
+      ],
+      "actual_coverage_node_ids": [],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "4": 72
+      },
+      "actual_curriculum_tags": {
+        "LEGACY_OR_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "Ifthismeansunknownarithmeticcomponent,usecurrentgrade3; ifdivisibility/multiplespatterns,legacy/enrichmentunlessindependentlymapped.",
+      "mastery_claim": false
+    },
+    {
+      "family": "proportional_inverse",
+      "current_vs_legacy_mapping_status": "owner_requested_enrichment_legacy_mapping_unverified",
+      "prospective_registry_node_ids": [],
+      "actual_coverage_node_ids": [],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "LEGACY_OR_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "Equalproductinverseproportionnotexplicitinread2018primaryannex.",
+      "mastery_claim": false
+    },
+    {
+      "family": "probability_count",
+      "current_vs_legacy_mapping_status": "owner_requested_enrichment_if_theoretical_probability",
+      "prospective_registry_node_ids": [],
+      "actual_coverage_node_ids": [],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "LEGACY_OR_ENRICHMENT_UNVERIFIED": 72
+      },
+      "training_used": true,
+      "conditions": "Theoreticalfavorableoutcomes/totaloutcomes differsfromcurrentgrade5empiricalobservedfrequencyratio; do notconflate.",
+      "mastery_claim": false
+    },
+    {
+      "family": "empirical_frequency",
+      "current_vs_legacy_mapping_status": "current_2018_outcome_conditional_on_grade_bounds",
+      "prospective_registry_node_ids": [
+        "current_g5_experimental_frequency_ratio"
+      ],
+      "actual_coverage_node_ids": [
+        "current_g5_experimental_frequency_ratio"
+      ],
+      "actual_train_rows": 72,
+      "actual_train_grades": {
+        "5": 72
+      },
+      "actual_curriculum_tags": {
+        "CURRENT_SKILL_ENGINEERING_EXAMPLE_PENDING_SOURCE_MAPPING": 72
+      },
+      "training_used": true,
+      "conditions": "Counts are integers with0≤event_count≤trial_count and trial_count>0; ratio describes observed trials, not the guaranteed probability of future outcomes.",
+      "mastery_claim": false
+    }
+  ],
+  "exact_uncovered_node_ids": [
+    "current_g1_compare_order_100",
+    "current_g1_left_to_right_add_sub",
+    "current_g1_spatial_orientation",
+    "current_g1_plane_shapes",
+    "current_g1_solid_shapes",
+    "current_g1_assemble_shapes",
+    "current_g1_length_cm",
+    "current_g1_measure_estimate_length",
+    "current_g1_calendar_week",
+    "current_g1_clock_whole_hour",
+    "current_g2_natural_numbers_1000",
+    "current_g2_number_ray",
+    "current_g2_compare_order_1000",
+    "current_g2_estimate_tens",
+    "current_g2_points_lines_polyline",
+    "current_g2_quadrilateral",
+    "current_g2_cylinder_sphere",
+    "current_g2_draw_segment_assemble",
+    "current_g2_mass_kg_capacity_l",
+    "current_g2_clock_quarter_half",
+    "current_g2_polyline_length",
+    "current_g2_collect_tally",
+    "current_g2_pictogram_read",
+    "current_g2_possible_certain_impossible",
+    "current_g3_natural_numbers_100000",
+    "current_g3_roman_20",
+    "current_g3_compare_order_100000",
+    "current_g3_round_naturals",
+    "current_g3_operation_properties",
+    "current_g3_midpoint_angles",
+    "current_g3_shape_elements",
+    "current_g3_solid_elements",
+    "current_g3_draw_ekes_compass",
+    "current_g3_money_vietnam_100000",
+    "current_g3_single_trial_outcomes",
+    "current_g4_natural_numbers_millions",
+    "current_g4_compare_round_naturals",
+    "current_g4_expressions_letters_properties",
+    "current_g4_angle_types",
+    "current_g4_parallel_perpendicular",
+    "current_g4_parallelogram_rhombus_recognition",
+    "current_g4_mass_yen_ta_tan",
+    "current_g4_time_second_century",
+    "current_g4_angle_degree",
+    "current_g4_data_sequences",
+    "current_g4_repeated_trial_counts",
+    "current_g5_decimal_fraction_mixed_number",
+    "current_g5_decimal_read_compare_round",
+    "current_g5_map_scale",
+    "current_g5_calculator_use",
+    "current_g5_trapezoid_circle_triangle_types",
+    "current_g5_solid_nets",
+    "current_g5_draw_altitude_circle",
+    "current_g5_area_km2_ha",
+    "current_g5_collect_classify",
+    "current_g5_pie_chart",
+    "current_g1_practice_experience",
+    "current_g2_practice_experience",
+    "current_g3_practice_experience",
+    "current_g4_practice_experience",
+    "current_g5_practice_experience"
+  ],
+  "related_only_other_grade_node_ids": [
+    "current_g2_length_dm_m_km",
+    "current_g3_unit_fractions",
+    "current_g4_multiply_divide_two_digits",
+    "current_g4_area_units_mm2_dm2_m2",
+    "current_g4_convert_measurements",
+    "current_g5_fraction_operations_mixed",
+    "current_g5_time_arithmetic"
+  ],
+  "partial_same_grade_node_ids": [
+    "current_g1_natural_numbers_100",
+    "current_g1_addition_subtraction_no_carry",
+    "current_g1_mental_add_sub",
+    "current_g1_word_add_sub",
+    "current_g2_addition_subtraction_carry_once",
+    "current_g2_mental_add_sub_20",
+    "current_g2_multiplication_division_tables_2_5",
+    "current_g2_word_one_step",
+    "current_g2_time_calendar",
+    "current_g2_money_vietnam",
+    "current_g2_convert_measurement",
+    "current_g3_addition_subtraction_5digits",
+    "current_g3_multiply_divide_one_digit",
+    "current_g3_expressions_unknown",
+    "current_g3_word_two_steps",
+    "current_g3_units_mm_cm2_g_ml_celsius",
+    "current_g3_time_clock_minute",
+    "current_g3_convert_measurements",
+    "current_g3_perimeter",
+    "current_g3_area_rectangle_square",
+    "current_g3_table_collect_read",
+    "current_g4_addition_subtraction_many_digits",
+    "current_g4_average",
+    "current_g4_word_two_three_steps",
+    "current_g4_fraction_concepts_reduce",
+    "current_g4_fraction_compare_common_denominator",
+    "current_g4_fraction_operations",
+    "current_g4_bar_chart_mean",
+    "current_g5_natural_operations_four_steps",
+    "current_g5_decimal_operations",
+    "current_g5_ratio_percent",
+    "current_g5_sum_difference_ratio",
+    "current_g5_volume_cm3_dm3_m3",
+    "current_g5_triangle_trapezoid_area",
+    "current_g5_circle_perimeter_area",
+    "current_g5_cuboid_cube_surface_volume",
+    "current_g5_uniform_motion",
+    "current_g5_experimental_frequency_ratio"
+  ],
+  "guard_families": [
+    {
+      "family": "ambiguous_referent",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    },
+    {
+      "family": "missing_divisor",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    },
+    {
+      "family": "missing_quantity",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    },
+    {
+      "family": "non_math",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    },
+    {
+      "family": "unavailable_picture",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    },
+    {
+      "family": "zero_division",
+      "train_rows": 30,
+      "role": "clarify_missing_ambiguous_or_unavailable_input / reject_nonmath_or_zero_division"
+    }
+  ],
+  "legacy_limitations": "Fivenumericfamilies are legacy/enrichment candidates or unverified extensions; full2006Mathannex has not been retrieved/read. Legacy9nodecandidates do not imply complete legacycoverage.",
+  "critical_mapping_corrections": [
+    "Prospective area_unit_conversion was linked to grade5km²/ha in source registry; actualV3onlym²→cm², so grade5km²/ha is marked not included here.",
+    "Verticalfamilies were prospectivelylinked to grades1–5; actualtraininglabelsaremainlygrade4, with grade3onecase, and capstoneextensioncarrychains. They are not counted as direct grade1/2/5training.",
+    "Unknowncomponentfamilieswereprospectivelymappedcurrentgrade3butactualmissing_addendlabel1/missing_factorlabel2; grade3unknowncomponentcoverageispartialfromorder_operationsonly.",
+    "Theoreticalprobability_count is enrichment; only empirical_frequency maps currentgrade5observedtrialratio.",
+    "Area/parallelogram and inversepercentage formulas do not stand in for visual shape recognition or binding currentrequiredoutcomes."
+  ],
+  "next_data_priorities": [
+    "Originalexplicittexttasksforcount/read/write/order/round/naturalnumbers,unitfractions,romanlabels,shapeproperties,calendar/clock,statisticsandqualitativeprobability.",
+    "Broadenworkedwordproblemtypes:sumanddifference+ratio,bothunknownquantities,3–4steps,unitconversiondirections,timearithmeticandfullcuboid/cubeformulas.",
+    "Teacher-reviewedrealquestionholdout plusdiagram/image/physical-taskevaluation; keepcoreMVPstudenthint/retrynorevealbehavior."
+  ]
+}

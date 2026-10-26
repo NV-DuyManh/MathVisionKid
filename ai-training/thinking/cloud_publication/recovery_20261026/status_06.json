@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:13:22.875951+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 29, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.partial.jsonl\": 28}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:13:22.875951+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 29, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.partial.jsonl\": 28}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-26T09:13:22.875951+00:00\\\", \\\"worker_exit\\\": null, \\\"training/progress.json\\\": {\\\"state\\\": \\\"BASE_DEV_EVALUATION\\\", \\\"step\\\": 0}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"artifact_count\\\": 29, \\\"checkpoints\\\": 0}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.partial.jsonl\\\": 28}, \\\"four_controls_state\\\": \\\"COMPLETE_RAW_VERIFIED\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

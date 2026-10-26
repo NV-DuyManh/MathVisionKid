@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "s5UIbdFNCyMW"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"metadata_serialization_restored\": true, \"original_drive_sha_verified\": true, \"source_or_weights_changed\": false, \"training_worker_alive\": true}\n",
+          "{\"publisher_started\": true, \"folder_name\": \"MathVisionKid_SKILL_RECOVERY_150M_20261024\", \"training_started_by_publisher\": false}\n"
+        ]
+      }
+    ]
+  }
+}

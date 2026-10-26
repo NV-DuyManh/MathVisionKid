@@ -1,0 +1,152 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "de4ffb41c86975392e06a6cffbc3b72a94e09248457ebd9ff277cef29410e89e",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct67with9*7+4and inverse check, but omits the explicitly required remainder-less-than-divisor check.",
+      "adapter_reason": "Correct67with inverse check but never verifies4<9 as required by the rubric."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct2390g/2kg390g final, but asserts2390−850=2390 in its check; substantive false equality.",
+      "adapter_reason": "Correct3240−850=2390g=2kg390g with consistent unit conversion and no false check."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct three equal sides total96cm, each32cm and sum check96.",
+      "adapter_reason": "Correct equal-three-side division32cm and multiplication check96."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Useful parentheses-then-subtraction cue, but then says either left-to-right or right-to-left is allowed without conditions, contradicting required operation order.",
+      "adapter_reason": "Leaks42 at intermediate and final positions and supplies the whole solution despite hint-only request."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Corrects quotient0, but says supplied check is unrelated and concludes student result was correct, contradicting actual claimed quotient7.",
+      "adapter_reason": "Correct quotient0 and inverse relation, but explicitly endorses student check as correct for the supplied wrong quotient; does not identify wrong factor substitution."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Invents20cm and claims it is exact without any measurement source.",
+      "adapter_reason": "Refuses a numeric guess, but accepts an unspecified image alone as sufficient; never requests measurable scale or a recorded measurement with unit as rubric requires."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct common-denominator comparison7/12<9/12<10/12 and original labels in ascending ray order.",
+      "adapter_reason": "Correct conversions and left-to-right order7/12,3/4,5/6, with consistent inequality."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct measured-quantity division10cups and10/12=5/6litre check.",
+      "adapter_reason": "Correct10cups by reciprocal multiplication and verifies original water volume."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct112total,81known,31missing and explicitly checks112/4=28 average.",
+      "adapter_reason": "Correct31points, but omits the explicitly required check of all-four-game average, so full requested task is incomplete."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Explicitly reveals4/7 despite hint-only request.",
+      "adapter_reason": "Explicitly reveals4/7 then repeats until1024token cap, nonEOS and truncated; hint leak plus completion failure."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct inequality but calls15a common divisor and supplies a false same-numerator heading; also truncates beforeEOS.",
+      "adapter_reason": "Correct common-denominator inequality, but falsely attributes numerator-versus-denominator comparison to the supplied student work, which actually compares two numerators; feedback is not grounded in the stated error."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct contradiction conclusion, but repeatedly asserts17/12*S>1 for arbitrary areaS and falsely restricts total area to1unit.",
+      "adapter_reason": "Explicitly normalizes whole to1 and uses17/12>1 plus nonoverlap condition; correctly concludes impossible without changing supplied fractions."
+    }
+  ]
+}

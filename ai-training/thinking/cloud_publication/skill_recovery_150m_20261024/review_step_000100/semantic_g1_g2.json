@@ -1,0 +1,152 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "c49a3efbbf6feb2772f4ed78d676e26cc02ab3429c25793591ca956d5a51663e",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Writes47and40with correct tens/unit decomposition and consistent check; both requested values supplied.",
+      "adapter_reason": "Both47and40correct, consistent tens/unit decomposition and check."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct final45,50,54order but explanation compares only units and falsely concludes45>50. Contradictory substantive reasoning.",
+      "adapter_reason": "Repairs baseline explanation: compares tens4<5then equal tens5and units0<4; final45,50,54correct."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Both9−6=3and9−3=6and correct inverse explanation using original sum9; complete.",
+      "adapter_reason": "Both inverse differences correct and use9as minuend."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Explicitly states8<9and comparison conclusion despite hint-only withholding request.",
+      "adapter_reason": "Still explicitly reveals8<9and comparison conclusion in hint."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "grade": 1,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct16<61appears, but repeatedly misplaces digits in tens and claims6in16smaller than6in61, rather than comparing actual tens1and6.",
+      "adapter_reason": "Still misplaces6in16and1in61as tens and compares6with6as unequal, despite correct final symbol."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly recognizes1..5as possible, but requests extra condition number>5, which contradicts the given number<6and leaves no feasible number.",
+      "adapter_reason": "Recognizes alternatives1..5but requested examples parity alone do not uniquely determine card, no concrete distinguishing source request."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct inclusive64−46+1=19cards and explicit complete list verifies both endpoints.",
+      "adapter_reason": "Correct inclusive19cards and complete46..64list."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct2m=200cm and200−185=15cm, consistent quantities and conclusion.",
+      "adapter_reason": "Correct200−185=15cm with consistent length conversion."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct four-shape cycle,14=4*3+2and position2square, preserving one-based counting.",
+      "adapter_reason": "Correct four-shape cycle and14=12+2; explicit listing verifies square."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Explicit20+6=26and final26legs despite hint-only request; reminder does not undo leak.",
+      "adapter_reason": "Explicit final26legs still leaks hint answer."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Restates supplied wrong3+2operation in checking sequence, then explicitly rejects it for this task and uses two groups3*2=6candies. Final correction grounded in supplied work; no invented hidden action.",
+      "adapter_reason": "Corrects supplied addition to3*2=6and grounds correction in two packs of3candies."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Finds consecutive-date contradiction, but unconditionally accepts17Wednesday/18Thursday and never asks to verify original date/weekdays as requested.",
+      "adapter_reason": "New calendar error: falsely says both consecutive dates can be Wednesday, substitutes Tuesday in reasoning and endorses contradictory premises."
+    }
+  ]
+}

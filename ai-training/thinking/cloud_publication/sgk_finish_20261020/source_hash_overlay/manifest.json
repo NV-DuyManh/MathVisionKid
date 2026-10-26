@@ -1,0 +1,44 @@
+{
+  "schema": "MathVisionKid.additive_source_hash_overlay.v1",
+  "overlay": {
+    "file_name": "case_source_hash_overlay.jsonl",
+    "sha256": "ae2ac810719c542885f6c416ea56b59979597477d4626d526eed7bf9e5d0d513",
+    "bytes": 3436953
+  },
+  "source_cases": 1130,
+  "chat_memberships": 3596,
+  "by_split": {
+    "train": 3548,
+    "validation": 24,
+    "test": 24
+  },
+  "derived_missing_field_chat_rows": 3356,
+  "original_field_verified_chat_rows": 240,
+  "source_cases_without_current_export_chat": 231,
+  "database_evidence": [
+    {
+      "database": "portable_resume\\numeric_911a598ae1bc578f\\audit.sqlite",
+      "sha256": "8518d0b010d560e8269f1e63e026718ac4c809d2c7d7bbcf1d302ad8f3aa5252",
+      "fixed_catalog_sha256": "70376c1ec0d4c184eb12f3e584b8d40c807a947248d299819f91e5cf5bf37f17",
+      "read_only": true
+    },
+    {
+      "database": "portable_resume\\numeric_7edba0a6ef712e51\\audit.sqlite",
+      "sha256": "3fd0da30384278bd266d4810b4bb3b5baefe5a76c2c12dbd70a3c55c9cbe5a87",
+      "fixed_catalog_sha256": "9f806d488885bf7b0016d759e428fea661641006a865add70d65265a73bef564",
+      "read_only": true
+    },
+    {
+      "database": "portable_resume\\current_supplements\\audit.sqlite",
+      "sha256": "d65fc1a14c1fc9b7797f50e69257a2f99f7f58446909950d83193579bc779374",
+      "fixed_catalog_sha256": "8b6808ab3259b9ffedcb8597687b3bf2c8d12923aa6b0a5e6d4d962b5d96f4d2",
+      "read_only": true
+    }
+  ],
+  "scope": "Only1001numeric+129currentboundary/pedagogy source cases indexed in verified bounded audits; no old payload rewrite, no full6M claim.",
+  "sourcehash_origin_for_missing_raw_field": "DERIVED_FROM_VERIFIED_PINNED_SOURCE_MEMBER",
+  "raw_original_field_invented": false,
+  "new_training_eligibility_granted": false,
+  "training_started": false,
+  "drive_mutated": false
+}

@@ -1,0 +1,932 @@
+{
+  "authored_utc": "2026-10-18T03:08:36.319176+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:06:06.363Z",
+  "batch_sha256": "d7b56679aca7b37e74f5110bac05227208d7bc056ced677bb52ab0d7d34a7ff0",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_addsub_0051_add_three_separated_carries",
+      "row_sha256": "f3517428562c1f7e19c4ed45d643949a5ef5c6ef49271fd7ea17a04e0039557c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "24263728+13174537",
+          "(24263728+13174537)-13174537"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_addsub_0051_subtract_with_separated_exchanges",
+      "row_sha256": "72f21e605b00bcb56493d0c4620afdfc739e4b8d765019bb54a4f3c65bdca1c2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "85638274-42174527",
+          "(85638274-42174527)+42174527"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_addsub_0051_warehouse_receive_then_dispatch",
+      "row_sha256": "bc607e3961513eedcf886f8ce5fbec7e6f405427ca524b3eaa77adfbbfc31895",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1624315+235241",
+          "(1624315+235241)-121430",
+          "((1624315+235241)-121430)+121430"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_addsub_0051_misconception_written_carry_not_used",
+      "row_sha256": "1cf92fd11cc1597a0abd29fe65280af22f9ff43aaec6f8702c775b94dda04a4c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6243728+1324537",
+          "(6243728+1324537)-1324537"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "column_oracle_traces": [
+    {
+      "a": 24263728,
+      "b": 13174537,
+      "op": "+",
+      "result": 37438265,
+      "event_positions": [
+        0,
+        2,
+        4
+      ],
+      "event_count": 3,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 8,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": 15,
+          "written_digit": 5,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 2,
+          "b_digit": 3,
+          "incoming": 1,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 7,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": 12,
+          "written_digit": 2,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 3,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 6,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": 13,
+          "written_digit": 3,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 2,
+          "b_digit": 1,
+          "incoming": 1,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 4,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 7,
+          "written_digit": 7,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 7,
+          "a_digit": 2,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 37438265,
+      "b": 13174537,
+      "op": "-",
+      "result": 24263728,
+      "event_positions": [
+        0,
+        2,
+        4
+      ],
+      "event_count": 3,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 5,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": -2,
+          "written_digit": 8,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 6,
+          "b_digit": 3,
+          "incoming": 1,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": -3,
+          "written_digit": 7,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 8,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 3,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": -4,
+          "written_digit": 6,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 4,
+          "b_digit": 1,
+          "incoming": 1,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 7,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 7,
+          "a_digit": 3,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 85638274,
+      "b": 42174527,
+      "op": "-",
+      "result": 43463747,
+      "event_positions": [
+        0,
+        2,
+        4
+      ],
+      "event_count": 3,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 4,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": -3,
+          "written_digit": 7,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 7,
+          "b_digit": 2,
+          "incoming": 1,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": -3,
+          "written_digit": 7,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 8,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 3,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": -4,
+          "written_digit": 6,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 6,
+          "b_digit": 1,
+          "incoming": 1,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 7,
+          "a_digit": 8,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 43463747,
+      "b": 42174527,
+      "op": "+",
+      "result": 85638274,
+      "event_positions": [
+        0,
+        2,
+        4
+      ],
+      "event_count": 3,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 7,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": 14,
+          "written_digit": 4,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 4,
+          "b_digit": 2,
+          "incoming": 1,
+          "raw": 7,
+          "written_digit": 7,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 7,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": 12,
+          "written_digit": 2,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 3,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 6,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": 13,
+          "written_digit": 3,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 4,
+          "b_digit": 1,
+          "incoming": 1,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 7,
+          "a_digit": 4,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 1624315,
+      "b": 235241,
+      "op": "+",
+      "result": 1859556,
+      "event_positions": [],
+      "event_count": 0,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 5,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 1,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 4,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": 9,
+          "written_digit": 9,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 2,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 6,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 1,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 1859556,
+      "b": 121430,
+      "op": "-",
+      "result": 1738126,
+      "event_positions": [],
+      "event_count": 0,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 6,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 5,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 5,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 9,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 8,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 7,
+          "written_digit": 7,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 1,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 1738126,
+      "b": 121430,
+      "op": "+",
+      "result": 1859556,
+      "event_positions": [],
+      "event_count": 0,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 6,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 2,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 1,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 8,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 9,
+          "written_digit": 9,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 7,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 1,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 1859556,
+      "b": 235241,
+      "op": "-",
+      "result": 1624315,
+      "event_positions": [],
+      "event_count": 0,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 6,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 5,
+          "b_digit": 4,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 9,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 5,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 8,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 1,
+          "b_digit": 0,
+          "incoming": 0,
+          "raw": 1,
+          "written_digit": 1,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 6243728,
+      "b": 1324537,
+      "op": "+",
+      "result": 7568265,
+      "event_positions": [
+        0,
+        2
+      ],
+      "event_count": 2,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 8,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": 15,
+          "written_digit": 5,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 2,
+          "b_digit": 3,
+          "incoming": 1,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 7,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": 12,
+          "written_digit": 2,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 3,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 8,
+          "written_digit": 8,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 4,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 2,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 5,
+          "written_digit": 5,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 6,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 7,
+          "written_digit": 7,
+          "outgoing": 0
+        }
+      ]
+    },
+    {
+      "a": 7568265,
+      "b": 1324537,
+      "op": "-",
+      "result": 6243728,
+      "event_positions": [
+        0,
+        2
+      ],
+      "event_count": 2,
+      "no_consecutive_events": true,
+      "columns": [
+        {
+          "position_from_units": 0,
+          "a_digit": 5,
+          "b_digit": 7,
+          "incoming": 0,
+          "raw": -2,
+          "written_digit": 8,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 1,
+          "a_digit": 6,
+          "b_digit": 3,
+          "incoming": 1,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 2,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 0,
+          "raw": -3,
+          "written_digit": 7,
+          "outgoing": 1
+        },
+        {
+          "position_from_units": 3,
+          "a_digit": 8,
+          "b_digit": 4,
+          "incoming": 1,
+          "raw": 3,
+          "written_digit": 3,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 4,
+          "a_digit": 6,
+          "b_digit": 2,
+          "incoming": 0,
+          "raw": 4,
+          "written_digit": 4,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 5,
+          "a_digit": 5,
+          "b_digit": 3,
+          "incoming": 0,
+          "raw": 2,
+          "written_digit": 2,
+          "outgoing": 0
+        },
+        {
+          "position_from_units": 6,
+          "a_digit": 7,
+          "b_digit": 1,
+          "incoming": 0,
+          "raw": 6,
+          "written_digit": 6,
+          "outgoing": 0
+        }
+      ]
+    }
+  ],
+  "curriculum_column_bounds": {
+    "max_carry_events": 3,
+    "consecutive_carry_allowed": false
+  },
+  "all_forward_and_inverse_checks_within_bounds": true,
+  "oracle_method": "Independent digitwise column engine reconstructs results and audits every outgoing carry/borrow; exact Fraction and Decimal corroborate. All ten forward/inverse calculations have at most3events and none adjacent. Classroom bound checks include inverse checks, not just the main answer. Column trace is technical evidence, not hidden student thinking or observed handwriting.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_previous_accepted307_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "limits": "Classroom bounded columns and a fictional closed inventory. No arbitrary cascading carry enrichment or actual image/warehouse proof.",
+  "pre_self_QA_polish": {
+    "previous_unreviewed_batch_sha256": "55a387ad5a27b0feef937cd03284e2fddcc361be71f022b79e0319a466f9d61b",
+    "change": "Clarify exact transcription wording; do not imply quoted wrong computations are correct. Synthetic student quote unchanged."
+  },
+  "actual_full_readback_self_QA": {
+    "reviewed_utc": "2026-10-18T03:09:10.809304+00:00",
+    "cases": 4,
+    "hints": 12,
+    "all_actual_content_fields_read": true,
+    "same_author_not_independent": true,
+    "case_notes": {
+      "primary_20261018_g4_addsub_0051_add_three_separated_carries": "Actual eight-digit addition24263728+13174537=37438265. Lower suffix8265 and upper3743 traced column by column; outgoing carries only positions0/2/4 from units, exactly3 nonconsecutive. Inverse subtraction returns24263728 with same bounded pattern. Literal calculations in explanatory nonnumeric steps checked directly against technical trace, not parser alone. Initial/all3hints omit final sum and computed columns; no physical unit invented.",
+      "primary_20261018_g4_addsub_0051_subtract_with_separated_exchanges": "Actual subtraction85638274-42174527=43463747. Exchange1ten at units leaves tens6; exchange1thousand at hundreds leaves thousands7; exchange1hundred-thousand at ten-thousands leaves hundred-thousands5. Outgoing borrow positions0/2/4, no cascading zero borrow. Inverse43463747+42174527=85638274 also within3separated events. Reasons preserve direction of subtraction, not digitwise absolute difference. All hints give alignment/exchange/inverse guidance without answer or filled columns.",
+      "primary_20261018_g4_addsub_0051_warehouse_receive_then_dispatch": "Fictional closed inventory: receive increases1624315 by235241 to1859556; dispatch then reduces by121430 to1738126books. Unit quyen retained throughout, no other flow assumed. Reverse add dispatch and subtract receipt restore initial value. All four calculations have no regrouping events, within grade4 bound. Role/order/meaning directly read; three hints guide chronology/invariant without computing remaining books.",
+      "primary_20261018_g4_addsub_0051_misconception_written_carry_not_used": "Exact synthetic excerpt writes units carry1 but next tens line2+3=5 omits it. Preserve correctly computed8+7 and2+3 considered alone; correct column combination2+3+1=6. Full sum7568265, inverse6243728; only positions0/2carry/borrow, no adjacent events. Feedback does not infer unseen columns, handwriting or hidden reasoning. Stem polished to mean verbatim transcription, not all quoted math correct. Student quote unchanged; all hints omit final sum and computed tens digit."
+    },
+    "official_review_sha256": "df591db23ae821a56c7259dfe078369c9090d7faa5add058e28e7b1cd6ccf676"
+  }
+}

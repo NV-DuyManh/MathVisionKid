@@ -1,0 +1,380 @@
+{
+  "version": "mvk_teacher_math_v3_20261013",
+  "seed": 20261013,
+  "rows": 4694,
+  "splits": {
+    "train": 4170,
+    "val": 262,
+    "challenge": 262
+  },
+  "topic_count": 57,
+  "topics": [
+    {
+      "name": "add_join",
+      "grade": 1,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "sub_remaining",
+      "grade": 1,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "missing_addend",
+      "grade": 1,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "compare_difference",
+      "grade": 1,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "tens_place_value",
+      "grade": 1,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "equal_groups",
+      "grade": 2,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "share_exact",
+      "grade": 2,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "missing_factor",
+      "grade": 2,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "multistep_add_sub",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "groups_after_sale",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "money_change",
+      "grade": 2,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "elapsed_minutes",
+      "grade": 2,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "division_remainder",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "order_operations",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "length_m_to_cm",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "hours_minutes",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "mass_kg_to_g",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "rectangle_perimeter",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "square_perimeter",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "rectangle_area",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "square_area",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "table_total",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "sum_difference_large",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "sum_difference_small",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "fraction_add",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "fraction_subtract",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "fraction_multiply",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "fraction_divide",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "average_three",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "fraction_of_quantity",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "parallelogram_area",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "ratio_share",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "multiples_missing",
+      "grade": 4,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "decimal_add",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "decimal_subtract",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "decimal_multiply",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "decimal_divide",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "percent_part",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "percent_whole",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "percent_ratio",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "triangle_area",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "trapezoid_area",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "circle_area",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "circle_perimeter",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "box_volume",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "cube_surface",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "distance_from_speed_time",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "speed_from_distance_time",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "time_from_distance_speed",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "area_unit_conversion",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "volume_unit_conversion",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "proportional_direct",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "proportional_inverse",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "probability_count",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "empirical_frequency",
+      "grade": 5,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "vertical_add",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    },
+    {
+      "name": "vertical_subtract",
+      "grade": 3,
+      "curriculum_assignment": "ENGINEERED_GRADE_PENDING_OFFICIAL_MAPPING"
+    }
+  ],
+  "grades": {
+    "train": {
+      "1": 396,
+      "2": 226,
+      "3": 901,
+      "4": 955,
+      "5": 1692
+    },
+    "val": {
+      "1": 26,
+      "2": 26,
+      "3": 58,
+      "4": 54,
+      "5": 98
+    },
+    "challenge": {
+      "1": 26,
+      "2": 26,
+      "3": 54,
+      "4": 58,
+      "5": 98
+    }
+  },
+  "modes": {
+    "train": {
+      "worked_solution": 3068,
+      "hint": 1102
+    },
+    "val": {
+      "worked_solution": 191,
+      "hint": 71
+    },
+    "challenge": {
+      "worked_solution": 191,
+      "hint": 71
+    }
+  },
+  "statuses": {
+    "train": {
+      "solve": 3990,
+      "clarify": 120,
+      "unsupported": 60
+    },
+    "val": {
+      "solve": 232,
+      "clarify": 20,
+      "unsupported": 10
+    },
+    "challenge": {
+      "solve": 232,
+      "clarify": 20,
+      "unsupported": 10
+    }
+  },
+  "wrong_work_examples": {
+    "train": 56,
+    "val": 4,
+    "challenge": 4
+  },
+  "fingerprints": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "human_verified": false,
+  "semantic_correctness_verified": false,
+  "source": "AI_TEACHER_AUTHORED_ORIGINAL_PROJECT_TEMPLATES",
+  "oracle": "independent topic formulas + separate bounded exact AST",
+  "input_contract": "grade + raw problem + requested mode only; no facts, topic, answers or target supplied",
+  "evaluation_role": "synthetic wording/numeric holdout; not teacher-approved private real-world benchmark",
+  "limitations": [
+    "Not all current or legacy Vietnamese curriculum; engineered assignment awaits official source mapping.",
+    "No image/OCR training and no pixel evidence of pupil written procedures.",
+    "One finite contract per topic; paraphrases remain related to authored templates.",
+    "Human pedagogy and broad semantic interpretation have not been certified.",
+    "Geometry requires provided numerical dimensions; missing diagrams are rejected.",
+    "Probability count is an unverified enrichment extension; empirical-frequency examples are kept distinct.",
+    "No negative integer arithmetic, advanced olympiad puzzles, open-ended proofs or diagram construction.",
+    "Vertical per-column and inverse-check calculations are synthetic, not teacher-verified image procedures; hard borrowing is a capstone extension.",
+    "Hint mode deliberately hides all worked calculations and final answers.",
+    "Data quantity is an engineering target; model capability must be measured on independent evaluations."
+  ]
+}

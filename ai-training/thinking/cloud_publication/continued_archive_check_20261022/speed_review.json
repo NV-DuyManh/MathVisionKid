@@ -1,0 +1,42 @@
+{
+  "scope": "Read-only runtime diagnosis of full-archive V3 token audit; no raw eval/concept/pilot reads, no Colab/Drive mutation, no training, no corpus download.",
+  "finding": "The dominant confirmed avoidable cost is repeated replay of each gzip JSONL member from byte zero on every 50,000-row span. FullArchiveAudit.consume reopens A.payload for each call and enumerates from its first physical row, skipping all lines through the committed cursor. The batch adapter also yields those skipped lines through the original consume path. Gzip replay requires decompression and line decoding again; those lines are not re-tokenized, but consume CPU and I/O. This makes repeated spans approach quadratic prefix work per large member.",
+  "evidence": [
+    {
+      "path": "thinking/math_data_full_audit_v3.py",
+      "lines": "159-183",
+      "detail": "consume gets start from members.next_line (166-168), opens A.payload anew per invocation (171), enumerates from row 1 and continues for every count <= start (172-173), and returns after max_rows rows (179-182)."
+    },
+    {
+      "path": "thinking/math_data_batch_token_audit.py",
+      "lines": "165-182, 258-280",
+      "detail": "Adapter constructs context from persisted cursor and delegates to the original consume (174-182). _lines starts enumeration at zero and yields every resume-prefix line unchanged while incrementing skipped_resume_lines (258-277); this preserves physical cursor/error semantics but does not avoid decompression/replay."
+    },
+    {
+      "path": "thinking/cloud_publication/resume_after_g2_20261022/parent_notebook_latest.ipynb",
+      "cell": "27 (resumed worker), source lines 141-159",
+      "detail": "Worker repeatedly calls batch_adapter.consume(..., max_rows=50000, commit_every=256) (154-159), then checks/saves the remote checkpoint after each returned span. Checkpoint interval is 1800 seconds, but saving is only checked at span boundaries."
+    },
+    {
+      "path": "thinking/cloud_publication/resume_after_g2_20261022/live_notebook_cells_verified.json",
+      "line": 1511,
+      "detail": "Saved adapter stats report 878,352 rows_batched and 9,350,000 skipped_resume_lines, with 3,443 batches and zero single-row fallbacks. The replay count is about 10.6 skipped lines per newly batched row at that observation; strong direct evidence of repeated prefix scans. Snapshot output also shows an example span at physical row 200,000 processing only 50,000 rows."
+    }
+  ],
+  "other_costs": [
+    "The CPU-only official tokenizer remains a major per-new-row workload; batching256 removed per-row tokenizer overhead and the observation reports zero single-row fallbacks. It cannot explain 9.35 million skipped prefix lines because those lines bypass batch preparation.",
+    "SQLite performs per-row cursor UPDATEs and commits every256 processed rows (full_audit_v3.py:177-180); this is real overhead but does not account for gzip replay magnitude."
+  ],
+  "minimal_semantics_preserving_speed_change": {
+    "recommendation": "At the orchestration layer, increase the per-call row span substantially or process a member to completion in one consume call, keeping the exact same V3 auditor, adapter, row gates, tokenizer, and commit_every. The strongest replay reduction is one consume per member; a larger fixed span trades replay against checkpoint frequency. Do not change frozen auditor/adapter files for this fix.",
+    "expected_effect": "Reduces the number of opens and repeated decompressed prefixes. A single consume per member reduces prefix replay to zero within that member; for a larger span B, replay per member falls roughly in proportion to 50,000/B, depending on final span alignment.",
+    "tradeoff": "The current worker checks its 30-minute remote checkpoint interval only after consume returns (notebook cell 27 source lines 151-159). Increasing spans delays remote checkpoint saves and increases lost local progress on runtime loss, while SQLite cursor commits remain every256 rows. Prefer a larger bounded span chosen from measured member sizes/runtime if preserving frequent remote snapshots matters; member-at-a-time is the simplest high-impact option when its checkpoint exposure is acceptable."
+  },
+  "verification_needed_before_adoption": [
+    "Use only the existing running runtime's own counters or a bounded synthetic gzip fixture to compare rows_batched, skipped_resume_lines, elapsed CPU time, and remote checkpoint interval for old versus larger span; do not restart the live worker just to benchmark.",
+    "After any orchestration-only change, confirm resume from an existing cursor produces byte-for-byte identical report/issue/cursor results on a synthetic fixture that pauses at several spans, including malformed-row and gzip trailer/CRC cases.",
+    "Confirm a long span does not exceed available Colab temporary disk/memory or the acceptable recovery window; tokenizer batch size remains256 and commit_every remains256."
+  ],
+  "limitations": "This is a source-and-existing-evidence diagnosis, not a live Colab profile. It does not prove the current worker is alive or quantify wall-clock savings. The bounded notebook output evidence is historical and may not represent the latest runtime moment.",
+  "skills_applied": "None — read-only AI/data audit diagnosis; no matching implementation skill needed."
+}

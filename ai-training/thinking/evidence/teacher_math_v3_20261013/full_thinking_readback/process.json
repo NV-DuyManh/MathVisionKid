@@ -1,0 +1,10 @@
+{
+  "pid": 10673,
+  "script": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/teacher_math_v3/posthoc_src/run_teacher_thinking_validation_v3.py",
+  "optimizer_steps": 0,
+  "val_samples": 262,
+  "base_and_adapter": true,
+  "max_new_tokens": 2048,
+  "batch_size": 4,
+  "production_approved": false
+}

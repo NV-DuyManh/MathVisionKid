@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "old_checkpoint_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "adapted_checkpoint_sha256": "6b0d1f7f13475fbbc849b8fbd9be910c2969121c306c95a7bb72fded4b220230",
+  "old_vocab_size": 320,
+  "new_vocab_size": 326,
+  "added_classes_count": 6,
+  "classifier_changed": true,
+  "matched_keys": [
+    "cnn.0.weight",
+    "cnn.0.bias",
+    "cnn.1.weight",
+    "cnn.1.bias",
+    "cnn.4.weight",
+    "cnn.4.bias",
+    "cnn.5.weight",
+    "cnn.5.bias",
+    "cnn.8.weight",
+    "cnn.8.bias",
+    "cnn.9.weight",
+    "cnn.9.bias",
+    "cnn.12.weight",
+    "cnn.12.bias",
+    "cnn.13.weight",
+    "cnn.13.bias",
+    "rnn.weight_ih_l0",
+    "rnn.weight_hh_l0",
+    "rnn.bias_ih_l0",
+    "rnn.bias_hh_l0",
+    "rnn.weight_ih_l0_reverse",
+    "rnn.weight_hh_l0_reverse",
+    "rnn.bias_ih_l0_reverse",
+    "rnn.bias_hh_l0_reverse"
+  ],
+  "skipped_keys": [
+    "fc.weight",
+    "fc.bias"
+  ],
+  "newly_initialized_keys": [
+    "fc.weight[320:326]",
+    "fc.bias[320:326]"
+  ],
+  "total_parameters": 5964102,
+  "output_shape_for_1024": [
+    1,
+    128,
+    326
+  ]
+}

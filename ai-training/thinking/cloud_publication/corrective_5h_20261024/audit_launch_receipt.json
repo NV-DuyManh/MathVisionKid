@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "auxgJrWJWfsW"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"code_hashes\": {\"exhaustive_colab_loader.py\": \"9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c\", \"audit_view_runtime.py\": \"2e0de78b05781e0b43c85eefa32d16981ea1903031eb70d6e907bef9d9f8fc8e\", \"owner_run_scope.json\": \"ef0daf9e2d998cd8db59408f7891dc9ec34e7374dab23812093e900bfcb16357\", \"eval_fixtures.jsonl\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\"}, \"audit_pid\": 4765, \"cpu_only\": true}\n"
+        ]
+      }
+    ]
+  }
+}

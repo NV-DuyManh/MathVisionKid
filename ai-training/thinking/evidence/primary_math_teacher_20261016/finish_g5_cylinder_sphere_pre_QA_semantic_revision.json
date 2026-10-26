@@ -1,0 +1,428 @@
+{
+  "revisions": [
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions",
+      "before_row": {
+        "sample_id": "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions",
+        "case_group_id": "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions",
+        "split": "train",
+        "grade": 5,
+        "topic": "explicit_shape_descriptions",
+        "problem": "Trong mô hình giả định, A có hai mặt đáy tròn bằng nhau, song song, và một mặt cong nối hai đáy. B chỉ có một mặt cong kín, không mặt phẳng, không đỉnh. Gọi tên dạng khối của A và B.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Đặc điểm A được mô tả đầy đủ",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "Đặc điểm B được mô tả đầy đủ",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_1"
+          }
+        ],
+        "requested_quantity": "Gọi tên hai khối từ mô tả.",
+        "student_work": null,
+        "initial_guidance": [
+          "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Phân biệt hình tròn phẳng với khối có bề mặt được mô tả; một hướng nhìn chưa đủ.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm mọi nhãn đúng một nhóm và chỉ kết luận trong phạm vi mô tả giả định.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đối chiếu A",
+            "reason": "Hai đáy tròn bằng nhau và mặt cong nối đáy là dấu hiệu cần xét cùng nhau.",
+            "result": "A là hình trụ",
+            "explanation": "Không dựa chỉ vào một hình tròn nhìn từ phía trước; dùng trọn mô tả hai đáy và mặt bên.",
+            "expression": null,
+            "unit": ""
+          },
+          {
+            "step_id": "s1",
+            "title": "Đối chiếu B",
+            "reason": "Khối B không có mặt phẳng hoặc đỉnh theo mô tả.",
+            "result": "B là hình cầu",
+            "explanation": "Đặc điểm này khác khối có đáy phẳng; đây là phân loại mô tả giả định, chưa kiểm vật thật.",
+            "expression": null,
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "A",
+            "result": "hình trụ",
+            "unit": ""
+          },
+          {
+            "quantity": "B",
+            "result": "hình cầu",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "canonical_case": {
+          "family": "explicit_shape_descriptions",
+          "operations": [],
+          "numeric_values": []
+        },
+        "curriculum_assignment": {
+          "node_id": "old_g5_cylinder_sphere",
+          "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+          "case_kind": "core",
+          "case_slot": "core_01",
+          "context_variant": "canonical_explicit_data",
+          "method_variant": "explain_rule_then_apply"
+        },
+        "provenance": {
+          "authoring_method": "original_AI_teacher",
+          "authoring_label": "AI_GENERATED",
+          "authoring_agent": "/root/finite_grade5",
+          "human_verified": false,
+          "teacher_certified": false,
+          "independent_external_reviewer": false,
+          "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+          "source_evidence": {
+            "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+            "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+            "source_id": "old_comparison_nxbgd_kntt5",
+            "source_url": "https://drive.google.com/file/d/1vVoQe1D3tr1BBWdS0M2YnA_A-TOBYOeg/view",
+            "source_payload_sha256": "d7fa40187ee2eecb37495b7c59db870ad46f1241da3ca40d992f0a2e70982b07",
+            "source_locator": "PDF/printedp18",
+            "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+            "evidence_previously_read_on": "2026-10-13",
+            "refetched_or_legal_recertified_20261016": false,
+            "original_2006_annex_verified": false,
+            "current_2026_legal_currency_certified": false,
+            "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+            "limitations": [
+              "Historical presence is verified; mandatory-vs-reading-extension depends on guidance year."
+            ]
+          },
+          "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+          "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+          "acceptance_policy": "owner_acceptance_policy.json",
+          "real_observation_claim": false,
+          "visual_or_physical_outcome_verified": false,
+          "student_work_origin": null,
+          "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+          "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+          "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+        },
+        "quality_flags": {
+          "app_plan_draft_compatible": false,
+          "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+          "three_hint_levels_answer_free": true,
+          "full_worked_solution_requires_explicit_request": true,
+          "actual_image_or_physical_asset_present": false,
+          "text_description_only_not_vision_training": true,
+          "historical_topic_only_not_complete_2006_curriculum": true
+        }
+      },
+      "before_row_sha256": "edd54b0fb54e3495783b0432f3667f8d24334a613144ddbc084ec1fe1653ae6d",
+      "after_row_sha256": "75a387608d1ada71fefe7a919698af777a354b65a9eb1ce0968b475661fe1c53",
+      "reason": "Clarify full geometrical attributes so a generic curved surface is not treated as a unique sphere; add parallel bases. No numerical or answer change."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape",
+      "before_row": {
+        "sample_id": "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape",
+        "case_group_id": "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape",
+        "split": "train",
+        "grade": 5,
+        "topic": "circle_face_not_full_shape",
+        "problem": "Ba mô tả giả định: P có hai đáy tròn bằng nhau và một mặt cong nối đáy; Q có một đáy tròn và một đỉnh nhọn; R là một tấm phẳng hình tròn không có bề dày trong mô hình. Chọn mô tả hình trụ và giải thích vì sao không chọn hai mô tả kia.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "P hai đáy tròn và mặt cong",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "Q một đáy và đỉnh",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_1"
+          },
+          {
+            "id": "g2",
+            "text": "R tấm phẳng",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_2"
+          }
+        ],
+        "requested_quantity": "Chọn khối phù hợp và đối chiếu các mô tả.",
+        "student_work": null,
+        "initial_guidance": [
+          "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Phân biệt hình tròn phẳng với khối có bề mặt được mô tả; một hướng nhìn chưa đủ.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm mọi nhãn đúng một nhóm và chỉ kết luận trong phạm vi mô tả giả định.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Xét toàn khối",
+            "reason": "Một mặt tròn riêng lẻ chưa xác định khối hình trụ.",
+            "result": "Chọn P",
+            "explanation": "P có đủ hai đáy và mặt cong nối; Q có đỉnh và chỉ một đáy, R là hình phẳng nên không thỏa mô tả khối.",
+            "expression": null,
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Lựa chọn",
+            "result": "P",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "canonical_case": {
+          "family": "circle_face_not_full_shape",
+          "operations": [],
+          "numeric_values": []
+        },
+        "curriculum_assignment": {
+          "node_id": "old_g5_cylinder_sphere",
+          "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+          "case_kind": "core",
+          "case_slot": "core_02",
+          "context_variant": "contrast_representation_or_boundary",
+          "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+        },
+        "provenance": {
+          "authoring_method": "original_AI_teacher",
+          "authoring_label": "AI_GENERATED",
+          "authoring_agent": "/root/finite_grade5",
+          "human_verified": false,
+          "teacher_certified": false,
+          "independent_external_reviewer": false,
+          "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+          "source_evidence": {
+            "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+            "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+            "source_id": "old_comparison_nxbgd_kntt5",
+            "source_url": "https://drive.google.com/file/d/1vVoQe1D3tr1BBWdS0M2YnA_A-TOBYOeg/view",
+            "source_payload_sha256": "d7fa40187ee2eecb37495b7c59db870ad46f1241da3ca40d992f0a2e70982b07",
+            "source_locator": "PDF/printedp18",
+            "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+            "evidence_previously_read_on": "2026-10-13",
+            "refetched_or_legal_recertified_20261016": false,
+            "original_2006_annex_verified": false,
+            "current_2026_legal_currency_certified": false,
+            "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+            "limitations": [
+              "Historical presence is verified; mandatory-vs-reading-extension depends on guidance year."
+            ]
+          },
+          "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+          "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+          "acceptance_policy": "owner_acceptance_policy.json",
+          "real_observation_claim": false,
+          "visual_or_physical_outcome_verified": false,
+          "student_work_origin": null,
+          "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+          "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+          "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+        },
+        "quality_flags": {
+          "app_plan_draft_compatible": false,
+          "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+          "three_hint_levels_answer_free": true,
+          "full_worked_solution_requires_explicit_request": true,
+          "actual_image_or_physical_asset_present": false,
+          "text_description_only_not_vision_training": true,
+          "historical_topic_only_not_complete_2006_curriculum": true
+        }
+      },
+      "before_row_sha256": "655db7e27306af3541f06fce1fc33dd885eae3e3a24ae54a5b9c70eb80b01649",
+      "after_row_sha256": "db55f659b5da5f3ba1da47c7af06936922240fdcdbbe6a6f9a5b7651948ef37f",
+      "reason": "Clarify full geometrical attributes so a generic curved surface is not treated as a unique sphere; add parallel bases. No numerical or answer change."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records",
+      "before_row": {
+        "sample_id": "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records",
+        "case_group_id": "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records",
+        "split": "train",
+        "grade": 5,
+        "topic": "sort_attribute_records",
+        "problem": "Bảng mô hình giả định: K và N đều có hai đáy tròn bằng nhau, song song và mặt cong nối đáy; L và M chỉ có mặt cong kín, không mặt phẳng, không đỉnh; T có sáu mặt vuông. Phân nhóm K,L,M,N,T thành hình trụ, hình cầu hoặc nhóm còn lại, không bỏ hay lặp nhãn.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "K,N mô tả hai đáy tròn",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "L,M mô tả mặt cong kín",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_1"
+          },
+          {
+            "id": "g2",
+            "text": "T sáu mặt vuông",
+            "value": null,
+            "unit": "",
+            "role": "explicit_given_2"
+          }
+        ],
+        "requested_quantity": "Phân nhóm đủ các nhãn theo đặc điểm khối.",
+        "student_work": null,
+        "initial_guidance": [
+          "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đối chiếu toàn bộ bề mặt, số đáy, sự có mặt của mặt phẳng và đỉnh.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Phân biệt hình tròn phẳng với khối có bề mặt được mô tả; một hướng nhìn chưa đủ.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm mọi nhãn đúng một nhóm và chỉ kết luận trong phạm vi mô tả giả định.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Lập các nhóm rời nhau",
+            "reason": "Mỗi nhãn đối chiếu toàn bộ thuộc tính rồi vào đúng một nhóm.",
+            "result": "Trụ: K,N; cầu: L,M; còn lại: T",
+            "explanation": "Kiểm hợp các nhóm đủ năm nhãn và không giao nhau. T có mặt vuông nên không thuộc hai dạng được hỏi; không suy từ ảnh chưa có.",
+            "expression": null,
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Nhóm trụ",
+            "result": "K,N",
+            "unit": ""
+          },
+          {
+            "quantity": "Nhóm cầu",
+            "result": "L,M",
+            "unit": ""
+          },
+          {
+            "quantity": "Còn lại",
+            "result": "T",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "canonical_case": {
+          "family": "sort_attribute_records",
+          "operations": [],
+          "numeric_values": []
+        },
+        "curriculum_assignment": {
+          "node_id": "old_g5_cylinder_sphere",
+          "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+          "case_kind": "core",
+          "case_slot": "core_03",
+          "context_variant": "transfer_withindomain",
+          "method_variant": "apply_then_independently_check"
+        },
+        "provenance": {
+          "authoring_method": "original_AI_teacher",
+          "authoring_label": "AI_GENERATED",
+          "authoring_agent": "/root/finite_grade5",
+          "human_verified": false,
+          "teacher_certified": false,
+          "independent_external_reviewer": false,
+          "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+          "source_evidence": {
+            "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+            "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+            "source_id": "old_comparison_nxbgd_kntt5",
+            "source_url": "https://drive.google.com/file/d/1vVoQe1D3tr1BBWdS0M2YnA_A-TOBYOeg/view",
+            "source_payload_sha256": "d7fa40187ee2eecb37495b7c59db870ad46f1241da3ca40d992f0a2e70982b07",
+            "source_locator": "PDF/printedp18",
+            "verification_status": "EXPLICIT_CT2006_COMPARISON_READ",
+            "evidence_previously_read_on": "2026-10-13",
+            "refetched_or_legal_recertified_20261016": false,
+            "original_2006_annex_verified": false,
+            "current_2026_legal_currency_certified": false,
+            "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+            "limitations": [
+              "Historical presence is verified; mandatory-vs-reading-extension depends on guidance year."
+            ]
+          },
+          "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+          "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+          "acceptance_policy": "owner_acceptance_policy.json",
+          "real_observation_claim": false,
+          "visual_or_physical_outcome_verified": false,
+          "student_work_origin": null,
+          "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+          "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+          "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+        },
+        "quality_flags": {
+          "app_plan_draft_compatible": false,
+          "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+          "three_hint_levels_answer_free": true,
+          "full_worked_solution_requires_explicit_request": true,
+          "actual_image_or_physical_asset_present": false,
+          "text_description_only_not_vision_training": true,
+          "historical_topic_only_not_complete_2006_curriculum": true
+        }
+      },
+      "before_row_sha256": "831172b5e6017a33b32234f551323d4dc24f047e31cf4d5011bb6225e4a5ef49",
+      "after_row_sha256": "7f520a9befb5b438b435717a812a6f53b84455d8c6383e007e3a3bd8a746038a",
+      "reason": "Clarify full geometrical attributes so a generic curved surface is not treated as a unique sphere; add parallel bases. No numerical or answer change."
+    }
+  ],
+  "actual_revised_fields_read": true,
+  "answers_or_numbers_changed": false
+}

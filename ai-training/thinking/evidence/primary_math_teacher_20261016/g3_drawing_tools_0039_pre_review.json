@@ -1,0 +1,208 @@
+{
+  "batch_sha256": "7407ba85fa50637c3b51e1e3d97d70667bae0722b561e58df4bdd1522a7f27d6",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_circle_center_and_opening",
+      "row_sha256": "7f93f34c3cb0d2f914ca2db42aa645ad258923cc00728cb00458297020e5bd9d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_eke_vertex_and_rotated_ray",
+      "row_sha256": "bf8b0fb2f8ef7fb74923aaa17db79ea60d56ca86186ab8bf79e6ae2317adffc0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_grid_rectangle_closure",
+      "row_sha256": "6dc360ae7bc51e677fedc8c51c3e66e510215191789ca39abff3c7b6483f3ba4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_misconception_diameter_as_opening",
+      "row_sha256": "9517b2876e91b0e0089d44c1f003712761247c7153e422cf9f2c89bc28ca3110",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "14/2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_guard_ambiguous_circle_measure",
+      "row_sha256": "d8078a1356b5a986dd2fea3b51e76e04e9b4ec01c34877b64dcca16071d5c208",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "circle_center": [
+      0,
+      0
+    ],
+    "radius_squared": "9",
+    "points": [
+      [
+        "3",
+        "0"
+      ],
+      [
+        "0",
+        "3"
+      ],
+      [
+        "-3",
+        "0"
+      ],
+      [
+        "0",
+        "-3"
+      ],
+      [
+        "9/5",
+        "12/5"
+      ]
+    ],
+    "rotated_right_angle_dot": "0",
+    "acute_contrast_dot": "3",
+    "grid_vertices": {
+      "A": [
+        0,
+        0
+      ],
+      "B": [
+        4,
+        0
+      ],
+      "C": [
+        4,
+        3
+      ],
+      "D": [
+        0,
+        3
+      ]
+    },
+    "grid_side_squared_lengths": [
+      16,
+      9,
+      16,
+      9
+    ],
+    "all_four_dot_products": "0",
+    "closed_vector_sum": [
+      0,
+      0
+    ],
+    "diameter_cm": "14",
+    "correct_opening_cm": "7",
+    "ambiguous_measure_countermodels": [
+      {
+        "given_measure_cm": "3",
+        "interpretation": "radius",
+        "opening_cm": "3"
+      },
+      {
+        "given_measure_cm": "3",
+        "interpretation": "diameter",
+        "opening_cm": "3/2"
+      }
+    ]
+  },
+  "oracle_method": "Fraction squared distances and dot products, closed grid-vector sum, diameter/radius rational inverse and two distinct interpretations of same unspecified measure. These check exact structure, not actual tool operation or teaching quality.",
+  "rejected_before_authoring": [
+    {
+      "proposed_diameter_cm": 6,
+      "reason": "6/2 answer signature intersects known exposed protected development inputs; draft not saved; replaced with a different fully specified original problem, not a changed answer."
+    }
+  ],
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read all five original requests, full explicit worked procedures, why radius determines opening, both eke alignments, grid closure, grounded quote and all15hints. Full procedure appears only in requested worked solution; hints avoid selecting P or giving point positions, quotient or complete construction.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Hypothetical paper/tool/grid facts only. No actual image, drawing, measuring or physical success verified. Coordinates, dot products and fractional guard countermodel are evidence only; neutral schema is not live PlanDraft. Few-point practical radius check is not a universal proof.",
+  "author_repair_evidence": "g3_drawing_tools_0039_author_repair.json"
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "master_id": "bounded_color_multiset_without_replacement",
+    "source_page_receipt": {
+      "exercise_types": [
+        "two dice possible certain impossible sums",
+        "enumerate unordered colour multisets constrained supply"
+      ],
+      "grade": 5,
+      "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_128-1790908250598.png",
+      "printed_page": 126,
+      "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+      "sha256": "97404d8e61d90757bc3f5b19de6a1bd7ad185df037ab91c22f83553167f16ad9",
+      "volume": 2
+    },
+    "local_file": "source_126.png",
+    "local_sha256": "97404d8e61d90757bc3f5b19de6a1bd7ad185df037ab91c22f83553167f16ad9",
+    "actual_author_page_image_viewed": true,
+    "actual_content_observed": "G5 volume2 printed p126 exercise2 explicitly says simultaneous3balls from2red+3blue; author actually viewed complete publisher page. Originals use changed inventory/context; no exercise copied."
+  },
+  {
+    "master_id": "partial_product_column_reconstruction",
+    "source_page_receipt": {
+      "book_id": "g3v1",
+      "image_sha256": "c33d185f6bb018a5f9563faf22f2d23c3b639b52b04a83a2d87b6039ebc3467a",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-115-1775743973751.png",
+      "page_receipt_origin": "own actual-image reading",
+      "printed_page": 114
+    },
+    "local_file": "source_114.png",
+    "local_sha256": "c33d185f6bb018a5f9563faf22f2d23c3b639b52b04a83a2d87b6039ebc3467a",
+    "actual_author_page_image_viewed": true,
+    "actual_content_observed": "G3 volume1 printed p114 exercise5 is one-digit-multiplier column missing digits, e.g.1?2×4=60?; operation range within three-digit times one-digit."
+  },
+  {
+    "master_id": "partial_product_column_reconstruction",
+    "source_page_receipt": {
+      "book_id": "g3v1",
+      "image_sha256": "eda85f87a8af92cf80e079ba789584eee7c8eeafd44c44258d0168388f01620e",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-116-1775743974040.png",
+      "page_receipt_origin": "own actual-image reading",
+      "printed_page": 115
+    },
+    "local_file": "source_115.png",
+    "local_sha256": "eda85f87a8af92cf80e079ba789584eee7c8eeafd44c44258d0168388f01620e",
+    "actual_author_page_image_viewed": true,
+    "actual_content_observed": "G3 volume1 printed p115 exercise5 uses cards1,2,3 each once to fill two-digit factor times one-digit factor=63; original generated card instance differs."
+  }
+]

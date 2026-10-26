@@ -1,0 +1,99 @@
+{
+  "utc": "2026-10-18T13:57:11.391689+00:00",
+  "current_authored": 534,
+  "current_accepted": 529,
+  "pending": [
+    {
+      "sample_id": "primary_20261018_finite100_g1_segments_nonzero_record",
+      "source_row_sha256": "94c42ef2e9ffed38eea172d818653b142580f71e57b475faa5edf7bb0cc1cf5e",
+      "assignment": {
+        "node_id": "old_g1_draw_segment",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "question_exact_collision": false,
+      "own_expressions_matching_numeric_protection": [
+        "9-3"
+      ],
+      "protected_signature_intersection_count": 1,
+      "content_review": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_finite100_g1_segments_two_origins_same_length",
+      "source_row_sha256": "2d3a987b6f0649eee5266379ddf4d855b094867bf21d7a0ceaf7000d25eda6d6",
+      "assignment": {
+        "node_id": "old_g1_draw_segment",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "question_exact_collision": false,
+      "own_expressions_matching_numeric_protection": [
+        "7-2"
+      ],
+      "protected_signature_intersection_count": 1,
+      "content_review": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_ruler_record_nonzero_start_estimate_check",
+      "source_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+      "assignment": {
+        "node_id": "current_g2_practice_experience",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "question_exact_collision": false,
+      "own_expressions_matching_numeric_protection": [
+        "19-2"
+      ],
+      "protected_signature_intersection_count": 1,
+      "content_review": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_misconception_ruler_end_label_as_length",
+      "source_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+      "assignment": {
+        "node_id": "current_g2_practice_experience",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "question_exact_collision": false,
+      "own_expressions_matching_numeric_protection": [
+        "8-3"
+      ],
+      "protected_signature_intersection_count": 1,
+      "content_review": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "source_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+      "assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "question_exact_collision": false,
+      "own_expressions_matching_numeric_protection": [
+        "6+5"
+      ],
+      "protected_signature_intersection_count": 1,
+      "content_review": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    }
+  ],
+  "sealed_concept_challenge_read": false,
+  "protected_questions_or_solutions_disclosed": false,
+  "source_answers_unchanged": true,
+  "interpretation": "Numeric expression intersection is confirmed. This is neither evidence of whole-question semantic equivalence nor proof of non-equivalence. Existing strict policy still excludes these rows. No gate weakening applied.",
+  "finite495_accepted_constraint": "Occupied protected core slots cannot be reauthored under standing instruction; final495 accepted is blocked until an authorized adjudication policy resolves those holds."
+}

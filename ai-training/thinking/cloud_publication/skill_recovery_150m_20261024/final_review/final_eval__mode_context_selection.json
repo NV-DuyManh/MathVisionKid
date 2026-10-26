@@ -1,0 +1,54 @@
+{
+  "bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "eligible_by_model_mode": {
+    "hint_level_1": true,
+    "hint_level_2": false,
+    "hint_level_3": false,
+    "worked_solution": false
+  },
+  "evidence_hashes": {
+    "fewshot_contract.py": "1b0ba5b12a40f4d7bd8f635305e8aeb6b3a8d6e2b20ea4edf1966fa38995d07c",
+    "fewshot_dev/complete.json": "078dac4fb6774acaf34fb9f53d1c83edc72af1f544248e7ffba1cf978d8b9a11",
+    "fewshot_dev/contract.json": "e26c1689742945e0f5ee21cf0b628ada936652a54a35e43513a49b9dcfa3df93",
+    "fewshot_dev/generations.jsonl": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30",
+    "fewshot_selection.json": "6e082f5ce079fe2a85ccd35ae0f203d5d40172545938fe7a5494c1ab9139c36a",
+    "fewshot_selection_policy.json": "115d05bd975c4b672033dc6637db785c6634d6ee54b0e1914c0c07de6c9ebd70",
+    "projection_preflight.json": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022",
+    "root_fewshot_semantic_review.json": "7535c65fd9afd107bf4be0d7f0a7805aaea20b65bc91eee2b969c91fd9e7d492",
+    "source_behavior_samples.json": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18",
+    "source_example_bank.json": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e"
+  },
+  "fewshot_contract_sha256": "ebf15d74a0bddca37b1c99cdc44c6e13a81f908fa07f1297d3b3875a4a891e0b",
+  "group_summaries": {
+    "hint_level_1": {
+      "base_answer_passes": 0,
+      "baseline_pass_regressions": 0,
+      "eligible": true,
+      "fewshot_answer_passes": 0,
+      "fixtures": 5,
+      "full_task_gain": 2,
+      "new_critical_errors": 0,
+      "new_hint_leaks": 0
+    },
+    "worked_solution": {
+      "base_answer_passes": 10,
+      "baseline_pass_regressions": 3,
+      "eligible": false,
+      "fewshot_answer_passes": 13,
+      "fixtures": 25,
+      "full_task_gain": 2,
+      "new_critical_errors": 4,
+      "new_hint_leaks": 0
+    }
+  },
+  "identical_prompt_claim_for_fewshot": false,
+  "mode_selection": {
+    "hint_level_1": "fewshot_contract",
+    "hint_level_2": "inference_contract",
+    "hint_level_3": "inference_contract",
+    "worked_solution": "inference_contract"
+  },
+  "selected_before_locked_inference": true,
+  "selection_sha256": "6e082f5ce079fe2a85ccd35ae0f203d5d40172545938fe7a5494c1ab9139c36a",
+  "test_results_used_for_selection": false
+}

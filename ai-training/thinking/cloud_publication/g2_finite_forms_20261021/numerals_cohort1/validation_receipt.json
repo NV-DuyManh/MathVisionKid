@@ -1,0 +1,20 @@
+{
+  "status": "PASS_AUTHOR_QA_PENDING_INDEPENDENT_PEER_ROOT",
+  "cases": 6,
+  "chat_rows": 24,
+  "grade": 2,
+  "independent_finite_models": 6,
+  "different_method_integer_range_checks": 6,
+  "numeric_fraction_decimal_steps": 7,
+  "meaningful_wrong_constraints": 12,
+  "actual_nearest_fullfields_read": 5,
+  "prior71_ids_and_questions_no_duplicate": true,
+  "full_archive_duplicate_absence_claim": false,
+  "old_inputs_unchanged": {
+    "sgk_page_audit_20261019\\current_sources.jsonl": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+    "sgk_page_audit_20261019\\release\\accepted_cases.jsonl": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45",
+    "sgk_final_gaps_20261021\\release\\accepted_cases.jsonl": "9029fc339fbaf16a0395fc1ccfac10721a0e9ae102e7d17728a2cbc77fa7427c"
+  },
+  "training_started": false,
+  "drive_mutated": false
+}

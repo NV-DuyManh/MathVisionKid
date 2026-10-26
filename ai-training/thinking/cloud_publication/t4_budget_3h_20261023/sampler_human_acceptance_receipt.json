@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "O0Zs4TFZPEbc"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PRESERVE_CURRENT_HASH_BOUND_OWNER_HUMAN_CERTIFIED_ACCEPTANCE\", \"changed_labels\": false, \"human_attestations_added\": false, \"added_existing_accepted_status\": \"OWNER_HUMAN_CERTIFIED\", \"source_code_sha256_before\": \"60b81e7ca89b0428e478e6863e4fea3d7a84b52ea7357f88ec34336029cbaaca\", \"source_code_sha256_after\": \"785461914e089b79717aa7d4666b1084782b44a462a2ff69788a4c320b244297\", \"previous_probe_unaccepted_rows\": 0, \"observed_unix\": 1792766922.4141424}\n"
+        ]
+      }
+    ]
+  }
+}

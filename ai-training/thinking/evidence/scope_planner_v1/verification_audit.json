@@ -1,0 +1,11 @@
+{
+  "status": "PASSED",
+  "checks": {
+    "valid_cases": 2116,
+    "bad_plan_mutations": 5448,
+    "guard_cases": 300
+  },
+  "failures": [],
+  "neural_model_accuracy_measured": false,
+  "scope": "finite synthetic grammar and wrong-plan mutation regression only"
+}

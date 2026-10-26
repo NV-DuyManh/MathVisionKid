@@ -1,0 +1,105 @@
+{
+  "status": "12_DRAFTS_AUTHOR_QA_PASSED_ROOT_REVIEW_PENDING",
+  "cases": 12,
+  "chat_rows": 48,
+  "grades": {
+    "1": 6,
+    "3": 2,
+    "4": 4
+  },
+  "masters": {
+    "all_boundary_labels_joint_match": 2,
+    "shared_edge_stick_construction": 2,
+    "composite_square_only_enumeration": 2,
+    "finite_inventory_collection_game": 2,
+    "edge_removal_game_terminal": 2,
+    "glyph_parallel_perpendicular_filter": 2
+  },
+  "numeric_steps": 6,
+  "independent_oracles": 12,
+  "nearest_actual_rows": 18,
+  "training_started": false,
+  "drive_mutated": false,
+  "all_sgk_forms_covered": false,
+  "files": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "c89b4f06a1c2f717294249e3ea09a7d24d80e5ef152c124c17fdd9341cb7ae44",
+      "bytes": 77281
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "9d6778b5972d25b86067e7da183d9b7cafd56a58a318eb5e075973377bb15847",
+      "bytes": 119012
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "29680f0363db8b8a6dadc7be2db4e41fca80bbcbe52406318e53cb1a6c7b9990",
+      "bytes": 8741
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "bc097957ebf8376af64b075f0e365ccf3137e1ec28f09be171e196123f8d2ace",
+      "bytes": 1407
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "20e18f29f6268d3e4656b9f1208c69623047c0fd31a1cd78e67e345f7d955655",
+      "bytes": 6150
+    },
+    {
+      "path": "candidate_snapshot.json",
+      "sha256": "90a571165d98562b51fe2d1e812cadf89b100f38dd27d48627b3672c9089f671",
+      "bytes": 14454
+    },
+    {
+      "path": "assignment_snapshot.json",
+      "sha256": "6da54a57cfbf9ea548a2fd2ca25f2a37befb43dfaf1df1735989f67538cf70f5",
+      "bytes": 23727
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "cccc0f4b18d0ad2d2053aefffc56ba79f0f2bde11ca1f25fa47b87d51a329d8f",
+      "bytes": 82613
+    },
+    {
+      "path": "independent_finite_oracle.py",
+      "sha256": "6b6cc50825fcab989e3938561f4654360c2d29aa13cea9807d55eaed342e43f8",
+      "bytes": 8188
+    },
+    {
+      "path": "author_oracle_adversarial_checks.jsonl",
+      "sha256": "8ff94137e6af527018f5c59855f2652e889c77e536fa142c6a2e367788611779",
+      "bytes": 3321
+    }
+  ],
+  "prior_source_snapshots": [
+    {
+      "file": "cloud_publication\\sgk_page_audit_20261019\\current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+    },
+    {
+      "file": "cloud_publication\\sgk_page_audit_20261019\\release\\accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45"
+    },
+    {
+      "file": "cloud_publication\\sgk_finish_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025"
+    },
+    {
+      "file": "cloud_publication\\sgk_remaining_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296"
+    },
+    {
+      "file": "cloud_publication\\sgk_final_forms_20261020\\g5_exact_text\\cases.jsonl",
+      "sha256": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a"
+    },
+    {
+      "file": "cloud_publication\\sgk_final_forms_20261020\\g5_residual_text\\cases.jsonl",
+      "sha256": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002"
+    }
+  ],
+  "expected_answer_mutations_detected": 25,
+  "author_helper_sha256": "92f09f0250b0bdad93132ff842279032fc83f42839aaf9bf57654c7873fa2606",
+  "prior_dedup_policy": "Only split=train and non-EVAL / non holdout-eval-pilot-protected IDs; no protected benchmark semantic reference."
+}

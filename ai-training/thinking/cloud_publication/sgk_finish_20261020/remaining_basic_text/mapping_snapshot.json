@@ -1,0 +1,462 @@
+{
+  "source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "masters": [
+    {
+      "master_id": "arrival_schedule_eligibility",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_SCHEDULE_AFTER_ARRIVAL_SELECTION"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Exact time-to-activity matching is present; event eligibility based on arrival before/at start adds an explicit strict/inclusive threshold over several events."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261017_g1_activities_0008_calendar_clock_activity",
+          "source_file": "current_sources.jsonl",
+          "line": 261,
+          "sha256": "3b382f0e3961de083739bfbe5ef1c7cb56c04af2699def9a03f5c8d4f9c0bc27"
+        },
+        {
+          "sample_id": "primary_20261016_g1_time_0007_match_schedule",
+          "source_file": "current_sources.jsonl",
+          "line": 321,
+          "sha256": "2e1ce2ed1dc314beec7353d7d83c3f5ac018869aae938f2be9f91a786b3517d9"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 75,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-76-1776045486212.png",
+          "source_image_sha256": "738aefbdd42645576c06fa92b7150cd1bfffaac7f4d795fe085698283f4a7d86",
+          "exercise_types": [
+            "activity_schedule_whole_hours",
+            "eligible_events_after_arrival"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "balance_order_substitution_chain",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_balance_relation_chain",
+        "balance_orientation_order",
+        "g5_candidate_balance_consistency"
+      ],
+      "candidate_occurrence_count": 3,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Single balance equality is not pan-direction inequality, transitive ordering and repeated-object substitution. Text must fix pan convention and stable object identities."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+          "source_file": "current_sources.jsonl",
+          "line": 370,
+          "sha256": "a179c51b814c49edb7a256a800c80c8bd00a2366965dd258e0dfd3944a45cc0c"
+        },
+        {
+          "sample_id": "primary_20261018_g3_practice_experience_0093_misconception_tray_total_as_food_mass",
+          "source_file": "current_sources.jsonl",
+          "line": 498,
+          "sha256": "eb81a55548a081bd0b9d5fee91bf4d4d01ce9235e2f2a3af7960d5c88a8a6fd0"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+          "source_file": "current_sources.jsonl",
+          "line": 187,
+          "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+          "source_file": "current_sources.jsonl",
+          "line": 188,
+          "sha256": "f533ba0b3c3717b84bd2e911ff37355dc7b7dc9d381ee973c315ee09f9565e58"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_open_interval_records",
+          "source_file": "current_sources.jsonl",
+          "line": 189,
+          "sha256": "29f04600ce9d65d302602347380c59df518833d477d6ce22c623c15ec5fd6100"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 95,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-96-1775743968183.png",
+          "image_sha256": "d7f692fa407106e807b933bdd0256454333a0d0c3657b9dda2c5ed3250fc1552",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g4v2",
+          "printed_page": 68,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_70-1791255630519.png",
+          "image_sha256": "3d09f8fa26d294b2c5c99e4bed9c1771082c06a40854171d3a15f850b3ba0e2e",
+          "exercise_types_read": [
+            "Same-numerator comparison; minimum actual water amount; infer ordered masses from balance orientation"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "grade": 5,
+          "volume": 1,
+          "printed_page": 39,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_41-1790914077615.png",
+          "sha256": "18578d8aa7ff386ee5cd9a889bfe8ce536f1c7129f5e15879c9a40dd2bb064e8",
+          "exercise_types": [
+            "decimal comparison and sorting",
+            "check balance-pan orientation against decimal mass labels"
+          ],
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "bounded_factor_pair_enumeration",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_factor_pair_search"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "An inverse with one known factor does not enumerate unknown factor pairs under lower bounds/completeness conventions."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_gap_20261019_g3_expression_choice_select_models",
+          "source_file": "current_sources.jsonl",
+          "line": 991,
+          "sha256": "51f4adda70b303afb43984d062565db18a4cb96845b975e160e489f788121efe"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+          "source_file": "current_sources.jsonl",
+          "line": 992,
+          "sha256": "cb14d41cecbf40e73f99dfe92fa1ecd72c9df5d991785f9b8e108a9605f1f20c"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_expression_choice_same_precedence_error",
+          "source_file": "current_sources.jsonl",
+          "line": 993,
+          "sha256": "57212d1aaf67fb1e927c3b1c83415b7bbfd49247461e99e9f7ca252b131eee46"
+        },
+        {
+          "sample_id": "sgk_gap_20261019_g3_expression_choice_guard",
+          "source_file": "current_sources.jsonl",
+          "line": 994,
+          "sha256": "6af63829ae26a8b631e2a8af19588e22d937911ab396960d9a7cc06e944e3e39"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g3_divisor_divisor_equation",
+          "source_file": "current_sources.jsonl",
+          "line": 15,
+          "sha256": "079ce8d8a3396b35a9d635589687f42966e4a4f9dd38fbf6d85c5f183cd26469"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+          "source_file": "current_sources.jsonl",
+          "line": 946,
+          "sha256": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 38,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-39-1775743950840.png",
+          "image_sha256": "41e8095845a2fe2455c9670782aafb213f139acd1c525a78c349c47f6fa748b1",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "bounded_inventory_target_sum",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_bounded_measure_subset"
+      ],
+      "candidate_occurrence_count": 2,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Adding all present weights is not choosing a fixed-size/bounded inventory subset or distinct vessels to hit a target."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+          "source_file": "current_sources.jsonl",
+          "line": 370,
+          "sha256": "a179c51b814c49edb7a256a800c80c8bd00a2366965dd258e0dfd3944a45cc0c"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+          "source_file": "current_sources.jsonl",
+          "line": 946,
+          "sha256": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 93,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-94-1775743967638.png",
+          "image_sha256": "6ff9faefcee2324fb4b25a2ed3d90bb64add898e78d16840e18e1cf1505345f6",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 94,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-95-1775743967919.png",
+          "image_sha256": "80c79c1f0a5df1ea41201fdff0f9deadc20f5f6fd95aeb14678263d05a98b50a",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "finite_route_total_optimization",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+        "g5_candidate_shortest_route"
+      ],
+      "candidate_occurrence_count": 4,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "A single route sum and predicate-valid path do not compare totals over all connected routes and prove minimum. Explicit edge lengths/connectivity/direction and round-trip convention needed."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+          "source_file": "current_sources.jsonl",
+          "line": 967,
+          "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+          "source_file": "current_sources.jsonl",
+          "line": 968,
+          "sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+          "source_file": "current_sources.jsonl",
+          "line": 969,
+          "sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+          "source_file": "current_sources.jsonl",
+          "line": 970,
+          "sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g4_map_scale_scaled_field_fence",
+          "source_file": "current_sources.jsonl",
+          "line": 109,
+          "sha256": "b29e418b6036e3603bede4aecbf22349fef1becd55e296905297861be0eb3d0f"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g3_lengthunits_hm_sum_route",
+          "source_file": "current_sources.jsonl",
+          "line": 21,
+          "sha256": "1743f773e0751b37b35e408487fd10ef8126cf4770c0d071d3658c242b98efba"
+        },
+        {
+          "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+          "source_file": "current_sources.jsonl",
+          "line": 286,
+          "sha256": "8b3387daef33bd8c45ac9b330f893fb47f39c21ba644a1c3bd8141d66f019b6e"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_uniform_motion_equal_time_contrast",
+          "source_file": "current_sources.jsonl",
+          "line": 210,
+          "sha256": "fba80db5f73c150d3ebdc08d482f5d3098b7acbace65d410b6dbe0cbc18eb92e"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_uniform_motion_unknown_time_distance",
+          "source_file": "current_sources.jsonl",
+          "line": 213,
+          "sha256": "84099ca17f64098f724c58f4af65e7883742de2bef9322a49b8dcc4bdd27b7bb"
+        },
+        {
+          "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+          "source_file": "current_sources.jsonl",
+          "line": 722,
+          "sha256": "0a69962ddd78f386ce06e4e2b6c236362b5950215665ede251869902d71c5000"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 42,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-43-1776045481298.png",
+          "source_image_sha256": "cd2765763850599e196f249f00e4e18a4a6f1dfe080cfceaef9120ea21f2f303",
+          "exercise_types": [
+            "podium_ordinal",
+            "equal_spaced_gap_distance",
+            "route_total_length_comparison"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 64,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-65-1776045484497.png",
+          "source_image_sha256": "aaf0a2fd19cd3b1826e9be19ea4ace58e099847c203e64dcd2f678c0615afa61",
+          "exercise_types": [
+            "mixed_add_subtract",
+            "segment_total_steps"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 67,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-68-1776045484937.png",
+          "source_image_sha256": "1948721973b296644a591d12ad40c78f57c910168243484067460e42194c5737",
+          "exercise_types": [
+            "route_segment_sums",
+            "nearest_route_total"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 5,
+          "volume": 2,
+          "printed_page": 75,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_77-1790908246829.png",
+          "sha256": "e6291cabfcbe9811d8a57fb169d61c692b2ee2378984c7ff27937d80ec22c8ce",
+          "exercise_types": [
+            "average time over work sessions",
+            "shortest path on given network then round trip time"
+          ],
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "role_specific_equation_pool",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Accepted number-card equation synthesis uses a shared number inventory, not independently restricted first-operand, second-operand and result pools. Preserve role restrictions and reuse budget."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_page_g1_20261019_construct_equations_from_number_cards_01",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 4,
+          "sha256": "ecc0138b207943f7484f7600e3f6a5e5ee8a46b2813130b6a89f7ab216f8efa4"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_construct_equations_from_number_cards_02",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 5,
+          "sha256": "04f4b88b167e8882788ca8d78fc8c77206c54d6da55bd60a1ce668bb999feb83"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_construct_equations_from_number_cards_03",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 6,
+          "sha256": "d17da0b45fdae0b677109fbdacd0d95948d71fba088cf58aa4b25aad82cb4e6c"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+          "source_file": "current_sources.jsonl",
+          "line": 960,
+          "sha256": "39839a3f33dff3062949f8709ead4757977e282c01440b45a0718bb94791bac2"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+          "source_file": "current_sources.jsonl",
+          "line": 956,
+          "sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 47,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-48-1776045482032.png",
+          "source_image_sha256": "3d2ae84e67227ac488c00fe4059b588d438c3909f374d30d93d6bfdb05109bd4",
+          "exercise_types": [
+            "capacity_remaining_selection",
+            "equations_from_role_pools"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "two_group_transfer_then_compare",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_TRANSFER_COMPARISON"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Sequential changes to one container do not update two group totals in opposite directions under a conserved transfer and then compare, including tie."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+          "source_file": "current_sources.jsonl",
+          "line": 298,
+          "sha256": "a837a795682fe4c495c6261f33272d503901d96b234b38a0b197d08c5077e6f2"
+        },
+        {
+          "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+          "source_file": "current_sources.jsonl",
+          "line": 286,
+          "sha256": "8b3387daef33bd8c45ac9b330f893fb47f39c21ba644a1c3bd8141d66f019b6e"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 89,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-90-1776045488342.png",
+          "source_image_sha256": "c49b1c8ca622aa693673d90eb70253f079722822e38f01cadae5104104fa5d15",
+          "exercise_types": [
+            "transfer_between_two_groups",
+            "temporal_stage_order",
+            "duplicate_score_assignment"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    }
+  ]
+}

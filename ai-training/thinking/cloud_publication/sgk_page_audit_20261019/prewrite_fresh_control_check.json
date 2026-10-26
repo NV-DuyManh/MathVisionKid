@@ -1,0 +1,30 @@
+[
+  {
+    "name": "source_progress_index.zip",
+    "bytes": 7246773,
+    "sha256": "21516dc9897cb5f7ce9deef4807a0a16333a759b21404c700bbfcf75ffb09b00",
+    "all_bytes_equal": true,
+    "fresh_raw_verified": true
+  },
+  {
+    "name": "source_chat_manifest.json",
+    "bytes": 15717,
+    "sha256": "e741e08a068946bf95f341ec632863ef6fb17fd9a31a568a1605ae8212b13349",
+    "all_bytes_equal": true,
+    "fresh_raw_verified": true
+  },
+  {
+    "name": "source_cloud_state.json",
+    "bytes": 238683,
+    "sha256": "6ed209d8f1fe47c3be817812dc90e306d93680049309773344c5076a84629a2e",
+    "all_bytes_equal": true,
+    "fresh_raw_verified": true
+  },
+  {
+    "name": "source_context.md",
+    "bytes": 729763,
+    "sha256": "232f06f0d0647e722167d418c31dbe0b79ec72bba8e5479fcb202d051482ce76",
+    "all_bytes_equal": true,
+    "fresh_raw_verified": true
+  }
+]

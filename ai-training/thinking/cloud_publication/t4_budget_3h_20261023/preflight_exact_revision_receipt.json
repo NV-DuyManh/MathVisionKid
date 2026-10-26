@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "MesXWMWhKxgQ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PREFLIGHT_EXACT_REPOSITORY_PIN_ENFORCED\", \"previous_attempt_trained\": false, \"pid\": 44579}\n"
+        ]
+      }
+    ]
+  }
+}

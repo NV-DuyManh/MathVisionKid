@@ -1,0 +1,196 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "đồng",
+        "value": "250"
+      },
+      "grade": 2,
+      "id": "verbal20261024_locked_g2_coin_budget",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "3×200+100=700;700−450=250đồng.",
+      "rubric": [
+        "Tính đủ700đồng đang có.",
+        "Bớt450 và kết luận250đồng."
+      ],
+      "userproblem": "Em có 3 tờ tiền loại 200 đồng và 1 tờ loại 100 đồng. Em mua một món đồ giá 450 đồng. Em còn lại bao nhiêu đồng? Hãy giải thích hai bước."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_coin_budget",
+      "generated_tokens": 236,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1: Tính tổng số tiền có em có:**\n\n- Em có 3 tờ tiền loại 200 đồng:  \n  $ 3 \\times 200 = 600 $ đồng\n\n- Em có 1 tờ tiền loại 100 đồng:  \n  $ 1 \\times 100 = 100 $ đồng\n\n- Tổng số tiền em có:  \n  $ 600 + 100 = 700 $ đồng\n\n**Bước 2: Tính số tiền còn lại sau khi mua món đồ giá 450 đồng:**\n\n- Số tiền còn lại = Tổng số tiền có - Giá trị món đồ mua  \n  $ 700 - 450 = 250 $ đồng\n\n**Kiểm tra lại:**\n- Tổng tiền có: 700 đồng  \n- Mua món đồ 450 đồng → Còn lại: 700 - 450 = 250 đồng\n\n**Kết luận:** Em còn lại **250 đồng**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2b56aafdb4f250b64f67f23fc43f997e03a1d528ff0b63904eead1378ae13be6",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_coin_budget",
+      "generated_tokens": 236,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1: Tính tổng số tiền có em có:**\n\n- Em có 3 tờ tiền loại 200 đồng:  \n  $ 3 \\times 200 = 600 $ đồng\n\n- Em có 1 tờ tiền loại 100 đồng:  \n  $ 1 \\times 100 = 100 $ đồng\n\n- Tổng số tiền em có:  \n  $ 600 + 100 = 700 $ đồng\n\n**Bước 2: Tính số tiền còn lại sau khi mua món đồ giá 450 đồng:**\n\n- Số tiền còn lại = Tổng số tiền có - Giá trị món đồ mua  \n  $ 700 - 450 = 250 $ đồng\n\n**Kiểm tra lại:**\n- Tổng tiền có: 700 đồng  \n- Mua món đồ 450 đồng → Còn lại: 700 - 450 = 250 đồng\n\n**Kết luận:** Em còn lại **250 đồng**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2b56aafdb4f250b64f67f23fc43f997e03a1d528ff0b63904eead1378ae13be6",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "phút",
+        "value": "45"
+      },
+      "grade": 2,
+      "id": "verbal20261024_locked_g2_duration_to_hour",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "Từ9:15đến10:00 còn60−15=45phút.",
+      "rubric": [
+        "Phân biệt thời điểm với khoảng thời gian.",
+        "Không coi9:15 là9,15giờ; kết quả45phút."
+      ],
+      "userproblem": "Một hoạt động bắt đầu lúc 9 giờ 15 phút và kết thúc lúc 10 giờ cùng buổi sáng. Hoạt động kéo dài bao nhiêu phút? Giải thích cách đếm thời gian."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_duration_to_hour",
+      "generated_tokens": 317,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nHoạt động bắt đầu lúc **9 giờ 15 phút** và kết thúc lúc **10 giờ cùng buổi sáng**.\n\nĐể tính thời gian hoạt động, ta thực hiện các bước sau:\n\n1. **Tính thời gian từ 9 giờ 15 phút đến 10 giờ 0 phút:**  \n   - Từ 9 giờ 15 phút đến 10 giờ 0 phút là **45 phút**.\n\n2. **Tính thời gian từ 10 giờ 0 phút đến 10 giờ 15 phút:**  \n   - Đây là **15 phút**.\n\n3. **Tổng thời gian hoạt động:**  \n   - 45 phút + 15 phút = **60 phút**.\n\n**Kết luận:** Hoạt động kéo dài **60 phút**.\n\n---\n\n**Kiểm tra lại:**  \n- Từ 9 giờ 15 phút đến 10 giờ 15 phút là 60 phút.  \n- Vì vậy, thời gian hoạt động là **60 phút**.\n\n---\n\n**Lời giải đầy đủ:**  \nHoạt động bắt đầu lúc 9 giờ 15 phút và kết thúc lúc 10 giờ cùng buổi sáng. Thời gian hoạt động được tính như sau:\n\n- Từ 9 giờ 15 phút đến 10 giờ 15 phút là 60 phút.\n\n**Đáp án:** Hoạt động kéo dài **60 phút**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "cb1930c6ed07349995f5c48431752591037b32703126949ca3c5d0a461abb38e",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_duration_to_hour",
+      "generated_tokens": 317,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nHoạt động bắt đầu lúc **9 giờ 15 phút** và kết thúc lúc **10 giờ cùng buổi sáng**.\n\nĐể tính thời gian hoạt động, ta thực hiện các bước sau:\n\n1. **Tính thời gian từ 9 giờ 15 phút đến 10 giờ 0 phút:**  \n   - Từ 9 giờ 15 phút đến 10 giờ 0 phút là **45 phút**.\n\n2. **Tính thời gian từ 10 giờ 0 phút đến 10 giờ 15 phút:**  \n   - Đây là **15 phút**.\n\n3. **Tổng thời gian hoạt động:**  \n   - 45 phút + 15 phút = **60 phút**.\n\n**Kết luận:** Hoạt động kéo dài **60 phút**.\n\n---\n\n**Kiểm tra lại:**  \n- Từ 9 giờ 15 phút đến 10 giờ 15 phút là 60 phút.  \n- Vì vậy, thời gian hoạt động là **60 phút**.\n\n---\n\n**Lời giải đầy đủ:**  \nHoạt động bắt đầu lúc 9 giờ 15 phút và kết thúc lúc 10 giờ cùng buổi sáng. Thời gian hoạt động được tính như sau:\n\n- Từ 9 giờ 15 phút đến 10 giờ 15 phút là 60 phút.\n\n**Đáp án:** Hoạt động kéo dài **60 phút**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "cb1930c6ed07349995f5c48431752591037b32703126949ca3c5d0a461abb38e",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "withheld_value": "10"
+      },
+      "grade": 2,
+      "id": "verbal20261024_locked_g2_untended_rows_hint",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "(4−2)×5=10 hoặc4×5−2×5.",
+      "rubric": [
+        "Xác định số hàng còn lại rồi nhân số cây mỗi hàng, hoặc tính tổng trừ phần đã tưới.",
+        "Không nêu10 hoặc mười cây."
+      ],
+      "userproblem": "Có 4 hàng cây, mỗi hàng 5 cây. Em đã tưới xong đúng 2 hàng. Hãy gợi ý cách tìm số cây chưa tưới, đừng nêu số cây cuối cùng."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_untended_rows_hint",
+      "generated_tokens": 117,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Mỗi hàng có 5 cây, và có 4 hàng. Vậy tổng số cây là:  \n  $5 \\times 4 = 20$ cây.\n\n- Em đã tưới xong 2 hàng, tức là:  \n  $5 \\times 2 = 10$ cây.\n\n- Vậy số cây chưa tưới là:  \n  $20 - 10 = 10$ cây.\n\nGợi ý này không nêu đáp số cuối hoặc chọn đáp án thay.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d4f21612c19e7b9481fdcc38e6734971a27fb0afc34ed6a61a12558c973ad166",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_untended_rows_hint",
+      "generated_tokens": 117,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Mỗi hàng có 5 cây, và có 4 hàng. Vậy tổng số cây là:  \n  $5 \\times 4 = 20$ cây.\n\n- Em đã tưới xong 2 hàng, tức là:  \n  $5 \\times 2 = 10$ cây.\n\n- Vậy số cây chưa tưới là:  \n  $20 - 10 = 10$ cây.\n\nGợi ý này không nêu đáp số cuối hoặc chọn đáp án thay.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d4f21612c19e7b9481fdcc38e6734971a27fb0afc34ed6a61a12558c973ad166",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "value": "29"
+      },
+      "grade": 2,
+      "id": "verbal20261024_locked_g2_subtraction_correction",
+      "mode": "student_error",
+      "not_training_data": true,
+      "oracle": "48−19=29;29+19=48;31+19=50≠48.",
+      "rubric": [
+        "Chỉ dựa phép tính thực sự đã cung cấp.",
+        "Sửa29 và kiểm bằng cộng,không bịa lỗi nét viết hay thao tác chưa thấy."
+      ],
+      "userproblem": "Em viết: “48 − 19 = 31”. Hãy kiểm tra dòng tính đã cho, sửa kết quả và dùng phép cộng để kiểm lại. Đừng đoán thêm em đã đặt tính thế nào."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_subtraction_correction",
+      "generated_tokens": 524,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**  \nEm viết: **48 − 19 = 31**. Hãy kiểm tra dòng tính đã cho, sửa kết quả và dùng phép cộng để kiểm lại. Đừng đoán thêm em đã đặt tính thế nào.\n\n---\n\n**Giải:**\n\n### 1. Kiểm tra tính đúng của phép trừ:  \n**48 − 19 = 31**\n\n- **Bước 1:** Kiểm tra phép trừ:\n  - 48 − 19 = 29  \n  - Không phải 31, nên phép trừ sai.\n\n### 2. Sửa kết quả:\n\n**Cách sửa:**  \nTa cần tìm một số **a**, sao cho:  \n**48 − a = 31**  \n→ a = 48 − 31 = **17**\n\nVậy **48 − 17 = 31** (sai, cần sửa lại).\n\n---\n\n### 3. Sửa lại phép tính:\n\n**Sửa: 48 − 17 = 31**  \n→ 48 − 17 = 31 (sai)\n\n**Cách sửa đúng:**  \nTa cần tìm số **b**, sao cho:  \n**48 − b = 31**  \n→ b = 48 − 31 = **17**\n\nVậy **48 − 17 = 31** (đúng).\n\n---\n\n### 4. Kiểm tra bằng phép cộng:\n\n**48 − 17 = 31**  \n→ 31 + 17 = 48 (đúng)\n\n---\n\n### **Kết luận:**\n\n- **Phép trừ ban đầu sai:** 48 − 19 = 31 (sai).\n- **Sửa lại:** 48 − 17 = 31 (đúng).\n- **Kiểm tra bằng phép cộng:** 31 + 17 = 48 (đúng).\n\n---\n\n**Lời giải đầy đủ:**  \n- **Phép trừ ban đầu:** 48 − 19 = 31 (sai).\n- **Sửa lại:** 48 − 17 = 31 (đúng).\n- **Kiểm tra bằng phép cộng:** 31 + 17 = 48 (đúng).\n\n**Kết quả sửa đúng:** 48 − 17 = 31.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "750e9917f897943bf7f232980b5dfd1e4a19a3538c516077f9b0db0ca2c3f5ce",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g2_subtraction_correction",
+      "generated_tokens": 524,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**  \nEm viết: **48 − 19 = 31**. Hãy kiểm tra dòng tính đã cho, sửa kết quả và dùng phép cộng để kiểm lại. Đừng đoán thêm em đã đặt tính thế nào.\n\n---\n\n**Giải:**\n\n### 1. Kiểm tra tính đúng của phép trừ:  \n**48 − 19 = 31**\n\n- **Bước 1:** Kiểm tra phép trừ:\n  - 48 − 19 = 29  \n  - Không phải 31, nên phép trừ sai.\n\n### 2. Sửa kết quả:\n\n**Cách sửa:**  \nTa cần tìm một số **a**, sao cho:  \n**48 − a = 31**  \n→ a = 48 − 31 = **17**\n\nVậy **48 − 17 = 31** (sai, cần sửa lại).\n\n---\n\n### 3. Sửa lại phép tính:\n\n**Sửa: 48 − 17 = 31**  \n→ 48 − 17 = 31 (sai)\n\n**Cách sửa đúng:**  \nTa cần tìm số **b**, sao cho:  \n**48 − b = 31**  \n→ b = 48 − 31 = **17**\n\nVậy **48 − 17 = 31** (đúng).\n\n---\n\n### 4. Kiểm tra bằng phép cộng:\n\n**48 − 17 = 31**  \n→ 31 + 17 = 48 (đúng)\n\n---\n\n### **Kết luận:**\n\n- **Phép trừ ban đầu sai:** 48 − 19 = 31 (sai).\n- **Sửa lại:** 48 − 17 = 31 (đúng).\n- **Kiểm tra bằng phép cộng:** 31 + 17 = 48 (đúng).\n\n---\n\n**Lời giải đầy đủ:**  \n- **Phép trừ ban đầu:** 48 − 19 = 31 (sai).\n- **Sửa lại:** 48 − 17 = 31 (đúng).\n- **Kiểm tra bằng phép cộng:** 31 + 17 = 48 (đúng).\n\n**Kết quả sửa đúng:** 48 − 17 = 31.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "750e9917f897943bf7f232980b5dfd1e4a19a3538c516077f9b0db0ca2c3f5ce",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

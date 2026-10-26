@@ -1,0 +1,15 @@
+{
+  "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "parent_sha256": "cc60075c4f67e701cfd0f779b79507f137123ebcc93ed644ba87110f89af2d45",
+  "parent_cells": 13,
+  "cell_count": 15,
+  "bytes": 69911,
+  "sha256": "51af946fc30d3a3792423c6b218d872e5392558b216f99e5b14274339d96b525",
+  "all_parent_cell_sources_preserved": true,
+  "training_started": false,
+  "live_status": "RUNTIME_OR_STATUS_MISSING",
+  "unsaved_prior_v3_source_recovered_as_progress_code": true,
+  "fresh_raw_verified": true,
+  "all_bytes_equal": true,
+  "verified_utc": "2026-10-22T09:50:29.247Z"
+}

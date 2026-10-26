@@ -27,6 +27,7 @@ import { PersonalLessonVideo } from '../../features/tutoring/PersonalLessonVideo
 import { completedNarration, stepNarration } from '../../features/tutoring/narration';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { LessonQuestion } from '../../features/tutoring/LessonQuestion';
+import { clearSpeechCache, prefetchLessonOpening, prefetchNarration, setSpeechOwner } from '../../features/tutoring/speechCache';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -95,6 +96,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'problem' | 'work' | 'summary' | 'visual' | 'hint' | 'video' | null>(null);
   const [visualIndex, setVisualIndex] = useState(0);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
+  const [preparationStep, setPreparationStep] = useState(0);
+  const [openingPrepared, setOpeningPrepared] = useState(false);
   const [error, setError] = useState('');
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
@@ -122,12 +125,26 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
   useEffect(() => {
+    setSpeechOwner(owner || '');
+    return () => clearSpeechCache();
+  }, [owner]);
+  useEffect(() => {
+    if (!lesson) return;
+    const abort = new AbortController();
+    const paragraphs = reviewedStep ? completedNarration([reviewedStep])
+      : lesson.step ? stepNarration(lesson.step, hintText)
+      : completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND'));
+    void prefetchNarration(paragraphs, abort.signal, 0).catch(() => {});
+    return () => abort.abort();
+  }, [lesson, reviewedStep, hintText]);
+  useEffect(() => {
     if (!lessonSessionId) return;
     const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
     return () => cancelAnimationFrame(frame);
   }, [lessonSessionId, lessonStepIndex]);
   const cancel = () => {
     requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null);
+    clearSpeechCache();
   };
   const failureMessage = useCallback((failure: any) => {
     if (failure?.response?.status === 401) {
@@ -198,8 +215,23 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     setTool(null);
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
-    void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
-      { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true }, signal), result => {
+    void run('lesson', async signal => {
+      setPreparationStep(0); setOpeningPrepared(false);
+      const preparingId = requestId.current;
+      let openingMatches = true;
+      void prefetchLessonOpening(signal).then(() => {
+        if (openingMatches && active.current && !signal.aborted && preparingId === requestId.current) setOpeningPrepared(true);
+      }).catch(() => {});
+      const result = await TutorService.startLesson(problem.trim(), confirmedWork,
+        { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true }, signal);
+      if (signal.aborted) return result;
+      openingMatches = result.understandingSteps === 3;
+      if (!openingMatches) setOpeningPrepared(false);
+      setPreparationStep(1);
+      if (result.step && await prefetchNarration(stepNarration(result.step), signal)) setOpeningPrepared(true);
+      if (!signal.aborted) setPreparationStep(2);
+      return result;
+    }, result => {
       setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setShowProblem(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
@@ -250,7 +282,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     <View style={styles.preparing} testID={busy === 'read' ? 'lesson-reading-screen' : 'lesson-preparation-screen'} accessibilityLiveRegion="polite">
       <RecognitionProgress
         title={busy === 'read' ? 'Mình đang đọc bài của em' : 'Chuẩn bị các bước học'}
-        description={busy === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
+        description={busy === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : preparationStep === 1
+          ? 'Mình chuẩn bị sẵn lời giảng để em nghe ngay khi cần.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
+        steps={busy === 'lesson' ? ['Chuẩn bị các bước học', 'Chuẩn bị lời giảng', 'Sẵn sàng học'] : undefined}
+        activeStep={preparationStep}
+        completedSteps={busy === 'lesson' ? [...(preparationStep > 0 ? [0] : []), ...(openingPrepared ? [1] : [])] : undefined}
         imageUri={busy === 'read' ? imageUri : undefined}
         onCancel={cancel} cancelLabel={busy === 'read' ? 'Dừng chờ, giữ ảnh' : 'Dừng chờ'} />
     </View>

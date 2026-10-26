@@ -1,0 +1,27 @@
+{
+  "actual_required_constraints_and_nearestrefs_preserved": true,
+  "all54_candidate_ids_assigned_exactly_once": true,
+  "all_tasks_grade2": true,
+  "assigned_candidate_ids_count": 54,
+  "drive_mutated": false,
+  "helper_sha256": "803ead8b65709944d60c7bbe6f09739ed41fb126a8edb11e8906cfe69f253d1d",
+  "new_cases_created": 0,
+  "no_task_crosses_finite_master": true,
+  "original_candidate_ids_count": 54,
+  "original_frozen_sources_unchanged": true,
+  "original_source_hashes_after": {
+    "sgk_final_gaps_20261021\\reconciliation\\candidate_adjudication.json": "26df06892088af10ebc8d6fd8575ee88d87c843b3b67c65e4d2732d2ce966746",
+    "sgk_final_gaps_20261021\\reconciliation\\next_uncovered_tasks.json": "3e08fad0ef0ce50bffe8bd3a49d0a86dfda0e4420c8f2de6716979bbfc5db548"
+  },
+  "original_source_hashes_before": {
+    "sgk_final_gaps_20261021\\reconciliation\\candidate_adjudication.json": "26df06892088af10ebc8d6fd8575ee88d87c843b3b67c65e4d2732d2ce966746",
+    "sgk_final_gaps_20261021\\reconciliation\\next_uncovered_tasks.json": "3e08fad0ef0ce50bffe8bd3a49d0a86dfda0e4420c8f2de6716979bbfc5db548"
+  },
+  "pending_closed": 0,
+  "queue_sha256": "53d10d62ac91a36ca4dc506d3191a77eaaf2c313c8daedf724076e145cfeb10f",
+  "status": "PASS",
+  "task_count": 41,
+  "training_started": false,
+  "unique_assigned": 54,
+  "unique_finite_master_ids": 36
+}

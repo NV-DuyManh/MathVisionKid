@@ -1,0 +1,79 @@
+{
+  "status": "23_DRAFTS_SELF_QA_PASSED_ROOT_CROSS_QA_PENDING",
+  "case_count": 23,
+  "chat_count": 92,
+  "numeric_steps": 27,
+  "independent_oracles": 23,
+  "adversarial_rejections": 25,
+  "corrected_tangram_rows": 2,
+  "other_rows_byte_identical": 21,
+  "parent_source_sha256": "7cbea5b9c7b09fc8e72f4b12155ddea8d4a98e6e6b0a3c15008a2646b070ceb1",
+  "parent_chat_sha256": "5bf8807b8a881a8fa4e98e7806eab8bef36821cd8749dd845cb20bf4da1580a5",
+  "parent_files_preserved": true,
+  "parent_manifest_sha256": "0dcdb5b8463202b8fc7d446198a0c278a6a6277ff9c3c36b600bd469d6251b80",
+  "source_files": [
+    {
+      "file": "adversarial_mutations.jsonl",
+      "bytes": 5386,
+      "sha256": "32676f31957ae43a14cb2f1c1fa6e94abac503992e0b221b5b554871d9cae85b"
+    },
+    {
+      "file": "candidate_task_snapshot.json",
+      "bytes": 40161,
+      "sha256": "8ed56d63d21183a55220e74627ba91ec1f89eb25b7c91eda84409d80a7598769"
+    },
+    {
+      "file": "cases.jsonl",
+      "bytes": 156868,
+      "sha256": "ee0ced14c50bb5a45a611b42e22e21c2629a729abdaa589ee193c2358582258a"
+    },
+    {
+      "file": "chat.jsonl",
+      "bytes": 203200,
+      "sha256": "43cbbf57af6f3bf69942a65025a19e484eb39b3a18c82a6155d7929793f2c64d"
+    },
+    {
+      "file": "coverage_grade_residual_matrix.jsonl",
+      "bytes": 43049,
+      "sha256": "d09915a6790928c3beb4d85a180362e1b1b4f7af618273358d9b5903e5ecace9"
+    },
+    {
+      "file": "derivation_delta.jsonl",
+      "bytes": 12946,
+      "sha256": "aabbc58eeed5e5128410e0fbe91422e84b01ed9bb4628765dcb906ed4534bf36"
+    },
+    {
+      "file": "independent_oracle.py",
+      "bytes": 9596,
+      "sha256": "02edb170115b37bef0487ec56c1e6422fb8ba010978ffdb507128b8e075d344a"
+    },
+    {
+      "file": "independent_oracles.jsonl",
+      "bytes": 9053,
+      "sha256": "cad3e4c00cb2e72ae2a965b1f6687afcfbadca72f0d3f02b8510349c0fa75f76"
+    },
+    {
+      "file": "nearest_actual_fullfields.jsonl",
+      "bytes": 86697,
+      "sha256": "38fa66d1e748a3d3e800254280232952e94096adf4bf854197d3c0dd0f53af9f"
+    },
+    {
+      "file": "numeric_fraction_decimal.jsonl",
+      "bytes": 6840,
+      "sha256": "8994674d64e1222a012e480a1da1174e0253fe00e61d17901f7b0d0f4ee1397f"
+    },
+    {
+      "file": "parent_geometry_adversarial.jsonl",
+      "bytes": 466,
+      "sha256": "c61852579f3f5cc4da14d59ea9f059949839f7c06f863cd55f72de7643af810d"
+    },
+    {
+      "file": "selfqa7.jsonl",
+      "bytes": 107735,
+      "sha256": "39ddeb0483b389b356c758eb768f60230321e91bc7dbe4e57fb3c3ade5c47042"
+    }
+  ],
+  "training_started": false,
+  "drive_mutated": false,
+  "human_review_claimed": false
+}

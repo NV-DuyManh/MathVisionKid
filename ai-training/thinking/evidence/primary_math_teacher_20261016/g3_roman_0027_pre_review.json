@@ -1,0 +1,154 @@
+{
+  "batch_sha256": "113fcaaf43270e115ec10fb8ce5d1125dc312095521f8b0768d25ab316f9294f",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_roman_0027_read_additive_sixteen",
+      "row_sha256": "201db8cbb4f8eb29bd39064cb37156e3e67608fb0ad7ec56b495c061315d9d25",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_roman_0027_contrast_four_six_order",
+      "row_sha256": "77367be0196649d9be497e02a18121fccab07041904920239f73f9779714220c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_roman_0027_chapter_sequence_through_twenty",
+      "row_sha256": "b44fb0cf6f335601dcd188e24574d77d96bc46d023a6a2b20bd0594b910d3ab4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_roman_0027_misconception_ignore_subtractive_pair",
+      "row_sha256": "9d01153161dc6f989dcdbe8422212b3a9f41fa4afbc0ebc753a0431e91065bf5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "standard_lookup_1_to_20": [
+      "I",
+      "II",
+      "III",
+      "IV",
+      "V",
+      "VI",
+      "VII",
+      "VIII",
+      "IX",
+      "X",
+      "XI",
+      "XII",
+      "XIII",
+      "XIV",
+      "XV",
+      "XVI",
+      "XVII",
+      "XVIII",
+      "XIX",
+      "XX"
+    ],
+    "targets": {
+      "XVI": 16,
+      "IV": 4,
+      "VI": 6,
+      "XVIII": 18,
+      "XIX": 19,
+      "XX": 20,
+      "XIV": 14
+    },
+    "independent_positional_decoder_matches_all_20": true,
+    "successive_chapters": [
+      18,
+      19,
+      20
+    ]
+  },
+  "oracle_method": "Independent right-neighbour subtractive parser compared with explicit canonical lookup for all1..20; source strings/target readings checked separately. Decoder alone is not general validity checker.",
+  "author_self_content_check": "Read input symbol order, standard IV/IX pairs, additive XVI, chapter successor, original wrong quote and all twelve hints. Clock IIII variants explicitly outside this task rather than universally marked invalid. Same-author checking is not independent semantic review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Symbolic reading/writing concepts with categorical verbal answers, not hidden numeric arithmetic. Text only; no image recognition, clock image or stick movement claim. Neutral schema is not live PlanDraft."
+}

@@ -1,0 +1,151 @@
+{
+  "6": {
+    "exercise_types": [
+      "orientation_to_math_objects_tools"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "No exercise to solve; introductory scene only.",
+    "source_comparison_status": "INTRODUCTION_NO_GAP_CLAIM"
+  },
+  "7": {
+    "exercise_types": [
+      "orientation_math_games_measuring"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "No exercise to solve; introductory scene only.",
+    "source_comparison_status": "INTRODUCTION_NO_GAP_CLAIM"
+  },
+  "8": {
+    "exercise_types": [
+      "count_read_match_cardinality_0_to5",
+      "empty_set_zero"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "9": {
+    "exercise_types": [
+      "digit_stroke_copying_0_to5",
+      "count_read_cardinality",
+      "ascending_sequence_completion"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_DIGIT_STROKE_ASSET"
+    ],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "10": {
+    "exercise_types": [
+      "count_empty_or_nonempty_groups",
+      "descending_sequence_completion"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_REVERSE_SEQUENCE_COMPLETION"
+    ],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "11": {
+    "exercise_types": [
+      "attribute_filtered_count_coloured_subset",
+      "count_objects_with_target_numeral_label"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "12": {
+    "exercise_types": [
+      "count_choose_matching_numeral",
+      "select_added_group_to_target_total"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "13": {
+    "exercise_types": [
+      "ascending_and_descending_missing_numbers",
+      "scene_category_counts_including_absent_category"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_REVERSE_SEQUENCE_COMPLETION"
+    ],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "14": {
+    "exercise_types": [
+      "count_read_match_cardinality_6_to10"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "15": {
+    "exercise_types": [
+      "digit_stroke_copying_6_to10",
+      "count_irregular_object_layout",
+      "select_added_group_to_target"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_DIGIT_STROKE_ASSET"
+    ],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "16": {
+    "exercise_types": [
+      "count_layout_varied_groups",
+      "ascending_descending_completion_0to10"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_REVERSE_SEQUENCE_COMPLETION"
+    ],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  },
+  "17": {
+    "exercise_types": [
+      "filtered_count_by_visible_leg_count",
+      "scene_multi_category_count_including_zero"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "uncertainty": "Text analogues mapped; no claim that image recognition, handwritten-stroke reproduction or physical action is validated. Reverse completion candidate requires full-grade comparison before confirmed gap.",
+    "source_comparison_status": "NEAREST_ACTUAL_SOURCE_FIELDS_PREVIOUSLY_READ"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "MathVisionKid.skill_recovery_calibration_review.v1",
+  "source": "Four reused development tasks; not independent heldout",
+  "all_eight_actual_final_outputs_read": true,
+  "human_review_claimed": false,
+  "base_output_file_sha256": "85c8477e828066837382c33de6bd78a81a64e7e5c0dbb2d5625d190fb42b7b3a",
+  "judgments": [
+    {"task":"percent_reversal","nonthinking_pass":true,"thinking_pass":true,"reason":"Both correctly apply1.25*.8=1and100percent with consistent explanation."},
+    {"task":"bracket_hint","nonthinking_pass":true,"thinking_pass":true,"reason":"Both cue parentheses before subtraction and withhold42."},
+    {"task":"zero_dividend_feedback","nonthinking_pass":true,"thinking_pass":false,"reason":"Nonthinking explicitly disproves student quotient7by7*7=49 and corrects0; thinking calls the correct inverse check unrelated and unable to confirm division, inconsistent explanation."},
+    {"task":"missing_measurement_image","nonthinking_pass":false,"thinking_pass":false,"reason":"Nonthinking invents10cm; thinking avoids numeric guess but asks unrelated otherABsegments and lacks appropriate measured scale/unit source."}
+  ],
+  "selected_configuration":"official_nonthinking",
+  "selection_reason":"3/4versus2/4fulltasks in this small fixed calibration plus lower observed latency; not evidence nonthinking always superior.",
+  "new_training_or_weight_update_in_calibration":false,
+  "limitations":"One seeded sample per condition and task, only four tasks in grades3and5; old development calibration, no broad quality or production claim. New training prompts will be compared under their own matched baseline."
+}

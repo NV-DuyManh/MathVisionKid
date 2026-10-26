@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "fa1NlvtaBXRi"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"source_qa_approved\": true, \"actual_samples_read\": 24, \"human_review_claimed\": false, \"source_plan_sha256\": \"4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d\"}\n"
+        ]
+      }
+    ]
+  }
+}

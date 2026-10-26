@@ -1,0 +1,16 @@
+{
+  "schema": "MathVisionKid.baseline_review_adjudication.v1",
+  "root_review_file": "baseline_semantic_review_frozen.json",
+  "root_review_sha256": "f8c5840d99f950c261db0839234a6c30830cd9758bb55e056e171394376527ff",
+  "independent_agent_review_file": "review_baseline/independent_baseline_review.json",
+  "independent_agent_review_sha256": "33cefb200409785b73eaeea02b4aadf5a282e95de66c19ac83426cb15f4d8bf6",
+  "root_fulltask_pass": 14,
+  "independent_agent_fulltask_pass": 13,
+  "disagreement_fixture": "dev25_g3_answer_02",
+  "root_adjudication": "Pass. Actual arithmetic, quantities and units are correct. An irrelevant empty conditional student-work section is poor style and a grounding warning, but supplies no fabricated student step or measurement. It does not overturn the correct worked solution under the frozen rubric.",
+  "root_baseline_judgment_unchanged": true,
+  "candidate_outputs_read_before_adjudication": false,
+  "grading_was_not_changed_to_favor_candidate": true,
+  "human_or_external_teacher_review_claimed": false,
+  "scope": "Retain both LLM reviews and explain the one subjective boundary disagreement. Full-task counts are a small development screen, not product accuracy."
+}

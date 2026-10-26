@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "rF5-946sCLxg"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\", \"run_metadata_sha256\": \"91b46ac40df595702207350b906f8014e3dbb517ab388617be75bd0dc161ecb0\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

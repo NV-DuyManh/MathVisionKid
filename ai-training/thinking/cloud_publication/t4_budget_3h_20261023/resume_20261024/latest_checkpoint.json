@@ -1,0 +1,10 @@
+{
+  "bytes": 99252540,
+  "fresh_raw_readback_verified": true,
+  "id": "1wHjnV0qOs6CGfU16mDst-WLYRhX83Rq1",
+  "manifest_sha256": "e83bb11cf3e779dd891355141d96bfd2399f27db11e8ea04e92d9fefb4d0cd71",
+  "name": "checkpoint_step_000734_rows_00011744_e83bb11cf3e779dd.zip",
+  "rows_done": 11744,
+  "sha256": "5e04205210dddf4c719cc3fa363d0f0b1deac5a2ea678e01d1217ca4124410c8",
+  "step": 734
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "MathVisionKid.recovery_20261026.phase_metadata.v1",
+  "phase": "ACTUAL100_UPDATES_CANDIDATE_REVIEW_PENDING",
+  "run_folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+  "source_rows": 16000,
+  "source_cases": 4000,
+  "derived_rows": 6625,
+  "hard_deadline_utc": "2026-10-26T11:14:18Z",
+  "train_cutoff_utc": "2026-10-26T11:04:18Z",
+  "reserve_seconds": 600,
+  "optimizer_update_observed": true,
+  "model_improvement_established": false,
+  "prior_adapter_rejected": true,
+  "previous_review_drive_id": "1gz9LMFrDvWnbHp5ycOuyQm223i5SGptL",
+  "source_and_corpus_preserved": true,
+  "human_review_claimed": false,
+  "production_approved": false,
+  "paid_resources": false,
+  "skills_applied": [
+    "plugin-management",
+    "google-drive:google-drive"
+  ],
+  "actual_successful_updates": 100,
+  "actual_unique_chat": 1600,
+  "actual_supervised_tokens": 338187,
+  "checkpoint_100": {
+    "id": "133WL9N5iQc_6LTZUULOM9UBlwVhlNTWR",
+    "sha256": "b2e86825d1b63c4a5e2c89c66994c8eb7471015d73f80b66356f62e30b86fe03",
+    "bytes": 117171206,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-26T09:30:58.461517+00:00",
+    "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+    "name": "checkpoint_step_000100_rows_00001600_f6aaee3af373a389.zip",
+    "immutable": true,
+    "step": 100,
+    "rows_done": 1600,
+    "manifest_sha256": "f6aaee3af373a3899ad4cec0c87be006f1350cea0bde87ee18c1135469fc91a7",
+    "generation": "generation_step_000100_rows_00001600"
+  },
+  "baseline_frozen_sha256": "774e6069641d189871e44fb59ee515d530efc794f9e727790581c7dfec5a8344"
+}

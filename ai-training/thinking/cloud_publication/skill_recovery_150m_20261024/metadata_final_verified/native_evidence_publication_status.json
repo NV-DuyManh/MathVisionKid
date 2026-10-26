@@ -1,0 +1,167 @@
+{
+  "state": "DEV_COMPLETE_RAW_VERIFIED",
+  "proofs": {
+    "native_thinking_probe.py": {
+      "id": "152QNZODsY-yw1wvTl9bnWGi7SAr6KKLk",
+      "sha256": "e93e3935d155a217b5ca534fe5b823be558cbd6e611df0079ef98a369ad5fcd1",
+      "bytes": 19054,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:02.419268+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_thinking_probe.py",
+      "immutable": true
+    },
+    "test_native_thinking_probe.py": {
+      "id": "1J_DsJQEsa5xOt6i7SjRv5tWACHK7eCKz",
+      "sha256": "526d7b5de24f60e9eeffc4f0984897da7690b5ceb4923a7b91f07240970f4b23",
+      "bytes": 9005,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:10.740217+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "test_native_thinking_probe.py",
+      "immutable": true
+    },
+    "native_probe_scope.json": {
+      "id": "1r0tawim5fE99RhJEowoWcFqaiFm9CbTq",
+      "sha256": "af972c2c2a1c30ba8b5c878ddb5d1d48b86bea8d3113c4c2d2183d35f0179798",
+      "bytes": 478,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:15.786913+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe_scope.json",
+      "immutable": true
+    },
+    "native_probe_selection_policy.json": {
+      "id": "1FYr0-HjE0hhYCGShZfsO2bUPMZwUJdHc",
+      "sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+      "bytes": 919,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:20.726975+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe_selection_policy.json",
+      "immutable": true
+    },
+    "native_locked15.jsonl": {
+      "id": "1o816bR-gtjL9qRamDAh8wsQVseIDGmcL",
+      "sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+      "bytes": 11776,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:25.724935+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_locked15.jsonl",
+      "immutable": true
+    },
+    "native_locked15_notes.json": {
+      "id": "1HGFCajoBF8t0H_mYfETXb2iagtkMC13Y",
+      "sha256": "fc44a49e3d633f1850298e10e9efaad4784f3498bda2993e267497b4a85fa577",
+      "bytes": 2630,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:33.959283+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_locked15_notes.json",
+      "immutable": true
+    },
+    "native_locked15_root_review.json": {
+      "id": "1ZuZ5xd5AEp7eRo9jtcUW16Sm7hygNXd3",
+      "sha256": "f81bc6be2e6ac34baeb9aa4a44ee0c4f1ee6d002c0820ac396e61e386157a188",
+      "bytes": 780,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:39.019973+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_locked15_root_review.json",
+      "immutable": true
+    },
+    "native_locked15_train_screening.json": {
+      "id": "1EpmCSJix7Us-uxR7Fd8N7oAOsTGW4NFD",
+      "sha256": "9b4641a84338098ab1902e65c687c30cdd2ba6675d913e58ef6510891b1da4f5",
+      "bytes": 416,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:47.609924+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_locked15_train_screening.json",
+      "immutable": true
+    },
+    "native_locked15_exact_checks.py": {
+      "id": "1aNPJfVNN6OCwoP4zeRbRZ_jNEi9C1mbI",
+      "sha256": "f179b870259b4c195cbdb24ba2923469013f604002e66472e14c5a4f5b4da6a6",
+      "bytes": 2739,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:52.540532+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_locked15_exact_checks.py",
+      "immutable": true
+    },
+    "native_launch_pins.json": {
+      "id": "1GghA3nFZyd8YJLpcp-sMArL_QJi8UyE3",
+      "sha256": "d461ac1232ff018866e36c33df51873ed2797d08d2bbf93f87a2f4f56a38bfb8",
+      "bytes": 1029,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:12:57.549136+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_launch_pins.json",
+      "immutable": true
+    },
+    "context_trial_final_review.json": {
+      "id": "1N2J-tyNInbBli0bi710phoCyxPm1esDf",
+      "sha256": "49ac0a59e3b4831fee92006aba9d206f65cb26669e1ea8e3b3f6bb62af5d88cc",
+      "bytes": 10626,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:13:02.573278+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "context_trial_final_review.json",
+      "immutable": true
+    },
+    "native_probe/dev/complete.json": {
+      "id": "1Zw8a_v8vJqrulYH3F8wNV61NkTRQt7Hb",
+      "sha256": "83c8593b866de3b10f0acf85ace2c8e7fcf99b334be4636b0e0d7fd08a15ced8",
+      "bytes": 901,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:20:46.729746+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__complete.json",
+      "immutable": true
+    },
+    "native_probe/dev/contract.json": {
+      "id": "1C-2id1770seEqbKxyEosp0qyLzG0ZDMu",
+      "sha256": "1fa7e29c9b8206fdeaa9facafa8ff5954ac6abbe339e001410c846c72973a63c",
+      "bytes": 4097,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:20:51.743442+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__contract.json",
+      "immutable": true
+    },
+    "native_probe/dev/native_thinking_final.jsonl": {
+      "id": "1svIa96DVVa5n97hiQjPk5K8hSXhJTvu2",
+      "sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+      "bytes": 19862,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:20:59.932961+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__native_thinking_final.jsonl",
+      "immutable": true
+    },
+    "native_probe/dev/native_thinking_raw.jsonl": {
+      "id": "1GqoFjIe1bX9ZSzzLi-TOrrmvfa5wxcMa",
+      "sha256": "a49fe261d8aa952e5e545d546efb366d3dfd012f35dd2ce6c8c08245d725fac6",
+      "bytes": 50376,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:21:08.527428+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__native_thinking_raw.jsonl",
+      "immutable": true
+    },
+    "native_probe/dev/runtime_progress.json": {
+      "id": "1Qp3nw2QIVg9LW4Ls-wy3BF5ZDEoFsG_r",
+      "sha256": "e5dd7d1465e6ab043a00a28128f313a4a03be7a53056101366ec4375fc54ca08",
+      "bytes": 924,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:21:13.261057+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__runtime_progress.json",
+      "immutable": true
+    }
+  },
+  "all_raw_outputs_preserved_on_drive": true,
+  "final_phase_not_yet_archived": true
+}

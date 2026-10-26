@@ -1,0 +1,42 @@
+[
+  {
+    "id": "vi-gsm-000138",
+    "question": "Một chiếc điện thoại thông minh mới có dung lượng pin tối đa là 4800 mAh. Sau khi được sạc đầy 100%, người dùng bắt đầu sử dụng. Đầu tiên, anh ấy chơi game trong 3 giờ, với mức tiêu thụ pin trung bình là 450 mAh mỗi giờ. Sau đó, anh ấy chuyển sang lướt web trong 2.5 giờ, với mức tiêu thụ pin trung bình là 280 mAh mỗi giờ. Cuối cùng, anh ấy cắm sạc với tốc độ ổn định là 1200 mAh mỗi giờ. Hỏi cần bao nhiêu phút để sạc điện thoại từ mức pin hiện tại sau khi sử dụng lên đến 90% tổng dung lượng pin tối đa?",
+    "solution": "Bước 1: Tính lượng pin tiêu thụ khi chơi game.\n\nTrong 3 giờ, mỗi giờ tiêu thụ 450 mAh:\n\n3 × 450 = 1350 mAh\n\nBước 2: Tính lượng pin tiêu thụ khi lướt web.\n\nTrong 2.5 giờ, mỗi giờ tiêu thụ 280 mAh:\n\n2.5 × 280 = 700 mAh\n\nBước 3: Tính tổng lượng pin đã tiêu thụ.\n\n1350 + 700 = 2050 mAh\n\nBước 4: Tính lượng pin còn lại sau khi sử dụng.\n\nPin ban đầu là 4800 mAh:\n\n4800 - 2050 = 2750 mAh\n\nBước 5: Tính mức pin tương ứng với 90% dung lượng tối đa.\n\n90% của 4800 mAh là:\n\n0.9 × 4800 = 4320 mAh\n\nBước 6: Tính lượng pin cần sạc thêm.\n\n4320 - 2750 = 1570 mAh\n\nBước 7: Tính thời gian sạc.\n\nTốc độ sạc là 1200 mAh mỗi giờ, nên thời gian cần là:\n\n1570 ÷ 1200 = 1.3083 giờ\n\nĐổi sang phút:\n\n1.3083 × 60 = 78.5 phút\n\nĐÁP ÁN CUỐI: 78.5",
+    "answer": "78.5",
+    "flags": [
+      {
+        "line": "1570 ÷ 1200 = 1.3083 giờ",
+        "equation": "1570 / 1200 = 1.3083",
+        "computed": "157/120",
+        "stated": "13083/10000",
+        "correct": false,
+        "absolute_error": 3.3333333333333335e-05
+      },
+      {
+        "line": "1.3083 × 60 = 78.5 phút",
+        "equation": "1.3083 * 60 = 78.5",
+        "computed": "39249/500",
+        "stated": "157/2",
+        "correct": false,
+        "absolute_error": 0.002
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000995",
+    "question": "Một công ty may nhận được đơn đặt hàng sản xuất 500 chiếc áo phông. Mỗi chiếc áo phông thành phẩm cần 1.2 mét vải. Tuy nhiên, trong quá trình cắt vải, có tỷ lệ hao hụt là 5%. Giá vải mà công ty mua là 45.000 đồng mỗi mét. Chi phí nhân công để may một chiếc áo phông là 30.000 đồng. Công ty muốn đạt lợi nhuận 25% trên tổng chi phí sản xuất (bao gồm chi phí vải và chi phí nhân công). Hỏi giá bán mỗi chiếc áo phông thành phẩm mà công ty đưa ra là bao nhiêu đồng?",
+    "solution": "Bước 1: Tính lượng vải thực tế cần có trong thành phẩm.\n\nMỗi áo cần 1,2 mét vải, nên 500 áo cần:\n\n```text\n500 × 1,2 = 600 mét vải\n```\n\nBước 2: Tính lượng vải phải mua do hao hụt 5%.\n\nNếu hao hụt 5%, thì chỉ còn 95% lượng vải mua được dùng cho thành phẩm.\n\nGọi lượng vải cần mua là:\n\n```text\n600 ÷ 95% = 600 ÷ 0,95 = 631,578947... mét\n```\n\nBước 3: Tính chi phí vải.\n\nGiá vải là 45.000 đồng/mét:\n\n```text\n631,578947... × 45.000 = 28.421.052,63 đồng\n```\n\nBước 4: Tính chi phí nhân công.\n\nMỗi áo tốn 30.000 đồng nhân công:\n\n```text\n500 × 30.000 = 15.000.000 đồng\n```\n\nBước 5: Tính tổng chi phí sản xuất.\n\n```text\n28.421.052,63 + 15.000.000 = 43.421.052,63 đồng\n```\n\nBước 6: Tính doanh thu cần đạt để có lợi nhuận 25%.\n\nLợi nhuận 25% trên tổng chi phí nghĩa là doanh thu bằng 125% chi phí:\n\n```text\n43.421.052,63 × 1,25 = 54.276.315,79 đồng\n```\n\nBước 7: Tính giá bán mỗi chiếc áo.\n\n```text\n54.276.315,79 ÷ 500 = 108.552,63 đồng\n```\n\nLàm tròn đến đồng gần nhất:\n\n```text\n108.553 đồng\n```\n\nĐÁP ÁN CUỐI: 108553",
+    "answer": "108553",
+    "flags": [
+      {
+        "line": "600 ÷ 95% = 600 ÷ 0,95 = 631,578947... mét",
+        "equation": "600 / 0.95 = 631.578947",
+        "computed": "12000/19",
+        "stated": "631578947/1000000",
+        "correct": false,
+        "absolute_error": 3.6842105263157896e-07
+      }
+    ]
+  }
+]

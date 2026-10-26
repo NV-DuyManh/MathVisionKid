@@ -1,0 +1,115 @@
+{
+  "authored_utc": "2026-10-18T03:19:58.166903+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:18:36.554Z",
+  "batch_sha256": "030b59f6e3d81d6e2a852cb24721e7552d4eda30dc787fac182f577e72cefc34",
+  "authored_cases": 3,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_average_0053_two_lengths_fractional_mean",
+      "row_sha256": "d86b67a9994caf9276a0cc19e817e87973799007e5c292a7665401938b161ee9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "15+18",
+          "(15+18)/2",
+          "((15+18)/2)*2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_average_0053_five_day_mean_including_zero",
+      "row_sha256": "67da3f90b1743c82d1494103bf45273ea068879dca5b8520c5c75a40a9611a1f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "17+0+28+43+57",
+          "(17+0+28+43+57)/5",
+          "((17+0+28+43+57)/5)*5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_average_0053_misconception_repeated_value_still_observation",
+      "row_sha256": "7255a209fb48dd0f7807b5fa1fd39f704342ac515e77fb1ff85409a8877ffdda",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "18+22+22+38",
+          "(18+22+22+38)/4",
+          "((18+22+22+38)/4)*4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_equalization_oracles": {
+    "two_lengths_half_centimetre_ticks": {
+      "before": [
+        30,
+        36
+      ],
+      "after": [
+        33,
+        33
+      ],
+      "tick_unit_cm": "1/2",
+      "total_ticks": 66,
+      "mean_cm": "33/2"
+    },
+    "five_day_offsets_from29": [
+      -12,
+      -29,
+      -1,
+      14,
+      28
+    ],
+    "four_basket_offsets_from25": [
+      -7,
+      -3,
+      -3,
+      13
+    ],
+    "wrong_deduplicated_mean": 26,
+    "wrong_mean_times_four": 104,
+    "actual_basket_total": 100
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "grade_scope_note": "Grade4 fractions/mixed numbers are used for a continuous length mean; decimal16.5 appears only in technical QA, not grade4 lesson response. Two numbers, five observations including explicit zero, and repeated values contrast with old three-group core01.",
+  "exact_slots_authored": [
+    "core_02",
+    "core_03"
+  ],
+  "existing_core01_not_reauthored": true,
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous316_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false
+}

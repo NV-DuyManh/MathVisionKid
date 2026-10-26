@@ -1,0 +1,128 @@
+{
+  "schema": "finite_reconciliation_manifest.v1",
+  "counts": {
+    "global_candidates": 204,
+    "global_occurrences": 315,
+    "global_masters": 167,
+    "external_g2_candidates_separate": 91,
+    "old_source_snapshot_rows": 5784,
+    "actual_unique_nearest_or_prior_accepted_rows_hash_validated": 344,
+    "old_accepted": 110,
+    "run2_accepted": 94,
+    "run3_accepted": 36,
+    "new_cases_evidence": 130,
+    "new_chat_links": 520,
+    "new_global_masters_with_examples": 51,
+    "original_missing_masters": 94,
+    "remaining_global_master_tasks": 54,
+    "never_appended_missing_masters": 43,
+    "master_status_counts": {
+      "PRIOR_EXACT_COVERAGE_RETAINED": 63,
+      "ASSET_LIMITATION_RETAINED": 10,
+      "UNWORKED_FINITE_MASTER": 43,
+      "PARTIALLY_DEMONSTRATED_WITH_EXPLICIT_RESIDUALS": 11,
+      "FINITE_TEXT_RELATION_DEMONSTRATED": 40
+    },
+    "candidate_status_counts": {
+      "PRIOR_EXACT_COVERAGE_RETAINED": 76,
+      "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND": 55,
+      "PRIOR_ASSET_LIMITATION_RETAINED": 10,
+      "NEW_TEXT_RELATION_DEMONSTRATED": 49,
+      "GRADE_BRANCH_PENDING": 5,
+      "MIXED_GRADE_OCCURRENCE_PARTIAL": 1,
+      "LOCATOR_AND_GRADE_PENDING": 1,
+      "UNWORKED_CONSTRAINT_BRANCH": 5,
+      "UNIT_CONVERSION_BRANCH_PENDING": 1,
+      "DRAW_COUNT_AND_GRADE_PENDING": 1
+    }
+  },
+  "source_snapshots": [
+    {
+      "path": "sgk_page_audit_20261019/current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+      "row_count": 5784
+    },
+    {
+      "path": "sgk_page_audit_20261019/release/accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45",
+      "row_count": 110
+    },
+    {
+      "path": "sgk_finish_20261020/release/accepted_cases.jsonl",
+      "sha256": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025",
+      "row_count": 94
+    },
+    {
+      "path": "sgk_remaining_20261020/release/accepted_cases.jsonl",
+      "sha256": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296",
+      "row_count": 36
+    },
+    {
+      "path": "sgk_finish_20261020/crossgrade_mapping/mapping.json",
+      "sha256": "86697318296dd12149157ea4f2b8c4983aca8ae4febf8963728324441654294e"
+    },
+    {
+      "path": "sgk_finish_20261020/crossgrade_mapping/resume_queue.json",
+      "sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b"
+    },
+    {
+      "path": "sgk_finish_20261020/crossgrade_mapping/external_g2_aliases.json",
+      "sha256": "0c2aa49d179c75060b4b1aca7259e7f1529110d97245d61e4ac5a6858748f6f8"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g2v2_audit/g2_combined_candidate_adjudication.json",
+      "sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g1v1_audit/gaps.json",
+      "sha256": "9f229002a6f395210b59f02038acee215c2ac53f4391bd2069a7fd873c1b86e9"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g1v2_audit/candidate_adjudication.json",
+      "sha256": "74443283e517bb418a00a2d067831544ceea82714e084e73f699f5afdf98d934"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g3_audit/candidate_adjudication.json",
+      "sha256": "b1e7123bfc696a4e7f102ca54b503ce0d0661bc7041854210446beae13fac227"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g3_spatial_append/adjudication.json",
+      "sha256": "5f3ed870103994ad91e74c06ae2cf9f6a2bae4428517ee99c15b3f6617f02626"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g4_audit/page_review.jsonl",
+      "sha256": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g4_audit/remaining_candidate_adjudication.json",
+      "sha256": "a3a2088bf0a093d900291d4596d7844a46d7fc6f10a28104a44f8887f51718e0"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g5_audit/candidate_adjudication.json",
+      "sha256": "d384467de40d8bcc5f9df9f1ad77bcf1cb4fb256ad64e1ae7214c4546490c624"
+    },
+    {
+      "path": "sgk_page_audit_20261019/g5_audit/page_review.jsonl",
+      "sha256": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "candidate_adjudication.json",
+      "sha256": "f5e37c846fb41ab349ab16c57a504bcebb14adc75c4305550f96acca604c088d",
+      "bytes": 2281223
+    },
+    {
+      "file": "fullfield_evidence.jsonl",
+      "sha256": "a243ca285bdc483b6075a9fc3da572c0ccbb5c1755f42d00ad22f9c7bd0df888",
+      "bytes": 3620485
+    },
+    {
+      "file": "next_uncovered_tasks.json",
+      "sha256": "5b94f75936a98d4bf74dd5ddab821bfe24aab5df2b73c0401a32c15528f8279e",
+      "bytes": 256364
+    }
+  ],
+  "helper_sha256": "4276113c63b657d5dc8ac524b42175e88645b717401b4384c3fd794aa7c3b2a3",
+  "writes_confined_to": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\reconciliation"
+}

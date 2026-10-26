@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "UG06h7ylzuxC"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"final_report_staged\": true, \"sha256\": \"445586a3e8ed7fc82563b4408108d59ddf7e6b8263eda34dca9083e3ca4a3f54\", \"bytes\": 81847, \"selected_kind\": \"untrained_base\", \"locked_test_counts\": {\"by_grade\": {\"1\": {\"count\": 4, \"pass\": 3}, \"2\": {\"count\": 4, \"pass\": 1}, \"3\": {\"count\": 4, \"pass\": 2}, \"4\": {\"count\": 4, \"pass\": 2}, \"5\": {\"count\": 4, \"pass\": 1}}, \"by_mode\": {\"answer\": {\"count\": 10, \"pass\": 7}, \"hint_no_answer\": {\"count\": 5, \"pass\": 0}, \"missing_or_contradictory_info\": {\"count\": 3, \"pass\": 2}, \"student_error\": {\"count\": 2, \"pass\": 0}}, \"hint_leaks\": 5, \"total\": {\"count\": 20, \"pass\": 9}}}\n"
+        ]
+      }
+    ]
+  }
+}

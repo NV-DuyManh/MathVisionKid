@@ -1,0 +1,14 @@
+{
+  "accepted_case_delta": 0,
+  "accepted_cases": 1629781,
+  "all_sgk_forms_covered": false,
+  "asset_only_masters_separate": 10,
+  "candidate_chat_rows": 6501780,
+  "chat_row_delta": 0,
+  "finite_text_tasks_discharged": 15,
+  "full_archive_audit_complete": false,
+  "global_master_tasks_remaining": 30,
+  "parent_four_control_receipt_sha256": "cad1cb90b6aca28e0f046365f3e15adb4888d1b96429c0d33659c85333def0ff",
+  "schema": "accepted_sgk_reconciliation_publication.v1",
+  "training_started": false
+}

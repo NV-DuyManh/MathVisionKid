@@ -1,0 +1,60 @@
+{
+  "accepted_here": false,
+  "actual_semantic_fields_read_all_20": [
+    "problem",
+    "givens",
+    "requested_quantity",
+    "student_work",
+    "worked_steps",
+    "all reasons",
+    "all explanations",
+    "expected_answer",
+    "initial_guidance",
+    "all three hints"
+  ],
+  "authorship_origin": "AI_GENERATED",
+  "case_count": 20,
+  "chat_count": 80,
+  "drive_mutated": false,
+  "expected_answers_unchanged_across_all_three_sources": true,
+  "final_chat": {
+    "file": "chat.jsonl",
+    "sha256": "856d638049aa655a9463ab732fddf1e19048cd6ff3eea98b1ef40d8bb6106466"
+  },
+  "final_source": {
+    "file": "cases.jsonl",
+    "sha256": "a57bea461bfc50ceadb40a0b8dfb35dc686add160fb136931c01fc85dfa3257c"
+  },
+  "human_attestation_created": false,
+  "initial_repairs": [
+    "Three numeric result fields separated from narrative without changing expected answers.",
+    "Boat five-trip lower-bound proof now handles both possible first-trip passenger groups."
+  ],
+  "numeric_step_count": 40,
+  "preserved_before_root_polish": {
+    "file": "parent_before_final_polish_f5252a83.jsonl",
+    "sha256": "f5252a83122e29526dc96660eefdbe0c00fea1a37e8e6a6f26c3e739097e4a18"
+  },
+  "preserved_initial": {
+    "file": "draft_before_author_repairs.jsonl",
+    "sha256": "514b4cd2f71b7aa1ec17b3318817921ac386779deda8a574f69c59ceaa8c806e"
+  },
+  "root_polish": [
+    {
+      "changed_fields": [
+        "worked_steps"
+      ],
+      "sample_id": "sgk_g4extra_20261019_chart_causal_guard_02",
+      "source_row_sha256": "23877e6fd2d70f60a18f90e0200492f88e1c5429babff03d25883e651217b213"
+    },
+    {
+      "changed_fields": [
+        "givens"
+      ],
+      "sample_id": "sgk_g4extra_20261019_closed_operation_cycle_02",
+      "source_row_sha256": "6313f582fe20f225bcb7fe934d92d54bc4d2f00ece01e3020438392ee711d7b5"
+    }
+  ],
+  "status": "AUTHOR_REPAIRS_AND_FULL_CONTENT_READ_COMPLETE_PENDING_FINAL_PEER_HASH",
+  "trained": false
+}

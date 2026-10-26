@@ -1,0 +1,24 @@
+{
+  "files": {
+    "src/teacher_math_data_v3.py": "5fe1fc40b0155654e31802a19587dffad68a40767b71f23f2b1e54e4db511336",
+    "src/test_teacher_math_data_v3.py": "c4913e111c43aa02ffaa93bcb8ca1c78801ba77903adc4e95e84822ab7bfba6b",
+    "src/train_teacher_math_v3.py": "a19223c1b63ce331e4f9663a7eb494ecd8f93af12f7bacba199d4ae26e6f665e",
+    "src/test_train_teacher_math_v3.py": "7dca08564cbb84d3afae852c19088c7a7efe0e5a032ea6fc25ae2dd0374d8d9f",
+    "src/audit_teacher_math_v3.py": "1452db18b750c51ee5fb38f9f4f0a812fdc80b09257302af35f920d90323dc32",
+    "src/test_audit_teacher_math_v3.py": "91f829f90ffa733ea0d119cb0b86b5014b578953f21bb4c6a45cb85daaf30e45",
+    "src/teacher_math_verifier_v3.py": "9750c3c81a249af0c0df0bb6bbce95498dfe289a227e605278917f87660b5a90",
+    "src/test_teacher_math_verifier_v3.py": "6a35a4ae3a39ab0a33850f4eeba9dda0d98feaa571173141e7911018364f0c7c",
+    "src/teacher_math_runtime_v3.py": "c3bb0e151f8fd6bb19c621bc02af49d4ebbd42fee3fef7dfda380324cb63ee2a",
+    "src/test_teacher_math_runtime_v3.py": "bb65865ea92c449ce15b32a66c95bc30ef1cbf3e1a96f2b17cc50d92ea515633",
+    "data/train.jsonl": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "data/val.jsonl": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "data/challenge.jsonl": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+    "data/dataset_report.json": "08b9c69cc15590af00e7f8c90d83f3c057d13634676fce6aa1a19b438640e3d0",
+    "evidence/curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "posthoc_data/independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "evidence/semantic_template_review.json": "e340fe06a47af108ac0d8db881300adb2fecc17b4d855c30d217bdd3963c109f",
+    "evidence/trainer_peer_review.json": "49c46f7797a6dda980c01ed6d44bf5bad4ec7cb0c46de5a3a79f2262e27377be",
+    "configs/inspection.json": "edde56413abffbf927250baa4b76fc22e47133468e07e6d7f5cb728fafd5902a"
+  },
+  "zip_sha256": "6956fc0cb68a33f10afb6b61227ad4ec4e2b99b9ec81d40d48c504b807e20b64"
+}

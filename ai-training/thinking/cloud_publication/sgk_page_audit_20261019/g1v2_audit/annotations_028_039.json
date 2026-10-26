@@ -1,0 +1,159 @@
+{
+  "28": {
+    "exercise_types": [
+      "direct_compare_lengths_shared_origin"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "29": {
+    "exercise_types": [
+      "compare_reoriented_objects_length",
+      "longest_shortest"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "30": {
+    "exercise_types": [
+      "taller_shorter_equal_height_shared_baseline"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "31": {
+    "exercise_types": [
+      "argmax_argmin_heights_common_baseline"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "32": {
+    "exercise_types": [
+      "measure_by_repeated_equal_handspans",
+      "compare_lengths"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_handspan_complete_units",
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "33": {
+    "exercise_types": [
+      "estimate_then_physically_measure_handspans"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_handspan_complete_units",
+      "primary_20261016_g1_measurement_0006_estimate_against_measurement",
+      "primary_20261016_g1_measurement_0006_guard_unknown_reference"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "34": {
+    "exercise_types": [
+      "ruler_alignment_correctness",
+      "measure_length_cm"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_read_write",
+      "primary_20261016_g1_measurement_0006_cm_misconception_endmark"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "35": {
+    "exercise_types": [
+      "estimate_and_measure_cm",
+      "count_unit_intervals_grid"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_read_write",
+      "primary_20261016_g1_measurement_0006_estimate_against_measurement"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "36": {
+    "exercise_types": [
+      "choose_plausible_real_world_measurement"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_guard_unknown_reference"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_PLAUSIBLE_REFERENCE_ESTIMATION"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "37": {
+    "exercise_types": [
+      "physical_measure_armspan_and_steps"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_handspan_complete_units",
+      "primary_20261016_g1_measurement_0006_different_step_units_same_path",
+      "primary_20261016_g1_measurement_0006_guard_unknown_reference"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "38": {
+    "exercise_types": [
+      "read_length_from_unit_grid_and_ruler",
+      "count_objects_below_threshold"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_read_write",
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "39": {
+    "exercise_types": [
+      "physical_measure_objects",
+      "compare_length_to_threshold"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_measurement_0006_cm_read_write",
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  }
+}

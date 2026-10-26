@@ -1,0 +1,33 @@
+{
+  "model_id": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "seed": 20261013,
+  "epochs": 1,
+  "batch_size": 2,
+  "accumulation": 2,
+  "lr": 0.0001,
+  "max_length": 768,
+  "max_new_tokens": 512,
+  "eval_batch_size": 4,
+  "val_limit": 0,
+  "thinking_probe_limit": 0,
+  "thinking_max_new_tokens": 2048,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "checkpoint_interval": 50,
+  "train_limit": 0,
+  "data_module": "teacher_math_data_v3",
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "dataset_fingerprints": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "source_hashes": {
+    "train_teacher_math_v3.py": "a19223c1b63ce331e4f9663a7eb494ecd8f93af12f7bacba199d4ae26e6f665e",
+    "teacher_math_data_v3.py": "5fe1fc40b0155654e31802a19587dffad68a40767b71f23f2b1e54e4db511336"
+  },
+  "enable_thinking_training": false,
+  "target_kind": "observable worked steps or one hint; hidden reasoning is not supervised"
+}

@@ -1,0 +1,200 @@
+{
+  "batch_sha256": "0c0da192d9eaaf4681e2567cb2839510f5d6f032ee0fbe444c8e2ed473d2f795",
+  "authored": 10,
+  "core_cases": 6,
+  "misconception_cases": 2,
+  "guard_cases": 2,
+  "content_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW",
+  "mechanical_checks": [
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_read_write",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "7-0",
+        ""
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "",
+        ""
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_offset_origin",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "18-3",
+        "3+(18-3)"
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_misconception_endmark",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "9-2",
+        "2+(9-2)"
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_guard_missing_start",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_handspan_complete_units",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "4",
+        ""
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_estimate_against_measurement",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "25-0",
+        "(25-0)-22"
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_different_step_units_same_path",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "",
+        ""
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_unit_misconception",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [
+        "",
+        "5",
+        ""
+      ],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_guard_unknown_reference",
+      "mechanical_pass": true,
+      "mapping_pass": true,
+      "checked_expressions": [],
+      "protected_collision": false,
+      "semantic_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    }
+  ],
+  "independent_deterministic_oracles": {
+    "cm_read_write": {
+      "method": "count_unit_intervals",
+      "interval_count": 7
+    },
+    "cm_compare": {
+      "method": "integer_order_and_tens_tuple",
+      "larger_cm": 42,
+      "smaller_cm": 36
+    },
+    "cm_offset": {
+      "method": "enumerate_unit_intervals_and_inverse",
+      "interval_count": 15,
+      "inverse_end": 18
+    },
+    "cm_misconception": {
+      "method": "enumerate_unit_intervals_and_inverse",
+      "interval_count": 7,
+      "inverse_end": 9
+    },
+    "handspan_count": {
+      "method": "explicit_list_cardinality",
+      "count": 4
+    },
+    "estimate_measure": {
+      "method": "Fraction_difference_and_interval_enumeration",
+      "measured_cm": 25,
+      "difference_cm": 3
+    },
+    "different_steps": {
+      "method": "equal_segment_counterexample_only",
+      "segment_witness": "24 arbitrary length units",
+      "child_step_units": "24/6=4",
+      "adult_step_units": "24/4=6",
+      "not_claimed_actual_lengths": true
+    },
+    "unit_misconception": {
+      "method": "dimension_label_check",
+      "count": 5,
+      "cm_per_handspan_not_provided": true
+    },
+    "missing_start_guard": {
+      "method": "two_possible_completions",
+      "end_cm": 12,
+      "possible_start_cm": [
+        0,
+        4
+      ],
+      "possible_length_cm": [
+        12,
+        8
+      ]
+    },
+    "unknown_reference_guard": {
+      "method": "underdetermination",
+      "possible_handspans": [
+        4,
+        6
+      ],
+      "actual_dimensions_not_assigned": true
+    }
+  },
+  "protected_fingerprints": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+    "v4_fresh_val": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+    "known_concept_development_val30": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+    "independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928"
+  },
+  "sealed_concept_challenge_read": false,
+  "actual_image_asset_supplied": false,
+  "physical_outcome_verified": false,
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "skills_matched": "none"
+}

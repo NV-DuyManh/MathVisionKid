@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-22T15:11:23.462510+00:00",
+  "versions_and_distinct_ids": [
+    1629906,
+    1629906
+  ],
+  "labels": [
+    [
+      "regression_only",
+      1,
+      1
+    ],
+    [
+      "test",
+      6,
+      6
+    ],
+    [
+      "train",
+      1381,
+      1381
+    ],
+    [
+      "train_candidate",
+      1628512,
+      1628512
+    ],
+    [
+      "validation",
+      6,
+      6
+    ]
+  ],
+  "multiple_versions_id_count": 0,
+  "version_multiplicities": [
+    [
+      1,
+      1629906
+    ]
+  ],
+  "scope": "Metadata-only index reconciliation; no held-out question content read. Current chats incomplete.",
+  "train_or_weights_started": false
+}

@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"schema\": \"MathVisionKid.source_index_ledger_check.v1\", \"observed_utc\": \"2026-10-23T02:36:32.781340+00:00\", \"source_members_complete\": 219, \"declared_source_physical_rows\": 1629906, \"indexed_source_versions\": 1629906, \"source_ids_with_multiple_versions\": 0, \"physical_minus_indexed_source_versions\": 0, \"historical_accepted_counter\": 1629922, \"historical_counter_difference\": 16, \"historical_difference_cause_proven\": false, \"historical_counter_not_rewritten\": true, \"read_only\": true, \"question_answer_content_read\": false, \"training_started\": false, \"issues_at_observation\": {\"SOURCE_SPLIT_MISSING_OR_UNKNOWN\": 1}}\n"
+      ]
+    }
+  ]
+}

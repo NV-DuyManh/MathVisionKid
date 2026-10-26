@@ -1,0 +1,10 @@
+{
+  "status": "NO_PENDING_CASES_OWNER_PREAUTHORIZED_SELF_QA_ROUTE",
+  "cases": [],
+  "assigned_task_id": null,
+  "assigned_pending_cases": 0,
+  "external_review_optional_not_an_acceptance_blocker": true,
+  "owner_policy": "owner_acceptance_policy.json",
+  "human_verified": false,
+  "teacher_certified": false
+}

@@ -1,0 +1,80 @@
+---
+license: mit
+task_categories:
+- text-generation
+language:
+- vi
+- en
+pretty_name: Vietnamese Elementary Math Knowledge and Workbook
+size_categories:
+- 10K<n<100K
+tags:
+- vietnamese
+- math
+- reasoning
+- knowledge
+---
+
+# Dataset Card for Vietnamese Elementary Math Knowledge and Workbook
+
+## Dataset Description
+- Repository: 
+- Paper: 
+- Point of Contact: vanhop3499@gmail.com
+
+
+### Dataset Summary
+The data includes information about elementary school math knowledge in Vietnam, as well as exercises compiled from books. This is a crawlable dataset that can be trained for text generation tasks.
+
+### Supported Tasks and Leaderboards
+
+### Languages
+
+The majority of the data is in Vietnamese, but there is still some English from some bilingual workbooks.
+
+## Dataset Structure
+
+### Data Instances
+
+The data includes information about the page paths we crawled and some text that has been post-processed. The structure will be presented as follows:
+
+```python
+{
+  "id": "d117388e2d5266a25404674ef61923c3",
+  "url": "https://tech12h.com/bai-hoc/giai-bai-tap-khai-niem-ve-phan-so.html",
+  "title": "Giải bài Ôn tập: khái niệm về phần số",
+  "contents": ["Nội dung bài viết gồm 2 phần:\nÔn tập lý thuyết\nHướng dẫn giải bài tập sgk\nA. Lý thuyết\n$\\frac{4}{5}$: Gọi là phân số - đọc là bốn phần 5\n$\\frac{1}{2}$: gọi là phân số - đọc là một phần 2\nChú ý: \nCó thể dùng phân số để ghi kết quả của phép chia giữa một số tự nhiên cho 1 số tự nhiên khác 0. Phân số đó cũng được gọi là thương của phép chia\nVí dụ:\n1:4 = $\\frac{1}{4}$ \n5: 10 =$\\frac{5}{10}$\nMọi số tự nhiên đều có thể viết thành phân số có mẫu bằng 1\nVí dụ\n5 =$\\frac{5}{1}$\n12 =$\\frac{12}{1}$\nSố 1 có thể viết thành phân số có tử số và mẫu số bằng nhau. Trừ phân số có mẫu = 0\nVí dụ:\n1 =$\\frac{10}{10}$\n1 =$\\frac{34}{34}$\nKhông được viết 1 =$\\frac{0}{0}$\nSố 0 có thể viết thành 1 phân số có tử số = 0. Trừ phân số có mẫu số = 0\nVí dụ\n0 =$\\frac{0}{2}$\n0 =$\\frac{0}{100}$ \nKhông được viết: 0 =$\\frac{0}{0}$", "Câu 1: Trang 4 - sgk toán lớp 5\na). Đọc các phân số sau\n\\(\\frac {5}{7}\\); \\(\\frac {25}{100}\\); \\(\\frac {91}{38}\\); \\(\\frac {60}{17}\\); \\(\\frac {85}{1000}\\);\nb). Nêu tử số và mẫu số của phân số trên\nCâu 2: Trang 4 - sgk toán lớp 5\nViết các thương dưới dạng phân số: 3 : 5; 75 : 100; 9 : 17\nCâu 3: Sgk toán lớp 5 - Trang 4\nViết các số tự nhiên dưới dạng phân số có mẫu số là 1:\n32; 105; 1000.\nCâu 4: Sgk toán lớp 5 - Trang 4\nViết số thích hợp vào chỗ trống\n"]}
+```
+
+### Data Fields
+
+Data fields include:
+
+- id: id of an text crawl instance.
+- url: URL path to crawled page.
+- title: title of crawled page.
+- contents: a list of text corpus.
+
+## Dataset Creation
+
+### Curation Rationale
+
+The data set is built based on developing a model capable of reasoning and solving elementary school math problems, as well as providing mathematical knowledge in the Vietnamese elementary school environment.
+
+### Source Data
+
+Data was crawled on tech12h.com, we selected data from grades 1 to 5, selected items including lessons and exercises for students, along with solutions.
+
+## Considerations for Using the Data
+
+### Social Impact of Dataset
+
+We believe that efforts in finding data sources will be an opportunity for future artificial intelligence models to develop and have better reasoning capabilities.
+
+### Discussion of Biases
+
+### Other Known Limitations
+
+The current data has not been cleaned too well, and there are many incomplete data samples including images and some post-processed tags.
+
+## Additional Information

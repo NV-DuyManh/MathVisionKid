@@ -1,0 +1,219 @@
+{
+  "batch_sha256": "6f1fd342025b6f5cdf7bfd4afaefa0bc94b5096d0738e00456bb083d28222e2a",
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_pictogram_0024_read_rows_and_labels",
+      "row_sha256": "be59c5b2a2b8c6062955119b91014bb8990b2530e1bcc5b49a534d0962ac6d08",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "4",
+          "2",
+          "3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_pictogram_0024_icon_size_not_quantity",
+      "row_sha256": "b6d2f5bde0c269e21294b842e6e364580d5c142bbf8e6477099c6cd33d6a11eb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "3",
+          "5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_pictogram_0024_tied_maximum_and_confirmed_zero",
+      "row_sha256": "8690eae3e7aed36951f8e3ac9201492c3cb37812308526872d886a86b1e65aa7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "6",
+          "0",
+          "2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_pictogram_0024_misconception_spacing_not_count",
+      "row_sha256": "18cc169e29c9a43a5fb4b4a2614423759bb9b61ed0993041a436cbe2767bc39b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "4",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_pictogram_0024_guard_cropped_row",
+      "row_sha256": "2cba2eb297302e3adf0e259cd1bd01ef299f6b6a97764f5458c97f4f80131ca2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "oracles": {
+    "garden_icon_ids": {
+      "Đông": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "Tây": [
+        "W1",
+        "W2"
+      ],
+      "Nam": [
+        "S1",
+        "S2",
+        "S3"
+      ]
+    },
+    "book_icon_size_pairs": {
+      "A": [
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          9
+        ]
+      ],
+      "B": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ]
+    },
+    "bird_icon_ids": {
+      "P": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "Q": [],
+      "R": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "S": [
+        0,
+        1
+      ]
+    },
+    "tied_maximum": [
+      "P",
+      "R"
+    ],
+    "cropped_row_countermodels": [
+      {
+        "visible_ids": [
+          "T1",
+          "T2"
+        ],
+        "hidden_ids": [],
+        "total": 2
+      },
+      {
+        "visible_ids": [
+          "T1",
+          "T2"
+        ],
+        "hidden_ids": [
+          "T3",
+          "T4"
+        ],
+        "total": 4
+      }
+    ]
+  },
+  "count_literals_not_semantic_proof": true,
+  "author_self_content_check": "Read labels, one-object legend, zero versus missing, different icon size/spacing, multiple maxima, grounded quote, all worked explanations and fifteen hints. No final counts or selected categories in hints. This is same-author checking only.",
+  "independent_semantic_review_completed": false,
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Explicit text descriptions only. One-icon-one-object legend; no real chart image decoded. Count binders use literals; sets corroborate cardinalities without certifying pedagogy. Neutral schema is not live PlanDraft."
+}

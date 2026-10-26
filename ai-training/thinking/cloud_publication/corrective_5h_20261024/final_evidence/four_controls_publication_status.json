@@ -1,0 +1,54 @@
+{
+  "state": "COMPLETE_RAW_VERIFIED",
+  "work": "/content/mathvisionkid_corrective_5h_20261024/four_controls_publication/20261024T012241761117Z",
+  "receipt": {
+    "branch": "corrective_5h_20261024",
+    "branch_observation_sha256": "fb451bf1fe690c758d425f913b600eee2a5ecd80504e8d36f686b1f7f8811c83",
+    "legacy_top_level_flags_preserved": true,
+    "metadata_control_transaction_only": true,
+    "order": [
+      "progress",
+      "chat",
+      "context",
+      "state"
+    ],
+    "prepared_hashes": {
+      "chat": "7493bf18c686067c5efad7bff35f4480166b73088983367424dc55f9792c3313",
+      "context": "ded391576bca59e44701463c1f36c10040d6b685643e102ef60e75ee943494bf",
+      "progress": "6d3b97bbf6381c74e77d5c335bddb65237df20c2d783c46b845220d9ee5a4913",
+      "state": "4f1d65a4e02e0db760ba686088808b8acea4c1e5bb7abf8d98f5898d88207d39"
+    },
+    "transaction": "four_existing_controls",
+    "verified_writes": [
+      {
+        "bytes": 18518560,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "kind": "progress",
+        "sha256": "6d3b97bbf6381c74e77d5c335bddb65237df20c2d783c46b845220d9ee5a4913"
+      },
+      {
+        "bytes": 368843,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "kind": "chat",
+        "sha256": "7493bf18c686067c5efad7bff35f4480166b73088983367424dc55f9792c3313"
+      },
+      {
+        "bytes": 835711,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "kind": "context",
+        "sha256": "ded391576bca59e44701463c1f36c10040d6b685643e102ef60e75ee943494bf"
+      },
+      {
+        "bytes": 671800,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "kind": "state",
+        "sha256": "4f1d65a4e02e0db760ba686088808b8acea4c1e5bb7abf8d98f5898d88207d39"
+      }
+    ]
+  },
+  "canonical_context_sha256": "ded391576bca59e44701463c1f36c10040d6b685643e102ef60e75ee943494bf"
+}

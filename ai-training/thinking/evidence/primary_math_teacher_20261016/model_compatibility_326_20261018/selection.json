@@ -1,0 +1,9 @@
+{
+  "selected": "base",
+  "candidate_improved": false,
+  "metric_non_regression": true,
+  "per_grade_non_regression": false,
+  "test_or_challenge_used_for_selection": false,
+  "production_approved": false,
+  "criterion": "strictly more raw final-answer+unit+reference-checked solutions, with no answer/hint-safety/hint-reference/guard/per-grade regression on the identical frozen validation subset"
+}

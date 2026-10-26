@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "uqU-luZN7oER"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"publisher_started\": true, \"folder_name\": \"MathVisionKid_SKILL_RECOVERY_150M_20261024\", \"training_started_by_publisher\": false}\n",
+          "{\"benchmark_started\": true, \"pid\": 47969, \"training_started\": false, \"code_pins\": {\"publisher_runtime.py\": \"bce36d4bdaed87658e8b29958bdc93c84a821d2db5ecf5361b805b5adad0c881\", \"decoding_benchmark.py\": \"ae2d84b95a87d57d8929f5bf68006a9ad06cae2eae9c11c792204fec3eaf31a0\", \"balanced_plan.py\": \"fed329f1fe25a7a2a7ba8b789eaac2a9e80d660b5e428aed50794fe404e8b03a\", \"test_balanced_plan.py\": \"82fd93e3bb3d9c0a935ca42186d02426f6aa4c8a99bad19696eb7708ef3b0764\", \"audit_behavior_contract.json\": \"c679c85276b40f2a85f57df9c68eff4645eac61aba77165c9a81795878b76808\"}}\n"
+        ]
+      }
+    ]
+  }
+}

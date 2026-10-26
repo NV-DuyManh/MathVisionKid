@@ -1,0 +1,18 @@
+{
+  "evidence_local/run_metadata.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\run_metadata.json",
+  "evidence_local/cpu_validation.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\cpu_validation.json",
+  "evidence_local/source_semantic_review_g1_g3.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\source_semantic_review_g1_g3.json",
+  "evidence_local/source_semantic_review_g4_g5.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\source_semantic_review_g4_g5.json",
+  "evidence_local/actual_training_start_observation.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\actual_training_start_observation.json",
+  "evidence_local/repair_publication_receipt.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\repair_publication_receipt.json",
+  "evidence_local/parent_membership_receipt.json": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\parent_membership_receipt.json",
+  "evidence_local/publisher_runtime.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\publisher_runtime.py",
+  "evidence_local/recovery_worker.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\recovery_worker.py",
+  "evidence_local/recovery_policy.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\recovery_policy.py",
+  "evidence_local/final_evaluation_worker.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\final_evaluation_worker.py",
+  "evidence_local/test_final_evaluation_worker.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\test_final_evaluation_worker.py",
+  "evidence_local/test_four_controls_runtime.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\test_four_controls_runtime.py",
+  "evidence_local/test_recovery_publisher.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\test_recovery_publisher.py",
+  "evidence_local/test_recovery_worker.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\test_recovery_worker.py",
+  "evidence_local/test_recovery_policy.py": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\test_recovery_policy.py"
+}

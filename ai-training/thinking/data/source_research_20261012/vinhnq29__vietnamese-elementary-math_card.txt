@@ -1,0 +1,44 @@
+---
+dataset_info:
+  features:
+  - name: question
+    dtype: string
+  - name: answer
+    dtype: string
+  - name: right_choice
+    dtype: string
+  - name: choices
+    sequence: string
+  - name: instruction
+    dtype: string
+  splits:
+  - name: vimathqa_train_v1
+    num_bytes: 3397117
+    num_examples: 7107
+  - name: vimathqa_test_v1
+    num_bytes: 520071
+    num_examples: 1104
+  - name: vigsm8k_train
+    num_bytes: 5339575
+    num_examples: 7473
+  - name: vigsm8k_test
+    num_bytes: 985774
+    num_examples: 1319
+  download_size: 4464432
+  dataset_size: 10242537
+configs:
+- config_name: default
+  data_files:
+  - split: vimathqa_train_v1
+    path: data/vimathqa_train_v1-*
+  - split: vimathqa_test_v1
+    path: data/vimathqa_test_v1-*
+  - split: vigsm8k_train
+    path: data/vigsm8k_train-*
+  - split: vigsm8k_test
+    path: data/vigsm8k_test-*
+language:
+- vi
+size_categories:
+- 10K<n<100K
+---

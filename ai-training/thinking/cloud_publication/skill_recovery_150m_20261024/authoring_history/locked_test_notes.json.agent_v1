@@ -1,0 +1,21 @@
+{
+  "schema": "MathVisionKid.fresh_fixture_authoring_notes.v1",
+  "fixture_count": 20,
+  "distribution": {
+    "grades_1_to_5": "four each",
+    "per_grade": "two answer, one hint_no_answer, one guard or student_error",
+    "guard_or_student_error_by_grade": {
+      "1": "missing_or_contradictory_info",
+      "2": "student_error",
+      "3": "missing_or_contradictory_info",
+      "4": "student_error",
+      "5": "missing_or_contradictory_info"
+    }
+  },
+  "authoring_method": "Freshly authored contexts and representations; not copied from training rows or previous final fixtures.",
+  "data_boundary": "not_training_data=true on every fixture. These are evaluation candidates, not source corpus or training examples.",
+  "exact_overlap_screening": "Not performed here. Root may screen against the actual training source later; no earlier final or locked fixture data was accessed.",
+  "hint_policy": "Each hint asks for a method or first step and omits the requested numerical result from both userproblem and exact_reference_answer.",
+  "student_work_policy": "Feedback prompts include only the student work stated in the corresponding userproblem; no hidden work is presumed.",
+  "review_status": "Authored and CPU arithmetic-checked; not human-certified and not evidence of model performance."
+}

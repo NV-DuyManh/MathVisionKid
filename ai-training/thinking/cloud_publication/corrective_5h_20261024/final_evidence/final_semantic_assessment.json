@@ -1,0 +1,2738 @@
+{
+  "schema": "MathVisionKid.corrective_final_assessment.v1",
+  "assessed_utc": "2026-10-24T05:29:40.756995+00:00",
+  "training_complete": true,
+  "publication_complete_raw_verified": true,
+  "decision": "REGRESSION_DO_NOT_PROMOTE",
+  "production_approval": false,
+  "human_certification_added": false,
+  "review_type": "LLM semantic review of complete actual paired outputs, independently sharded then root reviewed",
+  "criterion": "Whole response must solve the requested task correctly and consistently; correct numeric answer does not excuse false reasoning, invented data, omitted conflict handling or unhelpful hints. JSON formatting itself is not penalized.",
+  "scope_limitations": [
+    "28 reused development fixtures, not independent heldout generalization evidence or statistical accuracy estimate.",
+    "Some fixed grade labels (G3 fraction/decimal) may exceed Vietnamese grade3 core; this is not curriculum coverage certification.",
+    "No claim all 6502344 corpus chat were trained; current view 16000 unique chat /4000 cases.",
+    "Training loss decline does not establish reasoning improvement; current comparison regresses.",
+    "No inference that more epochs or longer training would fix observed defects."
+  ],
+  "input_sha256": {
+    "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+    "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+    "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+  },
+  "metrics": {
+    "budget_scope": "OWNER_REVISED_REMAINING_COLAB_WINDOW_V2",
+    "completed_view_epochs": 5.707,
+    "current_segment_training_wall_seconds": 14124.748851853,
+    "deadline_boundary_overrun_seconds": 0.09220051765441895,
+    "exposures_by_family": {
+      "antigravity_g2_derived_repair_20261022": 1065,
+      "balanced_plus_supplement_history": 1385,
+      "g2_finite_forms_20261021": 141,
+      "numeric_extension": 9435,
+      "original_chat": 68632,
+      "sgk_completion_20261021": 819,
+      "sgk_final_forms_20261020": 413,
+      "sgk_final_gaps_20261021": 1614,
+      "sgk_finish_20261020": 2155,
+      "sgk_gap_20261019": 2307,
+      "sgk_page_audit_20261019": 2521,
+      "sgk_remaining_20261020": 825
+    },
+    "exposures_by_grade": {
+      "1": 4808,
+      "2": 14354,
+      "3": 20061,
+      "4": 28309,
+      "5": 23780
+    },
+    "exposures_by_mode": {
+      "hint_level_1": 22776,
+      "hint_level_2": 22850,
+      "hint_level_3": 22853,
+      "worked_solution": 22833
+    },
+    "full_requested_training_window_reached": false,
+    "gradients_finite_after_optimizer_step": true,
+    "hard_deadline_unix": 1792819703.0,
+    "last_gradient_norm": 0.3595131039619446,
+    "last_group_loss": 0.04705615657985618,
+    "last_group_retries": 0,
+    "last_lr": 5.000006511751554e-06,
+    "loss_sum": 1620.6290599502368,
+    "mean_loss": 0.28397214998251913,
+    "nonfinite_failed_attempts": 0,
+    "nonfinite_retries": 0,
+    "nonpadding_tokens": 21960252,
+    "oom_failed_attempts": 0,
+    "oom_retries": 0,
+    "peak_vram_bytes": 6901949440,
+    "prior_training_consumed_seconds": 994.172680252,
+    "requested_training_wall_seconds": null,
+    "resume_old_734": false,
+    "revised_training_cutoff_reached": true,
+    "rows_done": 91312,
+    "rows_per_second": 6.039584226037495,
+    "scaler_scale": 4096.0,
+    "step": 5707,
+    "stop_reason": "OWNER_REVISED_ABSOLUTE_TRAIN_CUTOFF_AT_GROUP_BOUNDARY",
+    "supervised_tokens": 10014328,
+    "supervised_tokens_per_second": 662.3705254858684,
+    "total_failed_group_attempts": 0,
+    "total_group_attempts": 5708,
+    "total_retries": 0,
+    "train_stop_unix": 1792818803.0,
+    "training_stopped_unix": 1792818803.0922017,
+    "training_wall_seconds": 15118.921532105001,
+    "unique_examples": 16000,
+    "unique_source_cases": 4000,
+    "view_rows": 16000
+  },
+  "summary": {
+    "base": {
+      "strict_task_pass": 14,
+      "denominator": 28,
+      "by_mode": {
+        "answer": {
+          "pass": 12,
+          "denominator": 13
+        },
+        "hint_no_answer": {
+          "pass": 0,
+          "denominator": 5
+        },
+        "missing_or_contradictory_info": {
+          "pass": 2,
+          "denominator": 6
+        },
+        "student_error": {
+          "pass": 0,
+          "denominator": 4
+        }
+      }
+    },
+    "adapter": {
+      "strict_task_pass": 7,
+      "denominator": 28,
+      "by_mode": {
+        "answer": {
+          "pass": 6,
+          "denominator": 13
+        },
+        "hint_no_answer": {
+          "pass": 0,
+          "denominator": 5
+        },
+        "missing_or_contradictory_info": {
+          "pass": 1,
+          "denominator": 6
+        },
+        "student_error": {
+          "pass": 0,
+          "denominator": 4
+        }
+      }
+    }
+  },
+  "termination": {
+    "base_eos": 28,
+    "adapter_eos": 28,
+    "possibly_truncated": 0,
+    "timed_out": 0,
+    "adapter_json_objects": 28
+  },
+  "paired_outcomes": {
+    "pass->pass": 7,
+    "fail->fail": 14,
+    "pass->fail": 7
+  },
+  "artifact": {
+    "bytes": 66751854,
+    "folder_id": "1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho",
+    "fresh_raw_readback_verified": true,
+    "id": "1QUMOgDeQa-JIdHvZ2HpmzHB5vwIHHBCH",
+    "immutable": true,
+    "name": "adapter_export_d3c29d51edfd7f072be328841a204c0ba7b40ff9970bd19023759cd44397918b.zip",
+    "raw_verified_utc": "2026-10-24T05:20:17.049996+00:00",
+    "sha256": "d3c29d51edfd7f072be328841a204c0ba7b40ff9970bd19023759cd44397918b"
+  },
+  "final_checkpoint": {
+    "bytes": 118206137,
+    "folder_id": "1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho",
+    "fresh_raw_readback_verified": true,
+    "generation": "generation_step_005707_rows_00091312",
+    "id": "17Ds7QpOYSpvQqkpeyQE2RFGTDBArRrPG",
+    "immutable": true,
+    "manifest_sha256": "997ddc608ccd90548ac082d71eeaf64d4223899d28d7b2ea3e4bbc2a74059740",
+    "name": "checkpoint_step_005707_rows_00091312_997ddc608ccd9054.zip",
+    "raw_verified_utc": "2026-10-24T05:13:58.282595+00:00",
+    "rows_done": 91312,
+    "sha256": "b19aeee147013ef593f67a3111b756bc9246e5b8608dbcca27486f25e870999c",
+    "step": 5707
+  },
+  "publication_proof": {
+    "id": "1_KvyhfPE1-2V2KQkseOYYpYdqXVKUpML",
+    "sha256": "300d6d959002a0614a90a88a78d7d1c51be8b7cbdad748427a64045728598948"
+  },
+  "review_shards": [
+    {
+      "schema": "MathVisionKid.corrective5h.final_semantic_review.grade1_grade2.v1",
+      "review_type": "LLM semantic review of full actual base and final adapter outputs; no human certification or independent external validation",
+      "evaluation_scope": "The same 28 development fixtures have been reused. This 11-fixture grade1/2 subset is not an independent held-out quality estimate. Results compare this run base with this run final adapter under the bound matched prompt contract.",
+      "strict_pass_rule": "The complete response must satisfy the math, contextual unit, explanation and requested mode. Incorrect explanation, absent required conflict/missing-data handling, ungrounded feedback, leaked hint answer or an irrelevant non-actionable hint fails. JSON schema/style itself is not a failure. Completion/EOS alone is not mathematical quality.",
+      "input_sha256": {
+        "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+        "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+        "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+      },
+      "input_fixture_counts": {
+        "fixtures": 28,
+        "base": 28,
+        "adapter": 28
+      },
+      "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+      "summary": {
+        "fixture_count": 11,
+        "base_pass": 5,
+        "adapter_pass": 4,
+        "base_only_pass": [
+          "g1_conflicting_count"
+        ],
+        "adapter_only_pass": [],
+        "by_grade": {
+          "1": {
+            "count": 6,
+            "base_pass": 4,
+            "adapter_pass": 3
+          },
+          "2": {
+            "count": 5,
+            "base_pass": 1,
+            "adapter_pass": 1
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 4,
+            "base_pass": 3,
+            "adapter_pass": 3
+          },
+          "hint_no_answer": {
+            "count": 2,
+            "base_pass": 0,
+            "adapter_pass": 0
+          },
+          "missing_or_contradictory_info": {
+            "count": 3,
+            "base_pass": 2,
+            "adapter_pass": 1
+          },
+          "student_error": {
+            "count": 2,
+            "base_pass": 0,
+            "adapter_pass": 0
+          }
+        },
+        "hint_no_answer_leak_component": {
+          "applicable": 2,
+          "base_safe": 0,
+          "adapter_safe": 2,
+          "note": "This component does not certify relevance or helpfulness; both adapter hints fail the full requested task."
+        },
+        "all_reviewed_outputs_ended_eos": true,
+        "reviewed_base_truncations": 0,
+        "reviewed_adapter_truncations": 0
+      },
+      "fixtures": [
+        {
+          "fixture_id": "g1_add_objects",
+          "grade": 1,
+          "mode": "answer",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": true,
+          "adapter_pass": true,
+          "base_reason": "Correctly adds the initial six shells and five added shells, explains the total, and states eleven shells.",
+          "adapter_reason": "Correct 6+5=11, appropriate combine-parts explanation, and explicit shell unit. JSON format does not affect the semantic pass.",
+          "base_evidence": [
+            "6 + 5 = 11",
+            "vỏ sò"
+          ],
+          "adapter_evidence": [
+            "Cộng phần đã có với phần thêm.",
+            "6+5=11; không thêm một phần khác.",
+            "\"unit\": \"vỏ sò\""
+          ],
+          "base_output_sha256": "8d170b666fe9386e57579e8c0a77c4ca97b24dcabba081507c9484bad8520112",
+          "adapter_output_sha256": "95e3fd67cf5bceb430e886d1262cf40546e237e7a286effaa2e2599b95f79c2b",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 91
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 126
+          }
+        },
+        {
+          "fixture_id": "g1_subtract_objects",
+          "grade": 1,
+          "mode": "answer",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": true,
+          "adapter_pass": true,
+          "base_reason": "Correctly subtracts six from fourteen and states eight remaining paper boats with an appropriate counting unit in context.",
+          "adapter_reason": "Correct expression 14-6, result eight, and valid inverse check 8+6=14. Quantity identifies boats and the classifier chiếc is appropriate. The final phrase in the explanation is awkward and unhelpful, but does not change the correct operation, check or answer.",
+          "base_evidence": [
+            "14 - 6 = 8",
+            "số chiếc thuyền giấy còn lại là **8 chiếc**"
+          ],
+          "adapter_evidence": [
+            "\"expression\": \"14 - 6\"",
+            "8 + 6 = 14; không lấy thuyền giấy làm phần còn.",
+            "\"quantity\": \"Chiếc thuyền\", \"result\": \"8\", \"unit\": \"chiếc\""
+          ],
+          "base_output_sha256": "83301ec28a61c15d967c70103b6017699e5e34750a6e1de41c8dd3ce97da396f",
+          "adapter_output_sha256": "4e5a6cafdcfbeac59fc179a891224100b872dfb2b35f2e9a8f264c31744a0cc4",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 74
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 137
+          }
+        },
+        {
+          "fixture_id": "g1_add_hint",
+          "grade": 1,
+          "mode": "hint_no_answer",
+          "model_mode": "hint_level_1",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "Solves the entire addition and explicitly discloses eleven despite the no-answer request.",
+          "adapter_reason": "Withholds eleven, but only asks to identify initial/changed quantities. It gives no counting-on-four-from-seven instruction or other actionable addition method, so safety alone does not satisfy the requested hint.",
+          "base_evidence": [
+            "7 + 4 = 11.",
+            "số quả lê trong giỏ sau khi thêm là 11."
+          ],
+          "adapter_evidence": [
+            "Cần ghi rõ các lượng ban đầu và các lượng được chuyển hoặc thêm.",
+            "Em xác định lượng nào cần giữ và lượng nào cần cập nhật thế nào?"
+          ],
+          "base_hint_no_answer_leak": false,
+          "adapter_hint_no_answer_leak": true,
+          "base_output_sha256": "ced6417d3c0b6507555dd674272f27d2aaa2de3d2a41810d12d4c20df99d469c",
+          "adapter_output_sha256": "981226bd755d069bd1417ceca582d11d2ba4c30b4e5f58bcf19c2518ac9ad9b3",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 87
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 43
+          }
+        },
+        {
+          "fixture_id": "g1_student_subtraction_error",
+          "grade": 1,
+          "mode": "student_error",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "Incorrectly certifies the student answer eight and falsely states 12-5=8.",
+          "adapter_reason": "The calculation improves to seven with a correct inverse check, but the requested error-feedback task is incomplete: it never explicitly tells the student that eight is incorrect and supplies no toy-block unit for seven. It does not fully deliver the requested correction as seven toy blocks.",
+          "base_evidence": [
+            "Lời giải của em đúng.",
+            "12 - 5 = 8"
+          ],
+          "adapter_evidence": [
+            "\"result\": \"7\"",
+            "7 + 5 = 12, đúng lượng ban đầu.",
+            "\"quantity\": \"Kết quả phép tính\", \"result\": \"7\", \"unit\": \"\""
+          ],
+          "adapter_partial_improvement": "Correct arithmetic and inverse verification replace the base false certification; full semantic task pass still withheld for incomplete verdict/unit.",
+          "base_output_sha256": "6f22369dfdecaf23cd71fb80ab9e48b4de6f9a8391a022d683b565dae9c579d2",
+          "adapter_output_sha256": "2bbb486f1f7fc1bbf06a37f6d0eb98e77a3b5d6a6b3e88c6ce7b5f1c2d218b1a",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 45
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 131
+          }
+        },
+        {
+          "fixture_id": "g1_conflicting_count",
+          "grade": 1,
+          "mode": "missing_or_contradictory_info",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": true,
+          "adapter_pass": false,
+          "base_reason": "Correctly computes six remaining ducks and explicitly contrasts that with the note claiming seven.",
+          "adapter_reason": "Computes the correct six ducks, but entirely omits the note claiming seven and the required contradiction check. Correct subtraction alone is insufficient for this fixture.",
+          "base_evidence": [
+            "9 - 3 = 6",
+            "Tờ ghi chú nói còn 7 con, nhưng thực tế có 6 con."
+          ],
+          "adapter_evidence": [
+            "Có 9 vịt, trừ đi 3 vịt đã đi.",
+            "6 vịt còn lại sau khi trừ 3 vịt đã đi.",
+            "\"quantity\": \"Số vịt còn\", \"result\": \"6\", \"unit\": \"con\""
+          ],
+          "base_output_sha256": "f256d353318d84bf6f9d3a0beb1452fb7289da0bbc6e9c224106c307cb962346",
+          "adapter_output_sha256": "3207dc97a36c1bb765e5a757a44c52f3a7e87558c4dd54289da68f646ceeb67f",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 109
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 136
+          }
+        },
+        {
+          "fixture_id": "g2_add_lengths",
+          "grade": 2,
+          "mode": "answer",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": true,
+          "adapter_pass": true,
+          "base_reason": "Combines the two supplied lengths correctly and states sixty-three centimetres.",
+          "adapter_reason": "Correctly adds 35+28=63, explains why separate lengths are combined, gives a valid inverse check, and retains cm.",
+          "base_evidence": [
+            "35 \\, \\text{cm} + 28 \\, \\text{cm} = 63 \\, \\text{cm}",
+            "Tổng chiều dài hai dải ruy-băng là 63 cm."
+          ],
+          "adapter_evidence": [
+            "Hai dải là hai phần riêng nên cộng theo chiều dài.",
+            "35+28=63 cm; kiểm 63-28=35 cm.",
+            "\"unit\": \"cm\""
+          ],
+          "base_output_sha256": "ab222dca346cfdee93dd7773fd4b61369126d78dd044ae1cf80c7d4717d6f9a4",
+          "adapter_output_sha256": "8294e5af3d51f528ee9c8592d837900aac1602dd189d5b79fd81cc5e05bdaa8e",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 136
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 148
+          }
+        },
+        {
+          "fixture_id": "g2_two_step_stickers",
+          "grade": 2,
+          "mode": "answer",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "Changes receiving thirteen stickers into giving thirteen away, computes 24-13-8=3, and answers three instead of twenty-nine.",
+          "adapter_reason": "Recognizes receiving as addition, but falsely says 37-8=30 and answers thirty. The structured step result is thirty-seven although its expression 24+13-8 equals twenty-nine, and the final answer omits the sticker unit.",
+          "base_evidence": [
+            "Leo tặng thêm 13 nhãn dán cho người khác.",
+            "24 - 13 = 11",
+            "bây giờ Leo còn 3 nhãn dán"
+          ],
+          "adapter_evidence": [
+            "Phần được tặng phải được cộng vào số ban đầu.",
+            "37-8=30 nhãn.",
+            "\"result\": \"37\"",
+            "\"expression\": \"24+13-8\"",
+            "\"quantity\": \"Nhãn còn có\", \"result\": \"30\", \"unit\": \"\""
+          ],
+          "base_output_sha256": "14c1b0481e5f6961b75791dfaca62b387dc8aeb0cdbfd61155f98983b30224c8",
+          "adapter_output_sha256": "b6ade86943caeb957e7d9b39e1de4fafa3e6b790f9cf6d9eeecfb1cca32626fd",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 149
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 155
+          }
+        },
+        {
+          "fixture_id": "g2_addition_hint",
+          "grade": 2,
+          "mode": "hint_no_answer",
+          "model_mode": "hint_level_1",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "Works out the sum and explicitly discloses seventy-five instead of preserving the hint-only request.",
+          "adapter_reason": "Withholds seventy-five, but the distinction between a new problem and updating an existing total is unrelated to the required place-value/regrouping method for 48+27. It gives no actionable unit-column or carry hint.",
+          "base_evidence": [
+            "60 + 15 = 75",
+            "Vậy kết quả là 75."
+          ],
+          "adapter_evidence": [
+            "Phân biệt toán mới với việc cập nhật cùng một tổng đã có.",
+            "Em xác định phép tính hoặc dữ kiện cần dùng thế nào?"
+          ],
+          "base_hint_no_answer_leak": false,
+          "adapter_hint_no_answer_leak": true,
+          "base_output_sha256": "e56d0931edaebcce7694848b7a436e66cc009a2aa5c85ba201f297e07b373062",
+          "adapter_output_sha256": "8b8b41d410137b9bd3051c3abc0695fcac5f75971cc3f488d926d92dc8059337",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 110
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 38
+          }
+        },
+        {
+          "fixture_id": "g2_student_subtraction_error",
+          "grade": 2,
+          "mode": "student_error",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "States the correct difference thirty-five and rejects forty-five, but the supplied borrowing explanation is wrong: it uses 10-8=2 instead of regrouping 63 as five tens and thirteen units, then obtains an unexplained final units digit five. A correct answer with an incorrect worked method is a strict semantic failure.",
+          "adapter_reason": "Says forty-five differs from 63-28, but leaves forty-five as the only result/final answer and never computes the correct thirty-five. The reason about using a number again is not supported by the supplied student work, which contains only the claimed result.",
+          "base_evidence": [
+            "ta cần lấy $10 - 8 = 2$, rồi lấy $1$ từ hàng chục.",
+            "63 - 28 = 35",
+            "em đã được $45$"
+          ],
+          "adapter_evidence": [
+            "Phép tính khác cho biết em đã dùng số nào lại một lần nữa.",
+            "45 khác 63 - 28 nên kết luận em đã sai.",
+            "\"quantity\": \"Kết quả kiểm\", \"result\": \"45\", \"unit\": \"\""
+          ],
+          "base_output_sha256": "27386e9fe33a6e25f362bbf317a10393cb7c576e8586e768b17369cbf1d93d73",
+          "adapter_output_sha256": "9f28ca99fb261c69b207d09a3bae36b0e2db0200e2d1843b7c792c4f84afe7de",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 171
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 140
+          }
+        },
+        {
+          "fixture_id": "g2_missing_time",
+          "grade": 2,
+          "mode": "missing_or_contradictory_info",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": false,
+          "adapter_pass": false,
+          "base_reason": "Correctly refuses a numeric duration, but does not identify/request the missing arrival endpoint or equivalent sufficient information. It then presents a critique of supposedly supplied student work although no student solution was provided. The complete response fails the strict missing-information/grounding task.",
+          "adapter_reason": "Confuses the departure clock time 3:20 with elapsed travel duration and fabricates two hundred minutes without an arrival time. An additional structured inconsistency reports result three for expression 3*60, despite explaining one hundred eighty minutes.",
+          "base_evidence": [
+            "Do đó, ta không thể tính toán thời gian chặng đi.",
+            "Nhận xét lời làm thực sự được cung cấp:",
+            "Lời giải không đầy đủ, vì không có thông tin về thời gian chặng đi."
+          ],
+          "adapter_evidence": [
+            "20 phút là tổng thời gian đã đi.",
+            "\"result\": \"3\"",
+            "\"expression\": \"3*60\"",
+            "\"quantity\": \"Tổng thời gian\", \"result\": \"200\", \"unit\": \"phút\""
+          ],
+          "base_partial_credit": "Does not invent a duration; this guard is lost in the adapter despite both outputs failing the full rubric.",
+          "base_output_sha256": "016fb9706b56f6e64baf23aa43c21cbcc85cf0b53ab9b0fe630e1fb973c61fc1",
+          "adapter_output_sha256": "760e6e15fabd42084a798356fe766f101a2d94aff21127f12878c9141c0213b3",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 186
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 274
+          }
+        },
+        {
+          "fixture_id": "g1_missing_information",
+          "grade": 1,
+          "mode": "missing_or_contradictory_info",
+          "model_mode": "worked_solution",
+          "both_full_actual_outputs_reviewed": true,
+          "base_pass": true,
+          "adapter_pass": true,
+          "base_reason": "Explains that the remaining marble count is absent and asks for that information rather than inventing the original count.",
+          "adapter_reason": "Correctly declares insufficient information, explicitly states that the final marble quantity is needed, and supplies no fabricated answer. A need-for-information statement is accepted as an indirect request for the missing remaining count.",
+          "base_evidence": [
+            "Không đủ thông tin để xác định số viên bi ban đầu trong hộp.",
+            "Cần thêm thông tin về số viên bi còn lại sau khi lấy ra 2 viên."
+          ],
+          "adapter_evidence": [
+            "\"can_solve\": false",
+            "Cần biết lượng bi cuối, không chỉ lấy ra một phần.",
+            "\"answer\": []"
+          ],
+          "base_output_sha256": "7bdd104bcac583e68ca6920b7d107f7e35499ed5463bf3adf8536e1474ad73d9",
+          "adapter_output_sha256": "63821d8e632e8d6a89ec5d3ae5f97216ef2e2d59fc08d609d3c04d650158ca79",
+          "base_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 137
+          },
+          "adapter_completion": {
+            "ended_eos": true,
+            "possibly_truncated": false,
+            "generated_tokens": 37
+          }
+        }
+      ]
+    },
+    {
+      "schema": "MathVisionKid.final_paired_semantic_review_shard.v1",
+      "review_type": "LLM review of both full actual outputs; no human certification or independent external validation",
+      "scope": "Grades 3 and 4 only; same reused 28 development fixtures, not independent held-out generalization evidence.",
+      "input_sha256": {
+        "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+        "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+        "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+      },
+      "input_row_counts": {
+        "fixtures": 28,
+        "base": 28,
+        "adapter": 28
+      },
+      "fixture_count": 10,
+      "strict_pass_policy": "Requires mathematically consistent complete response, correct requested quantities/units, relevant explanation, no prohibited hint answer, correct student-error diagnosis, and missing/conflicting-data handling. JSON style itself is not a failure. A correct numeric answer does not override a contradictory explanation or arithmetic expression/result. Hint withholding alone does not establish a useful task-completing hint.",
+      "curriculum_scope_limitation": "Grade-3 fraction addition and decimal-money fixtures may exceed Vietnam grade-3 core; fixed fixture labels are preserved and this limitation is separate from mathematical task success.",
+      "fixture_grade_and_mode_preserved": true,
+      "all_paired_prompts_match": true,
+      "summary": {
+        "base": {
+          "strict_task_pass": 6,
+          "denominator": 10,
+          "by_mode": {
+            "answer": {
+              "pass": 6,
+              "denominator": 6
+            },
+            "hint_no_answer": {
+              "pass": 0,
+              "denominator": 2
+            },
+            "missing_or_contradictory_info": {
+              "pass": 0,
+              "denominator": 1
+            },
+            "student_error": {
+              "pass": 0,
+              "denominator": 1
+            }
+          }
+        },
+        "adapter": {
+          "strict_task_pass": 2,
+          "denominator": 10,
+          "by_mode": {
+            "answer": {
+              "pass": 2,
+              "denominator": 6
+            },
+            "hint_no_answer": {
+              "pass": 0,
+              "denominator": 2
+            },
+            "missing_or_contradictory_info": {
+              "pass": 0,
+              "denominator": 1
+            },
+            "student_error": {
+              "pass": 0,
+              "denominator": 1
+            }
+          }
+        }
+      },
+      "fixtures": [
+        {
+          "fixture_id": "g3_fraction_like_parts",
+          "grade": 3,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Correctly adds 2/9+4/9=6/9 and simplifies to 2/3 of the melon; full output has no conflicting calculation.",
+          "base_evidence_quote": "\\frac{6}{9} = \\frac{2}{3}",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "18b0f4b78e88ad5eb6a11e7a60aa64681e10d1944fc2114fa8f68020f8c9c88b",
+          "base_prompt_token_sha256": "53ebeea15a1a39f9b00d9454d27cb85b0e5735a862d1479748dab9e4766269ef",
+          "adapter_pass": false,
+          "adapter_reason": "The expression/result first gives the correct 6/9, but the explanation adds 4/9 again and the final answer changes to 10/9. It also invents a remainder. This is a mathematical and task error, independent of JSON style.",
+          "adapter_evidence_quote": "6/9 cộng 4/9 bằng 10/9. Tách 10/9 thành 1 phần và 1/9, phần còn lại là 1/9.",
+          "adapter_requested_numeric_answer_correct": false,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "00cbdefdb6eb340a9ba196425a5369c8cbaa155ad85629f7938e4dc302afeb0a",
+          "adapter_prompt_token_sha256": "53ebeea15a1a39f9b00d9454d27cb85b0e5735a862d1479748dab9e4766269ef",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g3_multistep_books",
+          "grade": 3,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Uses 5×6=30, then 30−8=22, and clearly answers 22 notebooks.",
+          "base_evidence_quote": "Có **22 quyển vở** còn trên các bàn.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "53d488f8dd6ea83a3c98e5cdd6c96202eec7728af17ee280111351a364f9d6b4",
+          "base_prompt_token_sha256": "c9c627e1272cc0c20a87a964d2298a4094e8886423f274c7014fff028d3a6323",
+          "adapter_pass": false,
+          "adapter_reason": "Includes the correct remaining total 22, but incorrectly calls the grouping operation addition and invents redistribution into five tables, concluding 4.4 indivisible notebooks per table as an additional requested answer. The full response is not consistently relevant or physically meaningful.",
+          "adapter_evidence_quote": "22 : 5 = 4,4 quyển mỗi bàn.",
+          "adapter_requested_numeric_answer_correct": true,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "9b5249e1bea38d6ddedf448e713092d848331073df5538c344fd1d3c6a3577ff",
+          "adapter_prompt_token_sha256": "c9c627e1272cc0c20a87a964d2298a4094e8886423f274c7014fff028d3a6323",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g3_decimal_money",
+          "grade": 3,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Correctly identifies that both prices must be added and returns 3.75 dollars with no contradiction.",
+          "base_evidence_quote": "2,35 + 1,40 = 3,75 đô la",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "59b800467c51b63927a7c98d65e93248e38eac2f7d3b475924ffe3abd2b1e4e5",
+          "base_prompt_token_sha256": "de4e028dccd5752536d46b4c391d9bba0f6aefd9be50043a1f44f84c5a5bb3fd",
+          "adapter_pass": true,
+          "adapter_reason": "Correct sum, inverse check, requested quantity and dollar unit; expression, result and prose agree.",
+          "adapter_evidence_quote": "2,35 + 1,40 = 3,75; kiểm 3,75 - 1,40 = 2,35.",
+          "adapter_requested_numeric_answer_correct": true,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "29176f0326325ff72e18961e59e94f6c07257e2827cbd3b54ea26732abf54e7f",
+          "adapter_prompt_token_sha256": "de4e028dccd5752536d46b4c391d9bba0f6aefd9be50043a1f44f84c5a5bb3fd",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g3_area_hint",
+          "grade": 3,
+          "mode": "hint_no_answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": false,
+          "base_reason": "Provides the correct area method but explicitly leaks the prohibited final answer 28 square metres.",
+          "base_evidence_quote": "diện tích = 7 m × 4 m = 28 m².",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "ef4ed9fe366904e09f4c0a65ef3ca57ac7b339b117d615be5eaeebda9857a67f",
+          "base_prompt_token_sha256": "8901fcbba25d36213f760c5337fbdc079ab53043e467c864305d762b549d8f9f",
+          "adapter_pass": false,
+          "adapter_reason": "Withholds the final answer, but only asks the pupil to identify dimensions already given. It never supplies the requested length-times-width area method.",
+          "adapter_evidence_quote": "Phân biệt cạnh dài với cạnh rộng trong hình chữ nhật.",
+          "adapter_requested_numeric_answer_correct": null,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "2ecedb6bebfcd2b674f3006d29eefb347b3405f60b40a4e3998582ffa0563851",
+          "adapter_prompt_token_sha256": "8901fcbba25d36213f760c5337fbdc079ab53043e467c864305d762b549d8f9f",
+          "paired_prompt_token_hashes_equal": true,
+          "base_withholds_final_answer": false,
+          "adapter_withholds_final_answer": true
+        },
+        {
+          "fixture_id": "g3_conflicting_shape",
+          "grade": 3,
+          "mode": "missing_or_contradictory_info",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": false,
+          "base_reason": "Correctly calculates 22 cm from the dimensions, but never identifies the given 18 cm label as inconsistent; fails the explicit contradiction-handling rubric.",
+          "base_evidence_quote": "Vậy chu vi của hình chữ nhật là **22 cm**.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "02e8eb7d9383149c5af616a2ffeb66e7d029d42ebcdb2045cb593ea0060c6343",
+          "base_prompt_token_sha256": "5a191da20c33c392c67b8222313bf8a6b7af73d0bf19209ed390efeda16c1d6c",
+          "adapter_pass": false,
+          "adapter_reason": "Returns 24 cm instead of 22 cm. Its expression 8*4 has result 24 even though it evaluates to 32; the explanation says 32 and 12 are both 24. It invents unit-length sides and ignores the 18 cm conflict.",
+          "adapter_evidence_quote": "8 × 4 = 32; 3 × 4 = 12. Cả hai đều là 24 cm nên chu vi là 24 cm.",
+          "adapter_requested_numeric_answer_correct": false,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "a7ef3dabb5fdb6c660d5b6565757c592f032222ae60cd14201703c1ea38550f5",
+          "adapter_prompt_token_sha256": "5a191da20c33c392c67b8222313bf8a6b7af73d0bf19209ed390efeda16c1d6c",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g4_fraction_of_group",
+          "grade": 4,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Computes 3/8×32=12 and clearly links 12 to the members bringing games.",
+          "base_evidence_quote": "\\frac{96}{8} = 12",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "1075a6aaeac5d6e332bc358d9175420919ce0691a4780a551c9cdae529c2202a",
+          "base_prompt_token_sha256": "f24011d4db41f70161495089d44aa6cc24da26a2920db645038d46300cee3c8c",
+          "adapter_pass": false,
+          "adapter_reason": "Interprets three eighths as three groups of eight members and answers 24, rather than finding 32÷8×3=12.",
+          "adapter_evidence_quote": "Ba phần tám là ba nhóm, mỗi nhóm tám thành viên.",
+          "adapter_requested_numeric_answer_correct": false,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "6e5a7a2e34ce81260026b7fe749c4ad04a33646eee1597297b1ad7d3a01c6b88",
+          "adapter_prompt_token_sha256": "f24011d4db41f70161495089d44aa6cc24da26a2920db645038d46300cee3c8c",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g4_division_remainder",
+          "grade": 4,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Correct quotient and remainder in context: eight full bags use 48 loaves and leave five. The displayed division is explicitly accompanied by its remainder, so it is a contextual Euclidean division statement.",
+          "base_evidence_quote": "Xếp được **8 túi đầy** và còn thừa **5 ổ**.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "9f4ce9da6c3b5845c17050e7b9922d7af6110b59753d723466ea8523d75a20ab",
+          "base_prompt_token_sha256": "755ae00891d96575cda96ffa8cbb466123fb5426225c7612637782d9f6822e9b",
+          "adapter_pass": false,
+          "adapter_reason": "The requested numeric answers and units are correct (eight bags, five loaves), and the prose checks remainder<6. However the worked step pairs exact expression 53/6 with result 8, without a quotient/remainder operator or exact identity. That is an arithmetic-field contradiction, not a JSON-format objection; strict full-output correctness fails.",
+          "adapter_evidence_quote": "\"expression\": \"53/6\"",
+          "adapter_requested_numeric_answer_correct": true,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "b156aa83550753bb661e9691c576186403beb04c47fb50b9d98c4bc542b595bb",
+          "adapter_prompt_token_sha256": "755ae00891d96575cda96ffa8cbb466123fb5426225c7612637782d9f6822e9b",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g4_decimal_measure",
+          "grade": 4,
+          "mode": "answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": true,
+          "base_reason": "Uses the correct addition and returns the total 2.45 metres with appropriate units.",
+          "base_evidence_quote": "Vậy tổng chiều dài là **2,45 mét**.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "5084ebf1b41a65a89ed2c807525b108423a3e1c8f325c3f9f22c02b5e010f8e0",
+          "base_prompt_token_sha256": "a8506862473187288b26fcfddae4eb04bd3d7fd3fc1d106134d01a5db19380cc",
+          "adapter_pass": true,
+          "adapter_reason": "Correct 1.6+0.85=2.45 metre sum and inverse check; all numeric fields agree.",
+          "adapter_evidence_quote": "1,6+0,85=2,45 m; kiểm 2,45-0,85=1,6 m.",
+          "adapter_requested_numeric_answer_correct": true,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "d1854ca863318c46dd7f18fe96f560846bb72e39d53183a8c8229f22eaeffc09",
+          "adapter_prompt_token_sha256": "a8506862473187288b26fcfddae4eb04bd3d7fd3fc1d106134d01a5db19380cc",
+          "paired_prompt_token_hashes_equal": true
+        },
+        {
+          "fixture_id": "g4_multistep_groups_hint",
+          "grade": 4,
+          "mode": "hint_no_answer",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": false,
+          "base_reason": "Solves both steps and explicitly reveals 91 cups, violating the instruction to withhold the final result.",
+          "base_evidence_quote": "Vậy số cốc còn lại là 91.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "272ebf29b8f76920940fe4caf71d52e641b9c60f1876e9217217c0f04f37f7d5",
+          "base_prompt_token_sha256": "53674e54e502ed4fc4b9c2e826b32f324c2285dae24ca24a5dd70bcf5d480475",
+          "adapter_pass": false,
+          "adapter_reason": "Withholds 91, but does not cue multiplication to find the total followed by subtraction of the 17 used cups. Its generic question does not make the required two-step method actionable.",
+          "adapter_evidence_quote": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?",
+          "adapter_requested_numeric_answer_correct": null,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "d981fd35908d4ec557e9232f58e7d61734d6c3fd20e903e72e9658c25e3dcf06",
+          "adapter_prompt_token_sha256": "53674e54e502ed4fc4b9c2e826b32f324c2285dae24ca24a5dd70bcf5d480475",
+          "paired_prompt_token_hashes_equal": true,
+          "base_withholds_final_answer": false,
+          "adapter_withholds_final_answer": true
+        },
+        {
+          "fixture_id": "g4_student_area_perimeter_mixup",
+          "grade": 4,
+          "mode": "student_error",
+          "base_full_output_reviewed": true,
+          "adapter_full_output_reviewed": true,
+          "base_pass": false,
+          "base_reason": "Correctly computes 26 cm and later identifies the area/perimeter confusion, but opens by affirming the pupil was correct. The contradictory feedback cannot strictly pass.",
+          "base_evidence_quote": "Em đã tính chu vi hình chữ nhật đúng rồi.",
+          "base_requested_numeric_answer_correct": true,
+          "base_possibly_truncated": false,
+          "base_ended_eos": true,
+          "base_output_sha256": "d66f02c48a7b49d80032a4ba627eb94b478428281c90c2f7aae450fbed744021",
+          "base_prompt_token_sha256": "1c44695ce9a83c34a38ad1c1d63d3dae7937fa149351392cbd95f3d5735ff54a",
+          "adapter_pass": false,
+          "adapter_reason": "Correctly computes the perimeter as 26 cm without inventing unseen pupil work, but never addresses the supplied 36 cm claim or explains that 9×4 represents area rather than perimeter. This is an incomplete student-error response under the frozen rubric, despite correct perimeter arithmetic.",
+          "adapter_evidence_quote": "Phân biệt phép nhân với phép cộng các cạnh.",
+          "adapter_requested_numeric_answer_correct": true,
+          "adapter_possibly_truncated": false,
+          "adapter_ended_eos": true,
+          "adapter_output_sha256": "d1febf927150648a07c2055de6441d2030babd38155328670708cffc1b874762",
+          "adapter_prompt_token_sha256": "1c44695ce9a83c34a38ad1c1d63d3dae7937fa149351392cbd95f3d5735ff54a",
+          "paired_prompt_token_hashes_equal": true
+        }
+      ]
+    },
+    {
+      "schema": "MathVisionKid.final_grade5_paired_semantic_review.v1",
+      "review_type": "LLM semantic review of both complete actual outputs; no human certification or independent external validation",
+      "scope": "Grade 5 fixtures only. The same 28 development fixtures were reused; this is not an independent heldout test.",
+      "fixture_count": 7,
+      "all_outputs_reviewed_in_full": true,
+      "criterion": "Strict semantic task pass requires correct task-relevant answer and units, mathematically consistent explanation, no invented data or student work, useful non-answer-leaking hints, and required missing/contradictory-data handling. JSON schema alone is not a pass/fail basis; correct numeric prefixes do not override later errors. Any truncation or timeout fails strict task completion.",
+      "input_sha256": {
+        "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+        "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+        "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+      },
+      "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+      "fixtures": [
+        {
+          "fixture_id": "g5_fraction_subtraction",
+          "grade": 5,
+          "mode": "answer",
+          "base_pass": true,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Correctly subtracts 1/4 of maximum capacity from the initial 5/6; gives 7/12 with correct capacity reference and complete common-denominator explanation.",
+            "evidence_quotes": [
+              "\\frac{5}{6} - \\frac{1}{4} = \\frac{10}{12} - \\frac{3}{12} = \\frac{7}{12}",
+              "Bể còn lại $\\frac{7}{12}$ dung tích tối đa."
+            ]
+          },
+          "adapter": {
+            "reason": "Wrong 19/24 final result. It falsely equates 5/24 of maximum capacity with 1/4 of maximum capacity, then uses an unjustified expression rather than 5/6 - 1/4 = 7/12. Capacity unit wording is present but does not repair the math.",
+            "evidence_quotes": [
+              "5/24 dung tích tối đa bằng 1/4 dung tích tối đa của bể.",
+              "\"expression\": \"{s0}*19/5\"",
+              "\"result\": \"19/24\""
+            ]
+          }
+        },
+        {
+          "fixture_id": "g5_decimal_rate",
+          "grade": 5,
+          "mode": "answer",
+          "base_pass": true,
+          "adapter_pass": true,
+          "base": {
+            "reason": "Correctly multiplies 2.4 km per lap by 3.5 laps to obtain 8.4 km; reason, arithmetic and distance unit are consistent.",
+            "evidence_quotes": [
+              "2,4 \\, \\text{km/vòng} \\times 3,5 \\, \\text{vòng} = 8,4 \\, \\text{km}",
+              "Người đó đi được $8,4$ km."
+            ]
+          },
+          "adapter": {
+            "reason": "Correct completed solution: multiply distance per lap by number of laps; 8.4 km with matching expression, explanation and answer.",
+            "evidence_quotes": [
+              "Nhân số vòng với độ dài mỗi vòng.",
+              "2,4 nhân 3,5 bằng 8,4 km.",
+              "\"expression\": \"2.4*3.5\""
+            ]
+          }
+        },
+        {
+          "fixture_id": "g5_triangle_side",
+          "grade": 5,
+          "mode": "answer",
+          "base_pass": true,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Correctly adds known sides to 16.5 cm then subtracts from 23 cm to obtain 6.5 cm, with correct perimeter reasoning and units.",
+            "evidence_quotes": [
+              "7,5 \\, \\text{cm} + 9 \\, \\text{cm} = 16,5 \\, \\text{cm}",
+              "Cạnh thứ ba dài $6,5$ cm."
+            ]
+          },
+          "adapter": {
+            "reason": "Final 1 cm is wrong (expected 6.5 cm) and violates triangle inequality with 7.5 and 9. It uses an invented trial third side, while its step result 7.5 contradicts the stated final answer and the correct written expression is not evaluated correctly.",
+            "evidence_quotes": [
+              "\"result\": \"7,5\"",
+              "7,5 + 9 + 7,5 = 24 cm; 24 − 23 = 1 cm. Cạnh thứ ba là 1 cm.",
+              "\"expression\": \"23 - 7.5 - 9\""
+            ]
+          }
+        },
+        {
+          "fixture_id": "g5_ratio_hint",
+          "grade": 5,
+          "mode": "hint_no_answer",
+          "base_pass": false,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Mathematically correct ratio calculation, but explicitly reveals 12 cups despite the request not to give the answer.",
+            "evidence_quotes": [
+              "\\frac{2}{3} = \\frac{8}{x} \\Rightarrow 2x = 24 \\Rightarrow x = 12",
+              "Vậy lượng sơn trắng cần dùng là 12 cốc."
+            ],
+            "hint_no_answer_leak": false,
+            "useful_task_specific_hint": true
+          },
+          "adapter": {
+            "reason": "Withholds the answer and makes no false numerical claim, but gives only a generic ratio/quantity prompt. It supplies no actionable relationship between 8 blue cups and the 2:3 ratio, groups of 2 or corresponding white cups; fails the strict useful-hint task.",
+            "evidence_quotes": [
+              "Tỉ lệ yêu cầu một quan hệ giữa hai lượng khác nhau.",
+              "Em xác định số nào là lượng được hỏi theo yêu cầu thế nào?"
+            ],
+            "hint_no_answer_leak": true,
+            "useful_task_specific_hint": false
+          }
+        },
+        {
+          "fixture_id": "g5_student_percent_error",
+          "grade": 5,
+          "mode": "student_error",
+          "base_pass": false,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Reaches the correct 60% conclusion, but invents that the student calculated (3/5) divided by 5 instead of addressing the supplied claim 3 divided by 5 equals 0.3. It never explicitly corrects 3/5 to 0.6 and attributes an unsupported method to the student; strict evidence-grounded feedback fails.",
+            "evidence_quotes": [
+              "Bạn đã tính $ \\frac{3}{5} \\div 5 = 0.3 $, nhưng đây là sai lầm.",
+              "Lời giải của bạn sai, vì $\\frac{3}{5}$ lớp học tương đương 60%, không phải 30%."
+            ]
+          },
+          "adapter": {
+            "reason": "Does not correct 3/5 = 0.6 = 60%, and instead answers 30 and 3/10. The reason falsely equates 30% to 3/100 while the step result says 3/10, so it is internally contradictory and fails to diagnose the actual student error.",
+            "evidence_quotes": [
+              "30% của toàn bộ bằng 3/100 toàn bộ.",
+              "3/10 của toàn bộ bằng 30%. Không tự đổi số phần trăm thành số phần bằng nhau.",
+              "\"quantity\": \"Phần trăm\", \"result\": \"30\", \"unit\": \"\""
+            ]
+          }
+        },
+        {
+          "fixture_id": "g5_contradictory_distance",
+          "grade": 5,
+          "mode": "missing_or_contradictory_info",
+          "base_pass": false,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Correct 24 km computation with proper units, but the full output never identifies that the 20 km note conflicts with the stated map scale. That required contradiction handling is absent.",
+            "evidence_quotes": [
+              "6 \\, \\text{cm} \\times 4 \\, \\text{km/cm} = 24 \\, \\text{km}",
+              "Khoảng cách thật là **24 km**."
+            ]
+          },
+          "adapter": {
+            "reason": "Correct 6 × 4 = 24 km prefix and final number are overridden by the explicit false claim that 24 km equals 20 km. It fails to identify the note as contradictory; a correct numeric prefix does not pass the task.",
+            "evidence_quotes": [
+              "6 × 4 = 24 km; 24 km bằng 20 km."
+            ]
+          }
+        },
+        {
+          "fixture_id": "g5_missing_information",
+          "grade": 5,
+          "mode": "missing_or_contradictory_info",
+          "base_pass": false,
+          "adapter_pass": false,
+          "base": {
+            "reason": "Wrongly assumes length is width plus 1 cm when the prompt only says length is greater. Invents a unique quadratic and approximate perimeter 27.78 cm rather than recognizing non-unique side pairs and asking for sufficient information.",
+            "evidence_quotes": [
+              "Vì chiều dài lớn hơn chiều rộng, nên chiều dài là $ x + 1 $ cm.",
+              "Chu vi hình chữ nhật là khoảng $ 27.78 $ cm."
+            ]
+          },
+          "adapter": {
+            "reason": "Wrongly declares solvable and invents a 4 cm side. Even those invented dimensions 12 and 4 would have perimeter 32 cm, while step result/answer say 48 cm and explanation says 96 cm. It neither detects missing information nor gives internally consistent arithmetic.",
+            "evidence_quotes": [
+              "\"can_solve\": true",
+              "\"expression\": \"48/4\"",
+              "\"expression\": \"(12+4)*2\"",
+              "48 × 2 = 96 cm.",
+              "\"quantity\": \"Chu vi\", \"result\": \"48\", \"unit\": \"cm\""
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "base_pass": 3,
+        "adapter_pass": 1,
+        "denominator": 7,
+        "base_to_adapter": {
+          "pass_to_pass": 1,
+          "pass_to_fail": 2,
+          "fail_to_pass": 0,
+          "fail_to_fail": 4
+        },
+        "strict_task_pass_by_mode": {
+          "answer": {
+            "base_pass": 3,
+            "adapter_pass": 1,
+            "denominator": 3
+          },
+          "hint_no_answer": {
+            "base_pass": 0,
+            "adapter_pass": 0,
+            "denominator": 1
+          },
+          "student_error": {
+            "base_pass": 0,
+            "adapter_pass": 0,
+            "denominator": 1
+          },
+          "missing_or_contradictory_info": {
+            "base_pass": 0,
+            "adapter_pass": 0,
+            "denominator": 2
+          }
+        },
+        "hint_withholding_only": {
+          "base_pass": 0,
+          "adapter_pass": 1,
+          "denominator": 1,
+          "note": "Withholding alone does not establish a useful hint or strict task pass."
+        },
+        "all_fourteen_outputs_eos_complete_untruncated": true,
+        "quality_conclusion": "Grade-5 strict semantic task performance regresses from 3/7 to 1/7 on these reused development items; no generalization or human-reviewed quality claim."
+      }
+    }
+  ],
+  "actual_paired_outputs": [
+    {
+      "fixture": {
+        "id": "g1_add_objects",
+        "grade": 1,
+        "skill": "addition_within_20",
+        "mode": "answer",
+        "userproblem": "Mina bỏ 6 vỏ sò vào lọ, rồi bỏ thêm 5 vỏ nữa. Bây giờ trong lọ có tất cả bao nhiêu vỏ sò?",
+        "exact_reference_answer": {
+          "value": "11",
+          "unit": "vỏ sò"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 11,
+          "unit": "vỏ sò"
+        },
+        "oracle": {
+          "calculation": "6 + 5 = 11",
+          "expected": "11 vỏ sò"
+        },
+        "rubric": [
+          "Cộng đúng hai nhóm vỏ sò.",
+          "Trả lời 11 vỏ sò.",
+          "Chỉ cần giải thích ngắn gọn."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_add_objects",
+        "generated_tokens": 91,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm số vỏ sò trong lọ, ta thực hiện các bước sau:\n\n1. Mina bỏ 6 vỏ sò vào lọ.\n2. Sau đó, Mina bỏ thêm 5 vỏ sò vào lọ.\n3. Tổng số vỏ sò trong lọ là: $6 + 5 = 11$.\n\nVậy, trong lọ có tất cả $11$ vỏ sò.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "6921b8d364338f82eefeef7e9cdc40f9cd98678bf39afdac6f50b5918c39d3ab",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_add_objects",
+        "generated_tokens": 126,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đọc số lần thêm sau lần đầu.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tính tổng\", \"reason\": \"Cộng phần đã có với phần thêm.\", \"result\": \"11\", \"explanation\": \"6+5=11; không thêm một phần khác.\", \"expression\": \"6+5\", \"unit\": \"vỏ sò\"}], \"answer\": [{\"quantity\": \"Tổng\", \"result\": \"11\", \"unit\": \"vỏ sò\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "6921b8d364338f82eefeef7e9cdc40f9cd98678bf39afdac6f50b5918c39d3ab",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g1_subtract_objects",
+        "grade": 1,
+        "skill": "subtraction_within_20",
+        "mode": "answer",
+        "userproblem": "Trên bàn có 14 chiếc thuyền giấy. Người ta lấy đi 6 chiếc. Còn lại bao nhiêu chiếc?",
+        "exact_reference_answer": {
+          "value": "8",
+          "unit": "thuyền giấy"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 8,
+          "unit": "thuyền giấy"
+        },
+        "oracle": {
+          "calculation": "14 - 6 = 8",
+          "expected": "8 chiếc thuyền giấy"
+        },
+        "rubric": [
+          "Lấy 14 trừ 6.",
+          "Trả lời còn 8 chiếc thuyền giấy."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_subtract_objects",
+        "generated_tokens": 74,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm số chiếc thuyền giấy còn lại, ta thực hiện các bước sau:\n\n1. **Bắt đầu với tổng số chiếc thuyền giấy:** 14 chiếc.\n2. **Trừ đi số chiếc thuyền giấy đã lấy đi:** 14 - 6 = 8.\n\nVậy số chiếc thuyền giấy còn lại là **8 chiếc**.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "063b5a30f5d6fec411109e57ecaa15d3cb783bc76d9403ad7e1bea4709f0144f",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_subtract_objects",
+        "generated_tokens": 137,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm phần còn hoặc tìm số còn sau khi bớt một phần đã biết.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm phần còn\", \"reason\": \"Cộng phần đã lấy vào phần còn để kiểm.\", \"result\": \"8\", \"explanation\": \"8 + 6 = 14; không lấy thuyền giấy làm phần còn.\", \"expression\": \"14 - 6\", \"unit\": \"chiếc\"}], \"answer\": [{\"quantity\": \"Chiếc thuyền\", \"result\": \"8\", \"unit\": \"chiếc\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "063b5a30f5d6fec411109e57ecaa15d3cb783bc76d9403ad7e1bea4709f0144f",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g1_add_hint",
+        "grade": 1,
+        "skill": "addition_counting_on",
+        "mode": "hint_no_answer",
+        "userproblem": "Trong giỏ có 7 quả lê, rồi người ta bỏ thêm 4 quả. Hãy gợi ý một cách làm, đừng cho em biết đáp số.",
+        "exact_reference_answer": {
+          "value": "11",
+          "unit": "quả lê",
+          "withhold_from_response": true
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 11,
+          "unit": "quả lê"
+        },
+        "oracle": {
+          "calculation": "7 + 4 = 11",
+          "expected": "Đáp số là 11 quả lê; không nêu trong câu trả lời gợi ý"
+        },
+        "rubric": [
+          "Gợi ý cách đếm tiếp 4 số từ 7.",
+          "Không nói đáp số 11 hay để lộ kết quả.",
+          "Khuyến khích em tự tính tiếp."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_add_hint",
+        "generated_tokens": 87,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "Dưới đây là gợi ý cách làm để giải bài toán:\n\nTrước tiên, ta biết rằng ban đầu có 7 quả lê trong giỏ. Sau đó, người ta thêm 4 quả lê vào giỏ. Vậy số quả lê trong giỏ sau khi thêm là:\n\n7 + 4 = 11.\n\nVậy số quả lê trong giỏ sau khi thêm là 11.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "ecb455f342b57c7f0880896848e9700226305e664c9f0c0830b0a3ecf3010dd4",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_add_hint",
+        "generated_tokens": 43,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "{\"hint\": \"Cần ghi rõ các lượng ban đầu và các lượng được chuyển hoặc thêm.\", \"question\": \"Em xác định lượng nào cần giữ và lượng nào cần cập nhật thế nào?\"}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "ecb455f342b57c7f0880896848e9700226305e664c9f0c0830b0a3ecf3010dd4",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g1_student_subtraction_error",
+        "grade": 1,
+        "skill": "subtraction_error_correction",
+        "mode": "student_error",
+        "userproblem": "Em có 12 khối đồ chơi và cho bạn 5 khối. Em viết 12 - 5 = 8. Em làm đúng không?",
+        "exact_reference_answer": {
+          "value": "7",
+          "unit": "khối đồ chơi"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 7,
+          "unit": "khối đồ chơi"
+        },
+        "oracle": {
+          "calculation": "12 - 5 = 7",
+          "expected": "7 khối đồ chơi"
+        },
+        "rubric": [
+          "Nhẹ nhàng cho biết 8 chưa đúng.",
+          "Chỉ cách đếm lùi 5 bước từ 12 hoặc cách kiểm tra khác.",
+          "Nêu kết quả đúng là 7 khối đồ chơi."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_student_subtraction_error",
+        "generated_tokens": 45,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "Lời giải của em đúng. Em đã thực hiện phép trừ đúng: 12 - 5 = 8. Đây là phép tính trừ đơn giản, em đã áp dụng đúng cách, không có lỗi.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "c1b1f5fc2851cdb5d889fd948828beb3b9dabf4a839236fea9d8e50f3b6d95a2",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_student_subtraction_error",
+        "generated_tokens": 131,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Tính giá trị từng phần rồi so với lượng ban đầu.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tính phần còn\", \"reason\": \"Phép tính của em đang tìm phần còn, không phải phần thêm.\", \"result\": \"7\", \"explanation\": \"7 + 5 = 12, đúng lượng ban đầu.\", \"expression\": \"12-5\", \"unit\": \"\"}], \"answer\": [{\"quantity\": \"Kết quả phép tính\", \"result\": \"7\", \"unit\": \"\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "c1b1f5fc2851cdb5d889fd948828beb3b9dabf4a839236fea9d8e50f3b6d95a2",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g1_conflicting_count",
+        "grade": 1,
+        "skill": "detect_contradictory_information",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Có 9 con vịt. 3 con đi khỏi ao. Tờ ghi chú nói còn 7 con. Nếu 3 con đã đi thì đáng lẽ còn bao nhiêu con?",
+        "exact_reference_answer": {
+          "value": "6",
+          "unit": "con vịt",
+          "note_conflict": "Ghi chú nói còn 7 con nhưng mâu thuẫn với kết quả phép trừ."
+        },
+        "checker": {
+          "type": "exact_integer_with_conflict",
+          "value": 6,
+          "unit": "con vịt",
+          "conflicting_claim": "còn 7 con vịt"
+        },
+        "oracle": {
+          "calculation": "9 - 3 = 6",
+          "expected": "Ghi chú nói còn 7 con nhưng phép tính cho kết quả 6 con."
+        },
+        "rubric": [
+          "Dựa vào số vịt ban đầu và số vịt đã đi.",
+          "Tính được còn 6 con vịt.",
+          "Nói rõ kết quả 6 không khớp với ghi chú nói còn 7."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_conflicting_count",
+        "generated_tokens": 109,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "**Lời giải:**\n\n- Ban đầu có 9 con vịt.\n- 3 con đi khỏi ao, nên số con còn lại là $ 9 - 3 = 6 $ con.\n- Tờ ghi chú nói còn 7 con, nhưng thực tế có 6 con.\n- Nếu 3 con đã đi thì số con còn lại là $ 9 - 3 = 6 $ con.\n\n**Kết luận:** Số con vịt còn lại là $ \\boxed{6} $ con.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "9a407914a66744ccac7ebba321b0cd66a40fd3bb06721ada80f6d87721da3970",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_conflicting_count",
+        "generated_tokens": 136,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm phần đã biết trước khi suy lượng cần tìm.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Đếm đúng số vịt\", \"reason\": \"Có 9 vịt, trừ đi 3 vịt đã đi.\", \"result\": \"6\", \"explanation\": \"6 vịt còn lại sau khi trừ 3 vịt đã đi.\", \"expression\": \"9-3\", \"unit\": \"con\"}], \"answer\": [{\"quantity\": \"Số vịt còn\", \"result\": \"6\", \"unit\": \"con\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "9a407914a66744ccac7ebba321b0cd66a40fd3bb06721ada80f6d87721da3970",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g2_add_lengths",
+        "grade": 2,
+        "skill": "add_measurements",
+        "mode": "answer",
+        "userproblem": "Một dải ruy-băng dài 35 cm, dải kia dài 28 cm. Tổng chiều dài hai dải là bao nhiêu?",
+        "exact_reference_answer": {
+          "value": "63",
+          "unit": "cm"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 63,
+          "unit": "cm"
+        },
+        "oracle": {
+          "calculation": "35 + 28 = 63",
+          "expected": "63 cm"
+        },
+        "rubric": [
+          "Cộng đúng hàng chục và hàng đơn vị.",
+          "Ghi đơn vị cm."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_add_lengths",
+        "generated_tokens": 136,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm tổng chiều dài hai dải ruy-băng, ta thực hiện các bước sau:\n\n1. Tính tổng chiều dài của hai dải ruy-băng:\n   - Dải ruy-băng đầu tiên dài 35 cm.\n   - Dải ruy-băng thứ hai dài 28 cm.\n\n2. Tính tổng:\n   $$\n   35 \\, \\text{cm} + 28 \\, \\text{cm} = 63 \\, \\text{cm}\n   $$\n\n**Kết quả:** Tổng chiều dài hai dải ruy-băng là 63 cm.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "bbaefc7ba6f2bf73f208d0d12aece6cef6caf94d8aeb2d3389ae13ac70359d08",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_add_lengths",
+        "generated_tokens": 148,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm từng đoạn hoặc tách các phần bằng nhau nếu có.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Gộp hai dải\", \"reason\": \"Hai dải là hai phần riêng nên cộng theo chiều dài.\", \"result\": \"63\", \"explanation\": \"35+28=63 cm; kiểm 63-28=35 cm.\", \"expression\": \"35+28\", \"unit\": \"cm\"}], \"answer\": [{\"quantity\": \"Tổng chiều dài\", \"result\": \"63\", \"unit\": \"cm\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "bbaefc7ba6f2bf73f208d0d12aece6cef6caf94d8aeb2d3389ae13ac70359d08",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g2_two_step_stickers",
+        "grade": 2,
+        "skill": "two_step_add_subtract",
+        "mode": "answer",
+        "userproblem": "Leo có 24 nhãn dán, được tặng thêm 13 nhãn rồi đưa 8 nhãn cho em họ. Bây giờ Leo còn bao nhiêu nhãn dán?",
+        "exact_reference_answer": {
+          "value": "29",
+          "unit": "nhãn dán"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 29,
+          "unit": "nhãn dán"
+        },
+        "oracle": {
+          "calculation": "24 + 13 - 8 = 29",
+          "expected": "29 nhãn dán"
+        },
+        "rubric": [
+          "Cộng số nhãn được tặng rồi mới trừ số nhãn đã cho.",
+          "Trình bày đủ bước để người đọc theo dõi được.",
+          "Trả lời 29 nhãn dán."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_two_step_stickers",
+        "generated_tokens": 149,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán, ta thực hiện các bước sau:\n\n1. **Bước 1:** Leo có ban đầu 24 nhãn dán.\n2. **Bước 2:** Leo tặng thêm 13 nhãn dán cho người khác. Vậy số nhãn dán còn lại sau khi tặng là:\n   $$\n   24 - 13 = 11\n   $$\n3. **Bước 3:** Leo đưa 8 nhãn dán cho em họ. Vậy số nhãn dán còn lại sau khi đưa là:\n   $$\n   11 - 8 = 3\n   $$\n\nVậy, **bây giờ Leo còn 3 nhãn dán**.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "fb4bfbab57650bd82d816048a954dac309ff38e0534d70f37a7aa603fe60fe3a",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_two_step_stickers",
+        "generated_tokens": 155,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đối chiếu phép tính với yêu cầu câu hỏi theo đúng thứ tự.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tính sau khi nhận\", \"reason\": \"Phần được tặng phải được cộng vào số ban đầu.\", \"result\": \"37\", \"explanation\": \"24+13=37 nhãn; 37-8=30 nhãn. Không thay nhãn được tặng cho số còn lại.\", \"expression\": \"24+13-8\", \"unit\": \"nhãn\"}], \"answer\": [{\"quantity\": \"Nhãn còn có\", \"result\": \"30\", \"unit\": \"\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "fb4bfbab57650bd82d816048a954dac309ff38e0534d70f37a7aa603fe60fe3a",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g2_addition_hint",
+        "grade": 2,
+        "skill": "addition_regrouping",
+        "mode": "hint_no_answer",
+        "userproblem": "Em gợi ý cách tính 48 + 27 nhé, nhưng đừng nói tổng.",
+        "exact_reference_answer": {
+          "value": "75",
+          "withhold_from_response": true
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 75
+        },
+        "oracle": {
+          "calculation": "48 + 27 = 75",
+          "expected": "Kết quả là 75; không nêu trong câu trả lời gợi ý"
+        },
+        "rubric": [
+          "Gợi ý cộng hàng đơn vị và đổi 10 đơn vị thành 1 chục nếu cần.",
+          "Không tiết lộ kết quả 75.",
+          "Để học sinh tự tính phép cộng."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_addition_hint",
+        "generated_tokens": 110,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "Cách tính 48 + 27 có thể làm như sau:\n\n- Chuyển đổi các số thành dạng thập phân:  \n  48 = 40 + 8  \n  27 = 20 + 7  \n\n- Tính tổng:  \n  40 + 20 = 60  \n  8 + 7 = 15  \n\n- Cộng lại:  \n  60 + 15 = 75  \n\nVậy kết quả là 75.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "af081b2b585c3158fe33dbc4c0357cc21e16c6dd27866e5e4bcfda4ca9f0a7db",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_addition_hint",
+        "generated_tokens": 38,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "{\"hint\": \"Phân biệt toán mới với việc cập nhật cùng một tổng đã có.\", \"question\": \"Em xác định phép tính hoặc dữ kiện cần dùng thế nào?\"}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "af081b2b585c3158fe33dbc4c0357cc21e16c6dd27866e5e4bcfda4ca9f0a7db",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g2_student_subtraction_error",
+        "grade": 2,
+        "skill": "subtraction_regrouping_error",
+        "mode": "student_error",
+        "userproblem": "Em tính 63 - 28 và được 45. Em kiểm tra giúp em với nhé?",
+        "exact_reference_answer": {
+          "value": "35"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 35
+        },
+        "oracle": {
+          "calculation": "63 - 28 = 35",
+          "expected": "35"
+        },
+        "rubric": [
+          "Nhận xét nhẹ nhàng rằng 45 chưa đúng.",
+          "Giải thích cách mượn 1 chục hoặc kiểm tra bằng phép cộng.",
+          "Nêu kết quả đúng là 35."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_student_subtraction_error",
+        "generated_tokens": 171,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "Để kiểm tra lại kết quả, ta thực hiện phép tính:\n\n**63 - 28 = ?**\n\n- Bước 1: Trừ các chữ số ở hàng đơn vị: $3 - 8$. Vì $3 < 8$, ta cần lấy $10 - 8 = 2$, rồi lấy $1$ từ hàng chục.\n- Bước 2: Trừ các chữ số ở hàng chục: $6 - 2 - 1 = 3$ (vì đã lấy $1$ từ hàng chục).\n\nVậy kết quả là: $63 - 28 = 35$.\n\n**Kết luận:** Kết quả của phép tính là $35$, nhưng em đã được $45$. Vì vậy, em cần kiểm tra lại lại nhé!",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "fb715d14e3589e4cdc7f9a5edd169d6852cf813998d897228f33c66f90993abd",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_student_subtraction_error",
+        "generated_tokens": 140,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt số bị trừ với số trừ và kiểm bằng một phép tính khác.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Kiểm bằng phép tính khác\", \"reason\": \"Phép tính khác cho biết em đã dùng số nào lại một lần nữa.\", \"result\": \"45\", \"explanation\": \"45 khác 63 - 28 nên kết luận em đã sai.\", \"expression\": \"45\", \"unit\": \"\"}], \"answer\": [{\"quantity\": \"Kết quả kiểm\", \"result\": \"45\", \"unit\": \"\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "fb715d14e3589e4cdc7f9a5edd169d6852cf813998d897228f33c66f90993abd",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g2_missing_time",
+        "grade": 2,
+        "skill": "identify_missing_information",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Một chiếc xe buýt rời bến lúc 3 giờ 20 phút và đến thư viện sau đó. Chuyến đi kéo dài bao nhiêu phút?",
+        "exact_reference_answer": {
+          "value": null,
+          "unit": "phút",
+          "missing": "arrival time or trip duration"
+        },
+        "checker": {
+          "type": "underdetermined",
+          "required_missing": "arrival time or duration"
+        },
+        "oracle": {
+          "expected": "Chưa đủ dữ kiện nếu không biết giờ đến hoặc thời lượng chuyến đi."
+        },
+        "rubric": [
+          "Giải thích rằng chỉ biết giờ khởi hành thì chưa tính được thời gian đi.",
+          "Hỏi thêm giờ xe đến hoặc thời lượng chuyến đi.",
+          "Không tự đoán thời gian."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_missing_time",
+        "generated_tokens": 186,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "Để tính thời gian chặng đi của chiếc xe buýt, ta cần xác định thời gian từ lúc xe buýt rời bến đến lúc đến thư viện.\n\n- Thời gian rời bến: 3 giờ 20 phút.\n- Thời gian chặng đi: chưa biết, nhưng ta biết rằng chặng đi kéo dài bao nhiêu phút để đến thư viện.\n\nTuy nhiên, trong câu hỏi không có thông tin cụ thể về thời gian chặng đi. Do đó, ta không thể tính toán thời gian chặng đi.\n\n**Lời giải:**\n- Không có thông tin cụ thể về thời gian chặng đi.\n- Không thể tính toán thời gian chặng đi.\n\n**Nhận xét lời làm thực sự được cung cấp:**\n- Lời giải không đầy đủ, vì không có thông tin về thời gian chặng đi.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5f9db2cbc996563e262276184bd5113b62722bd680843775a2f803a368cb4567",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g2_missing_time",
+        "generated_tokens": 274,
+        "grade": 2,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đọc số giờ và số phút của khoảng thời gian đã cho.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Đếm phần phút\", \"reason\": \"Mỗi giờ gồm 60 phút.\", \"result\": \"20\", \"explanation\": \"20 phút là tổng thời gian đã đi.\", \"expression\": \"20\", \"unit\": \"phút\"}, {\"step_id\": \"s1\", \"title\": \"Đếm phần giờ\", \"reason\": \"Mỗi giờ gồm 60 phút.\", \"result\": \"3\", \"explanation\": \"3 giờ gồm 180 phút.\", \"expression\": \"3*60\", \"unit\": \"phút\"}, {\"step_id\": \"s2\", \"title\": \"Tính tổng\", \"reason\": \"Gộp phần phút đã đi với phần giờ đã đi.\", \"result\": \"200\", \"explanation\": \"200 phút bằng 3 giờ 20 phút.\", \"expression\": \"{s1}+{s0}\", \"unit\": \"phút\"}], \"answer\": [{\"quantity\": \"Tổng thời gian\", \"result\": \"200\", \"unit\": \"phút\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5f9db2cbc996563e262276184bd5113b62722bd680843775a2f803a368cb4567",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g3_fraction_like_parts",
+        "grade": 3,
+        "skill": "add_fractions_same_denominator",
+        "mode": "answer",
+        "userproblem": "Buổi trưa Noah ăn 2/9 quả dưa, sau giờ học ăn thêm 4/9 quả. Noah đã ăn tất cả bao nhiêu phần của quả dưa?",
+        "exact_reference_answer": {
+          "numerator": "2/3",
+          "unit": "một quả dưa"
+        },
+        "checker": {
+          "type": "exact_fraction",
+          "value": "2/3",
+          "unit": "một quả dưa"
+        },
+        "oracle": {
+          "calculation": "2/9 + 4/9 = 6/9 = 2/3",
+          "expected": "2/3 quả dưa"
+        },
+        "rubric": [
+          "Cộng tử số và giữ nguyên mẫu số 9.",
+          "Rút gọn 6/9 thành 2/3 hoặc nêu phân số tương đương 6/9.",
+          "Nói rõ đây là phần của một quả dưa."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_fraction_like_parts",
+        "generated_tokens": 153,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tổng số phần dưa Noah đã ăn là:**\n   $$\n   \\frac{2}{9} + \\frac{4}{9} = \\frac{2 + 4}{9} = \\frac{6}{9}\n   $$\n\n2. **Rút gọn phân số $\\frac{6}{9}$:**\n   $$\n   \\frac{6}{9} = \\frac{2}{3}\n   $$\n\n**Kết luận:** Noah đã ăn $\\frac{2}{3}$ phần dưa.\n\n**Lời giải đầy đủ:**  \nNoah đã ăn $\\frac{2}{3}$ phần dưa.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "53ebeea15a1a39f9b00d9454d27cb85b0e5735a862d1479748dab9e4766269ef",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_fraction_like_parts",
+        "generated_tokens": 160,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt phần đã ăn và phần còn lại.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tổng phần ăn\", \"reason\": \"Hai lượng ăn là phần cùng mẫu nên cộng.\", \"result\": \"6/9\", \"explanation\": \"6/9 cộng 4/9 bằng 10/9. Tách 10/9 thành 1 phần và 1/9, phần còn lại là 1/9.\", \"expression\": \"2/9+4/9\", \"unit\": \"\"}], \"answer\": [{\"quantity\": \"Tổng phần ăn\", \"result\": \"10/9\", \"unit\": \"\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "53ebeea15a1a39f9b00d9454d27cb85b0e5735a862d1479748dab9e4766269ef",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g3_multistep_books",
+        "grade": 3,
+        "skill": "multiplication_then_subtraction",
+        "mode": "answer",
+        "userproblem": "Lớp xếp 5 bàn, mỗi bàn có 6 quyển vở. Sau đó 8 quyển được mang sang phòng khác. Còn bao nhiêu quyển vở trên các bàn?",
+        "exact_reference_answer": {
+          "value": "22",
+          "unit": "quyển vở"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 22,
+          "unit": "quyển vở"
+        },
+        "oracle": {
+          "calculation": "5 × 6 - 8 = 22",
+          "expected": "22 quyển vở"
+        },
+        "rubric": [
+          "Dùng phép nhân để tìm số vở ban đầu.",
+          "Trừ đi 8 quyển được mang đi.",
+          "Trả lời còn 22 quyển vở."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_multistep_books",
+        "generated_tokens": 154,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tính tổng số quyển vở ban đầu:**\n   - Mỗi bàn có 6 quyển vở.\n   - Lớp có 5 bàn.\n   - Tổng số quyển vở ban đầu là:\n     $$\n     5 \\times 6 = 30\n     $$\n\n2. **Tính số quyển vở còn lại sau khi mang 8 quyển sang phòng khác:**\n   - Số quyển vở còn lại là:\n     $$\n     30 - 8 = 22\n     $$\n\n**Kết luận:** Có **22 quyển vở** còn trên các bàn.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "c9c627e1272cc0c20a87a964d2298a4094e8886423f274c7014fff028d3a6323",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_multistep_books",
+        "generated_tokens": 333,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm phần đã biết trước khi chuyển.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tổng trước chuyển\", \"reason\": \"Cùng số bàn và mỗi bàn cùng số vở nên cộng trước khi chuyển.\", \"result\": \"30\", \"explanation\": \"5 × 6 = 30 quyển.\", \"expression\": \"5*6\", \"unit\": \"quyển\"}, {\"step_id\": \"s1\", \"title\": \"Còn sau chuyển\", \"reason\": \"Tách 8 quyển khỏi tổng.\", \"result\": \"22\", \"explanation\": \"30 − 8 = 22 quyển.\", \"expression\": \"{s0}-8\", \"unit\": \"quyển\"}, {\"step_id\": \"s2\", \"title\": \"Chia đều\", \"reason\": \"Chia phần còn lại thành các bàn.\", \"result\": \"22/5\", \"explanation\": \"22 : 5 = 4,4 quyển mỗi bàn.\", \"expression\": \"{s1}/5\", \"unit\": \"quyển/bàn\"}], \"answer\": [{\"quantity\": \"Tổng trước chuyển\", \"result\": \"30\", \"unit\": \"quyển\"}, {\"quantity\": \"Còn sau chuyển\", \"result\": \"22\", \"unit\": \"quyển\"}, {\"quantity\": \"Chia đều\", \"result\": \"22/5\", \"unit\": \"quyển/bàn\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "c9c627e1272cc0c20a87a964d2298a4094e8886423f274c7014fff028d3a6323",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g3_decimal_money",
+        "grade": 3,
+        "skill": "add_decimal_money",
+        "mode": "answer",
+        "userproblem": "Một quyển vở giá 2,35 đô la và một cây bút giá 1,40 đô la. Tổng số tiền phải trả là bao nhiêu?",
+        "exact_reference_answer": {
+          "value": "3.75",
+          "unit": "USD"
+        },
+        "checker": {
+          "type": "exact_decimal",
+          "value": "3.75",
+          "unit": "USD"
+        },
+        "oracle": {
+          "calculation": "2.35 + 1.40 = 3.75",
+          "expected": "3,75 đô la Mỹ"
+        },
+        "rubric": [
+          "Đặt thẳng hàng các chữ số thập phân khi cộng.",
+          "Trả lời 3,75 đô la."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_decimal_money",
+        "generated_tokens": 108,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tính tổng số tiền phải trả, ta cộng giá của quyển vở và giá của cây bút:\n\n- Giá của quyển vở: 2,35 đô la  \n- Giá của cây bút: 1,40 đô la  \n\nTổng số tiền phải trả là:  \n2,35 + 1,40 = 3,75 đô la\n\nLời giải đầy đủ:  \nTổng số tiền phải trả là 3,75 đô la.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "de4e028dccd5752536d46b4c391d9bba0f6aefd9be50043a1f44f84c5a5bb3fd",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_decimal_money",
+        "generated_tokens": 161,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đọc số đơn vị, chữ số bên phải có nghĩa gì?\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm tổng\", \"reason\": \"Cộng hai giá trị đã biết.\", \"result\": \"3.75\", \"explanation\": \"2,35 + 1,40 = 3,75; kiểm 3,75 - 1,40 = 2,35.\", \"expression\": \"2.35+1.40\", \"unit\": \"đô la\"}], \"answer\": [{\"quantity\": \"Tổng\", \"result\": \"3.75\", \"unit\": \"đô la\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "de4e028dccd5752536d46b4c391d9bba0f6aefd9be50043a1f44f84c5a5bb3fd",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g3_area_hint",
+        "grade": 3,
+        "skill": "rectangle_area",
+        "mode": "hint_no_answer",
+        "userproblem": "Một mảnh vườn hình chữ nhật dài 7 m, rộng 4 m. Hãy gợi ý cách tính diện tích nhưng đừng nói kết quả.",
+        "exact_reference_answer": {
+          "value": "28",
+          "unit": "m²",
+          "withhold_from_response": true
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 28,
+          "unit": "m²"
+        },
+        "oracle": {
+          "calculation": "7 × 4 = 28",
+          "expected": "Diện tích là 28 m²; không nêu trong câu trả lời gợi ý"
+        },
+        "rubric": [
+          "Gợi ý lấy chiều dài nhân chiều rộng.",
+          "Có thể nhắc đơn vị diện tích là mét vuông.",
+          "Không tiết lộ 28 m²."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_area_hint",
+        "generated_tokens": 127,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "Gợi ý cách tính diện tích mảnh vườn hình chữ nhật:\n\n- Diện tích của hình chữ nhật được tính bằng cách lấy chiều dài nhân với chiều rộng.\n\n- Công thức tính diện tích hình chữ nhật là:  \n  $$\n  \\text{Diện tích} = \\text{chiều dài} \\times \\text{chiều rộng}\n  $$\n\n- Với dữ kiện đã cho:  \n  - Chiều dài = 7 m  \n  - Chiều rộng = 4 m  \n\n- Do đó, diện tích = 7 m × 4 m = 28 m².",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "8901fcbba25d36213f760c5337fbdc079ab53043e467c864305d762b549d8f9f",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_area_hint",
+        "generated_tokens": 32,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "{\"hint\": \"Phân biệt cạnh dài với cạnh rộng trong hình chữ nhật.\", \"question\": \"Em cần xác định kích thước nào trước?\"}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "8901fcbba25d36213f760c5337fbdc079ab53043e467c864305d762b549d8f9f",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g3_conflicting_shape",
+        "grade": 3,
+        "skill": "detect_inconsistent_geometry_data",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Một hình chữ nhật dài 8 cm, rộng 3 cm. Nhãn trên hình ghi chu vi là 18 cm. Tính chu vi theo chiều dài và chiều rộng đã cho.",
+        "exact_reference_answer": {
+          "value": "22",
+          "unit": "cm",
+          "note_conflict": "Nhãn chu vi đã cho không khớp với kích thước."
+        },
+        "checker": {
+          "type": "exact_integer_with_conflict",
+          "value": 22,
+          "unit": "cm",
+          "conflicting_claim": "18 cm"
+        },
+        "oracle": {
+          "calculation": "2 × (8 + 3) = 22",
+          "expected": "Theo kích thước, chu vi là 22 cm; nhãn ghi 18 cm bị mâu thuẫn."
+        },
+        "rubric": [
+          "Dùng quy tắc chu vi hình chữ nhật.",
+          "Tính được 22 cm.",
+          "Chỉ ra rằng nhãn 18 cm không khớp với kích thước."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_conflicting_shape",
+        "generated_tokens": 128,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "Để tính chu vi của hình chữ nhật, ta sử dụng công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nTrong bài toán này, chiều dài là 8 cm, chiều rộng là 3 cm. Thay vào công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (8 + 3) = 2 \\times 11 = 22 \\text{ cm}\n$$\n\nVậy chu vi của hình chữ nhật là **22 cm**.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5a191da20c33c392c67b8222313bf8a6b7af73d0bf19209ed390efeda16c1d6c",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g3_conflicting_shape",
+        "generated_tokens": 161,
+        "grade": 3,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm số đơn vị ô trong chu vi trước khi chọn phép tính.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Đếm đơn vị ô\", \"reason\": \"Mỗi cạnh dài 1 cm nên số ô là số lần xuất hiện của cạnh.\", \"result\": \"24\", \"explanation\": \"8 × 4 = 32; 3 × 4 = 12. Cả hai đều là 24 cm nên chu vi là 24 cm.\", \"expression\": \"8*4\", \"unit\": \"cm\"}], \"answer\": [{\"quantity\": \"Chu vi\", \"result\": \"24\", \"unit\": \"cm\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5a191da20c33c392c67b8222313bf8a6b7af73d0bf19209ed390efeda16c1d6c",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g4_fraction_of_group",
+        "grade": 4,
+        "skill": "fraction_of_whole_number",
+        "mode": "answer",
+        "userproblem": "Một câu lạc bộ có 32 thành viên. Ba phần tám số thành viên mang theo trò chơi bàn. Có bao nhiêu thành viên mang trò chơi?",
+        "exact_reference_answer": {
+          "value": "12",
+          "unit": "thành viên"
+        },
+        "checker": {
+          "type": "exact_fraction_product",
+          "value": "12",
+          "unit": "thành viên"
+        },
+        "oracle": {
+          "calculation": "32 × 3/8 = 4 × 3 = 12",
+          "expected": "12 thành viên"
+        },
+        "rubric": [
+          "Tìm một phần tám của 32 rồi nhân với 3, hoặc dùng cách tương đương.",
+          "Trả lời 12 thành viên."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_fraction_of_group",
+        "generated_tokens": 179,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm số thành viên mang trò chơi, ta thực hiện các bước sau:\n\n1. Tính ba phần tám của tổng số thành viên:\n   $$\n   \\frac{3}{8} \\times 32 = \\frac{3 \\times 32}{8} = \\frac{96}{8} = 12\n   $$\n\n2. Kết luận: Số thành viên mang trò chơi là **12**.\n\nLời giải đầy đủ:  \n- Tổng số thành viên của câu lạc bộ là 32.\n- Ba phần tám của 32 là: $\\frac{3}{8} \\times 32 = 12$.\n- Vậy số thành viên mang trò chơi là **12**.\n\nNếu bạn cần lời giải chi tiết hơn hoặc muốn kiểm tra lại, hãy cho tôi biết!",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "f24011d4db41f70161495089d44aa6cc24da26a2920db645038d46300cee3c8c",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_fraction_of_group",
+        "generated_tokens": 159,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt số được chia cho một phần với số nhóm.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm số nhóm\", \"reason\": \"Ba phần tám là ba nhóm, mỗi nhóm tám thành viên.\", \"result\": \"24\", \"explanation\": \"24 + 8 = 32; 24: 8 = 3. Vì vậy 3 nhóm tám thành viên mang trò chơi.\", \"expression\": \"3*8\", \"unit\": \"thành viên\"}], \"answer\": [{\"quantity\": \"Thành viên mang trò chơi\", \"result\": \"24\", \"unit\": \"thành viên\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "f24011d4db41f70161495089d44aa6cc24da26a2920db645038d46300cee3c8c",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g4_division_remainder",
+        "grade": 4,
+        "skill": "division_with_remainder",
+        "mode": "answer",
+        "userproblem": "Một người làm bánh xếp 53 ổ bánh mì vào các túi, mỗi túi 6 ổ. Xếp được bao nhiêu túi đầy và còn thừa mấy ổ?",
+        "exact_reference_answer": {
+          "quotient": "8",
+          "remainder": "5",
+          "unit": "ổ bánh mì"
+        },
+        "checker": {
+          "type": "integer_division",
+          "dividend": 53,
+          "divisor": 6,
+          "quotient": 8,
+          "remainder": 5,
+          "unit": "ổ bánh mì"
+        },
+        "oracle": {
+          "calculation": "53 = 6 × 8 + 5",
+          "expected": "8 túi đầy, còn thừa 5 ổ bánh mì"
+        },
+        "rubric": [
+          "Trả lời được 8 túi đầy.",
+          "Nêu còn thừa 5 ổ bánh mì.",
+          "Kiểm tra bằng 6 × 8 + 5 = 53."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_division_remainder",
+        "generated_tokens": 164,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tính số túi đầy:**  \n   Số túi đầy là số lớn nhất mà 53 ổ bánh mì có thể xếp vào, với mỗi túi chứa 6 ổ.  \n   Ta thực hiện phép chia:  \n   $$\n   53 \\div 6 = 8 \\text{ túi đầy}, \\text{ còn thừa } 53 - (8 \\times 6) = 53 - 48 = 5 \\text{ ổ}.\n   $$\n\n2. **Kết luận:**  \n   Xếp được **8 túi đầy** và còn thừa **5 ổ**.\n\n**Đáp án:** Xếp được 8 túi đầy và còn thừa 5 ổ.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "755ae00891d96575cda96ffa8cbb466123fb5426225c7612637782d9f6822e9b",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_division_remainder",
+        "generated_tokens": 218,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đọc số ổ ban đầu và lượng mỗi túi.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Chia đều\", \"reason\": \"Mỗi túi nhận lượng nhất định nên chia theo số túi.\", \"result\": \"8\", \"explanation\": \"8 túi lấy 48 ổ, còn 5 ổ.\", \"expression\": \"53/6\", \"unit\": \"túi\"}, {\"step_id\": \"s1\", \"title\": \"Kiểm phần dư\", \"reason\": \"Cùng một số túi thì phần dư phải nhỏ hơn lượng mỗi túi.\", \"result\": \"5\", \"explanation\": \"5 < 6 nên không thêm một túi nữa.\", \"expression\": null, \"unit\": \"\"}], \"answer\": [{\"quantity\": \"Túi đầy\", \"result\": \"8\", \"unit\": \"túi\"}, {\"quantity\": \"Ổ dư\", \"result\": \"5\", \"unit\": \"ổ\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "755ae00891d96575cda96ffa8cbb466123fb5426225c7612637782d9f6822e9b",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g4_decimal_measure",
+        "grade": 4,
+        "skill": "add_decimal_lengths",
+        "mode": "answer",
+        "userproblem": "Một tấm ván dài 1,6 m, một đoạn ván khác dài 0,85 m. Tổng chiều dài là bao nhiêu?",
+        "exact_reference_answer": {
+          "value": "2.45",
+          "unit": "m"
+        },
+        "checker": {
+          "type": "exact_decimal",
+          "value": "2.45",
+          "unit": "m"
+        },
+        "oracle": {
+          "calculation": "1.60 + 0.85 = 2.45",
+          "expected": "2,45 m"
+        },
+        "rubric": [
+          "Đặt thẳng hàng các chữ số thập phân.",
+          "Trả lời 2,45 m."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_decimal_measure",
+        "generated_tokens": 73,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm tổng chiều dài của hai đoạn ván, ta thực hiện phép cộng:\n\n$$\n1,6 \\, \\text{m} + 0,85 \\, \\text{m} = 2,45 \\, \\text{m}\n$$\n\nVậy tổng chiều dài là **2,45 mét**.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "a8506862473187288b26fcfddae4eb04bd3d7fd3fc1d106134d01a5db19380cc",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_decimal_measure",
+        "generated_tokens": 162,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đếm số phần cùng cỡ từ dữ kiện trước khi cộng.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Đếm phần cùng cỡ\", \"reason\": \"Hai đoạn có cùng cỡ nên cộng phần ván.\", \"result\": \"2.45\", \"explanation\": \"1,6+0,85=2,45 m; kiểm 2,45-0,85=1,6 m.\", \"expression\": \"1.6+0.85\", \"unit\": \"m\"}], \"answer\": [{\"quantity\": \"Tổng chiều dài\", \"result\": \"2.45\", \"unit\": \"m\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "a8506862473187288b26fcfddae4eb04bd3d7fd3fc1d106134d01a5db19380cc",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g4_multistep_groups_hint",
+        "grade": 4,
+        "skill": "two_step_multiplication_subtraction",
+        "mode": "hint_no_answer",
+        "userproblem": "Có 9 khay, mỗi khay có 12 chiếc cốc. Người ta dùng 17 chiếc. Hãy gợi ý cách tính số cốc còn lại, đừng nêu kết quả.",
+        "exact_reference_answer": {
+          "value": "91",
+          "unit": "chiếc cốc",
+          "withhold_from_response": true
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 91,
+          "unit": "chiếc cốc"
+        },
+        "oracle": {
+          "calculation": "9 × 12 - 17 = 91",
+          "expected": "Còn 91 chiếc cốc; không nêu trong câu trả lời gợi ý"
+        },
+        "rubric": [
+          "Gợi ý nhân trước để tìm tổng số cốc, rồi trừ số đã dùng.",
+          "Không tiết lộ 91.",
+          "Trả lời ngắn gọn, động viên học sinh tự tính."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_multistep_groups_hint",
+        "generated_tokens": 123,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "Để tính số cốc còn lại, ta có thể thực hiện các bước sau:\n\n1. Tính tổng số cốc ban đầu:  \n   $ 9 \\text{ khay} \\times 12 \\text{ cốc/khay} = 108 \\text{ cốc} $\n\n2. Trừ đi số cốc đã dùng:  \n   $ 108 \\text{ cốc} - 17 \\text{ cốc} = 91 \\text{ cốc} $\n\nVậy số cốc còn lại là 91.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "53674e54e502ed4fc4b9c2e826b32f324c2285dae24ca24a5dd70bcf5d480475",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_multistep_groups_hint",
+        "generated_tokens": 39,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "{\"hint\": \"Phân biệt số được dùng với số khay chứa cốc.\", \"question\": \"Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?\"}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "53674e54e502ed4fc4b9c2e826b32f324c2285dae24ca24a5dd70bcf5d480475",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g4_student_area_perimeter_mixup",
+        "grade": 4,
+        "skill": "distinguish_area_and_perimeter",
+        "mode": "student_error",
+        "userproblem": "Một hình chữ nhật có kích thước 9 cm × 4 cm. Em nói chu vi là 36 cm vì 9 × 4 = 36. Em nói đúng không?",
+        "exact_reference_answer": {
+          "value": "26",
+          "unit": "cm"
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 26,
+          "unit": "cm"
+        },
+        "oracle": {
+          "calculation": "2 × (9 + 4) = 26; 9 × 4 = 36 cm² is area",
+          "expected": "Chu vi là 26 cm; 9 × 4 = 36 cm² là diện tích"
+        },
+        "rubric": [
+          "Nhẹ nhàng phân biệt chu vi với diện tích.",
+          "Chỉ cách cộng bốn cạnh hoặc tính 2 × (9 + 4).",
+          "Nêu chu vi là 26 cm; nếu nhắc đến 36 thì giải thích đó là diện tích 36 cm²."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_student_area_perimeter_mixup",
+        "generated_tokens": 129,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "Em đã tính chu vi hình chữ nhật đúng rồi. Chu vi của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (9 + 4) = 2 \\times 13 = 26 \\text{ cm}\n$$\n\nVậy nên em đã sai khi nói chu vi là 36 cm. Em đã nhầm lẫn giữa diện tích và chu vi.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "1c44695ce9a83c34a38ad1c1d63d3dae7937fa149351392cbd95f3d5735ff54a",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g4_student_area_perimeter_mixup",
+        "generated_tokens": 144,
+        "grade": 4,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt phép nhân với phép cộng các cạnh.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tính chu vi\", \"reason\": \"Chu vi bao gồm bốn cạnh kề nhau.\", \"result\": \"26\", \"explanation\": \"9 + 4 + 9 + 4 = 26 cm; 2 × 13 = 26.\", \"expression\": \"2*(9+4)\", \"unit\": \"cm\"}], \"answer\": [{\"quantity\": \"Chu vi\", \"result\": \"26\", \"unit\": \"cm\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "1c44695ce9a83c34a38ad1c1d63d3dae7937fa149351392cbd95f3d5735ff54a",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_fraction_subtraction",
+        "grade": 5,
+        "skill": "subtract_fractions_unlike_denominators",
+        "mode": "answer",
+        "userproblem": "Một bể nước đang đầy 5/6 dung tích. Gia đình dùng một lượng nước bằng 1/4 dung tích tối đa của bể. Bể còn lại bao nhiêu phần dung tích tối đa?",
+        "exact_reference_answer": {
+          "value": "7/12",
+          "unit": "dung tích bể"
+        },
+        "checker": {
+          "type": "exact_fraction",
+          "value": "7/12",
+          "unit": "dung tích bể"
+        },
+        "oracle": {
+          "calculation": "5/6 - 1/4 = 10/12 - 3/12 = 7/12",
+          "expected": "7/12 dung tích bể"
+        },
+        "rubric": [
+          "Quy đồng mẫu số.",
+          "Thực hiện phép trừ để được 7/12.",
+          "Hiểu 1/4 là một phần tư dung tích tối đa như đề bài nêu."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_fraction_subtraction",
+        "generated_tokens": 273,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Xác định dung tích tối đa của bể**: Gọi dung tích tối đa của bể là $1$ (đơn vị phần dung tích tối đa).\n\n2. **Xác định lượng nước đã dùng**: Gia đình dùng một lượng nước bằng $\\frac{1}{4}$ dung tích tối đa của bể. Do đó, lượng nước đã dùng là:\n   $$\n   \\frac{1}{4} \\times 1 = \\frac{1}{4}\n   $$\n\n3. **Tính lượng nước còn lại**: Bể ban đầu đầy $\\frac{5}{6}$ dung tích tối đa, sau khi dùng $\\frac{1}{4}$ dung tích tối đa, lượng nước còn lại là:\n   $$\n   \\frac{5}{6} - \\frac{1}{4}\n   $$\n\n4. **Tính toán hiệu số**:\n   $$\n   \\frac{5}{6} - \\frac{1}{4} = \\frac{10}{12} - \\frac{3}{12} = \\frac{7}{12}\n   $$\n\n**Kết luận**: Bể còn lại $\\frac{7}{12}$ dung tích tối đa.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "da96276f4e30e7b71a1eb1419394eaaa67048cced00121c395aae465891ef9b1",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_fraction_subtraction",
+        "generated_tokens": 228,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Xác định phần tối đa ứng với một lượng nước.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm lượng dùng\", \"reason\": \"Lượng dùng bằng một phần của dung tích tối đa.\", \"result\": \"5/24\", \"explanation\": \"5/24 dung tích tối đa bằng 1/4 dung tích tối đa của bể.\", \"expression\": \"5/24\", \"unit\": \"dung tích tối đa\"}, {\"step_id\": \"s1\", \"title\": \"Tìm phần còn\", \"reason\": \"Bớt phần đã dùng khỏi phần đầy.\", \"result\": \"19/24\", \"explanation\": \"19/24 dung tích tối đa còn lại.\", \"expression\": \"{s0}*19/5\", \"unit\": \"dung tích tối đa\"}], \"answer\": [{\"quantity\": \"Phần còn\", \"result\": \"19/24\", \"unit\": \"dung tích tối đa\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "da96276f4e30e7b71a1eb1419394eaaa67048cced00121c395aae465891ef9b1",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_decimal_rate",
+        "grade": 5,
+        "skill": "decimal_rate_multiplication",
+        "mode": "answer",
+        "userproblem": "Một người đi xe đạp đi được 2,4 km mỗi vòng và đạp 3,5 vòng. Người đó đi được bao xa?",
+        "exact_reference_answer": {
+          "value": "8.4",
+          "unit": "km"
+        },
+        "checker": {
+          "type": "exact_decimal",
+          "value": "8.4",
+          "unit": "km"
+        },
+        "oracle": {
+          "calculation": "2.4 × 3.5 = 8.40",
+          "expected": "8,4 km"
+        },
+        "rubric": [
+          "Nhân quãng đường mỗi vòng với số vòng.",
+          "Trả lời 8,4 km."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_decimal_rate",
+        "generated_tokens": 155,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tính tổng quãng đường người đó đi được, ta thực hiện các bước sau:\n\n1. **Tính quãng đường mỗi vòng:**  \n   Người đó đi được $2,4$ km mỗi vòng.\n\n2. **Tính tổng số vòng đạp:**  \n   Người đó đạp $3,5$ vòng.\n\n3. **Tính tổng quãng đường đi được:**  \n   $$\n   \\text{Tổng quãng đường} = 2,4 \\, \\text{km/vòng} \\times 3,5 \\, \\text{vòng} = 8,4 \\, \\text{km}\n   $$\n\n**Kết luận:** Người đó đi được $8,4$ km.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "0a0f207c9fb9e84a48cc7882e38c24e0a74d0a8f81d578173dbdb02d9b42d0b8",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_decimal_rate",
+        "generated_tokens": 135,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Đọc số vòng và quan hệ độ dài một vòng.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm quãng đường\", \"reason\": \"Nhân số vòng với độ dài mỗi vòng.\", \"result\": \"8.4\", \"explanation\": \"2,4 nhân 3,5 bằng 8,4 km.\", \"expression\": \"2.4*3.5\", \"unit\": \"km\"}], \"answer\": [{\"quantity\": \"Quãng đường\", \"result\": \"8,4\", \"unit\": \"km\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "0a0f207c9fb9e84a48cc7882e38c24e0a74d0a8f81d578173dbdb02d9b42d0b8",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_triangle_side",
+        "grade": 5,
+        "skill": "perimeter_unknown_side",
+        "mode": "answer",
+        "userproblem": "Hai cạnh của một tam giác dài 7,5 cm và 9 cm. Chu vi tam giác là 23 cm. Cạnh thứ ba dài bao nhiêu?",
+        "exact_reference_answer": {
+          "value": "6.5",
+          "unit": "cm"
+        },
+        "checker": {
+          "type": "exact_decimal",
+          "value": "6.5",
+          "unit": "cm"
+        },
+        "oracle": {
+          "calculation": "23 - 7.5 - 9 = 6.5",
+          "expected": "6,5 cm"
+        },
+        "rubric": [
+          "Lấy chu vi trừ đi độ dài hai cạnh đã biết.",
+          "Trả lời 6,5 cm."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_triangle_side",
+        "generated_tokens": 163,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "Để tìm độ dài cạnh thứ ba của tam giác, ta thực hiện các bước sau:\n\n1. **Tính tổng độ dài hai cạnh đã biết:**\n   $$\n   7,5 \\, \\text{cm} + 9 \\, \\text{cm} = 16,5 \\, \\text{cm}\n   $$\n\n2. **Tính độ dài cạnh thứ ba:**\n   $$\n   \\text{Chu vi} - \\text{Tổng hai cạnh} = 23 \\, \\text{cm} - 16,5 \\, \\text{cm} = 6,5 \\, \\text{cm}\n   $$\n\n**Kết luận:** Cạnh thứ ba dài $6,5$ cm.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "e24f6ff3b0657cc6af502161d1a16b266c9fca241269e31d4d4f82d7eb73c22f",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_triangle_side",
+        "generated_tokens": 160,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt tổng hai cạnh với chu vi của cả hình.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm cạnh còn thiếu\", \"reason\": \"Chu vi bao gồm cả ba cạnh.\", \"result\": \"7,5\", \"explanation\": \"7,5 + 9 + 7,5 = 24 cm; 24 − 23 = 1 cm. Cạnh thứ ba là 1 cm.\", \"expression\": \"23 - 7.5 - 9\", \"unit\": \"cm\"}], \"answer\": [{\"quantity\": \"Cạnh thứ ba\", \"result\": \"1\", \"unit\": \"cm\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "e24f6ff3b0657cc6af502161d1a16b266c9fca241269e31d4d4f82d7eb73c22f",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_ratio_hint",
+        "grade": 5,
+        "skill": "scale_ratio",
+        "mode": "hint_no_answer",
+        "userproblem": "Pha sơn theo tỉ lệ cứ 2 cốc sơn xanh thì dùng 3 cốc sơn trắng. Nếu dùng 8 cốc sơn xanh, hãy gợi ý cách tìm lượng sơn trắng, đừng nói đáp số.",
+        "exact_reference_answer": {
+          "value": "12",
+          "unit": "cốc sơn trắng",
+          "withhold_from_response": true
+        },
+        "checker": {
+          "type": "exact_integer",
+          "value": 12,
+          "unit": "cốc sơn trắng"
+        },
+        "oracle": {
+          "calculation": "8 ÷ 2 = 4; 3 × 4 = 12",
+          "expected": "Cần 12 cốc sơn trắng; không nêu trong câu trả lời gợi ý"
+        },
+        "rubric": [
+          "Gợi ý 8 cốc gấp 4 lần 2 cốc nên lượng sơn trắng cũng gấp 4 lần.",
+          "Không nói 12 cốc.",
+          "Để học sinh tự tính kết quả cuối."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_ratio_hint",
+        "generated_tokens": 231,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "Để tìm lượng sơn trắng khi dùng 8 cốc sơn xanh, ta có thể lập tỉ lệ như sau:\n\n- Tỉ lệ giữa sơn xanh và sơn trắng là 2 : 3.\n- Khi dùng 2 cốc sơn xanh, thì cần 3 cốc sơn trắng.\n\nDo đó, khi dùng 8 cốc sơn xanh, ta có thể lập tỉ lệ tương ứng:\n\n$$\n\\frac{2}{3} = \\frac{8}{x}\n$$\n\nTrong đó:\n- 2 là số cốc sơn xanh.\n- 3 là số cốc sơn trắng.\n- 8 là số cốc sơn xanh mới.\n- $x$ là số cốc sơn trắng cần tìm.\n\nTa có thể giải phương trình trên để tìm $x$:\n\n$$\n\\frac{2}{3} = \\frac{8}{x} \\Rightarrow 2x = 24 \\Rightarrow x = 12\n$$\n\nVậy lượng sơn trắng cần dùng là 12 cốc.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "4cbc09988e3e0dd1dcf52ae3c62c49affe7e070e6dacccf7adf1d41c686b692e",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_ratio_hint",
+        "generated_tokens": 42,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "output": "{\"hint\": \"Tỉ lệ yêu cầu một quan hệ giữa hai lượng khác nhau.\", \"question\": \"Em xác định số nào là lượng được hỏi theo yêu cầu thế nào?\"}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "4cbc09988e3e0dd1dcf52ae3c62c49affe7e070e6dacccf7adf1d41c686b692e",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_student_percent_error",
+        "grade": 5,
+        "skill": "fraction_to_percent_error",
+        "mode": "student_error",
+        "userproblem": "Một bạn nói 3/5 lớp học tương đương 30% vì 3 chia 5 bằng 0,3. Em sẽ kiểm tra lời giải này thế nào?",
+        "exact_reference_answer": {
+          "value": "60",
+          "unit": "%"
+        },
+        "checker": {
+          "type": "exact_fraction",
+          "value": "60/1",
+          "unit": "%"
+        },
+        "oracle": {
+          "calculation": "3/5 = 0.6 = 60%",
+          "expected": "60%"
+        },
+        "rubric": [
+          "Sửa phép chia: 3 ÷ 5 = 0,6.",
+          "Đổi 0,6 thành 60%.",
+          "Giải thích vì sao 30% không tương đương với 3/5."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_student_percent_error",
+        "generated_tokens": 318,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "Để kiểm tra lời giải của bạn, ta cần phân tích từng bước:\n\n1. **Xác định các giá trị đã cho:**\n   - $\\frac{3}{5}$ lớp học tương đương 30%.\n   - Bạn đã tính $ \\frac{3}{5} \\div 5 = 0.3 $, nhưng đây là sai lầm.\n\n2. **Phân tích sai lầm:**\n   - Bạn đã tính $ \\frac{3}{5} \\div 5 $, nhưng thực ra cần tính $ \\frac{3}{5} \\times 100\\% $ để chuyển đổi phân số thành phần trăm.\n\n3. **Tính đúng:**\n   - $\\frac{3}{5} \\times 100\\% = \\frac{3}{5} \\times 100 = 60\\%$.\n\n4. **So sánh với giá trị đã cho:**\n   - Bạn đã nói rằng $\\frac{3}{5}$ lớp học tương đương 30%, nhưng thực tế $\\frac{3}{5}$ tương đương 60%.\n\n5. **Kết luận:**\n   - Lời giải của bạn sai, vì $\\frac{3}{5}$ lớp học tương đương 60%, không phải 30%.\n\n**Nhận xét lời giải thực sự được cung cấp:**\n- Lời giải của bạn sai, vì bạn đã tính sai phép tính và không hiểu rõ cách chuyển đổi phân số thành phần trăm.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5e4f05f2b1a3d398270c13f15d8eb9512d2c4c1666fa5148beb67affab0299ce",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_student_percent_error",
+        "generated_tokens": 273,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân số biểu thị tỉ lệ phần của toàn bộ.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Đổi phần trăm thành phân số\", \"reason\": \"30% của toàn bộ bằng 3/100 toàn bộ.\", \"result\": \"3/10\", \"explanation\": \"3/10 của toàn bộ bằng 30%. Không tự đổi số phần trăm thành số phần bằng nhau.\", \"expression\": null, \"unit\": \"\"}, {\"step_id\": \"s1\", \"title\": \"Kiểm bằng phép nhân\", \"reason\": \"Nhân phân số với toàn bộ phải trả lại số phần trăm.\", \"result\": \"30\", \"explanation\": \"3/10 của 100 bằng 30. Kiểm 3/10 của 100 bằng 30, không tự đổi 30% thành 30.\", \"expression\": \"3/10*100\", \"unit\": \"\"}], \"answer\": [{\"quantity\": \"Phần trăm\", \"result\": \"30\", \"unit\": \"\"}, {\"quantity\": \"Phân số\", \"result\": \"3/10\", \"unit\": \"\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "5e4f05f2b1a3d398270c13f15d8eb9512d2c4c1666fa5148beb67affab0299ce",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_contradictory_distance",
+        "grade": 5,
+        "skill": "detect_contradictory_rate_data",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Bản đồ có tỉ lệ 1 cm ứng với 4 km. Một tuyến đường dài 6 cm trên bản đồ, nhưng ghi chú nói khoảng cách thật là 20 km. Theo tỉ lệ bản đồ thì khoảng cách thật là bao nhiêu?",
+        "exact_reference_answer": {
+          "value": "24",
+          "unit": "km",
+          "note_conflict": "Ghi chú nói 20 km mâu thuẫn với tỉ lệ đã nêu."
+        },
+        "checker": {
+          "type": "exact_integer_with_conflict",
+          "value": 24,
+          "unit": "km",
+          "conflicting_claim": "20 km"
+        },
+        "oracle": {
+          "calculation": "6 × 4 = 24",
+          "expected": "Theo tỉ lệ là 24 km; ghi chú nói 20 km bị mâu thuẫn."
+        },
+        "rubric": [
+          "Lấy 6 cm nhân với 4 km cho mỗi cm.",
+          "Tính được 24 km.",
+          "Chỉ ra ghi chú 20 km mâu thuẫn với tỉ lệ đã cho."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_contradictory_distance",
+        "generated_tokens": 135,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tỉ lệ bản đồ**: 1 cm ứng với 4 km.\n\n2. **Tuyến đường trên bản đồ**: 6 cm.\n\n3. **Tính khoảng cách thật**:\n   - Ta biết rằng 1 cm ứng với 4 km, nên 6 cm sẽ ứng với:\n     $$\n     6 \\, \\text{cm} \\times 4 \\, \\text{km/cm} = 24 \\, \\text{km}\n     $$\n\n**Kết luận**: Khoảng cách thật là **24 km**.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "67a778bfeaa803932596ab09f2c116db47ff36cf03df124b25d53400a5a1e1a9",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_contradictory_distance",
+        "generated_tokens": 150,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Tìm quan hệ giữa độ dài trên bản đồ và độ dài thật từ tỉ lệ.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm quan hệ\", \"reason\": \"Độ dài thật phải là độ dài trên bản đồ nhân với hệ số tỉ lệ.\", \"result\": \"24\", \"explanation\": \"6 × 4 = 24 km; 24 km bằng 20 km.\", \"expression\": \"6*4\", \"unit\": \"km\"}], \"answer\": [{\"quantity\": \"Khoảng cách thật\", \"result\": \"24\", \"unit\": \"km\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "67a778bfeaa803932596ab09f2c116db47ff36cf03df124b25d53400a5a1e1a9",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g1_missing_information",
+        "grade": 1,
+        "skill": "identify_missing_information",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Trong hộp có vài viên bi. Bạn Nam lấy ra 2 viên. Hỏi ban đầu trong hộp có bao nhiêu viên bi?",
+        "exact_reference_answer": {
+          "value": null,
+          "unit": "viên bi",
+          "missing": "số viên bi còn lại hoặc số ban đầu"
+        },
+        "checker": {
+          "type": "underdetermined",
+          "required_missing": "số viên bi ban đầu hoặc số viên còn lại sau khi lấy"
+        },
+        "oracle": {
+          "expected": "Chưa đủ dữ kiện để biết số viên ban đầu; cần biết số viên còn lại hoặc một thông tin tương đương."
+        },
+        "rubric": [
+          "Giải thích rằng chưa biết số bi còn lại sau khi lấy 2 viên.",
+          "Hỏi thêm số bi còn lại hoặc một thông tin đủ để tìm số ban đầu.",
+          "Không tự đặt ra một số lượng."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_missing_information",
+        "generated_tokens": 137,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta cần xác định số lượng viên bi ban đầu trong hộp dựa trên thông tin đã cho:\n\n- Sau khi Nam lấy ra 2 viên bi, số viên bi còn lại trong hộp là chưa biết.\n- Tuy nhiên, bài toán không cung cấp thông tin cụ thể về số viên bi còn lại sau khi lấy ra 2 viên.\n\nDo đó, bài toán không thể giải được với thông tin hiện tại.\n\n**Lời giải đầy đủ:**\n- Không đủ thông tin để xác định số viên bi ban đầu trong hộp.\n- Cần thêm thông tin về số viên bi còn lại sau khi lấy ra 2 viên.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "8798abbbbe313ca8f423f4224d7f711481feba0320ba21fab95fb2be06f46357",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g1_missing_information",
+        "generated_tokens": 37,
+        "grade": 1,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": false, \"initial_guidance\": [\"Cần biết lượng bi cuối, không chỉ lấy ra một phần.\"], \"steps\": [], \"answer\": []}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "8798abbbbe313ca8f423f4224d7f711481feba0320ba21fab95fb2be06f46357",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    },
+    {
+      "fixture": {
+        "id": "g5_missing_information",
+        "grade": 5,
+        "skill": "identify_missing_information",
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Một hình chữ nhật có diện tích 48 cm². Chiều dài lớn hơn chiều rộng. Tính chu vi hình chữ nhật.",
+        "exact_reference_answer": {
+          "value": null,
+          "unit": "cm",
+          "missing": "ít nhất một kích thước cạnh hoặc điều kiện xác định duy nhất hai cạnh"
+        },
+        "checker": {
+          "type": "underdetermined",
+          "required_missing": "một cạnh hoặc thông tin bổ sung xác định hai cạnh"
+        },
+        "oracle": {
+          "expected": "Chưa đủ dữ kiện: diện tích 48 cm² và chiều dài lớn hơn chiều rộng chưa xác định duy nhất các cạnh; cần thêm một kích thước hoặc điều kiện."
+        },
+        "rubric": [
+          "Giải thích rằng nhiều cặp chiều dài và chiều rộng có thể cho diện tích 48 cm².",
+          "Yêu cầu thêm kích thước cạnh hoặc điều kiện đủ để xác định hai cạnh.",
+          "Không tự giả định hai cạnh là số nguyên hay đoán chu vi."
+        ]
+      },
+      "base": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_missing_information",
+        "generated_tokens": 650,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n**Bước 1:**\n- Gọi chiều rộng của hình chữ nhật là $ x $ cm.\n- Vì chiều dài lớn hơn chiều rộng, nên chiều dài là $ x + 1 $ cm.\n\n**Bước 2:**\n- Diện tích hình chữ nhật là $ x \\cdot (x + 1) = 48 $ cm².\n\n**Bước 3:**\n- Giải phương trình:  \n  $$\n  x(x + 1) = 48\n  $$\n  $$\n  x^2 + x - 48 = 0\n  $$\n\n**Bước 4:**\n- Giải phương trình bậc hai $ x^2 + x - 48 = 0 $:\n  - Tính biệt thức:  \n    $$\n    \\Delta = 1^2 - 4 \\cdot 1 \\cdot (-48) = 1 + 192 = 193\n    $$\n  - Giải phương trình:  \n    $$\n    x = \\frac{-1 \\pm \\sqrt{193}}{2}\n    $$\n\n**Bước 5:**\n- Vì $ x $ phải là số dương (chiều rộng), ta chọn nghiệm dương:\n  $$\n  x = \\frac{-1 + \\sqrt{193}}{2}\n  $$\n\n**Bước 6:**\n- Tính giá trị gần đúng của $ x $:\n  $$\n  \\sqrt{193} \\approx 13.89\n  $$\n  $$\n  x \\approx \\frac{-1 + 13.89}{2} \\approx \\frac{12.89}{2} \\approx 6.445\n  $$\n\n**Bước 7:**\n- Chiều dài là $ x + 1 \\approx 6.445 + 1 = 7.445 $ cm.\n\n**Bước 8:**\n- Chu vi của hình chữ nhật là:\n  $$\n  \\text{Chu vi} = 2 \\cdot (x + (x + 1)) = 2 \\cdot (2x + 1)\n  $$\n  Với $ x \\approx 6.445 $, ta có:\n  $$\n  \\text{Chu vi} \\approx 2 \\cdot (2 \\cdot 6.445 + 1) = 2 \\cdot (12.89 + 1) = 2 \\cdot 13.89 = 27.78 \\text{ cm}\n  $$\n\n**Kết luận:**\n- Chu vi hình chữ nhật là khoảng $ 27.78 $ cm.\n\n**Lưu ý:** Trong bài toán này, ta có thể sử dụng phương pháp giải phương trình bậc hai để tìm $ x $, nhưng vì kết quả không phải là số nguyên, nên ta có thể sử dụng giá trị gần đúng để tính chu vi.",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "1d191e7da236b2b4398f76a1ef1228c52a5933f7952737811d3bbdd17831a6d8",
+        "stage": "base_before_training",
+        "timed_out": false
+      },
+      "adapter": {
+        "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+        "ended_eos": true,
+        "fixture_id": "g5_missing_information",
+        "generated_tokens": 218,
+        "grade": 5,
+        "max_new_tokens": 1024,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "output": "{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt cạnh lớn hơn với cạnh rộng hơn.\"], \"steps\": [{\"step_id\": \"s0\", \"title\": \"Tìm chiều rộng\", \"reason\": \"Diện tích bằng chiều dài nhân chiều rộng.\", \"result\": \"12\", \"explanation\": \"12 × 4 = 48 cm².\", \"expression\": \"48/4\", \"unit\": \"cm\"}, {\"step_id\": \"s1\", \"title\": \"Tìm chu vi\", \"reason\": \"Chu vi bằng hai lần tổng hai cạnh kề.\", \"result\": \"48\", \"explanation\": \"48 × 2 = 96 cm.\", \"expression\": \"(12+4)*2\", \"unit\": \"cm\"}], \"answer\": [{\"quantity\": \"Chiều rộng\", \"result\": \"12\", \"unit\": \"cm\"}, {\"quantity\": \"Chu vi\", \"result\": \"48\", \"unit\": \"cm\"}]}",
+        "possibly_truncated": false,
+        "prompt_token_sha256": "1d191e7da236b2b4398f76a1ef1228c52a5933f7952737811d3bbdd17831a6d8",
+        "stage": "adapter_after_training",
+        "timed_out": false
+      }
+    }
+  ],
+  "next_step_requires_new_scope": "Preserve this adapter and base. Before another train run, diagnose source-to-target semantic quality and generic hint templates, correct derived targets with provenance, and evaluate a fresh heldout task set; do not automatically add epochs."
+}

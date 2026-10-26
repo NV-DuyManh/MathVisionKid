@@ -1,0 +1,239 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g4_inverse_fraction_length",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Ba phần bảy chiều dài một sợi dây là 18 m. Cả sợi dây dài bao nhiêu mét? Hãy kiểm tra kết quả theo phần đã biết.",
+      "exact_reference_answer": {
+        "value": "42",
+        "unit": "m"
+      },
+      "checker": {
+        "type": "exact_fraction_quotient",
+        "value": "42",
+        "unit": "m"
+      },
+      "oracle": {
+        "calculation": "Một phần bảy dài 18 : 3 = 6 m; cả bảy phần dài 6 × 7 = 42 m. Kiểm 42 × 3/7 = 18 m.",
+        "expected": "Cả sợi dây dài 42 m."
+      },
+      "rubric": [
+        "Nhận ra 18 m ứng với ba phần, không phải toàn bộ sợi dây.",
+        "Tìm một phần rồi bảy phần hoặc dùng phép chia phân số tương đương.",
+        "Kiểm kết quả khi lấy ba phần bảy và giữ đơn vị m."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_inverse_fraction_length",
+      "generated_tokens": 204,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Xác định phần trăm của sợi dây được cho bởi ba phần bảy:**\n   - Ba phần bảy của sợi dây là 18 m.\n\n2. **Tìm tổng số phần bằng ba phần bảy:**\n   - Một phần bảy của sợi dây là: $ \\frac{18}{3} = 6 $ m.\n\n3. **Tìm tổng số phần của sợi dây:**\n   - Vì ba phần bảy là 18 m, nên một phần bảy là 6 m.\n   - Do đó, một phần là: $ 6 $ m.\n   - Tổng số phần của sợi dây là: $ 7 $ phần.\n   - Vậy, sợi dây dài: $ 7 \\times 6 = 42 $ m.\n\n**Kết quả:** Cả sợi dây dài $ 42 $ mét.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a420f8faaff0aa3fe6780224da507e0696cd9e96187ecea379e39d9436a5e36f",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_inverse_fraction_length",
+      "generated_tokens": 204,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Xác định phần trăm của sợi dây được cho bởi ba phần bảy:**\n   - Ba phần bảy của sợi dây là 18 m.\n\n2. **Tìm tổng số phần bằng ba phần bảy:**\n   - Một phần bảy của sợi dây là: $ \\frac{18}{3} = 6 $ m.\n\n3. **Tìm tổng số phần của sợi dây:**\n   - Vì ba phần bảy là 18 m, nên một phần bảy là 6 m.\n   - Do đó, một phần là: $ 6 $ m.\n   - Tổng số phần của sợi dây là: $ 7 $ phần.\n   - Vậy, sợi dây dài: $ 7 \\times 6 = 42 $ m.\n\n**Kết quả:** Cả sợi dây dài $ 42 $ mét.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a420f8faaff0aa3fe6780224da507e0696cd9e96187ecea379e39d9436a5e36f",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g4_angle_classification",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Ba góc có số đo lần lượt là 70°, 110° và 180°. Hãy gọi tên loại của từng góc: góc nhọn, góc vuông, góc tù hay góc bẹt.",
+      "exact_reference_answer": {
+        "angle_types": {
+          "70": "góc nhọn",
+          "110": "góc tù",
+          "180": "góc bẹt"
+        }
+      },
+      "checker": {
+        "type": "angle_classification",
+        "expected": {
+          "70": "acute",
+          "110": "obtuse",
+          "180": "straight"
+        }
+      },
+      "oracle": {
+        "calculation": "70° bé hơn 90° nên là góc nhọn; 110° lớn hơn 90° và bé hơn 180° nên là góc tù; 180° là góc bẹt.",
+        "expected": "70°: góc nhọn; 110°: góc tù; 180°: góc bẹt."
+      },
+      "rubric": [
+        "Phân loại từng số đo, không bỏ góc 180°.",
+        "Dùng đúng ranh giới 90° và 180°.",
+        "Không gọi góc tù là góc bẹt hoặc coi mọi góc không nhọn là góc vuông."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_angle_classification",
+      "generated_tokens": 221,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để xác định loại của từng góc, ta so sánh số đo góc với các loại góc:\n\n- **Góc nhọn** là góc có số đo **từ 0° đến 90°**.\n- **Góc vuông** là góc có số đo **exactly 90°**.\n- **Góc tù** là góc có số đo **từ 90° đến 180°**.\n- **Góc bẹt** là góc có số đo **exactly 180°**.\n\nTừ các số đo góc:\n\n- **70°** là góc **góc nhọn**.\n- **110°** là góc **góc tù**.\n- **180°** là góc **góc bẹt**.\n\n**Kết luận:**\n- Góc 70°: **góc nhọn**\n- Góc 110°: **góc tù**\n- Góc 180°: **góc bẹt**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2822e3499707e160815fe2f0a9ba77813a98457eca406459d6bfb9e718feb6e7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_angle_classification",
+      "generated_tokens": 221,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để xác định loại của từng góc, ta so sánh số đo góc với các loại góc:\n\n- **Góc nhọn** là góc có số đo **từ 0° đến 90°**.\n- **Góc vuông** là góc có số đo **exactly 90°**.\n- **Góc tù** là góc có số đo **từ 90° đến 180°**.\n- **Góc bẹt** là góc có số đo **exactly 180°**.\n\nTừ các số đo góc:\n\n- **70°** là góc **góc nhọn**.\n- **110°** là góc **góc tù**.\n- **180°** là góc **góc bẹt**.\n\n**Kết luận:**\n- Góc 70°: **góc nhọn**\n- Góc 110°: **góc tù**\n- Góc 180°: **góc bẹt**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2822e3499707e160815fe2f0a9ba77813a98457eca406459d6bfb9e718feb6e7",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g4_cross_cancel_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Em cần tính 5/12 × 6/7 và muốn rút gọn trước khi nhân. Hãy gợi ý chỗ có thể rút gọn, đừng cho phân số kết quả cuối cùng.",
+      "exact_reference_answer": {
+        "value": "5/14",
+        "unit": "",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_fraction": "5/14",
+        "required_concept": "cancel_common_factor_between_numerator_6_and_denominator_12"
+      },
+      "oracle": {
+        "calculation": "Rút gọn 6 với 12 theo cùng thừa số 6 được 1 và 2; tích còn 5/(2 × 7) = 5/14. Không nêu phân số cuối trong gợi ý.",
+        "expected": "Gợi ý tìm thừa số chung của một tử và mẫu ở phân số kia, đặc biệt 6 và 12; sau đó tự nhân các phần còn lại."
+      },
+      "rubric": [
+        "Chỉ ra đúng cặp tử và mẫu có thể rút gọn, không rút gọn hai tử với nhau.",
+        "Nhắc chia cả cặp cho cùng một số khác 0 để giữ giá trị tích.",
+        "Không nêu 5/14 hoặc năm phần mười bốn."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_cross_cancel_hint",
+      "generated_tokens": 355,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý chỗ có thể rút gọn:\n\nTrước khi nhân các phân số $\\frac{5}{12} \\times \\frac{6}{7}$, ta có thể rút gọn các tử số và mẫu số để đơn giản hóa tính toán.\n\n- Tử số của phân số đầu tiên là $5$, mẫu số là $12$.\n- Tử số của phân số thứ hai là $6$, mẫu số là $7$.\n\nTa có thể rút gọn $\\frac{5}{12} \\times \\frac{6}{7}$ như sau:\n\n- Rút gọn $\\frac{5}{12}$ và $\\frac{6}{7}$:\n  - $5$ và $12$ không có ước chung nào khác $1$, nên không rút gọn.\n  - $6$ và $12$ có ước chung là $6$, nên rút gọn $\\frac{6}{12}$ thành $\\frac{1}{2}$.\n\nVậy, $\\frac{5}{12} \\times \\frac{6}{7} = \\frac{5}{12} \\times \\frac{6}{7}$\n\nGợi ý rút gọn: $\\frac{6}{12} = \\frac{1}{2}$, nên ta có:\n\n$$\n\\frac{5}{12} \\times \\frac{6}{7} = \\frac{5}{12} \\times \\frac{1}{2} \\times 6 = \\frac{5}{12} \\times \\frac{6}{7}\n$$\n\n(Chỗ có thể rút gọn là $\\frac{6}{12}$ thành $\\frac{1}{2}$.)",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7aef4ddeb04894a3535c44e42ca9c1eb3b2c872aee5398ea1bf774e952851cb7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_cross_cancel_hint",
+      "generated_tokens": 355,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý chỗ có thể rút gọn:\n\nTrước khi nhân các phân số $\\frac{5}{12} \\times \\frac{6}{7}$, ta có thể rút gọn các tử số và mẫu số để đơn giản hóa tính toán.\n\n- Tử số của phân số đầu tiên là $5$, mẫu số là $12$.\n- Tử số của phân số thứ hai là $6$, mẫu số là $7$.\n\nTa có thể rút gọn $\\frac{5}{12} \\times \\frac{6}{7}$ như sau:\n\n- Rút gọn $\\frac{5}{12}$ và $\\frac{6}{7}$:\n  - $5$ và $12$ không có ước chung nào khác $1$, nên không rút gọn.\n  - $6$ và $12$ có ước chung là $6$, nên rút gọn $\\frac{6}{12}$ thành $\\frac{1}{2}$.\n\nVậy, $\\frac{5}{12} \\times \\frac{6}{7} = \\frac{5}{12} \\times \\frac{6}{7}$\n\nGợi ý rút gọn: $\\frac{6}{12} = \\frac{1}{2}$, nên ta có:\n\n$$\n\\frac{5}{12} \\times \\frac{6}{7} = \\frac{5}{12} \\times \\frac{1}{2} \\times 6 = \\frac{5}{12} \\times \\frac{6}{7}\n$$\n\n(Chỗ có thể rút gọn là $\\frac{6}{12}$ thành $\\frac{1}{2}$.)",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7aef4ddeb04894a3535c44e42ca9c1eb3b2c872aee5398ea1bf774e952851cb7",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g4_average_divisor_error",
+      "grade": 4,
+      "mode": "student_error",
+      "userproblem": "Em viết: \"Trung bình cộng của 12, 15 và 21 là (12 + 15 + 21) : 2 = 24\". Hãy kiểm tra lời giải này và sửa đúng.",
+      "exact_reference_answer": {
+        "value": "16",
+        "unit": "",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_average_correction",
+        "values": [
+          12,
+          15,
+          21
+        ],
+        "correct_count": 3,
+        "value": "16"
+      },
+      "oracle": {
+        "calculation": "Tổng 12 + 15 + 21 = 48 là đúng. Có ba số nên phải chia 3: 48 : 3 = 16; kiểm 16 × 3 = 48.",
+        "expected": "Trung bình cộng là 16; cần chia cho 3, không phải 2."
+      },
+      "rubric": [
+        "Giữ lại phép cộng đúng và xác định đúng bước sai là số chia.",
+        "Giải thích có ba số được lấy trung bình.",
+        "Không chỉ đưa một đáp số mới mà bỏ qua nhận xét lời giải đã cung cấp."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_average_divisor_error",
+      "generated_tokens": 287,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải thực tế:**\n\nLời giải của em là:\n\n**\"Trung bình cộng của 12, 15 và 21 là (12 + 15 + 21) : 2 = 24\"**\n\n**Phân tích:**\n\n- Công thức trung bình cộng của 3 số là:  \n  $\\frac{a + b + c}{3}$\n\n- Tuy nhiên, em đã dùng công thức trung bình cộng của 2 số, tức là:  \n  $\\frac{a + b}{2}$\n\n- Điều này là **sai** vì công thức trung bình cộng của 3 số là $\\frac{a + b + c}{3}$, không phải $\\frac{a + b + c}{2}$\n\n**Sửa lại:**\n\n- Tính trung bình cộng của 12, 15 và 21:  \n  $\\frac{12 + 15 + 21}{3} = \\frac{48}{3} = 16$\n\n**Kết luận:**\n\nLời giải của em sai vì đã dùng công thức trung bình cộng của 2 số thay vì 3 số. Lời giải đúng là:  \n$\\frac{12 + 15 + 21}{3} = 16$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b86b116be6ea818843d763e509f898316f3adc093388584f942cc5ad509da57c",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g4_average_divisor_error",
+      "generated_tokens": 287,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải thực tế:**\n\nLời giải của em là:\n\n**\"Trung bình cộng của 12, 15 và 21 là (12 + 15 + 21) : 2 = 24\"**\n\n**Phân tích:**\n\n- Công thức trung bình cộng của 3 số là:  \n  $\\frac{a + b + c}{3}$\n\n- Tuy nhiên, em đã dùng công thức trung bình cộng của 2 số, tức là:  \n  $\\frac{a + b}{2}$\n\n- Điều này là **sai** vì công thức trung bình cộng của 3 số là $\\frac{a + b + c}{3}$, không phải $\\frac{a + b + c}{2}$\n\n**Sửa lại:**\n\n- Tính trung bình cộng của 12, 15 và 21:  \n  $\\frac{12 + 15 + 21}{3} = \\frac{48}{3} = 16$\n\n**Kết luận:**\n\nLời giải của em sai vì đã dùng công thức trung bình cộng của 2 số thay vì 3 số. Lời giải đúng là:  \n$\\frac{12 + 15 + 21}{3} = 16$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b86b116be6ea818843d763e509f898316f3adc093388584f942cc5ad509da57c",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

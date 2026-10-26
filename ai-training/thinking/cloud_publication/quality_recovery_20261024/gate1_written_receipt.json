@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "POsumfZqhu4I"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"gate_written\": true, \"step\": 1, \"decision\": \"STOP\", \"sha256\": \"51fd22b6ebd92639a7c47031ecc08f11446df028546dfcf2abfb069218bdc626\", \"human_review_claimed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

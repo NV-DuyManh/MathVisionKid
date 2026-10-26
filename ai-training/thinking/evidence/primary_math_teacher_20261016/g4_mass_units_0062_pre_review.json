@@ -1,0 +1,136 @@
+{
+  "authored_utc": "2026-10-18T04:07:00.576527+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:05:37.234Z",
+  "batch_sha256": "2d2242cb986fe7f6d69ac21ad2434a916329f0185b924dd972ec8f0f66266d8a",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_mass_units_0062_mixed_ton_quintal_yen_to_kg",
+      "row_sha256": "2a350fe518c04c9638deea1242f6f089028234989c1c7698f71e50e21c4e2319",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*1000+3*100",
+          "4*10",
+          "(2*1000+3*100)+(4*10)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_mass_units_0062_compare_quintal_yen_with_kg",
+      "row_sha256": "1aa65a088e0ceba9a41c6bf8b631b8bf6369c927bda90de314718bc8fc667017",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "3*100+8*10",
+          "",
+          "385-(3*100+8*10)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_mass_units_0062_warehouse_two_issues_common_unit",
+      "row_sha256": "a4ead168a9c48d59f7af6edbc601b0741f17e1d1a45978b5c5ca1601466f14f4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3*1000",
+          "14*100+22*10",
+          "(3*1000)-(14*100+22*10)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_mass_units_0062_misconception_yen_uses_quintal_factor",
+      "row_sha256": "76ef12a21caa1bb83c193550bc13d50137f5b067774faf89d49674ee9a365a24",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6*10",
+          "(6*10)/10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_mass_units_0062_guard_missing_large_unit_in_mass",
+      "row_sha256": "34d9539bb944812a3120fba4be812ac421a637bb38120cc3388773131600be0c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "mixed_mass_kg": 2340,
+    "comparison_A_kg": 380,
+    "comparison_B_kg": 385,
+    "B_excess_by_set_difference_kg": 5,
+    "inventory_initial_kg": 3000,
+    "inventory_disjoint_issues_kg": [
+      1400,
+      220
+    ],
+    "inventory_remaining_kg": 1380,
+    "inventory_partition_conservation": true,
+    "six_yen_group_enumeration_kg": 60,
+    "guard_different_unit_countermodels_kg": {
+      "yến": 70,
+      "tạ": 520,
+      "tấn": 5020
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Unit group/set models check mathematical givens; no physical weighing or original slip image is observed. Semantic and grade/hint review still required.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous353_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_content_read_completed_utc": "2026-10-18T04:07:24.230615+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

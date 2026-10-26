@@ -1,0 +1,150 @@
+{
+  "observed_utc": "2026-10-23T15:39:21.532742+00:00",
+  "training": {
+    "current_loss": 0.3856703694036696,
+    "cursor_batches": 1200,
+    "deadline_unix": 1792775752.4416852,
+    "elapsed_seconds": 584.7812774181366,
+    "gradients_finite_after_optimizer_step": true,
+    "nonpadding_tokens": 594135,
+    "overflow_retries": 0,
+    "rows_done": 2400,
+    "scaler_scale": 1024.0,
+    "state": "TRAINING",
+    "step": 150,
+    "supervised_tokens": 276533
+  },
+  "config": {
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "base_cached_output_limit": 512,
+    "base_cached_outputs_all_eos_before_limit": true,
+    "benchmark": {
+      "1": {
+        "mean_group_seconds": 6.532852522667478,
+        "nonpad_tokens_per_second": 710.1032793720277,
+        "optimizer_steps_during_probe": 0,
+        "peak_vram_bytes": 2398401536,
+        "repeats": [
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 6.747468265000862,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          },
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 6.312621496001157,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          },
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 6.538467807000416,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          }
+        ],
+        "same_16_examples": true,
+        "state": "PASS",
+        "supervised_tokens_per_second": 389.26334111728096,
+        "unique_examples_per_second": 2.4491598340057
+      },
+      "2": {
+        "mean_group_seconds": 4.93109897233262,
+        "nonpad_tokens_per_second": 940.7639201785388,
+        "optimizer_steps_during_probe": 0,
+        "peak_vram_bytes": 2091182080,
+        "repeats": [
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 4.960105419999309,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          },
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 4.930634946998907,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          },
+          {
+            "nonpad_tokens": 4639,
+            "seconds": 4.902556549999645,
+            "supervised_tokens": 2543,
+            "unique_examples": 16
+          }
+        ],
+        "same_16_examples": true,
+        "state": "PASS",
+        "supervised_tokens_per_second": 515.7065421457263,
+        "unique_examples_per_second": 3.2447128094107827
+      }
+    },
+    "bnb_4bit_use_double_quant": true,
+    "checkpoint_export_reserve_seconds": 1500,
+    "compute_dtype": "float16",
+    "deadline_unix": 1792775752.4416852,
+    "effective_batch": 16,
+    "eval_fixtures_sha256": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+    "evaluation_output_limit": 1536,
+    "flash_attention_2": false,
+    "grad_accumulation": 8,
+    "gradient_checkpointing": "unsloth",
+    "learning_rate": 0.0002,
+    "lora_alpha": 16,
+    "lora_bias": "none",
+    "lora_dropout": 0.0,
+    "lora_r": 16,
+    "loss_aggregation": "microbatch_losses_weighted_by_example_count",
+    "loss_reduction": "ordinary_token_mean_per_microbatch",
+    "max_seq_len": 2048,
+    "measured_at_unix": 1792769362.783769,
+    "measured_group_seconds": 4.93109897233262,
+    "measured_remaining_seconds": 6389.657916307449,
+    "microbatch": 1,
+    "model": "Qwen/Qwen3-1.7B",
+    "optimizer": "bitsandbytes.optim.AdamW8bit",
+    "packing": false,
+    "padding_free": false,
+    "quantization": "4bit NF4",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "safety_factor": 1.35,
+    "scheduler": null,
+    "seed": 20261023,
+    "selected_microbatch": 2,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "target_steps": 734,
+    "train_view_manifest_sha256": "444db8845af0c12bb528795b7e441b996571960dd58ab6898eb9394c77031545",
+    "train_view_sha256": "14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331",
+    "view_rows": 16000,
+    "weight_decay": 0.01
+  },
+  "checkpoint": {
+    "bytes": 99201456,
+    "fresh_raw_readback_verified": true,
+    "id": "1ofv7XZaG3-CtFrkxTcQfaZCTPB7XQ1r3",
+    "name": "checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip",
+    "rows_done": 1600,
+    "sha256": "6072ae8de0d40ee0cc2cb867e8fda61049973ab4b89516fca91d5be9a2b40297",
+    "step": 100
+  },
+  "folder_id": "1OvUWLz4E-d2zi5eicgOYZeVpuh_7aQpo",
+  "whole_corpus_epoch_complete": false,
+  "training_view_cases": 4000,
+  "training_view_rows": 16000,
+  "drive_four_controls_pending_sync": true,
+  "last_verified_four_controls_proof": "four_controls_branch_preparation_verified.json",
+  "connector_state": "Google Drive plugin not installed in current chat account; Colab authenticated Drive publisher is working",
+  "local_temp_cleanup": "automatic policy rejected deletion; inspected temporary controls retained; no corpus/model staged on PC"
+}

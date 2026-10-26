@@ -1,0 +1,237 @@
+{
+  "schema_version": "teacher_chat_sft_v1.proposal_assessment.v1",
+  "recorded_utc": "2026-10-18T03:51:50.928377+00:00",
+  "requested_scope": "Evaluate owner proposal, recover Google Drive same-account same-ID synchronization, save current data and assessment. No trainer implementation or GPU execution claimed.",
+  "assessment": "AGREE_WITH_SEPARATE_VERSIONED_CHAT_LOADER_AND_TRAIN_INFERENCE_CONTRACT_WITH_PREFLIGHT_GATES",
+  "dataset_snapshot": {
+    "accepted_cases": 343,
+    "chat_rows": 1372,
+    "case_groups": 328,
+    "grade_cases": {
+      "1": 70,
+      "2": 105,
+      "3": 111,
+      "4": 49,
+      "5": 8
+    },
+    "core_cases": 216,
+    "complete_core_nodes": 70,
+    "remaining_core_cases": 279,
+    "remaining_required_supplementary": 160,
+    "pre_sft_polish_cases_remaining": 47,
+    "source_chat_sha256": "f89d83522002dc7800c89d62037a7f7e03e3b1309d27056d838d548f41a67b25",
+    "source_state_sha256": "1360fdcec721abde2b3796ca1a80947f10405a99900363a4f29c6e1b9fc1ebd2",
+    "old_326_audit_is_historical_snapshot": true
+  },
+  "actual_tokenizer_preflight_latest_snapshot": {
+    "model_id": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "local_files_only": true,
+    "enable_thinking": false,
+    "full_template_max_tokens": 1378,
+    "over768_rows": 37,
+    "over1024_rows": 4,
+    "over1536_rows": 0,
+    "assistant_completion_max_with_eot": 1213,
+    "assistant_completion_over512": 53,
+    "assistant_eot_token": "<|im_end|>",
+    "assistant_eot_id": 151645,
+    "tokenizer_eos_id": 151645,
+    "padding_token_id": 151643,
+    "prompt_prefix_matches_full_rows": 1372,
+    "scope": "Technical audit of existing neutral messages, not a claim new loader exists; rerun after final target contract/template is implemented.",
+    "over768_samples": [
+      {
+        "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:worked_solution",
+        "tokens": 825
+      },
+      {
+        "sample_id": "primary_20261017_g3_measure_convert_0043_cut_mixed_length_and_convert_back:worked_solution",
+        "tokens": 830
+      },
+      {
+        "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:worked_solution",
+        "tokens": 815
+      },
+      {
+        "sample_id": "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector:worked_solution",
+        "tokens": 818
+      },
+      {
+        "sample_id": "primary_20261017_g3_place_value_0026_thousand_steps_to_upper_boundary:worked_solution",
+        "tokens": 841
+      },
+      {
+        "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:worked_solution",
+        "tokens": 809
+      },
+      {
+        "sample_id": "primary_20261018_g3_table_0046_merge_disjoint_group_tables:worked_solution",
+        "tokens": 839
+      },
+      {
+        "sample_id": "primary_20261018_g4_addsub_0051_add_three_separated_carries:worked_solution",
+        "tokens": 837
+      },
+      {
+        "sample_id": "primary_20261018_g4_addsub_0051_subtract_with_separated_exchanges:worked_solution",
+        "tokens": 878
+      },
+      {
+        "sample_id": "primary_20261018_g4_addsub_0051_warehouse_receive_then_dispatch:worked_solution",
+        "tokens": 779
+      },
+      {
+        "sample_id": "primary_20261018_g4_addsub_0051_misconception_written_carry_not_used:worked_solution",
+        "tokens": 868
+      },
+      {
+        "sample_id": "primary_20261018_g4_average_0053_misconception_repeated_value_still_observation:worked_solution",
+        "tokens": 979
+      },
+      {
+        "sample_id": "primary_20261018_g4_compare_round_0050_order_four_close_naturals:worked_solution",
+        "tokens": 827
+      },
+      {
+        "sample_id": "primary_20261018_g4_compare_round_0050_round_hundred_thousand_midpoint_boundary:worked_solution",
+        "tokens": 791
+      },
+      {
+        "sample_id": "primary_20261018_g4_compare_round_0050_compare_exact_counts_despite_equal_rounded_reports:worked_solution",
+        "tokens": 1048
+      },
+      {
+        "sample_id": "primary_20261018_g4_fraction_compare_0057_compare_three_measured_volumes:worked_solution",
+        "tokens": 883
+      },
+      {
+        "sample_id": "primary_20261018_g4_fraction_concepts_0056_equivalent_partition_eighths_twelfths:worked_solution",
+        "tokens": 823
+      },
+      {
+        "sample_id": "primary_20261018_g4_fraction_concepts_0056_reduce_fraction_ribbon_length:worked_solution",
+        "tokens": 788
+      },
+      {
+        "sample_id": "primary_20261018_g4_fraction_concepts_0056_misconception_add_same_to_terms:worked_solution",
+        "tokens": 819
+      },
+      {
+        "sample_id": "primary_20261018_g4_fraction_operations_0058_misconception_add_denominators:worked_solution",
+        "tokens": 788
+      },
+      {
+        "sample_id": "primary_20261018_g4_letters_properties_0054_three_letters_commute_associate_sum:worked_solution",
+        "tokens": 788
+      },
+      {
+        "sample_id": "primary_20261018_g4_letters_properties_0054_two_letter_pack_expression:worked_solution",
+        "tokens": 829
+      },
+      {
+        "sample_id": "primary_20261018_g4_letters_properties_0054_misconception_subtraction_grouping:worked_solution",
+        "tokens": 898
+      },
+      {
+        "sample_id": "primary_20261018_g4_muldiv_0052_two_digit_partial_products:worked_solution",
+        "tokens": 808
+      },
+      {
+        "sample_id": "primary_20261018_g4_muldiv_0052_division_zero_quotient_place:worked_solution",
+        "tokens": 797
+      },
+      {
+        "sample_id": "primary_20261018_g4_muldiv_0052_bundle_units_thousand_hundred_ten:worked_solution",
+        "tokens": 904
+      },
+      {
+        "sample_id": "primary_20261018_g4_muldiv_0052_misconception_tens_partial_unscaled:worked_solution",
+        "tokens": 947
+      },
+      {
+        "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes:worked_solution",
+        "tokens": 887
+      },
+      {
+        "sample_id": "primary_20261018_g4_numbers_0049_successors_across_millions_and_parity:worked_solution",
+        "tokens": 872
+      },
+      {
+        "sample_id": "primary_20261018_g4_word_multistep_0055_misconception_sum_difference_wrong_role:worked_solution",
+        "tokens": 886
+      },
+      {
+        "sample_id": "original_tutor25_g3_01:worked_solution",
+        "tokens": 784
+      },
+      {
+        "sample_id": "remediate_1d28a9fea2261b62a8120c24:worked_solution",
+        "tokens": 1378
+      },
+      {
+        "sample_id": "remediate_82cc0adb049a71220dec4373:worked_solution",
+        "tokens": 1376
+      },
+      {
+        "sample_id": "remediate_fa057b69f46687fe9b054f10:worked_solution",
+        "tokens": 1370
+      },
+      {
+        "sample_id": "remediate_6613bfe7cb5317df54bf9f88:worked_solution",
+        "tokens": 909
+      },
+      {
+        "sample_id": "remediate_95828b32a3168b33ca4cc24d:worked_solution",
+        "tokens": 895
+      },
+      {
+        "sample_id": "remediate_b4b7e3b17531b1cb61c6638f:worked_solution",
+        "tokens": 997
+      }
+    ]
+  },
+  "recommended_configuration_is_unvalidated": {
+    "target_hardware": "Google Colab NVIDIA T4 16GB, verify actual runtime before use; not personal6GBGPU",
+    "base_model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "quantization": "QLoRA4bitNF4",
+    "compute_dtype": "float16",
+    "micro_batch": 1,
+    "gradient_accumulation": 8,
+    "gradient_checkpointing": true,
+    "learning_rate_candidate": 0.0001,
+    "max_length_candidate": 1536,
+    "worked_solution_max_new_tokens_candidate": 1536,
+    "hint_generation_limit": "Separate lower limit after actual hint-token audit; not automatically1536 for allmodes",
+    "initial_adapter": "newrunfrombase; rejectedoldLoRApreservedonlyascomparison",
+    "VRAM_fit_verified": false,
+    "smoke20steps_executed": false
+  },
+  "acceptance_gates": [
+    "New modules/config/run directory; preserve exact legacy trainer/model/source/reviews bytes, no rewrite of343original cases. File tree should follow actual project layout rather than moving old trainer into src.",
+    "Validate all message roles/user JSON/mode/student_work/assistant JSON. Preserve worked_solution,hint_level_1/2/3,can_solve,initial_guidance,conceptual null-expression steps,categorical or multi-answer lists,reason/title/unit. Explicitly define clarify/unsupported routing where facts warrant it; do not infer unsupported from every can_solve=false.",
+    "One versioned output contract/parser/validator for bothtraining andinference; neutralteacherchat is not automatically appPlanDraft. Keep bounded arithmetic reference resolution separate from model target, and preserve authored student quote.",
+    "Official Qwen3chattemplate enable_thinking=false for visible teacher answers; prompt/padding labels-100, supervisedassistantcontent plus im_end exactlyonce; ensure no labels for user/student_work or padding, no appendEOS duplication. ActualrevisionEOS equalsim_end, unlikepad; assert IDs instead of assuming sameor different.",
+    "Deterministic group-level split with frozen manifest/hashes; all4modes and relatedcasevariants remain samepartition, stratify grade/kind/scope as feasible and report rarestrata gaps. Do not claim existingcase_group heuristic proves allsemanticduplication removed. Existingtest/challenge/eval remainsfrozenandunread.",
+    "Before training audit every actual serialized sample with strict no-truncation; longer samples fail or explicitly approved highercontext, never silently drop labels or cut answers. Pin exact library versions/runtime and template hash.",
+    "GPUmemorypreflight on actualT4withlongestsequenceincludingforward/backwardandoptimizerstep, record allocated/reservedpeak+headroom and finitegradients. TrainingandlonggenerationKVcache require separate memory checks; no device_mapauto assumption for training.",
+    "Only afterCPUdata/contract/split/tokenizer gates pass run separately authorized20optimizer-step smoke in newrun; verify loss/finitegradients,checkpointreload and stableprobe, then baseline-vsadapter on sameheldoutvalidation. Smoke is not evidence improved math/pedagogy; fulltrainingrequiresvalidationgate.",
+    "Keep finaltest untouched for modelselection; heldoutsplit ofalready-authoredexamples is not an independenthuman-certifiedbenchmark. Audit numeric/units/steps/categorical/hintleak/guards bygrade, not justtrainloss.",
+    "Continue finite authoring279core+160supplementaryand47polish; loaderengineering need not wait forfullquota, but source pack remains partialprogress."
+  ],
+  "corrections_to_owner_proposal": [
+    "Currentlocaldata343cases/1372chat differs from staleDrive326/1304 because syncfailed; recover latestsameIDs before using snapshot.",
+    "In auditedrevisiontokenizer.eos_token actuallyis<|im_end|>151645;padis<|endoftext|>151643. Needassertion,notblanketclaimEOSalwayswrong.",
+    "1536lengthwascheckedearlieronlyonsnapshot326; latest343measuredhere, rerunagainafternewloadercontract.",
+    "20stepGPUrun andtrainerimplementationremain proposalstage in thisturn; noGPUtrainingstarted."
+  ],
+  "official_sources": [
+    "https://huggingface.co/docs/transformers/quantization/bitsandbytes",
+    "https://huggingface.co/docs/transformers/chat_templating",
+    "https://huggingface.co/Qwen/Qwen3-1.7B"
+  ],
+  "no_training_performed": true,
+  "source_cases_unchanged": true,
+  "trainer_implemented": false
+}

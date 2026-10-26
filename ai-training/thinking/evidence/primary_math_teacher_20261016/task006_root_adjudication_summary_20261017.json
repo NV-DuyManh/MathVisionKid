@@ -1,0 +1,298 @@
+{
+  "reviewed_at": "2026-10-17T11:48:09.956706+00:00",
+  "task_id": "006_independent_primary45_20261017",
+  "source_raw_sha256": "7d2ed6fbdf9a666b0a8a6212b60acce9226b4db8647918a0ffc19e849faa8ed1",
+  "manifest_sha256": "bcab5bdf2e7b3d594054a01851432e51e7e57a769b70ca6441088d746bdb2ed0",
+  "reported_ids_match_manifest": true,
+  "actual_rows_bound_to_manifest": 45,
+  "report_records": 45,
+  "root_visible_content_read": 45,
+  "arithmetic_step_checks": [
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_count14",
+      "step_id": "s0",
+      "resolved_expression": "14",
+      "result": "14",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_five_tens",
+      "step_id": "s0",
+      "resolved_expression": "5",
+      "result": "5",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_five_tens",
+      "step_id": "s1",
+      "resolved_expression": "10+10+10+10+10",
+      "result": "50",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_different_tens",
+      "step_id": "s0",
+      "resolved_expression": "73",
+      "result": "73",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_same_tens",
+      "step_id": "s0",
+      "resolved_expression": "68",
+      "result": "68",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+      "step_id": "s0",
+      "resolved_expression": "8",
+      "result": "8",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_mental_within10",
+      "step_id": "s0",
+      "resolved_expression": "6+3",
+      "result": "9",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_add",
+      "step_id": "s0",
+      "resolved_expression": "20+40",
+      "result": "60",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_subtract",
+      "step_id": "s0",
+      "resolved_expression": "90-30",
+      "result": "60",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+      "step_id": "s0",
+      "resolved_expression": "46-12",
+      "result": "34",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+      "step_id": "s1",
+      "resolved_expression": "(34)+12",
+      "result": "46",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_add",
+      "step_id": "s0",
+      "resolved_expression": "12+3",
+      "result": "15",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_add",
+      "step_id": "s1",
+      "resolved_expression": "(15)+4",
+      "result": "19",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+      "step_id": "s0",
+      "resolved_expression": "18-5",
+      "result": "13",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+      "step_id": "s1",
+      "resolved_expression": "(13)+2",
+      "result": "15",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "step_id": "s0",
+      "resolved_expression": "31+7",
+      "result": "38",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "step_id": "s1",
+      "resolved_expression": "(38)-5",
+      "result": "33",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "step_id": "s2",
+      "resolved_expression": "(33)+5",
+      "result": "38",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "step_id": "s3",
+      "resolved_expression": "(38)-7",
+      "result": "31",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_leave",
+      "step_id": "s0",
+      "resolved_expression": "29-6",
+      "result": "23",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_leave",
+      "step_id": "s1",
+      "resolved_expression": "(23)+6",
+      "result": "29",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_part_whole",
+      "step_id": "s0",
+      "resolved_expression": "36-14",
+      "result": "22",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_part_whole",
+      "step_id": "s1",
+      "resolved_expression": "14+(22)",
+      "result": "36",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_changed_plus",
+      "step_id": "s0",
+      "resolved_expression": "18-5",
+      "result": "13",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_changed_plus",
+      "step_id": "s1",
+      "resolved_expression": "(13)+2",
+      "result": "15",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_join_for_remove",
+      "step_id": "s0",
+      "resolved_expression": "25-3",
+      "result": "22",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_join_for_remove",
+      "step_id": "s1",
+      "resolved_expression": "(22)+3",
+      "result": "25",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_count_game_cards",
+      "step_id": "s0",
+      "resolved_expression": "12+5",
+      "result": "17",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_count_game_cards",
+      "step_id": "s1",
+      "resolved_expression": "(17)-5",
+      "result": "12",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_duplicate_group",
+      "step_id": "s1",
+      "resolved_expression": "12+4",
+      "result": "16",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_units_reversed",
+      "step_id": "s1",
+      "resolved_expression": "10+10+10+2",
+      "result": "32",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_unit_dropped",
+      "step_id": "s0",
+      "resolved_expression": "6-2",
+      "result": "4",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_unit_dropped",
+      "step_id": "s1",
+      "resolved_expression": "10+10+10+10",
+      "result": "40",
+      "passed": true
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_unit_dropped",
+      "step_id": "s2",
+      "resolved_expression": "(40)+20",
+      "result": "60",
+      "passed": true
+    }
+  ],
+  "student_work_cases": 10,
+  "all_three_hint_levels_present": true,
+  "hypothetical_required_nontext_modality_cases": 15,
+  "guard_cases": 6,
+  "content_decision": "NO_BLOCKING_ERROR_IN_EXPLICIT_TEXT_SCOPE",
+  "minor_note_case39": "The target phrase chua dung ca hai yeu cau is potentially ambiguous in isolation. The actual explanation correctly says one requirement holds and one fails. No source changed; preserve frozen task006 hashes.",
+  "official_new_reviews_added": 8,
+  "prior_37_official_reviews_unchanged": true,
+  "external_report_received": true,
+  "external_actor_identity_verified": false,
+  "original_worker_jsonl_present": false,
+  "original_worker_summary_present": false,
+  "bridge_reported_status_at_check": "queued",
+  "bridge_completed_claim": false,
+  "same_expression_pair_grouped_in_export": true,
+  "export_pair_group_id": "math_779ae514edba5d2caa550d4b5ab880d2a2aae76ab73c58c2be19c959237c3cd0",
+  "state_after": {
+    "authored_cases": 127,
+    "accepted_cases": 96,
+    "chat_train_rows": 384,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 96,
+      "PENDING_AI_CONTENT_REVIEW": 31
+    },
+    "remaining_core_cases": 431,
+    "core_nodes_complete": 15
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "training_started": false,
+  "limits": [
+    "User-supplied report is stored verbatim; not represented as an authenticated Antigravity report.",
+    "The 37 earlier same-assistant reviews are not relabeled independently verified.",
+    "All 15 nontext-modality cases are descriptions or guards, not visual or physical success evidence.",
+    "Neutral teacher schema requires separate PlanDraft adapter validation.",
+    "Research quota and accepted data do not measure model accuracy."
+  ]
+}

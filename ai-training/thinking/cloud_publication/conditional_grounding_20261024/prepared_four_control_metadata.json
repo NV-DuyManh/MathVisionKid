@@ -1,0 +1,55 @@
+{
+  "schema": "MathVisionKid.conditional_four_controls_prepared.v1",
+  "prepared_utc": "2026-10-24T14:55:43.609Z",
+  "parents": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 20986439,
+      "sha256": "43e1293a26257f776657009d3ffb64800702525786463b437d522d0de1e8bcd4"
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 1487594,
+      "sha256": "de5e6f5b775fe181d0b4fd4c18afdf5ea3ed996af6e9187e770be754971aa545"
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 864321,
+      "sha256": "b34d8494cf0d8f2d5eba5e2adadce5ba5b77fd1fc49c8b08d8066e3e1afabc05"
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 1790551,
+      "sha256": "eb8310fb019b2358ddf0d1c7fa74bacccdf77cdf0701c362b9186117ead1e1a4"
+    }
+  },
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "path": "C:\\Users\\MYPC~1\\AppData\\Local\\Temp\\mathvisionkid-controls-NK38pJ\\next_progress.zip",
+      "bytes": 21298146,
+      "sha256": "94c02cc1b638e1c054bcc4b692bf0c357c352340648c02d4318d7a57beb1c7e2"
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "path": "C:\\Users\\MYPC~1\\AppData\\Local\\Temp\\mathvisionkid-controls-NK38pJ\\next_chat.json",
+      "bytes": 1492069,
+      "sha256": "3d7cebe4a8ed058da85a45c75bad2498a0a525bbc406bc258380d0d5073be725"
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "path": "C:\\Users\\MYPC~1\\AppData\\Local\\Temp\\mathvisionkid-controls-NK38pJ\\next_context.md",
+      "bytes": 867096,
+      "sha256": "ce1c996a102f0e3c7d51cddad121458caccc11fe8e22dd36470846589a534992"
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "path": "C:\\Users\\MYPC~1\\AppData\\Local\\Temp\\mathvisionkid-controls-NK38pJ\\next_state.json",
+      "bytes": 1795026,
+      "sha256": "a91c8163a49e9282c6f61fb0d390a0f8036c429164e312c1767de04dce5efc3e"
+    }
+  },
+  "prior_zip_records_byte_identical": true,
+  "state_written_last_required": true,
+  "drive_calls_made": false
+}

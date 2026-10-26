@@ -1,0 +1,216 @@
+{
+  "file_id": "1pOxE705Ag6e_TAokHZ-l4LLsI0EMr0YG",
+  "file_name": "MathVisionKid_FULL_CORPUS_part_02_of_07.zip",
+  "expected_archive_sha256": "d900577f8d451246b71fe130319b27048a1c8be46eba6ab25f09fa5747c38b8c",
+  "total_bytes": 75695710,
+  "central_directory_offset": 75692828,
+  "central_directory_bytes": 2860,
+  "entries": [
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000125_000149.jsonl.gz",
+      "method": 0,
+      "crc32": 1743383452,
+      "compressed_bytes": 7530544,
+      "bytes": 7530544,
+      "local_header_offset": 0
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1110847454,
+      "compressed_bytes": 605,
+      "bytes": 1072,
+      "local_header_offset": 7530682
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000150_000174.jsonl.gz",
+      "method": 0,
+      "crc32": 4027581215,
+      "compressed_bytes": 7775244,
+      "bytes": 7775244,
+      "local_header_offset": 7531436
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2567903573,
+      "compressed_bytes": 604,
+      "bytes": 1071,
+      "local_header_offset": 15306818
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000175_000199.jsonl.gz",
+      "method": 0,
+      "crc32": 773724229,
+      "compressed_bytes": 8145654,
+      "bytes": 8145654,
+      "local_header_offset": 15307571
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3290828192,
+      "compressed_bytes": 607,
+      "bytes": 1072,
+      "local_header_offset": 23453363
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000200_000224.jsonl.gz",
+      "method": 0,
+      "crc32": 987473565,
+      "compressed_bytes": 7029385,
+      "bytes": 7029385,
+      "local_header_offset": 23454119
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2163049501,
+      "compressed_bytes": 606,
+      "bytes": 1073,
+      "local_header_offset": 30483642
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000225_000249.jsonl.gz",
+      "method": 0,
+      "crc32": 70151254,
+      "compressed_bytes": 7419298,
+      "bytes": 7419298,
+      "local_header_offset": 30484397
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2395956146,
+      "compressed_bytes": 603,
+      "bytes": 1072,
+      "local_header_offset": 37903833
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000250_000274.jsonl.gz",
+      "method": 0,
+      "crc32": 1422649230,
+      "compressed_bytes": 7665075,
+      "bytes": 7665075,
+      "local_header_offset": 37904585
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 688221665,
+      "compressed_bytes": 604,
+      "bytes": 1072,
+      "local_header_offset": 45569798
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000275_000299.jsonl.gz",
+      "method": 0,
+      "crc32": 3796613727,
+      "compressed_bytes": 8036697,
+      "bytes": 8036697,
+      "local_header_offset": 45570551
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4113499329,
+      "compressed_bytes": 606,
+      "bytes": 1071,
+      "local_header_offset": 53607386
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000300_000324.jsonl.gz",
+      "method": 0,
+      "crc32": 1948072641,
+      "compressed_bytes": 7052706,
+      "bytes": 7052706,
+      "local_header_offset": 53608141
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2386336509,
+      "compressed_bytes": 608,
+      "bytes": 1072,
+      "local_header_offset": 60660985
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000325_000349.jsonl.gz",
+      "method": 0,
+      "crc32": 4245804255,
+      "compressed_bytes": 7409945,
+      "bytes": 7409945,
+      "local_header_offset": 60661742
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2363703958,
+      "compressed_bytes": 608,
+      "bytes": 1072,
+      "local_header_offset": 68071825
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000350_000374.jsonl.gz",
+      "method": 0,
+      "crc32": 4156787406,
+      "compressed_bytes": 7617193,
+      "bytes": 7617193,
+      "local_header_offset": 68072582
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3755490765,
+      "compressed_bytes": 606,
+      "bytes": 1073,
+      "local_header_offset": 75689913
+    },
+    {
+      "name": "CLOUD_PART_MANIFEST.json",
+      "method": 0,
+      "crc32": 2854954591,
+      "compressed_bytes": 2106,
+      "bytes": 2106,
+      "local_header_offset": 75690668
+    }
+  ],
+  "metadata_documents": [
+    {
+      "name": "CLOUD_PART_MANIFEST.json",
+      "bytes": 2106,
+      "sha256": "faa26565c5565375eaec39effe98826f4d09ce40ef4818202b18a3eb79d08589",
+      "document": {
+        "part": 2,
+        "parts": 7,
+        "storage": "EXTRACT_ALL_CORPUS_PARTS_TOGETHER",
+        "source_complete_package_sha256": "e13b428e8e9231e0c33446c8bbf57145894aaf63c9d7274e191b0b635a9ae816",
+        "files": [
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000125_000149.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000150_000174.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000175_000199.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000200_000224.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000225_000249.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000250_000274.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000275_000299.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000300_000324.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000325_000349.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000350_000374.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000350_000374.jsonl.manifest.json"
+        ]
+      }
+    }
+  ],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:47.466Z"
+}

@@ -1,0 +1,133 @@
+{
+  "batch_sha256": "472f46d272f42bbc178586448ee3d3bc046bc1cd2f3de59632abbb779f14dc0d",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+      "row_sha256": "c3b985fcb24d8091e056169c3f09a88cecb6c16c8b3f839c923b4d2619f00ca5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "5+5+2",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_capacity_not_current_amount",
+      "row_sha256": "cc268ac18c476499c1d1ff637ba6c209896fc21299690e9e69a841320cb2bb7c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_pour_to_full_without_loss",
+      "row_sha256": "2b75e92f9d0137397d046027439b33e8609ecdd4a001a3ee6edc7e2da11a55ab",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "24-9",
+          "(24-9)+9"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_misconception_mix_kg_and_l",
+      "row_sha256": "c9c4a959990caa9f20b5003ae32736c191f529e7dffc79fbf313d1b0b085a9a5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_guard_capacity_only",
+      "row_sha256": "0e5154611ac0c43db308e2b3bcea9b72bd9ba160d269579e629669b7664b2733",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "disjoint_counterweight_units": 12,
+    "transfer_left_units": 15,
+    "transfer_received_units": 9,
+    "transfer_partition_conserved": true,
+    "capacity_guard_countermodels": [
+      {
+        "A": 0,
+        "B": 3
+      },
+      {
+        "A": 5,
+        "B": 0
+      }
+    ],
+    "actual_amount_3_greater_than_0": true,
+    "counterweight_unit_ids_disjoint": true
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read all condition roles, mass versus liquid measure, current amount versus capacity, conservation, synthetic unit error and every hint. Same-author checking is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "All balances and pours are explicitly hypothetical. No physical weighing, density conversion or image recognition was performed. Finite unit-set oracle verifies arithmetic but not pedagogy. Neutral schema is not live PlanDraft.",
+  "pre_review_explanation_edit": {
+    "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+    "field": "worked_steps[0].explanation",
+    "reason": "Expose both left-to-right intermediate sums instead of only the combined expression. Answer unchanged.",
+    "snapshot_sha256": "dce268caef0eedb62dc686a4738c1339af87d935ef61a6b266ab2bd0f684d836"
+  }
+}

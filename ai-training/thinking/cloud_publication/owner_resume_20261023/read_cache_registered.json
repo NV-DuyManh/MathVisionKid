@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"state\": \"REGISTERED_FOR_NEXT_ORIGINAL_CONSUME\", \"registered_utc\": \"2026-10-23T02:30:13.018584+00:00\", \"memory_available_kb\": 11154216, \"sqlite_cache_kib\": 1048576, \"original_scanner_adapter_unchanged\": true, \"source_chat_rows_modified\": false, \"training_started\": false, \"cache_warmup_is_not_content_QA_or_a_complete_WAL_snapshot_proof\": true}\n"
+      ]
+    }
+  ]
+}

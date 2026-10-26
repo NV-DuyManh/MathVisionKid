@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "3kB-gqFPXs_T"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"staged_hashes\": {\"corrective_worker.py\": \"e1e6df2d48c5502cd016a333d0c653940798ba0bbf072650e6662eabdb598a8c\", \"start_publisher_runtime.py\": \"5f8d69f542e63bd7cc17f9a62551710c74e931d7d2c69974b0e13aaac326fb8e\", \"cpu_validation.json\": \"08b605b0f5082536ac6df83cb0e8e5a95dcfde68d1e2140cce71323c4b5f6d5d\", \"owner_run_scope.json\": \"ef0daf9e2d998cd8db59408f7891dc9ec34e7374dab23812093e900bfcb16357\"}, \"manifest_protected_hash\": \"9fa1cd11b5bbca2b4a8d63268159ab0d498176bb7d601cf8ae3996f3d2e2f7ae\", \"manifest_protected_count\": 28}\n",
+          "{\"started\": true, \"thread\": \"MathVisionKidCorrective5hDrivePublisher\", \"folder_name\": \"MathVisionKid_CORRECTIVE_5H_20261024\", \"root\": \"/content/mathvisionkid_corrective_5h_20261024\", \"drive_calls_in_calling_thread\": false, \"gpu_or_training_lifecycle_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

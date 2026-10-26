@@ -1,0 +1,7 @@
+{
+  "legacy_automation_id": "t-o-d-li-u-to-n-ti-u-h-c-mathvisionkid",
+  "matching_local_registry_rows": 0,
+  "lookup_scope": "Exact id, legacy_id and MathVisionKid name/prompt in local automation registry, read only.",
+  "no_schedule_created_or_changed": true,
+  "explicit_do_not_auto_resume_saved_in_controls": true
+}

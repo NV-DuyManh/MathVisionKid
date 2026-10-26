@@ -1,0 +1,139 @@
+{
+  "authored_utc": "2026-10-18T09:10:40.075195+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:08:14.492Z",
+  "batch_sha256": "94e38609d259a2b57e50d2c437441427af0acaa969af9969303ca2eec29ab3b1",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_calculator_use_0078_calculator_add_sub_with_recorded_intermediate",
+      "row_sha256": "476a6e592ae2d054bdf1ff284b7b9db656d612582ec8e7d928101a46b28db6a1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "149+37-20",
+          "148.75+36.8",
+          "(148.75+36.8)-19.55"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_calculator_use_0078_calculator_product_division_inverse_check",
+      "row_sha256": "9386f2695c24218906b03752272b411687e89a7f179265fe60f050f1c9034208",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "7.8*1.5",
+          "(7.8*1.5)/0.3",
+          "((7.8*1.5)/0.3)*0.3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_calculator_use_0078_percentage_using_basic_keys_without_percent_key",
+      "row_sha256": "56ab2a3fa0544be0f8cd3e2731deaafface9332b0c9ad6f27612db6f1aa09811",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "625*18/100",
+          "625-(625*18/100)",
+          "(625*18/100)+(625-(625*18/100))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_calculator_use_0078_misconception_sequential_device_vs_math_precedence",
+      "row_sha256": "db1fd4f1fea8bbbddc14e3092e694a9f1fe54f6243b3cd7bb85f267679961114",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6*2",
+          "18+(6*2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_calculator_use_0078_guard_unknown_actual_percent_key_interface",
+      "row_sha256": "863a53fb0381a358ab68e561e7c04310a06b5c15ba9dc165664e5ab621fac28c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "hundredths_ledger_total": 16600,
+    "product_and_inverse_quotient": [
+      "117/10",
+      "39"
+    ],
+    "price_discount_remaining_hundredths": [
+      62500,
+      11250,
+      51250
+    ],
+    "sequential_and_math_values": [
+      48,
+      30
+    ]
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "actual_calculator_or_browser_tool_executed": false,
+  "hypothetical_interfaces_and_sequences_explicit": true,
+  "physical_outcome_pending": true,
+  "percent_via_multiply_divide100_not_live_percent_operator": true,
+  "oracle_modulo_only_offline_set_partition_not_exported_or_live": true,
+  "guard_device_specific_not_mathematically_unsolvable_claim": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous424_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "pre_official_QA_content_repairs_required": false,
+  "official_QA_utc": "2026-10-18T09:11:26.584161+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "79493176fd352b8966d49ba8f09409ced52d6c67eebdf30903f6ceee94246b84"
+}

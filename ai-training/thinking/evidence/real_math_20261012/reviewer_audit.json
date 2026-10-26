@@ -1,0 +1,67 @@
+{
+  "status": "PASSED",
+  "training_steps": 374,
+  "training_samples_each_epoch": 745,
+  "epochs": 2,
+  "source_and_data_hashes_verified": true,
+  "split_invariants_verified": true,
+  "all_scores_recomputed": true,
+  "all_eval_ids_once": true,
+  "selected_by_validation_only": true,
+  "selected": "epoch2",
+  "advisory_answer_metrics": {
+    "baseline_val": {
+      "advisory_only": true,
+      "correct": 90,
+      "samples": 118
+    },
+    "epoch1_val": {
+      "advisory_only": true,
+      "correct": 69,
+      "samples": 118
+    },
+    "epoch2_val": {
+      "advisory_only": true,
+      "correct": 74,
+      "samples": 118
+    },
+    "selected_test": {
+      "advisory_only": true,
+      "correct": 59,
+      "samples": 100
+    },
+    "selected_rotated_test": {
+      "advisory_only": true,
+      "correct": 60,
+      "samples": 100
+    }
+  },
+  "reasoning_audit": {
+    "baseline_val": {
+      "correct_choice_with_arithmetic_flags": 0,
+      "flagged_output_samples": 0,
+      "partial_check_not_semantic_or_pedagogical_certification": true
+    },
+    "epoch1_val": {
+      "correct_choice_with_arithmetic_flags": 7,
+      "flagged_output_samples": 21,
+      "partial_check_not_semantic_or_pedagogical_certification": true
+    },
+    "epoch2_val": {
+      "correct_choice_with_arithmetic_flags": 6,
+      "flagged_output_samples": 17,
+      "partial_check_not_semantic_or_pedagogical_certification": true
+    },
+    "selected_test": {
+      "correct_choice_with_arithmetic_flags": 3,
+      "flagged_output_samples": 10,
+      "partial_check_not_semantic_or_pedagogical_certification": true
+    },
+    "selected_rotated_test": {
+      "correct_choice_with_arithmetic_flags": 2,
+      "flagged_output_samples": 13,
+      "partial_check_not_semantic_or_pedagogical_certification": true
+    }
+  },
+  "does_not_certify_source_semantics_or_pedagogy": true
+}

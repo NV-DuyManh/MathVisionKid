@@ -1,0 +1,68 @@
+{
+  "pages": [
+    {
+      "book_id": "g4v2",
+      "array_index": 0,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered approval page",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_2-1791255615501.png",
+      "image_sha256": "602b3e2f039ce162009a66946de388c352b515e887499aa47062c790720490b7",
+      "image_bytes": 198736
+    },
+    {
+      "book_id": "g4v2",
+      "array_index": 1,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered title page; third reprint",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_3-1791255615589.png",
+      "image_sha256": "68f9251ca1a48c936fe90018f2c0d7b38016e523415b7e6c066dcfefcfe1f9c2",
+      "image_bytes": 309558
+    },
+    {
+      "book_id": "g4v2",
+      "array_index": 2,
+      "printed_page": 2,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Table of contents part 1",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_4-1791255615707.png",
+      "image_sha256": "162d83072983d33b776e6ac17607033a9a8a912ac189fe388690d7f3600601ad",
+      "image_bytes": 743114
+    },
+    {
+      "book_id": "g4v2",
+      "array_index": 3,
+      "printed_page": 3,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Table of contents part 2",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_5-1791255615810.png",
+      "image_sha256": "91abceb04237ff549d64ba953e8912a38f6053e85c48e07c8ba8ba32f9d1e37d",
+      "image_bytes": 540299
+    },
+    {
+      "book_id": "g4v2",
+      "array_index": 120,
+      "printed_page": null,
+      "actual_visual_page_read": true,
+      "page_role": "NON_EXERCISE_BOUNDARY",
+      "description": "Unnumbered colophon, Toan 4 tap hai, 2026 registration and imprint code G1HH4T002h26",
+      "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_122-1791255637341.png",
+      "image_sha256": "0248901d9a78418404463f6a091ab448c327627215f67b535d0dac0a94592840",
+      "image_bytes": 392177
+    }
+  ],
+  "content_printed_range": [
+    4,
+    118
+  ],
+  "content_pages": 115,
+  "glossary_page": 119,
+  "all_121_publisher_images_accounted_for": true,
+  "content_all_pages_actually_read": true,
+  "content_comparison_complete": false
+}

@@ -1,0 +1,396 @@
+{
+  "schema": "MathVisionKid.development_author_notes.v1",
+  "fixture_count": 30,
+  "development_candidates_sha256": "df881b7ae40e37209d78b81e662c98afd89fbdca43ac31cf85759bc7d805ba0f",
+  "grade_mode_counts": {
+    "1": {
+      "answer": 2,
+      "hint_no_answer": 2,
+      "missing_or_contradictory_info": 1,
+      "student_error": 1
+    },
+    "2": {
+      "answer": 2,
+      "hint_no_answer": 2,
+      "missing_or_contradictory_info": 1,
+      "student_error": 1
+    },
+    "3": {
+      "answer": 2,
+      "hint_no_answer": 2,
+      "missing_or_contradictory_info": 1,
+      "student_error": 1
+    },
+    "4": {
+      "answer": 2,
+      "hint_no_answer": 2,
+      "missing_or_contradictory_info": 1,
+      "student_error": 1
+    },
+    "5": {
+      "answer": 2,
+      "hint_no_answer": 2,
+      "missing_or_contradictory_info": 1,
+      "student_error": 1
+    }
+  },
+  "oracle_method": "Exact Fraction arithmetic; terminating decimals represented as exact rational tenths/hundredths. Guard fixtures are categorical missing-data or contradiction cases.",
+  "exact_fraction_checks_passed": 28,
+  "all_exact_checks_passed": true,
+  "check_expressions": [
+    {
+      "expression": "7+6",
+      "exact_value": "13/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "18-9",
+      "exact_value": "9/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "5+8",
+      "exact_value": "13/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "14-6",
+      "exact_value": "8/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "8+5",
+      "exact_value": "13/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "4*6",
+      "exact_value": "24/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "42-17",
+      "exact_value": "25/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "5*3",
+      "exact_value": "15/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "36-14",
+      "exact_value": "22/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "4*5",
+      "exact_value": "20/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "3*7",
+      "exact_value": "21/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "8*12",
+      "exact_value": "96/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "500-175",
+      "exact_value": "325/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "9*14",
+      "exact_value": "126/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "2000-650",
+      "exact_value": "1350/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "6*15",
+      "exact_value": "90/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "3.50-1.25",
+      "exact_value": "9/4",
+      "equals_expected": true
+    },
+    {
+      "expression": "12*7",
+      "exact_value": "84/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "3.20-0.75",
+      "exact_value": "49/20",
+      "equals_expected": true
+    },
+    {
+      "expression": "2*(16+9)",
+      "exact_value": "50/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "4.80-1.35",
+      "exact_value": "69/20",
+      "equals_expected": true
+    },
+    {
+      "expression": "13*5",
+      "exact_value": "65/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "24*3/8",
+      "exact_value": "9/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "2.4*1.5",
+      "exact_value": "18/5",
+      "equals_expected": true
+    },
+    {
+      "expression": "150000*20/100",
+      "exact_value": "30000/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "135*2/5",
+      "exact_value": "54/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "80*3/10",
+      "exact_value": "24/1",
+      "equals_expected": true
+    },
+    {
+      "expression": "80-24",
+      "exact_value": "56/1",
+      "equals_expected": true
+    }
+  ],
+  "human_review_claimed": false,
+  "use": "Development evaluation only. Do not train on these fixtures or targets.",
+  "oracle_evidence": [
+    {
+      "id": "dev25_g1_answer_01",
+      "oracle_calculation": "7+6=13",
+      "expected_answer": "13 nhãn vở",
+      "oracle_basis": "addition; count items",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g1_answer_02",
+      "oracle_calculation": "18-9=9",
+      "expected_answer": "9 quả quýt",
+      "oracle_basis": "subtraction; count items",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g1_hint_no_answer_01",
+      "oracle_calculation": "5+8=13",
+      "expected_answer": "Gợi ý: Em đang tìm số xe sau khi được thêm. Phép tính nào giúp gộp số xe ban đầu với số xe được tặng?",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g1_hint_no_answer_02",
+      "oracle_calculation": "14-6=8",
+      "expected_answer": "Gợi ý: Số lá còn lại bằng số lá lúc đầu bớt đi số lá đã rụng. Hãy viết phép trừ phù hợp rồi tự tính.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g1_missing_or_contradictory_info_01",
+      "oracle_calculation": "underdetermined",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết có bao nhiêu chiếc cốc được cất đi.",
+      "oracle_basis": "missing removed count",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g1_student_error_01",
+      "oracle_calculation": "8+5=13",
+      "expected_answer": "Dòng của Nam đúng: 8 + 5 = 13 con cá.",
+      "oracle_basis": "fully correct studentwork; affirm only given line",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_answer_01",
+      "oracle_calculation": "4*6=24",
+      "expected_answer": "24 chiếc bánh",
+      "oracle_basis": "equal groups; count items",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_answer_02",
+      "oracle_calculation": "42-17=25",
+      "expected_answer": "25 quyển truyện",
+      "oracle_basis": "subtraction; count items",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_hint_no_answer_01",
+      "oracle_calculation": "5*3=15",
+      "expected_answer": "Gợi ý: Các túi có số quả bằng nhau. Có thể cộng cùng một số nhiều lần hoặc dùng phép nhân.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_hint_no_answer_02",
+      "oracle_calculation": "36-14=22",
+      "expected_answer": "Gợi ý: Độ dài còn lại bằng độ dài ban đầu trừ phần đã cắt. Giữ đơn vị cm trong đáp số.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_missing_or_contradictory_info_01",
+      "oracle_calculation": "4*6=24; 4*5=20",
+      "expected_answer": "Hai thông tin mâu thuẫn: cần kiểm tra mỗi hộp có 6 hay 5 chiếc bút trước khi tính tổng.",
+      "oracle_basis": "identify contradiction; no arbitrary choice",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g2_student_error_01",
+      "oracle_calculation": "3*7=21",
+      "expected_answer": "Cần dùng phép nhân vì có 3 nhóm, mỗi nhóm 7 quả: 3 × 7 = 21 quả mận.",
+      "oracle_basis": "correct groups relation",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_answer_01",
+      "oracle_calculation": "8*12=96",
+      "expected_answer": "96 hạt giống",
+      "oracle_basis": "equal groups; count items",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_answer_02",
+      "oracle_calculation": "5m=500cm; 500-175=325cm",
+      "expected_answer": "325 cm",
+      "oracle_basis": "convert units before subtraction",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_hint_no_answer_01",
+      "oracle_calculation": "9*14=126",
+      "expected_answer": "Gợi ý: Số hàng là số nhóm, số ghế trong mỗi hàng là số phần tử mỗi nhóm. Chọn phép tính biểu diễn các nhóm bằng nhau.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_hint_no_answer_02",
+      "oracle_calculation": "2l=2000ml; 2000-650=1350ml",
+      "expected_answer": "Gợi ý: Đổi 2 lít sang mililít trước, rồi trừ lượng đã rót. Đơn vị đáp số cần là ml.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_missing_or_contradictory_info_01",
+      "oracle_calculation": "underdetermined",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều rộng hoặc một dữ kiện tương đương để tính chu vi.",
+      "oracle_basis": "width absent",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g3_student_error_01",
+      "oracle_calculation": "6*15=90",
+      "expected_answer": "Dòng của Huy đúng: 6 × 15 = 90 viên kẹo.",
+      "oracle_basis": "accept fully correct provided line",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_answer_01",
+      "oracle_calculation": "3.50-1.25=2.25",
+      "expected_answer": "2,25 m",
+      "oracle_basis": "decimal subtraction; preserve m",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_answer_02",
+      "oracle_calculation": "12*7=84",
+      "expected_answer": "84 m²",
+      "oracle_basis": "area; square units",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_hint_no_answer_01",
+      "oracle_calculation": "3.20-0.75=2.45",
+      "expected_answer": "Gợi ý: Viết hai số thập phân thẳng cột theo hàng thập phân rồi lấy lượng ban đầu trừ lượng đã uống. Giữ đơn vị lít.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_hint_no_answer_02",
+      "oracle_calculation": "2*(16+9)=50",
+      "expected_answer": "Gợi ý: Hình chữ nhật có hai cạnh dài và hai cạnh rộng bằng nhau. Cộng bốn cạnh hoặc dùng công thức chu vi.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_missing_or_contradictory_info_01",
+      "oracle_calculation": "ambiguous time unit",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết “2” là giờ, phút hay đơn vị thời gian khác trước khi tính vận tốc.",
+      "oracle_basis": "do not assume time unit",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g4_student_error_01",
+      "oracle_calculation": "4.80-1.35=3.45",
+      "expected_answer": "Dòng của Hà đúng: 4,80 - 1,35 = 3,45 m.",
+      "oracle_basis": "fully correct; unit retained",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_answer_01",
+      "oracle_calculation": "24*3/8=9",
+      "expected_answer": "9 l",
+      "oracle_basis": "fraction of quantity; unit l",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_answer_02",
+      "oracle_calculation": "2.4*1.5=3.6",
+      "expected_answer": "3,6 m²",
+      "oracle_basis": "decimal area; square units",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_hint_no_answer_01",
+      "oracle_calculation": "150000*20/100=30000",
+      "expected_answer": "Gợi ý: Đổi 20% thành phân số hoặc số thập phân rồi nhân với giá ban đầu. Đáp số tính bằng đồng.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_hint_no_answer_02",
+      "oracle_calculation": "135*2/5=54",
+      "expected_answer": "Gợi ý: “2/5 của 135 km” nghĩa là chia tổng quãng đường thành 5 phần bằng nhau rồi lấy 2 phần.",
+      "oracle_basis": "hint does not state result",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_missing_or_contradictory_info_01",
+      "oracle_calculation": "underdetermined",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều cao để tính thể tích.",
+      "oracle_basis": "height absent",
+      "human_review_claimed": false
+    },
+    {
+      "id": "dev25_g5_student_error_01",
+      "oracle_calculation": "80*3/10=24; 80-24=56",
+      "expected_answer": "3/10 × 80 = 24 l đã dùng là đúng. Lượng còn lại là 80 - 24 = 56 l, không phải 66 l.",
+      "oracle_basis": "check amount used and remainder; only address provided claim",
+      "human_review_claimed": false
+    }
+  ]
+}

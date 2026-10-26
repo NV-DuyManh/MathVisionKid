@@ -1,0 +1,433 @@
+{
+  "source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "masters": [
+    {
+      "master_id": "angle_ray_pair_enumeration",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "angle_count_ray_pairs"
+      ],
+      "candidate_occurrence_count": 4,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Classifying a single given angle does not enumerate unordered ray pairs and compound/straight-angle conventions."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261018_g4_angles_0059_given_angle_measure_and_vertex",
+          "source_file": "current_sources.jsonl",
+          "line": 541,
+          "sha256": "0cb9c3332880eae319e7b935b6e9e7736e8147885c571374812a87ffafecc711"
+        },
+        {
+          "sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square:polish_v1",
+          "source_file": "current_sources.jsonl",
+          "line": 458,
+          "sha256": "b2f38312355bb13757bfe340fa89e36ae7db19665ee3ad5e245f9c81e54cfaac"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+          "source_file": "current_sources.jsonl",
+          "line": 973,
+          "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v1",
+          "printed_page": 29,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_31-1791255465383.png",
+          "image_sha256": "5bfe55a10eef64124f9012bd18d6eabf6a19c0040a066feb69663ceb8f0b069e",
+          "exercise_types_read": [
+            "Kiểm lỗi tầnsuất loạigóc từbộhình; đếm cảgóc ghép; luậtgameparity/rollback"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "book_id": "g4v1",
+          "printed_page": 121,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_123-1791255480020.png",
+          "image_sha256": "15614e6ed1f05605bcc20c1755bf54a8d509779f11a1feb397912d442c672a79",
+          "exercise_types_read": [
+            "Clock angle class; name polygon angles; protractor measurement; count all angles including compound ray pairs"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "book_id": "g4v2",
+          "printed_page": 112,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_114-1791255636506.png",
+          "image_sha256": "18e76cbac04e7b6ebe029f9ee1619be60790549cfbc78e3f91b87387febeb3e0",
+          "exercise_types_read": [
+            "Name subangles by vertex and ray pairs; mass conversions; physical protractor measurement; fraction of mass; count hidden cubes by layers"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 118,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-119-1775743974934.png",
+          "image_sha256": "03a767ff0fe7155126ca49daf689252839c350873cf21172296591014257b769",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "collinear_triple_complete_enumeration",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_collinear_enumeration",
+        "collinear_enumeration_and_segment_pairs"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Actual old source verifies two supplied triples; it does not list every eligible triple across a multi-line arrangement. A finite explicit incidence list can establish the math; actual image reading remains separate.",
+        "Exact old row verifies given triples, not all triples/segments from a finite incidence structure."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+          "source_file": "current_sources.jsonl",
+          "line": 348,
+          "sha256": "47a710be011c03aa8f60d65b77ae538ed775abfb760ee67b7ae8a4b31caa1b0c"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 21,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-22-1775743944587.png",
+          "image_sha256": "ea5b75cb31a13d9304e63764e21de0a7269047b66ec640b38160ddce0dec2419",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "overlap_shared_origin_lengths",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "overlap_length_bar_alignment",
+        "g5_candidate_overlap_length"
+      ],
+      "candidate_occurrence_count": 2,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Endpoint subtraction alone does not solve simultaneously shifted bars from shared overlap/endpoints; explicit common origin is required.",
+        "Combining two nonoverlapping ropes is present; overlap joined length subtracts doubly counted overlap under fixed alignment, shared master with G1/G4 bars."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261016_g1_measurement_0006_cm_offset_origin",
+          "source_file": "current_sources.jsonl",
+          "line": 287,
+          "sha256": "c3c737c3d2026c93cedb53cd7519e967991c39201defc2c891df8d5169c636bc"
+        },
+        {
+          "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+          "source_file": "current_sources.jsonl",
+          "line": 286,
+          "sha256": "8b3387daef33bd8c45ac9b330f893fb47f39c21ba644a1c3bd8141d66f019b6e"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+          "source_file": "current_sources.jsonl",
+          "line": 182,
+          "sha256": "6d4b80f02766591533dc6689cd3894bce0272f3358d1d8e42b30c073c921439c"
+        },
+        {
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_unlike_denominator_mix_then_use",
+          "source_file": "current_sources.jsonl",
+          "line": 680,
+          "sha256": "075893479112bbe81b58798196b8038e87c9bd00ee61d819c2e2820d6b816a3a"
+        },
+        {
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_fraction_of_volume_then_equal_portions",
+          "source_file": "current_sources.jsonl",
+          "line": 681,
+          "sha256": "d282600a762be8077295dc193aeff196491dcd1c8cf8d6590bb96c0d3440582c"
+        },
+        {
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_mixed_length_fraction_of_original_then_cut",
+          "source_file": "current_sources.jsonl",
+          "line": 682,
+          "sha256": "224065a644227e0c37e8524e3941d8e5a331d0b3923a0c3895e440f7572ce668"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v2",
+          "printed_page": 85,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_87-1791255633134.png",
+          "image_sha256": "10fe2412252ddf8c346c8d0452cab01b611b18015696d0e6e1eab10e4126b20c",
+          "exercise_types_read": [
+            "Fraction operation flow; remaining detergent in original-bottle units; shifted aligned bars infer overlapping length"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "grade": 5,
+          "volume": 2,
+          "printed_page": 107,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_109-1790908249313.png",
+          "sha256": "5696f5bbc7f17bbc36d9ce31c67c88899795df8772e3ffdcc17b8092f9b33aa6",
+          "exercise_types": [
+            "three numeric domains addition subtraction",
+            "symbolic arithmetic identities",
+            "convenient sums",
+            "overlap joined length"
+          ],
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "partial_product_column_reconstruction",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "g3_missing_digit_column",
+        "g5_candidate_multicolumn_constraint"
+      ],
+      "candidate_occurrence_count": 3,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Accepted multi-blank addition/subtraction works carry/exchange but does not reconstruct missing digits across multiplication partial products and their shifted total.",
+        "Published coupled blanks cover addition/subtraction; missing shifted partial products in multiplication are not worked."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_page_20261019_g4_column_multi_blank_carry",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 37,
+          "sha256": "93b0d468e17c8972e31dfb5212b9be3ea16fd235f6459c9b671745564f55307c"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_column_multi_blank_exchange",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 38,
+          "sha256": "71875d036a5d1ad846ade757fcc7f1ec54568321d7bddf388b1ea1de7cc6cfd4"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_column_multi_blank_coupled",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 39,
+          "sha256": "40e67afcf0015fe4f55fc491c5a625523043ebf64f6338d29e96c43d66a811f9"
+        },
+        {
+          "sample_id": "primary_20261018_g4_muldiv_0052_misconception_tens_partial_unscaled",
+          "source_file": "current_sources.jsonl",
+          "line": 601,
+          "sha256": "dc4c0e81bbb6109f10372dd188928a2ba0298a2f7ea1514a0d7a8595aadf85d4"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g3_mul2_mis_dropped_carry",
+          "source_file": "current_sources.jsonl",
+          "line": 37,
+          "sha256": "db3bf66381896d7331690fb1f3332d0a73bd16998d54562125b8616175d41480"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+          "source_file": "current_sources.jsonl",
+          "line": 966,
+          "sha256": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128"
+        },
+        {
+          "sample_id": "primary_20261018_g5_natural_multistep_0070_boxed_and_loose_stock_reserve_equal_share",
+          "source_file": "current_sources.jsonl",
+          "line": 689,
+          "sha256": "87c9f2609d8c669f5e4b67aeef212ce91301018cc1ebe44be6eca496d9c3090f"
+        },
+        {
+          "sample_id": "primary_20261018_g5_natural_multistep_0070_common_factor_reasonable_compute_and_round",
+          "source_file": "current_sources.jsonl",
+          "line": 690,
+          "sha256": "6d08359b058f33c8586515e679929658da5923ca9337a9a6ba5bf3765665ad6a"
+        },
+        {
+          "sample_id": "primary_20261018_g5_natural_multistep_0070_unitary_boxes_then_reserve_and_share",
+          "source_file": "current_sources.jsonl",
+          "line": 691,
+          "sha256": "d11bc48b47aa278bd23835dbd5b231f0527a41dc5984262edda89f97fee24d09"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 114,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-115-1775743973751.png",
+          "image_sha256": "c33d185f6bb018a5f9563faf22f2d23c3b639b52b04a83a2d87b6039ebc3467a",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 115,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-116-1775743974040.png",
+          "image_sha256": "eda85f87a8af92cf80e079ba789584eee7c8eeafd44c44258d0168388f01620e",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "grade": 5,
+          "volume": 1,
+          "printed_page": 10,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_12-1790914074411.png",
+          "sha256": "cb9f8bf157ba07636937d7d41fd89f4a324dca50ee02673aef2651daec6827aa",
+          "exercise_types": [
+            "order of operations",
+            "missing digits in subtraction and partial-product multiplication",
+            "factor regrouping",
+            "mean price",
+            "equal bags and revenue"
+          ],
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "placeclass_torn_strip_constraints",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "tornplaceclass_strip_assembly",
+        "placeclass_strip_assembly"
+      ],
+      "candidate_occurrence_count": 2,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Place-value reading does not order torn strips using matching connectors. G4pp43-44 provide locators; need exact strip boundaries/labels and legal adjacency."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+          "source_file": "current_sources.jsonl",
+          "line": 187,
+          "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05"
+        },
+        {
+          "sample_id": "primary_20261018_g4_numbers_0049_contrast_zero_positions_in_thousands",
+          "source_file": "current_sources.jsonl",
+          "line": 604,
+          "sha256": "b0820299a424782b51b975ab896a11c1420974c37191e4aa115664b569e927c5"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+          "source_file": "current_sources.jsonl",
+          "line": 950,
+          "sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2"
+        },
+        {
+          "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+          "source_file": "current_sources.jsonl",
+          "line": 779,
+          "sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a"
+        },
+        {
+          "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes",
+          "source_file": "current_sources.jsonl",
+          "line": 603,
+          "sha256": "8324ec27b5699ada59d00a561c4ff17c265c18523d0f782438dc91e0f7e44d2f"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v1",
+          "printed_page": 43,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+          "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+          "exercise_types_read": [
+            "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+          ],
+          "actual_visual_page_read": true
+        },
+        {
+          "book_id": "g4v1",
+          "printed_page": 44,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+          "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+          "exercise_types_read": [
+            "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "two_dimensional_feature_constraints",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "two_dimensional_attribute_pattern"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "One-dimensional periodic pattern does not combine independent row/column attribute constraints in a matrix; underdetermined completions must be retained."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "source_file": "current_sources.jsonl",
+          "line": 308,
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 13,
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 14,
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 15,
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+          "source_file": "current_sources.jsonl",
+          "line": 950,
+          "sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2"
+        },
+        {
+          "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+          "source_file": "current_sources.jsonl",
+          "line": 280,
+          "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600"
+        },
+        {
+          "sample_id": "primary_20261018_g4_data_sequences_0067_filter_threshold_then_descending_labels",
+          "source_file": "current_sources.jsonl",
+          "line": 565,
+          "sha256": "f2bd42a7ed448e607a30e5c9e29558e3bd6e4c860df5f784ca334b64f6e8d3f1"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "book_id": "g4v1",
+          "printed_page": 113,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_115-1791255478354.png",
+          "image_sha256": "2e9ee30b0063fc86be7a1ffb6fc2dce8526fad285f91fce275677cc4d7565e62",
+          "exercise_types_read": [
+            "Parallel-line optical illusion verification; two-dimensional independent-feature pattern matrix; square-diagonal dissection and reassembly"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    }
+  ]
+}

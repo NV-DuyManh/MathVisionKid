@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "yzhjrTy-eIqr"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"staged\": {\"training/collect_final_evidence.py\": \"4cc9a0f6c0afe138f5f81c17132737f019b8d71afb2a852232236d00c730f493\", \"final_evidence_archive_runtime.py\": \"5e0fd4af4b4f8931a58e45785ab0a8a9a4ce0ee580f0808dc1e9b1377f254a0c\"}, \"training_unchanged\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'pause_controller_version': 2, 'pause_requested': False, 'requires_equal_committed_member_cursors': True, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'pause_controller_version': 2, 'pause_requested': False, 'requires_equal_committed_member_cursors': True, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{'pause_controller_version': 2, 'pause_requested': False, 'requires_equal_committed_member_cursors': True, 'training_started': False}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

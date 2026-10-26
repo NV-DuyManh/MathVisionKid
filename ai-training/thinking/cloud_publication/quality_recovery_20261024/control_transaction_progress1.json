@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "g504veHjk0-6"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PREPARED\", \"observed_unix\": 1792839736.6090772, \"control_thread_alive\": true, \"bounded_local_metadata_files\": [{\"name\": \"control-progress-guard-66e494sh/current.raw\", \"bytes\": 6291456, \"mtime\": 1792839733.8555121}, {\"name\": \"parents/parent_chat.json\", \"bytes\": 763530, \"mtime\": 1792839537.9508963}, {\"name\": \"parents/parent_context.md\", \"bytes\": 844406, \"mtime\": 1792839542.2323031}, {\"name\": \"parents/parent_controls_raw_verified.json\", \"bytes\": 1623, \"mtime\": 1792839546.7827356}, {\"name\": \"parents/parent_progress.zip\", \"bytes\": 19386219, \"mtime\": 1792839534.326552}, {\"name\": \"parents/parent_state.json\", \"bytes\": 1066487, \"mtime\": 1792839546.7697344}, {\"name\": \"prepared/next_chat.json\", \"bytes\": 975884, \"mtime\": 1792839549.577001}, {\"name\": \"prepared/next_context.md\", \"bytes\": 847572, \"mtime\": 1792839549.6000032}, {\"name\": \"prepared/next_progress.zip\", \"bytes\": 19782982, \"mtime\": 1792839549.100956}, {\"name\": \"prepared/next_state.json\", \"bytes\": 1278841, \"mtime\": 1792839549.6000032}, {\"name\": \"prepared/parent_chat.json\", \"bytes\": 763530, \"mtime\": 1792839546.9327497}, {\"name\": \"prepared/parent_context.md\", \"bytes\": 844406, \"mtime\": 1792839546.93575}, {\"name\": \"prepared/parent_progress.zip\", \"bytes\": 19386219, \"mtime\": 1792839546.8667436}, {\"name\": \"prepared/parent_state.json\", \"bytes\": 1066487, \"mtime\": 1792839546.9387505}, {\"name\": \"prepared/prepared_control_updates.json\", \"bytes\": 3135, \"mtime\": 1792839549.6650095}]}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "DELETE_read_lock_reproduced": true,
+  "WAL_writer_commits_with_active_reader": true,
+  "reader_snapshot_stable": true,
+  "standalone_SQLite_backup_rows_verified": true,
+  "portable_snapshot_journal_mode": "delete",
+  "actual_corpus_touched": false,
+  "training_started": false,
+  "portable_snapshot_without_sidecars_reopened_readonly": true
+}

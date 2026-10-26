@@ -1,0 +1,25 @@
+{
+  "add": {
+    "newCellId": "vDNc4BO_YNtJ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"parents\": {\"progress\": {\"id\": \"1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX\", \"bytes\": 17412633, \"sha256\": \"ee8cd16f4bf8b22fb7efc77528addab13d9c6d1b36cf218f9a563892023d8454\", \"path\": \"/content/mathvisionkid_corrective_5h_20261024/control_parents/parent_progress.zip\", \"fresh_raw_readback_verified\": true}, \"chat\": {\"id\": \"1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6\", \"bytes\": 211649, \"sha256\": \"a3cc8f6242976f7102835b8f651cecd02452285dce784c09ceb6f9f83870b835\", \"path\": \"/content/mathvisionkid_corrective_5h_20261024/control_parents/parent_chat.json\", \"fresh_raw_readback_verified\": true}, \"context\": {\"id\": \"13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9\", \"bytes\": 821091, \"sha256\": \"9fc9d009f2c870d153e1c52b8f3563284d4b697facaad95ca60d682d117df7ca\", \"path\": \"/content/mathvisionkid_corrective_5h_20261024/control_parents/parent_context.md\", \"fresh_raw_readback_verified\": true}, \"state\": {\"id\": \"1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme\", \"bytes\": 522805, \"sha256\": \"8c3145fb9453177be15d2162ebd85462e0702fa5ec34d6a3c7ba136c05daa6e8\", \"path\": \"/content/mathvisionkid_corrective_5h_20261024/control_parents/parent_state.json\", \"fresh_raw_readback_verified\": true}}, \"corpus_or_model_downloaded_to_PC\": false}\n"
+        ]
+      }
+    ]
+  }
+}

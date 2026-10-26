@@ -1,0 +1,63 @@
+{
+  "reviewed_utc": "2026-10-22T11:37:52.849250+00:00",
+  "scope": "Static review of installed pause-controller source and proposed orderly performance resume; final resume implementation not supplied or approved.",
+  "status": "CONDITIONAL_PLAN_REVIEW_NOT_FINAL_IMPLEMENTATION_APPROVAL",
+  "inputs": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\mcp_prepare_20261022\\hoai_worker_resume_existing_v3.py": "2f3137da92b222ce1f8fa0cf6236bcd77de5fd516d1f8bf0a868886c93326d6d",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\mcp_prepare_20261022\\finish_pause_controller_args.json": "855851cfe24ff3392a24439d3a92639902938a0660edb85b7cf884f078ddc338",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_batch_token_audit.py": "ab4379894d5a1cc1b4d2a4e9319caea51a7fc27e001c9af80f8325b584969c84",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\audit_finish_20261022\\batch_adapter_validation.json": "29ef22121198737bd6891c10529c65374c6fb79ddcbd52259da738abb4b99aa6"
+  },
+  "pause_code_sha256": "38ba0efba9cdda2aafd42a09aee268336556a82c3d511576aceee316ba95f117",
+  "findings": [
+    {
+      "priority": 2,
+      "location": "finish_pause_controller_args.json: _mathvision_checkpoint_boundary_consume",
+      "title": "Report equality does not establish cursor equality",
+      "detail": "FullArchiveAudit.report omits individual members.next_line. A span consisting of already indexed source duplicates can advance a partial member cursor without changing source_versions, issue counts or completed-member count, so the pause test can accept an older proof. Resuming from the independently verified saved snapshot replays those rows safely, but the current working DB must not be declared identical to the snapshot based on report equality.",
+      "required_resolution": "Use the verified snapshot as authoritative resume parent and explicitly permit replay, or compare complete member cursors and stronger snapshot identity before claiming an exact synchronized pause."
+    },
+    {
+      "priority": 1,
+      "location": "math_data_batch_token_audit.py versus batch_adapter_validation.json",
+      "title": "Current adapter bytes do not match validation receipt",
+      "detail": "Current adapter SHA256 is ab4379894d5a1cc1b4d2a4e9319caea51a7fc27e001c9af80f8325b584969c84; validation receipt binds ab4379894d5a1cc1b4d2a4e9319caea51a7fc27e001c9af80f8325b584969c84. LF normalization does not remove this mismatch.",
+      "required_resolution": "Install only final exact bytes matching fresh successful validation and independent peer-review receipts. Do not treat the currently read validation receipt as covering the current adapter."
+    }
+  ],
+  "pause_assessment": [
+    "Pause check runs in the audit worker immediately before calling original consume; there is no parallel row mutation by that worker during self.report.",
+    "SystemExit is a BaseException and bypasses the worker except Exception checkpoint-save path; the worker finally closes the auditor and writes status.",
+    "Pause flag can take until a subsequent saved checkpoint and consume boundary to take effect. Finishing the final member may produce normal completion instead of the special pause state.",
+    "A pause status string is set before finally closes SQLite. Require the old thread to be dead after join, not merely a PAUSED status, before changing globals, hooks, paths, writer session or receipts."
+  ],
+  "required_final_implementation_constraints": [
+    "Require no live matching audit worker; join the exact old thread, inspect terminal state/errors, and capture its final proof/metadata only after shutdown. Never interrupt consume or a raw readback.",
+    "Preserve old probe receipt immutably. Hash and size-check the standalone snapshot against the final fresh-raw-readback proof, require proof ID=16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI and exact audit identity, and confirm report/complete members/cursors/issues from a read-only connection.",
+    "Copy the stopped hash-verified snapshot to a previously nonexistent distinct working filename. Resolve both paths and reject equality, samefile/hardlink aliasing, stale destinations and active WAL/journal sidecars. The fixed full_audit_v3_snapshot.sqlite must never be the new V3_DB: subsequent backup would target its own live source.",
+    "Verify copied DB hash and bytes before opening writable; require quick_check=ok, exact config identity/sequence_limit, complete per-member role/expected_rows/next_line/complete mapping, source/sample/occurrence counts and unchanged issue rows or a canonical issue digest. Counts alone do not prove unchanged data.",
+    "Do not reuse the original historical meta_after or old probe hash. Rebase RESTORED_V3_DB, probe_receipt, V3_DB and metadata consistently to the new verified snapshot parent; identify the proof as inherited and preserve its observation time.",
+    "Read current cloud metadata and compare identical field selections, including existing ID, data_sha256, writer_session, size and recipe identity, against the saved final metadata. Recheck immediately before claiming the new writer. Do not download/reset the full DB or create any new Drive ID.",
+    "Keep the fresh new writer session and checkpoint metadata in the worker closure; verify ownership, immutable recipe identity and expected hash before each upload and after full raw readback. Metadata checks remain optimistic, not distributed CAS.",
+    "After old worker shutdown, remove the pause hook only if FullArchiveAudit.consume is exactly the installed pause function and the captured original is the expected pinned original. Reset the pause request and installation flag coherently; otherwise fail closed. Do not re-install by capturing an existing wrapper as original.",
+    "Call validated adapter.consume(auditor, entry, path, ...) explicitly with FullArchiveAudit.consume restored to the original. Adapter.consume calls audit.consume internally; patching the class method to adapter.consume or a wrapper invoking it causes recursion/nested-adapter failure. Check actual module objects used by audit_v3 are the same loader/archive modules hooked by the adapter.",
+    "Install adapter once before worker use and uninstall in a guaranteed finally after active adapter calls end. Do not reload the adapter module while installed; its module-level original hook captures must reference actual unwrapped functions. The original auditor source file remains unchanged.",
+    "Use the exact tokenizer instance required by the adapter and verify final code/tokenizer/library pins. Retain all payload hash checks, row order, duplicate handling, errors, transaction/commit boundaries and split/linkage checks.",
+    "Apply PRAGMA cache_size=-131072 only to the newly created worker-owned SQLite connection and verify the pragma in that thread. Do not change journal_mode, synchronous, isolation or commit_every as part of this upgrade.",
+    "Seed an immutable copy of the verified inherited checkpoint proof and initialize last_save to current monotonic time. Keep inherited proof distinct from live progress; avoid marking advanced DB rows as uploaded before a new verified save.",
+    "Use >=1800 seconds for ordinary save cadence while retaining unconditional finish/error saves and full raw SHA256+size readback. This bounds elapsed time between completed save checks, not total possible unsaved work: a consume span and upload/readback duration may add time. First-span checkpoint upload is intentionally omitted because the verified parent is seeded.",
+    "Do not clear existing issue findings, promote training readiness or introduce weights/training/GPU use. Record final source SHA256, exact implementation diff and independent review before execution."
+  ],
+  "limitations": [
+    "No live Colab, Drive, SQLite corpus or runtime thread state accessed. Only the review report was written.",
+    "No final performance-resume source was supplied, so closure capture, final hook removal, metadata rebase, copy guards, save cadence and exception cleanup are requirements for a later exact-source review.",
+    "Batch adapter test results were read as evidence; this reviewer did not rerun them and their source pin currently differs from the read adapter."
+  ],
+  "proposed_resolutions_from_parent_not_yet_reviewed": [
+    "Pause guard will additionally compare complete ordered members(id,role,next_line,complete,expected_rows) between the latest snapshot and current working DB, and record cursor-list digest plus equality; raw snapshot hash will be revalidated after old thread joins.",
+    "Resume will copy the verified snapshot and will not claim byte identity with the historical working DB.",
+    "Integration will restore the exact original consume method and call adapter.consume explicitly.",
+    "Adapter author is repairing a peer-review blocker; only final validated and peer-reviewed matching source hashes will be installed."
+  ],
+  "resolution_assessment": "These proposed resolutions address the identified report/cursor gap and hook recursion risk in principle. They do not constitute review or approval of final code or of a transient adapter hash."
+}

@@ -1,0 +1,328 @@
+{
+  "schema": "MathVisionKid.final_acceptance_review.v1",
+  "created_utc": "2026-10-22T11:30:55.504526+00:00",
+  "status": "BOUNDED_REVIEW_RELEASE_REQUIREMENTS_OPEN",
+  "scope": "Read-only policy/code and existing small metadata review; only this report is written. No corpus rows, protected math, cloud runtime, Drive, weights or training accessed. No semantic full-corpus certification.",
+  "skills_applied": [],
+  "skills_routing": "ML/data policy review: none matched; no implementation performed.",
+  "TRAINING_DATASET_READY": false,
+  "training_authorized_by_this_review": false,
+  "current_counts": {
+    "recipe_sha256": "e4197a8e797a6c4d22b938779b663d0e306536dc8af75a5f81fb3c98f7e1a7a8",
+    "audit_identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+    "metadata_verified": {
+      "source_members": 218,
+      "chat_members": 31,
+      "members_total": 249,
+      "raw_declared_chat_rows": 6502136,
+      "candidate_chat_rows": 6502088,
+      "current_eval_chat_rows_separate": 48
+    },
+    "parent_task_observation_not_independently_runtime_verified": {
+      "source_scan_complete": true,
+      "source_versions_indexed": 1629842,
+      "chat_rows_observed": 50000,
+      "issues": {
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      }
+    },
+    "count_scope_note": "Accepted case inventory, indexed source versions, raw physical chat occurrences and unique eligible train rows are different totals. Older manifest all_available=6502200 includes an evaluation/audit scope; do not substitute it for current declared raw chat=6502136 or call candidate rows train-only."
+  },
+  "policy_conclusions": [
+    "Owner299 human signoffs bind enumerated existing row hashes only; preserve bytes and scope. Polished or new AI derivatives require truthful AI provenance unless a new content-specific human attestation exists.",
+    "Future original batches are owner-preauthorized; author self-QA remains mandatory. No extra per-batch owner approval or independent external review is required by owner_acceptance_policy; self-QA must not be called independent review.",
+    "Current G2 task acceptance additionally requires root full-field reading, independent finite oracle, meaningful mutations, numeric Fraction/Decimal checks, exact raw/draft/export hashes and QA7. A task/master name alone cannot close a constraint.",
+    "Numeric-overlap policy permits original-authored exact-hash exceptions only after current QA. Exact normalized protected questions remain excluded, frozen tests/sources unchanged, no numeric evaluation-independence claim, no training launch authorization."
+  ],
+  "diagnostic_disposition": {
+    "status": "PROPOSED_PRESERVED_DIAGNOSTIC_EXCLUDED_FROM_TRAIN_PENDING_EXACT_ROW_EVIDENCE",
+    "issue": {
+      "member_key": "79765b8281ff64675b4e3826c07b003237875a98d67e898f22f2a4c1f687b0d1",
+      "line": 1,
+      "kind": "SOURCE_SPLIT_MISSING_OR_UNKNOWN",
+      "detail": "exhaustive_v1_div_1563_43"
+    },
+    "source_label": "regression_only",
+    "source_label_evidence": "Parent task observation; existing local restore receipt binds issue tuple and published state records preserved regression-only finding.",
+    "payload_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+    "payload_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+    "payload_bytes": 2431367,
+    "member": "audit/boundary_cases.jsonl",
+    "member_sha256": "44213c693cb33ede4f22b982f406fd2b1ed5b92c09d4d076c89d81ea464f90a6",
+    "member_bytes": 543418,
+    "member_rows": 69,
+    "member_binding_basis": "Exact recipe content_identity fields hashed with canonical sorted UTF-8 JSON; computed member_key equals issue member_key.",
+    "source_raw_row_sha256": null,
+    "source_canonical_sha256": null,
+    "missing_evidence": [
+      "Exact row raw SHA256 (V3 rawhash removes CR/LF only), canonical SHA256 and their committed source_versions binding. Not recoverable from metadata read; not inferred from member hash or sample ID.",
+      "Final full-scan checkpoint/report hashes and complete issue inventory.",
+      "Read-only exact-hash query/receipt proving zero linked train samples for this source version and zero training-view occurrences for this diagnostic sample/lineage; identify any same-ID other source versions."
+    ],
+    "allowed_adjudication": "Keep original row/member bytes, source label, source_versions entry and issues table untouched. Add a separate hash-bound disposition and exclusion receipt. This recognizes an intentional audit-only row, not a numeric-overlap exception or permission to whitelist unknown splits.",
+    "raw_scanner_result": "V3 SOURCE_LABELS excludes regression_only. report.clean requires no issues; therefore full_archive_token_linkage_split_audit_complete remains false with this issue, even after every member is scanned.",
+    "separate_release_result": "If all scan/exclusion/policy evidence later passes, a separate versioned release decision may state complete scan with preserved diagnostic findings and audited eligible training view. Do not overwrite the raw scanner flag or label its issue count zero.",
+    "current_code_support": "_chat requires explicit train/validation/test and only links compatible source labels, so regression_only cannot become a verified compatible train link. A final view must still explicitly exclude diagnostic/source/audit records and prove the exclusion.",
+    "not_authorized": [
+      "Delete or relabel the diagnostic",
+      "Clear or suppress issues",
+      "Add regression_only to train-compatible source labels",
+      "Use generic acceptance of all unknown splits",
+      "Claim raw scanner clean or full readiness from this review"
+    ]
+  },
+  "finalization_checklist": [
+    {
+      "gate": "Complete immutable current-union audit",
+      "state": "OPEN",
+      "evidence_required": "All249 exact recipe members complete, all218 sources indexed before31 chats, declared row counts matched, pending_discovery empty. Reconcile6502136 physical raw occurrences, unique chat rows, exact duplicate references and actual train/validation/test totals. Preserve parent/migration/recipe history and report any execution error, not just issues."
+    },
+    {
+      "gate": "Token/source/linkage/mode/split integrity",
+      "state": "OPEN",
+      "evidence_required": "Pinned tokenizer revision70d244cc86ccca08cf5af4e1e306ecf908b1ad5e, actual assistant-only masks, exactly one EOT, no truncation and sequence limit40960; zero unlinked rows and incomplete four-mode cases; exact source chains including primary782 adapter raw/canonical/original/verification digests; no unresolved conflicting IDs/modes, group/question overlap or unsupported sources. Classify every issue with exact evidence."
+    },
+    {
+      "gate": "Adjudicate preserved diagnostic",
+      "state": "OPEN_EXACT_ROW_HASH_MISSING",
+      "evidence_required": "Use diagnostic_disposition requirements. Preserve raw scanner finding and flags; establish zero train occurrences without modifying corpus/control evidence."
+    },
+    {
+      "gate": "Adjudicate eligible numeric-only overlaps",
+      "state": "CONDITIONAL_IF_FOUND",
+      "evidence_required": "Bind every affected authored source/export/chat hash, canonical numeric signature, both split-side identities and hash-bound QA to numeric policy SHA. Prove exact normalized question is not protected, and overlap is numeric-expression-only. Group/question/hash-chain issues cannot inherit this exception. Preserve benchmark dependence disclosure."
+    },
+    {
+      "gate": "Finish delegated finite SGK scope",
+      "state": "OPEN_EXTERNAL_OWNER_ANTIGRAVITY",
+      "evidence_required": "38G2 tasks/50constraints,10asset masters and1original-G3 locator remain open. Consume actual submitted results once; root checks full fields/QA7/oracles/mutations and binds accepted export hashes to exact grade/candidate constraints. Preserve asset or source limitations if unresolved; no image/physical completion inferred from text and no duplicate authoring."
+    },
+    {
+      "gate": "Preserve provenance and finite core",
+      "state": "REVERIFY_AT_FINALIZATION",
+      "evidence_required": "Frozen299 exact signoffs, owner policy/attestations and original source hashes unchanged;495core/165nodes unchanged. New data AI/owner-preauthorized with human flags false absent content-specific attestation. QA7 fields: semantic_correct,steps_complete,grade_appropriate,unit_consistent,hints_non_leaking,grounded_student_feedback,curriculum_mapping_correct."
+    },
+    {
+      "gate": "Publish an eligible full-corpus view and reproducible evidence",
+      "state": "OPEN",
+      "evidence_required": "Content-hashed view manifest/reader selecting valid explicit train chats only; evaluation/diagnostic/protected-source exclusions and split totals; complete raw report plus adjudication/exclusion ledger. Preserve every original archive and history. Historical balanced recommended_training_view.READY=true applies only to its small historical subset."
+    },
+    {
+      "gate": "Final checkpoint and four-control publication",
+      "state": "OPEN_FOR_FINAL_BYTES",
+      "evidence_required": "Final committed checkpoint SQLite integrity, exact bytes/SHA and fresh streaming raw readback; same checkpoint/control IDs, stable metadata/writer evidence, PROGRESS/chat/context updated and STATE last. Fresh raw byte/hash receipt for all four final controls; prior22Oct receipts are snapshots, not evidence for later bytes. Only after final criteria should the owner-requested completion automation action occur; this review does not perform it."
+    }
+  ],
+  "proposed_exact_hash_evidence_fields": {
+    "common": [
+      "schema",
+      "decision_id",
+      "recorded_utc",
+      "reviewer_identity",
+      "review_type",
+      "authorization_origin",
+      "authorization_evidence_path",
+      "authorization_evidence_sha256",
+      "policy_path",
+      "policy_sha256",
+      "recipe_sha256",
+      "audit_identity",
+      "auditor_code_sha256",
+      "tokenizer_revision",
+      "checkpoint_id",
+      "checkpoint_sha256",
+      "checkpoint_bytes",
+      "raw_report_sha256"
+    ],
+    "row_binding": [
+      "payload_id",
+      "payload_sha256",
+      "payload_bytes",
+      "member_key",
+      "member_path",
+      "member_sha256",
+      "member_bytes",
+      "line_1based",
+      "sample_id",
+      "source_label",
+      "source_raw_row_sha256",
+      "source_canonical_sha256",
+      "original_or_derived_source_sha256",
+      "export_canonical_sha256",
+      "verification_digest",
+      "chat_sample_ids_and_raw_canonical_hashes"
+    ],
+    "diagnostic_only": [
+      "issue_tuple",
+      "issue_preserved",
+      "disposition",
+      "train_eligible_false",
+      "exclusion_view_manifest_sha256",
+      "read_only_query_text",
+      "query_result_sha256",
+      "zero_linked_train_samples",
+      "zero_diagnostic_train_occurrences",
+      "same_id_source_versions_checked",
+      "unresolved_issue_count_after_dispositions"
+    ],
+    "numeric_only": [
+      "canonical_signature",
+      "all_affected_split_side_rows",
+      "qa7_record_sha256",
+      "independent_oracle_evidence_sha256",
+      "mutation_evidence_sha256",
+      "exact_question_protection_check_evidence_sha256",
+      "numeric_expression_only_true",
+      "exact_normalized_protected_question_false",
+      "numeric_test_independence_claimed_false",
+      "new_human_review_claim_false"
+    ],
+    "status_rule": "Missing mandatory fields remain null with a missing_evidence list; no wildcard/sample-ID-only exception. This is a proposed ledger schema, not an implemented bypass."
+  },
+  "source_files_read": [
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\AGENTS.md",
+      "sha256": "1c4c0fac77ccd2f0d20aaff7f7b01650bb1865f3283a1b6d7fdb26d10dccc3ef",
+      "bytes": 5689,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\MATH_TRAINING_CONTEXT.md",
+      "sha256": "222d3efeb1494f99c40d30c6d3ab1d8b2b5063980b59ecf51a7293e9dbc73a82",
+      "bytes": 785912,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\owner_acceptance_policy.json",
+      "sha256": "086c5588c47cc90ec079678857b24dbb65601246cca6b208a700212c7dea6c6e",
+      "bytes": 3251,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\owner_human_attestations.json",
+      "sha256": "e0d59a9a5ee6e428bfe2c2bcc3cee9fa7b8b52f507140ca09491a39f269cf4ea",
+      "bytes": 1760,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\numeric_overlap_exception_policy.json",
+      "sha256": "c9aa008fb84b81e705e540c56d018c9c2d07278edc775fba57a6d28a2309e472",
+      "bytes": 671,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\numeric_overlap_exceptions.jsonl",
+      "sha256": "aa4a6f7b46cdfe093141e102bb0de1553224c69d02eb632d1d0a57037bc4db69",
+      "bytes": 7133,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\final_release_index.json",
+      "sha256": "cfa444ef18a469999d7272437def57fa8c338a8685110fbd563bc3a213d4f959",
+      "bytes": 2617,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\tutor_contract.json",
+      "sha256": "0e09c27b728dccf9fb1d374480699498425d647e0f55fcf016efe7d0eaca70c5",
+      "bytes": 16351,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\data\\primary_math_teacher_20261016\\drive_artifacts.json",
+      "sha256": "9a068908b31f705eb23f9859ffe57a19cd01a1d6ed80712d0939784d871b854b",
+      "bytes": 24545,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_full_audit_v3.py",
+      "sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+      "bytes": 24510,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_candidate_stream.py",
+      "sha256": "fa765959154ce453462e9c41ebf3695e88452aaa14acbcf17f5e1c6fd2f7e310",
+      "bytes": 18064,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\exhaustive_colab_loader.py",
+      "sha256": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c",
+      "bytes": 24727,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_archive_audit.py",
+      "sha256": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+      "bytes": 14358,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\primary_math_data_pipeline.py",
+      "sha256": "08ae70ec97055b51d6b5613171ced337df199114dd5e81193579c0265469826d",
+      "bytes": 37394,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\data_resume_20261022\\publish_chat_manifest.json",
+      "sha256": "3065dc83f3a09ec5d6db70c220060ba563223b4e563792f239e0ab73b24b75e9",
+      "bytes": 27366,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\data_resume_20261022\\publish_state.json",
+      "sha256": "f56f865fed1f933c9a5a6f3e141fae9ce7e41ad1978aa953805f1a43fcb5e3fc",
+      "bytes": 291182,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\data_resume_20261022\\next_uncovered_tasks.json",
+      "sha256": "bce4848aea672cbaa88b2ebcb0bd17e3d104a17545dfe3ca9c31a949a72365c9",
+      "bytes": 427376,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\data_resume_20261022\\frozen_baseline_verified.json",
+      "sha256": "1eaa3459c02121e311c40dee31a0b45928257ea3d40eb1344db043b881f50c7b",
+      "bytes": 808,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\data_resume_20261022\\four_controls_remote_verified.json",
+      "sha256": "782c7d7b4c291525793fc25a8a16225633e609d64fdbd08855cee0b7ecec9903",
+      "bytes": 1061,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\g2_finite_forms_20261021\\publish_latest_union_recipe.json",
+      "sha256": "e4197a8e797a6c4d22b938779b663d0e306536dc8af75a5f81fb3c98f7e1a7a8",
+      "bytes": 788605,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\mcp_prepare_20261022\\cloud_preparation_inventory.json",
+      "sha256": "deac8a6bfb25922a3d3eb1ee1af7ef793333055fafa45c81e5dae636aa4b06d5",
+      "bytes": 795448,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\hoai_live_resume_20261022\\restore_actual_receipt.json",
+      "sha256": "b49f2a450dd4f4bbafe258540a98cb17e2f8ebd41adb197e3c8889a49d3201a0",
+      "bytes": 1386,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\hoai_live_resume_20261022\\frozen_baseline_verified.json",
+      "sha256": "ece96545982e1e931432e8fc703df252504ab3e5b7bc5e504fd60487b279b360",
+      "bytes": 795,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\hoai_live_resume_20261022\\four_controls_remote_verified.json",
+      "sha256": "5da2c0887dce670e1b71970750adc29d5a74a0a2e2497c70406bc1557049b574",
+      "bytes": 1060,
+      "read_scope": "relevant sections or metadata; hash covers whole file"
+    }
+  ]
+}

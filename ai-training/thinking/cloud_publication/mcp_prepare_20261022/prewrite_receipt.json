@@ -1,0 +1,22 @@
+[
+  {
+    "name": "progress.zip",
+    "bytes": 13979523,
+    "sha256": "af13e67d88ca36e271091fc213c893de56da35735d68c15ee158e0194554c1aa"
+  },
+  {
+    "name": "chat.json",
+    "bytes": 27366,
+    "sha256": "3065dc83f3a09ec5d6db70c220060ba563223b4e563792f239e0ab73b24b75e9"
+  },
+  {
+    "name": "context.md",
+    "bytes": 811268,
+    "sha256": "86be2de0993f1ab8a7d7c3aaeff70a85d4384ec1d10662a42c1059cbc94562b7"
+  },
+  {
+    "name": "state.json",
+    "bytes": 291182,
+    "sha256": "f56f865fed1f933c9a5a6f3e141fae9ce7e41ad1978aa953805f1a43fcb5e3fc"
+  }
+]

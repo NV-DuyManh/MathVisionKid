@@ -1,0 +1,131 @@
+{
+  "batch_sha256": "c93a19828bfef76a0f863e74025a0ec0e62136c7f8fe94794cd7085940bf492a",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_join_lengths_same_unit",
+      "row_sha256": "acc830d029743c85043738bd8e37f1e5b7832196f59617807e93faf30179f3fe",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "10+4",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_estimate_with_reference_scale",
+      "row_sha256": "1459fda869d1a19e6126c63a37b5a2064cb755907659eb5699962ac8290bfd58",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_gross_and_empty_container_mass",
+      "row_sha256": "0e0d7d3295ff9c21324e92a9155d9625196aa31119326457c87b0eb7b6d47842",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "17-2",
+          "(17-2)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_misconception_add_without_conversion",
+      "row_sha256": "eb74c81d00d93cf17dddc1930c59ce5e6ebc4037c7b8db22e0f2bccfc25a9010",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "100+5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_guard_capacity_not_initial_amount",
+      "row_sha256": "8673b8662acdf9869169e8140bd77c6f5769a166cc5ba5f3fa65eba300210177",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "joined_length_dm": 14,
+    "estimated_reference_cm": 20,
+    "alternative_proposal_cm": 200,
+    "gross_mass_partition_kg": {
+      "total": 17,
+      "empty": 2,
+      "contents": 15
+    },
+    "mixed_unit_correct_sum_cm": 105,
+    "capacity_guard_countermodels": [
+      {
+        "initial_l": 5,
+        "removed_l": 3,
+        "left_l": 2
+      },
+      {
+        "initial_l": 8,
+        "removed_l": 3,
+        "left_l": 5
+      }
+    ]
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_and_packet_unchanged": true,
+  "author_self_content_check": "Read unit normalization, approximate versus exact claim, gross versus net roles, student quote and every hint. Same-author check is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Approximate20cm is an arithmetic estimate from supplied approximate references, not a measured length. No new image or physical measurement claim. Known10+10 reuse is training-only. No task007 input was changed. Neutral schema is not live PlanDraft."
+}

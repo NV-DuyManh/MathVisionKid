@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "u3YL4Xd9mo6J"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"VERIFYING_PUBLISHED_FULL_TEXT_RELEASE\", \"training_started\": false, \"TEXT_TRAINING_DATASET_READY\": true, \"expected_train_rows\": 6502344, \"validation_rows_reserved\": 24, \"test_rows_reserved\": 24, \"registered_utc\": \"2026-10-23T11:51:33.901384+00:00\", \"max_sequence_tokens\": 2048, \"subset_limit\": null, \"observed_utc\": \"2026-10-23T11:52:03.333695+00:00\", \"worker_alive\": true, \"worker_stack\": [{\"function\": \"_request\", \"line\": 1475, \"file\": \"__init__.py\"}, {\"function\": \"_conn_request\", \"line\": 1427, \"file\": \"__init__.py\"}, {\"function\": \"getresponse\", \"line\": 1478, \"file\": \"client.py\"}, {\"function\": \"begin\", \"line\": 343, \"file\": \"client.py\"}, {\"function\": \"_read_status\", \"line\": 304, \"file\": \"client.py\"}, {\"function\": \"readinto\", \"line\": 723, \"file\": \"socket.py\"}, {\"function\": \"recv_into\", \"line\": 1304, \"file\": \"ssl.py\"}, {\"function\": \"read\", \"line\": 1138, \"file\": \"ssl.py\"}]}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "MathVisionKid.conditional_code_derivation.v1",
+  "parent_worker_sha256": "a855d1c2c7bb38f1d046ce49bf1ed539037985269b469aaf1c8ab42a8fef5df2",
+  "parent_policy_sha256": "5b6aa0e9976a60394ff74125c776d4fff729bc6158acfd664970a385b94d6588",
+  "parent_inference_sha256": "6b44ebabad6eeca636142012418e17f126ae9d57539e10b4d1fa5b4314033bc0",
+  "parent_publisher_sha256": "bce36d4bdaed87658e8b29958bdc93c84a821d2db5ecf5361b805b5adad0c881",
+  "derived_files": {
+    "recovery_worker_v3.py": "6c8c63c5399bb4c693de83a9d60e56961a59fd2a422951147e04d421620d89ee",
+    "recovery_policy_v2.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "inference_contract.py": "a8398e1c6a414aa0c9d343ebaa737f7e744f6892b8298497c317ea83927a0642",
+    "publisher_runtime.py": "ba305a79e70af436852c61805e8b9286f36b5ba577dce5809e93e52677f2fb6d",
+    "conditional_behavior_renderer.py": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+    "native_backend.py": "7d9fd7daa3b8542fa4efd9587aa666fb3630978e53f2b9c8380a3c2c964bb01b"
+  },
+  "changes": [
+    "Conditional worked instruction; original target bytes unchanged",
+    "Original10worked6hint grade-interleaved schedule retains allworked; removes later hierarchy override",
+    "Native Transformers/PEFT backend uses existing Colab packages; no Unsloth claimed",
+    "One derived pass with upper cap500 and gates100/300/500; deadline unchanged",
+    "Fresh development30; no old final data in code payload or training"
+  ],
+  "old_files_modified": false,
+  "new_human_attestation": false
+}

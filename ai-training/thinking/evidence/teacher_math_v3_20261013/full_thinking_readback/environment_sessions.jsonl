@@ -1,0 +1,1 @@
+{"generation_environment": {"gpu": "Tesla T4", "cuda_build": "13.0", "compute_capability": [7, 5], "packages": {"torch": "2.11.0+cu130", "transformers": "5.18.0", "peft": "0.21.1", "accelerate": "1.15.0", "torchao": "0.17.0"}}, "free_total_vram_bytes": [15527116800, 15637086208]}

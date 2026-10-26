@@ -1,0 +1,46 @@
+{
+  "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set",
+  "parent_cases_sha256": "27b2ad3a4d3cddf5e022bdc131757eac337836a5de962581911d902e23aafb34",
+  "parent_chat_sha256": "c58461d5b0a8a9a65a8dd5b24c9ad90ef6726cb89a2e1c940ea05224635b9b33",
+  "parent_source_row_sha256": "e8ef72818d767f098c02d6b4a1169f9a37b6be67b8c26b93aeddcf4c1ff37f52",
+  "final_source_row_sha256": "b8ba66e15a3b118617c5696b288e8c7b315bc27e0c915b50b52aed4a2242f4ad",
+  "source_changed_fields": [
+    "hints[2].hint"
+  ],
+  "old_hint": "Giữ nhận xét ở mức chưa xác định cho đến khi có đúng phần luật thiếu.",
+  "new_hint": "Đối chiếu phần luật cần hỏi với điều kiện dừng, không tự bổ sung quy tắc.",
+  "problem_givens_request_initial_steps_answers_unchanged": true,
+  "unaffected_case_rows_byte_identical": 11,
+  "unaffected_chat_rows_byte_identical": 44,
+  "chat_changes": [
+    {
+      "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set:worked_solution",
+      "fields": [
+        "source_row_sha256"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set:hint_level_1",
+      "fields": [
+        "source_row_sha256"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set:hint_level_2",
+      "fields": [
+        "source_row_sha256"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set:hint_level_3",
+      "fields": [
+        "messages[2].content",
+        "source_row_sha256"
+      ]
+    }
+  ],
+  "final_cases_sha256": "35b162f4b0230030aac4cc1d2d6dd02a6a62610adacf9ace9b0c4d741497c571",
+  "final_chat_sha256": "2dc3755e6191ca31dbd828a769b4c45d0630a63920b0b948082f09982198e401",
+  "reason": "Root full-field review requested procedural hint without supplying final unknown-status label.",
+  "acceptance_status": "DRAFT_PENDING_ROOT_RECHECK_CHANGED_HINT"
+}

@@ -1,0 +1,38 @@
+{
+  "status": "EXACT_AND_CONTENT_QA_PASSED",
+  "cases": 40,
+  "chat_rows": 160,
+  "by_grade": {
+    "3": 20,
+    "4": 20
+  },
+  "by_case_kind": {
+    "supplementary": 20,
+    "misconception": 10,
+    "guard": 10
+  },
+  "by_gap": {
+    "roman_material": 4,
+    "roman_routes": 4,
+    "temperature_table": 4,
+    "calendar_occurrences": 4,
+    "expression_choice": 4,
+    "parity_cards": 4,
+    "rounding_preimage": 4,
+    "fraction_division_model": 4,
+    "data_reconstruction": 4,
+    "estimate_bounds": 4
+  },
+  "every_source_step_hint_answer_authored_and_read": true,
+  "external_human_review_claimed": false,
+  "copied_textbook_exercises": 0,
+  "catalog_lessons": 154,
+  "full_book_exercise_coverage_claimed": false,
+  "source_sha256": "ab84b48a6ad5ca2826f647ed04536001517e190059675150f5f13f1020f9f0cd",
+  "chat_sha256": "2f548f7cd61b10a83c06e21d7a6d4a9bc620876658b1e0cc2720abfb9d14494d",
+  "review_sha256": "5d5cb81d46cf059f368e4382f5c70944a39f6cedf7459a7409566d60bf9e8156",
+  "builder_sha256": "3d088f83c715140a671cff25ea68f845cd3cf66af13c617095d80b18a14deca6",
+  "source_row_hash_scope": "actual UTF-8 line bytes excluding LF; reopened and compared all40",
+  "no_original_data_rewritten": true,
+  "no_training_started": true
+}

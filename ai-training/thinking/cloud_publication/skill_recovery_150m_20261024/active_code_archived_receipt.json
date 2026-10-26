@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "TDLgJTnFDbCu"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"active_code_archived\": true, \"proofs\": {\"recovery_worker_v3.py\": {\"id\": \"1LUFfaZP3ezjjclEojdj2Quo5pDeo5NDO\", \"sha256\": \"a855d1c2c7bb38f1d046ce49bf1ed539037985269b469aaf1c8ab42a8fef5df2\", \"bytes\": 32078, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:16:03.293143+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"recovery_worker_v3.py\", \"immutable\": true}, \"owner_scope_binding_v2.json\": {\"id\": \"1E9prZ6RPnCeYMNUTE53tef2GyTk7LHCL\", \"sha256\": \"4eee56eaac8d2f8333a45ba1eb22587a916a6398550adec15781eb1826ba5b0d\", \"bytes\": 446, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:16:08.282937+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"owner_scope_binding_v2.json\", \"immutable\": true}, \"scope_repair_cpu_validation.json\": {\"id\": \"1V8n_QJfr_0WI7F5JSP4rjvfFC-omLGeA\", \"sha256\": \"62a2b3a6dff8b0b547bf0b4a3072f61322dfced8dc4e849ec1a9d7e340af74f0\", \"bytes\": 405, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:16:13.296925+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"scope_repair_cpu_validation.json\", \"immutable\": true}, \"metadata_serialization_repair.json\": {\"id\": \"10fbH50bswOlY4CtvVZqs0ytiwbIe82e_\", \"sha256\": \"f8814f4d8d55c7412298f7c66879ce521feb6588c3b7191a665d7218051d83ac\", \"bytes\": 845, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:16:18.218345+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"metadata_serialization_repair.json\", \"immutable\": true}, \"training/pretrain_qa_approved.json\": {\"id\": \"1y4t1lQB3gG-AuohjeD7Kx4BinJbANyJz\", \"sha256\": \"c9e72013f6fd62e4f4fa383c5b700dcc9ec68e27a08237d3c4423c3c1c4518dc\", \"bytes\": 581, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:16:23.331179+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"training__pretrain_qa_approved.json\", \"immutable\": true}}, \"training_worker_alive\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "authored_utc": "2026-10-18T08:42:22.244791+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T08:40:14.062Z",
+  "batch_sha256": "51e9547ba6334a49eee489a60c05273019ab4a52317e892b931972f517661192",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_node": true,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_decimal_fraction_mixed_0072_equivalent_fraction_decimal_denominator",
+      "row_sha256": "32788fbcab8b0e73b5415a621c3d40ee111459965fae3e033ca82b00b2b143b7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "100/25",
+          "(37*4)/(25*4)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_fraction_mixed_0072_classify_written_denominators_not_numerators",
+      "row_sha256": "b4e36ff82b915f0347d08a66e85c509ac70da59e27e97e8b76938aa0fdc51c38",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_fraction_mixed_0072_centimetre_length_to_decimal_fraction_and_mixed",
+      "row_sha256": "7bcdd75dea706d968183c1f4126d72d1c55aa7ef71d43a30c38fb552a4361a8b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "248/100",
+          "",
+          "2*100+48"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_fraction_mixed_0072_misconception_mixed_number_as_product",
+      "row_sha256": "77d1b006236109ebc6f3dfe092a61c3ebdb20c94f1a9a70df3ed0918231fbfda",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(3*10)/10",
+          "((3*10)/10)+7/10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "equivalent_tiled_numerator_cells": 148,
+    "equivalent_tiled_denominator_cells": 100,
+    "classification_written_pairs": {
+      "A": [
+        7,
+        10
+      ],
+      "B": [
+        23,
+        100
+      ],
+      "C": [
+        51,
+        1000
+      ],
+      "D": [
+        9,
+        20
+      ],
+      "E": [
+        10,
+        7
+      ]
+    },
+    "classification_chosen": [
+      "A",
+      "B",
+      "C"
+    ],
+    "wire_total_cm": 248,
+    "full_metre_blocks": [
+      100,
+      100
+    ],
+    "tail_cm": 48,
+    "mixed_number_tenths_count": 37,
+    "wrong_product_tenths": 21
+  },
+  "Fraction_Decimal_exact_checks": true,
+  "decimal_denominator_means_10_100_1000_not_any_multiple_of10": true,
+  "classification_definition_not_inferred_from_numerator_or_convertibility": true,
+  "oracle_limit": "Finite hypothetical grids and written-pair classification verify mathematical representations; categorical meaning/units/hints need actual reading. No physical measuring or image evidence.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous401_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "bridge_status_checked": "No new completed reviews; legacy001 started status,006/007/008 queued already processed under owner policy; not reaccepted.",
+  "skills_matched_local_data": "none",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "fd8c61ce96d5510561432968bb7fb834ea1f12403afb0702ef17ba65e7e7d78b",
+  "pre_official_QA_repairs": [
+    "Replace ambiguous 248 phần trăm by 248 phần một trăm mét, to avoid confusing the length partition with percentage; clarify definition guidance wording. No values/answers changed."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 12,
+  "corrected_guidance_and_reason_reread": true,
+  "official_QA_utc": "2026-10-18T08:43:06.672409+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "e953981e1043725f667ee2c67e197ecb9df4740ed94cb4b706f10f25c92dd681"
+}

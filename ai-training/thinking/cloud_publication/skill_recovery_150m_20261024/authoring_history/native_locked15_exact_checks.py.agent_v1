@@ -1,0 +1,51 @@
+"""CPU-only exact arithmetic/schema checks for native_locked15 candidates."""
+import json
+from decimal import Decimal
+from fractions import Fraction
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+FIXTURE_PATH = HERE / "native_locked15.jsonl"
+NOTES_PATH = HERE / "native_locked15_notes.json"
+
+rows = [json.loads(x) for x in FIXTURE_PATH.read_text(encoding="utf-8").splitlines() if x.strip()]
+assert len(rows) == 15 and len({r["id"] for r in rows}) == 15
+assert all(r["not_training_data"] is True and r["grade"] in range(1, 6) for r in rows)
+for grade in range(1, 6):
+    subset = [r for r in rows if r["grade"] == grade]
+    assert len(subset) == 3 and sum(r["mode"] == "answer" for r in subset) == 2
+    assert sum(r["mode"] != "answer" for r in subset) == 1
+
+checks = {
+    "native15_01": str(Fraction(47 + 25)),
+    "native15_02": str(Fraction(18 - 5 + 7)),
+    "native15_04": "08:00" if 7 * 60 + 35 + 25 == 8 * 60 else "invalid",
+    "native15_05": str(Fraction(22 - 14 + 1)),
+    "native15_06_feedback_correction": str(Fraction(46 + 27)),
+    "native15_07_grams": str(Fraction(2350 + 1850)),
+    "native15_08": f"{53 // 6} remainder {53 % 6}",
+    "native15_10": str(Fraction(5, 8) * 56),
+    "native15_11_cm": str(Fraction(46 - 2 * 8, 2)),
+    "native15_12_reported_group_total": f"{Fraction(2, 3) * 30 + Fraction(1, 2) * 30} of 30; contradiction",
+    "native15_13_dong": format((Decimal("350000") * (Decimal(1) - Decimal("0.20"))).normalize(), "f"),
+    "native15_14_dong_per_kg": format((Decimal("31500") / Decimal("4.5")).normalize(), "f"),
+    "native15_15_width_m": f"{Decimal(80) / Decimal(100)}; length_m={Decimal('2.4') / (Decimal(80) / Decimal(100))}",
+}
+expected = json.loads(NOTES_PATH.read_text(encoding="utf-8"))["exact_checks"]["expected_results"]
+assert checks == expected, checks
+by_id = {r["id"]: r for r in rows}
+answer_values = {
+    "native15_01": "72", "native15_02": "20", "native15_04": "8 giờ",
+    "native15_05": "9 trang", "native15_07": "4 kg 200 g",
+    "native15_08": "8 thẻ", "native15_10": "35 tấm bìa", "native15_11": "15 cm",
+    "native15_13": "280 000 đồng", "native15_14": "7 000 đồng/kg",
+}
+for sid, text in answer_values.items():
+    assert text in by_id[sid]["exact_reference_answer"], sid
+assert by_id["native15_03"]["exact_reference_answer"] is None
+assert by_id["native15_09"]["exact_reference_answer"] is None
+assert by_id["native15_12"]["exact_reference_answer"] is None
+assert by_id["native15_06"]["exact_reference_answer"] is None
+assert by_id["native15_15"]["exact_reference_answer"] is None
+
+print(json.dumps({"status": "passed", "fixture_count": len(rows), "computed": checks}, ensure_ascii=False))

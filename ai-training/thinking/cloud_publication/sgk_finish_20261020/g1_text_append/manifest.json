@@ -1,0 +1,94 @@
+{
+  "status": "10_DRAFTS_AUTHOR_QA_PASS_ROOT_QA_PENDING",
+  "cases": 10,
+  "chat": 40,
+  "master_counts": {
+    "attribute_filter_then_extremum": 2,
+    "repeated_value_identity_assignment": 2,
+    "pair_relation_stage_path": 2,
+    "ordered_itinerary_weekday_map": 2,
+    "repeated_digit_symbol_predicate": 2
+  },
+  "numeric_steps": 3,
+  "finite_oracles": 10,
+  "mapping_original_sha256": "bb9a183aa49544a534238ad6742cf0f6c2941e4a3761a77f11ffb94510c08cdc",
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "bytes": 60018,
+      "rows": 10,
+      "sha256": "ed96cd9fb0b41f6aeca78bd69f0d06053b4e76d0b3511f49b7a460cd354f9730"
+    },
+    {
+      "path": "chat.jsonl",
+      "bytes": 80666,
+      "rows": 40,
+      "sha256": "d2a4f29479e74b2baf411f9aba1f08c90f5fab13f1d2c739cca6ce5cbccf588c"
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "bytes": 40776,
+      "rows": 10,
+      "sha256": "dcac3f07867289f02429a70b65f9887655b72f569cbe6c0033898906ada5c6ab"
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "bytes": 4784,
+      "rows": 10,
+      "sha256": "e4d1a3080eb493721c6f889a9b39cb53a033e39c9afceffa7e737a19f3a8ee33"
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "bytes": 376,
+      "rows": 3,
+      "sha256": "4175d89dcdfc37a974734f89b306ece5ddfd8d518915af6b2abd4e5b4fe43caf"
+    },
+    {
+      "path": "mapping_snapshot.json",
+      "bytes": 18256,
+      "sha256": "01fd6b9c0fdb52a1c7e8448c40fb9b642ee46bfafdc0ee19fa8e7bd2387cd084",
+      "rows": null
+    },
+    {
+      "path": "nearest_actual_full_field_review.jsonl",
+      "bytes": 55072,
+      "sha256": "ef0d33ff46121786cdcecbaac9572f34b3157af9f3f6cf0f4858413c929af762",
+      "rows": 22
+    },
+    {
+      "path": "g2_readonly_overlap_comparisons.jsonl",
+      "bytes": 11330,
+      "rows": 5,
+      "sha256": "49d60c8a5793e9d47fa2f7ad8536c7911ed71ca42ec751516ddfd8bee30e1909"
+    }
+  ],
+  "cancelled": [
+    {
+      "master_id": "calendar_anchor_day_offset",
+      "status": "CANCELLED_NO_AUTHORING",
+      "basis": "Root direct message: old g3_calendar_occurrences_schedule + calendar_month_boundary cover offset; no replacement rows."
+    }
+  ],
+  "crossgrade_reconciliation": [
+    {
+      "master": "attribute_filter_then_extremum",
+      "status": "BASE_FORM_SHARED_WITH_G2; NEW_TIE_AND_EMPTY_BRANCHES_ONLY",
+      "rationale": "G2 nonempty region intersection max/min has unique extrema. These branches preserve all tied identities and reject empty subset extrema."
+    },
+    {
+      "master": "repeated_value_identity_assignment",
+      "status": "DISTINCT_PREDICATE_FROM_G2_ARITHMETIC_CARDS",
+      "rationale": "G1 equality/order score constraints between named recipients; G2 arithmetic slot sum/difference constraints. No duplicated additive equations or card layout."
+    }
+  ],
+  "pending": [
+    "Root full-field cross-review/acceptance of these10 drafts",
+    "Calendar no longer pending authoring; mapper owns queue closure",
+    "Other masters outside these six remain owned by root; no global completion claim"
+  ],
+  "limitations": [
+    "Text-only finite enrichment; no visual/physical coverage.",
+    "No training, network/Drive, app/git, registry/context/state/source changes.",
+    "Old sources and G2 final cases remain immutable."
+  ]
+}

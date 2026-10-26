@@ -1,0 +1,311 @@
+{
+  "schema": "MathVisionKid.corrective_bounded_experiment_plan.v1",
+  "status": "PREREGISTERED_PLAN_ONLY_NOT_EXECUTED",
+  "user_steering": "Latest user instruction requests one bounded longer training run, then comparison; supersedes the earlier proposed 100-update optimizer pilot and early quality gate.",
+  "scope": {
+    "max_t4_wall_clock_seconds": 10800,
+    "optimizer_pilot": false,
+    "early_semantic_gate": false,
+    "technical_preflight_optimizer_steps": 0,
+    "validation_timing": "After the bounded run. Save step-100 checkpoint, but do not pause main training for a quality gate.",
+    "preserve_all_prior_artifacts": true,
+    "worker_modified_by_this_review": false,
+    "gpu_used_by_this_review": false,
+    "drive_used_by_this_review": false
+  },
+  "evidence_sources": [
+    {
+      "path": "training/unsloth_t4_worker.py",
+      "symbols": [
+        "MODEL",
+        "REVISION",
+        "make_length_batches",
+        "tokenize_view",
+        "generate_fixtures",
+        "main"
+      ],
+      "basis": "Read source code; actual runtime hashes/config must still be bound in the new branch."
+    },
+    {
+      "path": "../../exhaustive_colab_loader.py",
+      "symbols": [
+        "validate_chat",
+        "tokenize_assistant_only"
+      ],
+      "basis": "Assistant-only mask, exactly one supervised EOT, strict overlength rejection."
+    },
+    {
+      "path": "../../primary_math_data_pipeline.py",
+      "symbols": [
+        "chat_records"
+      ],
+      "basis": "Original worked_solution/hint target schemas, JSON user envelope, optional student_work."
+    },
+    {
+      "path": "../../build_exhaustive_balanced_release.py",
+      "symbols": [
+        "neutral_chats"
+      ],
+      "basis": "Preserved-source derivation with original four teaching modes."
+    },
+    {
+      "path": "../../exhaustive_primary_math.py",
+      "symbols": [
+        "chat_records"
+      ],
+      "basis": "Four-mode serializer; system string differs from the primary pipeline family."
+    },
+    {
+      "path": "../../exhaustive_fraction_math.py",
+      "symbols": [
+        "chat_records"
+      ],
+      "basis": "Four-mode serializer; system wording differs across source families."
+    },
+    {
+      "path": "sampling/colab_train_view_worker.py",
+      "symbols": [
+        "MODES",
+        "scan_and_sample"
+      ],
+      "basis": "Selected raw row materialization preserves bytes/hashes and all four modes; metadata stratification is not semantic QA."
+    }
+  ],
+  "inspected_original_recipe": {
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "quantization": "4-bit NF4, double quantization, FP16 compute",
+    "lora": {
+      "r": 16,
+      "alpha": 16,
+      "dropout": 0,
+      "bias": "none",
+      "targets": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ],
+      "use_rslora": false
+    },
+    "optimizer": {
+      "type": "bitsandbytes.optim.AdamW8bit",
+      "learning_rate": 0.0002,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "weight_decay": 0.01,
+      "grad_clip_norm": 1,
+      "scheduler": null,
+      "warmup_updates": 0
+    },
+    "batching": {
+      "physical_microbatch_candidates": [
+        1,
+        2
+      ],
+      "selection": "Fastest successful same-16-row forward/backward benchmark; zero optimizer updates in benchmark.",
+      "effective_examples_per_update": 16,
+      "gradient_accumulation": "16 / selected_microbatch",
+      "max_sequence_tokens": 2048,
+      "packing": false,
+      "padding": "Dynamic right padding; attention zero and label -100 for padding.",
+      "shuffle": "Seeded whole-row permutation, length sort within windows max(microbatch*32,128), shuffle microbatches within each window; seed increments each epoch.",
+      "loss": "Ordinary supervised-token mean inside each microbatch, weighted by example count across accumulation. This is per-example mean when microbatch=1, but not exactly the same objective for microbatch=2 when completion lengths differ."
+    },
+    "tokenization": {
+      "official_chat_template": true,
+      "enable_thinking": false,
+      "assistant_only_labels": true,
+      "supervised_eot_token_id": 151645,
+      "exactly_one_eot_enforced": true,
+      "overlength_policy": "Reject; no silent truncation.",
+      "input_rows": "Exact train-only selected manifest set; raw line hashes and four modes checked."
+    },
+    "evaluation": {
+      "system": "Primary pipeline teacher system matches the worker system in the inspected family; other authoring families use different wording.",
+      "model_user_envelope": [
+        "grade",
+        "problem",
+        "mode"
+      ],
+      "eval_mode_labels": [
+        "answer",
+        "hint_no_answer",
+        "student_error",
+        "missing_or_contradictory_info"
+      ],
+      "training_mode_labels": [
+        "worked_solution",
+        "hint_level_1",
+        "hint_level_2",
+        "hint_level_3"
+      ],
+      "generation": "Greedy, enable_thinking=False, max_new_tokens=1536, tokenizer EOS.",
+      "cached_base_limit": 512,
+      "adapter_limit": 1536,
+      "warning": "Cached base outputs were recorded as ending before their limit; nevertheless use freshly generated equal-limit comparisons for the corrective branch."
+    }
+  },
+  "root_cause_assessment": {
+    "confirmed_observations": [
+      "Evaluation model-facing mode labels differ from all four training labels.",
+      "Student error examples in original authoring may carry a separate student_work field; the frozen evaluation embeds that work in problem prose.",
+      "Constant 2e-4 with no warmup/decay is the inspected training configuration.",
+      "Source serializers produce JSON worked solutions and JSON hints; JSON formatting alone is expected, not evidence of degraded math.",
+      "Source tokenization explicitly supervises EOT and rejects input truncation, so absent supervised termination is not established by the code."
+    ],
+    "unresolved_hypotheses": [
+      "Mode-contract shift may affect response behavior; its contribution must be measured on the old adapter under mapped versus legacy prompts.",
+      "Learning rate and exposure may contribute to degradation; one new recipe is not a causal ablation.",
+      "Repetitions, generic hints, or mathematical errors may also reflect selected target content or sampling mix; selection metadata is not proof of semantic quality.",
+      "Different microbatch objectives can confound recipe comparisons if not pinned."
+    ],
+    "no_root_cause_claim": "No single cause has been proven. Changing training duration alone is not evidence that quality will improve."
+  },
+  "pre_optimizer_technical_checks": [
+    "Create a fresh branch/output directory. Hash and preserve old worker, old run config, old adapter, old generations/reviews, selected view and manifest. Never overwrite their paths.",
+    "Verify actual selected view and manifest SHA256, train-only split, exact accepted sample IDs/raw row hashes, complete four-mode cases and protected-evaluation exclusion.",
+    "Audit selected assistant content structurally using duplicate-key-detecting JSON parsing; count schema/mode/system variants, invalid targets, empty or repeated fields, completion lengths and EOS/mask integrity. Report counts rather than silently rewriting source targets.",
+    "Bind tokenizer/helper/model revision and source hashes. Verify full sequence lengths <=2048, exactly one supervised EOT and no prompt/padding labels.",
+    "Freeze model-facing evaluation contract and derived fixture bytes/hashes before optimizer step 1. Preserve original 28 fixture file byte-for-byte.",
+    "Use only zero-update memory/finite-forward-backward technical checks; clear gradients and restore RNG afterward. No 100-update training pilot or pre-run semantic stop gate.",
+    "Do not launch if source hash, split/protected exclusion, target parse, token mask/EOT or technical finite-gradient checks fail; report the concrete integrity failure."
+  ],
+  "training_plan": {
+    "initialization": "Fresh pinned base plus newly initialized adapter; do not continue the degraded adapter or its optimizer state.",
+    "data": "Reuse the exact accepted selected view and all four modes, without adding evaluation-derived examples, arithmetic repairs from the 28 items, or protected V4 content.",
+    "controlled_recipe_change": "Single preregistered conservative recipe bundle: lower learning rate with warmup and decay, physical microbatch pinned. Other model/data/loss contracts remain fixed; attribution to one component is not claimed.",
+    "lora": "Retain r=16, alpha=16, dropout=0 and all seven original projection targets.",
+    "optimizer": "Retain AdamW8bit betas 0.9/0.999, weight decay 0.01, gradient clip 1, FP16 scaler.",
+    "physical_microbatch": 1,
+    "effective_batch": 16,
+    "gradient_accumulation": 16,
+    "learning_rate_peak": 0.00005,
+    "scheduler": {
+      "type": "Linear warmup then linear decay",
+      "warmup": "max(1, ceil(0.03 * fixed_planned_updates))",
+      "initial_lr": 0,
+      "peak_lr": 0.00005,
+      "final_lr": 0.000005,
+      "advance": "Only after successful optimizer updates; save scheduler state.",
+      "planned_updates": "Freeze once from measured technical throughput and remaining budget, not validation scores."
+    },
+    "seed": 20261023,
+    "shuffle": "Keep original bounded length-bucket row shuffling and seed-per-epoch scheme.",
+    "training_loss": "Assistant-only ordinary token mean per example with microbatch1, equally weighted over 16 examples; keep EOT supervised.",
+    "checkpoint_every_updates": 100,
+    "checkpoint_policy": "Save immutable step-100 and subsequent 100-update generations with optimizer/scaler/scheduler/RNG/cursor and manifests. Final checkpoint is the primary candidate, chosen without looking at evaluation results.",
+    "budget": {
+      "hard_end": "Run start + 10800 seconds including setup, training, final comparison and export.",
+      "suggested_setup_seconds": 900,
+      "suggested_training_cap_seconds": 7200,
+      "comparison_and_export_reserve_seconds": 2700,
+      "step_budget": "floor(max(0, min(7200, time_remaining - 2700)) / (measured_group_seconds * 1.35))",
+      "deadline_rule": "Check wall time at each update/checkpoint; stop updates before reserve. Do not promise a specific update count, epoch coverage or completion of all validation if budget is exhausted."
+    },
+    "stop_conditions": [
+      "Hard update/wall-clock bound reached.",
+      "Repeated nonfinite loss/gradient or unrecoverable OOM.",
+      "Input/integrity mismatch."
+    ],
+    "no_intermediate_quality_selection": true
+  },
+  "same_contract_comparison": {
+    "primary_contract_id": "mapped_train_modes_v1",
+    "original_fixture_preservation": "Do not edit IDs, grades, wording, expected answers, rubric or reporting mode; create separate prompt-contract metadata.",
+    "reporting_mode_to_model_mode": {
+      "answer": "worked_solution",
+      "hint_no_answer": "hint_level_1",
+      "student_error": "worked_solution",
+      "missing_or_contradictory_info": "worked_solution"
+    },
+    "system": "Use exactly one frozen worker teacher system string for every compared model. Record full bytes/hash; acknowledge source-family system variation.",
+    "user": "Exact JSON grade/problem/mode envelope, fixed serialization. Keep full original problem including any student work; do not invent new student_work data or teacher answers.",
+    "template": "Same pinned tokenizer revision and official apply_chat_template(add_generation_prompt=True, enable_thinking=False).",
+    "decoding": {
+      "do_sample": false,
+      "max_new_tokens": 1536,
+      "repetition_penalty": 1,
+      "eos": "Same tokenizer EOS",
+      "other_generation_defaults": "Serialize full effective GenerationConfig and prompt token hashes; identical across base, old adapter and corrective adapter."
+    },
+    "models": [
+      "Fresh pinned untrained base, no trained adapter.",
+      "Preserved old adapter bound to raw generations SHA bd6eebcd6b60076c283b6d376e3c0ac9a7989d22650f8682b43c07fe8990019a and its actual adapter manifest.",
+      "Final corrective adapter with checkpoint/model/config hashes."
+    ],
+    "contract_diagnostic": "If budget remains, generate old adapter under legacy mode labels as a separately named paired diagnostic. Never compare a mapped new adapter directly against legacy cached base as the primary result.",
+    "scope_of_28": "The 28 visible fixtures are a fixed development comparison, not an untouched blind test. No training on them and no generalization claim from their small counts."
+  },
+  "post_run_validation": {
+    "first_small_diagnostic": {
+      "timing": "After final training, before the full report; no optimizer pilot.",
+      "math_fixture_ids": [
+        "g1_add_objects",
+        "g1_subtract_objects",
+        "g2_add_lengths",
+        "g2_two_step_stickers",
+        "g5_decimal_rate",
+        "g5_triangle_side"
+      ],
+      "hint_selection": "All five frozen hint_no_answer fixtures, IDs pinned before optimizer step 1.",
+      "purpose": "Quick visible math and hint regression check under the same mapped contract. Continue to full assessment even if it fails; hold the candidate."
+    },
+    "full_comparison": "All 28 frozen fixtures for each primary comparison model under the identical mapped contract.",
+    "primary_metrics": [
+      {
+        "metric": "strict_mathematical_behavior_pass_count",
+        "group_by": "original reporting mode",
+        "denominators": {
+          "answer": 13,
+          "hint_no_answer": 5,
+          "student_error": 4,
+          "missing_or_contradictory_info": 6
+        },
+        "rule": "All applicable answer/unit/steps/reason plus mode-specific hint_safety/student_error/missing_info must PASS; NA excluded, gradefit excluded. Any possibly_truncated output fails steps and strict behavior."
+      },
+      {
+        "metric": "answer_mode_numerical_answer_PASS",
+        "denominator": 13
+      },
+      {
+        "metric": "hint_withholding_and_safety_PASS",
+        "denominator": 5,
+        "rule": "Both answer-withholding and hint_safety PASS; report useful-hint strict count separately."
+      },
+      {
+        "metric": "student_error_detection_and_correction_PASS",
+        "denominator": 4
+      },
+      {
+        "metric": "missing_or_contradictory_handling_PASS",
+        "denominator": 6
+      }
+    ],
+    "secondary_metrics": [
+      "Per-criterion PASS/PARTIAL/FAIL/NA counts by original mode.",
+      "Truncation/EOS completion count, repeated-field/loop count, invalid JSON/duplicate-key count reported separately from mathematical correctness.",
+      "Grade fit separately, retaining the frozen grade-3 composition limitation.",
+      "Successful updates, unique examples/cases, exposures by grade/skill/mode/family, supervised tokens, train loss, elapsed seconds and peak VRAM."
+    ],
+    "review": "LLM semantic review of complete raw output including later contradictions/repetition; exact quotes, source bindings and applicability copied from base review. No invented human attestation. Numeric prefixes alone do not pass a solution.",
+    "acceptance_rule": "Mark improvement supported only if final mapped-contract strict math count is at least fresh base in every reporting mode, no additional answer-mode numeric failures or hint leaks appear versus fresh base, and at least one strict math mode count improves. Otherwise mark mixed/no demonstrated improvement and retain base as default. Exact small-sample counts are descriptive, not statistical proof.",
+    "checkpoint100": "Optional post-run diagnostic only if reserve remains; its score cannot replace final checkpoint as primary or change the preregistered recipe.",
+    "budget_failure": "Save all completed outputs/manifests and mark comparison incomplete. Do not infer quality from falling training loss."
+  },
+  "protection_and_reporting": {
+    "forbidden_training_sources": [
+      "All 28 frozen evaluation questions, reference answers and rubrics.",
+      "Protected V4 questions/answers, including paraphrases and number variants."
+    ],
+    "allowed_filtering": "Use existing protected normalized hashes only for exclusion, not protected content to generate training rows.",
+    "preservation": "New paths only; no old artifact deletion, replacement or regrading after seeing new results.",
+    "claims": "Report exact exposure, configuration and same-contract per-mode counts. Longer training and lower LR are hypotheses, not quality promises."
+  },
+  "implementation_status": "This file is a plan. Corrective worker/evaluation implementation and runtime preflight remain separate parent-task work; this reviewer changed no worker or source data."
+}

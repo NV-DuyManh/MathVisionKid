@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "IJtTLHKoZC_-"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"32a03f4100d246c1896cddc7c6f1c4b9d01e853c2dde776a883d3824ac5aef1c\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

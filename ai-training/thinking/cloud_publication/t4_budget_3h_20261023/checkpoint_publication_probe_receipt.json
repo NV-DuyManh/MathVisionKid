@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "j6K5AFGcaWnK"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_unix\": 1792769880.0054553, \"publisher_alive\": true, \"publisher_stack\": [[{\"function\": \"next_chunk\", \"line\": 1164, \"name\": null, \"path\": \"\", \"generation\": \"\"}, {\"function\": \"put\", \"line\": 63, \"name\": \"checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip\", \"path\": \"/content/mathvisionkid_t4_budget_3h_20261023/drive_publication/runstore_work/upload_snapshot_checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip\", \"generation\": \"\"}, {\"function\": \"publish_file\", \"line\": 62, \"name\": \"checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip\", \"path\": \"/content/mathvisionkid_t4_budget_3h_20261023/drive_publication/checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip\", \"generation\": \"\"}, {\"function\": \"package_checkpoint\", \"line\": 101, \"name\": null, \"path\": \"\", \"generation\": \"/content/mathvisionkid_t4_budget_3h_20261023/training/generation_step_000100_rows_00001600\"}, {\"function\": \"_budget_publish_loop\", \"line\": 147, \"name\": \"training_worker.py\", \"path\": \"\", \"generation\": \"/content/mathvisionkid_t4_budget_3h_20261023/training/generation_step_000100_rows_00001600\"}, {\"function\": \"_budget_publish_loop\", \"line\": 181, \"name\": \"eval_oracleQA_receipt.json\", \"path\": \"\", \"generation\": \"\"}, {\"function\": \"_budget_publish_loop\", \"line\": 181, \"name\": \"training_worker.py\", \"path\": \"\", \"generation\": \"\"}]], \"generation_folders\": [\"generation_step_000100_rows_00001600\"], \"readback_files\": [{\"name\": \"upload_snapshot_checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip\", \"bytes\": 99201456}]}\n"
+        ]
+      }
+    ]
+  }
+}

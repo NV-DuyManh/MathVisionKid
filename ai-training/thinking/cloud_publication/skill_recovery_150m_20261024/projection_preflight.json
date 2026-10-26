@@ -1,0 +1,186 @@
+{
+  "source_rows": 16000,
+  "view_rows": 6879,
+  "source_sha256": "14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331",
+  "plan_sha256": "4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d",
+  "original_source_system_sha_counts": {
+    "0137a055ce34116f23604ba029acac937e0ab030be537f561d0a0c2cf54b4933": 11596,
+    "c94710f187165c400bbee5ae3111a63c5934ab99834b1671cc4c38cc308f0ab6": 160,
+    "ab9095c049a2e35d3213edc24121092f7194433eb74ca0764d9249b41b1d9fb3": 1928,
+    "6d213ca1ebea7d12cca664d7baa5be74819c199baec6284608d48cd0d8cd7151": 2316
+  },
+  "new_train_eval_system_sha256": "6431f7c59fa4e175483765d57fc6e869fbc530cba2176c279e3b1af6bda0c19c",
+  "source_targets_exactly_unchanged_v3": true,
+  "old_source_labels_not_carried_to_changed_bytes": true,
+  "source_duplicate_student_work_rows_detected": 840,
+  "prefix1600": {
+    "grade": {
+      "1": 320,
+      "2": 320,
+      "3": 320,
+      "4": 320,
+      "5": 320
+    },
+    "mode": {
+      "worked_solution": 481,
+      "hint_level_1": 374,
+      "hint_level_2": 373,
+      "hint_level_3": 372
+    },
+    "behavior": {
+      "guard": 109,
+      "standard": 811,
+      "student_feedback": 680
+    }
+  },
+  "whole_derived": {
+    "grade": {
+      "1": 535,
+      "2": 1008,
+      "3": 1469,
+      "4": 1972,
+      "5": 1895
+    },
+    "mode": {
+      "worked_solution": 3864,
+      "hint_level_1": 1005,
+      "hint_level_2": 1005,
+      "hint_level_3": 1005
+    },
+    "behavior": {
+      "guard": 112,
+      "standard": 5783,
+      "student_feedback": 984
+    }
+  },
+  "samples": [
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "grade": 2,
+      "mode": "worked_solution",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Giải đầy đủ\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nBước 1\nNội dung: Trừ theo từng hàng\nVì sao: Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.\nPhép tính hoặc quan hệ: 565-103\nKết quả bước này: 462\nGiải thích: Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.\nBước 2\nNội dung: Kiểm bằng phép cộng\nVì sao: Hiệu cộng số trừ phải bằng số bị trừ.\nPhép tính hoặc quan hệ: 462+103\nKết quả bước này: 565\nGiải thích: 462 + 103 = 565, đúng số bị trừ.\nĐại lượng cần tìm: Hiệu\nĐáp số: 462"
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_1",
+      "grade": 2,
+      "mode": "hint_level_1",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "cdd2eb55d803b061844c26738dfea76f940b9cdcf2e2c6fb7d986a8fd2b1fdaa",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý bước đầu\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nEm thử trả lời: Em nên bắt đầu bớt từ hàng nào?"
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_2",
+      "grade": 2,
+      "mode": "hint_level_2",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "765fb1ef8af7a8dcab713ce4eaa4815f48a90851f63f9e1f6392758d4a118b47",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý thêm một bước\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý thêm một bước để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nếu một hàng chưa đủ bớt, đổi nhóm từ hàng cao hơn và cập nhật hàng cho đi.\nEm thử trả lời: Số lượng ở hàng đang xét có đủ để bớt số đã cho không?"
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_3",
+      "grade": 2,
+      "mode": "hint_level_3",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "3ed3f7e5da7c2bd4474913274716a7f8bf00f028bf1b526fd58fdfee75e21537",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý cách kiểm tra và hoàn thiện\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý cách kiểm tra và hoàn thiện; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Sau khi tính, cộng hiệu với số trừ để kiểm số bị trừ.\nEm thử trả lời: Phép kiểm của em có khôi phục số ban đầu không?"
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "grade": 3,
+      "mode": "worked_solution",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Giải đầy đủ\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nBước 1\nNội dung: Lập các nhóm đủ\nVì sao: Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.\nKết quả bước này: 788\nGiải thích: Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.\nBước 2\nNội dung: Kiểm số bị chia và số dư\nVì sao: Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.\nPhép tính hoặc quan hệ: 788*1+0\nKết quả bước này: 788\nGiải thích: 788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.\nĐại lượng cần tìm: Thương\nĐáp số: 788\nĐại lượng cần tìm: Số dư\nĐáp số: 0"
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "grade": 3,
+      "mode": "hint_level_1",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý bước đầu\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nEm thử trả lời: Số chia có khác không để phép chia có nghĩa không?"
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "grade": 3,
+      "mode": "hint_level_2",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý thêm một bước\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý thêm một bước để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.\nEm thử trả lời: Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?"
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "grade": 3,
+      "mode": "hint_level_3",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý cách kiểm tra và hoàn thiện\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý cách kiểm tra và hoàn thiện; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nhân thương với số chia rồi cộng phần dư để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?"
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Giải đầy đủ\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.\nBước 1\nNội dung: Tính theo đơn vị phần mười\nVì sao: Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.\nPhép tính hoặc quan hệ: 13-4\nKết quả bước này: 9\nGiải thích: 1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.\nBước 2\nNội dung: Đổi về đơn vị ban đầu\nVì sao: Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.\nPhép tính hoặc quan hệ: 9/10\nKết quả bước này: 0.9\nGiải thích: 9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.\nBước 3\nNội dung: Kiểm bằng phép ngược\nVì sao: Dùng phép tính ngược để khôi phục số đầu.\nPhép tính hoặc quan hệ: (0.9)+0.4\nKết quả bước này: 1.3\nGiải thích: Phép kiểm cho 1,3, khớp số đầu.\nĐại lượng cần tìm: Kết quả\nĐáp số: 0.9"
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_1",
+      "grade": 5,
+      "mode": "hint_level_1",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "c3b347ec46af84e02e8b0743d388c45e36e532162f22cfbf4ddc5c44ead5e133",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Gợi ý bước đầu\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.\nEm thử trả lời: Các phần mười đang được bớt theo đúng thứ tự nào?"
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_2",
+      "grade": 5,
+      "mode": "hint_level_2",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "7440d0c257bfcf00e10b49008fe1c3f6e962e889d2b41cffa0b88605a440bea2",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Gợi ý thêm một bước\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nYêu cầu:\n\nGợi ý thêm một bước để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Có thể chuyển cả hai số sang cùng đơn vị phần mười rồi tìm hiệu.\nEm thử trả lời: Em đổi lại đơn vị ban đầu sau khi bớt như thế nào?"
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_3",
+      "grade": 5,
+      "mode": "hint_level_3",
+      "behavior": "standard",
+      "source_original_raw_row_sha256": "140229f89eb8845284cf46916f0b17b3fa365c235204861cf0b5a56625a7f37d",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Gợi ý cách kiểm tra và hoàn thiện\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nYêu cầu:\n\nGợi ý cách kiểm tra và hoàn thiện; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Cộng hiệu với số trừ để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị trừ không?"
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Giải đầy đủ\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nBước 1\nNội dung: So cùng hàng\nVì sao: Phần nguyên bằng nhau; so hàng phần mười trước.\nKết quả bước này: 4,09 < 4,9\nGiải thích: 4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.\nĐại lượng cần tìm: Quan hệ đúng\nĐáp số: 4,09 < 4,9"
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:hint_level_1",
+      "grade": 5,
+      "mode": "hint_level_1",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "d8551bbfc0d77c8f59be821fafb60904c18f115b6239623c2a4f7785aee92108",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Gợi ý bước đầu\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nEm thử trả lời: Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+    }
+  ],
+  "renderer_sha256": "763da2f7a1931962a9ad1a49b16d4b8dfe5263a09e69603c49959adb02a5ec8f",
+  "scope": "Structural source preservation and small actual content sample; not exhaustive semantic proof or human certification."
+}

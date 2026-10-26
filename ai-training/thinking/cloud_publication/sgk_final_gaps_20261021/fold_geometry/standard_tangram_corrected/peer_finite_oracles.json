@@ -1,0 +1,679 @@
+[
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_limit_not_exact_rectangle",
+    "source_row_sha256": "4172a81a11824f0b51b97d38d93daf6ebee488d9091305e3c68e6407082931a2",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "n_half_circumference": "471/50",
+      "area": "1413/50",
+      "finite_sector_boundary": "Nonzero curved arc cannot be a straight rectangle edge under rigid motion"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_rectangle_substitution_error",
+    "source_row_sha256": "5fb3b1ad3753deb7003e0c5f0022e23bac2db436090b63588e435b2b677caa9c",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "disk": "157/2",
+      "rectangle": "1519/20",
+      "gap": "51/20"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_coincidence_midpoint",
+    "source_row_sha256": "d6627f8d20eb7565cf531b677f42125d6a878aa2494167d5e02772790e837d9c",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "intervals": [
+        [
+          "0",
+          "1/2"
+        ],
+        [
+          "1/2",
+          "1"
+        ]
+      ],
+      "creases": [
+        "1/2"
+      ],
+      "chosen_length": "1/2"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_cord_quarter_without_ruler",
+    "source_row_sha256": "f405a2eb1316f7b86ea6b334fe6047c93c1b367ed518dde0155cb38180c2fa5a",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "intervals": [
+        [
+          "0",
+          "1/4"
+        ],
+        [
+          "1/4",
+          "1/2"
+        ],
+        [
+          "1/2",
+          "3/4"
+        ],
+        [
+          "3/4",
+          "1"
+        ]
+      ],
+      "creases": [
+        "1/4",
+        "1/2",
+        "3/4"
+      ],
+      "chosen_length": "1/4"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_perpendicular_coincidence_fold",
+    "source_row_sha256": "7f1cc833ae7017899fc687d5ef08002f9fcafba3157d53522b35b558d8b2d286",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "reflection_pairs": [
+        [
+          [
+            -2,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            -1,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      ],
+      "fixed_crease_points": [
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "angles": [
+        90,
+        90
+      ]
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g5_three_eighths_nonunit_strip",
+    "source_row_sha256": "fc2da6b587fe75712840893c315f539e7d8f8e953eba883649dcea245d9ce1b0",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "intervals": [
+        [
+          "0",
+          "1/4"
+        ],
+        [
+          "1/4",
+          "1/2"
+        ],
+        [
+          "1/2",
+          "3/4"
+        ],
+        [
+          "3/4",
+          "1"
+        ],
+        [
+          "1",
+          "5/4"
+        ],
+        [
+          "5/4",
+          "3/2"
+        ],
+        [
+          "3/2",
+          "7/4"
+        ],
+        [
+          "7/4",
+          "2"
+        ]
+      ],
+      "creases": [
+        "1/4",
+        "1/2",
+        "3/4",
+        "1",
+        "5/4",
+        "3/2",
+        "7/4"
+      ],
+      "chosen_length": "3/4"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_fold_outer_edge_two_notches",
+    "source_row_sha256": "4414c81d80938de7a163e6cc7afcd144c390f388b6234e86d583e6a2134ccc92",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "removed": [
+        [
+          1,
+          6
+        ],
+        [
+          8,
+          6
+        ]
+      ],
+      "remaining": 46,
+      "central_connected": false
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_double_fold_central_connected_hole",
+    "source_row_sha256": "e81f5105a9799c9dca170c77c9b8612c72eb22d88a224d4578b1e182f6a2a26c",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "removed": [
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "remaining": 60,
+      "central_connected": true
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_midpoint_seven_piece_inventory",
+    "source_row_sha256": "613d1e45716279a2346e28acd374ffe9b005af2e995e511eac9c6f8a1a91ef69",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "horizontal_integrals": {
+        "ABO": "4",
+        "ADO": "4",
+        "CEF": "2",
+        "EBGI": "2",
+        "OGI": "1",
+        "DFH": "1",
+        "HOIF": "2"
+      },
+      "exact_slab_partition": [
+        {
+          "y": "1/2",
+          "spans": [
+            [
+              "0",
+              "1/2"
+            ],
+            [
+              "1/2",
+              "7/2"
+            ],
+            [
+              "7/2",
+              "4"
+            ]
+          ]
+        },
+        {
+          "y": "3/2",
+          "spans": [
+            [
+              "0",
+              "3/2"
+            ],
+            [
+              "3/2",
+              "5/2"
+            ],
+            [
+              "5/2",
+              "3"
+            ],
+            [
+              "3",
+              "4"
+            ]
+          ]
+        },
+        {
+          "y": "5/2",
+          "spans": [
+            [
+              "0",
+              "3/2"
+            ],
+            [
+              "3/2",
+              "5/2"
+            ],
+            [
+              "5/2",
+              "3"
+            ],
+            [
+              "3",
+              "7/2"
+            ],
+            [
+              "7/2",
+              "4"
+            ]
+          ]
+        },
+        {
+          "y": "7/2",
+          "spans": [
+            [
+              "0",
+              "1/2"
+            ],
+            [
+              "1/2",
+              "3/2"
+            ],
+            [
+              "3/2",
+              "5/2"
+            ],
+            [
+              "5/2",
+              "4"
+            ]
+          ]
+        }
+      ],
+      "shape_inventory": [
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "parallelogram",
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "square"
+      ],
+      "fractions": [
+        "1/4",
+        "1/4",
+        "1/8",
+        "1/8",
+        "1/16",
+        "1/16",
+        "1/8"
+      ]
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_group_equal_area_different_count",
+    "source_row_sha256": "7729a0e9dcea0fb989ccee27f6c2c4022d3eeb2743827cef55368719dcbc0c80",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "x": "5",
+      "y": "5",
+      "outside_x": "11/16",
+      "shape_inventory": [
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "parallelogram",
+        "right_isosceles_triangle",
+        "right_isosceles_triangle",
+        "square"
+      ]
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_mixed_unit_center_on_previous_circle",
+    "source_row_sha256": "ab0400c33fb6959533d5c8f162b3808242f4e9181e5293599f6796923c460351",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "opening_cm": [
+        "3",
+        "2",
+        "3/2"
+      ],
+      "O": [
+        0,
+        0
+      ],
+      "A": [
+        3,
+        0
+      ],
+      "B_witnesses": [
+        [
+          1,
+          0
+        ],
+        [
+          5,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_same_compass_opening_radius_diameter",
+    "source_row_sha256": "40e59675fa6de427b9164d8736a74964e7ebee328f132f230efe6b8b9f960288",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "opening_cm": [
+        "4",
+        "4",
+        "4"
+      ],
+      "OA": 4,
+      "AB": 4
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_acute_diagonal_grid_ray",
+    "source_row_sha256": "66d443c0324006a4c8ff561cc51575b26685cb4ee762b943b58b2510a7b7a4c0",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "ray": [
+        3,
+        3
+      ],
+      "cosine_squared": "1/2",
+      "cosine_sign": 1,
+      "angle": 45
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_obtuse_diagonal_opposite_scale",
+    "source_row_sha256": "d43004e47dd6988baf3b98cbc4c83d973e639405c38a2c2d33ad4c3144320171",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "ray": [
+        -2,
+        2
+      ],
+      "cosine_squared": "1/2",
+      "cosine_sign": -1,
+      "angle": 135
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_orthogonal_half_folds_uniform_layers",
+    "source_row_sha256": "d8f20d7b5ce896723e893b361e33e345573ec0c6e6821ca1063fa873d87265c2",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "unit_cell_image_count": 96,
+      "area_by_multiplicity": {
+        "4": 96
+      },
+      "total_original_cells": 384
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_offcenter_then_half_nonuniform_layers",
+    "source_row_sha256": "faf706e1e559a112374a2a7f877de63650064ce98e1529e7461da06aced2cb7c",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "unit_cell_image_count": 24,
+      "area_by_multiplicity": {
+        "4": 12,
+        "2": 12
+      },
+      "total_original_cells": 72
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_vertical_base_two_completions",
+    "source_row_sha256": "998df3f33cf1bd7972da620dc1c5d0d689075690658960dcfa8c19e88e8926a5",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "finite_candidates": {
+        "P": {
+          "base": true,
+          "other": false
+        },
+        "Q": {
+          "base": true,
+          "other": false
+        },
+        "R": {
+          "base": false,
+          "other": false
+        }
+      },
+      "valid": [
+        "P",
+        "Q"
+      ],
+      "noncrossing": "AB and CD separated horizontally; AD below BC on overlapping x support"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_diagonal_base_exclusive_trapezoid",
+    "source_row_sha256": "b3322b63b7f2e1ea6417b06cfaa937afc247b89cf99851c7241101499ee726d1",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "finite_candidates": {
+        "P": {
+          "base": true,
+          "other": false
+        },
+        "Q": {
+          "base": true,
+          "other": true
+        },
+        "R": {
+          "base": false,
+          "other": true
+        }
+      },
+      "valid": [
+        "P"
+      ],
+      "noncrossing": "AB and CD separated horizontally; AD below BC on overlapping x support"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_rectangle_single_cut_to_square",
+    "source_row_sha256": "677168a3725004271c3e2dd84faf1edec257b4e172ede09747759ed77f330175",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "unit_cell_tiling": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "piece_rectangles": [
+        [
+          0,
+          0,
+          4,
+          2
+        ],
+        [
+          0,
+          2,
+          4,
+          4
+        ]
+      ],
+      "area": 16,
+      "old_perimeter": 20,
+      "new_perimeter": 16
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_parallelogram_cut_translate",
+    "source_row_sha256": "c3efaa9f7efd53c241c8542f3199357639c1b61242f9b68233c72547ab4373a4",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "horizontal_section_remaining": [
+        "2",
+        "7"
+      ],
+      "horizontal_section_moved": [
+        "7",
+        "8"
+      ],
+      "areas": [
+        "15",
+        "3"
+      ],
+      "total": "18"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_square_diagonal_pair_reassembly",
+    "source_row_sha256": "2093894c0d394f1ecbdd4ab72bd9a892192da267899580bdc36d819a4aee95b4",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "normalized_pair": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      ],
+      "pair_area_cm2": "8",
+      "total_area": 16,
+      "final_side_ratio": [
+        2,
+        1
+      ],
+      "new_side_squared": 8,
+      "old_side_squared": 16
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_cm_to_m_fractional_turns",
+    "source_row_sha256": "0572e785746fee040800b617650aaedc3bbcd482f5bf4dedc7643c7c72ec6ad8",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "full12_m": "1884/125",
+      "half_turn_m": "157/250",
+      "total_m": "157/10",
+      "reverse_turns": "25/2"
+    }
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_inverse_km_dm_radius",
+    "source_row_sha256": "186bad2d8bc2a8c1c58ca08703a7c110740304e40e18c4a9d4bfc552c02ca616",
+    "method": "Peer text-given model; does not import author independent_model/oracle",
+    "proof": {
+      "radius_cm": 25,
+      "circumference_cm": "157",
+      "distance_cm": 15700,
+      "turns": "100",
+      "reverse_cm": "15700"
+    }
+  }
+]

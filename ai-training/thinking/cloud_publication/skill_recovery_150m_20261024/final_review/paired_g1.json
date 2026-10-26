@@ -1,0 +1,237 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "digit_value": "80",
+        "number": "83"
+      },
+      "grade": 1,
+      "id": "skill150_locked_g1_1",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "8chục+3đơnvị=83;8chục=80đơnvị.",
+      "rubric": [
+        "Nêu83và80đơnvị.",
+        "Phân biệt chữ số8với giá trị80."
+      ],
+      "userproblem": "Viết số gồm 8 chục và 3 đơn vị. Chữ số 8 trong số đó biểu thị bao nhiêu đơn vị?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g1_1",
+      "grade": 1,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "9141191671f5361082e912a81d6d13aecbf54985f4389c5134bb715e9118044b",
+      "max_new_tokens": 1024,
+      "generated_tokens": 226,
+      "output": "**Giải:**\n\nChúng ta có một số gồm **8 chục và 3 đơn vị**. Để viết số này, ta cần xác định số có dạng:\n\n$$\n\\text{Số} = 8 \\text{ chục} + 3 \\text{ đơn vị} = 80 + 3 = 83\n$$\n\n**Chữ số 8 trong số này biểu thị bao nhiêu đơn vị?**\n\n- Chữ số 8 ở vị trí **chục**, tức là ở vị trí **10**.\n- Vì vậy, chữ số 8 biểu thị **80 đơn vị**.\n\n**Kiểm tra:**\n- 8 chục = 80\n- 3 đơn vị = 3\n- Tổng = 80 + 3 = 83\n- Chữ số 8 ở vị trí chục → biểu thị 80 đơn vị\n\n**Kết luận:**\nChữ số 8 trong số đó biểu thị **80 đơn vị**.\n\n**Đáp án: 80**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 525261261,
+      "generation_seconds": 10.82029941699875
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g1_1",
+      "generated_tokens": 226,
+      "generation_seconds": 10.82029941699875,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nChúng ta có một số gồm **8 chục và 3 đơn vị**. Để viết số này, ta cần xác định số có dạng:\n\n$$\n\\text{Số} = 8 \\text{ chục} + 3 \\text{ đơn vị} = 80 + 3 = 83\n$$\n\n**Chữ số 8 trong số này biểu thị bao nhiêu đơn vị?**\n\n- Chữ số 8 ở vị trí **chục**, tức là ở vị trí **10**.\n- Vì vậy, chữ số 8 biểu thị **80 đơn vị**.\n\n**Kiểm tra:**\n- 8 chục = 80\n- 3 đơn vị = 3\n- Tổng = 80 + 3 = 83\n- Chữ số 8 ở vị trí chục → biểu thị 80 đơn vị\n\n**Kết luận:**\nChữ số 8 trong số đó biểu thị **80 đơn vị**.\n\n**Đáp án: 80**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "9141191671f5361082e912a81d6d13aecbf54985f4389c5134bb715e9118044b",
+      "seed": 525261261,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "nhãn vở",
+        "value": "9"
+      },
+      "grade": 1,
+      "id": "skill150_locked_g1_2",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "Gộp6và3:6+3=9.",
+      "rubric": [
+        "Dùng phép cộng vì được thêm.",
+        "Nêu9nhãn vở, giải thích nhất quán."
+      ],
+      "userproblem": "Lan có 6 nhãn vở, được cho thêm 3 nhãn vở. Lan có tất cả bao nhiêu nhãn vở? Nói vì sao dùng phép tính đó."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g1_2",
+      "grade": 1,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "23876761987e43d60a05e27c09c973d193c168a51436b0f794edd38ae27c61f9",
+      "max_new_tokens": 1024,
+      "generated_tokens": 128,
+      "output": "**Giải:**\n\nLan có 6 nhãn vở và được cho thêm 3 nhãn vở.  \nTa thực hiện phép tính cộng:\n\n$$\n6 + 3 = 9\n$$\n\n**Giải thích:**  \nLan có 6 nhãn vở ban đầu, sau khi được thêm 3 nhãn vở, tổng số nhãn vở của Lan là $6 + 3 = 9$.\n\n**Kiểm tra:**  \nTính toán lại: 6 + 3 = 9 (đúng).\n\n**Kết quả:** Lan có tổng cộng $9$ nhãn vở.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1650580632,
+      "generation_seconds": 5.215314086000944
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g1_2",
+      "generated_tokens": 128,
+      "generation_seconds": 5.215314086000944,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nLan có 6 nhãn vở và được cho thêm 3 nhãn vở.  \nTa thực hiện phép tính cộng:\n\n$$\n6 + 3 = 9\n$$\n\n**Giải thích:**  \nLan có 6 nhãn vở ban đầu, sau khi được thêm 3 nhãn vở, tổng số nhãn vở của Lan là $6 + 3 = 9$.\n\n**Kiểm tra:**  \nTính toán lại: 6 + 3 = 9 (đúng).\n\n**Kết quả:** Lan có tổng cộng $9$ nhãn vở.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "23876761987e43d60a05e27c09c973d193c168a51436b0f794edd38ae27c61f9",
+      "seed": 1650580632,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "withheld_value": "7"
+      },
+      "grade": 1,
+      "id": "skill150_locked_g1_3",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Gợi ý gộp phần có ban đầu với phần thêm;5+2=7chỉ cho người chấm.",
+      "rubric": [
+        "Gợi ý cộng hoặc đếm tiếp từ số ban đầu.",
+        "Không nói7hoặc bảy chiếc xe."
+      ],
+      "userproblem": "Có 5 chiếc xe đồ chơi, thêm 2 chiếc nữa. Chỉ gợi ý cách tìm tất cả số xe, đừng nêu số xe cuối cùng."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g1_3",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "3f4c257c27d8e3398121d01721ff6da90688655ef24f85f09da4823f76d65432",
+      "max_new_tokens": 1024,
+      "generated_tokens": 73,
+      "output": "**Gợi ý bước đầu:**\n\nCó 5 chiếc xe đồ chơi. Em thêm 2 chiếc nữa.  \nHỏi: Tất cả có bao nhiêu chiếc xe?\n\n- Em có 5 chiếc xe.  \n- Em thêm 2 chiếc nữa.  \n- Vậy số xe mới là 5 + 2 = 7 chiếc xe.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 2059680171,
+      "generation_seconds": 2.941523800998766
+    },
+    "selected": {
+      "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+      "ended_eos": true,
+      "fewshot_example_ids": [
+        "exhaustive_v1_sub_565_103:hint_level_1",
+        "exhaustive_v1_div_788_1:hint_level_1"
+      ],
+      "fixture_id": "skill150_locked_g1_3",
+      "generated_tokens": 33,
+      "generation_seconds": 1.3923645710001438,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Đếm số chiếc xe hiện có rồi thêm 2 chiếc.  \nEm thử trả lời: Có bao nhiêu chiếc xe ban đầu?",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5ea91dc340652792b7fc3630c7434e480ee7c4d775acfd76f7ba9f09233957f2",
+      "prompt_tokens": 411,
+      "seed": 2059680171,
+      "selected_protocol": "fewshot_contract",
+      "source_output_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+      "stage": "fewshot_selected_after_base_review",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "consistent": false
+      },
+      "grade": 1,
+      "id": "skill150_locked_g1_4",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "Nếu hơn7tuổi2tuổi thì An9tuổi, mâu thuẫn8; phải đối chiếu tuổi hoặc mức hơn.",
+      "rubric": [
+        "Chỉ ra7+2=9khác8.",
+        "Đề nghị kiểm lại tuổi hoặc khoảng tuổi; không tự khẳng định ghi chép nào đã được xác minh."
+      ],
+      "userproblem": "Mai 7 tuổi. Một bản ghi nói An hơn Mai 2 tuổi, bản ghi khác nói An 8 tuổi trong cùng thời điểm. Hai ghi chép về An có thể cùng đúng không? Cần kiểm lại gì?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g1_4",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "16ce92f0cbaeb0f571e67931e7b89f924fce26f91f41ff0e861361a4306345cc",
+      "max_new_tokens": 1024,
+      "generated_tokens": 350,
+      "output": "**Giải pháp:**\n\n**Bước 1: Xác định thông tin đã cho:**\n\n- Mai 7 tuổi.\n- Một bản ghi nói: \"An hơn Mai 2 tuổi.\"\n- Một bản ghi khác nói: \"An 8 tuổi trong cùng thời điểm.\"\n\n**Bước 2: Phân tích thông tin:**\n\n- Từ \"Mai 7 tuổi\" ta biết: Mai = 7 tuổi.\n- Từ \"An hơn Mai 2 tuổi\" ta có: An = Mai + 2 = 7 + 2 = 9 tuổi.\n- Từ \"An 8 tuổi trong cùng thời điểm\" ta có: An = 8 tuổi.\n\n**Bước 3: Kiểm tra tính nhất quán:**\n\n- Theo bản ghi đầu tiên: An = 9 tuổi.\n- Theo bản ghi thứ hai: An = 8 tuổi.\n\n**Bước 4: Kết luận:**\n\n- Hai ghi chép về An **không thể cùng đúng** vì số tuổi của An được xác định bằng hai cách khác nhau (9 tuổi và 8 tuổi), điều này mâu thuẫn với nhau.\n\n**Kiểm tra lại:**\n\n- Nếu An = 9 tuổi, thì \"An 8 tuổi\" là sai.\n- Nếu An = 8 tuổi, thì \"An hơn Mai 2 tuổi\" là sai (vì Mai = 7 tuổi, nên An phải là 9 tuổi).\n\n**Kết luận:** Hai ghi chép về An **không thể cùng đúng**.\n\n**Đáp án cuối cùng:** Không, hai ghi chép về An **không thể cùng đúng**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 456738936,
+      "generation_seconds": 14.350842224999724
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g1_4",
+      "generated_tokens": 350,
+      "generation_seconds": 14.350842224999724,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\n**Bước 1: Xác định thông tin đã cho:**\n\n- Mai 7 tuổi.\n- Một bản ghi nói: \"An hơn Mai 2 tuổi.\"\n- Một bản ghi khác nói: \"An 8 tuổi trong cùng thời điểm.\"\n\n**Bước 2: Phân tích thông tin:**\n\n- Từ \"Mai 7 tuổi\" ta biết: Mai = 7 tuổi.\n- Từ \"An hơn Mai 2 tuổi\" ta có: An = Mai + 2 = 7 + 2 = 9 tuổi.\n- Từ \"An 8 tuổi trong cùng thời điểm\" ta có: An = 8 tuổi.\n\n**Bước 3: Kiểm tra tính nhất quán:**\n\n- Theo bản ghi đầu tiên: An = 9 tuổi.\n- Theo bản ghi thứ hai: An = 8 tuổi.\n\n**Bước 4: Kết luận:**\n\n- Hai ghi chép về An **không thể cùng đúng** vì số tuổi của An được xác định bằng hai cách khác nhau (9 tuổi và 8 tuổi), điều này mâu thuẫn với nhau.\n\n**Kiểm tra lại:**\n\n- Nếu An = 9 tuổi, thì \"An 8 tuổi\" là sai.\n- Nếu An = 8 tuổi, thì \"An hơn Mai 2 tuổi\" là sai (vì Mai = 7 tuổi, nên An phải là 9 tuổi).\n\n**Kết luận:** Hai ghi chép về An **không thể cùng đúng**.\n\n**Đáp án cuối cùng:** Không, hai ghi chép về An **không thể cùng đúng**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "16ce92f0cbaeb0f571e67931e7b89f924fce26f91f41ff0e861361a4306345cc",
+      "seed": 456738936,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

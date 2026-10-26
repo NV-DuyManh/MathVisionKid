@@ -104,6 +104,16 @@ function lessonResponse(value: any): LessonResponse {
 }
 
 export const TutorService = {
+  async synthesizeSpeech(text: string, voice: string, rate: number, signal?: AbortSignal): Promise<Uint8Array> {
+    if (!text.trim() || text.length > 2000 || !['vi-VN-NamMinhNeural', 'vi-VN-HoaiMyNeural'].includes(voice)
+        || !Number.isFinite(rate) || rate < .75 || rate > 1.05) throw new Error(INVALID_RESPONSE);
+    const { data } = await apiClient.post('/student/tutor/speech', { text, voice, rate }, {
+      responseType: 'arraybuffer', headers: { Accept: 'audio/mpeg' }, timeout: 35000, signal });
+    const bytes = new Uint8Array(data);
+    if (bytes.length < 128 || bytes.length > 2 * 1024 * 1024
+        || !((bytes[0] === 73 && bytes[1] === 68 && bytes[2] === 51) || (bytes[0] === 255 && (bytes[1] & 224) === 224))) throw new Error(INVALID_RESPONSE);
+    return bytes;
+  },
   async askLesson(request: { sessionId: string; revision: number; stepIndex: number; question: string }, signal?: AbortSignal): Promise<LessonReply> {
     if (!request.question.trim() || request.question.length > 500) throw new Error('Em viết một câu hỏi ngắn nhé.');
     const { data } = await apiClient.post<LessonReply>('/student/tutor/lesson/ask', request, { timeout: TIMEOUT, signal });

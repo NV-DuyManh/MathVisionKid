@@ -1,0 +1,70 @@
+{
+  "schema": "MathVisionKid.code_evidence_manifest.v1",
+  "files": {
+    "conditional_grounding_20261024/conditional_behavior_renderer.py": {
+      "bytes": 2730,
+      "sha256": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982"
+    },
+    "conditional_grounding_20261024/conditional_inference_contract.py": {
+      "bytes": 3415,
+      "sha256": "0c3012ec1596b6f38aeac981121f395b77420b81eae4bbeda992a7268c31bcad"
+    },
+    "conditional_grounding_20261024/exact_math_audit.py": {
+      "bytes": 13504,
+      "sha256": "8ed1e23ae36865373f13c48598a615c3be65fe08786099306655306a69f2ca01"
+    },
+    "conditional_grounding_20261024/prepare_conditional_samples.py": {
+      "bytes": 9794,
+      "sha256": "94c1fa94537e5c19a91a9b34d5cd109facce99668efc4830aeb7881daa50b69b"
+    },
+    "conditional_grounding_20261024/test_conditional_behavior_renderer.py": {
+      "bytes": 2960,
+      "sha256": "d9fd295df513ee06a181b478566c5755692a48ca323476e6f142cb552e3f5ec5"
+    },
+    "conditional_grounding_20261024/test_conditional_inference_contract.py": {
+      "bytes": 2345,
+      "sha256": "03b08c888de7f3fbdaffb54c091cde514f372902daca1c50cf29f1f9d75c1cbd"
+    },
+    "conditional_grounding_20261024/test_exact_math_audit.py": {
+      "bytes": 4773,
+      "sha256": "9e880ebc59e475d4e7eacb54e08fc9befe0b1db5d0f3d2b0fd5b27a8b260ed41"
+    },
+    "conditional_grounding_20261024/archived_dev_claim_audit.json": {
+      "bytes": 173985,
+      "sha256": "bca75a3a7680394f6f4150d4c5c53e29dd7bf30507d23122098038cc42bdf7e4"
+    },
+    "conditional_grounding_20261024/conditional_sample_preflight.json": {
+      "bytes": 29596,
+      "sha256": "d834ddf66af4cc44280bf40fece112106342e8b9c1bfae15036febd64e1f504c"
+    },
+    "conditional_grounding_20261024/conditional_samples.jsonl": {
+      "bytes": 50944,
+      "sha256": "6621f93c62d2a0521542972ae1af73a03a961e22d8af5fbd68f5be7389cf4bbe"
+    },
+    "conditional_grounding_20261024/phase_report.json": {
+      "bytes": 2113,
+      "sha256": "73960758fe53aee6933c90012bf7dc71215edd2e465f6c51cae1aa51d034c5ed"
+    },
+    "conditional_grounding_20261024/build_preparation_bundle.py": {
+      "bytes": 6155,
+      "sha256": "eee49dd9c0d4c82d477015b9b4f3a11f4bbf2c692350af362232d3294ea5857e"
+    },
+    "skill_recovery_150m_20261024/behavior_renderer.py": {
+      "bytes": 6299,
+      "sha256": "763da2f7a1931962a9ad1a49b16d4b8dfe5263a09e69603c49959adb02a5ec8f"
+    },
+    "skill_recovery_150m_20261024/projection_preflight.json": {
+      "bytes": 15167,
+      "sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022"
+    },
+    "skill_recovery_150m_20261024/source_behavior_samples.json": {
+      "bytes": 16863,
+      "sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18"
+    },
+    "verbal_recovery_20261024/verbal_training_renderer_v3.py": {
+      "bytes": 5722,
+      "sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057"
+    }
+  },
+  "corpus_or_weights_included": false
+}

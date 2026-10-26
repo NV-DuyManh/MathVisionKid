@@ -1,0 +1,17 @@
+{
+  "status": "AUTHOR_REOPEN_FULLFIELD_QA_PASS_ROOT_PEER_PENDING",
+  "cases": 12,
+  "chats": 48,
+  "source_cases_sha256": "b91c0a90cfc5976a14e1721206ba5159c3f7a7ce4167b93a2d4c75c1d66cbe26",
+  "source_chat_sha256": "6af76d17db003dfec926a47cd143545ea5a3dc959f09544aa9a7158fd85cb719",
+  "additional_prose_arithmetic_facts": 78,
+  "independent_models_rerun": 12,
+  "wrong_model_answer_mutations_rejected": 12,
+  "source_qa7_hashes": true,
+  "all_chat_source_prompt_target_links": true,
+  "technical_ids_canonical": true,
+  "original_author_draft_preserved": "author_pre_polish",
+  "parent_lineage": "author_polish_delta.jsonl",
+  "training_started": false,
+  "drive_mutated": false
+}

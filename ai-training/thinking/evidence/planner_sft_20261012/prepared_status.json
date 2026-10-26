@@ -1,0 +1,26 @@
+{
+  "status": "SFT_RUNNING_BASELINE_VALIDATION",
+  "local_unit_tests_passed": 46,
+  "colab_new_tests_passed": 31,
+  "original_8_ocr_cells_unchanged": true,
+  "previous_8_thinking_sources_restored_from_backup": true,
+  "new_cells": {
+    "16": "EbPPCpvWiXPj",
+    "17": "PcuNIsyJjbeI",
+    "18": "uov-V_4zjhy3",
+    "19": "RE8bM5WHjjsS",
+    "20": "QXiVSLL2jlwH"
+  },
+  "run_id": "qwen3_06b_grounded_sft_epoch1_seed20261012",
+  "planned_train_examples": 1852,
+  "planned_optimizer_steps": 463,
+  "planned_epochs": 1,
+  "validation_rows": 133,
+  "development_test_rows": 131,
+  "training_process_launched": true,
+  "runtime_pid": 3800,
+  "runtime_gpu": "Tesla T4",
+  "colab_runtime_probe_result": "Confirmed GPU/data after user connected runtime; first probe timed out",
+  "computer_use_result": "Stopped: current browser URL could not be determined confidently for policy",
+  "user_action_required": null
+}

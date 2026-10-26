@@ -1,0 +1,381 @@
+[
+  {
+    "source_row_sha256": "c7a9328f987a65014b50dc013fcbef05a33b0f74adbd96a4d3fddd6b60ff8df0",
+    "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+    "can_solve": true,
+    "canonical_signatures": [
+      "67db4d4fe2e8f7dd6245b129dd70792e4b8722cd6da6a86d2f5de38862edb595",
+      "81c8e571eb14ce13e3502ed83da2b963f185b7afdd70ea1544a5c7bd0e780cd3",
+      "dd0ea6f84e3b2adeb7b4fda980bbe0c837c38def08cf8f1e16c983dc2a1de816"
+    ],
+    "case_group_id": "sgk_g12_20261019_sum_pyramid_01_group",
+    "case_kind": "original_representation_gap",
+    "coverage": {
+      "gap_type": "sum_pyramid",
+      "mode": "FINITE_ORIGINAL_GAP_APPEND",
+      "numbers_only_variant": false
+    },
+    "curriculum_assignment": {
+      "book": "Kết nối tri thức với cuộc sống",
+      "coverage_claim": "Observed representation gap only, not exhaustive of all exercises or legal certification.",
+      "grade": 1,
+      "lesson_page": 87,
+      "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-88-1775728335308.png",
+      "publisher_reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-1-tap-mot.4698216815",
+      "source_evidence_level": "ACTUAL_PUBLISHER_PAGE_IMAGE_READ",
+      "volume": 1
+    },
+    "expected_answer": [
+      {
+        "quantity": "Hàng giữa và đỉnh",
+        "result": "Hàng giữa 4, 5; đỉnh 9",
+        "unit": ""
+      }
+    ],
+    "gap_oracle": {
+      "bottom": [
+        1,
+        3,
+        2
+      ],
+      "kind": "pyramid"
+    },
+    "givens": [
+      {
+        "id": "g0",
+        "text": "Đáy 1, 3, 2; ô trên cộng hai ô sát dưới",
+        "unit": "",
+        "value": null
+      }
+    ],
+    "grade": 1,
+    "hints": [
+      {
+        "hint": "Bắt đầu ở hàng đã biết đầy đủ.",
+        "level": 1,
+        "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+      },
+      {
+        "hint": "Mỗi ô chỉ liên hệ với hai ô ngay dưới nó.",
+        "level": 2,
+        "question": "Em thực hiện theo luật đã cho ra sao?"
+      },
+      {
+        "hint": "Kiểm từng tầng theo cùng luật, không cộng cả hình một lần.",
+        "level": 3,
+        "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+      }
+    ],
+    "human_verified": false,
+    "initial_guidance": [
+      "Bắt đầu ở hàng đã biết đầy đủ."
+    ],
+    "owner_human_reviewed": false,
+    "problem": "Tháp số có hàng đáy từ trái sang phải là 1, 3, 2. Mỗi ô trên bằng tổng đúng hai ô liền dưới nó. Điền cả hàng giữa và ô đỉnh.",
+    "provenance": {
+      "acceptance_basis": "OWNER_PREAUTHORIZED_AFTER_EXACT_AND_SEMANTIC_QA",
+      "actual_physical_or_image_result_claimed": false,
+      "authorship_origin": "ORIGINAL_AI_TEACHER_AUTHORING",
+      "book_exercise_copied": false,
+      "content_human_review_completed": false,
+      "copyedit_parent_source_row_sha256": "627acb325be20e9828c92ceb7bb7b93efd73c5f5a3de90f36b34cda96e973b77"
+    },
+    "quality_status": "ACCEPTED_VALIDATED",
+    "requested_quantity": "Hàng giữa và đỉnh",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "source_role": "AI_GENERATED",
+    "split": "train",
+    "student_work": null,
+    "teacher_certified": false,
+    "topic": "sum_pyramid",
+    "worked_steps": [
+      {
+        "explanation": "Không cộng tất cả hàng đáy cho một ô giữa.",
+        "expression": "1+3",
+        "reason": "Dùng hai ô dưới thuộc đúng vị trí này.",
+        "result": "4",
+        "step_id": "s0",
+        "title": "Ô giữa trái",
+        "unit": ""
+      },
+      {
+        "explanation": "Ba cộng hai cho ô giữa phải.",
+        "expression": "3+2",
+        "reason": "Ô dưới giữa được dùng cho ô trên kề theo luật.",
+        "result": "5",
+        "step_id": "s1",
+        "title": "Ô giữa phải",
+        "unit": ""
+      },
+      {
+        "explanation": "Đỉnh được tính từ hàng giữa, kiểm lại từng tầng theo luật.",
+        "expression": "4+5",
+        "reason": "Chỉ cộng hai ô ngay dưới đỉnh.",
+        "result": "9",
+        "step_id": "s2",
+        "title": "Ô đỉnh",
+        "unit": ""
+      }
+    ]
+  },
+  {
+    "source_row_sha256": "51f4adda70b303afb43984d062565db18a4cb96845b975e160e489f788121efe",
+    "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+    "can_solve": true,
+    "canonical_signatures": [
+      "af66618ed37cfc0fcdc341c8a565699c530a7fd7f5b2b0cbe6b3b3c5668d63d5",
+      "ff4fcd0af421122cc472db68e0961cff881785529dbb7413747b2d0e51442f6a"
+    ],
+    "case_group_id": "sgk_gap_20261019_g3_expression_choice_select_models_group",
+    "case_kind": "supplementary",
+    "coverage": {
+      "kind": "FINITE_REPRESENTATION_GAP_APPEND",
+      "not_all_possible_word_problems": true,
+      "old_source_changed": false
+    },
+    "curriculum_assignment": {
+      "SGK_lesson": 38,
+      "book_id": "g3v1",
+      "case_kind": "supplementary",
+      "mapping_status": "ORIGINAL_SUBREPRESENTATION_FROM_ACTUAL_OFFICIAL_PAGE_REVIEW_NOT_BOOK_EXERCISE_COPY",
+      "node_id": "current_g3_expressions_unknown",
+      "printed_pages": [
+        106,
+        107,
+        108
+      ]
+    },
+    "expected_answer": [
+      {
+        "quantity": "Kết quả",
+        "result": "A và C",
+        "unit": ""
+      }
+    ],
+    "givens": [
+      {
+        "id": "g0",
+        "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+        "text": "Hai khay có lần lượt 7 và 5 gói hạt giống. Mỗi gói đều có 4 hạt, không hạt nào dùng chung. Chọn mọi biểu thức biểu thị tổng số hạt: A=(7+5)*4; B=7+5*4; C=7*4+5*4.",
+        "unit": "",
+        "value": null
+      }
+    ],
+    "grade": 3,
+    "hints": [
+      {
+        "hint": "Tìm tổng số gói của cả hai khay hoặc tính từng khay riêng.",
+        "level": 1,
+        "question": "Những gói của cả hai khay có cùng số hạt không?"
+      },
+      {
+        "hint": "Mỗi gói của cả hai khay đều phải được nhân với số hạt trong một gói.",
+        "level": 2,
+        "question": "Biểu thức nào nhân số hạt với toàn bộ số gói?"
+      },
+      {
+        "hint": "So cách gộp trước với cách tính riêng rồi cộng; không bỏ một khay khỏi phép nhân.",
+        "level": 3,
+        "question": "Hai cách gộp trước và tính riêng có cho cùng lượng không?"
+      }
+    ],
+    "initial_guidance": [
+      "Tìm tổng số gói của cả hai khay hoặc tính từng khay riêng."
+    ],
+    "oracle_evidence": {
+      "expected_value": 48,
+      "kind": "expression_choice",
+      "valid": [
+        "A",
+        "C"
+      ]
+    },
+    "problem": "Hai khay có lần lượt 7 và 5 gói hạt giống. Mỗi gói đều có 4 hạt, không hạt nào dùng chung. Chọn mọi biểu thức biểu thị tổng số hạt: A=(7+5)*4; B=7+5*4; C=7*4+5*4.",
+    "provenance": {
+      "acceptance_basis": "OWNER_PREAUTHORIZATION_AFTER_SEVEN_CRITERION_QA",
+      "authoring_method": "original_AI_teacher",
+      "authorship_origin": "AI_ORIGINAL_NEW_PEDAGOGIC_CASE",
+      "human_verified": false,
+      "independent_external_review": false,
+      "owner_human_reviewed": false,
+      "real_physical_observation_claimed": false,
+      "source_pages_are_not_case_authors": true,
+      "source_role": "AI_GENERATED",
+      "source_viewer_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-3-tap-mot.4698702815",
+      "teacher_certified": false
+    },
+    "quality_status": "ACCEPTED_VALIDATED",
+    "requested_quantity": "Chọn mọi mô hình đúng",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_select_models",
+    "split": "train",
+    "student_work": null,
+    "topic": "expression_choice",
+    "worked_steps": [
+      {
+        "explanation": "Gộp số gói rồi nhân số hạt mỗi gói.",
+        "expression": "(7+5)*4",
+        "reason": "Gộp số gói rồi nhân số hạt mỗi gói.",
+        "result": "48",
+        "step_id": "s0",
+        "title": "Cách gộp gói",
+        "unit": "hạt"
+      },
+      {
+        "explanation": "Tính từng khay rồi cộng.",
+        "expression": "7*4+5*4",
+        "reason": "Tính từng khay rồi cộng.",
+        "result": "48",
+        "step_id": "s1",
+        "title": "Cách tách khay",
+        "unit": "hạt"
+      },
+      {
+        "explanation": "B không nhân số gói của khay đầu với 4 nên không biểu thị cả hai khay.",
+        "expression": null,
+        "reason": "B không nhân số gói của khay đầu với 4 nên không biểu thị cả hai khay.",
+        "result": "A và C",
+        "step_id": "s2",
+        "title": "Loại B",
+        "unit": ""
+      }
+    ]
+  },
+  {
+    "source_row_sha256": "cb14d41cecbf40e73f99dfe92fa1ecd72c9df5d991785f9b8e108a9605f1f20c",
+    "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+    "can_solve": true,
+    "canonical_signatures": [
+      "45fe60af117c4d11df571e5af595e6be17d219f2c989c9ed8029d39ea9eefce9",
+      "54730c053a56a2ee7957a228d50c7b6f6cc2dc5c24e56daf6becd2cbd21913c8",
+      "9ac26daa31afa1c01bd13e501f0bfab3b9d1980b508683ce7c5b09921878c799"
+    ],
+    "case_group_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket_group",
+    "case_kind": "supplementary",
+    "coverage": {
+      "kind": "FINITE_REPRESENTATION_GAP_APPEND",
+      "not_all_possible_word_problems": true,
+      "old_source_changed": false
+    },
+    "curriculum_assignment": {
+      "SGK_lesson": 38,
+      "book_id": "g3v1",
+      "case_kind": "supplementary",
+      "mapping_status": "ORIGINAL_SUBREPRESENTATION_FROM_ACTUAL_OFFICIAL_PAGE_REVIEW_NOT_BOOK_EXERCISE_COPY",
+      "node_id": "current_g3_expressions_unknown",
+      "printed_pages": [
+        106,
+        107,
+        108
+      ]
+    },
+    "expected_answer": [
+      {
+        "quantity": "Kết quả",
+        "result": "(30+18):6",
+        "unit": ""
+      },
+      {
+        "quantity": "Kết quả",
+        "result": "8",
+        "unit": "thẻ/nhóm"
+      }
+    ],
+    "givens": [
+      {
+        "id": "g0",
+        "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+        "text": "Có 30 thẻ đỏ và 18 thẻ xanh, gộp lại rồi chia đều thành 6 nhóm. Một bạn viết chuỗi 30+18:6. Giữ thứ tự số và phép toán, chỉ thêm một cặp ngoặc để đúng câu chuyện; tính số thẻ mỗi nhóm.",
+        "unit": "",
+        "value": null
+      }
+    ],
+    "grade": 3,
+    "hints": [
+      {
+        "hint": "Xác định thao tác nào xảy ra trước khi chia thành các nhóm.",
+        "level": 1,
+        "question": "Toàn bộ thẻ hay chỉ thẻ một màu được đem chia?"
+      },
+      {
+        "hint": "Dùng ngoặc bao đúng phần tổng được đem chia, giữ thứ tự các số.",
+        "level": 2,
+        "question": "Phần nào cần nằm trong ngoặc để thực hiện trước?"
+      },
+      {
+        "hint": "Kiểm số thẻ mỗi nhóm bằng cách nhân trở lại số nhóm.",
+        "level": 3,
+        "question": "Số thẻ mỗi nhóm nhân số nhóm có về tổng không?"
+      }
+    ],
+    "initial_guidance": [
+      "Xác định thao tác nào xảy ra trước khi chia thành các nhóm."
+    ],
+    "oracle_evidence": {
+      "groups": 6,
+      "kind": "expression_parentheses",
+      "per_group": 8,
+      "total_parts": [
+        30,
+        18
+      ]
+    },
+    "problem": "Có 30 thẻ đỏ và 18 thẻ xanh, gộp lại rồi chia đều thành 6 nhóm. Một bạn viết chuỗi 30+18:6. Giữ thứ tự số và phép toán, chỉ thêm một cặp ngoặc để đúng câu chuyện; tính số thẻ mỗi nhóm.",
+    "provenance": {
+      "acceptance_basis": "OWNER_PREAUTHORIZATION_AFTER_SEVEN_CRITERION_QA",
+      "authoring_method": "original_AI_teacher",
+      "authorship_origin": "AI_ORIGINAL_NEW_PEDAGOGIC_CASE",
+      "human_verified": false,
+      "independent_external_review": false,
+      "owner_human_reviewed": false,
+      "real_physical_observation_claimed": false,
+      "source_pages_are_not_case_authors": true,
+      "source_role": "AI_GENERATED",
+      "source_viewer_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-3-tap-mot.4698702815",
+      "teacher_certified": false
+    },
+    "quality_status": "ACCEPTED_VALIDATED",
+    "requested_quantity": "Đặt ngoặc từ quan hệ nhóm",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+    "split": "train",
+    "student_work": null,
+    "topic": "expression_choice",
+    "worked_steps": [
+      {
+        "explanation": "Cả hai màu đều được chia nên tổng phải trong ngoặc.",
+        "expression": null,
+        "reason": "Cả hai màu đều được chia nên tổng phải trong ngoặc.",
+        "result": "(30+18):6",
+        "step_id": "s0",
+        "title": "Gộp trước",
+        "unit": ""
+      },
+      {
+        "explanation": "Cộng hai phần rời nhau.",
+        "expression": "30+18",
+        "reason": "Cộng hai phần rời nhau.",
+        "result": "48",
+        "step_id": "s1",
+        "title": "Tính tổng",
+        "unit": "thẻ"
+      },
+      {
+        "explanation": "Chia toàn bộ cho số nhóm.",
+        "expression": "48/6",
+        "reason": "Chia toàn bộ cho số nhóm.",
+        "result": "8",
+        "step_id": "s2",
+        "title": "Chia đều",
+        "unit": "thẻ/nhóm"
+      },
+      {
+        "explanation": "Số thẻ mỗi nhóm nhân số nhóm phải về tổng.",
+        "expression": "8*6",
+        "reason": "Số thẻ mỗi nhóm nhân số nhóm phải về tổng.",
+        "result": "48",
+        "step_id": "s3",
+        "title": "Kiểm",
+        "unit": "thẻ"
+      }
+    ]
+  }
+]

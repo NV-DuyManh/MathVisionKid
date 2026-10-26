@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'worker_diagnostic': [{'thread': 'MathVisionKidFiniteCPUDataAuditV3', 'alive': True, 'stack': [{'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': '_source', 'line': 111}, {'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': 'consume', 'line': 177}, {'file': '/tmp/ipykernel_2592/3660752693.py', 'function': 'finite_full_data_audit_worker_v3', 'line': 92}, {'file': '/usr/lib/python3.13/threading.py', 'function': 'run', 'line': 995}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap_inner', 'line': 1044}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap', 'line': 1015}]}], 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'worker_diagnostic': [{'thread': 'MathVisionKidFiniteCPUDataAuditV3', 'alive': True, 'stack': [{'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': '_source', 'line': 111}, {'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': 'consume', 'line': 177}, {'file': '/tmp/ipykernel_2592/3660752693.py', 'function': 'finite_full_data_audit_worker_v3', 'line': 92}, {'file': '/usr/lib/python3.13/threading.py', 'function': 'run', 'line': 995}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap_inner', 'line': 1044}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap', 'line': 1015}]}], 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{'worker_diagnostic': [{'thread': 'MathVisionKidFiniteCPUDataAuditV3', 'alive': True, 'stack': [{'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': '_source', 'line': 111}, {'file': '/content/mathvisionkid_data_only/code/math_data_full_audit_v3.py', 'function': 'consume', 'line': 177}, {'file': '/tmp/ipykernel_2592/3660752693.py', 'function': 'finite_full_data_audit_worker_v3', 'line': 92}, {'file': '/usr/lib/python3.13/threading.py', 'function': 'run', 'line': 995}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap_inner', 'line': 1044}, {'file': '/usr/lib/python3.13/threading.py', 'function': '_bootstrap', 'line': 1015}]}], 'training_started': False}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

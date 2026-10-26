@@ -1,0 +1,81 @@
+{
+  "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+  "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+  "expected_archive_sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+  "total_bytes": 486813,
+  "central_directory_offset": 486604,
+  "central_directory_bytes": 187,
+  "entries": [
+    {
+      "name": "source.jsonl.gz",
+      "method": 0,
+      "crc32": 796631981,
+      "compressed_bytes": 340432,
+      "bytes": 340432,
+      "local_header_offset": 0
+    },
+    {
+      "name": "chat.jsonl.gz",
+      "method": 0,
+      "crc32": 403134736,
+      "compressed_bytes": 144926,
+      "bytes": 144926,
+      "local_header_offset": 340477
+    },
+    {
+      "name": "manifest_payload.json",
+      "method": 0,
+      "crc32": 1802089186,
+      "compressed_bytes": 1107,
+      "bytes": 1107,
+      "local_header_offset": 485446
+    }
+  ],
+  "metadata_documents": [
+    {
+      "name": "manifest_payload.json",
+      "bytes": 1107,
+      "sha256": "3afbe4265ae39348c752667e44bdd8177617d9b12489c3e04809f4d6638d0e1d",
+      "document": {
+        "cases": 900,
+        "chat_rows": 2844,
+        "cloud_domain_id": "multiplication_0_100_one_digit",
+        "excluded_cases": {
+          "protected_numeric": 188,
+          "selected_holdout": 1
+        },
+        "grades": {
+          "3": 436,
+          "4": 464
+        },
+        "operation": "*",
+        "ordered_pair_sequence_sha256": "2ab93959b34dcb2f6b6501bb444b233d5675c39a9e8425d2d3e67e57e759937e",
+        "pair_validation": "Every reopened ordered pair, sourceID, trace and independent oracle checked; no overlap with preexisting ranges by finite domain specification.",
+        "parent_state_sha256": "c953076226240c4c45a4a792af2a69faca2b34c075c56f143b72f274bd16f24a",
+        "schema_version": "exhaustive_cloud_resume.v1",
+        "shard_id": "multiplication_0_100_one_digit__000000000_000000900",
+        "source": {
+          "bytes": 340432,
+          "name": "source.jsonl.gz",
+          "sha256": "654db84dfdfc4c9e81ee432df2f92626f1349d589cebddea1b081eeb2ce4d26a"
+        },
+        "start": 0,
+        "status": "PREPARED_NOT_COMMITTED",
+        "stop": 900,
+        "template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2",
+        "topics": {
+          "multidigit_multiplication": 900
+        },
+        "validated_pairs": 900,
+        "view": {
+          "bytes": 144926,
+          "name": "chat.jsonl.gz",
+          "sha256": "122b20525d54267c45410a6c1b52653ada1288b26bfe42a205de6176ac731e11"
+        }
+      }
+    }
+  ],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:49.761Z"
+}

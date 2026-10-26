@@ -1,0 +1,110 @@
+{
+  "status": "RESEARCH_COMPLETED_WITH_TRAIN_ONLY_VERIFIED_TRACE_IMPORT",
+  "sources_ranked": [
+    {
+      "rank": 1,
+      "source": "hllj/vi_math_problem_crawl",
+      "url": "https://huggingface.co/datasets/hllj/vi_math_problem_crawl",
+      "revision": "a26b53f14ef4c7708858b11beb29ad95bf9a8930",
+      "declared_license": "mit",
+      "source_rows": 10246,
+      "grade_source_rows": {
+        "1": 154,
+        "2": 512,
+        "3": 3859,
+        "4": 2515,
+        "5": 3206
+      },
+      "schema": [
+        "id",
+        "url",
+        "title",
+        "contents"
+      ],
+      "splits": "none; group by source URL and wording/numeric-skeleton if creating splits",
+      "native_source": "Tech12h textbook/workbook/knowledge pages grades1–5",
+      "risks": [
+        "incomplete image-dependent crawl",
+        "not aligned structured question-answer columns",
+        "no independent human/gold correctness certification"
+      ],
+      "train_import_rows": 165,
+      "train_import_grade_counts": {
+        "2": 90,
+        "3": 64,
+        "4": 8,
+        "5": 3
+      }
+    },
+    {
+      "rank": 2,
+      "source": "vuongtsc/vi-gsm8k-agentic",
+      "url": "https://huggingface.co/datasets/vuongtsc/vi-gsm8k-agentic",
+      "revision": "13190f41e5cdf298640d6001377ad6335fe42570",
+      "declared_license": "mit",
+      "rows": 1465,
+      "schema": [
+        "id",
+        "question",
+        "chain_of_thought",
+        "final_answer",
+        "verify",
+        "difficulty",
+        "topic",
+        "source_seed",
+        "lang"
+      ],
+      "splits": "train only,40source_seed groups; no independent officialtest",
+      "raw_parquet_sha256": "4ecc4f0d6b2b200e1f8332a84e42f3eb6cf9feb3008189983398d3aa120d7bf2",
+      "risks": [
+        "LLM-generated source with grade unspecified, mostly multi-step adult contexts",
+        "declared code-exec flag is only numeric answers_match +LLM judge in author revision79f3a2bfb005c7ad58dcaab31eb1e9c534932f9e",
+        "all semantic/human verification false in imported rows",
+        "independent partial arithmetic audit5697 equations1145rows, two approximate equality rows not demonstrated source-answererrors"
+      ],
+      "train_import_rows": 40
+    },
+    {
+      "rank": 3,
+      "source": "vinhnq29/ViMathQA",
+      "url": "https://huggingface.co/datasets/vinhnq29/ViMathQA",
+      "revision": "d486a2602321d36a09f8dc1acf9e4469689c8de6",
+      "declared_license": null,
+      "native_source": "Vietjack/Tailieumoi/Hamchoi/Zalo, described author ACL2024.conll-1.20 grade3–5",
+      "actual_train_rows": 7107,
+      "actual_test_rows": 1104,
+      "actual_qwen_instructcode_rows": 7107,
+      "actual_qwen2_instructcode_rows": 7107,
+      "schema": [
+        "url",
+        "question",
+        "choices",
+        "answer",
+        "question_text",
+        "answer_text",
+        "source",
+        "right_choice",
+        "md_question",
+        "md_answer",
+        "md_choices",
+        "md_right_choice"
+      ],
+      "risks": [
+        "MCQ same-source overlap previous experiment",
+        "82 exact normalized train-test duplicatequestionkeys,256numeric-skeleton overlap",
+        "only6749unique train questions1095unique test",
+        "no repository/data license found",
+        "teacher rawinput carries goldanswer/system and must notbe serialized asuserprompt"
+      ],
+      "recommendation": "Do not import into this training run or treat officialsplit asindependentbenchmark"
+    }
+  ],
+  "supplemental_output": "data\\verified_math_v2\\public_train_candidates.jsonl",
+  "final_rows": 205,
+  "final_groups": 151,
+  "final_sha256": "17e333b84e3b68087c517ce49a3513bb315bdbf48763724bbcc4e8a587f2863b",
+  "test_validation_usage": "No public data added toval/test; trainonly; semantics uncertified",
+  "skills_matched": "none",
+  "skills_applied": "none",
+  "no_new_markdown": true
+}

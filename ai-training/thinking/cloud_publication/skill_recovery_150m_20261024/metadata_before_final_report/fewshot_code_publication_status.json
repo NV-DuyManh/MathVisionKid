@@ -1,0 +1,105 @@
+{
+  "state": "COMPLETE_RAW_VERIFIED",
+  "proofs": {
+    "fewshot_contract.py": {
+      "id": "1g9wcBpqGFiVW4Mk9d7e4J9cP5q6qYP4r",
+      "sha256": "1b0ba5b12a40f4d7bd8f635305e8aeb6b3a8d6e2b20ea4edf1966fa38995d07c",
+      "bytes": 13875,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:29.155298+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "fewshot_contract.py",
+      "immutable": true
+    },
+    "fewshot_dev_worker.py": {
+      "id": "1XmmVYqJ7cXYVbPRusPCa7zK-xJCJsRTw",
+      "sha256": "ce53b34a303312a2309c6748dc6fb78cea51d31ea4781d4acf389a0007c3dc3c",
+      "bytes": 5846,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:34.262182+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "fewshot_dev_worker.py",
+      "immutable": true
+    },
+    "source_example_bank.json": {
+      "id": "1k-gwCeqV3GNc5GieANQba5ZxhN0HSSXK",
+      "sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+      "bytes": 12184,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:39.293302+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "source_example_bank.json",
+      "immutable": true
+    },
+    "fewshot_selection_policy.json": {
+      "id": "1uN1Wd8BE8EprqtO0s8ssEJAFHA7rv0lr",
+      "sha256": "115d05bd975c4b672033dc6637db785c6634d6ee54b0e1914c0c07de6c9ebd70",
+      "bytes": 1593,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:44.231877+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "fewshot_selection_policy.json",
+      "immutable": true
+    },
+    "source_example_bank_root_review.json": {
+      "id": "1jYkRNUtUQ2e45-7T5uLprxXPHACKbB-G",
+      "sha256": "3e552b3d8fa7099034330d76214e64e249c28095e96a89c82c8631226fb722d1",
+      "bytes": 691,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:49.190997+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "source_example_bank_root_review.json",
+      "immutable": true
+    },
+    "projection_preflight.json": {
+      "id": "1Rmm2vqeE8zqAC4pgECj7v3yGdquMLM0t",
+      "sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022",
+      "bytes": 15167,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:51.774111+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "projection_preflight.json",
+      "immutable": true
+    },
+    "source_behavior_samples.json": {
+      "id": "1mEQTZIkCAJbjzbBqXyfPLE1IFTOKinAR",
+      "sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18",
+      "bytes": 16863,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:39:56.763718+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "source_behavior_samples.json",
+      "immutable": true
+    },
+    "test_fewshot_contract.py": {
+      "id": "12snwTWVU8eLlWG-TUF23SSosgcim-16e",
+      "sha256": "222243b9832267373a048e76b510e5625bea95a7f377175014946e5c69982f0c",
+      "bytes": 5039,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:40:01.757966+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "test_fewshot_contract.py",
+      "immutable": true
+    },
+    "test_source_example_bank.py": {
+      "id": "1Lwgjhl1eOornA05kjuGbD9BggSgF15Wn",
+      "sha256": "2ad3f93fa5cef3c05396ba5ef044c1093f297fbe1969d93763dba570b8da0195",
+      "bytes": 3518,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:40:06.793614+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "test_source_example_bank.py",
+      "immutable": true
+    },
+    "fewshot_launch_pins.json": {
+      "id": "1LBwadE6XturwlsGiiu2RM0xSPo8cauMc",
+      "sha256": "08d31994fa7dd206577b45718d478645257a7107f3ce07f35bee04ee398229a7",
+      "bytes": 1107,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T13:40:11.764039+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "fewshot_launch_pins.json",
+      "immutable": true
+    }
+  }
+}

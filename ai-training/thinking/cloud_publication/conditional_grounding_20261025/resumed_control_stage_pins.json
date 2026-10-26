@@ -1,0 +1,23 @@
+{
+  "path": "D:\\nhom6\\train th\u1eed\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\conditional_grounding_20261025\\publish_resumed_controls_runtime.py",
+  "bytes": 497262,
+  "sha256": "36aac55ad2aff5cdc51dfe51b662b79a421af0dd02656d8c7ecad28581c084a0",
+  "canonical_context_sha256": "d6ab4e1273f5940ce2c1adb51192df69e7849af48e5b8b8e9dcc5c5f16d298ef",
+  "run_metadata_sha256": "90777d592a641656dd761668b8424a0702d20ed5bdc22454018d1be215eadcd2",
+  "runtime_root": "/content/mathvisionkid_conditional_grounding_20261025",
+  "source_hashes": {
+    "four_controls_transaction.py": "a564ad14bbeaf59419c9cb5901368fe38a301842998e882bffc3d38dc2fdfdd4",
+    "prepare_control_stage.py": "0588ebea0149fee3ae8e550616a79c0259da54a257446affc5ef91ce22642376",
+    "prepare_four_controls_runtime.py": "4ddfedc971d0e7cafb25642506e124f9aee01b365b46ffa86279b18fd5360f69",
+    "resume_update/baseline_review_adjudication.json": "e31215eaa5ab5e61bef12f873673a8ffcb9d75b5988bbf1cc53c6253a5f28c25",
+    "resume_update/baseline_semantic_review_frozen.json": "f8c5840d99f950c261db0839234a6c30830cd9758bb55e056e171394376527ff",
+    "resume_update/memory_live_proof_receipt_02.json": "b4bd2e94d8915bdcb1f01ca745997915f9aeb29f4760d5d97e032569041f1a95",
+    "resume_update/memory_resume_code_review.json": "c6392385c4c5af1cc2396a1dab061de6a4ffe740af4a052e90a480cc1268ed68",
+    "resume_update/memory_resume_migration.json": "930a1475212f4cafd7970e02996cbfd465b374480ab42b5eb8fbec935212c469",
+    "resume_update/native_backend_v3.py": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+    "resume_update/recovery_worker_v5.py": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+    "resume_update/resumed_run_metadata.json": "e52e5177ff16d7f911d5534aaee1e099dd8e68308a7677628ce713d4dce3a5ee"
+  },
+  "stage_executed": false,
+  "drive_calls_made": false
+}

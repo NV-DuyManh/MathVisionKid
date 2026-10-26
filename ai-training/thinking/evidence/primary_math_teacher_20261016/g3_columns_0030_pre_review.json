@@ -1,0 +1,524 @@
+{
+  "batch_sha256": "b36fc3a33671e9a0993ad76b61e189525377650b54a04c0d7defb1e303b29ff2",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_add_two_separate_regroupings",
+      "row_sha256": "80ef61eee1fc2dbd2a305b48d069f2531b2b482e1489f86288fc6353ac9b8560",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "7+8",
+          "6+5",
+          "34627+21558",
+          "(34627+21558)-21558"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows",
+      "row_sha256": "fbd14508cc68068c17aac83901f51943878e00f6d2a95ecb73a7f9efbb05f41f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "14-8",
+          "7-6",
+          "13-5",
+          "7-5",
+          "68384-25568",
+          "(68384-25568)+25568"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory",
+      "row_sha256": "b2d59e4c11bef75b5d538467153f0a9dd0c8fbcadd170fed49d968a96490a654",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "76458-24326",
+          "(76458-24326)+24326"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry",
+      "row_sha256": "092192df1b41cc0d9b30cf16d75efd5021e4227465db6511491b0a7b761d66f7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "31527+12458",
+          "(31527+12458)-12458"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "column_oracles": [
+    {
+      "operands": [
+        34627,
+        21558
+      ],
+      "subtract": false,
+      "events": [
+        0,
+        2
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 7,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 5
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 6,
+          "b_digit": 5,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 1
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 4,
+          "b_digit": 1,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 6
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 5
+        }
+      ],
+      "reconstructed": 56185
+    },
+    {
+      "operands": [
+        56185,
+        21558
+      ],
+      "subtract": true,
+      "events": [
+        0,
+        2
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 5,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 7
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 8,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 2
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 1,
+          "b_digit": 5,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 6
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 6,
+          "b_digit": 1,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 4
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 3
+        }
+      ],
+      "reconstructed": 34627
+    },
+    {
+      "operands": [
+        68384,
+        25568
+      ],
+      "subtract": true,
+      "events": [
+        0,
+        2
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 4,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 6
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 8,
+          "b_digit": 6,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 1
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 3,
+          "b_digit": 5,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 8,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 2
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 6,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 4
+        }
+      ],
+      "reconstructed": 42816
+    },
+    {
+      "operands": [
+        42816,
+        25568
+      ],
+      "subtract": false,
+      "events": [
+        0,
+        2
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 6,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 4
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 1,
+          "b_digit": 6,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 8,
+          "b_digit": 5,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 3
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 4,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 6
+        }
+      ],
+      "reconstructed": 68384
+    },
+    {
+      "operands": [
+        76458,
+        24326
+      ],
+      "subtract": true,
+      "events": [],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 8,
+          "b_digit": 6,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 2
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 3
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 4,
+          "b_digit": 3,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 1
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 6,
+          "b_digit": 4,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 2
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 7,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 5
+        }
+      ],
+      "reconstructed": 52132
+    },
+    {
+      "operands": [
+        52132,
+        24326
+      ],
+      "subtract": false,
+      "events": [],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 2,
+          "b_digit": 6,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 5
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 1,
+          "b_digit": 3,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 4
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 2,
+          "b_digit": 4,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 6
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 5,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 7
+        }
+      ],
+      "reconstructed": 76458
+    },
+    {
+      "operands": [
+        31527,
+        12458
+      ],
+      "subtract": false,
+      "events": [
+        0
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 7,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 5
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 2,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 8
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 5,
+          "b_digit": 4,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 9
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 1,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 3
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 3,
+          "b_digit": 1,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 4
+        }
+      ],
+      "reconstructed": 43985
+    },
+    {
+      "operands": [
+        43985,
+        12458
+      ],
+      "subtract": true,
+      "events": [
+        0
+      ],
+      "columns": [
+        {
+          "column_index_from_units": 0,
+          "a_digit": 5,
+          "b_digit": 8,
+          "incoming": 0,
+          "outgoing": 1,
+          "result_digit": 7
+        },
+        {
+          "column_index_from_units": 1,
+          "a_digit": 8,
+          "b_digit": 5,
+          "incoming": 1,
+          "outgoing": 0,
+          "result_digit": 2
+        },
+        {
+          "column_index_from_units": 2,
+          "a_digit": 9,
+          "b_digit": 4,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 5
+        },
+        {
+          "column_index_from_units": 3,
+          "a_digit": 3,
+          "b_digit": 2,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 1
+        },
+        {
+          "column_index_from_units": 4,
+          "a_digit": 4,
+          "b_digit": 1,
+          "incoming": 0,
+          "outgoing": 0,
+          "result_digit": 3
+        }
+      ],
+      "reconstructed": 31527
+    }
+  ],
+  "oracle_method": "Per-digit addition/subtraction with explicit incoming/outgoing regroup state and reconstructed result compared to integer arithmetic and separate Fraction AST. All primary and inverse checks have at most2nonadjacent events; all operands/results at most5digits.",
+  "author_self_content_check": "Read every visible column update, donor decrement, carry consumption, result assembly, inventory partition/unit, wrong written carry omission and all12hints. Same-author checking is not independent content review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Original grade3 current-classroom bounds, not unrestricted cascading regrouping enrichment. // and % only in offline oracle, live calculator unchanged. Neutral schema is not live PlanDraft."
+}

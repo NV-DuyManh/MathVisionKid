@@ -1,0 +1,48 @@
+{
+  "add": {
+    "newCellId": "BZmJnxC_aOGc"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PREPARED\", \"files\": [{\"name\": \"control-progress-guard-l6evo84k/current.raw\", \"bytes\": 10485760, \"modified_unix\": 1792820178.8236012}, {\"name\": \"prepared/next_context.md\", \"bytes\": 839883, \"modified_unix\": 1792820002.7668414}, {\"name\": \"prepared/next_state.json\", \"bytes\": 997470, \"modified_unix\": 1792820002.7658412}, {\"name\": \"prepared/prepared_control_updates.json\", \"bytes\": 3016, \"modified_unix\": 1792820002.8308463}, {\"name\": \"prepared/parent_state.json\", \"bytes\": 671800, \"modified_unix\": 1792820000.280647}, {\"name\": \"prepared/next_chat.json\", \"bytes\": 694513, \"modified_unix\": 1792820002.7488399}, {\"name\": \"prepared/parent_progress.zip\", \"bytes\": 18518560, \"modified_unix\": 1792820000.2076414}, {\"name\": \"prepared/parent_context.md\", \"bytes\": 835711, \"modified_unix\": 1792820000.2776468}, {\"name\": \"prepared/next_progress.zip\", \"bytes\": 19045839, \"modified_unix\": 1792820002.2978046}, {\"name\": \"prepared/parent_chat.json\", \"bytes\": 368843, \"modified_unix\": 1792820000.2766469}, {\"name\": \"parents/parent_state.json\", \"bytes\": 671800, \"modified_unix\": 1792820000.0926323}, {\"name\": \"parents/parent_progress.zip\", \"bytes\": 18518560, \"modified_unix\": 1792819987.279631}, {\"name\": \"parents/parent_context.md\", \"bytes\": 835711, \"modified_unix\": 1792819995.8833034}, {\"name\": \"parents/parent_chat.json\", \"bytes\": 368843, \"modified_unix\": 1792819991.438956}, {\"name\": \"parents/parent_controls_raw_verified.json\", \"bytes\": 1610, \"modified_unix\": 1792820000.1036332}], \"now\": 1792820178.8659058}\n",
+          "  File \"/content/mathvisionkid_corrective_5h_20261024/four_controls_transaction_v2.py\", line 62, in _download\n",
+          "    _, done = downloader.next_chunk()\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/googleapiclient/_helpers.py\", line 130, in positional_wrapper\n",
+          "    return wrapped(*args, **kwargs)\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/googleapiclient/http.py\", line 821, in next_chunk\n",
+          "    resp, content = _retry_request(\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/googleapiclient/http.py\", line 191, in _retry_request\n",
+          "    resp, content = http.request(uri, method, *args, **kwargs)\n",
+          "  File \"/content/mathvisionkid_corrective_5h_20261024/four_controls_transaction_v2.py\", line 261, in throttled_request\n",
+          "    response, content = original_request(uri, method=method, body=body, headers=headers, **kwargs)\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/google_auth_httplib2.py\", line 214, in request\n",
+          "    response, content = self.http.request(\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/httplib2/__init__.py\", line 1755, in request\n",
+          "    (response, content) = self._request(\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/httplib2/__init__.py\", line 1475, in _request\n",
+          "    (response, content) = self._conn_request(conn, request_uri, method, body, headers)\n",
+          "  File \"/usr/local/lib/python3.13/dist-packages/httplib2/__init__.py\", line 1427, in _conn_request\n",
+          "    response = conn.getresponse()\n",
+          "  File \"/usr/lib/python3.13/http/client.py\", line 1478, in getresponse\n",
+          "    response.begin()\n",
+          "  File \"/usr/lib/python3.13/http/client.py\", line 343, in begin\n",
+          "    version, status, reason = self._read_status()\n",
+          "  File \"/usr/lib/python3.13/http/client.py\", line 304, in _read_status\n",
+          "    line = str(self.fp.readline(_MAXLINE + 1), \"iso-8859-1\")\n",
+          "  File \"/usr/lib/python3.13/socket.py\", line 723, in readinto\n",
+          "    return self._sock.recv_into(b)\n",
+          "  File \"/usr/lib/python3.13/ssl.py\", line 1315, in recv_into\n",
+          "    return self.read(nbytes, buffer)\n",
+          "  File \"/usr/lib/python3.13/ssl.py\", line 1149, in read\n",
+          "    return self._sslobj.read(len, buffer)\n",
+          "\n"
+        ]
+      }
+    ]
+  }
+}

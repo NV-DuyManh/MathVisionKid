@@ -1,0 +1,156 @@
+{
+  "schema_version": "primary_math.batch_pre_review.v1",
+  "batch": "old_g1_numbers_100_0096",
+  "created_utc": "2026-10-18T11:02:32.009632+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "row_sha256": "9df47648bd320f6f19c61c2661ce4176bc5e5ffd49151f5098d065f4195541e7",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10+10+10+10+10+10",
+          "(10+10+10+10+10+10)+3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_digit_cards_zero_and_tens_placeholder",
+      "row_sha256": "d355c4a419f82d2121bdbf26be654e680252a651ca41d2db1717dc27f794682a",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "row_sha256": "06da17f5110e8d0c487a79e45c457720182c35b85e6fcb9061e1569091fc767c",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "78+1",
+          "(78+1)+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_misconception_digit_value_versus_digit_symbol",
+      "row_sha256": "c8e14edb4bd8e808567bf07a64828535dc7572be5b4d4829808f5cae181a9bf9",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10+10+10+10+10+10+10",
+          "(10+10+10+10+10+10+10)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "step_id": "s0",
+      "expression": "10+10+10+10+10+10",
+      "fraction": "60",
+      "decimal": "60",
+      "unit": "que"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "step_id": "s1",
+      "expression": "60+3",
+      "fraction": "63",
+      "decimal": "63",
+      "unit": "que"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "step_id": "s0",
+      "expression": "78+1",
+      "fraction": "79",
+      "decimal": "79",
+      "unit": ""
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "step_id": "s1",
+      "expression": "79+1",
+      "fraction": "80",
+      "decimal": "80",
+      "unit": ""
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_misconception_digit_value_versus_digit_symbol",
+      "step_id": "s0",
+      "expression": "10+10+10+10+10+10+10",
+      "fraction": "70",
+      "decimal": "70",
+      "unit": ""
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_misconception_digit_value_versus_digit_symbol",
+      "step_id": "s1",
+      "expression": "70+2",
+      "fraction": "72",
+      "decimal": "72",
+      "unit": ""
+    }
+  ],
+  "separate_oracles": {
+    "bundle_unit_ids": 60,
+    "all_stick_ids": 63,
+    "digit_position_groups": {
+      "1": [
+        "9",
+        "0"
+      ],
+      "2": [
+        "20",
+        "11"
+      ]
+    },
+    "forward_track": [
+      77,
+      78,
+      79,
+      80,
+      81
+    ],
+    "tens_part_unit_ids": 70,
+    "remainder_unit_ids": 2
+  },
+  "actual_semantic_content_read": true,
+  "categorical_null_expression_steps_to_read": 3,
+  "historical_topic_scope_only": true,
+  "complete_2006_annex_verified": false,
+  "actual_physical_action_claim": false,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "wording_revision_evidence": "old_g1_numbers_100_0096_pre_QA_wording_revision.json",
+  "all_hint_count_read": 12,
+  "legacy_grade1_number_place_value_zero_and_successor_semantic_read": true,
+  "official_QA_utc": "2026-10-18T11:03:14.283499+00:00",
+  "official_QA_method": "Same-author actualfullread4originalgrade1legacy-topicproblems/givens/neutralrequests/studentquote/observations/initial/all9workedsteps/titles/reasons/explanations/results/expressions/units/answers and12hints; rereadexplicitdigit0wordingrevisionwitholdrow/hashrecordedbeforeofficialQA. SixnumericstepsFraction/DecimalandseparateuniqueunitIDs/digit-positionstringpartition/successortrackoracles. Directsemanticread3null-expressioncategoricalsteps. Grade1tensbycounting/repeatedaddition,nountaughtmultiplicationnotation;zeroandplaceholder/digitvaluevsdigitname/sequencecrossingtenunitsmeaningchecked. Noextraneousguardbecauseblueprinttarget0;textsufficient. Parsernotsemanticproof;historical2015topicreferenceisnotcomplete2006annexor2026legalcertification. Existingthreeprotectedhashesunchanged;noeval/pilotusedtoadjustdata;human/teacher/externalfalse.",
+  "official_review_sha256": "396210be4838106b2f385f4b3a3126fc33991f164758da66879eeee685bda3a2"
+}

@@ -1,0 +1,20 @@
+{
+  "parent_sha256": "2f3137da92b222ce1f8fa0cf6236bcd77de5fd516d1f8bf0a868886c93326d6d",
+  "derived_sha256": "9f90598e95ba9f738f3b175c2fb53b693b5613349f7998917866f8610edc6a66",
+  "adapter_sha256": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+  "validation_sha256": "06a654a18ef28e2a385fe334354b881b0711977376333d482c4c83bad3bcfc24",
+  "tests": 21,
+  "original_auditor_changed": false,
+  "no_training": true,
+  "changes": [
+    "tokenizer=load_qwen_tokenizer()  # tokenizer assets only, no model weights",
+    "def write_worker_status():",
+    "    full_audit_worker_state['updated_utc']=",
+    "        auditor=audit_v3.FullArchiveAudit(V3_DB,recipe_all,tokenizer)",
+    "span=auditor.consume(entry,work_cache[entry['sha256']],max_rows=50000,commit_every=256)",
+    "time.monotonic()-last_save>=300",
+    "        if auditor is not None:auditor.close()",
+    "full_audit_worker.start()"
+  ],
+  "resume_source": "VERIFIED_EXISTING_RUNTIME_SNAPSHOT_SAME_DRIVE_CHECKPOINT_ID"
+}

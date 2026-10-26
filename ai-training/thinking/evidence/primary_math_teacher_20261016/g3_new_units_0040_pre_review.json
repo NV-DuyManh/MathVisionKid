@@ -1,0 +1,296 @@
+{
+  "batch_sha256": "20c7239c552a21132dc61d4a2144ca402e4d81ac6e71a08652438954e446285e",
+  "authored_cases": 7,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "supplementary_cases": 2,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_centimeters_and_millimeters",
+      "row_sha256": "a5a57955880d77bd787259f442e911f553b24cc235a952384c4140bfb184d874",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "4*10",
+          "(4*10)+6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_unit_square_area_not_boundary_length",
+      "row_sha256": "33a5f088cf89b79323bc40e9606c7383d1977c6b0170e941eddb80bdf640ad08",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "5+5+3",
+          "(5+5+3)*1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_graduated_vessel_equal_intervals",
+      "row_sha256": "2d7a50f59eebf0b758caa54d41404795c5f2127d543ee96aff6a21ff6a39eb62",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(300-200)/5",
+          "((300-200)/5)*2",
+          "200+(((300-200)/5)*2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_misconception_area_unit_as_length",
+      "row_sha256": "1d59c15dd2940705bed51860c54373a4bf95485bbb857de5ab0f73cec659f23a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "14*1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_guard_thermometer_missing_scale",
+      "row_sha256": "0350a0844c3d13aaeeffac649ea2911a9f609c11eee16ad9434fc57fdbd1e5fb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_supplementary_mass_mixed_units",
+      "row_sha256": "3d72bd0d858c2e4ffb3058413a40c957b8bb7333947eac4916848dbf7dd0f2cc",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1*1000",
+          "(1*1000)+275"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_supplementary_celsius_scale_reading",
+      "row_sha256": "1fd0cff1dfb84c3de8685be9ef2feda400b12537c34df14686c649f625f123f3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(40-30)/10",
+          "((40-30)/10)*7",
+          "30+(((40-30)/10)*7)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "millimeter_unit_count": 46,
+    "area_cells": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "unit_area_cells": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        6,
+        1
+      ]
+    ],
+    "vessel_ticks_ml": [
+      "200",
+      "220",
+      "240",
+      "260",
+      "280",
+      "300"
+    ],
+    "mass_grams": "1275",
+    "mass_reverse_partition": [
+      1,
+      275
+    ],
+    "temperature_ticks_celsius": [
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40"
+    ],
+    "missing_scale_countermodels": [
+      {
+        "lower_label_celsius": 20,
+        "step_celsius": 5,
+        "target_offset": 2,
+        "reading_celsius": 30
+      },
+      {
+        "lower_label_celsius": 20,
+        "step_celsius": 2,
+        "target_offset": 2,
+        "reading_celsius": 24
+      }
+    ]
+  },
+  "oracle_method": "Independent enumeration of millimeter units and disjoint unit-area cells; Fraction graduated scales with endpoints and offsets; mass inverse partition; two scale calibrations show a mark without calibration has no unique temperature.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read all7cases including meanings of length/area/mass/volume/temperature, units, interval-versus-mark indexing, no overlapping area cells, reasons and explicit step explanations, synthetic written unit error and21hints. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "All readings and objects hypothetical text. No real ruler, balance, vessel or thermometer outcome verified. Three core cases plus two supplements touch all five named unit kinds but do not exhaust conversion or practical measurement skills. Neutral schema not automatically live PlanDraft."
+}

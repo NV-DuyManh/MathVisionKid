@@ -1,0 +1,166 @@
+{
+  "authored_utc": "2026-10-18T04:31:51.893310+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:30:07.607Z",
+  "batch_sha256": "45eba68fd494413f7616e9840dbb63dc871648de28fccf2ef100230d80d8156b",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_bar_chart_mean_0068_bar_scale_sort_and_mean",
+      "row_sha256": "9fedabfc64855a9e1cb30a338b8523482ae7cd9589085a83171a1a6496d47b47",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(4+7+5+8)*5",
+          "((4+7+5+8)*5)/4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_bar_chart_mean_0068_axis_start_not_zero_visible_height",
+      "row_sha256": "95092d49e7747d6c57a9bb9758b65c0f7aa5c5233fa7416dc01e24f40ef0396a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "40+1*5",
+          "40+3*5",
+          "(40+3*5)-(40+1*5)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_bar_chart_mean_0068_observed_pattern_conditional_next_and_mean",
+      "row_sha256": "f401a7ccaf3ff9b6911a6837260f606d9e87ee9fd199950dea58452390b2e8ab",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10-6",
+          "(6+10+14+18)/4",
+          "18+(10-6)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_bar_chart_mean_0068_misconception_omit_confirmed_zero_bar",
+      "row_sha256": "e47f959fbe3137169b0eb801e01a25a9485f15ff28bed41bc1787a9104be90ae",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "15+0+15+30",
+          "(15+0+15+30)/4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_bar_chart_mean_0068_guard_unlabeled_bar_scale",
+      "row_sha256": "1f87ca1a3a5a691797eb57ec4458d81d363b5c5dde4774797cd9e51eb498050f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "bar_book_counts_by_interval_enumeration": {
+      "A": 20,
+      "B": 35,
+      "C": 25,
+      "D": 40
+    },
+    "equal_redistribution_pile_sizes": [
+      30,
+      30,
+      30,
+      30
+    ],
+    "truncated_axis_counts": {
+      "A": 45,
+      "B": 55
+    },
+    "truncated_axis_difference": 10,
+    "three_times_A_not_B": true,
+    "observed_week_differences": [
+      4,
+      4,
+      4
+    ],
+    "paired_week_totals": [
+      24,
+      24
+    ],
+    "conditional_next_only": 22,
+    "zero_category_equal_piles": [
+      15,
+      15,
+      15,
+      15
+    ],
+    "guard_scale_countermodel_means": {
+      "5books_per_interval": "20",
+      "10books_per_interval": "40"
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Explicit label/interval enumeration and redistribution verify hypothetical data; no image reading/actual observation and no unconditional prediction of future week.",
+  "actual_chart_image_verified": false,
+  "visual_outcome_still_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous382_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_official_QA_repairs": [
+    "Replace malformed declarative zero-category hint and double-negative guiding question.",
+    "Make mean-group question natural and clarify mean does not imply every actual group has that amount."
+  ],
+  "actual_content_read_completed_utc": "2026-10-18T04:32:35.162913+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

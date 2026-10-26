@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "HkGFyxnydxCw"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"optimizer_approval_written\": true, \"peer_review_sha256\": \"920733c740a7dc3b1023279a65ea1192134428e25a65bc57606f41860de57f34\", \"previous_review_raw_verified\": true, \"human_review_claimed\": false, \"optimizer_update_observed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

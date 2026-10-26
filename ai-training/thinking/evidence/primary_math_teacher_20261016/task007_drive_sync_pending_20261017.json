@@ -1,0 +1,18 @@
+{
+  "recorded_for_heartbeat_utc": "2026-10-17T12:51:31.117Z",
+  "local_status": "TASK007_ADJUDICATED_AND_EXPORTED",
+  "drive_sync_status": "PENDING_CONNECTOR_UNAVAILABLE",
+  "attempted_action": "Update existing context ID 13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9; no update succeeded. Then read-only fetch also unavailable.",
+  "errors": [
+    "Mcp error -32001 Unknown tool google_drive.update_file",
+    "Mcp error -32001 Unknown tool google_drive.fetch"
+  ],
+  "successful_updates_this_phase": 0,
+  "readback_verified_this_phase": false,
+  "previous_readback_is_historical": true,
+  "retry_same_ids_only": true,
+  "local_accepted_cases": 172,
+  "local_chat_rows": 688,
+  "training_started": false,
+  "human_verified": false
+}

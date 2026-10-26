@@ -1,0 +1,120 @@
+{
+  "schema_version": "mathvisionkid.curriculum_blueprint_coverage_audit.v1",
+  "status": "PASSED_BLUEPRINT_STRUCTURE_AND_SOURCE_TRACEABILITY_NOT_AUTHORED_DATA_QA",
+  "created_date_local": "2026-10-16",
+  "blueprint_file": "thinking/data/primary_math_teacher_20261016/curriculum_blueprint.json",
+  "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+  "checks": {
+    "all106current_nodes_present": true,
+    "all59legacy_nodes_present": true,
+    "all165_unique_nodes": true,
+    "three_corecases_per_node": true,
+    "495planned_corecases": true,
+    "1980planned_corechatrows": true,
+    "330seed_rows_two_pernode": true,
+    "106current_cards": true,
+    "allnode_sources_resolved": true,
+    "frozen_input_hashes_unchanged": true,
+    "no_current2026_or_full2006_certification": true,
+    "concept_challenge_questions_not_read": true
+  },
+  "actual_existing_assets": {
+    "current_nodes": 106,
+    "legacy_nodes": 59,
+    "concept_seed_rows": 330,
+    "knowledge_cards": 106,
+    "v4numeric_train_rows": 7100,
+    "v4numeric_val_rows": 460,
+    "v4numeric_train_sha256": "137d26f37eca1eebb2c487cb888154d9b03e52e3ed25116a804e9ee87621ab15",
+    "v4numeric_val_sha256": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+    "all_seeds_autoaccepted": false,
+    "new_authored_corecases_in_this_blueprint": 0
+  },
+  "coverage_summary": {
+    "node_count_by_scope": {
+      "CURRENT_2018_OUTCOME_REFERENCE": 106,
+      "LEGACY_OBSERVED_TOPIC_REFERENCE": 59
+    },
+    "current_nodes_by_grade": {
+      "1": 15,
+      "2": 23,
+      "3": 23,
+      "4": 22,
+      "5": 23
+    },
+    "legacy_nodes_by_grade": {
+      "1": 5,
+      "2": 5,
+      "3": 19,
+      "4": 16,
+      "5": 14
+    },
+    "node_count_by_strand": {
+      "number": 77,
+      "geometry": 23,
+      "measurement": 46,
+      "statistics": 9,
+      "probability": 4,
+      "practice_experience": 6
+    },
+    "node_count_by_required_modality": {
+      "text": 97,
+      "text_or_confirmed_image": 32,
+      "image_or_explicit_description": 13,
+      "image_or_physical": 4,
+      "text_or_physical": 6,
+      "physical": 2,
+      "physical_or_image": 5,
+      "physical_image_or_real_world_activity": 5,
+      "physical_or_confirmed_image": 1
+    },
+    "visual_or_physical_pending_nodes": 68,
+    "target_required_guards": 112,
+    "shards": 36,
+    "full_outcomes_claimed_covered": 0,
+    "neural_mastery_claimed": false
+  },
+  "source_fingerprints_before": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": "d4be0db009a471986150c4d9e9b3e1d21be5ff6fd93a8c716c99c6871355bfdf",
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": "5c769f1325a38f287a530168159a6fe7b1b9f5064b4f64fddc5bdf377fb3c8d9",
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": "2d4c5b03c039bd70a54745b76f57618aadb85af2af2007b92f99a6feed58e754",
+    "thinking/data/teacher_math_v4/generated/train.jsonl": "137d26f37eca1eebb2c487cb888154d9b03e52e3ed25116a804e9ee87621ab15",
+    "thinking/data/teacher_math_v4/generated/val.jsonl": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed"
+  },
+  "source_fingerprints_after": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": "d4be0db009a471986150c4d9e9b3e1d21be5ff6fd93a8c716c99c6871355bfdf",
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": "5c769f1325a38f287a530168159a6fe7b1b9f5064b4f64fddc5bdf377fb3c8d9",
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": "2d4c5b03c039bd70a54745b76f57618aadb85af2af2007b92f99a6feed58e754",
+    "thinking/data/teacher_math_v4/generated/train.jsonl": "137d26f37eca1eebb2c487cb888154d9b03e52e3ed25116a804e9ee87621ab15",
+    "thinking/data/teacher_math_v4/generated/val.jsonl": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed"
+  },
+  "critical_interpretations": [
+    "165registerednodes is the authoredregistry granularity, not exhaustive count ofeverycurriculumatom.",
+    "Threecasespernode are boundedresearchstarterpack; broadnodes stillcontain several subskills.",
+    "Physical/image tasks remainunverifiedwithoutactualassets/instrumentevidence.",
+    "NumericV4hasnoexplicit source_node_id field, relatedfamilylinks are advisory and counts overlap.",
+    "Legacyfull2006annex and exactunknownbounds staypending.",
+    "Existing330concept/7100numerictrainingrows are seeds, not automatically semanticallyaccepted."
+  ],
+  "skills_applied": [],
+  "independent_roundtrip_checks": {
+    "roundtrip_all_node_ids_unique": true,
+    "every_node_in_exactly_one_shard": true,
+    "shard_limit_five_nodes": true,
+    "shard_ids_match_each_node": true,
+    "exact_495_corecase_slots": true,
+    "every_case_has_worked_and_three_hints": true,
+    "required_guards_meaningful_or_optional": true,
+    "current_source_scope_always2018_not_certified2026": true,
+    "legacy_not_upcast_to_current": true,
+    "no_actual_asset_or_physical_mastery_fabricated": true,
+    "concept_challenge_questions_not_read": true,
+    "no_mathtraining_started_by_blueprint": true
+  }
+}

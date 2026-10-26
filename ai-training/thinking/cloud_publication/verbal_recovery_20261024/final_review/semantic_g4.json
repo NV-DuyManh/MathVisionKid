@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "1b830bcd5cb6c9fb2bb82653dafd113a62e53a924542702e151ec711ef4ae5ec",
+  "decisions": [
+    {
+      "fixture_id": "verbal20261024_locked_g4_fraction_area",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct rectangle area by(3/4)*(2/3)=6/12=1/2 and gives square-metre unit consistently.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct quotient304remainder2 via300+4; checks33*304+2=10034and0<=r<33. Known owner probe, not unseen generalization evidence.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g4_unknown_factor_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Explicitly computes and substitutes39several times despite request not to revealx; final reminder does not undo leak.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g4_fraction_subtraction_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct5/8appears, but calls8the least common divisor and invents an unprovided student conversion1/4=2/8, with self-contradictory subtraction feedback and a claim student did not check. Full feedback fails grounding and explanation.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "schema": "MathVisionKid.original_development_validation_candidates.v1",
+  "candidate_file": "new_validation_candidates.jsonl",
+  "candidate_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "candidate_count": 30,
+  "grades": {
+    "1": 6,
+    "2": 6,
+    "3": 6,
+    "4": 6,
+    "5": 6
+  },
+  "mode_counts": {
+    "answer": 15,
+    "hint_no_answer": 5,
+    "student_error": 5,
+    "missing_or_contradictory_info": 5
+  },
+  "status": "DRAFT_PENDING_ROOT_FULL_CONTENT_REVIEW_AND_ACTUAL_TRAIN_TEXT_SCREENING",
+  "authorship": "Original LLM-authored Vietnamese tasks; same-author arithmetic and content checks, not human certification.",
+  "newly_authored_from_reused_28": false,
+  "independent_heldout_test_claimed": false,
+  "actual_train_text_screening_completed": false,
+  "root_content_review_completed": false,
+  "human_certified": false,
+  "curriculum_placement_policy": "Grades1-3 use natural numbers, place value, measures, patterns, basic operations and zero dividend; formal fraction tasks are grade4; decimal/percent/volume/rate tasks are grade5. Placement is an author recommendation, not legal or full-curriculum certification.",
+  "exact_computation_checks": [
+    {
+      "id": "g1_place_value",
+      "exact_value": "47",
+      "cross_check_value": "47",
+      "passed": true
+    },
+    {
+      "id": "g1_order_cards",
+      "exact_value": "[45, 50, 54]",
+      "cross_check_value": "[45, 50, 54]",
+      "passed": true
+    },
+    {
+      "id": "g1_inverse_fact_a",
+      "exact_value": "3",
+      "cross_check_value": "3",
+      "passed": true
+    },
+    {
+      "id": "g1_inverse_fact_b",
+      "exact_value": "6",
+      "cross_check_value": "6",
+      "passed": true
+    },
+    {
+      "id": "g1_compare_hint_left",
+      "exact_value": "8",
+      "cross_check_value": "8",
+      "passed": true
+    },
+    {
+      "id": "g1_student_place_compare",
+      "exact_value": "45",
+      "cross_check_value": "45",
+      "passed": true
+    },
+    {
+      "id": "g2_inclusive_ids",
+      "exact_value": "19",
+      "cross_check_value": "19",
+      "passed": true
+    },
+    {
+      "id": "g2_door_gap",
+      "exact_value": "15",
+      "cross_check_value": "15",
+      "passed": true
+    },
+    {
+      "id": "g2_repeat_position",
+      "exact_value": "hình vuông",
+      "cross_check_value": "hình vuông",
+      "passed": true
+    },
+    {
+      "id": "g2_table_leg_hint",
+      "exact_value": "26",
+      "cross_check_value": "26",
+      "passed": true
+    },
+    {
+      "id": "g2_student_group",
+      "exact_value": "6",
+      "cross_check_value": "6",
+      "passed": true
+    },
+    {
+      "id": "g3_inverse_division",
+      "exact_value": "67",
+      "cross_check_value": "67",
+      "passed": true
+    },
+    {
+      "id": "g3_mass_remaining",
+      "exact_value": "2390",
+      "cross_check_value": "2390",
+      "passed": true
+    },
+    {
+      "id": "g3_mass_recompose",
+      "exact_value": "2390",
+      "cross_check_value": "2390",
+      "passed": true
+    },
+    {
+      "id": "g3_equilateral_wire",
+      "exact_value": "32",
+      "cross_check_value": "32",
+      "passed": true
+    },
+    {
+      "id": "g3_bracket_hint",
+      "exact_value": "42",
+      "cross_check_value": "42",
+      "passed": true
+    },
+    {
+      "id": "g3_zero_dividend",
+      "exact_value": "0",
+      "cross_check_value": "0",
+      "passed": true
+    },
+    {
+      "id": "g4_fraction_order",
+      "exact_value": "[Fraction(7, 12), Fraction(3, 4), Fraction(5, 6)]",
+      "cross_check_value": "[Fraction(7, 12), Fraction(3, 4), Fraction(5, 6)]",
+      "passed": true
+    },
+    {
+      "id": "g4_fraction_cups",
+      "exact_value": "10",
+      "cross_check_value": "10",
+      "passed": true
+    },
+    {
+      "id": "g4_fraction_cups_cross",
+      "exact_value": "5/6",
+      "cross_check_value": "5/6",
+      "passed": true
+    },
+    {
+      "id": "g4_missing_average_score",
+      "exact_value": "31",
+      "cross_check_value": "31",
+      "passed": true
+    },
+    {
+      "id": "g4_average_cross",
+      "exact_value": "28",
+      "cross_check_value": "28",
+      "passed": true
+    },
+    {
+      "id": "g4_unknown_fraction_hint",
+      "exact_value": "4/7",
+      "cross_check_value": "4/7",
+      "passed": true
+    },
+    {
+      "id": "g4_fraction_compare_cross",
+      "exact_value": "1/15",
+      "cross_check_value": "1/15",
+      "passed": true
+    },
+    {
+      "id": "g4_disjoint_coloring_sum",
+      "exact_value": "17/12",
+      "cross_check_value": "17/12",
+      "passed": true
+    },
+    {
+      "id": "g5_percent_reversal",
+      "exact_value": "1",
+      "cross_check_value": "1",
+      "passed": true
+    },
+    {
+      "id": "g5_percent_decimal_cross",
+      "exact_value": "1.0000",
+      "cross_check_value": "1.00",
+      "passed": true
+    },
+    {
+      "id": "g5_pump_rate_fraction",
+      "exact_value": "30",
+      "cross_check_value": "30",
+      "passed": true
+    },
+    {
+      "id": "g5_pump_rate_decimal",
+      "exact_value": "30.00",
+      "cross_check_value": "30",
+      "passed": true
+    },
+    {
+      "id": "g5_cube_counts",
+      "exact_value": "2880",
+      "cross_check_value": "2880",
+      "passed": true
+    },
+    {
+      "id": "g5_cube_volume_decimal",
+      "exact_value": "2880",
+      "cross_check_value": "2880",
+      "passed": true
+    },
+    {
+      "id": "g5_relative_motion_fraction",
+      "exact_value": "9/10",
+      "cross_check_value": "9/10",
+      "passed": true
+    },
+    {
+      "id": "g5_relative_motion_decimal",
+      "exact_value": "0.900",
+      "cross_check_value": "0.9",
+      "passed": true
+    },
+    {
+      "id": "g5_area_conversion_fraction",
+      "exact_value": "6000",
+      "cross_check_value": "6000",
+      "passed": true
+    },
+    {
+      "id": "g5_area_conversion_decimal",
+      "exact_value": "6000.0",
+      "cross_check_value": "6000",
+      "passed": true
+    },
+    {
+      "id": "g5_missing_discount_example_10",
+      "exact_value": "200000",
+      "cross_check_value": "200000",
+      "passed": true
+    },
+    {
+      "id": "g5_missing_discount_example_20",
+      "exact_value": "225000",
+      "cross_check_value": "225000",
+      "passed": true
+    }
+  ],
+  "checker_note": "Composite/category/comparison/guard checker descriptors require rubric-aware evaluator support; the JSONL is a candidate authoring asset, not a claim that the current evaluator implements every descriptor.",
+  "paired_evaluator_notes": [
+    "Freeze content, IDs, reference answers, rubric and prompt/decoding contract only after root reviews every actual candidate and screens actual training text.",
+    "Use identical prompts and decoding settings for each compared model; hash both full raw output files and input fixture bytes.",
+    "Judge mathematical consistency of every output field and prose claim. Correct numeric prefixes do not excuse contradictory reasoning, unrelated invented tasks, or truncated solutions.",
+    "Hint success requires useful next-step guidance and withholding the stated final numeric/categorical conclusion; withholding alone is insufficient.",
+    "Student feedback must address the supplied written claim; do not invent hidden thoughts, marks, images or actions.",
+    "Missing-data tasks must identify what is genuinely absent. Conflict tasks must flag incompatible claims without silently changing an input.",
+    "Report by grade and mode; preserve failures and explicit review uncertainty. Do not claim independent test accuracy before train-text screening and a separate untouched holdout design."
+  ],
+  "operational_limits": {
+    "colab_calls": 0,
+    "drive_calls": 0,
+    "gpu_calls": 0,
+    "training_started": false,
+    "source_corpus_modified": false,
+    "old_development_outputs_read_for_this_authoring": false
+  }
+}

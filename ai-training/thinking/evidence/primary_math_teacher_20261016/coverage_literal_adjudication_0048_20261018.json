@@ -1,0 +1,137 @@
+{
+  "phase": "PAIRED_CONCEPT_COVERAGE_SEMANTIC_AUDIT",
+  "executed_utc": "2026-10-18T02:53:24.701879+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T02:51:36.109Z",
+  "source_rows": [
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls",
+      "source_row_sha256": "10984026634a417d78dbb81cb5acdd1a2ef35beb1c70f2d813c6ec6d869a7654",
+      "core_slot": "core_02"
+    },
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector",
+      "source_row_sha256": "29a358305b6ea2e69605820e4e747b2c02c9a8cbcafdcb95b8f6d41db93b8d12",
+      "core_slot": "core_03"
+    }
+  ],
+  "actual_complete_content_read": true,
+  "hints_read": 6,
+  "semantic_rationale": "Core02 identifies the image of an explicit inventory under color-only recording. Core03 compares the full set of sector codes with its many-to-one image under name recording and applies an explicit invalid-boundary rule. This is a representation-transfer and verification task, not merely a substituted count/name. Same final scalar3 does not establish the same teaching case.",
+  "bag_recording_map": {
+    "X1": "xanh",
+    "X2": "xanh",
+    "Đ1": "đỏ",
+    "V1": "vàng",
+    "V2": "vàng",
+    "V3": "vàng"
+  },
+  "spinner_recording_map": {
+    "A": "Ngôi sao",
+    "B": "Ngôi sao",
+    "C": "Trăng",
+    "D": "Mây"
+  },
+  "bag_multiplicities": {
+    "xanh": 2,
+    "đỏ": 1,
+    "vàng": 3
+  },
+  "spinner_multiplicities": {
+    "Ngôi sao": 2,
+    "Trăng": 1,
+    "Mây": 1
+  },
+  "exact_cardinalities": {
+    "bag_objects": 6,
+    "bag_colors": 3,
+    "sector_codes": 4,
+    "sector_names": 3
+  },
+  "source_content_review": "Read both actual question/givens/request/initial/student_work/steps/reasons/explanations/answers and six hints. Every listed label has a witness, no extra label, no fairness/physical performance assertion. Hints omit final lists/counts. Both fit their distinct core context/method slots and grade3 conceptual node.",
+  "decision": "DISTINCT_CONCEPTUAL_CASES_WITH_SAME_LITERAL_COUNT",
+  "reviewer": "root_author_coverage_semantic_audit",
+  "review_is_independent": false,
+  "new_human_review_claim": false,
+  "human_certification_of_existing_sources_retained": "Owner attestation existing299, unchanged source/export hashes",
+  "changes_allowed": "Coverage-only group for exactly hash-bound spinner row contrasted with exactly hash-bound bag row. Never change acceptance, protected signatures, chat split group, answers, source rows or owner signoffs.",
+  "before": {
+    "accepted": 299,
+    "chat": 1196,
+    "credited_core": 187,
+    "remaining_core": 308,
+    "complete_nodes": 58
+  },
+  "artifacts_before": {
+    "accepted_cases": {
+      "rows": 299,
+      "bytes": 1537553,
+      "sha256": "177a17c797152d943652cebeee7b8825de15dc3d339c9bb8c096f390a96be139"
+    },
+    "chat_train": {
+      "rows": 1196,
+      "bytes": 2713376,
+      "sha256": "e7f666ad3ea6f9ff06c010a974bfe85342a91195bbf73d891df756d550efcba3"
+    },
+    "pending_cases": {
+      "rows": 0,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "curation_manifest": {
+      "rows": 299,
+      "bytes": 193023,
+      "sha256": "01107a206a6c394308d03cd2dba2d48a437c39a2d3dcba6a125317a82398aace"
+    }
+  },
+  "source_files_before": {
+    "authored_batches\\g1_activities_0008.jsonl": "4e1f00f01ddfd0862a4613fcd5ace2b13aa86907486a97aacec9d6d7fd6a4df7",
+    "authored_batches\\g1_foundations_0002.jsonl": "26bba1cf1c03b32cb7bd506353e6bcb30330aa69fe97587a79f80a91be0e0ea2",
+    "authored_batches\\g1_geometry_0004.jsonl": "15b441aad54ae506a3941be3628e4ed51abf7cc3364edd35ec298fdfe4f8423e",
+    "authored_batches\\g1_measurement_0006.jsonl": "6cb0da5becec40388ef336fd4e915b90ebe7cd345e6154bc01f567492219fe77",
+    "authored_batches\\g1_operations_0003.jsonl": "e8e67f0dc99d1f86ebd474e20d096b012785d198264916d5d10b437b16106fe6",
+    "authored_batches\\g1_solids_assembly_0005.jsonl": "462803f52c70da6d96171837d19ba35dae9d3347f1119e998114e58678b5510b",
+    "authored_batches\\g1_time_0007.jsonl": "192ee54d1705f4f3aae17c7d7e8421d4210fa70cc419a894cf4253da61704ea1",
+    "authored_batches\\g2_clock_0019.jsonl": "b7c17e1fda2c196416773bc2566af74dbfa2ea810c1758487e648520bfe3990f",
+    "authored_batches\\g2_compare_estimate_0010.jsonl": "8222a1663fa541c585ebcdefa5887c0679bba645f0d7704193c46acc5e81d7de",
+    "authored_batches\\g2_drawing_assembly_0015.jsonl": "7143811f44d44b31497060722c5f5fec82a6512857bdc4e420ca36865b477c54",
+    "authored_batches\\g2_events_0025.jsonl": "8282c64b37172ab60e2ef382ef5b458febe1a1dbe77c70360a7a5af5264e5774",
+    "authored_batches\\g2_geometry_0013.jsonl": "2bc56fc6a24f43bb79062e9c011f38bfbf8b63d62003fc240e86c0aee5532f89",
+    "authored_batches\\g2_groups_words_0012.jsonl": "080ddc20d432acb7c56317a288c044b5d30c794cdbfc6911f4bd5f7098154ca8",
+    "authored_batches\\g2_length_units_0017.jsonl": "5a2f10437a5da33aceb419bc9c13fe2bfe908a0f408a7d49a60b2716d83619f3",
+    "authored_batches\\g2_mass_capacity_0016.jsonl": "472f46d272f42bbc178586448ee3d3bc046bc1cd2f3de59632abbb779f14dc0d",
+    "authored_batches\\g2_measurement_0021.jsonl": "c93a19828bfef76a0f863e74025a0ec0e62136c7f8fe94794cd7085940bf492a",
+    "authored_batches\\g2_money_0020.jsonl": "cc45c95c8d3f4566c7271506e8b15e148614a92a0411a8f8cf8a19ef5f715042",
+    "authored_batches\\g2_numbers_ray_0009.jsonl": "5324c2afbca05d35d82d898fdb053e7e5a01ca5cbaeaa99c3d0596720aba992f",
+    "authored_batches\\g2_pictogram_0024.jsonl": "6f1fd342025b6f5cdf7bfd4afaefa0bc94b5096d0738e00456bb083d28222e2a",
+    "authored_batches\\g2_polyline_0022.jsonl": "cad4af98ed38068b3d3fcbc38587d45c00f63b03bbb44c90ac1562cd703ad57d",
+    "authored_batches\\g2_regroup_mental_0011.jsonl": "e3015f84c510725caa4d108bd26dcba45ebad9fb7a778902e1d4547c301225e4",
+    "authored_batches\\g2_solids_0014.jsonl": "194d5b33395c358b0e58e2fd8ca2252520d87918d508b901f9968104e6ec9ca5",
+    "authored_batches\\g2_tally_0023.jsonl": "2e3a4ac4fdfd0aa9dbed146daff15c6697fa3d280de7fc046de5793311996965",
+    "authored_batches\\g2_time_calendar_0018.jsonl": "82b0b43049c99363ee39c2355137e144d7878b5fcd85f3a9faf4e2a5e11e01f1",
+    "authored_batches\\g3_area_0045.jsonl": "2653b5e03edf639ee7fb8bc7a3580d9812e673ec6cf85f78dc379fe687ad89cc",
+    "authored_batches\\g3_clock_calendar_0041.jsonl": "9dba3669379acba5ffebd586b5aa7d42dfb77fbe8c29ab909cd19bf75b693ed5",
+    "authored_batches\\g3_columns_0030.jsonl": "b36fc3a33671e9a0993ad76b61e189525377650b54a04c0d7defb1e303b29ff2",
+    "authored_batches\\g3_drawing_tools_0039.jsonl": "7407ba85fa50637c3b51e1e3d97d70667bae0722b561e58df4bdd1522a7f27d6",
+    "authored_batches\\g3_expressions_0033.jsonl": "3f47a6bd41a8c15acb0e2d413d3b6071d4243e39bca54dcf37e686b78ac3f829",
+    "authored_batches\\g3_measure_convert_0043.jsonl": "aeecb63226478a5049c1427f1b3871122f71f2b19b9586507fdafd654af49ca1",
+    "authored_batches\\g3_midpoint_angles_0036.jsonl": "017d95677d3541a85cdf3d845d92a8c73984bb78562d3b0e8c130e3d65145669",
+    "authored_batches\\g3_money_0042.jsonl": "548992cdcb46209fdc737267a2a7b5e59af125645a4c8a2e28f3866773ba59f5",
+    "authored_batches\\g3_muldiv_0031.jsonl": "979e3b4c4ef101a344fc04ac08505d3fb7f757fd5aa709051ad36027d2d1802b",
+    "authored_batches\\g3_new_units_0040.jsonl": "20c7239c552a21132dc61d4a2144ca402e4d81ac6e71a08652438954e446285e",
+    "authored_batches\\g3_order_0028.jsonl": "7e52fcccbc27c9bc66ce6ff7a1a5409f0f4a8a2b41b92c92b22ed1e28af31f22",
+    "authored_batches\\g3_outcomes_0047.jsonl": "cc088bde34f5b7df359f2e0d48787e715baa1e6ec1e0f3c396bb6e8c82815de6",
+    "authored_batches\\g3_perimeter_0044.jsonl": "b2ce67aab86d660db98f808203d3c3008867866bd016d4f40793bc3e7c73e0b4",
+    "authored_batches\\g3_place_value_0026.jsonl": "08423679b145e40d263fa219f43d14dd87e35b66753c207ac72da84562927afa",
+    "authored_batches\\g3_properties_0032.jsonl": "8f55a889c4c9269b136f10ce4c3d101dcca6a889a533dd40e8bab2877fa57756",
+    "authored_batches\\g3_roman_0027.jsonl": "113fcaaf43270e115ec10fb8ce5d1125dc312095521f8b0768d25ab316f9294f",
+    "authored_batches\\g3_rounding_0029.jsonl": "6c22219133be71469b4719837102e2ec42ec33e6cf1201961c31b096f4557fc4",
+    "authored_batches\\g3_shape_elements_0037.jsonl": "808ce529b9297b9c3d19964a387e13c6935c89b0e33c1e0fe71ff83144057f42",
+    "authored_batches\\g3_solid_elements_0038.jsonl": "f149f8d448256a2f55a25841f1b6fd0d76ed6af5b37ac88ca1a060d3efb17037",
+    "authored_batches\\g3_table_0046.jsonl": "343f124f92fb3f57a57430b8cf072a9df9afe1f186f94cfafb18822a5cf51437",
+    "authored_batches\\g3_two_step_0034.jsonl": "95abd1143cb45c57eda16cc4a6228390cfabac045bc87aa242ee3cae577d242c",
+    "authored_batches\\g3_unit_fraction_0035.jsonl": "25bd6cfd38cb4b6d0e736c25b7ada6525b7d50b976cad8771f78148de8f8a2ee",
+    "authored_batches\\initial31_normalized.jsonl": "0395281bd2facf1d487382ad8c7825e84345d9235c5d11e88634705b8bc7a6ca"
+  },
+  "signoff_sha256_before": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "oracle_limit": "Finite set-map checks corroborate these cases; semantic distinction comes from actual same-author audit, not automatic numeric/parser proof."
+}

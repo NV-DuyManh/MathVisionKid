@@ -1,0 +1,50 @@
+[
+  {
+    "seconds": 39.148791050996806,
+    "utc": "2026-10-22T16:30:50.942415+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 11.970790403000137,
+    "utc": "2026-10-22T16:35:26.665245+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 25.97082348999902,
+    "utc": "2026-10-22T16:45:17.927068+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 47.63261296199926,
+    "utc": "2026-10-22T16:53:09.965679+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 30.15743927299991,
+    "utc": "2026-10-22T17:02:20.679736+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 26.752708770000027,
+    "utc": "2026-10-22T17:11:06.928048+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 36.779214875001344,
+    "utc": "2026-10-22T17:18:25.406329+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  },
+  {
+    "seconds": 32.34773310499804,
+    "utc": "2026-10-22T17:26:50.279473+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "36V-4LDaSBEa"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"READ_ONLY_GPU_MEMORY_SAMPLING_STARTED\", \"gpu_allocation\": false}\n"
+        ]
+      }
+    ]
+  }
+}

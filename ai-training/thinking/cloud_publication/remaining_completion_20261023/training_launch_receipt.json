@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "gmwbghR2mhvC"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"SETTING_UP_PINNED_TRAINING_DEPENDENCIES\", \"training_started\": false, \"TEXT_TRAINING_DATASET_READY\": true, \"expected_train_rows\": 6502344, \"validation_rows_reserved\": 24, \"test_rows_reserved\": 24, \"registered_utc\": \"2026-10-23T11:51:33.901384+00:00\", \"max_sequence_tokens\": 2048, \"subset_limit\": null}\n"
+        ]
+      }
+    ]
+  }
+}

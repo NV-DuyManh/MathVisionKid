@@ -1,0 +1,253 @@
+{
+  "batch_sha256": "2bc56fc6a24f43bb79062e9c011f38bfbf8b63d62003fc240e86c0aee5532f89",
+  "authored_cases": 10,
+  "core_cases": 6,
+  "misconception_cases": 2,
+  "guard_cases": 2,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_segment_line_curve",
+      "row_sha256": "f5f30feae46d14ce0bc9db94cbccfaa08826e7dab1d513376829f54953f2d077",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+      "row_sha256": "45dfda82c7f1057e370f4e2b23b32b2257b2b83e7c6c8a044ca072295e2806b9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_trace_polyline_segments",
+      "row_sha256": "95eedb46f1fe27dc5854a180b53863cb76c28eb3eefbada5293a98d2db29529e",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_misconception_straight_parts",
+      "row_sha256": "87db739f968278fefcf606a81f4c97ec09d55a9402cc56689085b0c135c45e53",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_guard_unknown_alignment",
+      "row_sha256": "c37e551ab08209003e42801affae4df9f4c0b804e4986064dad082b05b9d70a3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_closed_four_edges",
+      "row_sha256": "a01f59b5f0a0048d192092404939159febc971a3c72064757b05847994fda411",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_square_is_quadrilateral_rotated",
+      "row_sha256": "89a41dc67e99c3e2685221daf225f91b13127681b6ebb5bdac7801d538eec378",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_trace_four_side_fence",
+      "row_sha256": "1907b2757925fa117e9c7ac32456aab55515b1a585e2903fa93dc7902d0befa8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_misconception_four_but_open",
+      "row_sha256": "8de01d807cd6002fb35ac4326e191882bc9764db944db39a162b8114f038bc68",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_guard_points_without_edges",
+      "row_sha256": "8f5968a00d43ebdecbf83ad1f2b0ef80f82c73f9648e6afe363e5a495f01ffb9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "oracles": {
+    "collinearity_cross_products": [
+      "0",
+      "2"
+    ],
+    "polyline_edges": [
+      [
+        "A",
+        "B"
+      ],
+      [
+        "B",
+        "C"
+      ],
+      [
+        "C",
+        "D"
+      ]
+    ],
+    "closed_fence_edges": [
+      [
+        "W",
+        "X"
+      ],
+      [
+        "X",
+        "Y"
+      ],
+      [
+        "Y",
+        "Z"
+      ],
+      [
+        "Z",
+        "W"
+      ]
+    ],
+    "convex_witness_turns": [
+      "8",
+      "5",
+      "9",
+      "12"
+    ],
+    "rotation_preserves_side_lengths": true,
+    "four_open_edges_not_closed": true,
+    "alignment_guard_countermodels": "Same labels support collinear and noncollinear point placements.",
+    "quadrilateral_guard_countermodels": "Four point labels support a closed four-edge outline or an open chain; edges are unspecified."
+  },
+  "author_self_content_check": "Read each explicit description, role, teaching step, category answer and all three hints. Hints scaffold without choosing the final category or route list. This is authorship checking, not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Rational coordinates are independent geometric witnesses only, not image assets or extra child-facing givens. No metric lengths, angle measurement or physical success claimed. Curriculum legal currency is not recertified."
+}

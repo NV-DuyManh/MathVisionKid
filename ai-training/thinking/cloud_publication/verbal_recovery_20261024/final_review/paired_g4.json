@@ -1,0 +1,197 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "m²",
+        "value": "1/2"
+      },
+      "grade": 4,
+      "id": "verbal20261024_locked_g4_fraction_area",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "(3/4)×(2/3)=6/12=1/2m².",
+      "rubric": [
+        "Dùng tích hai kích thước.",
+        "Rút gọn đúng và dùngm²."
+      ],
+      "userproblem": "Mảnh giấy hình chữ nhật dài 3/4 m và rộng 2/3 m. Tính diện tích mảnh giấy, giải thích phép tính và ghi đúng đơn vị."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_fraction_area",
+      "generated_tokens": 400,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải toán:**\n\n**Bài toán:**\n\nMảnh giấy hình chữ nhật có độ dài là $\\frac{3}{4}$ m và độ rộng là $\\frac{2}{3}$ m. Tính diện tích của mảnh giấy.\n\n---\n\n**Giải:**\n\nDiện tích của một hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay các giá trị đã cho vào công thức:\n\n$$\n\\text{Diện tích} = \\frac{3}{4} \\times \\frac{2}{3}\n$$\n\n**Làm phép tính:**\n\n$$\n\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}\n$$\n\n---\n\n**Kiểm tra lại:**\n\n- $\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}$ (đúng)\n\n---\n\n**Kết luận:**\n\nDiện tích của mảnh giấy là $\\frac{1}{2}$ m².\n\n---\n\n**Lời giải đầy đủ:**\n\n- **Phép tính:** $\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}$\n\n- **Đơn vị:** mét vuông (m²)\n\n- **Kết quả:** Diện tích mảnh giấy là $\\frac{1}{2}$ m².\n\n---\n\n**Kiểm tra lại:** Đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d973b6800e6b25442412eabe2f630fc9a9cf04180e1bd7f4a49bc11053c8bf4b",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_fraction_area",
+      "generated_tokens": 400,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải toán:**\n\n**Bài toán:**\n\nMảnh giấy hình chữ nhật có độ dài là $\\frac{3}{4}$ m và độ rộng là $\\frac{2}{3}$ m. Tính diện tích của mảnh giấy.\n\n---\n\n**Giải:**\n\nDiện tích của một hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay các giá trị đã cho vào công thức:\n\n$$\n\\text{Diện tích} = \\frac{3}{4} \\times \\frac{2}{3}\n$$\n\n**Làm phép tính:**\n\n$$\n\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}\n$$\n\n---\n\n**Kiểm tra lại:**\n\n- $\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}$ (đúng)\n\n---\n\n**Kết luận:**\n\nDiện tích của mảnh giấy là $\\frac{1}{2}$ m².\n\n---\n\n**Lời giải đầy đủ:**\n\n- **Phép tính:** $\\frac{3}{4} \\times \\frac{2}{3} = \\frac{3 \\times 2}{4 \\times 3} = \\frac{6}{12} = \\frac{1}{2}$\n\n- **Đơn vị:** mét vuông (m²)\n\n- **Kết quả:** Diện tích mảnh giấy là $\\frac{1}{2}$ m².\n\n---\n\n**Kiểm tra lại:** Đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d973b6800e6b25442412eabe2f630fc9a9cf04180e1bd7f4a49bc11053c8bf4b",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "quotient": "304",
+        "remainder": "2"
+      },
+      "grade": 4,
+      "id": "verbal20261024_locked_g4_owner_division_probe",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "33×304=10032;10034=33×304+2;0≤2<33.",
+      "rubric": [
+        "Thương304,dư2.",
+        "Kiểm đẳng thức và0≤dư<33."
+      ],
+      "scope_note": "Owner previously mentioned10034/33; this is an explicit owner probe, not an unseen independent generalization claim.",
+      "userproblem": "Chia 10034 cho 33 trong tập số tự nhiên. Tìm thương và số dư, rồi kiểm cả đẳng thức chia và điều kiện của số dư."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+      "generated_tokens": 549,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nChia 10034 cho 33 trong tập số tự nhiên. Tìm thương và số dư, rồi kiểm tra đẳng thức chia và điều kiện của số dư.\n\n---\n\n**Giải:**\n\nChúng ta cần tìm thương $ q $ và số dư $ r $ sao cho:\n\n$$\n10034 = 33 \\cdot q + r\n$$\n\nvới $ 0 \\leq r < 33 $.\n\n---\n\n**Bước 1: Tìm thương $ q $**\n\nChia 10034 cho 33:\n\n$$\n10034 \\div 33\n$$\n\nTa thực hiện phép chia:\n\n- $ 33 \\times 300 = 9900 $\n- $ 10034 - 9900 = 134 $\n- $ 33 \\times 4 = 132 $\n- $ 134 - 132 = 2 $\n\nVậy thương $ q = 300 + 4 = 304 $, và số dư $ r = 2 $\n\n---\n\n**Bước 2: Kiểm tra đẳng thức chia**\n\nKiểm tra đẳng thức:\n\n$$\n33 \\cdot 304 + 2 = 10032 + 2 = 10034\n$$\n\n**Kiểm tra đúng!**\n\n---\n\n**Bước 3: Kiểm tra điều kiện của số dư**\n\n- $ r = 2 $, và $ 0 \\leq r < 33 $ → điều kiện thỏa mãn.\n\n---\n\n**Kết luận:**\n\n- Thương: $ q = 304 $\n- Số dư: $ r = 2 $\n- Kiểm tra đẳng thức: $ 33 \\cdot 304 + 2 = 10034 $ → đúng\n- Điều kiện số dư: $ 0 \\leq r < 33 $ → thỏa mãn\n\n---\n\n**Lời giải đầy đủ:**\n\n- Thương: $ \\boxed{304} $\n- Số dư: $ \\boxed{2} $\n- Kiểm tra đẳng thức: $ 33 \\cdot 304 + 2 = 10034 $ → đúng\n- Điều kiện số dư: $ 0 \\leq r < 33 $ → thỏa mãn\n\n--- \n\n**Lưu ý:** Nếu cần giải thích thêm về cách chia hoặc kiểm tra lại, bạn có thể yêu cầu.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1c7f613179f28dc894283a1cf1c5fec7e48a27dd7415cb925f3b3a810ae194f1",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+      "generated_tokens": 549,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nChia 10034 cho 33 trong tập số tự nhiên. Tìm thương và số dư, rồi kiểm tra đẳng thức chia và điều kiện của số dư.\n\n---\n\n**Giải:**\n\nChúng ta cần tìm thương $ q $ và số dư $ r $ sao cho:\n\n$$\n10034 = 33 \\cdot q + r\n$$\n\nvới $ 0 \\leq r < 33 $.\n\n---\n\n**Bước 1: Tìm thương $ q $**\n\nChia 10034 cho 33:\n\n$$\n10034 \\div 33\n$$\n\nTa thực hiện phép chia:\n\n- $ 33 \\times 300 = 9900 $\n- $ 10034 - 9900 = 134 $\n- $ 33 \\times 4 = 132 $\n- $ 134 - 132 = 2 $\n\nVậy thương $ q = 300 + 4 = 304 $, và số dư $ r = 2 $\n\n---\n\n**Bước 2: Kiểm tra đẳng thức chia**\n\nKiểm tra đẳng thức:\n\n$$\n33 \\cdot 304 + 2 = 10032 + 2 = 10034\n$$\n\n**Kiểm tra đúng!**\n\n---\n\n**Bước 3: Kiểm tra điều kiện của số dư**\n\n- $ r = 2 $, và $ 0 \\leq r < 33 $ → điều kiện thỏa mãn.\n\n---\n\n**Kết luận:**\n\n- Thương: $ q = 304 $\n- Số dư: $ r = 2 $\n- Kiểm tra đẳng thức: $ 33 \\cdot 304 + 2 = 10034 $ → đúng\n- Điều kiện số dư: $ 0 \\leq r < 33 $ → thỏa mãn\n\n---\n\n**Lời giải đầy đủ:**\n\n- Thương: $ \\boxed{304} $\n- Số dư: $ \\boxed{2} $\n- Kiểm tra đẳng thức: $ 33 \\cdot 304 + 2 = 10034 $ → đúng\n- Điều kiện số dư: $ 0 \\leq r < 33 $ → thỏa mãn\n\n--- \n\n**Lưu ý:** Nếu cần giải thích thêm về cách chia hoặc kiểm tra lại, bạn có thể yêu cầu.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1c7f613179f28dc894283a1cf1c5fec7e48a27dd7415cb925f3b3a810ae194f1",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "withheld_value": "39"
+      },
+      "grade": 4,
+      "id": "verbal20261024_locked_g4_unknown_factor_hint",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "x=312:8=39;39×8=312.",
+      "rubric": [
+        "Dùng chia tích cho thừa số đã biết.",
+        "Gợi ý nhân kiểm;không nêu39 hoặc ba mươi chín."
+      ],
+      "userproblem": "Cần tìm số tự nhiên x trong x × 8 = 312. Hãy gợi ý cách tìm và cách kiểm x, không nêu giá trị x."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_unknown_factor_hint",
+      "generated_tokens": 177,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "**Gợi ý cách tìm số tự nhiên x:**\n\n- Ta có phương trình: $ x \\times 8 = 312 $\n- Để tìm x, ta cần chia cả hai vế của phương trình cho 8:\n  $$\n  x = \\frac{312}{8}\n  $$\n- Tính toán: $ 312 \\div 8 = 39 $\n\n**Gợi ý cách kiểm x:**\n\n- Thay giá trị x = 39 vào phương trình ban đầu:\n  $$\n  39 \\times 8 = 312\n  $$\n- Kiểm tra: $ 39 \\times 8 = 312 $ (đúng)\n\n**Lưu ý:** Trong gợi ý, không nêu giá trị x hoặc đáp số cuối.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "4b65753a6c171fe3d2f37b8c67b46dc005ac5306039cdde28a84605d754eadff",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_unknown_factor_hint",
+      "generated_tokens": 177,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "**Gợi ý cách tìm số tự nhiên x:**\n\n- Ta có phương trình: $ x \\times 8 = 312 $\n- Để tìm x, ta cần chia cả hai vế của phương trình cho 8:\n  $$\n  x = \\frac{312}{8}\n  $$\n- Tính toán: $ 312 \\div 8 = 39 $\n\n**Gợi ý cách kiểm x:**\n\n- Thay giá trị x = 39 vào phương trình ban đầu:\n  $$\n  39 \\times 8 = 312\n  $$\n- Kiểm tra: $ 39 \\times 8 = 312 $ (đúng)\n\n**Lưu ý:** Trong gợi ý, không nêu giá trị x hoặc đáp số cuối.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "4b65753a6c171fe3d2f37b8c67b46dc005ac5306039cdde28a84605d754eadff",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "value": "5/8"
+      },
+      "grade": 4,
+      "id": "verbal20261024_locked_g4_fraction_subtraction_error",
+      "mode": "student_error",
+      "not_training_data": true,
+      "oracle": "1/4=2/8;7/8−2/8=5/8.",
+      "rubric": [
+        "Quy đồng đúng rồi trừ tử giữ mẫu.",
+        "Sửa5/8,không đoán suy nghĩ kín."
+      ],
+      "userproblem": "Em viết: “7/8 − 1/4 = 6/4”. Hãy kiểm tra và sửa, giải thích bằng các phần có cùng cỡ. Chỉ nhận xét dòng em đã viết."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_fraction_subtraction_error",
+      "generated_tokens": 581,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải và kiểm tra:**\n\nEm đã viết:  \n**7/8 − 1/4 = 6/4**\n\n**1. Kiểm tra lại phép tính:**\n\n- Ta có:  \n  $$\n  \\frac{7}{8} - \\frac{1}{4}\n  $$\n\n- Để trừ hai phân số, ta cần có cùng mẫu số.  \n  - Mẫu số của phân số thứ nhất là 8, phân số thứ hai là 4.  \n  - Ta tìm ước chung nhỏ nhất của 8 và 4, đó là 8.\n\n- Vì vậy, ta đổi phân số thứ hai thành phân số có mẫu số 8:\n  $$\n  \\frac{1}{4} = \\frac{1 \\times 2}{4 \\times 2} = \\frac{2}{8}\n  $$\n\n- Thay vào phép tính:\n  $$\n  \\frac{7}{8} - \\frac{2}{8} = \\frac{7 - 2}{8} = \\frac{5}{8}\n  $$\n\n**2. So sánh với kết quả em đã viết:**\n\n- Em đã viết: **6/4**  \n  - 6/4 là phân số lớn hơn 1, có giá trị là 1.5, trong khi kết quả đúng là **5/8** (khoảng 0.625).\n\n**3. Nhận xét:**\n\n- Em đã viết sai kết quả.  \n- Lỗi sai ở bước chuyển đổi phân số:  \n  - Em đã viết 1/4 = 2/8, nhưng thực ra 1/4 = 2/8 là đúng, nhưng khi thực hiện phép trừ, ta cần trừ 2/8 từ 7/8, không phải từ 7/8 trừ 2/8.  \n  - Vì vậy, phép tính bị sai.\n\n**4. Giải thích cách làm đúng:**\n\n- Chuyển phân số thứ hai thành phân số có mẫu số 8:  \n  $$\n  \\frac{1}{4} = \\frac{2}{8}\n  $$\n\n- Thay vào phép tính:\n  $$\n  \\frac{7}{8} - \\frac{2}{8} = \\frac{5}{8}\n  $$\n\n**5. Kết luận:**\n\n- Kết quả đúng là **5/8**.  \n- Em đã viết **6/4**, sai vì:  \n  - Không đổi mẫu số đúng.  \n  - Không thực hiện phép trừ đúng.  \n  - Không kiểm tra lại kết quả.\n\n**Nhận xét:**  \n- Em đã viết sai kết quả.  \n- Lỗi sai ở bước chuyển đổi phân số và phép tính trừ.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "93c9b7feae235e7c5c3086626ab4d880165b105464f4c3d3530e6990d7460e8f",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g4_fraction_subtraction_error",
+      "generated_tokens": 581,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời giải và kiểm tra:**\n\nEm đã viết:  \n**7/8 − 1/4 = 6/4**\n\n**1. Kiểm tra lại phép tính:**\n\n- Ta có:  \n  $$\n  \\frac{7}{8} - \\frac{1}{4}\n  $$\n\n- Để trừ hai phân số, ta cần có cùng mẫu số.  \n  - Mẫu số của phân số thứ nhất là 8, phân số thứ hai là 4.  \n  - Ta tìm ước chung nhỏ nhất của 8 và 4, đó là 8.\n\n- Vì vậy, ta đổi phân số thứ hai thành phân số có mẫu số 8:\n  $$\n  \\frac{1}{4} = \\frac{1 \\times 2}{4 \\times 2} = \\frac{2}{8}\n  $$\n\n- Thay vào phép tính:\n  $$\n  \\frac{7}{8} - \\frac{2}{8} = \\frac{7 - 2}{8} = \\frac{5}{8}\n  $$\n\n**2. So sánh với kết quả em đã viết:**\n\n- Em đã viết: **6/4**  \n  - 6/4 là phân số lớn hơn 1, có giá trị là 1.5, trong khi kết quả đúng là **5/8** (khoảng 0.625).\n\n**3. Nhận xét:**\n\n- Em đã viết sai kết quả.  \n- Lỗi sai ở bước chuyển đổi phân số:  \n  - Em đã viết 1/4 = 2/8, nhưng thực ra 1/4 = 2/8 là đúng, nhưng khi thực hiện phép trừ, ta cần trừ 2/8 từ 7/8, không phải từ 7/8 trừ 2/8.  \n  - Vì vậy, phép tính bị sai.\n\n**4. Giải thích cách làm đúng:**\n\n- Chuyển phân số thứ hai thành phân số có mẫu số 8:  \n  $$\n  \\frac{1}{4} = \\frac{2}{8}\n  $$\n\n- Thay vào phép tính:\n  $$\n  \\frac{7}{8} - \\frac{2}{8} = \\frac{5}{8}\n  $$\n\n**5. Kết luận:**\n\n- Kết quả đúng là **5/8**.  \n- Em đã viết **6/4**, sai vì:  \n  - Không đổi mẫu số đúng.  \n  - Không thực hiện phép trừ đúng.  \n  - Không kiểm tra lại kết quả.\n\n**Nhận xét:**  \n- Em đã viết sai kết quả.  \n- Lỗi sai ở bước chuyển đổi phân số và phép tính trừ.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "93c9b7feae235e7c5c3086626ab4d880165b105464f4c3d3530e6990d7460e8f",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

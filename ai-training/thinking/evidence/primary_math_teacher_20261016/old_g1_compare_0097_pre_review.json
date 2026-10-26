@@ -1,0 +1,188 @@
+{
+  "schema_version": "primary_math.batch_pre_review.v1",
+  "batch": "old_g1_compare_0097",
+  "created_utc": "2026-10-18T11:07:29.046862+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than",
+      "row_sha256": "1050d6293a8f6624cba0bce930c649b1b3b0010bd533253d28b8371d69449cf6",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_compare_0097_equal_counts_spacing_does_not_make_less",
+      "row_sha256": "3c0e99b4a6c276c632e4c3f707afd31994896c7d96d69b1b0c89f3ded404a806",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_compare_0097_select_card_to_satisfy_strict_inequality",
+      "row_sha256": "945c7522011d05bf4c7149c15c84db4414151cdc31db57b9e9134b27f50b65d8",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_compare_0097_misconception_written_less_than_reversed_counts",
+      "row_sha256": "b4408cabe58539bb6bddd4e665bef4fd202db7a3c2bb487d58f15024778073d4",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [],
+  "exact_fraction_decimal_comparisons": [
+    {
+      "left": 3,
+      "right": 5,
+      "fraction_less_than": true,
+      "decimal_less_than": true
+    },
+    {
+      "left": 4,
+      "right": 4,
+      "fraction_less_than": false,
+      "decimal_less_than": false
+    },
+    {
+      "left": 1,
+      "right": 3,
+      "fraction_less_than": true,
+      "decimal_less_than": true
+    },
+    {
+      "left": 3,
+      "right": 3,
+      "fraction_less_than": false,
+      "decimal_less_than": false
+    },
+    {
+      "left": 4,
+      "right": 3,
+      "fraction_less_than": false,
+      "decimal_less_than": false
+    },
+    {
+      "left": 5,
+      "right": 2,
+      "fraction_less_than": false,
+      "decimal_less_than": false
+    },
+    {
+      "left": 2,
+      "right": 5,
+      "fraction_less_than": true,
+      "decimal_less_than": true
+    }
+  ],
+  "separate_oracles": {
+    "core01_distinct_pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "core01_B_unpaired_indices": [
+      3,
+      4
+    ],
+    "core02_equal_exhaustive_pairs": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "core03_counting_track": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "core03_valid_cards_by_track": [
+      1
+    ],
+    "mis_red_unpaired_indices": [
+      2,
+      3,
+      4
+    ]
+  },
+  "actual_semantic_content_read": true,
+  "categorical_null_expression_steps_to_read": 8,
+  "historical_topic_scope_only": true,
+  "complete_2006_annex_verified": false,
+  "actual_physical_action_claim": false,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "all_hint_count_read": 12,
+  "legacy_grade1_strict_less_than_matching_equality_and_candidates_semantic_read": true,
+  "official_QA_utc": "2026-10-18T11:07:56.932465+00:00",
+  "official_QA_method": "Same-author actualfullread4originalgrade1legacycomparisonproblems/givens/neutralrequests/studentquote/observations/initial/all8workedsteps/titles/reasons/explanations/results/units/categoricalanswers and12hints. All8stepsnaturallynull-expressionbecausematching/strictrelation/equalityboundary/candidateclassificationarenotarithmeticresults;noartificialexpressionorclaimofarithmeticproof. SevenexactFraction/Decimalless-thancomparisonsplusseparateobject-IDmatching/bijectionandcounting-trackpositionoracles. Directsemanticreadstrictlessthanexcludesequality,spacingnotquantity,exhaustivechoiceandgroundedwrittenrelationfeedback. Noaddition/subtractionburdenforweek3comparisonfocus. Historicaltopicreferenceonly,notcomplete2006annex/2026legalcertification;guardtarget0notforced. Existingthreeprotectedhashes/exclusionskept,noeval/pilotusedtoadjustdata. Human/teacher/owner-human/externalfalse;parsernotsemanticproof.",
+  "official_review_sha256": "7cf83ef8f0af4f785aada444b7028ea928ecdbafb1744e0fdb491a3096bd8e46"
+}

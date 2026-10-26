@@ -1,0 +1,203 @@
+{
+  "id": "vinhnq29/ViMathQA",
+  "sha": "d486a2602321d36a09f8dc1acf9e4469689c8de6",
+  "gated": false,
+  "cardData": {
+    "dataset_info": [
+      {
+        "config_name": "test_v1",
+        "features": [
+          {
+            "name": "instruction",
+            "dtype": "string"
+          },
+          {
+            "name": "question",
+            "dtype": "string"
+          },
+          {
+            "name": "choices",
+            "sequence": "string"
+          },
+          {
+            "name": "answer",
+            "dtype": "string"
+          },
+          {
+            "name": "right_choice",
+            "dtype": "string"
+          }
+        ],
+        "splits": [
+          {
+            "name": "train",
+            "num_bytes": 511629,
+            "num_examples": 1104
+          },
+          {
+            "name": "test",
+            "num_bytes": 511629,
+            "num_examples": 1104
+          },
+          {
+            "name": "base_models",
+            "num_bytes": 442114.1902173913,
+            "num_examples": 954
+          },
+          {
+            "name": "base_models_test",
+            "num_bytes": 442114.1902173913,
+            "num_examples": 954
+          }
+        ],
+        "download_size": 818786,
+        "dataset_size": 1907486.3804347827
+      },
+      {
+        "config_name": "train_v1",
+        "features": [
+          {
+            "name": "segments",
+            "list": [
+              {
+                "name": "label",
+                "dtype": "bool"
+              },
+              {
+                "name": "text",
+                "dtype": "string"
+              }
+            ]
+          }
+        ],
+        "splits": [
+          {
+            "name": "input_output_vinallama",
+            "num_bytes": 3806969,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_zephyr",
+            "num_bytes": 3509173,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_vistral",
+            "num_bytes": 3464945,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_wizardmath",
+            "num_bytes": 4181916,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_qwen",
+            "num_bytes": 3808346,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_metamath",
+            "num_bytes": 4184665,
+            "num_examples": 7107
+          },
+          {
+            "name": "input_output_meta_llama_3_8b_instruct",
+            "num_bytes": 4566175,
+            "num_examples": 7107
+          }
+        ],
+        "download_size": 10944995,
+        "dataset_size": 27522189
+      }
+    ],
+    "configs": [
+      {
+        "config_name": "test_v1",
+        "data_files": [
+          {
+            "split": "train",
+            "path": "test_v1/train-*"
+          },
+          {
+            "split": "test",
+            "path": "test_v1/test-*"
+          },
+          {
+            "split": "base_models",
+            "path": "test_v1/base_models-*"
+          },
+          {
+            "split": "base_models_test",
+            "path": "test_v1/base_models_test-*"
+          }
+        ]
+      },
+      {
+        "config_name": "train_v1",
+        "data_files": [
+          {
+            "split": "input_output_vinallama",
+            "path": "train_v1/input_output_vinallama-*"
+          },
+          {
+            "split": "input_output_zephyr",
+            "path": "train_v1/input_output_zephyr-*"
+          },
+          {
+            "split": "input_output_vistral",
+            "path": "train_v1/input_output_vistral-*"
+          },
+          {
+            "split": "input_output_wizardmath",
+            "path": "train_v1/input_output_wizardmath-*"
+          },
+          {
+            "split": "input_output_qwen",
+            "path": "train_v1/input_output_qwen-*"
+          },
+          {
+            "split": "input_output_metamath",
+            "path": "train_v1/input_output_metamath-*"
+          },
+          {
+            "split": "input_output_meta_llama_3_8b_instruct",
+            "path": "train_v1/input_output_meta_llama_3_8b_instruct-*"
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    ".gitattributes",
+    "README.md",
+    "cot_data.jsonl",
+    "data.jsonl",
+    "filtered_data.jsonl",
+    "instructcode_qwen.jsonl",
+    "raw_cot_data.jsonl",
+    "raw_hamchoi_questions.jsonl",
+    "raw_tailieumoi_questions.jsonl",
+    "raw_test.jsonl",
+    "raw_train.jsonl",
+    "raw_vietjack_questions.jsonl",
+    "test_v1.jsonl",
+    "test_v1/base_models-00000-of-00001.parquet",
+    "test_v1/base_models_test-00000-of-00001.parquet",
+    "test_v1/final_test_data_base.jsonl",
+    "test_v2.jsonl",
+    "train_v1.jsonl",
+    "train_v1/input_output_meta_llama_3_8b_instruct-00000-of-00001.parquet",
+    "train_v1/input_output_metamath-00000-of-00001.parquet",
+    "train_v1/input_output_qwen-00000-of-00001.parquet",
+    "train_v1/input_output_vinallama-00000-of-00001.parquet",
+    "train_v1/input_output_vistral-00000-of-00001.parquet",
+    "train_v1/input_output_wizardmath-00000-of-00001.parquet",
+    "train_v1/input_output_zephyr-00000-of-00001.parquet",
+    "train_v1/tmp.jsonl",
+    "vinh-02072024-instructcode-qwen2.jsonl",
+    "vinh-07072024-cot-eval-qwen2.jsonl",
+    "vinh-07072024-eval-qwen2.jsonl",
+    "vinh-26062024.jsonl"
+  ]
+}

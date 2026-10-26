@@ -1,0 +1,220 @@
+{
+  "status": "PILOT_COMPLETED_NOT_PRODUCTION",
+  "baseline_validation": {
+    "samples": 14,
+    "solved_samples": 12,
+    "json_valid_rate": 1.0,
+    "answer_accuracy": 0.5,
+    "unit_accuracy": 0.4166666666666667,
+    "steps_arithmetic_accuracy": 0.4166666666666667,
+    "strict_plan_accuracy": 0.25,
+    "guard_status_accuracy": 0.0,
+    "truncated_outputs": 0,
+    "per_grade": {
+      "1": {
+        "samples": 2,
+        "solved_samples": 2,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.0,
+        "unit_accuracy": 0.0,
+        "steps_arithmetic_accuracy": 0.0,
+        "strict_plan_accuracy": 0.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "2": {
+        "samples": 1,
+        "solved_samples": 1,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 1.0,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 1.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "3": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 1.0,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 0.6666666666666666,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "4": {
+        "samples": 4,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.6666666666666666,
+        "unit_accuracy": 0.3333333333333333,
+        "steps_arithmetic_accuracy": 0.3333333333333333,
+        "strict_plan_accuracy": 0.0,
+        "guard_status_accuracy": 0.0,
+        "truncated_outputs": 0
+      },
+      "5": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.0,
+        "unit_accuracy": 0.0,
+        "steps_arithmetic_accuracy": 0.0,
+        "strict_plan_accuracy": 0.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      }
+    }
+  },
+  "candidate_validation": {
+    "samples": 14,
+    "solved_samples": 12,
+    "json_valid_rate": 1.0,
+    "answer_accuracy": 0.6666666666666666,
+    "unit_accuracy": 1.0,
+    "steps_arithmetic_accuracy": 0.8333333333333334,
+    "strict_plan_accuracy": 0.6666666666666666,
+    "guard_status_accuracy": 0.0,
+    "truncated_outputs": 0,
+    "per_grade": {
+      "1": {
+        "samples": 2,
+        "solved_samples": 2,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 1.0,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 1.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "2": {
+        "samples": 1,
+        "solved_samples": 1,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 1.0,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 1.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "3": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.6666666666666666,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 0.6666666666666666,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "4": {
+        "samples": 4,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.6666666666666666,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 0.6666666666666666,
+        "strict_plan_accuracy": 0.6666666666666666,
+        "guard_status_accuracy": 0.0,
+        "truncated_outputs": 0
+      },
+      "5": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.3333333333333333,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 0.6666666666666666,
+        "strict_plan_accuracy": 0.3333333333333333,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      }
+    }
+  },
+  "candidate_test": {
+    "samples": 14,
+    "solved_samples": 12,
+    "json_valid_rate": 1.0,
+    "answer_accuracy": 0.5833333333333334,
+    "unit_accuracy": 1.0,
+    "steps_arithmetic_accuracy": 0.8333333333333334,
+    "strict_plan_accuracy": 0.5,
+    "guard_status_accuracy": 0.0,
+    "truncated_outputs": 0,
+    "per_grade": {
+      "1": {
+        "samples": 2,
+        "solved_samples": 2,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.5,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 0.5,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "2": {
+        "samples": 1,
+        "solved_samples": 1,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 1.0,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 1.0,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "3": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.6666666666666666,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 1.0,
+        "strict_plan_accuracy": 0.3333333333333333,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      },
+      "4": {
+        "samples": 4,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.3333333333333333,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 0.6666666666666666,
+        "strict_plan_accuracy": 0.3333333333333333,
+        "guard_status_accuracy": 0.0,
+        "truncated_outputs": 0
+      },
+      "5": {
+        "samples": 3,
+        "solved_samples": 3,
+        "json_valid_rate": 1.0,
+        "answer_accuracy": 0.6666666666666666,
+        "unit_accuracy": 1.0,
+        "steps_arithmetic_accuracy": 0.6666666666666666,
+        "strict_plan_accuracy": 0.6666666666666666,
+        "guard_status_accuracy": null,
+        "truncated_outputs": 0
+      }
+    }
+  },
+  "steps": 32,
+  "examples_seen": 128,
+  "adapter_path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/math_text_pilot_v1/runs/qwen3_06b_lora_pilot32_seed20261011/adapter",
+  "adapter_sha256": "70f93e90c0cb673a6b4623cb19cb3840900498391fc950358b5b6c6e296ef34d",
+  "production_approved": false,
+  "promotion": "No automatic promotion; small synthetic test is insufficient.",
+  "limitations": [
+    "32-step smoke/pilot is not full training.",
+    "Only selected 12 topic families, few guard examples.",
+    "Strict reference-plan matching rejects some equivalent valid plans.",
+    "No independent teacher-reviewed real-problem benchmark yet.",
+    "Specialization does not erase other base-model knowledge."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "accepted_cases": 6,
+  "asset_only_masters_unchanged": 10,
+  "chat_rows": 24,
+  "original41_task_plan_preserved_sha256": "53d10d62ac91a36ca4dc506d3191a77eaaf2c313c8daedf724076e145cfeb10f",
+  "parent54_residual_queue_preserved_sha256": "3e08fad0ef0ce50bffe8bd3a49d0a86dfda0e4420c8f2de6716979bbfc5db548",
+  "remaining_g2_candidates": 50,
+  "remaining_specific_tasks": 38,
+  "source_locator_tasks_unchanged": 2,
+  "status": "PASS_ACCEPTED_HASH_BINDINGS_ONLY",
+  "training_started": false,
+  "whole_master_closed": false
+}

@@ -1,0 +1,129 @@
+{
+  "batch_sha256": "cc45c95c8d3f4566c7271506e8b15e148614a92a0411a8f8cf8a19ef5f715042",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_money_0020_read_simulated_vnd_labels",
+      "row_sha256": "caab9d757a9250a1111f2ecc58c5bc48d9648c8301a412c46c6c607b88a5c408",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_money_0020_more_cards_not_more_value",
+      "row_sha256": "2b6b3b95883bcf160eea403168bd5118fd5c04ae0efcfcd609445bf5a9f5f112",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "200+200",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_money_0020_select_exact_payment_cards",
+      "row_sha256": "f21f95056ae6e01f1f0ffb237d12a7ba99cced6c0e192072961e4764863556ac",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "700-500",
+          "500+200",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_money_0020_misconception_count_over_denomination",
+      "row_sha256": "aaabc54115f5764863f9c96388919dc98506b13de7e693785a10dea125a1c365",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "200+200+200",
+          "500+500",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_money_0020_guard_label_not_visible",
+      "row_sha256": "36dd5a8d522b6baf840461be8e2ec7f5c24645cf0e1ae9d973713f308e79ba48",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "largest_label": "C",
+    "two_200_units": 400,
+    "unique_exact_payment_subset_indices": [
+      [
+        0,
+        1
+      ]
+    ],
+    "three_200_units": 600,
+    "two_500_units": 1000,
+    "colour_guard_countermodels": [
+      "a green learning card labeled200",
+      "a green learning card labeled500"
+    ]
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read face-value labels, card count versus total value, exact-payment inventory, student quote and all three hints. Same-author check is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "All prices and cards are explicitly simulated classroom data. No market-price claim or real-currency image recognition. Values stay at most1000; additive grouping and exact inventory choices are bounded. Neutral schema is not live PlanDraft."
+}

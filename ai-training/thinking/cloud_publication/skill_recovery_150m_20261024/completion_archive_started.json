@@ -1,0 +1,27 @@
+{
+  "add": {
+    "newCellId": "xw4Qjm3DL5Zv"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"completion_archive_started\": true, \"final_evaluator_active\": true, \"source_and_weights_changed\": false}\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "<>:17: SyntaxWarning: invalid decimal literal\n",
+          "<>:17: SyntaxWarning: invalid decimal literal\n",
+          "/tmp/ipykernel_719/3894593911.py:17: SyntaxWarning: invalid decimal literal\n",
+          "  found=store.find(skill_publisher.PARENT,skill_publisher.FOLDER);assert len(found)==1and found[0]['id']=='1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA';store.folder=found[0]['id']\n"
+        ]
+      }
+    ]
+  }
+}

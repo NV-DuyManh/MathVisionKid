@@ -1,0 +1,15 @@
+{
+  "status": "DATA_AND_VERIFIER_READY_NOT_MODEL_TRAINED",
+  "local_tests": 41,
+  "colab_new_tests": 26,
+  "source_and_data_deployed": true,
+  "dataset_fingerprints_match": true,
+  "all_15_existing_cells_unchanged": true,
+  "new_cell_id": "TCi9AyZdcxAG",
+  "source_inventory_files": 14,
+  "source_inventory_rows_including_duplicate_manifests": 4153,
+  "source_solution_candidates": 0,
+  "model_weights_changed": false,
+  "gpu_training_run": false,
+  "image_api_calls": 0
+}

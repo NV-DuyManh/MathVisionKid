@@ -1,0 +1,158 @@
+{
+  "authored_utc": "2026-10-18T03:48:37.941201+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:47:06.982Z",
+  "batch_sha256": "bd7592661d08812c29f9cf2b2b8a9374aa31be6128b3a49f99a407627d0231dc",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_angles_0059_given_angle_measure_and_vertex",
+      "row_sha256": "663372cc3598ea444a638326abfa74a9f446a617f94c60748edca2fc2d25a8ed",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_angles_0059_boundary_right_obtuse_straight_cards",
+      "row_sha256": "750e17f9870d51b8c6b81ef3bf7784973113a36d527f1e6c1084099c3e812c7a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_angles_0059_adjacent_angles_on_opposite_rays",
+      "row_sha256": "ab20f89f58aae90b46aa07e93c5dbd5d701436d8fcfb95b00e08642a0ee7e2de",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "180-68",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_angles_0059_misconception_arm_length_type",
+      "row_sha256": "2048e7c1867b88fc4133f64639fb603a311a2ade2fb9b8fc61c49fdda6954d53",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_angles_0059_guard_unspecified_angle_in_missing_image",
+      "row_sha256": "14e27c20c1fd7ea817e0dd7b3cef1b8b10d257eecab61b9b554a91c8513de73b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "measures_in_degree_ticks": [
+      42,
+      90,
+      179,
+      180,
+      112,
+      129
+    ],
+    "classification_relative_to_quarter_turn90": [
+      "acute",
+      "right",
+      "obtuse",
+      "straight",
+      "obtuse",
+      "obtuse"
+    ],
+    "straight_angle_disjoint_degree_ticks": [
+      68,
+      112,
+      180
+    ],
+    "integer_Fraction_Decimal_subtraction": 112
+  },
+  "conditions_checked": "Classifications refer to explicitly indicated0<angle<=180part; two opposite rays and interior splitter explicitly supplied for additive angle case. Tick models are mathematical counterchecks, not actual protractor observations.",
+  "actual_image_or_physical_measurement_claimed": false,
+  "visual_outcome_still_pending": true,
+  "guard_no_invented_angle_label": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous338_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_review_readability_repair": "Replaced technical term strict inequality with smaller/greater-than-right-angle wording at grade4 boundary case."
+}

@@ -61,6 +61,12 @@ public class MathTutorController {
         return service.reviewWork(request);
     }
 
+    @PostMapping(value = "/speech", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> speech(@Valid @RequestBody SpeechRequest request) {
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/mpeg"))
+                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.speech(request));
+    }
+
     @PostMapping(value = "/lesson", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse lesson(@Valid @RequestBody LessonRequest request, Authentication authentication) {
         return service.lesson(request, authentication.getName());

@@ -1,0 +1,32 @@
+{
+  "status": "PASSED",
+  "cases": 60,
+  "chat_rows": 240,
+  "numeric_steps_dual_engine_checked": 141,
+  "splits": {
+    "train": 48,
+    "validation": 6,
+    "test": 6
+  },
+  "grades": {
+    "1": 1,
+    "2": 4,
+    "3": 10,
+    "4": 15,
+    "5": 30
+  },
+  "kinds": {
+    "word_problem": 49,
+    "observable_student_error": 5,
+    "guard": 6
+  },
+  "source_sha256": "9db5483e0744daa1a5c7c9b8c0c41d83257ad0e7f400def5ce5c62aee34618ef",
+  "no_cross_split_canonical_overlap": true,
+  "full_actual_source_readback": true,
+  "all_actual_fields_hints_semantic_author_review": true,
+  "case_reviews": 60,
+  "curriculum_limit": "Reused current curriculum research/hash; not new legal certification; movement/productivity are contextual applications in grade5.",
+  "storage": "BOUNDED_TEMPORARY_PENDING_ROOT_CLOUD_PUBLICATION",
+  "skills_matched": "none in local project registry",
+  "skills_applied": "last30days research reused from preserved evidence; no new community result claimed"
+}

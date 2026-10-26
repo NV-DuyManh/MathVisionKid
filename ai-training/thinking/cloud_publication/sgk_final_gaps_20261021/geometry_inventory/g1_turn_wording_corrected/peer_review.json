@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "review_kind": "INDEPENDENT_AGENT_QA_NOT_HUMAN_ATTESTATION",
+  "source_sha256": "4cd60aa892caf7bd1fa8e95cecebfdc87e46913b31d9fc10516f8d923569d0b1",
+  "chat_sha256": "65b36c7876a74ab63c0e94222ddeb64272c11cb742b6c37e7a7fc6b32c0b2361",
+  "rows_reviewed": 24,
+  "chats_reviewed": 96,
+  "independent_oracles": 24,
+  "fraction_decimal_steps": 16,
+  "wrong_model_mutations_rejected": 24,
+  "qa7_rows": 24,
+  "semantic_fields_actually_read": true,
+  "all_initial_and_72_hints_read": true,
+  "semantic_notes_file": "peer_semantic_qa7.jsonl",
+  "oracle_method": "Reused prior reviewer helper explicitly, rerun against exact derived bytes: physical occupied-slot remove/add enumeration (author enumerates final glyphs), exact vertical atomic slab coverage (author polygon clipping), convex vertex permutations + side interval coverage (author angle-sort), integer quarter-turn placements normalized bounding boxes, cell complement and face conjunction filters. Outputs recomputed for all24; no author expected value used as solver.",
+  "visual_review": {
+    "all_four_sheets_viewed": true,
+    "svg_pins_verified": 24,
+    "claim": "Optional original question schematics remain supplementary; authoritative complete text, no real physical/publisher-image coverage claim. Single narrow piece4 near right margin is not established clipped; no asset edits."
+  },
+  "derived_g1_wording_reviewed": true,
+  "human_review_claimed": false,
+  "external_credential_claimed": false,
+  "training_started": false,
+  "source_and_chat_unchanged": true,
+  "issues": [],
+  "scope_limitations": [
+    "Enrichment text models and optional original schematics do not certify actual publisher image OCR or physical manipulation.",
+    "No global protected-source exclusion, cross-corpus split, tokenizer or release acceptance claim made by this local peer audit."
+  ],
+  "evidence_files": [
+    {
+      "path": "peer_assets.jsonl",
+      "bytes": 6508,
+      "sha256": "d4a110c7ca182f2a83364e8fcec24565abfa87f859492f80cf6dcf436c16746d"
+    },
+    {
+      "path": "peer_chat_linkage.jsonl",
+      "bytes": 31976,
+      "sha256": "f3849c6d533dad25e65f7052ca56aadfc7aab19943bd9f5f0ab2b7b322f379c8"
+    },
+    {
+      "path": "peer_complete_review.py",
+      "bytes": 10584,
+      "sha256": "a1e6f2ed3579f12b78f429ae20cc0d543823a4a7b9897ffc148fa841b1bdae6e"
+    },
+    {
+      "path": "peer_numbers_numeric.jsonl",
+      "bytes": 3584,
+      "sha256": "d61c1eb314cffe3ee0f17dcd23a0cf38ef4ae55510df4127a29977885c440e96"
+    },
+    {
+      "path": "peer_numbers_oracle.py",
+      "bytes": 9124,
+      "sha256": "1e43d1e4fd0186f659640c2f742c2993154bef5c5dc167919c88aaedd1c128dd"
+    },
+    {
+      "path": "peer_numbers_oracles.jsonl",
+      "bytes": 6649,
+      "sha256": "f7d604f76bc1971b350139993f925f7f31a8f6cd4602116df4be608e2ecab933"
+    },
+    {
+      "path": "peer_semantic_qa7.jsonl",
+      "bytes": 24940,
+      "sha256": "24a0dba11d5d9fe16f8c4b255b1e9dfa711febddc7136f34e5acd6c6501ae5bb"
+    },
+    {
+      "path": "peer_wrong_model_mutations.jsonl",
+      "bytes": 7608,
+      "sha256": "7e062d1db73de6b9426a5667aadc41219090e5b4ff128d6a4f2d712064c11daf"
+    }
+  ]
+}

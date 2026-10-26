@@ -1,0 +1,15 @@
+{
+  "kind": "untrained_base",
+  "model": "Qwen/Qwen3-1.7B",
+  "production_approval": false,
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "selection_key": [
+    10,
+    15,
+    1,
+    1,
+    3
+  ],
+  "semantic_review_pending": false,
+  "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+}

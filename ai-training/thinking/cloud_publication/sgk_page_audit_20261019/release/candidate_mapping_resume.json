@@ -1,0 +1,24 @@
+{
+  "all_grades_semantic_mapping_complete": false,
+  "avoid_duplicate_authoring": true,
+  "g2": {
+    "accepted_credit_from_mapping_alone": 0,
+    "candidate_count": 91,
+    "finite_master_count": 65,
+    "mapping_member": "data/g2v2_audit/g2_combined_candidate_adjudication.json",
+    "mapping_sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143",
+    "master_status_counts": {
+      "ASSET_PENDING": 16,
+      "CONFIRMED_GAP": 14,
+      "COVERED": 14,
+      "MERGED_PENDING": 21
+    },
+    "pending_master_count": 51,
+    "status_counts": {
+      "ASSET_PENDING": 20,
+      "CONFIRMED_GAP": 16,
+      "COVERED": 20,
+      "MERGED_PENDING": 35
+    }
+  }
+}

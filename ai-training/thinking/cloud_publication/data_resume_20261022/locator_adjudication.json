@@ -1,0 +1,258 @@
+{
+  "schema": "MathVisionKid.existing_source_locator_adjudication.v1",
+  "scope": "Two locator-only tasks. Existing source/receipt records and their hashes were read; no mathematical example was generated or edited. This is provenance recovery, not a new semantic or visual competence certification.",
+  "input_files_sha256": {
+    "cloud_publication\\sgk_final_gaps_20261021\\reconciliation\\next_uncovered_tasks.json": "3e08fad0ef0ce50bffe8bd3a49d0a86dfda0e4420c8f2de6716979bbfc5db548",
+    "cloud_publication\\sgk_finish_20261020\\crossgrade_mapping\\build_mapping.py": "6d744206edfdc78dc47dfc6f94589eba9aebfa2907f086a384c919aa42d1b399",
+    "cloud_publication\\sgk_page_audit_20261019\\g3_spatial_append\\adjudication.json": "5f3ed870103994ad91e74c06ae2cf9f6a2bae4428517ee99c15b3f6617f02626",
+    "cloud_publication\\sgk_page_audit_20261019\\g2v1_audit\\page_review.jsonl": "74ff3eff7be8f4fc0d74366e63861130194e7bb9337fa039c09b45008e083fcb",
+    "cloud_publication\\sgk_page_audit_20261019\\g2v1_audit\\pages.json": "6b29b53077520ab377b1fcf3f3df585ac5a63fe784a8254d353c8fca7bbfdea7",
+    "cloud_publication\\sgk_page_audit_20261019\\g3_audit\\candidate_adjudication.json": "b1e7123bfc696a4e7f102ca54b503ce0d0661bc7041854210446beae13fac227",
+    "cloud_publication\\sgk_page_audit_20261019\\g3_audit\\page_review.jsonl": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+    "cloud_publication\\sgk_page_audit_20261019\\g3_audit\\summary.json": "92ca66f9d298ec3baf126b44a63e1e72365786af9707a46e4c5492ed2843da16"
+  },
+  "decisions": [
+    {
+      "master_id": "collinear_triple_complete_enumeration",
+      "candidate_id": "collinear_enumeration_and_segment_pairs",
+      "status": "ORIGINAL_ALIAS_LOCATORS_RECOVERED_FROM_EXISTING_G2_RECEIPTS",
+      "original_locator_missing_resolved": true,
+      "exact_original_record": {
+        "file": "sgk_page_audit_20261019/g3_spatial_append/adjudication.json",
+        "json_path": "cross_grade_merges[3]",
+        "canonical_form": "collinear_enumeration_and_segment_pairs",
+        "canonical_record_sha256": "74caa343cafd5cac5795f7530e5b1a7495a1d83eff9b5c4f42b85bcf27e5c75b"
+      },
+      "locators": [
+        {
+          "book_id": "g2v1",
+          "printed_page": 98,
+          "source_image_sha256": "06a53d7f57541e5aaa995a84a68cadf56933fcd2a65fc8a965a268818d0d9a24",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-99-1775742387272.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 98,
+          "receipt_raw_row_sha256": "a569d7f373de740338081499ba16dfeabd66da5b6bb68515ed4e6423f80af836",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "point_segment_names"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 99,
+          "source_image_sha256": "b7a52d53c5b75f85796b4c2877a944cab5134a93ccbec0aa9b6a5d542999e5c8",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-100-1775742387569.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 99,
+          "receipt_raw_row_sha256": "b1f5956d0ea5970fa811163def8e853307f8fbc3d8c66345d5c32e04622d7452",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "segment_names",
+            "ruler_measurement"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 100,
+          "source_image_sha256": "2ec9e181559ae3d0be1023f08b404b8d901fc1df82694e405f6e5da7e32eda0b",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-101-1775742387859.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 100,
+          "receipt_raw_row_sha256": "2d312578744391197278adb7c61e4ce12b89b7853fb2455bc7d2912be4ce4280",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "line_curve_recognition",
+            "collinearity"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 101,
+          "source_image_sha256": "640b945ec0205c1b283d27b2f7832da586a20eeb6e5ce8b168e542f3d8f57e2d",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-102-1775742388166.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 101,
+          "receipt_raw_row_sha256": "68c8f6ff814ca0898fbe8aa4b85a6e389a1254fb395d55e644ab2a038a998806",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "collinear_triples",
+            "ruler_collinearity_check",
+            "real_world_line_curve"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 110,
+          "source_image_sha256": "b1c58837b779a2ace471a00e7c6020e237b4f7105c919885957a258aeb797619",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-111-1775742390801.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 110,
+          "receipt_raw_row_sha256": "c6652bef5ebf9d3f9cd9e5e9beed97155cb9efdd65702b983c7fe06d3e463f80",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "line_curve_truth",
+            "collinear_segment_all_pairs"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 111,
+          "source_image_sha256": "bac5586c74a1e04f67b0e05365cd758cd58763de504829a98c322b2e8a947aa7",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-112-1775742391164.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 111,
+          "receipt_raw_row_sha256": "15973173ee76503aa34139d7f2142b9b8acdf33ecf2ab71dd568b30fbf7d5455",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "composite_quadrilateral_count",
+            "collinear_triples",
+            "route_length"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 130,
+          "source_image_sha256": "69a1b9e5bfb7eacdbdbb85a812b5930b669c6e8a8739d5d111ffe971e91500c7",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-131-1775742397276.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "grade": 2,
+          "volume": 1,
+          "book_title_from_existing_publisher_metadata": "SGK Toán 2 Tập Một",
+          "book_series": null,
+          "reader_url": "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+          "receipt_file": "sgk_page_audit_20261019/g2v1_audit/page_review.jsonl",
+          "receipt_line": 130,
+          "receipt_raw_row_sha256": "6d8509105d704b3f2905b7683cc98009ffa3e5941f027f47c4c4a85b9e67250d",
+          "prior_actual_page_read": true,
+          "printed_footer_verified_in_prior_receipt": true,
+          "prior_exercise_types": [
+            "collinear_triples",
+            "grid_reproduce_shapes",
+            "segment_complement"
+          ],
+          "fresh_page_image_downloaded_or_visually_read_this_task": false
+        }
+      ],
+      "reason": "The original cross-grade alias already carries seven explicit G2 book/page/image/URL sources. All seven match the independent existing page-review receipt rows exactly. The historical mapping intentionally retained only book_id starting g3, which removed these G2 locators from its derived page_receipts field. Recovering them does not invent a G3 page or replace the distinct G3 p21 locator.",
+      "content_support": "G2 p110 receipt explicitly names collinear_segment_all_pairs; p101, p111 and p130 explicitly name collinear_triples. These establish the origin of the combined alias. Other listed original pages retain their exact prior scope.",
+      "grade_or_coverage_promoted": false,
+      "g3_source_locator_claimed": false,
+      "g2_pending_mathematical_or_visual_branches_closed": false,
+      "existing_global_occurrence_counts_recomputed": false
+    },
+    {
+      "master_id": "placeclass_torn_strip_constraints",
+      "candidate_id": "tornplaceclass_strip_assembly",
+      "status": "PENDING_SOURCE_ORIGINAL_G3_LOCATOR_NOT_ESTABLISHED",
+      "original_locator_missing_resolved": false,
+      "original_candidate_status": "UNRESOLVED_LOCATOR_REQUIRED",
+      "original_candidate_actual_page_receipts": [],
+      "g3_page_receipt_records_inspected": 252,
+      "exact_candidate_gap_id_matches_in_page_receipts": 0,
+      "related_g4_receipts_preserved": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+          ],
+          "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+          "printed_page": 43
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+          ],
+          "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+          "printed_page": 44
+        }
+      ],
+      "reason": "The earliest inspected G3 candidate explicitly states UNRESOLVED_LOCATOR_REQUIRED and has no actual_page_receipts. The existing G3 page-review ledger contains no exact alias binding. The related G4 pp43-44 receipts are valid for G4, but cannot establish an original G3 locator. Broad word matching is not a proof that no such G3 page exists.",
+      "text_mathematical_branch_complete_from_current_queue": true,
+      "next_action": "Keep pending-source explicitly. Reconcile only when an actual original G3 book/page/image receipt or the source that introduced this alias is available; do not generate another numeric variant or relabel G4 pages as G3."
+    }
+  ],
+  "network_read_attempts": [
+    {
+      "method": "web.open",
+      "target": "Existing official publisher detail and image URLs",
+      "result": "Detail HTTP502; image URLs unavailable via web tool"
+    },
+    {
+      "method": "node fetch",
+      "target": "Existing G2 p110 official publisher image URL",
+      "result": "fetch failed; no bytes or new image hash obtained"
+    },
+    {
+      "method": "web.search",
+      "scope": "Official taphuan.nxbgd.vn only",
+      "result": "No matching indexed results"
+    }
+  ],
+  "limits": [
+    "Image hashes and actual reading are prior receipt evidence, independently cross-checked as records here; fresh remote image bytes were not obtained.",
+    "No publisher book-series name is inferred from the reader slug.",
+    "Recovered G2 origin is not converted into G3 evidence or a new curriculum coverage claim.",
+    "Original source files, existing queue, history, accepted examples, counts and human signoffs remain unchanged."
+  ],
+  "new_examples": 0,
+  "new_chat_rows": 0,
+  "locators_resolved_from_existing_evidence": 1,
+  "locators_still_pending_source": 1,
+  "Drive_or_Colab_modified": false,
+  "global_state_modified": false,
+  "training_started": false,
+  "new_human_attestation": false
+}

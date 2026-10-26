@@ -1,0 +1,2 @@
+import pathlib,json
+root=pathlib.Path('/content/mathvisionkid_t4_budget_3h_20261023');out={'process_exit':benchmark_binding_process.poll() if globals().get('benchmark_binding_process') else None};p=root/'benchmark_id_binding.json';out['binding']=json.loads(p.read_bytes()) if p.exists() else None;p=root/'benchmark_id_binding.log';out['log_tail']=p.read_text(errors='replace')[-2000:] if p.exists() else None;print(json.dumps(out,ensure_ascii=False))

@@ -1,0 +1,25 @@
+{
+  "path": "D:\\nhom6\\train th\u1eed\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\recovery_20261026\\publish_phase_controls_runtime.py",
+  "bytes": 503833,
+  "sha256": "7d3125960426e6521b174ff0251fb537669f8a5a73ac14936f6b572797166f75",
+  "canonical_context_sha256": "20dc2d551ed9a68f60cac78fd837c0248d3cf44e332b7b9a8f749bae11b1ac67",
+  "run_metadata_sha256": "396720504ea6c54fdec75238a0c29416c99b93f2e46a72e1a3f5365491719a68",
+  "runtime_root": "/content/mathvisionkid_recovery_20261026",
+  "source_hashes": {
+    "four_controls_transaction.py": "e50d53815215af6902ebe772b3960f0c3023afd010b535d1a3c26eb1d127b37b",
+    "prepare_control_stage.py": "7498845636d7829c389f87b54d6fa8e0747c49677128e3473dd79c22e1b4f07e",
+    "prepare_four_controls_runtime.py": "90f11adb012fd4c42b92c8193452201837d52173496b3520404c42e550b82530",
+    "recovery26_phase/launch_receipt.json": "33a5771fe005303c14d625083ea358b9e1a7c8ba020806f57eca6445a9028ca6",
+    "recovery26_phase/native_backend_20261026.py": "66aa1473bb6835497fb59b16ab0c76e2a609eec0358d9b7cd03f2662e3f3a046",
+    "recovery26_phase/owner_run_scope.json": "8af8bebf841452def1ee908d6040feaa605abb06e4e17e7c6e06f7afe9cac758",
+    "recovery26_phase/phase_run_metadata.json": "bbd16eb9123dd842fa8e915e56a8fea795eda15560478b39d21a93ccf22a1c1d",
+    "recovery26_phase/preparation_provenance.json": "7e5794dc5e8b7b2f62f4d28423494fb95ea7eb392d1fd0fc7e8a25a0a0c853dc",
+    "recovery26_phase/recovery_policy_20261026.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "recovery26_phase/recovery_worker_20261026.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "recovery26_phase/root_reviewed_training_plan.json": "1234d9d4159c4326ea2d423da124005aff7f08cfe1650e91b1b36e30c3f0c4fa",
+    "recovery26_phase/stage_receipt.json": "95aedc9761ee6aad372b8f8422bdc4b0cd3aaa93f868cf4eb66147c0df32ff54",
+    "recovery26_phase/staged_code_pins.json": "c4433ebf9721858d86c06a97b78a7382b8328bb6502f15d272197767c3648509"
+  },
+  "stage_executed": false,
+  "drive_calls_made": false
+}

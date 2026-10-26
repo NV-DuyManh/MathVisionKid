@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:20:01.510234+00:00\", \"worker_exit\": null, \"worker_pid\": 6987, \"training/progress.json\": {\"state\": \"LOADING_FRESH_BASE\", \"step\": 0, \"training_started\": false}, \"training/native_first_microbatch_audit.json\": {\"absolute_difference\": 4.76837158203125e-07, \"model_backend\": \"native Transformers/PEFT\", \"prompt_tokens_excluded_by_source_mask\": true, \"shifted_CE_matches_forward\": true, \"supervised_tokens\": 84}, \"eval\": {\"training/eval_step_000000/base_generations.jsonl\": {\"rows\": 30, \"last_id\": \"dev25_g5_student_error_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 40, \"checkpoints\": {\"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\": {\"id\": \"1NOkLIubccEzcDNt5cm72FlBBPEe9Ll7K\", \"sha256\": \"5254bdff7ccd5f85ff44967082515b9b6f50d5004378b95b25af65674ea94551\", \"bytes\": 31150368, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:15:21.768931+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"checkpoint_step_000001_rows_00000016_7b9fe87846255e4c.zip\", \"immutable\": true, \"step\": 1, \"rows_done\": 16, \"manifest_sha256\": \"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\", \"generation\": \"generation_step_000001_rows_00000016\"}}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"2301 MiB, 0 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:20:01.510234+00:00\", \"worker_exit\": null, \"worker_pid\": 6987, \"training/progress.json\": {\"state\": \"LOADING_FRESH_BASE\", \"step\": 0, \"training_started\": false}, \"training/native_first_microbatch_audit.json\": {\"absolute_difference\": 4.76837158203125e-07, \"model_backend\": \"native Transformers/PEFT\", \"prompt_tokens_excluded_by_source_mask\": true, \"shifted_CE_matches_forward\": true, \"supervised_tokens\": 84}, \"eval\": {\"training/eval_step_000000/base_generations.jsonl\": {\"rows\": 30, \"last_id\": \"dev25_g5_student_error_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 40, \"checkpoints\": {\"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\": {\"id\": \"1NOkLIubccEzcDNt5cm72FlBBPEe9Ll7K\", \"sha256\": \"5254bdff7ccd5f85ff44967082515b9b6f50d5004378b95b25af65674ea94551\", \"bytes\": 31150368, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:15:21.768931+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"checkpoint_step_000001_rows_00000016_7b9fe87846255e4c.zip\", \"immutable\": true, \"step\": 1, \"rows_done\": 16, \"manifest_sha256\": \"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\", \"generation\": \"generation_step_000001_rows_00000016\"}}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"2301 MiB, 0 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-25T03:20:01.510234+00:00\\\", \\\"worker_exit\\\": null, \\\"worker_pid\\\": 6987, \\\"training/progress.json\\\": {\\\"state\\\": \\\"LOADING_FRESH_BASE\\\", \\\"step\\\": 0, \\\"training_started\\\": false}, \\\"training/native_first_microbatch_audit.json\\\": {\\\"absolute_difference\\\": 4.76837158203125e-07, \\\"model_backend\\\": \\\"native Transformers/PEFT\\\", \\\"prompt_tokens_excluded_by_source_mask\\\": true, \\\"shifted_CE_matches_forward\\\": true, \\\"supervised_tokens\\\": 84}, \\\"eval\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": {\\\"rows\\\": 30, \\\"last_id\\\": \\\"dev25_g5_student_error_01\\\", \\\"all_eos\\\": true}}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"folder_id\\\": \\\"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\\\", \\\"errors\\\": [], \\\"artifacts\\\": 40, \\\"checkpoints\\\": {\\\"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\\\": {\\\"id\\\": \\\"1NOkLIubccEzcDNt5cm72FlBBPEe9Ll7K\\\", \\\"sha256\\\": \\\"5254bdff7ccd5f85ff44967082515b9b6f50d5004378b95b25af65674ea94551\\\", \\\"bytes\\\": 31150368, \\\"fresh_raw_readback_verified\\\": true, \\\"raw_verified_utc\\\": \\\"2026-10-25T03:15:21.768931+00:00\\\", \\\"folder_id\\\": \\\"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\\\", \\\"name\\\": \\\"checkpoint_step_000001_rows_00000016_7b9fe87846255e4c.zip\\\", \\\"immutable\\\": true, \\\"step\\\": 1, \\\"rows_done\\\": 16, \\\"manifest_sha256\\\": \\\"7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee\\\", \\\"generation\\\": \\\"generation_step_000001_rows_00000016\\\"}}}, \\\"four_controls_publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"work\\\": \\\"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\\\", \\\"canonical_context_sha256\\\": \\\"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\\\"}, \\\"gpu\\\": \\\"2301 MiB, 0 %\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

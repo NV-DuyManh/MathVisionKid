@@ -1,0 +1,342 @@
+{
+  "causality": "No causal conclusion: this is a 24-row historical QA sample, and it does not establish why the current candidate produced loops. The current 2026-10-26 projection examples are not present in the local workspace.",
+  "created_date": "2026-10-26",
+  "observed_renderer_behavior": [
+    "V3 target renderer emits a fixed label for each non-empty semantic field, including per-step labels and per-answer quantity/result labels; this is a systematic format and can create repeated-looking output structure.",
+    "QA checks math, grounding, units, steps/hints, answer withholding, grade/language, and provenance, but includes no brevity/redundancy criterion.",
+    "Seven sampled student_feedback records are marked as feedback examples and their prompts include actual student work; sampled guard/standard examples do not evidence feedback being invented when work is absent.",
+    "Five sampled targets contain an exact repeated rendered line. In these records, repetition maps to distinct source cases/steps or repeated unit fields (e.g. both valid pairs yield 75, both division-check steps yield 788); not evidence of an erroneous generation loop."
+  ],
+  "qa": {
+    "all_samples_full_fields_read": true,
+    "all_seven_criteria_true_in_records": true,
+    "criteria": [
+      "mathematical_relation_and_result",
+      "given_information_and_student_work_grounding",
+      "units_and_quantities",
+      "step_reasons_and_inverse_check_or_useful_hint",
+      "hint_withholds_final_answer_when_required",
+      "grade_and_language_fit_with_existing_placement",
+      "source_hash_and_neutral_derived_provenance"
+    ],
+    "limitations": "24actual source projections only; source structural scan16000does not prove exhaustive semantic correctness or curriculum/legal coverage. Existing accepted source placement retained.",
+    "review_count": 24,
+    "reviewer_role": "LLM source-content QA, not new human certification",
+    "sample_count": 24,
+    "source_qa_receipt": {
+      "actual_samples_read": 24,
+      "approved": true,
+      "human_review_claimed": false,
+      "source_plan_sha256": "4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d"
+    }
+  },
+  "recommendation": "Do not alter source targets or drop repeated semantic fields in an active run. After the current full 30-item development gate resolves, if a new trial is authorized, keep exact source targets/renderers and make one fresh-base, lower-dose trial (e.g. r16 same target modules, peak LR 5e-6, max 100 updates with the complete quality gate at 100). The 2e-5/r16 result is only an early partial signal; lower LR is a safety hypothesis, not proven cause or guaranteed fix. Add redundancy/conditional-feedback presence as explicit audit criteria before changing target formatting. No implementation or new run is proposed here.",
+  "repeated_lines_evidence": [
+    {
+      "repeated_rendered_lines": {
+        "Kết quả bước này: 788": 2
+      },
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d"
+    },
+    {
+      "repeated_rendered_lines": {
+        "Kết quả bước này: 75": 2
+      },
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04:worked_solution",
+      "source_original_raw_row_sha256": "220d8c0134a48660dac7434c68d5f88b4fd1ff07ec22443ae12b0307158ff10b"
+    },
+    {
+      "repeated_rendered_lines": {
+        "Đơn vị: viên": 2
+      },
+      "sample_id": "sgk_page_g1_20261019_add_group_strict_comparison_03:worked_solution",
+      "source_original_raw_row_sha256": "7626ae88fae23dc25dde2cc78875fbfea74360a98df3f233e3ec6807855bfe11"
+    },
+    {
+      "repeated_rendered_lines": {
+        "Kết quả bước này: 5": 2
+      },
+      "sample_id": "sgk_g12_20261019_conditional_board_game_03:worked_solution",
+      "source_original_raw_row_sha256": "516c4966da9c097f1e93f87fad632dc7a9e43e80777a44d847b086c2c454d113"
+    },
+    {
+      "repeated_rendered_lines": {
+        "Đơn vị đáp số: mặt nhỏ": 2
+      },
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_03:worked_solution",
+      "source_original_raw_row_sha256": "4393f12f044ef379ef875dd6e0fb3e6fa1e25845c22a8192092bbf317342ece0"
+    }
+  ],
+  "sample_distribution": {
+    "behavior": {
+      "guard": 5,
+      "standard": 12,
+      "student_feedback": 7
+    },
+    "mode": {
+      "hint_level_1": 4,
+      "hint_level_2": 3,
+      "hint_level_3": 3,
+      "worked_solution": 14
+    },
+    "student_work_present": {
+      "False": 17,
+      "True": 7
+    }
+  },
+  "sample_id_and_source_hash_records": [
+    {
+      "behavior": "standard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "565−103=462and462+103=565, correct decimal place columns and inverse check.",
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_1",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_1",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "cdd2eb55d803b061844c26738dfea76f940b9cdcf2e2c6fb7d986a8fd2b1fdaa",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_2",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_2",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "765fb1ef8af7a8dcab713ce4eaa4815f48a90851f63f9e1f6392758d4a118b47",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_3",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_3",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "3ed3f7e5da7c2bd4474913274716a7f8bf00f028bf1b526fd58fdfee75e21537",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "788/1hasquotient788remainder0;788*1+0=788and0<=0<1, no extra full group remains.",
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_1",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_2",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_3",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "1.3−.4=.9via13−4tenths;9/10=.9and.9+.4=1.3, units of tenths clear.",
+      "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_1",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_1",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "c3b347ec46af84e02e8b0743d388c45e36e532162f22cfbf4ddc5c44ead5e133",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_2",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_2",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "7440d0c257bfcf00e10b49008fe1c3f6e962e889d2b41cffa0b88605a440bea2",
+      "student_work_present": false
+    },
+    {
+      "behavior": "standard",
+      "mode": "hint_level_3",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_3",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "140229f89eb8845284cf46916f0b17b3fa365c235204861cf0b5a56625a7f37d",
+      "student_work_present": false
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "4.9=4.90and4.09<4.90, equal integer parts and place-value comparison correct; addresses only stated more-digits claim.",
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "student_work_present": true
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "hint_level_1",
+      "qa_full_fields_read": true,
+      "qa_reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target.",
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:hint_level_1",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "d8551bbfc0d77c8f59be821fafb60904c18f115b6239623c2a4f7785aee92108",
+      "student_work_present": true
+    },
+    {
+      "behavior": "guard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Both12+63and22+53equal75withdistinct nonzero tens; proves nonuniqueness without inventing a unique pair.",
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "220d8c0134a48660dac7434c68d5f88b4fd1ff07ec22443ae12b0307158ff10b",
+      "student_work_present": false
+    },
+    {
+      "behavior": "guard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Correct answer2*5does not establish what player actually said; asks for observed response rather than hallucinating success.",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_04:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "b1b64f786386da0304829d56bb4fdc13d71223ed974f7d4b6895bc3c5d0d09db",
+      "student_work_present": false
+    },
+    {
+      "behavior": "guard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Thirty-day month can have4or5Sundays depending weekday1; source calendar is missing, correctly requested.",
+      "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_guard:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "41fd0cf9cad10747cf681e49f97d5643e8b6bf4700ef965329c5df9ccd6ecf06",
+      "student_work_present": false
+    },
+    {
+      "behavior": "guard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "40−10=30for two unknown counts;14+16and12+18are distinct consistent pairs, so no unique reconstruction.",
+      "sample_id": "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "9303cc8487b906e4524364415d5047e22577934cdab3a53706b2c1f45607427d",
+      "student_work_present": false
+    },
+    {
+      "behavior": "guard",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "18+17=35contradicts32; asks confirmation before ratio, does not silently pick a denominator.",
+      "sample_id": "cloud_pedagogy_v3_046:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "412e402501e42075ba425162dc35d4b73ac56d14b5cb0759acf0a491be2fcd25",
+      "student_work_present": false
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Keeps5+4=9correct, identifies equality not greater; onlyK5makes10>9. No unobserved handwriting or thought claimed.",
+      "sample_id": "sgk_page_g1_20261019_add_group_strict_comparison_03:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "7626ae88fae23dc25dde2cc78875fbfea74360a98df3f233e3ec6807855bfe11",
+      "student_work_present": true
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Moves into4then5without counting3;10/2=5and actual kept answer6wrong so returns3. Duplicate context only exact matches removed; distinct supplied wording remains.",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_03:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "516c4966da9c097f1e93f87fad632dc7a9e43e80777a44d847b086c2c454d113",
+      "student_work_present": true
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Given four contacts hide8of24small faces,16exposed; each block has2hidden and4painted including bottom. Text supplies complete geometry, no unseen image assumption.",
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_03:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "4393f12f044ef379ef875dd6e0fb3e6fa1e25845c22a8192092bbf317342ece0",
+      "student_work_present": true
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Capacity9percolumn plus12total gives9thousands+3hundreds=9300; rejects12inonecolumn without changing tool capacity.",
+      "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+      "student_work_present": true
+    },
+    {
+      "behavior": "student_feedback",
+      "mode": "worked_solution",
+      "qa_full_fields_read": true,
+      "qa_reason": "Age difference15fixed; double ratio at30and15after5years, both inverse substitution checks correct; addresses supplied always claim.",
+      "sample_id": "sgk_finish_g5_20261020_age_ratio_changes_find_wait:worked_solution",
+      "seven_qa_criteria_all_true": true,
+      "source_original_raw_row_sha256": "03b87888fac0f7ce92cdd4b7b343a4b7dc202b9ae1472f88a7b63254472e2d25",
+      "student_work_present": true
+    }
+  ],
+  "schema": "MathVisionKid.training_source_projection_diagnosis.v1",
+  "scope": "Read-only analysis of archived 24 training-only source-projection samples and their source QA; no evaluation outputs, dev/final/locked fixtures or current corpus contents accessed. These artifacts bind source_sha256 14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331 and plan_sha256 4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d; they are historical (2026-10-24) rather than a current 2026-10-26 projection export.",
+  "source_file_sha256": {
+    "behavior_renderer_sha256": "763da2f7a1931962a9ad1a49b16d4b8dfe5263a09e69603c49959adb02a5ec8f",
+    "conditional_behavior_renderer_sha256": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+    "projection_preflight_sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022",
+    "qa_approval_receipt_sha256": "6de5af3be1595eb7e1ac626db844191cca0e6688034714716fe93336cc6d607d",
+    "qa_review_g1_g3_sha256": "c64b3feb675e4d3db5b72bea43e4e49f9f35f74f7d2f1c5cee3a95f518091295",
+    "qa_review_g4_g5_sha256": "05b5a3d473f382d4a6b2697ccabc4c8c11dae66e3367e1f0a6af6028548bded5",
+    "source_behavior_samples_sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18",
+    "target_renderer_v3_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057"
+  }
+}

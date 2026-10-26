@@ -1,0 +1,328 @@
+{
+  "base": {
+    "by_grade": {
+      "1": {
+        "count": 4,
+        "passed": 2
+      },
+      "2": {
+        "count": 4,
+        "passed": 3
+      },
+      "3": {
+        "count": 4,
+        "passed": 3
+      },
+      "4": {
+        "count": 4,
+        "passed": 0
+      },
+      "5": {
+        "count": 4,
+        "passed": 3
+      }
+    },
+    "by_mode": {
+      "answer": {
+        "count": 10,
+        "passed": 8
+      },
+      "hint_no_answer": {
+        "count": 5,
+        "passed": 2
+      },
+      "missing_or_contradictory_info": {
+        "count": 3,
+        "passed": 0
+      },
+      "student_error": {
+        "count": 2,
+        "passed": 1
+      }
+    },
+    "count": 20,
+    "passed": 11
+  },
+  "base_hint_leaks": 3,
+  "base_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+  "baseline_pass_regressions": 1,
+  "decisions": [
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g1_1",
+      "grade": 1,
+      "mode": "answer",
+      "reason": "Both83and80are correct and place value is consistently explained; selected row is the exact baseline.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g1_2",
+      "grade": 1,
+      "mode": "answer",
+      "reason": "Correct6+3=9notebook labels with adding-gifts reason; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g1_3",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "reason": "Baseline reveals7cars; selected hints to count existing cars and add2without giving7, appropriate actionable grade1hint.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g1_4",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "reason": "Both recognize7+2=9contradicts8and discuss conditional source errors, but do not request checking either age/difference as the explicit question requires. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g2_1",
+      "grade": 2,
+      "mode": "answer",
+      "reason": "Correct3equal groups of8and24story books; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g2_2",
+      "grade": 2,
+      "mode": "answer",
+      "reason": "Correct37+19=56containers, sensible37+20−1check; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "critical_new_error": true,
+      "fixture_id": "skill150_locked_g2_3",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "reason": "Baseline gives wrong full answer52in a hint and wrong borrowing. Selected withholds final but says transfer1towards tens instead of from tens to units; new wrong transfer-direction instruction, not a sound hint.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g2_4",
+      "grade": 2,
+      "mode": "student_error",
+      "reason": "Preserves provided correct4+8=12carry and fixes3+2+1to6and final62without fabricated hidden actions; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g3_1",
+      "grade": 3,
+      "mode": "answer",
+      "reason": "Correct7full boxes and3bottles;6*7=42and6*8=48>45show maximality and hence remainder<6;45−42=3checks total, equivalent to the frozen remainder condition. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g3_2",
+      "grade": 3,
+      "mode": "answer",
+      "reason": "Correct3m=300cmthen+8cm=308cm, consistent units; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g3_3",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "reason": "Both clearly perform24−9inside parentheses before multiplying5and withhold75. Baseline calls brackets square, a wording slip without wrong operation/order.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g3_4",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "reason": "Invents false triangle inequality and unsupported third-side range(3,4)instead of simply asking missing side; final nonuniqueness does not repair false geometry. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g4_1",
+      "grade": 4,
+      "mode": "answer",
+      "reason": "Changes second fraction into1/4of already-read1/3and invents full-book-read premise, concluding no book instead of7/12. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g4_2",
+      "grade": 4,
+      "mode": "answer",
+      "reason": "Rounds wrong place, misidentifies decision digit7instead of6and produces43,770,000instead of43,800,000. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": true,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g4_3",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "reason": "Baseline reveals10/11. Selected withholds it but merely asks to identify given numerators, omitting actionable add-numerators/keep-denominator rule explicitly required by rubric.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g4_4",
+      "grade": 4,
+      "mode": "student_error",
+      "reason": "Correct3/5but false check says3not divisible by3and5not divisible by5; invalid explanation of irreducibility, so full task fails. Exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g5_1",
+      "grade": 5,
+      "mode": "answer",
+      "reason": "Correct5ratio parts,9perpart,18stickers for2parts and18+27=45check; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g5_2",
+      "grade": 5,
+      "mode": "answer",
+      "reason": "Correct12*5*4=240cm3with all three dimensions and cubic unit; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": true
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": true,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g5_3",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "reason": "Baseline gives actionable800000*15%without final values. Selected only repeats take15%and asks how, omitting multiplication or10%+5%method required by frozen rubric; new useful-hint regression, no numerical leak.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    },
+    {
+      "base_hint_leak": false,
+      "base_pass": false,
+      "critical_new_error": false,
+      "fixture_id": "skill150_locked_g5_4",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "reason": "Recognizes4*5=20conflicts30but unconditionally calls area20true then replaces given length4by6and finalperimeter22without verifying which source is correct; exact baseline reuse.",
+      "selected_hint_leak": false,
+      "selected_pass": false
+    }
+  ],
+  "full_actual_outputs_read": true,
+  "human_review_claimed": false,
+  "improvement_on_locked_test_demonstrated": false,
+  "limits": "20newly authored tasks, small sample; full corpus independence unproven. Same base weights; prompt-context change for5hints, not a weight-training gain.",
+  "manifest_sha256": "c81ca8b16cf79ba7de20c5518d96687225b5d8d93e78e51136d3f77ed318bf5c",
+  "new_critical_errors": 1,
+  "production_approved": false,
+  "schema": "MathVisionKid.context_trial_locked20_semantic_review.v1",
+  "selected": {
+    "by_grade": {
+      "1": {
+        "count": 4,
+        "passed": 3
+      },
+      "2": {
+        "count": 4,
+        "passed": 3
+      },
+      "3": {
+        "count": 4,
+        "passed": 3
+      },
+      "4": {
+        "count": 4,
+        "passed": 0
+      },
+      "5": {
+        "count": 4,
+        "passed": 2
+      }
+    },
+    "by_mode": {
+      "answer": {
+        "count": 10,
+        "passed": 8
+      },
+      "hint_no_answer": {
+        "count": 5,
+        "passed": 2
+      },
+      "missing_or_contradictory_info": {
+        "count": 3,
+        "passed": 0
+      },
+      "student_error": {
+        "count": 2,
+        "passed": 1
+      }
+    },
+    "count": 20,
+    "passed": 11
+  },
+  "selected_before_test": true,
+  "selected_hint_leaks": 0,
+  "selected_output_sha256": "406712804792705e4465f2554393574f5d5d462785a6e333ecea951d887f2608",
+  "test_run_count": 1,
+  "test_used_to_reselect_original_trial": false
+}

@@ -1,0 +1,39 @@
+{
+  "run_id": "qwen3_06b_verified_math_v2_stable_epoch1_seed20261012",
+  "model_id": "Qwen/Qwen3-0.6B",
+  "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "seed": 20261012,
+  "epochs": 1,
+  "batch_size": 2,
+  "accumulation": 2,
+  "updates": 544,
+  "lr": 0.0001,
+  "max_length": 1024,
+  "max_new_tokens": 128,
+  "eval_batch_size": 8,
+  "enable_thinking": false,
+  "dataset_fingerprints": {
+    "train": "bbc698f17f6026fee9d1823d71fef3cb07e025eee190aabb05a0c638c31db1b5",
+    "val": "b50361d340d1bbb7da5f6073a3c08f0bebd335aabb89fdb971f972a6fedbe437",
+    "test": "56a9f95c7ddc2bb802575db088a0f1200e7a32992fe1dd305354bd684a69ed19"
+  },
+  "source_hashes": {
+    "verified_math_data_v2.py": "7c5cf6a893139ae3fc73e9df28bf2f2cdc8248da56e3f234d35e3c7a45ff195b",
+    "verified_math_training_v2.py": "30a31e6ff23fe3a15be942fb12a9affcf0aeed5674edf06300aa5c6f40a7d314",
+    "train_verified_math_v2_stable.py": "3c740bca150cc42f06e5efc1923826b3c3b8cc97f900d1b70c8dadf5d3cc096d"
+  },
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "amp_init_scale": 1024,
+  "amp_growth_interval": 2000,
+  "amp_max_retries": 8,
+  "amp_retry_policy": "same full group and RNG; halve scale; no optimizer/scheduler/log advance on overflow",
+  "criterion": "val solvable exact calculated answer + unit increases; guards, exact plans and per-grade math do not regress",
+  "packages": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.18.0",
+    "peft": "0.21.1",
+    "accelerate": "1.15.0"
+  },
+  "gpu": "Tesla T4"
+}

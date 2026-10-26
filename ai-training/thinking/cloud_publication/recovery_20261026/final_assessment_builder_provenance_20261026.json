@@ -1,0 +1,37 @@
+{
+  "schema": "MathVisionKid.recovery_20261026_final_assessment_builder_provenance.v1",
+  "created_utc": "2026-10-26T09:20:22.730159+00:00",
+  "files": {
+    "builder": "build_final_assessment_20261026.py",
+    "tests": "test_build_final_assessment_20261026.py"
+  },
+  "sha256": {
+    "build_final_assessment_20261026.py": "8365c678a9ed256e78c878694a3fd693724eb5129ff751555016c191c42b5661",
+    "test_build_final_assessment_20261026.py": "1698571fdb379d7408b3575b1dcb67d8b026f2baacc99a5ca382ed25413292de",
+    "recovery_worker_20261026.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "recovery_policy_20261026.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "build_quality_gate_20261026.py": "38db0bbb7020da0af591317eff14cce9a012f45964a26eca89298fba541e42e0",
+    "test_build_quality_gate_20261026.py": "63d4d0833204f35676c20460600dd3f3a587113e8e6689d7cf3c36791fd7009c"
+  },
+  "behavior": [
+    "Validates completed development gates, baseline flags, current worker/policy results, root utility summaries, source-plan/dev bindings, actual output hashes, and generation manifests.",
+    "Separates the raw SHA256 of evaluation_contract.json used by frozen baseline from the canonical JSON digest bound by run/evaluation receipts.",
+    "Uses an exact gate_step_NNNNNN.json regex so similarly named summary JSON is not counted as a gate.",
+    "Derives optimizer updates, successful rows, supervised tokens, and view epochs from run_complete/progress/config and checks their consistency.",
+    "Keeps untrained base selected if no development candidate is eligible. A selected adapter must match an eligible gate and selected artifact hash.",
+    "Distinguishes no final attempt, incomplete attempt, completed awaiting root review, accepted/rejected/inconclusive review, and completed outputs blocked by review flags.",
+    "Does not open original sealed fixture files. If final completion exists, it hashes final generated-output artifacts and requires review hashes bound to complete, paired, base, adapter, and contract bytes plus all actual decisions before any quality acceptance; human/production claims remain false.",
+    "Writes training/final_semantic_assessment.json atomically without overwrite only when invoked; this audit did not invoke it on the active run."
+  ],
+  "test_result": "3 synthetic unittest cases PASS; py_compile PASS",
+  "tests": [
+    "Fake completed-base run with one valid 30-row gate validates and counts only the gate file, excludes its summary suffix, confirms training counts, and reports untouched sealed final.",
+    "Rejects baseline flag drift in a gate.",
+    "A completed synthetic final evaluation stays unaccepted without root review and becomes quality-accepted only with review hashes bound to completion/output bytes and complete safe decisions."
+  ],
+  "limitations": [
+    "No real run assessment report was created; root may invoke after run_complete is finalized.",
+    "No active run, corpus, original sealed fixture, MCP, GPU, Drive, or browser was accessed.",
+    "No semantic judgments are created; no human review is claimed. Production approval is always false."
+  ]
+}

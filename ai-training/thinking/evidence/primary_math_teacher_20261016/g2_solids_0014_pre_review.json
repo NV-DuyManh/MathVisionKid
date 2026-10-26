@@ -1,0 +1,134 @@
+{
+  "batch_sha256": "194d5b33395c358b0e58e2fd8ca2252520d87918d508b901f9968104e6ec9ca5",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_solids_0014_sphere_and_cylinder_features",
+      "row_sha256": "7ac37d092ec2d5106784ba7e6c5dc4bd4eb3681009b613f7007c7674f2a3e0ce",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_solids_0014_reorient_cylinder_not_circle",
+      "row_sha256": "5a770584ad5b96b002fd51659de16ab1db8c56782370c29562d42941e15ad5ea",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_solids_0014_choose_flat_base_for_contact",
+      "row_sha256": "86049b47f73817f1d575eed8cb82fd3f298c0a8cf8a754a35a5347bdede6f4fe",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_solids_0014_misconception_roll_implies_sphere",
+      "row_sha256": "1a2d9abf7c7fd7d09ede345bcddedb9a752c9fd04e342453e0d995aa9ad5626b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_solids_0014_guard_circular_view_only",
+      "row_sha256": "d58bd4dfdeafcd69b62a8e6a4a9ea72659f7652b153c3e524ecb9ff2a24521c0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "oracles": {
+    "rotation_preserves_all_pairwise_squared_distances_of_8_cylinder_witness_points": true,
+    "witness_bases_parallel_and_equal_radius": true,
+    "explicit_flat_base_filter": {
+      "A": {
+        "all_curved": true,
+        "flat_bases": 0
+      },
+      "B": {
+        "all_curved": false,
+        "flat_bases": 2
+      }
+    },
+    "circular_view_guard_countermodels": [
+      "sphere silhouette from one view",
+      "cylinder circular base end view"
+    ]
+  },
+  "author_self_content_check": "Read actual givens, classification logic, rotation invariant, flat-surface selection, written misconception and every hint; no final category revealed in hints. This is same-author checking, not independent semantic review.",
+  "limits": "Finite exact coordinates illustrate rotation only, not a proof of all geometry or observed assets. Child tasks use only explicit hypothetical properties; no physical stability, motor performance or image recognition measured.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

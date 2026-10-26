@@ -1,0 +1,45 @@
+{
+  "status": "PASSED_REFERENCE_SOURCE_GRADE_EXACT_ARITHMETIC_AND_NO_CHAT_OR_OPERATION_CASE_OVERLAP_QA",
+  "rows": 50,
+  "grade_counts": {
+    "1": 10,
+    "2": 10,
+    "3": 10,
+    "4": 10,
+    "5": 10
+  },
+  "mode_counts": {
+    "worked_solution": 40,
+    "hint": 10
+  },
+  "current_rows": 40,
+  "historical_rows": 10,
+  "reference_numeric_checks": 44,
+  "exact_train_and_val_questions_disjoint": true,
+  "exact_train_and_val_replies_disjoint": true,
+  "numeric_operation_example_groups_disjoint": true,
+  "curricular_constants_may_overlap": true,
+  "source_ids_links_grades_matched": true,
+  "all_reference_claims_consistent": true,
+  "requires_missing_image_or_data_for_all_hints": true,
+  "human_verified": false,
+  "pedagogy_teacher_reviewed": false,
+  "teacher_private_benchmark": false,
+  "unseen_knowledge_claim": false,
+  "use_for_training": false,
+  "use_for_checkpoint_selection": false,
+  "sha256": "4aacf59eb92b891fe7a5d4756c735e03e832804a255dc547ff0f6fac55357e99",
+  "bytes": 150106,
+  "prior_data_fingerprints": {
+    "concept_train": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+    "concept_val": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2"
+  },
+  "limitations": [
+    "Known taught concepts, independently authored new question wording; no unfamiliar-topic or private teacher benchmark claim.",
+    "Shared definitions and conversion constants are unavoidable curriculum knowledge, not a novel numerical benchmark.",
+    "References checked by AI and exact arithmetic; prose pedagogy still needs teacher review.",
+    "Lexical screening cannot prove semantics; manually review actual responses separately after model selection.",
+    "Must evaluate only after selection, and do not tune on resulting challenge errors.",
+    "No real images or physical tasks were inspected."
+  ]
+}

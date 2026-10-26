@@ -1,0 +1,645 @@
+{
+  "source_file_sha256": "2d3dcc05e88997a0bb74affa2ade385d534a5405cf8e9537bc6aff7366d8f00a",
+  "source_file_bytes": 38733,
+  "case_count": 9,
+  "chat_file_sha256": "12c9e4f652eddb6104a62906edc7b7964e0de9cc8198e76d0a9d49c75276c570",
+  "chat_count": 36,
+  "chat_exact_content_and_source_hash_checks": "PASS",
+  "reviewed_actual_fields": true,
+  "seven_criteria_pass_count": 9,
+  "numeric_step_checks": 11,
+  "math_issues": [],
+  "pedagogy_blocking_issues": [],
+  "scope_limitations": [
+    "Nine original explicit text spatial analogues for three forms, not nine independent curriculum forms.",
+    "Not an image recognition or physical-construction validation.",
+    "No human content attestation; acceptance/export remains root responsibility.",
+    "No claim of complete SGK or whole-archive absence proof."
+  ],
+  "reviewer": "resume_g1_page_audit",
+  "rows": [
+    {
+      "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+      "source_row_sha256": "6549573685ace9470da2c28e0e5ce3b563f85d8c35bfe518064aab71a6629020",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Explicit complete edges/grid remove image ambiguity. Counts include composite regions; repeated vertex-name order is not a new triangle. Squares included only under the explicit convention.",
+        "G1 all-squares-in-2×2 task is only partial coverage: this row asks all rectangles, so do not close G1 square-only enumeration automatically."
+      ],
+      "independent_oracle": {
+        "method": "ALL_FOUR_NAMED_VERTEX_TRIPLES_EXCLUDE_COLLINEAR_BCD",
+        "triangles": [
+          [
+            "A",
+            "B",
+            "C"
+          ],
+          [
+            "A",
+            "B",
+            "D"
+          ],
+          [
+            "A",
+            "C",
+            "D"
+          ]
+        ]
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s1",
+          "expression": "2+1",
+          "fraction_result": "3",
+          "decimal_result": "3",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+      "source_row_sha256": "46f14c15f958dd6880f6868c060f5df6a2293be953f4771779c38f7ccc39e009",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Explicit complete edges/grid remove image ambiguity. Counts include composite regions; repeated vertex-name order is not a new triangle. Squares included only under the explicit convention.",
+        "G1 all-squares-in-2×2 task is only partial coverage: this row asks all rectangles, so do not close G1 square-only enumeration automatically."
+      ],
+      "independent_oracle": {
+        "method": "ALL_NONEMPTY_CELL_SUBSETS_REQUIRE_CARTESIAN_PRODUCT",
+        "rectangles": [
+          [
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            [
+              2,
+              0
+            ]
+          ],
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ],
+        "count": 6
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s1",
+          "expression": "3+2+1",
+          "fraction_result": "6",
+          "decimal_result": "6",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+      "source_row_sha256": "a178e3448d772a3ce9709e48a229e2d7f5c7d305e51492f937ef176fdb8907e7",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Explicit complete edges/grid remove image ambiguity. Counts include composite regions; repeated vertex-name order is not a new triangle. Squares included only under the explicit convention.",
+        "G1 all-squares-in-2×2 task is only partial coverage: this row asks all rectangles, so do not close G1 square-only enumeration automatically."
+      ],
+      "independent_oracle": {
+        "method": "ALL_NONEMPTY_CELL_SUBSETS_REQUIRE_CARTESIAN_PRODUCT",
+        "rectangles": [
+          [
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        "count": 9
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s1",
+          "expression": "4+2+2+1",
+          "fraction_result": "9",
+          "decimal_result": "9",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_fixed_stick_rectangle_inventory_01",
+      "source_row_sha256": "7fea26874d7af0d267ebbb9e97aa52bea9d1138d379998d40484d128adacd387",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Complete positive-integer edge inventories verified; rotations deduplicated. Excluded-square boundary and odd-inventory impossibility are materially different conditions.",
+        "The absence of numeric expressions in the two qualitative rows does not remove their exhaustive finite feasibility oracle."
+      ],
+      "independent_oracle": {
+        "method": "EXHAUSTIVE_FOUR_EDGE_POSITIVE_INTEGER_COMPOSITIONS",
+        "inventory": 14,
+        "pairs": [
+          [
+            6,
+            1
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            4,
+            3
+          ]
+        ]
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "expression": "14/2",
+          "fraction_result": "7",
+          "decimal_result": "7",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_fixed_stick_rectangle_inventory_02",
+      "source_row_sha256": "51c55c9109f86f9bda62a00515dd50813005af842943b5555595469d615d4496",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Complete positive-integer edge inventories verified; rotations deduplicated. Excluded-square boundary and odd-inventory impossibility are materially different conditions.",
+        "The absence of numeric expressions in the two qualitative rows does not remove their exhaustive finite feasibility oracle."
+      ],
+      "independent_oracle": {
+        "method": "EXHAUSTIVE_FOUR_EDGE_POSITIVE_INTEGER_COMPOSITIONS",
+        "inventory": 12,
+        "pairs": [
+          [
+            5,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      },
+      "numeric_checks": [],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_fixed_stick_rectangle_inventory_03",
+      "source_row_sha256": "ea8270233db19b1764bd5fd07713b15d57d54e8dea7ce3de08d16f6fde2fb53d",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Complete positive-integer edge inventories verified; rotations deduplicated. Excluded-square boundary and odd-inventory impossibility are materially different conditions.",
+        "The absence of numeric expressions in the two qualitative rows does not remove their exhaustive finite feasibility oracle."
+      ],
+      "independent_oracle": {
+        "method": "EXHAUSTIVE_FOUR_EDGE_POSITIVE_INTEGER_COMPOSITIONS",
+        "inventory": 15,
+        "pairs": []
+      },
+      "numeric_checks": [],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_01",
+      "source_row_sha256": "26ad79309626665b73b21138cf263d2633761b9006923851aafa0bc2d461f4bf",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Six faces per cube, every contact removes one face from each owner, including bottom faces under the explicit painting rule. Unit is small faces, not visible planar sides or square centimetres.",
+        "Student feedback stays within the supplied written quote/contact inventory and makes no claim of inspecting physical objects."
+      ],
+      "independent_oracle": {
+        "method": "GEOMETRIC_FACE_VERTEX_SET_MULTIPLICITY",
+        "painted_faces": {
+          "A": 5,
+          "B": 5
+        },
+        "total": 10
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "expression": "6-1",
+          "fraction_result": "5",
+          "decimal_result": "5",
+          "status": "PASS"
+        },
+        {
+          "step_id": "s1",
+          "expression": "5+5",
+          "fraction_result": "10",
+          "decimal_result": "10",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_02",
+      "source_row_sha256": "5340a4ed15ad3bab48d3480b9d2ded0172ad3c6e0642e072b7be3529f4a18716",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Six faces per cube, every contact removes one face from each owner, including bottom faces under the explicit painting rule. Unit is small faces, not visible planar sides or square centimetres.",
+        "Student feedback stays within the supplied written quote/contact inventory and makes no claim of inspecting physical objects."
+      ],
+      "independent_oracle": {
+        "method": "GEOMETRIC_FACE_VERTEX_SET_MULTIPLICITY",
+        "painted_faces": {
+          "A": 5,
+          "B": 4,
+          "C": 5
+        },
+        "total": 14
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s0",
+          "expression": "6-1",
+          "fraction_result": "5",
+          "decimal_result": "5",
+          "status": "PASS"
+        },
+        {
+          "step_id": "s1",
+          "expression": "6-2",
+          "fraction_result": "4",
+          "decimal_result": "4",
+          "status": "PASS"
+        },
+        {
+          "step_id": "s2",
+          "expression": "5+4+5",
+          "fraction_result": "14",
+          "decimal_result": "14",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_03",
+      "source_row_sha256": "41a6bfe60922ca593138c3b979c54d6b2093811a06a3858d06faf318782459cf",
+      "review_role": "CONTENT_CROSS_REVIEW_AGENT",
+      "criteria": {
+        "correct_math_or_explicit_guard": "PASS",
+        "givens_request_consistent": "PASS",
+        "grade_scope": "PASS",
+        "initial_and_all_three_hints_answer_free": "PASS",
+        "schema_provenance_unique": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounded_no_unseen_inference": "PASS"
+      },
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reason",
+        "explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints_level_1",
+        "hints_level_2",
+        "hints_level_3"
+      ],
+      "semantic_review_notes": [
+        "Six faces per cube, every contact removes one face from each owner, including bottom faces under the explicit painting rule. Unit is small faces, not visible planar sides or square centimetres.",
+        "Student feedback stays within the supplied written quote/contact inventory and makes no claim of inspecting physical objects."
+      ],
+      "independent_oracle": {
+        "method": "GEOMETRIC_FACE_VERTEX_SET_MULTIPLICITY",
+        "painted_faces": {
+          "A": 4,
+          "B": 4,
+          "C": 4,
+          "D": 4
+        },
+        "total": 16
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s1",
+          "expression": "6-2",
+          "fraction_result": "4",
+          "decimal_result": "4",
+          "status": "PASS"
+        },
+        {
+          "step_id": "s2",
+          "expression": "4*4",
+          "fraction_result": "16",
+          "decimal_result": "16",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED"
+    }
+  ],
+  "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED",
+  "trained": false,
+  "drive_mutated": false
+}

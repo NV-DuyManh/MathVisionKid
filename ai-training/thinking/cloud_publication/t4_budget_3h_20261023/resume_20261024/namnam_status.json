@@ -1,0 +1,29 @@
+{
+  "is_error": false,
+  "data": {
+    "browser": "chrome-namnam-default",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "websocket_connected": true,
+    "client_ready": true,
+    "initialization_cancelled": false,
+    "initialization_done": true,
+    "loopback_only": true
+  },
+  "structured_content": {
+    "browser": "chrome-namnam-default",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "websocket_connected": true,
+    "client_ready": true,
+    "initialization_cancelled": false,
+    "initialization_done": true,
+    "loopback_only": true
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"browser\":\"chrome-namnam-default\",\"notebook_id\":\"1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l\",\"websocket_connected\":true,\"client_ready\":true,\"initialization_cancelled\":false,\"initialization_done\":true,\"loopback_only\":true}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

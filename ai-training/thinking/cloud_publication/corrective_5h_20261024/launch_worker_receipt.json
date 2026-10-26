@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Z1zMD4obXv55"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"worker_pid\": 6209, \"launched_unix\": 1792802752.8692205, \"command\": [\"/content/mathvisionkid_corrective_5h_20261024/venv/bin/python\", \"-u\", \"/content/mathvisionkid_corrective_5h_20261024/corrective_worker.py\", \"--train-view\", \"/content/mathvisionkid_corrective_5h_20261024/training_view.jsonl\", \"--view-manifest\", \"/content/mathvisionkid_corrective_5h_20261024/sampling_manifest.json\", \"--eval-fixtures\", \"/content/mathvisionkid_corrective_5h_20261024/eval_fixtures.jsonl\", \"--tokenizer-helper\", \"/content/mathvisionkid_corrective_5h_20261024/exhaustive_colab_loader.py\", \"--out\", \"/content/mathvisionkid_corrective_5h_20261024/training\", \"--eval-timeout-seconds\", \"900\"], \"requested_training_wall_seconds\": 18000, \"optimizer_pilot\": false, \"training_started\": false, \"folder_id\": \"1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho\"}\n"
+        ]
+      }
+    ]
+  }
+}

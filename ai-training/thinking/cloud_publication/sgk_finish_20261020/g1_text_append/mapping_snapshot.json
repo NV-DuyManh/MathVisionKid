@@ -1,0 +1,408 @@
+{
+  "source_sha256": "bb9a183aa49544a534238ad6742cf0f6c2941e4a3761a77f11ffb94510c08cdc",
+  "masters": [
+    {
+      "master_id": "attribute_filter_then_extremum",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_ATTRIBUTE_FILTERED_EXTREMA"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Conjunctive numeral selection and independent sorting exist, but no listed row selects extrema from a color/shape-qualified subset; preserve filter before max/min, ties and empty subset."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_thousands_and_parity",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 67,
+          "sha256": "a3f3329bc60249381bd34cc51c05dc588222fbc23dcf8065bc589917c36b3845"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_class_pattern",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 68,
+          "sha256": "fbacbb51991f37f1ac39e78026e6dbb2dd620d3f4e61df2d96bf61f3d9c9076d"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_two_positions",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 69,
+          "sha256": "0826829d8b8541d2585b739eee12167a008e340978a4797eb6ad29b5cd382f9b"
+        },
+        {
+          "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+          "source_file": "current_sources.jsonl",
+          "line": 271,
+          "sha256": "e96187651026ae39f95836498f2722ed281d1f4af35cbc968cca1e1d106b1960"
+        },
+        {
+          "sample_id": "primary_20261018_g4_data_sequences_0067_filter_threshold_then_descending_labels",
+          "source_file": "current_sources.jsonl",
+          "line": 565,
+          "sha256": "f2bd42a7ed448e607a30e5c9e29558e3bd6e4c860df5f784ca334b64f6e8d3f1"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 88,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-89-1776045488174.png",
+          "source_image_sha256": "2bc5068af89d185aaaf4f5c58c1da0a9604ea293f0274024f5eabce1cfb67422",
+          "exercise_types": [
+            "successor_predecessor_sequence",
+            "threshold_selection",
+            "attribute_filtered_extrema"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "calendar_anchor_day_offset",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_CALENDAR_ANCHOR_OFFSET"
+      ],
+      "candidate_occurrence_count": 4,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Actual calendar source generates only same-weekday +7 dates; lookup reads supplied pairs. Neither demonstrates offset by an arbitrary number of days to infer another weekday/date from one anchor."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_fifth_weekday",
+          "source_file": "current_sources.jsonl",
+          "line": 987,
+          "sha256": "f5d297d7c3082c4349316d64adc910ac7358d2953a42472e514250d960aa83eb"
+        },
+        {
+          "sample_id": "primary_20261016_g1_time_0007_mini_calendar_lookup",
+          "source_file": "current_sources.jsonl",
+          "line": 316,
+          "sha256": "6e12b98b9e9f79a65fc5ad8156156abc5e0e270c8da108884d76d29f5d7b2b00"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 80,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-81-1776045487003.png",
+          "source_image_sha256": "bb4bfe04ad237c87af975655da2534bf3af6321b512bbbc4afa046f6dd4e4ed8",
+          "exercise_types": [
+            "calendar_date_weekday_anchor"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 81,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-82-1776045487138.png",
+          "source_image_sha256": "08ced5e3c729bd7b12eba0727dea9204fe967952d1d8c3668e6f0ef7ddda5e07",
+          "exercise_types": [
+            "yesterday_today_tomorrow_dates",
+            "tearoff_calendar_elapsed_days",
+            "weekday_offset"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 102,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-103-1776045490110.png",
+          "source_image_sha256": "f33f4ed643b2af65427772f5a90bd40cd49502c0c2124df62c77206364f99cc6",
+          "exercise_types": [
+            "activity_clock_matching",
+            "calendar_anchor_day_offset",
+            "yesterday_tomorrow"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 105,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-106-1776045490502.png",
+          "source_image_sha256": "a5b78e5f306b8d78894f2d72d935a48fbe9dae7f752d91f7370ffec3264afa7c",
+          "exercise_types": [
+            "join_and_remove_word_problems",
+            "weekday_to_date_offset",
+            "physical_ruler_measurement",
+            "composite_square_count"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "ordered_itinerary_weekday_map",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_ORDERED_ITINERARY_DAY_MAPPING"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Static queue and calendar lookup do not map successive itinerary stops to successive days from a stated start with one-stop-per-day rule. Keep finite order, start and weekday rollover."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "primary_20261016_g1_time_0007_mini_calendar_lookup",
+          "source_file": "current_sources.jsonl",
+          "line": 316,
+          "sha256": "6e12b98b9e9f79a65fc5ad8156156abc5e0e270c8da108884d76d29f5d7b2b00"
+        },
+        {
+          "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+          "source_file": "current_sources.jsonl",
+          "line": 277,
+          "sha256": "6a5da390cce07a548e36930322e960e0b6598051d6040090f310172483517f41"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 79,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-80-1776045486855.png",
+          "source_image_sha256": "f98d53f2e52a8c1cf8b145ed0635f33a1deee005fa7f0b6d7d7849084929b776",
+          "exercise_types": [
+            "ordered_itinerary_weekday_mapping"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "pair_relation_stage_path",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_GATE_PAIR_SUM_PATH"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Per-node predicates do not choose one gate at each stage under a relation jointly involving two labels. Need actual adjacency and relation between chosen pair."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+          "source_file": "current_sources.jsonl",
+          "line": 967,
+          "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+          "source_file": "current_sources.jsonl",
+          "line": 968,
+          "sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+          "source_file": "current_sources.jsonl",
+          "line": 969,
+          "sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+          "source_file": "current_sources.jsonl",
+          "line": 970,
+          "sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6"
+        },
+        {
+          "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+          "source_file": "current_sources.jsonl",
+          "line": 956,
+          "sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 93,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-94-1776045488880.png",
+          "source_image_sha256": "5449a68b38a02dbc446a7ce089fa8cf9d1efeb240e7a504c4acf8b0aad8c2775",
+          "exercise_types": [
+            "single_match_move_equation_repair",
+            "two_stage_gate_pair_sum_path"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "repeated_digit_symbol_predicate",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_REPEATED_DIGIT_NUMBER_SELECTION"
+      ],
+      "candidate_occurrence_count": 1,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Place-value and fixed-position digit filters are worked; equality of two digit symbols over every supplied number is not explicitly demonstrated in listed rows. Keep one finite predicate example, not arithmetic-number expansion."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_thousands_and_parity",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 67,
+          "sha256": "a3f3329bc60249381bd34cc51c05dc588222fbc23dcf8065bc589917c36b3845"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_class_pattern",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 68,
+          "sha256": "fbacbb51991f37f1ac39e78026e6dbb2dd620d3f4e61df2d96bf61f3d9c9076d"
+        },
+        {
+          "sample_id": "sgk_page_20261019_g4_conjunctive_numeral_filter_two_positions",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 69,
+          "sha256": "0826829d8b8541d2585b739eee12167a008e340978a4797eb6ad29b5cd382f9b"
+        },
+        {
+          "sample_id": "primary_20261018_old_g1_numbers_100_0096_digit_cards_zero_and_tens_placeholder",
+          "source_file": "current_sources.jsonl",
+          "line": 780,
+          "sha256": "249b144b1c27ceb1d0e2f82d6f6bca130dcaa0db4d10518b716fbe0168ef0639"
+        },
+        {
+          "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+          "source_file": "current_sources.jsonl",
+          "line": 779,
+          "sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 22,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-23-1776045478454.png",
+          "source_image_sha256": "9f59902a0ec75b1f4b0fbd7c76c03295abacd1446efc7b67193cfd26d20daff3",
+          "exercise_types": [
+            "hundred_boundary",
+            "hundred_grid_completion",
+            "repeated_digit_property_selection"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    },
+    {
+      "master_id": "repeated_value_identity_assignment",
+      "category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "candidate_ids": [
+        "G1V2_DUPLICATE_SCORE_ASSIGNMENT",
+        "g3_two_digit_reasoning_rank",
+        "equal_area_elimination"
+      ],
+      "candidate_occurrence_count": 3,
+      "owner": "UNASSIGNED",
+      "reasons": [
+        "Distinct-card sorting or one-use resource matching does not assign a repeated-value multiset to identities under equality/strict-order constraints. The G4 equal-area identity task shares this master.",
+        "Sorting labelled quantities is not assignment of quantities to identities from order constraints. Share finite identity-assignment master with G1/G4 and retain distinct/repeated inventories."
+      ],
+      "nearest_refs": [
+        {
+          "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_01",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 16,
+          "sha256": "72168d50e30ecb66ea1127020e18d51a6fbcef29a50b186b029445486fbb8402"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_02",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 17,
+          "sha256": "1e67c31847dab0d7dbccb73fc793c617f155dd5d1ce86c1c285b6c9644654ab1"
+        },
+        {
+          "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_03",
+          "source_file": "release/accepted_cases.jsonl",
+          "line": 18,
+          "sha256": "596abb5001635ddd30fad3a7a0c4087a25d8407452e567acd31344c6da1f20ef"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+          "source_file": "current_sources.jsonl",
+          "line": 188,
+          "sha256": "f533ba0b3c3717b84bd2e911ff37355dc7b7dc9d381ee973c315ee09f9565e58"
+        },
+        {
+          "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+          "source_file": "current_sources.jsonl",
+          "line": 271,
+          "sha256": "e96187651026ae39f95836498f2722ed281d1f4af35cbc968cca1e1d106b1960"
+        },
+        {
+          "sample_id": "primary_20261017_g3_order_0028_sort_four_cards_with_equal_values",
+          "source_file": "current_sources.jsonl",
+          "line": 480,
+          "sha256": "d1b0f131112d350e44c4280e1feed999b47b95a04d2d46b5ef8a2d522e4875aa"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+          "source_file": "current_sources.jsonl",
+          "line": 120,
+          "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660"
+        },
+        {
+          "sample_id": "primary_20261017_g3_unit_fraction_0035_guard_unknown_equal_areas:polish_v1",
+          "source_file": "current_sources.jsonl",
+          "line": 536,
+          "sha256": "f02c4fed6d80784cfb64596451cd4e442617f48ac27c2004dc477805d2beb613"
+        }
+      ],
+      "actual_page_receipts": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 89,
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-90-1776045488342.png",
+          "source_image_sha256": "c49b1c8ca622aa693673d90eb70253f079722822e38f01cadae5104104fa5d15",
+          "exercise_types": [
+            "transfer_between_two_groups",
+            "temporal_stage_order",
+            "duplicate_score_assignment"
+          ],
+          "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 8,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-9-1775743940662.png",
+          "image_sha256": "32180d87ee30b68aecf143e61de11b6b259e64af309fcdd2a3691e86f3903431",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g4v1",
+          "printed_page": 64,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_66-1791255470187.png",
+          "image_sha256": "493e471ae3e7bf452e2bf57f7d0717523da4f3baea3c3c0d2edeea99d1e33c0e",
+          "exercise_types_read": [
+            "Join congruent squares and convert area; infer unique different room from equality of other two areas; exact rectangular floor tiling count"
+          ],
+          "actual_visual_page_read": true
+        }
+      ],
+      "physical_or_image_assets_complete": false,
+      "next_action": "Author finite original subform from exact specification; independent oracle and cross-review required."
+    }
+  ]
+}

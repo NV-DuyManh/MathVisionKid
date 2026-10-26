@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "SXjyjwlTsAIY"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"QUEUED_FOR_NEXT_OPTIMIZER_BOUNDARY\", \"physical_microbatch\": 1, \"effective_optimizer_group\": 16, \"extra_optimizer_updates\": 0, \"training_rows_added_or_removed\": 0, \"source_or_target_bytes_changed\": 0, \"truncation_allowed\": false, \"code_sha256\": \"1f354bb322089cfa630e8c84b891924c78e0f81b04decd3f57ceb1bf7d6bc9c2\"}\n"
+        ]
+      }
+    ]
+  }
+}

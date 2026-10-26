@@ -1,0 +1,20 @@
+{
+ "branch":"quality_recovery_20261024",
+ "purpose":"Owner authorized comparison and new training after prior adapters regressed",
+ "decision":"Conservative fresh-base trial with paired semantic quality gates and untrained base eligible as best",
+ "proposal_comparison":{
+  "keep":["QLoRA NF4 4-bit doublequant", "FP16 on free T4", "LoRA r16", "assistant-only loss with verified actual masks/EOT", "exact pinned model revision", "resumable optimizer/RNG/cursor checkpoints"],
+  "change":{"learning_rate":"1e-5 with ten-update warmup rather than 2e-4 or fixed default; conservative experiment after observed regression", "lora_alpha":16, "epochs":"one derived-view pass maximum and 300-update cap; never fixed three epochs", "gradient_checkpointing":"off for measured prior micro2 performance; no assumption all unused VRAM should be filled", "sampling":"6625 rows: all4000 worked,2625 hint representatives; original16000 and full6502344 corpus preserved", "thinking":"proper Qwen3 template enable_thinking=False matching actual structured teaching targets; no invented thought tags", "validation":"new30 dev plus locked20 once after selection; exact/number-masked screening only actual16k, not whole-corpus independence"},
+  "not_proven":["global optimum", "better reasoning from training time or loss alone", "complete6.5M chat training", "whole-curriculum or image/practical readiness"]
+ },
+ "source_plan_sha256":"f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad",
+ "browser":"Chrome Duy Manh6, observed duymanh2k5proo@gmail.com",
+ "run_folder_id":"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+ "notebook_id":"1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+ "hard_deadline_utc":"2026-10-24T12:45:58Z",
+ "corpus_source_rows_or_labels_changed":false,
+ "human_attestation_added":false,
+ "paid_resources":false,
+ "skills_applied":["google-drive","computer-use"],
+ "official_sources":["https://huggingface.co/Qwen/Qwen3-1.7B/blob/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/README.md","https://huggingface.co/docs/trl/en/sft_trainer","https://huggingface.co/docs/transformers/main_classes/callback#transformers.EarlyStoppingCallback"]
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g3_answer_01",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Có 123 nhãn vở chia đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?",
+      "expected_answer": "Mỗi túi 24 nhãn, thừa 3 nhãn. Kiểm: 5 × 24 + 3 = 123 và 0 ≤ 3 < 5.",
+      "rubric": [
+        "Add division-with-remainder and reconstruct/check constraints.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": "**Đề bài:**\nChia 123 nhãn vở đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n- Số nhãn vở: 123\n- Số túi: 5\n- Điều kiện: Mỗi túi nhận nhiều nhãn nhất, còn thừa ít hơn 5 nhãn\n\n**Bước 2: Giải bài toán.**\n\nTa cần chia 123 nhãn vở vào 5 túi, sao cho mỗi túi nhận số nhãn **nhiều nhất** và còn **thừa ít hơn 5 nhãn**.\n\n**Bước 3: Tính số nhãn mỗi túi.**\n\nChia 123 nhãn vở cho 5 túi:\n\n$$\n123 \\div 5 = 24 \\text{ dư } 3\n$$\n\nTức là:\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở.\n\n**Kiểm tra:**\n- 24 nhãn vở x 5 túi = 120 nhãn vở\n- 123 - 120 = 3 (thừa ít hơn 5 nhãn)\n\n**Bước 4: Kiểm lại kết quả.**\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở (thừa ít hơn 5 nhãn).\n\n**Kết luận:**\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n---\n\n**Lời giải đầy đủ:**\n- Số nhãn mỗi túi: $ 123 \\div 5 = 24 $ dư $ 3 $\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n**Đáp án:**\n- Mỗi túi có $\\boxed{24}$ nhãn vở.\n- Còn thừa $\\boxed{3}$ nhãn vở.",
+    "adapter": "Hướng dẫn: Tìm số dư khi chia số bị chia cho số chia.\nBước 1: Tìm số chia và số bị chia.\nDữ kiện: 123 nhãn vở chia đều vào 5 túi.\nPhép tính: 123 ÷ 5\nQuan hệ: 123\nGiải thích: Số chia là 5; số bị chia là 123.\nKết quả bước này: 24, dư 3\nĐáp số bước này: 24\nBước 2: Kiểm số lại.\nDữ kiện: 5 túi, 24 nhãn mỗi túi.\nPhép tính: 5 × 24\nQuan hệ: 5\nGiải thích: Số chia là 5; số dư là 3.\nKết quả bước này: 120\nĐáp số bước này: 120\nBước 3: Kiểm lại.\nDữ kiện: 123 nhãn vở chia đều vào 5 túi.\nPhép tính: 123 − 120\nQuan hệ: −3\nGiải thích: Số bị chia là 123; số chia là 5.\nKết quả bước này: 3\nĐáp số bước này: 3\nĐáp số cuối cùng: Mỗi túi có 24 nhãn, còn thừa 3 nhãn.",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_answer_02",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Một cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?",
+      "expected_answer": "325 cm",
+      "rubric": [
+        "convert units before subtraction",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Đề bài:**\n\nMột cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n\n- Dữ kiện: Cuộn ruy băng dài 5 m, người ta dùng 175 cm.\n- Yêu cầu: Tính độ dài còn lại của cuộn ruy băng theo đơn vị xăng-ti-mét.\n\n**Bước 2: Đơn vị chuyển đổi.**\n\n- 5 m = 500 cm (vì 1 m = 100 cm).\n\n**Bước 3: Tính độ dài còn lại.**\n\n- Độ dài còn lại = Độ dài ban đầu - Độ dài đã dùng\n- Độ dài còn lại = 500 cm - 175 cm = 325 cm\n\n**Bước 4: Kiểm tra lại.**\n\n- 5 m = 500 cm ✔️\n- 500 cm - 175 cm = 325 cm ✔️\n\n**Lời giải:**\n\nCuộn ruy băng còn dài **325 cm**.\n\n---\n\n**Lời làm của học sinh (nếu có):**  \n(Được cung cấp theo yêu cầu, không tự chọn số liệu)\n\n---\n\n**Kết luận:**\n\n- Dữ kiện đủ và nhất quán.\n- Lời giải đúng, kiểm tra lại đúng.\n- Đáp án: **325 cm**.",
+    "adapter": "Hướng dẫn: Đổi đơn vị trước khi tính.\nBước 1: Đổi các đơn vị của hai số về cùng một đơn vị.\nBước 2: Thực hiện phép tính.\nBước 3: Đảm bảo rằng đơn vị của kết quả phù hợp với yêu cầu.\nKết quả: Cuộn ruy băng còn dài 350 cm.",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_hint_no_answer_01",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Một đội xếp 9 hàng ghế, mỗi hàng có 14 ghế. Hãy tìm tổng số ghế.",
+      "expected_answer": "Gợi ý: Số hàng là số nhóm, số ghế trong mỗi hàng là số phần tử mỗi nhóm. Chọn phép tính biểu diễn các nhóm bằng nhau.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Bước 1:** Tìm số ghế trong một hàng.  \nMỗi hàng có 14 ghế.\n\n**Bước 2:** Tìm tổng số ghế trong tất cả các hàng.  \nTổng số ghế = số ghế trong một hàng × số hàng.\n\n**Lời giải:**  \nTổng số ghế = 14 × 9 = 126.\n\n**Kiểm tra lại:**  \n14 × 9 = 126. Đúng.\n\n**Đáp số:** 126 ghế.",
+    "adapter": "Gợi ý: Số hàng được nhân với số ghế mỗi hàng.\nEm thử trả lời: Em thử trả lời: Em thử trả lời:",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_hint_no_answer_02",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Một bình có 2 l nước. Rót ra 650 ml. Hỏi trong bình còn bao nhiêu ml?",
+      "expected_answer": "Gợi ý: Đổi 2 lít sang mililít trước, rồi trừ lượng đã rót. Đơn vị đáp số cần là ml.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Bước đầu:**  \n- Bình có 2 l nước → 2 lít = 2000 ml  \n- Rót ra 650 ml → còn lại = 2000 ml - 650 ml\n\n**Lời giải:**  \n- 2 lít = 2000 ml  \n- 2000 ml - 650 ml = 1350 ml\n\n**Đáp án:** 1350 ml",
+    "adapter": "Gợi ý: Tìm tổng trước khi rót ra.\nEm thử trả lời: Em cần tìm tổng trước khi rót ra là bao nhiêu?",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_missing_or_contradictory_info_01",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một hình chữ nhật có chiều dài 9 cm. Hỏi chu vi hình chữ nhật là bao nhiêu?",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều rộng hoặc một dữ kiện tương đương để tính chu vi.",
+      "rubric": [
+        "width absent",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Dữ kiện:**  \n- Một hình chữ nhật có chiều dài 9 cm.\n\n**Yêu cầu:**  \n- Tính chu vi của hình chữ nhật.\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \n- Dữ kiện đủ và nhất quán.  \n- Yêu cầu là tính chu vi của hình chữ nhật, nhưng thiếu thông tin về chiều rộng.  \n- Chu vi hình chữ nhật cần biết cả chiều dài và chiều rộng.\n\n**Lời giải:**  \n- Vì thiếu thông tin về chiều rộng, không thể tính được chu vi.\n\n**Lời giải đầy đủ:**  \n- Dữ kiện thiếu thông tin về chiều rộng của hình chữ nhật.  \n- Không thể tính chu vi vì thiếu dữ liệu.\n\n**Lời giải cần bổ sung:**  \n- Cần biết chiều rộng của hình chữ nhật để tính chu vi.\n\n---\n\n**Kết luận:**  \n- Đề thiếu dữ kiện.  \n- Lời giải cần bổ sung thông tin về chiều rộng.",
+    "adapter": "Hướng dẫn: Đọc dữ kiện và yêu cầu của đề, kiểm đủ và nhất quán.\nBước 1: Kiểm dữ kiện và yêu cầu.\nDữ kiện: Một hình chữ nhật có chiều dài 9 cm.\nYêu cầu: Hỏi chu vi hình chữ nhật là bao nhiêu?\nĐại lượng cần tìm: Chu vi hình chữ nhật.\nĐại lượng đã biết: Chiều dài hình chữ nhật.\nPhép tính: Phép nhân.\nĐơn vị: cm.\nPhép tính: Phép nhân.\nBước 2: Giải thích.\nVì chiều dài hình chữ nhật là 9 cm, nên chiều rộng hình chữ nhật là chiều dài.\nVì chiều dài hình chữ nhật là 9 cm, nên chiều rộng hình chữ nhật là 9 cm.\nVì chiều dài và chiều rộng của hình chữ nhật là bằng nhau, nên hình chữ nhật là hình vuông.\nVì hình chữ nhật có chiều dài và chiều rộng bằng nhau, nên chu vi hình chữ nhật là 2 lần chiều dài.\nVì chiều dài hình chữ nhật là 9 cm, nên chu vi hình chữ nhật là 2×9=18 cm.\nKiểm lại: Chu vi hình chữ nhật bằng tổng chiều dài và chiều rộng của hình chữ nhật, rồi nhân với 2.\nKết quả: Chu vi hình chữ nhật là 18 cm.\nĐáp số: 18 cm.",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_student_error_01",
+      "grade": 3,
+      "mode": "student_error",
+      "userproblem": "Có 6 túi, mỗi túi có 15 viên kẹo. Huy viết: “6 × 15 = 90 viên kẹo.” Hãy nhận xét đúng dòng Huy đã viết.",
+      "expected_answer": "Dòng của Huy đúng: 6 × 15 = 90 viên kẹo.",
+      "rubric": [
+        "accept fully correct provided line",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Dữ kiện:**  \n- Có 6 túi, mỗi túi có 15 viên kẹo.  \n- Huy viết: “6 × 15 = 90 viên kẹo.”\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \nDữ kiện đủ và nhất quán. Đề hỏi nhận xét về dòng Huy đã viết, yêu cầu kiểm tra tính đúng đắn của phép tính và kết quả.\n\n---\n\n**Giải thích từng bước:**\n\n1. **Kiểm tra ý nghĩa và đơn vị:**  \n   - Số 6: số lượng túi.  \n   - Số 15: số viên kẹo trong mỗi túi.  \n   - Đơn vị: viên kẹo (viên).  \n   → Đơn vị và ý nghĩa đều đúng.\n\n2. **Kiểm tra phép tính:**  \n   - Phép tính: $6 \\times 15 = 90$  \n   - Tính toán: $6 \\times 15 = 90$ (đúng, vì $6 \\times 10 = 60$, $6 \\times 5 = 30$, tổng là $60 + 30 = 90$).\n\n3. **Kiểm tra kết quả:**  \n   - Tổng số viên kẹo: $6 \\times 15 = 90$ → đúng.  \n   - Đơn vị: viên kẹo → đúng.\n\n4. **Nhận xét:**  \n   - Dòng Huy đã viết đúng về ý nghĩa, đơn vị, phép tính và kết quả.  \n   - Không có sai sót.\n\n---\n\n**Kết luận:**  \nDòng Huy đã viết đúng.  \n**Đáp án:** Đúng.",
+    "adapter": "Hướng dẫn: Đọc đề và kiểm số liệu, đơn vị, phép tính.\nBước 1: Đọc đề và kiểm số liệu, đơn vị, phép tính.\nNội dung: Có 6 túi, mỗi túi có 15 viên kẹo.\nPhép tính: 6 × 15.\nĐại lượng cần tìm: Số viên kẹo.\nĐại lượng đã biết: Số túi, số viên kẹo mỗi túi.\nĐại lượng chưa biết: Tổng số viên kẹo.\nCâu hỏi: Số viên kẹo có thể được tính bằng cách nào?\nNội dung: Đúng khi nào?\nĐại lượng cần tìm: Số viên kẹo.\nĐại lượng đã biết: Số túi, số viên kẹo mỗi túi.\nĐại lượng chưa biết: Tổng số viên kẹo.\nĐại lượng cần kiểm: Đơn vị và phép tính.\nNội dung: Đơn vị cần kiểm là viên kẹo.\nBước 2: Kiểm dữ kiện và yêu cầu.\nCâu trả lời: Đúng.\nGiải thích: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng đã biết: Số túi (6), số viên kẹo mỗi túi (15).\nĐại lượng chưa biết: Tổng số viên kẹo.\nCâu trả lời: Đúng.\nĐại lượng cần tìm: Tổng số viên kẹo.\nNội dung: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng cần kiểm: Đơn vị và phép tính.\nBước 3: Kiểm lại kết quả.\nKết quả: 90.\nĐại lượng cần tìm: Tổng số viên kẹo.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nNội dung: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đ",
+    "ended_eos": false
+  }
+]

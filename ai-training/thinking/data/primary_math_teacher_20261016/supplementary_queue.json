@@ -1,0 +1,2324 @@
+{
+  "status": "ALL_BLUEPRINT_REQUIRED_TASKS_COMPLETE",
+  "source_coverage_sha256": "ca69c6c5cd1c7c5779b996af0e4dd0992acff0bfe4ee931bfaaaa6dbd9d713f5",
+  "remaining_required_tasks": 0,
+  "remaining_tasks_not_authored": 0,
+  "queue": [],
+  "audited_node_kind_counts": [
+    {
+      "node_id": "current_g1_natural_numbers_100",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_natural_numbers_100",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_compare_order_100",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_compare_order_100",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_addition_subtraction_no_carry",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_mental_add_sub",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_mental_add_sub",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_left_to_right_add_sub",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_left_to_right_add_sub",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_word_add_sub",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_word_add_sub",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_spatial_orientation",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_spatial_orientation",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_plane_shapes",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_plane_shapes",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_solid_shapes",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_solid_shapes",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_assemble_shapes",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_assemble_shapes",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_length_cm",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_length_cm",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_measure_estimate_length",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_measure_estimate_length",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_calendar_week",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_calendar_week",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_clock_whole_hour",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_clock_whole_hour",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_natural_numbers_1000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_natural_numbers_1000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_number_ray",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_number_ray",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_compare_order_1000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_compare_order_1000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_estimate_tens",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_estimate_tens",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_addition_subtraction_carry_once",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_addition_subtraction_carry_once",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_mental_add_sub_20",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_mental_add_sub_20",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_multiplication_division_tables_2_5",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_multiplication_division_tables_2_5",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_word_one_step",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_word_one_step",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_points_lines_polyline",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_points_lines_polyline",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_quadrilateral",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_quadrilateral",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_cylinder_sphere",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_cylinder_sphere",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_draw_segment_assemble",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_draw_segment_assemble",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_mass_kg_capacity_l",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_mass_kg_capacity_l",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_length_dm_m_km",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_length_dm_m_km",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_time_calendar",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_time_calendar",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_clock_quarter_half",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_clock_quarter_half",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_money_vietnam",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_money_vietnam",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_convert_measurement",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_convert_measurement",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_polyline_length",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_polyline_length",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_collect_tally",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_collect_tally",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_pictogram_read",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_pictogram_read",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_possible_certain_impossible",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_possible_certain_impossible",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_natural_numbers_100000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_natural_numbers_100000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_roman_20",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_roman_20",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_compare_order_100000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_compare_order_100000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_round_naturals",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_round_naturals",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_addition_subtraction_5digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 2,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_addition_subtraction_5digits",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_multiply_divide_one_digit",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_multiply_divide_one_digit",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_operation_properties",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_operation_properties",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_expressions_unknown",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_expressions_unknown",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_word_two_steps",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_word_two_steps",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_unit_fractions",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_unit_fractions",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_midpoint_angles",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_midpoint_angles",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_shape_elements",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_shape_elements",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_solid_elements",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_solid_elements",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_draw_ekes_compass",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_draw_ekes_compass",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_units_mm_cm2_g_ml_celsius",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_units_mm_cm2_g_ml_celsius",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_time_clock_minute",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_time_clock_minute",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_money_vietnam_100000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_money_vietnam_100000",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_convert_measurements",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_convert_measurements",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_perimeter",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_perimeter",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_area_rectangle_square",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_area_rectangle_square",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_table_collect_read",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_table_collect_read",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_single_trial_outcomes",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_single_trial_outcomes",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_natural_numbers_millions",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_natural_numbers_millions",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_compare_round_naturals",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_compare_round_naturals",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_addition_subtraction_many_digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_addition_subtraction_many_digits",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_multiply_divide_two_digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_multiply_divide_two_digits",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_average",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_average",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_expressions_letters_properties",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_expressions_letters_properties",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_word_two_three_steps",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_word_two_three_steps",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_concepts_reduce",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_concepts_reduce",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_compare_common_denominator",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_compare_common_denominator",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_operations",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_fraction_operations",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_angle_types",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_angle_types",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_parallel_perpendicular",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_parallel_perpendicular",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_parallelogram_rhombus_recognition",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_parallelogram_rhombus_recognition",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_mass_yen_ta_tan",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_mass_yen_ta_tan",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_area_units_mm2_dm2_m2",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_area_units_mm2_dm2_m2",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_time_second_century",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_time_second_century",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_angle_degree",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_angle_degree",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_convert_measurements",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_convert_measurements",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_data_sequences",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_data_sequences",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_bar_chart_mean",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_bar_chart_mean",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_repeated_trial_counts",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_repeated_trial_counts",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_natural_operations_four_steps",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_natural_operations_four_steps",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_fraction_operations_mixed",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_fraction_operations_mixed",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_fraction_mixed_number",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_fraction_mixed_number",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_read_compare_round",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_read_compare_round",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_operations",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_decimal_operations",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_ratio_percent",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_ratio_percent",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_sum_difference_ratio",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_sum_difference_ratio",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_map_scale",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_map_scale",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_calculator_use",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_calculator_use",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_trapezoid_circle_triangle_types",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_trapezoid_circle_triangle_types",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_solid_nets",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_solid_nets",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_draw_altitude_circle",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_draw_altitude_circle",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_area_km2_ha",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_area_km2_ha",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_volume_cm3_dm3_m3",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_volume_cm3_dm3_m3",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_triangle_trapezoid_area",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_triangle_trapezoid_area",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_circle_perimeter_area",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_circle_perimeter_area",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_cuboid_cube_surface_volume",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_cuboid_cube_surface_volume",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_time_arithmetic",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_time_arithmetic",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_uniform_motion",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_uniform_motion",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_collect_classify",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_collect_classify",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_pie_chart",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_pie_chart",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_experimental_frequency_ratio",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_experimental_frequency_ratio",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_practice_experience",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g1_practice_experience",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_practice_experience",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g3_practice_experience",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_practice_experience",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g4_practice_experience",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_practice_experience",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "current_g5_practice_experience",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_numbers_100",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_numbers_100",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_compare",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_compare",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_add_sub_no_carry_100",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_add_sub_no_carry_100",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_word_problem",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_word_problem",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_draw_segment",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g1_draw_segment",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_subtraction_borrow",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_subtraction_borrow",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_many_addends",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_many_addends",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_unit_fractions_2_3_4_5",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_unit_fractions_2_3_4_5",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_multiplication_division",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_multiplication_division",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_money_transition",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g2_money_transition",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_natural_100000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_natural_100000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_add_sub_10000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_add_sub_10000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_add_sub_100000",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_add_sub_100000",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_two_by_one_digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_two_by_one_digits",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_four_by_one_digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_four_by_one_digits",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_divide_five_by_one_digits",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiply_divide_five_by_one_digits",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_division_remainder",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_division_remainder",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_scale_up_down",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_scale_up_down",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_find_divisor",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_find_divisor",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_two_step_problems",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_two_step_problems",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiplicative_comparison",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_multiplicative_comparison",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_dam_hm_length_table",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_dam_hm_length_table",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_measure_length",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_measure_length",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_right_angle_midpoint",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_right_angle_midpoint",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_calendar_clock",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_calendar_clock",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_unitary_word_problems",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_unitary_word_problems",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_vietnam_money",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_vietnam_money",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_statistics",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_statistics",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_rectangle_square_perimeter_area",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g3_rectangle_square_perimeter_area",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_millions_place_value",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_millions_place_value",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_letter_expression",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_letter_expression",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_mass_yen_ta_tan",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_mass_yen_ta_tan",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_second_century",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_second_century",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_charts",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_charts",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_add_associative",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_add_associative",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_sum_difference",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_sum_difference",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_two_digit_divisor",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_two_digit_divisor",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_three_digit_divisor",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_three_digit_divisor",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_draw_rectangle_square",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_draw_rectangle_square",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_parallelogram_area",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_parallelogram_area",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_fraction_common_denominator",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_fraction_common_denominator",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_all_fraction_operations",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_all_fraction_operations",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_sum_difference_ratio",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_sum_difference_ratio",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_map_scale",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_map_scale",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_km2",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g4_km2",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_mixed_numbers",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_mixed_numbers",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_read_compare",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_read_compare",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_operations",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_operations",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_measurements",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_decimal_measurements",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_percentage_three_types",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_percentage_three_types",
+      "case_kind": "guard",
+      "target": 0,
+      "accepted": 0,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_calculator",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_calculator",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_circle_area",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_circle_area",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_surface",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_surface",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_volume",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_volume",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_mm2_dam2_hm2",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_mm2_dam2_hm2",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_m3",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_m3",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_uniform_motion",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_uniform_motion",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cylinder_sphere",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_cylinder_sphere",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_altitude_circle_drawing",
+      "case_kind": "misconception",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    },
+    {
+      "node_id": "old_g5_altitude_circle_drawing",
+      "case_kind": "guard",
+      "target": 1,
+      "accepted": 1,
+      "remaining": 0
+    }
+  ],
+  "required_target_cases": 277,
+  "actual_misconception_cases": 166,
+  "actual_guard_cases": 112,
+  "extra_auxiliary_cases": 9,
+  "auxiliary_does_not_count_as_core": true
+}

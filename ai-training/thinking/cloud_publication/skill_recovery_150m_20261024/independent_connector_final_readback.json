@@ -1,0 +1,22 @@
+{
+  "schema": "MathVisionKid.independent_connector_final_control_readback.v1",
+  "observed_utc": "2026-10-24T14:32:54.470Z",
+  "control_proofs": {
+    "progress": {"id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX", "bytes": 20986439, "sha256": "43e1293a26257f776657009d3ffb64800702525786463b437d522d0de1e8bcd4", "source_modified_utc": "2026-10-24T14:29:29.176Z", "fresh_connector_raw_readback": true},
+    "chat": {"id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6", "bytes": 1487594, "sha256": "de5e6f5b775fe181d0b4fd4c18afdf5ea3ed996af6e9187e770be754971aa545", "source_modified_utc": "2026-10-24T14:30:45.172Z", "fresh_connector_raw_readback": true},
+    "context": {"id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9", "bytes": 864321, "sha256": "b34d8494cf0d8f2d5eba5e2adadce5ba5b77fd1fc49c8b08d8066e3e1afabc05", "source_modified_utc": "2026-10-24T14:30:54.012Z", "fresh_connector_raw_readback": true},
+    "state": {"id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme", "bytes": 1790551, "sha256": "eb8310fb019b2358ddf0d1c7fa74bacccdf77cdf0701c362b9186117ead1e1a4", "source_modified_utc": "2026-10-24T14:31:03.434Z", "fresh_connector_raw_readback": true}
+  },
+  "expected_canonical_context_sha256": "b34d8494cf0d8f2d5eba5e2adadce5ba5b77fd1fc49c8b08d8066e3e1afabc05",
+  "expected_run_metadata_sha256": "15dc14e58ee021fb5de2d6e92167b2db173a2814b59cddb8f14874708eef2542",
+  "raw_bytes_verified_in_memory": true,
+  "progress_current_manifest_matches_chat_and_state": true,
+  "progress_evidence_files_hash_verified": 22,
+  "progress_current_manifest": "skill_recovery_150m_20261024/publications/c5da0aee309f72f88e47/branch_manifest.json",
+  "state_modified_after_other_three": true,
+  "sources_and_corpus_not_written_to_pc": true,
+  "protected_test_content_not_inspected": true,
+  "colab_mcp_disconnected_after_all_experiment_workers_exited": true,
+  "verification_via_google_drive_connector": true,
+  "production_approval": false
+}

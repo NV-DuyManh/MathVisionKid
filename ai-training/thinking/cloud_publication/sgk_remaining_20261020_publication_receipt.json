@@ -1,0 +1,42 @@
+{
+  "verified_utc": "2026-10-20T11:58:48.797Z",
+  "profile": {
+    "name": "Duy Mạnh",
+    "email": "duymanhdnvn20092005@gmail.com",
+    "profile_id": "100868736881483931302"
+  },
+  "bundle_id": "15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD",
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 8501831,
+      "sha256": "7e2da740a3b581bc2d2bfacd25e269eee8f080b235706ccf4fa0798a508654de",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 19678,
+      "sha256": "3e26d80b2190ee600b75734252629b3ef585e2ebe9ab964e462d47d7c03e39a0",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 257773,
+      "sha256": "6c3ca2114e01db2b47a47b02c01cb014bf3d94a3a1d2a0dca7c325a503ec37ec",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 745715,
+      "sha256": "8a1f66af60dbd94f78f4e9d47b115f1d11838cdfa8d0df75d88cf583f540df31",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    }
+  ],
+  "training_started": false,
+  "whole_dataset_ready": false,
+  "cleanup_blocked_previously": true
+}

@@ -1,0 +1,34 @@
+{
+  "selection_timestamp": "2026-09-21T11:00:00Z",
+  "task": "line_level_optical_character_recognition",
+  "dataset_version": "1.0.0",
+  "validation_size": 500,
+  "selected_model": {
+    "baseline_name": "BASELINE_A (MathVision CRNN-CTC Transfer)",
+    "checkpoint": "artifacts/checkpoints/best_cer.pth",
+    "architecture": "CRNN (4-block Conv2d + GroupNorm + BiLSTM + Linear)",
+    "parameters": 5962560,
+    "metrics": {
+      "CER": 0.1134,
+      "Exact_Match": 0.624,
+      "empty_rate": 0.0,
+      "digit_accuracy": 0.8374,
+      "operator_accuracy": 0.8841,
+      "vietnamese_accuracy": 0.892,
+      "mixed_accuracy": 0.785
+    },
+    "hardware_profile": {
+      "training_cost": "Low (Transfer learning on Colab T4: ~30-45 mins)",
+      "VRAM": "1.8 GB (inference) / 4.2 GB (training with AMP)",
+      "latency_per_line_ms": 7.5
+    },
+    "selection_reason": "BASELINE_A (current best_cer.pth CRNN warm-start) preserves 59.5k pretrained Vietnamese handwriting representations with stable convergence, negligible blank collapse risk, <10ms CPU/GPU inference latency, and verified transfer learning to unified math/Vietnamese vocabulary. Retained over heavy Transformer/TrOCR alternatives due to superior inference speed, low VRAM footprint on mobile edge/backend, and zero dependency issues."
+  },
+  "benchmarked_alternatives": [
+    {
+      "baseline_name": "BASELINE_B (VietOCR VGG-Transformer / TrOCR)",
+      "status": "EVALUATED_AS_SECONDARY",
+      "selection_reason": "Significantly higher inference latency (>120ms per line on CPU), large memory footprint (>1.2GB parameters vs 23MB for CRNN), and requires autoregressive decoding which slows down real-time mobile worksheet processing. Retained BASELINE_A as primary production engine."
+    }
+  ]
+}

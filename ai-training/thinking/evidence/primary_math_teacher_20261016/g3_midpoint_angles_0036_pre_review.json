@@ -1,0 +1,220 @@
+{
+  "batch_sha256": "017d95677d3541a85cdf3d845d92a8c73984bb78562d3b0e8c130e3d65145669",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_between_versus_midpoint",
+      "row_sha256": "7a428090ac2346fb69d536c98164206a82b735839ce2fdfebbe9dc64aad5d2ef",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_equal_distances_off_line",
+      "row_sha256": "8c44044e96fbef2d62c039cc58996e6d5b0ffddb6735092ed32f70c823e54691",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square",
+      "row_sha256": "7e1a77d4e75b144c9f2e51d2f78adc03ff565deda6275cac5ece23345c1e0903",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_misconception_equal_sides_right_angle",
+      "row_sha256": "891f3ab78f21a18bea00678f0144dc85147ed301c2a445638831f9b4ffc7b76f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_guard_equal_distances_unknown_position",
+      "row_sha256": "31d11b6591f3a0ccc50ad109d95b1a6fdb7f00236dd2623fdafe6912d62fdd9f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "between_midpoint_witness": {
+      "A": [
+        0,
+        0
+      ],
+      "B": [
+        12,
+        0
+      ],
+      "M": [
+        6,
+        0
+      ],
+      "N": [
+        4,
+        0
+      ]
+    },
+    "off_line_equal_distances_witness": {
+      "A": [
+        -3,
+        0
+      ],
+      "B": [
+        3,
+        0
+      ],
+      "P": [
+        0,
+        4
+      ]
+    },
+    "rotated_right_vectors": [
+      [
+        2,
+        1
+      ],
+      [
+        -1,
+        2
+      ]
+    ],
+    "nonright_vectors": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "equal_length_nonright_vectors": [
+      [
+        5,
+        0
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "unknown_position_countermodels": [
+      {
+        "A": [
+          0,
+          0
+        ],
+        "B": [
+          10,
+          0
+        ],
+        "M": [
+          5,
+          0
+        ],
+        "midpoint": true
+      },
+      {
+        "A": [
+          0,
+          0
+        ],
+        "B": [
+          6,
+          0
+        ],
+        "M": [
+          3,
+          4
+        ],
+        "midpoint": false
+      }
+    ]
+  },
+  "oracle_method": "Rational coordinates: midpoint averages, squared lengths, cross-product collinearity and dot-product perpendicularity. Evidence-only witnesses; no coordinate/degree/Pythagoras instruction for children.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read between versus midpoint, equality without collinearity, two-ray set-square alignment, orientation invariance, equal sides not right angle, explicit quote and all15hints. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Explicit hypothetical descriptions only; no actual image, ruler or set-square use verified. Neutral schema is not live PlanDraft."
+}

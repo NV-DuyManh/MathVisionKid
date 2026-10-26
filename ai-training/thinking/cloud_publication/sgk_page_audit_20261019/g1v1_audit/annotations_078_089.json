@@ -1,0 +1,156 @@
+{
+  "78": {
+    "exercise_types": [
+      "successive_removal_three_term_subtraction",
+      "left_to_right_mixed_add_subtract"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_left_subtract_add",
+      "primary_20261016_g1_operations_0003_left_add_subtract"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_SUCCESSIVE_TWO_REMOVALS"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Two distinct successive removals are not demonstrated merely by a subtract-then-add case; check all current source before confirming missing sign-pattern coverage."
+  },
+  "79": {
+    "exercise_types": [
+      "ordered_dice_subtraction_then_match_number"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "80": {
+    "exercise_types": [
+      "constant_sum_addition_table"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "81": {
+    "exercise_types": [
+      "complete_addition_fact_table",
+      "classify_expressions_by_value"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "82": {
+    "exercise_types": [
+      "fixed_minuend_subtraction_table"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "83": {
+    "exercise_types": [
+      "complete_subtraction_fact_table",
+      "mental_subtraction"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "84": {
+    "exercise_types": [
+      "four_related_part_whole_add_subtract_equations",
+      "operation_arrow_chain"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category",
+      "primary_20261016_g1_operations_0003_left_subtract_add"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "85": {
+    "exercise_types": [
+      "dice_target_select_expression_card"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "86": {
+    "exercise_types": [
+      "derive_subtraction_from_addition",
+      "commuted_sum",
+      "ten_counter_part_whole"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category",
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "87": {
+    "exercise_types": [
+      "operation_table",
+      "number_bond_blank",
+      "operation_chain",
+      "recursive_sum_pyramid"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category",
+      "primary_20261016_g1_operations_0003_left_subtract_add",
+      "sgk_g12_20261019_sum_pyramid_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "88": {
+    "exercise_types": [
+      "target_expression_filter",
+      "unknown_addend_or_subtrahend_to_fixed_result"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  },
+  "89": {
+    "exercise_types": [
+      "evaluate_many_expressions",
+      "count_items_whose_expression_hits_target"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_03"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text arithmetic/selection analogue identified; actual diagram/scene recognition and physical dice/card execution remain unverified."
+  }
+}

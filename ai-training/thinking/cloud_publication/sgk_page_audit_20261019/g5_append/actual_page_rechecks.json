@@ -1,0 +1,30 @@
+[
+  {
+    "volume": 2,
+    "printed_page": 37,
+    "sha256": "491c4dbb5fa6b03c7698efa4348dbec593200fb02388af7d0db0254fda554721",
+    "bytes": 638774,
+    "actual_reinspection": true
+  },
+  {
+    "volume": 2,
+    "printed_page": 43,
+    "sha256": "8ce68e4593feb5678fb799adbefa378635e2cd7f407b8dd259df8724c171d6a2",
+    "bytes": 855170,
+    "actual_reinspection": true
+  },
+  {
+    "volume": 2,
+    "printed_page": 63,
+    "sha256": "624a85a8a514b6cacc886b2bbdf83d7de2d1b57d98eb98c1b97449ee2bcd492d",
+    "bytes": 642091,
+    "actual_reinspection": true
+  },
+  {
+    "volume": 2,
+    "printed_page": 70,
+    "sha256": "7dc97654eb05fffab76163b9e67214e1d89b2a624b81a3f3366ab18aa3619e83",
+    "bytes": 855559,
+    "actual_reinspection": true
+  }
+]

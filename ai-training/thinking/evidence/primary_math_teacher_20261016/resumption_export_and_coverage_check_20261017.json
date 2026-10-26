@@ -1,0 +1,30 @@
+{
+  "accepted_cases": 88,
+  "chat_rows": 352,
+  "new_chat_rows_checked": 80,
+  "export_input_and_hint_fields_pass": true,
+  "current_g1_nodes": 15,
+  "current_g1_nodes_complete_quota": 14,
+  "current_g1_core_cases": 42,
+  "current_g1_core_target": 45,
+  "current_g1_remaining": [
+    {
+      "node_id": "current_g1_practice_experience",
+      "grade": 1,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 0,
+      "accepted_core_slots": [],
+      "remaining_core_slots": [
+        "core_01",
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 3
+    }
+  ],
+  "whole_research_pack_complete": false,
+  "training_started": false
+}

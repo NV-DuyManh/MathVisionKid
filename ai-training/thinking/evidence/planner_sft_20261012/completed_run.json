@@ -1,0 +1,492 @@
+{
+  "status": "SFT_COMPLETED_RESEARCH_ONLY",
+  "run_id": "qwen3_06b_grounded_sft_epoch1_seed20261012",
+  "steps": 463,
+  "epochs": 1,
+  "train_examples_seen": 1852,
+  "baseline_validation": {
+    "samples": 133,
+    "supported_solved_samples": 106,
+    "guard_samples": 27,
+    "json_valid_rate": 0.0,
+    "raw_plan_accuracy": 0.0,
+    "raw_status_accuracy": 0.0,
+    "raw_guard_plan_accuracy": 0.0,
+    "supported_answer_coverage": 0.0,
+    "runtime_correct_rate": 0.20300751879699247,
+    "runtime_answered_samples": 0,
+    "runtime_answer_accuracy_when_answered": null,
+    "unsafe_runtime_answers": 0,
+    "model_truncated_outputs": 115,
+    "model_guard_false_ready_outputs": 0,
+    "counts_by_reference_status": {
+      "ready": 106,
+      "need_clarification": 15,
+      "out_of_scope": 7,
+      "unsupported_input": 5
+    },
+    "per_topic": {
+      "add_join": {
+        "samples": 32,
+        "supported_solved_samples": 32,
+        "guard_samples": 0,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 0.0,
+        "runtime_correct_rate": 0.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 25,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 32
+        }
+      },
+      "equal_groups": {
+        "samples": 8,
+        "supported_solved_samples": 8,
+        "guard_samples": 0,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 0.0,
+        "runtime_correct_rate": 0.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 7,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 8
+        }
+      },
+      "need_clarification": {
+        "samples": 15,
+        "supported_solved_samples": 0,
+        "guard_samples": 15,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": 0.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 13,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "need_clarification": 15
+        }
+      },
+      "out_of_scope": {
+        "samples": 7,
+        "supported_solved_samples": 0,
+        "guard_samples": 7,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": 0.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 7,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "out_of_scope": 7
+        }
+      },
+      "share_equal": {
+        "samples": 24,
+        "supported_solved_samples": 24,
+        "guard_samples": 0,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 0.0,
+        "runtime_correct_rate": 0.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 20,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 24
+        }
+      },
+      "sub_remaining": {
+        "samples": 42,
+        "supported_solved_samples": 42,
+        "guard_samples": 0,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 0.0,
+        "runtime_correct_rate": 0.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 38,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 42
+        }
+      },
+      "unsupported_input": {
+        "samples": 5,
+        "supported_solved_samples": 0,
+        "guard_samples": 5,
+        "json_valid_rate": 0.0,
+        "raw_plan_accuracy": 0.0,
+        "raw_status_accuracy": 0.0,
+        "raw_guard_plan_accuracy": 0.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 5,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "unsupported_input": 5
+        }
+      }
+    }
+  },
+  "candidate_validation": {
+    "samples": 133,
+    "supported_solved_samples": 106,
+    "guard_samples": 27,
+    "json_valid_rate": 1.0,
+    "raw_plan_accuracy": 1.0,
+    "raw_status_accuracy": 1.0,
+    "raw_guard_plan_accuracy": 1.0,
+    "supported_answer_coverage": 1.0,
+    "runtime_correct_rate": 1.0,
+    "runtime_answered_samples": 106,
+    "runtime_answer_accuracy_when_answered": 1.0,
+    "unsafe_runtime_answers": 0,
+    "model_truncated_outputs": 0,
+    "model_guard_false_ready_outputs": 0,
+    "counts_by_reference_status": {
+      "ready": 106,
+      "need_clarification": 15,
+      "out_of_scope": 7,
+      "unsupported_input": 5
+    },
+    "per_topic": {
+      "add_join": {
+        "samples": 32,
+        "supported_solved_samples": 32,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 32,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 32
+        }
+      },
+      "equal_groups": {
+        "samples": 8,
+        "supported_solved_samples": 8,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 8,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 8
+        }
+      },
+      "need_clarification": {
+        "samples": 15,
+        "supported_solved_samples": 0,
+        "guard_samples": 15,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "need_clarification": 15
+        }
+      },
+      "out_of_scope": {
+        "samples": 7,
+        "supported_solved_samples": 0,
+        "guard_samples": 7,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "out_of_scope": 7
+        }
+      },
+      "share_equal": {
+        "samples": 24,
+        "supported_solved_samples": 24,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 24,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 24
+        }
+      },
+      "sub_remaining": {
+        "samples": 42,
+        "supported_solved_samples": 42,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 42,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 42
+        }
+      },
+      "unsupported_input": {
+        "samples": 5,
+        "supported_solved_samples": 0,
+        "guard_samples": 5,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "unsupported_input": 5
+        }
+      }
+    }
+  },
+  "selected": "adapter",
+  "selected_development_test": {
+    "samples": 131,
+    "supported_solved_samples": 106,
+    "guard_samples": 25,
+    "json_valid_rate": 1.0,
+    "raw_plan_accuracy": 1.0,
+    "raw_status_accuracy": 1.0,
+    "raw_guard_plan_accuracy": 1.0,
+    "supported_answer_coverage": 1.0,
+    "runtime_correct_rate": 1.0,
+    "runtime_answered_samples": 106,
+    "runtime_answer_accuracy_when_answered": 1.0,
+    "unsafe_runtime_answers": 0,
+    "model_truncated_outputs": 0,
+    "model_guard_false_ready_outputs": 0,
+    "counts_by_reference_status": {
+      "ready": 106,
+      "out_of_scope": 3,
+      "need_clarification": 18,
+      "unsupported_input": 4
+    },
+    "per_topic": {
+      "add_join": {
+        "samples": 14,
+        "supported_solved_samples": 14,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 14,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 14
+        }
+      },
+      "equal_groups": {
+        "samples": 20,
+        "supported_solved_samples": 20,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 20,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 20
+        }
+      },
+      "need_clarification": {
+        "samples": 18,
+        "supported_solved_samples": 0,
+        "guard_samples": 18,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "need_clarification": 18
+        }
+      },
+      "out_of_scope": {
+        "samples": 3,
+        "supported_solved_samples": 0,
+        "guard_samples": 3,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "out_of_scope": 3
+        }
+      },
+      "share_equal": {
+        "samples": 24,
+        "supported_solved_samples": 24,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 24,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 24
+        }
+      },
+      "sub_remaining": {
+        "samples": 48,
+        "supported_solved_samples": 48,
+        "guard_samples": 0,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": null,
+        "supported_answer_coverage": 1.0,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 48,
+        "runtime_answer_accuracy_when_answered": 1.0,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "ready": 48
+        }
+      },
+      "unsupported_input": {
+        "samples": 4,
+        "supported_solved_samples": 0,
+        "guard_samples": 4,
+        "json_valid_rate": 1.0,
+        "raw_plan_accuracy": 1.0,
+        "raw_status_accuracy": 1.0,
+        "raw_guard_plan_accuracy": 1.0,
+        "supported_answer_coverage": null,
+        "runtime_correct_rate": 1.0,
+        "runtime_answered_samples": 0,
+        "runtime_answer_accuracy_when_answered": null,
+        "unsafe_runtime_answers": 0,
+        "model_truncated_outputs": 0,
+        "model_guard_false_ready_outputs": 0,
+        "counts_by_reference_status": {
+          "unsupported_input": 4
+        }
+      }
+    }
+  },
+  "adapter_sha256": "fb20133b113488dd39bbd4fc0a65536e30e36201a25f8dc02856588672094640",
+  "adapter_path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/scope_planner_v1/runs/qwen3_06b_grounded_sft_epoch1_seed20261012/adapter",
+  "reload_verified": true,
+  "production_approved": false,
+  "limitations": [
+    "Four topic families and 32 fixed grammars, not full grades 1-5.",
+    "Test is synthetic development data, no independent teacher-reviewed benchmark.",
+    "Source facts are grammar extracted; this is not free-text/OCR semantic understanding.",
+    "The verifier calculates answers; raw LLM arithmetic quality is not measured.",
+    "The public generated explanation is not evaluated pedagogically.",
+    "Runtime guard correctness is enforced by code, not proof the LLM refuses every off-topic request.",
+    "Inference cap 256 tokens; truncations are counted as failures."
+  ]
+}

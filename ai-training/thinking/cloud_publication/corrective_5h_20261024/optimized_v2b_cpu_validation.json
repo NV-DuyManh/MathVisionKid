@@ -1,0 +1,12 @@
+{
+  "schema": "MathVisionKid.corrective_optimized_v2b.cpu_validation.v1",
+  "observed_utc": "2026-10-24T01:15:21.945900+00:00",
+  "result": "PASS",
+  "tests_run": 10,
+  "worker_sha256": "d5f4f0bc2df2b9ff8b2999d607f7ab0b773a76e2ececd4cf48bada99ffcc787c",
+  "original_v2_sha256": "07f30dedd6b330218283ec7771e72c84d5ae008cf3c27885a1a8de8c0b169761",
+  "root_cause": "Original validation assumed flat bitsandbytes buffers; actual bnb0.50.2 serializes buffers under __bnb_optimizer_quant_state__. Nested validation now preserves original serialization for installed load_state_dict.",
+  "checkpoint_bytes_mutated": false,
+  "GPU_or_Drive_used": false,
+  "runtime_optimizer_resume_tested": false
+}

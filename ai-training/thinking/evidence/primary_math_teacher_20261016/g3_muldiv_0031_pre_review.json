@@ -1,0 +1,359 @@
+{
+  "batch_sha256": "979e3b4c4ef101a344fc04ac08505d3fb7f757fd5aa709051ad36027d2d1802b",
+  "authored_cases": 5,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry",
+      "row_sha256": "f3418af1cf0bc29d5cbc1097d5b7f915d808647a69bc2646119db18d86da5236",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "7*2",
+          "4237*2",
+          "(4237*2)/2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit",
+      "row_sha256": "887a1e6d60d94fddf4ca15d6cd13d684c531b3c7be11688c2ac7bf2403bfaf4c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "8/4",
+          "0",
+          "36/4",
+          "200+0+9",
+          "(200+0+9)*4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound",
+      "row_sha256": "68e7eb496a8c5b8ea54933dd1a06efad69efd44a1df8e880dd8fe989d20e800c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "22-3*7",
+          "10-1*7",
+          "33-4*7",
+          "300+10+4",
+          "(300+10+4)*7+(33-4*7)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small",
+      "row_sha256": "7c499c50f6637e71a1acb8607b4d6d4f7e8c22babc587b2625f1af75823f8134",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6-4",
+          "210+1",
+          "(210+1)*4+(6-4)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_guard_ambiguous_six_role",
+      "row_sha256": "de4613937dcd59786b6a1ee12f1a72a603f63c69281365c87c4c556b2ad5956f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "multiplication_traces": [
+      {
+        "a": 4237,
+        "b": 2,
+        "result": 8474,
+        "trace": [
+          {
+            "column": 0,
+            "incoming": 0,
+            "raw": 14,
+            "digit": 4,
+            "outgoing": 1
+          },
+          {
+            "column": 1,
+            "incoming": 1,
+            "raw": 7,
+            "digit": 7,
+            "outgoing": 0
+          },
+          {
+            "column": 2,
+            "incoming": 0,
+            "raw": 4,
+            "digit": 4,
+            "outgoing": 0
+          },
+          {
+            "column": 3,
+            "incoming": 0,
+            "raw": 8,
+            "digit": 8,
+            "outgoing": 0
+          }
+        ]
+      },
+      {
+        "a": 209,
+        "b": 4,
+        "result": 836,
+        "trace": [
+          {
+            "column": 0,
+            "incoming": 0,
+            "raw": 36,
+            "digit": 6,
+            "outgoing": 3
+          },
+          {
+            "column": 1,
+            "incoming": 3,
+            "raw": 3,
+            "digit": 3,
+            "outgoing": 0
+          },
+          {
+            "column": 2,
+            "incoming": 0,
+            "raw": 8,
+            "digit": 8,
+            "outgoing": 0
+          }
+        ]
+      },
+      {
+        "a": 314,
+        "b": 7,
+        "result": 2198,
+        "trace": [
+          {
+            "column": 0,
+            "incoming": 0,
+            "raw": 28,
+            "digit": 8,
+            "outgoing": 2
+          },
+          {
+            "column": 1,
+            "incoming": 2,
+            "raw": 9,
+            "digit": 9,
+            "outgoing": 0
+          },
+          {
+            "column": 2,
+            "incoming": 0,
+            "raw": 21,
+            "digit": 1,
+            "outgoing": 2
+          }
+        ]
+      },
+      {
+        "a": 211,
+        "b": 4,
+        "result": 844,
+        "trace": [
+          {
+            "column": 0,
+            "incoming": 0,
+            "raw": 4,
+            "digit": 4,
+            "outgoing": 0
+          },
+          {
+            "column": 1,
+            "incoming": 0,
+            "raw": 4,
+            "digit": 4,
+            "outgoing": 0
+          },
+          {
+            "column": 2,
+            "incoming": 0,
+            "raw": 8,
+            "digit": 8,
+            "outgoing": 0
+          }
+        ]
+      }
+    ],
+    "division_traces": [
+      {
+        "dividend": 8474,
+        "divisor": 2,
+        "quotient": 4237,
+        "remainder": 0,
+        "stages": [
+          {
+            "partial": 8,
+            "quotient_digit": 4,
+            "remainder": 0
+          },
+          {
+            "partial": 4,
+            "quotient_digit": 2,
+            "remainder": 0
+          },
+          {
+            "partial": 7,
+            "quotient_digit": 3,
+            "remainder": 1
+          },
+          {
+            "partial": 14,
+            "quotient_digit": 7,
+            "remainder": 0
+          }
+        ]
+      },
+      {
+        "dividend": 836,
+        "divisor": 4,
+        "quotient": 209,
+        "remainder": 0,
+        "stages": [
+          {
+            "partial": 8,
+            "quotient_digit": 2,
+            "remainder": 0
+          },
+          {
+            "partial": 3,
+            "quotient_digit": 0,
+            "remainder": 3
+          },
+          {
+            "partial": 36,
+            "quotient_digit": 9,
+            "remainder": 0
+          }
+        ]
+      },
+      {
+        "dividend": 2203,
+        "divisor": 7,
+        "quotient": 314,
+        "remainder": 5,
+        "stages": [
+          {
+            "partial": 2,
+            "quotient_digit": 0,
+            "remainder": 2
+          },
+          {
+            "partial": 22,
+            "quotient_digit": 3,
+            "remainder": 1
+          },
+          {
+            "partial": 10,
+            "quotient_digit": 1,
+            "remainder": 3
+          },
+          {
+            "partial": 33,
+            "quotient_digit": 4,
+            "remainder": 5
+          }
+        ]
+      },
+      {
+        "dividend": 846,
+        "divisor": 4,
+        "quotient": 211,
+        "remainder": 2,
+        "stages": [
+          {
+            "partial": 8,
+            "quotient_digit": 2,
+            "remainder": 0
+          },
+          {
+            "partial": 4,
+            "quotient_digit": 1,
+            "remainder": 0
+          },
+          {
+            "partial": 6,
+            "quotient_digit": 1,
+            "remainder": 2
+          }
+        ]
+      }
+    ],
+    "ambiguous_role_countermodels": [
+      {
+        "bags": 6,
+        "items_per_bag": 8
+      },
+      {
+        "bags": 8,
+        "items_per_bag": 6
+      }
+    ]
+  },
+  "oracle_method": "Independent per-digit multiplication traces and divmod long-division recurrence; exact reconstruction and0<=remainder<divisor checked. Declared%metadata bound to dividend/divisor/givens/answers; live calculator unchanged.",
+  "author_self_content_check": "Read all carry states, zero quotient position, lowered digits, quotient/remainder roles, reconstruction versus residual bound, explicit wrong claim, guard units and all15hints. Same-author checking is not independent semantic review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Single-digit multiplier/divisor, within current grade3 stated carry bounds. //,%onlyofflineoracle/canonicalremainder metadata,notlivecalculator. Neutral schema is not live PlanDraft.",
+  "supplementary_cases": 1,
+  "slot_mapping_repair": {
+    "reason": "Pre-export unique authored core-slot guard caught occupied core_03 from initial31, not a math error. Convert only new pending remainder case to supplementary. No accepted/frozen source changed.",
+    "before_batch_sha256": "c628c2108cabda5a2beb775b0542a874ce40a10800d09fc5dd8049eb13d58af2",
+    "after_batch_sha256": "979e3b4c4ef101a344fc04ac08505d3fb7f757fd5aa709051ad36027d2d1802b",
+    "before_row_sha256": "7cffc7d54b3f6586e8d0ff8e249cba1deb6dba8c9971e4825718f996b817a3d7",
+    "after_row_sha256": "68e7eb496a8c5b8ea54933dd1a06efad69efd44a1df8e880dd8fe989d20e800c",
+    "snapshot": "thinking\\evidence\\primary_math_teacher_20261016\\g3_muldiv_0031_before_slot_mapping_fix.jsonl",
+    "existing_accepted_sample_id": "remediate_1d28a9fea2261b62a8120c24",
+    "content_and_answers_changed": false
+  }
+}

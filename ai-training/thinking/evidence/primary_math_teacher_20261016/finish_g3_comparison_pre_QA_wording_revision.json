@@ -1,0 +1,553 @@
+{
+  "before_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_comparison_length_factor_and_fraction",
+      "case_group_id": "primary_20261018_finish_g3_comparison_length_factor_and_fraction",
+      "split": "train",
+      "grade": 3,
+      "topic": "length_factor_and_fraction",
+      "problem": "Đoạn dài 32 cm, đoạn ngắn 8 cm. Đoạn dài gấp mấy lần đoạn ngắn; đoạn ngắn bằng một phần mấy đoạn dài.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Dài",
+          "value": "32",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Ngắn",
+          "value": "8",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm số lần và phần của đoạn dài.",
+      "student_work": null,
+      "initial_guidance": [
+        "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Lấy số lớn chia số bé để tìm số lần; với phần của số lớn, xem số bé là một phần bằng nhau.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Dùng nhân để tái tạo số lớn và kiểm đơn vị: số lần khác số vật hoặc độ dài.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm số lần",
+          "reason": "Đếm có bao nhiêu phần bằng đoạn ngắn trong đoạn dài.",
+          "result": "4",
+          "explanation": "8*4=32; số lần không mang đơn vị cm.",
+          "expression": "32/8",
+          "unit": "lần"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm phần của đoạn dài",
+          "reason": "Một đoạn ngắn là một trong bốn phần bằng nhau của đoạn dài.",
+          "result": "1/4",
+          "explanation": "Bốn phần bằng nhau, mỗi phần8cm, ghép thành32cm.",
+          "expression": "8/32",
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Dài gấp ngắn",
+          "result": "4",
+          "unit": "lần"
+        },
+        {
+          "quantity": "Ngắn bằng phần của dài",
+          "result": "1/4",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "length_factor_and_fraction",
+        "operations": [],
+        "numeric_values": [
+          "32",
+          "8"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiplicative_comparison",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp57–62",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Existing quantity-fraction family does not cover all comparison forms."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_comparison_difference_vs_times",
+      "case_group_id": "primary_20261018_finish_g3_comparison_difference_vs_times",
+      "split": "train",
+      "grade": 3,
+      "topic": "difference_vs_times",
+      "problem": "Có 24 thẻ đỏ và 6 thẻ vàng. Tìm đỏ nhiều hơn vàng bao nhiêu thẻ và đỏ gấp mấy lần vàng. Hai câu hỏi khác nhau ra sao.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Thẻ đỏ",
+          "value": "24",
+          "unit": "thẻ",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Thẻ vàng",
+          "value": "6",
+          "unit": "thẻ",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm phần hơn và số lần, nêu đơn vị.",
+      "student_work": null,
+      "initial_guidance": [
+        "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Lấy số lớn chia số bé để tìm số lần; với phần của số lớn, xem số bé là một phần bằng nhau.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Dùng nhân để tái tạo số lớn và kiểm đơn vị: số lần khác số vật hoặc độ dài.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm phần hơn",
+          "reason": "Nhiều hơn bao nhiêu cần lấy số lớn bớt số bé.",
+          "result": "18",
+          "explanation": "18+6=24; hiệu mang đơn vị thẻ.",
+          "expression": "24-6",
+          "unit": "thẻ"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm số lần",
+          "reason": "Gấp mấy lần cần chia số lớn cho số bé.",
+          "result": "4",
+          "explanation": "6*4=24; thương là số lần, không phải18thẻ.",
+          "expression": "24/6",
+          "unit": "lần"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Đỏ nhiều hơn",
+          "result": "18",
+          "unit": "thẻ"
+        },
+        {
+          "quantity": "Đỏ gấp vàng",
+          "result": "4",
+          "unit": "lần"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "difference_vs_times",
+        "operations": [],
+        "numeric_values": [
+          "24",
+          "6"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiplicative_comparison",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp57–62",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Existing quantity-fraction family does not cover all comparison forms."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_comparison_reverse_fraction_count",
+      "case_group_id": "primary_20261018_finish_g3_comparison_reverse_fraction_count",
+      "split": "train",
+      "grade": 3,
+      "topic": "reverse_fraction_count",
+      "problem": "Có 7 học sinh trong nhóm nhỏ và 21 học sinh trong nhóm lớn. Nhóm nhỏ bằng một phần mấy nhóm lớn. Kiểm bằng việc chia nhóm lớn thành các nhóm bằng nhóm nhỏ.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Nhỏ",
+          "value": "7",
+          "unit": "học sinh",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Lớn",
+          "value": "21",
+          "unit": "học sinh",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm phần của nhóm lớn tương ứng nhóm nhỏ.",
+      "student_work": null,
+      "initial_guidance": [
+        "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Lấy số lớn chia số bé để tìm số lần; với phần của số lớn, xem số bé là một phần bằng nhau.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Dùng nhân để tái tạo số lớn và kiểm đơn vị: số lần khác số vật hoặc độ dài.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Đếm phần bằng nhau",
+          "reason": "Nhóm lớn được chia thành các phần có số học sinh bằng nhóm nhỏ.",
+          "result": "3",
+          "explanation": "7+7+7=21; chia được ba nhóm bằng nhau.",
+          "expression": "21/7",
+          "unit": "nhóm"
+        },
+        {
+          "step_id": "s1",
+          "title": "Ghi phần tương ứng",
+          "reason": "Nhóm nhỏ là một trong số phần bằng nhau vừa tìm.",
+          "result": "1/3",
+          "explanation": "Ba phần bằng nhau ghép thành toàn nhóm lớn; phần không mang đơn vị học sinh.",
+          "expression": "7/21",
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Nhóm nhỏ bằng phần của nhóm lớn",
+          "result": "1/3",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "reverse_fraction_count",
+        "operations": [],
+        "numeric_values": [
+          "7",
+          "21"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiplicative_comparison",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp57–62",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Existing quantity-fraction family does not cover all comparison forms."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_comparison_mis_difference_as_factor",
+      "case_group_id": "primary_20261018_finish_g3_comparison_mis_difference_as_factor",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_difference_as_factor",
+      "problem": "Có 30 viên bi xanh và 5 viên bi đỏ. Hỏi xanh gấp mấy lần đỏ. Học sinh viết \"30 - 5 = 25, vậy xanh gấp đỏ 25 lần.\" Hãy sửa.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Xanh",
+          "value": "30",
+          "unit": "viên",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Đỏ",
+          "value": "5",
+          "unit": "viên",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm số lần đúng và phân biệt với hiệu.",
+      "student_work": {
+        "text": "30 - 5 = 25, vậy xanh gấp đỏ 25 lần.",
+        "observations": [
+          {
+            "excerpt": "30 - 5 = 25, vậy xanh gấp đỏ 25 lần.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Nhận ra số lớn, số bé và câu hỏi theo số lần hay theo phần của một lượng.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Lấy số lớn chia số bé để tìm số lần; với phần của số lớn, xem số bé là một phần bằng nhau.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Dùng nhân để tái tạo số lớn và kiểm đơn vị: số lần khác số vật hoặc độ dài.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Nhận xét câu trả lời",
+          "reason": "Phép trừ chỉ cho phần hơn, không đếm số nhóm bằng nhau.",
+          "result": "Hiệu không phải số lần",
+          "explanation": "Chỉ kết luận từ phép trừ và nhãn lần trong câu viết.",
+          "expression": null,
+          "unit": ""
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm số lần",
+          "reason": "Lấy số xanh chia số đỏ để đếm số nhóm bằng nhau.",
+          "result": "6",
+          "explanation": "5*6=30, tái tạo đúng số xanh.",
+          "expression": "30/5",
+          "unit": "lần"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Xanh gấp đỏ",
+          "result": "6",
+          "unit": "lần"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_difference_as_factor",
+        "operations": [],
+        "numeric_values": [
+          "30",
+          "5"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiplicative_comparison",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp57–62",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Existing quantity-fraction family does not cover all comparison forms."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_sha256": "1e65482afcb1bf7858f7e91bcf424d3723dede94f917ac8b4d024a29b2e4889f",
+  "numeric_expressions_unchanged": true
+}

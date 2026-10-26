@@ -1,0 +1,5261 @@
+{
+  "schema": "MathVisionKid.archived_dev_explicit_math_audit.v1",
+  "scope": "Existing development outputs only; CPU arithmetic inspection, no new model outputs, no grading-label changes, no final-test access. Symbolic identity opt-in disabled on whole responses. Claims may be unsupported or unextracted; relation truth does not prove an answer or its grounding.",
+  "source_file_sha256": {
+    "paired_g1_g2.json": "c49a3efbbf6feb2772f4ed78d676e26cc02ab3429c25793591ca956d5a51663e",
+    "paired_g3_g4.json": "37476137507b4697031807dea65cbff2f999740fc72fccc6e00a6415e46de622",
+    "paired_g5.json": "bd27c1283a17df7b3a8f512184012e109dc4bb0bc2d7ef2a37d9f1ad0647b7f0"
+  },
+  "checker_sha256": "8ed1e23ae36865373f13c48598a615c3be65fe08786099306655306a69f2ca01",
+  "records": [
+    {
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "side": "base",
+      "output_sha256": "563d5af0ba2a4a758da9a4f1d723ba12a87e2a5ee668aee65d77e090b127a7f2",
+      "claim_counts": {
+        "true": 7,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "- 4 chục =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 110,
+          "end": 120
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 121,
+          "end": 139,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "- 7 đơn vị =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 140,
+          "end": 152
+        },
+        {
+          "rawspan": "$7 \\times 1 = 7$",
+          "normalized": "7 * 1 = 7",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "7",
+              "rational_right": "7",
+              "verdict": "true"
+            }
+          ],
+          "start": 153,
+          "end": 169,
+          "extracted_content": "7 \\times 1 = 7"
+        },
+        {
+          "rawspan": "$40 + 7 = 47$",
+          "normalized": "40 + 7 = 47",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "47",
+              "rational_right": "47",
+              "verdict": "true"
+            }
+          ],
+          "start": 190,
+          "end": 203,
+          "extracted_content": "40 + 7 = 47"
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 244,
+          "end": 262,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 317,
+          "end": 335,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "$7 \\times 1 = 7$",
+          "normalized": "7 * 1 = 7",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "7",
+              "rational_right": "7",
+              "verdict": "true"
+            }
+          ],
+          "start": 373,
+          "end": 389,
+          "extracted_content": "7 \\times 1 = 7"
+        },
+        {
+          "rawspan": "$40 + 7 = 47$",
+          "normalized": "40 + 7 = 47",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "47",
+              "rational_right": "47",
+              "verdict": "true"
+            }
+          ],
+          "start": 407,
+          "end": 420,
+          "extracted_content": "40 + 7 = 47"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "side": "adapter",
+      "output_sha256": "93a76b95e697cf57130be860726f00423d75eb812274d8680817cdabafd787cf",
+      "claim_counts": {
+        "true": 7,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "- 4 chục =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 110,
+          "end": 120
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 121,
+          "end": 139,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "- 7 đơn vị =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 140,
+          "end": 152
+        },
+        {
+          "rawspan": "$7 \\times 1 = 7$",
+          "normalized": "7 * 1 = 7",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "7",
+              "rational_right": "7",
+              "verdict": "true"
+            }
+          ],
+          "start": 153,
+          "end": 169,
+          "extracted_content": "7 \\times 1 = 7"
+        },
+        {
+          "rawspan": "$40 + 7 = 47$",
+          "normalized": "40 + 7 = 47",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "47",
+              "rational_right": "47",
+              "verdict": "true"
+            }
+          ],
+          "start": 190,
+          "end": 203,
+          "extracted_content": "40 + 7 = 47"
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 244,
+          "end": 262,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "$4 \\times 10 = 40$",
+          "normalized": "4 * 10 = 40",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40",
+              "rational_right": "40",
+              "verdict": "true"
+            }
+          ],
+          "start": 316,
+          "end": 334,
+          "extracted_content": "4 \\times 10 = 40"
+        },
+        {
+          "rawspan": "$7 \\times 1 = 7$",
+          "normalized": "7 * 1 = 7",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "7",
+              "rational_right": "7",
+              "verdict": "true"
+            }
+          ],
+          "start": 372,
+          "end": 388,
+          "extracted_content": "7 \\times 1 = 7"
+        },
+        {
+          "rawspan": "$40 + 7 = 47$",
+          "normalized": "40 + 7 = 47",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "47",
+              "rational_right": "47",
+              "verdict": "true"
+            }
+          ],
+          "start": 406,
+          "end": 419,
+          "extracted_content": "40 + 7 = 47"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "side": "base",
+      "output_sha256": "d4bceedd2827081f924d0c44d5040baf0e28b75b21c18b5b60140a5c4171cc25",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 4
+      },
+      "claims": [
+        {
+          "rawspan": "- **45 < 50 < 54** (45 nhỏ hơn 50 và 50 nhỏ hơn 54)",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 225,
+          "end": 276
+        },
+        {
+          "rawspan": "- So sánh các chữ số ở vị trí đơn vị: 5 (của 45) và 0 (của 50). Vì 5 > 0, nên 45 > 50.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 402,
+          "end": 488
+        },
+        {
+          "rawspan": "- So sánh các chữ số ở vị trí đơn vị: 0 (của 50) và 4 (của 54). Vì 4 > 0, nên 50 < 54.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 516,
+          "end": 602
+        },
+        {
+          "rawspan": "- 45 < 50 < 54 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 632,
+          "end": 648
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "side": "adapter",
+      "output_sha256": "c523a9382ddf29ce76b0f43316dcb84aa25278f750df3bc1976867c5504f39c7",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 9
+      },
+      "claims": [
+        {
+          "rawspan": "- So sánh 45 và 50: 45 < 50",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 224,
+          "end": 251
+        },
+        {
+          "rawspan": "- So sánh 45 và 54: 45 < 54",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 255,
+          "end": 282
+        },
+        {
+          "rawspan": "- So sánh 50 và 54: 50 < 54",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 286,
+          "end": 313
+        },
+        {
+          "rawspan": "- 45 và 50: 4 < 5 → 45 < 50",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 692,
+          "end": 719
+        },
+        {
+          "rawspan": "- 45 và 54: 4 < 5 → 45 < 54",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 722,
+          "end": 749
+        },
+        {
+          "rawspan": "- 50 và 54: 5 = 5 → so sánh hàng đơn vị: 0 < 4 → 50 < 54",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 752,
+          "end": 808
+        },
+        {
+          "rawspan": "- 45 < 50 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 833,
+          "end": 844
+        },
+        {
+          "rawspan": "- 45 < 54 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 845,
+          "end": 856
+        },
+        {
+          "rawspan": "- 50 < 54 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 857,
+          "end": 868
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "side": "base",
+      "output_sha256": "5909a88fdd02b9bca6e6b9d9ea5624a022cafb76013337ddeef8238cdc81d128",
+      "claim_counts": {
+        "true": 10,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$$ 6 + 3 = 9 $$",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 33,
+          "end": 48,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$$ 9 - 6 = 3 $$",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 144,
+          "end": 159,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 187,
+          "end": 200,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$$ 9 - 3 = 6 $$",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 260,
+          "end": 275,
+          "extracted_content": " 9 - 3 = 6 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 303,
+          "end": 316,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 390,
+          "end": 403,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$ 9 - 6 = 3 $",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 410,
+          "end": 423,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$ 9 - 3 = 6 $",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 430,
+          "end": 443,
+          "extracted_content": " 9 - 3 = 6 "
+        },
+        {
+          "rawspan": "$$ 9 - 6 = 3 $$",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 497,
+          "end": 512,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$$ 9 - 3 = 6 $$",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 515,
+          "end": 530,
+          "extracted_content": " 9 - 3 = 6 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "side": "adapter",
+      "output_sha256": "5909a88fdd02b9bca6e6b9d9ea5624a022cafb76013337ddeef8238cdc81d128",
+      "claim_counts": {
+        "true": 10,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$$ 6 + 3 = 9 $$",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 33,
+          "end": 48,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$$ 9 - 6 = 3 $$",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 144,
+          "end": 159,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 187,
+          "end": 200,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$$ 9 - 3 = 6 $$",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 260,
+          "end": 275,
+          "extracted_content": " 9 - 3 = 6 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 303,
+          "end": 316,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$ 6 + 3 = 9 $",
+          "normalized": "6 + 3 = 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 390,
+          "end": 403,
+          "extracted_content": " 6 + 3 = 9 "
+        },
+        {
+          "rawspan": "$ 9 - 6 = 3 $",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 410,
+          "end": 423,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$ 9 - 3 = 6 $",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 430,
+          "end": 443,
+          "extracted_content": " 9 - 3 = 6 "
+        },
+        {
+          "rawspan": "$$ 9 - 6 = 3 $$",
+          "normalized": "9 - 6 = 3",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3",
+              "rational_right": "3",
+              "verdict": "true"
+            }
+          ],
+          "start": 497,
+          "end": 512,
+          "extracted_content": " 9 - 6 = 3 "
+        },
+        {
+          "rawspan": "$$ 9 - 3 = 6 $$",
+          "normalized": "9 - 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 515,
+          "end": 530,
+          "extracted_content": " 9 - 3 = 6 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "side": "base",
+      "output_sha256": "79e20ced10e4bd6b6a37706b3165fadc01b36d8e91e71561548786e4d51461fe",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "- Xét các số hạng trong phép cộng: 6 + 2 = 8.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 21,
+          "end": 66
+        },
+        {
+          "rawspan": "- So sánh 8 với 9: 8 < 9.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 67,
+          "end": 92
+        },
+        {
+          "rawspan": "**Kết luận:** 6 + 2 □ 9 → 8 □ 9 → 8 < 9.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 94,
+          "end": 134
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "side": "adapter",
+      "output_sha256": "79e20ced10e4bd6b6a37706b3165fadc01b36d8e91e71561548786e4d51461fe",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "- Xét các số hạng trong phép cộng: 6 + 2 = 8.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 21,
+          "end": 66
+        },
+        {
+          "rawspan": "- So sánh 8 với 9: 8 < 9.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 67,
+          "end": 92
+        },
+        {
+          "rawspan": "**Kết luận:** 6 + 2 □ 9 → 8 □ 9 → 8 < 9.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 94,
+          "end": 134
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "side": "base",
+      "output_sha256": "4fd0b2714596f4c5a9c77fdbb5604da37c1fabf1176a844864d3cc168639d835",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 5
+      },
+      "claims": [
+        {
+          "rawspan": "Câu nói của em là: \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 11,
+          "end": 87
+        },
+        {
+          "rawspan": "- 1 < 6 → nên 16 < 61.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 351,
+          "end": 373
+        },
+        {
+          "rawspan": "- Câu đúng là: \"16 < 61 vì chữ số 6 trong 16 nhỏ hơn chữ số 6 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 656,
+          "end": 728
+        },
+        {
+          "rawspan": "Câu em viết **sai**, vì vị trí các chữ số trong số 16 và 61 bị lầm lẫn. Câu đúng là: \"16 < 61 vì chữ số 6 trong 16 nhỏ hơn chữ số 6 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 744,
+          "end": 886
+        },
+        {
+          "rawspan": "- **Câu cần sửa:** \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 911,
+          "end": 987
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "side": "adapter",
+      "output_sha256": "31e6eab258c88f1457487880c333e4c84bbc6c81ab58201331c674aa409c6e5a",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "Câu nói của em là: \"16 > 61 vì chữ số 6 trong 16 lớn hơn chữ số 1 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 11,
+          "end": 87
+        },
+        {
+          "rawspan": "- 1 < 6 → nên 16 < 61.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 351,
+          "end": 373
+        },
+        {
+          "rawspan": "- Câu đúng là: \"16 < 61 vì chữ số 6 trong 16 nhỏ hơn chữ số 6 trong 61\".",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 737,
+          "end": 809
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "side": "base",
+      "output_sha256": "0f21c5afb705cbbcccc0432bf1e56a04bb35f414ee1bd03e6711665224c72d0d",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "side": "adapter",
+      "output_sha256": "7e3f79270f218c9f7989b9334609656d660592551ebfe7512bbf8d083382d155",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "side": "base",
+      "output_sha256": "06322cb937c21cb77675fb3a5e153f3d2e1c942b3555e8e68a2429e712f9c5da",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 4
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n     \\text{Số lượng số} = \\text{Số lớn} - \\text{Số nhỏ} + 1\n     $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 429,
+          "end": 499,
+          "extracted_content": "\n     \\text{Số lượng số} = \\text{Số lớn} - \\text{Số nhỏ} + 1\n     "
+        },
+        {
+          "rawspan": "$$\n     \\text{Số lượng số} = 64 - 46 + 1 = 19\n     $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 505,
+          "end": 558,
+          "extracted_content": "\n     \\text{Số lượng số} = 64 - 46 + 1 = 19\n     "
+        },
+        {
+          "rawspan": "- 64 - 46 = 18",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 787,
+          "end": 801
+        },
+        {
+          "rawspan": "- 18 + 1 = 19",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 802,
+          "end": 815
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "side": "adapter",
+      "output_sha256": "d42bee1534ae5e1523ad09c4ac40111dbd2afb325888289c012fe35581305507",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n     \\text{Số lượng số} = \\text{Số lớn} - \\text{Số nhỏ} + 1\n     $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 429,
+          "end": 499,
+          "extracted_content": "\n     \\text{Số lượng số} = \\text{Số lớn} - \\text{Số nhỏ} + 1\n     "
+        },
+        {
+          "rawspan": "$$\n     \\text{Số lượng số} = 64 - 46 + 1 = 19\n     $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 523,
+          "end": 576,
+          "extracted_content": "\n     \\text{Số lượng số} = 64 - 46 + 1 = 19\n     "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "side": "base",
+      "output_sha256": "b05f169342a9190cd8ec55c53bc2bf6d9e6ecfa8f5b6fbaf96962336106f1012",
+      "claim_counts": {
+        "true": 3,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "- Cửa ra vào cao 2 m = $2 \\times 100 = 200$ cm.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 71,
+          "end": 118
+        },
+        {
+          "rawspan": "$2 \\times 100 = 200$",
+          "normalized": "2 * 100 = 200",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "200",
+              "rational_right": "200",
+              "verdict": "true"
+            }
+          ],
+          "start": 94,
+          "end": 114,
+          "extracted_content": "2 \\times 100 = 200"
+        },
+        {
+          "rawspan": "$200 - 185 = 15$",
+          "normalized": "200 - 185 = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 285,
+          "end": 301,
+          "extracted_content": "200 - 185 = 15"
+        },
+        {
+          "rawspan": "- Cửa cao 2 m = 200 cm.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 383,
+          "end": 406
+        },
+        {
+          "rawspan": "$200 - 185 = 15$",
+          "normalized": "200 - 185 = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 445,
+          "end": 461,
+          "extracted_content": "200 - 185 = 15"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "side": "adapter",
+      "output_sha256": "0d111b4a5b4dcf65d44c9e9f688963f68d31b20ab538441b0d5d6e6f1ba1c5c2",
+      "claim_counts": {
+        "true": 3,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "- Cửa ra vào cao 2 m = $2 \\times 100 = 200$ cm.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 71,
+          "end": 118
+        },
+        {
+          "rawspan": "$2 \\times 100 = 200$",
+          "normalized": "2 * 100 = 200",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "200",
+              "rational_right": "200",
+              "verdict": "true"
+            }
+          ],
+          "start": 94,
+          "end": 114,
+          "extracted_content": "2 \\times 100 = 200"
+        },
+        {
+          "rawspan": "$200 - 185 = 15$",
+          "normalized": "200 - 185 = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 285,
+          "end": 301,
+          "extracted_content": "200 - 185 = 15"
+        },
+        {
+          "rawspan": "- Cửa cao 2 m = 200 cm.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 390,
+          "end": 413
+        },
+        {
+          "rawspan": "$200 - 185 = 15$",
+          "normalized": "200 - 185 = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 448,
+          "end": 464,
+          "extracted_content": "200 - 185 = 15"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "side": "base",
+      "output_sha256": "997529ee8291e068ac2a2e92347fb913c3b30d7085755f4c629d79879fb47e69",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "normalized": "14 / 4 = 3",
+          "verdict": "unsupported",
+          "reason": "out-of-span remainder notation requires contextual interpretation",
+          "rawspan": "$14 \\div 4 = 3$",
+          "start": 453,
+          "end": 468,
+          "extracted_content": "14 \\div 4 = 3"
+        },
+        {
+          "rawspan": "- Vì 14 = 4 × 3 + 2 → vị trí 14 là vị trí thứ 2 trong chu kỳ.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 516,
+          "end": 577
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "side": "adapter",
+      "output_sha256": "edbd286717c5aa64fac5571453c31045d09079c44326bd8117bba7d73e085113",
+      "claim_counts": {
+        "true": 2,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "normalized": "14 / 4 = 3",
+          "verdict": "unsupported",
+          "reason": "out-of-span remainder notation requires contextual interpretation",
+          "rawspan": "$14 \\div 4 = 3$",
+          "start": 389,
+          "end": 404,
+          "extracted_content": "14 \\div 4 = 3"
+        },
+        {
+          "rawspan": "$4 \\times 3 = 12$",
+          "normalized": "4 * 3 = 12",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "12",
+              "rational_right": "12",
+              "verdict": "true"
+            }
+          ],
+          "start": 416,
+          "end": 433,
+          "extracted_content": "4 \\times 3 = 12"
+        },
+        {
+          "rawspan": "$14 - 12 = 2$",
+          "normalized": "14 - 12 = 2",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2",
+              "rational_right": "2",
+              "verdict": "true"
+            }
+          ],
+          "start": 435,
+          "end": 448,
+          "extracted_content": "14 - 12 = 2"
+        },
+        {
+          "rawspan": "- Vị trí 14 tương ứng với vị trí 2 trong chu kỳ (vì 14 = 4 × 3 + 2).",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 492,
+          "end": 560
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "side": "base",
+      "output_sha256": "97929239824fca6c2033ee34b4a1a7dc83e274a8c2b7a2535763ac081e1c585c",
+      "claim_counts": {
+        "true": 3,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$5 \\times 4 = 20$",
+          "normalized": "5 * 4 = 20",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "20",
+              "rational_right": "20",
+              "verdict": "true"
+            }
+          ],
+          "start": 114,
+          "end": 131,
+          "extracted_content": "5 \\times 4 = 20"
+        },
+        {
+          "rawspan": "$2 \\times 3 = 6$",
+          "normalized": "2 * 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 234,
+          "end": 250,
+          "extracted_content": "2 \\times 3 = 6"
+        },
+        {
+          "rawspan": "$20 + 6 = 26$",
+          "normalized": "20 + 6 = 26",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "26",
+              "rational_right": "26",
+              "verdict": "true"
+            }
+          ],
+          "start": 303,
+          "end": 316,
+          "extracted_content": "20 + 6 = 26"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "side": "adapter",
+      "output_sha256": "c4503b27c5b74f15293355658cefb897547aa4a650c5791beb7c4c86f1f925f5",
+      "claim_counts": {
+        "true": 3,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$5 \\times 4 = 20$",
+          "normalized": "5 * 4 = 20",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "20",
+              "rational_right": "20",
+              "verdict": "true"
+            }
+          ],
+          "start": 114,
+          "end": 131,
+          "extracted_content": "5 \\times 4 = 20"
+        },
+        {
+          "rawspan": "$2 \\times 3 = 6$",
+          "normalized": "2 * 3 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 234,
+          "end": 250,
+          "extracted_content": "2 \\times 3 = 6"
+        },
+        {
+          "rawspan": "$20 + 6 = 26$",
+          "normalized": "20 + 6 = 26",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "26",
+              "rational_right": "26",
+              "verdict": "true"
+            }
+          ],
+          "start": 303,
+          "end": 316,
+          "extracted_content": "20 + 6 = 26"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "side": "base",
+      "output_sha256": "fa302716029f9ca67e20260d5de4cc1ed62470b5edbc2d73863fca9d68bed856",
+      "claim_counts": {
+        "true": 6,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ 3 + 2 = 5 $",
+          "normalized": "3 + 2 = 5",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5",
+              "rational_right": "5",
+              "verdict": "true"
+            }
+          ],
+          "start": 183,
+          "end": 196,
+          "extracted_content": " 3 + 2 = 5 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 270,
+          "end": 288,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 + 2 = 5 $",
+          "normalized": "3 + 2 = 5",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5",
+              "rational_right": "5",
+              "verdict": "true"
+            }
+          ],
+          "start": 334,
+          "end": 347,
+          "extracted_content": " 3 + 2 = 5 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 442,
+          "end": 460,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 + 2 = 5 $",
+          "normalized": "3 + 2 = 5",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5",
+              "rational_right": "5",
+              "verdict": "true"
+            }
+          ],
+          "start": 522,
+          "end": 535,
+          "extracted_content": " 3 + 2 = 5 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 627,
+          "end": 645,
+          "extracted_content": " 3 \\times 2 = 6 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "side": "adapter",
+      "output_sha256": "8c77fb6a3d0a7e70c1448937b55112ec0bcd72aceab026c0e1ca0bc47eff57e2",
+      "claim_counts": {
+        "true": 10,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 183,
+          "end": 201,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 + 2 = 5 $",
+          "normalized": "3 + 2 = 5",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5",
+              "rational_right": "5",
+              "verdict": "true"
+            }
+          ],
+          "start": 250,
+          "end": 263,
+          "extracted_content": " 3 + 2 = 5 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 329,
+          "end": 347,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 432,
+          "end": 450,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 + 2 = 5 $",
+          "normalized": "3 + 2 = 5",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5",
+              "rational_right": "5",
+              "verdict": "true"
+            }
+          ],
+          "start": 504,
+          "end": 517,
+          "extracted_content": " 3 + 2 = 5 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 533,
+          "end": 551,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 645,
+          "end": 663,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 765,
+          "end": 783,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 848,
+          "end": 866,
+          "extracted_content": " 3 \\times 2 = 6 "
+        },
+        {
+          "rawspan": "$ 3 \\times 2 = 6 $",
+          "normalized": "3 * 2 = 6",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6",
+              "rational_right": "6",
+              "verdict": "true"
+            }
+          ],
+          "start": 970,
+          "end": 988,
+          "extracted_content": " 3 \\times 2 = 6 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "side": "base",
+      "output_sha256": "208e63a45764075e65477c7e59562f2e4edcb7e86e6e0776af50d11aae1c9922",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "side": "adapter",
+      "output_sha256": "be14ee1cdd239bec4d835eec3b0f48a815cdddc7281d1d65753c53081493b8ba",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "- Ngày 17 là thứ Tư → Ngày 18 là ngày sau, tức là thứ Ba + 1 ngày = thứ Tư.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 109,
+          "end": 184
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "side": "base",
+      "output_sha256": "1d31fad32ed16fa5a66235ec096d21c205df8fcf617396b9e7459aab1a7c059c",
+      "claim_counts": {
+        "true": 6,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "$$\nx = 9 \\times 7 + 4\n$$",
+          "normalized": "x = 9 * 7 + 4",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 128,
+          "end": 152,
+          "extracted_content": "\nx = 9 \\times 7 + 4\n"
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 168,
+          "end": 187,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 190,
+          "end": 205,
+          "extracted_content": " 63 + 4 = 67 "
+        },
+        {
+          "rawspan": "$ x = 67 $",
+          "normalized": "x = 67",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 225,
+          "end": 235,
+          "extracted_content": " x = 67 "
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 286,
+          "end": 305,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 315,
+          "end": 330,
+          "extracted_content": " 63 + 4 = 67 "
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 425,
+          "end": 444,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 447,
+          "end": 462,
+          "extracted_content": " 63 + 4 = 67 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "side": "adapter",
+      "output_sha256": "af6899dc33dc8552d3776b82f5be0ccce07cb1ef9fc5f0e02c5ab1b5f3b258b5",
+      "claim_counts": {
+        "true": 6,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "$$\nx = 9 \\times 7 + 4\n$$",
+          "normalized": "x = 9 * 7 + 4",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 128,
+          "end": 152,
+          "extracted_content": "\nx = 9 \\times 7 + 4\n"
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 168,
+          "end": 187,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 190,
+          "end": 205,
+          "extracted_content": " 63 + 4 = 67 "
+        },
+        {
+          "rawspan": "$ x = 67 $",
+          "normalized": "x = 67",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 225,
+          "end": 235,
+          "extracted_content": " x = 67 "
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 286,
+          "end": 305,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 315,
+          "end": 330,
+          "extracted_content": " 63 + 4 = 67 "
+        },
+        {
+          "rawspan": "$ 9 \\times 7 = 63 $",
+          "normalized": "9 * 7 = 63",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "63",
+              "rational_right": "63",
+              "verdict": "true"
+            }
+          ],
+          "start": 425,
+          "end": 444,
+          "extracted_content": " 9 \\times 7 = 63 "
+        },
+        {
+          "rawspan": "$ 63 + 4 = 67 $",
+          "normalized": "63 + 4 = 67",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "67",
+              "rational_right": "67",
+              "verdict": "true"
+            }
+          ],
+          "start": 447,
+          "end": 462,
+          "extracted_content": " 63 + 4 = 67 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "side": "base",
+      "output_sha256": "d4cf56ded5b8d95fe3448f53bff7eacbb941bf377848697d06dc3b6e9e7aaa7b",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 7
+      },
+      "claims": [
+        {
+          "rawspan": "- 3 kg = 3000 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 171,
+          "end": 186
+        },
+        {
+          "rawspan": "- Tổng khối lượng bao hạt: 3000 g + 240 g = **3240 g**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 189,
+          "end": 243
+        },
+        {
+          "rawspan": "- Khối lượng hạt còn lại: 3240 g - 850 g = **2390 g**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 275,
+          "end": 328
+        },
+        {
+          "rawspan": "- 2390 g = **2 kg 390 g**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 383,
+          "end": 408
+        },
+        {
+          "rawspan": "- 3 kg 240 g = 3240 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 481,
+          "end": 502
+        },
+        {
+          "rawspan": "- 3240 g - 850 g = 2390 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 505,
+          "end": 530
+        },
+        {
+          "rawspan": "- 2390 g = 2 kg 390 g ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 533,
+          "end": 556
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "side": "adapter",
+      "output_sha256": "1b552b52dfdfb8d0b0484815a6220b4893e0e38a8519d4c23e8664a7eb49663c",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 9
+      },
+      "claims": [
+        {
+          "rawspan": "- 1 kg = 1000 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 171,
+          "end": 186
+        },
+        {
+          "rawspan": "- 3 kg = 3 × 1000 g = 3000 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 187,
+          "end": 215
+        },
+        {
+          "rawspan": "- Bao hạt nặng tổng cộng là: 3000 g + 240 g = 3240 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 216,
+          "end": 268
+        },
+        {
+          "rawspan": "- Khối lượng bao hạt còn lại = Khối lượng bao hạt ban đầu - Khối lượng bao hạt đã lấy ra",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 353,
+          "end": 441
+        },
+        {
+          "rawspan": "$$\n3240 \\text{ g} - 850 \\text{ g} = 2390 \\text{ g}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 443,
+          "end": 496,
+          "extracted_content": "\n3240 \\text{ g} - 850 \\text{ g} = 2390 \\text{ g}\n"
+        },
+        {
+          "rawspan": "- 2390 g = 2 kg 390 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 551,
+          "end": 572
+        },
+        {
+          "rawspan": "- 3 kg 240 g = 3240 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 652,
+          "end": 673
+        },
+        {
+          "rawspan": "- 3240 g - 850 g = 2390 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 674,
+          "end": 699
+        },
+        {
+          "rawspan": "- 2390 g = 2 kg 390 g",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 700,
+          "end": 721
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "side": "base",
+      "output_sha256": "fad3bddde42a9ac007a83b1e4d6005455db193541b91ecea8e0bc043330f380b",
+      "claim_counts": {
+        "true": 1,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n  \\frac{96}{3} = 32 \\text{ cm}\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 239,
+          "end": 277,
+          "extracted_content": "\n  \\frac{96}{3} = 32 \\text{ cm}\n  "
+        },
+        {
+          "rawspan": "$32 + 32 + 32 = 96$",
+          "normalized": "32 + 32 + 32 = 96",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "96",
+              "rational_right": "96",
+              "verdict": "true"
+            }
+          ],
+          "start": 337,
+          "end": 356,
+          "extracted_content": "32 + 32 + 32 = 96"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "side": "adapter",
+      "output_sha256": "55f16666384ebdc63919743ee1dd2df1c4815f7925231f23fd3d6443cabcc2cd",
+      "claim_counts": {
+        "true": 1,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n  \\frac{96}{3} = 32 \\text{ cm}\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 239,
+          "end": 277,
+          "extracted_content": "\n  \\frac{96}{3} = 32 \\text{ cm}\n  "
+        },
+        {
+          "rawspan": "$32 + 32 + 32 = 96$",
+          "normalized": "32 + 32 + 32 = 96",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "96",
+              "rational_right": "96",
+              "verdict": "true"
+            }
+          ],
+          "start": 337,
+          "end": 356,
+          "extracted_content": "32 + 32 + 32 = 96"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "side": "base",
+      "output_sha256": "0c322879255b2ce30ae50a5bf5a91fb1dde92fd43686a2c671d5cc2733d48000",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "Tính 24 + 18 = ?",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 105,
+          "end": 121
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "side": "adapter",
+      "output_sha256": "f1be6e1e564390543ad8e7d54436f8945621d2689626bc44b160ffeaf5cac706",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "side": "base",
+      "output_sha256": "ef4c52ec1849ca9219bce43fe5607f7726f11e68fd6ce0d38641bc865346a621",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 10
+      },
+      "claims": [
+        {
+          "rawspan": "**\"0 : 7 = 7 vì 7 × 0 = 0\"**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 56,
+          "end": 84
+        },
+        {
+          "rawspan": "**0 : 7 = 0**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 257,
+          "end": 270
+        },
+        {
+          "rawspan": "- 0 × 7 = 0 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 369,
+          "end": 382
+        },
+        {
+          "rawspan": "**0 : 7 = 0**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 468,
+          "end": 481
+        },
+        {
+          "rawspan": "- 0 × 7 = 0 ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 553,
+          "end": 566
+        },
+        {
+          "rawspan": "- Phép chia đúng là: **0 : 7 = 0**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 677,
+          "end": 711
+        },
+        {
+          "rawspan": "- Kiểm tra bằng phép nhân: **0 × 7 = 0** ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 714,
+          "end": 756
+        },
+        {
+          "rawspan": "- **0 : 7 = 0**",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 780,
+          "end": 795
+        },
+        {
+          "rawspan": "- **Kiểm tra bằng phép nhân: 0 × 7 = 0** ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 798,
+          "end": 840
+        },
+        {
+          "rawspan": "Phép chia 0 : 7 = 0 là đúng, vì 0 chia cho bất kỳ số nào (không bằng 0) đều bằng 0. Khi kiểm tra bằng phép nhân, ta có 0 × 7 = 0, điều này đúng và nhất quán.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 860,
+          "end": 1017
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "side": "adapter",
+      "output_sha256": "9bbf42f6913ba0c5d60f7f5640b89cca52814be8c8c4376cb8b47fcabf663bef",
+      "claim_counts": {
+        "true": 5,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "Em viết: \"0 : 7 = 7 vì 7 × 0 = 0\". Em đã dùng phép kiểm đúng chưa? Hãy sửa kết quả phép chia và giải thích bằng phép nhân kiểm lại.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 27,
+          "end": 158
+        },
+        {
+          "rawspan": "Em đã viết: \"0 : 7 = 7\", nhưng đây là phép chia sai. Vì 0 chia cho 7 không thể được bằng 7. Phép chia này không đúng.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 203,
+          "end": 320
+        },
+        {
+          "rawspan": "$$\n   0 : 7 = 0\n   $$",
+          "normalized": "0 / 7 = 0",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "0",
+              "rational_right": "0",
+              "verdict": "true"
+            }
+          ],
+          "start": 374,
+          "end": 395,
+          "extracted_content": "\n   0 : 7 = 0\n   "
+        },
+        {
+          "rawspan": "$$\n   0 \\times 7 = 0\n   $$",
+          "normalized": "0 * 7 = 0",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "0",
+              "rational_right": "0",
+              "verdict": "true"
+            }
+          ],
+          "start": 492,
+          "end": 518,
+          "extracted_content": "\n   0 \\times 7 = 0\n   "
+        },
+        {
+          "rawspan": "$0 : 7 = 0$",
+          "normalized": "0 / 7 = 0",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "0",
+              "rational_right": "0",
+              "verdict": "true"
+            }
+          ],
+          "start": 625,
+          "end": 636,
+          "extracted_content": "0 : 7 = 0"
+        },
+        {
+          "rawspan": "$0 \\times 7 = 0$",
+          "normalized": "0 * 7 = 0",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "0",
+              "rational_right": "0",
+              "verdict": "true"
+            }
+          ],
+          "start": 661,
+          "end": 677,
+          "extracted_content": "0 \\times 7 = 0"
+        },
+        {
+          "rawspan": "$$\n0 : 7 = 0\n$$",
+          "normalized": "0 / 7 = 0",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "0",
+              "rational_right": "0",
+              "verdict": "true"
+            }
+          ],
+          "start": 792,
+          "end": 807,
+          "extracted_content": "\n0 : 7 = 0\n"
+        },
+        {
+          "rawspan": "$$\n0 \\times 7 = 0 \\quad \\text{(đúng)}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 840,
+          "end": 880,
+          "extracted_content": "\n0 \\times 7 = 0 \\quad \\text{(đúng)}\n"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "side": "base",
+      "output_sha256": "95476402ac2834042265bb9442ebf4551e4485ab7b2c152472b5825c6c57ca27",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "side": "adapter",
+      "output_sha256": "aae60e75db1338c32b2979adcea6da06e250161996eb5df7dda92d10fb72a5bf",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": []
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "side": "base",
+      "output_sha256": "5e9968c2fae0bd36ff8b406c63de73fea1c6dbb0301f914b2ba019e8da23f175",
+      "claim_counts": {
+        "true": 4,
+        "false": 3,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ \\frac{3}{4} = \\frac{9}{12} $",
+          "normalized": "( ( 3 ) / ( 4 ) ) = ( ( 9 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/4",
+              "rational_right": "3/4",
+              "verdict": "true"
+            }
+          ],
+          "start": 192,
+          "end": 222,
+          "extracted_content": " \\frac{3}{4} = \\frac{9}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{5}{6} = \\frac{10}{12} $",
+          "normalized": "( ( 5 ) / ( 6 ) ) = ( ( 10 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 225,
+          "end": 256,
+          "extracted_content": " \\frac{5}{6} = \\frac{10}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{9}{12} < \\frac{7}{12} < \\frac{10}{12} $",
+          "normalized": "( ( 9 ) / ( 12 ) ) < ( ( 7 ) / ( 12 ) ) < ( ( 10 ) / ( 12 ) )",
+          "verdict": "false",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "<",
+              "rational_left": "3/4",
+              "rational_right": "7/12",
+              "correction": {
+                "actual_left": "3/4",
+                "actual_right": "7/12",
+                "true_relation": ">"
+              },
+              "verdict": "false"
+            },
+            {
+              "operator": "<",
+              "rational_left": "7/12",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 488,
+          "end": 535,
+          "extracted_content": " \\frac{9}{12} < \\frac{7}{12} < \\frac{10}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{3}{4} < \\frac{7}{12} < \\frac{5}{6} $",
+          "normalized": "( ( 3 ) / ( 4 ) ) < ( ( 7 ) / ( 12 ) ) < ( ( 5 ) / ( 6 ) )",
+          "verdict": "false",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "<",
+              "rational_left": "3/4",
+              "rational_right": "7/12",
+              "correction": {
+                "actual_left": "3/4",
+                "actual_right": "7/12",
+                "true_relation": ">"
+              },
+              "verdict": "false"
+            },
+            {
+              "operator": "<",
+              "rational_left": "7/12",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 545,
+          "end": 589,
+          "extracted_content": " \\frac{3}{4} < \\frac{7}{12} < \\frac{5}{6} "
+        },
+        {
+          "rawspan": "$ \\frac{3}{4} = \\frac{9}{12} $",
+          "normalized": "( ( 3 ) / ( 4 ) ) = ( ( 9 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/4",
+              "rational_right": "3/4",
+              "verdict": "true"
+            }
+          ],
+          "start": 718,
+          "end": 748,
+          "extracted_content": " \\frac{3}{4} = \\frac{9}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{5}{6} = \\frac{10}{12} $",
+          "normalized": "( ( 5 ) / ( 6 ) ) = ( ( 10 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 768,
+          "end": 799,
+          "extracted_content": " \\frac{5}{6} = \\frac{10}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{9}{12} < \\frac{7}{12} < \\frac{10}{12} $",
+          "normalized": "( ( 9 ) / ( 12 ) ) < ( ( 7 ) / ( 12 ) ) < ( ( 10 ) / ( 12 ) )",
+          "verdict": "false",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "<",
+              "rational_left": "3/4",
+              "rational_right": "7/12",
+              "correction": {
+                "actual_left": "3/4",
+                "actual_right": "7/12",
+                "true_relation": ">"
+              },
+              "verdict": "false"
+            },
+            {
+              "operator": "<",
+              "rational_left": "7/12",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 802,
+          "end": 849,
+          "extracted_content": " \\frac{9}{12} < \\frac{7}{12} < \\frac{10}{12} "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "side": "adapter",
+      "output_sha256": "055035c5e898d3d4b65ecc6786b96c1da206fd07c5da49d920baec9cb364bdc4",
+      "claim_counts": {
+        "true": 2,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ \\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12} $",
+          "normalized": "( ( 3 ) / ( 4 ) ) = ( ( 3 * 3 ) / ( 4 * 3 ) ) = ( ( 9 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/4",
+              "rational_right": "3/4",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "3/4",
+              "rational_right": "3/4",
+              "verdict": "true"
+            }
+          ],
+          "start": 409,
+          "end": 471,
+          "extracted_content": " \\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12} "
+        },
+        {
+          "rawspan": "$ \\frac{5}{6} = \\frac{5 \\times 2}{6 \\times 2} = \\frac{10}{12} $",
+          "normalized": "( ( 5 ) / ( 6 ) ) = ( ( 5 * 2 ) / ( 6 * 2 ) ) = ( ( 10 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 474,
+          "end": 537,
+          "extracted_content": " \\frac{5}{6} = \\frac{5 \\times 2}{6 \\times 2} = \\frac{10}{12} "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "side": "base",
+      "output_sha256": "8fdecfb026ea54dc8e1787305b8d254fd8549aa8f893fe455940c0fdc75fa1e0",
+      "claim_counts": {
+        "true": 2,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\text{Số cốc} = \\frac{5}{6} \\div \\frac{1}{12}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 192,
+          "end": 243,
+          "extracted_content": "\n\\text{Số cốc} = \\frac{5}{6} \\div \\frac{1}{12}\n"
+        },
+        {
+          "rawspan": "$$\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n$$",
+          "normalized": "( ( 5 ) / ( 6 ) ) / ( ( 1 ) / ( 12 ) ) = ( ( 5 ) / ( 6 ) ) * ( ( 12 ) / ( 1 ) ) = ( ( 5 * 12 ) / ( 6 * 1 ) ) = ( ( 60 ) / ( 6 ) ) = 10",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            }
+          ],
+          "start": 336,
+          "end": 458,
+          "extracted_content": "\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n"
+        },
+        {
+          "rawspan": "$10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}$",
+          "normalized": "10 * ( ( 1 ) / ( 12 ) ) = ( ( 10 ) / ( 12 ) ) = ( ( 5 ) / ( 6 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 622,
+          "end": 676,
+          "extracted_content": "10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "side": "adapter",
+      "output_sha256": "7e69b64c41f558710fcbd825973785c993e1ff66e1ed0f336176a36a533727f4",
+      "claim_counts": {
+        "true": 2,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\text{Số cốc} = \\frac{5}{6} \\div \\frac{1}{12}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 264,
+          "end": 315,
+          "extracted_content": "\n\\text{Số cốc} = \\frac{5}{6} \\div \\frac{1}{12}\n"
+        },
+        {
+          "rawspan": "$$\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n$$",
+          "normalized": "( ( 5 ) / ( 6 ) ) / ( ( 1 ) / ( 12 ) ) = ( ( 5 ) / ( 6 ) ) * ( ( 12 ) / ( 1 ) ) = ( ( 5 * 12 ) / ( 6 * 1 ) ) = ( ( 60 ) / ( 6 ) ) = 10",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "10",
+              "rational_right": "10",
+              "verdict": "true"
+            }
+          ],
+          "start": 343,
+          "end": 465,
+          "extracted_content": "\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n"
+        },
+        {
+          "rawspan": "$10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}$",
+          "normalized": "10 * ( ( 1 ) / ( 12 ) ) = ( ( 10 ) / ( 12 ) ) = ( ( 5 ) / ( 6 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "5/6",
+              "rational_right": "5/6",
+              "verdict": "true"
+            }
+          ],
+          "start": 629,
+          "end": 683,
+          "extracted_content": "10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "side": "base",
+      "output_sha256": "222554fc63985cec8a62069c90dde44e8d3ea0aa03f177fbca5fe9a3e277af91",
+      "claim_counts": {
+        "true": 4,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ 4 \\times 28 = 112 $",
+          "normalized": "4 * 28 = 112",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "112",
+              "rational_right": "112",
+              "verdict": "true"
+            }
+          ],
+          "start": 42,
+          "end": 63,
+          "extracted_content": " 4 \\times 28 = 112 "
+        },
+        {
+          "rawspan": "$ 24 + 30 + 27 = 81 $",
+          "normalized": "24 + 30 + 27 = 81",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "81",
+              "rational_right": "81",
+              "verdict": "true"
+            }
+          ],
+          "start": 106,
+          "end": 127,
+          "extracted_content": " 24 + 30 + 27 = 81 "
+        },
+        {
+          "rawspan": "$ 112 - 81 = 31 $",
+          "normalized": "112 - 81 = 31",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "31",
+              "rational_right": "31",
+              "verdict": "true"
+            }
+          ],
+          "start": 166,
+          "end": 183,
+          "extracted_content": " 112 - 81 = 31 "
+        },
+        {
+          "rawspan": "$ 24 + 30 + 27 + 31 = 112 $",
+          "normalized": "24 + 30 + 27 + 31 = 112",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "112",
+              "rational_right": "112",
+              "verdict": "true"
+            }
+          ],
+          "start": 235,
+          "end": 262,
+          "extracted_content": " 24 + 30 + 27 + 31 = 112 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "side": "adapter",
+      "output_sha256": "8da277434187e0294e959ca70973b1a4a42b943e413ed5873d0c212070fd0aed",
+      "claim_counts": {
+        "true": 5,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$ 4 \\times 28 = 112 $",
+          "normalized": "4 * 28 = 112",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "112",
+              "rational_right": "112",
+              "verdict": "true"
+            }
+          ],
+          "start": 42,
+          "end": 63,
+          "extracted_content": " 4 \\times 28 = 112 "
+        },
+        {
+          "rawspan": "$ 24 + 30 + 27 = 81 $",
+          "normalized": "24 + 30 + 27 = 81",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "81",
+              "rational_right": "81",
+              "verdict": "true"
+            }
+          ],
+          "start": 106,
+          "end": 127,
+          "extracted_content": " 24 + 30 + 27 = 81 "
+        },
+        {
+          "rawspan": "$ 112 - 81 = 31 $",
+          "normalized": "112 - 81 = 31",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "31",
+              "rational_right": "31",
+              "verdict": "true"
+            }
+          ],
+          "start": 165,
+          "end": 182,
+          "extracted_content": " 112 - 81 = 31 "
+        },
+        {
+          "rawspan": "$ 24 + 30 + 27 + 31 = 112 $",
+          "normalized": "24 + 30 + 27 + 31 = 112",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "112",
+              "rational_right": "112",
+              "verdict": "true"
+            }
+          ],
+          "start": 225,
+          "end": 252,
+          "extracted_content": " 24 + 30 + 27 + 31 = 112 "
+        },
+        {
+          "rawspan": "$ 112 \\div 4 = 28 $",
+          "normalized": "112 / 4 = 28",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "28",
+              "rational_right": "28",
+              "verdict": "true"
+            }
+          ],
+          "start": 269,
+          "end": 288,
+          "extracted_content": " 112 \\div 4 = 28 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "side": "base",
+      "output_sha256": "4730caec9ff3cc5489791814f35a6c3e07d3e89a8ba1296b872a9d7edbf1132d",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 4
+      },
+      "claims": [
+        {
+          "rawspan": "$x + \\frac{2}{7} = \\frac{6}{7}$",
+          "normalized": "x + ( ( 2 ) / ( 7 ) ) = ( ( 6 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 49,
+          "end": 80,
+          "extracted_content": "x + \\frac{2}{7} = \\frac{6}{7}"
+        },
+        {
+          "rawspan": "$$\nx = \\frac{6}{7} - \\frac{2}{7}\n$$",
+          "normalized": "x = ( ( 6 ) / ( 7 ) ) - ( ( 2 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 199,
+          "end": 234,
+          "extracted_content": "\nx = \\frac{6}{7} - \\frac{2}{7}\n"
+        },
+        {
+          "rawspan": "$$\nx = \\frac{4}{7}\n$$",
+          "normalized": "x = ( ( 4 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 236,
+          "end": 257,
+          "extracted_content": "\nx = \\frac{4}{7}\n"
+        },
+        {
+          "rawspan": "$x = \\frac{4}{7}$",
+          "normalized": "x = ( ( 4 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 351,
+          "end": 368,
+          "extracted_content": "x = \\frac{4}{7}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "side": "adapter",
+      "output_sha256": "8d8850a31bfefd544aece9d9e3702ed1ba22f856f1736f5a9f8c9fa692fce45f",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "$$\nx + \\frac{2}{7} = \\frac{6}{7}\n$$",
+          "normalized": "x + ( ( 2 ) / ( 7 ) ) = ( ( 6 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 48,
+          "end": 83,
+          "extracted_content": "\nx + \\frac{2}{7} = \\frac{6}{7}\n"
+        },
+        {
+          "rawspan": "$$\nx = \\frac{6}{7} - \\frac{2}{7}\n$$",
+          "normalized": "x = ( ( 6 ) / ( 7 ) ) - ( ( 2 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 200,
+          "end": 235,
+          "extracted_content": "\nx = \\frac{6}{7} - \\frac{2}{7}\n"
+        },
+        {
+          "rawspan": "$$\nx = \\frac{6 - 2}{7} = \\frac{4}{7}\n$$",
+          "normalized": "x = ( ( 6 - 2 ) / ( 7 ) ) = ( ( 4 ) / ( 7 ) )",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 237,
+          "end": 276,
+          "extracted_content": "\nx = \\frac{6 - 2}{7} = \\frac{4}{7}\n"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "side": "base",
+      "output_sha256": "5670ee0ecc6fd895974ad2ceadcd51feac24d17829fe2ef02e72464ff9fd4894",
+      "claim_counts": {
+        "true": 14,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "Em viết: \"2/3 < 3/5 vì 2 < 3\". Cách so sánh này đúng chưa? Hãy sửa và giải thích bằng các phần có cùng cỡ.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 15,
+          "end": 121
+        },
+        {
+          "rawspan": "Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là **sai**. Lập luận này dựa trên việc so sánh tử số của hai phân số mà không xem xét đến mẫu số, dẫn đến kết luận sai.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 146,
+          "end": 299
+        },
+        {
+          "rawspan": "$\\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) = ( ( 2 * 5 ) / ( 3 * 5 ) ) = ( ( 10 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            }
+          ],
+          "start": 609,
+          "end": 670,
+          "extracted_content": "\\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15}"
+        },
+        {
+          "rawspan": "$\\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15}$",
+          "normalized": "( ( 3 ) / ( 5 ) ) = ( ( 3 * 3 ) / ( 5 * 3 ) ) = ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 676,
+          "end": 736,
+          "extracted_content": "\\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$10 > 9$",
+          "normalized": "10 > 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "10",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 816,
+          "end": 824,
+          "extracted_content": "10 > 9"
+        },
+        {
+          "rawspan": "$\\frac{10}{15} > \\frac{9}{15}$",
+          "normalized": "( ( 10 ) / ( 15 ) ) > ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 830,
+          "end": 860,
+          "extracted_content": "\\frac{10}{15} > \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 884,
+          "end": 911,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là **sai**.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 934,
+          "end": 979
+        },
+        {
+          "rawspan": "$\\frac{2}{3} = \\frac{10}{15}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) = ( ( 10 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            }
+          ],
+          "start": 1034,
+          "end": 1063,
+          "extracted_content": "\\frac{2}{3} = \\frac{10}{15}"
+        },
+        {
+          "rawspan": "$\\frac{3}{5} = \\frac{9}{15}$",
+          "normalized": "( ( 3 ) / ( 5 ) ) = ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1065,
+          "end": 1093,
+          "extracted_content": "\\frac{3}{5} = \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$10 > 9$",
+          "normalized": "10 > 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "10",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 1113,
+          "end": 1121,
+          "extracted_content": "10 > 9"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1127,
+          "end": 1154,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} = \\frac{10}{15}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) = ( ( 10 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            }
+          ],
+          "start": 1183,
+          "end": 1212,
+          "extracted_content": "\\frac{2}{3} = \\frac{10}{15}"
+        },
+        {
+          "rawspan": "$\\frac{3}{5} = \\frac{9}{15}$",
+          "normalized": "( ( 3 ) / ( 5 ) ) = ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1217,
+          "end": 1245,
+          "extracted_content": "\\frac{3}{5} = \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{10}{15} > \\frac{9}{15}$",
+          "normalized": "( ( 10 ) / ( 15 ) ) > ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1250,
+          "end": 1280,
+          "extracted_content": "\\frac{10}{15} > \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1283,
+          "end": 1310,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1369,
+          "end": 1396,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "side": "adapter",
+      "output_sha256": "aa17ae520751440c85c6e0c9a61ddecdb6167f74afe052bd5f3ad927da3810c5",
+      "claim_counts": {
+        "true": 11,
+        "false": 0,
+        "unsupported": 3
+      },
+      "claims": [
+        {
+          "rawspan": "Em viết: \"2/3 < 3/5 vì 2 < 3\". Cách so sánh này đúng chưa? Hãy sửa và giải thích bằng các phần có cùng cỡ.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 15,
+          "end": 121
+        },
+        {
+          "rawspan": "Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là **sai**. Lập luận này dựa trên việc so sánh tử số của hai phân số mà không xem xét đến mẫu số, dẫn đến kết luận sai.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 146,
+          "end": 299
+        },
+        {
+          "rawspan": "$\\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) = ( ( 2 * 5 ) / ( 3 * 5 ) ) = ( ( 10 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            }
+          ],
+          "start": 623,
+          "end": 684,
+          "extracted_content": "\\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15}"
+        },
+        {
+          "rawspan": "$\\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15}$",
+          "normalized": "( ( 3 ) / ( 5 ) ) = ( ( 3 * 3 ) / ( 5 * 3 ) ) = ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 690,
+          "end": 750,
+          "extracted_content": "\\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$10 > 9$",
+          "normalized": "10 > 9",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "10",
+              "rational_right": "9",
+              "verdict": "true"
+            }
+          ],
+          "start": 838,
+          "end": 846,
+          "extracted_content": "10 > 9"
+        },
+        {
+          "rawspan": "$\\frac{10}{15} > \\frac{9}{15}$",
+          "normalized": "( ( 10 ) / ( 15 ) ) > ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 852,
+          "end": 882,
+          "extracted_content": "\\frac{10}{15} > \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 906,
+          "end": 933,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là **sai**.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 956,
+          "end": 1001
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1013,
+          "end": 1040,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} = \\frac{10}{15}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) = ( ( 10 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2/3",
+              "rational_right": "2/3",
+              "verdict": "true"
+            }
+          ],
+          "start": 1268,
+          "end": 1297,
+          "extracted_content": "\\frac{2}{3} = \\frac{10}{15}"
+        },
+        {
+          "rawspan": "$\\frac{3}{5} = \\frac{9}{15}$",
+          "normalized": "( ( 3 ) / ( 5 ) ) = ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "3/5",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1299,
+          "end": 1327,
+          "extracted_content": "\\frac{3}{5} = \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{10}{15} > \\frac{9}{15}$",
+          "normalized": "( ( 10 ) / ( 15 ) ) > ( ( 9 ) / ( 15 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1333,
+          "end": 1363,
+          "extracted_content": "\\frac{10}{15} > \\frac{9}{15}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1429,
+          "end": 1456,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        },
+        {
+          "rawspan": "$\\frac{2}{3} > \\frac{3}{5}$",
+          "normalized": "( ( 2 ) / ( 3 ) ) > ( ( 3 ) / ( 5 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "2/3",
+              "rational_right": "3/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 1508,
+          "end": 1535,
+          "extracted_content": "\\frac{2}{3} > \\frac{3}{5}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "side": "base",
+      "output_sha256": "5da6f737e5a770e4ba7d37af5c60eda761715dbf76fcd884f83a3a84e7f8d7eb",
+      "claim_counts": {
+        "true": 1,
+        "false": 0,
+        "unsupported": 0
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\frac{3}{4} + \\frac{2}{3} = \\frac{9}{12} + \\frac{8}{12} = \\frac{17}{12}\n$$",
+          "normalized": "( ( 3 ) / ( 4 ) ) + ( ( 2 ) / ( 3 ) ) = ( ( 9 ) / ( 12 ) ) + ( ( 8 ) / ( 12 ) ) = ( ( 17 ) / ( 12 ) )",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "17/12",
+              "rational_right": "17/12",
+              "verdict": "true"
+            },
+            {
+              "operator": "=",
+              "rational_left": "17/12",
+              "rational_right": "17/12",
+              "verdict": "true"
+            }
+          ],
+          "start": 302,
+          "end": 379,
+          "extracted_content": "\n\\frac{3}{4} + \\frac{2}{3} = \\frac{9}{12} + \\frac{8}{12} = \\frac{17}{12}\n"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "side": "adapter",
+      "output_sha256": "02b773dfe76aa98c480f7d5d3792425448e5abc2ff2711154987c7c2374379c8",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 4
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\frac{3}{4}S + \\frac{2}{3}S = \\left(\\frac{3}{4} + \\frac{2}{3}\\right)S = \\left(\\frac{9}{12} + \\frac{8}{12}\\right)S = \\frac{17}{12}S\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 480,
+          "end": 616,
+          "extracted_content": "\n\\frac{3}{4}S + \\frac{2}{3}S = \\left(\\frac{3}{4} + \\frac{2}{3}\\right)S = \\left(\\frac{9}{12} + \\frac{8}{12}\\right)S = \\frac{17}{12}S\n"
+        },
+        {
+          "rawspan": "$\\frac{17}{12}S > S$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 629,
+          "end": 649,
+          "extracted_content": "\\frac{17}{12}S > S"
+        },
+        {
+          "rawspan": "$$\n\\frac{3}{4}S + \\frac{2}{3}S = \\frac{17}{12}S\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 1122,
+          "end": 1172,
+          "extracted_content": "\n\\frac{3}{4}S + \\frac{2}{3}S = \\frac{17}{12}S\n"
+        },
+        {
+          "rawspan": "$\\frac{17}{12}S > S$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 1185,
+          "end": 1205,
+          "extracted_content": "\\frac{17}{12}S > S"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "side": "base",
+      "output_sha256": "1fbdeac27c8ea09bf9ae7744f5bb7787727ffdd1eac637db02944f7d8308374f",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 5
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n  \\text{Giá trị mới} = x + 25\\% \\cdot x = x + 0.25x = 1.25x\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 96,
+          "end": 163,
+          "extracted_content": "\n  \\text{Giá trị mới} = x + 25\\% \\cdot x = x + 0.25x = 1.25x\n  "
+        },
+        {
+          "rawspan": "$$\n  \\text{Giá trị cuối cùng} = 1.25x - 20\\% \\cdot 1.25x = 1.25x - 0.2x = 1.05x\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 212,
+          "end": 296,
+          "extracted_content": "\n  \\text{Giá trị cuối cùng} = 1.25x - 20\\% \\cdot 1.25x = 1.25x - 0.2x = 1.05x\n  "
+        },
+        {
+          "rawspan": "$$\n  \\text{Tỷ lệ phần trăm} = \\frac{1.05x}{x} \\cdot 100\\% = 105\\%\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 377,
+          "end": 447,
+          "extracted_content": "\n  \\text{Tỷ lệ phần trăm} = \\frac{1.05x}{x} \\cdot 100\\% = 105\\%\n  "
+        },
+        {
+          "rawspan": "$ 1.25x \\cdot 0.8 = 1.05x $",
+          "normalized": "(5/4) * x * (4/5) = (21/20) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 617,
+          "end": 644,
+          "extracted_content": " 1.25x \\cdot 0.8 = 1.05x "
+        },
+        {
+          "rawspan": "$ \\frac{1.05x}{x} \\cdot 100\\% = 105\\% $",
+          "normalized": "( ( (21/20) * x ) / ( x ) ) * ( 100 / 100 ) = ( 105 / 100 )",
+          "verdict": "unsupported",
+          "reason": "division by zero or variable expression",
+          "start": 664,
+          "end": 703,
+          "extracted_content": " \\frac{1.05x}{x} \\cdot 100\\% = 105\\% "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "side": "adapter",
+      "output_sha256": "1fbdeac27c8ea09bf9ae7744f5bb7787727ffdd1eac637db02944f7d8308374f",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 5
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n  \\text{Giá trị mới} = x + 25\\% \\cdot x = x + 0.25x = 1.25x\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 96,
+          "end": 163,
+          "extracted_content": "\n  \\text{Giá trị mới} = x + 25\\% \\cdot x = x + 0.25x = 1.25x\n  "
+        },
+        {
+          "rawspan": "$$\n  \\text{Giá trị cuối cùng} = 1.25x - 20\\% \\cdot 1.25x = 1.25x - 0.2x = 1.05x\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 212,
+          "end": 296,
+          "extracted_content": "\n  \\text{Giá trị cuối cùng} = 1.25x - 20\\% \\cdot 1.25x = 1.25x - 0.2x = 1.05x\n  "
+        },
+        {
+          "rawspan": "$$\n  \\text{Tỷ lệ phần trăm} = \\frac{1.05x}{x} \\cdot 100\\% = 105\\%\n  $$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 377,
+          "end": 447,
+          "extracted_content": "\n  \\text{Tỷ lệ phần trăm} = \\frac{1.05x}{x} \\cdot 100\\% = 105\\%\n  "
+        },
+        {
+          "rawspan": "$ 1.25x \\cdot 0.8 = 1.05x $",
+          "normalized": "(5/4) * x * (4/5) = (21/20) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 617,
+          "end": 644,
+          "extracted_content": " 1.25x \\cdot 0.8 = 1.05x "
+        },
+        {
+          "rawspan": "$ \\frac{1.05x}{x} \\cdot 100\\% = 105\\% $",
+          "normalized": "( ( (21/20) * x ) / ( x ) ) * ( 100 / 100 ) = ( 105 / 100 )",
+          "verdict": "unsupported",
+          "reason": "division by zero or variable expression",
+          "start": 664,
+          "end": 703,
+          "extracted_content": " \\frac{1.05x}{x} \\cdot 100\\% = 105\\% "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "side": "base",
+      "output_sha256": "24a85fbd36a92c44a6fd3de262ad42a7bd5a51ddd229f9a604770b6b7a0fb461",
+      "claim_counts": {
+        "true": 4,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\text{Tốc độ} = \\frac{7,2}{0,3} = 24 \\text{ lít/phút}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 238,
+          "end": 297,
+          "extracted_content": "\n\\text{Tốc độ} = \\frac{7,2}{0,3} = 24 \\text{ lít/phút}\n"
+        },
+        {
+          "rawspan": "$$\n\\text{Số lít} = \\text{Tốc độ} \\times \\text{Thời gian} = 24 \\times 1,25 = 30 \\text{ lít}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 365,
+          "end": 458,
+          "extracted_content": "\n\\text{Số lít} = \\text{Tốc độ} \\times \\text{Thời gian} = 24 \\times 1,25 = 30 \\text{ lít}\n"
+        },
+        {
+          "rawspan": "$ \\frac{7,2}{0,3} = 24 $",
+          "normalized": "( ( (36/5) ) / ( (3/10) ) ) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 493,
+          "end": 517,
+          "extracted_content": " \\frac{7,2}{0,3} = 24 "
+        },
+        {
+          "rawspan": "$ 24 \\times 1,25 = 30 $",
+          "normalized": "24 * (5/4) = 30",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "30",
+              "rational_right": "30",
+              "verdict": "true"
+            }
+          ],
+          "start": 548,
+          "end": 571,
+          "extracted_content": " 24 \\times 1,25 = 30 "
+        },
+        {
+          "rawspan": "$ \\frac{7,2}{0,3} = 24 $",
+          "normalized": "( ( (36/5) ) / ( (3/10) ) ) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 675,
+          "end": 699,
+          "extracted_content": " \\frac{7,2}{0,3} = 24 "
+        },
+        {
+          "rawspan": "$ 24 \\times 1,25 = 30 $",
+          "normalized": "24 * (5/4) = 30",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "30",
+              "rational_right": "30",
+              "verdict": "true"
+            }
+          ],
+          "start": 747,
+          "end": 770,
+          "extracted_content": " 24 \\times 1,25 = 30 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "side": "adapter",
+      "output_sha256": "cf0ce14c7ebed919353a71b0faf4a5685d8df22c834a7711836d5f5a4ea159c3",
+      "claim_counts": {
+        "true": 2,
+        "false": 0,
+        "unsupported": 2
+      },
+      "claims": [
+        {
+          "rawspan": "$$\n\\text{Tốc độ} = \\frac{7,2 \\text{ lít}}{0,3 \\text{ phút}} = 24 \\text{ lít/phút}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 206,
+          "end": 290,
+          "extracted_content": "\n\\text{Tốc độ} = \\frac{7,2 \\text{ lít}}{0,3 \\text{ phút}} = 24 \\text{ lít/phút}\n"
+        },
+        {
+          "rawspan": "$$\n\\text{Lít bơm được} = 24 \\text{ lít/phút} \\times 1,25 \\text{ phút} = 30 \\text{ lít}\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 343,
+          "end": 432,
+          "extracted_content": "\n\\text{Lít bơm được} = 24 \\text{ lít/phút} \\times 1,25 \\text{ phút} = 30 \\text{ lít}\n"
+        },
+        {
+          "rawspan": "$ \\frac{7,2}{0,3} = 24 $",
+          "normalized": "( ( (36/5) ) / ( (3/10) ) ) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 467,
+          "end": 491,
+          "extracted_content": " \\frac{7,2}{0,3} = 24 "
+        },
+        {
+          "rawspan": "$ 24 \\times 1,25 = 30 $",
+          "normalized": "24 * (5/4) = 30",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "30",
+              "rational_right": "30",
+              "verdict": "true"
+            }
+          ],
+          "start": 520,
+          "end": 543,
+          "extracted_content": " 24 \\times 1,25 = 30 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "side": "base",
+      "output_sha256": "f6db28b4903e69f2b9800d7543cf2727f9a062659af4094ae0a48cd98c9c117e",
+      "claim_counts": {
+        "true": 9,
+        "false": 0,
+        "unsupported": 5
+      },
+      "claims": [
+        {
+          "rawspan": "$ a = 2,4 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 41,
+          "end": 65,
+          "extracted_content": " a = 2,4 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ b = 1,5 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 68,
+          "end": 92,
+          "extracted_content": " b = 1,5 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ c = 0,8 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 95,
+          "end": 119,
+          "extracted_content": " c = 0,8 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ 2,4 \\, \\text{dm} = 24 \\, \\text{cm} = 240 \\, \\text{mm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 306,
+          "end": 363,
+          "extracted_content": " 2,4 \\, \\text{dm} = 24 \\, \\text{cm} = 240 \\, \\text{mm} "
+        },
+        {
+          "rawspan": "$ 0,1 \\, \\text{dm} = 1 \\, \\text{cm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 420,
+          "end": 457,
+          "extracted_content": " 0,1 \\, \\text{dm} = 1 \\, \\text{cm} "
+        },
+        {
+          "rawspan": "$ \\frac{2,4}{0,1} = 24 $",
+          "normalized": "( ( (12/5) ) / ( (1/10) ) ) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 535,
+          "end": 559,
+          "extracted_content": " \\frac{2,4}{0,1} = 24 "
+        },
+        {
+          "rawspan": "$ \\frac{1,5}{0,1} = 15 $",
+          "normalized": "( ( (3/2) ) / ( (1/10) ) ) = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 588,
+          "end": 612,
+          "extracted_content": " \\frac{1,5}{0,1} = 15 "
+        },
+        {
+          "rawspan": "$ \\frac{0,8}{0,1} = 8 $",
+          "normalized": "( ( (4/5) ) / ( (1/10) ) ) = 8",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "8",
+              "rational_right": "8",
+              "verdict": "true"
+            }
+          ],
+          "start": 641,
+          "end": 664,
+          "extracted_content": " \\frac{0,8}{0,1} = 8 "
+        },
+        {
+          "rawspan": "$$\n24 \\times 15 \\times 8 = 2880\n$$",
+          "normalized": "24 * 15 * 8 = 2880",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2880",
+              "rational_right": "2880",
+              "verdict": "true"
+            }
+          ],
+          "start": 718,
+          "end": 752,
+          "extracted_content": "\n24 \\times 15 \\times 8 = 2880\n"
+        },
+        {
+          "rawspan": "$ 2,4 \\div 0,1 = 24 $",
+          "normalized": "(12/5) / (1/10) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 775,
+          "end": 796,
+          "extracted_content": " 2,4 \\div 0,1 = 24 "
+        },
+        {
+          "rawspan": "$ 1,5 \\div 0,1 = 15 $",
+          "normalized": "(3/2) / (1/10) = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 806,
+          "end": 827,
+          "extracted_content": " 1,5 \\div 0,1 = 15 "
+        },
+        {
+          "rawspan": "$ 0,8 \\div 0,1 = 8 $",
+          "normalized": "(4/5) / (1/10) = 8",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "8",
+              "rational_right": "8",
+              "verdict": "true"
+            }
+          ],
+          "start": 837,
+          "end": 857,
+          "extracted_content": " 0,8 \\div 0,1 = 8 "
+        },
+        {
+          "rawspan": "$ 24 \\times 15 = 360 $",
+          "normalized": "24 * 15 = 360",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "360",
+              "rational_right": "360",
+              "verdict": "true"
+            }
+          ],
+          "start": 867,
+          "end": 889,
+          "extracted_content": " 24 \\times 15 = 360 "
+        },
+        {
+          "rawspan": "$ 360 \\times 8 = 2880 $",
+          "normalized": "360 * 8 = 2880",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2880",
+              "rational_right": "2880",
+              "verdict": "true"
+            }
+          ],
+          "start": 891,
+          "end": 914,
+          "extracted_content": " 360 \\times 8 = 2880 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "side": "adapter",
+      "output_sha256": "f6db28b4903e69f2b9800d7543cf2727f9a062659af4094ae0a48cd98c9c117e",
+      "claim_counts": {
+        "true": 9,
+        "false": 0,
+        "unsupported": 5
+      },
+      "claims": [
+        {
+          "rawspan": "$ a = 2,4 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 41,
+          "end": 65,
+          "extracted_content": " a = 2,4 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ b = 1,5 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 68,
+          "end": 92,
+          "extracted_content": " b = 1,5 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ c = 0,8 \\, \\text{dm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 95,
+          "end": 119,
+          "extracted_content": " c = 0,8 \\, \\text{dm} "
+        },
+        {
+          "rawspan": "$ 2,4 \\, \\text{dm} = 24 \\, \\text{cm} = 240 \\, \\text{mm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 306,
+          "end": 363,
+          "extracted_content": " 2,4 \\, \\text{dm} = 24 \\, \\text{cm} = 240 \\, \\text{mm} "
+        },
+        {
+          "rawspan": "$ 0,1 \\, \\text{dm} = 1 \\, \\text{cm} $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 420,
+          "end": 457,
+          "extracted_content": " 0,1 \\, \\text{dm} = 1 \\, \\text{cm} "
+        },
+        {
+          "rawspan": "$ \\frac{2,4}{0,1} = 24 $",
+          "normalized": "( ( (12/5) ) / ( (1/10) ) ) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 535,
+          "end": 559,
+          "extracted_content": " \\frac{2,4}{0,1} = 24 "
+        },
+        {
+          "rawspan": "$ \\frac{1,5}{0,1} = 15 $",
+          "normalized": "( ( (3/2) ) / ( (1/10) ) ) = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 588,
+          "end": 612,
+          "extracted_content": " \\frac{1,5}{0,1} = 15 "
+        },
+        {
+          "rawspan": "$ \\frac{0,8}{0,1} = 8 $",
+          "normalized": "( ( (4/5) ) / ( (1/10) ) ) = 8",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "8",
+              "rational_right": "8",
+              "verdict": "true"
+            }
+          ],
+          "start": 641,
+          "end": 664,
+          "extracted_content": " \\frac{0,8}{0,1} = 8 "
+        },
+        {
+          "rawspan": "$$\n24 \\times 15 \\times 8 = 2880\n$$",
+          "normalized": "24 * 15 * 8 = 2880",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2880",
+              "rational_right": "2880",
+              "verdict": "true"
+            }
+          ],
+          "start": 718,
+          "end": 752,
+          "extracted_content": "\n24 \\times 15 \\times 8 = 2880\n"
+        },
+        {
+          "rawspan": "$ 2,4 \\div 0,1 = 24 $",
+          "normalized": "(12/5) / (1/10) = 24",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "24",
+              "rational_right": "24",
+              "verdict": "true"
+            }
+          ],
+          "start": 775,
+          "end": 796,
+          "extracted_content": " 2,4 \\div 0,1 = 24 "
+        },
+        {
+          "rawspan": "$ 1,5 \\div 0,1 = 15 $",
+          "normalized": "(3/2) / (1/10) = 15",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "15",
+              "rational_right": "15",
+              "verdict": "true"
+            }
+          ],
+          "start": 806,
+          "end": 827,
+          "extracted_content": " 1,5 \\div 0,1 = 15 "
+        },
+        {
+          "rawspan": "$ 0,8 \\div 0,1 = 8 $",
+          "normalized": "(4/5) / (1/10) = 8",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "8",
+              "rational_right": "8",
+              "verdict": "true"
+            }
+          ],
+          "start": 837,
+          "end": 857,
+          "extracted_content": " 0,8 \\div 0,1 = 8 "
+        },
+        {
+          "rawspan": "$ 24 \\times 15 = 360 $",
+          "normalized": "24 * 15 = 360",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "360",
+              "rational_right": "360",
+              "verdict": "true"
+            }
+          ],
+          "start": 867,
+          "end": 889,
+          "extracted_content": " 24 \\times 15 = 360 "
+        },
+        {
+          "rawspan": "$ 360 \\times 8 = 2880 $",
+          "normalized": "360 * 8 = 2880",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "2880",
+              "rational_right": "2880",
+              "verdict": "true"
+            }
+          ],
+          "start": 891,
+          "end": 914,
+          "extracted_content": " 360 \\times 8 = 2880 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "side": "base",
+      "output_sha256": "e427bbeadaa8bd7245334d1556df1128bdfd668eff48dbc5c95ef0154168ee18",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 4
+      },
+      "claims": [
+        {
+          "rawspan": "- 45 phút = 0.75 giờ.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 193,
+          "end": 214
+        },
+        {
+          "rawspan": "$4,8 \\text{ km/giờ} \\times 0.75 \\text{ giờ} = 3.6 \\text{ km}$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 253,
+          "end": 314,
+          "extracted_content": "4,8 \\text{ km/giờ} \\times 0.75 \\text{ giờ} = 3.6 \\text{ km}"
+        },
+        {
+          "rawspan": "$3,6 \\text{ km/giờ} \\times 0.75 \\text{ giờ} = 2.7 \\text{ km}$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 353,
+          "end": 414,
+          "extracted_content": "3,6 \\text{ km/giờ} \\times 0.75 \\text{ giờ} = 2.7 \\text{ km}"
+        },
+        {
+          "rawspan": "$3.6 - 2.7 = 0.9 \\text{ km}$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 445,
+          "end": 473,
+          "extracted_content": "3.6 - 2.7 = 0.9 \\text{ km}"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "side": "adapter",
+      "output_sha256": "8f95bbd78748e79c09a6b786731efd1dafd2500b866899b9bdb8c920b55c8ad0",
+      "claim_counts": {
+        "true": 3,
+        "false": 0,
+        "unsupported": 1
+      },
+      "claims": [
+        {
+          "rawspan": "- 45 phút = 0.75 giờ.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 202,
+          "end": 223
+        },
+        {
+          "rawspan": "$ 4,8 \\times 0.75 = 3.6 $",
+          "normalized": "(24/5) * (3/4) = (18/5)",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "18/5",
+              "rational_right": "18/5",
+              "verdict": "true"
+            }
+          ],
+          "start": 262,
+          "end": 287,
+          "extracted_content": " 4,8 \\times 0.75 = 3.6 "
+        },
+        {
+          "rawspan": "$ 3,6 \\times 0.75 = 2.7 $",
+          "normalized": "(18/5) * (3/4) = (27/10)",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "27/10",
+              "rational_right": "27/10",
+              "verdict": "true"
+            }
+          ],
+          "start": 329,
+          "end": 354,
+          "extracted_content": " 3,6 \\times 0.75 = 2.7 "
+        },
+        {
+          "rawspan": "$ 3.6 - 2.7 = 0.9 $",
+          "normalized": "(18/5) - (27/10) = (9/10)",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "9/10",
+              "rational_right": "9/10",
+              "verdict": "true"
+            }
+          ],
+          "start": 388,
+          "end": 407,
+          "extracted_content": " 3.6 - 2.7 = 0.9 "
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "side": "base",
+      "output_sha256": "fab5ee869bc8f65f19035c96b3f4cdc84eae0c7989e8a19a6086864d38478061",
+      "claim_counts": {
+        "true": 1,
+        "false": 0,
+        "unsupported": 9
+      },
+      "claims": [
+        {
+          "rawspan": "1 mét = 100 centimet",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 103,
+          "end": 123
+        },
+        {
+          "rawspan": "Do đó, 1 mét vuông =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 126,
+          "end": 146
+        },
+        {
+          "rawspan": "$100 \\text{ cm} \\times 100 \\text{ cm} = 10000 \\text{ cm}^2$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 147,
+          "end": 206,
+          "extracted_content": "100 \\text{ cm} \\times 100 \\text{ cm} = 10000 \\text{ cm}^2"
+        },
+        {
+          "rawspan": "Vì vậy, 0,6 m² =",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 208,
+          "end": 224
+        },
+        {
+          "rawspan": "$0,6 \\times 10000 \\text{ cm}^2 = 6000 \\text{ cm}^2$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 225,
+          "end": 276,
+          "extracted_content": "0,6 \\times 10000 \\text{ cm}^2 = 6000 \\text{ cm}^2"
+        },
+        {
+          "rawspan": "Em đã viết \"0,6 m² = 60 cm²\" vì đã nhầm lẫn giữa mét và xăng-ti-mét. Đúng là 1 mét vuông = 10000 xăng-ti-mét vuông, nên 0,6 m² = 6000 cm², không phải 60 cm².",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 306,
+          "end": 463
+        },
+        {
+          "rawspan": "- 1 m² = 10000 cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 485,
+          "end": 503
+        },
+        {
+          "rawspan": "- 0,6 m² = $0,6 \\times 10000 = 6000$ cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 506,
+          "end": 546
+        },
+        {
+          "rawspan": "$0,6 \\times 10000 = 6000$",
+          "normalized": "(3/5) * 10000 = 6000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "6000",
+              "rational_right": "6000",
+              "verdict": "true"
+            }
+          ],
+          "start": 517,
+          "end": 542,
+          "extracted_content": "0,6 \\times 10000 = 6000"
+        },
+        {
+          "rawspan": "0,6 m² = **6000 cm²**.",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 564,
+          "end": 586
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "side": "adapter",
+      "output_sha256": "0dfa9dbc7aa80c779f792923f1e3ecab84826ec6bc035d06319edc17b0932b0c",
+      "claim_counts": {
+        "true": 0,
+        "false": 0,
+        "unsupported": 10
+      },
+      "claims": [
+        {
+          "rawspan": "1 mét (m) = 100 centimet (cm).",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 69,
+          "end": 99
+        },
+        {
+          "rawspan": "Do đó, 1 m² = (100 cm) × (100 cm) = 10000 cm².",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 101,
+          "end": 147
+        },
+        {
+          "rawspan": "$$\n0,6 \\, \\text{m}^2 \\times 10000 \\, \\frac{\\text{cm}^2}{\\text{m}^2} = 6000 \\, \\text{cm}^2\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 183,
+          "end": 275,
+          "extracted_content": "\n0,6 \\, \\text{m}^2 \\times 10000 \\, \\frac{\\text{cm}^2}{\\text{m}^2} = 6000 \\, \\text{cm}^2\n"
+        },
+        {
+          "rawspan": "- 1 m² = 100 cm × 100 cm = 10000 cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 293,
+          "end": 329
+        },
+        {
+          "rawspan": "- 0,6 m² = 0,6 × 10000 = 6000 cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 330,
+          "end": 363
+        },
+        {
+          "rawspan": "- 1 m² = 10000 cm² → 1 m² = 10000 cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 383,
+          "end": 420
+        },
+        {
+          "rawspan": "- 0,6 m² = 0,6 × 10000 = 6000 cm²",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 421,
+          "end": 454
+        },
+        {
+          "rawspan": "Lỗi trong phép đổi là do **mét sang xăng-ti-mét thì nhân 100**, nhưng thực ra phải **nhân 10000** (vì 1 m² = 100 cm × 100 cm = 10000 cm²).",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "powers and floor division unsupported",
+          "start": 470,
+          "end": 608
+        },
+        {
+          "rawspan": "$$\n0,6 \\, \\text{m}^2 = 6000 \\, \\text{cm}^2\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 627,
+          "end": 672,
+          "extracted_content": "\n0,6 \\, \\text{m}^2 = 6000 \\, \\text{cm}^2\n"
+        },
+        {
+          "rawspan": "- 0,6 m² = 6000 cm² ✅",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "ambiguous Markdown bullet versus unary minus; use a delimited math span",
+          "start": 696,
+          "end": 717
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "side": "base",
+      "output_sha256": "78e6a9f1ad42806d17ebd0812eb4b0a3a59439e4e8971c2af0628e2eafc60ab6",
+      "claim_counts": {
+        "true": 6,
+        "false": 0,
+        "unsupported": 16
+      },
+      "claims": [
+        {
+          "rawspan": "$$\nx - \\text{giảm} = 180000\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 453,
+          "end": 483,
+          "extracted_content": "\nx - \\text{giảm} = 180000\n"
+        },
+        {
+          "rawspan": "$ \\text{giảm} = 10\\%x $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 489,
+          "end": 512,
+          "extracted_content": " \\text{giảm} = 10\\%x "
+        },
+        {
+          "rawspan": "$$\nx - 10\\%x \\leq 180000 \\leq x - 20\\%x\n$$",
+          "normalized": "x - ( 10 / 100 ) * x <= 180000 <= x - ( 20 / 100 ) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 537,
+          "end": 579,
+          "extracted_content": "\nx - 10\\%x \\leq 180000 \\leq x - 20\\%x\n"
+        },
+        {
+          "rawspan": "$ x - 10\\%x = 0.9x $",
+          "normalized": "x - ( 10 / 100 ) * x = (9/10) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 595,
+          "end": 615,
+          "extracted_content": " x - 10\\%x = 0.9x "
+        },
+        {
+          "rawspan": "$ x - 20\\%x = 0.8x $",
+          "normalized": "x - ( 20 / 100 ) * x = (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 618,
+          "end": 638,
+          "extracted_content": " x - 20\\%x = 0.8x "
+        },
+        {
+          "rawspan": "$$\n0.9x \\leq 180000 \\leq 0.8x\n$$",
+          "normalized": "(9/10) * x <= 180000 <= (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 648,
+          "end": 680,
+          "extracted_content": "\n0.9x \\leq 180000 \\leq 0.8x\n"
+        },
+        {
+          "rawspan": "$ 0.9x \\leq 180000 $",
+          "normalized": "(9/10) * x <= 180000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 737,
+          "end": 757,
+          "extracted_content": " 0.9x \\leq 180000 "
+        },
+        {
+          "rawspan": "$$\nx \\leq \\frac{180000}{0.9} = 200000\n$$",
+          "normalized": "x <= ( ( 180000 ) / ( (9/10) ) ) = 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 760,
+          "end": 800,
+          "extracted_content": "\nx \\leq \\frac{180000}{0.9} = 200000\n"
+        },
+        {
+          "rawspan": "$ 180000 \\leq 0.8x $",
+          "normalized": "180000 <= (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 808,
+          "end": 828,
+          "extracted_content": " 180000 \\leq 0.8x "
+        },
+        {
+          "rawspan": "$$\nx \\geq \\frac{180000}{0.8} = 225000\n$$",
+          "normalized": "x >= ( ( 180000 ) / ( (4/5) ) ) = 225000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 831,
+          "end": 871,
+          "extracted_content": "\nx \\geq \\frac{180000}{0.8} = 225000\n"
+        },
+        {
+          "rawspan": "$$\n225000 \\leq x \\leq 200000\n$$",
+          "normalized": "225000 <= x <= 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 885,
+          "end": 916,
+          "extracted_content": "\n225000 \\leq x \\leq 200000\n"
+        },
+        {
+          "rawspan": "$ 225000 > 200000 $",
+          "normalized": "225000 > 200000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": ">",
+              "rational_left": "225000",
+              "rational_right": "200000",
+              "verdict": "true"
+            }
+          ],
+          "start": 973,
+          "end": 992,
+          "extracted_content": " 225000 > 200000 "
+        },
+        {
+          "rawspan": "$ 0.9x \\leq 180000 \\leq 0.8x $",
+          "normalized": "(9/10) * x <= 180000 <= (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1092,
+          "end": 1122,
+          "extracted_content": " 0.9x \\leq 180000 \\leq 0.8x "
+        },
+        {
+          "rawspan": "$ x = 200000 $",
+          "normalized": "x = 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1205,
+          "end": 1219,
+          "extracted_content": " x = 200000 "
+        },
+        {
+          "rawspan": "$ 200000 \\times 0.2 = 40000 $",
+          "normalized": "200000 * (1/5) = 40000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40000",
+              "rational_right": "40000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1237,
+          "end": 1266,
+          "extracted_content": " 200000 \\times 0.2 = 40000 "
+        },
+        {
+          "rawspan": "$ 200000 - 40000 = 160000 $",
+          "normalized": "200000 - 40000 = 160000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "160000",
+              "rational_right": "160000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1284,
+          "end": 1311,
+          "extracted_content": " 200000 - 40000 = 160000 "
+        },
+        {
+          "rawspan": "$ x = 225000 $",
+          "normalized": "x = 225000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1338,
+          "end": 1352,
+          "extracted_content": " x = 225000 "
+        },
+        {
+          "rawspan": "$ 225000 \\times 0.2 = 45000 $",
+          "normalized": "225000 * (1/5) = 45000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "45000",
+              "rational_right": "45000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1370,
+          "end": 1399,
+          "extracted_content": " 225000 \\times 0.2 = 45000 "
+        },
+        {
+          "rawspan": "$ 225000 - 45000 = 180000 $",
+          "normalized": "225000 - 45000 = 180000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "180000",
+              "rational_right": "180000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1417,
+          "end": 1444,
+          "extracted_content": " 225000 - 45000 = 180000 "
+        },
+        {
+          "rawspan": "$ x = 225000 $",
+          "normalized": "x = 225000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1483,
+          "end": 1497,
+          "extracted_content": " x = 225000 "
+        },
+        {
+          "rawspan": "$ 0.9x \\leq 180000 $",
+          "normalized": "(9/10) * x <= 180000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1523,
+          "end": 1543,
+          "extracted_content": " 0.9x \\leq 180000 "
+        },
+        {
+          "rawspan": "$$\n0.9 \\times 225000 = 202500 > 180000\n$$",
+          "normalized": "(9/10) * 225000 = 202500 > 180000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "202500",
+              "rational_right": "202500",
+              "verdict": "true"
+            },
+            {
+              "operator": ">",
+              "rational_left": "202500",
+              "rational_right": "180000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1550,
+          "end": 1591,
+          "extracted_content": "\n0.9 \\times 225000 = 202500 > 180000\n"
+        }
+      ]
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "side": "adapter",
+      "output_sha256": "e961135f4495e655cda52effa43a21d2881e9d96f42650ab40b789f708faf62f",
+      "claim_counts": {
+        "true": 4,
+        "false": 0,
+        "unsupported": 12
+      },
+      "claims": [
+        {
+          "rawspan": "$$\nx - \\text{giảm} = 180000\n$$",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 453,
+          "end": 483,
+          "extracted_content": "\nx - \\text{giảm} = 180000\n"
+        },
+        {
+          "rawspan": "$ \\text{giảm} = 10\\%x $",
+          "normalized": null,
+          "verdict": "unsupported",
+          "reason": "unknown text, unit, command, or code",
+          "start": 489,
+          "end": 512,
+          "extracted_content": " \\text{giảm} = 10\\%x "
+        },
+        {
+          "rawspan": "$$\nx - 10\\%x \\leq 180000 \\leq x - 20\\%x\n$$",
+          "normalized": "x - ( 10 / 100 ) * x <= 180000 <= x - ( 20 / 100 ) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 537,
+          "end": 579,
+          "extracted_content": "\nx - 10\\%x \\leq 180000 \\leq x - 20\\%x\n"
+        },
+        {
+          "rawspan": "$$\nx - 0.1x \\leq 180000 \\leq x - 0.2x\n$$",
+          "normalized": "x - (1/10) * x <= 180000 <= x - (1/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 595,
+          "end": 635,
+          "extracted_content": "\nx - 0.1x \\leq 180000 \\leq x - 0.2x\n"
+        },
+        {
+          "rawspan": "$$\n0.9x \\leq 180000 \\leq 0.8x\n$$",
+          "normalized": "(9/10) * x <= 180000 <= (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 637,
+          "end": 669,
+          "extracted_content": "\n0.9x \\leq 180000 \\leq 0.8x\n"
+        },
+        {
+          "rawspan": "$ 0.9x \\leq 180000 $",
+          "normalized": "(9/10) * x <= 180000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 674,
+          "end": 694,
+          "extracted_content": " 0.9x \\leq 180000 "
+        },
+        {
+          "rawspan": "$$\nx \\leq \\frac{180000}{0.9} = 200000\n$$",
+          "normalized": "x <= ( ( 180000 ) / ( (9/10) ) ) = 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 704,
+          "end": 744,
+          "extracted_content": "\nx \\leq \\frac{180000}{0.9} = 200000\n"
+        },
+        {
+          "rawspan": "$ 180000 \\leq 0.8x $",
+          "normalized": "180000 <= (4/5) * x",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 749,
+          "end": 769,
+          "extracted_content": " 180000 \\leq 0.8x "
+        },
+        {
+          "rawspan": "$$\nx \\geq \\frac{180000}{0.8} = 225000\n$$",
+          "normalized": "x >= ( ( 180000 ) / ( (4/5) ) ) = 225000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 779,
+          "end": 819,
+          "extracted_content": "\nx \\geq \\frac{180000}{0.8} = 225000\n"
+        },
+        {
+          "rawspan": "$$\n225000 \\leq x \\leq 200000\n$$",
+          "normalized": "225000 <= x <= 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 855,
+          "end": 886,
+          "extracted_content": "\n225000 \\leq x \\leq 200000\n"
+        },
+        {
+          "rawspan": "$ x = 200000 $",
+          "normalized": "x = 200000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1222,
+          "end": 1236,
+          "extracted_content": " x = 200000 "
+        },
+        {
+          "rawspan": "$ 200000 \\times 0.2 = 40000 $",
+          "normalized": "200000 * (1/5) = 40000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "40000",
+              "rational_right": "40000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1262,
+          "end": 1291,
+          "extracted_content": " 200000 \\times 0.2 = 40000 "
+        },
+        {
+          "rawspan": "$ 200000 - 40000 = 160000 $",
+          "normalized": "200000 - 40000 = 160000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "160000",
+              "rational_right": "160000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1304,
+          "end": 1331,
+          "extracted_content": " 200000 - 40000 = 160000 "
+        },
+        {
+          "rawspan": "$ x = 225000 $",
+          "normalized": "x = 225000",
+          "verdict": "unsupported",
+          "reason": "symbolic expression requires explicit polynomial-identity opt-in; equation solving unsupported",
+          "start": 1354,
+          "end": 1368,
+          "extracted_content": " x = 225000 "
+        },
+        {
+          "rawspan": "$ 225000 \\times 0.2 = 45000 $",
+          "normalized": "225000 * (1/5) = 45000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "45000",
+              "rational_right": "45000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1390,
+          "end": 1419,
+          "extracted_content": " 225000 \\times 0.2 = 45000 "
+        },
+        {
+          "rawspan": "$ 225000 - 45000 = 180000 $",
+          "normalized": "225000 - 45000 = 180000",
+          "verdict": "true",
+          "claim_kind": "numerical_relation",
+          "comparisons": [
+            {
+              "operator": "=",
+              "rational_left": "180000",
+              "rational_right": "180000",
+              "verdict": "true"
+            }
+          ],
+          "start": 1432,
+          "end": 1459,
+          "extracted_content": " 225000 - 45000 = 180000 "
+        }
+      ]
+    }
+  ],
+  "synthetic_symbolic_identity_example": {
+    "rawspan": "1.25*x*.8=1.05*x",
+    "normalized": "(5/4) * x * (4/5) = (21/20) * x",
+    "verdict": "false",
+    "claim_kind": "polynomial_identity",
+    "comparisons": [
+      {
+        "operator": "=",
+        "rational_left": {
+          "1": "1"
+        },
+        "rational_right": {
+          "1": "21/20"
+        },
+        "interpretation": "polynomial identity for every x; not equation solving",
+        "correction": {
+          "left_coefficients": {
+            "1": "1"
+          },
+          "right_coefficients": {
+            "1": "21/20"
+          }
+        },
+        "verdict": "false"
+      }
+    ]
+  },
+  "final_answer_correctness_established": false,
+  "word_problem_grounding_established": false,
+  "model_response_modified": false,
+  "old_grading_labels_modified": false
+}

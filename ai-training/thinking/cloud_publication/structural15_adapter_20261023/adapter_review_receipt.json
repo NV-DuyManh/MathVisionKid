@@ -1,0 +1,34 @@
+{
+  "schema": "MathVisionKid.structural15_exact_adapter_review.v1",
+  "changed_corpus_rows": 0,
+  "reviewer": "AI_OWNER_PREAUTHORIZED",
+  "human_verified": false,
+  "teacher_certified": false,
+  "owner_human_reviewed": false,
+  "review_basis": [
+    "Root read all adapter/builder/migration/worker paths and rejected nonexistent case_id and schema-bypass implementation before installation.",
+    "Eight final adapter tests pass, including actual producer replay over all15source rows (60chats) and runtime hash tamper checks.",
+    "Two synthetic migration tests pass; these do not prove corpus migration has run.",
+    "Twelve derived final metadata adjudicator tests pass; fail-closed exact recipe, issue, hash, split and counter gates retained.",
+    "Second agent read-only orchestration review found no API blocker."
+  ],
+  "normalized_chat_groups_preserved": true,
+  "raw_and_canonical_source_hashes_separate": true,
+  "only_exact_fifteen_source_hashes_bound": true,
+  "all60_original_chat_raw_canonical_hashes_pinned": true,
+  "frozen_primary782_adapter_unchanged": true,
+  "frozen_v3_original_unchanged": true,
+  "prepared_two_field_derived_artifact": {
+    "id": "1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ",
+    "selection": "NOT_SELECTED",
+    "reason": "Changing exporter normalized groups to per-source IDs would change grouping policy; retain artifact as history, original corpus recipe selected."
+  },
+  "full_original_6502392_scan_in_progress": true,
+  "child60_reaudit_not_yet_executed": true,
+  "training_started": false,
+  "limitations": [
+    "Technical hash/linkage/split/token audit is separate from all-row human semantic review.",
+    "Five physical tasks/seven constraints, ten assets and one exact G3locator remain pending.",
+    "Historical accepted counter exceeds actual indexed source rows by16; cause unproven, counter preserved."
+  ]
+}

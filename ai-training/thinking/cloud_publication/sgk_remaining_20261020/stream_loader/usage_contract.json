@@ -1,0 +1,53 @@
+{
+  "schema": "MathVisionKid.candidate_stream_usage.v1",
+  "purpose": "One data-only split-aware reader for all declared current candidate chat members, numeric ZIP extensions and explicit future accepted supplement bundles.",
+  "code": "thinking/math_data_candidate_stream.py",
+  "construction": [
+    "recipe = build_recipe([expanded_member_catalog], discover_supplements(latest_STATE_or_CHAT_metadata), manifests_by_bundle_sha256)",
+    "stream = CandidateStream(recipe, paths_by_existing_file_id_or_payload_sha256, split='train', overlay=verified_overlay_or_None)",
+    "consumer = DataOnlyConsumer(new_or_matching_local_sqlite_path, stream)",
+    "progress = consumer.consume(idempotent_data_only_callback, max_rows=10000)",
+    "consumer.close()"
+  ],
+  "runtime_paths": "Explicit caller-provided read-only mounted paths only. The helper never downloads, authenticates, searches Drive, creates a replacement file/folder, opens an archive glob or infers account authority.",
+  "candidate_members": "Only role=candidate_chat enters the chat stream; candidate_source is retained as separate source metadata. History, source baselines, audit, frozen payload and diagnostic selected duplicates stay retained and excluded from the training union. Same inner member SHA is de-duplicated in the recipe; exact same sample content repeats are reported and acknowledged once by SQLite. Conflicting sample or case/mode duplicates stop without rewriting IDs.",
+  "supplement_discovery": "Recursively inspect explicit chat_member/source_member descriptors regardless of parent list/run label. Resolve their exact manifest member hashes/byte counts and expected rows. Supports source/view numeric manifests as well as members mappings. A new missing manifest appears as pending discovery; stream refuses the whole incomplete recipe. Descriptor/manifest role conflicts fail. New accepted append must be registered explicitly after its QA/publication; drafts are not discovered from local filenames.",
+  "split_contract": "Caller must select train, validation or test. Every raw chat row must explicitly contain one of those exact split values. Missing, unknown, train_candidate or evaluation values fail before the callback. Other valid splits advance the cursor with exclusion evidence and never become train. This reader does not itself prove canonical/group disjointness across distinct split consumers; global source/split audit remains a separate required gate.",
+  "provenance_overlay": "Externally pin the additive source overlay manifest SHA before constructing VerifiedSourceHashOverlay. It validates overlay bytes, exact source/chat member hashes, original chat canonical content hash, and source field/target fingerprints. Apply only listed sample IDs. Missing legacy raw fields get DERIVED_FROM_VERIFIED_PINNED_SOURCE_MEMBER on the in-memory copy; old raw files are not changed. Uncovered rows report linkage audit pending. Original source_row_sha256 alone is labeled original raw field not reverified by this stream. Overlay SHA participates in stream/cursor/consumer identity; changing it cannot silently resume an old database.",
+  "byte_verification": "Full compressed payload SHA256/byte count before exposing rows; exact ZIP member SHA pass before opening its plain/gzip JSONL content. No extraction. Gzip trailers and expected row count must pass before durable MEMBER_COMPLETE. A bounded pause may occur before EOF; readiness remains false until all final gates pass.",
+  "durability": "A successful callback, dedup insertion and next-unconsumed cursor update commit in one local SQLite transaction. On local failure none is acknowledged. External callback effects cannot be rolled back by SQLite; callbacks must use sample/content hash idempotency. Serialize distributed writers; local SQLite does not claim an atomic distributed Drive lock.",
+  "append_resume": "An added accepted bundle creates a new union recipe. DataOnlyConsumer.extend_recipe(db, old_recipe, new_recipe, split, overlay_sha256=unchanged_overlay_sha) explicitly migrates only if the entire old member prefix is byte/hash/role/count-identical. It preserves seen rows and current cursor. Removal/reordering/content change, changed split or overlay requires a separate audit/review/database; never silently replay/relabel old data.",
+  "tokenizer_interface": "CandidateStream implements split and iter_with_cursors for the existing exhaustive_colab_loader.tokenized_stream when a separately supplied pinned tokenizer is desired. This helper imports no tokenizer/model weights and invokes no training. The RUN3 real replay checked streaming/provenance/split/acknowledgement only; it did not claim another full token audit.",
+  "current_metadata_scope": {
+    "old_payload_references": 31,
+    "accepted94_append_payload_references": 1,
+    "published94_file_id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+    "published94_sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+    "chat_members": 26,
+    "declared_raw_chat_rows": 6501468,
+    "declared_candidate_train_rows": 6501420,
+    "current_pedagogy_validation_test_rows_separate": 48,
+    "future_accepted36_not_yet_silently_added": true,
+    "all_archive_payloads_actually_read_this_run": false
+  },
+  "bounded_actual_replay": {
+    "explicit_local_chat_members": 6,
+    "train_rows": 4364,
+    "other_split_rows_excluded": 48,
+    "old110_chat": 440,
+    "accepted94_chat": 376,
+    "numeric_two_small_zip_chat": 3140,
+    "boundary_and_pedagogy_train_chat": 408,
+    "derived_missing_legacy_source_hash_fields": 3356,
+    "original_source_hash_verified_by_overlay": 192,
+    "original_source_hash_unreverified_by_this_reader": 816,
+    "complete_case_mode_groups": 1091,
+    "no_new_token_audit_claim": true
+  },
+  "remaining_gates": "Most of the6.5M archive still requires actual full member/source/chat/token/split streaming audit. The expanded directory catalog and a functioning reader are not data-read evidence. Historical legacy exceptions and protected metadata comparisons must remain disclosed. All full-data readiness/training flags remain false.",
+  "training_started": false,
+  "gpu_used": false,
+  "paid_api_used": false,
+  "drive_mutated": false,
+  "frozen_RUN2_mutated": false
+}

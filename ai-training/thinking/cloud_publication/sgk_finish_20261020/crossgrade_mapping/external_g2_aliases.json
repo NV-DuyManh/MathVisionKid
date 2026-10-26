@@ -1,0 +1,367 @@
+{
+  "source_file": "g2v2_audit/g2_combined_candidate_adjudication.json",
+  "source_sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143",
+  "aliases": [
+    {
+      "g2_master_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+      "crossgrade_master_id": "curved_connection_image",
+      "g2_original_candidate_refs": [
+        "g2v1:trace_single_crossing_curve"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_ATTRIBUTE_FILTERED_EXTREMA",
+      "crossgrade_master_id": "attribute_filter_then_extremum",
+      "g2_original_candidate_refs": [
+        "g2v1:conjunctive_attribute_expression_filter",
+        "g2v1:conjunctive_attribute_filter"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_CALENDAR_ANCHOR_OFFSET",
+      "crossgrade_master_id": "calendar_anchor_day_offset",
+      "g2_original_candidate_refs": [
+        "g2v1:calendar_missing_cells"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_ELAPSED_WHOLE_HOURS",
+      "crossgrade_master_id": "elapsed_time_intervals",
+      "g2_original_candidate_refs": [
+        "g2v1:clock_hand_motion"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_PREDICATE_PATH_ASSET",
+      "crossgrade_master_id": "predicate_filtered_directed_path",
+      "g2_original_candidate_refs": [
+        "g2v2:shape_filtered_maze"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION",
+      "crossgrade_master_id": "role_specific_equation_pool",
+      "g2_original_candidate_refs": [
+        "g2v1:role_specific_equation_matching"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+      "crossgrade_master_id": "finite_route_total_optimization",
+      "g2_original_candidate_refs": [
+        "g2v1:grid_path_length_comparison",
+        "g2v2:grid_path_length"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_SORT_REPAIR_ONE_SWAP",
+      "crossgrade_master_id": "minimum_pair_swaps",
+      "g2_original_candidate_refs": [
+        "g2v1:single_pair_sort_repair"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "g2_original_candidate_refs": [
+        "g2v1:g2_card_numeral_formation",
+        "g2v1:multiset_numeral_generation",
+        "g2v2:digit_card_extrema",
+        "g2v2:digit_card_permutations_zero"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G1_RESOURCE_ASSIGNMENT_CAPACITY_BRANCH",
+      "crossgrade_master_id": "resource_assignment_inequality",
+      "g2_original_candidate_refs": [
+        "g2v2:capacity_assignment"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G2_HIDDEN_UNIT_CUBE_ASSEMBLY",
+      "crossgrade_master_id": "unit_cube_layers_assembly",
+      "g2_original_candidate_refs": [
+        "g2v1:unit_cube_count_assembly"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G2_SOLID_TOP_FACE_VISIBILITY",
+      "crossgrade_master_id": "solid_visible_face_direction_binding",
+      "g2_original_candidate_refs": [
+        "g2v1:solid_visible_face_directions"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_AREA_PRESERVING_CUT_REARRANGEMENT",
+      "crossgrade_master_id": "specified_area_preserving_dissection",
+      "g2_original_candidate_refs": [
+        "g2v1:dissection_reassembly_square"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_BALANCE_RELATION_CHAIN",
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "g2_original_candidate_refs": [
+        "g2v1:balance_chain_substitution",
+        "g2v2:substitution_equal_mark"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_BOUNDED_MEASURE_SUBSET",
+      "crossgrade_master_id": "bounded_inventory_target_sum",
+      "g2_original_candidate_refs": [
+        "g2v1:fixed_cardinality_subset_sum",
+        "g2v1:finite_subset_sum_extrema",
+        "g2v2:fixed_cardinality_subset_sum"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_COLLINEAR_ALL_SEGMENT_ENUMERATION",
+      "crossgrade_master_id": "collinear_triple_complete_enumeration",
+      "g2_original_candidate_refs": [
+        "g2v1:point_segment_edge_list"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_COLLINEAR_ENUMERATION",
+      "crossgrade_master_id": "collinear_triple_complete_enumeration",
+      "g2_original_candidate_refs": [
+        "g2v1:collinear_triples"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_COMPOSITE_POLYGON_ENUMERATION_ASSET",
+      "crossgrade_master_id": "composite_polygon_enumeration",
+      "g2_original_candidate_refs": [
+        "g2v1:composite_polygon_count",
+        "g2v2:composite_shape_count"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_FIXED_PIECE_ASSEMBLY_FEASIBILITY",
+      "crossgrade_master_id": "fixed_piece_assembly_feasibility",
+      "g2_original_candidate_refs": [
+        "g2v1:piece_tiling",
+        "g2v2:physical_assembly"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_PAPER_FOLD_CUT_SYMMETRY",
+      "crossgrade_master_id": "fold_cut_unfold_boundary",
+      "g2_original_candidate_refs": [
+        "g2v1:fold_cut_spatial"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_PHYSICAL_GEOMETRIC_CONSTRUCTION",
+      "crossgrade_master_id": "observed_physical_geometric_result",
+      "g2_original_candidate_refs": [
+        "g2v1:physical_construction_guidance"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_SILHOUETTE_PIECE_GRID_REPRODUCTION",
+      "crossgrade_master_id": "fixed_piece_silhouette_placement",
+      "g2_original_candidate_refs": [
+        "g2v2:grid_copy"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G3_TWO_JUG_TRANSFER",
+      "crossgrade_master_id": "two_jug_state_transfer",
+      "g2_original_candidate_refs": [
+        "g2v1:capacity_conservation_repour"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_BALANCE_ORIENTATION_ORDER",
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "g2_original_candidate_refs": [
+        "g2v1:balance_orientation_order",
+        "g2v2:balance_orientation_order"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_COLUMN_MULTI_BLANK_RELATION",
+      "crossgrade_master_id": "column_multi_blank",
+      "g2_original_candidate_refs": [
+        "g2v1:column_multi_blank",
+        "g2v1:column_multiple_blank",
+        "g2v2:column_multi_blank"
+      ],
+      "prior_g2_status": "COVERED",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_DIGIT_INEQUALITY_RELATION",
+      "crossgrade_master_id": "digit_inequality",
+      "g2_original_candidate_refs": [
+        "g2v1:digit_inequality",
+        "g2v2:digit_inequality"
+      ],
+      "prior_g2_status": "COVERED",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "crossgrade_master_id": "finite_inventory_collection_game",
+      "g2_original_candidate_refs": [
+        "g2v1:finite_inventory_collection_state",
+        "g2v1:finite_inventory_game_state",
+        "g2v2:finite_token_game",
+        "g2v2:finite_board_ownership"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_INSTRUMENT_SCALE_READING_ASSET",
+      "crossgrade_master_id": "equal_interval_instrument_reading",
+      "g2_original_candidate_refs": [
+        "g2v1:instrument_scale_reading"
+      ],
+      "prior_g2_status": "ASSET_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_INTERVALS_VS_POSTS_BOTH_ENDPOINTS",
+      "crossgrade_master_id": "inclusive_positions_intervals",
+      "g2_original_candidate_refs": [
+        "g2v2:equal_intervals_from_posts"
+      ],
+      "prior_g2_status": "COVERED",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_JUMP_SKIP_NODES_INTERPRETATION",
+      "crossgrade_master_id": "skip_intermediate_nodes_k_plus_one",
+      "g2_original_candidate_refs": [
+        "g2v1:jump_skip_nodes_interpretation"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_MISSING_PERSONAL_DATE_OR_TIMETABLE_CONTEXT",
+      "crossgrade_master_id": "missing_calendar_reference_guard",
+      "g2_original_candidate_refs": [
+        "g2v1:missing_personal_timetable_guard",
+        "g2v1:missing_current_date_guard"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_OVERLAP_LENGTH_BAR_ALIGNMENT",
+      "crossgrade_master_id": "overlap_shared_origin_lengths",
+      "g2_original_candidate_refs": [
+        "g2v2:aligned_segment_difference"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_SEVEN_SEGMENT_RELOCATION",
+      "crossgrade_master_id": "seven_segment_glyph_inventory_relocation",
+      "g2_original_candidate_refs": [
+        "g2v1:seven_segment_relocation",
+        "g2v2:matchstick_numeral_extrema"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    },
+    {
+      "g2_master_id": "G4_TWO_DRAW_COLOR_MULTISETS",
+      "crossgrade_master_id": "bounded_color_multiset_without_replacement",
+      "g2_original_candidate_refs": [
+        "g2v2:two_draw_without_replacement"
+      ],
+      "prior_g2_status": "MERGED_PENDING",
+      "scope": "Related master alias only. G2 branch-specific semantics/grade/assets are not automatically closed; no G2 adjudication/source/queue mutated.",
+      "g2_confirmed14_overlap": false
+    }
+  ],
+  "g2_confirmed14_owned_elsewhere": true,
+  "unmatched_g2_masters_untouched": true
+}

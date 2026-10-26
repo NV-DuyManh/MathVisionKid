@@ -1,0 +1,294 @@
+{
+  "assets": [
+    {
+      "svg": "assets/cube_marked_faces_fixed_view.svg",
+      "svg_sha256": "a22dc00e1ef1c11026e875843b9a5b9ff9f54e0f94e94da5222fe65974d0742f",
+      "png": "visual_qa/cube_marked_faces_fixed_view.png",
+      "png_sha256": "061958de64c41228c2ba9bbdf046c2228445ebd86cf19f861f1eeecec90cac88",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/diagonal_half_cells_regroup_without_doublecount.svg",
+      "svg_sha256": "f3e3c8649a48f5311f7a3bb0dd78613361269cc3a110fef162e41a6f36576958",
+      "png": "visual_qa/diagonal_half_cells_regroup_without_doublecount.png",
+      "png_sha256": "c389ecd0722f38a41ba6a8e36c08d44033d6a416c746d72b0d2bf2eb141f65ae",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/equal_area_nonfit_thin_rectangle.svg",
+      "svg_sha256": "e64aa317efe0eb35bcd5a5929912b935d57d2103eef4ada5ac0a75b550dff37c",
+      "png": "visual_qa/equal_area_nonfit_thin_rectangle.png",
+      "png_sha256": "6a415c18df99a42a12cacbd26aff5408f043423c2bfeb941059919a7a850cba4",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/face_direction_wrong_label_not_shape_name.svg",
+      "svg_sha256": "a5c6785c5f0bcfd288f6210abc645aa6f68cca5eeb97b5b33b768c6fc679118d",
+      "png": "visual_qa/face_direction_wrong_label_not_shape_name.png",
+      "png_sha256": "8dda7a308f674ddd87f9d5a2f466ecec1b5b5665517741b6f5743713fc31a08e",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/four_triangles_rotated_diamond_placement.svg",
+      "svg_sha256": "b168f9432f686a53cc76eeac7a2b432526e3102ae2473b034b2d1c93e51bf5a5",
+      "png": "visual_qa/four_triangles_rotated_diamond_placement.png",
+      "png_sha256": "1460f59076dae9f9026c4d3db6b4c3dddce51adb43c2fa2e0c62123f037d7c3b",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/irregular_staircase_full_unit_cells.svg",
+      "svg_sha256": "01f2c7bd3e97992d523d7a902ea9d806094b3b5afff95798f6b628cb2272dbe9",
+      "png": "visual_qa/irregular_staircase_full_unit_cells.png",
+      "png_sha256": "5dafd29acd25029d279e81d3c6bd57d31497f10416edc4ad9640de8a1615ae90",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/notched_piece_exact_complement.svg",
+      "svg_sha256": "fbf42ca0c43719e8a1babf0ddbb626d872249499d38d71a53066ea8770e0abbe",
+      "png": "visual_qa/notched_piece_exact_complement.png",
+      "png_sha256": "c8310014a3ce81f8b318155546c73a898c591124c4dd4bf1311613fd764d8b9d",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/notched_piece_rotation_without_reflection.svg",
+      "svg_sha256": "9f5b722622b768297e6e6ca84bc125169cac06e8b70be3f57f58c6cbc8a46d11",
+      "png": "visual_qa/notched_piece_rotation_without_reflection.png",
+      "png_sha256": "78d71fe3169173795058c1d0797f038753ecb6f6d64ff963af89adeb5b37b0aa",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/relocate_three_sticks_complete_rhombi.svg",
+      "svg_sha256": "c0153e393c1d360c305141e35740b01eabbbc84f9c37958086926ad83607bef5",
+      "png": "visual_qa/relocate_three_sticks_complete_rhombi.png",
+      "png_sha256": "b621c4db46a32b8155486aa2fc7161841a2e3a68281d96ebc1e5f843cdcb13df",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/remove_internal_stick_recount_all_triangles.svg",
+      "svg_sha256": "411d0b21fc7a3cf51d9b7b3e2b1fb15291127f57d13ec983dbac1e8ce6b24120",
+      "png": "visual_qa/remove_internal_stick_recount_all_triangles.png",
+      "png_sha256": "50c1f8704417568fd2dc3198dbc71352ba551f2a92d1236a76ac5559cd2427b7",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/seven_piece_tangram_exact_square_inventory.svg",
+      "svg_sha256": "24ddaf3b795d2fc89da191fe61c8498fcb188a406016495d16c5d3842d1b1377",
+      "png": "visual_qa/seven_piece_tangram_exact_square_inventory.png",
+      "png_sha256": "de55afd55740aeed3901a891bee763ca4e6ea8b186395e93bda9a1513e394229",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/seven_segment_digit_count_change_two_moves.svg",
+      "svg_sha256": "b15b99a6368e6e9273de170376847ad4909f84b9d4ad8e133e2c33b968e63142",
+      "png": "visual_qa/seven_segment_digit_count_change_two_moves.png",
+      "png_sha256": "13e18152bae38625f3123ad8dfe3def6050c7a80899ed8edb39ca907cfcb1222",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/seven_segment_exact_four_stick_build.svg",
+      "svg_sha256": "b350125b31df07d8bfc79be499b7b200ff9ef16042da9bcaa6f6d9b43b31ca5a",
+      "png": "visual_qa/seven_segment_exact_four_stick_build.png",
+      "png_sha256": "f62d4c3b51b83f3d457803cc9db98d854431b34219929ab9eb7d299609fc200d",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/seven_segment_fixed_slots_global_minimum.svg",
+      "svg_sha256": "e4dedc7d4c358413c78af97ee7ecc389fefc60047f01d5a43b219a791d740469",
+      "png": "visual_qa/seven_segment_fixed_slots_global_minimum.png",
+      "png_sha256": "57727d6feadfebd0a9fa1e946195ee2814db637ea5a847b99301146a48554126",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/seven_segment_one_move_equation_unique.svg",
+      "svg_sha256": "013f84a63dc2193b40f7735e0c2deec1364bb0c8cd075fa14019d46259de76fe",
+      "png": "visual_qa/seven_segment_one_move_equation_unique.png",
+      "png_sha256": "15dbaaf09f0492bffdef85a7ca45ff7a6ed015cedac9083326c7bfa4c5353f05",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/six_piece_midpoint_complete_dissection.svg",
+      "svg_sha256": "4c5e0b02495f41317471acb800ab89285d8cc50a3cdd8b1ee4e45882fae93c04",
+      "png": "visual_qa/six_piece_midpoint_complete_dissection.png",
+      "png_sha256": "09a041e7dc42266e2e045dc753130f28bf913932189e71d313ebeb3fb02448a6",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/six_piece_wrong_midpoint_equal_area_error.svg",
+      "svg_sha256": "23b12b58b2f25a58dfa93b46f27fcf301a8135c0bcf89054eb880018ee03a139",
+      "png": "visual_qa/six_piece_wrong_midpoint_equal_area_error.png",
+      "png_sha256": "3903913a8c703b85c70932953a48be3d9e0c7ceebde7325e31014fe89da093d1",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/square_two_triangles_house_silhouette.svg",
+      "svg_sha256": "e5de358c1a1a82e3c242eef0cb0147b2985372482508006571246df6cc457ed7",
+      "png": "visual_qa/square_two_triangles_house_silhouette.png",
+      "png_sha256": "25f880e6f97a310d568f28fbf82f29a8366adb8e83b1d2ecdc7a32408e6444d7",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/three_direction_rhombi_complete.svg",
+      "svg_sha256": "436ca97a9cef3e41d337aa8cba5f626b755924e865a691ed388288a1e977667b",
+      "png": "visual_qa/three_direction_rhombi_complete.png",
+      "png_sha256": "954eacecc1b2444184c896e10c871745f5ad45afb0ebd5f6369f5c5af28b1936",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/three_direction_rhombi_missing_outer.svg",
+      "svg_sha256": "931b38b4c81a161808577b5fa49fb3b088e822806d604b0628214c36de3a7663",
+      "png": "visual_qa/three_direction_rhombi_missing_outer.png",
+      "png_sha256": "c7819bd82e5e34bf8d3956fb663492a3087531007eeac36c1a197a11996721be",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/tilted_square_complete_inventory.svg",
+      "svg_sha256": "37f75363ae3550c6ba0aacee429eddd91a57d64b83e546bc927f0f4c637e2ba3",
+      "png": "visual_qa/tilted_square_complete_inventory.png",
+      "png_sha256": "c3e2e710a8548ec62468c4f98219080faa8a7f2de817edc707bb43f5060bc93a",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/tilted_square_missing_side.svg",
+      "svg_sha256": "ee89644b7543c2eecfdb63b5641f54e1b8bc825f5754cab53dc4f62055c0fde4",
+      "png": "visual_qa/tilted_square_missing_side.png",
+      "png_sha256": "56bc38db39e7968702f6fa80dc8707d26218c180b5a0d285f5ecdd3698f0a049",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/top_faces_occlusion_selection.svg",
+      "svg_sha256": "183e0a7e4230ba8265970e7db1e3ed987b40c9a546012d94381dc373acc8d474",
+      "png": "visual_qa/top_faces_occlusion_selection.png",
+      "png_sha256": "306c9f59d52ca487e04a9dc2f1d02d0cacd362a98691ebfa393957ae9be48cbe",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    },
+    {
+      "svg": "assets/triangle_pair_selection_fixed_target.svg",
+      "svg_sha256": "6efcc9651b1c7468f2edeca393eafd1d20dea97c27042cfadf12c361da2748b6",
+      "png": "visual_qa/triangle_pair_selection_fixed_target.png",
+      "png_sha256": "8d65c90779d191eec8b3472baa660769a6fe073e4db84d3f60c8afd097763180",
+      "renderer": "Reference rendering of SVG basic shapes/text with Pillow; not a browser screenshot",
+      "xml_valid": true,
+      "size": [
+        760,
+        480
+      ]
+    }
+  ],
+  "publisher_images_used": false,
+  "all_images_model_derived": true
+}

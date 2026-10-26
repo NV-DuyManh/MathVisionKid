@@ -1,0 +1,36 @@
+{
+  "heartbeat_utc": "2026-10-17T12:56:01.182Z",
+  "authored_cases": 196,
+  "accepted_cases": 172,
+  "chat_rows": 688,
+  "pending_cases": 24,
+  "accepted_core_cases": 111,
+  "remaining_core_cases": 384,
+  "pending_core_slots_prepared": 15,
+  "core_slots_not_authored": 369,
+  "task007_already_adjudicated_not_accepted_again": true,
+  "task007_source_rows_unchanged": true,
+  "unassigned_pending_cases": 24,
+  "batch_sha256": "8282c64b37172ab60e2ef382ef5b458febe1a1dbe77c70360a7a5af5264e5774",
+  "chat_sha256": "52301c1b01fe73025c052ec7b6bbab184f9859be9b41cfdb028524e906646ff5",
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "docx_hash_unchanged": true,
+  "next_nodes": [
+    "current_g3_natural_numbers_100000",
+    "current_g3_roman_20",
+    "current_g3_compare_order_100000"
+  ],
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "drive_sync_status": "PENDING_CONNECTOR_UNAVAILABLE_REPORTED_PREVIOUSLY"
+}

@@ -1,0 +1,708 @@
+{
+  "before_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+      "case_group_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+      "split": "train",
+      "grade": 3,
+      "topic": "rectangle_boundary_face",
+      "problem": "Hình chữ nhật dài13cm,rộng6cm. Tìm chu vi và diện tích; giải thích vì sao hai kết quả dùng đơn vị khác nhau.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Dài",
+          "value": "13",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Rộng",
+          "value": "6",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm chu vi và diện tích hình chữ nhật.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Dùng các cạnh để tìm chu vi hoặc đếm hàng và cột ô vuông để tìm diện tích; nếu thiếu cạnh thì tìm từ quan hệ đã cho.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cộng từng cạnh hoặc đếm ô; chu vi mang đơn vị dài, diện tích mang đơn vị vuông.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm chu vi",
+          "reason": "Chu vi gồm hai cạnh dài và hai cạnh rộng.",
+          "result": "38",
+          "explanation": "13+6+13+6=38cm, đo đường bao.",
+          "expression": "(13+6)*2",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm diện tích",
+          "reason": "Mỗi hàng13ôvuông1cm2, có6hàng nên nhân hai kích thước.",
+          "result": "78",
+          "explanation": "6hàng13ô có78ôvuông1cm2 nên78cm2.",
+          "expression": "13*6",
+          "unit": "cm²"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chu vi",
+          "result": "38",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Diện tích",
+          "result": "78",
+          "unit": "cm²"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "rectangle_boundary_face",
+        "operations": [],
+        "numeric_values": [
+          "13",
+          "6"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp174–175",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "case_group_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "split": "train",
+      "grade": 3,
+      "topic": "same_perimeter_different_area",
+      "problem": "A là hình chữ nhật12cmx4cm. B là hình vuông cạnh8cm. Tìm chu vi mỗi hình và so sánh diện tích để kiểm hai hình có cùng chu vi thì có bắt buộc cùng diện tích không.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "A dài",
+          "value": "12",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "A rộng",
+          "value": "4",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "B cạnh",
+          "value": "8",
+          "unit": "cm",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tính chu vi, diện tích hai hình và kết luận quan hệ.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Dùng các cạnh để tìm chu vi hoặc đếm hàng và cột ô vuông để tìm diện tích; nếu thiếu cạnh thì tìm từ quan hệ đã cho.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cộng từng cạnh hoặc đếm ô; chu vi mang đơn vị dài, diện tích mang đơn vị vuông.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Chu vi A",
+          "reason": "Cộng đủ bốn cạnh chữ nhật.",
+          "result": "32",
+          "explanation": "12+4+12+4=32cm.",
+          "expression": "(12+4)*2",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s1",
+          "title": "Chu vi B",
+          "reason": "Vuông có bốn cạnh bằng nhau.",
+          "result": "32",
+          "explanation": "8+8+8+8=32cm, bằng A.",
+          "expression": "8*4",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s2",
+          "title": "Diện tích A",
+          "reason": "Đếm bốn hàng mười hai ôvuông1cm2.",
+          "result": "48",
+          "explanation": "4hàng12ô được48cm2.",
+          "expression": "12*4",
+          "unit": "cm²"
+        },
+        {
+          "step_id": "s3",
+          "title": "Diện tích B",
+          "reason": "Đếm tám hàng tám ôvuông1cm2.",
+          "result": "64",
+          "explanation": "8hàng8ô được64cm2.",
+          "expression": "8*8",
+          "unit": "cm²"
+        },
+        {
+          "step_id": "s4",
+          "title": "Kết luận",
+          "reason": "Chu vi bằng nhau trong khi số ô phủ mặt khác nhau.",
+          "result": "Cùng chu vi không bắt buộc cùng diện tích",
+          "explanation": "A và B là ví dụ có32cmchuvi nhưng48cm2và64cm2diệntích.",
+          "expression": null,
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chu vi A",
+          "result": "32",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Chu vi B",
+          "result": "32",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Diện tích A",
+          "result": "48",
+          "unit": "cm²"
+        },
+        {
+          "quantity": "Diện tích B",
+          "result": "64",
+          "unit": "cm²"
+        },
+        {
+          "quantity": "Quan hệ",
+          "result": "Cùng chu vi không bắt buộc cùng diện tích",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "same_perimeter_different_area",
+        "operations": [],
+        "numeric_values": [
+          "12",
+          "4",
+          "8"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp174–175",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "case_group_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "split": "train",
+      "grade": 3,
+      "topic": "recover_width_from_perimeter",
+      "problem": "Một hình chữ nhật có chu vi34cm,chiều dài10cm. Tìm chiều rộng rồi diện tích.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Chu vi",
+          "value": "34",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Chiều dài",
+          "value": "10",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm chiều rộng và diện tích từ chu vi.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Dùng các cạnh để tìm chu vi hoặc đếm hàng và cột ô vuông để tìm diện tích; nếu thiếu cạnh thì tìm từ quan hệ đã cho.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cộng từng cạnh hoặc đếm ô; chu vi mang đơn vị dài, diện tích mang đơn vị vuông.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm tổng dài rộng",
+          "reason": "Chu vi bằng hai lần tổng một cạnh dài và một cạnh rộng.",
+          "result": "17",
+          "explanation": "17*2=34cm.",
+          "expression": "34/2",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm rộng",
+          "reason": "Bớt chiều dài khỏi tổng dài và rộng.",
+          "result": "7",
+          "explanation": "10+7=17; hai cạnh10vàhai cạnh7tạo34cmchuvi.",
+          "expression": "{s0}-10",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s2",
+          "title": "Tìm diện tích",
+          "reason": "Biết đủ hai kích thước nên nhân dài với rộng.",
+          "result": "70",
+          "explanation": "Mười cột bảy hàng ôvuông1cm2 có70cm2.",
+          "expression": "10*{s1}",
+          "unit": "cm²"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chiều rộng",
+          "result": "7",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Diện tích",
+          "result": "70",
+          "unit": "cm²"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "recover_width_from_perimeter",
+        "operations": [],
+        "numeric_values": [
+          "34",
+          "10"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp174–175",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+      "case_group_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_swapped_dimension_units",
+      "problem": "Hình vuông cạnh6cm. Học sinh viết \"Diện tích6nhân6bằng36cm; chu vi6nhân4bằng24cm2.\" Hãy kiểm phép tính và sửa đơn vị.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Cạnh vuông",
+          "value": "6",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        }
+      ],
+      "requested_quantity": "Tìm diện tích và chu vi với đúng đơn vị.",
+      "student_work": {
+        "text": "Diện tích6nhân6bằng36cm; chu vi6nhân4bằng24cm2.",
+        "observations": [
+          {
+            "excerpt": "Diện tích6nhân6bằng36cm; chu vi6nhân4bằng24cm2.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt đường bao quanh hình với phần mặt phẳng được phủ.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Dùng các cạnh để tìm chu vi hoặc đếm hàng và cột ô vuông để tìm diện tích; nếu thiếu cạnh thì tìm từ quan hệ đã cho.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cộng từng cạnh hoặc đếm ô; chu vi mang đơn vị dài, diện tích mang đơn vị vuông.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Diện tích",
+          "reason": "Đếm ôvuông phủ mặt nên kết quả mang đơn vị vuông.",
+          "result": "36",
+          "explanation": "6hàng6ôvuông cạnh1cm có36cm2; phép nhân trong câu viết đúng nhưng đơn vị chưa đúng.",
+          "expression": "6*6",
+          "unit": "cm²"
+        },
+        {
+          "step_id": "s1",
+          "title": "Chu vi",
+          "reason": "Cộng bốn cạnh đo bằng cm nên chu vi có đơn vị cm.",
+          "result": "24",
+          "explanation": "6+6+6+6=24cm; chỉ sửa đơn vị được viết, không suy nét vẽ.",
+          "expression": "6*4",
+          "unit": "cm"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Diện tích",
+          "result": "36",
+          "unit": "cm²"
+        },
+        {
+          "quantity": "Chu vi",
+          "result": "24",
+          "unit": "cm"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_swapped_dimension_units",
+        "operations": [],
+        "numeric_values": [
+          "6"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp174–175",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_guard_missing_rectangle_width",
+      "case_group_id": "primary_20261018_finish_g3_rect_square_guard_missing_rectangle_width",
+      "split": "train",
+      "grade": 3,
+      "topic": "guard_missing_rectangle_width",
+      "problem": "Một hình chữ nhật có chiều dài9cm. Chưa cho chiều rộng, chu vi, diện tích hoặc quan hệ giữa hai cạnh. Muốn tính chu vi và diện tích duy nhất cần hỏi gì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Chiều dài",
+          "value": "9",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Chiều rộng và quan hệ chưa cho",
+          "value": null,
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Xin chiều rộng hoặc quan hệ đủ tìm chiều rộng.",
+      "student_work": null,
+      "initial_guidance": [
+        "Một cạnh chưa xác định đầy đủ hình chữ nhật."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Một cạnh chưa xác định đầy đủ hình chữ nhật.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Xin chiều rộng hoặc dữ kiện đủ tìm nó, cùng đơn vị rõ.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Không tự coi hình là hình vuông hay ước lượng cạnh thiếu từ tên hình.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_missing_rectangle_width",
+        "operations": [],
+        "numeric_values": [
+          "9"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp174–175",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_sha256": "5b2497cb7ac6926efba042cad7806fb36fb9a9d5cd960689799ef4d2e44b558d",
+  "numeric_expressions_unchanged": true
+}

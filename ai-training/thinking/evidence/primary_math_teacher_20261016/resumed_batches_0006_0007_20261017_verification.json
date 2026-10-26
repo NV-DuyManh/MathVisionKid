@@ -1,0 +1,43 @@
+{
+  "created_utc": "2026-10-17T11:11:03.666111+00:00",
+  "batches": [
+    {
+      "batch": "g1_measurement_0006",
+      "batch_sha256": "6cb0da5becec40388ef336fd4e915b90ebe7cd345e6154bc01f567492219fe77",
+      "review_sha256": "89b152ed3212e5c6ddeb9bf786ddbbe92cda200942cbe35f4aebfcb579e745ca",
+      "reviewed_cases": 10
+    },
+    {
+      "batch": "g1_time_0007",
+      "batch_sha256": "192ee54d1705f4f3aae17c7d7e8421d4210fa70cc419a894cf4253da61704ea1",
+      "review_sha256": "5912b3b61145a5706592c57610a09e70d69e9273a1dd690c7f4cd1bc9ecdc466",
+      "reviewed_cases": 10
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "independent_review_37_previous_cases_completed": false,
+  "independent_review_37_previous_cases_artifact_exists": false,
+  "interruption": "Three previous agent turns returned usage-limit errors; no completed prior37 review artifact was present. Saved author helpers were recovered without spawning replacement agents.",
+  "result": {
+    "accepted_cases": 88,
+    "chat_train_rows": 352,
+    "remaining_core_cases": 434,
+    "core_nodes_complete": 14,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 88
+    }
+  },
+  "remaining_required_supplementary_tasks": 255,
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false
+}

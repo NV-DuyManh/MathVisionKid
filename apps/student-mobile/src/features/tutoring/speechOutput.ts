@@ -1,1 +1,1 @@
-export { getAvailableVoicesAsync, speak, stop } from 'expo-speech';
+export { getAvailableVoicesAsync, speak, stop } from './microsoftSpeech';

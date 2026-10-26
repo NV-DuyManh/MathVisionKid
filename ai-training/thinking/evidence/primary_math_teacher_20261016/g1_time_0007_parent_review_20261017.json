@@ -1,0 +1,260 @@
+{
+  "batch": "g1_time_0007",
+  "authoring_agent": "primary_time_author_0007",
+  "batch_sha256": "192ee54d1705f4f3aae17c7d7e8421d4210fa70cc419a894cf4253da61704ea1",
+  "review_sha256": "5912b3b61145a5706592c57610a09e70d69e9273a1dd690c7f4cd1bc9ecdc466",
+  "reviewed_cases": 10,
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_time_0007_week_order_count",
+      "row_sha256": "a4cae578b2409207dbe887a13a06632fd7e211181f6f4fd4b6cde2245338927d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "seven_unique_weekday_names_in_standard_Monday_order",
+        "order": [
+          "Thứ Hai",
+          "Thứ Ba",
+          "Thứ Tư",
+          "Thứ Năm",
+          "Thứ Sáu",
+          "Thứ Bảy",
+          "Chủ nhật"
+        ],
+        "count": 7
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_sunday_rollover",
+      "row_sha256": "2ed62e14baa01b99e222d4e3df1bae39fa9146de3c341f74654fa6a753d9b235",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "datetime_successor_of_Sunday_witness",
+        "witness_date": "2024-11-17",
+        "successor_weekday": "Thứ Hai"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_mini_calendar_lookup",
+      "row_sha256": "9302cd9076cf1df087ebb42f509d149099e5066db320ea7053c2e5d376d47e23",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "14",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_datetime_witness_for_supplied_week",
+        "calendar": {
+          "11": "Thứ Hai",
+          "12": "Thứ Ba",
+          "13": "Thứ Tư",
+          "14": "Thứ Năm",
+          "15": "Thứ Sáu",
+          "16": "Thứ Bảy",
+          "17": "Chủ nhật"
+        },
+        "activity_date": 14,
+        "weekday_at_16": "Thứ Bảy"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_misconception_omit_sunday",
+      "row_sha256": "ee9579a5526c2165e0a670e5a7f2a92b5278d1bf6d239e9943ac5f1b1bbc0e05",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "set_difference_full_week_vs_six_day_segment",
+        "omitted_day": [
+          "Chủ nhật"
+        ],
+        "total": 7
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_guard_date_without_calendar",
+      "row_sha256": "293ae423ff2abb9287291bacc066adae8e06e723e307d7b30c3b505b2055d1f4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "two_real_dates_same_day_number_different_weekdays",
+        "dates": [
+          "2024-11-12",
+          "2024-12-12"
+        ],
+        "weekdays": [
+          1,
+          3
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_read_morning_hour",
+      "row_sha256": "1ccc5160396a247775680d15398e155fcf7c6e76e96092c011ba98cf10cd8f63",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "whole_hour_hand_angle",
+        "minute_angle": 0,
+        "hour_angle": "210",
+        "hour": 7,
+        "morning_from_problem": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_both_hands_at_noon",
+      "row_sha256": "27fc0679d2ad16cd3972c60baccdb2353dd1d8b8fd22d1677924bff3e9b34027",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "coincident_zero_angle_hands",
+        "minute_angle": 0,
+        "hour_angle": "0",
+        "hour": 12,
+        "noon_from_problem": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_match_schedule",
+      "row_sha256": "4a121d24e1648662fa9ae402ea4ff264b5f83dbb2f62be80d51f21dd3bb8a669",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "schedule_hour_to_distinct_hour_hand_angles",
+        "required_angle": 270,
+        "A_angle": 270,
+        "B_angle": 300,
+        "selected": "A",
+        "AM_from_schedule_not_face": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_misconception_read_minute_as_hour",
+      "row_sha256": "d1acd58926231c7b4f04bca503c1fb3cfa6baea6eba40f39e9090bd0160a3a5c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "hour_hand_angle_not_minute_numeral",
+        "minute_angle": 0,
+        "hour_angle": "180",
+        "hour": 6,
+        "morning_from_problem": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_guard_missing_hour_hand",
+      "row_sha256": "e1f7ec12e6a6645006c0b457b39530010d2ce94eb8f0e32ec93dfa25ab30f188",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "same_minute_angle_different_hour_angles",
+        "minute_angle": 0,
+        "possible_hour_angles": [
+          60,
+          240
+        ],
+        "not_identifiable": true
+      }
+    }
+  ],
+  "independent_parent_content_review": true,
+  "authoring_agent_turn_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "physical_outcome_verified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

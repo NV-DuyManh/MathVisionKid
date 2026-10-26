@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:14:34.240274+00:00\", \"worker_exit\": null, \"worker_pid\": 3092, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0, \"training_started\": false}, \"eval\": {\"training/eval_step_000000/base_generations.partial.jsonl\": {\"rows\": 29, \"last_id\": \"dev25_g5_missing_or_contradictory_info_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 34, \"checkpoints\": {}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"2413 MiB, 29 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:14:34.240274+00:00\", \"worker_exit\": null, \"worker_pid\": 3092, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0, \"training_started\": false}, \"eval\": {\"training/eval_step_000000/base_generations.partial.jsonl\": {\"rows\": 29, \"last_id\": \"dev25_g5_missing_or_contradictory_info_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 34, \"checkpoints\": {}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"2413 MiB, 29 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-25T03:14:34.240274+00:00\\\", \\\"worker_exit\\\": null, \\\"worker_pid\\\": 3092, \\\"training/progress.json\\\": {\\\"state\\\": \\\"BASE_DEV_EVALUATION\\\", \\\"step\\\": 0, \\\"training_started\\\": false}, \\\"eval\\\": {\\\"training/eval_step_000000/base_generations.partial.jsonl\\\": {\\\"rows\\\": 29, \\\"last_id\\\": \\\"dev25_g5_missing_or_contradictory_info_01\\\", \\\"all_eos\\\": true}}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"folder_id\\\": \\\"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\\\", \\\"errors\\\": [], \\\"artifacts\\\": 34, \\\"checkpoints\\\": {}}, \\\"four_controls_publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"work\\\": \\\"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\\\", \\\"canonical_context_sha256\\\": \\\"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\\\"}, \\\"gpu\\\": \\\"2413 MiB, 29 %\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

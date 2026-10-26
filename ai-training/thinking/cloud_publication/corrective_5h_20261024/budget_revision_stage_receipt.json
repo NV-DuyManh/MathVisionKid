@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "M3is49cXb2_7"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"installed\": true, \"budget_scope\": \"OWNER_REVISED_REMAINING_COLAB_WINDOW_V2\", \"only_method_changed\": \"Publisher.finish\", \"existing_thread_client_folder_preserved\": true, \"network_calls\": 0, \"original_finish_preserved\": true, \"original_finish_source_sha256\": \"aa86e07d7ad92e8dab18686716989b94a1f3642af2a99e10d47810da52e406ba\", \"revised_contract_source_sha256\": \"d5412c8100de22e392072b625a4ca2f4b69ed64616e1850a448b71bd1609d606\", \"owner_revision_sha256\": \"e3e5b960b65e618909329e18bbf2656e4d80435a445b60e3102a176f254aab00\", \"installed_unix\": 1792803831.084125, \"training_interrupted\": false}\n"
+        ]
+      }
+    ]
+  }
+}

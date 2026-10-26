@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "bz8_c7TyWENm"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"LAUNCHER_READY_CALL_launch_t4_sampler_EXPLICITLY\", \"worker_sha256\": \"da97a28f5903bc1a0f08cb5554531420c74e2340b6013e79f0000d96096663f1\", \"eval_fixture_sha256\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\", \"eval_fixture_count\": 28, \"does_not_execute_training\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "6f1d7b22c9c1610871abce7ea42ecac74f6008b3136a08c59a3f5bc562958f82",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_locked_v1_g5_trapezoid_cutout",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct trapezoid19.2cm2, removed triangle3cm2, subtraction16.2cm2, consistent formulas and units.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g5_decimal_hours_hms",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct2hours plus.375hour→22.5minutes→22minutes30seconds, all three normalized parts supplied.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g5_cube_surface_to_volume_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Correct face9cm2,side3cm andcube27cm3 but explicitly reveals prohibited final volume, failing hint-only request.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g5_capacity_conflict",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct0.75litre=750ml and900ml exceeds capacity, identifies contradiction with nonoverflow and fixed size. Suggests checking recorded nonoverflow/actual excess claim, a relevant supplied condition; does not silently change volume/capacity or invoke expansion. Wording is repetitive and less useful than explicitly rechecking numeric records, noted as a pedagogical limitation.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "artifact": "t4_unsloth_isolated_environment_compatibility",
+  "date": "2026-10-23",
+  "scope": "Read-only official-source compatibility research and isolated install plan; no package installation or runtime mutation performed.",
+  "target": {
+    "platform": "Linux / Colab",
+    "python": "3.12",
+    "gpu": "NVIDIA T4",
+    "training": "Qwen3-1.7B QLoRA NF4, FP16, LoRA r8/r16, AdamW8bit, assistant-only labels"
+  },
+  "pins": {
+    "torch": "2.11.0+cu130",
+    "torchvision": "0.26.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "unsloth": "2026.10.7",
+    "unsloth-zoo": "2026.10.7",
+    "transformers": "5.16.1",
+    "peft": "0.21.2",
+    "accelerate": "1.15.0",
+    "bitsandbytes": "0.50.2"
+  },
+  "install": {
+    "isolation": "Create a separate Python 3.12 venv; do not change packages in the active run.",
+    "torch_index": "https://download.pytorch.org/whl/cu130",
+    "torch_index_first": true,
+    "order": "Install exact Torch CUDA 13.0 trio from the cu130 index first, then requirements-pinned.txt from PyPI.",
+    "avoid": ["FlashAttention2", "padding-free mode", "transformers/torch upgrades during this benchmark"]
+  },
+  "compatibility_basis": [
+    "Official Unsloth pyproject has a cu130-torch2110 extra and matching CUDA 13.0 Torch 2.11.0 trio; it also excludes CUDA-incompatible xformers combinations through platform-specific extras.",
+    "Official Unsloth-Zoo metadata permits Torch >=2.4,<2.15; Transformers 5.16.1 is within the inspected current compatibility interval.",
+    "Official Qwen3 training documentation includes Unsloth-based Qwen3 fine-tuning and 4-bit loading examples; the cited example is not itself a benchmark guarantee for this exact T4/model/configuration."
+  ],
+  "training_lineage": {
+    "fresh_r8": "Initialize from the pinned base revision with fresh r8 LoRA and new AdamW8bit state.",
+    "fresh_r16": "Initialize from the pinned base revision with fresh r16 LoRA and new AdamW8bit state.",
+    "old_adapter_r16": "PEFT weights may be considered only as a warm start after exact model revision, target modules and adapter tensor shapes are verified; this does not resume the old optimizer state.",
+    "old_adapter_to_r8": "Do not load the existing r16 adapter into r8; ranks are structurally different.",
+    "optimizer_resume": "Not compatible as an exact continuation: prior optimizer is regular AdamW while this experiment uses AdamW8bit. Start a clearly labeled branch with fresh optimizer state."
+  },
+  "data_contract": "Keep the existing assistant-only supervision mask and exact row stream. This receipt does not authorize changing dataset selection, labels, or evaluation access.",
+  "fallback": "If the pinned Unsloth CUDA 13 extra cannot resolve cleanly in the isolated venv, stop and capture resolver diagnostics; do not replace Torch in the active runtime. A separate benchmark fallback may use the already validated non-Unsloth trainer, clearly labeled as a different benchmark, not as Unsloth results.",
+  "sources": [
+    "https://github.com/unslothai/unsloth/blob/main/pyproject.toml",
+    "https://github.com/unslothai/unsloth/blob/main/unsloth/_auto_install.py",
+    "https://github.com/unslothai/unsloth-zoo/blob/main/pyproject.toml",
+    "https://pypi.org/project/unsloth/2026.10.7/",
+    "https://pypi.org/project/unsloth-zoo/2026.10.7/",
+    "https://github.com/QwenLM/Qwen3/blob/main/docs/source/training/unsloth.md"
+  ],
+  "limitations": [
+    "Current upstream metadata and PyPI release pages establish package/version compatibility, not runtime success on the particular Colab image or T4 driver.",
+    "Re-resolve/install only in the disposable venv, record pip freeze and the installed wheel hashes before benchmarking.",
+    "No GPU, model, dataset, or training job was run for this compatibility receipt."
+  ]
+}

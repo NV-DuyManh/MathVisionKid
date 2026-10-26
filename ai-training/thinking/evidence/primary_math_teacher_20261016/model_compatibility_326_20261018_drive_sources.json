@@ -1,0 +1,59 @@
+{
+  "fetched_utc": "2026-10-18T03:31:39.418Z",
+  "files": [
+    {
+      "kind": "trainer",
+      "drive_url": "https://drive.google.com/file/d/18FqG2O9NJE3iGU5jsJZ99jn2xf2huAta/view?usp=drivesdk",
+      "file": "trainer.py",
+      "bytes": 50286,
+      "sha256": "a19223c1b63ce331e4f9663a7eb494ecd8f93af12f7bacba199d4ae26e6f665e",
+      "local_byte_equal": true
+    },
+    {
+      "kind": "config",
+      "drive_url": "https://drive.google.com/file/d/1s0AmjvcC3cbog4TqtcfKzWT3GVan0WG0/view?usp=drivesdk",
+      "file": "config.json",
+      "bytes": 1177,
+      "sha256": "1348aab79e717ac9340d96559eb2c7141545cbaa5aab7baa24581a11d128cd3f"
+    },
+    {
+      "kind": "selection",
+      "drive_url": "https://drive.google.com/file/d/1-uFX4nSLmt0tWhPu9diudWdg2K31mOZi/view?usp=drivesdk",
+      "file": "selection.json",
+      "bytes": 400,
+      "sha256": "03d258f728fee3bf828cef1ad13b62ff1ddb5f0f75e5d33c940ca88bc53115b2"
+    },
+    {
+      "kind": "role_review",
+      "drive_url": "https://drive.google.com/file/d/1J787yfDlHDzJEH1TQxkLIz_g8cAM2ePU/view?usp=drivesdk",
+      "file": "role_review.json",
+      "bytes": 2471,
+      "sha256": "21796ec4b662d5f4f5b49a2a52caa519300c4d321a6d429edefc89e367038e71"
+    },
+    {
+      "kind": "token_inspection",
+      "drive_url": "https://drive.google.com/file/d/1Dzpjh61z1hxE602Zt2fUYG7bN-UZ0Jlz/view?usp=drivesdk",
+      "file": "token_inspection.json",
+      "bytes": 2110,
+      "sha256": "a07552dda0445137a1715c698a923b70248055367d10a99d0023e58a8b39f62e"
+    },
+    {
+      "kind": "current_chat",
+      "drive_url": "https://drive.google.com/file/d/1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6/view",
+      "file": "current_chat.jsonl",
+      "bytes": 2978218,
+      "sha256": "2038b75ec295fcf2f80e5d2b108d6255972ea4447720a9882eec6c60524cb7c0",
+      "local_byte_equal": true
+    },
+    {
+      "kind": "current_state",
+      "drive_url": "https://drive.google.com/file/d/1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme/view",
+      "file": "current_state.json",
+      "bytes": 12102,
+      "sha256": "1e4b0a73140dbe3d998c1cff0003a7639d77617e18954a1464678b7fad70f4b4",
+      "local_byte_equal": true
+    }
+  ],
+  "no_model_weights_downloaded": true,
+  "no_training_performed": true
+}

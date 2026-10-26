@@ -1,0 +1,19 @@
+{
+  "authorization": "Owner explicitly requested improve model using existing data and selected2hours30minutes for this new run.",
+  "budget_max_wall_seconds": 9000,
+  "budget_start_unix": 1792845466.0,
+  "budget_start_utc": "2026-10-24T12:37:46Z",
+  "corpus_or_model_download_to_pc": false,
+  "development_fixtures": "Existing dev30 only; previous final/locked fixtures excluded from tuning.",
+  "hard_deadline_unix": 1792854466.0,
+  "hard_deadline_utc": "2026-10-24T15:07:46+00:00",
+  "model": "Qwen/Qwen3-1.7B",
+  "new_human_attestation": false,
+  "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "paid_resources": false,
+  "production_change": false,
+  "reserve_seconds": 1800,
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "schema": "MathVisionKid.skill_recovery_150m_owner_scope.v1",
+  "source_and_old_checkpoints_preserved": true
+}

@@ -1,0 +1,12 @@
+{
+  "all_technical_ids_canonical": true,
+  "cases": 12,
+  "chat_rows": 48,
+  "exact_duplicate_checks_passed": true,
+  "independent_oracles": 12,
+  "numeric_steps": 15,
+  "preserved_input_snapshot_sha256": "5b94f75936a98d4bf74dd5ddab821bfe24aab5df2b73c0401a32c15528f8279e",
+  "source_chat_hash_links": 48,
+  "status": "PASS_DRAFT_NOT_ACCEPTED",
+  "training_started": false
+}

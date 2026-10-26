@@ -1,0 +1,887 @@
+{
+  "utc": "2026-10-18T14:21:05.231003+00:00",
+  "cases": 47,
+  "actual_full_content_read": true,
+  "review_sha256": "06be5935199627bc007141c42f32fd3116b4bc5be9ca597986b030c90520c821",
+  "source_sha256": "b2d73c988a4f1bb2379a521d0024777c01d70b41395358c58f3324dd464cb5c5",
+  "numeric_checks": [
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_misconception_add_without_conversion:polish_v1",
+      "source_row_sha256": "f48e1781e17134c00c7b9ee104846c9d4c3da073b3e74b13dd8306948d6fdc97",
+      "step_id": "s1",
+      "expanded_expression": "100+5",
+      "fraction": "105",
+      "decimal": "105",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils:polish_v1",
+      "source_row_sha256": "628f6390794d27f7ac6f4c2cba98f697e0ee8e993dc5c934c1f4d0191533c238",
+      "step_id": "s1",
+      "expanded_expression": "3",
+      "fraction": "3",
+      "decimal": "3",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils:polish_v1",
+      "source_row_sha256": "628f6390794d27f7ac6f4c2cba98f697e0ee8e993dc5c934c1f4d0191533c238",
+      "step_id": "s2",
+      "expanded_expression": "4",
+      "fraction": "4",
+      "decimal": "4",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils:polish_v1",
+      "source_row_sha256": "628f6390794d27f7ac6f4c2cba98f697e0ee8e993dc5c934c1f4d0191533c238",
+      "step_id": "s3",
+      "expanded_expression": "1",
+      "fraction": "1",
+      "decimal": "1",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s0",
+      "expanded_expression": "14-8",
+      "fraction": "6",
+      "decimal": "6",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s1",
+      "expanded_expression": "7-6",
+      "fraction": "1",
+      "decimal": "1",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s2",
+      "expanded_expression": "13-5",
+      "fraction": "8",
+      "decimal": "8",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s3",
+      "expanded_expression": "7-5",
+      "fraction": "2",
+      "decimal": "2",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s4",
+      "expanded_expression": "68384-25568",
+      "fraction": "42816",
+      "decimal": "42816",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "step_id": "s5",
+      "expanded_expression": "(68384-25568)+25568",
+      "fraction": "68384",
+      "decimal": "68384",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory:polish_v1",
+      "source_row_sha256": "d677b450437b90ddd25617cbca6c22a7930494d7310f58ff73e3a49813a0d7b9",
+      "step_id": "s0",
+      "expanded_expression": "76458-24326",
+      "fraction": "52132",
+      "decimal": "52132",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory:polish_v1",
+      "source_row_sha256": "d677b450437b90ddd25617cbca6c22a7930494d7310f58ff73e3a49813a0d7b9",
+      "step_id": "s1",
+      "expanded_expression": "(76458-24326)+24326",
+      "fraction": "76458",
+      "decimal": "76458",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry:polish_v1",
+      "source_row_sha256": "14a61bd4e8cbda439706d85bb9e04b713e18a0c95e1ae094ab77065b4b8e0271",
+      "step_id": "s1",
+      "expanded_expression": "31527+12458",
+      "fraction": "43985",
+      "decimal": "43985",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry:polish_v1",
+      "source_row_sha256": "14a61bd4e8cbda439706d85bb9e04b713e18a0c95e1ae094ab77065b4b8e0271",
+      "step_id": "s2",
+      "expanded_expression": "(31527+12458)-12458",
+      "fraction": "31527",
+      "decimal": "31527",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "step_id": "s0",
+      "expanded_expression": "24/3",
+      "fraction": "8",
+      "decimal": "8",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "step_id": "s1",
+      "expanded_expression": "96-(24/3)",
+      "fraction": "88",
+      "decimal": "88",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "step_id": "s2",
+      "expanded_expression": "96-24",
+      "fraction": "72",
+      "decimal": "72",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "step_id": "s3",
+      "expanded_expression": "(96-24)/3",
+      "fraction": "24",
+      "decimal": "24",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend:polish_v1",
+      "source_row_sha256": "130c61a4021f2787b7025a31632656c13e38246b9d09b93768262bace9a5b0e2",
+      "step_id": "s1",
+      "expanded_expression": "328+247",
+      "fraction": "575",
+      "decimal": "575",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend:polish_v1",
+      "source_row_sha256": "130c61a4021f2787b7025a31632656c13e38246b9d09b93768262bace9a5b0e2",
+      "step_id": "s2",
+      "expanded_expression": "(328+247)-247",
+      "fraction": "328",
+      "decimal": "328",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor:polish_v1",
+      "source_row_sha256": "34ba6452cc73fc32d5c5316236a8ef556bc1df530e667956ac8b493cfefe2229",
+      "step_id": "s1",
+      "expanded_expression": "213*4",
+      "fraction": "852",
+      "decimal": "852",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor:polish_v1",
+      "source_row_sha256": "34ba6452cc73fc32d5c5316236a8ef556bc1df530e667956ac8b493cfefe2229",
+      "step_id": "s2",
+      "expanded_expression": "(213*4)/4",
+      "fraction": "213",
+      "decimal": "213",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role:polish_v1",
+      "source_row_sha256": "d6564166d0b369d026556de7a72cb98c8cfc6b1949af96a5fdc8fe443bb1138a",
+      "step_id": "s1",
+      "expanded_expression": "684-239",
+      "fraction": "445",
+      "decimal": "445",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role:polish_v1",
+      "source_row_sha256": "d6564166d0b369d026556de7a72cb98c8cfc6b1949af96a5fdc8fe443bb1138a",
+      "step_id": "s2",
+      "expanded_expression": "684-(684-239)",
+      "fraction": "239",
+      "decimal": "239",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry:polish_v1",
+      "source_row_sha256": "21df99d04a62770c706ecfece96fe5778375b0f3dbd5408efc3b47e5e362cc3c",
+      "step_id": "s0",
+      "expanded_expression": "7*2",
+      "fraction": "14",
+      "decimal": "14",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry:polish_v1",
+      "source_row_sha256": "21df99d04a62770c706ecfece96fe5778375b0f3dbd5408efc3b47e5e362cc3c",
+      "step_id": "s1",
+      "expanded_expression": "4237*2",
+      "fraction": "8474",
+      "decimal": "8474",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry:polish_v1",
+      "source_row_sha256": "21df99d04a62770c706ecfece96fe5778375b0f3dbd5408efc3b47e5e362cc3c",
+      "step_id": "s2",
+      "expanded_expression": "(4237*2)/2",
+      "fraction": "4237",
+      "decimal": "4237",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "step_id": "s0",
+      "expanded_expression": "8/4",
+      "fraction": "2",
+      "decimal": "2",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "step_id": "s1",
+      "expanded_expression": "0",
+      "fraction": "0",
+      "decimal": "0",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "step_id": "s2",
+      "expanded_expression": "36/4",
+      "fraction": "9",
+      "decimal": "9",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "step_id": "s3",
+      "expanded_expression": "200+0+9",
+      "fraction": "209",
+      "decimal": "209",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "step_id": "s4",
+      "expanded_expression": "(200+0+9)*4",
+      "fraction": "836",
+      "decimal": "836",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "step_id": "s0",
+      "expanded_expression": "22-3*7",
+      "fraction": "1",
+      "decimal": "1",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "step_id": "s1",
+      "expanded_expression": "10-1*7",
+      "fraction": "3",
+      "decimal": "3",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "step_id": "s2",
+      "expanded_expression": "33-4*7",
+      "fraction": "5",
+      "decimal": "5",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "step_id": "s3",
+      "expanded_expression": "300+10+4",
+      "fraction": "314",
+      "decimal": "314",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "step_id": "s4",
+      "expanded_expression": "(300+10+4)*7+(33-4*7)",
+      "fraction": "2203",
+      "decimal": "2203",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small:polish_v1",
+      "source_row_sha256": "ac487eb6a7a077e37f5a2d2c1262046b564403d4ca7cb5158242fc952c4a3121",
+      "step_id": "s1",
+      "expanded_expression": "6-4",
+      "fraction": "2",
+      "decimal": "2",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small:polish_v1",
+      "source_row_sha256": "ac487eb6a7a077e37f5a2d2c1262046b564403d4ca7cb5158242fc952c4a3121",
+      "step_id": "s2",
+      "expanded_expression": "210+1",
+      "fraction": "211",
+      "decimal": "211",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small:polish_v1",
+      "source_row_sha256": "ac487eb6a7a077e37f5a2d2c1262046b564403d4ca7cb5158242fc952c4a3121",
+      "step_id": "s3",
+      "expanded_expression": "(210+1)*4+(6-4)",
+      "fraction": "846",
+      "decimal": "846",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_order_0028_five_to_six_digit_boundary:polish_v1",
+      "source_row_sha256": "54fb92379d1efe7129f0f3550faa42d2060903ef438a2faa0c7f8e77f9099fc5",
+      "step_id": "s1",
+      "expanded_expression": "99999+1",
+      "fraction": "100000",
+      "decimal": "100000",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss:polish_v1",
+      "source_row_sha256": "7cf0a18dfc5d672f1e30f530fb4061085ea27bc9755fce14776c580f0c18b752",
+      "step_id": "s1",
+      "expanded_expression": "417+83",
+      "fraction": "500",
+      "decimal": "500",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss:polish_v1",
+      "source_row_sha256": "7cf0a18dfc5d672f1e30f530fb4061085ea27bc9755fce14776c580f0c18b752",
+      "step_id": "s2",
+      "expanded_expression": "(417+83)+26",
+      "fraction": "526",
+      "decimal": "526",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss:polish_v1",
+      "source_row_sha256": "7cf0a18dfc5d672f1e30f530fb4061085ea27bc9755fce14776c580f0c18b752",
+      "step_id": "s3",
+      "expanded_expression": "417+(26+83)",
+      "fraction": "526",
+      "decimal": "526",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "step_id": "s0",
+      "expanded_expression": "16*5",
+      "fraction": "80",
+      "decimal": "80",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "step_id": "s1",
+      "expanded_expression": "(16*5)*2",
+      "fraction": "160",
+      "decimal": "160",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "step_id": "s2",
+      "expanded_expression": "5*2",
+      "fraction": "10",
+      "decimal": "10",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "step_id": "s3",
+      "expanded_expression": "16*(5*2)",
+      "fraction": "160",
+      "decimal": "160",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles:polish_v1",
+      "source_row_sha256": "e109f6777de7dad1c930eacc1404c5269613eae69365d2d14a91906ab0b75772",
+      "step_id": "s0",
+      "expanded_expression": "775-147",
+      "fraction": "628",
+      "decimal": "628",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles:polish_v1",
+      "source_row_sha256": "e109f6777de7dad1c930eacc1404c5269613eae69365d2d14a91906ab0b75772",
+      "step_id": "s1",
+      "expanded_expression": "775-628",
+      "fraction": "147",
+      "decimal": "147",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "step_id": "s0",
+      "expanded_expression": "23-13",
+      "fraction": "10",
+      "decimal": "10",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "step_id": "s1",
+      "expanded_expression": "86-(23-13)",
+      "fraction": "76",
+      "decimal": "76",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "step_id": "s2",
+      "expanded_expression": "86-23",
+      "fraction": "63",
+      "decimal": "63",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "step_id": "s3",
+      "expanded_expression": "(86-23)-13",
+      "fraction": "50",
+      "decimal": "50",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_report_rounded_count_not_exact:polish_v1",
+      "source_row_sha256": "9ce81f5f0abcfdd4dbf63c4dd415dd57439138f293169333e58f0a5a98c5470c",
+      "step_id": "s1",
+      "expanded_expression": "100000",
+      "fraction": "100000",
+      "decimal": "100000",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_misconception_inspect_wrong_digit:polish_v1",
+      "source_row_sha256": "f93388524912bb86b2731aa26d4944b446b30fbb728ea7711f174050115ecc91",
+      "step_id": "s1",
+      "expanded_expression": "36000",
+      "fraction": "36000",
+      "decimal": "36000",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+      "source_row_sha256": "143ac73a7a213904bae33437302df843d7e2a5a35e929e798e7b18ad464379ec",
+      "step_id": "s0",
+      "expanded_expression": "8",
+      "fraction": "8",
+      "decimal": "8",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+      "source_row_sha256": "143ac73a7a213904bae33437302df843d7e2a5a35e929e798e7b18ad464379ec",
+      "step_id": "s1",
+      "expanded_expression": "12",
+      "fraction": "12",
+      "decimal": "12",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+      "source_row_sha256": "143ac73a7a213904bae33437302df843d7e2a5a35e929e798e7b18ad464379ec",
+      "step_id": "s2",
+      "expanded_expression": "6",
+      "fraction": "6",
+      "decimal": "6",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_misconception_visible_faces_are_all:polish_v1",
+      "source_row_sha256": "8a631930a822425633129726c7f3a8c97b8ac0152680acd5af124131220baba0",
+      "step_id": "s1",
+      "expanded_expression": "6",
+      "fraction": "6",
+      "decimal": "6",
+      "separate_inverse_identity": null
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference:polish_v1",
+      "source_row_sha256": "8e1e6abe8625213c894b908fd737787bd2f71d0e80742fe93c9d162f1925f279",
+      "step_id": "s0",
+      "expanded_expression": "54/3",
+      "fraction": "18",
+      "decimal": "18",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference:polish_v1",
+      "source_row_sha256": "8e1e6abe8625213c894b908fd737787bd2f71d0e80742fe93c9d162f1925f279",
+      "step_id": "s1",
+      "expanded_expression": "54-(54/3)",
+      "fraction": "36",
+      "decimal": "36",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes:polish_v1",
+      "source_row_sha256": "cabf96af05d69484a3e4e1ee04eb7df3cfe6f21218847b7246b769e11cef7b35",
+      "step_id": "s0",
+      "expanded_expression": "63-18",
+      "fraction": "45",
+      "decimal": "45",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes:polish_v1",
+      "source_row_sha256": "cabf96af05d69484a3e4e1ee04eb7df3cfe6f21218847b7246b769e11cef7b35",
+      "step_id": "s1",
+      "expanded_expression": "(63-18)/9",
+      "fraction": "5",
+      "decimal": "5",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction:polish_v1",
+      "source_row_sha256": "7c21f8177db018f1c20238ded067eee4fdadde6ca3ac778f746e353abdf4a4d0",
+      "step_id": "s1",
+      "expanded_expression": "36/4",
+      "fraction": "9",
+      "decimal": "9",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction:polish_v1",
+      "source_row_sha256": "7c21f8177db018f1c20238ded067eee4fdadde6ca3ac778f746e353abdf4a4d0",
+      "step_id": "s2",
+      "expanded_expression": "(36/4)*4",
+      "fraction": "36",
+      "decimal": "36",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts:polish_v1",
+      "source_row_sha256": "30dbf9caccc3744301d8ed2cbe6ca10643d4d442520cd9806751ca24c41d73fb",
+      "step_id": "s1",
+      "expanded_expression": "1/6",
+      "fraction": "1/6",
+      "decimal": "0.166666666666666666666666666666666666666666666667",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_unit_fraction_of_discrete_group:polish_v1",
+      "source_row_sha256": "0efc16cfdd00e284abfd66a4c6dc93eb9736a764edd24e3bbcb503222deadded",
+      "step_id": "s1",
+      "expanded_expression": "56/7",
+      "fraction": "8",
+      "decimal": "8",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_unit_fraction_of_discrete_group:polish_v1",
+      "source_row_sha256": "0efc16cfdd00e284abfd66a4c6dc93eb9736a764edd24e3bbcb503222deadded",
+      "step_id": "s2",
+      "expanded_expression": "(56/7)*7",
+      "fraction": "56",
+      "decimal": "56",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_misconception_denominator_as_selected_count:polish_v1",
+      "source_row_sha256": "7fd13da1ee459e6cd250e1f03f411b0e55bfb4d7608e6f7dab0644a987ebe3e1",
+      "step_id": "s1",
+      "expanded_expression": "45/5",
+      "fraction": "9",
+      "decimal": "9",
+      "separate_inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_misconception_denominator_as_selected_count:polish_v1",
+      "source_row_sha256": "7fd13da1ee459e6cd250e1f03f411b0e55bfb4d7608e6f7dab0644a987ebe3e1",
+      "step_id": "s2",
+      "expanded_expression": "(45/5)*5",
+      "fraction": "45",
+      "decimal": "45",
+      "separate_inverse_identity": true
+    }
+  ],
+  "semantic_notes": [
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_misconception_add_without_conversion:polish_v1",
+      "source_row_sha256": "f48e1781e17134c00c7b9ee104846c9d4c3da073b3e74b13dd8306948d6fdc97",
+      "note": "1m=100cm; 100+5=105cm; incorrect written1+5=6 preserves quote and only rejects mixing units; hints do not fill105."
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils:polish_v1",
+      "source_row_sha256": "628f6390794d27f7ac6f4c2cba98f697e0ee8e993dc5c934c1f4d0191533c238",
+      "note": "Partition IDs AEG red3, BCFH blue4, D yellow1 uses all8 once; redundant yellow sentence removed, no actual vision claim."
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "note": "68384-25568=42816: units14-8, tens7-6, hundreds13-5, thousands7-5, ten-thousands6-2; inverse68384."
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory:polish_v1",
+      "source_row_sha256": "d677b450437b90ddd25617cbca6c22a7930494d7310f58ff73e3a49813a0d7b9",
+      "note": "76458 total disjoint story24326 and reference52132; each subtraction column and inverse checked, no other books inferred."
+    },
+    {
+      "sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry:polish_v1",
+      "source_row_sha256": "14a61bd4e8cbda439706d85bb9e04b713e18a0c95e1ae094ab77065b4b8e0271",
+      "note": "31527+12458=43985; explicit written7+8=15 carry1 followed by2+5 omits that written carry; do not invent unseen work."
+    },
+    {
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_grid_rectangle_closure:polish_v1",
+      "source_row_sha256": "41d6d79677f815a1abc8499e4fb22e8b8bbc15a4081e145c5976224586452d6e",
+      "note": "Grid plan four by three1cm squares, closure and four right angles; no assertion of actual drawing; hint3 grammar fixed."
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "note": "A96-24/3=88 versus B(96-24)/3=24, precedence8/72 tracked, brackets and all operands retained."
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend:polish_v1",
+      "source_row_sha256": "130c61a4021f2787b7025a31632656c13e38246b9d09b93768262bace9a5b0e2",
+      "note": "Unknown minuend □-247=328 gives575;575-247=328; correct quantity roles."
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor:polish_v1",
+      "source_row_sha256": "34ba6452cc73fc32d5c5316236a8ef556bc1df530e667956ac8b493cfefe2229",
+      "note": "Unknown dividend □/4=213 gives852;213*4 trace and852/4 long division verified; semicolon roles remove decimal-looking punctuation."
+    },
+    {
+      "sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role:polish_v1",
+      "source_row_sha256": "d6564166d0b369d026556de7a72cb98c8cfc6b1949af96a5fdc8fe443bb1138a",
+      "note": "684-unknown=239 gives445; quoted923 is not the requested subtrahend; inverse684-445=239, no hidden method claim."
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_between_versus_midpoint:polish_v1",
+      "source_row_sha256": "2252b9e651bbdb0739764e10421c0104a8d99915db4cc351f2fff6683cce1f05",
+      "note": "Between plus6=6 makes M midpoint; between plus4!=8 makes N not midpoint; equal total12 alone insufficient."
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_equal_distances_off_line:polish_v1",
+      "source_row_sha256": "52174d96fde85402d0e434a2f19df228d04dac7f5ffe21720cd2c506a04fde18",
+      "note": "P off AB with equal distances5 and AB6 is not midpoint; preserve given position, never move point."
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square:polish_v1",
+      "source_row_sha256": "e617a032d093574ca3076c217203c293eaa43be020ce75f33085fe3c06012972",
+      "note": "AOB both set-square sides aligned even rotated is right; CPD second ray inside is not; hypothetical tool evidence only."
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_misconception_equal_sides_right_angle:polish_v1",
+      "source_row_sha256": "1c623a2656e71deb329a21fa8c73f44fddafa067c945e037fb5addab24b6aa1d",
+      "note": "OA=OB=5 does not imply right angle; explicit set-square second side inside fails, no unseen measuring error inferred."
+    },
+    {
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_guard_equal_distances_unknown_position:polish_v1",
+      "source_row_sha256": "841685b4de61d33c56ca1d8df124e15775aec53d0e1a0e3f9217a5d6239f7914",
+      "note": "EqualMA=MB5 lacks collinearity/between; asks image or position before conclusion; no numeric answer."
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry:polish_v1",
+      "source_row_sha256": "21df99d04a62770c706ecfece96fe5778375b0f3dbd5408efc3b47e5e362cc3c",
+      "note": "4237*2=8474: units14 carry1, tens7, hundreds4, thousands8; inverse4237."
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "note": "836/4=209 includes zero tens in quotient; final36/4=9 and209*4=836; punctuation clearly separates incorrect29 from2hundreds."
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "note": "2203/7 q314 r5; intermediate22,10,33;314*7+5=2203 and0<=5<7; metadata remainder kept."
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small:polish_v1",
+      "source_row_sha256": "ac487eb6a7a077e37f5a2d2c1262046b564403d4ca7cb5158242fc952c4a3121",
+      "note": "846/4 wrong210r6 reconstructs846 but remainder6>=4; one more group gives211r2; do not call correct multiplication wrong."
+    },
+    {
+      "sample_id": "primary_20261017_g3_muldiv_0031_guard_ambiguous_six_role:polish_v1",
+      "source_row_sha256": "5433da793ef4a72e4259123035533abd0e90aba4d7e7351697371fe5b8fdcab7",
+      "note": "48items with ambiguous6bags vs6items/bag swaps quantity labels; asks missing role, no guessed numeric solution."
+    },
+    {
+      "sample_id": "primary_20261017_g3_order_0028_five_to_six_digit_boundary:polish_v1",
+      "source_row_sha256": "54fb92379d1efe7129f0f3550faa42d2060903ef438a2faa0c7f8e77f9099fc5",
+      "note": "99999+1=100000; all-nine carry boundary proves Bgreater, inverse recovers99999."
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss:polish_v1",
+      "source_row_sha256": "7cf0a18dfc5d672f1e30f530fb4061085ea27bc9755fce14776c580f0c18b752",
+      "note": "417+26+83 associative grouping500+26=526 and417+109=526, every addend once."
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "note": "16*5*2 left80*2/right16*10 both160; retain all factors, multiplication associativity only."
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles:polish_v1",
+      "source_row_sha256": "e109f6777de7dad1c930eacc1404c5269613eae69365d2d14a91906ab0b75772",
+      "note": "628+147=775 checked by both inverse subtractions, no altered operand roles."
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "note": "86-(23-13)=76 versus(86-23)-13=50 counterexample to subtraction associativity; no universal claim every change differs."
+    },
+    {
+      "sample_id": "primary_20261017_g3_properties_0032_guard_missing_original_operator:polish_v1",
+      "source_row_sha256": "1747569ae915c1d7a5bd87f41b7940fa025064501f7a072c7bcef44aa4625b63",
+      "note": "24 and6 missing operator cannot determine sum vs product; asks exact expression, empty worked answer."
+    },
+    {
+      "sample_id": "primary_20261017_g3_roman_0027_contrast_four_six_order:polish_v1",
+      "source_row_sha256": "3ef939af6cafa84211bee9e375801fb0d678adad1f02100eb9ed47163ee60561",
+      "note": "Explicit standard Roman notation IV4 VI6; order matters, no clock-notation claim."
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_report_rounded_count_not_exact:polish_v1",
+      "source_row_sha256": "9ce81f5f0abcfdd4dbf63c4dd415dd57439138f293169333e58f0a5a98c5470c",
+      "note": "95000 is halfway90k/100k; stated tie-up rule gives100k approximation only, exact inventory remains95000."
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_misconception_inspect_wrong_digit:polish_v1",
+      "source_row_sha256": "f93388524912bb86b2731aa26d4944b446b30fbb728ea7711f174050115ecc91",
+      "note": "36450 nearestthousand36000 by hundreds4 and distances450/550; reject written tens5 rule only."
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal:polish_v1",
+      "source_row_sha256": "095f6bdfbde0bda0826baf8982fa04c711b7637d6d961e4379c052d2678aaaa9",
+      "note": "ABCD four right angles with opposite8/5 has rectangle not square; boundary sides exclude diagonalAC."
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_equal_sides_need_right_angles:polish_v1",
+      "source_row_sha256": "07de9c6bb16abe56ff065e9bf5acd0d59e1ac219cb3b736ce379f0eb3e97edf4",
+      "note": "P four equal sides5 plus four right angles square even rotated; Q equal sides but failed right-angle condition not square."
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_circle_radius_diameter_and_noncentral_segment:polish_v1",
+      "source_row_sha256": "9aec30940c6ad100a27528cc9d9fe3779bd0eb32377a17f49301b86837c4fa67",
+      "note": "Circle centerO, endpoints on boundary;OA/OB/OC radii;AB passes through center with O between, diameter;DE neither radius nor diameter."
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_misconception_radius_called_diameter:polish_v1",
+      "source_row_sha256": "a3d29d21800c82e1aa36a25601afcce093ba9243cb290907bde3c7938d738773",
+      "note": "Student calls OA diameter but one endpoint at center makes radius;AB correct diameter by described endpoints/throughO, preserve labels."
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+      "source_row_sha256": "143ac73a7a213904bae33437302df843d7e2a5a35e929e798e7b18ad464379ec",
+      "note": "Cube A-H eight distinct vertices;4bottom+4top+4connectors=12edges; six namedfaces, shared edge once."
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_same_counts_not_same_cube_condition:polish_v1",
+      "source_row_sha256": "1056ab59a540e0701c9d5ccefeb5ba14bac5567d621f7ed567f924f0c47546d4",
+      "note": "P dimensions4/4/4 allsquarefaces cube; Q6/4/2 rectangularbox; same8vertices12edges6faces does not imply cube."
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_incidence_and_opposite_face:polish_v1",
+      "source_row_sha256": "ae57a3717acc3fb3326f1af2d17d451d0bb1692dae2b5c9bc1256c4d48ab8b1b",
+      "note": "AtA edgesAB AD AE;AC diagonal notedge;CDHG oppositeABFE no commonvertex;ADHE adjacent sharesAE."
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_misconception_visible_faces_are_all:polish_v1",
+      "source_row_sha256": "8a631930a822425633129726c7f3a8c97b8ac0152680acd5af124131220baba0",
+      "note": "Explicit closed cube observed threefaces means visible subset only; six total, no unseen image description."
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_guard_single_square_view:polish_v1",
+      "source_row_sha256": "a88f312aa0b609e31030e2bb63606954b20b64fde6a87526c8b4e87cb0f549e9",
+      "note": "One square frontface lacks depth/otherfaces; ask full evidence without inferring cube."
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference:polish_v1",
+      "source_row_sha256": "8e1e6abe8625213c894b908fd737787bd2f71d0e80742fe93c9d162f1925f279",
+      "note": "54 reduced byfactor3 gives18, difference36;18*3=54 and18+36=54; hints do not give intermediate/final."
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes:polish_v1",
+      "source_row_sha256": "cabf96af05d69484a3e4e1ee04eb7df3cfe6f21218847b7246b769e11cef7b35",
+      "note": "A63 removes18 to external library gives45; B9unchanged;45/9=5times with inverse45+18=63; not transfer toB."
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction:polish_v1",
+      "source_row_sha256": "7c21f8177db018f1c20238ded067eee4fdadde6ca3ac778f746e353abdf4a4d0",
+      "note": "Quoted36-4=32 arithmetic correct but wrong multiplicative relation;36/4=9 and9*4=36, only explicit written reason diagnosed."
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_guard_missing_items_per_bag:polish_v1",
+      "source_row_sha256": "074246656bb110c542570bf46260f5a6156b0fbb537d9fc12ef3bd577c461cd7",
+      "note": "6bags minus9items lacks items/bag or initialtotal; asks missing amount, never subtract mismatched units."
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts:polish_v1",
+      "source_row_sha256": "30dbf9caccc3744301d8ed2cbe6ca10643d4d442520cd9806751ca24c41d73fb",
+      "note": "Six equalarea parts cover whole, onechosen1/6 readone-sixth; five uncolored is not denominator; no real image claim."
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_unit_fraction_of_discrete_group:polish_v1",
+      "source_row_sha256": "0efc16cfdd00e284abfd66a4c6dc93eb9736a764edd24e3bbcb503222deadded",
+      "note": "56cucks in7equalgroups gives8pergroup,8*7=56; object count vs group count distinct."
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_seven_unequal_pieces_not_sevenths:polish_v1",
+      "source_row_sha256": "b5c2c05bb880486f186825d806f20888b6291fc8fe7e54363ca3a1c06aea1119",
+      "note": "Eight equalarea cells partitioned into seven unequal pieces: colored2cells versus others1cell; cannot infer one-seventh from piececount; hints leave condition to check."
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_misconception_denominator_as_selected_count:polish_v1",
+      "source_row_sha256": "7fd13da1ee459e6cd250e1f03f411b0e55bfb4d7608e6f7dab0644a987ebe3e1",
+      "note": "45objects one-fifth gives9,9*5=45; quoted5labels numberofparts not directselectedobjectcount; no hidden counting diagnosis."
+    },
+    {
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_guard_unknown_equal_areas:polish_v1",
+      "source_row_sha256": "e3810ca11e41ac4377467c7d0db435bf735569e0dc6ae8017e86c2b47f91db24",
+      "note": "Fourpieces onecolored lacks equalityofarea; asks image/partition evidence; empty solution/answer until known."
+    }
+  ],
+  "original_sources_and_owner_signoffs_modified": false,
+  "physical_or_vision_verified": false
+}

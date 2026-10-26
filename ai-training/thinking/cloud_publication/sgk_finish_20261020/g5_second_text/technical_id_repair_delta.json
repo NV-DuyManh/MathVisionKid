@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "parent_preserved_sha256": "9aa3b16372bce41a3da828996a7373c00d3b0f1840b0c0c2e8177f71ffdaf007",
+  "final_sha256": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709",
+  "only_givens_id_and_worked_step_id_changes": true,
+  "deltas": [
+    {
+      "sample_id": "sgk_finish_g5_20261020_date_fixed_yyyymmdd_encode",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_date_fixed_ddmmyyyy_leading_zero_repair",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_compound_two_years_compare_simple",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id",
+        "/worked_steps/3/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_compound_reverse_principal",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id",
+        "/worked_steps/3/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_pair_guarantee_any_color_not_red",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_pair_guarantee_blue_minimum_draws",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_clock_slow_forward_from_reset",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_clock_fast_inverse_display_elapsed",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_train_tail_bridge_forward",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_train_bridge_inverse_length",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_piecewise_routes_equal_time",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_piecewise_rest_total_average_error",
+      "changed_fields": [
+        "/givens/0/id",
+        "/givens/1/id",
+        "/worked_steps/0/step_id",
+        "/worked_steps/1/step_id",
+        "/worked_steps/2/step_id"
+      ]
+    }
+  ]
+}

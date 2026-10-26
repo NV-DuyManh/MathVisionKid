@@ -1,0 +1,32 @@
+{
+  "schema": "MathVisionKid.explicit_memory_resume_migration.v1",
+  "parent_worker_sha256": "3ce1b3c24a9741e1f93915930da5552ab41787daa6b13276b0892c7b2a529868",
+  "resumed_worker_sha256": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+  "resumed_backend_sha256": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+  "parent_checkpoint_generation": "generation_step_000001_rows_00000016",
+  "parent_generation_manifest_sha256": "7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee",
+  "parent_checkpoint_archive_sha256": "5254bdff7ccd5f85ff44967082515b9b6f50d5004378b95b25af65674ea94551",
+  "parent_checkpoint_drive_id": "1NOkLIubccEzcDNt5cm72FlBBPEe9Ll7K",
+  "last_observed_before_OOM": {
+    "step": 6,
+    "rows_done": 96
+  },
+  "resumed_from_committed": {
+    "step": 1,
+    "rows_done": 16
+  },
+  "changed_training_semantics": false,
+  "only_memory_change": "nonreentrant_gradient_checkpointing",
+  "effective_batch": 16,
+  "microbatch": 2,
+  "learning_rate": 3e-06,
+  "targets_or_source_changed": false,
+  "optimizer_scheduler_rng_and_parameter_mapping_restored": true,
+  "postcheckpoint_successful_log_tail_preserved_by_resume_helper": true,
+  "restored_rows_counted_once_in_final_checkpoint_metrics": true,
+  "physical_extra_exposures_in_failed_attempt_not_claimed_unique": 80,
+  "actual_weight_updates_in_lost_tail": 5,
+  "loss_description_clarification": "The implementation always used len(items)/group_rows weighting of each microbatch token-mean loss. Clarified config text; no loss weighting changed.",
+  "production_approved": false,
+  "human_review_claimed": false
+}

@@ -1,0 +1,145 @@
+{
+  "authored_utc": "2026-10-18T09:50:54.731000+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:48:45.121Z",
+  "batch_sha256": "df84c7558e814c4b55b87512f4256dbeee8c648e59baf5e15dd204660dec7276",
+  "authored_cases": 4,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_triangle_area_imagined_pair_and_height",
+      "row_sha256": "f25a779ae006209359feb9996d0109ad27ebae8dac802d299dc34980af9e3753",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "12.4*7.5",
+          "(12.4*7.5)/2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+      "row_sha256": "e54a030959f559b8fa332204c7b4300ae97516234868bab1867022504e05064d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "23+14",
+          "149.85*2/(23+14)",
+          "6*(149.85*2/(23+14))/2",
+          "149.85-(6*(149.85*2/(23+14))/2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_misconception_oblique_side_not_matching_altitude",
+      "row_sha256": "af2d5e9a3a402a3a5d575d93438268b22627e29ebec439f595200f672c08af3b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "13.6*8/2",
+          "(13.6*8/2)*2/13.6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_guard_trapezoid_leg_not_confirmed_height",
+      "row_sha256": "a9a737861322c14ed013cb307aa2cd18de5914883ee6062d660f98b84f79967c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "triangle_rational_coordinate_area_cm2": "93/2",
+    "trapezoid_partition_coordinate_areas_m2": {
+      "whole": "2997/20",
+      "corner": "243/10",
+      "remaining": "2511/20"
+    },
+    "reverse_height_search_tenths_m": [
+      "81/10"
+    ],
+    "misconception_side10_height8_coordinate_area_cm2": "272/5",
+    "guard_same_bases_and_leg9_different_heights_areas_QA_only": [
+      "126",
+      "504/5"
+    ],
+    "triangle_pair_half_turn_parallelogram_area_cm2": "93",
+    "triangle_pair_each_area_cm2": "93/2",
+    "triangle_pair_half_turn_about_shared_side_midpoint_checked": true
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "coordinate_area_QA_only_not_student_method": true,
+  "visual_outcome_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_03"
+  ],
+  "occupied_core02_preserved": {
+    "sample_id": "original_tutor25_g5_05",
+    "source_row_sha256": "694192a1749d1d1bd3df919886970d357bc3eb56abd11f7a6a781a303463d33f"
+  },
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous454_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "d9e9f77e8351ea1ecb86fc34c90ebc892f3e5131afe814e695b83cc3df90ed8f",
+  "pre_official_QA_repairs": [
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+      "field": "givens[4].text",
+      "before": "ABCD lồi theo đường bao; AB song song CD; M thuộc AB; DM chia góc AMD và phần còn lại",
+      "after": "ABCD lồi theo đường bao; AB song song CD; M thuộc AB; DM chia hình thang thành tam giác AMD và phần còn lại",
+      "reason": "Correct mistaken angle wording to the region partition actually specified in problem; no facts or answers changed."
+    },
+    {
+      "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+      "field": "hints[1].hint",
+      "before": "Đáy nhỏ của phần tam giác nằm trên đường thẳng của một đáy hình thang, đỉnh còn lại thuộc đường thẳng đáy kia.",
+      "after": "Đáy đã chọn của tam giác nằm trên đường thẳng của một đáy hình thang, đỉnh còn lại thuộc đường thẳng đáy kia.",
+      "reason": "Use chosen triangle base instead of ambiguous small-base phrase; no final result filled."
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 12,
+  "region_partition_given_and_hint_polish_reread": true,
+  "official_QA_utc": "2026-10-18T09:52:09.262942+00:00",
+  "official_QA_method": "Same-author read actual4fullproblems/givens/request/student quote/observations/initial/all worked titles/reasons/explanations/expressions/results/units/answers and12hints. Reread corrected region-partition given and chosen-base hint. Grade5 semantic QA of corresponding perpendicular height, imagined triangle-pair area factor, inverse trapezoid height and contained corner partition, explicit side-versus-altitude error, missing-height clarification. Fraction/Decimal plus independent rational polygon/half-turn pair and height search/countermodel witnesses corroborate; coordinate algorithms QA-only, parser not semantic proof. Original occupiedcore02 source preserved; no actual image/cutting/measurement, independent external reviewer or new human attestation.",
+  "official_review_sha256": "1b2897b5852ffac7355d4ba2d6d8f6ddede63a0839cd7b2db3fcfce6fb30fbd6"
+}

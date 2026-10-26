@@ -1,0 +1,171 @@
+{
+  "schema_version": "primary_math_data_build.v1",
+  "phase": "DATA_AUTHORING_AND_REVIEW",
+  "automation_id": "t-o-d-li-u-to-n-ti-u-h-c-mathvisionkid",
+  "training_started": false,
+  "input_files": {
+    "authored_batches\\g1_activities_0008.jsonl": "4e1f00f01ddfd0862a4613fcd5ace2b13aa86907486a97aacec9d6d7fd6a4df7",
+    "authored_batches\\g1_foundations_0002.jsonl": "26bba1cf1c03b32cb7bd506353e6bcb30330aa69fe97587a79f80a91be0e0ea2",
+    "authored_batches\\g1_geometry_0004.jsonl": "15b441aad54ae506a3941be3628e4ed51abf7cc3364edd35ec298fdfe4f8423e",
+    "authored_batches\\g1_measurement_0006.jsonl": "6cb0da5becec40388ef336fd4e915b90ebe7cd345e6154bc01f567492219fe77",
+    "authored_batches\\g1_operations_0003.jsonl": "e8e67f0dc99d1f86ebd474e20d096b012785d198264916d5d10b437b16106fe6",
+    "authored_batches\\g1_solids_assembly_0005.jsonl": "462803f52c70da6d96171837d19ba35dae9d3347f1119e998114e58678b5510b",
+    "authored_batches\\g1_time_0007.jsonl": "192ee54d1705f4f3aae17c7d7e8421d4210fa70cc419a894cf4253da61704ea1",
+    "authored_batches\\g2_compare_estimate_0010.jsonl": "8222a1663fa541c585ebcdefa5887c0679bba645f0d7704193c46acc5e81d7de",
+    "authored_batches\\g2_groups_words_0012.jsonl": "080ddc20d432acb7c56317a288c044b5d30c794cdbfc6911f4bd5f7098154ca8",
+    "authored_batches\\g2_numbers_ray_0009.jsonl": "5324c2afbca05d35d82d898fdb053e7e5a01ca5cbaeaa99c3d0596720aba992f",
+    "authored_batches\\g2_regroup_mental_0011.jsonl": "e3015f84c510725caa4d108bd26dcba45ebad9fb7a778902e1d4547c301225e4",
+    "authored_batches\\initial31_normalized.jsonl": "0395281bd2facf1d487382ad8c7825e84345d9235c5d11e88634705b8bc7a6ca"
+  },
+  "draft_source_files": {
+    "tutoring_seed25.jsonl": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8"
+  },
+  "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+  "authored_cases": 127,
+  "decisions": {
+    "PENDING_AI_CONTENT_REVIEW": 39,
+    "ACCEPTED_AI_RESEARCH": 88
+  },
+  "accepted_cases": 88,
+  "chat_train_rows": 352,
+  "checks": {
+    "checked_step_expressions": 197
+  },
+  "grades_accepted": {
+    "1": 62,
+    "2": 5,
+    "3": 8,
+    "4": 5,
+    "5": 8
+  },
+  "node_count": 165,
+  "core_nodes_complete": 14,
+  "remaining_core_cases": 434,
+  "next_nodes": [
+    {
+      "node_id": "current_g2_natural_numbers_1000",
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 1,
+      "accepted_core_slots": [
+        "core_01"
+      ],
+      "remaining_core_slots": [
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 2
+    },
+    {
+      "node_id": "current_g2_number_ray",
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 0,
+      "accepted_core_slots": [],
+      "remaining_core_slots": [
+        "core_01",
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 3
+    },
+    {
+      "node_id": "current_g2_compare_order_1000",
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 0,
+      "accepted_core_slots": [],
+      "remaining_core_slots": [
+        "core_01",
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 3
+    },
+    {
+      "node_id": "current_g2_estimate_tens",
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 0,
+      "accepted_core_slots": [],
+      "remaining_core_slots": [
+        "core_01",
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 0,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 3
+    },
+    {
+      "node_id": "current_g2_addition_subtraction_carry_once",
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "target_core_cases": 3,
+      "accepted_core_cases": 1,
+      "accepted_core_slots": [
+        "core_01"
+      ],
+      "remaining_core_slots": [
+        "core_02",
+        "core_03"
+      ],
+      "accepted_misconception_cases": 1,
+      "accepted_guard_cases": 0,
+      "remaining_core_cases": 2
+    }
+  ],
+  "artifacts": {
+    "accepted_cases": {
+      "rows": 88,
+      "bytes": 364109,
+      "sha256": "22624909e23afe26d307d9fc2cf55bdc563996592a9417ce71a014ba03b32221"
+    },
+    "chat_train": {
+      "rows": 352,
+      "bytes": 547928,
+      "sha256": "7812853792c8fe89b6c31c42692aa37482030f2ec069bf53e39a36afc3c8d9d3"
+    },
+    "pending_cases": {
+      "rows": 39,
+      "bytes": 194031,
+      "sha256": "0e35b14014a65e77029460b60d7fd5fdfeb6b003d63f6c61302a47342664a24a"
+    },
+    "curation_manifest": {
+      "rows": 127,
+      "bytes": 56736,
+      "sha256": "f19fca55ed5e2ac7d80701ff1332c301b16fe05f4a750c52bc227aca0b041569"
+    }
+  },
+  "protected_dataset_fingerprints": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+    "v4_fresh_val": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+    "known_concept_development_val30": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+    "independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928"
+  },
+  "sealed_concept_challenge_read": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "completion": false,
+  "limits": [
+    "AI content reviews are research, not teacher certification.",
+    "Canonical exclusion is bounded, not universal semantic equivalence.",
+    "Neutral teacher chat is not an automatically valid application PlanDraft.",
+    "No claim of complete curriculum mastery or model accuracy; model not trained.",
+    "All variants of a case remain training-only; independent evaluation is still needed."
+  ]
+}

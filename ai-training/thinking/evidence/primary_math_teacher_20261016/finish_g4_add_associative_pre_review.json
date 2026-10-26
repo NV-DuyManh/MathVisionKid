@@ -1,0 +1,296 @@
+{
+  "batch": "finish_g4_add_associative",
+  "utc": "2026-10-18T14:11:51.749118+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "row_sha256": "8329dc0fd9e735d1567c22c7c4702c579832b80f84ed10a39962681a0b24e79e",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "125+275",
+          "(125+275)+36",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_subtraction_boundary",
+      "row_sha256": "89bfa454664b7b988aa0b47b858dacc30962a9e8dbebe72ca776db587cd8517d",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "(80-25)-15",
+          "80-(25-15)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_receipts_group",
+      "row_sha256": "765aac04a1a296e7244cebb7e77f8f761ca2b4432803bf076b16a6744bf50c86",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(48+52)+175",
+          "48+(52+175)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_lost_addend",
+      "row_sha256": "396a8d5d0aee520a0fa5e3ac8f5d2bee47c98e9ebe58617b3162fe9e0cb4b6ff",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "16+(24+9)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "step_id": "s0",
+      "expression": "125+275",
+      "fraction": "400",
+      "decimal": "400",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "step_id": "s1",
+      "expression": "(125+275)+36",
+      "fraction": "436",
+      "decimal": "436",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_subtraction_boundary",
+      "step_id": "s0",
+      "expression": "(80-25)-15",
+      "fraction": "40",
+      "decimal": "40",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_subtraction_boundary",
+      "step_id": "s1",
+      "expression": "80-(25-15)",
+      "fraction": "70",
+      "decimal": "70",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_receipts_group",
+      "step_id": "s0",
+      "expression": "(48+52)+175",
+      "fraction": "275",
+      "decimal": "275",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_receipts_group",
+      "step_id": "s1",
+      "expression": "48+(52+175)",
+      "fraction": "275",
+      "decimal": "275",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_lost_addend",
+      "step_id": "s1",
+      "expression": "16+(24+9)",
+      "fraction": "49",
+      "decimal": "49",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "pre_QA_revision": {
+    "before_row": {
+      "sample_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "case_group_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "split": "train",
+      "grade": 4,
+      "topic": "round_hundred",
+      "problem": "Tính thuận tiện (125+275)+36 bằng tính chất kết hợp phép cộng; giải thích có đổi thứ tự các số hạng không.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số thứ nhất",
+          "value": "125",
+          "unit": "",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số thứ hai",
+          "value": "275",
+          "unit": "",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Số thứ ba",
+          "value": "36",
+          "unit": "",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tính và nêu ý nghĩa thay nhóm.",
+      "student_work": null,
+      "initial_guidance": [
+        "Nhận ra các số hạng và dấu phép tính trước khi đổi nhóm."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Nhận ra các số hạng và dấu phép tính trước khi đổi nhóm.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Với phép cộng, có thể nhóm các số hạng khác nhau nhưng giữ đủ chúng.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Tính cách nhóm còn lại để kiểm, chú ý quy tắc chỉ áp dụng đúng phép tính.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Nhóm thuận tiện",
+          "reason": "125và275tạo số tròn trăm.",
+          "result": "400",
+          "explanation": "Chỉ cộng hai số hạng đầu.",
+          "expression": "125+275",
+          "unit": ""
+        },
+        {
+          "step_id": "s1",
+          "title": "Tổng",
+          "reason": "Giữ nguyên ba số hạng và thứ tự.",
+          "result": "436",
+          "explanation": "125+(275+36)=436 kiểm cách nhóm khác.",
+          "expression": "{s0}+36",
+          "unit": ""
+        },
+        {
+          "step_id": "s2",
+          "title": "Giải thích",
+          "reason": "Kết hợp thay cách nhóm, không tự đổi số hạng.",
+          "result": "Không đổi thứ tự; chỉ đổi cách nhóm.",
+          "explanation": "Cả hai cách cộng đều gộp đúng ba phần.",
+          "expression": null,
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tổng",
+          "result": "436",
+          "unit": ""
+        },
+        {
+          "quantity": "Ý nghĩa",
+          "result": "Không đổi thứ tự; chỉ đổi cách nhóm.",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "round_hundred",
+        "operations": [],
+        "numeric_values": [
+          "125",
+          "275",
+          "36"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g4_add_associative",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade4",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp26; textbookpp45–46",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    "before_sha256": "f1d0f4f282bf61f13d517a93e3b4b4a249e0a0e542346fa8fcea3879094411ca",
+    "after_sha256": "8329dc0fd9e735d1567c22c7c4702c579832b80f84ed10a39962681a0b24e79e",
+    "reason": "Clarify actual regrouping application or dimensionally explicit group estimate; numeric expressions and answers unchanged."
+  },
+  "official_review_sha256": "cc18a74d28741de61da20e16e087c7b4cc28185610549cfe4167652b3aa8d0eb",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

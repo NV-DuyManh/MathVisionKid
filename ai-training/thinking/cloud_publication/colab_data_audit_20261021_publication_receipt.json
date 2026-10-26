@@ -1,0 +1,35 @@
+{
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 12909161,
+      "sha256": "c1e34eb4cf8cac1c77629577504d120c1a3ae02b72964639c00b55c1b959344d",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T11:18:39.627Z"
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 24488,
+      "sha256": "5f120efce1a860def0d0b0ceb8c9278ea2f6509da93848425ca17acf20f39593",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T11:18:39.760Z"
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 284758,
+      "sha256": "692203b778882cedc2a9e17585bb8fc543254455dd43f229f302ce3e96914c4d",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T11:18:39.920Z"
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 807635,
+      "sha256": "5248263f8d9296b263b01dd230043583c23e0ce082e24d2d7aa4612ee55afb48",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T11:18:40.080Z"
+    }
+  ],
+  "mcp_connected": true,
+  "training_started": false,
+  "TRAINING_DATASET_READY": false
+}

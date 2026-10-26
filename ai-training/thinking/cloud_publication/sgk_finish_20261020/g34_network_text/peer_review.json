@@ -1,0 +1,662 @@
+{
+  "case_count": 12,
+  "chat_count": 48,
+  "chat_file_sha256": "2dc3755e6191ca31dbd828a769b4c45d0630a63920b0b948082f09982198e401",
+  "numeric_checks": 10,
+  "reviews": [
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_capacity_every_edge",
+      "source_row_sha256": "8d7d900eec0697385c9ab52fe60d4c1f81055bb01d3c4e4a137a365d0f57a378",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "all_edges_not_sum_of_limits": true,
+        "branch_edge_limits": {
+          "A": [
+            6,
+            4
+          ],
+          "B": [
+            5,
+            7
+          ]
+        },
+        "common_unit_load": 5,
+        "valid": [
+          "B"
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "2500",
+          "expression": "2*1000+500"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_capacity_common_unit_cut",
+      "source_row_sha256": "d98a77ab73dbcdf00c772b8152258c24b0aa753e502a47571bce5294815b4b51",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "all_edges_not_sum_of_limits": true,
+        "branch_edge_limits": {
+          "P": [
+            3000,
+            2400
+          ],
+          "Q": [
+            2600,
+            2000
+          ]
+        },
+        "common_unit_load": 2500,
+        "valid": []
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_colors_unordered_limited",
+      "source_row_sha256": "fcb4ef0519c765de8a6d6793e76ed1af1b2d93262ffffb521309a3f389894ce4",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "all_color_multisets": [
+          [
+            "Xanh",
+            "Đỏ"
+          ],
+          [
+            "Đỏ",
+            "Đỏ"
+          ]
+        ],
+        "explicit_identity_pairs": [
+          [
+            "R1",
+            "R2"
+          ],
+          [
+            "R1",
+            "B1"
+          ],
+          [
+            "R2",
+            "B1"
+          ]
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "3",
+          "expression": "6/2"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_colors_order_vs_multiset",
+      "source_row_sha256": "cca1213a71b132c0d12301bd7247d70fb65cea31dd68edd00ce66526d6109dc9",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "counts": [
+          6,
+          3
+        ],
+        "ordered": [
+          [
+            "Đ",
+            "X"
+          ],
+          [
+            "Đ",
+            "V"
+          ],
+          [
+            "X",
+            "Đ"
+          ],
+          [
+            "X",
+            "V"
+          ],
+          [
+            "V",
+            "Đ"
+          ],
+          [
+            "V",
+            "X"
+          ]
+        ],
+        "unordered": [
+          [
+            "V",
+            "X"
+          ],
+          [
+            "V",
+            "Đ"
+          ],
+          [
+            "X",
+            "Đ"
+          ]
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "20",
+          "expression": "(6+4)*2"
+        },
+        {
+          "decimal_agrees": true,
+          "exact": "16",
+          "expression": "6*2+4"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_running_state_unique_path",
+      "source_row_sha256": "e9ec20bec58e49d8033ea75dd9883a6fad737d648c810653bc1161b9dc222dec",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "path_A_states": [
+          6,
+          10,
+          20
+        ],
+        "path_B_states": [
+          6,
+          12,
+          16
+        ],
+        "valid": [
+          "S",
+          "A",
+          "T"
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "24",
+          "expression": "(12-4)*3"
+        },
+        {
+          "decimal_agrees": true,
+          "exact": "6",
+          "expression": "(12+6)/3"
+        },
+        {
+          "decimal_agrees": true,
+          "exact": "4",
+          "expression": "6-2"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_running_state_shared_node",
+      "source_row_sha256": "c219656f24b26bae4ab7ff1d5d29cf1bc7238972c7f5f03f51b5f0ae5ed77e1e",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "A_states": [
+          12,
+          8,
+          24,
+          22
+        ],
+        "B_states": [
+          12,
+          18,
+          6,
+          4
+        ],
+        "shared_vertex_not_fixed_value": true,
+        "valid": [
+          "S",
+          "B",
+          "M",
+          "T"
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "3",
+          "expression": "2+1"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_skip_two_interior_nodes",
+      "source_row_sha256": "a785f5080e81481d37a9360387d0367a2bf97898cc54217674c12ec3319ffd8e",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "edges": 3,
+        "landing": "D",
+        "skipped": [
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "3",
+          "expression": "1+2"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_skip_zero_then_one_error",
+      "source_row_sha256": "5dde25157bb5a6c9bafbd27314c3ef87a628618c0fc6d5b73d59d86ead416a25",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "edges": 3,
+        "landings": [
+          "Q",
+          "U"
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_interval_touch_allowed",
+      "source_row_sha256": "fbf9fc22d5c09b287dae73169fc00d8e613928133cbd1a40e3707daac35437e8",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "spans_minutes": {
+          "A": [
+            480,
+            540
+          ],
+          "B": [
+            540,
+            600
+          ],
+          "C": [
+            510,
+            570
+          ]
+        },
+        "touch_allowed": true,
+        "valid": [
+          [
+            "A",
+            "B"
+          ]
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [
+        {
+          "decimal_agrees": true,
+          "exact": "60",
+          "expression": "10*60-9*60"
+        }
+      ],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_interval_positive_gap_required",
+      "source_row_sha256": "1f3bc77c55609cd454841ce3e0384ca0e1b3cf102f1ac968548c67c4e0712da7",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "spans_minutes": {
+          "P": [
+            480,
+            540
+          ],
+          "Q": [
+            540,
+            600
+          ],
+          "R": [
+            600,
+            660
+          ]
+        },
+        "touch_allowed": false,
+        "valid": [
+          [
+            "P",
+            "R"
+          ]
+        ]
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_guard_stock_stop_conflict",
+      "source_row_sha256": "33bfc216b8c34854223e53b9eb8f1d21ba3b30ceb88f2df69114e85cf2db3968",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "actual_player_log_supplied": false,
+        "appropriate_response": "Ask for clarification, no actual winner claim",
+        "max_single_player_inventory": 3,
+        "reachable_victory": false,
+        "stock_empty_termination_rule_supplied": false,
+        "victory_threshold": 4
+      }
+    },
+    {
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints"
+      ],
+      "criteria": {
+        "givens_request_consistency": "PASS",
+        "grade_enrichment_scope": "PASS",
+        "initial_and_all_hints_answer_free": "PASS",
+        "math_or_explicit_decision": "PASS",
+        "schema_provenance": "PASS",
+        "steps_reasons_units_check": "PASS",
+        "student_work_grounding": "PASS"
+      },
+      "human_review_claimed": false,
+      "numeric_checks": [],
+      "parser_pass_not_semantic_proof": true,
+      "review_role": "ROOT_FULL_ACTUAL_CONTENT_READ_AND_INDEPENDENT_ORACLE",
+      "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set",
+      "source_row_sha256": "b8ba66e15a3b118617c5696b288e8c7b315bc27e0c915b50b52aed4a2242f4ad",
+      "status": "PASS_CONTENT_CROSS_REVIEW",
+      "structural_oracle": {
+        "actual_winner_determined": false,
+        "all_eligible_collected": [
+          true,
+          false
+        ],
+        "real_eligible_set_known": false,
+        "two_consistent_eligible_sets": [
+          [
+            "A",
+            "B",
+            "C"
+          ],
+          [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        ]
+      }
+    }
+  ],
+  "seven_criteria_pass_count": 12,
+  "source_file_sha256": "35b162f4b0230030aac4cc1d2d6dd02a6a62610adacf9ace9b0c4d741497c571",
+  "status": "PASS_CONTENT_CROSS_REVIEW_DRAFT_NOT_ACCEPTED",
+  "training_started": false
+}

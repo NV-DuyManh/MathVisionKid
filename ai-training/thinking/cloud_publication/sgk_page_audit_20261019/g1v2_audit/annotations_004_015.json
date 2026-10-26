@@ -1,0 +1,152 @@
+{
+  "4": {
+    "exercise_types": [
+      "tens_unit_grouping_read_write_11_to20"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "5": {
+    "exercise_types": [
+      "bundled_tens_and_units",
+      "count_groups",
+      "consecutive_vertex_labels"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "primary_20261016_g1_foundations_0002_count14",
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "6": {
+    "exercise_types": [
+      "consecutive_blank_sequence",
+      "count_scene_categories"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "7": {
+    "exercise_types": [
+      "dice_count_steps_conditional_arrow_board",
+      "read_number_labels"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_conditional_board_game_01",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "8": {
+    "exercise_types": [
+      "round_tens_grouping",
+      "count_by_tens",
+      "match_number_words"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "9": {
+    "exercise_types": [
+      "count_equal_ten_groups"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "10": {
+    "exercise_types": [
+      "tens_units_table_to_numeral_and_words"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "11": {
+    "exercise_types": [
+      "consecutive_sequence",
+      "match_numeral_to_words"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "12": {
+    "exercise_types": [
+      "bundled_sticks_place_value",
+      "decompose_numeral_into_tens_units"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "13": {
+    "exercise_types": [
+      "three_way_match_count_numeral_word",
+      "classify_single_digit_or_round_tens"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "primary_20261018_old_g1_numbers_100_0096_digit_cards_zero_and_tens_placeholder"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "14": {
+    "exercise_types": [
+      "hundred_grid_missing_rows_columns",
+      "compose_decompose_tens_units"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_hundred_grid_patch_01",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "15": {
+    "exercise_types": [
+      "dice_move_then_match_number_word"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_conditional_board_game_01",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  }
+}

@@ -1,0 +1,270 @@
+[
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "abacus_budget",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_finish_g4_millions_place_value_compose_inventory",
+        "source_row_sha256": "0b9f3f57809cc0f10de075da8d87a52b72d8ef610aef724ada1b176932a97c88"
+      }
+    ],
+    "printed_pages": [
+      49
+    ],
+    "relation": "Fixed total rings, at most nine per place, extremize position weights.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "unbounded_naturals",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_g4_numbers_0049_successors_across_millions_and_parity",
+        "source_row_sha256": "10d941eda4cde5d8ef81c2c11737e082d7445ad04d710f9d60c791a825a20389"
+      }
+    ],
+    "printed_pages": [
+      50
+    ],
+    "relation": "Construct a successor to refute a largest natural number.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "delete_one_digit",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+        "source_row_sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932"
+      }
+    ],
+    "printed_pages": [
+      51,
+      81
+    ],
+    "relation": "Delete one position while preserving all other order.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "digit_inequality",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_old_g1_compare_0097_select_card_to_satisfy_strict_inequality",
+        "source_row_sha256": "fb0cda51fd7971edddd7cec0094ef4338ad968a5c6cbbf42a2e40cdff9447a96"
+      }
+    ],
+    "printed_pages": [
+      52
+    ],
+    "relation": "Find all digits satisfying strict comparison of whole numerals.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "global_card_assignment",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_gap_20261019_g4_parity_cards_three_digit_odd",
+        "source_row_sha256": "1300dba84518927cffadd35eccb2f27c7b663de67ed371a37eacedd31c56d6a3"
+      }
+    ],
+    "printed_pages": [
+      55
+    ],
+    "relation": "Shared finite card inventory couples simultaneous comparisons.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "column_multi_blank",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+        "source_row_sha256": "345e45414adf069947224e581576a7bf29aa350fed2a1cbe14a5ef7bc04b8f4f"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+        "source_row_sha256": "5817f2f8f0ed40fb60294dac0f9de76705bbc46f620d580fa8e38dbac9b328f4"
+      }
+    ],
+    "printed_pages": [
+      78,
+      81
+    ],
+    "relation": "Interdependent missing columns including carry or exchange.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "minimum_pair_swaps",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+        "source_row_sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932"
+      }
+    ],
+    "printed_pages": [
+      89
+    ],
+    "relation": "Shortest sequence of arbitrary pair swaps to a specified order.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "insert_single_plus",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+        "source_row_sha256": "cb14d41cecbf40e73f99dfe92fa1ecd72c9df5d991785f9b8e108a9605f1f20c"
+      }
+    ],
+    "printed_pages": [
+      90
+    ],
+    "relation": "Choose a cut in an ordered digit string; no reordering.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "prefix_difference",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_finish_g4_millions_place_value_zero_placeholder",
+        "source_row_sha256": "6e370136e5df121ac983c5858e2e7ea8d5fb8ed0f47522bd1ba31016f31a3d39"
+      }
+    ],
+    "printed_pages": [
+      115
+    ],
+    "relation": "Prepending a fixed place contribution leaves an invariant difference.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "infer_rounding_place",
+    "nearest_sources": [
+      {
+        "sample_id": "sgk_gap_20261019_g4_rounding_preimage_all_integers",
+        "source_row_sha256": "57ddc3c6cf2729b3619d3af17605753efddf1f0a64ec3d73aaac03cb1abcdc9b"
+      }
+    ],
+    "printed_pages": [
+      117
+    ],
+    "relation": "Infer every possible rounding place from input and output.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v2",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "unit_fraction_decomposition",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_g4_fraction_concepts_0056_equivalent_partition_eighths_twelfths",
+        "source_row_sha256": "3b809415b7c437221a92854d68ef069edf72abec86630fff5853aa15ec7d1ef6"
+      }
+    ],
+    "printed_pages": [
+      110
+    ],
+    "relation": "Decompose into two distinct positive unit fractions; prove completeness.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v2",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "discrete_fraction_integrality",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_g4_practice_experience_0094_equal_card_fraction_colouring_plan_compare",
+        "source_row_sha256": "be69ece54be5f1e3b7472d8584c5d3b246ef1bbdb2d321f7b79c3326f096cbe3"
+      }
+    ],
+    "printed_pages": [
+      101
+    ],
+    "relation": "A fraction of an indivisible finite count must be integral.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "finite_parameter_extrema",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_finish_g4_letter_expression_rectangle_variable",
+        "source_row_sha256": "0f117f366dc3ec991f404f132c8d7920a729dca85db862a1e507460a82822504"
+      }
+    ],
+    "printed_pages": [
+      17
+    ],
+    "relation": "Finite parameter domain and nonzero denominator, then compare values.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v2",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "structural_product_cancel",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_finish_g4_all_fraction_operations_multiply_divide_contrast",
+        "source_row_sha256": "10e7cbd471816cef530b3f96145c7a3bad6df296a11ffe6b5299a457783fbb94"
+      }
+    ],
+    "printed_pages": [
+      61,
+      69,
+      100,
+      109
+    ],
+    "relation": "Identify matching factors before multiplying; do not cancel summands.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v2",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "reverse_algorithm_error",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_g4_muldiv_0052_two_digit_partial_products",
+        "source_row_sha256": "79c2923f8f5be2878fd407395cab5a6c1c29f948e9287163515f80188964768c"
+      }
+    ],
+    "printed_pages": [
+      22
+    ],
+    "relation": "Recover operand from an explicitly supplied incorrect partial-product rule.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  },
+  {
+    "book_id": "g4v1",
+    "claim_limit": "Targeted actual full-field comparison. Not an exhaustive semantic absence proof over every old case.",
+    "family": "conjunctive_numeral_filter",
+    "nearest_sources": [
+      {
+        "sample_id": "primary_20261018_finish_g4_millions_place_value_contrast_same_digit",
+        "source_row_sha256": "9b0a2c43280b821c41d8336322d1ff742c80dbb81b29dbd3222ef970b7f83fd1"
+      }
+    ],
+    "printed_pages": [
+      39,
+      40,
+      44,
+      54
+    ],
+    "relation": "Conjunction of class, position and parity conditions, not one filter.",
+    "status": "DISTINCT_TASK_STRUCTURE_FROM_LISTED_NEAREST_REVIEWED_SOURCES"
+  }
+]

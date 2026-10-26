@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-10-23T11:29:13.235Z",
+  "transport": "google_drive_connector_authenticated_raw_download",
+  "proofs": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 17223093,
+      "sha256": "0c95bdf2775a594304ce352bc3dbd0bf1da00ce21142bdf163b5ef7e80f5624b",
+      "fresh_raw_readback_verified": true
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 118268,
+      "sha256": "557dd408e06bed298361531cb9d78da1684706e17447dcae0730228227179f55",
+      "fresh_raw_readback_verified": true
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 814646,
+      "sha256": "2d5df8fbe342b9b8b248363379aefc6b200a196199529d4bd2bdceda90364ee1",
+      "fresh_raw_readback_verified": true
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 421620,
+      "sha256": "b5b964f27dc7fecafb94b2f33edc15d3c6476d1daa243f036833b9f847032a80",
+      "fresh_raw_readback_verified": true
+    }
+  },
+  "status": "ALL_FOUR_EXISTING_IDS_FRESH_RAW_READBACK_VERIFIED",
+  "training_started": false
+}

@@ -1,0 +1,7947 @@
+{
+  "summary": {
+    "rows": 1465,
+    "rows_with_checkable_explicit_equations": 878,
+    "explicit_equations_checked": 3394,
+    "rows_flagged_partial_arithmetic": 53,
+    "limitations": "Existing source equation parser partial only; skips thousands and unsupported symbolic notation; flags may be parser artifacts/rounding/conversion. No semantic correctness certification; no dataset code executed."
+  },
+  "rows": [
+    {
+      "id": "vi-gsm-000000",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000006",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000004",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000005",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000007",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000003",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000008",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000013",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000014",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000012",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000010",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000015",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000017",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000016",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000009",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000011",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000026",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000019",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000020",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000025",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000024",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000028",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000027",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000031",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000023",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000033",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000030",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000029",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000034",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000037",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000032",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000039",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000036",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000035",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000038",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000040",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000042",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000048",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000044",
+      "checked_equations": 12,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000047",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000050",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000046",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000045",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000043",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000052",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000051",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000056",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000054",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000060",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000058",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000057",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000055",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000063",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000067",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000065",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "2/3/18240 * 2/3 = 12160",
+          "correct": false,
+          "computed": "1/41040",
+          "stated": "12160"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000068",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000072",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000069",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000070",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000064",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000073",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000074",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000075",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000076",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000080",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000078",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000079",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000082",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000086",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000088",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000085",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000084",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000087",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000083",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000093",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000092",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000094",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000090",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000091",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000095",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000096",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000100",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000097",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000098",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000102",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000099",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000104",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000103",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000105",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000107",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000109",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000113",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000110",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000108",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000112",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000115",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000116",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000114",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000119",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000120",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000122",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000117",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000123",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000125",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000118",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000126",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000133",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000134",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000130",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/7500 - 2500 = 5000",
+          "correct": false,
+          "computed": "-18749999/7500",
+          "stated": "5000"
+        },
+        {
+          "equation": "1/1500 * (110/100) = 1650",
+          "correct": false,
+          "computed": "11/15000",
+          "stated": "1650"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000129",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000131",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000139",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000138",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1570 / 1200 = 1.3083",
+          "correct": false,
+          "computed": "157/120",
+          "stated": "13083/10000"
+        },
+        {
+          "equation": "1.3083 * 60 = 78.5",
+          "correct": false,
+          "computed": "39249/500",
+          "stated": "157/2"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000135",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000137",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "60 = 60 * 20/100",
+          "correct": false,
+          "computed": "60",
+          "stated": "12"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000136",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000140",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000146",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000145",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000150",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000144",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000153",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "10/29 * 2 - 10 = 58 - 10",
+          "correct": false,
+          "computed": "-270/29",
+          "stated": "48"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000149",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000154",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000158",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000166",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000161",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000164",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000163",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000155",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000168",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000173",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000170",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000175",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000169",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000174",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000171",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000172",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000176",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000178",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000179",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000180",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000177",
+      "checked_equations": 17,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000185",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000188",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000183",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000190",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000189",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000192",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000193",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000194",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000195",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000196",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000197",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000198",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000200",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "300 * 30 = 9,000",
+          "correct": false,
+          "computed": "9000",
+          "stated": "9"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000201",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000199",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000204",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000206",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000203",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000208",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000209",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000207",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000211",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000212",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000213",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000215",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000214",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "3/12567 - 12345 = 222",
+          "correct": false,
+          "computed": "-51713204/4189",
+          "stated": "222"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000216",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000219",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000217",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000218",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000210",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000224",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000228",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000225",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000226",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000231",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000222",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000223",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000230",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000233",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000232",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000234",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "5/1780 - 1500 = 280",
+          "correct": false,
+          "computed": "-533999/356",
+          "stated": "280"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000235",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000236",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000239",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000242",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000240",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000238",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000229",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000245",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000244",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000243",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000246",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000253",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000249",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000247",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000248",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000250",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000254",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000251",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000255",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000252",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000256",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000257",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000262",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000264",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000261",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000259",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000260",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000263",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000266",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000265",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000268",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000267",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000271",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000272",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000270",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000273",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000275",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000274",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000277",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000279",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000278",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000283",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000284",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000280",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "14 * 150 = 2,100",
+          "correct": false,
+          "computed": "2100",
+          "stated": "21/10"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000269",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000285",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000286",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000293",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000288",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000291",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000292",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000289",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000290",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000294",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/5/12515 - 12345 = 170",
+          "correct": false,
+          "computed": "-772488374/62575",
+          "stated": "170"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000297",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000295",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000296",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000302",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "26/32 - 26 = 6",
+          "correct": false,
+          "computed": "-403/16",
+          "stated": "6"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000300",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000301",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000298",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000303",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000308",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000313",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000310",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000314",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "30/4/1380 - 1200 = 180",
+          "correct": false,
+          "computed": "-220799/184",
+          "stated": "180"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000309",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000306",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000317",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000318",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000320",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000311",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000326",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000325",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000324",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000322",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000328",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000323",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000327",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000329",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000333",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000336",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000332",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000330",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000334",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000335",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000331",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000337",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000339",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000340",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000338",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000342",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000345",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000343",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000344",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000348",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000352",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000350",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000351",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000349",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000353",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000355",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000354",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000347",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000357",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000356",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000358",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000362",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000363",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000364",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000366",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000368",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000365",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000369",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000374",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000371",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "9/10/4,200 * 9/10 = 3,780",
+          "correct": false,
+          "computed": "27/140",
+          "stated": "189/50"
+        },
+        {
+          "equation": "7/8/3,200 * 7/8 = 2,800",
+          "correct": false,
+          "computed": "245/1024",
+          "stated": "14/5"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000372",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000373",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000375",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000367",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000377",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000378",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000380",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000382",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000376",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000381",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000385",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000383",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000386",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000391",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000390",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "62.5 * 50 = 3,125",
+          "correct": false,
+          "computed": "3125",
+          "stated": "25/8"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000393",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000397",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000394",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000395",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000392",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "2800/7/20 = 2800 * 20/7",
+          "correct": false,
+          "computed": "20",
+          "stated": "8000"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000399",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000396",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000389",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000400",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000401",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000402",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000404",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000408",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000407",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000405",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000406",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000403",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000409",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000414",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000410",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000411",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000415",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000413",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000416",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000417",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000418",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000421",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000422",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000424",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "2 = 20 + 20 * 1/5",
+          "correct": false,
+          "computed": "2",
+          "stated": "24"
+        },
+        {
+          "equation": "3 = 24 + 24 * 1/4",
+          "correct": false,
+          "computed": "3",
+          "stated": "30"
+        },
+        {
+          "equation": "4 = 150 - 74",
+          "correct": false,
+          "computed": "4",
+          "stated": "76"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000425",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000420",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000419",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000423",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000428",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000429",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000430",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000434",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000433",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000432",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000435",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000436",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000431",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000442",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000438",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000441",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000439",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "3/15 * 2 = 30",
+          "correct": false,
+          "computed": "2/5",
+          "stated": "30"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000446",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000445",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000444",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000443",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000448",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000449",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000451",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000453",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000450",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000454",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "5/1750 - 1500 = 250",
+          "correct": false,
+          "computed": "-524999/350",
+          "stated": "250"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000455",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000457",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000460",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000456",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000459",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000462",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000465",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000468",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000463",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000471",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000461",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000469",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000467",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000473",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000472",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000474",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000477",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000480",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000478",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000475",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000486",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000476",
+      "checked_equations": 11,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000483",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000488",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000485",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000491",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000489",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000492",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000493",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000494",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000490",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "180 * 60 = 10,800",
+          "correct": false,
+          "computed": "10800",
+          "stated": "54/5"
+        },
+        {
+          "equation": "10,800 / 150 = 72",
+          "correct": false,
+          "computed": "9/125",
+          "stated": "72"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000498",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000496",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000499",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000500",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000506",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000502",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000505",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000508",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000507",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000503",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000511",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000513",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000514",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000510",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000509",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000515",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000519",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000518",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000524",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000516",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000522",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000523",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000526",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000525",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000533",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000528",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000532",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000530",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000527",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000534",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000529",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000536",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000535",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000543",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000541",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000540",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000538",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000537",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000539",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000545",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000544",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000548",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000551",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000552",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000553",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000550",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000554",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000555",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000549",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000556",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000559",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000557",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000560",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000562",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000563",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000561",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000566",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000565",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "40 * 8 * 10 = 3,200",
+          "correct": false,
+          "computed": "3200",
+          "stated": "16/5"
+        },
+        {
+          "equation": "50 * 8 * 9 = 3,600",
+          "correct": false,
+          "computed": "3600",
+          "stated": "18/5"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000564",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/15 * 2/3 = 10",
+          "correct": false,
+          "computed": "2/45",
+          "stated": "10"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000572",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000568",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000573",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000571",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000574",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000570",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000575",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000578",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000579",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000569",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000581",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000576",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000580",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000583",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000577",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000582",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000584",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000586",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000585",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000589",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000591",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000595",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000592",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000594",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000597",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000590",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000598",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000600",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000607",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000602",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000605",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000603",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000613",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000610",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000611",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000612",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000614",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000618",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000615",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000617",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000616",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000623",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000624",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000619",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000621",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000622",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000627",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000633",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000625",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000630",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000626",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000632",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000634",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000631",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000635",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000636",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000640",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000639",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000642",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000644",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000643",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000647",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000646",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000648",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000649",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000638",
+      "checked_equations": 12,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000653",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "10/20 + 10 = 30",
+          "correct": false,
+          "computed": "21/2",
+          "stated": "30"
+        },
+        {
+          "equation": "8/30 + 36 + 8 = 74",
+          "correct": false,
+          "computed": "664/15",
+          "stated": "74"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000645",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000652",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000650",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000654",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000655",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000657",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000656",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000662",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000658",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000660",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000661",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000664",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000659",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000668",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000665",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000666",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000667",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000670",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000663",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000673",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000669",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000674",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000677",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000681",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000679",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000678",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000685",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000680",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000684",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000687",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000683",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000686",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000691",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000690",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000695",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000697",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000696",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000699",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000694",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000702",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000700",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000704",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000698",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000705",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000707",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000708",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000703",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000712",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000710",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000713",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000714",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000706",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000711",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000717",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000709",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000715",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000719",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000726",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000728",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000729",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000730",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000731",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000723",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000734",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000732",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000735",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "350 * 10 = 3,500",
+          "correct": false,
+          "computed": "3500",
+          "stated": "7/2"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000739",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000741",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000725",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000740",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000738",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000742",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000743",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000736",
+      "checked_equations": 16,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000745",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000748",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000753",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000747",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000752",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000751",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000733",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000754",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000758",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000746",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000755",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000762",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000761",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000763",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000765",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000764",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000768",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000769",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000767",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000771",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000773",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000774",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000776",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000778",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000781",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000779",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000780",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000784",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000785",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000777",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000783",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000787",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000791",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000793",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000794",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000790",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000796",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000800",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000798",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000802",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000804",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000799",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000803",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000805",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000806",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000808",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000812",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000789",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000810",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000809",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000813",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000814",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000815",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000820",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000821",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000822",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000818",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000816",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000819",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000823",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000824",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000825",
+      "checked_equations": 16,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/250 * 8 = 2000",
+          "correct": false,
+          "computed": "4/125",
+          "stated": "2000"
+        },
+        {
+          "equation": "2/300 * 8 = 2400",
+          "correct": false,
+          "computed": "4/75",
+          "stated": "2400"
+        },
+        {
+          "equation": "3/200 * 8 = 1600",
+          "correct": false,
+          "computed": "3/25",
+          "stated": "1600"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000828",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000832",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000833",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000830",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000829",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000834",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000831",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000835",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000837",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000838",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000836",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000840",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000844",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000843",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000841",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000851",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000845",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000849",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000852",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000848",
+      "checked_equations": 11,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000846",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000853",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000850",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000854",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000857",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000856",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000855",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000861",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000865",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000864",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000863",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000868",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000866",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000872",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000870",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000873",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000871",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000875",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000878",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000874",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000876",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000877",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000880",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000869",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000881",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000883",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000888",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000886",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000884",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000893",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000889",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000891",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "3/4/1000 * 3/4 = 750",
+          "correct": false,
+          "computed": "9/16000",
+          "stated": "750"
+        },
+        {
+          "equation": "1/3/750 * 1/3 = 250",
+          "correct": false,
+          "computed": "1/6750",
+          "stated": "250"
+        },
+        {
+          "equation": "2/3/720 * 2/3 = 480",
+          "correct": false,
+          "computed": "1/1620",
+          "stated": "480"
+        },
+        {
+          "equation": "3/8/480 * 3/8 = 180",
+          "correct": false,
+          "computed": "3/10240",
+          "stated": "180"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000892",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000890",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000895",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000898",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "9 * 2 = (18/100)",
+          "correct": false,
+          "computed": "18",
+          "stated": "9/50"
+        },
+        {
+          "equation": "75 - 18 = (57/100)",
+          "correct": false,
+          "computed": "57",
+          "stated": "57/100"
+        },
+        {
+          "equation": "12 * 1.5 = (18/100)",
+          "correct": false,
+          "computed": "18",
+          "stated": "9/50"
+        },
+        {
+          "equation": "57 - 18 = (39/100)",
+          "correct": false,
+          "computed": "39",
+          "stated": "39/100"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000894",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000896",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000902",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000899",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000901",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000897",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000903",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000900",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000906",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000905",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000908",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000907",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "50 = 50 * (20/100)",
+          "correct": false,
+          "computed": "50",
+          "stated": "10"
+        },
+        {
+          "equation": "85 = 85 * (60/100)",
+          "correct": false,
+          "computed": "85",
+          "stated": "51"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000909",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000911",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000912",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000913",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000910",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000914",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000917",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000919",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000916",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000918",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000924",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000929",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000925",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000926",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000932",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000923",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000933",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000928",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000930",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000934",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000939",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000936",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000931",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000938",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000937",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000940",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000945",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000946",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000944",
+      "checked_equations": 11,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/60 + 10 = 70",
+          "correct": false,
+          "computed": "601/60",
+          "stated": "70"
+        },
+        {
+          "equation": "1/140 + 105 = 245",
+          "correct": false,
+          "computed": "14701/140",
+          "stated": "245"
+        },
+        {
+          "equation": "2/75 + 5 = 80",
+          "correct": false,
+          "computed": "377/75",
+          "stated": "80"
+        },
+        {
+          "equation": "2/160 + 114 = 274",
+          "correct": false,
+          "computed": "9121/80",
+          "stated": "274"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000950",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000943",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000947",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000948",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000949",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000952",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000953",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000955",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000951",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000954",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000957",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000959",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000958",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000962",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000961",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000956",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000965",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000964",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000963",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000966",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000967",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000973",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000969",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000968",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000974",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000972",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000970",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000977",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000976",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000975",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000980",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000981",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "80 * 24 = 1,920",
+          "correct": false,
+          "computed": "1920",
+          "stated": "48/25"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000982",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000978",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000985",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000984",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000983",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000986",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000988",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000987",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000989",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000990",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000993",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "12/8 + 16 + 12 = 36",
+          "correct": false,
+          "computed": "59/2",
+          "stated": "36"
+        },
+        {
+          "equation": "15/36*2 - 15 = 72 - 15",
+          "correct": false,
+          "computed": "-85/6",
+          "stated": "57"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000992",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000991",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000994",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000998",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000997",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000995",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001000",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000996",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001001",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000999",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001002",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001004",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001005",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001003",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001008",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001007",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001010",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001013",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001006",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001014",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001017",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001009",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001019",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001016",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001018",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001020",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001015",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "450 * 6 = 2,700",
+          "correct": false,
+          "computed": "2700",
+          "stated": "27/10"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001022",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001024",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001025",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001028",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001026",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001029",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001033",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001031",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001023",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001032",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001034",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "10/1450 - 1200 = 250",
+          "correct": false,
+          "computed": "-173999/145",
+          "stated": "250"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001030",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001035",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001038",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001036",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001040",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001042",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001037",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001046",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001043",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001045",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001044",
+      "checked_equations": 28,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001047",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001052",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001053",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001049",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001055",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001054",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001050",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001058",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001057",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001062",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001060",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001065",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001061",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001059",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001056",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001063",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001069",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001073",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "10/39 + 36 - 10 = 65",
+          "correct": false,
+          "computed": "1024/39",
+          "stated": "65"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001067",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001070",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001078",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001074",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001075",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001076",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001082",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001084",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001079",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001085",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001083",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000912",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000905",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/25 * 8 = 200",
+          "correct": false,
+          "computed": "8/25",
+          "stated": "200"
+        },
+        {
+          "equation": "2/30 * 9 = 270",
+          "correct": false,
+          "computed": "3/5",
+          "stated": "270"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000907",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000909",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000903",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000908",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000910",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000914",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000915",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000913",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000917",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000918",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000919",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000916",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000921",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000920",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000922",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000926",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000923",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000925",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000933",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000930",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000924",
+      "checked_equations": 12,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000931",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000935",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000934",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000932",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000936",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000938",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000940",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000939",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000944",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000946",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000942",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "7/5 * 7 = 35",
+          "correct": false,
+          "computed": "49/5",
+          "stated": "35"
+        },
+        {
+          "equation": "7/7 * 7 = 49",
+          "correct": false,
+          "computed": "7",
+          "stated": "49"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000947",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000937",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000945",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000943",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000948",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000950",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "37.5 * 60 = 2,250",
+          "correct": false,
+          "computed": "2250",
+          "stated": "9/4"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000957",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000951",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000953",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "27 - 18 = 2",
+          "correct": false,
+          "computed": "9",
+          "stated": "2"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000955",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000954",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000949",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000959",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000956",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000965",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000961",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000960",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000962",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000958",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000964",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000966",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000963",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000967",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000970",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000973",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000977",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000969",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000974",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000975",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000971",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000978",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "40 * 0.9 = (36/100)",
+          "correct": false,
+          "computed": "36",
+          "stated": "9/25"
+        },
+        {
+          "equation": "60 * 0.6 = (36/100)",
+          "correct": false,
+          "computed": "36",
+          "stated": "9/25"
+        },
+        {
+          "equation": "40 * 1.5 = (60/100)",
+          "correct": false,
+          "computed": "60",
+          "stated": "3/5"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-000976",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000982",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000986",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000987",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000980",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000983",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000985",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000989",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000993",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000992",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000990",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000991",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000996",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000994",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000997",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-000995",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001001",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001000",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001005",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001008",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001009",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001006",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001004",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001010",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "96 * 50 = 4,800",
+          "correct": false,
+          "computed": "4800",
+          "stated": "24/5"
+        },
+        {
+          "equation": "4,800 * (15/100) = 720",
+          "correct": false,
+          "computed": "18/25",
+          "stated": "720"
+        },
+        {
+          "equation": "4,800 + 720 = 5,520",
+          "correct": false,
+          "computed": "3624/5",
+          "stated": "138/25"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001011",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001013",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001012",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001016",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001014",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001015",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001019",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001018",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001023",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001021",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001026",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001027",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001022",
+      "checked_equations": 13,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001024",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001020",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001028",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001031",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001029",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001033",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001032",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001030",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001042",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001034",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001036",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001038",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001039",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001040",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001045",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001043",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001047",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001048",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001044",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "75/75 * (120/100) = 75 * 1,2",
+          "correct": false,
+          "computed": "6/5",
+          "stated": "90"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001053",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001054",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001049",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001051",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001055",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001058",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001056",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001059",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001062",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001061",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001063",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001052",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001066",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001067",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001060",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001065",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001069",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001068",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001073",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001070",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001071",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001074",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001080",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001077",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001076",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001082",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001081",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001079",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001087",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001083",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001091",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001088",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001093",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001089",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001090",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001092",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001095",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "150 * 45 = 6,750",
+          "correct": false,
+          "computed": "6750",
+          "stated": "27/4"
+        },
+        {
+          "equation": "6,750 / 60 = 112.5",
+          "correct": false,
+          "computed": "9/80",
+          "stated": "225/2"
+        },
+        {
+          "equation": "80 * 60 = 4,800",
+          "correct": false,
+          "computed": "4800",
+          "stated": "24/5"
+        },
+        {
+          "equation": "4,800 / 60 = 80",
+          "correct": false,
+          "computed": "2/25",
+          "stated": "80"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001097",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001096",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001099",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001102",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001100",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001105",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001103",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001108",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001111",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001109",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001110",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001113",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001104",
+      "checked_equations": 13,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001116",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001115",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001114",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001119",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001118",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001123",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001125",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001126",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001120",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001133",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001129",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001137",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001132",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001134",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001131",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001135",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001130",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001136",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001138",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "2,5 * 12 = (30/100)",
+          "correct": false,
+          "computed": "30",
+          "stated": "3/10"
+        },
+        {
+          "equation": "45 * 1,5 = (67,5/100)",
+          "correct": false,
+          "computed": "135/2",
+          "stated": "27/40"
+        },
+        {
+          "equation": "1,75 * 8 = (14/100)",
+          "correct": false,
+          "computed": "14",
+          "stated": "7/50"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001146",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001142",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001140",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001144",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001147",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001145",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "80 * 15 = 1,200",
+          "correct": false,
+          "computed": "1200",
+          "stated": "6/5"
+        },
+        {
+          "equation": "80 * 17 = 1,360",
+          "correct": false,
+          "computed": "1360",
+          "stated": "34/25"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001141",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001143",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001149",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001148",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001151",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/3300 * 2/3 = 2200",
+          "correct": false,
+          "computed": "1/4950",
+          "stated": "2200"
+        },
+        {
+          "equation": "2/3300 - 2200 = 1100",
+          "correct": false,
+          "computed": "-3629999/1650",
+          "stated": "1100"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001156",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001154",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "4/285 - 200 = 85",
+          "correct": false,
+          "computed": "-56996/285",
+          "stated": "85"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001150",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001155",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001157",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001160",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001158",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001159",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001161",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001162",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001163",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001165",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001167",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001164",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001166",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001171",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001169",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001170",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001174",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001177",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001175",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001178",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001172",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001176",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "320 * 130 = 41,600",
+          "correct": false,
+          "computed": "41600",
+          "stated": "208/5"
+        },
+        {
+          "equation": "80 * 50 = 4,000",
+          "correct": false,
+          "computed": "4000",
+          "stated": "4"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001180",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/1.2 * 6 = 7.2",
+          "correct": false,
+          "computed": "5",
+          "stated": "36/5"
+        },
+        {
+          "equation": "2/0.8 * 6.5 = 5.2",
+          "correct": false,
+          "computed": "65/4",
+          "stated": "26/5"
+        },
+        {
+          "equation": "30 * 60 = 1,800",
+          "correct": false,
+          "computed": "1800",
+          "stated": "9/5"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001181",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001183",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001185",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001186",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001188",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001190",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001189",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001184",
+      "checked_equations": 13,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001191",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001192",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001194",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001197",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001193",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001198",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001201",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001199",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001200",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001195",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001206",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001202",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001203",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001205",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001207",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001208",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001210",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001213",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001216",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001220",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001214",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001217",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001221",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001219",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001227",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001223",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001228",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001230",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001231",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001218",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001233",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001235",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001236",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001234",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001239",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001244",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001238",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001243",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001246",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001248",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001251",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001240",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001245",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001250",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001247",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001253",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001252",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001254",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001259",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001255",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001261",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001257",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001258",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001262",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001266",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001264",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001268",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001267",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001263",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001260",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001269",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001270",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001273",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001272",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001275",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001277",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001276",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001274",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001278",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001282",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001280",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001285",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001283",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001287",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001288",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001292",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001293",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001289",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001290",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001295",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001296",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001294",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001299",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001301",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001300",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001304",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001306",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001310",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001305",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001303",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001308",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001309",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001313",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001312",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001314",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001321",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001315",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001320",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001318",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001322",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001317",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001323",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001316",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001324",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001325",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001326",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001331",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001329",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001332",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001333",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001330",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001334",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001337",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001327",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001342",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001344",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001343",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001348",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001340",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001349",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001352",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001350",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001347",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001353",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001351",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001354",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001359",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001355",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001356",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001361",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001363",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001364",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001360",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001362",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001368",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001367",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001365",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001358",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001366",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001369",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001373",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001375",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001371",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001374",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "9/2475 - 2145 = 330",
+          "correct": false,
+          "computed": "-589874/275",
+          "stated": "330"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001370",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001377",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001372",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001381",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001378",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001380",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001382",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001379",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001384",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001385",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001388",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001386",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001383",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001390",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001387",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001394",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001393",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001397",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001396",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001395",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001399",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001400",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001401",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001398",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001402",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001403",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001405",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001410",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001409",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001412",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001411",
+      "checked_equations": 8,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001407",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001414",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001415",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001419",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001417",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "1/3 * 2 = 6",
+          "correct": false,
+          "computed": "2/3",
+          "stated": "6"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001421",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001418",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001424",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001416",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001420",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001422",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001425",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001423",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001426",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001429",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001433",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001428",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001432",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001435",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001431",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001427",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001437",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001434",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001436",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001442",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001441",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001439",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001443",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001438",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001446",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001440",
+      "checked_equations": 10,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001445",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001447",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001448",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001452",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "55 * 6000 = 3300",
+          "correct": false,
+          "computed": "330000",
+          "stated": "3300"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001449",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001453",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001455",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001457",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001454",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001456",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001450",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001460",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001458",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001462",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001461",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001466",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001464",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001463",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001465",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001471",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001467",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001468",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001470",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001472",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001469",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001473",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001474",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001475",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001476",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001481",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001482",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001478",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001479",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001486",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001487",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001485",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001483",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001484",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001488",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001491",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001492",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001497",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001495",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001496",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001494",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001493",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001502",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001489",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001500",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001506",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001503",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001505",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "750 * 22 = 16,500",
+          "correct": false,
+          "computed": "16500",
+          "stated": "33/2"
+        },
+        {
+          "equation": "950 * 20 = 19,000",
+          "correct": false,
+          "computed": "19000",
+          "stated": "19"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001508",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001509",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001510",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001512",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001507",
+      "checked_equations": 9,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "10 * 480 = 4,800",
+          "correct": false,
+          "computed": "4800",
+          "stated": "24/5"
+        },
+        {
+          "equation": "8 * 480 = 3,840",
+          "correct": false,
+          "computed": "3840",
+          "stated": "96/25"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001513",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001515",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001511",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001514",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001522",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001520",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001519",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001517",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001525",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001527",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001526",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001528",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001523",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001529",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001531",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001533",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001530",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001535",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001536",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001534",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001537",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001541",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001538",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001540",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001532",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001542",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001539",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001546",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001545",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001547",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001550",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001543",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001549",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001552",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001553",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001554",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001551",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001555",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001557",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001556",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001561",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001562",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001559",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001560",
+      "checked_equations": 6,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001566",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001567",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001564",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001565",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001563",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001569",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001571",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001570",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001568",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001572",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001573",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001575",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001576",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001574",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001578",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001579",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001581",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001582",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001585",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001580",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001586",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001583",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001587",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001591",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001592",
+      "checked_equations": 7,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001589",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001590",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001597",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001599",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001601",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001602",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001598",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001594",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001600",
+      "checked_equations": 3,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001603",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001596",
+      "checked_equations": 2,
+      "potential_arithmetic_faults": [
+        {
+          "equation": "300 * 130 = 39,000",
+          "correct": false,
+          "computed": "39000",
+          "stated": "39"
+        },
+        {
+          "equation": "200 * 190 = 38,000",
+          "correct": false,
+          "computed": "38000",
+          "stated": "38"
+        }
+      ]
+    },
+    {
+      "id": "vi-gsm-001607",
+      "checked_equations": 5,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001608",
+      "checked_equations": 4,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001605",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001612",
+      "checked_equations": 0,
+      "potential_arithmetic_faults": []
+    },
+    {
+      "id": "vi-gsm-001614",
+      "checked_equations": 1,
+      "potential_arithmetic_faults": []
+    }
+  ]
+}

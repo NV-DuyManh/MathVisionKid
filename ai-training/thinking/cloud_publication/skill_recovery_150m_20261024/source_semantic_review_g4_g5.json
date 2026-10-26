@@ -1,0 +1,189 @@
+{
+  "schema": "MathVisionKid.skill_source_semantic_review.v1",
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "reviewer_role": "LLM source-content QA, not new human certification",
+  "source_plan_sha256": "4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d",
+  "criteria": [
+    "mathematical_relation_and_result",
+    "given_information_and_student_work_grounding",
+    "units_and_quantities",
+    "step_reasons_and_inverse_check_or_useful_hint",
+    "hint_withholds_final_answer_when_required",
+    "grade_and_language_fit_with_existing_placement",
+    "source_hash_and_neutral_derived_provenance"
+  ],
+  "records": [
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+      "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+      "projected_prompt_sha256": "3742e84b6c48bd0d58be6388bafe86d5e1aaa99c8acf7ff31b339edc945f96c8",
+      "projected_target_sha256": "1bd64feaa514966c6d2700973bb6db3e9492f9caef85406f5e868cba37982ee8",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "1.3−.4=.9via13−4tenths;9/10=.9and.9+.4=1.3, units of tenths clear."
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_1",
+      "source_original_raw_row_sha256": "c3b347ec46af84e02e8b0743d388c45e36e532162f22cfbf4ddc5c44ead5e133",
+      "projected_prompt_sha256": "6d69d557c62d12287239d96c9eb237d95900929b5a714c1972ee44f54dc3c849",
+      "projected_target_sha256": "5b5e8bd6e515d73c6a203944072905395404ee546afc4e377befbd3623967956",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target."
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_2",
+      "source_original_raw_row_sha256": "7440d0c257bfcf00e10b49008fe1c3f6e962e889d2b41cffa0b88605a440bea2",
+      "projected_prompt_sha256": "c3673bb5267a111a0f874368a9e5118c6469d5a9a44c6e3c5f20a9d401246e83",
+      "projected_target_sha256": "d4b0a38860c4c41a6205e2aec77587d98cb791671e375f58ccf3f82525fb65b3",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target."
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:hint_level_3",
+      "source_original_raw_row_sha256": "140229f89eb8845284cf46916f0b17b3fa365c235204861cf0b5a56625a7f37d",
+      "projected_prompt_sha256": "0437fdfa2eec8409916b26278fac23bba0d2ef63c3a9a15802b20918c277394e",
+      "projected_target_sha256": "317a2840b43d2198524da264fefdedafb999eb223c29989a7a14c40e93f3252b",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "projected_prompt_sha256": "8c79601a2dfdc222c1c2e9d3c514e2b8c8d6ce501efa6445c26476059ebf4ed2",
+      "projected_target_sha256": "823809716e9e673ed7af1cba082a704f2e7866d95c9190c2caa1338692791241",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "4.9=4.90and4.09<4.90, equal integer parts and place-value comparison correct; addresses only stated more-digits claim."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:hint_level_1",
+      "source_original_raw_row_sha256": "d8551bbfc0d77c8f59be821fafb60904c18f115b6239623c2a4f7785aee92108",
+      "projected_prompt_sha256": "20965abcb7f4ed08cf5bf7fd2ac8db8b134ca47273d45146003845d6b4171e19",
+      "projected_target_sha256": "ff7b26b966afa783460e0405ad6bbe25b04192a8a2a41b10df988c7c8cbe6e6c",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Read complete source problem and projected hint/question: gives a relevant next operation or inverse check and withholds final value; explicit mode header matches source target."
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution",
+      "source_original_raw_row_sha256": "9303cc8487b906e4524364415d5047e22577934cdab3a53706b2c1f45607427d",
+      "projected_prompt_sha256": "d63d6c2e89abfb727c7284f78f6f1f2638cd58badf4174a5fb3fb4c3e02f2904",
+      "projected_target_sha256": "326e15aba9bc3ec40cfca8cb6c30858504f1468cac21d686bbfd04276417c735",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "40−10=30for two unknown counts;14+16and12+18are distinct consistent pairs, so no unique reconstruction."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v3_046:worked_solution",
+      "source_original_raw_row_sha256": "412e402501e42075ba425162dc35d4b73ac56d14b5cb0759acf0a491be2fcd25",
+      "projected_prompt_sha256": "6feaaf6e6ef2e85dbb826b8a7f9ec808a8c8775aabc5edc4ff02f58fb7653046",
+      "projected_target_sha256": "9237a4ded9c26b1b28b1b1380d856720a207a46d818ff94daa962993f8ac4701",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "18+17=35contradicts32; asks confirmation before ratio, does not silently pick a denominator."
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+      "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+      "projected_prompt_sha256": "cc9c5768e88c3526af3a5476e14e154679f4450d9bf877beb34b3e47519c01cf",
+      "projected_target_sha256": "209ee9a350fca048366972f8fa876a703149beaefc5ac3c5b8723403bd7de701",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Capacity9percolumn plus12total gives9thousands+3hundreds=9300; rejects12inonecolumn without changing tool capacity."
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_age_ratio_changes_find_wait:worked_solution",
+      "source_original_raw_row_sha256": "03b87888fac0f7ce92cdd4b7b343a4b7dc202b9ae1472f88a7b63254472e2d25",
+      "projected_prompt_sha256": "61187b43c20bdc233fead58a9523437d168c696e29d208102a378298de760913",
+      "projected_target_sha256": "4e075a1592ac038fa6ffd14c751b2ba420c377b7d581c573e849840233768126",
+      "seven_criteria": {
+        "mathematical_relation_and_result": true,
+        "given_information_and_student_work_grounding": true,
+        "units_and_quantities": true,
+        "step_reasons_and_inverse_check_or_useful_hint": true,
+        "hint_withholds_final_answer_when_required": true,
+        "grade_and_language_fit_with_existing_placement": true,
+        "source_hash_and_neutral_derived_provenance": true
+      },
+      "actual_full_fields_read": true,
+      "reason": "Age difference15fixed; double ratio at30and15after5years, both inverse substitution checks correct; addresses supplied always claim."
+    }
+  ],
+  "limitations": "24actual source projections only; source structural scan16000does not prove exhaustive semantic correctness or curriculum/legal coverage. Existing accepted source placement retained."
+}

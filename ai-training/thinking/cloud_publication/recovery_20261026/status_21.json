@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:41:33.873083+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 100, \"rows_done\": 1600, \"supervised_tokens\": 338187, \"last_loss\": 1.393591046333313, \"last_gradient_norm\": 0.736142098903656, \"training_seconds\": 977.766458296001}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 36, \"checkpoints\": 2}, \"latest_checkpoint\": {\"id\": \"133WL9N5iQc_6LTZUULOM9UBlwVhlNTWR\", \"sha256\": \"b2e86825d1b63c4a5e2c89c66994c8eb7471015d73f80b66356f62e30b86fe03\", \"bytes\": 117171206, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-26T09:30:58.461517+00:00\", \"folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"name\": \"checkpoint_step_000100_rows_00001600_f6aaee3af373a389.zip\", \"immutable\": true, \"step\": 100, \"rows_done\": 1600, \"manifest_sha256\": \"f6aaee3af373a3899ad4cec0c87be006f1350cea0bde87ee18c1135469fc91a7\", \"generation\": \"generation_step_000100_rows_00001600\"}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30, \"training/eval_step_000100/adapter_generations.partial.jsonl\": 18}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:41:33.873083+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 100, \"rows_done\": 1600, \"supervised_tokens\": 338187, \"last_loss\": 1.393591046333313, \"last_gradient_norm\": 0.736142098903656, \"training_seconds\": 977.766458296001}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 36, \"checkpoints\": 2}, \"latest_checkpoint\": {\"id\": \"133WL9N5iQc_6LTZUULOM9UBlwVhlNTWR\", \"sha256\": \"b2e86825d1b63c4a5e2c89c66994c8eb7471015d73f80b66356f62e30b86fe03\", \"bytes\": 117171206, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-26T09:30:58.461517+00:00\", \"folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"name\": \"checkpoint_step_000100_rows_00001600_f6aaee3af373a389.zip\", \"immutable\": true, \"step\": 100, \"rows_done\": 1600, \"manifest_sha256\": \"f6aaee3af373a3899ad4cec0c87be006f1350cea0bde87ee18c1135469fc91a7\", \"generation\": \"generation_step_000100_rows_00001600\"}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30, \"training/eval_step_000100/adapter_generations.partial.jsonl\": 18}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-26T09:41:33.873083+00:00\\\", \\\"worker_exit\\\": null, \\\"training/progress.json\\\": {\\\"state\\\": \\\"TRAINING\\\", \\\"step\\\": 100, \\\"rows_done\\\": 1600, \\\"supervised_tokens\\\": 338187, \\\"last_loss\\\": 1.393591046333313, \\\"last_gradient_norm\\\": 0.736142098903656, \\\"training_seconds\\\": 977.766458296001}, \\\"training/native_first_microbatch_audit.json\\\": {\\\"supervised_tokens\\\": 84, \\\"selected_token_row_CE_matches_per_row_reference\\\": true, \\\"absolute_difference\\\": 4.76837158203125e-07}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"artifact_count\\\": 36, \\\"checkpoints\\\": 2}, \\\"latest_checkpoint\\\": {\\\"id\\\": \\\"133WL9N5iQc_6LTZUULOM9UBlwVhlNTWR\\\", \\\"sha256\\\": \\\"b2e86825d1b63c4a5e2c89c66994c8eb7471015d73f80b66356f62e30b86fe03\\\", \\\"bytes\\\": 117171206, \\\"fresh_raw_readback_verified\\\": true, \\\"raw_verified_utc\\\": \\\"2026-10-26T09:30:58.461517+00:00\\\", \\\"folder_id\\\": \\\"10drqDBNTGy60JBIUqanc9fFHFopCUivq\\\", \\\"name\\\": \\\"checkpoint_step_000100_rows_00001600_f6aaee3af373a389.zip\\\", \\\"immutable\\\": true, \\\"step\\\": 100, \\\"rows_done\\\": 1600, \\\"manifest_sha256\\\": \\\"f6aaee3af373a3899ad4cec0c87be006f1350cea0bde87ee18c1135469fc91a7\\\", \\\"generation\\\": \\\"generation_step_000100_rows_00001600\\\"}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": 30, \\\"training/eval_step_000100/adapter_generations.partial.jsonl\\\": 18}, \\\"four_controls_state\\\": \\\"COMPLETE_RAW_VERIFIED\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

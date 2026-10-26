@@ -1,0 +1,58 @@
+{
+  "status": "PROTECTED_GATE_EXCLUSIONS_PRESERVED",
+  "all_protected_cases": [
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_ruler_record_nonzero_start_estimate_check",
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "core",
+      "case_slot": "core_01",
+      "source_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+      "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_misconception_ruler_end_label_as_length",
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "misconception",
+      "case_slot": null,
+      "source_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+      "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "node_id": "current_g5_collect_classify",
+      "case_kind": "core",
+      "case_slot": "core_03",
+      "source_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+      "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    }
+  ],
+  "new_protected_cases": [
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_ruler_record_nonzero_start_estimate_check",
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "core",
+      "case_slot": "core_01",
+      "source_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+      "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_misconception_ruler_end_label_as_length",
+      "node_id": "current_g2_practice_experience",
+      "case_kind": "misconception",
+      "case_slot": null,
+      "source_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+      "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+    }
+  ],
+  "source_answers_unchanged_after_gate": true,
+  "new_core_accepted": 2,
+  "new_supplementary_accepted": 1,
+  "new_protected_core": 1,
+  "new_protected_misconception": 1,
+  "sealed_challenge_opened": false,
+  "eval_or_pilot_read_to_adjust_data": false,
+  "pipeline_or_answer_changed_to_bypass_gate": false,
+  "no_reauthor_occupied_core_or_supplementary": true,
+  "next_action": "Continue other unauthored slots; final completion must resolve source/protection under policy without modifying candidate answers to evade gate.",
+  "limitation": "A numeric gate collision is not itself semantic-equivalence proof; no false-positive or concrete-leakage claim."
+}

@@ -1,0 +1,157 @@
+{
+  "version": "mvk_verified_free_response_v2",
+  "seed": 20261012,
+  "rows": 2320,
+  "splits": {
+    "train": 2000,
+    "val": 160,
+    "test": 160
+  },
+  "grades": {
+    "train": {
+      "1": 400,
+      "2": 400,
+      "3": 400,
+      "4": 400,
+      "5": 400
+    },
+    "val": {
+      "1": 32,
+      "2": 32,
+      "3": 32,
+      "4": 32,
+      "5": 32
+    },
+    "test": {
+      "1": 32,
+      "2": 32,
+      "3": 32,
+      "4": 32,
+      "5": 32
+    }
+  },
+  "topics": {
+    "train": {
+      "add_join": 90,
+      "sub_remaining": 90,
+      "missing_addend": 90,
+      "compare_difference": 90,
+      "missing_initial": 70,
+      "missing_divisor": 65,
+      "non_math": 65,
+      "multistep_add_sub": 90,
+      "equal_groups": 90,
+      "share_exact": 90,
+      "groups_after_sale": 90,
+      "division_remainder": 90,
+      "length_m_to_cm": 90,
+      "time_h_min": 90,
+      "rectangle_perimeter": 90,
+      "sum_difference_large": 72,
+      "fraction_add": 72,
+      "fraction_multiply": 72,
+      "average_three": 72,
+      "rectangle_area": 72,
+      "decimal_arithmetic": 52,
+      "mass_kg_to_g": 52,
+      "triangle_area": 52,
+      "percent_part": 51,
+      "distance_from_speed_time": 51,
+      "speed_from_distance_time": 51,
+      "time_from_distance_speed": 51
+    },
+    "val": {
+      "add_join": 8,
+      "sub_remaining": 7,
+      "missing_addend": 7,
+      "compare_difference": 7,
+      "missing_initial": 5,
+      "missing_divisor": 5,
+      "non_math": 5,
+      "multistep_add_sub": 8,
+      "equal_groups": 7,
+      "share_exact": 7,
+      "groups_after_sale": 7,
+      "division_remainder": 8,
+      "length_m_to_cm": 7,
+      "time_h_min": 7,
+      "rectangle_perimeter": 7,
+      "sum_difference_large": 6,
+      "fraction_add": 6,
+      "fraction_multiply": 6,
+      "average_three": 6,
+      "rectangle_area": 5,
+      "decimal_arithmetic": 5,
+      "mass_kg_to_g": 4,
+      "triangle_area": 4,
+      "percent_part": 4,
+      "distance_from_speed_time": 4,
+      "speed_from_distance_time": 4,
+      "time_from_distance_speed": 4
+    },
+    "test": {
+      "add_join": 8,
+      "sub_remaining": 7,
+      "missing_addend": 7,
+      "compare_difference": 7,
+      "missing_initial": 5,
+      "missing_divisor": 5,
+      "non_math": 5,
+      "multistep_add_sub": 8,
+      "equal_groups": 7,
+      "share_exact": 7,
+      "groups_after_sale": 7,
+      "division_remainder": 8,
+      "length_m_to_cm": 7,
+      "time_h_min": 7,
+      "rectangle_perimeter": 7,
+      "sum_difference_large": 6,
+      "fraction_add": 6,
+      "fraction_multiply": 6,
+      "average_three": 6,
+      "rectangle_area": 5,
+      "decimal_arithmetic": 5,
+      "mass_kg_to_g": 4,
+      "triangle_area": 4,
+      "percent_part": 4,
+      "distance_from_speed_time": 4,
+      "speed_from_distance_time": 4,
+      "time_from_distance_speed": 4
+    }
+  },
+  "statuses": {
+    "train": {
+      "solve": 1800,
+      "clarify": 135,
+      "unsupported": 65
+    },
+    "val": {
+      "solve": 145,
+      "clarify": 10,
+      "unsupported": 5
+    },
+    "test": {
+      "solve": 145,
+      "clarify": 10,
+      "unsupported": 5
+    }
+  },
+  "fingerprints": {
+    "train": "0e27262f99676dd3464d34a7024644ed5522e5f9fc518e21304f9bb5976cb28c",
+    "val": "b50361d340d1bbb7da5f6073a3c08f0bebd335aabb89fdb971f972a6fedbe437",
+    "test": "56a9f95c7ddc2bb802575db088a0f1200e7a32992fe1dd305354bd684a69ed19"
+  },
+  "source": "PROJECT_GENERATED_SYNTHETIC_KNOWN_TEMPLATES",
+  "license": "project-generated; no public source text copied",
+  "human_verified": false,
+  "test_role": "new synthetic phrase/numeric holdout; not a teacher-certified real benchmark",
+  "oracle": "independent per-topic Fraction formulas crosschecked with a separate safeAST interpreter",
+  "semantic_contract": "known generator templates only; arithmetic truth does not certify arbitrary word-problem interpretation",
+  "limitations": [
+    "Not OCR or arbitrary Vietnamese free-text certification.",
+    "Very few validation/test rows per topic; report sample counts.",
+    "Canonical AST plan matching can reject valid equivalent plans; answer accuracy must be reported separately.",
+    "Grade/topic balance is an engineering allocation, not certification of full national curriculum.",
+    "Synthetic templates and facts are published; public source free-response evaluation remains separately required."
+  ]
+}

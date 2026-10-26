@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "source_rows": 12,
+  "chats": 48,
+  "source_row_sha256_links_all_valid": true,
+  "exact_normalized_duplicate_questions_against_valid1055_and_first12": 0,
+  "first12_hashes_preserved": {
+    "actual_page_receipts_readback.jsonl": "f2abdc29886af7a537ade0fe1568d0fc95c09776563373d5ff3c3c7f87113c6d",
+    "cases.jsonl": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+    "chat.jsonl": "af2b03a1898b707f77c77a01cc4e6eccd315d75f2ec5712aa3b716cd9cbe4673",
+    "independent_oracles.jsonl": "3110e0ad7aaa6f2cfb5d092dc470c4aa8c00a9cb4d1fd9f74b3f41843c742fdb",
+    "manifest.json": "edda941ac2804c73b17e5a253eee80cbd743250b5301d3ad06e61756e785c78c",
+    "nearest_actual_fullfields.jsonl": "a087a439a868fe77e5f82c070bab1711ab50955ebc2cb5ff5897a31cd5ac6739",
+    "numeric_fraction_decimal.jsonl": "d7d2ec54eff74a0068763ea36d1b1afd7484d6401b8acedbc3645b59868d5f28",
+    "peer_review.json": "6581f23a2a79fa98befb103f6b48f044c67650bc52b4f9eee3bea6257a577f75",
+    "selfqa7.jsonl": "5919596f471d333bae9270489594fa1e4fbe12f751adf1940533c321aa83eb0a",
+    "validation_readback.json": "2ab358518ade46600672f26a56ad26ecd5a0ccb8e7de7c62093fc8ee068a7eb1"
+  },
+  "first12_unchanged": true,
+  "case_file_sha256": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709"
+}

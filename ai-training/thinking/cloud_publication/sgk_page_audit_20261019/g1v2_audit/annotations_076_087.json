@@ -1,0 +1,177 @@
+{
+  "76": {
+    "exercise_types": [
+      "seven_weekday_order"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_sunday_rollover"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "77": {
+    "exercise_types": [
+      "weekday_event_lookup",
+      "missing_weekdays",
+      "yesterday_today_tomorrow"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_sunday_rollover",
+      "primary_20261016_g1_time_0007_mini_calendar_lookup"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "78": {
+    "exercise_types": [
+      "weekday_sequence_path",
+      "two_way_timetable_lookup"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_sunday_rollover",
+      "primary_20261017_g1_activities_0008_calendar_clock_activity"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_TIMETABLE_MULTI_CRITERIA_LOOKUP"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "79": {
+    "exercise_types": [
+      "ordered_itinerary_weekday_mapping"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_sunday_rollover",
+      "primary_20261016_g1_time_0007_mini_calendar_lookup"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_ORDERED_ITINERARY_DAY_MAPPING"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "80": {
+    "exercise_types": [
+      "calendar_date_weekday_anchor"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_mini_calendar_lookup"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_CALENDAR_ANCHOR_OFFSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "81": {
+    "exercise_types": [
+      "yesterday_today_tomorrow_dates",
+      "tearoff_calendar_elapsed_days",
+      "weekday_offset"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_mini_calendar_lookup",
+      "primary_20261016_g1_time_0007_sunday_rollover"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_CALENDAR_ANCHOR_OFFSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "82": {
+    "exercise_types": [
+      "whole_hour_reading_story_sequence"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_read_morning_hour",
+      "primary_20261017_g1_activities_0008_calendar_clock_activity"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_CLOCK_READING_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "83": {
+    "exercise_types": [
+      "flight_schedule_clock_table_join",
+      "elapsed_whole_hours"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_read_morning_hour",
+      "primary_20261017_g1_activities_0008_calendar_clock_activity"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_ELAPSED_WHOLE_HOURS",
+      "G1V2_TIMETABLE_MULTI_CRITERIA_LOOKUP"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "84": {
+    "exercise_types": [
+      "clock_reading",
+      "daily_activity_time_appropriateness"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_time_0007_read_morning_hour",
+      "primary_20261017_g1_activities_0008_calendar_clock_activity"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_CLOCK_READING_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "85": {
+    "exercise_types": [
+      "two_dimension_timetable",
+      "inverse_activity_lookup",
+      "matching_schedule_rows"
+    ],
+    "covered_source_ids": [
+      "primary_20261017_g1_activities_0008_calendar_clock_activity"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_TIMETABLE_MULTI_CRITERIA_LOOKUP"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "86": {
+    "exercise_types": [
+      "table_equal_values",
+      "table_threshold_filter",
+      "yesterday_to_tomorrow"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261016_g1_time_0007_sunday_rollover"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_TIMETABLE_MULTI_CRITERIA_LOOKUP"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "87": {
+    "exercise_types": [
+      "dice_board_movement",
+      "conditional_finish",
+      "rotated_clock_reading"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_conditional_board_game_01",
+      "primary_20261016_g1_time_0007_read_morning_hour"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_CLOCK_READING_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  }
+}

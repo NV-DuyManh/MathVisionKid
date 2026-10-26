@@ -1,0 +1,699 @@
+{
+  "schema_version": "exact_asset_locator_metadata_review.v1",
+  "scope": "READ_ONLY_PLANNING_AND_SOURCE_LOCATOR_METADATA_ONLY; no pages re-read; no eval/pilot/concept_challenge opened; no data/Drive/Colab changed",
+  "source_evidence": {
+    "append_zip": {
+      "path": "thinking/cloud_publication/sgk_final_gaps_20261021/MathVisionKid_SGK_FINAL_GAPS_APPEND_20261021_3b9ea570c28ed38f.zip",
+      "sha256": "3b9ea570c28ed38f17db653f9ac6167980ffebc5e07fc9dba1614b7cafb1e5f3",
+      "bytes": 5499839,
+      "queue_member": "data/reconciliation/next_uncovered_tasks.json",
+      "candidate_adjudication_member": "data/reconciliation/candidate_adjudication.json"
+    },
+    "geometry_manifest_member": "data/geometry_inventory/manifest.json",
+    "prior_locator_adjudication": {
+      "path": "thinking/cloud_publication/antigravity_intake_20261022/next_progress.zip",
+      "member": "data_resume_20261022/locator_adjudication.json"
+    }
+  },
+  "pending_G3_locator": {
+    "master_id": "placeclass_torn_strip_constraints",
+    "candidate_id": "tornplaceclass_strip_assembly",
+    "original_candidate_status": "UNRESOLVED_LOCATOR_REQUIRED",
+    "original_locator_missing_resolved": false,
+    "original_description_evidence_id": "18c495809a7d304eb0cc1b2d",
+    "candidate_requirement": "Locate the actual original G3 source page/exercise for torn place-class strip assembly; the documented underlying requirement is exact strip boundaries/labels and legal adjacency/connectors. Do not infer it from number-place reading alone.",
+    "exact_G3_receipt_count": 0,
+    "page_review_rows_scanned": 252,
+    "exact_candidate_id_matches": 0,
+    "best_existing_official_source_hints": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+        ],
+        "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+        "printed_page": 43
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+        ],
+        "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+        "printed_page": 44
+      }
+    ],
+    "hint_limit": "Both hints are genuine related G4v1 source receipts (printed pp.43–44), not a G3 locator. Keep the exact G3 locator pending until an original G3 receipt/source record is found.",
+    "next_action": "Keep pending-source explicitly. Reconcile only when an actual original G3 book/page/image receipt or the source that introduced this alias is available; do not generate another numeric variant or relabel G4 pages as G3."
+  },
+  "asset_only_master_count": 10,
+  "asset_only_masters": [
+    {
+      "master_id": "actual_scale_measurement",
+      "candidate_id": "G1V2_DIRECT_LENGTH_IMAGE_ASSET",
+      "original_occurrence_count": 6,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Known ruler endpoints and offset origins are worked. Measuring a printed object requires actual scale/resizing information and observed endpoints.",
+      "original_description_evidence_ids": [
+        "3c5332b847fb306f59937339"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 28,
+          "exercise_types": [
+            "direct_compare_lengths_shared_origin"
+          ],
+          "image_sha256": "dbbededd39da2cd61f507848bb428398847385d187538968538e48a8b7b9b538",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-29-1776045479322.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 29,
+          "exercise_types": [
+            "compare_reoriented_objects_length",
+            "longest_shortest"
+          ],
+          "image_sha256": "f32b4282d1e148750a4ed8fa4cbf2ccaf033b55b7bfd2327ac26337ff41d6f75",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-30-1776045479451.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 30,
+          "exercise_types": [
+            "taller_shorter_equal_height_shared_baseline"
+          ],
+          "image_sha256": "28f3f40dcf8887cf4724b3ed6dd96ec8bf52578c563475fceabbbb022a39338f",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-31-1776045479583.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 31,
+          "exercise_types": [
+            "argmax_argmin_heights_common_baseline"
+          ],
+          "image_sha256": "1871ffc447bff3aebb478775f57b626e7d4a5de28639090ebb1f7bff78217ef3",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-32-1776045479700.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 103,
+          "exercise_types": [
+            "physical_centimetre_measurement",
+            "grid_reference_length_comparison",
+            "plausible_unit_reference_estimation"
+          ],
+          "image_sha256": "622d82b361cb85802a38d255827d72a6ac8c539ba73ca48b0796ef7bb7fb0e41",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-104-1776045490236.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 105,
+          "exercise_types": [
+            "join_and_remove_word_problems",
+            "weekday_to_date_offset",
+            "physical_ruler_measurement",
+            "composite_square_count"
+          ],
+          "image_sha256": "a5b78e5f306b8d78894f2d72d935a48fbe9dae7f752d91f7370ffec3264afa7c",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-106-1776045490502.png"
+        }
+      ]
+    },
+    {
+      "master_id": "biological_stage_image_context",
+      "candidate_id": "G1V2_TEMPORAL_STAGE_ORDER",
+      "original_occurrence_count": 1,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Recognizing botanical stages from unlabeled pictures is contextual/visual evidence, not a new numerical ordering operation. A stated ordered sequence is already worked.",
+      "original_description_evidence_ids": [
+        "b5772a2a65dae3e4e1a27fd5"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 89,
+          "exercise_types": [
+            "transfer_between_two_groups",
+            "temporal_stage_order",
+            "duplicate_score_assignment"
+          ],
+          "image_sha256": "c49b1c8ca622aa693673d90eb70253f079722822e38f01cadae5104104fa5d15",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-90-1776045488342.png"
+        }
+      ]
+    },
+    {
+      "master_id": "clock_face_image_reading",
+      "candidate_id": "G1V2_CLOCK_READING_IMAGE_ASSET",
+      "original_occurrence_count": 8,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Explicit described hands and activity matching are worked; rotated/differently placed actual clock faces require visual evidence.",
+      "original_description_evidence_ids": [
+        "5cdba455604f21c8ca59a37b"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 72,
+          "exercise_types": [
+            "clock_hands_whole_hour",
+            "daily_activity_time"
+          ],
+          "image_sha256": "2bdc057d5814d64b88fef9e0ccabdd427137a25fbb356050ec4f0baf641c8785",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-73-1776045485713.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 73,
+          "exercise_types": [
+            "clock_reading",
+            "coincident_hands_noon"
+          ],
+          "image_sha256": "04dfb789112cee4b25b41f9073e8cf5a3bb0e6093065a7f35ac4a35be67d4e62",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-74-1776045485850.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 74,
+          "exercise_types": [
+            "clock_reading",
+            "spatial_highest_clock",
+            "daily_activity_time"
+          ],
+          "image_sha256": "e919b1eecfb7457f765228daabe7e29de126589891ab9446f905a73c34551ced",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-75-1776045486018.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 82,
+          "exercise_types": [
+            "whole_hour_reading_story_sequence"
+          ],
+          "image_sha256": "c0d1b2475e4ec66ac7af82dedb8da6204f9a6c42d19706a0f5e2b31b6316b98e",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-83-1776045487317.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 84,
+          "exercise_types": [
+            "clock_reading",
+            "daily_activity_time_appropriateness"
+          ],
+          "image_sha256": "fc7a13e29b8d0a2eb7e31035e936eb95c99770395b21cf8eb7485ef70af23c80",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-85-1776045487619.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 87,
+          "exercise_types": [
+            "dice_board_movement",
+            "conditional_finish",
+            "rotated_clock_reading"
+          ],
+          "image_sha256": "c9f87d1032d5705350fa65afd1835cd45509b4d77cd98255eabeae16c94d0120",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-88-1776045488035.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 102,
+          "exercise_types": [
+            "activity_clock_matching",
+            "calendar_anchor_day_offset",
+            "yesterday_tomorrow"
+          ],
+          "image_sha256": "f33f4ed643b2af65427772f5a90bd40cd49502c0c2124df62c77206364f99cc6",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-103-1776045490110.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 104,
+          "exercise_types": [
+            "number_word_matching",
+            "ascending_sort",
+            "column_arithmetic",
+            "analogue_clock_reading"
+          ],
+          "image_sha256": "25e825661f732491b707fd573b4c8098c5ef2c23643bb584351d02fa30824a7d",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-105-1776045490371.png"
+        }
+      ]
+    },
+    {
+      "master_id": "common_unit_length_image_alignment",
+      "candidate_id": "G1V2_COMMON_REFERENCE_LENGTH_COMPARISON",
+      "original_occurrence_count": 2,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Equal-unit tiling with no gaps/overlaps, common endpoints and ruler-origin subtraction are explicitly worked. Differently oriented picture strips need the actual reference/alignment asset, not another length algorithm.",
+      "original_description_evidence_ids": [
+        "04700873aff58a4bbd6123a8"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 40,
+          "exercise_types": [
+            "direct_length_comparison",
+            "tallest_shortest",
+            "common_reference_length_comparison"
+          ],
+          "image_sha256": "0ceaca7b32efada6522a06c7df972e50061bbaa97bb8e66b2a85cbf96c62a0ec",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-41-1776045480987.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 103,
+          "exercise_types": [
+            "physical_centimetre_measurement",
+            "grid_reference_length_comparison",
+            "plausible_unit_reference_estimation"
+          ],
+          "image_sha256": "622d82b361cb85802a38d255827d72a6ac8c539ba73ca48b0796ef7bb7fb0e41",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-104-1776045490236.png"
+        }
+      ]
+    },
+    {
+      "master_id": "composite_component_image_inventory",
+      "candidate_id": "G1V2_COMPOSITE_SHAPE_INVENTORY_ASSET",
+      "original_occurrence_count": 1,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Naming each explicitly described component and counting discrete tokens are established. Segmentation of the pictured robot into visible components is absent visual evidence. This does not certify hidden/composite polygon enumeration.",
+      "original_description_evidence_ids": [
+        "c98abf3d954ebaf0510e606f"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 100,
+          "exercise_types": [
+            "cube_cuboid_identification_under_rotation",
+            "composite_picture_shape_inventory"
+          ],
+          "image_sha256": "c3edfe058b8e15668e2635fa547ce71c2bab08e535039a3d50e3fa39d5dd9b39",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-101-1776045489846.png"
+        }
+      ]
+    },
+    {
+      "master_id": "curved_connection_image",
+      "candidate_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+      "original_occurrence_count": 2,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "The missing evidence is tracing an actually drawn crossing curve. Number reading/tens-ones is present; another text arithmetic row cannot establish pixel tracing.",
+      "original_description_evidence_ids": [
+        "a187507274faac36bb929e9f",
+        "09b6b4b6ad6538d1446f1cc5"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 77,
+          "exercise_types": [
+            "trace_crossing_curved_connections_then_count_category",
+            "unknown_subtrahend",
+            "write_subtraction_for_scene_partition"
+          ],
+          "image_sha256": "5de591feeaef088496a00f7b4d15160760ef529b6e4caaa39de407cf0a2c7ce2",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-78-1775728332137.png"
+        },
+        {
+          "grade": 1,
+          "volume": 2,
+          "printed_page": 24,
+          "exercise_types": [
+            "tens_units",
+            "match_written_number_to_numeral",
+            "crossing_connection_tracking"
+          ],
+          "image_sha256": "9e962d06ecda343b90778798348911428e4c113c611a061736598a7ac7803f57",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-25-1776045478714.png"
+        }
+      ]
+    },
+    {
+      "master_id": "embedded_digit_image",
+      "candidate_id": "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET",
+      "original_occurrence_count": 1,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Recognition of a numeral embedded in clutter is visual evidence absent from text-only numeral-reading examples.",
+      "original_description_evidence_ids": [
+        "996fe8660b624360a20b7945"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 38,
+          "exercise_types": [
+            "recognize_digits_embedded_in_line_art",
+            "count_sets_including_empty"
+          ],
+          "image_sha256": "9a1ddff591960b1f6ec2888a51f15adf897d91d068de5aedaaa3a7a78ff5b817",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-39-1775728319044.png"
+        }
+      ]
+    },
+    {
+      "master_id": "handwriting_stroke_execution",
+      "candidate_id": "G1V1_DIGIT_STROKE_ASSET",
+      "original_occurrence_count": 5,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Reading numerals and operations is present; handwritten stroke formation needs a model/trace or observed physical result, not a new numerical task.",
+      "original_description_evidence_ids": [
+        "af2b87d39fa21a58b4976728"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 9,
+          "exercise_types": [
+            "digit_stroke_copying_0_to5",
+            "count_read_cardinality",
+            "ascending_sequence_completion"
+          ],
+          "image_sha256": "a34a10f4275497006b279e4acdd5b9dfbc7c1282a184aaefb26df56513cc7b64",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-10-1775728309767.png"
+        },
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 15,
+          "exercise_types": [
+            "digit_stroke_copying_6_to10",
+            "count_irregular_object_layout",
+            "select_added_group_to_target"
+          ],
+          "image_sha256": "8a15e4c7d077fb11d2ffadb0f615a234e87d81bc73a1b8833f3643be39c45368",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-16-1775728311766.png"
+        },
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 24,
+          "exercise_types": [
+            "greater_than_symbol_from_counts",
+            "inequality_card_selection",
+            "comparison_symbol_handwriting"
+          ],
+          "image_sha256": "1476b6d7522dcce3194234f6b20e449e25568ca274cbde9555ceecab2a16e430",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-25-1775728314733.png"
+        },
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 26,
+          "exercise_types": [
+            "less_than_symbol_from_counts",
+            "inequality_card_selection",
+            "comparison_symbol_handwriting"
+          ],
+          "image_sha256": "d92399fea88e7410a1ef186fc69c6147b56375e2ebf5455c059a7e1cd82dba23",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-27-1775728315345.png"
+        },
+        {
+          "grade": 1,
+          "volume": 1,
+          "printed_page": 28,
+          "exercise_types": [
+            "equality_symbol_from_counts",
+            "match_groups_by_equal_cardinality",
+            "equality_symbol_handwriting"
+          ],
+          "image_sha256": "560afa44ad70ddbf791e933231ba8b7b23d3538505a14408de24b6066e6c4534",
+          "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-29-1775728315969.png"
+        }
+      ]
+    },
+    {
+      "master_id": "observed_physical_geometric_result",
+      "candidate_id": "physical_geometric_construction",
+      "original_occurrence_count": 7,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Actual valid sources already give ruler/eke/compass placement and checks while withholding unobserved product claims. Accurate drawing, kite/rod construction, track setup require observed asset/execution.",
+      "original_description_evidence_ids": [
+        "ed83e571b56c3c4c5d85e5b4",
+        "d50abfadf105b57712dc19bf"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 95,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 96,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 97,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 102,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 103,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 104,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 112,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        }
+      ]
+    },
+    {
+      "master_id": "optical_illusion_measurement_asset",
+      "candidate_id": "optical_illusion_measurement_guard",
+      "original_occurrence_count": 2,
+      "candidate_status": "ASSET_LIMITATION_RETAINED",
+      "publisher_or_physical_assets_complete": false,
+      "asset_specific_missing_requirement": "Endpoint measurement and withholding unsupported claims are explicit. Assessing the particular illusion needs actual ruler/parallel evidence, not another guessed numerical answer.",
+      "original_description_evidence_ids": [
+        "984a02212be26f986752e7f9",
+        "4e7e13dbd70d03fcd549c731"
+      ],
+      "prior_official_page_hints": [
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 112,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        },
+        {
+          "grade": null,
+          "volume": null,
+          "printed_page": 113,
+          "exercise_types": null,
+          "image_sha256": null,
+          "publisher_page_url": null
+        }
+      ]
+    }
+  ],
+  "svg_binding_audit": {
+    "expected_svg_count": 24,
+    "manifest_svg_count": 24,
+    "zip_svg_members_count": 24,
+    "exact_asset_master_bindings_found": 0,
+    "could_bind_any_of_ten_to_close_existing_asset_limitations": false,
+    "metadata": {
+      "origin": "ORIGINAL_PROGRAMMATIC_QUESTION_SCHEMATIC",
+      "publisher_image": false,
+      "role": "Optional original question illustration; explicit problem text remains authoritative.",
+      "answer_or_oracle_annotation": false,
+      "visual_qa_limitation": "Original schematic/table asset only, not verified publisher-image understanding. Source piece thumbnails normalized separately, explicitly not to a common scale."
+    },
+    "svg_asset_metadata": [
+      {
+        "path": "assets/cube_marked_faces_fixed_view.svg",
+        "sha256": "a22dc00e1ef1c11026e875843b9a5b9ff9f54e0f94e94da5222fe65974d0742f",
+        "bytes": 2116
+      },
+      {
+        "path": "assets/diagonal_half_cells_regroup_without_doublecount.svg",
+        "sha256": "f3e3c8649a48f5311f7a3bb0dd78613361269cc3a110fef162e41a6f36576958",
+        "bytes": 2100
+      },
+      {
+        "path": "assets/equal_area_nonfit_thin_rectangle.svg",
+        "sha256": "e64aa317efe0eb35bcd5a5929912b935d57d2103eef4ada5ac0a75b550dff37c",
+        "bytes": 1187
+      },
+      {
+        "path": "assets/face_direction_wrong_label_not_shape_name.svg",
+        "sha256": "a5c6785c5f0bcfd288f6210abc645aa6f68cca5eeb97b5b33b768c6fc679118d",
+        "bytes": 2132
+      },
+      {
+        "path": "assets/four_triangles_rotated_diamond_placement.svg",
+        "sha256": "b168f9432f686a53cc76eeac7a2b432526e3102ae2473b034b2d1c93e51bf5a5",
+        "bytes": 1756
+      },
+      {
+        "path": "assets/irregular_staircase_full_unit_cells.svg",
+        "sha256": "01f2c7bd3e97992d523d7a902ea9d806094b3b5afff95798f6b628cb2272dbe9",
+        "bytes": 1406
+      },
+      {
+        "path": "assets/notched_piece_exact_complement.svg",
+        "sha256": "fbf42ca0c43719e8a1babf0ddbb626d872249499d38d71a53066ea8770e0abbe",
+        "bytes": 7237
+      },
+      {
+        "path": "assets/notched_piece_rotation_without_reflection.svg",
+        "sha256": "9f5b722622b768297e6e6ca84bc125169cac06e8b70be3f57f58c6cbc8a46d11",
+        "bytes": 5619
+      },
+      {
+        "path": "assets/relocate_three_sticks_complete_rhombi.svg",
+        "sha256": "c0153e393c1d360c305141e35740b01eabbbc84f9c37958086926ad83607bef5",
+        "bytes": 2575
+      },
+      {
+        "path": "assets/remove_internal_stick_recount_all_triangles.svg",
+        "sha256": "411d0b21fc7a3cf51d9b7b3e2b1fb15291127f57d13ec983dbac1e8ce6b24120",
+        "bytes": 2188
+      },
+      {
+        "path": "assets/seven_piece_tangram_exact_square_inventory.svg",
+        "sha256": "24ddaf3b795d2fc89da191fe61c8498fcb188a406016495d16c5d3842d1b1377",
+        "bytes": 2411
+      },
+      {
+        "path": "assets/seven_segment_digit_count_change_two_moves.svg",
+        "sha256": "b15b99a6368e6e9273de170376847ad4909f84b9d4ad8e133e2c33b968e63142",
+        "bytes": 4646
+      },
+      {
+        "path": "assets/seven_segment_exact_four_stick_build.svg",
+        "sha256": "b350125b31df07d8bfc79be499b7b200ff9ef16042da9bcaa6f6d9b43b31ca5a",
+        "bytes": 2028
+      },
+      {
+        "path": "assets/seven_segment_fixed_slots_global_minimum.svg",
+        "sha256": "e4dedc7d4c358413c78af97ee7ecc389fefc60047f01d5a43b219a791d740469",
+        "bytes": 3338
+      },
+      {
+        "path": "assets/seven_segment_one_move_equation_unique.svg",
+        "sha256": "013f84a63dc2193b40f7735e0c2deec1364bb0c8cd075fa14019d46259de76fe",
+        "bytes": 4826
+      },
+      {
+        "path": "assets/six_piece_midpoint_complete_dissection.svg",
+        "sha256": "4c5e0b02495f41317471acb800ab89285d8cc50a3cdd8b1ee4e45882fae93c04",
+        "bytes": 2198
+      },
+      {
+        "path": "assets/six_piece_wrong_midpoint_equal_area_error.svg",
+        "sha256": "23b12b58b2f25a58dfa93b46f27fcf301a8135c0bcf89054eb880018ee03a139",
+        "bytes": 2215
+      },
+      {
+        "path": "assets/square_two_triangles_house_silhouette.svg",
+        "sha256": "e5de358c1a1a82e3c242eef0cb0147b2985372482508006571246df6cc457ed7",
+        "bytes": 1577
+      },
+      {
+        "path": "assets/three_direction_rhombi_complete.svg",
+        "sha256": "436ca97a9cef3e41d337aa8cba5f626b755924e865a691ed388288a1e977667b",
+        "bytes": 2537
+      },
+      {
+        "path": "assets/three_direction_rhombi_missing_outer.svg",
+        "sha256": "931b38b4c81a161808577b5fa49fb3b088e822806d604b0628214c36de3a7663",
+        "bytes": 2433
+      },
+      {
+        "path": "assets/tilted_square_complete_inventory.svg",
+        "sha256": "37f75363ae3550c6ba0aacee429eddd91a57d64b83e546bc927f0f4c637e2ba3",
+        "bytes": 2275
+      },
+      {
+        "path": "assets/tilted_square_missing_side.svg",
+        "sha256": "ee89644b7543c2eecfdb63b5641f54e1b8bc825f5754cab53dc4f62055c0fde4",
+        "bytes": 2184
+      },
+      {
+        "path": "assets/top_faces_occlusion_selection.svg",
+        "sha256": "183e0a7e4230ba8265970e7db1e3ed987b40c9a546012d94381dc373acc8d474",
+        "bytes": 3266
+      },
+      {
+        "path": "assets/triangle_pair_selection_fixed_target.svg",
+        "sha256": "6efcc9651b1c7468f2edeca393eafd1d20dea97c27042cfadf12c361da2748b6",
+        "bytes": 1383
+      }
+    ],
+    "reason": "The SVGs belong to ten separate Geometry Inventory masters, all currently DRAFT_CROSS_REVIEW_PENDING. Their recorded origin/role explicitly identifies synthetic schematics, and no metadata links their IDs to the ten retained ASSET_ONLY_LIMITATION candidate IDs. Some are thematically geometric, but that is not an exact binding and cannot close publisher-image or observed-physical evidence requirements."
+  },
+  "closure_guidance": "Preserve all ten asset-only masters and the G3 locator as open. Use source page hashes/URLs only as pointers for a later targeted read; do not convert related G4 or generated SVG evidence into G3 source evidence."
+}

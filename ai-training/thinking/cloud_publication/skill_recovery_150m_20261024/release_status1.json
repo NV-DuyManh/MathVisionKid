@@ -1,0 +1,27 @@
+{
+  "add": {
+    "newCellId": "LxWrxzL7S342"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T14:23:29.337756+00:00\", \"seconds_remaining\": 2656.661832332611, \"all_experiment_workers_exited\": true, \"final_release_publication.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"bundle\": {\"id\": \"1u3735Od9qWKAE_YQ2dVAlHh7YX_JFqW4\", \"sha256\": \"4636f1d6fb96d8f7de5dc941a72dbeb6b832ebf828fada95a16ebd104d787349\", \"bytes\": 228690, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T14:23:14.611284+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"quality_recovery_audit_bundle_4636f1d6fb96d8f7.zip\", \"immutable\": true}, \"canonical_context_sha256\": null, \"publication_finalized\": null, \"final_semantic_assessment_proof\": null, \"proof_count\": 0}, \"native_evidence_publication_status.json\": {\"state\": \"DEV_COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"bundle\": null, \"canonical_context_sha256\": null, \"publication_finalized\": null, \"final_semantic_assessment_proof\": null, \"proof_count\": 16}, \"completion_evidence_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"bundle\": null, \"canonical_context_sha256\": null, \"publication_finalized\": null, \"final_semantic_assessment_proof\": null, \"proof_count\": 33}, \"publication/publication_status.json\": {\"state\": \"WAITING_FINAL_REVIEW_PUBLICATION\", \"error\": null, \"completed\": null, \"bundle\": null, \"canonical_context_sha256\": null, \"publication_finalized\": null, \"final_semantic_assessment_proof\": null, \"proof_count\": 0}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"bundle\": null, \"canonical_context_sha256\": \"e27123f6e8b1923c5a1aca21571f2c14b3e6ac2b8e2a55006933e726e960cccb\", \"publication_finalized\": null, \"final_semantic_assessment_proof\": null, \"proof_count\": 0}, \"publication_threads\": [{\"name\": \"MathVisionKidSkillRecoveryPublisher\", \"alive\": true}]}\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "<>:4: SyntaxWarning: invalid decimal literal\n",
+          "<>:4: SyntaxWarning: invalid decimal literal\n",
+          "/tmp/ipykernel_719/2283953674.py:4: SyntaxWarning: invalid decimal literal\n",
+          "  v={'observed_utc':datetime.now(timezone.utc).isoformat(),'seconds_remaining':json.loads((r/'owner_run_scope.json').read_bytes())['hard_deadline_unix']-time.time(),'all_experiment_workers_exited':all(p.poll()==0for p in [skill_training_process,skill_fewshot_process,skill_final_process,skill_native_dev_process])}\n"
+        ]
+      }
+    ]
+  }
+}

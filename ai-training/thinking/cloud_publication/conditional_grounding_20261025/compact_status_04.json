@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "44qR6tYoCyV5"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:11:59.347238+00:00\", \"worker_exit\": null, \"worker_pid\": 3092, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0, \"training_started\": false}, \"eval\": {\"training/eval_step_000000/base_generations.partial.jsonl\": {\"rows\": 22, \"last_id\": \"dev25_g4_hint_no_answer_02\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 34, \"checkpoints\": {}}, \"four_controls_publication_status.json\": {\"state\": \"PREPARED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\"}, \"gpu\": \"2413 MiB, 28 %\"}\n"
+        ]
+      }
+    ]
+  }
+}

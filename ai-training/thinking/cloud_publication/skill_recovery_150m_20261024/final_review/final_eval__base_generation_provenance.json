@@ -1,0 +1,10 @@
+{
+  "adapter_loaded": false,
+  "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+  "fresh_base": true,
+  "locked_test_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "model": "Qwen/Qwen3-1.7B",
+  "output_rows": 20,
+  "outputs_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+}

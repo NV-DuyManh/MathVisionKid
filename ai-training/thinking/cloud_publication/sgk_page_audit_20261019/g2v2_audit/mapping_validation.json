@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "candidate_count": 91,
+  "unique_candidate_ids": 91,
+  "source_full_field_line_hashes_verified": 39,
+  "page_candidate_receipt_links_verified": 128,
+  "finite_master_count": 65,
+  "pending_master_count": 51,
+  "adjudication_sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143",
+  "full_field_receipt_sha256": "196653bcfe3f8f72dc2e27a1a71161b90ceb61867e3e44cffd3c0a1385eee27a",
+  "training_performed": false,
+  "drive_mutated": false,
+  "new_training_rows": 0,
+  "proof_scope": "Structural integrity and exact evidence linkage, not semantic proof by parser. Semantic reasons are manually written per observed candidate."
+}

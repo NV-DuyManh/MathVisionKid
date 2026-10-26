@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "GfgusRU-vTAc"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"RECOVERING_EXACT_PRE_PROBE_CHECKPOINT\", \"training_worker_alive\": false, \"recovery_worker_alive\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "additional_unnumbered_intro_lessons": 1,
+  "all_sgk_exercise_forms_audited": false,
+  "books": 10,
+  "comparison_actual_nonbulk_cases": 5683,
+  "date": "2026-10-19",
+  "finite_core_cases_unchanged": 495,
+  "finite_core_nodes_unchanged": 165,
+  "new_chat_rows": 404,
+  "new_original_accepted_cases": 101,
+  "numbered_lessons_registered": 345,
+  "old_arithmetic_domain_cases_registry_only": 1623703,
+  "other_textbook_series_exhaustively_audited": false,
+  "pending_queue_member": "data/pending_sgk_exercise_audit.json",
+  "remaining_work": "Systematic page-by-page exercise-form audit beyond the reviewed representative pages; physical/image modality proof remains separate.",
+  "schema": "sgk_catalog_summary.v1",
+  "series": "Kết nối tri thức với cuộc sống",
+  "source_authority_limit": "Official current publisher sources and corrections checked. Newly generated cases accepted after content QA, not automatically true because inspired by SGK.",
+  "toc_actual_read": true,
+  "training_started": false
+}

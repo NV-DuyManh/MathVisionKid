@@ -1,0 +1,34 @@
+{
+  "checkpoint_id": "1o3Q1uXA2ZTUAIHDpLCslHalg5qCbL-gr",
+  "checkpoint_sha256": "7b9babd8710bb598c2ec051073dc0d34de888686de97e3610cc10f1931b4a626",
+  "progress": {
+    "schema": "MathVisionKid.candidate_consumer_progress.v1",
+    "recipe_sha256": "232ac25f68dcc4efd8c94ea5da3f4db4d942e454ef98f8a7b940a13b69a683cb",
+    "split": "train",
+    "counts": {
+      "ACKNOWLEDGED_CANDIDATE": 20000
+    },
+    "acknowledged_rows": 20000,
+    "complete_members": 0,
+    "required_members": 29,
+    "incomplete_case_modes": 0,
+    "cursor": {
+      "member_index": 0,
+      "next_line": 20000,
+      "recipe_sha256": "232ac25f68dcc4efd8c94ea5da3f4db4d942e454ef98f8a7b940a13b69a683cb",
+      "split": "train"
+    },
+    "stream_exhausted": false,
+    "all_data_training_ready": false,
+    "training_started": false
+  },
+  "this_work_span_only": {
+    "rows": 20000,
+    "max_sequence_tokens": 1378,
+    "max_completion_tokens": 1213,
+    "source_links_not_reverified_here": 20000
+  },
+  "training_started": false,
+  "TRAINING_DATASET_READY": false,
+  "full_archive_token_linkage_split_audit_complete": false
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "NmikMyoRY-8n"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"81e1bf7dc915a3e3df358e8d62c955207fa33907e56c6df0eeff49db49b20b0d\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "utc": "2026-10-18T14:21:44.202288+00:00",
+  "policy_sha256": "c9aa008fb84b81e705e540c56d018c9c2d07278edc775fba57a6d28a2309e472",
+  "cases": [
+    {
+      "sample_id": "primary_20261018_finish_g3_comparison_mis_difference_as_factor",
+      "source_row_sha256": "79c71a2f71b078c7f6b1af8c449026da8624fc5ac586ccaf3843b4a9fb8a634f",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "30/5"
+      ],
+      "current_review_row_sha256": "79c71a2f71b078c7f6b1af8c449026da8624fc5ac586ccaf3843b4a9fb8a634f",
+      "same_author_QA_notes": "Quote25times from difference is corrected by30/5=6times; six equal groups rebuild30, feedback only explicit quote; all source fields and supports read.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_mis_subtract_times",
+      "source_row_sha256": "eba9ceb584aec76bd65274abd7f6714ddd2d3ac3beb097d6c747bee1267f658c",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "35/5"
+      ],
+      "current_review_row_sha256": "eba9ceb584aec76bd65274abd7f6714ddd2d3ac3beb097d6c747bee1267f658c",
+      "same_author_QA_notes": "Quoted35-5 is criticized only as relation choice; correct7m from division and inverse35, no invented hidden strategy.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_statistics_pictogram_legend_counts",
+      "source_row_sha256": "7af08310a09735f2a277efc7aefc716d0faa8bbc455002ffb8f1ff4cb86ec115",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "4*3",
+        "6*3"
+      ],
+      "current_review_row_sha256": "7af08310a09735f2a277efc7aefc716d0faa8bbc455002ffb8f1ff4cb86ec115",
+      "same_author_QA_notes": "Legend3trees/star meansA12B18C15total45, expanded star/treeIDs verify; explicit distinct trees per group, text-only hypothetical no actual chart perception.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_multiply_divide_contrast",
+      "source_row_sha256": "177c00e4136181cb1f2379279fea8d0097096da1858d6e4668fc26eb1c9b6338",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "(3/4)/(2/5)"
+      ],
+      "current_review_row_sha256": "177c00e4136181cb1f2379279fea8d0097096da1858d6e4668fc26eb1c9b6338",
+      "same_author_QA_notes": "Actualfullread/hints:nhân3/10,chia15/8; divisor2/5khác0,chỉđảosốchia. Kiểm phépchia bằngnhân2/5trả3/4; kếtquảlớnhơn1hợp lệ.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_pictogram_legend",
+      "source_row_sha256": "9f6765197a9522cf9e5f18db9cd7ea84c32f4d24e148e7aae1a85d3d9897e758",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "3*4"
+      ],
+      "current_review_row_sha256": "9f6765197a9522cf9e5f18db9cd7ea84c32f4d24e148e7aae1a85d3d9897e758",
+      "same_author_QA_notes": "Đọc actualfull và mọi sharedhint:5/3hình,mỗi4cây→20/12,total32; từng nhómkhôngtrùng. Biểu đồ mô tảtextđủ, chưa visionasset, không suy tất cả loại chart lịch sử.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_table_to_bars",
+      "source_row_sha256": "e4d01b6ea5df9227d8aaadd306cb09611b130f34440e6e794b872a01d7a85195",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "10/2"
+      ],
+      "current_review_row_sha256": "e4d01b6ea5df9227d8aaadd306cb09611b130f34440e6e794b872a01d7a85195",
+      "same_author_QA_notes": "Đọc actualfull/hints:8/14/10sách mỗiô2quyển→4/7/5ô, Banhất. Chia và nhânkhôiphục, không lộ nhãn/ngày trong hints.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+      "source_row_sha256": "7cec66bf68b1dd30cf30b7fc1c43ba247ef031d830621433dded5fc2a382956a",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "(12+7)*2"
+      ],
+      "current_review_row_sha256": "7cec66bf68b1dd30cf30b7fc1c43ba247ef031d830621433dded5fc2a382956a",
+      "same_author_QA_notes": "Actualfullread/hints: base12,side7,perpheight5;P38cm,S60cm²; cắtghépchiều cao chứkhôngside. Checkfourboundary/areaunits.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    }
+  ],
+  "sealed_concept_challenge_read": false,
+  "protected_questions_disclosed": false,
+  "frozen_sources_modified": false,
+  "source_answers_modified": false,
+  "acceptance_basis": "OWNER_AUTHORIZED_NUMERIC_OVERLAP_EXCEPTION_AFTER_SELF_QA",
+  "limitations": "Exact numeric overlap remains. Do not claim these numeric tests independently evaluate the overlapping calculations. No claim of semantic non-equivalence to unread protected content."
+}

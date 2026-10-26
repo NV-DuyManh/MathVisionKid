@@ -1,0 +1,69 @@
+{
+  "restored": [
+    {
+      "path": "extensions/decimals/addition.jsonl.gz",
+      "bytes": 147131,
+      "sha256": "8d0c285bc1112c5446c8244a2cfe45a43b6d3cbd03936f5bcf893d1df8a5aa91"
+    },
+    {
+      "path": "extensions/decimals/division.jsonl.gz",
+      "bytes": 121033,
+      "sha256": "df886396abaddbf9953429a711b05a4091b7d3b55ebac729f1b5de1fdff2cdef"
+    },
+    {
+      "path": "extensions/decimals/division_zero.jsonl.gz",
+      "bytes": 3226,
+      "sha256": "4ebe3fcf8547549e989faa5b9de348944af5ff00f60da1cdb68417e470ac3a04"
+    },
+    {
+      "path": "extensions/decimals/multiplication.jsonl.gz",
+      "bytes": 146435,
+      "sha256": "4cd42b1343784242b8c650421011a3f2b6df485fca393b5fe636ae4acba722b1"
+    },
+    {
+      "path": "extensions/decimals/subtraction.jsonl.gz",
+      "bytes": 70405,
+      "sha256": "d44fcb4330ea89724ba89e86e7a9b1caaaf3f2a0b84b7fe02ec50b3c1661b9c9"
+    },
+    {
+      "path": "extensions/fractions/addition.jsonl.gz",
+      "bytes": 331374,
+      "sha256": "e92335a1087dd330c16a1ac5034d177ef2e4995cd528400fce3507eab7625523"
+    },
+    {
+      "path": "extensions/fractions/multiplication.jsonl.gz",
+      "bytes": 229275,
+      "sha256": "f2064ea75120b49dd292f8b1a82faad21b10100b0bb2fdea1464392b66fb2446"
+    },
+    {
+      "path": "extensions/fractions/nonnegative_subtraction.jsonl.gz",
+      "bytes": 186508,
+      "sha256": "c7d48fce2f0c6e88bda0e974e26b535d5264ff69710ba97cf9577addc1eb110b"
+    },
+    {
+      "path": "extensions/fractions/valid_division.jsonl.gz",
+      "bytes": 237775,
+      "sha256": "e6e2948f41fae99e8c8150da9b0f2d600a511128f6299c1d5c067571dca32fff"
+    },
+    {
+      "path": "extensions/fractions/zero_divisor_guards.jsonl.gz",
+      "bytes": 26153,
+      "sha256": "7e1009b324ee8fa0537cb48368de9eb8ad00d49bb7dd39d1d444cbab35084371"
+    },
+    {
+      "path": "extensions/protected_numeric_signatures.json",
+      "bytes": 55690,
+      "sha256": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8"
+    },
+    {
+      "path": "extensions/structural.jsonl",
+      "bytes": 73170,
+      "sha256": "a3e67cafcff5d962cca71d2fcbbeab6ca033d35e66d6b0fd9fef15d9b0a5cba1"
+    }
+  ],
+  "source_hashes": [
+    "bba05af405a61580aa2b9e89991d76521b5f7a9bb3b9cebfa1daf056e97dfd1f",
+    "e1d95aa91363c51dcfcdd4e49e186e5c9281185bc7328bb4c2508d9856e7aef9",
+    "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "MathVisionKid.native_locked15_authoring_notes.v1",
+  "fixture_count": 15,
+  "distribution": {
+    "grades_1_to_5": "three fixtures per grade",
+    "per_grade": "two answer fixtures and one guard or student-feedback fixture",
+    "mode_counts": {
+      "answer": 10,
+      "missing_or_contradictory_info": 3,
+      "student_error": 2
+    }
+  },
+  "authoring_provenance": {
+    "origin": "New original Vietnamese tasks authored for the native-thinking probe.",
+    "derived_from_training_rows": false,
+    "copied_from_prior_final_fixtures": false,
+    "uses_images_or_claims_of_physical_measurement": false,
+    "not_training_data": true,
+    "human_certification_claimed": false
+  },
+  "intended_grade_coverage": {
+    "grade_1": [
+      "place-value composition",
+      "two-event addition/subtraction",
+      "underdetermined hidden card"
+    ],
+    "grade_2": [
+      "elapsed clock time",
+      "inclusive page count",
+      "provided carrying error"
+    ],
+    "grade_3": [
+      "mixed-unit mass addition",
+      "quotient with remainder",
+      "missing second-piece length"
+    ],
+    "grade_4": [
+      "fraction of a quantity",
+      "backsolve rectangle length from perimeter",
+      "inconsistent disjoint fractions"
+    ],
+    "grade_5": [
+      "discounted price",
+      "decimal unit rate",
+      "provided area/unit-conversion error"
+    ]
+  },
+  "exact_checks": {
+    "method": "Independent CPU calculations using fractions.Fraction and decimal.Decimal; no model outputs involved.",
+    "status": "passed",
+    "script": "native_locked15_exact_checks.py",
+    "expected_results": {
+      "native15_01": "64",
+      "native15_02": "20",
+      "native15_04": "08:00",
+      "native15_05": "9",
+      "native15_06_feedback_correction": "73",
+      "native15_07_grams": "4200",
+      "native15_08": "8 remainder 5",
+      "native15_10": "35",
+      "native15_11_cm": "15",
+      "native15_12_reported_group_total": "35 of 30; contradiction",
+      "native15_13_dong": "280000",
+      "native15_14_dong_per_kg": "7000",
+      "native15_15_width_m": "0.8; length_m=3"
+    }
+  },
+  "review_status": "Root LLM read all15 actual questions, references and rubrics, repaired ambiguous grade1 task before candidate outputs; no human review claim.",
+  "root_repairs": [
+    "Replaced ambiguous card-joining/addition-with-carry task with grade1-appropriate concrete tens/ones representation.",
+    "Added explicit request for missing information to hidden-card guard.",
+    "Corrected authoring mode count4guards to actual3guards."
+  ]
+}

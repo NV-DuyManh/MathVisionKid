@@ -1,0 +1,151 @@
+{
+  "batch_sha256": "aeecb63226478a5049c1427f1b3871122f71f2b19b9586507fdafd654af49ca1",
+  "authored_cases": 4,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_measure_convert_0043_compare_capacity_after_conversion",
+      "row_sha256": "7489c5a1b8bfc20b13645904a1188f7c65c9a06a2eb2c18b63bcdbba648e06da",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2*1000+75",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_measure_convert_0043_cut_mixed_length_and_convert_back",
+      "row_sha256": "cc0fb012431de0c4ad6c2ee6781b764776671bd6309f5b067b3978204c1436c0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "3*10+4",
+          "(3*10+4)-9",
+          "2*10",
+          "((3*10+4)-9)-(2*10)",
+          "(2*10)+(((3*10+4)-9)-(2*10))+9"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_measure_convert_0043_misconception_concatenate_mass_digits",
+      "row_sha256": "b21bb3560191513bd134e08e260556a9cc85ba7582b5147cee6d09964848137f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "4*1000+35"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_measure_convert_0043_guard_month_not_fixed_days",
+      "row_sha256": "6dade438b77d32f04065c98b517c6360099288c09bf915e4c012349a144fb515",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "capacity_ml": [
+      "2075",
+      "1850"
+    ],
+    "capacity_reverse_partition": [
+      2,
+      75
+    ],
+    "wire_segment_counts": {
+      "before": 34,
+      "removed": 9,
+      "remaining": 25,
+      "disjoint": true
+    },
+    "wire_reverse_m_dm": [
+      2,
+      5
+    ],
+    "mass_g": "4035",
+    "mass_reverse_partition": [
+      4,
+      35
+    ],
+    "calendar_month_countermodels": [
+      {
+        "month": 1,
+        "year": 2027,
+        "days": 31
+      },
+      {
+        "month": 4,
+        "year": 2027,
+        "days": 30
+      },
+      {
+        "month": 2,
+        "year": 2028,
+        "days": 29
+      },
+      {
+        "month": 2,
+        "year": 2027,
+        "days": 28
+      }
+    ]
+  },
+  "oracle_method": "Fraction common-unit values and inverse partitions; independent finite disjoint segment enumeration for cut length; divmod only in audit metadata, never live calculator; Gregorian month lengths supply distinct guard countermodels.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_02",
+    "core_03"
+  ],
+  "existing_core01_preserved": "original_tutor25_g3_04 duration92minutes; not reauthored or relabelled",
+  "author_self_content_check": "Read four original requests with all givens, reasons, expressions/free-text checks, answers, synthetic quote and12hints. Different tasks: comparison after conversion, cutting with inverse mixed-unit check, explicit wrong digit concatenation, and calendar-month nonconstant conversion. Same-author check is not independent content review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_owner_accepted_no_pending_assigned": true,
+  "all_259_accepted_sources_unchanged": true,
+  "new_drafts_not_covered_by_owner87_acceptance": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Text data only; no actual measuring asserted. Does not exhaust all length/mass/capacity/time/money conversions; existing duration core preserved. Neutral schema requires explicit application adapter/review. Author self-check is not new independent certification.",
+  "author_readback_polish": "Read actual four rows and12hints; separated A ít; added same-month different-year guard countermodel. No source/task008/owner87scope changes."
+}

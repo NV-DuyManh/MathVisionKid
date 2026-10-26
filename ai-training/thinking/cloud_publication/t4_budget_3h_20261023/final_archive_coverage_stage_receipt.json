@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "CvPQFkM2gJS7"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"staged\": {\"training/actual_coverage.py\": \"f96b29df8d2d80e6cfdd5c8d87373d3c02b9ab9355750c46324001c64ee16d77\", \"final_evidence_archive_runtime.py\": \"7cd56250550cb61dff8efd43963b13a606774c7971ce7753c4d17899983de0a2\"}, \"training_unchanged\": true}\n"
+        ]
+      }
+    ]
+  }
+}

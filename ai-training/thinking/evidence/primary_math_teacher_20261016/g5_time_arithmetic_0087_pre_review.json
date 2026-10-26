@@ -1,0 +1,232 @@
+{
+  "phase": "AUTHORING_BEFORE_OFFICIAL_SEMANTIC_QA",
+  "batch": "g5_time_arithmetic_0087",
+  "executed_utc": "2026-10-18T10:11:48.458716+00:00",
+  "source_sha256": "02ee87164146570f8b5ee21436bee65740f57b21b50d3bbbbad1633859a4df15",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "row_sha256": "3c633d2cd886b244a2c967ad2e36d787e96284db5c424922e00c5428f603ee08",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*60+48",
+          "1*60+37",
+          "(2*60+48)+(1*60+37)",
+          "6*60+10",
+          "(6*60+10)-((2*60+48)+(1*60+37))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_equal_audio_parts_and_repeated_duration",
+      "row_sha256": "20a623ebfa8df53220d6690497c60757588a5a7f773e3619a016e9d3dda3ec16",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "7*60+48",
+          "(7*60+48)/4",
+          "((7*60+48)/4)*3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "row_sha256": "0024ca2aa02a66586fcfe8cae45369de49f428e45e9bc359ce53646bb821295a",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "24*60-(22*60+45)",
+          "1*60+20",
+          "(24*60-(22*60+45))+(1*60+20)",
+          "((24*60-(22*60+45))+(1*60+20))-25"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_misconception_mixed_time_as_decimal_hours",
+      "row_sha256": "5bb76c2594a503328164fa80e87d67ebab9d935e70c5b75499419ceeafb554bf",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "1*60+45",
+          "(1*60+45)/60"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_guard_clock_times_without_day_relation",
+      "row_sha256": "47386509723f198e7559707ec598a25ece9db6b65a72173c0e4d05baaaa12cd5",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "separate_oracles": {
+    "sum_and_budget_minute_token_counts": [
+      168,
+      97,
+      265,
+      105
+    ],
+    "round_robin_partition_seconds": [
+      117,
+      117,
+      117,
+      117
+    ],
+    "repeat_concat_seconds": 351,
+    "datetime_overnight_minute_timeline": 155,
+    "active_after_removing25_minute_tokens": 130,
+    "decimal_hours_exact_fraction": "7/4",
+    "wrong_decimal_hours_in_minutes": "87",
+    "missing_day_QA_only_countermodels_minutes": [
+      110,
+      1550
+    ]
+  },
+  "fraction_decimal_checked": true,
+  "actual_semantic_content_read": true,
+  "modality": "TEXT_SUFFICIENT_NO_REAL_CLOCK_OR_MEASUREMENT_CLAIM",
+  "new_human_review_claim": false,
+  "training_started": false,
+  "before_polish_sha256": "359c08d2286c2290f1a374df5e168c63908af9d13d8821c95c362aebe7682d49",
+  "polish_before_official_QA": [
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "before_row_sha256": "1a9322a7da322f8e0e40cc2d1be8b7dad7f3c727a09ea4251212017fda06849b",
+      "after_row_sha256": "3c633d2cd886b244a2c967ad2e36d787e96284db5c424922e00c5428f603ee08",
+      "reason": "Make consecutive ordering explicit to ground step reason; no result changed.",
+      "actual_revised_problem": "Một buổi làm mô hình giả định dành 2 giờ 48 phút cho phần đầu và 1 giờ 37 phút cho phần sau. Hai phần thực hiện nối tiếp nhau, không chồng nhau, không có thời gian nghỉ hay công việc khác nằm trong hai khoảng đã nêu. Tổng quỹ thời gian là 6 giờ 10 phút. Hãy tính tổng thời gian hai phần và thời gian còn lại trong quỹ; trình bày cả theo phút và theo giờ, phút, giải thích cách đổi đơn vị rồi kiểm bằng cộng ngược."
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "reason": "Fix requested-quantity wording typo, no arithmetic or unit changed.",
+      "actual_revised_request": "Tổng thời gian từ lúc khởi hành đến lúc đến; Thời gian thực sự di chuyển"
+    }
+  ],
+  "exact_fraction_decimal_every_numeric_step": [
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "step_id": "s0",
+      "Fraction": "168",
+      "Decimal": "168",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "step_id": "s1",
+      "Fraction": "97",
+      "Decimal": "97",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "step_id": "s2",
+      "Fraction": "265",
+      "Decimal": "265",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "step_id": "s3",
+      "Fraction": "370",
+      "Decimal": "370",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+      "step_id": "s4",
+      "Fraction": "105",
+      "Decimal": "105",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_equal_audio_parts_and_repeated_duration",
+      "step_id": "s0",
+      "Fraction": "468",
+      "Decimal": "468",
+      "unit": "giây"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_equal_audio_parts_and_repeated_duration",
+      "step_id": "s1",
+      "Fraction": "117",
+      "Decimal": "117",
+      "unit": "giây"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_equal_audio_parts_and_repeated_duration",
+      "step_id": "s2",
+      "Fraction": "351",
+      "Decimal": "351",
+      "unit": "giây"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "step_id": "s0",
+      "Fraction": "75",
+      "Decimal": "75",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "step_id": "s1",
+      "Fraction": "80",
+      "Decimal": "80",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "step_id": "s2",
+      "Fraction": "155",
+      "Decimal": "155",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+      "step_id": "s3",
+      "Fraction": "130",
+      "Decimal": "130",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_misconception_mixed_time_as_decimal_hours",
+      "step_id": "s1",
+      "Fraction": "105",
+      "Decimal": "105",
+      "unit": "phút"
+    },
+    {
+      "sample_id": "primary_20261018_g5_time_arithmetic_0087_misconception_mixed_time_as_decimal_hours",
+      "step_id": "s2",
+      "Fraction": "7/4",
+      "Decimal": "1.75",
+      "unit": "giờ"
+    }
+  ],
+  "all_hint_count_read": 15,
+  "time_unit_interval_and_day_roles_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:12:31.891537+00:00",
+  "official_QA_method": "Same-author actual full read5problems/givens/request/studentquote/observations/initial/allworkedtitles/reasons/explanations/expressions/results/units/answers and15hints; reread explicit-consecutive problem polish and corrected totalinterval request. Grade5time semanticQA of base60 unit components, sum/budget subtraction, equal partition/repetition, overnight date boundary and included rest, decimal-hour conversion, missingday clarification. Fraction/Decimal every14numericsteps plus separate minute/second token cardinalities, equal partition/concatenation and datetime minute timeline, QA-only day countermodels. Parser pass not semantic proof. No real clock/recording/physical observation, external independent review or new human attestation.",
+  "official_review_sha256": "007b9bf2c99f5244d13394888180c40b2105cf81ec7148a3272731c885b8362e"
+}

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "case_count": 12,
+  "chat_count": 48,
+  "technical_ids_canonical": true,
+  "source_row_hash_links_valid": true,
+  "exact_question_duplicates_against_valid1055_and_prior24": 0,
+  "prior24_unchanged": true,
+  "prior24_hashes": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_text_append\\cases.jsonl": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\cases.jsonl": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709"
+  },
+  "source_file_sha256": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552"
+}

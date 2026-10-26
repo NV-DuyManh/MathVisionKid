@@ -1,0 +1,210 @@
+{
+  "schema": "MathVisionKid.portable_resume_files_receipt.v2",
+  "tests_passed": 17,
+  "G3_peer_rows": 6,
+  "G3_peer_chat_rows": 24,
+  "final_status": {
+    "schema": "MathVisionKid.portable_resume_final_status.v1",
+    "metadata_directories": 22,
+    "catalog_members": 1928,
+    "payload_artifacts": 31,
+    "source_cases_indexed": 1240,
+    "tokenized_chat_rows": 4036,
+    "candidate_train_chat_rows": 3988,
+    "pedagogy_current_eval_chat_rows_kept_separate": 48,
+    "finite_tasks": 271,
+    "complete_tasks": 32,
+    "pending_tasks": 239,
+    "historical_chat_missing_raw_source_hash_field": 3356,
+    "field_linkage_issues": 0,
+    "source_signature_missing_rows": 0,
+    "token_or_mode_issues": 0,
+    "tests_passed": 17,
+    "training_started": false,
+    "full_archive_token_split_audit_complete": false,
+    "sealed_pilot_payload_read": false,
+    "no_drive_calls_by_this_agent": true
+  },
+  "files": [
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_portable_resume.py",
+      "bytes": 10375,
+      "sha256": "e3641fe448d229cc989af9e2ca36ba2c841381b0a008a64e3b3fd448616486d9"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_archive_audit.py",
+      "bytes": 14358,
+      "sha256": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\test_math_data_portable_resume.py",
+      "bytes": 11698,
+      "sha256": "65161fff1be1a745f34154126c8d5ec5b62b88529cd0082872ad2e8eea8698ee"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\sgk_finish_zip_metadata.py",
+      "bytes": 6872,
+      "sha256": "f05ab2778081475b7abd16eb0b3c18bbae559bfb6875ffab2b768cf4aa6f84a6"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\test_sgk_finish_zip_metadata.py",
+      "bytes": 2533,
+      "sha256": "f58753548a64abed14405d286d3408ee1b6f1bbba64daf70eeed2ba3f89387ed"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g3_reasoning\\independent_peer_oracle.py",
+      "bytes": 9425,
+      "sha256": "7798cd2dffab0b5b37f29f522bafb0ff97c3ce0d44949dbf289b8283c6ee6d35"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g3_reasoning\\peer_review.json",
+      "bytes": 18033,
+      "sha256": "74d85374c87d1b3004b515be3287be672eddfe549b8be8bb4469a28cd554a02b"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\check_current_supplements.py",
+      "bytes": 4602,
+      "sha256": "97233532e7fe9d7838c78f8a251913e40142ca051580c851c9e90caa1e85c964"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\check_latest110.py",
+      "bytes": 3496,
+      "sha256": "c502412bc4290f416ad875341b3cb54e1b47807b6b660a20f65c187d511a3543"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\check_numeric_payload.py",
+      "bytes": 5463,
+      "sha256": "eb864c8b886b00c980f4af7710ff0535aa76a951706627af974e98a858262bb4"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\final_status.json",
+      "bytes": 730,
+      "sha256": "f4469fc45621530a4f9cc67d1fe1330661a36b3a823f472e21a93acc7ae8cde2"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\inventory_builder.py",
+      "bytes": 12433,
+      "sha256": "a939c422f718d5c66888d4276269c61c6c7a34eb0744ec3b03e93f6af9c878e5"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\inventory_receipt.json",
+      "bytes": 627,
+      "sha256": "a30dc1f56f65c924adbed86ed2934a00636a04abf67610162237d542f11530f0"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\latest110_audit.sqlite",
+      "bytes": 503808,
+      "sha256": "178d0faf63e0d23747c6667f6a567b1460c5102880358cafe98dd46e8a556ed0"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\latest110_audit_receipt.json",
+      "bytes": 3575,
+      "sha256": "2b136dec1415f0fb311b6a75e4e1238aad4fbb28230fe0284874bdfdd36ece89"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\member_catalog.json",
+      "bytes": 195720,
+      "sha256": "9af29f77f2e396ddab7b5357532e2ff9692e82877b3ab1ad787d331ae28ef2f6"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\member_catalog_discovered.json",
+      "bytes": 1605350,
+      "sha256": "e25be0e98a1f3aa26ec3c96934a894ea28c8cbe583a87a2560caf2131660aef1"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\metadata_discovery_requests.json",
+      "bytes": 20461,
+      "sha256": "6fc869c77babd759dc274f8c2b2f233bcb184c3338744efe9b82058462a45138"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\portable_checkpoint.json",
+      "bytes": 282369,
+      "sha256": "8a015a14d28cb5fafb174b4d078c97d256bbdcb625eb2968b484ab8e10e1c083"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\reconcile_remote_metadata.py",
+      "bytes": 10029,
+      "sha256": "03a3e7f342244d47c375a31e65136090216e83127322da72cfd05523489e5184"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\remote_metadata_reconciliation_receipt.json",
+      "bytes": 663,
+      "sha256": "af912eaab991f13accdca40287ad164e8bbd62dd99e742a53043138d61d868e3"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\resume_protocol.json",
+      "bytes": 9242,
+      "sha256": "c0b768e0122bd1ef9ab17085857d9740353f3e0ddf67242a7d216ab177db50db"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\tests_output.txt",
+      "bytes": 1733,
+      "sha256": "fb3e0234a26730222d566f9b0b6041059ecb750ecc547ce060cf26c051ad30f7"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\zip_metadata_tests_output.txt",
+      "bytes": 593,
+      "sha256": "3d0cd2366b00bb9042f0258f8fe23ab0ca97fddfd6fb81dca3a0bc95dfe8c888"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\current_supplements\\audit.sqlite",
+      "bytes": 622592,
+      "sha256": "d65fc1a14c1fc9b7797f50e69257a2f99f7f58446909950d83193579bc779374"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\current_supplements\\final_receipt.json",
+      "bytes": 1242,
+      "sha256": "46b0486b22f1c373d79460d20155bde3fc3600b253b12c2751bf4b5c1e3d0323"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\current_supplements\\fixed_catalog.json",
+      "bytes": 1660,
+      "sha256": "8b6808ab3259b9ffedcb8597687b3bf2c8d12923aa6b0a5e6d4d962b5d96f4d2"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\current_supplements\\progress.json",
+      "bytes": 1736,
+      "sha256": "b9fd259b5181dfae3194c2d5a522e1ee1b533d1ffa4ddddff32f87e63ee779e2"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_7edba0a6ef712e51\\audit.sqlite",
+      "bytes": 454656,
+      "sha256": "3fd0da30384278bd266d4810b4bb3b5baefe5a76c2c12dbd70a3c55c9cbe5a87"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_7edba0a6ef712e51\\final_receipt.json",
+      "bytes": 1294,
+      "sha256": "0367564608a46d2486902e00f2638f5f3868a0710e65e7e811f1b48d50debda7"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_7edba0a6ef712e51\\fixed_catalog.json",
+      "bytes": 1245,
+      "sha256": "9f806d488885bf7b0016d759e428fea661641006a865add70d65265a73bef564"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_7edba0a6ef712e51\\progress.json",
+      "bytes": 1161,
+      "sha256": "92e497deb859861c01ff75c04f7b792026e65ffba2f9ea49ba1d5cb35f9d7000"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_911a598ae1bc578f\\audit.sqlite",
+      "bytes": 3330048,
+      "sha256": "8518d0b010d560e8269f1e63e026718ac4c809d2c7d7bbcf1d302ad8f3aa5252"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_911a598ae1bc578f\\final_receipt.json",
+      "bytes": 1297,
+      "sha256": "5b58f45de8f74db7e87d6bf337219d12b53bfb83f2ea9bb413cfcbdc45456a30"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_911a598ae1bc578f\\fixed_catalog.json",
+      "bytes": 1244,
+      "sha256": "70376c1ec0d4c184eb12f3e584b8d40c807a947248d299819f91e5cf5bf37f17"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_911a598ae1bc578f\\progress.json",
+      "bytes": 2832,
+      "sha256": "78a202735e4ecc8ee31c0ba440071d18eff78cfdaacbf57dbac445525618ad13"
+    }
+  ]
+}

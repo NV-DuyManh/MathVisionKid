@@ -1,0 +1,168 @@
+{
+  "90": {
+    "exercise_types": [
+      "write_addition_from_colour_parts",
+      "write_addition_from_before_after_scene"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "91": {
+    "exercise_types": [
+      "compare_expression_value_to_number",
+      "write_departure_subtraction"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_constrained_arithmetic_path_02",
+      "primary_20261016_g1_operations_0003_word_leave"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "92": {
+    "exercise_types": [
+      "recognize_cube_cuboid_from_real_objects"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "93": {
+    "exercise_types": [
+      "select_cube_cuboid",
+      "match_real_objects_to_solids",
+      "name_environmental_solid_examples"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "94": {
+    "exercise_types": [
+      "count_solids_in_composite_structure_by_type_colour",
+      "compare_unit_cube_letter_counts"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+      "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_UNIT_CUBE_COUNT_ASSEMBLY"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  },
+  "95": {
+    "exercise_types": [
+      "recognize_cube_from_unit_array_dimensions",
+      "repeat_solid_type_or_colour_pattern"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_PERIODIC_ATTRIBUTE_PATTERN",
+      "G1V1_UNIT_CUBE_COUNT_ASSEMBLY"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  },
+  "96": {
+    "exercise_types": [
+      "front_back_between_relative_to_direction",
+      "top_middle_bottom"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "primary_20261016_g1_geometry_0004_above_below_inverse"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "97": {
+    "exercise_types": [
+      "count_by_front_back_row",
+      "sum_counts_by_vertical_layer"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "primary_20261016_g1_geometry_0004_above_below_inverse",
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Existing text spatial/comparison analogue identified; actual perspective images and physical object identification remain unverified."
+  },
+  "98": {
+    "exercise_types": [
+      "left_right_solid_identity",
+      "ordinal_position_count_from_either_end",
+      "between"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_left_right_anchor",
+      "primary_20261016_g1_geometry_0004_queue_front_middle_back"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_ORDINAL_FROM_BOTH_ENDS"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  },
+  "99": {
+    "exercise_types": [
+      "list_shapes_left_to_right",
+      "between_shapes",
+      "identify_coloured_cube_front_top_right_faces"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_left_right_anchor"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  },
+  "100": {
+    "exercise_types": [
+      "classify_multiple_solids",
+      "count_dots_on_front_right_top_cube_faces"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  },
+  "101": {
+    "exercise_types": [
+      "compare_counts_in_rearranged_unit_cube_arrays",
+      "assemble_eight_cubes_into_larger_cube"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+      "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_UNIT_CUBE_COUNT_ASSEMBLY"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Whole-solid naming does not demonstrate unit-cube composition or visible-face direction. Need source adjudication; actual object manipulation is unverified."
+  }
+}

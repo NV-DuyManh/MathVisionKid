@@ -1,0 +1,40 @@
+{
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 17322594,
+      "sha256": "fe13c593199f5128cecb18b3c1dbdcea88adf5f76fd6370539e76474413208f9",
+      "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_progress.zip",
+      "fresh_raw_readback_verified": true
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 151815,
+      "sha256": "661fed2b0e3992f6c2f41d39d723ce8053d7bee1be86eaae2167d5f19ae97ab4",
+      "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_chat.json",
+      "fresh_raw_readback_verified": true
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 818939,
+      "sha256": "ae43aabe6607786ee47e3ebc4c9c94a03c226d53fc5673984a594b337efb59da",
+      "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_context.md",
+      "fresh_raw_readback_verified": true
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 462922,
+      "sha256": "784d49ecb06429a499a834f9ba0512cfa4311694aef9d9e59dae078275dae7cb",
+      "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_state.json",
+      "fresh_raw_readback_verified": true
+    }
+  },
+  "launcher": {
+    "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+    "bytes": 5520,
+    "sha256": "a4db1a79c966107a59e934c485adb0d9ffb4753279dae0e01dc24c399ef737ad",
+    "fresh_raw_readback_verified": true
+  },
+  "state_committed_last": true,
+  "fresh_raw_byte_hash_verification": true
+}

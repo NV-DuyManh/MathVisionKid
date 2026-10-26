@@ -1,0 +1,88 @@
+{
+  "status": "ADAPTER_REJECTED_BY_RAW_RETENTION_OR_STRICT_VALIDATION",
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "strict_selection": "base",
+  "final_recommended_weights": "base",
+  "baseline_raw_validation": {
+    "solution_samples": 173,
+    "answer_extracted": 162,
+    "numeric_correct": 138,
+    "answer_unit_correct": 91,
+    "strict_schema_valid": 145,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 12
+      },
+      "2": {
+        "samples": 15,
+        "numeric_correct": 12,
+        "answer_unit_correct": 12
+      },
+      "3": {
+        "samples": 38,
+        "numeric_correct": 36,
+        "answer_unit_correct": 32
+      },
+      "4": {
+        "samples": 36,
+        "numeric_correct": 30,
+        "answer_unit_correct": 7
+      },
+      "5": {
+        "samples": 69,
+        "numeric_correct": 45,
+        "answer_unit_correct": 28
+      }
+    }
+  },
+  "candidate_raw_validation": {
+    "solution_samples": 173,
+    "answer_extracted": 173,
+    "numeric_correct": 113,
+    "answer_unit_correct": 113,
+    "strict_schema_valid": 172,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 15
+      },
+      "2": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 15
+      },
+      "3": {
+        "samples": 38,
+        "numeric_correct": 20,
+        "answer_unit_correct": 20
+      },
+      "4": {
+        "samples": 36,
+        "numeric_correct": 26,
+        "answer_unit_correct": 26
+      },
+      "5": {
+        "samples": 69,
+        "numeric_correct": 37,
+        "answer_unit_correct": 37
+      }
+    }
+  },
+  "raw_overall_non_regression": false,
+  "raw_per_grade_non_regression": false,
+  "independent_teacher_benchmark": false,
+  "pedagogy_teacher_reviewed": false,
+  "production_approved": false,
+  "near_assistant_intelligence_demonstrated": false,
+  "raw_gate_declared_before_training": true,
+  "raw_extraction_protocol_posthoc_after_baseline": true
+}

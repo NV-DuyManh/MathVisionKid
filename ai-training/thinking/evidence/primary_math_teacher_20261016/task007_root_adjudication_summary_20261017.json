@@ -1,0 +1,104 @@
+{
+  "task_id": "007_independent_primary76_20261017",
+  "status": "USER_SUPPLIED_REPORT_ADJUDICATED",
+  "report_kind": "76 ORIGINAL USER_SUPPLIED JSONL DECISIONS; no original summary file supplied",
+  "source_report_path": "C:\\Users\\My PC\\.codex\\attachments\\2cc321e1-e4da-4108-bd8c-95f3ea0cd5c1\\Pasted text.txt",
+  "source_report_sha256": "bc4fdd24f9f664155bc28e7d2e9af26784782b6241ca7a7ed2820f2fc6382886",
+  "saved_exact_report_path": "thinking\\evidence\\primary_math_teacher_20261016\\task007_user_supplied_review_report_20261017.txt",
+  "reported_counts": {
+    "PASS": 75,
+    "PASS_WITH_MINOR_NOTE": 1
+  },
+  "matched_manifest_rows": 76,
+  "actual_source_hashes_matched": 76,
+  "manifest_sha256": "1feb4d94e083f62feb1f73e1ac26e478183a0587debc430b8d7f01807613a84e",
+  "packet_sha256": "32f52b5ff05e22541c1c178c6419b026c08b3df0f5eba1d621d760d630b24c4f",
+  "source_rows_changed": 0,
+  "report_boolean_fields_valid": true,
+  "root_actual_cases_reread": 76,
+  "root_actual_hint_count_reread": 228,
+  "student_work_cases": 16,
+  "guard_cases": 13,
+  "core_cases": 47,
+  "exact_checked_expressions": 73,
+  "exact_arithmetic_is_semantic_proof": false,
+  "official_review_path": "thinking\\data\\primary_math_teacher_20261016\\reviews\\g2_task007_root_adjudicated_user_report_20261017.jsonl",
+  "official_review_sha256": "81a609954d479256ee1b725ae3cb7e73fd4c66c734d30fb6e54e76c50c6e247d",
+  "accepted_case_count": 76,
+  "blocked_cases": 0,
+  "minor_note": {
+    "sample_id": "primary_20261017_g2_drawing_assembly_0015_nonzero_start_mark",
+    "severity": "minor",
+    "blocking_for_text_hypothetical_scope": false,
+    "source_changed": false,
+    "decision": "Retain source hash: mathematical mark and inverse distance correct; readable marks from 3 onward stated. Ensure physical ruler reaches mark 11 when creating a real physical task."
+  },
+  "independent_oracles": {
+    "calendar_witnesses": [
+      "2024-02-29 Thursday -> 2024-03-01 Friday",
+      "2025-04-30 Wednesday -> 2025-05-01 Thursday"
+    ],
+    "subtraction_one_borrow": {
+      "453-128": 1,
+      "427-156": 1
+    },
+    "tilings_2_by_3_total": 3,
+    "tilings_with_horizontal_piece": 2,
+    "exact_700_payment_combinations": [
+      [
+        500,
+        200
+      ]
+    ]
+  },
+  "worker_bridge_reported_status": "queued",
+  "worker_bridge_reports": [],
+  "antigravity_execution_verified": false,
+  "external_report_origin_verified": false,
+  "report_runtime_declared": "ChatGPT web session + isolated Python/container; not Antigravity",
+  "root_adjudicator_runtime": "Codex Desktop",
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "before": {
+    "authored_cases": 187,
+    "accepted_cases": 96,
+    "chat_train_rows": 384,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 96,
+      "PENDING_AI_CONTENT_REVIEW": 91
+    },
+    "remaining_core_cases": 431,
+    "core_nodes_complete": 15
+  },
+  "after": {
+    "authored_cases": 187,
+    "accepted_cases": 172,
+    "chat_train_rows": 688,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 172,
+      "PENDING_AI_CONTENT_REVIEW": 15
+    },
+    "remaining_core_cases": 384,
+    "core_nodes_complete": 32
+  },
+  "limitations": [
+    "AI research acceptance only, not teacher certification or measured student model accuracy.",
+    "Declared external reviewer identity/runtime cannot be authenticated from pasted text.",
+    "Text/hypothetical content does not verify real image, interviewing, drawing or physical skills.",
+    "Neutral schema is not live PlanDraft; no app integration changed.",
+    "Known-protected exclusions are not a universal semantic leakage proof.",
+    "Other 15 authored cases remain pending; the finite whole curriculum pack is incomplete."
+  ],
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

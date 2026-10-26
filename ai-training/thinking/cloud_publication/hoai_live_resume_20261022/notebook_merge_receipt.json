@@ -1,0 +1,10 @@
+{
+  "parent_sha256": "09931a0ab603ea86fa85673c53ca36ed520491043d965e4a1c35b09d629962ea",
+  "parent_cells": 19,
+  "cell_count": 22,
+  "only_existing_cell_source_update": "oAVNfUYnTCHb read-only status now reads live-memory progress",
+  "all_other_existing_cell_sources_preserved": true,
+  "sha256": "81bef622061289bd2f647cad9cb29df689bbdbafc7be9da3f209e1bb139d8b5c",
+  "bytes": 200277,
+  "training_started": false
+}

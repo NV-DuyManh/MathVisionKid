@@ -1,0 +1,134 @@
+{
+  "authored_utc": "2026-10-18T03:28:19.443553+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:27:06.672Z",
+  "batch_sha256": "95c1d6107136b5b6a518ec03821e182fd3d13b875fb0e9b09c26061074dff3a7",
+  "authored_cases": 3,
+  "core_cases": 1,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_word_multistep_0055_extend_mean_reconstruct_four_day_total",
+      "row_sha256": "9609b430f18ad240334f1826e6a8fc632c652608f26d64403e2035f05fc53142",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "34*4",
+          "(34*4)+54",
+          "((34*4)+54)/5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_word_multistep_0055_misconception_sum_difference_wrong_role",
+      "row_sha256": "9c47735c8c0c7d6cdfa2059789b57b3cbc2eea60145711473bb18a7bca6ae2bd",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "238-46",
+          "(238-46)/2",
+          "((238-46)/2)+46"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_word_multistep_0055_guard_total_not_uniform_unit_weight",
+      "row_sha256": "c7365f8405742c366473b05b60ec91208c7d6bd40a2779ba7819a5ed3a051dce",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "four_day_possible_nonuniform_counts": [
+      20,
+      31,
+      38,
+      47
+    ],
+    "five_day_counts": [
+      20,
+      31,
+      38,
+      47,
+      54
+    ],
+    "five_day_offsets_from38": [
+      -18,
+      -7,
+      0,
+      9,
+      16
+    ],
+    "enumerated_total_difference_solutions_A_B": [
+      [
+        142,
+        96
+      ]
+    ],
+    "incorrect_written_pair_sum": 330,
+    "guard_countermodels": [
+      {
+        "known_three": [
+          20,
+          24,
+          28
+        ],
+        "new_two": [
+          10,
+          14
+        ],
+        "target_total": 96
+      },
+      {
+        "known_three": [
+          20,
+          24,
+          28
+        ],
+        "new_two": [
+          19,
+          23
+        ],
+        "target_total": 114
+      }
+    ]
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "max_worked_steps3": true,
+  "oracle_countermodel_values_are_not_invented_problem_givens": true,
+  "core01_focus_mean_and_population_count": true,
+  "existing_core02_core03_not_reauthored": true,
+  "exact_slots_authored": [
+    "core_01"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous323_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_review_hint_repair": "Misconception hint1 now focuses on role identification, deferring more detailed equalization scaffolding to later hints without providing numerical answers."
+}

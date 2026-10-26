@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "n3bXkXSVdnOK"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"repair\": {\"reason\": \"Worker rewrote source-only screening while publisher treated the preflight source+prior screening as immutable. Both source-screen objects are identical and have zero collisions; restore original published complete screening bytes, preserve worker version and original error.\", \"canonical_sha256\": \"f11938e566bd4d7bc032d818d6697939586dd1bc9734934fc46f63f7c5b5074f\", \"worker_source_only_sha256\": \"f05a32366616e5a62abc80aa6aadf6c61b1b5a34ef6538f756d31fbdca2958e0\", \"fresh_drive_raw_verified\": true, \"training_data_targets_config_or_evaluation_changed\": false, \"training_worker_restarted\": false}, \"publisher\": {\"publisher_started\": true, \"folder_name\": \"MathVisionKid_RECOVERY_20261026\", \"training_started_by_publisher\": false}, \"training_worker_pid\": 4050, \"worker_exit\": null}\n"
+        ]
+      }
+    ]
+  }
+}

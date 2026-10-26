@@ -1,0 +1,177 @@
+{
+  "authored_utc": "2026-10-18T08:47:34.744517+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T08:45:14.133Z",
+  "batch_sha256": "204bb265ce5338285d71338e8e23abc8e04183674811d757ff6a575e79206dbc",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_node": true,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_decimal_read_compare_round_0073_read_internal_zero_and_digit_place",
+      "row_sha256": "e78f46f37543e83a687eb6ce2b42401a87f7299d1414d3848801028cf26c7df7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "4/100",
+          "206+0/10+4/100+5/1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_read_compare_round_0073_four_measurements_equal_trailing_zero",
+      "row_sha256": "57ceff631887ee1d1d797959efa101dd149c0c1734751cec5b2d2bbcb1afe308",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_read_compare_round_0073_round_carry_across_decimal_boundary",
+      "row_sha256": "acff3a15af1f2ebf960f2c31ffe410465cf1cf4654e76e20f6bff703a85c55ab",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10*1",
+          "100/10",
+          "1000/100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_read_compare_round_0073_misconception_fractional_digits_as_integers",
+      "row_sha256": "bf6108180b825cdea90d813f4ab206661ea67660a6f10f0b835264edcf2d728f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "0.8-0.65"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "fractional_digit_places": [
+      "0",
+      "1/25",
+      "1/200"
+    ],
+    "lengths_scaled_to_thousandths": {
+      "A": 3070,
+      "B": 3700,
+      "C": 3070,
+      "D": 3007
+    },
+    "sorted_labels": [
+      "D",
+      "A",
+      "C",
+      "B"
+    ],
+    "rounding_Decimal": {
+      "0": "10",
+      "1": "10.0",
+      "2": "10.00"
+    },
+    "nearest_rational_grid_bounds": {
+      "0": {
+        "low": "9",
+        "high": "10",
+        "distance_low": "199/200",
+        "distance_high": "1/200"
+      },
+      "1": {
+        "low": "99/10",
+        "high": "10",
+        "distance_low": "19/200",
+        "distance_high": "1/200"
+      },
+      "2": {
+        "low": "999/100",
+        "high": "10",
+        "distance_low": "1/200",
+        "distance_high": "1/200"
+      }
+    },
+    "positive_difference_hundredth_cells": 15
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "rounding_places_within_bound": [
+    0,
+    1,
+    2
+  ],
+  "group_items_within_bound": 4,
+  "round_each_from_original": true,
+  "classification_and_output_spelling_require_semantic_read": true,
+  "oracle_limit": "Direct digit weights, scaled integers, rational nearest-grid with upper tie and finite cells verify hypothetical data; no real measurement/image or human reviewer.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous405_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "queue_header_repair_evidence": "supplementary_queue_header_repair_0073.json",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "19564246b248abc33bde24f0cb73ce1a9aa78e108f05faef536f91b033c628be",
+  "pre_official_QA_repairs": [
+    "Clarify last core01 question to preserve all digit positions rather than ambiguous zero-between-two-parts phrase. Spell hundredths as phần một trăm of same unit in misconception explanation, avoiding a premature percentage shorthand. No mathematical value/answer changes."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 12,
+  "repaired_question_and_hundredths_explanation_reread": true,
+  "official_QA_utc": "2026-10-18T08:48:25.882221+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "c4a51917139725b189a96a9eb437f2769fd9ac093a23aa9c1858cc68a1694271"
+}

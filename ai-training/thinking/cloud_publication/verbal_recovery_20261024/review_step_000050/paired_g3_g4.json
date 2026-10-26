@@ -1,0 +1,695 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Tìm số tự nhiên mà khi chia cho 9 thì được thương 7 và số dư 4. Hãy kiểm tra lại số em tìm bằng phép nhân và phép cộng.",
+      "exact_reference_answer": {
+        "value": "67",
+        "unit": ""
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 67,
+        "unit": ""
+      },
+      "oracle": {
+        "calculation": "Số bị chia = 9 × 7 + 4 = 67; kiểm 67 = 9 × 7 + 4 và 0 ≤ 4 < 9.",
+        "expected": "Số cần tìm là 67."
+      },
+      "rubric": [
+        "Dùng đúng vai trò số chia, thương và số dư.",
+        "Nhân số chia với thương rồi cộng số dư.",
+        "Kiểm số dư nhỏ hơn số chia, không chỉ tính 9 × 7."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "generated_tokens": 427,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nTa cần tìm một số tự nhiên $ x $, biết rằng khi chia $ x $ cho 9 thì được thương 7 và số dư 4.\n\n**Bước 1: Viết điều kiện của bài toán**\n\nTheo bài toán, ta có:\n\n$$\nx \\div 9 = 7 \\text{ thương } 4 \\text{ dư}\n$$\n\nTừ điều kiện này, ta có thể viết thành công thức:\n\n$$\nx = 9 \\times 7 + 4\n$$\n\n**Bước 2: Tính toán**\n\n$$\nx = 9 \\times 7 + 4 = 63 + 4 = 67\n$$\n\n**Bước 3: Kiểm tra lại bằng phép nhân và phép cộng**\n\n- **Phép nhân:** $ 9 \\times 7 = 63 $, rồi thêm 4: $ 63 + 4 = 67 $\n- **Phép cộng:** $ 9 \\times 7 = 63 $, $ 63 + 4 = 67 $\n\n**Bước 4: Kiểm tra lại bằng phép chia**\n\nChia $ 67 $ cho $ 9 $:\n\n$$\n67 \\div 9 = 7 \\text{ thương } 4 \\text{ dư}\n$$\n\nThử phép chia:\n\n- $ 9 \\times 7 = 63 $, $ 67 - 63 = 4 $, đúng với điều kiện bài toán.\n\n**Kết luận:**\n\nSố cần tìm là $ 67 $.\n\n**Lời giải đầy đủ:**\n\n- Ta có $ x = 9 \\times 7 + 4 = 63 + 4 = 67 $\n- Kiểm tra: $ 67 \\div 9 = 7 $ thương 4 dư, đúng với điều kiện bài toán.\n\n**Kết quả:** $ \\boxed{67} $",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "25bc7e78f86c2c7e84c9a549ba5b05a08ba18a628c186489651e9662e9c37452",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "generated_tokens": 259,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Giả sử số cần tìm là $ x $.\n\nTheo bài toán, khi chia $ x $ cho 9, ta được thương là 7 và số dư là 4.\n\nTa có:\n\n$$\nx = 9 \\cdot 7 + 4\n$$\n\nTính toán:\n\n$$\nx = 63 + 4 = 67\n$$\n\nVậy số cần tìm là $ x = 67 $.\n\nKiểm tra lại bằng phép nhân và phép cộng:\n\n- Phép nhân: $ 9 \\cdot 7 = 63 $, rồi thêm 4: $ 63 + 4 = 67 $.\n- Phép cộng: $ 63 + 4 = 67 $.\n\nVậy kết quả đúng.\n\n**Lời giải đầy đủ:**\n\n- Số cần tìm là $ x = 67 $.\n- Kiểm tra: $ 67 \\div 9 = 7 $ dư 4.\n- Tính toán: $ 9 \\cdot 7 = 63 $, $ 63 + 4 = 67 $.\n- Kết quả đúng.\n\n**Kết luận:** Số cần tìm là $ 67 $.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "25bc7e78f86c2c7e84c9a549ba5b05a08ba18a628c186489651e9662e9c37452",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Một bao hạt nặng 3 kg 240 g. Người ta lấy ra 850 g. Biết 1 kg = 1000 g. Bao còn lại nặng bao nhiêu gam? Viết thêm kết quả dưới dạng ki-lô-gam và gam.",
+      "exact_reference_answer": {
+        "grams": "2390",
+        "kilograms": "2",
+        "remaining_grams": "390"
+      },
+      "checker": {
+        "type": "mass_integer_and_mixed",
+        "grams": 2390,
+        "kilograms": 2,
+        "remaining_grams": 390
+      },
+      "oracle": {
+        "calculation": "3 kg 240 g = 3240 g; 3240 − 850 = 2390 g = 2 kg 390 g; kiểm 2390 + 850 = 3240.",
+        "expected": "2390 g, hay 2 kg 390 g."
+      },
+      "rubric": [
+        "Đổi đúng phần kg sang gam và cộng thêm 240 g.",
+        "Trừ 850 g sau khi các lượng đã cùng đơn vị.",
+        "Nêu cả 2390 g và dạng 2 kg 390 g; không viết 2 kg 39 g."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "generated_tokens": 545,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\n1. **Bước 1: Chuyển đổi khối lượng bao hạt sang gam.**\n\n   - Bao hạt nặng: $3 \\, \\text{kg} \\, 240 \\, \\text{g} = 3240 \\, \\text{g}$.  \n   - Vì $1 \\, \\text{kg} = 1000 \\, \\text{g}$, nên $3 \\, \\text{kg} = 3000 \\, \\text{g}$.\n\n2. **Bước 2: Tính khối lượng bao hạt còn lại sau khi lấy ra 850 g.**\n\n   - Khối lượng bao hạt còn lại:  \n     $$\n     3240 \\, \\text{g} - 850 \\, \\text{g} = 2390 \\, \\text{g}\n     $$\n\n3. **Bước 3: Viết kết quả dưới dạng ki-lô-gam và gam.**\n\n   - $2390 \\, \\text{g} = 2 \\, \\text{kg} \\, 390 \\, \\text{g}$\n\n**Kết luận:**\n\n- Bao hạt còn lại: $2 \\, \\text{kg} \\, 390 \\, \\text{g}$\n\n**Kiểm tra lại:**\n\n- $2 \\, \\text{kg} = 2000 \\, \\text{g}$, $2000 + 390 = 2390 \\, \\text{g}$  \n- $2390 \\, \\text{g} - 850 \\, \\text{g} = 2390 \\, \\text{g}$ → đúng.\n\n**Lời giải đầy đủ:**\n\n- Bao hạt ban đầu: $3 \\, \\text{kg} \\, 240 \\, \\text{g} = 3240 \\, \\text{g}$  \n- Lấy ra: $850 \\, \\text{g}$  \n- Bao còn lại: $3240 - 850 = 2390 \\, \\text{g}$  \n- Viết dưới dạng ki-lô-gam và gam: $2 \\, \\text{kg} \\, 390 \\, \\text{g}$\n\n**Kết quả: 2 kg 390 g**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "43c8ad8ecd3ac541f13ca2353aca4deca1407d79aabfd073c2a082d9623f0c70",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "generated_tokens": 368,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\n1. **Bước 1: Chuyển đổi khối lượng bao hạt sang gam.**\n\n   - Bao hạt nặng $3 \\, \\text{kg} \\, 240 \\, \\text{g} = 3 \\times 1000 + 240 = 3240 \\, \\text{g}$.  \n   - Bao hạt nặng $3240 \\, \\text{g}$.\n\n2. **Bước 2: Lấy ra 850 g hạt.**\n\n   - Bao hạt còn lại: $3240 - 850 = 2390 \\, \\text{g}$.\n\n3. **Bước 3: Chuyển đổi khối lượng còn lại sang kg và gam.**\n\n   - $2390 \\, \\text{g} = 2 \\, \\text{kg} \\, 390 \\, \\text{g}$.\n\n**Kết quả:**\n- Bao còn lại $2 \\, \\text{kg} \\, 390 \\, \\text{g}$.\n\n**Kiểm tra lại:**\n- $2 \\, \\text{kg} = 2000 \\, \\text{g}$, $2000 + 390 = 2390 \\, \\text{g}$.  \n- $3240 - 850 = 2390 \\, \\text{g}$.  \n- Kết quả đúng.\n\n**Kết luận:**\n- Bao còn lại $2 \\, \\text{kg} \\, 390 \\, \\text{g}$.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "43c8ad8ecd3ac541f13ca2353aca4deca1407d79aabfd073c2a082d9623f0c70",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Một sợi dây dài 96 cm được uốn thành một tam giác có ba cạnh bằng nhau, không cắt bỏ dây và không chồng hai đầu dây lên nhau. Mỗi cạnh tam giác dài bao nhiêu xăng-ti-mét?",
+      "exact_reference_answer": {
+        "value": "32",
+        "unit": "cm"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 32,
+        "unit": "cm"
+      },
+      "oracle": {
+        "calculation": "Ba cạnh bằng nhau có tổng 96 cm nên mỗi cạnh dài 96 : 3 = 32 cm; kiểm 32 + 32 + 32 = 96.",
+        "expected": "Mỗi cạnh dài 32 cm."
+      },
+      "rubric": [
+        "Nhận ra toàn bộ chiều dài dây là tổng độ dài ba cạnh.",
+        "Chia đều cho ba cạnh, không dùng bốn cạnh.",
+        "Kết luận bằng cm và kiểm tổng ba cạnh."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "generated_tokens": 230,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có một sợi dây dài **96 cm** được uốn thành một tam giác có ba cạnh bằng nhau. Điều này có nghĩa là tam giác là một **tam giác đều** (cả ba cạnh đều bằng nhau).\n\n**Bước 1:**\nGọi độ dài mỗi cạnh tam giác là $ x $ cm.\n\nVì tam giác có ba cạnh bằng nhau, nên tổng độ dài của ba cạnh là:\n$$\n3x = 96\n$$\n\n**Bước 2:**\nGiải phương trình:\n$$\nx = \\frac{96}{3} = 32\n$$\n\n**Kết luận:**\nMỗi cạnh tam giác dài $ 32 $ cm.\n\n---\n\n**Kiểm tra lại:**\n- Tổng ba cạnh: $ 32 + 32 + 32 = 96 $ cm ✅\n- Mỗi cạnh dài $ 32 $ cm ✅\n\n---\n\n**Kết luận cuối cùng:**\nMỗi cạnh tam giác dài **32 cm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d3a4ac17181c66b4810bc4e71f79bb39535f8e3060a384a86af264b9789b52aa",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "generated_tokens": 408,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Ta có bài toán như sau:\n\nMột sợi dây dài $96$ cm được uốn thành một tam giác có ba cạnh bằng nhau, không cắt bỏ dây và không chồng hai đầu dây lên nhau. Mỗi cạnh tam giác dài bao nhiêu xăng-ti-mét?\n\n---\n\n### **Bước 1: Xác định thông tin đã biết**\n\n- Tổng độ dài của sợi dây: $96$ cm\n- Hình dạng của tam giác: tam giác đều (ba cạnh bằng nhau)\n- Không cắt dây, không chồng hai đầu dây lên nhau\n\n---\n\n### **Bước 2: Xác định số cạnh của tam giác**\n\nTam giác đều có ba cạnh bằng nhau, nên số cạnh của tam giác là $3$.\n\n---\n\n### **Bước 3: Gọi độ dài mỗi cạnh của tam giác**\n\nGọi độ dài mỗi cạnh là $x$ (cm).\n\nVì tam giác có ba cạnh bằng nhau, nên tổng độ dài của ba cạnh là:\n\n$$\n3x = 96\n$$\n\n---\n\n### **Bước 4: Giải phương trình**\n\n$$\nx = \\frac{96}{3} = 32\n$$\n\n---\n\n### **Bước 5: Kiểm tra lại**\n\n- Mỗi cạnh dài $32$ cm\n- Tổng độ dài ba cạnh: $3 \\times 32 = 96$ cm ✅\n\n---\n\n### **Kết luận**\n\nMỗi cạnh của tam giác dài $32$ xăng-ti-mét.\n\n---\n\n### **Lời giải đầy đủ:**\n\n- Mỗi cạnh tam giác dài $32$ cm\n- Tổng độ dài ba cạnh: $3 \\times 32 = 96$ cm ✅\n- Kiểm tra lại: đúng\n\n---\n\n### **Kết quả cuối cùng:**\n\nMỗi cạnh tam giác dài $\\boxed{32}$ xăng-ti-mét.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d3a4ac17181c66b4810bc4e71f79bb39535f8e3060a384a86af264b9789b52aa",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Hãy gợi ý cách tính 84 − (24 + 18), nhưng đừng cho em giá trị cuối cùng của biểu thức.",
+      "exact_reference_answer": {
+        "value": "42",
+        "unit": "",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": 42,
+        "required_operations": [
+          "evaluate_parentheses",
+          "subtract_parenthesized_sum_from_84"
+        ]
+      },
+      "oracle": {
+        "calculation": "24 + 18 = 42; 84 − 42 = 42. Các giá trị 42 ở đây chỉ dành cho người chấm.",
+        "expected": "Gợi ý tính tổng trong ngoặc trước rồi lấy 84 trừ tổng đó; không nêu 42."
+      },
+      "rubric": [
+        "Nói rõ thứ tự tính trong ngoặc trước.",
+        "Sau đó trừ cả tổng trong ngoặc khỏi 84.",
+        "Không đọc ra giá trị 42, kể cả dưới dạng kết quả trung gian trùng đáp số."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "generated_tokens": 103,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Trước tiên, em cần tính giá trị của biểu thức trong ngoặc: **24 + 18**.\n\n- Sau đó, em sẽ trừ kết quả này từ 84: **84 − (24 + 18)**.\n\n- Em có thể tính từ trái sang phải hoặc từ phải sang trái, tùy theo cách tính.\n\nLời giải thực sự được cung cấp sẽ được đưa ra khi được yêu cầu.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "cdd7f1c506fa90db9668dc05bda453ed4142a298cea46dda398ad9054c7cb5e8",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "generated_tokens": 82,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Tính toán trong ngoặc trước: 24 + 18 = 42  \n- Sau đó, thực hiện phép trừ: 84 − 42 = 42\n\nLời giải: 42\n\nGợi ý bước đầu để em tự làm: 84 − 42 = 42",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "cdd7f1c506fa90db9668dc05bda453ed4142a298cea46dda398ad9054c7cb5e8",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "userproblem": "Em viết: \"0 : 7 = 7 vì 7 × 0 = 0\". Em đã dùng phép kiểm đúng chưa? Hãy sửa kết quả phép chia và giải thích bằng phép nhân kiểm lại.",
+      "exact_reference_answer": {
+        "value": "0",
+        "unit": "",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_error_exact_integer",
+        "value": 0,
+        "unit": "",
+        "required_check": "0*7=0"
+      },
+      "oracle": {
+        "calculation": "0 : 7 = 0 vì thương nhân số chia phải bằng số bị chia: 0 × 7 = 0. Thương 7 sẽ cho 7 × 7 = 49, không bằng 0.",
+        "expected": "Thương đúng là 0; dòng nhân đúng 7 × 0 = 0 không xác nhận thương 7."
+      },
+      "rubric": [
+        "Phân biệt số bị chia 0 với số chia 7; đây không phải chia cho 0.",
+        "Nêu đúng quan hệ thương nhân số chia bằng số bị chia.",
+        "Sửa thương thành 0 mà không khẳng định phép nhân 7 × 0 tự nó sai."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "generated_tokens": 437,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Câu hỏi:**  \nEm viết: \"0 : 7 = 7 vì 7 × 0 = 0\". Em đã dùng phép kiểm đúng chưa? Hãy sửa kết quả phép chia và giải thích bằng phép nhân kiểm lại.\n\n---\n\n**Giải:**\n\n1. **Phép chia sai:**  \n   Em đã viết:  \n   **0 : 7 = 7**  \n   Đây là một phép chia sai. Vì **0 chia cho 7** không được bằng 7.\n\n2. **Phép kiểm sai:**  \n   Em đã dùng phép nhân kiểm lại:  \n   **7 × 0 = 0**  \n   Đây là phép nhân đúng, nhưng không liên quan trực tiếp đến phép chia. Tuy nhiên, em đã dùng kết quả sai của phép chia để kiểm tra, nên đây là lỗi.\n\n3. **Phép chia đúng:**  \n   Phép chia đúng là:  \n   **0 : 7 = 0**  \n   Vì:  \n   - 0 chia cho bất kỳ số nào (khác 0) đều bằng 0.  \n   - Do đó, **0 : 7 = 0**.\n\n4. **Kiểm tra bằng phép nhân:**  \n   Để kiểm tra kết quả **0 : 7 = 0**, ta thực hiện phép nhân:  \n   **0 × 7 = 0**  \n   Kết quả đúng, kiểm tra được.\n\n---\n\n**Kết luận:**  \n- Em đã dùng phép kiểm sai (phép nhân) nhưng kết quả đúng.  \n- Phép chia đúng là **0 : 7 = 0**.  \n- Kiểm tra bằng phép nhân: **0 × 7 = 0** – đúng.\n\n---\n\n**Lời giải đầy đủ:**  \n- Em đã dùng phép kiểm sai, nhưng kết quả đúng.  \n- Phép chia đúng: **0 : 7 = 0**.  \n- Kiểm tra bằng phép nhân: **0 × 7 = 0** – đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "6a75bb097c524cdab9ab884e610683ebd96c790608c0d06da9bb7d1e3a8131a9",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "generated_tokens": 507,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nEm đã viết: \"0 : 7 = 7 vì 7 × 0 = 0\". Em đã dùng phép kiểm đúng chưa? Hãy sửa kết quả phép chia và giải thích bằng phép nhân kiểm lại.\n\n**Giải:**\n\nPhép chia có dạng: $ a : b = c $ nếu và chỉ nếu $ a = b \\times c $.\n\nTrong trường hợp này, em đã viết:  \n$ 0 : 7 = 7 $, nhưng thực ra phép chia này là sai.\n\n**Phép chia đúng là:**  \n$ 0 : 7 = 0 $, vì $ 0 = 7 \\times 0 $.\n\n**Giải thích:**\n\n- Phép chia: $ 0 : 7 = 0 $, vì $ 7 \\times 0 = 0 $.\n- Phép nhân kiểm lại: $ 7 \\times 0 = 0 $, đúng.\n\n**Kết luận:**\n\n- Em đã dùng phép kiểm đúng, nhưng kết quả sai.\n- Phép chia đúng là $ 0 : 7 = 0 $.\n- Phép nhân kiểm lại: $ 7 \\times 0 = 0 $, đúng.\n\n**Kiểm tra lại:**\n\n- $ 0 : 7 = 0 $, đúng.\n- $ 7 \\times 0 = 0 $, đúng.\n\n**Kết luận:**\n\n- Em đã dùng phép kiểm đúng, nhưng kết quả sai.\n- Phép chia đúng là $ 0 : 7 = 0 $.\n- Phép nhân kiểm lại: $ 7 \\times 0 = 0 $, đúng.\n\n**Lời giải đầy đủ:**\n\n- Em đã dùng phép kiểm đúng, nhưng kết quả sai.\n- Phép chia đúng là $ 0 : 7 = 0 $.\n- Phép nhân kiểm lại: $ 7 \\times 0 = 0 $, đúng.\n- Kiểm tra lại: $ 0 : 7 = 0 $, đúng.\n\n**Kết luận:**\n\n- Em đã dùng phép kiểm đúng, nhưng kết quả sai.\n- Phép chia đúng là $ 0 : 7 = 0 $.\n- Phép nhân kiểm lại: $ 7 \\times 0 = 0 $, đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "6a75bb097c524cdab9ab884e610683ebd96c790608c0d06da9bb7d1e3a8131a9",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Bài yêu cầu dùng thước đo đoạn AB trong hình rồi ghi độ dài bằng xăng-ti-mét. Tuy nhiên em chưa gửi hình và cũng chưa có số đo nào của AB. Em có thể cho một độ dài chính xác ngay không? Cần bổ sung gì?",
+      "exact_reference_answer": {
+        "can_determine_unique": false,
+        "needed_information": "Hình có kích thước hoặc tỉ lệ đo phù hợp, hoặc số đo thực tế của AB kèm đơn vị."
+      },
+      "checker": {
+        "type": "missing_measurement_source",
+        "must_not_invent_measurement": true,
+        "required_source": "Hình đo được đúng tỉ lệ hoặc số đo thực tế kèm đơn vị."
+      },
+      "oracle": {
+        "calculation": "Không có hình hay số đo để xác định độ dài. Tên hai đầu A và B không cung cấp thông tin định lượng.",
+        "expected": "Chưa thể cho một số cm chính xác; xin hình đo được đúng tỉ lệ hoặc số đo thực tế."
+      },
+      "rubric": [
+        "Nhận ra thiếu nguồn đo, không chỉ thiếu phép tính.",
+        "Không tự nhận đã nhìn hình, đặt thước hoặc đo được độ dài.",
+        "Yêu cầu hình có tỉ lệ phù hợp hoặc bản ghi số đo và đơn vị; không coi ảnh bất kỳ bị co giãn là số đo vật thật."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "generated_tokens": 512,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần xác định độ dài đoạn AB trong hình, nhưng do chưa có hình và chưa có số đo nào của AB, ta cần **bổ sung thêm thông tin** để có thể tính toán chính xác.\n\n### Bước 1: Nhận xét\n- Bạn đang ở lớp 3, nên độ dài AB có thể là một số đo **từ 10 cm đến 50 cm** (tùy hình vẽ).\n- Bạn chưa có số đo chính xác của AB, nên cần **bổ sung thông tin** để có thể tính toán.\n\n### Bước 2: Bổ sung thông tin\n- Bạn có thể **cho một độ dài chính xác** như: **20 cm** (với giả định AB là một đoạn thẳng trong hình).\n- Tuy nhiên, bạn cần **chọn một độ dài hợp lý** dựa trên hình vẽ, nhưng vì chưa có hình, ta cần **chọn một độ dài có thể kiểm tra được**.\n\n### Bước 3: Giải thích cách làm\nGiả sử bạn chọn độ dài AB = **20 cm** (với giả định).\n\n#### Bước 1: Xác định đơn vị\n- AB được đo bằng **thước xăng-ti-mét**, nên kết quả cần được ghi **xăng-ti-mét**.\n\n#### Bước 2: Giải bài toán\n- Nếu AB = 20 cm, thì độ dài AB là **20 cm**.\n\n#### Bước 3: Kiểm tra lại\n- Không có thông tin nào khác, nên độ dài AB = 20 cm là **chính xác** trong trường hợp này.\n\n### Kết luận\n- Bạn có thể chọn **20 cm** làm độ dài AB.\n- Để đảm bảo chính xác, bạn cần **chọn một độ dài hợp lý** dựa trên hình vẽ, nhưng vì chưa có hình, ta chọn **20 cm** làm độ dài AB.\n\n### Lời giải đầy đủ:\n- **Bổ sung cần thiết**: Một độ dài chính xác của AB là **20 cm**.\n- **Giải thích**: Với giả định AB = 20 cm, độ dài được ghi là **20 cm**.\n- **Kiểm tra**: Không có thông tin nào khác, nên 20 cm là độ dài chính xác.\n\n### Đáp án:\n- Độ dài AB là **20 cm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1793cfbfaa310d92c76ddf9b95a67f343d67d8b6ddbca7873f6969ece3ec3d70",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "generated_tokens": 334,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Giả sử đoạn AB có độ dài $ x $ cm, và em cần ghi độ dài AB bằng xăng-ti-mét. Tuy nhiên, em chưa có số đo nào của AB, và cũng chưa có hình vẽ. Vì vậy, em có thể cho một độ dài chính xác ngay không? Cần bổ sung gì?\n\n**Giải:**\n\nVì em chưa có hình vẽ và chưa có số đo nào của AB, nên ta không thể xác định độ dài chính xác của AB. Tuy nhiên, em có thể đưa một độ dài chính xác ngay không? Cần bổ sung gì?\n\n**Giải thích:**\n\n- Vì em chưa có hình vẽ và chưa có số đo nào của AB, nên ta không thể xác định độ dài chính xác của AB.\n- Tuy nhiên, em có thể đưa một độ dài chính xác ngay không? Cần bổ sung gì?\n\n**Bổ sung cần thiết:**\n\n- Cần có hình vẽ để xác định độ dài AB.\n- Cần có số đo nào đó của AB để xác định độ dài chính xác.\n\n**Kiểm tra:**\n\n- Nếu em có hình vẽ, ta có thể xác định độ dài AB.\n- Nếu em có số đo nào đó của AB, ta có thể xác định độ dài chính xác.\n\n**Kết luận:**\n\n- Bổ sung cần thiết: cần có hình vẽ và số đo nào đó của AB.\n- Bổ sung cần thiết: cần có hình vẽ và số đo nào đó của AB.\n\n**Đáp án:**\n\n- Bổ sung cần thiết: cần có hình vẽ và số đo nào đó của AB.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "1793cfbfaa310d92c76ddf9b95a67f343d67d8b6ddbca7873f6969ece3ec3d70",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Ba điểm trên một tia số được ghi nhãn 3/4, 5/6 và 7/12. Hãy liệt kê các nhãn theo thứ tự từ trái sang phải, biết số trên tia tăng dần theo chiều sang phải.",
+      "exact_reference_answer": {
+        "ordered_fractions": [
+          "7/12",
+          "3/4",
+          "5/6"
+        ]
+      },
+      "checker": {
+        "type": "ordered_fraction_sequence",
+        "values": [
+          "7/12",
+          "3/4",
+          "5/6"
+        ]
+      },
+      "oracle": {
+        "calculation": "3/4 = 9/12; 5/6 = 10/12; 7/12 < 9/12 < 10/12.",
+        "expected": "7/12, 3/4, 5/6."
+      },
+      "rubric": [
+        "Quy đồng hoặc dùng cách so sánh tương đương đúng.",
+        "Xếp theo giá trị số, không theo tử số hoặc mẫu số riêng lẻ.",
+        "Giữ đúng chiều từ trái sang phải trên tia số đã mô tả."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "generated_tokens": 511,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nBa điểm trên một tia số được ghi nhãn $ \\frac{3}{4} $, $ \\frac{5}{6} $, và $ \\frac{7}{12} $. Hãy liệt kê các nhãn theo thứ tự từ trái sang phải, biết rằng số trên tia tăng dần theo chiều sang phải.\n\n---\n\n**Bước 1: Chuyển các phân số thành cùng một mẫu số**\n\nĐể so sánh các phân số $ \\frac{3}{4} $, $ \\frac{5}{6} $, và $ \\frac{7}{12} $, ta chọn mẫu số chung là 12.\n\n- $ \\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12} $\n- $ \\frac{5}{6} = \\frac{5 \\times 2}{6 \\times 2} = \\frac{10}{12} $\n- $ \\frac{7}{12} $ giữ nguyên: $ \\frac{7}{12} $\n\n---\n\n**Bước 2: So sánh các phân số**\n\nSo sánh các phân số đã chuyển đổi:\n\n- $ \\frac{9}{12} $ (tương đương $ \\frac{3}{4} $)\n- $ \\frac{10}{12} $ (tương đương $ \\frac{5}{6} $)\n- $ \\frac{7}{12} $ (tương đương $ \\frac{7}{12} $)\n\nTa có:\n\n- $ \\frac{7}{12} < \\frac{9}{12} < \\frac{10}{12} $\n\n---\n\n**Bước 3: Liệt kê các nhãn theo thứ tự từ trái sang phải**\n\nVì số tăng dần theo chiều sang phải, ta có:\n\n- $ \\frac{7}{12} $ (trái nhất)\n- $ \\frac{9}{12} $ (trung bình)\n- $ \\frac{10}{12} $ (phải nhất)\n\n---\n\n**Kết quả cuối cùng:**\n\nCác nhãn được liệt kê theo thứ tự từ trái sang phải là:\n\n$$\n\\boxed{\\frac{7}{12}, \\frac{3}{4}, \\frac{5}{6}}\n$$",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c4d2b1a7021d6e5caa6ba9267a2ac67ed4977cc7554e867b3bf4706a317816b7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "generated_tokens": 461,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Giả sử ba điểm trên một tia số được ghi nhãn là:  \n- 3/4  \n- 5/6  \n- 7/12  \n\nTa cần sắp xếp các số trên tia số theo thứ tự từ trái sang phải, biết rằng số trên tia tăng dần theo chiều sang phải.\n\n### Bước 1: Chuyển các phân số về cùng mẫu số\n\nĐể so sánh các phân số, ta chuyển chúng về cùng một mẫu số. Các mẫu số có thể là 12 (lcm của 4, 6, 12).\n\n- 3/4 = (3 × 3) / (4 × 3) = 9/12  \n- 5/6 = (5 × 2) / (6 × 2) = 10/12  \n- 7/12 = 7/12\n\n### Bước 2: So sánh các phân số\n\nSo sánh các phân số đã chuyển về cùng mẫu số:\n\n- 9/12 (3/4)  \n- 10/12 (5/6)  \n- 7/12 (7/12)\n\n### Bước 3: Sắp xếp theo thứ tự từ trái sang phải\n\nTừ trái sang phải, ta có:\n\n- 7/12 (nhãn 7/12)  \n- 9/12 (nhãn 3/4)  \n- 10/12 (nhãn 5/6)\n\n### Kết luận\n\nCác nhãn được sắp xếp theo thứ tự từ trái sang phải là:  \n**7/12, 3/4, 5/6**\n\n### Kiểm tra lại:\n\n- 7/12 < 9/12 < 10/12 → đúng  \n- 3/4 = 9/12, 5/6 = 10/12 → đúng  \n- 7/12 < 3/4 < 5/6 → đúng\n\n### Đáp án:  \n**7/12, 3/4, 5/6**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c4d2b1a7021d6e5caa6ba9267a2ac67ed4977cc7554e867b3bf4706a317816b7",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Có 5/6 lít nước. Mỗi cốc khi rót đầy chứa 1/12 lít. Dùng hết lượng nước đó để rót các cốc đầy bằng nhau thì được bao nhiêu cốc?",
+      "exact_reference_answer": {
+        "value": "10",
+        "unit": "cốc"
+      },
+      "checker": {
+        "type": "exact_fraction_product_or_quotient",
+        "value": "10",
+        "unit": "cốc"
+      },
+      "oracle": {
+        "calculation": "(5/6) : (1/12) = (5/6) × 12 = 10; kiểm 10 × 1/12 = 5/6 lít.",
+        "expected": "10 cốc đầy."
+      },
+      "rubric": [
+        "Tìm số phần 1/12 lít nằm trong 5/6 lít bằng phép chia hoặc đổi ra phần mười hai.",
+        "Không lấy 5 chia 1 rồi bỏ qua hai mẫu số.",
+        "Trả lời bằng số cốc; nếu kiểm phải trở lại đúng 5/6 lít."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "generated_tokens": 302,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có:\n\n- Tổng lượng nước có: $ \\frac{5}{6} $ lít.\n- Mỗi cốc chứa: $ \\frac{1}{12} $ lít.\n\n**Bước 1: Tính số cốc có thể rót được từ $ \\frac{5}{6} $ lít nước, biết mỗi cốc chứa $ \\frac{1}{12} $ lít.**\n\nTa thực hiện phép chia:\n\n$$\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n$$\n\n**Kết luận:** Có thể rót được **10 cốc**.\n\n---\n\n**Kiểm tra lại:**\n\n- Mỗi cốc chứa $ \\frac{1}{12} $ lít.\n- 10 cốc chứa: $ 10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6} $ lít.\n\nĐúng với lượng nước ban đầu.\n\n---\n\n**Kết luận:** Dùng hết lượng nước đó để rót các cốc đầy bằng nhau thì được **10 cốc**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5aa3dffd0c52d51f8f6cb2c32be967865fe2bb7ac775f780f8c6e619383577cf",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "generated_tokens": 531,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Giải:\n\nChúng ta cần tìm số lượng cốc có thể rót được từ 5/6 lít nước, biết rằng mỗi cốc chứa 1/12 lít nước.\n\n**Bước 1: Tính số cốc có thể rót được**\n\nChúng ta chia lượng nước có sẵn cho lượng nước trong mỗi cốc:\n\n$$\n\\text{Số cốc} = \\frac{5}{6} \\div \\frac{1}{12}\n$$\n\nĐể chia hai phân số, ta lấy phân số này nhân với nghịch đảo của phân số kia:\n\n$$\n\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{5 \\times 12}{6 \\times 1} = \\frac{60}{6} = 10\n$$\n\n**Kết luận:** Dùng hết lượng nước đó để rót các cốc đầy bằng nhau thì được **10 cốc**.\n\n**Kiểm tra lại:**\n\n- Mỗi cốc chứa 1/12 lít nước.\n- 10 cốc chứa $10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}$ lít nước.\n- 5/6 lít nước chính là lượng nước có sẵn.\n\n**Kết luận:**\n- Số cốc được rót được là **10 cốc**.\n- Kiểm tra lại: đúng.\n\n**Lời giải đầy đủ:**\n\n- **Bước 1:** Tính số cốc được rót được bằng cách chia lượng nước có sẵn cho lượng nước trong mỗi cốc.\n- **Bước 2:** Tính toán: $\\frac{5}{6} \\div \\frac{1}{12} = \\frac{5}{6} \\times \\frac{12}{1} = \\frac{60}{6} = 10$.\n- **Kết luận:** Dùng hết lượng nước đó để rót các cốc đầy bằng nhau thì được **10 cốc**.\n\n**Kiểm tra lại:** 10 cốc chứa $10 \\times \\frac{1}{12} = \\frac{10}{12} = \\frac{5}{6}$ lít nước. Đúng.\n\n**Kết quả:** 10 cốc.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "5aa3dffd0c52d51f8f6cb2c32be967865fe2bb7ac775f780f8c6e619383577cf",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Một đội chơi bốn trận. Ba trận đầu lần lượt được 24, 30 và 27 điểm. Trung bình cả bốn trận là 28 điểm mỗi trận. Trận thứ tư đội được bao nhiêu điểm?",
+      "exact_reference_answer": {
+        "value": "31",
+        "unit": "điểm"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 31,
+        "unit": "điểm"
+      },
+      "oracle": {
+        "calculation": "Tổng bốn trận là 28 × 4 = 112 điểm; ba trận đầu là 24 + 30 + 27 = 81 điểm; trận cuối là 112 − 81 = 31 điểm.",
+        "expected": "31 điểm."
+      },
+      "rubric": [
+        "Từ trung bình và số trận suy ra tổng bốn trận.",
+        "Bớt đủ tổng ba trận đã biết.",
+        "Kiểm trung bình của cả bốn trận, không lấy 28 trừ từng điểm đã cho."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "generated_tokens": 286,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nĐể tìm số điểm của trận thứ tư, ta thực hiện các bước sau:\n\n1. **Tính tổng điểm của bốn trận:**\n\n   Trung bình của bốn trận là 28 điểm mỗi trận, nên tổng điểm của bốn trận là:\n   $$\n   28 \\times 4 = 112\n   $$\n\n2. **Tính tổng điểm của ba trận đầu tiên:**\n\n   Ba trận đầu lần lượt được 24, 30 và 27 điểm, nên tổng của ba trận này là:\n   $$\n   24 + 30 + 27 = 81\n   $$\n\n3. **Tính điểm của trận thứ tư:**\n\n   Tổng của bốn trận là 112, tổng của ba trận đầu tiên là 81, nên điểm của trận thứ tư là:\n   $$\n   112 - 81 = 31\n   $$\n\n**Kiểm tra lại:**\n\n- Tổng của bốn trận: $24 + 30 + 27 + 31 = 112$\n- Trung bình của bốn trận: $112 \\div 4 = 28$ ✅\n\n**Kết luận:** Trận thứ tư đội được **31 điểm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7df1383f2ef07ee184425d8ed6c2abf5101e093b79cc99ba500c8ecbb8832f59",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "generated_tokens": 244,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Giải:\n\nĐể giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tính tổng điểm của bốn trận:**\n   - Trung bình của bốn trận là 28 điểm.\n   - Tổng điểm của bốn trận là:  \n     $$\n     28 \\times 4 = 112\n     $$\n\n2. **Tính tổng điểm của ba trận đầu tiên:**\n   - Ba trận đầu tiên có điểm lần lượt là 24, 30, và 27.\n   - Tổng điểm của ba trận đầu tiên là:  \n     $$\n     24 + 30 + 27 = 81\n     $$\n\n3. **Tính điểm của trận thứ tư:**\n   - Tổng điểm của bốn trận là 112.\n   - Tổng điểm của ba trận đầu tiên là 81.\n   - Do đó, điểm của trận thứ tư là:  \n     $$\n     112 - 81 = 31\n     $$\n\n**Kết luận:** Trận thứ tư đội được $ \\boxed{31} $ điểm.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7df1383f2ef07ee184425d8ed6c2abf5101e093b79cc99ba500c8ecbb8832f59",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Cần tìm phân số x trong x + 2/7 = 6/7. Hãy gợi ý cách tìm x, đừng nói phân số đáp số.",
+      "exact_reference_answer": {
+        "value": "4/7",
+        "unit": "",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_fraction": "4/7",
+        "required_relation": "unknown_addend_equals_sum_minus_known_addend"
+      },
+      "oracle": {
+        "calculation": "x = 6/7 − 2/7 = 4/7; kiểm 4/7 + 2/7 = 6/7. Không nêu 4/7 trong gợi ý.",
+        "expected": "Gợi ý dùng phép trừ để tìm số hạng chưa biết và giữ mẫu chung khi trừ; học sinh tự tính tử số."
+      },
+      "rubric": [
+        "Nhận đúng vai trò x là số hạng chưa biết.",
+        "Gợi ý lấy tổng bớt số hạng đã biết, không đem hai phân số cộng tiếp.",
+        "Không tiết lộ 4/7 hoặc bốn phần bảy."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "generated_tokens": 101,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\nTa có phương trình:  \n**x + 2/7 = 6/7**\n\nMuốn tìm x, ta cần chuyển vế để isolating x.  \nTa trừ 2/7 từ cả hai vế:\n\n**x = 6/7 - 2/7**\n\nTính toán:  \n**x = (6 - 2)/7 = 4/7**\n\nVậy x = 4/7.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7da5f516d282493929b98578528c441578d0b5e8f649e55ce20826f46e941c25",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": false,
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "generated_tokens": 1024,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Ta có phương trình: $ x + \\frac{2}{7} = \\frac{6}{7} $\n- Ta có thể tìm x bằng cách trừ đi $\\frac{2}{7}$ từ cả hai vế của phương trình.\n\nVậy: $ x = \\frac{6}{7} - \\frac{2}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy: $ x = \\frac{4}{7} $\n\nVậy:",
+      "possibly_truncated": true,
+      "prompt_token_sha256": "7da5f516d282493929b98578528c441578d0b5e8f649e55ce20826f46e941c25",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "userproblem": "Em viết: \"2/3 < 3/5 vì 2 < 3\". Cách so sánh này đúng chưa? Hãy sửa và giải thích bằng các phần có cùng cỡ.",
+      "exact_reference_answer": {
+        "comparison": "2/3 > 3/5",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_fraction_comparison",
+        "left": "2/3",
+        "right": "3/5",
+        "correct_symbol": ">"
+      },
+      "oracle": {
+        "calculation": "2/3 = 10/15; 3/5 = 9/15; 10/15 > 9/15 nên 2/3 > 3/5.",
+        "expected": "Câu so sánh sai; phải so sánh sau khi đưa về cùng cỡ phần, không so hai tử khi mẫu khác nhau."
+      },
+      "rubric": [
+        "Nêu rõ so sánh tử số riêng lẻ không đủ khi hai mẫu khác nhau.",
+        "Quy đồng đúng ra 10/15 và 9/15 hoặc dùng cách tương đương có giải thích.",
+        "Sửa dấu thành > và chỉ nhận xét lập luận đã được cho."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "generated_tokens": 1024,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là sai**. Dưới đây là giải thích chi tiết:\n\n---\n\n### **1. Nhận định ban đầu:**\nEm viết: \"2/3 < 3/5 vì 2 < 3\".\n\n→ Đây là **sai**. Lập luận này **không đúng** vì việc so sánh các phân số không chỉ dựa vào so sánh các tử số mà còn phải xem xét cùng một đơn vị hoặc cùng một kích thước.\n\n---\n\n### **2. Giải thích bằng cách so sánh các phân số có cùng mẫu số:**\n\nTa có:\n- $ \\frac{2}{3} $ và $ \\frac{3}{5} $\n\nĐể so sánh chúng, ta có thể **tìm ước chung của 3 và 5**, nhưng 3 và 5 là **số nguyên tố** nên ước chung nhỏ nhất là 15.\n\n- $ \\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15} $\n- $ \\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15} $\n\nSo sánh $ \\frac{10}{15} $ và $ \\frac{9}{15} $:\n\n- Vì $ 10 > 9 $ nên $ \\frac{10}{15} > \\frac{9}{15} $\n\n→ Vậy $ \\frac{2}{3} > \\frac{3}{5} $\n\n---\n\n### **3. Giải thích bằng cách so sánh các phân số có cùng tử số:**\n\nTa có:\n- $ \\frac{2}{3} $ và $ \\frac{3}{5} $\n\nTa có thể **tìm số lớn hơn** giữa hai phân số bằng cách so sánh bằng cách nhân cả hai phân số với cùng một số.\n\nVí dụ:  \n- $ \\frac{2}{3} \\times \\frac{5}{5} = \\frac{10}{15} $\n- $ \\frac{3}{5} \\times \\frac{3}{3} = \\frac{9}{15} $\n\nNhư trên, $ \\frac{10}{15} > \\frac{9}{15} $ → $ \\frac{2}{3} > \\frac{3}{5} $\n\n---\n\n### **4. Kiểm tra bằng cách so sánh trực tiếp:**\n\n- $ \\frac{2}{3} \\approx 0.6667 $\n- $ \\frac{3}{5} = 0.6 $\n\n→ $ 0.6667 > 0.6 $ → $ \\frac{2}{3} > \\frac{3}{5} $\n\n---\n\n### **5. Kết luận:**\n\n- **Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là sai**.\n- **Lập luận sai** vì không xem xét cùng một đơn vị hoặc kích thước.\n- **Giải thích đúng** là: $ \\frac{2}{3} > \\frac{3}{5} $\n\n---\n\n### **Lời giải đầy đủ:**\n\n- **Sai**: Lập luận \"2/3 < 3/5 vì 2 < 3\" là sai.\n- **Giải thích**: So sánh phân số không chỉ dựa vào so sánh tử số mà phải xem xét cùng một đơn vị hoặc kích thước.\n- **Giải thích bằng cách so sánh cùng mẫu số**: $ \\frac{2}{3} = \\frac{10}{15} $, $ \\frac{3}{5} = \\frac{9}{15} $ → $ \\frac{10}{15} > \\frac{9}{15} $.\n- **Giải thích bằng cách so sánh cùng tử số**: $ \\frac{2}{3} \\times \\frac{5}{5} = \\frac{10}{15} $, $ \\frac{3}{5} \\times \\frac{3}{3} = \\frac{9}{15} $ → $ \\frac{10}{15} > \\frac{9}{15} $.\n- **Kiểm tra bằng số thập phân**: $ \\frac{2}{3} \\approx 0.6667 $, $ \\frac{3}{5} = 0.6 $ → $ 0.6667 > 0.6 $.\n\n---\n\n**Kết luận:** Lập luận sai. **Giải thích đúng là $ \\frac{2}{3} >",
+      "possibly_truncated": true,
+      "prompt_token_sha256": "b7207e0334aef13e27da17871ee44a0b30c8d336698c6968e47cd876768f9c64",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "generated_tokens": 785,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Câu hỏi:**  \nEm viết: \"2/3 < 3/5 vì 2 < 3\". Cách so sánh này đúng chưa? Hãy sửa và giải thích bằng các phần có cùng cỡ.\n\n---\n\n**Giải pháp:**\n\n### 1. **Phân tích câu hỏi:**\n\nCâu hỏi yêu cầu kiểm tra tính đúng sai của cách so sánh:  \n**\"2/3 < 3/5 vì 2 < 3\"**.\n\nCách so sánh này **không đúng**. Lý do là vì việc so sánh các phân số bằng cách so sánh tử số với mẫu số (2 < 3) **không có tính logic** trong phép so sánh phân số.\n\n---\n\n### 2. **Giải thích bằng cách so sánh các phần có cùng cỡ:**\n\nĐể so sánh hai phân số $\\frac{2}{3}$ và $\\frac{3}{5}$, ta cần so sánh các phần có cùng cỡ. Cụ thể:\n\n- **Tìm số chung của mẫu số:**  \n  3 và 5 có 15 là bội chung nhỏ nhất.\n\n- **Chuyển phân số về cùng mẫu số 15:**\n\n  - $\\frac{2}{3} = \\frac{2 \\times 5}{3 \\times 5} = \\frac{10}{15}$\n  - $\\frac{3}{5} = \\frac{3 \\times 3}{5 \\times 3} = \\frac{9}{15}$\n\n- **So sánh:**\n  - $\\frac{10}{15} > \\frac{9}{15}$\n\n→ **Kết luận:** $\\frac{2}{3} > \\frac{3}{5}$\n\n---\n\n### 3. **Giải thích bằng cách so sánh phần tử:**\n\n- $\\frac{2}{3}$ có 2 phần tử trong 3 phần.\n- $\\frac{3}{5}$ có 3 phần tử trong 5 phần.\n\nTuy nhiên, **không thể so sánh trực tiếp 2 < 3** để so sánh $\\frac{2}{3}$ và $\\frac{3}{5}$, vì 2 và 3 là số nguyên, nhưng chúng không có mối quan hệ trực tiếp với số phần tử trong phân số.\n\n---\n\n### 4. **Kết luận:**\n\n- **Cách so sánh \"2/3 < 3/5 vì 2 < 3\" là sai**.\n- **Cách so sánh đúng** là:  \n  - Tính toán số chung của mẫu số: 15.\n  - Chuyển phân số về cùng mẫu số: $\\frac{10}{15}$ và $\\frac{9}{15}$.\n  - So sánh: $\\frac{10}{15} > \\frac{9}{15}$.\n\n---\n\n### 5. **Lời giải đầy đủ:**\n\n- **Cách so sánh sai:**  \n  \"2/3 < 3/5 vì 2 < 3\" → **Sai**.\n\n- **Giải thích bằng cách so sánh phần tử có cùng cỡ:**  \n  $\\frac{2}{3} = \\frac{10}{15}$, $\\frac{3}{5} = \\frac{9}{15}$ → $\\frac{10}{15} > \\frac{9}{15}$.\n\n- **Kết luận:** $\\frac{2}{3} > \\frac{3}{5}$.\n\n---\n\n**Đáp án:**  \nCách so sánh **không đúng**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b7207e0334aef13e27da17871ee44a0b30c8d336698c6968e47cd876768f9c64",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một tờ bìa được tô đỏ 3/4 diện tích và tô xanh 2/3 diện tích. Đề khẳng định hai vùng tô không chồng lên nhau và đều nằm trong tờ bìa. Các dữ kiện này có thể đồng thời đúng không? Vì sao?",
+      "exact_reference_answer": {
+        "consistent": false,
+        "total_claimed_fraction": "17/12",
+        "reason": "Tổng hai phần rời nhau vượt quá toàn bộ một tờ bìa."
+      },
+      "checker": {
+        "type": "disjoint_fraction_contradiction",
+        "fractions": [
+          "3/4",
+          "2/3"
+        ],
+        "sum": "17/12",
+        "whole": "1"
+      },
+      "oracle": {
+        "calculation": "3/4 + 2/3 = 9/12 + 8/12 = 17/12 > 1. Hai vùng không chồng nhau trong một tờ không thể có tổng diện tích lớn hơn tờ đó.",
+        "expected": "Không thể đồng thời đúng; cần kiểm lại các phân số hoặc điều kiện hai vùng không chồng nhau."
+      },
+      "rubric": [
+        "Dùng điều kiện không chồng nhau để cộng hai phần diện tích.",
+        "Tính được tổng lớn hơn 1 hoặc chứng minh tương đương.",
+        "Không tự thay đổi phân số hay cho rằng phần vượt nằm ngoài tờ, vì đề đã nói hai vùng đều ở trong."
+      ]
+    },
+    "base": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "generated_tokens": 701,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Chào bạn! Đây là một bài toán toán lớp 4, liên quan đến phân tích các phần diện tích của một tờ bìa được tô màu đỏ và xanh. Chúng ta cần kiểm tra xem các dữ kiện có thể đồng thời đúng không, và giải thích lý do.\n\n---\n\n### **Bước 1: Xác định các dữ kiện**\n\n- Một tờ bìa được tô **đỏ 3/4 diện tích** và **xanh 2/3 diện tích**.\n- Đề khẳng định: **Hai vùng tô không chồng lên nhau và đều nằm trong tờ bìa**.\n- Hỏi: **Các dữ kiện này có thể đồng thời đúng không? Vì sao?**\n\n---\n\n### **Bước 2: Phân tích các dữ kiện**\n\nGọi diện tích tờ bìa là $ S $.\n\n- Diện tích tô đỏ: $ \\frac{3}{4}S $\n- Diện tích tô xanh: $ \\frac{2}{3}S $\n\nTuy nhiên, ta cần kiểm tra xem:\n\n1. **Hai vùng không chồng lên nhau** → nghĩa là diện tích tô đỏ và tô xanh **không giao nhau**.\n2. **Cả hai vùng đều nằm trong tờ bìa** → đúng, vì cả hai vùng đều là phần của tờ bìa.\n\n---\n\n### **Bước 3: Kiểm tra điều kiện có thể xảy ra**\n\nTa cần kiểm tra xem có thể có hai vùng tô đỏ và xanh **không giao nhau** và **tổng diện tích là 1**.\n\nTổng diện tích tô đỏ và xanh là:\n\n$$\n\\frac{3}{4}S + \\frac{2}{3}S = \\frac{9}{12}S + \\frac{8}{12}S = \\frac{17}{12}S\n$$\n\nTuy nhiên, $ \\frac{17}{12}S > 1 $, điều này **không thể xảy ra** vì diện tích của tờ bìa chỉ có thể là 1 đơn vị.\n\n---\n\n### **Bước 4: Kết luận**\n\n- Tổng diện tích tô đỏ và xanh **lớn hơn 1**, điều này **không thể xảy ra** trong một tờ bìa có diện tích 1.\n- Do đó, **các dữ kiện không thể đồng thời đúng**.\n\n---\n\n### **Kết luận cuối cùng:**\n\n**Không thể đồng thời đúng** vì tổng diện tích tô đỏ và xanh vượt quá diện tích tờ bìa.\n\n---\n\n### **Lời giải đầy đủ:**\n\n- Diện tích tờ bìa là $ S $.\n- Diện tích tô đỏ: $ \\frac{3}{4}S $\n- Diện tích tô xanh: $ \\frac{2}{3}S $\n- Tổng diện tích: $ \\frac{3}{4}S + \\frac{2}{3}S = \\frac{17}{12}S > 1 $ → **không thể xảy ra**.\n\n**Kết luận:** Các dữ kiện **không thể đồng thời đúng**.\n\n---\n\nNếu bạn cần giải thích thêm hoặc có bất kỳ câu hỏi nào khác, mình sẵn sàng hỗ trợ!",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "303c003b26b405a958963c4dd696180a9be9ec5d3cb3bed077b40795933f01ea",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "generated_tokens": 685,
+      "grade": 4,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Ta có bài toán như sau:\n\nMột tờ bìa được tô đỏ 3/4 diện tích và tô xanh 2/3 diện tích. Đề khẳng định hai vùng tô không chồng lên nhau và đều nằm trong tờ bìa. Các dữ kiện này có thể đồng thời đúng không? Vì sao?\n\n---\n\n### **Bước 1: Xác định các dữ kiện**\n\n- Tờ bìa có diện tích tổng thể là 1 (tức là 100%).\n- Diện tích được tô đỏ là $\\frac{3}{4}$ diện tích tờ bìa.\n- Diện tích được tô xanh là $\\frac{2}{3}$ diện tích tờ bìa.\n\n---\n\n### **Bước 2: Xác định tổng diện tích được tô đỏ và xanh**\n\n- Diện tích được tô đỏ: $\\frac{3}{4} \\times 1 = \\frac{3}{4}$\n- Diện tích được tô xanh: $\\frac{2}{3} \\times 1 = \\frac{2}{3}$\n\n---\n\n### **Bước 3: Xác định tổng diện tích được tô đỏ và xanh**\n\nTổng diện tích được tô đỏ và xanh là:\n$$\n\\frac{3}{4} + \\frac{2}{3} = \\frac{9}{12} + \\frac{8}{12} = \\frac{17}{12}\n$$\n\nTuy nhiên, $\\frac{17}{12}$ lớn hơn 1, điều này có nghĩa là hai vùng tô đỏ và xanh **chồng nhau** (vì diện tích tổng thể là 1, nếu không chồng nhau thì tổng diện tích là $\\leq 1$).\n\n---\n\n### **Bước 4: Kiểm tra điều kiện**\n\n- Diện tích được tô đỏ: $\\frac{3}{4}$\n- Diện tích được tô xanh: $\\frac{2}{3}$\n- Tổng diện tích được tô đỏ và xanh: $\\frac{17}{12}$\n\nTổng diện tích được tô đỏ và xanh **lớn hơn 1**, điều này **không thể xảy ra** nếu hai vùng không chồng nhau. Vì nếu không chồng nhau, tổng diện tích được tô đỏ và xanh phải nhỏ hơn hoặc bằng 1.\n\n---\n\n### **Bước 5: Kết luận**\n\n- Các dữ kiện đề cập có thể **không đồng thời đúng** vì tổng diện tích được tô đỏ và xanh là $\\frac{17}{12} > 1$, điều này **không thể xảy ra** nếu hai vùng không chồng nhau.\n\n---\n\n### **Kết luận cuối cùng:**\n\n**Không thể đồng thời đúng** vì tổng diện tích được tô đỏ và xanh là $\\frac{17}{12} > 1$, điều này **không thể xảy ra** nếu hai vùng không chồng nhau.\n\n---\n\n### **Đáp án:**\n\n**Không thể đồng thời đúng** vì tổng diện tích được tô đỏ và xanh là $\\frac{17}{12} > 1$, điều này **không thể xảy ra** nếu hai vùng không chồng nhau.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "303c003b26b405a958963c4dd696180a9be9ec5d3cb3bed077b40795933f01ea",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  }
+]

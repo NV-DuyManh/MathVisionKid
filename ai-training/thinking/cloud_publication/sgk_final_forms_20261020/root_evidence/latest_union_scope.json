@@ -1,0 +1,61 @@
+{
+  "schema": "MathVisionKid.latest_union_publication_scope.v1",
+  "sha256": "0424d6ba2d7759db25be01af4a33ec9911c2200e47e28c967d54b1b91b5d2c68",
+  "bytes": 797788,
+  "payload_references": 34,
+  "chat_members": 28,
+  "source_members": 215,
+  "declared_candidate_chat_rows": 6501636,
+  "declared_raw_chat_rows": 6501684,
+  "current_pedagogy_eval_rows_separate": 48,
+  "historical_split_totals_pending_full_archive_audit": true,
+  "actual_train_only_row_total_verified": false,
+  "all34_fresh_raw_verified": false,
+  "old31_historical_metadata_only": true,
+  "accepted_append_proofs": [
+    {
+      "file_id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+      "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+      "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+      "bytes": 4411114,
+      "fresh_local_full_archive_sha256_verified": true,
+      "fresh_local_member_sha256_verified": 190,
+      "fresh_remote_full_raw_verified_receipt": true,
+      "remote_verified_utc": "2026-10-20T11:42:17.702Z",
+      "accepted_source_rows_verified": 94,
+      "accepted_chat_rows_verified": 376,
+      "source_raw_row_hash_and_prompt_target_linkage_verified": true,
+      "fourmodes_per_source_verified": true
+    },
+    {
+      "file_id": "15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD",
+      "file_name": "MathVisionKid_SGK_REMAINING_APPEND_20261020_e9443f67a1baaad3.zip",
+      "sha256": "e9443f67a1baaad33f6cb6bbe64a8eb8f8db99cc70c889760377b85ce85d8b23",
+      "bytes": 2374386,
+      "fresh_local_full_archive_sha256_verified": true,
+      "fresh_local_member_sha256_verified": 107,
+      "fresh_remote_full_raw_verified_receipt": true,
+      "remote_verified_utc": "2026-10-20T11:57:50.912Z",
+      "accepted_source_rows_verified": 36,
+      "accepted_chat_rows_verified": 144,
+      "source_raw_row_hash_and_prompt_target_linkage_verified": true,
+      "fourmodes_per_source_verified": true
+    },
+    {
+      "file_id": "1FU1MLP422giB1PiIjR9X8SrV0y37_f5t",
+      "file_name": "MathVisionKid_SGK_FINAL_FORMS_APPEND_20261021_867537e0ef05679d.zip",
+      "sha256": "867537e0ef05679db1967a29acaec785644820093113ffeecc4460c8450bb05f",
+      "bytes": 496507,
+      "fresh_local_full_archive_sha256_verified": true,
+      "fresh_local_member_sha256_verified": 70,
+      "fresh_remote_full_raw_verified_receipt": true,
+      "remote_verified_utc": "2026-10-21T05:00:06.013Z",
+      "accepted_source_rows_verified": 18,
+      "accepted_chat_rows_verified": 72,
+      "source_raw_row_hash_and_prompt_target_linkage_verified": true,
+      "fourmodes_per_source_verified": true
+    }
+  ],
+  "full_archive_audit_complete": false,
+  "training_started": false
+}

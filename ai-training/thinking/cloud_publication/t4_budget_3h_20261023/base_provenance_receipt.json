@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Ulj-MqznOny7"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"fixture_sha256\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\", \"count\": 28, \"fixture_ids\": [\"g1_add_objects\", \"g1_subtract_objects\", \"g1_add_hint\", \"g1_student_subtraction_error\", \"g1_conflicting_count\", \"g2_add_lengths\", \"g2_two_step_stickers\", \"g2_addition_hint\", \"g2_student_subtraction_error\", \"g2_missing_time\", \"g3_fraction_like_parts\", \"g3_multistep_books\", \"g3_decimal_money\", \"g3_area_hint\", \"g3_conflicting_shape\", \"g4_fraction_of_group\", \"g4_division_remainder\", \"g4_decimal_measure\", \"g4_multistep_groups_hint\", \"g4_student_area_perimeter_mixup\", \"g5_fraction_subtraction\", \"g5_decimal_rate\", \"g5_triangle_side\", \"g5_ratio_hint\", \"g5_student_percent_error\", \"g5_contradictory_distance\", \"g1_missing_information\", \"g5_missing_information\"], \"stage\": \"base_before_training\", \"base_untrained\": true, \"adapter_loaded\": false, \"untrained_lora_attached_with_zero_initialized_B\": true, \"base_outputs_sha256\": \"7f763c04be976ba5ee188c6aff3f907ca99a6bafc0076464f30005171a568193\", \"provenance_reconstructed_from_matching_run_config\": true, \"observed_unix\": 1792766805.029468}\n"
+        ]
+      }
+    ]
+  }
+}

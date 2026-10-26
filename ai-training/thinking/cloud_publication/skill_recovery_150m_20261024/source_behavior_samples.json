@@ -1,0 +1,96 @@
+{
+  "samples": [
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04:worked_solution",
+      "grade": 1,
+      "mode": "worked_solution",
+      "behavior": "guard",
+      "source_original_raw_row_sha256": "220d8c0134a48660dac7434c68d5f88b4fd1ff07ec22443ae12b0307158ff10b",
+      "actual_prompt": "Toán lớp 1.\n\nChế độ: Giải đầy đủ\n\nHai ô khác nhau A, B là chữ số hàng chục trong A2 + B3 = 75; cả hai số đều có hai chữ số. Đề yêu cầu tìm duy nhất A, B nhưng không cho thêm điều kiện. Có đủ dữ kiện để chỉ một cặp không?\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Hai ô có được nêu là cùng một chữ số không?\nBước 1\nNội dung: Đối chiếu nhiều cách\nVì sao: Cùng tổng có thể nhận từ các số hàng chục khác nhau.\nPhép tính hoặc quan hệ: 12+63\nKết quả bước này: 75\nGiải thích: Mười hai cộng sáu mươi ba là một cặp phù hợp.\nBước 2\nNội dung: Kiểm một cặp khác\nVì sao: Hai nghiệm khác nhau bác bỏ yêu cầu duy nhất.\nPhép tính hoặc quan hệ: 22+53\nKết quả bước này: 75\nGiải thích: Hai mươi hai cộng năm mươi ba cũng phù hợp; cần điều kiện thêm để chọn riêng một cặp.\nĐại lượng cần tìm: Kết luận về tính duy nhất\nĐáp số: Chưa duy nhất; cần điều kiện bổ sung cho A, B"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_04:worked_solution",
+      "grade": 2,
+      "mode": "worked_solution",
+      "behavior": "guard",
+      "source_original_raw_row_sha256": "b1b64f786386da0304829d56bb4fdc13d71223ed974f7d4b6895bc3c5d0d09db",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Giải đầy đủ\n\nQuân bắt đầu ở ô 2, gieo 3 chấm; ô 5 có phép 2 × 5. Luật đúng ở lại ô 5, sai quay về ô 2. Đề chưa ghi người chơi đã trả lời gì, nhưng hỏi chắc chắn quân cuối lượt ở đâu. Hãy hỏi đúng dữ kiện còn thiếu.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Hai nhánh phụ thuộc điều gì của lượt chơi?\nBước 1\nNội dung: Phân biệt đáp án chuẩn và đáp án người chơi\nVì sao: Biết phép đúng chưa chứng minh người chơi đã trả lời đúng.\nGiải thích: Cần hỏi người chơi đã ghi hoặc nói kết quả nào. Không tự gán người chơi biết hay trả lời sai.\nĐại lượng cần tìm: Dữ kiện để chọn nhánh\nĐáp số: Người chơi đã trả lời kết quả nào ở ô 5?"
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_guard:worked_solution",
+      "grade": 3,
+      "mode": "worked_solution",
+      "behavior": "guard",
+      "source_original_raw_row_sha256": "41fd0cf9cad10747cf681e49f97d5643e8b6bf4700ef965329c5df9ccd6ecf06",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Giải đầy đủ\n\nChỉ biết tháng được xét có 30 ngày. Em hỏi tháng đó có mấy ngày Chủ nhật. Chưa biết ngày 1 là thứ mấy và chưa có tờ lịch.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Muốn đếm một thứ trong tháng phải biết ngày đầu tháng là thứ mấy.\nBước 1\nNội dung: Thiếu mốc tuần\nVì sao: Tháng 30 ngày có thể có 4 hoặc 5 Chủ nhật tùy thứ ngày 1.\nKết quả bước này: Chưa xác định duy nhất\nGiải thích: Tháng 30 ngày có thể có 4 hoặc 5 Chủ nhật tùy thứ ngày 1.\nBước 2\nNội dung: Hỏi thông tin\nVì sao: Cần biết ngày 1 là thứ mấy hoặc có lịch đúng tháng.\nKết quả bước này: Em cho biết thứ của ngày 1 hoặc gửi tờ lịch nhé.\nGiải thích: Cần biết ngày 1 là thứ mấy hoặc có lịch đúng tháng."
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution",
+      "grade": 4,
+      "mode": "worked_solution",
+      "behavior": "guard",
+      "source_original_raw_row_sha256": "9303cc8487b906e4524364415d5047e22577934cdab3a53706b2c1f45607427d",
+      "actual_prompt": "Toán lớp 4.\n\nChế độ: Giải đầy đủ\n\nBa buổi có số vé theo thứ tự [ôA]; [ôB]; 10. Chỉ biết tổng ba buổi là 40 vé; không có quan hệ giữa hai ô trống. Hỏi riêng từng ô.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Một tổng của hai ô trống chưa xác định riêng từng ô.\nBước 1\nNội dung: Biết tổng hai ô\nVì sao: Hai ô đầu cộng lại 30 vé.\nPhép tính hoặc quan hệ: 40-10\nKết quả bước này: 30\nĐơn vị: vé\nGiải thích: Hai ô đầu cộng lại 30 vé.\nBước 2\nNội dung: Chưa tách duy nhất\nVì sao: Nhiều cặp như 14 và 16 hoặc 12 và 18 cùng tổng 30 nên chưa biết riêng từng ô.\nKết quả bước này: Cần thêm một ô hoặc quan hệ giữaA, B.\nGiải thích: Nhiều cặp như 14 và 16 hoặc 12 và 18 cùng tổng 30 nên chưa biết riêng từng ô."
+    },
+    {
+      "sample_id": "cloud_pedagogy_v3_046:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "behavior": "guard",
+      "source_original_raw_row_sha256": "412e402501e42075ba425162dc35d4b73ac56d14b5cb0759acf0a491be2fcd25",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Giải đầy đủ\n\nCó 32 học sinh. Đề đồng thời ghi 18 nam và 17 nữ, mỗi học sinh thuộc đúng một trong hai nhóm. Hỏi tỷ lệ nữ.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Xin xác nhận lại tổng số học sinh hoặc số nam, số nữ trước khi tính tỷ lệ.\nBước 1\nNội dung: Kiểm tra điều kiện và dữ kiện\nVì sao: Hai nhóm cho tổng 35 học sinh, khác tổng 32 được nêu nên dữ kiện không nhất quán.\nGiải thích: Hai nhóm cho tổng 35 học sinh, khác tổng 32 được nêu nên dữ kiện không nhất quán. Xin xác nhận lại tổng số học sinh hoặc số nam, số nữ trước khi tính tỷ lệ.\nĐại lượng cần tìm: Cần làm rõ\nĐáp số: Xin xác nhận lại tổng số học sinh hoặc số nam, số nữ trước khi tính tỷ lệ."
+    },
+    {
+      "sample_id": "sgk_page_g1_20261019_add_group_strict_comparison_03:worked_solution",
+      "grade": 1,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "7626ae88fae23dc25dde2cc78875fbfea74360a98df3f233e3ec6807855bfe11",
+      "actual_prompt": "Toán lớp 1.\n\nChế độ: Giải đầy đủ\n\nHộp Đỏ có 5 viên bi, hộp Xanh có 9 viên. Chọn thêm đúng một túi vào hộp Đỏ: M có 3 viên, N có 4 viên, K có 5 viên. Bạn ghi: Chọn N vì 5 + 4 = 9 nên hộp Đỏ nhiều hơn hộp Xanh. Giữ dòng ấy, nhận xét và chọn túi đúng.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Kiểm riêng phép cộng và câu kết luận của bạn.\nBước 1\nNội dung: Giữ phép cộng đúng\nVì sao: Cần tách tính toán khỏi kết luận so sánh.\nPhép tính hoặc quan hệ: 5+4\nKết quả bước này: 9\nĐơn vị: viên\nGiải thích: N cho chín viên, đúng phép cộng nhưng chỉ bằng hộp Xanh.\nBước 2\nNội dung: Kiểm mọi túi\nVì sao: Tổng phải vượt mốc mới thỏa yêu cầu.\nPhép tính hoặc quan hệ: 5+5\nKết quả bước này: 10\nĐơn vị: viên\nGiải thích: M cho tám, N cho chín, K cho mười. Chỉ K vượt chín; không sửa phép cộng đúng để hợp thức kết luận sai.\nĐại lượng cần tìm: Nhận xét và túi đúng\nĐáp số: N chỉ làm hai hộp bằng nhau; chọn K"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_03:worked_solution",
+      "grade": 2,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "516c4966da9c097f1e93f87fad632dc7a9e43e80777a44d847b086c2c454d113",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Giải đầy đủ\n\nLuật: từ ô 3 gieo 2 chấm, tiến 2 ô không tính ô 3; không có ô nhảy; ô 4 ghi 2 × 3, ô 5 ghi 10: 2; đúng thì ở ô đến, sai quay về ô 3. Bạn viết: ô 3 là bước một, ô 4 là bước hai; trả lời 6 nên kết thúc tại ô 4. Giữ bản ghi, sửa vị trí cần xét và kết luận khi giữ nguyên câu trả lời 6.\n\nLời làm em đã cung cấp:\n\nÔ 3 bước một, ô 4 bước hai; trả lời 6 nên ở ô 4.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Đếm ô được đi vào, không đếm lại ô đang đứng.\nBước 1\nNội dung: Sửa cách đếm vị trí\nVì sao: Chỉ ô mới đi vào mới tính là bước.\nPhép tính hoặc quan hệ: 3+2\nKết quả bước này: 5\nGiải thích: Hai bước lần lượt vào ô bốn rồi ô năm; không dùng phép ở ô bốn.\nBước 2\nNội dung: Kiểm câu trả lời tại ô đúng\nVì sao: Ô năm mới là ô cần trả lời.\nPhép tính hoặc quan hệ: 10/2\nKết quả bước này: 5\nGiải thích: Mười chia hai bằng năm; giữ câu trả lời sáu là sai nên quay về ô ba.\nĐại lượng cần tìm: Ô cuối khi giữ câu trả lời\nĐáp số: Ô 3; khi giữ câu trả lời 6"
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_assembled_cube_painted_faces_03:worked_solution",
+      "grade": 3,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "4393f12f044ef379ef875dd6e0fb3e6fa1e25845c22a8192092bbf317342ece0",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Giải đầy đủ\n\nBốn khối lập phương bằng nhau ghép kín thành một tầng gồm hai hàng và hai cột: hàng trước A, B; hàng sau C, D. Các cặp dán trọn một mặt là A–B, A–C, B–D, C–D; không có tiếp xúc mặt nào khác. Sơn mọi mặt còn lộ, kể cả dưới. Bạn ghi: Mỗi khối có 5 mặt sơn vì đã ghép với một khối. Giữ câu ấy, kiểm số mặt sơn từng khối và toàn cụm.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Dựa vào các cặp tiếp xúc đã cho, không suy từ một hướng nhìn.\nBước 1\nNội dung: Dùng danh sách tiếp xúc cho từng khối\nVì sao: Một khối có thể tiếp xúc nhiều hơn một khối khác.\nKết quả bước này: Mỗi khối bị che 2 mặt\nGiải thích: A kề B và C; B kề A và D; C kề A và D; D kề B và C. Mỗi khối bị che hai mặt khác nhau.\nBước 2\nNội dung: Đếm mặt còn lộ\nVì sao: Sáu mặt ban đầu trừ số mặt bị che của chính khối đó.\nPhép tính hoặc quan hệ: 6-2\nKết quả bước này: 4\nĐơn vị: mặt nhỏ mỗi khối\nGiải thích: Mỗi khối có bốn mặt nhỏ được sơn. Câu ghi năm mặt đã bỏ sót một chỗ tiếp xúc ở mỗi khối.\nBước 3\nNội dung: Kiểm toàn cụm\nVì sao: Cộng bốn nhóm mặt thuộc bốn khối khác nhau.\nPhép tính hoặc quan hệ: 4*4\nKết quả bước này: 16\nĐơn vị: mặt nhỏ\nGiải thích: Bốn khối mỗi khối bốn mặt được mười sáu mặt nhỏ. Kiểm hai mươi bốn mặt ban đầu, bốn chỗ dán che tám mặt, còn mười sáu.\nĐại lượng cần tìm: Mỗi khối\nĐáp số: 4\nĐơn vị đáp số: mặt nhỏ\nĐại lượng cần tìm: Cả cụm\nĐáp số: 16\nĐơn vị đáp số: mặt nhỏ\nĐại lượng cần tìm: Nhận xét\nĐáp số: Mỗi khối bị che hai mặt, không phải một"
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+      "grade": 4,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+      "actual_prompt": "Toán lớp 4.\n\nChế độ: Giải đầy đủ\n\nBàn tính có bốn cột nghìn, trăm, chục, đơn vị, mỗi cột tối đa 9 vòng. Phải dùng đủ 12 vòng. Bạn ghi: đặt cả 12 vòng ở cột nghìn là số lớn nhất. Nhận xét cách đặt và tìm giá trị lớn nhất hợp lệ. Không được đổi cấu tạo bàn tính.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Phân biệt tổng số vòng với sức chứa mỗi cột.\nBước 1\nNội dung: Kiểm luật\nVì sao: Mỗi cột chỉ chứa tối đa chín vòng.\nKết quả bước này: Cách đặt đã cho không hợp lệ\nGiải thích: Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.\nBước 2\nNội dung: Phân bố hợp lệ\nVì sao: Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.\nKết quả bước này: 9,3,0,0\nGiải thích: Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.\nBước 3\nNội dung: Tính giá trị\nVì sao: Cộng giá trị từng cột.\nPhép tính hoặc quan hệ: 9*1000+3*100\nKết quả bước này: 9300\nGiải thích: Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.\nĐại lượng cần tìm: Kết quả\nĐáp số: 9300"
+    },
+    {
+      "sample_id": "sgk_finish_g5_20261020_age_ratio_changes_find_wait:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "behavior": "student_feedback",
+      "source_original_raw_row_sha256": "03b87888fac0f7ce92cdd4b7b343a4b7dc202b9ae1472f88a7b63254472e2d25",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Giải đầy đủ\n\nTrong mô hình tuổi chính xác theo năm, hiện nay anh25 tuổi, em10 tuổi; mỗi năm cả hai cùng thêm1 tuổi. Bạn viết: Hiện nay anh25 tuổi, em10 tuổi nên anh luôn bằng2,5 lần tuổi em; không có lúc anh gấp đôi em. Giữ câu đó, kiểm từ luôn và tìm sau bao nhiêu năm tuổi anh bằng đúng hai lần tuổi em.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Phân biệt hiệu hai số với tỉ số của chúng.\nBước 1\nNội dung: Giữ hiệu ổn định\nVì sao: Cùng thêm số năm nên hiệu vẫn bằng hiện tại.\nPhép tính hoặc quan hệ: 25-10\nKết quả bước này: 15\nĐơn vị: tuổi\nGiải thích: Hai mươi lăm bớt mười bằng mười lăm. Tỉ số không được suy là bất biến từ hiệu bất biến.\nBước 2\nNội dung: Xét lúc tỉ số bằng hai\nVì sao: Lúc đó anh hai phần, em một phần; hiệu một phần bằng mười lăm.\nKết quả bước này: Lúc đó em15, anh30\nGiải thích: Em phải mười lăm, anh ba mươi; hiệu vẫn mười lăm.\nBước 3\nNội dung: Tìm thời gian cùng tăng\nVì sao: Tuổi em tăng từ mười lên mười lăm.\nPhép tính hoặc quan hệ: 15-10\nKết quả bước này: 5\nĐơn vị: năm\nGiải thích: Mười lăm bớt mười bằng năm năm. Kiểm25+5=30 và10+5=15,30=2×15; câu luôn 2,5 lần sai.\nĐại lượng cần tìm: Thời gian chờ\nĐáp số: 5\nĐơn vị đáp số: năm\nĐại lượng cần tìm: Khi đó\nĐáp số: Anh30 tuổi, em15 tuổi\nĐại lượng cần tìm: Nhận xét\nĐáp số: Hiệu giữ nguyên nhưng tỉ số thay đổi; từ luôn là sai"
+    }
+  ],
+  "source_plan_sha256": "4ed1adfb9c5e00d5303500d8e0f42611a67d101f6d3deb39fd6c3dd4115bbb2d",
+  "source_modified": false
+}

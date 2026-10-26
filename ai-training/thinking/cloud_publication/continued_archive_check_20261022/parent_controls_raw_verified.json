@@ -1,0 +1,23 @@
+{
+  "progress": {
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 15199602,
+    "sha256": "8c9bb566222088e5a91b17dd37a647b7ad5926b4838ef10394e76f349000c910",
+    "fresh_raw_byte_equal": true,
+    "local_parent_path": "D:/nhom6/train thử/MathVisionKid/ai-training/thinking/cloud_publication/resume_after_g2_20261022/next_progress.zip"
+  },
+  "chat": {
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 45691,
+    "sha256": "be7723074378308a05beb2191ae323d385dce0ed69baeb6b0bbfdf36a3b29ea0",
+    "fresh_raw_byte_equal": true,
+    "local_parent_path": "D:/nhom6/train thử/MathVisionKid/ai-training/thinking/cloud_publication/resume_after_g2_20261022/next_chat.json"
+  },
+  "context": {
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 794768,
+    "sha256": "51f134b1884a49f19448beb7c59646da15427b1e83f6dec1aa173bf77317954c",
+    "fresh_raw_byte_equal": true,
+    "local_parent_path": "D:/nhom6/train thử/MathVisionKid/ai-training/thinking/cloud_publication/resume_after_g2_20261022/next_context.md"
+  }
+}

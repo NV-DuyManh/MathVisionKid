@@ -1,0 +1,198 @@
+{
+  "batch_sha256": "9dba3669379acba5ffebd586b5aa7d42dfb77fbe8c29ab909cd19bf75b693ed5",
+  "authored_cases": 6,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "supplementary_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_analog_five_minute_groups",
+      "row_sha256": "c2328033a0999f6f7cfe24263ecf9ba96165f1b9567766113e7ec719af86f15f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7*5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_individual_minute_ticks_contrast",
+      "row_sha256": "9c25b6473c9a9c1e98958b83024076fd8d8231ac4e69ba5fd5ebc982c9f126e8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "3*5+3",
+          "4*5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_calendar_year_rollover",
+      "row_sha256": "c348011684de06aa265d776e0c4cf3fdf2e0f3ac2ba52bc21cfafe807f744d68",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_misconception_hour_hand_near_next",
+      "row_sha256": "f19e5620eb10d416104a66a19dbd123158d735a20f9a3b2e5fb4dc3623785647",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "11*5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_guard_analog_without_period_for_24h",
+      "row_sha256": "c2d31b58467fe5632269074193882f18292556dc8b565879b3839436a60e6479",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_clock_calendar_0041_supplementary_february_calendar_variation",
+      "row_sha256": "c3d4b44707a91c6fda017c4d3d359c3d6c1eb2864819e59293662871402ef083",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "minute_encodings": {
+      "6h35": 395,
+      "9h18": 558,
+      "9h20": 560,
+      "14h55": 895
+    },
+    "minute_tick_after_15": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "hour_hand_6h35_offset_hour": "7/12",
+    "hour_hand_2h55_offset_hour": "11/12",
+    "year_rollover": {
+      "from": "2027-12-31",
+      "to": "2028-01-01",
+      "weekday_indices_Monday_zero": [
+        4,
+        5
+      ]
+    },
+    "february_days": {
+      "2027": 28,
+      "2028": 29
+    },
+    "missing_period_countermodels": [
+      {
+        "hour24": 4,
+        "minute": 10
+      },
+      {
+        "hour24": 16,
+        "minute": 10
+      }
+    ]
+  },
+  "oracle_method": "Integer minute encoding/divmod and independent Fraction hour-hand progress; datetime weekday/date rollover crosschecked with calendar.monthrange for explicit Gregorian dates. Different24h times produce same12h face.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read6original requests with all givens, visible steps/reasons/explanations, answers, synthetic student quote and18hints. Distinguish printed numbers from minute counts, whole hour from approaching next hour, exact tick from rounding, calendar year/month boundaries, and missing period. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Only explicitly hypothetical clocks/calendars, no seen image or actual instrument success. Leap-year division algorithm not required of grade3children; particular dates supplied and independently checked. Three core cases plus one supplement do not exhaust date/time skills. Neutral schema not live PlanDraft.",
+  "readability_normalization": {
+    "only_own_unassigned_pending_batch": true,
+    "change": "Insert spaces at number/word boundaries in visible prose only; expressions, numeric givens, IDs and scope unchanged",
+    "changed_text_fields": 47,
+    "old_canonical_hashes": {
+      "primary_20261017_g3_clock_calendar_0041_analog_five_minute_groups": "0bab406dce6a3bb8e4bd5a917cda77af367b3397afb5b15802a6f88148e1de3e",
+      "primary_20261017_g3_clock_calendar_0041_individual_minute_ticks_contrast": "2785d927655cbd5bb475d4c17072580dd8621d581d69ba0485af022264a03621",
+      "primary_20261017_g3_clock_calendar_0041_calendar_year_rollover": "c7949e6e53ad9b048166822952b3e805e9521a88eb26a64fc4535941d00a4c06",
+      "primary_20261017_g3_clock_calendar_0041_misconception_hour_hand_near_next": "03475b221c5095b55fedc17cc37f36312cee4c3bda9753654e95e4e546b4b52e",
+      "primary_20261017_g3_clock_calendar_0041_guard_analog_without_period_for_24h": "c08d12abaecde7ea955938d80f3b3b2d29de78e3b6c294fe2ce180706b9ec81c",
+      "primary_20261017_g3_clock_calendar_0041_supplementary_february_calendar_variation": "fead42eb8173f2ad5c519f6b7b86198ca364f924d2deca6b7f45f0e873895695"
+    },
+    "readback_polish": "Separated B có and luôn có after actual row readback; no arithmetic or scope changes."
+  }
+}

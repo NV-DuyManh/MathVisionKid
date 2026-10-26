@@ -1,0 +1,45 @@
+{
+  "schema": "MathVisionKid.full_text_training_release_validation.v1",
+  "validated_utc": "2026-10-23T11:44:44.222769+00:00",
+  "validation_status": "PASSED_METADATA_ONLY",
+  "input_sha256": {
+    "candidate_manifest": "82c1efc23b026955e489612f561d9bd0a9657b415fc31dc53a69e72ddffca524",
+    "technical_adjudication": "1209753e7f95beb51a43bc470c537828d69e9bbd8538acd0f889970c6600a125",
+    "text_readiness_manifest": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+    "recipe": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8"
+  },
+  "recipe_member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+  "recipe_archive_path_metadata_only": "C:\\Users\\MYPC~1\\AppData\\Local\\Temp\\mathvisionkid-text-controls-AtMuvG\\parents\\parent_progress.zip",
+  "contract_report": {
+    "status": "CURRENT_TEXT_RELEASE_EVIDENCE_VALIDATED",
+    "scope": "CURRENT_RECIPE_ONLY_FULL_TEXT_TRAINING_INPUT",
+    "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "recipe_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+    "expected_rows_by_split": {
+      "train": 6502344,
+      "validation": 24,
+      "test": 24
+    },
+    "max_sequence_tokens": 2048,
+    "observed_release_max_sequence_tokens": 1481,
+    "model_id": "Qwen/Qwen3-1.7B",
+    "model_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "text_training_dataset_ready": true,
+    "global_training_dataset_ready": false,
+    "all_rows_semantically_human_reviewed": false,
+    "numeric_expression_disjoint": false,
+    "raw_current_recipe_findings_preserved": {
+      "CROSS_SPLIT_CANONICAL": 36,
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+    },
+    "regression_only_sample_excluded_with_zero_linked_chat_rows": true,
+    "test_split_reserved_from_training": true,
+    "training_started": false
+  },
+  "checkpoint_equal_across_candidate_technical_and_readiness": true,
+  "training_started": false,
+  "model_loaded": false,
+  "gpu_used": false,
+  "corpus_rows_read_by_validation": 0,
+  "drive_written": false
+}

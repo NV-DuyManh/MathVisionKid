@@ -1,0 +1,18 @@
+{
+  "schema": "MathVisionKid.conditional_preparation_raw_publication.v1",
+  "verified_utc": "2026-10-24T14:54:22.604Z",
+  "files": {
+    "MathVisionKid_conditional_grounding_PREPARATION.zip": {
+      "id": "1AgaTNcbJssSCKxOByDJkWBVq32hvLfPy",
+      "bytes": 64214,
+      "sha256": "0ac1ef319506fed90fcf57943deda34d87f717981aeddddd53f3d968e734928a",
+      "fresh_raw_readback_verified": true
+    },
+    "phase_report.json": {
+      "id": "1wNz2y_oWTbs2VvWzojHNoKqfC5g2SFJS",
+      "bytes": 2113,
+      "sha256": "73960758fe53aee6933c90012bf7dc71215edd2e465f6c51cae1aa51d034c5ed",
+      "fresh_raw_readback_verified": true
+    }
+  }
+}

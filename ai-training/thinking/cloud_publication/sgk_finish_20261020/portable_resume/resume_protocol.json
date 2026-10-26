@@ -1,0 +1,77 @@
+{
+  "schema": "MathVisionKid.portable_resume_protocol.v1",
+  "purpose": "Resume data preparation across Codex accounts, chats, agent sessions, connector link changes and machines without repeating accepted work.",
+  "authority": {
+    "data_identity": "Existing immutable payload file IDs plus SHA256 and byte counts in member_catalog.json.",
+    "runtime_identity": "Freshly verify the owner-selected Google profile outside task specs. Resolve the current connector link at runtime; never treat link ID, Codex account, chat or agent session as data authority.",
+    "historical_identity": "data_owner_history records past publication identities only; it does not assert present Drive ownership or grant access.",
+    "permissions": "Exact-ID metadata/read succeeds only proves read access. Require independently observed can_update=true or equivalent explicit update-right evidence before updates; never infer write permission from read permission.",
+    "no_duplicate_recovery": "If an expected ID is unreadable or rights are unproven, preserve the existing checkpoint and report access failure. Do not create a replacement folder, copy data, share files or change permissions."
+  },
+  "checkpoint_contents": [
+    "Hash-addressed portable task specs and finite queue, independent of runtime identities and artifact locators.",
+    "Persistent leased worker attempt, expiry, next unconsumed line and source/split/token audit evidence references.",
+    "Completed result keyed by task content hash; exact result digest; conflicting results require review.",
+    "Immutable data artifact IDs/hashes; mutable control pointers contain ID only and use fresh raw verification/revision.",
+    "pinned_input_state_sha256 is historical provenance, not a requirement that updated STATE retain its old hash. No self hash is embedded in mutable STATE."
+  ],
+  "handoff_steps": [
+    "Read the same existing STATE/control ID and portable checkpoint, not a chat summary. Preserve all 31 immutable payload artifact references and the original control IDs.",
+    "Resolve current Google connector and verify chosen profile. Verify required immutable payload exact ID, full bytecount/SHA256 before consuming it. Freshly raw-read mutable controls and validate a monotonic checkpoint revision.",
+    "Load persistent ledger/export, inspect completed tasks before claiming work. Do not rerun accepted110 or completed task hashes. Reclaim only expired leases; old lease token cannot acknowledge after reclaim.",
+    "Index explicit valid source members before corresponding chat members. Carry the same SQLite database with the handoff; it stores committed row cursor, source raw/canonical hashes and field fingerprints, sample/mode uniqueness, global split keys, token measurements and issues.",
+    "Consume bounded chunks. Commit successful row effects and cursor in one SQLite transaction. After interruption reopen database and replay only the current gzip/member to the first unconsumed row. No payload extraction or whole-corpus download is required.",
+    "Use one coordinator to merge exported completed results idempotently; verify artifact identities, task and result hashes, then reject conflicts. Reload/check revision immediately before saving to existing control ID and raw-readback verify after save.",
+    "One-coordinator optimistic read-before-write is not atomic compare-and-swap across independent Drive writers. Cross-machine simultaneous writers must be serialized; separate SQLite files or Drive sync do not provide a distributed lock.",
+    "Keep frozen V3/V4, sealed challenge, pilot and superseded audit payloads separate. Compare permitted existing hash/signature metadata only. Never open sealed/pilot content for tuning.",
+    "Publish all required code, catalog, exported queue/results and database evidence into the existing publication/checkpoint flow only after root review. These files currently remain bounded local evidence; this agent made no Drive calls."
+  ],
+  "loader_findings": {
+    "existing_interface": "exhaustive_colab_loader.ManifestStream filters parts/shards only; ignores extension_zip_shards and supplement_bundles and therefore misses SGK101 and latest110 when passed the current top-level chat manifest.",
+    "old_full_token_audit": "SplitAudit creates fresh tables and full_token_audit is selected-view scoped; it is not a resumable full-archive runner. Source index is in-memory. Do not reinterpret its selected-only receipt as global readiness.",
+    "new_interface": "math_data_archive_audit.py reads one explicit hash-pinned plain/gzip/ZIP member, streams rows with disk-backed SQLite, preserves source raw line hash separately from canonical digest, checks source ID/group, source problem/grade/student work and supplied givens/request, exact worked target or hint target, no truncation, official pinned Qwen mask/EOT.",
+    "current_catalog": "31 payload artifacts;1928known members after22centraldirectories1699entries and named metadata;205originalsource members pinned for1519171old acceptedcases; originalcatalog retained for fixed DB identities.",
+    "missing_discovery": "All22centraldirectory/name inventory tasks complete. Ranges do not verify full archive SHA256. Member payload streaming/hash/token/global split audit still pending for most corpus.",
+    "count_reconciliation": "6074308 original chat +425484 numeric extension +216 boundary +192 pedagogy v3 train +404 SGK101 +440 latest110 =6501044 candidate chat. Current pedagogy validation/test48 + arithmetic holdoutv2 32 yield6501124; superseded holdoutv1 audit32 yields state6501156. Pedagogyv1/v2 and selected balanced views are retained history/duplicates, never unioned again."
+  },
+  "execution": {
+    "prepare": "python thinking/cloud_publication/sgk_finish_20261020/portable_resume/inventory_builder.py",
+    "prepare_note": "Builder preserves matching completed tasks and active progress when catalog expands. Root must register new payloads after publication; it currently anchors the pre-new-work1629597 state.",
+    "bounded_110_replay": "python thinking/cloud_publication/sgk_finish_20261020/portable_resume/check_latest110.py",
+    "single_member_source_or_chat": "python thinking/math_data_archive_audit.py --catalog <absolute member_catalog.json> --entry <catalog index> --payload <absolute mounted file path> --database <absolute stable audit.sqlite> --receipt <absolute progress.json> --tokenizer <absolute local Qwen snapshot ending70d244cc86ccca08cf5af4e1e306ecf908b1ad5e> --max-rows 10000",
+    "ordering": "Index all matching candidate_source members before any candidate_chat members, then consume all candidate chats into one SQLite store or merge per-row split key evidence before global reconciliation. Source schema mismatches require explicit source adapters/QA; do not suppress errors or replace real source provenance with canonical equality.",
+    "cpu_memory_storage": "No torch/trainer/model-weight import. Local tokenizer-only snapshot required by CLI. Fullcompressed hash pass before rows; ZIP member hash pass before decompression. One mountedpayload plus SQLite; compressed resume replays current member without retaining all rows. No automatic deletion of any old or current staging.",
+    "final_gates": "All catalog discovery complete; every required source/chat member expected byte/hash/row count verified and completed; no unresolved source hash/linkage/mode/duplicate issues; all candidate rows tokenized without truncation; canonical source metadata complete; global split/protected metadata conflicts reconciled by exact authorized policy, frozen evaluation separated; final all-valid-data union recipe count/hash explicit. Current runner deliberately never sets full_archive readiness true."
+  },
+  "actual_results_this_run": {
+    "latest110_sources": 110,
+    "latest110_chat_rows": 440,
+    "pinned_qwen_token_audit_pass": true,
+    "reopened_at_chat_row": 128,
+    "max_sequence_tokens": 724,
+    "max_completion_tokens": 525,
+    "issues": 0,
+    "source_raw_hash_or_linkage_unverified_rows": 0,
+    "finite_tasks": 271,
+    "completed_tasks": 32,
+    "remaining_tasks": 239,
+    "all_6501044_candidate_chat_token_audited": false,
+    "training_started": false,
+    "gpu_used": false,
+    "paid_api_used": false,
+    "drive_mutated": false,
+    "original_110_chat": 440,
+    "numeric_chat_fully_audited": 3140,
+    "current_boundary_pedagogy_chat_fully_audited": 456,
+    "total_actual_chat_rows_tokenized_this_run": 4036,
+    "candidate_train_chat_rows_tokenized_this_run": 3988,
+    "current_eval_chat_rows_in_explicit_pedagogy_v3_member": 48,
+    "source_cases_indexed_this_run": 1240,
+    "source_chat_linkage_or_split_issues": 0,
+    "historical_raw_source_hash_field_missing_reported_rows": 3356,
+    "range_metadata_discovery_tasks_complete": 22,
+    "complete_remote_member_directory_catalog": true,
+    "fresh_full_archive_SHA_verified_from_ranges": false
+  },
+  "checkpoint_update_note": "Current latest status below supersedes initial66-task scope. member_catalog.json remains frozen for existing DB bindings; member_catalog_discovered.json is the expanded1928-member metadata revision."
+}

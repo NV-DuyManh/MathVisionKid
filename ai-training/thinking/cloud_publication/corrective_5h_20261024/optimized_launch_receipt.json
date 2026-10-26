@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "QTQf9Jewdf-9"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"RESUMED_PROCESS_INITIALIZING\", \"worker_pid\": 13027, \"launched_unix\": 1792804260.3333988, \"source_generation\": {\"generation\": \"generation_step_000270_rows_00004320\", \"manifest_sha256\": \"b1a8e984af5e14edd71fcf987357752c0dd18f19758c15c6d4b37cf39ae9076b\", \"rows_done\": 4320, \"step\": 270}, \"source_checkpoint_raw_verified\": {\"bytes\": 117117602, \"folder_id\": \"1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho\", \"fresh_raw_readback_verified\": true, \"generation\": \"generation_step_000270_rows_00004320\", \"id\": \"1VlYO4IuQYOXE7O-oQaIMk8sO4KYHqNA7\", \"immutable\": true, \"manifest_sha256\": \"b1a8e984af5e14edd71fcf987357752c0dd18f19758c15c6d4b37cf39ae9076b\", \"name\": \"checkpoint_step_000270_rows_00004320_b1a8e984af5e14ed.zip\", \"raw_verified_utc\": \"2026-10-24T01:10:22.176440+00:00\", \"rows_done\": 4320, \"sha256\": \"592388cd584a4111b02441f859e8803caa080728c913be3f6599591ea05ba4d1\", \"step\": 270}, \"command\": [\"/content/mathvisionkid_corrective_5h_20261024/venv/bin/python\", \"-u\", \"/content/mathvisionkid_corrective_5h_20261024/corrective_worker_optimized_v2.py\", \"--train-view\", \"/content/mathvisionkid_corrective_5h_20261024/training_view.jsonl\", \"--view-manifest\", \"/content/mathvisionkid_corrective_5h_20261024/sampling_manifest.json\", \"--eval-fixtures\", \"/content/mathvisionkid_corrective_5h_20261024/eval_fixtures.jsonl\", \"--tokenizer-helper\", \"/content/mathvisionkid_corrective_5h_20261024/exhaustive_colab_loader.py\", \"--out\", \"/content/mathvisionkid_corrective_5h_20261024/training\", \"--eval-timeout-seconds\", \"600\", \"--resume-generation\", \"/content/mathvisionkid_corrective_5h_20261024/training_v1_preserved/generation_step_000270_rows_00004320\", \"--resume-successful-ids\", \"/content/mathvisionkid_corrective_5h_20261024/training_v1_preserved/successful_ids.jsonl\", \"--resume-base-dir\", \"/content/mathvisionkid_corrective_5h_20261024/training_v1_preserved\", \"--owner-budget-revision\", \"/content/mathvisionkid_corrective_5h_20261024/owner_budget_revision_config.json\", \"--pair-loss-helper\", \"/content/mathvisionkid_corrective_5h_20261024/pair_weighted_batching_v2.py\", \"--resume-source-error\", \"/content/mathvisionkid_corrective_5h_20261024/training_v1_preserved/error.json\"], \"hard_deadline_utc\": \"2026-10-24T05:28:23Z\", \"train_stop_utc\": \"2026-10-24T05:13:23Z\", \"benchmark_optimizer_updates\": 0, \"old_directory_preserved\": \"/content/mathvisionkid_corrective_5h_20261024/training_v1_preserved\", \"existing_publisher_folder_preserved\": true, \"current_optimizer_resumed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "MathVisionKid.peer_and_overlay_files_receipt.v1",
+  "files": [
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_source_hash_overlay.py",
+      "bytes": 3298,
+      "sha256": "c6ff4e2d3c6f53514891b98863c30b0154f5b76b52352f147c7d9896ddf42b74"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\build_overlay.py",
+      "bytes": 5755,
+      "sha256": "43bd05601ad5958ac61f65c06fb5fd77e9b11345e8aae62db89e24c6c77015ec"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\case_source_hash_overlay.jsonl",
+      "bytes": 3436953,
+      "sha256": "ae2ac810719c542885f6c416ea56b59979597477d4626d526eed7bf9e5d0d513"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\check_overlay.py",
+      "bytes": 4127,
+      "sha256": "b5c7907a306859cfb42488ad2a6080ccf23454525a3bf4c3c41cb3f49308ec10"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\manifest.json",
+      "bytes": 1840,
+      "sha256": "e80d24406c01faf771e7194a2dcf2bd9f803a1eb5fa473330cb9e854a1fa92fd"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\validation_receipt.json",
+      "bytes": 1838,
+      "sha256": "cd84c854613faedcb18027674351cab8805818bde77b987e545eb68111b414a4"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\independent_peer_oracle.py",
+      "bytes": 11407,
+      "sha256": "3819deaa5e3435a7ba9b5c95ca028e1ed9e8efffd48c4548c5a9749511c4ee17"
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\peer_review.json",
+      "bytes": 32735,
+      "sha256": "a1e95ba4c7a56372e4956c8425c21474bfce02f7702f1260c6893c73eaaf01df"
+    }
+  ]
+}

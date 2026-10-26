@@ -1,0 +1,33 @@
+{
+  "verified_utc": "2026-10-20T11:51:42.065Z",
+  "controls": [
+    {
+      "file": "prewrite_progress.zip",
+      "bytes": 7825773,
+      "sha256": "cdd23890e39d46d4080d5ee78b447c7bae6271117fa27b4b6ce101900fd93578",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true
+    },
+    {
+      "file": "prewrite_chat.json",
+      "bytes": 18585,
+      "sha256": "c52f29a726ce9949f3a7b630714fbcbf012151cb85795383ae4a99ed0ea8f39e",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true
+    },
+    {
+      "file": "prewrite_state.json",
+      "bytes": 253673,
+      "sha256": "19bc8e245bcf77493375d854352d8da934e377812c106cf0e3d180de562de013",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true
+    },
+    {
+      "file": "prewrite_context.md",
+      "bytes": 740038,
+      "sha256": "f51a910812b73c70f4db2b85db77f4d70273c3777f88114ab02c0cd91bae0597",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true
+    }
+  ]
+}

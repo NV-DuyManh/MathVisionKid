@@ -1,0 +1,38 @@
+{
+  "answer_values_unchanged": true,
+  "changes": [
+    {
+      "sample_id": "sgk_final_gaps_folds_20261021_tangram_midpoint_seven_piece_inventory",
+      "step_id": "s0",
+      "before_expression": "4*2/2",
+      "after_expression": null,
+      "result_unchanged": "ABO,ADO mỗi mảnh 4 cm²",
+      "reason": "Compound textual result; numerical facts checked in separate geometry oracle"
+    },
+    {
+      "sample_id": "sgk_final_gaps_folds_20261021_mixed_unit_center_on_previous_circle",
+      "step_id": "s0",
+      "before_expression": "15/1000*100",
+      "after_expression": null,
+      "result_unchanged": "3 cm;2 cm;1,5 cm",
+      "reason": "Compound textual result; numerical facts checked in separate geometry oracle"
+    },
+    {
+      "sample_id": "sgk_final_gaps_folds_20261021_same_compass_opening_radius_diameter",
+      "step_id": "s0",
+      "before_expression": "4/100*100",
+      "after_expression": null,
+      "result_unchanged": "4 cm và 4 cm",
+      "reason": "Compound textual result; numerical facts checked in separate geometry oracle"
+    },
+    {
+      "sample_id": "sgk_final_gaps_folds_20261021_g4_square_diagonal_pair_reassembly",
+      "step_id": "s2",
+      "before_expression": "4*4",
+      "after_expression": null,
+      "result_unchanged": "Dài:rộng=2:1;diện tích 16 cm²",
+      "reason": "Compound textual result; numerical facts checked in separate geometry oracle"
+    }
+  ],
+  "parent_raw_sha256": "6d43d02c13234f50dc573d5912521c61ffaed22011296782684723f1c8d43f90"
+}

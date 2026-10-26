@@ -1,0 +1,172 @@
+{
+  "authored_utc": "2026-10-18T09:44:54.831594+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:42:15.004Z",
+  "batch_sha256": "079567ea95dc510d23dd2a8923ec2ae40f67cc3c992392d8049fffef89de0465",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_cubic_unit_layers_and_two_stage_conversion",
+      "row_sha256": "7a0ecedd8e39bb6222448218fd76426e413c69d90fc08137a79323d457eb12d6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "0.076*1000",
+          "(0.076*1000)*1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_same_cube_volume_different_arrangements",
+      "row_sha256": "2474b697c941c83ae88c6aef9dd4bace5ce72983ba7a2c48f1412e9413b183e8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2*3*4",
+          "4*1*6",
+          "(2*3*4)/1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_tank_capacity_actual_water_and_headroom",
+      "row_sha256": "c3ec26e8e47c22f5f3e5118f2432b57bbfe2be2111f6fe603174af40c648ebc2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2.15*1000",
+          "1.38*1000",
+          "(1.38*1000)+245",
+          "(2.15*1000)-((1.38*1000)+245)",
+          "((2.15*1000)-((1.38*1000)+245))*1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_misconception_skipped_intermediate_cubic_unit",
+      "row_sha256": "72fa822bab935c927e9f3ae6ca7d911c539c833dbd7fa8959a44eddeda829271",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "186000/1000",
+          "(186000/1000)/1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_guard_capacity_is_not_actual_water_volume",
+      "row_sha256": "067e0ed974b49f0c2fa30584ea2fe2815edb4056879a7ef4db329384ac9bb92a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "cubic_grid_counts": {
+      "adjacent10_by10_by10": 1000,
+      "direct100_by100_by100": 1000000
+    },
+    "material76_group_cm3": 76000,
+    "shape_coordinate_counts": {
+      "X": 24,
+      "Y": 24,
+      "X_shape_edges_in_unit_cubes": [
+        4,
+        3,
+        2
+      ],
+      "Y_shape_edges_in_unit_cubes": [
+        6,
+        1,
+        4
+      ]
+    },
+    "tank_disjoint_dm3_labels": {
+      "capacity": 2150,
+      "initial": 1380,
+      "incoming": 245,
+      "post": 1625,
+      "headroom": 525,
+      "headroom_cm3": 525000
+    },
+    "misconception_regrouped_dm3_count": 186,
+    "capacity_guard_countermodels_QA_only": {
+      "full_water_cm3": 1500000,
+      "half_full_water_cm3": 750000
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "volume_scale_three_dimensions_not_length_or_area": true,
+  "capacity_and_actual_content_roles_distinguished": true,
+  "guard_no_countermodel_answers_in_hints": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous449_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "aded96831390517dc88c8151c0db1dd05b5ce5b91d11b35d888126f65f04d1bc",
+  "pre_official_QA_repairs": [
+    {
+      "sample_id": "primary_20261018_g5_volume_units_0083_tank_capacity_actual_water_and_headroom",
+      "field": "worked_steps[0].title",
+      "before": "Đổi dung tích và nước ban đầu về dm³",
+      "after": "Đổi dung tích tối đa về dm³",
+      "reason": "Make title describe only capacity conversion performed in this step; initial water is handled next step. No fact/result/answer changes."
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "capacity_step_title_polish_reread": true,
+  "official_QA_utc": "2026-10-18T09:45:46.428216+00:00",
+  "official_QA_method": "Same-author actual full5problems/givens/request/student quote/observations/initial/all worked titles/reasons/explanations/expressions/results/units/answers and15hints read. Reread polished capacity-only first-step title. Grade5 semantic QA of three-dimensional volume scale, conserved unit-cube material in distinct arrangements, maximum capacity versus actual water and headroom, intermediate cubic-unit error and missing fill-state clarification. Fraction/Decimal, independent cubic lattice/unit-coordinate counts, disjoint dm3-label universe/complement and regrouping oracles corroborate. Parser not semantic proof; no real measurements/physical object observation, independent reviewer or new human attestation.",
+  "official_review_sha256": "e70472a7e8c3b2fd3717431d85b1a185a031249715a0a2e1141613bb01cc1d3e"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "final_adjudication_static_review.v2",
+  "scope": "READ_ONLY_STATIC_RE_REVIEW; no code edits, tests, runtime, Drive, or corpus access",
+  "reviewed_file": "thinking/cloud_publication/continued_archive_check_20261022/final_technical_adjudication.py",
+  "reviewed_code_sha256": "45afd453ae0ae47af453cf9b810929df1b0f7acb1b749baf4c4bc5c7503b3a23",
+  "review_history": [
+    {
+      "reviewed_code_sha256": "14290a858b84f01b4f9083a5fe6ec6087552f7093fc0498959c62f1982c6cacf",
+      "findings": [
+        {
+          "severity": "PROOF_GAP",
+          "area": "recipe_identity_binding",
+          "finding": "The function checks raw_report.identity against the pinned f033… value, but it never computes or verifies that recipe_expected_rowcounts is the frozen recipe with that identity. It checks only 251 unique arbitrary member IDs, role counts 219/32, and aggregate row totals. The bundled test fixture uses synthetic IDs and is accepted, so the helper alone cannot prove the counts came from the exact 251 members bound to identity f033….",
+          "impact": "A fabricated or stale 251-member metadata object with matching totals can be paired with a report that merely claims f033….",
+          "recommendation": "Pass the exact frozen V3 recipe (including content IDs/hashes and row counts), verify its canonical plan_identity equals f033…, then derive member totals from it; or require a hash-bound recipe metadata receipt whose provenance is verified by the caller."
+        },
+        {
+          "severity": "GUARD_GAP",
+          "area": "human_and_curriculum_claims",
+          "finding": "The function does not require raw_report.all_rows_semantically_human_reviewed and raw_report.whole_curriculum_certified to be false. It preserves raw_report verbatim, so a malformed report with either flag true would be returned under the technical-pass status.",
+          "impact": "Could carry an unsupported human-review or curriculum-completion claim into the adjudication result.",
+          "recommendation": "Fail closed unless both raw V3 flags are exactly false; emit explicit false values in the derived result."
+        },
+        {
+          "severity": "MINOR_TYPE_GUARD",
+          "area": "token_count_types",
+          "finding": "isinstance(value, int) accepts bool in Python. Thus True passes the positive max_completion_tokens check and max_sequence_tokens=True passes the <=40960 check.",
+          "impact": "Malformed metadata can satisfy token-count guards, although V3 SQL report generation normally emits integers.",
+          "recommendation": "Reject bool explicitly for both token-count fields."
+        }
+      ],
+      "disposition": "RESOLVED_IN_REVISED_CODE_HASH_BOUND_BELOW"
+    }
+  ],
+  "current_findings": [],
+  "resolved_findings": [
+    {
+      "area": "recipe_identity_binding",
+      "resolution": "Function hashes canonical ordered list of all 251 member {id,role,rows} records and compares pinned hash. I independently derived each id as SHA256(canonical content_identity fields sha256,bytes,member,member_sha256,member_bytes,role,rows) over actual recipe source_members then chat_members; extracted list exactly matched all 251 records."
+    },
+    {
+      "area": "human_and_curriculum_claims",
+      "resolution": "Function now requires all_rows_semantically_human_reviewed is exactly false and whole_curriculum_certified is exactly false."
+    },
+    {
+      "area": "token_count_types",
+      "resolution": "Function rejects bool by requiring type(value) is int; max sequence is positive and <=40960; completion is positive and <= sequence."
+    }
+  ],
+  "independent_recipe_pin_check": {
+    "recipe_path": "thinking/cloud_publication/antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "recipe_file_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "expected_recipe_file_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "source_members": 219,
+    "chat_members": 32,
+    "ordered_members": 251,
+    "extracted_metadata_path": "thinking/cloud_publication/continued_archive_check_20261022/final_recipe_member_metadata.json",
+    "extracted_metadata_file_sha256": "a9658867e10a4b55a5ff56353e81f3f78387b8cba876b18d135eb2ea2bcd0aae",
+    "canonical_metadata_sha256_recomputed": "b31bede4dd88324a3bbce30a7f14797bb9c4df1df4dc9d719019fc6764478158",
+    "canonical_metadata_sha256_expected": "b31bede4dd88324a3bbce30a7f14797bb9c4df1df4dc9d719019fc6764478158",
+    "all_ordered_member_records_match_recipe": true,
+    "source_rows": 1629906,
+    "chat_rows": 6502392
+  },
+  "requested_invariants_review": {
+    "real_v3_report_field_names": "MATCHES thinking/math_data_full_audit_v3.py report() output",
+    "raw_completion_flag_false_and_single_issue": "ENFORCED",
+    "pinned_identity_f033": "ENFORCED; now also bound to canonical pinned member metadata",
+    "members_219_source_32_chat_251": "ENFORCED with recomputed pinned IDs/roles/rows",
+    "source_rows_1629906": "ENFORCED by report and derived metadata sum",
+    "unique_and_physical_chat_rows_6502392": "ENFORCED",
+    "splits_train6502344_validation24_test24": "ENFORCED",
+    "sequence_positive_max40960_completion_positive_and_not_above_sequence": "ENFORCED with strict int types",
+    "linkage_unverified_zero_and_incomplete_modes_zero": "ENFORCED",
+    "diagnostic_exact_hash_and_zero_linked_chats": "ENFORCED",
+    "training_ready_and_training_started_false": "ENFORCED",
+    "human_full_review_and_whole_curriculum_false": "ENFORCED"
+  },
+  "antijoin_static_gate_review": {
+    "file": "thinking/cloud_publication/continued_archive_check_20261022/final_source_chat_antijoin.py",
+    "sha256": "ea5a8ba47f65e4bec309b55186b198ce1acc4e7205c32f0962386ea7e54ddbf9",
+    "exact_identity_checked_before_select": "YES",
+    "all_251_expected_cursors_complete_checked_before_select": "YES (complete=1 and next_line=expected_rows)",
+    "full_6502392_samples_checked_before_select": "YES",
+    "result_query_limited_before_fetchall": "YES (LIMIT 5001, cap 5000)",
+    "assessment": "Requested preconditions and result bound are present in code. This review did not run it against a runtime DB."
+  },
+  "validation_note": "Root reports 12 revised adjudicator tests PASS; not independently rerun in this read-only review.",
+  "overall": "The three prior findings are resolved in this code hash. Independently recomputed recipe member metadata matches the pinned hash and all 251 ordered entries from the exact recipe file."
+}

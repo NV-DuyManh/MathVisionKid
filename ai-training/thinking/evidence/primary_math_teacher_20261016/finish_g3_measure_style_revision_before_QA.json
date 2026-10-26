@@ -1,0 +1,651 @@
+{
+  "before_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_measure_ruler_nonzero_record",
+      "case_group_id": "primary_20261018_finish_g3_measure_ruler_nonzero_record",
+      "split": "train",
+      "grade": 3,
+      "topic": "ruler_nonzero_record",
+      "problem": "Trong bản ghi đo giả định, bút thẳng đặt dọc thước chia xăng-ti-mét, hai đầu trùng vạch 3 cm và 16 cm, không lệch thước. Tìm chiều dài bút từ bản ghi.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Mốc đầu",
+          "value": "3",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Mốc cuối",
+          "value": "16",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm chiều dài bút theo bản ghi đo.",
+      "student_work": null,
+      "initial_guidance": [
+        "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Nếu vật không bắt đầu ở vạch không, lấy mốc cuối bớt mốc đầu; giữ thước thẳng theo vật.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Đặt lại đầu vật ở vạch không hoặc đo lại theo cùng đơn vị để kiểm; chưa khẳng định đã thao tác thật.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Lấy khoảng cách mốc",
+          "reason": "Chiều dài là khoảng giữa hai mốc, không phải chỉ số vạch cuối.",
+          "result": "13",
+          "explanation": "Từ3đến16có13khoảng1cm;13+3=16. Đây là dữ liệu giả định, chưa xác nhận đo thật.",
+          "expression": "16-3",
+          "unit": "cm"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chiều dài bút",
+          "result": "13",
+          "unit": "cm"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "ruler_nonzero_record",
+        "operations": [],
+        "numeric_values": [
+          "3",
+          "16"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_measure_length",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp47–48",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Requires actual instrument/image or physical task verification."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_measure_two_ruler_records",
+      "case_group_id": "primary_20261018_finish_g3_measure_two_ruler_records",
+      "split": "train",
+      "grade": 3,
+      "topic": "two_ruler_records",
+      "problem": "Hai bản ghi giả định đo cùng một que thẳng, cùng thước cm: lần A đầu ở0cuối12; lần B đầu ở5cuối17. Mỗi lần que thẳng dọc thước. Hai bản ghi có cho cùng chiều dài không.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "A đầu",
+          "value": "0",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "A cuối",
+          "value": "12",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "B đầu",
+          "value": "5",
+          "unit": "cm",
+          "role": "explicit_given_2"
+        },
+        {
+          "id": "g3",
+          "text": "B cuối",
+          "value": "17",
+          "unit": "cm",
+          "role": "explicit_given_3"
+        }
+      ],
+      "requested_quantity": "Tính chiều dài từng bản ghi và đối chiếu.",
+      "student_work": null,
+      "initial_guidance": [
+        "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Nếu vật không bắt đầu ở vạch không, lấy mốc cuối bớt mốc đầu; giữ thước thẳng theo vật.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Đặt lại đầu vật ở vạch không hoặc đo lại theo cùng đơn vị để kiểm; chưa khẳng định đã thao tác thật.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tính từ A",
+          "reason": "Lấy hiệu mốc cuối và đầu cùng thước.",
+          "result": "12",
+          "explanation": "12-0=12khoảng1cm.",
+          "expression": "12-0",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tính từ B",
+          "reason": "Đầu que dịch khỏi0nên phải bớt mốc đầu.",
+          "result": "12",
+          "explanation": "17-5=12khoảng1cm, bằng kết quả A; dịch vị trí không đổi chiều dài.",
+          "expression": "17-5",
+          "unit": "cm"
+        },
+        {
+          "step_id": "s2",
+          "title": "Đối chiếu",
+          "reason": "Cả hai hiệu mốc bằng nhau.",
+          "result": "Hai bản ghi cùng chiều dài",
+          "explanation": "Chỉ kết luận hai dữ liệu cho cùng chiều dài, không chứng thực độ chính xác thao tác thật.",
+          "expression": null,
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chiều dài A",
+          "result": "12",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Chiều dài B",
+          "result": "12",
+          "unit": "cm"
+        },
+        {
+          "quantity": "Đối chiếu",
+          "result": "Hai bản ghi cùng chiều dài",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "two_ruler_records",
+        "operations": [],
+        "numeric_values": [
+          "0",
+          "12",
+          "5",
+          "17"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_measure_length",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp47–48",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Requires actual instrument/image or physical task verification."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_measure_broken_ruler_plan",
+      "case_group_id": "primary_20261018_finish_g3_measure_broken_ruler_plan",
+      "split": "train",
+      "grade": 3,
+      "topic": "broken_ruler_plan",
+      "problem": "Một thước thẳng giả định bị mờ vạch0nhưng các vạchcm từ4đến25rõ và cách đều. Đặt dây thẳng dọc thước: một đầu ở4cm, đầu kia ở23cm. Tìm chiều dài và nêu cách kiểm bằng thước nguyên vạch0.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Mốc đầu",
+          "value": "4",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Mốc cuối",
+          "value": "23",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tính chiều dài theo bản ghi và nêu cách kiểm đo.",
+      "student_work": null,
+      "initial_guidance": [
+        "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Nếu vật không bắt đầu ở vạch không, lấy mốc cuối bớt mốc đầu; giữ thước thẳng theo vật.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Đặt lại đầu vật ở vạch không hoặc đo lại theo cùng đơn vị để kiểm; chưa khẳng định đã thao tác thật.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Dùng phần thước rõ",
+          "reason": "Khoảng cách vẫn đọc được từ hai mốc rõ cùng đơn vị.",
+          "result": "19",
+          "explanation": "23-4=19; có thể đặt đầu dây ở0của thước nguyên rồi đọc đầu kia. Đó là kế hoạch kiểm, chưa phải kết quả đo thật.",
+          "expression": "23-4",
+          "unit": "cm"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chiều dài theo bản ghi",
+          "result": "19",
+          "unit": "cm"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "broken_ruler_plan",
+        "operations": [],
+        "numeric_values": [
+          "4",
+          "23"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_measure_length",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp47–48",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Requires actual instrument/image or physical task verification."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_measure_mis_end_mark_length",
+      "case_group_id": "primary_20261018_finish_g3_measure_mis_end_mark_length",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_end_mark_length",
+      "problem": "Bản ghi giả định: cạnh thẳng của thẻ đặt dọc thướccm, đầu trái ở2, đầu phải ở11. Học sinh viết \"Thẻ dài11cm vì đầu phải ở11.\" Hãy sửa theo bản ghi.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Đầu trái",
+          "value": "2",
+          "unit": "cm",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Đầu phải",
+          "value": "11",
+          "unit": "cm",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm chiều dài đúng từ hai mốc.",
+      "student_work": {
+        "text": "Thẻ dài11cm vì đầu phải ở11.",
+        "observations": [
+          {
+            "excerpt": "Thẻ dài11cm vì đầu phải ở11.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Đây là bản ghi hoặc kế hoạch giả định; xác định dụng cụ, đơn vị và hai mốc của vật.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Nếu vật không bắt đầu ở vạch không, lấy mốc cuối bớt mốc đầu; giữ thước thẳng theo vật.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Đặt lại đầu vật ở vạch không hoặc đo lại theo cùng đơn vị để kiểm; chưa khẳng định đã thao tác thật.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Phân biệt mốc và độ dài",
+          "reason": "Vạch cuối chỉ là vị trí; chiều dài phải kể từ đầu thẻ.",
+          "result": "9",
+          "explanation": "11-2=9khoảng1cm;9+2=11. Chỉ sửa kết luận có trong câu viết, không suy hình ảnh.",
+          "expression": "11-2",
+          "unit": "cm"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Chiều dài thẻ",
+          "result": "9",
+          "unit": "cm"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_end_mark_length",
+        "operations": [],
+        "numeric_values": [
+          "2",
+          "11"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_measure_length",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp47–48",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Requires actual instrument/image or physical task verification."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_measure_guard_no_ruler_reading",
+      "case_group_id": "primary_20261018_finish_g3_measure_guard_no_ruler_reading",
+      "split": "train",
+      "grade": 3,
+      "topic": "guard_no_ruler_reading",
+      "problem": "Muốn tìm chiều dài thật của bàn, học sinh chưa cung cấp số đo, ảnh hai mốc hoặc dụng cụ có đơn vị rõ. Cần yêu cầu gì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số đo thật chưa có",
+          "value": null,
+          "unit": "",
+          "role": "explicit_given_0"
+        }
+      ],
+      "requested_quantity": "Xin số đo hoặc ảnh thước rõ hai đầu và đơn vị.",
+      "student_work": null,
+      "initial_guidance": [
+        "Kích thước thật cần số đo hoặc ảnh đọc được thước."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Kích thước thật cần số đo hoặc ảnh đọc được thước.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Xin dụng cụ có vạch và đơn vị rõ, đặt theo cạnh bàn rồi ghi hai mốc.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Chờ dữ liệu đo, không suy kích thước từ tên đồ vật hoặc giả vờ đã nhìn ảnh.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_no_ruler_reading",
+        "operations": [],
+        "numeric_values": []
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_measure_length",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp20; textbookpp47–48",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": [
+            "Requires actual instrument/image or physical task verification."
+          ]
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_sha256": "18f8bd6a0e4d233a8086f5f40b287f8fb748d4050b4bc6d932120d810b2e2eed",
+  "arithmetic_unchanged": true
+}

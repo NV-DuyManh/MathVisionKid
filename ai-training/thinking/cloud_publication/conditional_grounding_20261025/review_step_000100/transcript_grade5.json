@@ -1,0 +1,104 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g5_answer_01",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một bể cá chứa 24 l nước. Người ta lấy ra 3/8 lượng nước. Hỏi đã lấy ra bao nhiêu lít nước?",
+      "expected_answer": "9 l",
+      "rubric": [
+        "fraction of quantity; unit l",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể cá chứa 24 l nước. Người ta lấy ra $\\frac{3}{8}$ lượng nước.\n- **Yêu cầu:** Hỏi đã lấy ra bao nhiêu lít nước?\n\n**Lời giải:**\n\n1. **Xác định lượng nước đã lấy ra:**\n   - Tổng lượng nước ban đầu: 24 l.\n   - Phần nước được lấy ra: $\\frac{3}{8}$.\n\n2. **Tính toán:**\n   $$\n   \\text{Lượng nước lấy ra} = 24 \\times \\frac{3}{8}\n   $$\n\n3. **Thực hiện phép tính:**\n   $$\n   24 \\times \\frac{3}{8} = \\frac{24 \\times 3}{8} = \\frac{72}{8} = 9\n   $$\n\n4. **Kiểm tra lại:**\n   - $\\frac{3}{8}$ của 24 là $24 \\div 8 \\times 3 = 3 \\times 3 = 9$.\n   - Kết quả là hợp lý và nhất quán với dữ kiện.\n\n**Kết quả:** Người ta đã lấy ra **9 lít** nước.\n\n**Lời giải đầy đủ, kiểm lại kết quả, không tự chọn số liệu:**  \n✅ **Đúng.**",
+    "adapter_output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể cá chứa 24 l nước. Người ta lấy ra $\\frac{3}{8}$ lượng nước.\n- **Yêu cầu:** Hỏi đã lấy ra bao nhiêu lít nước?\n\n**Lời giải:**\n\n1. **Xác định lượng nước đã lấy ra:**\n   - Tổng lượng nước ban đầu: 24 l.\n   - Phần nước được lấy ra: $\\frac{3}{8}$.\n\n2. **Tính toán:**\n   $$\n   \\text{Lượng nước lấy ra} = 24 \\times \\frac{3}{8}\n   $$\n\n3. **Thực hiện phép tính:**\n   $$\n   24 \\times \\frac{3}{8} = \\frac{24 \\times 3}{8} = \\frac{72}{8} = 9\n   $$\n\n4. **Kiểm tra lại:**\n   - $\\frac{3}{8}$ của 24 là $24 \\div 8 \\times 3 = 3 \\times 3 = 9$.\n   - Kết quả là hợp lý và nhất quán với dữ kiện.\n\n**Kết quả:** Người ta đã lấy ra **9 lít** nước.\n\n**Lời giải đầy đủ, kiểm lại kết quả, không tự chọn số liệu:**  \n✅ **Đúng.**",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_answer_02",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một tấm thảm hình chữ nhật có chiều dài 2,4 m và chiều rộng 1,5 m. Tính diện tích tấm thảm.",
+      "expected_answer": "3,6 m²",
+      "rubric": [
+        "decimal area; square units",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Tấm thảm hình chữ nhật có chiều dài 2,4 m và chiều rộng 1,5 m.\n- **Yêu cầu:** Tính diện tích tấm thảm.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Chiều dài và chiều rộng đều được cung cấp và là số đo có đơn vị là mét (m), nên dữ kiện là **đủ và nhất quán**.\n\n**3. Giải bài toán:**\n\nDiện tích của một hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 2,4 \\, \\text{m} \\times 1,5 \\, \\text{m}\n$$\n\nTính toán:\n\n$$\n2,4 \\times 1,5 = (2 + 0,4) \\times 1,5 = 2 \\times 1,5 + 0,4 \\times 1,5 = 3 + 0,6 = 3,6\n$$\n\n**Kết quả:** Diện tích tấm thảm là **3,6 m²**.\n\n**4. Kiểm lại kết quả:**\n\n- Các số liệu đã được cung cấp và sử dụng đúng đơn vị (mét), không có mâu thuẫn.\n- Tính toán đúng, không có sai sót.\n\n**5. Lời giải đầy đủ:**\n\n- Diện tích tấm thảm được tính bằng cách nhân chiều dài với chiều rộng:  \n  $$\n  2,4 \\times 1,5 = 3,6\n  $$\n\n**Kết quả:** Diện tích tấm thảm là **3,6 m²**.",
+    "adapter_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Chiều dài tấm thảm: 2,4 m  \n  - Chiều rộng tấm thảm: 1,5 m  \n\n- **Yêu cầu:** Tính diện tích tấm thảm.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Dữ kiện đầy đủ và nhất quán. Không có mâu thuẫn.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 2,4 \\, \\text{m} \\times 1,5 \\, \\text{m}\n$$\n\nTính toán:\n\n$$\n2,4 \\times 1,5 = (2 + 0,4) \\times (1 + 0,5) = 2 \\times 1 + 2 \\times 0,5 + 0,4 \\times 1 + 0,4 \\times 0,5 = 2 + 1 + 0,4 + 0,2 = 3,6\n$$\n\n**Kiểm lại kết quả:**  \n$2,4 \\times 1,5 = 3,6$ (m²)\n\n**4. Kết luận:**\n\nDiện tích tấm thảm là **3,6 m²**.\n\n**Lời giải đầy đủ:**\n\n- Diện tích tấm thảm được tính bằng cách nhân chiều dài với chiều rộng.\n- $2,4 \\times 1,5 = 3,6$\n- Kiểm lại: $2,4 \\times 1,5 = 3,6$ (đúng)\n\n**Đáp án:** Diện tích tấm thảm là **3,6 m²**.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_hint_no_answer_01",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Một cửa hàng giảm giá 20% cho chiếc cặp giá 150 000 đồng. Hãy tìm số tiền được giảm.",
+      "expected_answer": "Gợi ý: Đổi 20% thành phân số hoặc số thập phân rồi nhân với giá ban đầu. Đáp số tính bằng đồng.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**Bước đầu:**  \nChúng ta cần tìm số tiền được giảm khi cửa hàng giảm giá 20% cho một chiếc cặp giá 150 000 đồng.\n\n**Giải thích:**  \nGiảm giá 20% nghĩa là giá trị được giảm là 20% của giá gốc.\n\n**Lời giải:**  \nTính số tiền được giảm:  \n$ 150 000 \\times \\frac{20}{100} = 150 000 \\times 0.2 = 30 000 $ đồng.\n\n**Kết quả:**  \nSố tiền được giảm là 30 000 đồng.",
+    "adapter_output": "**Bước đầu:**  \nChúng ta cần tìm số tiền được giảm khi cửa hàng giảm giá 20% cho chiếc cặp giá 150 000 đồng.\n\n**Giải thích:**  \nGiảm giá 20% có nghĩa là giá trị được giảm là 20% của giá gốc.\n\n**Lời giải:**  \nTính số tiền được giảm:  \n$ 150 000 \\times \\frac{20}{100} = 150 000 \\times 0.2 = 30 000 $ đồng.\n\n**Kết luận:**  \nSố tiền được giảm là **30 000 đồng**.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_hint_no_answer_02",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Một chuyến đi dài 135 km. Xe đã đi 2/5 quãng đường. Hãy tìm quãng đường xe đã đi.",
+      "expected_answer": "Gợi ý: “2/5 của 135 km” nghĩa là chia tổng quãng đường thành 5 phần bằng nhau rồi lấy 2 phần.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**Bước đầu:**\n\n- Quãng đường tổng cộng: 135 km  \n- Quãng đường đã đi: $\\frac{2}{5}$ quãng đường tổng cộng\n\n**Lời giải:**\n\n- Quãng đường đã đi = $\\frac{2}{5} \\times 135$  \n- Tính toán: $135 \\div 5 = 27$, sau đó $27 \\times 2 = 54$\n\n**Đáp án: 54 km**",
+    "adapter_output": "**Bước đầu:**\n\n- Quãng đường tổng cộng: 135 km  \n- Quãng đường đã đi: $\\frac{2}{5}$ quãng đường tổng cộng\n\n**Lời giải:**\n\n- Quãng đường đã đi = $\\frac{2}{5} \\times 135$  \n- Tính toán: $135 \\div 5 = 27$; $27 \\times 2 = 54$\n\n**Đáp án: 54 km**",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_missing_or_contradictory_info_01",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một hình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm. Hỏi thể tích hình hộp là bao nhiêu?",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều cao để tính thể tích.",
+      "rubric": [
+        "height absent",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Chiều dài hình hộp chữ nhật: 8 cm  \n  - Chiều rộng hình hộp chữ nhật: 5 cm  \n\n- **Yêu cầu:**  \n  - Tính thể tích hình hộp chữ nhật.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Dữ kiện đầy đủ và nhất quán, không có mâu thuẫn.\n\n**3. Giải bài toán:**\n\nHình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm, chiều cao chưa được cung cấp.\n\n**Lưu ý:** Thể tích của hình hộp chữ nhật được tính bằng công thức:\n\n$$\nV = \\text{chiều dài} \\times \\text{chiều rộng} \\times \\text{chiều cao}\n$$\n\nTuy nhiên, trong đề bài thiếu thông tin về **chiều cao**. Do đó, **đề thiếu dữ kiện**.\n\n**4. Kết luận:**\n\n- **Vấn đề:** Đề bài thiếu thông tin về chiều cao của hình hộp chữ nhật.\n- **Lời giải:** Không thể tính được thể tích vì thiếu dữ kiện.\n\n**Nếu có thông tin về chiều cao, ta có thể tiếp tục giải bài toán như sau:**\n\nGiả sử chiều cao là $ h $ cm, thì thể tích là:\n\n$$\nV = 8 \\times 5 \\times h = 40h \\text{ cm}^3\n$$\n\nTuy nhiên, **đề bài thiếu thông tin về chiều cao**, nên không thể tính toán chính xác.",
+    "adapter_output": "**Đề bài:**\n\nMột hình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm. Hỏi thể tích hình hộp là bao nhiêu?\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**\n\n- **Dữ kiện:** Chiều dài = 8 cm, chiều rộng = 5 cm.\n- **Yêu cầu:** Tính thể tích hình hộp chữ nhật.\n\n**Phân tích:**\n\n- Hình hộp chữ nhật có 3 kích thước: chiều dài, chiều rộng, chiều cao.\n- Thể tích của hình hộp chữ nhật được tính bằng công thức:\n  $$\n  V = \\text{chiều dài} \\times \\text{chiều rộng} \\times \\text{chiều cao}\n  $$\n- Tuy nhiên, đề bài chỉ cung cấp 2 kích thước (chiều dài và chiều rộng), không có thông tin về chiều cao.\n\n**Phân tích mâu thuẫn:**\n\n- Đề bài thiếu thông tin về **chiều cao** của hình hộp chữ nhật.\n- Không thể tính được thể tích vì thiếu dữ kiện.\n\n---\n\n**Kết luận:**\n\n- **Phần thiếu:** Chiều cao của hình hộp chữ nhật.\n- **Lời giải:** Đề bài thiếu dữ kiện.\n\n---\n\n**Lời giải cần bổ sung:**  \nCần bổ sung thông tin về chiều cao của hình hộp chữ nhật để tính thể tích.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_student_error_01",
+      "grade": 5,
+      "mode": "student_error",
+      "userproblem": "Một bể có 80 l nước, đã dùng 3/10 lượng nước. Hạnh viết: “Đã dùng 24 l và còn 66 l.” Hãy nhận xét đúng dòng Hạnh đã viết.",
+      "expected_answer": "3/10 × 80 = 24 l đã dùng là đúng. Lượng còn lại là 80 - 24 = 56 l, không phải 66 l.",
+      "rubric": [
+        "check amount used and remainder; only address provided claim",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể có 80 l nước, đã dùng $\\frac{3}{10}$ lượng nước.\n- **Yêu cầu:** Nhận xét đúng hay sai dòng Hạnh viết: “Đã dùng 24 l và còn 66 l.”\n\n**2. Giải bài toán:**\n\n- Tổng lượng nước ban đầu: 80 l.\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**3. Nhận xét:**\n\n- **Sai:** Hạnh đã viết “Đã dùng 24 l và còn 66 l.”  \n  - Lượng nước còn lại là **56 l**, không phải 66 l.  \n  - Lượng nước đã dùng là **24 l**, đúng với phép tính.\n\n**4. Lời giải đầy đủ:**\n\n- **Phép tính:** $\\frac{3}{10} \\times 80 = 24$ (l).\n- **Phép tính:** $80 - 24 = 56$ (l).\n- **Kết quả:** Lượng nước còn lại là 56 l, không phải 66 l.\n\n**5. Nhận xét cuối cùng:**\n\n- **Sai:** Dòng Hạnh viết “Đã dùng 24 l và còn 66 l.” là **sai**.\n- **Lỗi:** Lượng nước còn lại là $80 - 24 = 56$ l, không phải 66 l.\n- **Phải sửa:** Dòng Hạnh viết sai về lượng nước còn lại.\n\n**6. Kết luận:**\n\n- Dữ kiện đủ và nhất quán.\n- Lời giải đầy đủ và kiểm lại kết quả.\n- Lời nhận xét đúng: Dòng Hạnh viết sai.",
+    "adapter_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể có 80 l nước, đã dùng $\\frac{3}{10}$ lượng nước.\n- **Yêu cầu:** Nhận xét đúng hay sai dòng Hạnh viết: “Đã dùng 24 l và còn 66 l.”\n\n**2. Giải bài toán:**\n\n- Tổng lượng nước ban đầu: 80 l.\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**3. Nhận xét:**\n\n- **Sai:** Hạnh đã viết “Đã dùng 24 l và còn 66 l.”  \n  - Lượng nước còn lại là **56 l**, nhưng Hạnh viết là **66 l** → **Sai**.\n- **Đúng:** Lượng nước đã dùng là **24 l** (đúng), nhưng lượng nước còn lại là **56 l**, nhưng Hạnh viết là **66 l** → **Sai**.\n\n**4. Kết luận:**\n\n- Dòng Hạnh viết **sai**.\n- Lượng nước đã dùng: $ \\frac{3}{10} \\times 80 = 24 $ l.\n- Lượng nước còn lại: $ 80 - 24 = 56 $ l.\n\n**5. Đáp án cuối cùng:**\n\n- **Sai:** Dòng Hạnh viết sai.\n- **Lượng nước đã dùng:** 24 l.\n- **Lượng nước còn lại:** 56 l.\n\n**6. Lời giải đầy đủ:**\n\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**Kết luận:** Dòng Hạnh viết sai. Lượng nước còn lại là 56 l, nhưng Hạnh viết là 66 l.",
+    "completed_eos": true,
+    "timed_out": false
+  }
+]

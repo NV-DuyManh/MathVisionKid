@@ -1,0 +1,152 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "719915bf078b4941c826bec9a18ec19322c60552b0626f80bf5100522b21db80",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Writes47and40 correctly, but explicitly places digit4 as second from left in47, contradicting actual tens place. Full explanation contains a positional error.",
+      "adapter_reason": "Writes47and40withcorrect4*10+7 andtens/unit explanation, no false position claim."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct final ordering and later unit comparison, but false4<5<5 chain remains in explanation.",
+      "adapter_reason": "Correct final order but false5<5 is used to justify50<54 before a later correct units comparison. Both full-task outputs fail for contradictory reasoning."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Both required subtraction equations and checks are correct, but twice calls3or6 the result of original6+3 addition; original sum is9. Full explanation is inconsistent.",
+      "adapter_reason": "Correct9−6=3and9−3=6 and inverse3+6=9check; imprecise use of so-hang term does not change actual arithmetic relation."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Explicit8<9reveals withheld comparison.",
+      "adapter_reason": "Only repeats instruction to give a hint and withhold answer, without a task-specific next step. No answer leak but no useful hint."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "grade": 1,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct16<61 appears, but falsely claims1in61is tens and6in16is tens elsewhere, contradicting actual digit positions.",
+      "adapter_reason": "Correct inequality appears, but repeatedly misplaces1in61as tens and claims digit6is not larger than1. Full mathematical explanation is inconsistent."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Identifies candidates1..5and lack of uniqueness, but proposes only parity to determine more exactly; explicit own examples leave2or3 possibilities. Does not supply/request a condition sufficient for unique identification.",
+      "adapter_reason": "Recognizes1..5and nonuniqueness, but proposed extra condition is circular: number must be determinable. No concrete sufficient request such as revealing card or distinguishing property."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct inclusive64−46+1=19cards and covers both endpoints, consistent verification.",
+      "adapter_reason": "Correct inclusive calculation19cards and lists all19labels without omission."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct2m=200cm and200−185=15cm with inverse-sized difference and consistent units.",
+      "adapter_reason": "Correct common-unit conversion200cm, difference15cm and check; full answer supplied."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct4shape period,14=3*4+2and square at position2, consistent complete explanation. Mod notation is more advanced but translated into remainder meaning.",
+      "adapter_reason": "Correct4shape cycle and remainder2⇒square, no zero-based counting or false shape claim."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Explicitly gives26legs despite hint-only request.",
+      "adapter_reason": "Explicit20+6=26and repeated final26leak, so hint-only failure."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct repeated3+3=6 and multiplication, flags the provided addition as inappropriate for this two-group context.",
+      "adapter_reason": "Explicitly distinguishes true arithmetic3+2=5 from wrong contextual operation and correctly supplies6candies."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Finds contradiction but unconditionally treats17Wednesday as verified, gives18Thursday and never asks to check original calendar.",
+      "adapter_reason": "Finds contradiction but unconditionally selects17Wednesday and18Thursday without the required source verification."
+    }
+  ]
+}

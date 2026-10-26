@@ -1,0 +1,63 @@
+{
+  "schema": "MathVisionKid.structural15_derived_code_manifest.v1",
+  "parent_audit_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+  "derived_audit_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+  "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+  "corpus_recipe_unchanged": true,
+  "source_chat_payload_bytes_changed": 0,
+  "files": {
+    "exact_structural15_adapter.py": {
+      "bytes": 4503,
+      "sha256": "a4c80b48779f2a075db1cdb41091d7affaba9b3eccd7bbee15551188de26fbaf"
+    },
+    "build_derived_auditor.py": {
+      "bytes": 4844,
+      "sha256": "d91f7f1a62a16113a6456239829c4e6d12c4d4d533364be879de5a2217ad5111"
+    },
+    "math_data_full_audit_structural15.py": {
+      "bytes": 26071,
+      "sha256": "01068895d6095c0d7fc3a5b66e42c5a05edd2dc5878cb8e3b05e39124528ebeb"
+    },
+    "migrate_adapter_checkpoint.py": {
+      "bytes": 35483,
+      "sha256": "f3afd1c55acb3f2a10edc781fb4d94338b1f170ed7fc8cd9eaa30639efbfb476"
+    },
+    "bindings.json": {
+      "bytes": 40361,
+      "sha256": "95d9fbf8536b908a6456256d8ff04175e8bd017cd34a406e190513844d316e87"
+    },
+    "structural15_semantic_review.json": {
+      "bytes": 32907,
+      "sha256": "987c9cf516bf4409069666b2d8046f833b21735f4a0c7b3b7e031f91eed4ed76"
+    },
+    "run_exact_adapter_repair.py": {
+      "bytes": 14615,
+      "sha256": "b7159406948f7e7f9c32511253547cfd4ff0ca7c123d3913a2a494cea90cf6f6"
+    },
+    "final_technical_adjudication_derived.py": {
+      "bytes": 14575,
+      "sha256": "357db6218df3b45b92a28a83c800717edb1b2178482d8d98f76ecd5cc160dfc1"
+    },
+    "final_source_chat_antijoin_derived.py": {
+      "bytes": 6607,
+      "sha256": "c6609e3a4fd6ca209cedd78d6dda5984240d0d6098e32078b3e88b616c7ee529"
+    }
+  },
+  "final_metadata_derivations": {
+    "final_technical_adjudication_derived.py": {
+      "parent_file": "final_technical_adjudication.py",
+      "parent_sha256": "45afd453ae0ae47af453cf9b810929df1b0f7acb1b749baf4c4bc5c7503b3a23",
+      "only_semantic_change": "exact audit identity retargeted from frozen parent to independently computed structural15 derived identity",
+      "sha256": "357db6218df3b45b92a28a83c800717edb1b2178482d8d98f76ecd5cc160dfc1"
+    },
+    "final_source_chat_antijoin_derived.py": {
+      "parent_file": "final_source_chat_antijoin.py",
+      "parent_sha256": "ea5a8ba47f65e4bec309b55186b198ce1acc4e7205c32f0962386ea7e54ddbf9",
+      "only_semantic_change": "exact audit identity retargeted from frozen parent to independently computed structural15 derived identity",
+      "sha256": "c6609e3a4fd6ca209cedd78d6dda5984240d0d6098e32078b3e88b616c7ee529"
+    }
+  },
+  "focused_tests_passed": 10,
+  "tests_scope": "8 adapter tests including actual15source producer replay +2 synthetic migration tests; not full corpusQA.",
+  "training_started": false
+}

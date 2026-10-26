@@ -1,0 +1,24 @@
+{
+  "schema": "MathVisionKid.fixture_authoring_exact_checks.v1",
+  "status": "passed",
+  "method": "Python Fraction and Decimal arithmetic, independently checked against fixture references",
+  "fixture_count": 20,
+  "computed_values": {
+    "fresh_01": "24",
+    "fresh_02": "8",
+    "fresh_05": "24",
+    "fresh_06": "56",
+    "fresh_09": {
+      "quotient": 7,
+      "remainder": 3
+    },
+    "fresh_10": "3",
+    "fresh_13": "60",
+    "fresh_14": "24",
+    "fresh_17": "18",
+    "fresh_18": "240",
+    "fresh_20_conflict_area_from_dimensions": "20"
+  },
+  "source_code": "authoring_exact_checks.py",
+  "human_certification": false
+}

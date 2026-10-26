@@ -1,0 +1,307 @@
+{
+  "batch_sha256": "808ce529b9297b9c3d19964a387e13c6935c89b0e33c1e0fe71ff83144057f42",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal",
+      "row_sha256": "5caafe8ce11adf4ee2b8a297105188c38db6ebd534c176d9537657f4c116f40f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_equal_sides_need_right_angles",
+      "row_sha256": "21e4917a2a2db3923753ff17a4902b4d02e4ec283752e34e9addbfd70dfe8e9b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_circle_radius_diameter_and_noncentral_segment",
+      "row_sha256": "9b1419e068211ebc354afc58c2380dae0d7dd6e416359ac040ab6a8b2c51de76",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_misconception_radius_called_diameter",
+      "row_sha256": "ae7ff1e75e651172e35e2abd4f92c27a57d77cc9859f99936e47e87249820742",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_shape_elements_0037_guard_four_sides_missing_lengths_angles",
+      "row_sha256": "7895fb515c6b263a815cdd84b1f0aa088de400fae1aa3d17d951515678d60000",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "rectangle": {
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "witness": {
+        "edge_squared_lengths": [
+          "64",
+          "25",
+          "64",
+          "25"
+        ],
+        "adjacent_dot_products": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    },
+    "rotated_square": {
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          -1,
+          7
+        ],
+        [
+          -4,
+          3
+        ]
+      ],
+      "witness": {
+        "edge_squared_lengths": [
+          "25",
+          "25",
+          "25",
+          "25"
+        ],
+        "adjacent_dot_products": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    },
+    "equal_sided_not_right": {
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "witness": {
+        "edge_squared_lengths": [
+          "25",
+          "25",
+          "25",
+          "25"
+        ],
+        "adjacent_dot_products": [
+          "15",
+          "-15",
+          "15",
+          "-15"
+        ]
+      }
+    },
+    "circle_points": {
+      "O": [
+        0,
+        0
+      ],
+      "A": [
+        -5,
+        0
+      ],
+      "B": [
+        5,
+        0
+      ],
+      "C": [
+        0,
+        5
+      ],
+      "D": [
+        3,
+        4
+      ],
+      "E": [
+        -3,
+        4
+      ]
+    },
+    "four_sides_countermodels": [
+      {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "square": true
+      },
+      {
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "square": false
+      }
+    ]
+  },
+  "oracle_method": "Rational polygon edge norms and dot products; exact circle squared radii, center midpoint and noncentral horizontal segment. Coordinate computations only in evidence, not grade3 child-facing instruction.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read boundary edge versus internal segment, opposite versus adjacent sides, square full conditions despite rotation, radius/diameter endpoint and center rules, wrong quote and all15hints. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Text/hypothetical descriptions only, no real shape image or measuring verified. No chord/rhombus classification required. Neutral schema is not live PlanDraft."
+}

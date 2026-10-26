@@ -1,0 +1,2 @@
+import subprocess,json,pathlib,time
+print(json.dumps({'observed_unix':time.time(),'gpu':subprocess.check_output(['nvidia-smi','--query-gpu=name,utilization.gpu,memory.used,memory.total','--format=csv,noheader'],text=True).strip(),'native_worker_alive':skill_native_dev_process.poll()is None,'output_bytes':{p.name:p.stat().st_size for p in pathlib.Path('/content/mathvisionkid_skill_recovery_150m_20261024/native_probe/dev').glob('*_final*.jsonl')}},ensure_ascii=False))

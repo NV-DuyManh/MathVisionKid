@@ -1,0 +1,488 @@
+{
+  "schema": "MathVisionKid.G2Cohort1.IndependentPeerReview.v1",
+  "status": "MATH_PASS_PARENT_PRESERVED_DERIVED_WORDING_READY_FOR_ROOT_REVIEW",
+  "source_cases_sha256": "cf37b8eac71da477df4de90e9eb5db546d2a9da923dcfc5bbd7664c386221555",
+  "source_chat_sha256": "7b5c37ddcd1c3b52ce1db79fd04e204092c66ce2d3c1f7d390321c7afd15058e",
+  "original_case_reviews": [
+    {
+      "sample_id": "g2_numerals_20261021_all_two_digit_unfiltered_zero",
+      "source_row_sha256": "f35c18db9cac591bc5096477677e9697deaedd2ff7ee82d33df4a039bb153276",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "PASS",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "Unrestricted two-digit list must retain 27 as well as even values; 0 may occur only in units. 72-20=52.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "0": 1,
+          "2": 1,
+          "7": 1
+        },
+        "length": 2,
+        "strict_lower_bound": null,
+        "stock_values_before_bound": [
+          20,
+          27,
+          70,
+          72
+        ],
+        "values": [
+          20,
+          27,
+          70,
+          72
+        ],
+        "physical_realizations_per_value": {
+          "20": 1,
+          "27": 1,
+          "70": 1,
+          "72": 1
+        },
+        "physical_assignments": 4,
+        "minimum": 20,
+        "maximum": 72,
+        "difference": 52,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s3",
+          "expression": "72-20",
+          "Fraction": "52",
+          "Decimal": "52",
+          "expected": "52",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "g2_numerals_20261021_optional_zero_not_compulsory_card",
+      "source_row_sha256": "901b8dfaff8648992a20346be25b0007220aa992a8b0cf0cf45e3c303b41a7e3",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "OBSERVABLE_SCOPE_PASS_REMOVE_INTERNAL_META_COMMENT",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "Four-card stock is optional selection, not compulsory zero. Nine values in three tens groups; 84-10=74. Feedback is tied to the supplied mandatory-zero statement.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "0": 1,
+          "1": 1,
+          "4": 1,
+          "8": 1
+        },
+        "length": 2,
+        "strict_lower_bound": null,
+        "stock_values_before_bound": [
+          10,
+          14,
+          18,
+          40,
+          41,
+          48,
+          80,
+          81,
+          84
+        ],
+        "values": [
+          10,
+          14,
+          18,
+          40,
+          41,
+          48,
+          80,
+          81,
+          84
+        ],
+        "physical_realizations_per_value": {
+          "10": 1,
+          "14": 1,
+          "18": 1,
+          "40": 1,
+          "41": 1,
+          "48": 1,
+          "80": 1,
+          "81": 1,
+          "84": 1
+        },
+        "physical_assignments": 9,
+        "minimum": 10,
+        "maximum": 84,
+        "difference": 74,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s2",
+          "expression": "3+3+3",
+          "Fraction": "9",
+          "Decimal": "9",
+          "expected": "9",
+          "status": "PASS"
+        },
+        {
+          "step_id": "s4",
+          "expression": "84-10",
+          "Fraction": "74",
+          "Decimal": "74",
+          "expected": "74",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "g2_numerals_20261021_two_zero_cards_values_vs_arrangements",
+      "source_row_sha256": "590462c107c3217db3c1e1d8ffdece0855e5404739c51ddc20a78d2d4f9d3f86",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "PASS",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "Two separate zero resources give C-A and C-B, one numeral value50, two physical placements. Same minimum/maximum50; difference0 is not an empty result.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "0": 2,
+          "5": 1
+        },
+        "length": 2,
+        "strict_lower_bound": null,
+        "stock_values_before_bound": [
+          50
+        ],
+        "values": [
+          50
+        ],
+        "physical_realizations_per_value": {
+          "50": 2
+        },
+        "physical_assignments": 2,
+        "minimum": 50,
+        "maximum": 50,
+        "difference": 0,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s3",
+          "expression": "50-50",
+          "Fraction": "0",
+          "Decimal": "0",
+          "expected": "0",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "g2_numerals_20261021_repeated_nonzero_all_three_slots",
+      "source_row_sha256": "91f37ad961396cdd9365ff9b7e5cc03698e7a8d242f94307d0218398ca4f2c17",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "OBSERVABLE_SCOPE_PASS_REMOVE_INTERNAL_META_COMMENT",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "All three physical cards must be used. A-C-B/B-C-A produce202; A-B-C/B-A-C produce220. Four placements, two values, difference18; supplied deletion of B is invalid.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "0": 1,
+          "2": 2
+        },
+        "length": 3,
+        "strict_lower_bound": null,
+        "stock_values_before_bound": [
+          202,
+          220
+        ],
+        "values": [
+          202,
+          220
+        ],
+        "physical_realizations_per_value": {
+          "202": 2,
+          "220": 2
+        },
+        "physical_assignments": 4,
+        "minimum": 202,
+        "maximum": 220,
+        "difference": 18,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s3",
+          "expression": "220-202",
+          "Fraction": "18",
+          "Decimal": "18",
+          "expected": "18",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "g2_numerals_20261021_strict_bound_equality_excluded",
+      "source_row_sha256": "65b6392ee431b6a72bf2327c46de0b4a762fe14aedd65704ada6d1f7ce3e13bd",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "PASS",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "Stock permits306,360,603,630 before comparison; strict >306 removes equality306. Retained360,603,630 have minimum360/maximum630/difference270.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "0": 1,
+          "3": 1,
+          "6": 1
+        },
+        "length": 3,
+        "strict_lower_bound": 306,
+        "stock_values_before_bound": [
+          306,
+          360,
+          603,
+          630
+        ],
+        "values": [
+          360,
+          603,
+          630
+        ],
+        "physical_realizations_per_value": {
+          "360": 1,
+          "603": 1,
+          "630": 1
+        },
+        "physical_assignments": 3,
+        "minimum": 360,
+        "maximum": 630,
+        "difference": 270,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s3",
+          "expression": "630-360",
+          "Fraction": "270",
+          "Decimal": "270",
+          "expected": "270",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "g2_numerals_20261021_maximum_still_below_required_bound",
+      "source_row_sha256": "a5209d1048f1623c34ae30c77df04a461b6384a95f48996a37ae2503cf843102",
+      "criteria": {
+        "problem_givens_request_consistency": "PASS",
+        "mathematical_oracle_complete_finite_inventory": "PASS",
+        "steps_reasons_units_checks": "PASS",
+        "initial_and_three_hints_no_filled_answer": "PASS",
+        "student_feedback_only_supplied_quote": "OBSERVABLE_SCOPE_PASS_REMOVE_INTERNAL_META_COMMENT",
+        "grade2_original_substantive_branch": "MATHEMATICAL_BRANCH_PASS_WORDING_POLISH_REQUIRED",
+        "provenance_hash_preservation": "PASS"
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.title",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.unit",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "semantic_note": "Six stock numbers124,142,214,241,412,421 are all <500. The largest stock number is not feasible. No feasible minimum/maximum; feasible count0 is valid, unlike substituting numeral0 for an extremum.",
+      "independent_computation": {
+        "method": "Digit-value cartesian words filtered by independently transcribed stock capacities; physical assignments counted by falling-factorial weights, not physical-card permutations or scanning integer ranges.",
+        "stock": {
+          "1": 1,
+          "2": 1,
+          "4": 1
+        },
+        "length": 3,
+        "strict_lower_bound": 500,
+        "stock_values_before_bound": [
+          124,
+          142,
+          214,
+          241,
+          412,
+          421
+        ],
+        "values": [],
+        "physical_realizations_per_value": {},
+        "physical_assignments": 0,
+        "minimum": null,
+        "maximum": null,
+        "difference": null,
+        "status": "PASS"
+      },
+      "numeric_checks": [
+        {
+          "step_id": "s4",
+          "expression": "2+2+2",
+          "Fraction": "6",
+          "Decimal": "6",
+          "expected": "6",
+          "status": "PASS"
+        }
+      ],
+      "status": "MATH_PASS_DERIVED_GRADE2_WORDING_POLISH_BEFORE_ROOT_ACCEPTANCE",
+      "human_review_claimed": false
+    }
+  ],
+  "derived_cases_sha256": "b29337cd0b65f00a9e3b7ae0d146042e0cb3921f4549a8846fe4de3147477e97",
+  "derived_chat_sha256": "5d35f2f3f7120cfd42e8f01c33406df31b8c72bccd2d9404b415388002b83dd0",
+  "derived_cases": 6,
+  "derived_chat_rows": 24,
+  "independent_oracles": 6,
+  "numeric_Fraction_Decimal_steps": 7,
+  "mutation_checks": 12,
+  "wording_deltas": 50,
+  "expected_answers_unchanged": true,
+  "actual_nearest_source_count": 5,
+  "nearest_semantic_assessment": "Earlier parity-only distinct-card exemplar omits unrestricted values. New branches add optional-card selection with explicit erroneous extra condition, repeated resources versus values and physical placements, using all3slots, strict bound equality, and a bound with no feasible numeral. These are constraint/representation changes, not mere digit substitutions. Comparison is bounded to supplied five actual nearest references, not full-archive absence proof.",
+  "source_locator_scope": "Inherited publisher-page receipts only. Peer did not newly view publisher images; no physical performance or image-reading coverage certified.",
+  "criteria7": [
+    "problem_givens_request_consistency",
+    "mathematical_oracle_complete_finite_inventory",
+    "steps_reasons_units_checks",
+    "initial_and_three_hints_no_filled_answer",
+    "student_feedback_only_supplied_quote",
+    "grade2_original_substantive_branch",
+    "provenance_hash_preservation"
+  ],
+  "parents_unchanged": {
+    "adversarial_mutations.jsonl": "601336acb60228f048730881bcea852c7a8d06a65c6ab2e44aefd6c7f2ea5b4a",
+    "cases.jsonl": "cf37b8eac71da477df4de90e9eb5db546d2a9da923dcfc5bbd7664c386221555",
+    "chat.jsonl": "7b5c37ddcd1c3b52ce1db79fd04e204092c66ce2d3c1f7d390321c7afd15058e",
+    "independent_oracles.jsonl": "b6357b7e0f7be3fe0ea199c42a227c3aeae7b34869e647d7a78c4db5206b2ba6",
+    "manifest.json": "6b7fa45f75b5f174c1eb89c2227ca1c116f32f217dca6516d26efe2eabd2ed05",
+    "nearest_actual_fullfields.jsonl": "97487579ae3191dcff8c349e4812e854d1460157fe92899385c939def0367735",
+    "numeric_fraction_decimal.jsonl": "0ed721ba5a65657493f834151ac1d6db480f84bbd323b8fb8c73398223a6a241",
+    "planning_task_snapshot.json": "1c824ae47aea25e0b55bdac6797bb4d5376a0e43f5ea5dab6766ca9f044de6a5",
+    "selfqa7.jsonl": "204c295ae0e0583cdadaee7f4899aebca3d040d8c9f162a2027ba37c931872c2",
+    "validation_receipt.json": "5cf50f36198534acd8af50400fed55c2296212073e0426b2d2fcfafdf77047f4"
+  },
+  "root_acceptance_required": true,
+  "data_accepted": false,
+  "global_state_mutated": false,
+  "drive_mutated": false,
+  "training_started": false,
+  "human_review_claimed": false
+}

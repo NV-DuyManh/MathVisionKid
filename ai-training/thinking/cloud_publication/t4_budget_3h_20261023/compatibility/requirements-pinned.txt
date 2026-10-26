@@ -1,0 +1,10 @@
+# Isolated Unsloth benchmark environment (Colab Linux, Python 3.12)
+# Install PyTorch separately from the CUDA 13.0 wheel index before this file:
+#   python -m pip install --index-url https://download.pytorch.org/whl/cu130 torch==2.11.0+cu130 torchvision==0.26.0+cu130 torchaudio==2.11.0+cu130
+# Then install this file with pip/uv in a NEW venv; do not install into the active training runtime.
+unsloth[cu130-torch2110]==2026.10.7
+unsloth-zoo==2026.10.7
+transformers==5.16.1
+peft==0.21.2
+accelerate==1.15.0
+bitsandbytes==0.50.2

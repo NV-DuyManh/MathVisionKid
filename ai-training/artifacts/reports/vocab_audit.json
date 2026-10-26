@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "original_vocab_size": 320,
+  "unified_vocab_size": 326,
+  "blank_index": 0,
+  "digits_coverage": "10/10",
+  "vietnamese_lower_coverage": "89/89",
+  "vietnamese_upper_coverage": "86/89",
+  "missing_characters_count": 6,
+  "missing_characters": [
+    "±",
+    "×",
+    "÷",
+    "Ẳ",
+    "Ẵ",
+    "Ỳ"
+  ],
+  "added_tokens_mapping": {
+    "±": 320,
+    "×": 321,
+    "÷": 322,
+    "Ẳ": 323,
+    "Ẵ": 324,
+    "Ỳ": 325
+  },
+  "target_task_symbols": {
+    "math_operators": {
+      "+": true,
+      "-": true,
+      "×": true,
+      "x": true,
+      "*": true,
+      "/": true,
+      ":": true,
+      "=": true,
+      "÷": true,
+      "<": true,
+      ">": true,
+      "≤": true,
+      "≥": true,
+      "≠": true,
+      "±": true
+    },
+    "math_specials": {
+      "%": true,
+      "°": true,
+      "²": true,
+      "³": true,
+      "¹": true,
+      "⁴": true
+    },
+    "common_units_supported": true
+  }
+}

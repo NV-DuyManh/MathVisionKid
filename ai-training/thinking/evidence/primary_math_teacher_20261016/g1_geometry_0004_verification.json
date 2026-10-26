@@ -1,0 +1,334 @@
+{
+  "created_utc": "2026-10-16T15:47:21.074930+00:00",
+  "batch_sha256": "15b441aad54ae506a3941be3628e4ed51abf7cc3364edd35ec298fdfe4f8423e",
+  "review_sha256": "ee5c79d78f98655c208e6bd86a62d23f703cb9fe63b07f513d8020b18136a7b3",
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_left_right_anchor",
+      "row_sha256": "cef0ecb91181d9a454a4ce0cbc9e5671dee4b893b63aa2351886104229449fe5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "index_neighbours_in_fixed_page_order",
+        "order": [
+          "cốc",
+          "sách",
+          "hộp"
+        ],
+        "answers": [
+          "cốc",
+          "hộp"
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_above_below_inverse",
+      "row_sha256": "c1b6953c7aff78507565959e9f50f96863bd413bd8231f61932203aa233b90aa",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "strict_vertical_order_with_reversed_reference",
+        "heights": {
+          "gấu": 2,
+          "xe": 1
+        },
+        "answers": [
+          "ở dưới gấu",
+          "ở trên xe"
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "row_sha256": "d57b77639df0e4a1dbf8cbed1c22af63d94cc64f0ad7d7db75b3f5033d09c0db",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "queue_neighbours_with_common_facing_direction",
+        "queue_nearest_door_first": [
+          "An",
+          "Bình",
+          "Chi"
+        ],
+        "answers": [
+          "Bình",
+          "An",
+          "Chi"
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_triangle_by_boundary",
+      "row_sha256": "03521f8072f823f1039513785ef6bdb8201d3068211e2bffb88770a67a8a139c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "explicit_boundary_feature_selection",
+        "features": {
+          "A": {
+            "curved": true,
+            "edges": null
+          },
+          "B": {
+            "curved": false,
+            "edges": 4
+          },
+          "C": {
+            "curved": false,
+            "edges": 3
+          }
+        },
+        "unique_triangle": [
+          "C"
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_square_rotated",
+      "row_sha256": "09d7dafa3adcc87f27c1ed807c713e9028bd4d28e14effa780d17ba6e522ed5f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "exact_rational_rigid_rotation_witness",
+        "all_pair_distances_preserved": true,
+        "four_unit_edges_and_right_corners_preserved": true,
+        "limits": "Witness supports the invariant; not an observed physical activity or exhaustive proof from this code."
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+      "row_sha256": "17356a169fc6ea4a9bb1f0229c203a3dfe6ba609ea2257a0a13790f45671593d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "four_explicit_feature_records_one_to_one_matching",
+        "matching": {
+          "A": "tròn",
+          "B": "tam giác",
+          "C": "vuông",
+          "D": "chữ nhật"
+        },
+        "square_is_not_declared_disjoint_from_all_rectangles": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_misconception_changed_anchor",
+      "row_sha256": "604697a133d8b814cf2e61c0fd74cf1a7b43c130df93194358cae2d276d0bc06",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "index_order_relative_to_given_anchor",
+        "page_order": [
+          "bóng",
+          "vở",
+          "bút"
+        ],
+        "anchor": "bút",
+        "relation": "trái"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_misconception_curve_vs_edges",
+      "row_sha256": "76fe5fa45bd464aecd1c323c2011e16d980f5d741c15fb83883e0e4fadcd420c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "explicit_closed_three_straight_edge_boundary",
+        "curved": false,
+        "edge_count": 3,
+        "classification": "tam giác"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_guard_no_spatial_frame",
+      "row_sha256": "623212fde614410d9194df581ff21a1eb874329d2806cff93b51fbfaaff61568",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "construct_two_consistent_layouts_with_different_answers",
+        "counterexamples": [
+          {
+            "page_order": [
+              "cốc",
+              "sách"
+            ],
+            "relation": "trái"
+          },
+          {
+            "page_order": [
+              "sách",
+              "cốc"
+            ],
+            "relation": "phải"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_guard_only_colour",
+      "row_sha256": "cb07eee53e2be46ad6c8af0bada8bc3187eb55b997ba3b5ee5f8625322c98648",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "construct_three_same_colour_different_shape_cases",
+        "counterexamples": [
+          {
+            "colour": "đỏ",
+            "shape": "tròn"
+          },
+          {
+            "colour": "đỏ",
+            "shape": "tam giác"
+          },
+          {
+            "colour": "đỏ",
+            "shape": "vuông"
+          }
+        ]
+      }
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_steps_categorical": true,
+  "arithmetic_gate_is_semantic_proof": false,
+  "external_independent_semantic_review": false,
+  "teacher_certified": false,
+  "human_verified": false,
+  "visual_or_physical_outcome_verified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "result": {
+    "accepted_cases": 58,
+    "chat_train_rows": 232,
+    "remaining_core_cases": 452,
+    "core_nodes_complete": 8,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 58
+    }
+  }
+}

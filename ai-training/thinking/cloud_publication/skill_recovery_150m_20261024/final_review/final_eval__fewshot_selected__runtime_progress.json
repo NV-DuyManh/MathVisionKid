@@ -1,0 +1,10 @@
+{
+  "state": "GENERATING_BASE_FEWSHOT",
+  "completed": 5,
+  "fixture_count": 5,
+  "last_fixture_id": "skill150_locked_g5_3",
+  "last_ended_eos": true,
+  "training_performed": false,
+  "optimizer_loaded": false,
+  "locked_test_accessed": false
+}

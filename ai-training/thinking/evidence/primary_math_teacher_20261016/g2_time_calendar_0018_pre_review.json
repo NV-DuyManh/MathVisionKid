@@ -1,0 +1,124 @@
+{
+  "batch_sha256": "82b0b43049c99363ee39c2355137e144d7878b5fcd85f3a9faf4e2a5e11e01f1",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_days_hours_minutes_roles",
+      "row_sha256": "f961a542798ecaab71b8bde60dce4b4ef0698948ee1e95b0422142a21342002f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "24+24",
+          "60+60",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_february_calendar_boundary",
+      "row_sha256": "ae9a66b889f42ccc894f32fddd2c95fde9f0ce86ec6dd694980a6825e8c3f6eb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_afternoon_24hour_schedule",
+      "row_sha256": "81960df7de6681713ca4757519fc51479e8b1c6c4b7c61ec78ee9c3db2932136",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "12+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_misconception_ignore_month_end",
+      "row_sha256": "629539c6dc4c785b6104145ffd708b32b3781fa830de96f399b999f03e3ac0d6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_guard_february_year_or_calendar",
+      "row_sha256": "06c6e947d91dd830409432adf1351d26268e72f0e0a9e4de6b2ff04499b1c840",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "two_whole_days_hours": 48,
+    "two_hours_minutes": 120,
+    "consistent_february_witness": "2024-02-29 Thursday -> 2024-03-01 Friday",
+    "consistent_april_witness": "2025-04-30 Wednesday -> 2025-05-01 Thursday",
+    "february_countermodel_years": {
+      "2023": 28,
+      "2024": 29
+    },
+    "five_pm_24hour": 17
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read clock-index versus duration roles, month-end date boundaries, supplied weekdays, guard information needs and each hint. Same-author review is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Witness years verify consistency of the supplied hypothetical calendars; child-facing solutions use only the provided last dates and weekdays. No leap-year divisibility rule taught and no current-date assumption. Known repeated numeric expression stays training-only. Neutral schema requires an adapter."
+}

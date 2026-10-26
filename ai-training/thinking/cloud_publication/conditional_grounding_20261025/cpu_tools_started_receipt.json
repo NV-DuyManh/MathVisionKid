@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "13tXI-2EJOYB"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'cpu_tools_thread_started': True, 'no_training_or_evaluation_started': True}\n"
+        ]
+      }
+    ]
+  }
+}

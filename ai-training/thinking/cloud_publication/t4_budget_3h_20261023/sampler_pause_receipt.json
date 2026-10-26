@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "3OzOJe5_M8zu"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"old_thread_alive\": false, \"status\": {\"state\": \"CPU_METADATA_SCAN_FAILED\", \"worker_sha256\": \"05c272229582daef11709c66c467594cff4dee720334981575e36cc2ef5c58cd\", \"eval_fixture_sha256\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\", \"eval_fixture_count\": 28, \"protected_question_hash_file_sha256\": \"9fa1cd11b5bbca2b4a8d63268159ab0d498176bb7d601cf8ae3996f3d2e2f7ae\", \"scope\": \"pinned candidate_chat / train rows only\", \"target_cases\": 4000, \"deadline_unix\": 1792775752.4416852, \"worker_time_cap_seconds\": 1200, \"gpu_used\": false, \"model_loaded\": false, \"training_started\": false, \"drive_mutated\": false, \"eval_payload_used_for_training\": false, \"progress\": {\"member_index\": 1, \"member_rows\": 405000, \"train_rows\": 1368504, \"elapsed_seconds\": 446.5}, \"error_type\": \"SamplerResumeMaintenanceStop\", \"error\": \"Preserve DB at completed row transaction for resumable sampler\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/tmp/ipykernel_1413/1778217018.py\\\", line 110, in _run\\n    result = module.scan_and_sample(independentDriveAPI, inventory, eval_hash_path,\\n        SAMPLING_ROOT / 'run', target_cases=4000, seed=20261023, time_limit_s=cap,\\n        progress_callback=progress,\\n        preexisting_cache_dirs=(pathlib.Path('/content/mathvisionkid_full_text_training/payload_cache'),))\\n  File \\\"/content/mathvisionkid_t4_budget_3h_20261023/sampling/colab_train_view_worker.py\\\", line 398, in scan_and_sample\\n    progress_callback({\\\"member_index\\\": mi, \\\"member_rows\\\": seen, \\\"train_rows\\\": counts[\\\"train_rows_scanned\\\"], \\\"elapsed_seconds\\\": round(time.monotonic()-started, 1)})\\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/tmp/ipykernel_1413/1778217018.py\\\", line 109, in progress\\n    _save_status(sampling_worker_status)\\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/tmp/ipykernel_1413/4268962048.py\\\", line 7, in _cooperative_sampler_save_status\\n    raise SamplerResumeMaintenanceStop('Preserve DB at completed row transaction for resumable sampler')\\nSamplerResumeMaintenanceStop: Preserve DB at completed row transaction for resumable sampler\\n\", \"finished_unix\": 1792766369.6256042}}\n",
+          "{\"completed_legacy_members\": [[\"c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b\", 963504, 963504, 1]]}\n"
+        ]
+      }
+    ]
+  }
+}

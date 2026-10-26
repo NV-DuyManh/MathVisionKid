@@ -1,0 +1,360 @@
+{
+  "accepted_cases": 1629597,
+  "all_available_chat_rows_including_evaluation_and_audit": 6501156,
+  "archive_member_hashes_verified": 180,
+  "bundle": {
+    "all_bytes_equal": true,
+    "bytes": 1196154,
+    "cases": 110,
+    "chat_rows": 440,
+    "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+    "fresh_raw_verified": true,
+    "id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+    "member_count": 181,
+    "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+    "url": "https://drive.google.com/file/d/1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI/view?usp=drivesdk",
+    "verified_utc": "2026-10-20T10:46:39.588Z"
+  },
+  "candidate_mapping_resume": {
+    "all_grades_semantic_mapping_complete": false,
+    "avoid_duplicate_authoring": true,
+    "g2": {
+      "accepted_credit_from_mapping_alone": 0,
+      "candidate_count": 91,
+      "finite_master_count": 65,
+      "mapping_member": "data/g2v2_audit/g2_combined_candidate_adjudication.json",
+      "mapping_sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143",
+      "master_status_counts": {
+        "ASSET_PENDING": 16,
+        "CONFIRMED_GAP": 14,
+        "COVERED": 14,
+        "MERGED_PENDING": 21
+      },
+      "pending_master_count": 51,
+      "status_counts": {
+        "ASSET_PENDING": 20,
+        "CONFIRMED_GAP": 16,
+        "COVERED": 20,
+        "MERGED_PENDING": 35
+      }
+    }
+  },
+  "candidate_training_chat_rows": 6501044,
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 7529215,
+      "sha256": "aca7c1e33caccd6330e4ac344dc915aad91458d0c6d52dadf4106c1d72bbcd41",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true,
+      "verified_utc": "2026-10-20T10:51:06.206Z"
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 17280,
+      "sha256": "f58c02b4f942ecdfb065aeea7305cf74fa2154f27260f92c226039dc82bd4767",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true,
+      "verified_utc": "2026-10-20T10:51:05.442Z"
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 733227,
+      "sha256": "87edc07a422a23f6366f0f42d972e130f8deae9c5dced7d1fa1d94843dc75c53",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true,
+      "verified_utc": "2026-10-20T10:51:05.552Z"
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 247451,
+      "sha256": "063e95ed756b2824a30d9a76b3bc99da16b93beaea94d1864a9e6325e5e80411",
+      "all_bytes_equal": true,
+      "fresh_raw_verified": true,
+      "verified_utc": "2026-10-20T10:51:05.458Z"
+    }
+  ],
+  "core_coverage": "495/495 cases;165/165 nodes unchanged",
+  "full_archive_token_split_audit_complete": false,
+  "full_sgk_semantic_coverage_complete": false,
+  "new_batch": {
+    "all_sgk_forms_audited": false,
+    "by_grade": {
+      "1": 21,
+      "3": 9,
+      "4": 68,
+      "5": 12
+    },
+    "by_topic": {
+      "abacus_budget": 3,
+      "add_group_strict_comparison": 3,
+      "assembled_cube_painted_faces": 3,
+      "bar_model_to_story": 2,
+      "board_turn_privilege": 2,
+      "boat_shuttle": 2,
+      "chart_causal_guard": 2,
+      "closed_operation_cycle": 2,
+      "column_multi_blank": 3,
+      "composite_polygon_enumeration": 3,
+      "conjunctive_numeral_filter": 3,
+      "construct_equations_from_number_cards": 3,
+      "delete_one_digit": 3,
+      "digit_inequality": 3,
+      "directional_estimation_bound": 2,
+      "discrete_fraction_integrality": 3,
+      "finite_parameter_extrema": 3,
+      "fixed_stick_rectangle_inventory": 3,
+      "geometric_sequence_local_extension": 2,
+      "global_card_assignment": 3,
+      "infer_rounding_place": 3,
+      "insert_single_plus": 3,
+      "minimum_pair_swaps": 3,
+      "net_repair_cut_one": 3,
+      "numeric_crossword": 2,
+      "ordinal_after_insertion": 3,
+      "ordinal_from_both_ends": 3,
+      "periodic_attribute_pattern": 3,
+      "prefix_difference": 3,
+      "regular_dial_angle": 2,
+      "resource_assignment_inequality": 3,
+      "reverse_algorithm_error": 3,
+      "rotated_water": 3,
+      "structural_product_cancel": 3,
+      "tiered_tariff": 3,
+      "timezone_given_table": 3,
+      "trial_log_race_state": 2,
+      "two_sided_strict_bound_selection": 3,
+      "unbounded_naturals": 3,
+      "unit_fraction_decomposition": 3
+    },
+    "cases": 110,
+    "chat_rows": 440,
+    "diversity_limit": "110 cases cover 40 representation families. Some within-family entries are numeric variants; do not count as separate forms.",
+    "exact_hash_numeric_exceptions": 13,
+    "full_archive_token_audit": false,
+    "independent_numeric_steps": 132,
+    "preservation": "All old payloads and original draft hashes preserved; accepted rows are derived exports.",
+    "prior_fullfield_source_index_rows": 5784,
+    "protection_index_sha256": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8",
+    "representation_families": 40,
+    "training_started": false
+  },
+  "old_frozen_local_files_unchanged": {
+    "authoring_queue.json": {
+      "bytes": 525,
+      "sha256": "3fd00093e8c2cb476a3bccc1793a6046cad1299b4bf584aa731b9e524dce0102"
+    },
+    "coverage_adjudication_queue.json": {
+      "bytes": 2788,
+      "sha256": "b922a78c662232c8327037268c9a80a203a7ccbe7b48bd774f827f8a2ccfdb3b"
+    },
+    "data_build_state.json": {
+      "bytes": 24514,
+      "sha256": "fd3e6a7f7a95c1f0614e53cbb651632e3377c52fc82e9dcaf97efab1d3ea4966"
+    },
+    "owner_acceptance_policy.json": {
+      "bytes": 3251,
+      "sha256": "086c5588c47cc90ec079678857b24dbb65601246cca6b208a700212c7dea6c6e"
+    },
+    "owner_human_attestations.json": {
+      "bytes": 1760,
+      "sha256": "e0d59a9a5ee6e428bfe2c2bcc3cee9fa7b8b52f507140ca09491a39f269cf4ea"
+    },
+    "owner_human_signoffs.jsonl": {
+      "bytes": 156197,
+      "sha256": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a"
+    },
+    "supplementary_queue.json": {
+      "bytes": 53755,
+      "sha256": "177a3a7bc33ae71a7220866b39e91da12c086559ffc85602eb290f6713629712"
+    }
+  },
+  "old_progress_members_byte_preserved": 99,
+  "page_checkpoint": {
+    "accepted_in_this_checkpoint": 110,
+    "all_sgk_exercise_forms_audited": false,
+    "books": [
+      {
+        "actual_content_pages_read": 108,
+        "all_content_pages_read": true,
+        "book_id": "g1v1",
+        "content_range": [
+          6,
+          113
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g1v1_audit/page_review.jsonl",
+        "receipt_sha256": "3c6565b0fabc5b42ccbaa86e31d78973c35b99283ded1b547c1b649e6b30c660",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 102,
+        "all_content_pages_read": true,
+        "book_id": "g1v2",
+        "content_range": [
+          4,
+          105
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g1v2_audit/page_review.jsonl",
+        "receipt_sha256": "7b521a21eaa48598df897e23169241c0d7cd13831a08dd1c583270dacfd0838e",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 132,
+        "all_content_pages_read": true,
+        "book_id": "g2v1",
+        "content_range": [
+          6,
+          137
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g2v1_audit/page_review.jsonl",
+        "receipt_sha256": "74ff3eff7be8f4fc0d74366e63861130194e7bb9337fa039c09b45008e083fcb",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 135,
+        "all_content_pages_read": true,
+        "book_id": "g2v2",
+        "content_range": [
+          4,
+          138
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g2v2_audit/page_review.jsonl",
+        "receipt_sha256": "b8404a9db61a200e1593e013b9e0ecd423115f8611ff40ad9cedc9448c71c628",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 116,
+        "all_content_pages_read": true,
+        "book_id": "g3v1",
+        "content_range": [
+          6,
+          121
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g3_audit/page_review.jsonl",
+        "receipt_sha256": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 123,
+        "all_content_pages_read": true,
+        "book_id": "g3v2",
+        "content_range": [
+          4,
+          126
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g3_audit/page_review.jsonl",
+        "receipt_sha256": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 125,
+        "all_content_pages_read": true,
+        "book_id": "g4v1",
+        "content_range": [
+          6,
+          130
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g4_audit/page_review.jsonl",
+        "receipt_sha256": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 115,
+        "all_content_pages_read": true,
+        "book_id": "g4v2",
+        "content_range": [
+          4,
+          118
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g4_audit/page_review.jsonl",
+        "receipt_sha256": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 133,
+        "all_content_pages_read": true,
+        "book_id": "g5v1",
+        "content_range": [
+          6,
+          138
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g5_audit/page_review.jsonl",
+        "receipt_sha256": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c",
+        "semantic_mapping_complete": false
+      },
+      {
+        "actual_content_pages_read": 131,
+        "all_content_pages_read": true,
+        "book_id": "g5v2",
+        "content_range": [
+          4,
+          134
+        ],
+        "missing_content_pages": [],
+        "receipt_path": "g5_audit/page_review.jsonl",
+        "receipt_sha256": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c",
+        "semantic_mapping_complete": false
+      }
+    ],
+    "books_content_read_complete": 10,
+    "content_pages_read": 1220,
+    "pending_additional_drafts_are_not_accepted": true,
+    "pending_candidate_mapping": true,
+    "schema": "actual_page_audit_checkpoint.v1",
+    "training_started": false,
+    "utc": "2026-10-20T10:46:08.935177+00:00"
+  },
+  "prewrite_fresh_control_check": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 7246773,
+      "fresh_raw_verified": true,
+      "name": "source_progress_index.zip",
+      "sha256": "21516dc9897cb5f7ce9deef4807a0a16333a759b21404c700bbfcf75ffb09b00"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 15717,
+      "fresh_raw_verified": true,
+      "name": "source_chat_manifest.json",
+      "sha256": "e741e08a068946bf95f341ec632863ef6fb17fd9a31a568a1605ae8212b13349"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 238683,
+      "fresh_raw_verified": true,
+      "name": "source_cloud_state.json",
+      "sha256": "6ed209d8f1fe47c3be817812dc90e306d93680049309773344c5076a84629a2e"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 729763,
+      "fresh_raw_verified": true,
+      "name": "source_context.md",
+      "sha256": "232f06f0d0647e722167d418c31dbe0b79ec72bba8e5479fcb202d051482ce76"
+    }
+  ],
+  "published_utc": "2026-10-20T10:48:44.749060+00:00",
+  "schema": "verified_finite_sgk_page_publication.v1",
+  "temporary_staging": {
+    "attempted_action": "Remove-Item -LiteralPath exact verified run directory -Recurse -Force",
+    "bytes": 65067414,
+    "files": 246,
+    "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019",
+    "rejected_utc": "2026-10-20T10:50:28.188390+00:00",
+    "rejection": "blocked by policy; no more specific reason supplied",
+    "retry_attempted": false,
+    "status": "CLEANUP_REJECTED_BY_AUTOMATIC_POLICY_STAGING_REMAINS"
+  },
+  "training_started": false,
+  "cleanup_status_synced_to_drive": true
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "MathVisionKid.t4_budget_sampler_plan.v1",
+  "status": "CPU_WORKER_READY_NOT_RUN",
+  "scope": {
+    "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "recipe_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+    "accepted_split": "train",
+    "accepted_train_rows_declared": 6502344,
+    "validation_rows": 24,
+    "test_rows": 24,
+    "validation_or_test_payload_read": false,
+    "source_payload_modified": false,
+    "selected_view_is_subset": true
+  },
+  "existing_code_facts": {
+    "candidate_stream": "thinking/math_data_candidate_stream.py::CandidateStream(recipe, paths, 'train') checks explicit split and exact member row counts; recipe roles are candidate_chat/candidate_source and require no pending discovery.",
+    "accepted_text_recipe": "Pinned recipe has 32 candidate_chat members, 219 candidate_source members, declared 6502344 current train rows and 48 evaluation rows kept separate.",
+    "archive_audit_samples_table": "id, member, line, hash, case_id, mode, split, sequence_tokens, completion_tokens, canonical_known, linkage_verified, source_hash_verified; it does not store grade, skills, method or difficulty.",
+    "archive_audit_sources_table": "id, hash, raw_hash, signatures, projection; projection stores digests of source attributes, not the grade/topic values needed for stratification.",
+    "source_metadata_loader": "exhaustive_colab_loader.load_source_index extracts case_kind, topic, grade and split from source records, but does not emit a persisted full per-case training feature index or calibrated method/difficulty labels.",
+    "tokenization": "Not required for sampling; max sequence audited 1481, training contract limit 2048, and assistant-only tokenizer checks preserve the single EOT target."
+  },
+  "feature_index_required_fields_per_chat": [
+    "case_id",
+    "sample_id",
+    "split",
+    "mode",
+    "row_sha256",
+    "grade",
+    "skills",
+    "method",
+    "difficulty",
+    "label_provenance"
+  ],
+  "skills_taxonomy": [
+    "natural_number_operations",
+    "multi_digit_multiplication_division",
+    "fraction_decimal",
+    "word_problem_one_step",
+    "word_problem_multi_step",
+    "geometry_measurement",
+    "patterns_logic",
+    "student_error_detection_correction",
+    "hint_level_1",
+    "hint_level_2",
+    "hint_level_3",
+    "missing_or_contradictory_information"
+  ],
+  "labeling_policy": {
+    "source_bound_metadata_first": true,
+    "retain_unknown_instead_of_guessing": true,
+    "heuristic_topic_labels_are_not_semantic_qa": true,
+    "method_and_difficulty_must_be_explicit_or_unknown": true,
+    "do_not_infer_acceptance_from_source_train_candidate": true,
+    "sampling_manifest_claims_content_quality": false,
+    "heuristic_features": "Skill, method, and difficulty fallback values are explicitly tagged proxy labels. Every selected chat row is identified and SHA256-bound; this is a sampling aid, not semantic QA."
+  },
+  "sampling": {
+    "algorithm": "Seeded SHA256 rank within multi-label grade/grade-skill/skill/method/difficulty buckets, deterministic round-robin over buckets, case selected at most once.",
+    "case_unit": "source-bound case_id",
+    "mode_policy": "Include exactly the four accepted training chat modes for every selected case.",
+    "split_policy": "Fail closed unless each supplied row is split=train; do not read validation or test to construct the view.",
+    "seed": 20261023,
+    "target_cases": "4000 selected whole cases by default (up to 16000 chat rows); all SGK-family cases are mandatory and must fit within target; only parent may raise target after measured time/throughput budget.",
+    "manifest_records": "Selected case IDs, all four sample IDs and row SHA256 hashes, feature-index SHA256, recipe SHA256, seed, selection algorithm, and selected counts by grade/skill/method/difficulty."
+  },
+  "runtime_locator": {
+    "release_control_file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "release_recipe_member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "release_candidate_chat_members": 32,
+    "runtime_access": "Use existing pinned training runner's GoogleDriveReader/LazyDriveCache and CandidateStream over train only; do not invoke all-split stream or load eval payloads.",
+    "feature_index_output": "Colab ephemeral run directory, then attach by content SHA to the new sampling manifest; no source payload rewrite."
+  },
+  "blockers": [
+    "No persisted complete per-row skill/method/difficulty index exists. The CPU worker now builds a metadata SQLite index directly from the 32 accepted candidate_chat members without tokenization or model loading.",
+    "Worker must receive the parent-provided protected evaluation-question SHA256 JSONL; it only reads the hash field and excludes any colliding training case.",
+    "The 1200-second CPU scan is bounded and not yet run; a timeout or row/hash/mode mismatch yields no sampling manifest. Include measured worker time in the 3-hour wall-clock budget."
+  ],
+  "safety": {
+    "training_or_gpu_run_performed": false,
+    "drive_or_notebook_mutation_performed": false,
+    "corpus_or_eval_contents_read": false,
+    "global_ready_changed": false,
+    "protected_eval_scope_changed": false,
+    "worker_run_performed": false
+  },
+  "runtime_worker": "colab_train_view_worker.py::scan_and_sample(api, receipt, protected_eval_hashes_path, work_dir, target_cases=4000, seed=20261023, time_limit_s=1200)",
+  "runtime_access": "Caller supplies read-only Drive v3 API; worker downloads only the 32 hash-pinned candidate_chat artifacts, verifies archive/member hashes, streams chat rows on CPU, and never opens candidate_source, validation, or test payload contents."
+}

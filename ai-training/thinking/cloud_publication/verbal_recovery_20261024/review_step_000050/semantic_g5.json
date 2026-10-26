@@ -1,0 +1,80 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "6e7a7c7ff0210be371eabb44e1196ab5bec7ca1bb7c7fd334992bad867e11ef1",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Correct different percentage bases,1.25*.8=1and100percent original.",
+      "adapter_reason": "Incorrectly subtracts.2*x rather than.2*1.25*x and claims1.25*.8=1.05, giving105percent instead of100percent; new critical arithmetic error."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct24litres/minute and24*1.25=30litres, with consistent decimal calculations and units.",
+      "adapter_reason": "Correct proportional-rate calculation24litres/minute then30litres, no changed time unit."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct conversion to24,15,8cm and cube edge1cm, then24*15*8=2880. Generic dimension/edge shorthand is imprecise but actual three-axis calculation is supplied and consistent.",
+      "adapter_reason": "Explicitly divides all three lengths by.1dm then multiplies24*15*8=2880, consistent checks."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Explicitly reveals forbidden.9km final distance.",
+      "adapter_reason": "Useful time conversion and individual-distance prompts without final leak, but stops before relating these distances by subtraction, omitting the required same-direction difference relation."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "grade": 5,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct square-unit explanation100*100=10000 and.6m2=6000cm2; addresses supplied length-factor error.",
+      "adapter_reason": "Correct10000square-centimetres-per-square-metre explanation and6000cm2, with incorrect60cm2 clearly marked as the supplied error rather than endorsed."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Eventually gives correct200000..225000range and lack of uniqueness, but earlier reversed inequality225000<=x<=200000 falsely declares no feasible value. Contradictory mathematical explanation.",
+      "adapter_reason": "Correct conditional.9x/.8x examples, recognizes unknown exact discount and requests exact percentage without choosing a unique original price."
+    }
+  ]
+}

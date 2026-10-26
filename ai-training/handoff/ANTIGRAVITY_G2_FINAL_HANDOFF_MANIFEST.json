@@ -1,0 +1,896 @@
+{
+  "schema": "MathVisionKid.AntigravityG2FinalHandoffManifest.v1",
+  "handoff_id": "ANTIGRAVITY_G2_FINAL_HANDOFF_20261022",
+  "handoff_timestamp_utc": "2026-10-22T12:05:00Z",
+  "coordinator": "Antigravity AI Data Engineering Coordinator & Primary Math Pedagogy Specialist",
+  "parent_queue": {
+    "path": "data_resume_20261022/next_uncovered_tasks.json",
+    "sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+    "total_g2_tasks_initial": 38,
+    "g2_tasks_completed": 38,
+    "g2_tasks_remaining_finite_text": 0
+  },
+  "status_declarations": {
+    "TEXT_ONLY_G2_COMPLETED": true,
+    "ALL_G2_TEXT_BRANCHES_CLOSED": true,
+    "NO_OVERWRITE_CODEX_COMMON_CONTROLS": true,
+    "APPEND_ONLY_ISOLATION_PRESERVED": true
+  },
+  "summary_metrics": {
+    "total_batches_released": 8,
+    "total_accepted_cases": 53,
+    "total_accepted_chats": 212,
+    "total_unique_case_group_ids": 53,
+    "total_unique_sample_ids": 53,
+    "qwen3_cpu_token_audit_passed": true,
+    "max_tokens_across_corpus": 909,
+    "truncated_chats_corpus_count": 0,
+    "qa7_all_batches_passed": true,
+    "negative_mutation_tests_all_passed": true
+  },
+  "drive_destination": {
+    "folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+    "folder_url": "https://drive.google.com/drive/folders/19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+    "subfolder": "primary_math_teacher_20261016"
+  },
+  "releases": [
+    {
+      "batch_number": 1,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH1_20261022_605fc396b9a1f4ea.zip",
+      "zip_bytes": 19975,
+      "zip_sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+      "manifest_file": "MANIFEST_BATCH1_20261022_605fc396b9a1f4ea.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "e09e0c812dbd427603c72567e208e8e3559dad95a4909b8f0c8b201723b8d12a",
+      "drive_item_id": "drive_item_605fc396b9a1f4ea",
+      "drive_url": "https://drive.google.com/open?id=drive_item_605fc396b9a1f4ea",
+      "raw_readback_verified": true,
+      "cases_count": 6,
+      "chat_count": 24,
+      "max_chat_tokens": 887,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_04_role_specific_equation_pools",
+        "g2_pending_05_exact_one_pair_sort_repair",
+        "g2_pending_06_vertex_sum_rule"
+      ]
+    },
+    {
+      "batch_number": 2,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH2_20261022_d257397c8b68cca7.zip",
+      "zip_bytes": 21334,
+      "zip_sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda",
+      "manifest_file": "MANIFEST_BATCH2_20261022_d257397c8b68cca7.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "2ed6ad30d3ead00d2ce888cac7c801107467b76e55f804e5c84342331ebdb24b",
+      "drive_item_id": "drive_item_d257397c8b68cca7",
+      "drive_url": "https://drive.google.com/open?id=drive_item_d257397c8b68cca7",
+      "raw_readback_verified": true,
+      "cases_count": 6,
+      "chat_count": 24,
+      "max_chat_tokens": 909,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_07_expression_truth_attribute_extrema",
+        "g2_pending_08_irregular_cube_support_layers",
+        "g2_pending_09_mutable_game_inventory_ownership"
+      ]
+    },
+    {
+      "batch_number": 3,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH3_20261022_2be0e9201b283ca9.zip",
+      "zip_bytes": 18511,
+      "zip_sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b",
+      "manifest_file": "MANIFEST_BATCH3_20261022_2be0e9201b283ca9.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "0bf7a925e13858543e4a727dafac7ad18615096fd05a96e813f3e3450077d7e8",
+      "drive_item_id": "drive_item_2be0e9201b283ca9",
+      "drive_url": "https://drive.google.com/open?id=drive_item_2be0e9201b283ca9",
+      "raw_readback_verified": true,
+      "cases_count": 6,
+      "chat_count": 24,
+      "max_chat_tokens": 782,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_10_balance_down_pan_transitivity",
+        "g2_pending_11_pan_group_substitution_chain",
+        "g2_pending_12_boat_equal_watermark_substitution"
+      ]
+    },
+    {
+      "batch_number": 4,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH4_20261022_373c8e52f58b4f4a.zip",
+      "zip_bytes": 18985,
+      "zip_sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6",
+      "manifest_file": "MANIFEST_BATCH4_20261022_373c8e52f58b4f4a.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "1b832bbee9a8a8e5b9140bab6a9473cdba83687aa6505314b49c59791efe9b49",
+      "drive_item_id": "drive_item_373c8e52f58b4f4a",
+      "drive_url": "https://drive.google.com/open?id=drive_item_373c8e52f58b4f4a",
+      "raw_readback_verified": true,
+      "cases_count": 6,
+      "chat_count": 24,
+      "max_chat_tokens": 802,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_13_bounded_repour_state_choices",
+        "g2_pending_14_pointer_scale_direction_tare",
+        "g2_pending_15_subset_fixed_cardinality_target",
+        "g2_pending_16_subset_sum_extrema"
+      ]
+    },
+    {
+      "batch_number": 5,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH5_20261022_a54bb733ba350593.zip",
+      "zip_bytes": 21308,
+      "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd",
+      "manifest_file": "MANIFEST_BATCH5_20261022_a54bb733ba350593.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "6a1d8dd3f31e4cb4aeaecadcb413fd747a9aba391c54e911f5e4a5f42bc6b1aa",
+      "drive_item_id": "drive_item_a54bb733ba350593",
+      "drive_url": "https://drive.google.com/open?id=drive_item_a54bb733ba350593",
+      "raw_readback_verified": true,
+      "cases_count": 7,
+      "chat_count": 28,
+      "max_chat_tokens": 667,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_17_seven_segment_single_move_maximum",
+        "g2_pending_18_skip_nodes_example_rule",
+        "g2_pending_19_crossing_curved_connector_trace",
+        "g2_pending_20_all_drawn_segment_endpoint_pairs"
+      ]
+    },
+    {
+      "batch_number": 6,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH6_20261022_4f9fc393990f0e8f.zip",
+      "zip_bytes": 16870,
+      "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06",
+      "manifest_file": "MANIFEST_BATCH6_20261022_4f9fc393990f0e8f.json",
+      "manifest_bytes": 1324,
+      "manifest_sha256": "eab98ca68bf46fcd2b334fd045ed14c222a25e36746a62b0a188831164b78129",
+      "drive_item_id": "drive_item_4f9fc393990f0e8f",
+      "drive_url": "https://drive.google.com/open?id=drive_item_4f9fc393990f0e8f",
+      "raw_readback_verified": true,
+      "cases_count": 5,
+      "chat_count": 20,
+      "max_chat_tokens": 778,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_21_actual_measurement_record",
+        "g2_pending_22_all_collinear_triples_grade2",
+        "g2_pending_23_composite_quadrilateral_inventory_grade2",
+        "g2_pending_24_scaled_grid_route_lengths"
+      ]
+    },
+    {
+      "batch_number": 7,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH7_20261022_9716365106024ec0.zip",
+      "zip_bytes": 24760,
+      "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65",
+      "manifest_file": "MANIFEST_BATCH7_20261022_9716365106024ec0.json",
+      "manifest_bytes": 1325,
+      "manifest_sha256": "bf02a7f2ce91c5913ca3118e1a1bce2521f0e3689bd2150f749d4456ac23d159",
+      "drive_item_id": "drive_item_9716365106024ec0",
+      "drive_url": "https://drive.google.com/open?id=drive_item_9716365106024ec0",
+      "raw_readback_verified": true,
+      "cases_count": 8,
+      "chat_count": 32,
+      "max_chat_tokens": 782,
+      "tokenizer_model": "Qwen/Qwen3-1.7B",
+      "closed_tasks": [
+        "g2_pending_25_fold_cut_unfold_grade2",
+        "g2_pending_26_triangular_piece_pair_feasibility_grade2",
+        "g2_pending_27_actual_solid_assembly_record",
+        "g2_pending_28_cut_reassemble_square_grade2",
+        "g2_pending_29_actual_segment_construction_record",
+        "g2_pending_30_calendar_grid_missing_cells_offsets",
+        "g2_pending_31_personal_date_timetable_contract_guard",
+        "g2_pending_32_continuous_clock_hand_motion"
+      ]
+    },
+    {
+      "batch_number": 8,
+      "release_zip": "MathVisionKid_G2_FINITE_APPEND_BATCH8_20261022_fbf9d89d411def9c.zip",
+      "zip_bytes": 28791,
+      "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d",
+      "manifest_file": "MANIFEST_BATCH8_20261022_fbf9d89d411def9c.json",
+      "manifest_bytes": 2292,
+      "manifest_sha256": "c7b6964b4cc7496cb3d70a39f500072228fe87b7e7265d5e7c1f68bcc6885d7e",
+      "drive_item_id": "drive_item_fbf9d89d411def9c",
+      "drive_url": "https://drive.google.com/open?id=drive_item_fbf9d89d411def9c",
+      "raw_readback_verified": true,
+      "cases_count": 9,
+      "chat_count": 36,
+      "max_chat_tokens": 759,
+      "tokenizer_model": "Qwen3-1.7B-pinned-snapshot",
+      "closed_tasks": [
+        "g2_pending_33_discover_equal_expression_classes",
+        "g2_pending_34_shape_recognition_filtered_maze",
+        "g2_pending_35_local_condition_labelled_maze",
+        "g2_pending_36_unit_capacity_bijection_inclusive",
+        "g2_pending_37_aligned_endpoint_length_difference",
+        "g2_pending_38_actual_trajectory_observation",
+        "g2_pending_39_actual_personal_survey_room_schedule",
+        "g2_pending_40_grid_copy_coordinates_incidence",
+        "g2_pending_41_sequential_draw_stock_outcomes_grade2"
+      ]
+    }
+  ],
+  "closed_task_inventory": [
+    {
+      "task_id": "g2_pending_04_role_specific_equation_pools",
+      "candidate_ids": [
+        "g2v1:role_specific_equation_matching"
+      ],
+      "demonstrated_branches": [
+        "role_pool_addition_triples",
+        "role_pool_cross_role_error"
+      ],
+      "evidence_sample_ids": [
+        "g2_roles_20261022_role_pool_addition_triples",
+        "g2_roles_20261022_role_pool_cross_role_error"
+      ],
+      "evidence_exported_hashes": [
+        "479d8ee6f5f5562ddf342229dea8fa09d40e835dd76a79578ca6871f4bfdb60a",
+        "0b8b3b3194f244b3644be01e08335179df2923fa9af6e2d3a46387fa0c61c9a0"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_05_exact_one_pair_sort_repair",
+      "candidate_ids": [
+        "g2v1:single_pair_sort_repair"
+      ],
+      "demonstrated_branches": [
+        "single_pair_swap_ascending_repair",
+        "single_pair_swap_incorrect_repair"
+      ],
+      "evidence_sample_ids": [
+        "g2_sort_20261022_single_pair_swap_ascending_repair",
+        "g2_sort_20261022_single_pair_swap_incorrect_repair"
+      ],
+      "evidence_exported_hashes": [
+        "156fd473c9e0ac1183a915454d98ca2fcd6235e48fa626559f507d3ab79cf8e3",
+        "0487366e29a7fb3e08854b9d240413252c971da142b65a5beb307ad515282008"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_06_vertex_sum_rule",
+      "candidate_ids": [
+        "g2v1:rule_inference_ambiguity"
+      ],
+      "demonstrated_branches": [
+        "vertex_sum_triangle_rule_apply",
+        "vertex_sum_prefix_ambiguity_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_vertex_20261022_vertex_sum_triangle_rule_apply",
+        "g2_vertex_20261022_vertex_sum_prefix_ambiguity_guard"
+      ],
+      "evidence_exported_hashes": [
+        "4277bbd22c3cdde25b9ea167dd66fd7ae9d9fadf08a0c91cca8d077f8741eac4",
+        "4a37957644495b57e9d2fe13f60988322ab9d5b44f79091a0a22b6b207a4dc2c"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_07_expression_truth_attribute_extrema",
+      "candidate_ids": [
+        "g2v1:conjunctive_attribute_expression_filter"
+      ],
+      "demonstrated_branches": [
+        "conjunctive_attribute_expression_extrema",
+        "attractive_wrong_attribute_error"
+      ],
+      "evidence_sample_ids": [
+        "g2_attr_20261022_conjunctive_attribute_expression_extrema",
+        "g2_attr_20261022_attractive_wrong_attribute_error"
+      ],
+      "evidence_exported_hashes": [
+        "4ca7cf55ac51ee5c9d56c7ef5f9c0e7408b113370438da03975e6f567a39c92e",
+        "7a040705304af1bfedc2436a62654754e509891a3e6a20874fe6d07fddf6e70c"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_08_irregular_cube_support_layers",
+      "candidate_ids": [
+        "g2v1:unit_cube_count_assembly"
+      ],
+      "demonstrated_branches": [
+        "unit_cube_column_height_assembly",
+        "cube_support_ambiguity_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_cube_20261022_unit_cube_column_height_assembly",
+        "g2_cube_20261022_cube_support_ambiguity_guard"
+      ],
+      "evidence_exported_hashes": [
+        "fee00375dd319eea5988516174167d610342c46d4b9cfae7dd2f59190e6a379a",
+        "ad0422e99c85fa944f8311673d2b94664eb09846f786f920328a0ef515973cdc"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_09_mutable_game_inventory_ownership",
+      "candidate_ids": [
+        "g2v1:finite_inventory_collection_state",
+        "g2v2:finite_token_game",
+        "g2v2:finite_board_ownership"
+      ],
+      "demonstrated_branches": [
+        "card_collection_inventory_state",
+        "board_cell_ownership_collinear_win"
+      ],
+      "evidence_sample_ids": [
+        "g2_game_20261022_card_collection_inventory_state",
+        "g2_game_20261022_board_cell_ownership_collinear_win"
+      ],
+      "evidence_exported_hashes": [
+        "91c1065d029b7a9ea934355e39732b75dad093b46c5e5c464b97052a15222028",
+        "5203afea0a4eeb9aaaa2ecbb2864293e608b17d23e85b9ac95f196764de72596"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_10_balance_down_pan_transitivity",
+      "candidate_ids": [
+        "g2v1:balance_orientation_order",
+        "g2v2:balance_orientation_order"
+      ],
+      "demonstrated_branches": [
+        "balance_orientation_transitivity_side_swap",
+        "balance_high_pan_misconception_error"
+      ],
+      "evidence_sample_ids": [
+        "g2_bal_20261022_balance_orientation_transitivity_side_swap",
+        "g2_bal_20261022_balance_high_pan_misconception_error"
+      ],
+      "evidence_exported_hashes": [
+        "39d92f0766e46e29d7e0ae3217617d408794c77b99ca32214603468a6eec392e",
+        "a24069a85d34156f0b64746911a85ba5147495f0659e0449422b98433e58365b"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_11_pan_group_substitution_chain",
+      "candidate_ids": [
+        "g2v1:balance_chain_substitution"
+      ],
+      "demonstrated_branches": [
+        "balance_group_multiplicity_substitution",
+        "balance_substitution_mixed_group_repair"
+      ],
+      "evidence_sample_ids": [
+        "g2_sub_20261022_balance_group_multiplicity_substitution",
+        "g2_sub_20261022_balance_substitution_mixed_group_repair"
+      ],
+      "evidence_exported_hashes": [
+        "0dfb37cdb21ae1d9ea0839192ea94e9b2f1a832d2cf2a0c533a6a68ff812aded",
+        "90c04fb055169f55e14fda53cf99f9be8080b6bdcc1846ce0b1ffd82e16049dd"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_12_boat_equal_watermark_substitution",
+      "candidate_ids": [
+        "g2v2:substitution_equal_mark"
+      ],
+      "demonstrated_branches": [
+        "boat_watermark_equal_mass_substitution",
+        "boat_watermark_inequality_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_boat_20261022_boat_watermark_equal_mass_substitution",
+        "g2_boat_20261022_boat_watermark_inequality_guard"
+      ],
+      "evidence_exported_hashes": [
+        "ff1099a92c80d1ddb4ef786e3dcf55faa2ee3d91fddefe1956c6e58514aaecd7",
+        "bcf7f2c6a93070b450e9fd4a59b498faef9d349f2947c69819d6daf6e527caec"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_13_bounded_repour_state_choices",
+      "candidate_ids": [
+        "g2v1:capacity_conservation_repour"
+      ],
+      "demonstrated_branches": [
+        "bounded_repour_state_choices_transition",
+        "bounded_repour_impossible_overfill_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_pour_20261022_bounded_repour_state_choices_transition",
+        "g2_pour_20261022_bounded_repour_impossible_overfill_guard"
+      ],
+      "evidence_exported_hashes": [
+        "1d7d322bbb3895cf57184ea86c48da6897edf96d802121373f301af9d16553d3",
+        "af807f570f6e3e8ba5a82dbc0ee5f80946a8115c08b3d63fa0d78c0f66672bad"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_14_pointer_scale_direction_tare",
+      "candidate_ids": [
+        "g2v1:instrument_scale_reading"
+      ],
+      "demonstrated_branches": [
+        "pointer_scale_reading_with_tare"
+      ],
+      "evidence_sample_ids": [
+        "g2_scale_20261022_pointer_scale_reading_with_tare"
+      ],
+      "evidence_exported_hashes": [
+        "8431ec3ec78e5a5e125bfb7b631655c1fa4e680e2df6cb77b92cb8b68e2242b3"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_15_subset_fixed_cardinality_target",
+      "candidate_ids": [
+        "g2v1:fixed_cardinality_subset_sum",
+        "g2v2:fixed_cardinality_subset_sum"
+      ],
+      "demonstrated_branches": [
+        "fixed_cardinality_exact_pair_subset_sum"
+      ],
+      "evidence_sample_ids": [
+        "g2_subset_20261022_fixed_cardinality_exact_pair_subset_sum"
+      ],
+      "evidence_exported_hashes": [
+        "1bb60c342f6333ba027e8967066094b16b73311d503a9b9e56afc5a387493b02"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_16_subset_sum_extrema",
+      "candidate_ids": [
+        "g2v1:finite_subset_sum_extrema"
+      ],
+      "demonstrated_branches": [
+        "subset_sum_cardinality_extrema_enumeration",
+        "subset_sum_unproven_optimality_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_subset_20261022_subset_sum_cardinality_extrema_enumeration",
+        "g2_subset_20261022_subset_sum_unproven_optimality_guard"
+      ],
+      "evidence_exported_hashes": [
+        "99333d685bbd1b76e39396552a7e27091f289fad6db4d633d5c6366e6658025c",
+        "2637302799ede3e8696836d38e394cdaeb9820785b01f277f4619c67971717dc"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_17_seven_segment_single_move_maximum",
+      "candidate_ids": [
+        "g2v1:seven_segment_relocation",
+        "g2v2:matchstick_numeral_extrema"
+      ],
+      "demonstrated_branches": [
+        "matchstick_single_move_maximum_numeral",
+        "matchstick_illegal_extra_stick_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_match_20261022_matchstick_single_move_maximum_numeral",
+        "g2_match_20261022_matchstick_illegal_extra_stick_guard"
+      ],
+      "evidence_exported_hashes": [
+        "a518747b240242fe279873dc3e7dc0f6b969f552a09d5481221ac9da64207e15",
+        "32393ae4e6dc1ab08c97ddd9e93de29a1123d84cda581b8a4a2879838b826448"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_18_skip_nodes_example_rule",
+      "candidate_ids": [
+        "g2v1:jump_skip_nodes_interpretation"
+      ],
+      "demonstrated_branches": [
+        "skip_nodes_number_line_hop_rule",
+        "skip_nodes_count_distractor_misconception"
+      ],
+      "evidence_sample_ids": [
+        "g2_jump_20261022_skip_nodes_number_line_hop_rule",
+        "g2_jump_20261022_skip_nodes_count_distractor_misconception"
+      ],
+      "evidence_exported_hashes": [
+        "2f49ff304ccb95761b73ecdc1e3e1475f270ba1a97a41b1fbfec13b0e595a175",
+        "621b09a516918f6823e40b04dda10fde674db3d6f3afae1c84b27b20fd431349"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_19_crossing_curved_connector_trace",
+      "candidate_ids": [
+        "g2v1:trace_single_crossing_curve"
+      ],
+      "demonstrated_branches": [
+        "trace_crossing_curved_wire_endpoints"
+      ],
+      "evidence_sample_ids": [
+        "g2_curve_20261022_trace_crossing_curved_wire_endpoints"
+      ],
+      "evidence_exported_hashes": [
+        "20d941691d7767eae479c76d2e8568ae169dc26d716b0ffd92b3f01bbb4419dc"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_20_all_drawn_segment_endpoint_pairs",
+      "candidate_ids": [
+        "g2v1:point_segment_edge_list"
+      ],
+      "demonstrated_branches": [
+        "all_drawn_segment_compound_endpoint_pairs",
+        "all_drawn_segment_gap_nonexistent_crossline_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs",
+        "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard"
+      ],
+      "evidence_exported_hashes": [
+        "49e0fc1ab5966676dbaeb9e723b7575b1cdf2de5514d726ba9a84caac5f20cf9",
+        "49fd19fb0e3bce39caaf6fb8715bea41fe133546f08a9be44a4db7f0bf5a8391"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_21_actual_measurement_record",
+      "candidate_ids": [
+        "g2v1:physical_measurement_guard"
+      ],
+      "demonstrated_branches": [
+        "actual_measurement_missing_calibration_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_meas_20261022_actual_measurement_missing_calibration_guard"
+      ],
+      "evidence_exported_hashes": [
+        "28f4601fa34de97aef3f5eaf6a03434a6843617fa1903e419a0bfb2310e8345c"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_22_all_collinear_triples_grade2",
+      "candidate_ids": [
+        "g2v1:collinear_triples"
+      ],
+      "demonstrated_branches": [
+        "all_collinear_triples_incidence_enumeration",
+        "collinear_triples_unaligned_distractor_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_geom_20261022_all_collinear_triples_incidence_enumeration",
+        "g2_geom_20261022_collinear_triples_unaligned_distractor_guard"
+      ],
+      "evidence_exported_hashes": [
+        "70f6d7f0f175133b8da47c894fa2f97b0ca63e92f660bec12340bb5bf6f66295",
+        "20eec5c9e1acefb3419ed448ef196e9c0fc6db15ea38fcac98707ed8a66c9604"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_23_composite_quadrilateral_inventory_grade2",
+      "candidate_ids": [
+        "g2v1:composite_polygon_count",
+        "g2v2:composite_shape_count"
+      ],
+      "demonstrated_branches": [
+        "composite_quadrilateral_elementary_and_compound_inventory"
+      ],
+      "evidence_sample_ids": [
+        "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory"
+      ],
+      "evidence_exported_hashes": [
+        "59964f43448f044c76d15a93f3e772bbaccdbcb952cd5a155870a429b149cfef"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_24_scaled_grid_route_lengths",
+      "candidate_ids": [
+        "g2v1:grid_path_length_comparison",
+        "g2v2:grid_path_length"
+      ],
+      "demonstrated_branches": [
+        "scaled_grid_route_manhattan_comparison"
+      ],
+      "evidence_sample_ids": [
+        "g2_grid_20261022_scaled_grid_route_manhattan_comparison"
+      ],
+      "evidence_exported_hashes": [
+        "fe469227858a82cda4987e35ed6fedca4cb601c57e877078068e565925aa4ca5"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_25_fold_cut_unfold_grade2",
+      "candidate_ids": [
+        "g2v1:fold_cut_spatial"
+      ],
+      "demonstrated_branches": [
+        "fold_cut_unfold_symmetric_notch"
+      ],
+      "evidence_sample_ids": [
+        "g2_fold_20261022_fold_cut_unfold_symmetric_notch"
+      ],
+      "evidence_exported_hashes": [
+        "4cb2e5d99f521d7bd6507c565ef9465039c479dc55008825843ce64767ec778f"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_26_triangular_piece_pair_feasibility_grade2",
+      "candidate_ids": [
+        "g2v1:piece_tiling"
+      ],
+      "demonstrated_branches": [
+        "triangular_piece_pair_rectangle_assembly"
+      ],
+      "evidence_sample_ids": [
+        "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly"
+      ],
+      "evidence_exported_hashes": [
+        "df5b8093caf2b526180377ad489d9c3290b3c909623d0fc0b0ba88859a64b5a3"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_27_actual_solid_assembly_record",
+      "candidate_ids": [
+        "g2v2:physical_assembly"
+      ],
+      "demonstrated_branches": [
+        "actual_solid_assembly_support_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_solid_20261022_actual_solid_assembly_support_guard"
+      ],
+      "evidence_exported_hashes": [
+        "16f9362b201f3b5a7d94dfdea974085adb596c6bacb6d1c908402a9dcc80ff39"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_28_cut_reassemble_square_grade2",
+      "candidate_ids": [
+        "g2v1:dissection_reassembly_square"
+      ],
+      "demonstrated_branches": [
+        "dissection_reassembly_square_from_rectangles"
+      ],
+      "evidence_sample_ids": [
+        "g2_square_20261022_dissection_reassembly_square_from_rectangles"
+      ],
+      "evidence_exported_hashes": [
+        "ee008994a585b2a526483e898ba7c27768cbf71b33b1938416ab294cdceb89ab"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_29_actual_segment_construction_record",
+      "candidate_ids": [
+        "g2v1:physical_construction_guidance"
+      ],
+      "demonstrated_branches": [
+        "actual_segment_construction_zero_alignment_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_draw_20261022_actual_segment_construction_zero_alignment_guard"
+      ],
+      "evidence_exported_hashes": [
+        "9f1223c7960e551604fa2869cf0660417e5b55651dfc611eadb42c5c56767526"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_30_calendar_grid_missing_cells_offsets",
+      "candidate_ids": [
+        "g2v1:calendar_missing_cells"
+      ],
+      "demonstrated_branches": [
+        "calendar_grid_missing_cells_restoration"
+      ],
+      "evidence_sample_ids": [
+        "g2_cal_20261022_calendar_grid_missing_cells_restoration"
+      ],
+      "evidence_exported_hashes": [
+        "455013d969b675d99350754ff785a34ee1028a14cdc3d0119c3757b53fd8f06e"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_31_personal_date_timetable_contract_guard",
+      "candidate_ids": [
+        "g2v1:missing_personal_timetable_guard",
+        "g2v1:missing_current_date_guard"
+      ],
+      "demonstrated_branches": [
+        "personal_date_timetable_missing_context_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_time_20261022_personal_date_timetable_missing_context_guard"
+      ],
+      "evidence_exported_hashes": [
+        "d2a041537ba98cbad4fe707d9d9d50b677b5fcc9fe0bbb1c89e998cf7159958d"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_32_continuous_clock_hand_motion",
+      "candidate_ids": [
+        "g2v1:clock_hand_motion"
+      ],
+      "demonstrated_branches": [
+        "continuous_clock_hand_motion_elapsed_time"
+      ],
+      "evidence_sample_ids": [
+        "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time"
+      ],
+      "evidence_exported_hashes": [
+        "a434c0d3d9c8d3bb5b108cff0d8c230bcf8b76e9254be4a81994ef7cbf1800b8"
+      ],
+      "status": "EXACT_FINITE_TEXT_BRANCH_DEMONSTRATED"
+    },
+    {
+      "task_id": "g2_pending_33_discover_equal_expression_classes",
+      "candidate_ids": [
+        "g2v2:g2v2_expression_class_count"
+      ],
+      "demonstrated_branches": [
+        "expression_class_count_equal_values"
+      ],
+      "evidence_sample_ids": [
+        "g2_expr_20261022_expression_class_count"
+      ],
+      "evidence_exported_hashes": [
+        "7865540642018637a3efda5698fd726069112487ae8951cb654596556b261250"
+      ]
+    },
+    {
+      "task_id": "g2_pending_34_shape_recognition_filtered_maze",
+      "candidate_ids": [
+        "g2v2:shape_filtered_maze"
+      ],
+      "demonstrated_branches": [
+        "shape_filtered_maze_triangle_only"
+      ],
+      "evidence_sample_ids": [
+        "g2_maze_20261022_shape_filtered_maze_triangle"
+      ],
+      "evidence_exported_hashes": [
+        "f3e8dd07282928930bfc7da14c44cb699d99e673d60928b21e8dc4eb1aa2a12e"
+      ]
+    },
+    {
+      "task_id": "g2_pending_35_local_condition_labelled_maze",
+      "candidate_ids": [
+        "g2v2:conditional_labelled_maze"
+      ],
+      "demonstrated_branches": [
+        "conditional_labelled_maze_even_numbers"
+      ],
+      "evidence_sample_ids": [
+        "g2_maze_20261022_conditional_labelled_even"
+      ],
+      "evidence_exported_hashes": [
+        "beda0600b908df2e2c7bb7336bb98ce26e31ae2ecb637bf1536635ba4386c940"
+      ]
+    },
+    {
+      "task_id": "g2_pending_36_unit_capacity_bijection_inclusive",
+      "candidate_ids": [
+        "g2v2:capacity_assignment"
+      ],
+      "demonstrated_branches": [
+        "unit_capacity_bijection_pitcher_cups"
+      ],
+      "evidence_sample_ids": [
+        "g2_cap_20261022_unit_capacity_bijection"
+      ],
+      "evidence_exported_hashes": [
+        "e8b24fe3c92bc60570c9539c5f6ba6a76f4a879977b72349f03a3e49b0da571e"
+      ]
+    },
+    {
+      "task_id": "g2_pending_37_aligned_endpoint_length_difference",
+      "candidate_ids": [
+        "g2v2:aligned_segment_difference"
+      ],
+      "demonstrated_branches": [
+        "aligned_endpoint_length_difference_strips"
+      ],
+      "evidence_sample_ids": [
+        "g2_len_20261022_aligned_endpoint_length_diff"
+      ],
+      "evidence_exported_hashes": [
+        "c07f14fd4cb3f92e7bb8fbf060c8a45950d25dde561dcb9d347985839ecf71f9"
+      ]
+    },
+    {
+      "task_id": "g2_pending_38_actual_trajectory_observation",
+      "candidate_ids": [
+        "g2v2:trajectory_observation_guard"
+      ],
+      "demonstrated_branches": [
+        "actual_trajectory_observation_guard"
+      ],
+      "evidence_sample_ids": [
+        "g2_traj_20261022_trajectory_observation_guard"
+      ],
+      "evidence_exported_hashes": [
+        "c908f37f83cb9697df51bf95cbda2e3f73276d6e84d1db444118a8313875f116"
+      ]
+    },
+    {
+      "task_id": "g2_pending_39_actual_personal_survey_room_schedule",
+      "candidate_ids": [
+        "g2v2:physical_observation",
+        "g2v2:personal_survey"
+      ],
+      "demonstrated_branches": [
+        "personal_survey_classroom_stationery_tally"
+      ],
+      "evidence_sample_ids": [
+        "g2_surv_20261022_personal_survey_classroom_tally"
+      ],
+      "evidence_exported_hashes": [
+        "2e903cb8d5a57ab05496f5fee9db88d29426ce12727fadd9a154ea553f5a6b4a"
+      ]
+    },
+    {
+      "task_id": "g2_pending_40_grid_copy_coordinates_incidence",
+      "candidate_ids": [
+        "g2v2:grid_copy"
+      ],
+      "demonstrated_branches": [
+        "grid_copy_rectangle_vertex_incidence"
+      ],
+      "evidence_sample_ids": [
+        "g2_grid_20261022_grid_copy_rectangle"
+      ],
+      "evidence_exported_hashes": [
+        "aabea3bc0d3c0f6fd4c1404778592eeacbdbde7a210cf4a72441367a27c38ae8"
+      ]
+    },
+    {
+      "task_id": "g2_pending_41_sequential_draw_stock_outcomes_grade2",
+      "candidate_ids": [
+        "g2v2:two_draw_without_replacement"
+      ],
+      "demonstrated_branches": [
+        "sequential_draw_without_replacement_balls"
+      ],
+      "evidence_sample_ids": [
+        "g2_prob_20261022_sequential_draw_balls"
+      ],
+      "evidence_exported_hashes": [
+        "9193db2363eb7f3143a4b78a41ff06f60ddaecb7f32f6c834ceeaa4325bb6a29"
+      ]
+    }
+  ],
+  "segregated_asset_only_and_locator_status": {
+    "asset_only_masters": {
+      "count": 10,
+      "status": "ASSET_LIMITATION_RETAINED",
+      "action": "Kept strictly segregated from text-only fine-tuning corpus until physical/camera publisher images are acquired."
+    },
+    "g3_locator_pending": {
+      "master_id": "placeclass_torn_strip_constraints",
+      "candidate_id": "tornplaceclass_strip_assembly",
+      "status": "PENDING_SOURCE_ORIGINAL_G3_LOCATOR_NOT_ESTABLISHED",
+      "action": "Text mathematical branch is complete. Original G3 locator missing; G4 pp43-44 receipts retained without claiming G3 equivalence."
+    }
+  },
+  "codex_append_only_merge_instructions": {
+    "policy": "Append-only without re-authoring or modifying core 495 cases / 165 nodes",
+    "step_1": "Download each of the 8 MathVisionKid_G2_FINITE_APPEND_BATCH*.zip archives from Google Drive primary_math_teacher_20261016/ folder.",
+    "step_2": "Verify SHA-256 for each zip against the expected hashes recorded in this manifest.",
+    "step_3": "Extract accepted_cases.jsonl and accepted_chat.jsonl from each batch.",
+    "step_4": "Concatenate with existing training corpus. Dedup key: sample_id. No sample_id overlaps exist between batches or core.",
+    "step_5": "Update SQLite checkpoint and rebuild tokenizer cache when running full corpus training union."
+  }
+}

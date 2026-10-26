@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "2d18c068f68082d15e0e45c1439a598cacd07e3147d32e2e9d82132168c755e2",
+  "decisions": [
+    {
+      "fixture_id": "verbal20261024_locked_g3_liquid_units",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Converts initial volume correctly to4125ml but repeatedly computes4125+875as4999instead of5000, giving wrong final volume.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g3_rectangle_missing_side",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct half-perimeter23 then width8cm and explicitly verifies2*(15+8)=46cm.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g3_quarter_set_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Explicitly states36/4=9and asks to take9cards, leaking the withheld answer.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g3_unknown_sales_increase",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Recognizes many values above18 are possible and does not choose one; requests actual today count, which is sufficient equivalent information explicitly allowed by the reference, though requesting the increment would be more instructive.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "11gUnjZaSo7l"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"final_audit_package_thread_started\": true, \"corpus_or_model_downloaded_to_pc\": false, \"new_training_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

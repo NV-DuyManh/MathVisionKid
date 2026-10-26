@@ -1,0 +1,146 @@
+{
+  "authored_utc": "2026-10-18T04:18:57.818965+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:17:07.402Z",
+  "batch_sha256": "65df76ea370708f15a67e74f69a1aee3645c5bd29125b997ee4874623803965b",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_degree_protractor_0065_read_scale_starting_on_right",
+      "row_sha256": "447efb1f1d498ad4e38937238fcdcd523e1599bc0b4e01124efcda7bcf8b1bb5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "60-0",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_degree_protractor_0065_left_scale_and_boundary_marks",
+      "row_sha256": "e9aec7ed1e4e6c5688b7fb2cd2e8d306c0c2d9dfd6193a6302bc5729edfa39c1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "120-0",
+          "90-0",
+          "180-0"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_degree_protractor_0065_plan_construct_and_recheck_degree",
+      "row_sha256": "29b8fe6912a18fceb418a949cb0d8c2d70d1537f15c96b2983cd21d349ac77a6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_degree_protractor_0065_misconception_larger_protractor_label",
+      "row_sha256": "0a98495b70db6e53ef2770f31380d9c21183d8e63942365ce567a4e99f3035a7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "60-0",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_degree_protractor_0065_guard_missing_protractor_alignment",
+      "row_sha256": "5df5a4f89fdd1974a795ee68e8d24cf57834512f271be69839251c413dc7021f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "double_scale_label_at_inner60": {
+      "inner": 60,
+      "outer": 120
+    },
+    "right_baseline_arc_tick_count_degrees": 60,
+    "left_baseline_arc_tick_count_degrees": 120,
+    "quarter_arc_count_degrees": 90,
+    "straight_arc_count_degrees": 180,
+    "target120_between_right_and_straight": true,
+    "fractions_of_full_turn_verified": true
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Discrete degree-arc labels and exact turn fractions check explicit mathematical descriptions only, not an actual protractor placement, pixel reading or physical drawing.",
+  "actual_image_or_tool_execution_verified": false,
+  "visual_physical_outcomes_still_pending": true,
+  "semantic_grouping": {
+    "core01_and_misconception_shared_group": true,
+    "new_case_count": 5,
+    "new_groups": 4
+  },
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous368_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_official_QA_repairs": [
+    "Use familiar wording chosen angle on side with protractor arc instead of half-plane terminology for grade4; no numeric/answer changes."
+  ],
+  "actual_content_read_completed_utc": "2026-10-18T04:19:42.235992+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

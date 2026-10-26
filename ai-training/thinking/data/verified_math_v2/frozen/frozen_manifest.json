@@ -1,0 +1,158 @@
+{
+  "fingerprints": {
+    "train": "bbc698f17f6026fee9d1823d71fef3cb07e025eee190aabb05a0c638c31db1b5",
+    "val": "b50361d340d1bbb7da5f6073a3c08f0bebd335aabb89fdb971f972a6fedbe437",
+    "test": "56a9f95c7ddc2bb802575db088a0f1200e7a32992fe1dd305354bd684a69ed19"
+  },
+  "splits": {
+    "train": 2176,
+    "val": 160,
+    "test": 160
+  },
+  "synthetic_splits": {
+    "train": 2000,
+    "val": 160,
+    "test": 160
+  },
+  "public_imported_train": 176,
+  "public_candidates_sha256": "17e333b84e3b68087c517ce49a3513bb315bdbf48763724bbcc4e8a587f2863b",
+  "public_rejected": [
+    {
+      "sample_id": "public_758685f2f4d360a63041",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_03089981db2cbe27abd7",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_7a2b1cc6b8d4aacb56ab",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_59f31d4413223e760659",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_146f521842fcf4c1cd94",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_aee48861bf23079d5de9",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_c8f4ac6d7ec973815733",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_13f1dd82cac866e037be",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_34c9e83177b07633afe5",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_fd0b5ba29c809a7d49ba",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_10e63d3f8700b83a729d",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_9481bc04fc5ba7662874",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_a0b42c94861f7edfb942",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_ed3203841072ed80f0ae",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_845ce52e830045efd39c",
+      "reason": "TRAINING_SAFE_AST_GATE:EXPRESSION_LIMIT"
+    },
+    {
+      "sample_id": "public_2a6479126ecb9a1bde25",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_3efcdce70caf77657ff3",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_4cd7d08464da77503072",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_350c9f54b28e7f9567f1",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_8b7b418b06569501cb0c",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_1849e0e50c791b0bb530",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_ef6b7e02dfc049cb5976",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_e7691e4940fd2722c2bc",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_041614ebcc776f7ff18a",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_ab78ef5b569b5a25a00a",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_b42799a7c3cf3e889b88",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_27b6e4432256fd592511",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_a454c03fd0cecc89e28e",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    },
+    {
+      "sample_id": "public_c9d6c693231de6aa09d8",
+      "reason": "AI_SEMANTIC_REVIEW_FLAG"
+    }
+  ],
+  "public_grade_counts": {
+    "2": 89,
+    "None": 27,
+    "3": 56,
+    "4": 4
+  },
+  "public_semantic_review": "AI reviewer only; semantic_correctness_verified=false, human_verified=false",
+  "test_role": "new synthetic phrase/numeric holdout; no teacher-reviewed real benchmark",
+  "question_splits_disjoint": true,
+  "sources": [
+    {
+      "dataset": "hllj/vi_math_problem_crawl",
+      "revision": "a26b53f14ef4c7708858b11beb29ad95bf9a8930",
+      "declared_license": "MIT"
+    },
+    {
+      "dataset": "vuongtsc/vi-gsm8k-agentic",
+      "revision": "13190f41e5cdf298640d6001377ad6335fe42570",
+      "declared_license": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"state\": \"READING_EXACT_RUNTIME_SNAPSHOT_SEQUENTIALLY\", \"bytes\": 0, \"training_started\": false, \"checkpoint_mutated\": false}\n"
+      ]
+    }
+  ]
+}

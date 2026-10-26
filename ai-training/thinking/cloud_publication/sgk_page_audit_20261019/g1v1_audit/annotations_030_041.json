@@ -1,0 +1,146 @@
+{
+  "30": {
+    "exercise_types": [
+      "compare_counts_select_relation",
+      "fill_number_to_satisfy_relation"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_compare_0097_select_card_to_satisfy_strict_inequality"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "31": {
+    "exercise_types": [
+      "argmax_three_visible_counts",
+      "classify_same_set_by_two_attributes_compare"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_sort_four"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation analogues identified; actual visual digit recognition, scene counting and physical manipulations remain separate asset requirements. Largest/smallest follows ordering but explicit grade-1 extremum task coverage needs adjudication."
+  },
+  "32": {
+    "exercise_types": [
+      "join_two_disjoint_counts"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "33": {
+    "exercise_types": [
+      "sum_two_dot_cards"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "34": {
+    "exercise_types": [
+      "decompose_by_different_attributes",
+      "enumerate_part_whole_number_pairs"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "35": {
+    "exercise_types": [
+      "physically_partition_sticks_all_pairs"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_complete_decompositions_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "36": {
+    "exercise_types": [
+      "part_whole_diagram_from_dice",
+      "join_groups",
+      "decompose_by_shape_attribute"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "37": {
+    "exercise_types": [
+      "count_two_colours_into_category_labels"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "38": {
+    "exercise_types": [
+      "recognize_digits_embedded_in_line_art",
+      "count_sets_including_empty"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "39": {
+    "exercise_types": [
+      "match_group_count_to_numeral",
+      "count_scene_by_category"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "40": {
+    "exercise_types": [
+      "consecutive_middle_number_completion",
+      "count_multicategory_scene"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text analogue only; no validated image recognition or physical-action claim."
+  },
+  "41": {
+    "exercise_types": [
+      "consecutive_vertex_label_completion",
+      "argmax_argmin_visible_counts"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "primary_20261016_g1_foundations_0002_sort_four"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation analogues identified; actual visual digit recognition, scene counting and physical manipulations remain separate asset requirements. Largest/smallest follows ordering but explicit grade-1 extremum task coverage needs adjudication."
+  }
+}

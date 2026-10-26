@@ -1,0 +1,210 @@
+{
+  "four_digit_place_value_digit_traces": [
+    {
+      "multiplicand": 1426,
+      "multiplier": 2,
+      "output_digits_low_first": [
+        2,
+        5,
+        8,
+        2
+      ],
+      "carry_from_positions_low_first": [
+        0
+      ],
+      "reconstructed": 2852
+    },
+    {
+      "multiplicand": 3124,
+      "multiplier": 2,
+      "output_digits_low_first": [
+        8,
+        4,
+        2,
+        6
+      ],
+      "carry_from_positions_low_first": [],
+      "reconstructed": 6248
+    },
+    {
+      "multiplicand": 3634,
+      "multiplier": 2,
+      "output_digits_low_first": [
+        8,
+        6,
+        2,
+        7
+      ],
+      "carry_from_positions_low_first": [
+        2
+      ],
+      "reconstructed": 7268
+    },
+    {
+      "multiplicand": 2627,
+      "multiplier": 2,
+      "output_digits_low_first": [
+        4,
+        5,
+        2,
+        5
+      ],
+      "carry_from_positions_low_first": [
+        0,
+        2
+      ],
+      "reconstructed": 5254
+    },
+    {
+      "multiplicand": 2416,
+      "multiplier": 2,
+      "output_digits_low_first": [
+        2,
+        3,
+        8,
+        4
+      ],
+      "carry_from_positions_low_first": [
+        0
+      ],
+      "reconstructed": 4832
+    }
+  ],
+  "division_disjoint_object_grouping": [
+    {
+      "dividend": 72,
+      "divisor": 8,
+      "full_groups": 9,
+      "leftover": 0,
+      "canonical_modulo_verified": true
+    },
+    {
+      "dividend": 59,
+      "divisor": 6,
+      "full_groups": 9,
+      "leftover": 5,
+      "canonical_modulo_verified": true
+    },
+    {
+      "dividend": 59,
+      "divisor": 7,
+      "full_groups": 8,
+      "leftover": 3,
+      "canonical_modulo_verified": true
+    },
+    {
+      "dividend": 47,
+      "divisor": 5,
+      "full_groups": 9,
+      "leftover": 2,
+      "canonical_modulo_verified": true
+    }
+  ],
+  "mul2_repeated_groups": [
+    {
+      "givens": [
+        24,
+        3
+      ],
+      "repeated_sum": 72
+    },
+    {
+      "givens": [
+        26,
+        2
+      ],
+      "repeated_sum": 52
+    },
+    {
+      "givens": [
+        25,
+        2
+      ],
+      "repeated_sum": 50
+    },
+    {
+      "givens": [
+        18,
+        3
+      ],
+      "repeated_sum": 54
+    },
+    {
+      "givens": [
+        37,
+        2
+      ],
+      "repeated_sum": 74
+    }
+  ],
+  "five_digit_inverse_given_checks": [
+    {
+      "groups": 3,
+      "each": 12345,
+      "repeated_sum": 37035
+    },
+    {
+      "total": 40824,
+      "groups": 4,
+      "each_count": 10206
+    },
+    {
+      "total": 54321,
+      "each": 18107,
+      "groups": 3,
+      "repeated_sum": 54321
+    }
+  ],
+  "guard_countermodels": {
+    "five_digit_groups": [
+      {
+        "groups": 2,
+        "each": 12500
+      },
+      {
+        "groups": 5,
+        "each": 5000
+      }
+    ],
+    "unknown_divisor83": [
+      {
+        "divisor": 2,
+        "q": 41,
+        "r": 1
+      },
+      {
+        "divisor": 3,
+        "q": 27,
+        "r": 2
+      }
+    ]
+  },
+  "inverse_dividend_case_metadata_repair": {
+    "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+    "source_row_sha256": "154748cf0bd5d29b77f98b69e85f1022a943de084883b086ebdb9a275d29b523",
+    "explicit_given_roles": {
+      "g0": {
+        "role": "divisor",
+        "value": 7
+      },
+      "g1": {
+        "role": "quotient",
+        "value": 8
+      },
+      "g2": {
+        "role": "remainder",
+        "value": 3
+      }
+    },
+    "derived_dividend": 59,
+    "expected_dividend": 59,
+    "python_divmod": [
+      8,
+      3
+    ],
+    "invariant_59_equals_8_times7_plus3": true,
+    "remainder_bound": true,
+    "modulo_protection_signature_retained": "59%7",
+    "metadata_only_no_live_calculator_change": true
+  }
+}

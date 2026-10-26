@@ -1,0 +1,14 @@
+{
+  "complete": true,
+  "fixture_count": 5,
+  "fixture_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "stage": "fewshot_selected_after_base_review",
+  "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+  "example_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "outputs_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+  "training_performed": false,
+  "optimizer_loaded": false,
+  "locked_test_accessed": false
+}

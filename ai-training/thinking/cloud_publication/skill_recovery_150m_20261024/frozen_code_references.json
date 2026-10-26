@@ -1,0 +1,17 @@
+{
+  "source_worker_sha256": "20e41c06810a6591a66b7ec13bbde78e748b69f999835ab244212abc8e696567",
+  "source_policy_sha256": "fa9fe2a5d08e01d1e6563b2fbc7220beb29daff12cd436f2af8f76075450dd6a",
+  "balanced_plan_v2_sha256": "aa3fac1a147c80e786b7bbe329a7ff39d2fdb2e85c03b7e9eb6287bf5d281cb5",
+  "target_renderer_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+  "changes": [
+    "mode header/system and exact duplicate student work omission in bothtrain/eval",
+    "hierarchical grade/behavior/mode/topic schedule",
+    "official seeded nonthinking sampling replacing greedy",
+    "attention-only LoRAr8alpha8 replacing all-projectionr16",
+    "LR3e-6warmup20",
+    "gates100and300,cap300onepass"
+  ],
+  "hypothesis_not_causal_proof": true,
+  "source_corpus_or_math_labels_changed": false,
+  "new_human_attestation": false
+}

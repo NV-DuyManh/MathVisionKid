@@ -1,0 +1,70 @@
+{
+  "status": "12_DRAFTS_AUTHOR_QA_PASSED_ROOT_QA_PENDING",
+  "case_count": 12,
+  "chat_count": 48,
+  "master_counts": {
+    "strict_fraction_unknown_numerator_interval": 2,
+    "successive_fraction_of_current_remainder": 2,
+    "three_unknown_pair_totals": 2,
+    "future_age_invariant_difference_ratio": 2,
+    "conditional_cashback_threshold": 2,
+    "interval_bin_boundary_frequency": 2
+  },
+  "numeric_steps": 21,
+  "oracles": 12,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+      "bytes": 69328,
+      "rows": 12
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "af2b03a1898b707f77c77a01cc4e6eccd315d75f2ec5712aa3b716cd9cbe4673",
+      "bytes": 102228,
+      "rows": 48
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "5919596f471d333bae9270489594fa1e4fbe12f751adf1940533c321aa83eb0a",
+      "bytes": 50849,
+      "rows": 12
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "3110e0ad7aaa6f2cfb5d092dc470c4aa8c00a9cb4d1fd9f74b3f41843c742fdb",
+      "bytes": 6587,
+      "rows": 12
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "d7d2ec54eff74a0068763ea36d1b1afd7484d6401b8acedbc3645b59868d5f28",
+      "bytes": 5337,
+      "rows": 21
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "a087a439a868fe77e5f82c070bab1711ab50955ebc2cb5ff5897a31cd5ac6739",
+      "bytes": 18433,
+      "rows": 6
+    },
+    {
+      "path": "actual_page_receipts_readback.jsonl",
+      "sha256": "f2abdc29886af7a537ade0fe1568d0fc95c09776563373d5ff3c3c7f87113c6d",
+      "bytes": 14205,
+      "rows": 6
+    }
+  ],
+  "helper_sha256": "551362314107943d594fd328cf39438713cbf362bc766a312d9f6320a6df8c20",
+  "input_mapping_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "no_shared_sources_mutated": true,
+  "no_training": true,
+  "no_drive_mutation": true,
+  "limitations": [
+    "Original text reasoning only; no visual/physical outcome claims.",
+    "Age models are bounded enrichment.",
+    "Finite nearest-source comparison does not prove full curriculum coverage.",
+    "Draft status requires parent content cross-review."
+  ]
+}

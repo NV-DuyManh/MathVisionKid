@@ -1,0 +1,257 @@
+{
+  "authored_utc": "2026-10-18T04:03:07.675784+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:01:37.240Z",
+  "batch_sha256": "3173e59ca325a8f399cc69b1046df0e5fb29b1ec0faecf410c0232b1e9b7f8b8",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_shape_recognition_0061_opposite_parallel_unequal_adjacent",
+      "row_sha256": "e4c7eca754d978b5784b68f8b29907f108e188177dbc67c40f4ab51502ac0439",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_shape_recognition_0061_tilted_equal_side_tile",
+      "row_sha256": "32b84e6112c49bbed01d14d61e6ec76be9499fab285b9f47063090d6f53ee037",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_shape_recognition_0061_measurement_plan_for_unknown_adjacent_side",
+      "row_sha256": "f47e2cf350a59e74654f9162451142a228c248645205e51539ecf5bb29c8781d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_shape_recognition_0061_misconception_right_angle_required",
+      "row_sha256": "a54e1c56b37a56bcf47125ab28c2a2a82c6d29b51baf2b75a54b3107f7c2b62f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_shape_recognition_0061_guard_unseen_four_sided_shape",
+      "row_sha256": "6c41ad58e2664e8369dfc5fdf60979e8332833c4e5b9830a770b7528464e6bde",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "unequal": {
+      "vertices": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "6",
+          "0"
+        ],
+        [
+          "6",
+          "4"
+        ],
+        [
+          "0",
+          "4"
+        ]
+      ],
+      "squared_side_lengths": [
+        "36",
+        "16",
+        "36",
+        "16"
+      ],
+      "opposite_pairs_parallel": true,
+      "four_sides_equal": false,
+      "adjacent_dot": "0"
+    },
+    "equal_tilted": {
+      "vertices": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "5",
+          "0"
+        ],
+        [
+          "8",
+          "4"
+        ],
+        [
+          "3",
+          "4"
+        ]
+      ],
+      "squared_side_lengths": [
+        "25",
+        "25",
+        "25",
+        "25"
+      ],
+      "opposite_pairs_parallel": true,
+      "four_sides_equal": true,
+      "adjacent_dot": "15"
+    },
+    "unknown_unequal": {
+      "vertices": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "7",
+          "0"
+        ],
+        [
+          "10",
+          "4"
+        ],
+        [
+          "3",
+          "4"
+        ]
+      ],
+      "squared_side_lengths": [
+        "49",
+        "25",
+        "49",
+        "25"
+      ],
+      "opposite_pairs_parallel": true,
+      "four_sides_equal": false,
+      "adjacent_dot": "21"
+    },
+    "unknown_equal": {
+      "vertices": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "7",
+          "0"
+        ],
+        [
+          "56/5",
+          "28/5"
+        ],
+        [
+          "21/5",
+          "28/5"
+        ]
+      ],
+      "squared_side_lengths": [
+        "49",
+        "49",
+        "49",
+        "49"
+      ],
+      "opposite_pairs_parallel": true,
+      "four_sides_equal": true,
+      "adjacent_dot": "147/5"
+    }
+  },
+  "exact_Fraction_Decimal_given_crosschecks": true,
+  "oracle_limit": "Exact coordinate dot/determinant/squared lengths verify explicit abstract side conditions. Exported grade4 text uses properties and measurement plans, no coordinates. Cannot verify an actual image, ruler use or drawing.",
+  "actual_image_or_tool_execution_verified": false,
+  "visual_physical_outcomes_still_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous348_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "semantic_grouping": {
+    "core02_and_misconception_same_group": true,
+    "new_case_count": 5,
+    "new_groups": 4,
+    "not_claiming_exhaustive_semantic_equivalence": true
+  },
+  "actual_content_read_completed_utc": "2026-10-18T04:03:41.532175+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true
+}

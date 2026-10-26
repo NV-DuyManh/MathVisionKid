@@ -1,0 +1,144 @@
+{
+  "batch_sha256": "7e52fcccbc27c9bc66ce6ff7a1a5409f0f4a8a2b41b92c92b22ed1e28af31f22",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_order_0028_first_different_lower_place",
+      "row_sha256": "3d363b1bd5ed976badca3211b4520f78737679ac5a7bff5635d61a50b4641c7b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_order_0028_five_to_six_digit_boundary",
+      "row_sha256": "d28c15e12fe2b2e362cfbd368c942fb262263476c01ad616a87ea1003b38f7f2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "99999+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_order_0028_sort_four_cards_with_equal_values",
+      "row_sha256": "3f9f6931dd6ee4035cb232298d2ed8b3518acd658e107c4543b4861dbdca97e8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_order_0028_misconception_units_override_higher_place",
+      "row_sha256": "7c771fdb225996ce6c0a88ba8690ed0c909485a2f5571a32df02c49dae4e10b9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "first_difference_50408_50480": [
+      1,
+      0,
+      8
+    ],
+    "first_difference_54102_54210": [
+      2,
+      1,
+      2
+    ],
+    "card_values": {
+      "A": 60305,
+      "B": 63005,
+      "C": 60305,
+      "D": 60530
+    },
+    "all_valid_nondecreasing_label_permutations": [
+      [
+        "A",
+        "C",
+        "D",
+        "B"
+      ],
+      [
+        "C",
+        "A",
+        "D",
+        "B"
+      ]
+    ],
+    "all_values_within_bound": true
+  },
+  "oracle_method": "Position-wise first-difference witness corroborated by integer order; exhaustive24 card permutations and multiset equality; boundary successor separately checked with exact AST/Fraction.",
+  "author_self_content_check": "Read leading-zero-free boundary qualification, place hierarchy, duplicate-card multiplicity, both equal-value label permutations, explicit student quote and all12hints. Same-author checking is not independent semantic review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Text-only concept cases within100000 and at most4cards; ordering with equality allows multiple label sequences. No handwriting/perception or model mastery claim. Neutral schema is not live PlanDraft."
+}

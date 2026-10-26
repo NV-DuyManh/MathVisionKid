@@ -1,0 +1,689 @@
+{
+  "schema": "mvk_full_thinking_worked_semantic_review_summary_v1",
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "evaluation_id": "full_thinking_validation_seed20261013",
+  "model": "candidate",
+  "review_kind": "AI_SEMANTIC_RESEARCH_REVIEW",
+  "status": "COMPLETED_ALL_173_VISIBLE_WORKED_PACKETS",
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "reviewed_at_utc": "2026-10-13T06:38:07.728596+00:00",
+  "packet_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\evidence\\teacher_math_v3_20261013\\full_thinking_semantic_review\\candidate_worked_solution_review_packets.jsonl",
+  "packet_sha256": "d9f90dd5240fbfd66fe6a2fb92a71f6fc2bfb6db535f6476eebd414158c12066",
+  "decision_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\evidence\\teacher_math_v3_20261013\\full_thinking_semantic_review\\candidate_worked_semantic_decisions.jsonl",
+  "decision_sha256": "c1c83dab7422e3784a476c416980bf1dcec3bf7a2ebc18482415b0660bf8d1de",
+  "all_sample_ids_unique": true,
+  "all_packets_read_actual_visible": true,
+  "hidden_thinking_reviewed_or_exported": false,
+  "counts": {
+    "samples": 173,
+    "semantic_correct": {
+      "true": 149,
+      "false": 24
+    },
+    "instruction_followed": {
+      "true": 167,
+      "false": 6
+    },
+    "grade_appropriate": {
+      "true": 141,
+      "false": 32
+    },
+    "invented_data_or_image": {
+      "true": 2,
+      "false": 171
+    },
+    "severe_error": {
+      "true": 19,
+      "false": 154
+    },
+    "explanation_operation_consistent": {
+      "true": 149,
+      "false": 24
+    },
+    "data_roles_correct": {
+      "true": 151,
+      "false": 22
+    },
+    "displayed_method_valid": {
+      "true": 159,
+      "false": 14
+    },
+    "step_by_step_guidance_useful": {
+      "true": 145,
+      "false": 28
+    },
+    "final_numeric_correct": {
+      "true": 167,
+      "false": 6
+    },
+    "final_unit_semantically_correct": {
+      "true": 168,
+      "false": 5
+    },
+    "final_numeric_and_unit_semantically_correct": {
+      "true": 166,
+      "false": 7
+    },
+    "truncated_or_missing": {
+      "true": 3,
+      "false": 170
+    },
+    "minor_wording_or_detail_issue": {
+      "true": 28,
+      "false": 145
+    },
+    "valid_alternative_method": {
+      "true": 6,
+      "false": 167
+    }
+  },
+  "per_grade": {
+    "1": {
+      "samples": 15,
+      "semantic_correct": {
+        "true": 14,
+        "false": 1
+      },
+      "instruction_followed": {
+        "true": 15,
+        "false": 0
+      },
+      "grade_appropriate": {
+        "true": 14,
+        "false": 1
+      },
+      "invented_data_or_image": {
+        "true": 0,
+        "false": 15
+      },
+      "severe_error": {
+        "true": 1,
+        "false": 14
+      },
+      "explanation_operation_consistent": {
+        "true": 14,
+        "false": 1
+      },
+      "data_roles_correct": {
+        "true": 14,
+        "false": 1
+      },
+      "displayed_method_valid": {
+        "true": 15,
+        "false": 0
+      },
+      "step_by_step_guidance_useful": {
+        "true": 14,
+        "false": 1
+      },
+      "final_numeric_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "final_unit_semantically_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "final_numeric_and_unit_semantically_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "truncated_or_missing": {
+        "true": 0,
+        "false": 15
+      },
+      "minor_wording_or_detail_issue": {
+        "true": 0,
+        "false": 15
+      },
+      "valid_alternative_method": {
+        "true": 0,
+        "false": 15
+      }
+    },
+    "2": {
+      "samples": 15,
+      "semantic_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "instruction_followed": {
+        "true": 15,
+        "false": 0
+      },
+      "grade_appropriate": {
+        "true": 15,
+        "false": 0
+      },
+      "invented_data_or_image": {
+        "true": 0,
+        "false": 15
+      },
+      "severe_error": {
+        "true": 0,
+        "false": 15
+      },
+      "explanation_operation_consistent": {
+        "true": 15,
+        "false": 0
+      },
+      "data_roles_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "displayed_method_valid": {
+        "true": 15,
+        "false": 0
+      },
+      "step_by_step_guidance_useful": {
+        "true": 15,
+        "false": 0
+      },
+      "final_numeric_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "final_unit_semantically_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "final_numeric_and_unit_semantically_correct": {
+        "true": 15,
+        "false": 0
+      },
+      "truncated_or_missing": {
+        "true": 0,
+        "false": 15
+      },
+      "minor_wording_or_detail_issue": {
+        "true": 2,
+        "false": 13
+      },
+      "valid_alternative_method": {
+        "true": 0,
+        "false": 15
+      }
+    },
+    "3": {
+      "samples": 38,
+      "semantic_correct": {
+        "true": 30,
+        "false": 8
+      },
+      "instruction_followed": {
+        "true": 37,
+        "false": 1
+      },
+      "grade_appropriate": {
+        "true": 23,
+        "false": 15
+      },
+      "invented_data_or_image": {
+        "true": 1,
+        "false": 37
+      },
+      "severe_error": {
+        "true": 5,
+        "false": 33
+      },
+      "explanation_operation_consistent": {
+        "true": 30,
+        "false": 8
+      },
+      "data_roles_correct": {
+        "true": 32,
+        "false": 6
+      },
+      "displayed_method_valid": {
+        "true": 34,
+        "false": 4
+      },
+      "step_by_step_guidance_useful": {
+        "true": 29,
+        "false": 9
+      },
+      "final_numeric_correct": {
+        "true": 36,
+        "false": 2
+      },
+      "final_unit_semantically_correct": {
+        "true": 36,
+        "false": 2
+      },
+      "final_numeric_and_unit_semantically_correct": {
+        "true": 35,
+        "false": 3
+      },
+      "truncated_or_missing": {
+        "true": 1,
+        "false": 37
+      },
+      "minor_wording_or_detail_issue": {
+        "true": 9,
+        "false": 29
+      },
+      "valid_alternative_method": {
+        "true": 2,
+        "false": 36
+      }
+    },
+    "4": {
+      "samples": 36,
+      "semantic_correct": {
+        "true": 25,
+        "false": 11
+      },
+      "instruction_followed": {
+        "true": 32,
+        "false": 4
+      },
+      "grade_appropriate": {
+        "true": 25,
+        "false": 11
+      },
+      "invented_data_or_image": {
+        "true": 1,
+        "false": 35
+      },
+      "severe_error": {
+        "true": 11,
+        "false": 25
+      },
+      "explanation_operation_consistent": {
+        "true": 25,
+        "false": 11
+      },
+      "data_roles_correct": {
+        "true": 25,
+        "false": 11
+      },
+      "displayed_method_valid": {
+        "true": 27,
+        "false": 9
+      },
+      "step_by_step_guidance_useful": {
+        "true": 25,
+        "false": 11
+      },
+      "final_numeric_correct": {
+        "true": 32,
+        "false": 4
+      },
+      "final_unit_semantically_correct": {
+        "true": 33,
+        "false": 3
+      },
+      "final_numeric_and_unit_semantically_correct": {
+        "true": 32,
+        "false": 4
+      },
+      "truncated_or_missing": {
+        "true": 2,
+        "false": 34
+      },
+      "minor_wording_or_detail_issue": {
+        "true": 3,
+        "false": 33
+      },
+      "valid_alternative_method": {
+        "true": 1,
+        "false": 35
+      }
+    },
+    "5": {
+      "samples": 69,
+      "semantic_correct": {
+        "true": 65,
+        "false": 4
+      },
+      "instruction_followed": {
+        "true": 68,
+        "false": 1
+      },
+      "grade_appropriate": {
+        "true": 64,
+        "false": 5
+      },
+      "invented_data_or_image": {
+        "true": 0,
+        "false": 69
+      },
+      "severe_error": {
+        "true": 2,
+        "false": 67
+      },
+      "explanation_operation_consistent": {
+        "true": 65,
+        "false": 4
+      },
+      "data_roles_correct": {
+        "true": 65,
+        "false": 4
+      },
+      "displayed_method_valid": {
+        "true": 68,
+        "false": 1
+      },
+      "step_by_step_guidance_useful": {
+        "true": 62,
+        "false": 7
+      },
+      "final_numeric_correct": {
+        "true": 69,
+        "false": 0
+      },
+      "final_unit_semantically_correct": {
+        "true": 69,
+        "false": 0
+      },
+      "final_numeric_and_unit_semantically_correct": {
+        "true": 69,
+        "false": 0
+      },
+      "truncated_or_missing": {
+        "true": 0,
+        "false": 69
+      },
+      "minor_wording_or_detail_issue": {
+        "true": 14,
+        "false": 55
+      },
+      "valid_alternative_method": {
+        "true": 3,
+        "false": 66
+      }
+    }
+  },
+  "correct_numeric_but_semantic_fail": [
+    {
+      "sample_id": "e5df5b1f5babfed35177ce3c",
+      "grade": 1,
+      "index": 12,
+      "reason": "Đáp số 10 và 1*10 đúng, nhưng lời giải nói số 11 có «một nhóm gồm hai đơn vị chục», sai cấu tạo hàng chục; còn dùng nhân chưa phải cách giải lớp 1. Đáp số đúng không sửa được lỗi khái niệm này."
+    },
+    {
+      "sample_id": "3d9d46beabd461b1efdfe61e",
+      "grade": 3,
+      "index": 36,
+      "reason": "Số dư 2 đúng, nhưng dòng được trình bày 401/7 với result=2 là phép chia sai: thương đầy đủ là 57 dư 2, không phải 2. Cần 401−57*7=2, không được coi đáp số đúng là lời giải đúng."
+    },
+    {
+      "sample_id": "f734e3b27473aa295f34f907",
+      "grade": 3,
+      "index": 37,
+      "reason": "Đáp số 0 đúng vì 203=29*7, nhưng steps chỉ tính 203/7=29 hộp rồi gắn unit cuối «box» cho số bánh dư. Không trình bày 0 bánh dư; sai vai trò thương/số dư và thứ nguyên của kết luận."
+    },
+    {
+      "sample_id": "6811a46dc24ba3666cd7b6fe",
+      "grade": 3,
+      "index": 41,
+      "reason": "5*9=45, 24+45=69 đúng. Tuy nhiên nói «biểu thức có ngoặc hoặc phép tính nhân trước cộng» trong đề không có ngoặc, lý do mơ hồ và đưa cấu trúc ngoặc không có; cần quy tắc nhân trước cộng rõ ràng."
+    },
+    {
+      "sample_id": "ebf7d32a8a20b09cbdfd3f71",
+      "grade": 3,
+      "index": 60,
+      "reason": "209*209=43681 cm² đúng, nhưng giải thích tìm số ô «bằng hàng chục và hàng trăm» không phải quy tắc đếm số hàng nhân số ô mỗi hàng; lý giải sai/không có nghĩa toán rõ. Nhân ba chữ số cũng vượt mức lớp 3."
+    },
+    {
+      "sample_id": "07b3093b9929fafd318d5ada",
+      "grade": 3,
+      "index": 62,
+      "reason": "183*183=33489 cm² đúng, nhưng lời giải nhân số hàng với «số các hàng» thay vì số ô mỗi hàng, nhầm vai trò dữ kiện dù hai số tình cờ bằng nhau. Mức nhân ba chữ số cũng không hợp lớp 3."
+    },
+    {
+      "sample_id": "8ff43c601274d661f896eabc",
+      "grade": 4,
+      "index": 69,
+      "reason": "Số lớn tính đúng 288 và final 169 đúng, nhưng bước cuối 288−169=119 dùng chính số bé chưa tìm và gọi thao tác đó «để tìm số bé». Đây là phép tìm hiệu/circular reasoning, không suy ra 169 từ dữ kiện."
+    },
+    {
+      "sample_id": "c0ab91e01839adc1f6afd44f",
+      "grade": 4,
+      "index": 71,
+      "reason": "Các biểu thức cho 1392 rồi 1392−627=765 đúng, nhưng lời giải gọi 627 là số bé và 765 là hiệu; thực tế 627 là hiệu, 765 là số bé cần tìm. Sai vai trò/lý giải dù final đúng."
+    },
+    {
+      "sample_id": "b9acd921ef958f72d25e2e52",
+      "grade": 4,
+      "index": 83,
+      "reason": "Đáp số và biểu thức chia (19/7)/(17/2)=38/119 đúng, nhưng lời giải «nhân tử với tử, mẫu với mẫu» là quy tắc nhân, không phải chia khi chưa đảo số chia. Có thể khiến học sinh làm 323/14; sai hướng dẫn cốt lõi."
+    },
+    {
+      "sample_id": "137bbbee31970353cc885ca6",
+      "grade": 5,
+      "index": 100,
+      "reason": "Final 111,77 đúng, nhưng gọi 5+2 là hàng phần trăm trong khi đây là phần mười, có bước expression 11 result 1 không phải đẳng thức và lời ghép/nhớ không rõ. Chuỗi hướng dẫn đặt tính chứa lỗi hàng và biến đổi dù có đáp số đúng."
+    },
+    {
+      "sample_id": "9eaf38280081a89ee0d08d43",
+      "grade": 5,
+      "index": 103,
+      "reason": "Biểu thức 66.81−40.76=26,05 đúng số còn lại, nhưng nói «tìm phần đã bị giảm», trong đề phần giảm đã biết là 40,76. Lời giải nhầm câu hỏi/đại lượng kết quả."
+    },
+    {
+      "sample_id": "5b6b251732e78298a2fbd276",
+      "grade": 5,
+      "index": 123,
+      "reason": "Ba biểu thức 15+42=57, 57/2=28.5, 28.5*86=2451 đều đúng theo phương pháp chia trước. Nhưng lời giải bước cuối vẫn yêu cầu «nhân tổng hai đáy với chiều cao rồi chia hai» trong khi operand 28.5 đã là nửa tổng; mô tả thao tác bước này sai và có nguy cơ chia hai lần."
+    },
+    {
+      "sample_id": "b6aa028c441a8feec823462d",
+      "grade": 5,
+      "index": 125,
+      "reason": "3+90=93, 93/2=46.5, 46.5*14=651 đúng chia trước. Tuy nhiên lời giải cuối gọi 46.5 là tổng hai đáy và còn nói chia hai, không khớp operand nửa tổng; lỗi giải thích cùng loại mẫu 123."
+    },
+    {
+      "sample_id": "4919e2d9995f9a4fe9741e7e",
+      "grade": 4,
+      "index": 165,
+      "reason": "Final 963637 đúng, nhưng nói viết dấu phẩy cho số tự nhiên, yêu cầu nhớ ở cột không cần nhớ và cuối tính 6+3+1=10 trong khi phải 6+3=9. Các bước/carry không tạo ra đáp số đã ghi; hướng dẫn đặt tính sai nghiêm trọng."
+    },
+    {
+      "sample_id": "352f9470e8f8148776a866e0",
+      "grade": 4,
+      "index": 166,
+      "reason": "Final 963637 đúng nhưng không giữ/đối chiếu kết quả quan sát 963638; bắt đầu hàng chục với 3+3 thay vì 0+3, bỏ cột đơn vị và nhớ, sai nhãn nhiều hàng, có lệnh «xóa kết quả». Dữ kiện chữ số/cách sửa bị bịa, không thể suy lỗi học sinh từ đáp số theo cách này."
+    },
+    {
+      "sample_id": "aa15490d9ab1ef4097f8093e",
+      "grade": 4,
+      "index": 167,
+      "reason": "Final 1080869 và từng phép cộng cột cơ bản đúng, nhưng lời giải lặp yêu cầu viết nhớ ở các cột 5+4,3+3,3+5 không có nhớ; bước gọi «gộp ... để được kết quả» lại 9+1=10, không phải ghép 1080869. Không đủ hướng dẫn đặt tính đúng để đạt kết quả."
+    },
+    {
+      "sample_id": "bff57103d15a44e4b58ca299",
+      "grade": 4,
+      "index": 168,
+      "reason": "Final 1104949 đúng nhưng nói «không cần nhớ» ở 5+9=14 và các cột cần nhớ, bỏ các +1 vào cột sau, gắn chữ số viết sai và hàng triệu 0+0=0 dù nói viết 1. Chuỗi carry trái với đáp số đúng."
+    },
+    {
+      "sample_id": "6cd06541efc9136eb76c06a6",
+      "grade": 3,
+      "index": 169,
+      "reason": "Final 33072 đúng nhưng viết 0−8=10,7−9=16,0−9=10,2−8=11/10; các dòng này không phải phép trừ hợp lệ và không cập nhật mượn qua 0. Không thể dùng lời giải này để dạy trừ có mượn."
+    }
+  ],
+  "severe_examples": [
+    {
+      "sample_id": "e5df5b1f5babfed35177ce3c",
+      "grade": 1,
+      "index": 12,
+      "reason": "Đáp số 10 và 1*10 đúng, nhưng lời giải nói số 11 có «một nhóm gồm hai đơn vị chục», sai cấu tạo hàng chục; còn dùng nhân chưa phải cách giải lớp 1. Đáp số đúng không sửa được lỗi khái niệm này."
+    },
+    {
+      "sample_id": "3d9d46beabd461b1efdfe61e",
+      "grade": 3,
+      "index": 36,
+      "reason": "Số dư 2 đúng, nhưng dòng được trình bày 401/7 với result=2 là phép chia sai: thương đầy đủ là 57 dư 2, không phải 2. Cần 401−57*7=2, không được coi đáp số đúng là lời giải đúng."
+    },
+    {
+      "sample_id": "f734e3b27473aa295f34f907",
+      "grade": 3,
+      "index": 37,
+      "reason": "Đáp số 0 đúng vì 203=29*7, nhưng steps chỉ tính 203/7=29 hộp rồi gắn unit cuối «box» cho số bánh dư. Không trình bày 0 bánh dư; sai vai trò thương/số dư và thứ nguyên của kết luận."
+    },
+    {
+      "sample_id": "5f4dc98d7d6405c4233920b6",
+      "grade": 3,
+      "index": 46,
+      "reason": "12*60=720 đúng, nhưng trừ 30 phút nghỉ để ra 690 sai đề hỏi tổng cả hai khoảng. Phải 720+30=750; sai hiểu quan hệ, không phải lỗi tính 720−30."
+    },
+    {
+      "sample_id": "8ff43c601274d661f896eabc",
+      "grade": 4,
+      "index": 69,
+      "reason": "Số lớn tính đúng 288 và final 169 đúng, nhưng bước cuối 288−169=119 dùng chính số bé chưa tìm và gọi thao tác đó «để tìm số bé». Đây là phép tìm hiệu/circular reasoning, không suy ra 169 từ dữ kiện."
+    },
+    {
+      "sample_id": "c0ab91e01839adc1f6afd44f",
+      "grade": 4,
+      "index": 71,
+      "reason": "Các biểu thức cho 1392 rồi 1392−627=765 đúng, nhưng lời giải gọi 627 là số bé và 765 là hiệu; thực tế 627 là hiệu, 765 là số bé cần tìm. Sai vai trò/lý giải dù final đúng."
+    },
+    {
+      "sample_id": "122a0c4d5bd8f07c244e60a9",
+      "grade": 4,
+      "index": 73,
+      "reason": "Đề 1+5 xác định được 6, nhưng trả clarify không đáp số; gợi ý «gộp tử số và mẫu số» còn có thể dạy cộng cả mẫu sai. Không phải thiếu dữ kiện thực."
+    },
+    {
+      "sample_id": "b9acd921ef958f72d25e2e52",
+      "grade": 4,
+      "index": 83,
+      "reason": "Đáp số và biểu thức chia (19/7)/(17/2)=38/119 đúng, nhưng lời giải «nhân tử với tử, mẫu với mẫu» là quy tắc nhân, không phải chia khi chưa đảo số chia. Có thể khiến học sinh làm 323/14; sai hướng dẫn cốt lõi."
+    },
+    {
+      "sample_id": "09d88bf0908d14c672a30ca1",
+      "grade": 4,
+      "index": 98,
+      "reason": "Sau 76,152 trong các bội liên tiếp phải là 228, nhưng model nhân 152*2=304. Phép tính đúng số học nhưng dùng quy luật nhân đôi sai dãy bội liên tiếp."
+    },
+    {
+      "sample_id": "137bbbee31970353cc885ca6",
+      "grade": 5,
+      "index": 100,
+      "reason": "Final 111,77 đúng, nhưng gọi 5+2 là hàng phần trăm trong khi đây là phần mười, có bước expression 11 result 1 không phải đẳng thức và lời ghép/nhớ không rõ. Chuỗi hướng dẫn đặt tính chứa lỗi hàng và biến đổi dù có đáp số đúng."
+    },
+    {
+      "sample_id": "9eaf38280081a89ee0d08d43",
+      "grade": 5,
+      "index": 103,
+      "reason": "Biểu thức 66.81−40.76=26,05 đúng số còn lại, nhưng nói «tìm phần đã bị giảm», trong đề phần giảm đã biết là 40,76. Lời giải nhầm câu hỏi/đại lượng kết quả."
+    },
+    {
+      "sample_id": "4919e2d9995f9a4fe9741e7e",
+      "grade": 4,
+      "index": 165,
+      "reason": "Final 963637 đúng, nhưng nói viết dấu phẩy cho số tự nhiên, yêu cầu nhớ ở cột không cần nhớ và cuối tính 6+3+1=10 trong khi phải 6+3=9. Các bước/carry không tạo ra đáp số đã ghi; hướng dẫn đặt tính sai nghiêm trọng."
+    },
+    {
+      "sample_id": "352f9470e8f8148776a866e0",
+      "grade": 4,
+      "index": 166,
+      "reason": "Final 963637 đúng nhưng không giữ/đối chiếu kết quả quan sát 963638; bắt đầu hàng chục với 3+3 thay vì 0+3, bỏ cột đơn vị và nhớ, sai nhãn nhiều hàng, có lệnh «xóa kết quả». Dữ kiện chữ số/cách sửa bị bịa, không thể suy lỗi học sinh từ đáp số theo cách này."
+    },
+    {
+      "sample_id": "aa15490d9ab1ef4097f8093e",
+      "grade": 4,
+      "index": 167,
+      "reason": "Final 1080869 và từng phép cộng cột cơ bản đúng, nhưng lời giải lặp yêu cầu viết nhớ ở các cột 5+4,3+3,3+5 không có nhớ; bước gọi «gộp ... để được kết quả» lại 9+1=10, không phải ghép 1080869. Không đủ hướng dẫn đặt tính đúng để đạt kết quả."
+    },
+    {
+      "sample_id": "bff57103d15a44e4b58ca299",
+      "grade": 4,
+      "index": 168,
+      "reason": "Final 1104949 đúng nhưng nói «không cần nhớ» ở 5+9=14 và các cột cần nhớ, bỏ các +1 vào cột sau, gắn chữ số viết sai và hàng triệu 0+0=0 dù nói viết 1. Chuỗi carry trái với đáp số đúng."
+    },
+    {
+      "sample_id": "6cd06541efc9136eb76c06a6",
+      "grade": 3,
+      "index": 169,
+      "reason": "Final 33072 đúng nhưng viết 0−8=10,7−9=16,0−9=10,2−8=11/10; các dòng này không phải phép trừ hợp lệ và không cập nhật mượn qua 0. Không thể dùng lời giải này để dạy trừ có mượn."
+    },
+    {
+      "sample_id": "1cbf78f5257df05b7b806023",
+      "grade": 3,
+      "index": 170,
+      "reason": "Không có visible_output và bị truncated; không có lời giải để so sánh 33073 quan sát với 33072 đúng. Ghi thất bại, không điền đáp số/reference thay model."
+    },
+    {
+      "sample_id": "f5642fed4ca768c3490c62d6",
+      "grade": 4,
+      "index": 171,
+      "reason": "Không có visible_output và bị truncated; không có lời giải đầy đủ cho 838454−76991. Ghi thất bại, không sửa bằng phép tính từ reference."
+    },
+    {
+      "sample_id": "a8968631e04557d2a41debeb",
+      "grade": 4,
+      "index": 172,
+      "reason": "Visible JSON bị cắt giữa bước hàng trăm với expression 1−8 chưa có result/đóng cấu trúc. Không có câu trả lời hoàn chỉnh; chỉ answer xuất hiện đầu chuỗi không đủ chứng minh giải đúng, ghi thất bại truncated."
+    }
+  ],
+  "valid_alternative_examples": [
+    {
+      "sample_id": "dca319164590ed670d0d61cb",
+      "index": 47,
+      "reason": "42+60=102 phút là cách gộp hợp lệ vì 1 giờ=60 phút. Bước đổi giờ không viết riêng nhưng giá trị 60 là hằng số đổi đơn vị hợp lệ, không phải dữ kiện bịa."
+    },
+    {
+      "sample_id": "18151e9a642197f8d882e5f1",
+      "index": 54,
+      "reason": "Dùng hình vuông như hình chữ nhật với hai kích thước 156: 156+156=312 rồi nhân 2=624 cm, là phương pháp khác hợp lệ. Nên nói rõ hình vuông là trường hợp có hai kích thước bằng nhau; không phạt vì khác reference 156*4."
+    },
+    {
+      "sample_id": "abb162dc5f618710d8d9439a",
+      "index": 70,
+      "reason": "Tính số lớn (1277+305)/2=791 rồi 791−305=486 là cách khác hoàn toàn hợp lệ để tìm số bé. Không phạt vì khác reference (1277−305)/2."
+    },
+    {
+      "sample_id": "852a73261d2b474a8b78a82b",
+      "index": 124,
+      "reason": "36+47=83, 83/2=41.5, 41.5*10=415 cm²; lời giải cuối nêu tổng đã chia hai, đúng phương pháp khác. Không phạt vì reference nhân rồi mới chia."
+    },
+    {
+      "sample_id": "b944eb82c9f56b21fbb5c127",
+      "index": 126,
+      "reason": "106*106=11236 cm² rồi 11236*3.14=35281.04 cm²; tách bình phương và pi thành hai bước hợp lệ. Không phạt vì khác một biểu thức reference; giá trị gần đúng theo pi đã cho."
+    },
+    {
+      "sample_id": "a032a727f31d49b8ef60db9c",
+      "index": 133,
+      "reason": "55*22*1=1210 cm³ là cách gộp ba kích thước trực tiếp đúng, chiều cao một nên không cần hai bước riêng. Không phạt vì khác reference hai bước."
+    }
+  ],
+  "unit_alias_or_descriptive_difference_accepted": [
+    13,
+    93,
+    141,
+    142,
+    143
+  ],
+  "dimensional_unit_error": [
+    37
+  ],
+  "declared_grade_source_difficulty_issues": [
+    48,
+    50,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+  ],
+  "rubric_notes": [
+    "semantic_correct checks visible arithmetic, data roles and step explanations; final answer alone is insufficient.",
+    "instruction_followed records requested mode/completeness and preservation of observed work separately from mathematical correctness.",
+    "Each explicit manual reason was written after reading its actual problem, reference and visible output; index sets serialize those decisions, not an automated classifier.",
+    "Different valid methods are accepted. No original strict/raw score, source, training data, protocol or selection is changed.",
+    "The 3 truncated outputs are failures, including the partial JSON containing an apparent answer field.",
+    "Programming remainder operator % is mathematically valid but not accepted as sufficient child-facing grade 3 teaching without explanation.",
+    "Unit aliases vật/đồ vật and km/h/km/giờ are not dimensional errors; descriptive đơn vị for a place-value number is accepted semantically.",
+    "Grade suitability is an AI method/language judgment with explicit source difficulty flags, not a legal certification of every current and historical curriculum outcome.",
+    "One AI reviewer assessed these worked outputs; independent review/adjudication by the parent may revise borderline semantic/wording labels with evidence.",
+    "AI-authored teacher targets and one-seed development validation do not constitute human gold or general accuracy certification."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "status": "ACCEPTED_CONTENT_CONSERVATIVE_COVERAGE_UNDERCOUNT_REQUIRES_AUDIT",
+  "node_id": "current_g3_single_trial_outcomes",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls",
+      "row_sha256": "10984026634a417d78dbb81cb5acdd1a2ef35beb1c70f2d813c6ec6d869a7654",
+      "case_slot": "core_02",
+      "recording_rule": "Chỉ ghi màu, không ghi mã viên"
+    },
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector",
+      "row_sha256": "29a358305b6ea2e69605820e4e747b2c02c9a8cbcafdcb95b8f6d41db93b8d12",
+      "case_slot": "core_03",
+      "recording_rule": "So cách ghi mã ô với cách chỉ ghi tên hình"
+    }
+  ],
+  "numeric_signature_collision": [
+    "2a888c6da27841aa8f4429cd42799eba79cc3f7a546ee21be082b73dd09dc45b"
+  ],
+  "cause": "coverage_for_cases groups by answer_signatures; numeric literal cardinality3 alone makes bag color-list and spinner code-vs-label mapping share a group. Accepted content and all source answers remain unchanged.",
+  "semantic_comparison": "Bag: 6 distinct objects map to 3 colors with multiplicities2/1/3. Spinner: 4 sector codes map to 3 names with multiplicities2/1/1, compare two recording conventions and explicit invalid-boundary rule. Same cardinality does not establish same mathematical case.",
+  "current_conservative_counts": {
+    "authored_core": 188,
+    "credited_core": 187,
+    "remaining_core": 308,
+    "not_authored_core_slots": 307,
+    "accepted_authored_noncredited_slots": 1
+  },
+  "decision": "Do not alter answers or frozen accepted reviews to force credit; preserve undercount pending explicit coverage-adjudication workflow. Do not reauthor occupied core03.",
+  "author_self_QA_not_independent": true,
+  "pipeline_code_changed": false,
+  "requires_human_action": false,
+  "next_action": "Audit coverage grouping for literal cardinality-only conceptual examples using bound source/recording-map evidence before final coverage acceptance."
+}

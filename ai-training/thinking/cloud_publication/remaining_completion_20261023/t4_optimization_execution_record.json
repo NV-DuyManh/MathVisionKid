@@ -1,0 +1,341 @@
+{
+  "all_6502344_train_rows_preserved": true,
+  "current_run": {
+    "checkpoint_pointer_file_id": "1cADUsyiQm-tRvjj5HYmTzmYX-tkkX59o",
+    "epoch_complete": false,
+    "execution_overlay_member": "full_text_training_release_20261023/execution_optimization_20261023/",
+    "launcher": {
+      "bytes": 5520,
+      "fresh_raw_readback_verified": true,
+      "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+      "sha256": "a4db1a79c966107a59e934c485adb0d9ffb4753279dae0e01dc24c399ef737ad"
+    },
+    "original_semantic_config_unchanged": true,
+    "progress_file_id": "1tES2KilfuodLlTxpl95_9zsAVmWi8Ow7",
+    "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+    "runtime_observation": {
+      "TEXT_TRAINING_DATASET_READY": true,
+      "config": {
+        "accumulation": 16,
+        "epochs": 1,
+        "expected_rows": 6502344,
+        "lora_alpha": 32,
+        "lora_dropout": 0.05,
+        "lora_r": 16,
+        "lr": 0.0001,
+        "max_sequence_tokens": 2048,
+        "microbatch": 1,
+        "model": "Qwen/Qwen3-1.7B",
+        "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+        "release_sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "seed": 20261023
+      },
+      "expected_rows": 6502344,
+      "expected_train_rows": 6502344,
+      "gpu": "Tesla T4",
+      "last_update": {
+        "amp_scale": 1024.0,
+        "effective_optimizer_group": 16,
+        "grad_norm": 4.2310967445373535,
+        "gradient_checkpointing": true,
+        "loss": 2.7354623675346375,
+        "overflow_retries": 0,
+        "physical_microbatch": 2,
+        "selected_supervised_logits": true
+      },
+      "last_verified_checkpoint": {
+        "bytes": 209670333,
+        "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+        "epoch_complete": false,
+        "fresh_raw_readback_verified": true,
+        "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+        "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+        "rows_done": 2640,
+        "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+        "step": 165
+      },
+      "libraries": {
+        "accelerate": "1.15.0",
+        "bitsandbytes": "0.50.2",
+        "peft": "0.21.2",
+        "tokenizers": "0.23.3",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.16.1"
+      },
+      "max_sequence_tokens": 2048,
+      "observed_utc": "2026-10-23T12:37:56.205193+00:00",
+      "registered_utc": "2026-10-23T12:31:23.231438+00:00",
+      "rows_done": 2672,
+      "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+      "seconds_this_session": 288.1,
+      "state": "TRAINING_ALL_TEXT",
+      "step": 167,
+      "subset_limit": null,
+      "t4_batch_optimization": {
+        "actual_train_row_loss_parity": {
+          "abs_difference": 0.0001137852668762207,
+          "batched_mean": 1.7361440658569336,
+          "old_mean": 1.7362578511238098
+        },
+        "before_rows": 2640,
+        "before_step": 165,
+        "benchmark_optimizer_updates": 0,
+        "checkpoint_before": {
+          "bytes": 209670333,
+          "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+          "epoch_complete": false,
+          "fresh_raw_readback_verified": true,
+          "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+          "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+          "rows_done": 2640,
+          "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+          "step": 165
+        },
+        "code_sha256": "6b54b7c48750ef6e58a15f19120c3cf0ccedce6c1a95f1b05d7eb035bfff0307",
+        "drive_evidence": {
+          "bytes": 3596,
+          "fresh_raw_readback_verified": true,
+          "id": "1qJocNKYmhK4CS6fcf1bMZXvl1ARmFoQQ",
+          "name": "t4_batch_optimization_v2.json",
+          "sha256": "6b5c8a4aaa64843f9c3cca53b9e9f68d23cf471b362fae69f97744fa842860b6"
+        },
+        "effective_optimizer_group": 16,
+        "extra_optimizer_updates": 0,
+        "gradient_accumulation_microsteps": 8,
+        "gradient_checkpointing": true,
+        "length_grouping_within_optimizer_step": true,
+        "measured_speedup": 1.5704239616901972,
+        "model_weights_unchanged_during_probe": true,
+        "physical_microbatch": 2,
+        "probes": [
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 9.08844518661499,
+            "length_grouping_within_optimizer_step": false,
+            "max_length_peak_gib": 5.47472620010376,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 14.797221336999883,
+            "microbatch": 1,
+            "representative_peak_gib": 4.541913986206055,
+            "safe": true,
+            "samples_per_second": 1.0812840894656766,
+            "selected_supervised_logits": false
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 8.633655548095703,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 5.929515838623047,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 13.727229126999646,
+            "microbatch": 1,
+            "representative_peak_gib": 4.368467330932617,
+            "safe": true,
+            "samples_per_second": 1.1655666159552998,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 5.371101379394531,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 9.192070007324219,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 9.422437315000025,
+            "microbatch": 2,
+            "representative_peak_gib": 6.104764938354492,
+            "safe": true,
+            "samples_per_second": 1.6980744434912654,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "microbatch": 4,
+            "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+            "safe": false,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": false,
+            "headroom_gib": 2.041215419769287,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 12.521955966949463,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 9.568127218999962,
+            "microbatch": 1,
+            "representative_peak_gib": 10.305962562561035,
+            "safe": true,
+            "samples_per_second": 1.672218568355562,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": false,
+            "microbatch": 2,
+            "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+            "safe": false,
+            "selected_supervised_logits": true
+          }
+        ],
+        "rng_restored_after_probe": true,
+        "selected_supervised_logits": true,
+        "source_or_target_bytes_changed": 0,
+        "state": "APPLIED",
+        "training_rows_added_or_removed": 0,
+        "training_rows_after_probe": 2640,
+        "truncation_allowed": false,
+        "version": 2
+      },
+      "test_rows_reserved": 24,
+      "total_updates": 406397,
+      "training_started": true,
+      "validation_rows_reserved": 24,
+      "worker_alive": true,
+      "worker_stack": [
+        {
+          "file": "threading.py",
+          "function": "run",
+          "line": 995
+        },
+        {
+          "file": "784392212.py",
+          "function": "_full_text_worker",
+          "line": 66
+        },
+        {
+          "file": "full_text_training_run.py",
+          "function": "run",
+          "line": 197
+        },
+        {
+          "file": "full_text_training_run.py",
+          "function": "update_group",
+          "line": 179
+        },
+        {
+          "file": "t4_microbatch_optimization_v2.py",
+          "function": "wrapper",
+          "line": 197
+        },
+        {
+          "file": "train_teacher_math_v3.py",
+          "function": "run_amp_update",
+          "line": 375
+        },
+        {
+          "file": "t4_microbatch_optimization_v2.py",
+          "function": "<lambda>",
+          "line": 196
+        },
+        {
+          "file": "t4_microbatch_optimization_v2.py",
+          "function": "backward",
+          "line": 94
+        }
+      ]
+    },
+    "training_started": true
+  },
+  "observed_utc": "2026-10-23T12:38:07.527626+00:00",
+  "prior_probe": [
+    {
+      "actual_train_row_loss_parity": {
+        "abs_difference": 0.00012868642807006836,
+        "batched_mean": 3.099302291870117,
+        "old_mean": 3.0994309782981873
+      },
+      "before_rows": 1888,
+      "before_step": 118,
+      "benchmark_optimizer_updates": 0,
+      "checkpoint_before": {
+        "bytes": 209669181,
+        "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+        "epoch_complete": false,
+        "fresh_raw_readback_verified": true,
+        "id": "1kcNjwiyjAwTPiNOT85H-EBIetdoyeEkf",
+        "name": "checkpoint_step_0000118_rows_00001888_d92bc7a470e07c55.pt",
+        "rows_done": 1888,
+        "sha256": "d92bc7a470e07c5562d5f1f519ba802b0578e2268a2058d550b1651306f76711",
+        "step": 118
+      },
+      "code_sha256": "1f354bb322089cfa630e8c84b891924c78e0f81b04decd3f57ceb1bf7d6bc9c2",
+      "drive_evidence": {
+        "bytes": 1993,
+        "fresh_raw_readback_verified": true,
+        "id": "1S7Ac_YLnHteT0dN8HtP1hAl9LNzTUXmT",
+        "name": "t4_batch_optimization.json",
+        "sha256": "dbe2bd3eb280e6c0d35d284b8bd68a2ef43d4d85412ec06ee16819c5ecae658e"
+      },
+      "effective_optimizer_group": 16,
+      "extra_optimizer_updates": 0,
+      "gradient_accumulation_microsteps": 16,
+      "measured_speedup": 1.0,
+      "model_weights_unchanged_during_probe": true,
+      "physical_microbatch": 1,
+      "probes": [
+        {
+          "headroom_gib": 8.636511325836182,
+          "max_length_peak_gib": 5.926660060882568,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 9.79615756899966,
+          "microbatch": 1,
+          "representative_peak_gib": 3.887035846710205,
+          "safe": true,
+          "samples_per_second": 1.63329345075386
+        },
+        {
+          "headroom_gib": 5.374343395233154,
+          "max_length_peak_gib": 9.188827991485596,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 11.043036212499828,
+          "microbatch": 2,
+          "representative_peak_gib": 5.540441036224365,
+          "safe": true,
+          "samples_per_second": 1.4488768932849543
+        },
+        {
+          "microbatch": 4,
+          "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+          "safe": false
+        }
+      ],
+      "rng_restored_after_probe": true,
+      "source_or_target_bytes_changed": 0,
+      "state": "KEPT_ORIGINAL_BATCH",
+      "training_rows_added_or_removed": 0,
+      "training_rows_after_probe": 1888,
+      "truncation_allowed": false
+    }
+  ],
+  "quality_guarantee": false,
+  "quota_error": "<HttpError 403 when requesting https://www.googleapis.com/drive/v3/files/1O3Cz787Lj2tnBrYmvoq2MZBA5j7fCywX?alt=media returned \"Quota exceeded for quota metric 'Queries' and limit 'Previous quota: Requests per minute' of service 'drive.googleapis.com' for consumer 'project_number:522309567947'.\". Details: \"[{'message': \"Quota exceeded for quota metric 'Queries' and limit 'Previous quota: Requests per minute' of service 'drive.googleapis.com' for consumer 'project_number:522309567947'.\", 'domain': 'usageLimits', 'reason': 'rateLimitExceeded'}]\">",
+  "recovered_checkpoint": {
+    "bytes": 209669181,
+    "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+    "epoch_complete": false,
+    "fresh_raw_readback_verified": true,
+    "id": "1O3Cz787Lj2tnBrYmvoq2MZBA5j7fCywX",
+    "name": "checkpoint_step_0000165_rows_00002640_c3f5c72fa7ab1bc8.pt",
+    "rows_done": 2640,
+    "sha256": "c3f5c72fa7ab1bc855cd1ee4895d22a12378fcb811609ed3f7c51a94529e3554",
+    "step": 165
+  },
+  "recovery": "EXACT_PRE_PROBE_SNAPSHOT_VERIFIED_NO_OPTIMIZER_ATTEMPT",
+  "stopped_probe": {
+    "before_rows": 2640,
+    "before_step": 165,
+    "code_sha256": "290331181b29bdd38417611b6fe05d0b92527e9795665618c8afcaec76b2822d",
+    "effective_optimizer_group": 16,
+    "extra_optimizer_updates": 0,
+    "gradient_checkpointing": true,
+    "length_grouping_within_optimizer_step": false,
+    "physical_microbatch": 1,
+    "selected_supervised_logits": false,
+    "source_or_target_bytes_changed": 0,
+    "state": "SAVING_PRE_OPTIMIZATION_CHECKPOINT",
+    "training_rows_added_or_removed": 0,
+    "truncation_allowed": false,
+    "version": 2
+  },
+  "tests": "7 CPU tests passed; actual train loss parity and max-length GPU probes recorded",
+  "validation_test_separate": true
+}

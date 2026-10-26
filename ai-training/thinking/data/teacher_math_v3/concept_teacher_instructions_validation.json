@@ -1,0 +1,48 @@
+{
+  "status": "PASSED_ALL_330_AI_REFERENCE_REVIEW_AND_EXACT_NUMERIC_QA",
+  "rows": 330,
+  "current_rows": 212,
+  "legacy_rows": 118,
+  "current_nodes": 106,
+  "legacy_nodes": 59,
+  "mode_counts": {
+    "worked_solution": 165,
+    "hint": 165
+  },
+  "numeric_expression_checks": 188,
+  "groups": 130,
+  "all_nodes_two_original_questions": true,
+  "exact_duplicate_replies_grouped": true,
+  "hint_answer_disclosure_checks_passed": true,
+  "source_ids_links_matched": true,
+  "frozen_numeric_v3_unchanged": true,
+  "frozen_numeric_v3_fingerprints": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "sha256": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+  "bytes": 942087,
+  "training_status": "NOT_USED_IN_NUMERIC_V3_TRAINING",
+  "future_training_requires_split_and_token_audit": true,
+  "human_verified": false,
+  "pedagogy_teacher_reviewed": false,
+  "complete_curriculum_claim": false,
+  "limitations": [
+    "Original AI teacher instruction candidates; no teacher certification of prose or teaching quality.",
+    "Neither conceptual examples nor legacy records have been trained in the frozen numerical V3 run.",
+    "Historical sources do not establish the complete original 2006 annex.",
+    "All records unsplit; future train/evaluation must separate semantic example groups and new teacher-written phrasing.",
+    "Grouped exact repeated replies are only a first leakage defense; numeric/template/semantic overlap with prior datasets still requires review.",
+    "Image and physical tasks ask for real observations; they do not provide visual or physical capability evidence."
+  ],
+  "all_330_instruction_labels_ai_reviewed": true,
+  "source_ids_links_and_grades_matched": true,
+  "corrected_topic_mismatch": "old_g4_draw_rectangle_square now explicitly teaches rectangle/square drawing instead of segment-only prerequisite",
+  "evaluation_role": "Known-concept training candidates; separately authored new-phrasing validation is not private teacher benchmark.",
+  "corrected_topic_mismatches": [
+    "old_g4_draw_rectangle_square teaches actual rectangle/square drawing",
+    "old_g4_km2 teaches km² without unverified grade4 hectare extension",
+    "old_g4_all_fraction_operations removes grade5 mixed-number prerequisite"
+  ]
+}

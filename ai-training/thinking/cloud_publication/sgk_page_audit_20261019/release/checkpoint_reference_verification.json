@@ -1,0 +1,10 @@
+{
+  "status": "PASS_REFERENCE_INTEGRITY_AND_PRESERVATION_ONLY",
+  "mapping_sha256": "3ae43b1a4295828ddd456f2544e3b153329125c12c9d11a0cc8be9cc355b7143",
+  "candidate_count": 91,
+  "source_references_checked": 162,
+  "page_references_checked": 128,
+  "frozen_files_unchanged": 7,
+  "semantic_mapping_not_established_by_parser": true,
+  "training_started": false
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS_6_METADATA_AND_PREPUBLICATION_GUARD_TESTS",
+  "tests_passed": 6,
+  "helper_file": "thinking/sgk_completion_union_recipe.py",
+  "helper_sha256": "a3b4db8415a0b205b4ed7ec6c36b228ebe085b5a1901d64a4fe392492197e2a8",
+  "test_file": "data/test_completion_union_recipe.py",
+  "test_sha256": "4b64afdc18fd9431375797481248a0aed35568e4a35e2175895b80ef33d13f52",
+  "main_not_run": true,
+  "bundle_receipt_required_before_main": true,
+  "old31_scope": "HISTORICAL_METADATA_ONLY_NOT_FRESH_WHOLE_PAYLOAD",
+  "expected_payload_refs": 35,
+  "expected_chat_members": 29,
+  "expected_declared_candidate_rows": 6501780,
+  "expected_raw_rows": 6501828,
+  "actual_train_only_total_verified": false,
+  "training_started": false,
+  "drive_mutated": false,
+  "global_state_mutated": false
+}

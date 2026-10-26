@@ -1,0 +1,39 @@
+{
+  "hash_basis": "SHA256 exact UTF8 JSONL line excluding line terminator; full source files also hashed",
+  "source_file_sha256": {
+    "current_sources.jsonl": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+    "release/accepted_cases.jsonl": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45",
+    "g1v1_audit/gaps.json": "9f229002a6f395210b59f02038acee215c2ac53f4391bd2069a7fd873c1b86e9",
+    "g1v2_audit/candidate_adjudication.json": "74443283e517bb418a00a2d067831544ceea82714e084e73f699f5afdf98d934",
+    "g3_audit/candidate_adjudication.json": "b1e7123bfc696a4e7f102ca54b503ce0d0661bc7041854210446beae13fac227",
+    "g3_spatial_append/adjudication.json": "5f3ed870103994ad91e74c06ae2cf9f6a2bae4428517ee99c15b3f6617f02626",
+    "g4_audit/remaining_candidate_adjudication.json": "a3a2088bf0a093d900291d4596d7844a46d7fc6f10a28104a44f8887f51718e0",
+    "g5_audit/candidate_adjudication.json": "d384467de40d8bcc5f9df9f1ad77bcf1cb4fb256ad64e1ae7214c4546490c624"
+  },
+  "valid_old_training_rows": 945,
+  "accepted_release_rows": 110,
+  "nearest_actual_fullfield_rows": 332,
+  "receipt_hashes": {
+    "g1v1_audit\\page_review.jsonl": "3c6565b0fabc5b42ccbaa86e31d78973c35b99283ded1b547c1b649e6b30c660",
+    "g1v2_audit\\page_review.jsonl": "7b521a21eaa48598df897e23169241c0d7cd13831a08dd1c583270dacfd0838e",
+    "g3_audit\\page_review.jsonl": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+    "g4_audit\\page_review.jsonl": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec",
+    "g5_audit\\page_review.jsonl": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c"
+  },
+  "checks": {
+    "every_original_candidate_has_decision": true,
+    "all_occurrences_resolve": true,
+    "all_covered_have_exact_source_refs": true,
+    "all_nearest_train_only": true,
+    "all110_mapped_exactly_once": true,
+    "published_families40": true,
+    "no_merge_implies_coverage": true,
+    "source_files_immutable": true
+  },
+  "limits": [
+    "Nearest references are bounded actual semantic comparisons; no keyword/parser absence used as semantic proof.",
+    "Actual image/physical outcome certification remains false even when text relation is covered.",
+    "Grade-specific instructional fit remains an adaptation constraint, not automatic within-grade coverage.",
+    "No full curriculum/all-series assertion."
+  ]
+}

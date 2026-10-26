@@ -1,0 +1,155 @@
+{
+  "54": {
+    "exercise_types": [
+      "real_object_shape_classification",
+      "copy_stick_configuration",
+      "construct_two_triangles_using_five_sticks"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_STICK_SHARED_EDGE_CONSTRUCTION"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Need current-source semantic adjudication for candidate; actual visual/physical performance remains an asset requirement."
+  },
+  "55": {
+    "exercise_types": [
+      "repeating_colour_or_shape_pattern_completion",
+      "count_hidden_triangle_units_in_composite_silhouette"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_PERIODIC_ATTRIBUTE_PATTERN",
+      "G1V1_COMPOSITE_SHAPE_COUNT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Need current-source semantic adjudication for candidate; actual visual/physical performance remains an asset requirement."
+  },
+  "56": {
+    "exercise_types": [
+      "join_disjoint_parts_write_addition",
+      "addition_within10"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "57": {
+    "exercise_types": [
+      "addition_from_scene",
+      "part_whole_diagram_to_expression"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "sgk_g12_20261019_sum_pyramid_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "58": {
+    "exercise_types": [
+      "all_pairs_with_same_sum",
+      "mental_addition_within10"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "59": {
+    "exercise_types": [
+      "complete_addition_from_visible_parts",
+      "unknown_addend"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "60": {
+    "exercise_types": [
+      "count_on_addition_strategy",
+      "write_addition_from_added_group"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "61": {
+    "exercise_types": [
+      "join_scene_groups",
+      "independent_additions_along_track"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "62": {
+    "exercise_types": [
+      "zero_additive_identity",
+      "columnwise_operation_table"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "63": {
+    "exercise_types": [
+      "write_addition_from_groups_including_empty",
+      "match_expression_to_value"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "64": {
+    "exercise_types": [
+      "commuted_addition_same_total",
+      "constant_sum_pair_table"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "sgk_g12_20261019_complete_decompositions_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  },
+  "65": {
+    "exercise_types": [
+      "write_addition_from_scene",
+      "memory_game_expression_value_pair"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Arithmetic/part-whole/classification analogue identified; scene/diagram assets and physical card handling are unverified. Operation table is a representation variation, not a new arithmetic fact family."
+  }
+}

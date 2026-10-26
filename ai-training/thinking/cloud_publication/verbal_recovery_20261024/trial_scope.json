@@ -1,0 +1,27 @@
+{
+  "hypothesis": "Source JSON target/prompt representation may contribute to response-style drift; next-token CE parity passed, causal root cause not proven.",
+  "source_and_original_labels_preserved": true,
+  "new_human_attestation": false,
+  "retained_all_worked_in_sampling_plan": true,
+  "reused_development30": true,
+  "previous_locked20_not_read": true,
+  "changed_factors": [
+    "prompt renderer",
+    "target renderer"
+  ],
+  "unchanged_factors": [
+    "source problems/answers/reasons",
+    "source sampling order/IDs",
+    "modelrevision",
+    "NF4",
+    "FP16",
+    "LoRAr16alpha16",
+    "micro2effective16",
+    "LR1e-5warmup10",
+    "assistantmask/EOT",
+    "noGC/noPacking"
+  ],
+  "max_updates": 50,
+  "hard_deadline_unix": 1792845958,
+  "independent_final_test_pending": true
+}

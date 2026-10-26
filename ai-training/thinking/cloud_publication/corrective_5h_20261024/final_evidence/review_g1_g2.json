@@ -1,0 +1,433 @@
+{
+  "schema": "MathVisionKid.corrective5h.final_semantic_review.grade1_grade2.v1",
+  "review_type": "LLM semantic review of full actual base and final adapter outputs; no human certification or independent external validation",
+  "evaluation_scope": "The same 28 development fixtures have been reused. This 11-fixture grade1/2 subset is not an independent held-out quality estimate. Results compare this run base with this run final adapter under the bound matched prompt contract.",
+  "strict_pass_rule": "The complete response must satisfy the math, contextual unit, explanation and requested mode. Incorrect explanation, absent required conflict/missing-data handling, ungrounded feedback, leaked hint answer or an irrelevant non-actionable hint fails. JSON schema/style itself is not a failure. Completion/EOS alone is not mathematical quality.",
+  "input_sha256": {
+    "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+    "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+    "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+  },
+  "input_fixture_counts": {
+    "fixtures": 28,
+    "base": 28,
+    "adapter": 28
+  },
+  "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+  "summary": {
+    "fixture_count": 11,
+    "base_pass": 5,
+    "adapter_pass": 4,
+    "base_only_pass": [
+      "g1_conflicting_count"
+    ],
+    "adapter_only_pass": [],
+    "by_grade": {
+      "1": {
+        "count": 6,
+        "base_pass": 4,
+        "adapter_pass": 3
+      },
+      "2": {
+        "count": 5,
+        "base_pass": 1,
+        "adapter_pass": 1
+      }
+    },
+    "by_mode": {
+      "answer": {
+        "count": 4,
+        "base_pass": 3,
+        "adapter_pass": 3
+      },
+      "hint_no_answer": {
+        "count": 2,
+        "base_pass": 0,
+        "adapter_pass": 0
+      },
+      "missing_or_contradictory_info": {
+        "count": 3,
+        "base_pass": 2,
+        "adapter_pass": 1
+      },
+      "student_error": {
+        "count": 2,
+        "base_pass": 0,
+        "adapter_pass": 0
+      }
+    },
+    "hint_no_answer_leak_component": {
+      "applicable": 2,
+      "base_safe": 0,
+      "adapter_safe": 2,
+      "note": "This component does not certify relevance or helpfulness; both adapter hints fail the full requested task."
+    },
+    "all_reviewed_outputs_ended_eos": true,
+    "reviewed_base_truncations": 0,
+    "reviewed_adapter_truncations": 0
+  },
+  "fixtures": [
+    {
+      "fixture_id": "g1_add_objects",
+      "grade": 1,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_reason": "Correctly adds the initial six shells and five added shells, explains the total, and states eleven shells.",
+      "adapter_reason": "Correct 6+5=11, appropriate combine-parts explanation, and explicit shell unit. JSON format does not affect the semantic pass.",
+      "base_evidence": [
+        "6 + 5 = 11",
+        "vỏ sò"
+      ],
+      "adapter_evidence": [
+        "Cộng phần đã có với phần thêm.",
+        "6+5=11; không thêm một phần khác.",
+        "\"unit\": \"vỏ sò\""
+      ],
+      "base_output_sha256": "8d170b666fe9386e57579e8c0a77c4ca97b24dcabba081507c9484bad8520112",
+      "adapter_output_sha256": "95e3fd67cf5bceb430e886d1262cf40546e237e7a286effaa2e2599b95f79c2b",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 91
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 126
+      }
+    },
+    {
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_reason": "Correctly subtracts six from fourteen and states eight remaining paper boats with an appropriate counting unit in context.",
+      "adapter_reason": "Correct expression 14-6, result eight, and valid inverse check 8+6=14. Quantity identifies boats and the classifier chiếc is appropriate. The final phrase in the explanation is awkward and unhelpful, but does not change the correct operation, check or answer.",
+      "base_evidence": [
+        "14 - 6 = 8",
+        "số chiếc thuyền giấy còn lại là **8 chiếc**"
+      ],
+      "adapter_evidence": [
+        "\"expression\": \"14 - 6\"",
+        "8 + 6 = 14; không lấy thuyền giấy làm phần còn.",
+        "\"quantity\": \"Chiếc thuyền\", \"result\": \"8\", \"unit\": \"chiếc\""
+      ],
+      "base_output_sha256": "83301ec28a61c15d967c70103b6017699e5e34750a6e1de41c8dd3ce97da396f",
+      "adapter_output_sha256": "4e5a6cafdcfbeac59fc179a891224100b872dfb2b35f2e9a8f264c31744a0cc4",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 74
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 137
+      }
+    },
+    {
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "Solves the entire addition and explicitly discloses eleven despite the no-answer request.",
+      "adapter_reason": "Withholds eleven, but only asks to identify initial/changed quantities. It gives no counting-on-four-from-seven instruction or other actionable addition method, so safety alone does not satisfy the requested hint.",
+      "base_evidence": [
+        "7 + 4 = 11.",
+        "số quả lê trong giỏ sau khi thêm là 11."
+      ],
+      "adapter_evidence": [
+        "Cần ghi rõ các lượng ban đầu và các lượng được chuyển hoặc thêm.",
+        "Em xác định lượng nào cần giữ và lượng nào cần cập nhật thế nào?"
+      ],
+      "base_hint_no_answer_leak": false,
+      "adapter_hint_no_answer_leak": true,
+      "base_output_sha256": "ced6417d3c0b6507555dd674272f27d2aaa2de3d2a41810d12d4c20df99d469c",
+      "adapter_output_sha256": "981226bd755d069bd1417ceca582d11d2ba4c30b4e5f58bcf19c2518ac9ad9b3",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 87
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 43
+      }
+    },
+    {
+      "fixture_id": "g1_student_subtraction_error",
+      "grade": 1,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "Incorrectly certifies the student answer eight and falsely states 12-5=8.",
+      "adapter_reason": "The calculation improves to seven with a correct inverse check, but the requested error-feedback task is incomplete: it never explicitly tells the student that eight is incorrect and supplies no toy-block unit for seven. It does not fully deliver the requested correction as seven toy blocks.",
+      "base_evidence": [
+        "Lời giải của em đúng.",
+        "12 - 5 = 8"
+      ],
+      "adapter_evidence": [
+        "\"result\": \"7\"",
+        "7 + 5 = 12, đúng lượng ban đầu.",
+        "\"quantity\": \"Kết quả phép tính\", \"result\": \"7\", \"unit\": \"\""
+      ],
+      "adapter_partial_improvement": "Correct arithmetic and inverse verification replace the base false certification; full semantic task pass still withheld for incomplete verdict/unit.",
+      "base_output_sha256": "6f22369dfdecaf23cd71fb80ab9e48b4de6f9a8391a022d683b565dae9c579d2",
+      "adapter_output_sha256": "2bbb486f1f7fc1bbf06a37f6d0eb98e77a3b5d6a6b3e88c6ce7b5f1c2d218b1a",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 45
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 131
+      }
+    },
+    {
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_reason": "Correctly computes six remaining ducks and explicitly contrasts that with the note claiming seven.",
+      "adapter_reason": "Computes the correct six ducks, but entirely omits the note claiming seven and the required contradiction check. Correct subtraction alone is insufficient for this fixture.",
+      "base_evidence": [
+        "9 - 3 = 6",
+        "Tờ ghi chú nói còn 7 con, nhưng thực tế có 6 con."
+      ],
+      "adapter_evidence": [
+        "Có 9 vịt, trừ đi 3 vịt đã đi.",
+        "6 vịt còn lại sau khi trừ 3 vịt đã đi.",
+        "\"quantity\": \"Số vịt còn\", \"result\": \"6\", \"unit\": \"con\""
+      ],
+      "base_output_sha256": "f256d353318d84bf6f9d3a0beb1452fb7289da0bbc6e9c224106c307cb962346",
+      "adapter_output_sha256": "3207dc97a36c1bb765e5a757a44c52f3a7e87558c4dd54289da68f646ceeb67f",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 109
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 136
+      }
+    },
+    {
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_reason": "Combines the two supplied lengths correctly and states sixty-three centimetres.",
+      "adapter_reason": "Correctly adds 35+28=63, explains why separate lengths are combined, gives a valid inverse check, and retains cm.",
+      "base_evidence": [
+        "35 \\, \\text{cm} + 28 \\, \\text{cm} = 63 \\, \\text{cm}",
+        "Tổng chiều dài hai dải ruy-băng là 63 cm."
+      ],
+      "adapter_evidence": [
+        "Hai dải là hai phần riêng nên cộng theo chiều dài.",
+        "35+28=63 cm; kiểm 63-28=35 cm.",
+        "\"unit\": \"cm\""
+      ],
+      "base_output_sha256": "ab222dca346cfdee93dd7773fd4b61369126d78dd044ae1cf80c7d4717d6f9a4",
+      "adapter_output_sha256": "8294e5af3d51f528ee9c8592d837900aac1602dd189d5b79fd81cc5e05bdaa8e",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 136
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 148
+      }
+    },
+    {
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "Changes receiving thirteen stickers into giving thirteen away, computes 24-13-8=3, and answers three instead of twenty-nine.",
+      "adapter_reason": "Recognizes receiving as addition, but falsely says 37-8=30 and answers thirty. The structured step result is thirty-seven although its expression 24+13-8 equals twenty-nine, and the final answer omits the sticker unit.",
+      "base_evidence": [
+        "Leo tặng thêm 13 nhãn dán cho người khác.",
+        "24 - 13 = 11",
+        "bây giờ Leo còn 3 nhãn dán"
+      ],
+      "adapter_evidence": [
+        "Phần được tặng phải được cộng vào số ban đầu.",
+        "37-8=30 nhãn.",
+        "\"result\": \"37\"",
+        "\"expression\": \"24+13-8\"",
+        "\"quantity\": \"Nhãn còn có\", \"result\": \"30\", \"unit\": \"\""
+      ],
+      "base_output_sha256": "14c1b0481e5f6961b75791dfaca62b387dc8aeb0cdbfd61155f98983b30224c8",
+      "adapter_output_sha256": "b6ade86943caeb957e7d9b39e1de4fafa3e6b790f9cf6d9eeecfb1cca32626fd",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 149
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 155
+      }
+    },
+    {
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "Works out the sum and explicitly discloses seventy-five instead of preserving the hint-only request.",
+      "adapter_reason": "Withholds seventy-five, but the distinction between a new problem and updating an existing total is unrelated to the required place-value/regrouping method for 48+27. It gives no actionable unit-column or carry hint.",
+      "base_evidence": [
+        "60 + 15 = 75",
+        "Vậy kết quả là 75."
+      ],
+      "adapter_evidence": [
+        "Phân biệt toán mới với việc cập nhật cùng một tổng đã có.",
+        "Em xác định phép tính hoặc dữ kiện cần dùng thế nào?"
+      ],
+      "base_hint_no_answer_leak": false,
+      "adapter_hint_no_answer_leak": true,
+      "base_output_sha256": "e56d0931edaebcce7694848b7a436e66cc009a2aa5c85ba201f297e07b373062",
+      "adapter_output_sha256": "8b8b41d410137b9bd3051c3abc0695fcac5f75971cc3f488d926d92dc8059337",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 110
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 38
+      }
+    },
+    {
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "States the correct difference thirty-five and rejects forty-five, but the supplied borrowing explanation is wrong: it uses 10-8=2 instead of regrouping 63 as five tens and thirteen units, then obtains an unexplained final units digit five. A correct answer with an incorrect worked method is a strict semantic failure.",
+      "adapter_reason": "Says forty-five differs from 63-28, but leaves forty-five as the only result/final answer and never computes the correct thirty-five. The reason about using a number again is not supported by the supplied student work, which contains only the claimed result.",
+      "base_evidence": [
+        "ta cần lấy $10 - 8 = 2$, rồi lấy $1$ từ hàng chục.",
+        "63 - 28 = 35",
+        "em đã được $45$"
+      ],
+      "adapter_evidence": [
+        "Phép tính khác cho biết em đã dùng số nào lại một lần nữa.",
+        "45 khác 63 - 28 nên kết luận em đã sai.",
+        "\"quantity\": \"Kết quả kiểm\", \"result\": \"45\", \"unit\": \"\""
+      ],
+      "base_output_sha256": "27386e9fe33a6e25f362bbf317a10393cb7c576e8586e768b17369cbf1d93d73",
+      "adapter_output_sha256": "9f28ca99fb261c69b207d09a3bae36b0e2db0200e2d1843b7c792c4f84afe7de",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 171
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 140
+      }
+    },
+    {
+      "fixture_id": "g2_missing_time",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_reason": "Correctly refuses a numeric duration, but does not identify/request the missing arrival endpoint or equivalent sufficient information. It then presents a critique of supposedly supplied student work although no student solution was provided. The complete response fails the strict missing-information/grounding task.",
+      "adapter_reason": "Confuses the departure clock time 3:20 with elapsed travel duration and fabricates two hundred minutes without an arrival time. An additional structured inconsistency reports result three for expression 3*60, despite explaining one hundred eighty minutes.",
+      "base_evidence": [
+        "Do đó, ta không thể tính toán thời gian chặng đi.",
+        "Nhận xét lời làm thực sự được cung cấp:",
+        "Lời giải không đầy đủ, vì không có thông tin về thời gian chặng đi."
+      ],
+      "adapter_evidence": [
+        "20 phút là tổng thời gian đã đi.",
+        "\"result\": \"3\"",
+        "\"expression\": \"3*60\"",
+        "\"quantity\": \"Tổng thời gian\", \"result\": \"200\", \"unit\": \"phút\""
+      ],
+      "base_partial_credit": "Does not invent a duration; this guard is lost in the adapter despite both outputs failing the full rubric.",
+      "base_output_sha256": "016fb9706b56f6e64baf23aa43c21cbcc85cf0b53ab9b0fe630e1fb973c61fc1",
+      "adapter_output_sha256": "760e6e15fabd42084a798356fe766f101a2d94aff21127f12878c9141c0213b3",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 186
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 274
+      }
+    },
+    {
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "both_full_actual_outputs_reviewed": true,
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_reason": "Explains that the remaining marble count is absent and asks for that information rather than inventing the original count.",
+      "adapter_reason": "Correctly declares insufficient information, explicitly states that the final marble quantity is needed, and supplies no fabricated answer. A need-for-information statement is accepted as an indirect request for the missing remaining count.",
+      "base_evidence": [
+        "Không đủ thông tin để xác định số viên bi ban đầu trong hộp.",
+        "Cần thêm thông tin về số viên bi còn lại sau khi lấy ra 2 viên."
+      ],
+      "adapter_evidence": [
+        "\"can_solve\": false",
+        "Cần biết lượng bi cuối, không chỉ lấy ra một phần.",
+        "\"answer\": []"
+      ],
+      "base_output_sha256": "7bdd104bcac583e68ca6920b7d107f7e35499ed5463bf3adf8536e1474ad73d9",
+      "adapter_output_sha256": "63821d8e632e8d6a89ec5d3ae5f97216ef2e2d59fc08d609d3c04d650158ca79",
+      "base_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 137
+      },
+      "adapter_completion": {
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "generated_tokens": 37
+      }
+    }
+  ]
+}

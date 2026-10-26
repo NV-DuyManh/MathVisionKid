@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "checkpoint": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\artifacts\\checkpoints\\adapted_init.pth",
+  "manifest": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\manifests\\val.jsonl",
+  "total_samples": 1,
+  "elapsed_seconds": 0.21,
+  "metrics": {
+    "cer": 0.7547,
+    "character_accuracy": 0.2453,
+    "exact_match": 0.0,
+    "empty_rate": 0.0,
+    "digit_accuracy": 1.0,
+    "operator_accuracy": 0.5,
+    "decimal_accuracy": 0.0,
+    "vietnamese_accuracy": 0.1818
+  },
+  "category_breakdown": {
+    "TEXT_ONLY": {
+      "count": 0,
+      "cer": null,
+      "exact_match": null
+    },
+    "MATH_ONLY": {
+      "count": 0,
+      "cer": null,
+      "exact_match": null
+    },
+    "MIXED": {
+      "count": 1,
+      "cer": 0.7547,
+      "exact_match": 0.0
+    }
+  },
+  "character_occurrences": {
+    "digits": {
+      "correct": 0,
+      "total": 0
+    },
+    "operators": {
+      "correct": 1,
+      "total": 2
+    },
+    "decimals": {
+      "correct": 0,
+      "total": 1
+    },
+    "vietnamese": {
+      "correct": 2,
+      "total": 11
+    }
+  },
+  "samples": [
+    {
+      "image": "sample_08_line_01.png",
+      "category": "MIXED",
+      "ground_truth": "- quạt thép: có thể tạo ra những phi tiêu có tấm độc.",
+      "prediction": "B13: Cho a và b là hại số tư nhiên Hãy",
+      "cer": 0.7547,
+      "edit_distance": 40,
+      "exact_match": false,
+      "empty": false
+    }
+  ]
+}

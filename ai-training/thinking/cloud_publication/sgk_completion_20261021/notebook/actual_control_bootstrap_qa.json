@@ -1,0 +1,33 @@
+{
+  "actual_preverified_drive_controls_used": true,
+  "payloads_referenced": 34,
+  "candidate_chat_members": 28,
+  "candidate_chat_rows": 6501636,
+  "latest_bundle_sha256": "867537e0ef05679db1967a29acaec785644820093113ffeecc4460c8450bb05f",
+  "bootstrap_code_members": [
+    {
+      "member": "code/exhaustive_colab_loader.py",
+      "sha256": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c",
+      "bytes": 24727
+    },
+    {
+      "member": "code/math_data_portable_resume.py",
+      "sha256": "e3641fe448d229cc989af9e2ca36ba2c841381b0a008a64e3b3fd448616486d9",
+      "bytes": 10375
+    },
+    {
+      "member": "code/math_data_archive_audit.py",
+      "sha256": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+      "bytes": 14358
+    },
+    {
+      "member": "code/math_data_candidate_stream.py",
+      "sha256": "fa765959154ce453462e9c41ebf3695e88452aaa14acbcf17f5e1c6fd2f7e310",
+      "bytes": 18064
+    }
+  ],
+  "six_tests_passed": true,
+  "colab_live_auth_executed": false,
+  "full_archive_audited": false,
+  "training_started": false
+}

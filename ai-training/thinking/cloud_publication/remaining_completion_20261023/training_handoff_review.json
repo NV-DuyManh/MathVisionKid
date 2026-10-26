@@ -1,0 +1,127 @@
+{
+  "schema": "MathVisionKid.training_handoff_review.v1",
+  "audit_date": "2026-10-23",
+  "audit_scope": "bounded_read_only_metadata_and_loader_review",
+  "corpus_or_eval_content_read": false,
+  "training_or_model_load_or_gpu_or_paid_api_used": false,
+  "drive_written": false,
+  "source_evidence": {
+    "current_text_candidate_manifest": "thinking/cloud_publication/crosssplit_20261023/final_current_text_candidate_manifest.json",
+    "context_tail": "thinking/cloud_publication/crosssplit_20261023/local_context_pending_delta.md",
+    "remote_state_metadata": "thinking/cloud_publication/crosssplit_20261023/current_remote_state_verified.json",
+    "notebook_source_pins": "thinking/cloud_publication/crosssplit_20261023/live_notebook_source_pins.json",
+    "trainer": "training/train_finetune.py",
+    "trainer_config": "configs/train_finetune.yaml",
+    "dataset_config": "configs/dataset.yaml",
+    "existing_ocr_notebook": "colab/MathVision_OCR_Finetune.ipynb"
+  },
+  "authoritative_snapshot": {
+    "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "recipe_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+    "selection": "ALL_CURRENT_TRAIN_CANDIDATES_WITH_EVALUATION_SPLITS_RETAINED_SEPARATELY",
+    "candidate_chat_rows": 6502344,
+    "validation_chat_rows": 24,
+    "test_chat_rows": 24,
+    "current_unique_chat_rows": 6502392,
+    "core_cases": 495,
+    "core_chat_rows": 1980,
+    "core_nodes": 165,
+    "source_versions": 1629906,
+    "frozen_parent_checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "latest_checkpoint_id": "1scVuXcjUz1EwMykVJ_F36IMfUlsfSVWH",
+    "latest_checkpoint_raw_readback_verified": true,
+    "checkpoint_fresh_readback_verified_does_not_mean_training_ready": true
+  },
+  "drive_controls": {
+    "state_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+    "progress_zip_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "chat_manifest_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "context_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "recipe_member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "declared_candidate_rows_match_recipe_hash": true,
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "notebook_role": "data_only_colab_audit_and_resume; not a training launcher",
+    "notebook_live_status": "RUNTIME_OR_STATUS_MISSING",
+    "notebook_training_started": false
+  },
+  "existing_trainer_assessment": {
+    "status": "incompatible_with_current_chat_corpus",
+    "model": "CRNN line-level handwriting OCR",
+    "input_contract": "JSONL records with image_path and text; unreadable or missing image files are filtered at dataset construction and unreadable images later fall back to blank canvases",
+    "default_train_manifest": "data/manifests/train.jsonl",
+    "default_validation_manifest": "data/manifests/val.jsonl",
+    "dataset_drive_root": "/content/drive/MyDrive/C1SE.01",
+    "colab_notebook_launches": [
+      "scripts/discover_drive_dataset.py",
+      "scripts/prepare_dataset.py",
+      "scripts/split_dataset.py",
+      "training/train_finetune.py"
+    ],
+    "smoke_test_option": "--smoke_test (limits run to 15 steps in this script)",
+    "note": "This pipeline trains OCR from images and text labels; it does not load the Drive chat recipe or train the 6,502,344 chat rows."
+  },
+  "blockers": [
+    {
+      "code": "SCOPED_TEXT_READINESS_VERIFIED",
+      "evidence": "text_training_release_manifest.json sets TEXT_TRAINING_DATASET_READY=true and passed exact recipe, evidence, checkpoint, and split-total validation",
+      "action": "Feed the validated exhaustive text batches to the separately prepared text training runtime; keep global TRAINING_DATASET_READY=false."
+    },
+    {
+      "code": "ARCHIVE_SCOPE_LIMIT",
+      "evidence": "full_archive_token_linkage_split_audit_complete=false; current technical pass is CURRENT_RECIPE_ONLY",
+      "action": "Preserve this scope limitation in run metadata; do not claim whole-corpus/global readiness, frozen-eval independence, or curriculum certification."
+    },
+    {
+      "code": "NUMERIC_EXCEPTION_POLICY",
+      "evidence": "36 CROSS_SPLIT_CANONICAL rows and 1 SOURCE_SPLIT_MISSING_OR_UNKNOWN are preserved; current normalized-question/group conflicts are zero; regression diagnostic links to zero chat rows",
+      "action": "Accept only the hash-bound current-recipe adjudication, keep numeric_expression_disjoint=false, and exclude the regression-only diagnostic."
+    }
+  ],
+  "loader_handoff_fixes": [
+    "Pin and verify recipe SHA256 1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8 from the recorded Drive STATE/PROGRESS controls before loading any rows.",
+    "Select all 6,502,344 current train-candidate chat rows; keep the 24 validation and 24 test rows in separate manifests and reject any 5,024-row legacy subset or sampling cap.",
+    "Make readiness fail closed when TRAINING_DATASET_READY is false, when the archive-wide audit is incomplete, or when recipe hash, row totals, or split totals mismatch; do not override the flag in a launcher.",
+    "Preserve the 495-case/1,980-chat/165-node core; frozen evaluation controls and splits; and the 299 exact-hash owner signoffs. Do not create or claim human review signoffs.",
+    "Record training_started=false until all data gates pass and a full-data launcher is actually invoked; report only counts and hashes established by the current evidence."
+  ],
+  "preservation_and_claims": {
+    "frozen_evaluation_and_test_splits_preserved": true,
+    "core_495_cases_preserved": true,
+    "exact_hash_owner_signoffs_299_preserved": true,
+    "human_signoffs_created": 0,
+    "all_rows_semantically_human_reviewed": false,
+    "whole_curriculum_certified": false,
+    "training_started": false,
+    "gpu_used": false,
+    "model_weights_loaded": false,
+    "paid_api_used": false,
+    "permitted_claim": "Current-recipe technical pass with hash-bound numeric-overlap and regression exclusion; full-archive readiness remains false.",
+    "global_TRAINING_DATASET_READY": false,
+    "text_TRAINING_DATASET_READY": true
+  },
+  "actionable_next_step": "Use the validated contract output to hand all 6,502,344 train rows to the text runtime, validate all 24 validation rows, and keep the 24 test rows sealed for a final evaluation.",
+  "text_training_contract": {
+    "adapter": "thinking/cloud_publication/remaining_completion_20261023/full_text_training_contract.py",
+    "test_file": "thinking/cloud_publication/remaining_completion_20261023/test_full_text_training_contract.py",
+    "text_readiness_schema": "MathVisionKid.text_training_readiness.v1",
+    "text_readiness_key": "TEXT_TRAINING_DATASET_READY",
+    "text_readiness_required": true,
+    "global_ready_used_as_gate": false,
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "max_length": 2048,
+    "truncate": false,
+    "train_rows": 6502344,
+    "validation_rows": 24,
+    "test_rows": 24,
+    "subset_limit": null,
+    "assistant_only_labels": true,
+    "batch_completion_receipt_required": true,
+    "training_or_weights_loaded": false,
+    "verification": "5 passed, CPU only",
+    "scoped_readiness_status": "PASSED_METADATA_ONLY",
+    "validation_receipt": "thinking/cloud_publication/remaining_completion_20261023/full_text_training_release_validation.json",
+    "actual_recipe_member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "actual_checkpoint_id": "1scVuXcjUz1EwMykVJ_F36IMfUlsfSVWH"
+  }
+}

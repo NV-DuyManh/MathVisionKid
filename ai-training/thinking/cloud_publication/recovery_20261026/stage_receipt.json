@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "PtmOON1ncdVB"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"staged\": true, \"dev_sha256\": \"450a642e328e232dcfaf7c7d289d45c75203ef5e7ee5c5181e305af159fadd85\", \"dev_screen\": {\"fixtures\": 30, \"training_rows_screened\": 16000, \"collisions\": [], \"scope\": \"exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim\", \"against_prior_used_development\": {\"fixtures\": 30, \"training_rows_screened\": 30, \"collisions\": [], \"scope\": \"exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim\"}}, \"source_plan_sha256\": \"f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad\", \"derived_rows\": 6625, \"all4000worked_retained\": true, \"publisher\": {\"publisher_started\": true, \"folder_name\": \"MathVisionKid_RECOVERY_20261026\", \"training_started_by_publisher\": false}, \"environment\": {\"python\": \"3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]\", \"versions\": {\"torch\": \"2.11.0+cu130\", \"transformers\": \"5.20.2\", \"peft\": \"0.21.2\", \"accelerate\": \"1.15.0\", \"bitsandbytes\": \"0.50.2\"}}, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

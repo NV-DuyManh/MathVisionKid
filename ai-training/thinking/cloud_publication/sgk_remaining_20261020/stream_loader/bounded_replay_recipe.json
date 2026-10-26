@@ -1,0 +1,164 @@
+{
+  "schema": "MathVisionKid.candidate_union_recipe.v1",
+  "artifacts": {
+    "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e": {
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "bytes": 486813,
+      "file_ids": [
+        "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F"
+      ],
+      "file_names": [
+        "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip"
+      ]
+    },
+    "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9": {
+      "sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+      "bytes": 61506,
+      "file_ids": [
+        "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC"
+      ],
+      "file_names": [
+        "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip"
+      ]
+    },
+    "dba37e386170c3b7a3c78057c03ccb773fdb5e3c68b817a646515855938de423": {
+      "sha256": "dba37e386170c3b7a3c78057c03ccb773fdb5e3c68b817a646515855938de423",
+      "bytes": 501027,
+      "file_ids": [],
+      "file_names": [
+        "boundary_chat.jsonl"
+      ]
+    },
+    "6796ea43873bd9651c2432d763f9a576d50a014e53a9747d730a57c05c9f1f75": {
+      "sha256": "6796ea43873bd9651c2432d763f9a576d50a014e53a9747d730a57c05c9f1f75",
+      "bytes": 491072,
+      "file_ids": [],
+      "file_names": [
+        "pedagogy_chat_v3.jsonl"
+      ]
+    },
+    "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885": {
+      "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+      "bytes": 1196154,
+      "file_ids": [
+        "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI"
+      ],
+      "file_names": [
+        "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip"
+      ]
+    },
+    "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201": {
+      "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+      "bytes": 4411114,
+      "file_ids": [],
+      "file_names": [
+        "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip"
+      ]
+    }
+  },
+  "chat_members": [
+    {
+      "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "bytes": 486813,
+      "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+      "family": "numeric_extension",
+      "member": "chat.jsonl.gz",
+      "member_sha256": "122b20525d54267c45410a6c1b52653ada1288b26bfe42a205de6176ac731e11",
+      "member_bytes": 144926,
+      "role": "candidate_chat",
+      "rows": 2844,
+      "status": "REFERENCE_PINNED_NOT_PROCESSED",
+      "range_central_directory_observed": true,
+      "range_does_not_verify_archive_sha256": true
+    },
+    {
+      "file_id": "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+      "sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+      "bytes": 61506,
+      "file_name": "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+      "family": "numeric_extension",
+      "member": "chat.jsonl.gz",
+      "member_sha256": "c667fe6bbff719e1ec3d074a55fd4e541343887661cdd7065f5152748dcc1738",
+      "member_bytes": 16833,
+      "role": "candidate_chat",
+      "rows": 296,
+      "status": "REFERENCE_PINNED_NOT_PROCESSED",
+      "range_central_directory_observed": true,
+      "range_does_not_verify_archive_sha256": true
+    },
+    {
+      "file_id": null,
+      "sha256": "dba37e386170c3b7a3c78057c03ccb773fdb5e3c68b817a646515855938de423",
+      "bytes": 501027,
+      "file_name": "boundary_chat.jsonl",
+      "family": "balanced_plus_supplement_history",
+      "member": null,
+      "member_sha256": null,
+      "member_bytes": null,
+      "role": "candidate_chat",
+      "rows": 216,
+      "status": "LOCAL_RESTORED_REFERENCE_HASHED_NO_FULL_REMOTE_REPLAY_THIS_RUN",
+      "note": "69 source cases retained; 54 cases/216 chat exported after protected filter. Do not synthesize missing60 rows.",
+      "range_central_directory_observed": true,
+      "range_does_not_verify_archive_sha256": true,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe"
+    },
+    {
+      "file_id": null,
+      "sha256": "6796ea43873bd9651c2432d763f9a576d50a014e53a9747d730a57c05c9f1f75",
+      "bytes": 491072,
+      "file_name": "pedagogy_chat_v3.jsonl",
+      "family": "balanced_plus_supplement_history",
+      "member": null,
+      "member_sha256": null,
+      "member_bytes": null,
+      "role": "candidate_chat",
+      "rows": 240,
+      "status": "LOCAL_RESTORED_REFERENCE_HASHED_NO_FULL_REMOTE_REPLAY_THIS_RUN",
+      "split_rows": {
+        "train": 192,
+        "validation": 24,
+        "test": 24
+      },
+      "future_training_filter": "split == train",
+      "range_central_directory_observed": true,
+      "range_does_not_verify_archive_sha256": true,
+      "original_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe"
+    },
+    {
+      "file_id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+      "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+      "bytes": 1196154,
+      "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+      "family": "sgk_page_audit_20261019",
+      "member": "data/release/accepted_chat.jsonl",
+      "member_sha256": "f23c133e16705662571968a8d872503555286f19484fe7a8c980fabb4b4e2a4a",
+      "member_bytes": 989535,
+      "role": "candidate_chat",
+      "rows": 440,
+      "status": "REFERENCE_PINNED_NOT_PROCESSED"
+    },
+    {
+      "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+      "bytes": 4411114,
+      "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+      "file_id": null,
+      "role": "candidate_chat",
+      "member": "data/release/accepted_chat.jsonl",
+      "member_sha256": "4a3c4b8c2c3aa3b0f6e123188f931c71af29a52bab49f2fda5551593767e9529",
+      "member_bytes": 828491,
+      "rows": 376,
+      "family": "sgk_finish_20261020_accepted94"
+    }
+  ],
+  "source_members": [],
+  "excluded_members": [],
+  "duplicate_member_references": [],
+  "pending_discovery": [],
+  "raw_candidate_chat_rows_including_declared_current_splits": 4412,
+  "future_training_selector": "row.split == train; never rewrite validation/test",
+  "full_archive_audit_complete": false,
+  "training_started": false,
+  "scope": "BOUNDED_LOCAL_REPLAY_ONLY_NOT_FULL_UNION"
+}

@@ -1,0 +1,96 @@
+{
+  "utc": "2026-10-22T16:11:35.071034+00:00",
+  "query_plans": {
+    "candidate_link_count": [
+      [
+        5,
+        0,
+        0,
+        "SCAN s"
+      ],
+      [
+        11,
+        0,
+        0,
+        "SEARCH v USING INDEX sqlite_autoindex_source_versions_1 (id=? AND raw_sha=?)"
+      ]
+    ],
+    "source_label_counts": [
+      [
+        6,
+        0,
+        0,
+        "SCAN source_versions"
+      ],
+      [
+        8,
+        0,
+        0,
+        "USE TEMP B-TREE FOR GROUP BY"
+      ]
+    ],
+    "source_hash_origin_counts": [
+      [
+        6,
+        0,
+        0,
+        "SCAN samples"
+      ],
+      [
+        8,
+        0,
+        0,
+        "USE TEMP B-TREE FOR GROUP BY"
+      ]
+    ],
+    "mode_counts": [
+      [
+        2,
+        0,
+        0,
+        "CO-ROUTINE (subquery-1)"
+      ],
+      [
+        8,
+        2,
+        0,
+        "SCAN samples USING COVERING INDEX sqlite_autoindex_samples_2"
+      ],
+      [
+        38,
+        0,
+        0,
+        "SCAN (subquery-1)"
+      ]
+    ]
+  },
+  "indexes": {
+    "samples": [
+      [
+        0,
+        "sqlite_autoindex_samples_2",
+        1,
+        "u",
+        0
+      ],
+      [
+        1,
+        "sqlite_autoindex_samples_1",
+        1,
+        "pk",
+        0
+      ]
+    ],
+    "source_versions": [
+      [
+        0,
+        "sqlite_autoindex_source_versions_1",
+        1,
+        "pk",
+        0
+      ]
+    ]
+  },
+  "source_rows_changed": false,
+  "training_started": false
+}

@@ -1,0 +1,1122 @@
+{
+  "batch": "g5_pie_chart_0090",
+  "phase": "AUTHORING_BEFORE_OFFICIAL_SEMANTIC_QA",
+  "source_sha256": "9f5c83413b671df681635a2daa174eef42f97fa79d93d7957616cc14a7e0e640",
+  "executed_utc": "2026-10-18T10:28:37.460738+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "row_sha256": "bdbdabc64faa0e21a4a1ccf8809796e6cec3361abf9bb4f434c2a5bd29318074",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "240*35/100",
+          "240*45/100",
+          "240*20/100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "row_sha256": "3cd034551772fd8d9e98cfa2b49cdaffdcbfed63da237b39ab629861e5c56148",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "80*40/100",
+          "120*30/100",
+          "(120*30/100)-(80*40/100)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "row_sha256": "75790db880e8890850995b1e9445681444027621b6dac395d9e3229cf3d8acd0",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "18/90*100",
+          "27/90*100",
+          "45/90*100",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_misconception_percent_label_as_headcount",
+      "row_sha256": "56664e899b64a632d88278171215d5296eddc1d1805e15128636ec3a3ee4f3ae",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "180*25/100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_guard_missing_colour_activity_legend",
+      "row_sha256": "62cd19fa729b76314bb6dc272072de40526c15d312639a2450f76d28bd8a6041",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "step_id": "s1",
+      "Fraction": "84",
+      "Decimal": "84"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "step_id": "s2",
+      "Fraction": "108",
+      "Decimal": "108"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "step_id": "s3",
+      "Fraction": "48",
+      "Decimal": "48"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "step_id": "s1",
+      "Fraction": "32",
+      "Decimal": "32"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "step_id": "s2",
+      "Fraction": "36",
+      "Decimal": "36"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "step_id": "s3",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "step_id": "s1",
+      "Fraction": "20",
+      "Decimal": "20.0"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "step_id": "s2",
+      "Fraction": "30",
+      "Decimal": "30.0"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "step_id": "s3",
+      "Fraction": "50",
+      "Decimal": "50.0"
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_misconception_percent_label_as_headcount",
+      "step_id": "s1",
+      "Fraction": "45",
+      "Decimal": "45"
+    }
+  ],
+  "separate_oracles": {
+    "same_whole_identity_partition": [
+      84,
+      108,
+      48
+    ],
+    "different_wholes_bicycle_counts": [
+      32,
+      36
+    ],
+    "book_identity_groups": [
+      18,
+      27,
+      45
+    ],
+    "hundred_cell_label_counts": [
+      20,
+      30,
+      50
+    ],
+    "football_identity_count": 45,
+    "missing_legend_QA_only_countermodels": [
+      "30",
+      "42"
+    ]
+  },
+  "actual_semantic_content_read": true,
+  "visual_asset_status": "PENDING_ACTUAL_IMAGE",
+  "new_human_review_claim": false,
+  "training_started": false,
+  "before_polish_actual_rows": [
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "case_group_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "split": "train",
+      "grade": 5,
+      "topic": "pie_labels_parts_of_same_club_whole",
+      "problem": "Mô tả bằng chữ của một biểu đồ quạt tròn giả định về 240 học sinh trong một câu lạc bộ: đọc sách 35%, thể thao 45%, nghệ thuật 20%. Mỗi học sinh chọn đúng một hoạt động, ba phần không chồng nhau và bao hết câu lạc bộ; các tỉ lệ ghi là chính xác. Hãy sắp các hoạt động theo số học sinh giảm dần, tính số học sinh từng hoạt động và kiểm tổng. Giải thích vì sao có thể so các tỉ lệ trong cùng biểu đồ để sắp số người. Chỉ có mô tả và nhãn đã chép, chưa có ảnh thật để nhìn hoặc đo góc.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng số học sinh của cả hình tròn",
+          "value": "240",
+          "unit": "học sinh",
+          "role": "whole_population"
+        },
+        {
+          "id": "g1",
+          "text": "Phần đọc sách",
+          "value": "35",
+          "unit": "%",
+          "role": "reading_share_same_whole"
+        },
+        {
+          "id": "g2",
+          "text": "Phần thể thao",
+          "value": "45",
+          "unit": "%",
+          "role": "sport_share_same_whole"
+        },
+        {
+          "id": "g3",
+          "text": "Phần nghệ thuật",
+          "value": "20",
+          "unit": "%",
+          "role": "art_share_same_whole"
+        }
+      ],
+      "requested_quantity": "Số học sinh đọc sách; Số học sinh thể thao; Số học sinh nghệ thuật",
+      "student_work": null,
+      "initial_guidance": [
+        "Cả hình tròn biểu thị cùng một tổng số học sinh, mỗi nhãn cho biết một phần của tổng ấy.",
+        "Phân biệt phần trăm với số người và giữ tên hoạt động đi cùng nhãn trước khi so hoặc tính."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Các phần trăm trong cùng hình được tính trên cùng một tổng.",
+          "question": "Em dùng các nhãn để so thứ tự các nhóm mà chưa cần đo hình như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Phần trăm là số phần trong mỗi trăm phần của toàn bộ, chưa phải số học sinh.",
+          "question": "Em tìm số người của từng phần từ tổng đã cho bằng phép tính nào?"
+        },
+        {
+          "level": 3,
+          "hint": "Ba nhóm không chồng nhau và đã bao hết tổng nên có thể kiểm bằng cộng các nhóm.",
+          "question": "Em kiểm cả tổng phần trăm và tổng số học sinh rồi đối chiếu thứ tự ra sao?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Đọc nhãn và sắp theo cùng tổng",
+          "reason": "Với cùng tổng dương, phần trăm lớn hơn cho số học sinh lớn hơn.",
+          "result": "Thể thao, đọc sách, nghệ thuật theo số học sinh giảm dần",
+          "explanation": "45% > 35% > 20%, đều tính trên cùng 240 học sinh, nên thể thao nhiều nhất rồi đọc sách rồi nghệ thuật. Chỉ dựa nhãn được chép, không nhận xét góc hay màu từ ảnh chưa có.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Tính số học sinh đọc sách",
+          "reason": "Lấy 35 phần trong 100 phần của toàn bộ 240 học sinh.",
+          "result": "84",
+          "explanation": "Đọc sách: 240 x 35 : 100 = 84 học sinh. Kiểm 84 : 240 x 100 = 35%.",
+          "expression": "240*35/100",
+          "unit": "học sinh",
+          "step_id": "s1"
+        },
+        {
+          "title": "Tính số học sinh thể thao",
+          "reason": "Dùng cùng tổng 240, phần thể thao là 45% của tổng.",
+          "result": "108",
+          "explanation": "Thể thao: 240 x 45 : 100 = 108 học sinh. Kiểm 108 : 240 x 100 = 45%.",
+          "expression": "240*45/100",
+          "unit": "học sinh",
+          "step_id": "s2"
+        },
+        {
+          "title": "Tính số học sinh nghệ thuật",
+          "reason": "Phần nghệ thuật chiếm 20% của cùng toàn bộ, không phải 20 người.",
+          "result": "48",
+          "explanation": "Nghệ thuật: 240 x 20 : 100 = 48 học sinh. Kiểm 35 + 45 + 20 = 100% và 84 + 108 + 48 = 240 học sinh; 108 > 84 > 48 khớp thứ tự ban đầu.",
+          "expression": "240*20/100",
+          "unit": "học sinh",
+          "step_id": "s3"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh đọc sách",
+          "result": "84",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh thể thao",
+          "result": "108",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh nghệ thuật",
+          "result": "48",
+          "unit": "học sinh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "pie_labels_parts_of_same_club_whole",
+        "operations": [
+          "240*35/100",
+          "240*45/100",
+          "240*20/100"
+        ],
+        "numeric_values": [
+          "240",
+          "35",
+          "45",
+          "20"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_pie_chart",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_PIE_LABEL_PERCENT_WHOLE_AND_LEGEND_ROLES",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "pie_whole_percent_and_legend_roles_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "case_group_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "split": "train",
+      "grade": 5,
+      "topic": "two_pies_different_totals_share_vs_count",
+      "problem": "Hai biểu đồ quạt tròn giả định có nhãn được chép bằng chữ. Biểu đồ lớp A có tổng 80 học sinh, đi xe đạp 40%, các cách đến trường khác gộp lại 60%. Biểu đồ lớp B có tổng 120 học sinh, đi xe đạp 30%, các cách khác 70%. Trong mỗi lớp, mỗi học sinh thuộc đúng một nhóm và hai phần bao hết lớp; tỉ lệ chính xác. Hãy so tỉ lệ đi xe đạp giữa hai lớp, tính số học sinh đi xe đạp của mỗi lớp, so số người và tính độ chênh số người. Giải thích vì sao so phần trăm và so số người có thể cho thứ tự khác nhau khi tổng khác nhau. Chưa có ảnh để ước lượng kích thước phần quạt.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lớp A",
+          "value": "80",
+          "unit": "học sinh",
+          "role": "whole_A"
+        },
+        {
+          "id": "g1",
+          "text": "Tỉ lệ xe đạp A",
+          "value": "40",
+          "unit": "%",
+          "role": "bicycle_share_A"
+        },
+        {
+          "id": "g2",
+          "text": "Tỉ lệ khác A",
+          "value": "60",
+          "unit": "%",
+          "role": "other_share_A"
+        },
+        {
+          "id": "g3",
+          "text": "Tổng lớp B",
+          "value": "120",
+          "unit": "học sinh",
+          "role": "whole_B"
+        },
+        {
+          "id": "g4",
+          "text": "Tỉ lệ xe đạp B",
+          "value": "30",
+          "unit": "%",
+          "role": "bicycle_share_B"
+        },
+        {
+          "id": "g5",
+          "text": "Tỉ lệ khác B",
+          "value": "70",
+          "unit": "%",
+          "role": "other_share_B"
+        }
+      ],
+      "requested_quantity": "Số học sinh đi xe đạp A; Số học sinh đi xe đạp B; Độ chênh số học sinh đi xe đạp",
+      "student_work": null,
+      "initial_guidance": [
+        "Mỗi tỉ lệ gắn với tổng riêng của một lớp, nên cần giữ nhãn lớp khi đọc.",
+        "So phần trăm trả lời về tỉ lệ, còn so số người cần dùng tổng tương ứng để tìm từng số lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Hai cả hình tròn đại diện hai tổng khác nhau dù cách vẽ có thể giống nhau.",
+          "question": "Em ghép từng tỉ lệ xe đạp với tổng đúng lớp để tính số người như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Một tỉ lệ lớn hơn trên tổng nhỏ chưa tự cho số người lớn hơn trên tổng lớn.",
+          "question": "Em tách hai câu hỏi so tỉ lệ và so số người để kiểm riêng ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Độ chênh số học sinh dùng hai số lượng đã về cùng đơn vị người.",
+          "question": "Em kiểm ngược từng tỉ lệ rồi so và tính chênh số người như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "So tỉ lệ và nhận diện hai tổng",
+          "reason": "Tỉ lệ được so trực tiếp theo phần trăm, nhưng số người phụ thuộc cả tổng riêng.",
+          "result": "A có tỉ lệ xe đạp lớn hơn B; chưa suy thứ tự số người từ đó",
+          "explanation": "40% > 30%, nên tỉ lệ A lớn hơn. A có 80 học sinh còn B có 120; không dùng tỉ lệ lớn hơn để kết luận ngay số người lớn hơn.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Tính số người đi xe đạp lớp A",
+          "reason": "Dùng phần trăm của A với tổng của A.",
+          "result": "32",
+          "explanation": "Lớp A: 80 x 40 : 100 = 32 học sinh đi xe đạp. Kiểm 32 : 80 x 100 = 40%.",
+          "expression": "80*40/100",
+          "unit": "học sinh",
+          "step_id": "s1"
+        },
+        {
+          "title": "Tính số người đi xe đạp lớp B",
+          "reason": "Dùng tổng 120 và tỉ lệ 30% của B, không lấy tổng của A.",
+          "result": "36",
+          "explanation": "Lớp B: 120 x 30 : 100 = 36 học sinh đi xe đạp. Kiểm 36 : 120 x 100 = 30%.",
+          "expression": "120*30/100",
+          "unit": "học sinh",
+          "step_id": "s2"
+        },
+        {
+          "title": "So số người và tìm chênh",
+          "reason": "Hai kết quả cùng đơn vị học sinh nên so và lấy số lớn trừ số nhỏ.",
+          "result": "4",
+          "explanation": "36 > 32, nên B có số học sinh đi xe đạp nhiều hơn A. Chênh 36 - 32 = 4 học sinh; kiểm 32 + 4 = 36. A có tỉ lệ lớn hơn, B có số người lớn hơn vì hai tổng khác nhau. Trong mỗi biểu đồ, các nhãn cộng thành 100%.",
+          "expression": "{s2}-{s1}",
+          "unit": "học sinh",
+          "step_id": "s3"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh đi xe đạp A",
+          "result": "32",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh đi xe đạp B",
+          "result": "36",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Độ chênh số học sinh đi xe đạp",
+          "result": "4",
+          "unit": "học sinh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "two_pies_different_totals_share_vs_count",
+        "operations": [
+          "80*40/100",
+          "120*30/100",
+          "120*30/100-80*40/100"
+        ],
+        "numeric_values": [
+          "80",
+          "40",
+          "60",
+          "120",
+          "30",
+          "70"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_pie_chart",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_PIE_LABEL_PERCENT_WHOLE_AND_LEGEND_ROLES",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "pie_whole_percent_and_legend_roles_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "case_group_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "split": "train",
+      "grade": 5,
+      "topic": "count_table_to_pie_labels_and_valid_whole",
+      "problem": "Một tủ sách giả định có 90 quyển, phân đúng một loại cho mỗi quyển và bao hết tủ: truyện 18 quyển, khoa học 27 quyển, lịch sử 45 quyển. Mục tiêu biểu diễn là cho thấy mỗi loại chiếm bao nhiêu phần của toàn bộ tủ, không thể hiện thay đổi theo thời gian. Hãy tính tỉ lệ phần trăm từng loại, giải thích vì sao biểu đồ quạt tròn phù hợp với mục tiêu này và kiểm hai bộ nhãn đề xuất: bộ M ghi truyện 20%, khoa học 30%, lịch sử 50%; bộ N ghi truyện 20%, khoa học 30%, lịch sử 60%. Hãy chọn bộ nhãn khớp dữ liệu và nêu căn cứ. Đây là đề xuất bằng chữ, không có ảnh biểu đồ cần vẽ hoặc đọc góc.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng số sách",
+          "value": "90",
+          "unit": "quyển",
+          "role": "whole_books"
+        },
+        {
+          "id": "g1",
+          "text": "Số truyện",
+          "value": "18",
+          "unit": "quyển",
+          "role": "story_count"
+        },
+        {
+          "id": "g2",
+          "text": "Số sách khoa học",
+          "value": "27",
+          "unit": "quyển",
+          "role": "science_count"
+        },
+        {
+          "id": "g3",
+          "text": "Số sách lịch sử",
+          "value": "45",
+          "unit": "quyển",
+          "role": "history_count"
+        },
+        {
+          "id": "g4",
+          "text": "Bộ nhãn M và N chép đầy đủ trong đề",
+          "value": null,
+          "unit": "",
+          "role": "candidate_label_sets"
+        }
+      ],
+      "requested_quantity": "Tỉ lệ truyện; Tỉ lệ khoa học; Tỉ lệ lịch sử",
+      "student_work": null,
+      "initial_guidance": [
+        "Các loại sách là những phần không chồng nhau của cùng một tổng nên cần giữ quan hệ phần với toàn bộ.",
+        "Kiểm nhãn vừa phải khớp từng loại vừa phải khớp toàn bộ; tổng nhãn đúng chưa đủ nếu ghép sai tên loại."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Mỗi tỉ lệ được tìm từ số quyển của loại đó so với tổng số quyển.",
+          "question": "Em tính từng phần trăm và giữ tên loại đi cùng số liệu như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Biểu đồ quạt tròn diễn tả các phần của một toàn bộ khi các nhóm bao hết và không trùng nhau.",
+          "question": "Em kiểm điều kiện dữ liệu và mục tiêu được hỏi trước khi chọn cách biểu diễn ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Bộ nhãn cần đúng cả từng phần và tổng phần trăm của cả hình tròn.",
+          "question": "Em dùng hai phép kiểm đó để đánh giá từng bộ nhãn được đề xuất như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Kiểm toàn bộ và chọn cách biểu diễn theo mục tiêu",
+          "reason": "Các loại không trùng và cộng đủ tổng, mục tiêu hỏi cơ cấu các phần của một tủ.",
+          "result": "Biểu đồ quạt tròn phù hợp để mô tả tỉ phần của cả tủ",
+          "explanation": "18 + 27 + 45 = 90 quyển, đúng tổng. Vì các nhóm là những phần của cùng toàn bộ nên quạt tròn phù hợp cho mục tiêu tỉ phần; không khẳng định đó là cách biểu diễn duy nhất có thể dùng.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Tính tỉ lệ truyện",
+          "reason": "Chia số quyển truyện cho tổng rồi nhân 100 để ghi phần trăm.",
+          "result": "20",
+          "explanation": "Truyện: 18 : 90 x 100 = 20%. Kiểm 90 x 20 : 100 = 18 quyển.",
+          "expression": "18/90*100",
+          "unit": "%",
+          "step_id": "s1"
+        },
+        {
+          "title": "Tính tỉ lệ khoa học",
+          "reason": "Dùng số khoa học và cùng tổng của tủ.",
+          "result": "30",
+          "explanation": "Khoa học: 27 : 90 x 100 = 30%. Kiểm 90 x 30 : 100 = 27 quyển.",
+          "expression": "27/90*100",
+          "unit": "%",
+          "step_id": "s2"
+        },
+        {
+          "title": "Tính tỉ lệ lịch sử",
+          "reason": "Số lịch sử được so với tổng, không so riêng với một loại khác.",
+          "result": "50",
+          "explanation": "Lịch sử: 45 : 90 x 100 = 50%. Kiểm 90 x 50 : 100 = 45 quyển; 20 + 30 + 50 = 100%.",
+          "expression": "45/90*100",
+          "unit": "%",
+          "step_id": "s3"
+        },
+        {
+          "title": "Kiểm từng bộ nhãn",
+          "reason": "Bộ đúng phải ghép đúng tên loại, đúng tỉ lệ và bao hết toàn bộ 100%.",
+          "result": "Bộ M khớp; bộ N không khớp",
+          "explanation": "M có các nhãn đúng 20%,30%,50% và tổng100%. N ghi lịch sử60% không khớp45/90; tổng20+30+60=110% cũng không thể là các phần không chồng của cùng toàn bộ đã nêu. Không sửa số sách để làm nhãn N thành đúng.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s4"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tỉ lệ truyện",
+          "result": "20",
+          "unit": "%"
+        },
+        {
+          "quantity": "Tỉ lệ khoa học",
+          "result": "30",
+          "unit": "%"
+        },
+        {
+          "quantity": "Tỉ lệ lịch sử",
+          "result": "50",
+          "unit": "%"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "count_table_to_pie_labels_and_valid_whole",
+        "operations": [
+          "18/90*100",
+          "27/90*100",
+          "45/90*100"
+        ],
+        "numeric_values": [
+          "90",
+          "18",
+          "27",
+          "45"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_pie_chart",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_PIE_LABEL_PERCENT_WHOLE_AND_LEGEND_ROLES",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "pie_whole_percent_and_legend_roles_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_misconception_percent_label_as_headcount",
+      "case_group_id": "primary_20261018_g5_pie_chart_0090_misconception_percent_label_as_headcount",
+      "split": "train",
+      "grade": 5,
+      "topic": "misconception_percent_label_as_headcount",
+      "problem": "Mô tả nhãn của một biểu đồ quạt tròn giả định cho biết có 180 học sinh, mỗi người chọn đúng một hoạt động; phần đá bóng ghi 25%, các hoạt động khác gộp lại 75%, tỉ lệ chính xác. Bài viết tổng hợp giả định ghi: Phần đá bóng 25% nên có 25 học sinh đá bóng. Hãy giữ nguyên câu viết, nhận xét đại lượng của nhãn và tính đúng số học sinh đá bóng rồi kiểm. Chỉ dùng nhãn và tổng được cho, không suy em đã đo góc hoặc nhìn nhầm phần quạt.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng học sinh",
+          "value": "180",
+          "unit": "học sinh",
+          "role": "whole_population"
+        },
+        {
+          "id": "g1",
+          "text": "Tỉ lệ đá bóng",
+          "value": "25",
+          "unit": "%",
+          "role": "football_share"
+        },
+        {
+          "id": "g2",
+          "text": "Tỉ lệ khác",
+          "value": "75",
+          "unit": "%",
+          "role": "other_share"
+        }
+      ],
+      "requested_quantity": "Số học sinh đá bóng",
+      "student_work": {
+        "text": "Phần đá bóng 25% nên có 25 học sinh đá bóng.",
+        "observations": [
+          {
+            "excerpt": "Phần đá bóng 25% nên có 25 học sinh đá bóng.",
+            "claim_scope": "Explicit synthetic percent interpreted as count; no invented angle measurement or hidden thought."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Nhãn phần trăm mô tả phần của cả nhóm, còn số học sinh là một số lượng có đơn vị người.",
+        "Tổng số học sinh trong đề giúp chuyển từ tỉ lệ sang số người rồi kiểm lại."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Cùng một phần trăm có thể ứng với số người khác nhau nếu tổng thay đổi.",
+          "question": "Em xác định nhãn đang cho tỉ lệ hay số học sinh bằng cách nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Muốn tìm số người từ tỉ lệ cần dùng tổng đúng của biểu đồ.",
+          "question": "Em áp dụng quan hệ phần trăm với toàn bộ để tìm số học sinh ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Chia số người tìm được cho tổng rồi viết theo phần trăm phải khôi phục đúng nhãn ban đầu.",
+          "question": "Em dùng phép kiểm ngược nào để đối chiếu câu viết và kết quả?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Nhận xét nghĩa của nhãn đã dùng",
+          "reason": "Phần trăm là tỉ lệ trên một trăm phần của toàn bộ, không tự là số người khi tổng không phải 100.",
+          "result": "Câu viết đã lấy tỉ lệ làm số học sinh",
+          "explanation": "25% mô tả phần đá bóng trong 180 học sinh, không cho trực tiếp 25 học sinh. Nhận xét chỉ dựa nhãn25% và câu đã viết, không gán thao tác nhìn hoặc suy nghĩ cho em.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Tính số học sinh đá bóng",
+          "reason": "Lấy 25% của toàn bộ180 học sinh để đổi tỉ lệ thành số lượng.",
+          "result": "45",
+          "explanation": "Số học sinh đá bóng = 180 x 25 : 100 = 45 học sinh. Kiểm 45 : 180 x 100 = 25%, đúng nhãn; 25 học sinh không thỏa cùng quan hệ này.",
+          "expression": "180*25/100",
+          "unit": "học sinh",
+          "step_id": "s1"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh đá bóng",
+          "result": "45",
+          "unit": "học sinh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "misconception_percent_label_as_headcount",
+        "operations": [
+          "180*25/100"
+        ],
+        "numeric_values": [
+          "180",
+          "25",
+          "75"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_pie_chart",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_PIE_LABEL_PERCENT_WHOLE_AND_LEGEND_ROLES",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "pie_whole_percent_and_legend_roles_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_guard_missing_colour_activity_legend",
+      "case_group_id": "primary_20261018_g5_pie_chart_0090_guard_missing_colour_activity_legend",
+      "split": "train",
+      "grade": 5,
+      "topic": "guard_missing_colour_activity_legend",
+      "problem": "Chỉ có mô tả bằng chữ về một biểu đồ quạt tròn giả định của 120 học sinh, mỗi em chọn đúng một môn và ba môn bao hết nhóm. Nhãn phần màu cam ghi 25%, phần màu xanh ghi 35%, phần còn lại ghi 40%. Ba môn là đá bóng, cầu lông, bơi, nhưng chú giải nối từng màu/phần với từng môn chưa được cung cấp, ảnh biểu đồ cũng chưa được gửi. Cần tìm số học sinh chọn đá bóng. Hãy hỏi chú giải hoặc nhãn môn của phần tương ứng trước khi trả đáp số; không mặc định đá bóng là phần lớn nhất hoặc là một màu cụ thể.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng học sinh",
+          "value": "120",
+          "unit": "học sinh",
+          "role": "whole_population"
+        },
+        {
+          "id": "g1",
+          "text": "Phần màu cam",
+          "value": "25",
+          "unit": "%",
+          "role": "orange_unassigned_share"
+        },
+        {
+          "id": "g2",
+          "text": "Phần màu xanh",
+          "value": "35",
+          "unit": "%",
+          "role": "blue_unassigned_share"
+        },
+        {
+          "id": "g3",
+          "text": "Phần còn lại",
+          "value": "40",
+          "unit": "%",
+          "role": "remaining_unassigned_share"
+        },
+        {
+          "id": "g4",
+          "text": "Chưa có chú giải màu/phần tương ứng ba môn",
+          "value": null,
+          "unit": "",
+          "role": "missing_activity_to_sector_legend"
+        }
+      ],
+      "requested_quantity": "Hỏi chú giải môn tương ứng màu/phần để xác định số học sinh đá bóng",
+      "student_work": null,
+      "initial_guidance": [
+        "Các tỉ lệ và tổng đã có nhưng chưa biết phần nào mang tên môn đang hỏi.",
+        "Cần nối đúng nhãn môn với phần quạt theo chú giải trước khi dùng tỉ lệ để tính số người."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Màu hoặc kích thước phần quạt chưa tự quy định tên hoạt động.",
+          "question": "Chú giải hoặc nhãn có cho biết phần nào ứng với đá bóng không?"
+        },
+        {
+          "level": 2,
+          "hint": "Nếu chỉ nhận ảnh thì cần đọc được cả chú giải và nhãn gắn với phần tương ứng.",
+          "question": "Em có thể chép chú giải đầy đủ hoặc gửi hình rõ phần chú giải và các nhãn không?"
+        },
+        {
+          "level": 3,
+          "hint": "Sau khi biết quan hệ tên môn với phần quạt mới chọn được tỉ lệ đúng từ mô tả.",
+          "question": "Em xác nhận đúng nhãn môn đang hỏi thuộc phần nào trước khi tính được không?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_missing_colour_activity_legend",
+        "operations": [],
+        "numeric_values": [
+          "120",
+          "25",
+          "35",
+          "40"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_pie_chart",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_PIE_LABEL_PERCENT_WHOLE_AND_LEGEND_ROLES",
+        "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "pie_whole_percent_and_legend_roles_explicit": true
+      }
+    }
+  ],
+  "polish_reason": "Expand neutral requested quantities to cover nonnumeric ordering/comparison/representation/label-set choice; fix awkward hint wording without derived answer. No numeric answer changed.",
+  "revised_fields": [
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_pie_labels_parts_of_same_club_whole",
+      "requested_quantity": "Thứ tự hoạt động theo số học sinh giảm dần; Số học sinh mỗi hoạt động và kiểm tổng",
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Các phần trăm trong cùng hình được tính trên cùng một tổng.",
+          "question": "Em dùng các nhãn để so thứ tự các nhóm mà chưa cần đo hình như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Phần trăm là số phần trong mỗi trăm phần của toàn bộ, chưa phải số học sinh.",
+          "question": "Em tìm số người của từng phần từ tổng đã cho bằng phép tính nào?"
+        },
+        {
+          "level": 3,
+          "hint": "Ba nhóm không chồng nhau và đã bao hết tổng nên có thể kiểm bằng cộng các nhóm.",
+          "question": "Em kiểm cả tổng phần trăm và tổng số học sinh rồi đối chiếu thứ tự ra sao?"
+        }
+      ]
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_two_pies_different_totals_share_vs_count",
+      "requested_quantity": "So tỉ lệ xe đạp; Số học sinh xe đạp từng lớp; So và chênh số người; Giải thích hai thứ tự",
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Toàn bộ mỗi hình tròn đại diện tổng của lớp tương ứng, các tổng có thể khác nhau.",
+          "question": "Em ghép từng tỉ lệ xe đạp với tổng đúng lớp để tính số người như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Một tỉ lệ lớn hơn trên tổng nhỏ chưa tự cho số người lớn hơn trên tổng lớn.",
+          "question": "Em tách hai câu hỏi so tỉ lệ và so số người để kiểm riêng ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Độ chênh số học sinh dùng hai số lượng đã về cùng đơn vị người.",
+          "question": "Em kiểm ngược từng tỉ lệ rồi so và tính chênh số người như thế nào?"
+        }
+      ]
+    },
+    {
+      "sample_id": "primary_20261018_g5_pie_chart_0090_count_table_to_pie_labels_and_valid_whole",
+      "requested_quantity": "Tỉ lệ từng loại sách; Giải thích cách biểu diễn phù hợp; Chọn bộ nhãn khớp từng loại và tổng",
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Mỗi tỉ lệ được tìm từ số quyển của loại đó so với tổng số quyển.",
+          "question": "Em tính từng phần trăm và giữ tên loại đi cùng số liệu như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Biểu đồ quạt tròn diễn tả các phần của một toàn bộ khi các nhóm bao hết và không trùng nhau.",
+          "question": "Em kiểm điều kiện dữ liệu và mục tiêu được hỏi trước khi chọn cách biểu diễn ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Bộ nhãn cần đúng cả từng phần và tổng phần trăm của cả hình tròn.",
+          "question": "Em dùng hai phép kiểm đó để đánh giá từng bộ nhãn được đề xuất như thế nào?"
+        }
+      ]
+    }
+  ],
+  "all_hint_count_read": 15,
+  "pie_whole_percent_label_legend_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:29:13.792442+00:00",
+  "official_QA_method": "Same-author actualfullread5problems/givens/request/studentquote/observations/initial/all15steps/reasons/explanations/results/expressions/units/answers and15hints; rereadexpandedneutralrequestsandhintwordingpolish. Grade5piechart textlabelreasoning: samewhole versusdifferentwholes, percent/countunits, inversecounttoproportion, disjoint/exhaustivepartwholeconditions, chartchoiceandM/Nlabelvalidation, missinglegendclarification. Fraction/Decimal all10numericsteps plusidentitypartitions/hundredcellratiooracle,QA-onlylegendcountermodels. Directsemanticread5null-expressionsteps; parsernotsemanticproof. No realimage/anglemeasurement/physicalsurvey/independentreview/newhumanattestation. Existing0089protectedhold unchanged; do notreadprotectedcontent oradaptanswerstogate.",
+  "official_review_sha256": "806abb1ff7a8eb9dc7b7e44d7a9b377e507ebb93beadd749cca0f9f579fcb486"
+}

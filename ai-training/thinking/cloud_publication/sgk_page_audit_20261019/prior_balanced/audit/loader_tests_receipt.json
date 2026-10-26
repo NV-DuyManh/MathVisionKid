@@ -1,0 +1,29 @@
+{
+  "status": "PASSED",
+  "run_utc": "2026-10-19T03:30:28.804136+00:00",
+  "tests_run": 34,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "actual_cached_tokenizer_used": true,
+  "notebook_python_cells_compile_passed": 4,
+  "notebook_remote_colab_run_claimed": false,
+  "sources": [
+    {
+      "path": "thinking/exhaustive_colab_loader.py",
+      "sha256": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+    },
+    {
+      "path": "thinking/test_exhaustive_colab_loader.py",
+      "sha256": "76d03b2a66a07dfbe9dd95795e3fdfe40fbbc8714b931e66f5c46137cdcfc5cb"
+    },
+    {
+      "path": "thinking/build_exhaustive_balanced_release.py",
+      "sha256": "8f5cf8e8ee8da567c5541efaba6f464e4540b4f2f6559a72d0d477a8032dea8e"
+    },
+    {
+      "path": "thinking/make_exhaustive_data_colab.py",
+      "sha256": "1c6a13ce7b93d9ea8712ba05d679eb36abe12b4325a57386e207a26a79e6bc46"
+    }
+  ]
+}

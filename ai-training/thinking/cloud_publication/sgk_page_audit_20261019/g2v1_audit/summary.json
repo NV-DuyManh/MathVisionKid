@@ -1,0 +1,11 @@
+{
+  "actual_images_read": 140,
+  "content_pages_read": 132,
+  "content_printed_first": 6,
+  "content_printed_last": 137,
+  "all_content_read": true,
+  "all_publisher_images_accounted": true,
+  "boundaries": "indices0-4; glossary printed138/139; unnumbered colophon index139",
+  "semantic_mapping_complete": false,
+  "page_receipt_sha256": "74ff3eff7be8f4fc0d74366e63861130194e7bb9337fa039c09b45008e083fcb"
+}

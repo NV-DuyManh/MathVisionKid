@@ -1,0 +1,466 @@
+{
+  "image_receipts_newly_viewed": false,
+  "masters": [
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g3_equal_area_heterogeneous_partition"
+      ],
+      "exact_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "image_sha256": "8e1f65313f649a52392258f8b63f99b17cffc2da5d5593b8b8fa40f3c5f5a6b2",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-45-1775743952659.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 44
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "equal_area_geometric_regrouping",
+      "nearest_refs": [
+        {
+          "line": 532,
+          "sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts:polish_v1",
+          "sha256": "90ff5c428c2ee2e0a021fb575d7c12d9a10ea7cf0fe0951c789f0c9c1e323c73",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 534,
+          "sample_id": "primary_20261017_g3_unit_fraction_0035_seven_unequal_pieces_not_sevenths:polish_v1",
+          "sha256": "390b45212c68804b0784427f79a34874c547a4ad53c4fd01c7d262a57e9d9221",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g3_equal_area_heterogeneous_partition": [
+          "5afe279d43185cd2e0d69c74"
+        ]
+      },
+      "original_master_reasons": [
+        "Stated equal-area pieces do not prove equality when triangles must be regrouped into same-size area units. Need exact partition/no-gap/no-overlap."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g3_equal_area_heterogeneous_partition",
+          "constraints": [
+            "Stated equal-area pieces do not prove equality when triangles must be regrouped into same-size area units. Need exact partition/no-gap/no-overlap."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "equal_area_transfer_cancellation"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v2",
+          "exercise_types_read": [
+            "Common-factor fraction sums; repeated fractional rectangle area; repeated mixed share; shaded area via exchanging equal triangles"
+          ],
+          "image_sha256": "82015eae6b07a973c4796d3313fca4b245adb18d28c30eadf234f2fad258dd84",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_92-1791255633764.png",
+          "printed_page": 90
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "equal_area_transfer_cancellation",
+      "nearest_refs": [
+        {
+          "line": 120,
+          "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+          "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "equal_area_transfer_cancellation": [
+          "e99b1e597d97f4fccf96e660"
+        ]
+      },
+      "original_master_reasons": [
+        "Concrete equal triangle exchange/common-area cancellation needs a specified partition and invariance proof."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "equal_area_transfer_cancellation",
+          "constraints": [
+            "Concrete equal triangle exchange/common-area cancellation needs a specified partition and invariance proof."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "hidden_vertex_parallelogram"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Grid parallelogram classification; infer hidden fourth vertex; propagate equal sides through joined parallelograms"
+          ],
+          "image_sha256": "ce38b90fc0d818abfcc152e3d5748225348a3a02e1b9742297a31fb9f799d13b",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_108-1791255476714.png",
+          "printed_page": 106
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "missing_parallelogram_vertex",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 13,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 14,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 15,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 626,
+          "sample_id": "primary_20261018_g4_shape_recognition_0061_opposite_parallel_unequal_adjacent",
+          "sha256": "0b3f436bf0728da843939d07b0fb7d61ac57d8ef4bd9fa995c92d7e543693e8d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 627,
+          "sample_id": "primary_20261018_g4_shape_recognition_0061_tilted_equal_side_tile",
+          "sha256": "ab2d68801ea1373ba3c584bd96b5d0c67d66941d75c942ea1eace3ad9fcd8237",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 120,
+          "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+          "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "hidden_vertex_parallelogram": [
+          "0f43997b3d9150d936187467",
+          "6682134f9ea5784352359f2e"
+        ]
+      },
+      "original_master_reasons": [
+        "Known area/perimeter does not reconstruct the missing vertex from parallel opposite sides; multiple possible orientations must be retained."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "hidden_vertex_parallelogram",
+          "constraints": [
+            "Known area/perimeter does not reconstruct the missing vertex from parallel opposite sides; multiple possible orientations must be retained."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "layering_order_occlusion"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Infer sticker layering from before-after constraints and occlusion; parallel/perpendicular pairs in grid polyline"
+          ],
+          "image_sha256": "1989e0a546b1cb5e09a91be42966a686cb4d2e6329895e3978abe6a3bedd5352",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_112-1791255477334.png",
+          "printed_page": 110
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "occlusion_partial_layer_order",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 13,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 14,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 15,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 311,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_misconception_overlap",
+          "sha256": "606364c8eba519cc4d38674e3c42ae60e09c402f44b5c74aa6a99cb583e7c889",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 277,
+          "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+          "sha256": "6a5da390cce07a548e36930322e960e0b6598051d6040090f310172483517f41",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "layering_order_occlusion": [
+          "d1d9227b077a0643bf40264a",
+          "c7923e93c503059e1b124f8b"
+        ]
+      },
+      "original_master_reasons": [
+        "Fixed total queue order does not infer partial layer order from occlusion or report multiple consistent full orders."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "layering_order_occlusion",
+          "constraints": [
+            "Fixed total queue order does not infer partial layer order from occlusion or report multiple consistent full orders."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g3_inscribed_touching_circles"
+      ],
+      "exact_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "image_sha256": "5a2f272631254960fed2ccce9d3627afc8a7fe9566e9e583e4f4e8353861c14d",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-54-1775743955184.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 53
+        },
+        {
+          "book_id": "g3v1",
+          "image_sha256": "f4302b861d1767167242e9e8652cd09a29957406ea67eeac78fa3f3468cfe83a",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-66-1775743958594.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 65
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 2,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "tangent_circle_alignment_lengths",
+      "nearest_refs": [
+        {
+          "line": 709,
+          "sample_id": "primary_20261018_g5_shape_types_0079_circle_distance_membership_and_diameter",
+          "sha256": "f52abee4b1a3a56bbfdeb9b0eb45a84276464ff24a4699cd0283dd496ae7a371",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 515,
+          "sample_id": "primary_20261017_g3_shape_elements_0037_circle_radius_diameter_and_noncentral_segment:polish_v1",
+          "sha256": "b6a03ca7c7a6e923fcea631a26235c0d80d4aef8a9e70d97accd3c5ad4a1c5d0",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g3_inscribed_touching_circles": [
+          "a275d5f0ed8a589915323767"
+        ]
+      },
+      "original_master_reasons": [
+        "A radius/diameter definition does not derive route/rectangle dimensions through several tangent aligned circles. Need explicit tangency/order/collinearity."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g3_inscribed_touching_circles",
+          "constraints": [
+            "A radius/diameter definition does not derive route/rectangle dimensions through several tangent aligned circles. Need explicit tangency/order/collinearity."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "area_preserving_cut_rearrangement",
+        "g5_candidate_trapezoid_derivation"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Verify optical length illusion using ruler; cut-rearrange parallelogram into rectangle; move three sticks to rhombi; clock perpendicular hands"
+          ],
+          "image_sha256": "b3f74ef56acd307de628aa4e29d76e3954fe8f5eb547b4c0ab8e4ee63a57f007",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_114-1791255478094.png",
+          "printed_page": 112
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Parallel-line optical illusion verification; two-dimensional independent-feature pattern matrix; square-diagonal dissection and reassembly"
+          ],
+          "image_sha256": "2e9ee30b0063fc86be7a1ffb6fc2dce8526fad285f91fce275677cc4d7565e62",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_115-1791255478354.png",
+          "printed_page": 113
+        },
+        {
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "book_id": "g3v2",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-28-1776051211020.png",
+          "printed_page": 27,
+          "source_image_sha256": "a9bcf9e25b2966c53a921a9df0113664a771ba1c4bb62303785fc274f1eb431f"
+        },
+        {
+          "exercise_types": [
+            "derive trapezoid area by midpoint cut and triangle rearrangement"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_104-1790914085005.png",
+          "printed_page": 102,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "0afc4fcae899101736a8c85086c8fc489f1577d39de6876e9929f4d45374262b",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 4,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "specified_area_preserving_dissection",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 13,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 14,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 15,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 120,
+          "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+          "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 728,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+          "sha256": "373d02c1e1132407eb47e6724214ebfd4b56775d6ff35ffae0070b5d2c1c010b",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 708,
+          "sample_id": "primary_20261018_g5_shape_types_0079_trapezoid_parallel_bases_roles",
+          "sha256": "224f6ef95d3ad3be0aff99199d36085f6748d70c77734600c50e8306c0d4759d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 727,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_triangle_area_imagined_pair_and_height",
+          "sha256": "3ccaf59b245945f4b0c88b81a53bc4f34e2830b23159635bf71f3074e6de44da",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "area_preserving_cut_rearrangement": [
+          "ab319994bba7d6f19b80180e",
+          "2987efd66161ae9a9abc740a",
+          "1507cb13aa6e5a283a2ddb13"
+        ],
+        "g5_candidate_trapezoid_derivation": [
+          "73e03d80a24557530b2b0233"
+        ]
+      },
+      "original_master_reasons": [
+        "Citing cut-to-rectangle in a formula reason is not a fully specified partition/translation with no-overlap/no-gap and area-versus-perimeter distinction.",
+        "Worked trapezoid formula/reverse height does not provide the specific midpoint cut/rearrangement derivation with no-gap/no-overlap."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "area_preserving_cut_rearrangement",
+          "constraints": [
+            "Citing cut-to-rectangle in a formula reason is not a fully specified partition/translation with no-overlap/no-gap and area-versus-perimeter distinction."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "g5_candidate_trapezoid_derivation",
+          "constraints": [
+            "Worked trapezoid formula/reverse height does not provide the specific midpoint cut/rearrangement derivation with no-gap/no-overlap."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    }
+  ],
+  "queue_sha256": "5b94f75936a98d4bf74dd5ddab821bfe24aab5df2b73c0401a32c15528f8279e",
+  "selection": "Six assigned exact masters only; no original queue changes."
+}

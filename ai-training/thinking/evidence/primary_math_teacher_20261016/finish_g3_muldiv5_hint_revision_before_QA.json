@@ -1,0 +1,627 @@
+{
+  "reason": "Semantic read found division-only supports on multiplication and inverse-check core rows; fix pedagogy before QA, unchanged answers/arithmetic.",
+  "before_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_muldiv5_five_digit_packets",
+      "case_group_id": "primary_20261018_finish_g3_muldiv5_five_digit_packets",
+      "split": "train",
+      "grade": 3,
+      "topic": "five_digit_packets",
+      "problem": "Mỗi kho có 12345 phong bì. Có 3 kho với số phong bì bằng nhau, các kho riêng biệt. Tính tổng số phong bì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Mỗi kho",
+          "value": "12345",
+          "unit": "phong bì",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số kho",
+          "value": "3",
+          "unit": "kho",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm tổng số phong bì.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Nhân số phong bì",
+          "reason": "Gộp ba nhóm bằng nhau nên dùng phép nhân.",
+          "result": "37035",
+          "explanation": "12345+12345+12345=37035; chia lại cho 3 thu 12345.",
+          "expression": "12345*3",
+          "unit": "phong bì"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tổng phong bì",
+          "result": "37035",
+          "unit": "phong bì"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "five_digit_packets",
+        "operations": [],
+        "numeric_values": [
+          "12345",
+          "3"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp165–166",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_muldiv5_zero_in_quotient",
+      "case_group_id": "primary_20261018_finish_g3_muldiv5_zero_in_quotient",
+      "split": "train",
+      "grade": 3,
+      "topic": "zero_in_quotient",
+      "problem": "Chia đều 40824 tờ giấy cho 4 trường, không để dư. Hỏi mỗi trường nhận bao nhiêu tờ, giải thích chữ số 0 trong thương.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng giấy",
+          "value": "40824",
+          "unit": "tờ",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số trường",
+          "value": "4",
+          "unit": "trường",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm số tờ mỗi trường và giải thích hàng trống của thương.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Chia từ trái sang phải",
+          "reason": "Các trường nhận bằng nhau nên chia tổng cho số trường.",
+          "result": "10206",
+          "explanation": "4 chia 4 được 1; hàng nghìn 0 chia 4 được 0; 8 chia 4 được 2; hạ 2 chưa đủ 4 nên thương hàng chục là 0; hạ 4 được 24 chia 4 là 6. 10206*4=40824.",
+          "expression": "40824/4",
+          "unit": "tờ"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Mỗi trường",
+          "result": "10206",
+          "unit": "tờ"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "zero_in_quotient",
+        "operations": [],
+        "numeric_values": [
+          "40824",
+          "4"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp165–166",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_muldiv5_check_stated_quotient",
+      "case_group_id": "primary_20261018_finish_g3_muldiv5_check_stated_quotient",
+      "split": "train",
+      "grade": 3,
+      "topic": "check_stated_quotient",
+      "problem": "Một danh mục ghi 54321 thẻ được chia đều vào 3 khu, mỗi khu 18107 thẻ, không dư. Kiểm thông tin bằng phép nhân rồi kết luận.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng thẻ",
+          "value": "54321",
+          "unit": "thẻ",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số khu",
+          "value": "3",
+          "unit": "khu",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Mỗi khu được ghi",
+          "value": "18107",
+          "unit": "thẻ",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Kiểm số thẻ mỗi khu đã ghi.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Kiểm tổng tái tạo",
+          "reason": "Số mỗi khu nhân số khu phải bằng tổng nếu chia đúng.",
+          "result": "54321",
+          "explanation": "18107*3 tái tạo đúng toàn bộ 54321 thẻ, nên thông tin chia là phù hợp.",
+          "expression": "18107*3",
+          "unit": "thẻ"
+        },
+        {
+          "step_id": "s1",
+          "title": "Kết luận",
+          "reason": "Tổng tái tạo trùng tổng được cho.",
+          "result": "Thông tin đúng",
+          "explanation": "Không chỉ dựa vào hình thức số thương; phép nhân đã đối chiếu đủ ba nhóm.",
+          "expression": null,
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Kết luận",
+          "result": "Thông tin đúng",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "check_stated_quotient",
+        "operations": [],
+        "numeric_values": [
+          "54321",
+          "3",
+          "18107"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp165–166",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_muldiv5_mis_omitted_zero_quotient",
+      "case_group_id": "primary_20261018_finish_g3_muldiv5_mis_omitted_zero_quotient",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_omitted_zero_quotient",
+      "problem": "Tính 30618 chia 3. Học sinh viết \"30618 : 3 = 126 vì bỏ các số 0 khi viết thương.\" Hãy kiểm lại.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số bị chia",
+          "value": "30618",
+          "unit": "",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số chia",
+          "value": "3",
+          "unit": "",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Sửa thương được viết và kiểm bằng phép nhân.",
+      "student_work": {
+        "text": "30618 : 3 = 126 vì bỏ các số 0 khi viết thương.",
+        "observations": [
+          {
+            "excerpt": "30618 : 3 = 126 vì bỏ các số 0 khi viết thương.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Kiểm thương đã viết",
+          "reason": "Thương nhân số chia phải tái tạo số bị chia.",
+          "result": "378",
+          "explanation": "126*3=378 khác 30618 nên thương được viết không đúng.",
+          "expression": "126*3",
+          "unit": ""
+        },
+        {
+          "step_id": "s1",
+          "title": "Chia giữ các hàng",
+          "reason": "Không bỏ vị trí hàng có thương bằng không.",
+          "result": "10206",
+          "explanation": "10206*3=30618; các số 0 giữ vị trí hàng nghìn và hàng chục.",
+          "expression": "30618/3",
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Thương đúng",
+          "result": "10206",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_omitted_zero_quotient",
+        "operations": [],
+        "numeric_values": [
+          "30618",
+          "3"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp165–166",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_muldiv5_guard_missing_equal_groups",
+      "case_group_id": "primary_20261018_finish_g3_muldiv5_guard_missing_equal_groups",
+      "split": "train",
+      "grade": 3,
+      "topic": "guard_missing_equal_groups",
+      "problem": "Có 25000 nhãn cần chia đều vào các hộp, không dư. Đề chưa cho số hộp hoặc số nhãn mỗi hộp. Muốn tìm số nhãn mỗi hộp, cần hỏi gì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng nhãn",
+          "value": "25000",
+          "unit": "nhãn",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số hộp chưa cho",
+          "value": null,
+          "unit": "hộp",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Hỏi dữ kiện cần thêm để tìm số nhãn mỗi hộp.",
+      "student_work": null,
+      "initial_guidance": [
+        "Tổng số nhãn chưa xác định được số trong một nhóm."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Tổng số nhãn chưa xác định được số trong một nhóm.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Cần biết số hộp nhận đều và điều kiện chia hết.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Hãy xin số hộp thực tế trước khi tính; không tự chọn số nhóm.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_missing_equal_groups",
+        "operations": [],
+        "numeric_values": [
+          "25000"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp24; textbookpp165–166",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_file_sha256": "1829e10227a7d7a13727c45fabac86d2564367498dc42afb24c95a346f7c9837"
+}

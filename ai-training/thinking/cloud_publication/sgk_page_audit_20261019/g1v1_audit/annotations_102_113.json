@@ -1,0 +1,175 @@
+{
+  "102": {
+    "exercise_types": [
+      "match_counts_numerals_number_words_including_zero"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "103": {
+    "exercise_types": [
+      "tabulate_scene_category_counts",
+      "argmin_subset_counts",
+      "compare_expression_to_number"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14",
+      "primary_20261016_g1_foundations_0002_sort_four",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "104": {
+    "exercise_types": [
+      "consecutive_vertex_labels",
+      "sort_numbers",
+      "argmin_argmax",
+      "select_numbers_between_two_strict_bounds"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_sort_four",
+      "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_TWO_SIDED_STRICT_BOUND_SELECTION"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Candidate concerns distinct joint condition, rank update, construction rule, or asset form; nearest source is not automatically full coverage."
+  },
+  "105": {
+    "exercise_types": [
+      "ordinal_rank_after_insertion",
+      "positive_partition_with_larger_part_constraint"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "sgk_g12_20261019_complete_decompositions_02"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_ORDINAL_AFTER_INSERTION"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Candidate concerns distinct joint condition, rank update, construction rule, or asset form; nearest source is not automatically full coverage."
+  },
+  "106": {
+    "exercise_types": [
+      "mental_add_subtract",
+      "operation_arrow_chain",
+      "compare_expression_to_number"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "primary_20261016_g1_operations_0003_left_subtract_add",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "107": {
+    "exercise_types": [
+      "filter_expressions_by_target",
+      "construct_valid_equations_from_available_number_cards"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "sgk_g12_20261019_one_digit_swap_repair_01"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_CONSTRUCT_EQUATIONS_FROM_NUMBER_CARDS"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Candidate concerns distinct joint condition, rank update, construction rule, or asset form; nearest source is not automatically full coverage."
+  },
+  "108": {
+    "exercise_types": [
+      "independent_add_subtract",
+      "scene_partition_subtraction",
+      "joining_arriving_group"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "109": {
+    "exercise_types": [
+      "dice_board_move_evaluate_match_target"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_conditional_board_game_01",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "110": {
+    "exercise_types": [
+      "multiple_shape_selection_including_rotated_square",
+      "cube_classification_with_cylinder_distractor"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_geometry_0004_four_shape_matching",
+      "primary_20261016_g1_geometry_0004_square_rotated",
+      "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "111": {
+    "exercise_types": [
+      "periodic_shape_pattern",
+      "four_triangle_silhouette_composition"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_PERIODIC_ATTRIBUTE_PATTERN",
+      "G1V1_MULTIPIECE_SILHOUETTE_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Candidate concerns distinct joint condition, rank update, construction rule, or asset form; nearest source is not automatically full coverage."
+  },
+  "112": {
+    "exercise_types": [
+      "count_visible_groups",
+      "ascending_number_sort",
+      "mental_add_subtract"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_count14",
+      "primary_20261016_g1_foundations_0002_sort_four",
+      "primary_20261016_g1_foundations_0002_mental_within10"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text operation/shape analogue identified; images and physical manipulation are not validated by text mapping."
+  },
+  "113": {
+    "exercise_types": [
+      "scene_join_and_unknown_part",
+      "period_four_shape_pattern"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_PERIODIC_ATTRIBUTE_PATTERN"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Candidate concerns distinct joint condition, rank update, construction rule, or asset form; nearest source is not automatically full coverage."
+  }
+}

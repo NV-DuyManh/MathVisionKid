@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Vu0MtrQgWmOq"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"audit_process_exit\": null, \"report_exists\": false, \"audit_log_tail\": \"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\\n\"}\n"
+        ]
+      }
+    ]
+  }
+}

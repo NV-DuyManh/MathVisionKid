@@ -1,0 +1,86 @@
+{
+  "status": "12_DRAFTS_AUTHOR_QA_PASS_ROOT_QA_PENDING",
+  "cases": 12,
+  "chat": 48,
+  "master_counts": {
+    "placeclass_torn_strip_constraints": 2,
+    "partial_product_column_reconstruction": 2,
+    "overlap_shared_origin_lengths": 2,
+    "angle_ray_pair_enumeration": 2,
+    "collinear_triple_complete_enumeration": 2,
+    "two_dimensional_feature_constraints": 2
+  },
+  "grade_counts": {
+    "4": 7,
+    "5": 3,
+    "3": 2
+  },
+  "numeric_steps": 11,
+  "family_oracles": 12,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "bytes": 81041,
+      "rows": 12,
+      "sha256": "3e37775451f7d51237841e0a0cd7c3c6f5443ee3701892b7522cd46921566486"
+    },
+    {
+      "path": "chat.jsonl",
+      "bytes": 104211,
+      "rows": 48,
+      "sha256": "69efc1ce80b7b64088b2f3434f4e9fd1b5344c1a76810ec9d0d8501a2d96c7c2"
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "bytes": 49222,
+      "rows": 12,
+      "sha256": "25c90f0a01d3ee97c10979b6250a69932c70541d7b108cb5f400c84e56c621f6"
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "bytes": 5791,
+      "rows": 12,
+      "sha256": "661b27d2d8d745efed481336423762fe5e826f897583ca7a4470e0dafb9d3079"
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "bytes": 1587,
+      "rows": 11,
+      "sha256": "fa453b7b6111c0be5fc82c5631b2e633ef90976c706fd94dd1906d33dc3cecbb"
+    },
+    {
+      "path": "all_current_new_task_comparison.jsonl",
+      "bytes": 95747,
+      "rows": 118,
+      "sha256": "fb9b28daa90dab57cfbb9f063bfdd3a08b2288399b191c628aa7ad62fe0d2125"
+    },
+    {
+      "path": "relevant_new_fullfield_comparison.jsonl",
+      "bytes": 28988,
+      "rows": 12,
+      "sha256": "b56a9b0f2962d796359f640ee86abbf907f86ef57c13f9465875baa4d9fe1ccd"
+    },
+    {
+      "path": "mapping_snapshot.json",
+      "bytes": 20007,
+      "sha256": "993825b1b457ebcd5bfcc653b61366d2f30eb378aa79c72adb0fd25264b9ce8b",
+      "rows": null
+    },
+    {
+      "path": "nearest_actual_full_field_review.jsonl",
+      "bytes": 86024,
+      "sha256": "b617d0432212f8cbce50a93eea6292b5f7e80d85e9b14888672a69ad653ff1bf",
+      "rows": 30
+    }
+  ],
+  "mapping_source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "pending": [
+    "Root full-field cross-review of12drafts",
+    "Other aliases/grade presentations only closed when root explicitly adjudicates exact mathematical scope",
+    "Images, physical measurements/assemblies not claimed"
+  ],
+  "limitations": [
+    "Coordinate/determinant oracle and oriented endpoints are finite enrichment; no expectation of pupil algebraic determinants.",
+    "No network/Drive/shared-state/context/frozen data/app/git/training changes."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "P76vzdY5-QsT"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"pid\": 2240, \"command\": [\"/content/mathvisionkid_conditional_grounding_20261025/venv/bin/python\", \"-m\", \"pip\", \"install\", \"--disable-pip-version-check\", \"--report\", \"/content/mathvisionkid_conditional_grounding_20261025/install_report.json\", \"unsloth==2026.10.7\", \"unsloth_zoo==2026.10.7\", \"transformers==5.16.1\", \"peft==0.21.2\", \"bitsandbytes==0.50.2\", \"accelerate==1.15.0\"], \"started_utc\": \"2026-10-25T02:52:12.995406+00:00\", \"repair_reason\": \"Fresh Colab base lacks ensurepip. Isolated venv uses inherited pip; base environment not reinstalled.\", \"training_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

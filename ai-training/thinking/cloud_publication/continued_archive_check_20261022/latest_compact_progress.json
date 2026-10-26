@@ -1,0 +1,46 @@
+{
+  "observed_utc": "2026-10-22T15:27:26.682835+00:00",
+  "worker_alive": true,
+  "committed_chat_rows": 2464560,
+  "members_complete": 222,
+  "members_expected": 251,
+  "issues": {
+    "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+  },
+  "last_verified_checkpoint": {
+    "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "bytes": 3964362752,
+    "sha256": "4f80cf9cde0787856bbecd03690506c880f86642f33cb58f4e260eed380832fa",
+    "observed_utc": "2026-10-22T14:48:55.123235+00:00"
+  },
+  "worker_state": "RUNNING_DATA_ONLY",
+  "error": null,
+  "span_stats": [
+    {
+      "ended_utc": "2026-10-22T15:23:47.231662+00:00",
+      "seconds": 508.0966846859992,
+      "requested_rows": 50000,
+      "effective_rows": 200000,
+      "processed": 200000,
+      "complete": false,
+      "new_batched_rows": 200000,
+      "skipped_prefix_rows": 400000
+    }
+  ],
+  "batch_stats": {
+    "batches": 5432,
+    "rows_batched": 1386208,
+    "cache_hits": 1386208,
+    "single_row_fallbacks": 0,
+    "skipped_resume_lines": 9633472,
+    "max_cache_rows": 256,
+    "max_rendered_chars": 288558,
+    "max_raw_chars": 454766,
+    "batch_prepare_fallbacks": 0,
+    "row_prepare_fallbacks": 0,
+    "cache_key_fallbacks": 0,
+    "stream_error_buffered_rows": 0
+  },
+  "full_archive_complete": false,
+  "training_started": false
+}

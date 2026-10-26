@@ -1,0 +1,34 @@
+{
+  "case_count": 21,
+  "chat_count": 84,
+  "topics": {
+    "add_group_strict_comparison": 3,
+    "construct_equations_from_number_cards": 3,
+    "ordinal_after_insertion": 3,
+    "ordinal_from_both_ends": 3,
+    "periodic_attribute_pattern": 3,
+    "resource_assignment_inequality": 3,
+    "two_sided_strict_bound_selection": 3
+  },
+  "status": "DRAFT_AWAITING_CONTENT_CROSS_REVIEW",
+  "files": {
+    "cases.jsonl": {
+      "bytes": 73910,
+      "sha256": "f0826eaceddc95a5c90f95ea9b72d2e7e39472e1b5530d0a07af66d5812ef992"
+    },
+    "chat.jsonl": {
+      "bytes": 158777,
+      "sha256": "1077e1f7eb9d3655d30a67ecf81f1551784919a610f9a419c0adec13d93d3f5e"
+    },
+    "oracle_checks.jsonl": {
+      "bytes": 5060,
+      "sha256": "e30e11caafac1d16e835f8fd8cffde8e72c95f4e1d662d14ec5be47c92f94dc6"
+    },
+    "self_qa.jsonl": {
+      "bytes": 15228,
+      "sha256": "a817312ba10ae4e225f9ec786f3d0cb6af7f63d24eae3b997489c6741d5371ee"
+    }
+  },
+  "network_used": false,
+  "trained": false
+}

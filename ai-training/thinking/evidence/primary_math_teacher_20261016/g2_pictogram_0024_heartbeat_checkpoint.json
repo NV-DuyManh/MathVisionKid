@@ -1,0 +1,34 @@
+{
+  "heartbeat_utc": "2026-10-17T12:53:31.143Z",
+  "authored_cases": 192,
+  "accepted_cases": 172,
+  "chat_rows": 688,
+  "pending_cases": 20,
+  "accepted_core_cases": 111,
+  "remaining_core_cases": 384,
+  "pending_core_slots_prepared": 12,
+  "core_slots_not_authored": 372,
+  "task007_already_adjudicated_not_accepted_again": true,
+  "task007_source_rows_unchanged": true,
+  "unassigned_pending_cases": 20,
+  "batch_sha256": "6f1fd342025b6f5cdf7bfd4afaefa0bc94b5096d0738e00456bb083d28222e2a",
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "docx_hash_unchanged": true,
+  "next_nodes": [
+    "current_g2_possible_certain_impossible",
+    "current_g3_natural_numbers_100000",
+    "current_g3_roman_20"
+  ],
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false
+}

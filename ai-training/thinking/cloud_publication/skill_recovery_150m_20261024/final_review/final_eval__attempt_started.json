@@ -1,0 +1,9 @@
+{
+  "deadline_unix": 1792850691.291864,
+  "locked_test_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "run_once": true,
+  "schema": "MathVisionKid.skill_recovery_final_eval.v2",
+  "selection_change_allowed": false,
+  "started_unix": 1792849791.291864,
+  "training_performed": false
+}

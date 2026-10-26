@@ -23,14 +23,18 @@ export function spokenMath(text: string): string {
       (_, top, bottom) => /^[-+]?\d+(?:[.,]\d+)?$/.test(top.trim()) && /^[-+]?\d+(?:[.,]\d+)?$/.test(bottom.trim())
         ? ` ${top} phần ${bottom} ` : ` phân số có tử số là ${top}, và mẫu số là ${bottom} `)
     .replace(/(?<![\d/])(\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)(?![\d/])/g, '$1 phần $2')
-    .replace(/(\d|\))\s*[×*x]\s*(?=[(\d])/g, '$1 nhân ')
+    .replace(/(^|[=(:,+*×÷/\-−]\s*)[-−]\s*(?=\d)/g, '$1âm ')
+    .replace(/[×*]/g, ' nhân ')
+    .replace(/(\d|\))\s*x\s*(?=[(\d])/g, '$1 nhân ')
     .replace(/(\d|\))\s*[:÷]\s*(?=[(\d])/g, '$1 chia ')
     .replace(/(^|[=(,:]\s*)[-−]\s*(?=\d)/g, '$1âm ')
     .replace(/[-−](?=\s*\d)/g, ' trừ ')
     .replace(/\+/g, ' cộng ').replace(/=/g, ' bằng ')
-    .replace(/(?<![a-z])(km|dm|cm|mm|m)([²³])/g, (_, unit: string, power: string) =>
-      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét' } as Record<string, string>)[unit]} ${power === '²' ? 'vuông' : 'khối'}`)
-    .replace(/%/g, ' phần trăm ').replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
+    .replace(/\((\s*[\p{L}²³]+\s*)\)/gu, ' $1 ')
+    .replace(/(?<![\p{L}])(km|dm|cm|mm|kg|mg|ml|m|g|l)([²³])?(?![\p{L}])/gu, (_, unit: string, power?: string) =>
+      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét',
+        kg: 'ki lô gam', mg: 'mi li gam', g: 'gam', ml: 'mi li lít', l: 'lít' } as Record<string, string>)[unit]}${power ? power === '²' ? ' vuông' : ' khối' : ''} `)
+    .replace(/%/g, ' phần trăm ').replace(/\(/g, ' mở ngoặc ').replace(/\)/g, ' đóng ngoặc ').replace(/\s+/g, ' ').trim();
 }
 
 /** Small utterances avoid platform length limits and provide natural pauses. */
@@ -47,6 +51,18 @@ export function narrationChunks(parts: string[]): string[] {
       return chunks;
     });
   }).filter(Boolean);
+}
+
+/** A short opening starts quickly; following clips are warmed while it plays. */
+export function narrationSegments(parts: string[]): string[] {
+  const segments: string[] = [];
+  for (const word of narrationChunks(parts).flatMap(chunk => chunk.split(/\s+/))) {
+    const last = segments.length - 1;
+    const limit = last === 0 ? 160 : 420;
+    if (last >= 0 && segments[last].length + word.length + 1 <= limit) segments[last] += ` ${word}`;
+    else segments.push(word);
+  }
+  return segments;
 }
 
 export function vietnameseVoices(voices: Voice[]): Voice[] {

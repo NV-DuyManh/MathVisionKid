@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-10-24T11:29:49.745669+00:00",
+  "fixture_count": 20,
+  "fixture_sha256": "b24339a30e9f0edfb8a4c5dbac538311f5ecea831abcb6d0ad7f8cd0e5f7edb3",
+  "exact_fraction_decimal_checks": 18,
+  "same_author_full_content_review": true,
+  "human_attestation": false,
+  "new_training_data": false,
+  "not_used_to_select_or_tune": true,
+  "screen_actual16k_pending": true,
+  "full_corpus_independence": "UNPROVEN",
+  "one_owner_known_probe_not_independent": "verbal20261024_locked_g4_owner_division_probe",
+  "previous_locked20_not_loaded": true
+}

@@ -1,0 +1,35 @@
+{
+  "status": "DERIVED12_FRESH_FULLFIELD_QA_AND_DISTINCT_ORACLES_PASSED_ROOT_ACCEPTANCE_PENDING",
+  "case_count": 12,
+  "chat_count": 48,
+  "additional_case_count": 0,
+  "parent_cases_sha256": "3e37775451f7d51237841e0a0cd7c3c6f5443ee3701892b7522cd46921566486",
+  "parent_chat_sha256": "69efc1ce80b7b64088b2f3434f4e9fd1b5344c1a76810ec9d0d8501a2d96c7c2",
+  "parent_bytes_unchanged": true,
+  "answers_problem_studentwork_allhints_initial_identical": true,
+  "changes": "Expand24compactgivenstexts; partialproducts move finaldigit conclusion from step0 to step1. Add exact parenthash lineage and derivative status only.",
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "rows": 12,
+      "bytes": 89018,
+      "sha256": "c39c3a80cf5b7a8618768ec7dd710643b04326181705439187301c26429112ec"
+    },
+    {
+      "path": "chat.jsonl",
+      "rows": 48,
+      "bytes": 125836,
+      "sha256": "87ccc449af31a58c06de30ba0344074d45e92404a35265fb2341aa62d5a3eec5"
+    },
+    {
+      "path": "parent_derivative_delta.jsonl",
+      "rows": 12,
+      "bytes": 83338,
+      "sha256": "e0cc4051256e0be9d30b490fac7d340daf014e8af5c0995d3a5c21668e04f926"
+    }
+  ],
+  "helper_sha256": "387a109d4b9a4aef7770ea806b04fe937dea2597affccf651046ccfbf7a7f86b",
+  "fresh_peer_summary_sha256": "25b05142285e9bee52f12cbce8e2b5b28b423c8e4c3fd9e36c27ccf2ba7d25fa",
+  "fresh_qa7_sha256": "43431d0102a70def2b01a35d01f5cc7cc7b2941cd979f552de8ba638e64f6a40",
+  "all_changed_fields_allowed": true
+}

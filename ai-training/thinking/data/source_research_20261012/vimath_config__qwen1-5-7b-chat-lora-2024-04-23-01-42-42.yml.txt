@@ -1,0 +1,70 @@
+base_model: /workspace/home/vinhnq29/zac2023-main/models_hub/qwen1-5-7b-chat
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+
+load_in_8bit: false
+load_in_4bit: false
+strict: false
+
+datasets:
+  - path: /workspace/home/vinhnq29/zac2023-main/data_hub/ViMathQA/train_v1/input_output_qwen-00000-of-00001.parquet
+    type: input_output
+dataset_prepared_path:
+val_set_size: 0.05
+eval_sample_packing: false
+output_dir: /workspace/home/vinhnq29/zac2023-main/checkpoints/adapters/qwen1-5-7b-chat-lora-2024-04-23-01-42-42
+
+sequence_len: 4096
+sample_packing: false
+pad_to_sequence_len: false
+
+adapter: lora
+lora_model_dir: 
+lora_r: 256
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target_linear: true
+lora_fan_in_fan_out:
+
+wandb_project:
+wandb_entity:
+wandb_watch:
+wandb_name:
+wandb_log_model:
+
+gradient_accumulation_steps: 16
+micro_batch_size: 1
+num_epochs: 4
+optimizer: adamw_torch
+lr_scheduler: cosine
+learning_rate: 2e-4
+
+train_on_inputs: false
+group_by_length: false
+bf16: auto
+fp16:
+tf32: false
+
+gradient_checkpointing: false
+early_stopping_patience:
+resume_from_checkpoint:
+local_rank:
+logging_steps: 1
+xformers_attention: 
+flash_attention: false
+s2_attention:
+
+loss_watchdog_threshold: 5.0
+loss_watchdog_patience: 3
+
+warmup_steps: 10
+evals_per_epoch: 5
+eval_table_size:
+eval_max_new_tokens: 128
+saves_per_epoch: 2
+debug:
+deepspeed:
+weight_decay: 0.0
+fsdp:
+fsdp_config:
+special_tokens:

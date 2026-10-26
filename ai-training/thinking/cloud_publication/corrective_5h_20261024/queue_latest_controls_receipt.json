@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "tu0E3OpAadgB"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"latest_context_queued\": true, \"train_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+[
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_limit_not_exact_rectangle",
+    "wrong_model": "Use circumference as area",
+    "expected": "1413/50",
+    "wrong": "471/25",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_rectangle_substitution_error",
+    "wrong_model": "Assume finite replacement rectangle exactly equals disk",
+    "expected": "51/20",
+    "wrong": "0",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_coincidence_midpoint",
+    "wrong_model": "Count crease number as a full length / ignore whole strip",
+    "expected": "1/2",
+    "wrong": "3/2",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_cord_quarter_without_ruler",
+    "wrong_model": "Count crease number as a full length / ignore whole strip",
+    "expected": "1/4",
+    "wrong": "5/4",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_perpendicular_coincidence_fold",
+    "wrong_model": "Any oblique crease through P suffices",
+    "expected": 90,
+    "wrong": 45,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g5_three_eighths_nonunit_strip",
+    "wrong_model": "Count crease number as a full length / ignore whole strip",
+    "expected": "3/4",
+    "wrong": "11/8",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_fold_outer_edge_two_notches",
+    "wrong_model": "Remove only one visible cell despite multiple layers",
+    "expected": 46,
+    "wrong": 47,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_double_fold_central_connected_hole",
+    "wrong_model": "Remove only one visible cell despite multiple layers",
+    "expected": 60,
+    "wrong": 63,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_midpoint_seven_piece_inventory",
+    "wrong_model": "Parent malformed set with 2 squares instead of parallelogram",
+    "expected": {
+      "right_isosceles_triangle": 5,
+      "parallelogram": 1,
+      "square": 1
+    },
+    "wrong": {
+      "right_isosceles_triangle": 5,
+      "square": 2
+    },
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_group_equal_area_different_count",
+    "wrong_model": "Piece-count fraction despite unequal pieces",
+    "expected": "5",
+    "wrong": "32/7",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_mixed_unit_center_on_previous_circle",
+    "wrong_model": "Use last circle radius as previous center distance",
+    "expected": [
+      1,
+      5
+    ],
+    "wrong": [
+      "3/2"
+    ],
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_same_compass_opening_radius_diameter",
+    "wrong_model": "Open compass to final diameter rather than radius",
+    "expected": 4,
+    "wrong": 8,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_acute_diagonal_grid_ray",
+    "wrong_model": "Read opposite protractor scale / adjacent angle",
+    "expected": 45,
+    "wrong": 135,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_obtuse_diagonal_opposite_scale",
+    "wrong_model": "Read opposite protractor scale / adjacent angle",
+    "expected": 135,
+    "wrong": 45,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_orthogonal_half_folds_uniform_layers",
+    "wrong_model": "Wrong uniform layer multiplication",
+    "expected": 384,
+    "wrong": 192,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_offcenter_then_half_nonuniform_layers",
+    "wrong_model": "Wrong uniform layer multiplication",
+    "expected": 72,
+    "wrong": 96,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_vertical_base_two_completions",
+    "wrong_model": "Assume unique vertical completion / allow parallelogram under exclusive definition",
+    "expected": [
+      "P",
+      "Q"
+    ],
+    "wrong": [
+      "P"
+    ],
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_diagonal_base_exclusive_trapezoid",
+    "wrong_model": "Assume unique vertical completion / allow parallelogram under exclusive definition",
+    "expected": [
+      "P"
+    ],
+    "wrong": [
+      "P",
+      "Q"
+    ],
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_rectangle_single_cut_to_square",
+    "wrong_model": "Assume perimeter invariant under area-preserving cut",
+    "expected": 16,
+    "wrong": 20,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_parallelogram_cut_translate",
+    "wrong_model": "Use oblique side as altitude",
+    "expected": 18,
+    "wrong": "39/2",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_square_diagonal_pair_reassembly",
+    "wrong_model": "New square side equals original hypotenuse",
+    "expected": 8,
+    "wrong": 16,
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_cm_to_m_fractional_turns",
+    "wrong_model": "Discard fractional turn",
+    "expected": "157/10",
+    "wrong": "1884/125",
+    "rejected": true
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_inverse_km_dm_radius",
+    "wrong_model": "Omit doubling radius",
+    "expected": "100",
+    "wrong": "200",
+    "rejected": true
+  }
+]

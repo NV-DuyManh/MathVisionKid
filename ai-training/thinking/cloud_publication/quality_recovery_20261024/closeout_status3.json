@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T10:59:08.758130+00:00\", \"train_alive\": false, \"probe_alive\": false, \"final_eval_alive\": false, \"control_thread_alive\": true, \"publication/publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": \"IntegrityError('Stable run folder metadata/parent mismatch')\", \"work\": null, \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": true, \"report_proof\": {\"id\": \"1DBoO_86LSGQ4AqvxHgGwqhMkvva2tzUh\", \"sha256\": \"d5639d48dcb0b4a091c2c6d56191b82684cf0e540d6acfc64b41404c0e1914e9\", \"bytes\": 81497, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T10:55:47.761249+00:00\", \"folder_id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"training__final_semantic_assessment.json\", \"immutable\": false}, \"completion_proof\": {\"id\": \"1NtxyixKUJS9mfOBNL16zNpwiguW6U08H\", \"sha256\": \"ef54c48d3c5d2a1c818bbf70c82a90c8fbfb275d60023cec621d7fb04ddd0fcc\", \"bytes\": 23355, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T10:55:57.828084+00:00\", \"folder_id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"training_complete_publication_proof.json\", \"immutable\": false}}, \"final_eval_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"work\": null, \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": null}, \"four_controls_publication_status.json\": {\"state\": \"READING_PARENTS\", \"error\": null, \"work\": \"/content/mathvisionkid_quality_recovery_20261024/four_controls_publication/20261024T105646148714Z\", \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": null, \"verified_writes\": null}}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T10:59:08.758130+00:00\", \"train_alive\": false, \"probe_alive\": false, \"final_eval_alive\": false, \"control_thread_alive\": true, \"publication/publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": \"IntegrityError('Stable run folder metadata/parent mismatch')\", \"work\": null, \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": true, \"report_proof\": {\"id\": \"1DBoO_86LSGQ4AqvxHgGwqhMkvva2tzUh\", \"sha256\": \"d5639d48dcb0b4a091c2c6d56191b82684cf0e540d6acfc64b41404c0e1914e9\", \"bytes\": 81497, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T10:55:47.761249+00:00\", \"folder_id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"training__final_semantic_assessment.json\", \"immutable\": false}, \"completion_proof\": {\"id\": \"1NtxyixKUJS9mfOBNL16zNpwiguW6U08H\", \"sha256\": \"ef54c48d3c5d2a1c818bbf70c82a90c8fbfb275d60023cec621d7fb04ddd0fcc\", \"bytes\": 23355, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T10:55:57.828084+00:00\", \"folder_id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"training_complete_publication_proof.json\", \"immutable\": false}}, \"final_eval_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"work\": null, \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": null}, \"four_controls_publication_status.json\": {\"state\": \"READING_PARENTS\", \"error\": null, \"work\": \"/content/mathvisionkid_quality_recovery_20261024/four_controls_publication/20261024T105646148714Z\", \"canonical_context_sha256\": null, \"run_metadata_sha256\": null, \"publication_finalized\": null, \"verified_writes\": null}}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-24T10:59:08.758130+00:00\\\", \\\"train_alive\\\": false, \\\"probe_alive\\\": false, \\\"final_eval_alive\\\": false, \\\"control_thread_alive\\\": true, \\\"publication/publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"error\\\": \\\"IntegrityError('Stable run folder metadata/parent mismatch')\\\", \\\"work\\\": null, \\\"canonical_context_sha256\\\": null, \\\"run_metadata_sha256\\\": null, \\\"publication_finalized\\\": true, \\\"report_proof\\\": {\\\"id\\\": \\\"1DBoO_86LSGQ4AqvxHgGwqhMkvva2tzUh\\\", \\\"sha256\\\": \\\"d5639d48dcb0b4a091c2c6d56191b82684cf0e540d6acfc64b41404c0e1914e9\\\", \\\"bytes\\\": 81497, \\\"fresh_raw_readback_verified\\\": true, \\\"raw_verified_utc\\\": \\\"2026-10-24T10:55:47.761249+00:00\\\", \\\"folder_id\\\": \\\"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\\\", \\\"name\\\": \\\"training__final_semantic_assessment.json\\\", \\\"immutable\\\": false}, \\\"completion_proof\\\": {\\\"id\\\": \\\"1NtxyixKUJS9mfOBNL16zNpwiguW6U08H\\\", \\\"sha256\\\": \\\"ef54c48d3c5d2a1c818bbf70c82a90c8fbfb275d60023cec621d7fb04ddd0fcc\\\", \\\"bytes\\\": 23355, \\\"fresh_raw_readback_verified\\\": true, \\\"raw_verified_utc\\\": \\\"2026-10-24T10:55:57.828084+00:00\\\", \\\"folder_id\\\": \\\"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\\\", \\\"name\\\": \\\"training_complete_publication_proof.json\\\", \\\"immutable\\\": false}}, \\\"final_eval_publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"error\\\": null, \\\"work\\\": null, \\\"canonical_context_sha256\\\": null, \\\"run_metadata_sha256\\\": null, \\\"publication_finalized\\\": null}, \\\"four_controls_publication_status.json\\\": {\\\"state\\\": \\\"READING_PARENTS\\\", \\\"error\\\": null, \\\"work\\\": \\\"/content/mathvisionkid_quality_recovery_20261024/four_controls_publication/20261024T105646148714Z\\\", \\\"canonical_context_sha256\\\": null, \\\"run_metadata_sha256\\\": null, \\\"publication_finalized\\\": null, \\\"verified_writes\\\": null}}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

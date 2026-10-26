@@ -1,0 +1,61 @@
+{
+  "status": "ALL_ADJUDICATIONS_RESOLVED_FINITE495_COMPLETE",
+  "accepted_not_credited_core_slots": 0,
+  "queue": [],
+  "resolved_cases": [
+    {
+      "node_id": "current_g3_single_trial_outcomes",
+      "case_slot": "core_03",
+      "sample_id": "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector",
+      "row_sha256": "29a358305b6ea2e69605820e4e747b2c02c9a8cbcafdcb95b8f6d41db93b8d12",
+      "evidence": "thinking\\evidence\\primary_math_teacher_20261016\\g3_outcomes_0047_coverage_group_collision.json",
+      "do_not_reauthor_occupied_slot": true
+    }
+  ],
+  "decision_file": "coverage_adjudications.jsonl",
+  "decision_file_sha256": "1c7a4b2d9d8cda1497812ea67d63b222a8fd4620d345113e8881ae0d5ca34457",
+  "evidence": "thinking\\evidence\\primary_math_teacher_20261016\\coverage_literal_adjudication_0048_20261018.json",
+  "coverage_counts": {
+    "accepted_core": 495,
+    "remaining_core": 0,
+    "complete_nodes": 165
+  },
+  "no_source_answer_or_signoff_changes": true,
+  "new_human_review_claim": false,
+  "protected_excluded_core_slots_not_accepted": [],
+  "protected_excluded_core_slot_count": 0,
+  "protected_exclusion_evidence": "thinking/evidence/primary_math_teacher_20261016/g2_practice_experience_0092_protected_exclusions.json",
+  "protected_excluded_supplementary_not_accepted": [],
+  "historical_protected_exclusions_before_owner_authorized_hash_exceptions": {
+    "core": [
+      {
+        "sample_id": "primary_20261018_g2_practice_experience_0092_ruler_record_nonzero_start_estimate_check",
+        "node_id": "current_g2_practice_experience",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "source_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+        "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+      },
+      {
+        "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+        "node_id": "current_g5_collect_classify",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "source_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+        "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+      }
+    ],
+    "supplementary": [
+      {
+        "sample_id": "primary_20261018_g2_practice_experience_0092_misconception_ruler_end_label_as_length",
+        "node_id": "current_g2_practice_experience",
+        "case_kind": "misconception",
+        "case_slot": null,
+        "source_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+        "status": "PROTECTED_DEVELOPMENT_CASE_COLLISION"
+      }
+    ]
+  },
+  "numeric_overlap_exceptions_applied": 13,
+  "numeric_test_independence_claimed": false
+}

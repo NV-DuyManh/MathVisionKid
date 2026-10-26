@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "cases": 12,
+  "chats": 48,
+  "source_chat_hash_links": true,
+  "technical_ids": true,
+  "exact_question_duplicates": 0,
+  "prior_cases_unchanged": true,
+  "prior_hashes": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_text_append\\cases.jsonl": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\cases.jsonl": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_applied_text\\cases.jsonl": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_geometry_text\\cases.jsonl": "d93c98cb08ea23b9393e745febe0c6a2a3becc6be711fc6982c2249190223a06",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g34_structure_polished\\cases.jsonl": "c39c3a80cf5b7a8618768ec7dd710643b04326181705439187301c26429112ec"
+  },
+  "cases_sha256": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a",
+  "wrong_answer_oracle_mutations_rejected": 12,
+  "prose_numeric_checks": 23
+}

@@ -1,0 +1,160 @@
+{
+  "batch_sha256": "6c22219133be71469b4719837102e2ec42ec33e6cf1201961c31b096f4557fc4",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_same_number_two_precisions",
+      "row_sha256": "20ceb8fd493c644b69ff7830b4befd324a1797f747f29872f6157c0b9d538489",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "24740",
+          "24700",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_thousand_midpoint_boundary",
+      "row_sha256": "2f2cbd5a581b8e269b1a99d7e8478f61ce82362c59e2212f6f4f66e3447edb94",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "63000",
+          "64000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_report_rounded_count_not_exact",
+      "row_sha256": "201e2e084d2f3c98dca07cc1ec4614c0137867bcb203b89ddb81541df22bcb74",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "100000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_rounding_0029_misconception_inspect_wrong_digit",
+      "row_sha256": "0f2b29d3dda372231dd39782c7f14e99a56ba840b590c19c2f7150ed69ffacd2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "36000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": [
+    {
+      "input": 24736,
+      "place": 10,
+      "rounded": 24740,
+      "lower": 24730,
+      "upper": 24740,
+      "distance_lower": 6,
+      "distance_upper": 4
+    },
+    {
+      "input": 24736,
+      "place": 100,
+      "rounded": 24700,
+      "lower": 24700,
+      "upper": 24800,
+      "distance_lower": 36,
+      "distance_upper": 64
+    },
+    {
+      "input": 63499,
+      "place": 1000,
+      "rounded": 63000,
+      "lower": 63000,
+      "upper": 64000,
+      "distance_lower": 499,
+      "distance_upper": 501
+    },
+    {
+      "input": 63500,
+      "place": 1000,
+      "rounded": 64000,
+      "lower": 63000,
+      "upper": 64000,
+      "distance_lower": 500,
+      "distance_upper": 500
+    },
+    {
+      "input": 95000,
+      "place": 10000,
+      "rounded": 100000,
+      "lower": 90000,
+      "upper": 100000,
+      "distance_lower": 5000,
+      "distance_upper": 5000
+    },
+    {
+      "input": 36450,
+      "place": 1000,
+      "rounded": 36000,
+      "lower": 36000,
+      "upper": 37000,
+      "distance_lower": 450,
+      "distance_upper": 550
+    }
+  ],
+  "oracle_method": "Decimal ROUND_HALF_UP compared with independently formed lower/upper multiples and exact distances. // only in offline oracle; live calculator not changed. AST literals bind target, not prove rounding.",
+  "author_self_content_check": "Read allfour rounding scales, two independent requests from original input, tie convention, equal-distance explanation, exact-versus-rounded report count, explicit wrong-digit feedback and all12hints. Same-author checking is not independent content review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "All positive inputs/rounded values within100000; no floating-point or bankers rounding. No claim original counts change or rounded answer is exact count. Neutral schema is not live PlanDraft."
+}

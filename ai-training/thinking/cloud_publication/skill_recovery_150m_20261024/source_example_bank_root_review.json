@@ -1,0 +1,14 @@
+{
+  "schema": "MathVisionKid.source_context_bank_root_review.v1",
+  "source_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "all_nine_actual_prompts_and_targets_read": true,
+  "original_source_row_and_prompt_target_hashes_present": true,
+  "arithmetic_and_units_correct_in_worked_examples": true,
+  "supplied_student_work_grounded": true,
+  "missing_data_guard_no_fabrication": true,
+  "all_six_hints_withhold_final_answer": true,
+  "source_targets_unchanged": true,
+  "cpu_bank_tests_passed": 5,
+  "human_or_teacher_attestation_claimed": false,
+  "limits": "Small fixed source bank, not exhaustive review of original16k or proof of model improvement."
+}

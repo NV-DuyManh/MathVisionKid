@@ -1,0 +1,33 @@
+{
+  "status": "PASS_ALL_FOUR_CONTROL_RAW_BYTES",
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 12466547,
+      "sha256": "8cfa434e7f8959bcb33192eccde28cb3ccd807f59449a005b59650ffa9766970",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T10:55:08.551Z"
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 24121,
+      "sha256": "3f837ed78fecffd97c91576963716ba6588c252a4d7b07060b199620fc827607",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T10:55:08.694Z"
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 272056,
+      "sha256": "45171e587c5293bbd2ebf887dcfb286e399baddd0b35e26186a1d544632e15e3",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T10:55:08.852Z"
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 789180,
+      "sha256": "7c2cfa2f5730bb31d47eb608b9df6fddf33a520c71ffed5de44c1c1521a72580",
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-21T10:55:09.188Z"
+    }
+  ]
+}

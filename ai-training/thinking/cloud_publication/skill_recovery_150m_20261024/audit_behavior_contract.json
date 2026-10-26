@@ -1,0 +1,85 @@
+{
+  "schema": "MathVisionKid.verbal_recovery_behavior_audit.v1",
+  "scope": {
+    "reviewed": [
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/recovery_worker.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/verbal_training_renderer_v3.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/recovery_policy.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/test_recovery_worker.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/test_verbal_training_renderer_v3.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/test_recovery_policy.py",
+      "ai-training/thinking/cloud_publication/verbal_recovery_20261024/projection_preflight.json (9 sample excerpts only)"
+    ],
+    "excluded": ["locked_test", "final_review", "heldout", "V3", "V4", "concept_challenge", "model/corpus download", "GPU/Colab/API/browser/Git/app", "canonical context changes"],
+    "skills_applied": "None; repository guidance maps AI model/training review to no UI/design skill."
+  },
+  "findings": [
+    {
+      "priority": "P1",
+      "title": "Some training prompts repeat student work already embedded in the problem",
+      "evidence": [
+        {"file": "verbal_training_renderer_v3.py", "lines": "13-13", "detail": "Problem is included verbatim in the user prompt."},
+        {"file": "verbal_training_renderer_v3.py", "lines": "26-34", "detail": "When student_work is present, its text/excerpts are appended again."},
+        {"file": "recovery_worker.py", "lines": "330-337", "detail": "Training projection renders each source row through V.render and records the resulting prompt/target hashes."},
+        {"file": "projection_preflight.json", "sample": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution", "detail": "The actual prompt includes the erroneous comparison in the problem and repeats the same text under 'Lời làm em đã cung cấp'. The abacus sample shows the same pattern."},
+        {"file": "recovery_worker.py", "lines": "260-263", "detail": "Evaluation fixture prompts contain grade, userproblem and mode only; they do not append a separate student_work field."}
+      ],
+      "assessment": "This creates a concrete train/inference input-distribution difference for the affected rows and repeats the misconception in their training context. The record does not establish how frequent those rows are in the selected plan or that this caused any observed regression.",
+      "minimal_fix": "Before appending explicit student_work, detect whether its text/excerpts are already present in problem; avoid only exact duplicate insertions, preserving work not present in problem. Add CPU tests for exact duplicate and distinct work. Alternatively normalize those source problem strings upstream only if the existing content contract permits it."
+    },
+    {
+      "priority": "P2",
+      "title": "Training preserves each row's system message while evaluation substitutes H.SYSTEM",
+      "evidence": [
+        {"file": "verbal_training_renderer_v3.py", "lines": "64-69", "detail": "V.render retains row.messages[0] as the training system message."},
+        {"file": "recovery_worker.py", "lines": "260-263", "detail": "Evaluation fixtures are built with H.SYSTEM."}
+      ],
+      "assessment": "The code paths differ. The allowed projection excerpt does not include source system-message contents, so whether the actual strings differ cannot be established within scope.",
+      "minimal_fix": "Compare source system messages against H.SYSTEM during the authorized projection and fail/report if different; if they are intentionally equivalent, make that equivalence an explicit CPU regression assertion. Do not silently rewrite the prompt until the comparison is known."
+    },
+    {
+      "priority": "P2",
+      "title": "Rendered worked targets repeat answer-bearing content; hints use a separate safe-shaped target",
+      "evidence": [
+        {"file": "verbal_training_renderer_v3.py", "lines": "50-60", "detail": "Worked targets serialize step expressions/results/explanations and then serialize answers again."},
+        {"file": "projection_preflight.json", "sample": "exhaustive_v1_sub_565_103:worked_solution", "detail": "462 is present in the calculation, result, explanation, inverse-check expression, and final answer."},
+        {"file": "verbal_training_renderer_v3.py", "lines": "42-44", "detail": "Hint target contains only source hint and follow-up question; it does not append a worked answer."},
+        {"file": "test_verbal_training_renderer_v3.py", "lines": "11-13", "detail": "Current hint test checks static target text for an answer marker, not semantic answer leakage."}
+      ],
+      "assessment": "Redundancy is visible in the authored representation and may emphasize answer tokens; it is not by itself evidence of a defect because the semantic fields are intentionally preserved and there is no loss-distribution evidence here. The static hint test does not prove that a hint is numerically nonrevealing.",
+      "minimal_fix": "Avoid deleting semantic fields wholesale. If reducing redundancy, use a narrowly defined rendering contract and verify exact-string preservation plus representative target token counts. Add numerical hint leakage fixtures only from already-authorized training examples; do not claim broad safety from the existing string assertion."
+    },
+    {
+      "priority": "P3",
+      "title": "Microbatch weighting follows row count, not supervised-token count",
+      "evidence": [
+        {"file": "recovery_worker.py", "lines": "278-286", "detail": "Rows are length-sorted into groups of 16, then microbatches of 2; each model-reported mean loss is multiplied by len(items)/n. For full groups every microbatch gets the same 2/16 factor regardless of its number of supervised tokens."},
+        {"file": "recovery_worker.py", "lines": "297-297", "detail": "Run config describes the intended reduction as the unchanged original microbatch-2 supervised-token mean weighted by pair_rows/group_rows."}
+      ],
+      "assessment": "This is consistent with an equal-row-weighted mean of per-microbatch token means (the declared contract), not a global supervised-token mean across the 16-row group. Since samples have varying completion lengths, those reductions differ. Prior forward CE parity passed as reported by the owner; this finding is not a causal-loss-shift claim and should not be conflated with it.",
+      "minimal_fix": "Keep current behavior if compatibility with the original row-weighted microbatch objective is intended and clarify the config wording. If the intended objective is a group-wide supervised-token mean, aggregate summed token losses and divide by total supervised tokens across the whole group; validate against a tiny variable-length CPU example before changing training."
+    },
+    {
+      "priority": "P3",
+      "title": "Mask/EOT preservation is delegated and not directly covered by these tests",
+      "evidence": [
+        {"file": "recovery_worker.py", "lines": "174-177", "detail": "The worker delegates assistant-only tokenization and validates its returned encoding before training."},
+        {"file": "recovery_worker.py", "lines": "293-293", "detail": "Supervised-token accounting counts labels not equal to -100."},
+        {"file": "test_recovery_worker.py", "lines": "13-55", "detail": "Tests cover checkpoint log reconciliation/counts, not token-mask alignment or EOT retention."},
+        {"file": "test_verbal_training_renderer_v3.py", "lines": "5-31", "detail": "Renderer tests cover semantic strings and prompt fields, not tokenization masks/EOT."}
+      ],
+      "assessment": "The reviewed files are insufficient to verify mask/EOT preservation internally; no defect is established. Do not infer a failure from missing coverage, and do not claim the tests validate it.",
+      "minimal_fix": "In the allowed worker boundary, add a CPU test with a stub tokenizer/encoding asserting the terminal assistant token remains supervised and all prompt tokens remain masked, if the tokenizer helper interface can be stubbed without rewriting the worker."
+    }
+  ],
+  "target_redundancy_observation": {
+    "preflight": "9 samples scanned; renderer proof reports semantic fields preserved and no renderer numeric calculation. The excerpts show repeated answers in worked targets; hint targets remain structurally separate.",
+    "caution": "No full-corpus token histogram or selected-plan distribution was inspected; no prevalence or causal claim is made."
+  },
+  "loss_weighting": {
+    "verified_code_behavior": "Equal weighting of per-microbatch mean loss by row fraction. With fixed microbatch size 2, every full microbatch receives equal weight despite variable supervised-token counts.",
+    "causal_claim": false,
+    "forward_ce_parity": "Owner-reported parity across 3 train batches x base/prior-adapter <= 4.8e-7 is acknowledged; it does not answer whether these microbatch reductions implement the intended group objective."
+  },
+  "priority_recommendation": "First resolve exact duplicate student-work appending and the train/eval system-prompt comparison. Preserve the currently declared row-weighted objective unless an explicit change to token-weighted group loss is authorized. Add focused CPU tests only for confirmed boundary behaviors."
+}

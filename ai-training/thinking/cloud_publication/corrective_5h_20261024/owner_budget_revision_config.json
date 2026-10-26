@@ -1,0 +1,19 @@
+{
+  "schema": "MathVisionKid.owner_budget_revision.v1",
+  "authorization_utc": "2026-10-24T00:58:23Z",
+  "owner_request": "Use the remaining four hours thirty minutes of this free T4 session as well as possible, optimize throughput, reserve time to test and save; seek the best achievable model without an accuracy guarantee.",
+  "supersedes_requested_full_18000_second_window": true,
+  "remaining_session_seconds_at_authorization": 16200,
+  "hard_deadline_utc": "2026-10-24T05:28:23Z",
+  "train_stop_utc": "2026-10-24T05:13:23Z",
+  "reserve_evaluation_and_export_seconds": 900,
+  "resume_current_checkpoint": true,
+  "preserve_all_corpus_and_prior_checkpoints": true,
+  "benchmark_optimizer_updates": 0,
+  "optimizer_group_examples": 16,
+  "preserve_original_micro2_pair_loss_objective": true,
+  "change_data_labels_or_truncate_targets": false,
+  "paid_resources_allowed": false,
+  "quality_guaranteed": false,
+  "runtime_free_quota_guaranteed": false
+}

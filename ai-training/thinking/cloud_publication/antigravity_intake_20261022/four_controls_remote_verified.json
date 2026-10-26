@@ -1,0 +1,38 @@
+{
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 15082343,
+      "sha256": "388ba9367d630a8933fba377c199c3314b57db95fa3a3a3ac3699ea2ca0fc3a7",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 41005,
+      "sha256": "337b03156d52c48f812abe3513dab2dea19240b487e7727aa9c3aa2c50109c06",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 792010,
+      "sha256": "cb56fb2a605a29aacabdac59d6adb3e182e25d3c2521144ab7cb72e5022caf9e",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 325701,
+      "sha256": "ee90165e838cff3e976ed05d881ef1a78b547e7f38226e2c6a224dba599805d3",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true
+    }
+  },
+  "state_written_last": true,
+  "old_progress_members_preserved": true,
+  "new_case_count": 64,
+  "new_chat_count": 256,
+  "TRAINING_DATASET_READY": false,
+  "training_started": false
+}

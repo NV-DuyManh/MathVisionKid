@@ -1,0 +1,913 @@
+{
+  "observed_utc": "2026-10-26T09:42:04.797351+00:00",
+  "complete_evaluation": false,
+  "gate_may_be_created": false,
+  "completed_prefix_rows": 18,
+  "candidate_prefix_raw_sha256": "f64e7c4a542f841f1855d06bb0acca2e2efded7380b67e968fd0beacf9c1f8f7",
+  "pairs": [
+    {
+      "fixture": {
+        "id": "dev25_g1_answer_01",
+        "grade": 1,
+        "mode": "answer",
+        "userproblem": "Mai có 7 nhãn vở. Cô cho Mai thêm 6 nhãn vở. Hỏi Mai có tất cả bao nhiêu nhãn vở?",
+        "expected_answer": "13 nhãn vở",
+        "rubric": [
+          "addition; count items",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_answer_01",
+        "grade": 1,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "674b30de06e7f4276b246cf4ef9ad42e9c5b085d6e37a6b9cccf8a35981a46c7",
+        "max_new_tokens": 1024,
+        "generated_tokens": 211,
+        "output": "**Đề bài:**  \nMai có 7 nhãn vở. Cô cho Mai thêm 6 nhãn vở. Hỏi Mai có tất cả bao nhiêu nhãn vở?\n\n**Phân tích dữ kiện:**  \n- Mai có 7 nhãn vở.  \n- Cô cho Mai thêm 6 nhãn vở.  \n- Yêu cầu tính số nhãn vở Mai có sau khi được thêm.\n\n**Giải pháp:**  \nTa thực hiện phép cộng:  \n7 + 6 = 13\n\n**Giải thích:**  \n- Số nhãn vở Mai có ban đầu là 7.  \n- Sau khi được cô thêm 6 nhãn vở, số nhãn vở mới là 7 + 6 = 13.\n\n**Kiểm tra lại:**  \n- Dữ kiện đủ và nhất quán.  \n- Không có mâu thuẫn.  \n- Kết quả 13 là đúng.\n\n**Lời giải cuối cùng:**  \nMai có tất cả **13** nhãn vở.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 364375698,
+        "generation_seconds": 18.235666444000117
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_answer_01",
+        "grade": 1,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "674b30de06e7f4276b246cf4ef9ad42e9c5b085d6e37a6b9cccf8a35981a46c7",
+        "max_new_tokens": 1024,
+        "generated_tokens": 229,
+        "output": "Hướng dẫn: Đọc đề và dữ kiện; xác định phép tính cần dùng.\nBước 1: Kiểm dữ kiện và yêu cầu của đề.\nĐề: Mai có 7 nhãn vở. Cô cho Mai thêm 6 nhãn vở. Hỏi Mai có tất cả bao nhiêu nhãn vở?\nDữ kiện: Mai có 7 nhãn vở; Cô cho Mai thêm 6 nhãn vở.\nPhép tính: phép cộng\nGiải thích: Dữ kiện cho biết số nhãn vở ban đầu và số nhãn vở thêm. Vì cả hai đều được giao cho Mai nên tổng là số cần tìm.\nBước 2: Giải từng bước.\nĐại lượng cần tìm: Số nhãn vở của Mai\nPhép tính: 7 + 6\nGiải thích: Hai số hạng là số nhãn vở ban đầu và số nhãn vở thêm. Phép cộng được số cần tìm.\nKết quả: 13\nKiểm lại: Dữ kiện đúng, yêu cầu đáp số đúng.\nĐáp số: 13",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 364375698,
+        "generation_seconds": 26.323264664999897
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g1_answer_02",
+        "grade": 1,
+        "mode": "answer",
+        "userproblem": "Trong giỏ có 18 quả quýt, gia đình ăn 9 quả. Hỏi còn lại bao nhiêu quả quýt?",
+        "expected_answer": "9 quả quýt",
+        "rubric": [
+          "subtraction; count items",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_answer_02",
+        "grade": 1,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "cf5427ebfff53b25c564b4592744737b8e3ab224af7b2abb324671e5afc9b7df",
+        "max_new_tokens": 1024,
+        "generated_tokens": 270,
+        "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Trong giỏ có 18 quả quýt, gia đình ăn 9 quả.\n- **Yêu cầu:** Hỏi còn lại bao nhiêu quả quýt?\n\n**Giải thích:**\n\n- Dữ kiện đủ và nhất quán.\n- Các số liệu đều là số nguyên, đơn vị là \"quả\" (không có mâu thuẫn).\n\n**Bước 1:** Tính số quả quýt còn lại sau khi ăn.\n\n$$\n18 - 9 = 9\n$$\n\n**Bước 2:** Giải thích: Vì ta đang trừ số đã ăn (9 quả) từ số ban đầu (18 quả), nên ta sử dụng phép trừ.\n\n**Bước 3:** Kiểm lại kết quả: 18 - 9 = 9, đúng với ý nghĩa và đơn vị.\n\n**Kết quả cuối cùng:**  \nCòn lại **9 quả quýt**.\n\n**Lời giải đầy đủ:**  \n- Số quýt ban đầu: 18  \n- Số quýt đã ăn: 9  \n- Số quýt còn lại: $18 - 9 = 9$\n\n**Đáp án:** 9 quả quýt.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 738445121,
+        "generation_seconds": 16.70901098399986
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_answer_02",
+        "grade": 1,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "cf5427ebfff53b25c564b4592744737b8e3ab224af7b2abb324671e5afc9b7df",
+        "max_new_tokens": 1024,
+        "generated_tokens": 142,
+        "output": "Hướng dẫn: Đọc đề, xác định dữ kiện và yêu cầu.\nDữ kiện: Giỏ có 18 quả quýt, gia đình ăn 9 quả.\nYêu cầu: Hỏi số quýt còn lại.\nBước 1: Kiểm dữ kiện và yêu cầu.\nDữ kiện đủ và nhất quán.\nGiải: Trừ số quýt ăn đi khỏi số quýt ban đầu để tìm số quýt còn lại.\nPhép tính: 18 - 9\nKết quả: 9\nGiải thích: Số quýt còn lại là số quýt ban đầu trừ số quýt đã ăn.\nĐáp số: 9",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 738445121,
+        "generation_seconds": 14.53379958000005
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g1_hint_no_answer_01",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "userproblem": "Bình có 5 chiếc xe đồ chơi. Bạn tặng Bình thêm 8 chiếc. Em hãy tìm tổng số xe.",
+        "expected_answer": "Gợi ý: Em đang tìm số xe sau khi được thêm. Phép tính nào giúp gộp số xe ban đầu với số xe được tặng?",
+        "rubric": [
+          "hint does not state result",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_hint_no_answer_01",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "e46b5618b9d35044341703e33e71baa73fc4ccc8918ba606039d3401c2e87e31",
+        "max_new_tokens": 1024,
+        "generated_tokens": 94,
+        "output": "**Bước đầu:**\n\nBình có 5 chiếc xe đồ chơi.  \nBạn tặng Bình thêm 8 chiếc.  \nTổng số xe Bình có là:  \n5 + 8 = 13.\n\n**Giải thích:**  \nBình ban đầu có 5 xe. Sau khi tặng thêm 8 xe, tổng số xe của Bình là 5 + 8 = 13.\n\n**Kết quả:** 13.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 595746894,
+        "generation_seconds": 5.766579433999823
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_hint_no_answer_01",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "e46b5618b9d35044341703e33e71baa73fc4ccc8918ba606039d3401c2e87e31",
+        "max_new_tokens": 1024,
+        "generated_tokens": 27,
+        "output": "Gợi ý: Đọc đề cẩn thận.\nEm thử trả lời: Em biết tổng số xe là bao nhiêu?",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 595746894,
+        "generation_seconds": 2.7605200869998043
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g1_hint_no_answer_02",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "userproblem": "Trên cành có 14 chiếc lá. Sau đó 6 chiếc rụng xuống. Hỏi trên cành còn bao nhiêu chiếc lá?",
+        "expected_answer": "Gợi ý: Số lá còn lại bằng số lá lúc đầu bớt đi số lá đã rụng. Hãy viết phép trừ phù hợp rồi tự tính.",
+        "rubric": [
+          "Clarify initial/final time; not an already-included fallen subset.",
+          "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_hint_no_answer_02",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "144f9d4af49fe63db132309a9c8408e0b24c198ce2789b033acabc39ffdd75c7",
+        "max_new_tokens": 1024,
+        "generated_tokens": 99,
+        "output": "**Bước 1:** Ta biết rằng trên cành có 14 chiếc lá. Sau đó, 6 chiếc lá rụng xuống.\n\n**Bước 2:** Để tìm số lá còn trên cành, ta lấy số lá ban đầu trừ đi số lá rụng.\n\n**Lời giải:**\n\nSố lá còn trên cành = 14 - 6 = 8.\n\n**Đáp án:** 8 chiếc lá còn trên cành.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 67192121,
+        "generation_seconds": 6.117479150999998
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_hint_no_answer_02",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "144f9d4af49fe63db132309a9c8408e0b24c198ce2789b033acabc39ffdd75c7",
+        "max_new_tokens": 1024,
+        "generated_tokens": 58,
+        "output": "Gợi ý: Số cần tìm là số còn lại sau khi trừ đi số đã mất.\nEm thử trả lời: Em lấy số ban đầu trừ đi số lá rụng xuống, rồi trả lời: Em thử trả lời số còn lại sau khi lá rụng xuống?",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 67192121,
+        "generation_seconds": 5.999941166000099
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g1_missing_or_contradictory_info_01",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Trên bàn có 12 chiếc cốc. Một số chiếc cốc được cất đi. Hỏi trên bàn còn bao nhiêu chiếc cốc?",
+        "expected_answer": "Chưa đủ dữ kiện: cần biết có bao nhiêu chiếc cốc được cất đi.",
+        "rubric": [
+          "missing removed count",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_missing_or_contradictory_info_01",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "e3bc76a7e5abb731584f41c877e3a287808b74b761773f132cb0ba3e0dbcb2df",
+        "max_new_tokens": 1024,
+        "generated_tokens": 299,
+        "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Trên bàn có 12 chiếc cốc. Một số chiếc cốc được cất đi.\n- **Yêu cầu:** Hỏi trên bàn còn bao nhiêu chiếc cốc?\n\n**Đề có đủ dữ kiện và nhất quán.**\n\n---\n\n**Giải từng bước:**\n\n1. **Xác định thông tin đã biết:**\n   - Tổng số cốc ban đầu: 12 chiếc.\n   - Số cốc được cất đi: chưa biết.\n\n2. **Xác định thông tin cần tìm:**\n   - Số cốc còn lại trên bàn: chưa biết.\n\n3. **Lập luận:**\n   - Vì số cốc được cất đi chưa biết rõ, nên ta không thể tính toán số cốc còn lại.\n   - Ta chỉ có thể nói rằng số cốc còn lại là **12 - số cốc được cất đi**.\n\n4. **Kiểm tra lại:**\n   - Dữ kiện đầy đủ, không mâu thuẫn.\n   - Không có thông tin cụ thể về số cốc được cất đi.\n\n---\n\n**Kết luận:**\n\n- Đề thiếu thông tin về số cốc được cất đi.\n- Không thể xác định chính xác số cốc còn lại vì thiếu dữ kiện.\n\n**Lời giải cuối cùng:**  \n**Đề thiếu dữ kiện.**",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 374160667,
+        "generation_seconds": 18.439461012000038
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_missing_or_contradictory_info_01",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "e3bc76a7e5abb731584f41c877e3a287808b74b761773f132cb0ba3e0dbcb2df",
+        "max_new_tokens": 1024,
+        "generated_tokens": 1024,
+        "output": "Hướng dẫn: Đọc đề và kiểm số liệu.\nBước 1: Đọc đề\nĐề: Trên bàn có 12 chiếc cốc. Một số chiếc cốc được cất đi. Hỏi trên bàn còn bao nhiêu chiếc cốc?\nYêu cầu: Tìm số cốc còn trên bàn.\nDữ kiện: Trên bàn có 12 chiếc cốc.\nĐại lượng cần tìm: Số cốc còn trên bàn.\nĐại lượng đã biết: Số cốc ban đầu.\nPhép tính cần thực hiện: Trừ.\nĐại lượng cần tìm: 12 - số cốc được cất đi.\nBước 2: Kiểm dữ kiện và yêu cầu\nĐại lượng cần tìm: Số cốc còn trên bàn.\nĐại lượng đã biết: Số cốc ban đầu.\nPhép tính cần thực hiện: Trừ.\nĐại lượng cần tìm: 12 - số cốc được cất đi.\nĐại lượng cần tìm: 12 - số cốc được cất đi.\nĐại lượng cần tìm: 12 - số cốc được cất đi.\nBước 3: Giải từng bước\nGiải:\nSố cốc còn trên bàn là: $12 - 5 = 7$.\nKiểm lại: 12 - 5 = 7.\nĐại lượng cần tìm: 7.\nĐại lượng đã biết: 12.\nPhép tính: Trừ.\nĐại lượng cần tìm: 7.\nĐại lượng đã biết: 12.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.\nĐại lượng cần tìm: 7.",
+        "ended_eos": false,
+        "possibly_truncated": true,
+        "timed_out": false,
+        "seed": 374160667,
+        "generation_seconds": 110.45456475099991
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g1_student_error_01",
+        "grade": 1,
+        "mode": "student_error",
+        "userproblem": "Có 8 con cá trong bể, mẹ thả thêm 5 con. Nam viết: “8 + 5 = 13 con cá.” Hãy nhận xét đúng dòng Nam đã viết.",
+        "expected_answer": "Dòng của Nam đúng: 8 + 5 = 13 con cá.",
+        "rubric": [
+          "fully correct studentwork; affirm only given line",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g1_student_error_01",
+        "grade": 1,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "b14bd1f64a48d9f93a406864fd24dc191b488191dc447497afb5ecf0f2ea36b8",
+        "max_new_tokens": 1024,
+        "generated_tokens": 276,
+        "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Có 8 con cá trong bể, mẹ thả thêm 5 con. Nam viết: “8 + 5 = 13 con cá.”  \n- **Yêu cầu:** Nhận xét đúng dòng Nam đã viết.\n\n**2. Giải thích từng bước:**\n\n- **Số liệu:** Có 8 con cá ban đầu, mẹ thả thêm 5 con → Tổng số cá là $8 + 5 = 13$.\n- **Phép tính:** Đây là phép cộng có nhớ, với số hạng 8 và 5.\n- **Đơn vị:** Tất cả đều được đo bằng “con cá” → đơn vị nhất quán.\n- **Kiểm tra lại:** $8 + 5 = 13$ là đúng. Không có sai sót trong phép tính.\n\n**3. Nhận xét:**\n\n- **Đúng:** Dòng “8 + 5 = 13 con cá” là đúng.\n- **Có thể cải thiện:** Có thể nêu rõ phép tính và kết quả, nhưng không có lỗi trong nội dung.\n\n**4. Kết luận:**\n\nDòng Nam đã viết **đúng**. Số liệu và phép tính đều nhất quán, không có mâu thuẫn.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 536348604,
+        "generation_seconds": 20.247334217000116
+      },
+      "adapter": {
+        "fixture_id": "dev25_g1_student_error_01",
+        "grade": 1,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "b14bd1f64a48d9f93a406864fd24dc191b488191dc447497afb5ecf0f2ea36b8",
+        "max_new_tokens": 1024,
+        "generated_tokens": 1024,
+        "output": "Hướng dẫn: Đọc đề và dữ kiện, xác định số cần tìm.\nBước 1: Đọc đề và dữ kiện.\nĐề: Có 8 con cá trong bể, mẹ thả thêm 5 con. Nam viết: “8 + 5 = 13 con cá.”\nDữ kiện: Đã có 8 con cá và thêm 5 con cá.\nCâu trả lời: Em cần xác định đúng phép tính và kết quả của Nam.\nNội dung cần tìm: Em cần xác định các phép tính và kết quả đúng.\nGiải thích: Nam đã cộng 8 và 5 để tìm tổng. Em cần kiểm đúng phép tính và kết quả của Nam.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nBước 2: Kiểm dữ kiện và yêu cầu.\nĐề: Có 8 con cá trong bể, mẹ thả thêm 5 con.\nDữ kiện: Em cần xác định tổng số con cá.\nNội dung cần tìm: Em cần xác định tổng số con cá.\nKết quả: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nPhép tính: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nPhép tính: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con cá.\nĐại lượng cần tìm: Em cần xác định tổng số con",
+        "ended_eos": false,
+        "possibly_truncated": true,
+        "timed_out": false,
+        "seed": 536348604,
+        "generation_seconds": 112.09663744599993
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_answer_01",
+        "grade": 2,
+        "mode": "answer",
+        "userproblem": "Một khay có 5 hàng bánh, mỗi hàng có 4 chiếc. Hỏi khay có tất cả bao nhiêu chiếc bánh?",
+        "expected_answer": "20 chiếc bánh",
+        "rubric": [
+          "Use familiar grade2 five-times table.",
+          "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_answer_01",
+        "grade": 2,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "d6b47202dc9cb1c576e72e63856816dd854549b614d0fc1fd704b11df2500db6",
+        "max_new_tokens": 1024,
+        "generated_tokens": 228,
+        "output": "**Dữ kiện:**  \n- Khay có 5 hàng bánh.  \n- Mỗi hàng có 4 chiếc bánh.  \n\n**Yêu cầu:**  \n- Tính số chiếc bánh trong khay.  \n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu.**  \n- Dữ kiện đủ và nhất quán.  \n- Số liệu rõ ràng, không mâu thuẫn.  \n\n---\n\n**Bước 2: Giải bài toán.**  \n- Mỗi hàng có 4 chiếc bánh.  \n- Khay có 5 hàng bánh.  \n\n**Phép tính:**  \n$$\n5 \\text{ hàng} \\times 4 \\text{ chiếc bánh/hàng} = 20 \\text{ chiếc bánh}\n$$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- Mỗi hàng có 4 chiếc bánh → 5 hàng → $5 \\times 4 = 20$.  \n- Kết quả hợp lý, không có sai sót.\n\n---\n\n**Lời giải:**  \nKhay có tổng cộng **20 chiếc bánh**.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 19965139,
+        "generation_seconds": 19.442672974999823
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_answer_01",
+        "grade": 2,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "d6b47202dc9cb1c576e72e63856816dd854549b614d0fc1fd704b11df2500db6",
+        "max_new_tokens": 1024,
+        "generated_tokens": 271,
+        "output": "Hướng dẫn: Đọc đề và xác định rõ yêu cầu.\nĐề: Một khay có 5 hàng bánh, mỗi hàng có 4 chiếc. Hỏi khay có tất cả bao nhiêu chiếc bánh?\nYêu cầu: Tính số chiếc bánh trong khay.\nDữ kiện: Khay có 5 hàng, mỗi hàng có 4 chiếc.\nĐề đủ và nhất quán.\nGiải:\nBước 1: Đếm số hàng và số chiếc mỗi hàng.\nPhép tính: 5 × 4\nĐại lượng cần tìm: Tổng số chiếc bánh\nGiải thích: Vì mỗi hàng có 4 chiếc và có 5 hàng, nên số chiếc bánh của khay là tổng số chiếc bánh của mỗi hàng.\nĐại lượng cần tìm được xác định đúng.\nBước 2: Đếm số hàng và số chiếc mỗi hàng.\nPhép tính: 5 × 4\nĐại lượng cần tìm: Tổng số chiếc bánh\nGiải thích: Vì mỗi hàng có 4 chiếc và có 5 hàng, nên số chiếc bánh của khay là tổng số chiếc bánh của mỗi hàng.\nĐại lượng cần tìm được xác định đúng.\nKiểm lại: Đáp số đúng theo yêu cầu.\nĐáp số: 20 chiếc bánh.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 19965139,
+        "generation_seconds": 28.171916477000195
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_answer_02",
+        "grade": 2,
+        "mode": "answer",
+        "userproblem": "Thư viện lớp có 42 quyển truyện. Các bạn mượn 17 quyển. Hỏi còn lại bao nhiêu quyển truyện?",
+        "expected_answer": "25 quyển truyện",
+        "rubric": [
+          "subtraction; count items",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_answer_02",
+        "grade": 2,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "66c61184c80b6d90351ce64efeaf975a98a7540ce765c3bbe60f0b06efb5271c",
+        "max_new_tokens": 1024,
+        "generated_tokens": 264,
+        "output": "**Dữ kiện:**  \n- Thư viện có 42 quyển truyện.  \n- Các bạn mượn 17 quyển.  \n\n**Yêu cầu:**  \nTính số quyển truyện còn lại.\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**  \n- Dữ kiện đủ và nhất quán.  \n- Đề yêu cầu tính số quyển truyện còn lại sau khi các bạn mượn 17 quyển.\n\n---\n\n**Bước 2: Giải bài toán.**  \n- Số quyển truyện ban đầu: 42.  \n- Số quyển truyện mượn: 17.  \n- Số quyển truyện còn lại = Số ban đầu - Số mượn = $42 - 17$.\n\n**Phép tính:**  \n$42 - 17 = 25$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- 42 - 17 = 25.  \n- 25 là số quyển truyện còn lại.  \n- Dữ kiện và phép tính đúng, không có mâu thuẫn.\n\n---\n\n**Kết luận:**  \nCó **25 quyển truyện** còn lại.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1202748989,
+        "generation_seconds": 16.6091482129998
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_answer_02",
+        "grade": 2,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "66c61184c80b6d90351ce64efeaf975a98a7540ce765c3bbe60f0b06efb5271c",
+        "max_new_tokens": 1024,
+        "generated_tokens": 1024,
+        "output": "Hướng dẫn: Tìm số còn lại bằng cách lấy tổng trừ đi số đã lấy.\nBước 1: Tổng số quyển truyện của thư viện là bao nhiêu?\nDữ kiện: Thư viện có 42 quyển truyện.\nĐại lượng cần tìm: Tổng số quyển truyện của thư viện.\nPhép tính: 42\nĐại lượng cần tìm: Tổng số quyển truyện của thư viện.\nQuan hệ: 42\nBước 2: Số quyển truyện đã mượn là bao nhiêu?\nDữ kiện: Các bạn mượn 17 quyển truyện.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nPhép tính: 42 - 17\nĐại lượng cần tìm: Số quyển truyện còn lại.\nQuan hệ: 42\nBước 3: Kiểm số và trả lời.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nPhép tính: 42 - 17\nĐại lượng cần tìm: Số quyển truyện còn lại.\nQuan hệ: 42\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số",
+        "ended_eos": false,
+        "possibly_truncated": true,
+        "timed_out": false,
+        "seed": 1202748989,
+        "generation_seconds": 110.11426030300026
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_hint_no_answer_01",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "userproblem": "Có 5 túi, mỗi túi đựng 3 quả bóng bàn. Em hãy tìm số quả bóng bàn trong các túi.",
+        "expected_answer": "Gợi ý: Các túi có số quả bằng nhau. Có thể cộng cùng một số nhiều lần hoặc dùng phép nhân.",
+        "rubric": [
+          "hint does not state result",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_hint_no_answer_01",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "8a7e557c4c36c7b23288c8f86f56fdf06a6b6060f79c4af2c72489afc03eb733",
+        "max_new_tokens": 1024,
+        "generated_tokens": 79,
+        "output": "**Bước đầu:**  \nEm hãy tính số quả bóng bàn trong các túi. Mỗi túi có 3 quả, và có 5 túi.  \nEm có thể tính như sau: 3 quả/buộc × 5 túi = ?  \n\n**Lời giải:**  \n3 × 5 = 15  \n\n**Kết quả:** 15 quả bóng bàn.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 275091846,
+        "generation_seconds": 4.988622759000009
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_hint_no_answer_01",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "8a7e557c4c36c7b23288c8f86f56fdf06a6b6060f79c4af2c72489afc03eb733",
+        "max_new_tokens": 1024,
+        "generated_tokens": 44,
+        "output": "Gợi ý: Mỗi túi có số quả bóng bàn bằng tổng số quả bóng bàn trong các túi em đã biết.\nEm thử trả lời: Em biết số quả bóng bàn trong mỗi túi bằng bao nhiêu?",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 275091846,
+        "generation_seconds": 4.5950935860000754
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_hint_no_answer_02",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "userproblem": "Một sợi dây dài 36 cm được cắt đi 14 cm. Hỏi đoạn dây còn lại dài bao nhiêu?",
+        "expected_answer": "Gợi ý: Độ dài còn lại bằng độ dài ban đầu trừ phần đã cắt. Giữ đơn vị cm trong đáp số.",
+        "rubric": [
+          "hint does not state result",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_hint_no_answer_02",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "34ca17ed5515cd5e9de53fb8bcd0efdbaffc40caaf828967afd8ce873698b96a",
+        "max_new_tokens": 1024,
+        "generated_tokens": 81,
+        "output": "**Bước đầu:**  \n- Đoạn dây ban đầu dài 36 cm.  \n- Được cắt đi 14 cm.  \n- Vậy đoạn dây còn lại là: 36 cm - 14 cm = ?\n\n**Lời giải:**  \n- 36 cm - 14 cm = 22 cm.\n\n**Đáp án:** 22 cm.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1804538381,
+        "generation_seconds": 5.02446153599999
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_hint_no_answer_02",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "34ca17ed5515cd5e9de53fb8bcd0efdbaffc40caaf828967afd8ce873698b96a",
+        "max_new_tokens": 1024,
+        "generated_tokens": 35,
+        "output": "Gợi ý: Em thử trả lời: Em có biết số phần cần tìm chưa?\nEm thử trả lời: Em có thể tìm phần còn lại bằng cách nào?",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1804538381,
+        "generation_seconds": 3.5940913239996917
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_missing_or_contradictory_info_01",
+        "grade": 2,
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Có 4 hộp bút, mỗi hộp có 6 chiếc bút. Dòng ghi chú lại nói “mỗi hộp có 5 chiếc”. Hỏi có tất cả bao nhiêu chiếc bút?",
+        "expected_answer": "Hai thông tin mâu thuẫn: cần kiểm tra mỗi hộp có 6 hay 5 chiếc bút trước khi tính tổng.",
+        "rubric": [
+          "identify contradiction; no arbitrary choice",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_missing_or_contradictory_info_01",
+        "grade": 2,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "6032d744daeb5fb85cbb95eadb3cb2468543b1d80de6ae10bedb92a9d471a3e8",
+        "max_new_tokens": 1024,
+        "generated_tokens": 512,
+        "output": "**Dữ kiện và yêu cầu:**\n\n- Có 4 hộp bút.\n- Mỗi hộp có 6 chiếc bút.\n- Dòng ghi chú lại nói “mỗi hộp có 5 chiếc” (có thể là sai thông tin).\n\n**Phân tích:**\n\n- Dữ kiện được cung cấp: 4 hộp, mỗi hộp có 6 chiếc bút.\n- Dữ kiện có mâu thuẫn: \"mỗi hộp có 5 chiếc\" (trong đề có ghi \"mỗi hộp có 5 chiếc\", nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\").\n\n**Lời giải:**\n\n- Dữ kiện có mâu thuẫn: Trong đề có ghi \"mỗi hộp có 5 chiếc\" (có thể là sai thông tin), nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\".\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu:**\n- Dữ kiện không nhất quán: đề có ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n\n**Bước 2: Xác định số liệu cần bổ sung:**\n- Cần xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không, hay có thể là thông tin bổ sung cần kiểm lại.\n\n**Bước 3: Giải bài toán theo dữ kiện đã được cung cấp (mỗi hộp có 6 chiếc):**\n\n- Số hộp: 4\n- Số bút trong mỗi hộp: 6\n- Tổng số bút: $4 \\times 6 = 24$\n\n**Kết quả:**\n- Có tổng cộng $24$ chiếc bút.\n\n**Lời giải đầy đủ:**\n- Dữ kiện có mâu thuẫn do đề ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n- Cần kiểm lại thông tin để xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không.\n- Nếu lấy dữ kiện \"mỗi hộp có 6 chiếc\", thì tổng số bút là $4 \\times 6 = 24$.\n\n**Kết luận:**\n- Có tổng cộng $24$ chiếc bút.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 2005065355,
+        "generation_seconds": 34.780345147999924
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_missing_or_contradictory_info_01",
+        "grade": 2,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "6032d744daeb5fb85cbb95eadb3cb2468543b1d80de6ae10bedb92a9d471a3e8",
+        "max_new_tokens": 1024,
+        "generated_tokens": 164,
+        "output": "Hướng dẫn: Đọc đề và xác định dữ kiện, yêu cầu.\nDữ kiện: Có 4 hộp bút, mỗi hộp có 6 chiếc bút.\nYêu cầu: Tính tổng số chiếc bút có tất cả.\nBước 1: Đếm số bút mỗi hộp.\nPhép tính: 4 × 6\nKết quả bước này: 24\nGiải thích: Mỗi hộp có 6 bút, có 4 hộp, nên số bút là 6×4.\nBước 2: Tính tổng số bút.\nPhép tính: 24\nKết quả bước này: 24\nGiải thích: Tổng số bút là 24.\nĐáp số: 24",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 2005065355,
+        "generation_seconds": 17.034099656000308
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g2_student_error_01",
+        "grade": 2,
+        "mode": "student_error",
+        "userproblem": "Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9 quả mận.” Hãy nhận xét đúng dòng Minh đã viết.",
+        "expected_answer": "Phép cộng 2 + 7 = 9 đúng về số học, nhưng không biểu diễn tổng số quả. Có 2 nhóm, mỗi nhóm 7 quả nên cần 2 × 7 = 14 quả mận.",
+        "rubric": [
+          "Distinguish true arithmetic from wrong relation; grade2 two-times table.",
+          "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g2_student_error_01",
+        "grade": 2,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "1cd3096300e6724e535ef15c6c68ef4bb675bdaa4a9fe55dd9c1f000b9fe38e1",
+        "max_new_tokens": 1024,
+        "generated_tokens": 419,
+        "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9”.\n- **Yêu cầu:** Nhận xét đúng dòng Minh đã viết.\n\n**2. Giải thích:**\n\n- **Dữ kiện:** Đúng, đề đã cung cấp thông tin rõ ràng: 2 đĩa, mỗi đĩa có 7 quả mận.\n- **Phép tính:** 2 + 7 = 9.\n  - **Giải thích:** Đây là phép tính cộng có nghĩa là: 2 + 7 = 9.\n  - **Tính toán:** 2 + 7 = 9 (đúng).\n  - **Đơn vị:** Đơn vị của số liệu là “quả mận”.\n  - **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng số quả mận là 2 + 7 = 9.\n\n**3. Kiểm lại kết quả:**\n\n- **Tổng số quả mận:** 2 + 7 = 9 (đúng).\n- **Đơn vị:** Đúng.\n- **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng là 9 quả mận.\n\n**4. Nhận xét:**\n\n- **Dòng Minh đã viết:** “2 + 7 = 9” là phép tính đúng.\n- **Đúng:** 2 + 7 = 9.\n- **Không mâu thuẫn:** Dữ kiện đầy đủ và nhất quán.\n- **Không thiếu dữ kiện:** Đề đã cung cấp đủ thông tin.\n\n**5. Kết luận:**\n\nDòng “2 + 7 = 9” của Minh là **đúng**, vì phép tính cộng đúng và đơn vị, ý nghĩa đều phù hợp với dữ kiện đã cho.\n\n**Đáp án:** Đúng.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 979905331,
+        "generation_seconds": 26.200461271999984
+      },
+      "adapter": {
+        "fixture_id": "dev25_g2_student_error_01",
+        "grade": 2,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "1cd3096300e6724e535ef15c6c68ef4bb675bdaa4a9fe55dd9c1f000b9fe38e1",
+        "max_new_tokens": 1024,
+        "generated_tokens": 198,
+        "output": "Hướng dẫn: Đọc đề và dữ kiện; xác định phép tính hoặc quan hệ cần dùng.\nBước 1: Đọc đề và dữ kiện.\nDữ kiện: Có 2 đĩa, mỗi đĩa có 7 quả mận.\nYêu cầu: Nhận xét đúng dòng Minh đã viết.\nGiải: Đọc dữ kiện và yêu cầu.\nDữ kiện đủ và nhất quán.\nBước 2: Xác định phép tính hoặc quan hệ cần dùng.\nPhép tính: Tổng.\nPhép tính: Tích.\nGiải thích: Hai đĩa, mỗi đĩa có 7 quả mận. Tổng số quả mận là 2×7=14. Vì vậy, số quả mận được viết là 14. Không đúng.\nBước 3: Kiểm lại kết quả.\nKết quả: 14.\nĐáp số: 14.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 979905331,
+        "generation_seconds": 20.49743959699981
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_answer_01",
+        "grade": 3,
+        "mode": "answer",
+        "userproblem": "Có 123 nhãn vở chia đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?",
+        "expected_answer": "Mỗi túi 24 nhãn, thừa 3 nhãn. Kiểm: 5 × 24 + 3 = 123 và 0 ≤ 3 < 5.",
+        "rubric": [
+          "Add division-with-remainder and reconstruct/check constraints.",
+          "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_answer_01",
+        "grade": 3,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "cac10ba8ea4f0a98e7109912c45384825cc08672fe21dd1a1e5604fadca10b99",
+        "max_new_tokens": 1024,
+        "generated_tokens": 446,
+        "output": "**Đề bài:**\nChia 123 nhãn vở đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n- Số nhãn vở: 123\n- Số túi: 5\n- Điều kiện: Mỗi túi nhận nhiều nhãn nhất, còn thừa ít hơn 5 nhãn\n\n**Bước 2: Giải bài toán.**\n\nTa cần chia 123 nhãn vở vào 5 túi, sao cho mỗi túi nhận số nhãn **nhiều nhất** và còn **thừa ít hơn 5 nhãn**.\n\n**Bước 3: Tính số nhãn mỗi túi.**\n\nChia 123 nhãn vở cho 5 túi:\n\n$$\n123 \\div 5 = 24 \\text{ dư } 3\n$$\n\nTức là:\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở.\n\n**Kiểm tra:**\n- 24 nhãn vở x 5 túi = 120 nhãn vở\n- 123 - 120 = 3 (thừa ít hơn 5 nhãn)\n\n**Bước 4: Kiểm lại kết quả.**\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở (thừa ít hơn 5 nhãn).\n\n**Kết luận:**\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n---\n\n**Lời giải đầy đủ:**\n- Số nhãn mỗi túi: $ 123 \\div 5 = 24 $ dư $ 3 $\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n**Đáp án:**\n- Mỗi túi có $\\boxed{24}$ nhãn vở.\n- Còn thừa $\\boxed{3}$ nhãn vở.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 433604062,
+        "generation_seconds": 27.992224897999904
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_answer_01",
+        "grade": 3,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "cac10ba8ea4f0a98e7109912c45384825cc08672fe21dd1a1e5604fadca10b99",
+        "max_new_tokens": 1024,
+        "generated_tokens": 314,
+        "output": "Hướng dẫn: Tìm số dư khi chia số bị chia cho số chia.\nBước 1: Tìm số chia và số bị chia.\nDữ kiện: 123 nhãn vở chia đều vào 5 túi.\nPhép tính: 123 ÷ 5\nQuan hệ: 123\nGiải thích: Số chia là 5; số bị chia là 123.\nKết quả bước này: 24, dư 3\nĐáp số bước này: 24\nBước 2: Kiểm số lại.\nDữ kiện: 5 túi, 24 nhãn mỗi túi.\nPhép tính: 5 × 24\nQuan hệ: 5\nGiải thích: Số chia là 5; số dư là 3.\nKết quả bước này: 120\nĐáp số bước này: 120\nBước 3: Kiểm lại.\nDữ kiện: 123 nhãn vở chia đều vào 5 túi.\nPhép tính: 123 − 120\nQuan hệ: −3\nGiải thích: Số bị chia là 123; số chia là 5.\nKết quả bước này: 3\nĐáp số bước này: 3\nĐáp số cuối cùng: Mỗi túi có 24 nhãn, còn thừa 3 nhãn.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 433604062,
+        "generation_seconds": 32.51715500099999
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_answer_02",
+        "grade": 3,
+        "mode": "answer",
+        "userproblem": "Một cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?",
+        "expected_answer": "325 cm",
+        "rubric": [
+          "convert units before subtraction",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_answer_02",
+        "grade": 3,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "03249a58f71e4eb0b9e0672d017bf05213230cb915a277eedeb555822496477a",
+        "max_new_tokens": 1024,
+        "generated_tokens": 350,
+        "output": "**Đề bài:**\n\nMột cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n\n- Dữ kiện: Cuộn ruy băng dài 5 m, người ta dùng 175 cm.\n- Yêu cầu: Tính độ dài còn lại của cuộn ruy băng theo đơn vị xăng-ti-mét.\n\n**Bước 2: Đơn vị chuyển đổi.**\n\n- 5 m = 500 cm (vì 1 m = 100 cm).\n\n**Bước 3: Tính độ dài còn lại.**\n\n- Độ dài còn lại = Độ dài ban đầu - Độ dài đã dùng\n- Độ dài còn lại = 500 cm - 175 cm = 325 cm\n\n**Bước 4: Kiểm tra lại.**\n\n- 5 m = 500 cm ✔️\n- 500 cm - 175 cm = 325 cm ✔️\n\n**Lời giải:**\n\nCuộn ruy băng còn dài **325 cm**.\n\n---\n\n**Lời làm của học sinh (nếu có):**  \n(Được cung cấp theo yêu cầu, không tự chọn số liệu)\n\n---\n\n**Kết luận:**\n\n- Dữ kiện đủ và nhất quán.\n- Lời giải đúng, kiểm tra lại đúng.\n- Đáp án: **325 cm**.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1746446617,
+        "generation_seconds": 21.975296199000013
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_answer_02",
+        "grade": 3,
+        "mode": "answer",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "03249a58f71e4eb0b9e0672d017bf05213230cb915a277eedeb555822496477a",
+        "max_new_tokens": 1024,
+        "generated_tokens": 81,
+        "output": "Hướng dẫn: Đổi đơn vị trước khi tính.\nBước 1: Đổi các đơn vị của hai số về cùng một đơn vị.\nBước 2: Thực hiện phép tính.\nBước 3: Đảm bảo rằng đơn vị của kết quả phù hợp với yêu cầu.\nKết quả: Cuộn ruy băng còn dài 350 cm.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1746446617,
+        "generation_seconds": 8.582391224000276
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_hint_no_answer_01",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "userproblem": "Một đội xếp 9 hàng ghế, mỗi hàng có 14 ghế. Hãy tìm tổng số ghế.",
+        "expected_answer": "Gợi ý: Số hàng là số nhóm, số ghế trong mỗi hàng là số phần tử mỗi nhóm. Chọn phép tính biểu diễn các nhóm bằng nhau.",
+        "rubric": [
+          "hint does not state result",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_hint_no_answer_01",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "d19440d385cfe5227ffa9b0205a8d6c533db1d2ab558bed587517a3944873a05",
+        "max_new_tokens": 1024,
+        "generated_tokens": 112,
+        "output": "**Bước 1:** Tìm số ghế trong một hàng.  \nMỗi hàng có 14 ghế.\n\n**Bước 2:** Tìm tổng số ghế trong tất cả các hàng.  \nTổng số ghế = số ghế trong một hàng × số hàng.\n\n**Lời giải:**  \nTổng số ghế = 14 × 9 = 126.\n\n**Kiểm tra lại:**  \n14 × 9 = 126. Đúng.\n\n**Đáp số:** 126 ghế.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1843426708,
+        "generation_seconds": 7.144192383000018
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_hint_no_answer_01",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "d19440d385cfe5227ffa9b0205a8d6c533db1d2ab558bed587517a3944873a05",
+        "max_new_tokens": 1024,
+        "generated_tokens": 30,
+        "output": "Gợi ý: Số hàng được nhân với số ghế mỗi hàng.\nEm thử trả lời: Em thử trả lời: Em thử trả lời:",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1843426708,
+        "generation_seconds": 3.06686468900034
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_hint_no_answer_02",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "userproblem": "Một bình có 2 l nước. Rót ra 650 ml. Hỏi trong bình còn bao nhiêu ml?",
+        "expected_answer": "Gợi ý: Đổi 2 lít sang mililít trước, rồi trừ lượng đã rót. Đơn vị đáp số cần là ml.",
+        "rubric": [
+          "hint does not state result",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_hint_no_answer_02",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "59c39205709ae722ec26029fae9f494a392181fa68c20ad74bf1448592f9a9ea",
+        "max_new_tokens": 1024,
+        "generated_tokens": 104,
+        "output": "**Bước đầu:**  \n- Bình có 2 l nước → 2 lít = 2000 ml  \n- Rót ra 650 ml → còn lại = 2000 ml - 650 ml\n\n**Lời giải:**  \n- 2 lít = 2000 ml  \n- 2000 ml - 650 ml = 1350 ml\n\n**Đáp án:** 1350 ml",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1145344002,
+        "generation_seconds": 11.098400527999956
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_hint_no_answer_02",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "model_mode": "hint_level_1",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "59c39205709ae722ec26029fae9f494a392181fa68c20ad74bf1448592f9a9ea",
+        "max_new_tokens": 1024,
+        "generated_tokens": 32,
+        "output": "Gợi ý: Tìm tổng trước khi rót ra.\nEm thử trả lời: Em cần tìm tổng trước khi rót ra là bao nhiêu?",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 1145344002,
+        "generation_seconds": 3.279713193000134
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_missing_or_contradictory_info_01",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info",
+        "userproblem": "Một hình chữ nhật có chiều dài 9 cm. Hỏi chu vi hình chữ nhật là bao nhiêu?",
+        "expected_answer": "Chưa đủ dữ kiện: cần biết chiều rộng hoặc một dữ kiện tương đương để tính chu vi.",
+        "rubric": [
+          "width absent",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_missing_or_contradictory_info_01",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "4c52b9019e7bf7cd07b9f025dd613095407b41211c640c1c1fb0b8452c331970",
+        "max_new_tokens": 1024,
+        "generated_tokens": 201,
+        "output": "**Dữ kiện:**  \n- Một hình chữ nhật có chiều dài 9 cm.\n\n**Yêu cầu:**  \n- Tính chu vi của hình chữ nhật.\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \n- Dữ kiện đủ và nhất quán.  \n- Yêu cầu là tính chu vi của hình chữ nhật, nhưng thiếu thông tin về chiều rộng.  \n- Chu vi hình chữ nhật cần biết cả chiều dài và chiều rộng.\n\n**Lời giải:**  \n- Vì thiếu thông tin về chiều rộng, không thể tính được chu vi.\n\n**Lời giải đầy đủ:**  \n- Dữ kiện thiếu thông tin về chiều rộng của hình chữ nhật.  \n- Không thể tính chu vi vì thiếu dữ liệu.\n\n**Lời giải cần bổ sung:**  \n- Cần biết chiều rộng của hình chữ nhật để tính chu vi.\n\n---\n\n**Kết luận:**  \n- Đề thiếu dữ kiện.  \n- Lời giải cần bổ sung thông tin về chiều rộng.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 2079649917,
+        "generation_seconds": 15.19666217200006
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_missing_or_contradictory_info_01",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "4c52b9019e7bf7cd07b9f025dd613095407b41211c640c1c1fb0b8452c331970",
+        "max_new_tokens": 1024,
+        "generated_tokens": 301,
+        "output": "Hướng dẫn: Đọc dữ kiện và yêu cầu của đề, kiểm đủ và nhất quán.\nBước 1: Kiểm dữ kiện và yêu cầu.\nDữ kiện: Một hình chữ nhật có chiều dài 9 cm.\nYêu cầu: Hỏi chu vi hình chữ nhật là bao nhiêu?\nĐại lượng cần tìm: Chu vi hình chữ nhật.\nĐại lượng đã biết: Chiều dài hình chữ nhật.\nPhép tính: Phép nhân.\nĐơn vị: cm.\nPhép tính: Phép nhân.\nBước 2: Giải thích.\nVì chiều dài hình chữ nhật là 9 cm, nên chiều rộng hình chữ nhật là chiều dài.\nVì chiều dài hình chữ nhật là 9 cm, nên chiều rộng hình chữ nhật là 9 cm.\nVì chiều dài và chiều rộng của hình chữ nhật là bằng nhau, nên hình chữ nhật là hình vuông.\nVì hình chữ nhật có chiều dài và chiều rộng bằng nhau, nên chu vi hình chữ nhật là 2 lần chiều dài.\nVì chiều dài hình chữ nhật là 9 cm, nên chu vi hình chữ nhật là 2×9=18 cm.\nKiểm lại: Chu vi hình chữ nhật bằng tổng chiều dài và chiều rộng của hình chữ nhật, rồi nhân với 2.\nKết quả: Chu vi hình chữ nhật là 18 cm.\nĐáp số: 18 cm.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 2079649917,
+        "generation_seconds": 31.264381966999736
+      }
+    },
+    {
+      "fixture": {
+        "id": "dev25_g3_student_error_01",
+        "grade": 3,
+        "mode": "student_error",
+        "userproblem": "Có 6 túi, mỗi túi có 15 viên kẹo. Huy viết: “6 × 15 = 90 viên kẹo.” Hãy nhận xét đúng dòng Huy đã viết.",
+        "expected_answer": "Dòng của Huy đúng: 6 × 15 = 90 viên kẹo.",
+        "rubric": [
+          "accept fully correct provided line",
+          "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+        ]
+      },
+      "base": {
+        "fixture_id": "dev25_g3_student_error_01",
+        "grade": 3,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "base_before_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "3c8445b7734c7d497816e9d580e64b7782b866fba5cc23037eae3ba460b54717",
+        "max_new_tokens": 1024,
+        "generated_tokens": 369,
+        "output": "**Dữ kiện:**  \n- Có 6 túi, mỗi túi có 15 viên kẹo.  \n- Huy viết: “6 × 15 = 90 viên kẹo.”\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \nDữ kiện đủ và nhất quán. Đề hỏi nhận xét về dòng Huy đã viết, yêu cầu kiểm tra tính đúng đắn của phép tính và kết quả.\n\n---\n\n**Giải thích từng bước:**\n\n1. **Kiểm tra ý nghĩa và đơn vị:**  \n   - Số 6: số lượng túi.  \n   - Số 15: số viên kẹo trong mỗi túi.  \n   - Đơn vị: viên kẹo (viên).  \n   → Đơn vị và ý nghĩa đều đúng.\n\n2. **Kiểm tra phép tính:**  \n   - Phép tính: $6 \\times 15 = 90$  \n   - Tính toán: $6 \\times 15 = 90$ (đúng, vì $6 \\times 10 = 60$, $6 \\times 5 = 30$, tổng là $60 + 30 = 90$).\n\n3. **Kiểm tra kết quả:**  \n   - Tổng số viên kẹo: $6 \\times 15 = 90$ → đúng.  \n   - Đơn vị: viên kẹo → đúng.\n\n4. **Nhận xét:**  \n   - Dòng Huy đã viết đúng về ý nghĩa, đơn vị, phép tính và kết quả.  \n   - Không có sai sót.\n\n---\n\n**Kết luận:**  \nDòng Huy đã viết đúng.  \n**Đáp án:** Đúng.",
+        "ended_eos": true,
+        "possibly_truncated": false,
+        "timed_out": false,
+        "seed": 173647885,
+        "generation_seconds": 23.11102257499988
+      },
+      "adapter": {
+        "fixture_id": "dev25_g3_student_error_01",
+        "grade": 3,
+        "mode": "student_error",
+        "model_mode": "worked_solution",
+        "stage": "adapter_after_training",
+        "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+        "prompt_token_sha256": "3c8445b7734c7d497816e9d580e64b7782b866fba5cc23037eae3ba460b54717",
+        "max_new_tokens": 1024,
+        "generated_tokens": 1024,
+        "output": "Hướng dẫn: Đọc đề và kiểm số liệu, đơn vị, phép tính.\nBước 1: Đọc đề và kiểm số liệu, đơn vị, phép tính.\nNội dung: Có 6 túi, mỗi túi có 15 viên kẹo.\nPhép tính: 6 × 15.\nĐại lượng cần tìm: Số viên kẹo.\nĐại lượng đã biết: Số túi, số viên kẹo mỗi túi.\nĐại lượng chưa biết: Tổng số viên kẹo.\nCâu hỏi: Số viên kẹo có thể được tính bằng cách nào?\nNội dung: Đúng khi nào?\nĐại lượng cần tìm: Số viên kẹo.\nĐại lượng đã biết: Số túi, số viên kẹo mỗi túi.\nĐại lượng chưa biết: Tổng số viên kẹo.\nĐại lượng cần kiểm: Đơn vị và phép tính.\nNội dung: Đơn vị cần kiểm là viên kẹo.\nBước 2: Kiểm dữ kiện và yêu cầu.\nCâu trả lời: Đúng.\nGiải thích: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng đã biết: Số túi (6), số viên kẹo mỗi túi (15).\nĐại lượng chưa biết: Tổng số viên kẹo.\nCâu trả lời: Đúng.\nĐại lượng cần tìm: Tổng số viên kẹo.\nNội dung: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng cần kiểm: Đơn vị và phép tính.\nBước 3: Kiểm lại kết quả.\nKết quả: 90.\nĐại lượng cần tìm: Tổng số viên kẹo.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nNội dung: Đơn vị được giữ nguyên khi thực hiện phép tính.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đơn vị.\nĐại lượng cần kiểm: Đ",
+        "ended_eos": false,
+        "possibly_truncated": true,
+        "timed_out": false,
+        "seed": 173647885,
+        "generation_seconds": 110.59274671499998
+      }
+    }
+  ],
+  "policy_publication_proof": {
+    "state": "COMPLETE_RAW_VERIFIED",
+    "proofs": {
+      "build_quality_gate_20261026.py": {
+        "id": "1pRfHlG_IymSG4pEkzs9ml3vUuR8FF9c6",
+        "sha256": "38db0bbb7020da0af591317eff14cce9a012f45964a26eca89298fba541e42e0",
+        "bytes": 12662,
+        "fresh_raw_readback_verified": true,
+        "raw_verified_utc": "2026-10-26T09:16:14.280829+00:00",
+        "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+        "name": "build_quality_gate_20261026.py",
+        "immutable": true
+      },
+      "paired_review_policy_pre_candidate.json": {
+        "id": "1EHTVxlQXTfR7N63bc3dwwf-Wp0liyw_j",
+        "sha256": "5dfc627b1b430a60aad14483dc47a6dd024985b0949dc6de03b7903d895ff687",
+        "bytes": 2160,
+        "fresh_raw_readback_verified": true,
+        "raw_verified_utc": "2026-10-26T09:16:19.584678+00:00",
+        "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+        "name": "paired_review_policy_pre_candidate.json",
+        "immutable": true
+      },
+      "baseline_semantic_review_frozen.json": {
+        "id": "1EXZG65ugYYZLRNGmxvSe4RoaBaObJp5T",
+        "sha256": "774e6069641d189871e44fb59ee515d530efc794f9e727790581c7dfec5a8344",
+        "bytes": 20129,
+        "fresh_raw_readback_verified": true,
+        "raw_verified_utc": "2026-10-26T09:16:24.785856+00:00",
+        "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+        "name": "baseline_semantic_review_frozen.json",
+        "immutable": true
+      },
+      "baseline_content_comparison.json": {
+        "id": "1ujzDL67CvKqjKwIUYsH-qLiWBHdOl4pW",
+        "sha256": "b9b03cf22f9968cf7df6ab1089a5b252402604287200482cfe84d4050eee3772",
+        "bytes": 223,
+        "fresh_raw_readback_verified": true,
+        "raw_verified_utc": "2026-10-26T09:16:29.742096+00:00",
+        "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+        "name": "baseline_content_comparison.json",
+        "immutable": true
+      },
+      "final_eval_worker_20261026.py": {
+        "id": "1H0XBpR4WrCCqrnBDKWUc3psZuuU8CvPw",
+        "sha256": "f697f15bad56da39ad042f06a185d23f914ed3e1c220ff928384d1ecbbf428b2",
+        "bytes": 22436,
+        "fresh_raw_readback_verified": true,
+        "raw_verified_utc": "2026-10-26T09:16:34.983697+00:00",
+        "folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+        "name": "final_eval_worker_20261026.py",
+        "immutable": true
+      }
+    },
+    "no_gate_created": true,
+    "no_evaluation_executed": true,
+    "training_code_modified": false
+  }
+}

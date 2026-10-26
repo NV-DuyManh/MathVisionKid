@@ -1,0 +1,173 @@
+{
+  "status": "MATH_AND_HINTS_PASS_TWO_MINOR_EXPLANATION_EDITS_REQUESTED",
+  "source_file": "thinking\\cloud_publication\\sgk_gap_20261019\\g12_cases.jsonl",
+  "source_file_sha256": "669353b3c0521cd36cb0e9ed98297178ab611e1b69f50114063db2da23b8d5b5",
+  "cases_reviewed": 32,
+  "numeric_expressions_independently_checked": 49,
+  "origin": "INTERNAL_SECOND_AGENT_ACTUAL_CONTENT_REVIEW",
+  "human_or_external_review_claim": false,
+  "scope": [
+    "All 32 actual problem texts",
+    "all givens and requested quantities",
+    "all supplied student_work",
+    "initial guidance and every hint/question at all three levels",
+    "all worked steps/reasons/expressions/results/explanations/units",
+    "all expected answers and guard conditions"
+  ],
+  "criteria": {
+    "mathematics": "PASS",
+    "givens_requested_answer_consistency": "PASS",
+    "grade_and_representation": "PASS given explicit rules; X/text maps are specified reasoning representations",
+    "pedagogical_reasons_and_step_alignment": "TWO_MINOR_EDITS_REQUESTED",
+    "units": "PASS counts/labels distinguished from arithmetic values",
+    "hint_nonleakage": "PASS no final numeric answers, final choice labels or full worked solutions disclosed",
+    "grounded_student_work_guards_provenance": "PASS supplied written claims only; guards ask missing rules/data"
+  },
+  "findings": [
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+      "field": "worked_steps.s1.explanation",
+      "severity": "MINOR_EXPLANATION_ALIGNMENT",
+      "observed": "Expression/reason check left-middle 2+0=2, but explanation states the right-middle 0+1=1. Both facts are true; the step explanation should match its expression.",
+      "recommended_delta": "State left-middle 2+0=2; optionally check right-middle separately."
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+      "field": "worked_steps.s1.explanation",
+      "severity": "MINOR_AMBIGUOUS_WORDING",
+      "observed": "The phrase phép cộng không giữ nguyên is ambiguous between addition of zero and does not preserve.",
+      "recommended_delta": "Cộng với số 0 giữ nguyên giá trị."
+    }
+  ],
+  "row_hashes": [
+    {
+      "sample_id": "sgk_g12_20261019_complete_decompositions_01",
+      "sha256_exact_source_line_excluding_newline": "de7947c85c32a3b1eaceb649bb81a83b9c13b395f58751338cf2c18d6eb99a8e"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_complete_decompositions_02",
+      "sha256_exact_source_line_excluding_newline": "26f83341e5a1759d2a2f11189887eeaf9e827a959cb93a6ee289b3962005a246"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_complete_decompositions_03",
+      "sha256_exact_source_line_excluding_newline": "ede09d096b760febf5f1d0dea784741fc8c6335d538b9e42044e753e40d39a6f"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+      "sha256_exact_source_line_excluding_newline": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+      "sha256_exact_source_line_excluding_newline": "47b1d867b0d75699e4f7556f788b0f060728601ac67b69302ec8b860c48fe40f"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+      "sha256_exact_source_line_excluding_newline": "c5799109471859dc4326c1481844509827a7141c02fdb4f599ce25697d9e8e42"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+      "sha256_exact_source_line_excluding_newline": "fe0421d33ce39b16a3cb4ce3fe1f9c3cb648a0385bc466217427e80a4f69f5b2"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+      "sha256_exact_source_line_excluding_newline": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+      "sha256_exact_source_line_excluding_newline": "c7a9328f987a65014b50dc013fcbef05a33b0f74adbd96a4d3fddd6b60ff8df0"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+      "sha256_exact_source_line_excluding_newline": "9e83e444b9b1b9fc1dc7d1ced309bc193ee70b55e32659354028aa4c48dc9f62"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+      "sha256_exact_source_line_excluding_newline": "1f538e06e90dbed5156ad56cdd304f0206b52ba17428d3325ed412616975a20c"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_04",
+      "sha256_exact_source_line_excluding_newline": "55bc161cadacbe4209163a0834e2dd9a4d32a78ad8f13cb9bdb8421b5b4a6051"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+      "sha256_exact_source_line_excluding_newline": "f232390d09cb2101a4bc7c7d22222432d524937b8d227dfaf78c44e371bad992"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+      "sha256_exact_source_line_excluding_newline": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_03",
+      "sha256_exact_source_line_excluding_newline": "fe557d1134a245a0f4004bd7f0e7f3eddfd1a0dc809cd3dd41cfafcf0fe1524a"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_04",
+      "sha256_exact_source_line_excluding_newline": "4795ba381315567d3bf9cd4be49e1c6fbbd998349d0e0acee9149392e41c01c4"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+      "sha256_exact_source_line_excluding_newline": "03515e6144189e24c418f6511be9ab4642f5b7906978262295481e64aec0312b"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+      "sha256_exact_source_line_excluding_newline": "39839a3f33dff3062949f8709ead4757977e282c01440b45a0718bb94791bac2"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+      "sha256_exact_source_line_excluding_newline": "3a769df6b81ecc4a0fe591564579283c6034ab99961c256c8062136eb94c06f5"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+      "sha256_exact_source_line_excluding_newline": "5817f2f8f0ed40fb60294dac0f9de76705bbc46f620d580fa8e38dbac9b328f4"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+      "sha256_exact_source_line_excluding_newline": "0a613aac63e28d3405daf1aa91381233bd873c78a94bbe3d8281d2d094df3bfe"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_02",
+      "sha256_exact_source_line_excluding_newline": "cc32090e58ca037f98651594e67c600af6e06dfdfbd00c44ae2dd8eb57282a51"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+      "sha256_exact_source_line_excluding_newline": "31c5da0332ad69edcea844bad3a31133277e82da302af8c37b52d27b75e62fd8"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+      "sha256_exact_source_line_excluding_newline": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+      "sha256_exact_source_line_excluding_newline": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+      "sha256_exact_source_line_excluding_newline": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+      "sha256_exact_source_line_excluding_newline": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+      "sha256_exact_source_line_excluding_newline": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+      "sha256_exact_source_line_excluding_newline": "1de56d613a5c75080ffb3ea258a1f4cbc5c0fd4ec02b0dbe398299018070b737"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+      "sha256_exact_source_line_excluding_newline": "07cfec26cbc15e7397b79d00559b7d092ce616208c21354e8216bc7f6bf70161"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+      "sha256_exact_source_line_excluding_newline": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0"
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+      "sha256_exact_source_line_excluding_newline": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e"
+    }
+  ],
+  "independence_limit": "Internal agent peer review plus exact arithmetic, not verified external teacher credentials or guarantee of zero error. Root may apply the two precise wording deltas and rebind hashes after checking only those deltas."
+}

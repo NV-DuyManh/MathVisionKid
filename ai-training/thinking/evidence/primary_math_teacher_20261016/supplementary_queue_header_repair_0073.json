@@ -1,0 +1,13 @@
+{
+  "executed_utc": "2026-10-18T08:45:57.132308+00:00",
+  "file": "thinking\\data\\primary_math_teacher_20261016\\supplementary_queue.json",
+  "previous_sha256": "be9b4d8151481587210b98008e8a47ba127d58dc40fd828598a45f85c626e2f4",
+  "corrected_sha256": "478d5fecdb7d215f0df9733d508f1ca1a3a81fe07a48f7deea892f856fb11a3c",
+  "before_header": 138,
+  "after_header": 137,
+  "entries_sum_unchanged": 137,
+  "cause": "Batch0072 book template updated sum assertion but retained literal138 in queue header; entries, state, accepted/export,coverage and checkpoint already correct. Header now computed from entries.",
+  "data_content_affected": false,
+  "source_review_signoff_hashes_unchanged": true,
+  "training_started": false
+}

@@ -1,0 +1,30 @@
+{
+  "branch": "quality_recovery_20261024",
+  "phase": "FINAL_SEMANTIC_CLOSEOUT",
+  "status": "REGRESSION_AT_STEP50_DO_NOT_PROMOTE_ADAPTER",
+  "new_adapter_improvement_demonstrated": false,
+  "selected_kind": "untrained_base",
+  "actual_steps": 50,
+  "actual_unique_chats": 800,
+  "supervised_tokens": 162336,
+  "dev_base_fulltask": 18,
+  "dev_cp1_fulltask": 18,
+  "dev_cp50_fulltask": 11,
+  "dev_count": 30,
+  "locked_selected_fulltask": 11,
+  "locked_count": 20,
+  "final_report_proof": {
+    "id": "1DBoO_86LSGQ4AqvxHgGwqhMkvva2tzUh",
+    "sha256": "d5639d48dcb0b4a091c2c6d56191b82684cf0e540d6acfc64b41404c0e1914e9",
+    "bytes": 81497,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T10:55:47.761249+00:00",
+    "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+    "name": "training__final_semantic_assessment.json",
+    "immutable": false
+  },
+  "source_data_or_labels_modified": false,
+  "production_approved": false,
+  "further_training_started": false,
+  "next": "STOP; target/schema and behavior-retention audit before any later experiment, not longer same-config training"
+}

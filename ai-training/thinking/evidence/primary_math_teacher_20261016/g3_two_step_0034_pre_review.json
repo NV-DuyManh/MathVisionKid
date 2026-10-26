@@ -1,0 +1,132 @@
+{
+  "batch_sha256": "95abd1143cb45c57eda16cc4a6228390cfabac045bc87aa242ee3cae577d242c",
+  "authored_cases": 4,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference",
+      "row_sha256": "7e3de5e1118bb6e90d3b25b44298ae0e19264ecd17d0a1a7e3e42582d55e0743",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "54/3",
+          "54-(54/3)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes",
+      "row_sha256": "9509ccc5b6db5434e46df1263429d5483884ceacb150e3d2a93ebe4b4dde8a2d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "63-18",
+          "(63-18)/9",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction",
+      "row_sha256": "5cb67495b6c6d205b4dec6f9d84074f55b94de2b39b27558934b4066b75dca33",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "36/4",
+          "(36/4)*4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_two_step_0034_guard_missing_items_per_bag",
+      "row_sha256": "84b737897354cac38291b4c8dfdd1912e27f33c1d38f1ef57cbbc921468720d0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "factor_then_difference_disjoint_sets": {
+      "smaller": 18,
+      "extra": 36,
+      "whole": 54
+    },
+    "after_transfer_disjoint_sets": {
+      "initial": 63,
+      "removed": 18,
+      "remaining": 45,
+      "reference_unchanged": 9,
+      "ratio": 5
+    },
+    "factor_not_removal": {
+      "true": 9,
+      "wrong_subtraction_result": 32
+    },
+    "missing_group_size_countermodels": [
+      {
+        "each": 4,
+        "before": 24,
+        "remaining": 15
+      },
+      {
+        "each": 5,
+        "before": 30,
+        "remaining": 21
+      }
+    ]
+  },
+  "oracle_method": "Tagged/disjoint object sets and original factor relations plus two distinct completions for missing group size. Exact AST separately checks primary two-step calculations; later checks are marked checks, not extra required solve steps.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_02",
+    "core_03"
+  ],
+  "existing_core_01_preserved": true,
+  "discarded_protected_candidate_not_authored": [
+    "42/6"
+  ],
+  "author_self_content_check": "Read factor versus difference, before/after event state, transfer destination outside both groups, units of ratio and count, explicit wrong quote and all12hints. Same-author checking is not independent content review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Two required solving calculations per core; no arbitrary multi-step enrichment. Text only, no actual inventory observation. Neutral schema is not live PlanDraft."
+}

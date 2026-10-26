@@ -1,0 +1,566 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g4_answer_01",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Một dải giấy dùng để trang trí. Buổi sáng dùng 7/12 m, buổi chiều dùng thêm 1/6 m. Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?",
+      "expected_answer": "3/4 m",
+      "rubric": [
+        "Replace grade5 decimal topic by grade4 fraction addition.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_answer_01",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "d02a4c4fcfd03f73b47ee06bfd59520d0bd74aace353276b8a91ccb3fee01b10",
+      "max_new_tokens": 1024,
+      "generated_tokens": 402,
+      "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- Đề bài nói về một dải giấy được dùng để trang trí.\n- Buổi sáng dùng $\\frac{7}{12}$ m.\n- Buổi chiều dùng thêm $\\frac{1}{6}$ m.\n- Yêu cầu: Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?\n\n**Dữ kiện đủ và nhất quán**.\n\n---\n\n**Giải từng bước:**\n\n1. **Xác định đơn vị đo:** Dữ kiện đều được cho là mét (m), nên ta giữ nguyên đơn vị đo.\n\n2. **Tính tổng số mét giấy dùng trong hai buổi:**\n\n   - Số mét giấy dùng buổi sáng: $\\frac{7}{12}$ m.\n   - Số mét giấy dùng buổi chiều: $\\frac{1}{6}$ m.\n\n   Tính tổng:\n   $$\n   \\frac{7}{12} + \\frac{1}{6}\n   $$\n\n   Chuyển $\\frac{1}{6}$ thành $\\frac{2}{12}$ để cùng mẫu số:\n   $$\n   \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4} \\text{ m}\n   $$\n\n3. **Kiểm tra lại:**\n\n   - $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$ m.\n   - Đơn vị là mét (m), đúng với dữ kiện.\n\n---\n\n**Kết quả cuối cùng:**\n\nHai buổi dùng tổng cộng $\\boxed{\\frac{3}{4}}$ mét giấy.\n\n**Lời giải đầy đủ, kiểm lại đúng, không tự chọn số liệu.**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 19568122,
+      "generation_seconds": 24.071705104000102
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_answer_01",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "d02a4c4fcfd03f73b47ee06bfd59520d0bd74aace353276b8a91ccb3fee01b10",
+      "max_new_tokens": 1024,
+      "generated_tokens": 458,
+      "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- Đề bài nói về một dải giấy được dùng để trang trí.\n- Buổi sáng dùng $\\frac{7}{12}$ m.\n- Buổi chiều dùng thêm $\\frac{1}{6}$ m.\n- Yêu cầu: Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?\n\n**Dữ kiện đủ và nhất quán**.\n\n---\n\n**Giải từng bước:**\n\n1. **Xác định đơn vị đo:** Dữ kiện đều được dùng trong mét (m), nên đơn vị đo là mét.\n\n2. **Tính tổng số mét giấy dùng trong hai buổi:**\n\n   - Số mét giấy dùng buổi sáng: $\\frac{7}{12}$ m.\n   - Số mét giấy dùng buổi chiều: $\\frac{1}{6}$ m.\n\n   Ta cộng hai phân số có cùng mẫu số:\n\n   $$\n   \\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4} \\text{ m}\n   $$\n\n3. **Kiểm tra lại:**  \n   - $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$.\n   - Đơn vị là mét, đúng với yêu cầu.\n\n4. **Kết luận:**  \n   Hai buổi dùng tổng cộng $\\frac{3}{4}$ mét giấy.\n\n---\n\n**Lời giải đầy đủ:**\n\n- Tổng số mét giấy dùng trong hai buổi là $\\frac{3}{4}$ m.\n- Kiểm tra lại: $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$.\n\n**Đáp án:** Hai buổi dùng tổng cộng $\\frac{3}{4}$ mét giấy.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 19568122,
+      "generation_seconds": 40.37363528500009
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_answer_02",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Một mảnh vườn hình chữ nhật dài 12 m và rộng 7 m. Tính diện tích mảnh vườn.",
+      "expected_answer": "84 m²",
+      "rubric": [
+        "area; square units",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_answer_02",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "63cec0b2c93f9f8ca4025cb772434cb2860ffd484c3d92c36d9491bf4dde7e37",
+      "max_new_tokens": 1024,
+      "generated_tokens": 328,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Mảnh vườn hình chữ nhật có độ dài 12 m và độ rộng 7 m.\n- **Yêu cầu:** Tính diện tích mảnh vườn.\n\n**2. Kiểm tra tính nhất quán và đầy đủ của dữ kiện:**\n\n- Dữ kiện đủ và nhất quán.\n- Không có thiếu dữ kiện hoặc mâu thuẫn.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 12 \\, \\text{m} \\times 7 \\, \\text{m} = 84 \\, \\text{m}^2\n$$\n\n**4. Kiểm lại kết quả:**\n\n- Các số đo đều có đơn vị là mét (m), nên kết quả có đơn vị là mét vuông (m²).\n- Tính toán đúng, không có sai sót.\n\n**5. Kết luận:**\n\nDiện tích mảnh vườn là **84 m²**.\n\n**Lời giải đầy đủ:**\n\n- Diện tích mảnh vườn được tính bằng cách nhân chiều dài với chiều rộng: $12 \\times 7 = 84$.\n- Kết quả kiểm tra: đúng và nhất quán.\n\n**Đáp án: 84 m²**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 130647931,
+      "generation_seconds": 19.784874758999877
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_answer_02",
+      "grade": 4,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "63cec0b2c93f9f8ca4025cb772434cb2860ffd484c3d92c36d9491bf4dde7e37",
+      "max_new_tokens": 1024,
+      "generated_tokens": 388,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Mảnh vườn hình chữ nhật có độ dài 12 m và độ rộng 7 m.\n- **Yêu cầu:** Tính diện tích mảnh vườn.\n\n**2. Kiểm tra tính nhất quán và đầy đủ của dữ kiện:**\n\n- Dữ kiện đủ và nhất quán.\n- Không có mâu thuẫn.\n- Không thiếu dữ kiện.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 12 \\, \\text{m} \\times 7 \\, \\text{m} = 84 \\, \\text{m}^2\n$$\n\n**4. Kiểm lại kết quả:**\n\n- Tính toán đúng, không có sai sót.\n- Đơn vị diện tích là mét vuông (m²), đúng với đơn vị của độ dài.\n- Kết quả 84 m² là hợp lý với kích thước mảnh vườn có kích thước 12 m x 7 m.\n\n**5. Lời giải đầy đủ:**\n\n- Diện tích mảnh vườn được tính bằng cách nhân chiều dài với chiều rộng.\n- Tính toán: $12 \\times 7 = 84$.\n- Kết quả: Diện tích mảnh vườn là $84 \\, \\text{m}^2$.\n\n**Lời giải đúng:** $84 \\, \\text{m}^2$.\n\n**Chỗ cần sửa (nếu có):** Không có chỗ cần sửa. Lời giải đúng và đầy đủ.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 130647931,
+      "generation_seconds": 34.40750915400031
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_hint_no_answer_01",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Một bình ban đầu có 7/8 l nước. Gia đình uống 1/4 l. Hãy tìm lượng nước còn lại.",
+      "expected_answer": "Gợi ý: Đổi hai phân số về cùng mẫu số, rồi lấy lượng ban đầu trừ lượng đã uống. Giữ đơn vị lít.",
+      "rubric": [
+        "Grade4 fractions; no final numerical answer in hint.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_hint_no_answer_01",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "58bdbf43048263705e99f5bf47257850e74993137892aa5825b5fe2552f96581",
+      "max_new_tokens": 1024,
+      "generated_tokens": 188,
+      "output": "**Bước đầu:**  \nChúng ta cần tìm lượng nước còn lại sau khi gia đình uống 1/4 l nước từ bình có 7/8 l nước ban đầu.\n\n**Lời giải:**\n\n1. Ban đầu có: $ \\frac{7}{8} $ l nước.\n2. Gia đình uống: $ \\frac{1}{4} $ l nước.\n3. Lượng nước còn lại = Ban đầu - Lượng uống = $ \\frac{7}{8} - \\frac{1}{4} $.\n\nĐể trừ hai phân số có cùng mẫu, ta đổi $\\frac{1}{4}$ thành $\\frac{2}{8}$:\n\n$ \\frac{7}{8} - \\frac{2}{8} = \\frac{5}{8} $ l nước.\n\n**Đáp án:** $ \\frac{5}{8} $ l nước.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 46346537,
+      "generation_seconds": 11.41755913299994
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_hint_no_answer_01",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "58bdbf43048263705e99f5bf47257850e74993137892aa5825b5fe2552f96581",
+      "max_new_tokens": 1024,
+      "generated_tokens": 112,
+      "output": "**Bước đầu:**\n\n- Bình ban đầu có 7/8 l nước.\n- Gia đình uống 1/4 l nước.\n\n**Lượng nước còn lại = Lượng ban đầu - Lượng đã uống = 7/8 l - 1/4 l**\n\n**Làm phép tính:**\n- 7/8 - 1/4 = 7/8 - 2/8 = 5/8\n\n**Kết quả:**\nLượng nước còn lại là 5/8 l.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 46346537,
+      "generation_seconds": 9.957102565000241
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_hint_no_answer_02",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Một tấm bìa hình chữ nhật dài 16 cm, rộng 9 cm. Em hãy tìm chu vi tấm bìa.",
+      "expected_answer": "Gợi ý: Hình chữ nhật có hai cạnh dài và hai cạnh rộng bằng nhau. Cộng bốn cạnh hoặc dùng công thức chu vi.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_hint_no_answer_02",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "f9e802c134fad61546de4be9041e44a3e6905b1e691fa5afb02cb2b04cafb329",
+      "max_new_tokens": 1024,
+      "generated_tokens": 153,
+      "output": "**Bước 1:** Chú ý rằng tấm bìa là hình chữ nhật có chiều dài 16 cm và chiều rộng 9 cm.\n\n**Bước 2:** Chu vi của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\n**Bước 3:** Thay số vào công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (16 + 9) = 2 \\times 25 = 50 \\text{ cm}\n$$\n\n**Kết quả:** Chu vi tấm bìa là **50 cm**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1975999129,
+      "generation_seconds": 9.211738351000122
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_hint_no_answer_02",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "f9e802c134fad61546de4be9041e44a3e6905b1e691fa5afb02cb2b04cafb329",
+      "max_new_tokens": 1024,
+      "generated_tokens": 159,
+      "output": "**Bước 1: Xác định kích thước hình chữ nhật**  \nHình chữ nhật có chiều dài 16 cm và chiều rộng 9 cm.\n\n**Bước 2: Tính chu vi hình chữ nhật**  \nChu vi hình chữ nhật được tính bằng công thức:  \n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nThay số vào công thức:\n$$\n\\text{Chu vi} = 2 \\times (16 + 9) = 2 \\times 25 = 50 \\text{ cm}\n$$\n\n**Kết quả:** Chu vi tấm bìa là **50 cm**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1975999129,
+      "generation_seconds": 13.958504163999805
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_missing_or_contradictory_info_01",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một tấm bìa hình chữ nhật dài 15 cm. Dòng thứ nhất ghi chiều rộng 8 cm; dòng thứ hai ghi chiều rộng 6 cm. Hỏi diện tích tấm bìa là bao nhiêu?",
+      "expected_answer": "Hai giá trị chiều rộng mâu thuẫn. Cần kiểm tra chiều rộng là 8 cm hay 6 cm trước khi chọn một diện tích duy nhất.",
+      "rubric": [
+        "Replace grade5 velocity with grade4 area/contradiction; do not pick value arbitrarily.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_missing_or_contradictory_info_01",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "ac82a74da1f10ec5e41feb487dd5f0c740ab19c30b74854dc236273f84d56f4c",
+      "max_new_tokens": 1024,
+      "generated_tokens": 356,
+      "output": "**Đề bài:**\n\n- Một tấm bìa hình chữ nhật dài 15 cm.\n- Dòng thứ nhất ghi chiều rộng 8 cm.\n- Dòng thứ hai ghi chiều rộng 6 cm.\n\n**Yêu cầu:**\n\n- Kiểm tra dữ kiện và yêu cầu của đề.\n- Giải thích từng bước, kiểm lại kết quả.\n- Nếu thiếu dữ kiện hoặc mâu thuẫn, chỉ rõ và hỏi nguồn.\n\n---\n\n**1. Kiểm tra dữ kiện và yêu cầu:**\n\n- Dữ kiện: Tấm bìa hình chữ nhật dài 15 cm, chiều rộng lần lượt là 8 cm và 6 cm.\n- Yêu cầu: Tính diện tích tấm bìa.\n\n**2. Kiểm tra tính nhất quán:**\n\n- Dữ kiện có mâu thuẫn: Tấm bìa có hai chiều rộng: 8 cm và 6 cm. Điều này mâu thuẫn vì chiều rộng của một hình chữ nhật chỉ có một giá trị. Do đó, đề thiếu dữ kiện hoặc có mâu thuẫn.\n\n**3. Đề thiếu dữ kiện:**\n\n- **Phần thiếu:** Dữ kiện thiếu thông tin về chiều dài hoặc chiều rộng của tấm bìa. Cần bổ sung thông tin về chiều dài hoặc chiều rộng để tính diện tích.\n\n**4. Lời giải (nếu có thể):**\n\n- **Lời giải:** Đề thiếu dữ kiện. Không thể tính diện tích vì thiếu thông tin về chiều dài hoặc chiều rộng của tấm bìa.\n\n---\n\n**Kết luận:**\n\n- Đề thiếu dữ kiện.\n- Cần bổ sung thông tin về chiều dài hoặc chiều rộng của tấm bìa để tính diện tích.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 2005562802,
+      "generation_seconds": 27.672927353999967
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_missing_or_contradictory_info_01",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "ac82a74da1f10ec5e41feb487dd5f0c740ab19c30b74854dc236273f84d56f4c",
+      "max_new_tokens": 1024,
+      "generated_tokens": 423,
+      "output": "**Đề bài:**\n\n- Một tấm bìa hình chữ nhật dài 15 cm.\n- Dòng thứ nhất ghi chiều rộng 8 cm.\n- Dòng thứ hai ghi chiều rộng 6 cm.\n\n**Yêu cầu:**\n\n- Kiểm tra dữ kiện và yêu cầu của đề.\n- Giải thích từng bước, kiểm lại kết quả.\n- Nếu thiếu dữ kiện hoặc mâu thuẫn, chỉ rõ và hỏi nguồn.\n\n---\n\n**1. Kiểm tra dữ kiện và yêu cầu:**\n\n- Dữ kiện: Tấm bìa hình chữ nhật dài 15 cm, chiều rộng lần lượt là 8 cm và 6 cm.\n- Yêu cầu: Tính diện tích tấm bìa.\n\n**2. Kiểm tra tính nhất quán:**\n\n- Dữ kiện có mâu thuẫn: Tấm bìa có hai chiều rộng: 8 cm và 6 cm. Điều này mâu thuẫn vì chiều rộng của một hình chữ nhật chỉ có một giá trị. Do đó, đề thiếu dữ kiện hoặc có mâu thuẫn.\n\n**3. Đề thiếu dữ kiện:**\n\n- Dữ kiện thiếu: Cần biết chiều dài và chiều rộng của tấm bìa. Hiện tại, đề chỉ ghi chiều dài là 15 cm, nhưng không xác định chiều rộng. Ngoài ra, đề ghi hai chiều rộng: 8 cm và 6 cm, mâu thuẫn.\n\n**4. Lời giải (theo yêu cầu):**\n\n- **Đề thiếu dữ kiện:** Không thể tính diện tích tấm bìa vì thiếu thông tin về chiều rộng của tấm bìa.\n\n**→ Kết luận:**\n\n- Đề thiếu dữ kiện, cụ thể là thiếu thông tin về chiều rộng của tấm bìa. Không thể tính diện tích vì thiếu thông số.\n\n---\n\n**Lời giải đúng (theo yêu cầu):**\n\n- **Đề thiếu dữ kiện:** Không thể tính diện tích tấm bìa vì thiếu thông tin về chiều rộng của tấm bìa.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 2005562802,
+      "generation_seconds": 37.18847599799983
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_student_error_01",
+      "grade": 4,
+      "mode": "student_error",
+      "userproblem": "Một sợi dây dài 3/4 m, đã dùng 1/8 m. Hà viết: “3/4 - 1/8 = 5/8 m còn lại.” Hãy nhận xét đúng dòng Hà đã viết.",
+      "expected_answer": "Dòng của Hà đúng: 3/4 = 6/8 nên 6/8 - 1/8 = 5/8 m.",
+      "rubric": [
+        "Grade4 fraction subtraction and correct supplied work acceptance.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g4_student_error_01",
+      "grade": 4,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "6b352cd92036c40ff7c10d2f4926654e04187b148a3c5ea84a95362220e3634c",
+      "max_new_tokens": 1024,
+      "generated_tokens": 411,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Dây dài 3/4 m  \n  - Đã dùng 1/8 m  \n  - Hà viết: “3/4 - 1/8 = 5/8 m còn lại.”\n\n- **Yêu cầu:**  \n  - Nhận xét đúng dòng Hà đã viết.  \n  - Kiểm tra tính đúng đắn của phép tính và kết quả.\n\n**2. Giải thích từng bước:**\n\n- **Phép tính:**  \n  Hà đã thực hiện phép trừ:  \n  $$\n  \\frac{3}{4} - \\frac{1}{8}\n  $$\n\n- **Kiểm tra đơn vị và ý nghĩa:**  \n  - Dữ liệu được cung cấp trong đề là: 3/4 m và 1/8 m, đều có đơn vị là mét (m).  \n  - Phép tính được thực hiện đúng với đơn vị và ý nghĩa của các số đo.\n\n- **Tính toán:**  \n  $$\n  \\frac{3}{4} - \\frac{1}{8} = \\frac{6}{8} - \\frac{1}{8} = \\frac{5}{8} \\text{ m}\n  $$\n\n- **Kết quả:**  \n  - Kết quả là 5/8 m, đúng với phép tính và đơn vị.\n\n- **Nhận xét:**  \n  - Dòng Hà viết đúng: “3/4 - 1/8 = 5/8 m còn lại.”  \n  - Kết quả đúng, tính toán đúng, đơn vị và ý nghĩa đều phù hợp.\n\n**3. Kết luận:**\n\n- **Đúng:** Dòng Hà đã viết đúng.  \n- **Có thể sửa:** Không cần sửa, vì phép tính và kết quả đều đúng.\n\n**Đáp án:**  \nDòng Hà đã viết **đúng**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1910726358,
+      "generation_seconds": 29.312040639000088
+    },
+    "adapter": {
+      "fixture_id": "dev25_g4_student_error_01",
+      "grade": 4,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "6b352cd92036c40ff7c10d2f4926654e04187b148a3c5ea84a95362220e3634c",
+      "max_new_tokens": 1024,
+      "generated_tokens": 519,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Dây dài 3/4 m  \n  - Đã dùng 1/8 m  \n  - Hà viết: “3/4 - 1/8 = 5/8 m còn lại.”\n\n- **Yêu cầu:**  \n  - Nhận xét đúng dòng Hà đã viết.  \n  - Kiểm tra tính đúng đắn của phép tính và kết quả.\n\n**2. Giải thích từng bước:**\n\n- **Phép tính:**  \n  Hà đã thực hiện phép trừ:  \n  $$\n  \\frac{3}{4} - \\frac{1}{8}\n  $$\n\n- **Kiểm tra đơn vị và ý nghĩa:**  \n  - Dữ liệu được cung cấp trong đề là: 3/4 m và 1/8 m (đơn vị là mét).  \n  - Kết quả được viết là 5/8 m, cũng có đơn vị là mét.  \n  - Tính toán đúng về đơn vị và ý nghĩa: 3/4 m là 0.75 m, 1/8 m là 0.125 m, hiệu là 0.625 m, tức là 5/8 m.\n\n- **Kiểm tra tính đúng đắn của phép tính:**  \n  - $ \\frac{3}{4} = \\frac{6}{8} $  \n  - $ \\frac{6}{8} - \\frac{1}{8} = \\frac{5}{8} $  \n  - Kết quả đúng.\n\n- **Kiểm lại kết quả:**  \n  - Dây ban đầu dài 3/4 m, đã dùng 1/8 m.  \n  - Còn lại: $ \\frac{3}{4} - \\frac{1}{8} = \\frac{5}{8} $ m.  \n  - Kết quả đúng.\n\n**3. Nhận xét:**  \n- **Đúng:** Dòng Hà đã viết đúng: $ \\frac{3}{4} - \\frac{1}{8} = \\frac{5}{8} $ m còn lại.  \n- **Có thể sửa:** Không có lỗi trong phép tính hay kết quả.  \n- **Không có mâu thuẫn, thiếu dữ kiện.**\n\n**4. Kết luận:**  \nDòng Hà đã viết đúng, phép tính và kết quả đều hợp lý. Không cần sửa.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1910726358,
+      "generation_seconds": 46.269975840999905
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_answer_01",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một bể cá chứa 24 l nước. Người ta lấy ra 3/8 lượng nước. Hỏi đã lấy ra bao nhiêu lít nước?",
+      "expected_answer": "9 l",
+      "rubric": [
+        "fraction of quantity; unit l",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_answer_01",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "895e8b059f02b77a17132c3dc5ef19699aec670736e00abaa6fb643c2afeb36a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 306,
+      "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể cá chứa 24 l nước. Người ta lấy ra $\\frac{3}{8}$ lượng nước.\n- **Yêu cầu:** Hỏi đã lấy ra bao nhiêu lít nước?\n\n**Lời giải:**\n\n1. **Xác định lượng nước đã lấy ra:**\n   - Tổng lượng nước ban đầu: 24 l.\n   - Phần nước được lấy ra: $\\frac{3}{8}$.\n\n2. **Tính toán:**\n   $$\n   \\text{Lượng nước lấy ra} = 24 \\times \\frac{3}{8}\n   $$\n\n3. **Thực hiện phép tính:**\n   $$\n   24 \\times \\frac{3}{8} = \\frac{24 \\times 3}{8} = \\frac{72}{8} = 9\n   $$\n\n4. **Kiểm tra lại:**\n   - $\\frac{3}{8}$ của 24 là $24 \\div 8 \\times 3 = 3 \\times 3 = 9$.\n   - Kết quả là hợp lý và nhất quán với dữ kiện.\n\n**Kết quả:** Người ta đã lấy ra **9 lít** nước.\n\n**Lời giải đầy đủ, kiểm lại kết quả, không tự chọn số liệu:**  \n✅ **Đúng.**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1571704386,
+      "generation_seconds": 18.41087768600005
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_answer_01",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "895e8b059f02b77a17132c3dc5ef19699aec670736e00abaa6fb643c2afeb36a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 306,
+      "output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể cá chứa 24 l nước. Người ta lấy ra $\\frac{3}{8}$ lượng nước.\n- **Yêu cầu:** Hỏi đã lấy ra bao nhiêu lít nước?\n\n**Lời giải:**\n\n1. **Xác định lượng nước đã lấy ra:**\n   - Tổng lượng nước ban đầu: 24 l.\n   - Phần nước được lấy ra: $\\frac{3}{8}$.\n\n2. **Tính toán:**\n   $$\n   \\text{Lượng nước lấy ra} = 24 \\times \\frac{3}{8}\n   $$\n\n3. **Thực hiện phép tính:**\n   $$\n   24 \\times \\frac{3}{8} = \\frac{24 \\times 3}{8} = \\frac{72}{8} = 9\n   $$\n\n4. **Kiểm tra lại:**\n   - $\\frac{3}{8}$ của 24 là $24 \\div 8 \\times 3 = 3 \\times 3 = 9$.\n   - Kết quả là hợp lý và nhất quán với dữ kiện.\n\n**Kết quả:** Người ta đã lấy ra **9 lít** nước.\n\n**Lời giải đầy đủ, kiểm lại kết quả, không tự chọn số liệu:**  \n✅ **Đúng.**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1571704386,
+      "generation_seconds": 26.981343929000104
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_answer_02",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một tấm thảm hình chữ nhật có chiều dài 2,4 m và chiều rộng 1,5 m. Tính diện tích tấm thảm.",
+      "expected_answer": "3,6 m²",
+      "rubric": [
+        "decimal area; square units",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_answer_02",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "eb6b88af1e6a54483a69a93ee4ba1a3f66a8fa661d820110d8bf2b00898116a5",
+      "max_new_tokens": 1024,
+      "generated_tokens": 408,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Tấm thảm hình chữ nhật có chiều dài 2,4 m và chiều rộng 1,5 m.\n- **Yêu cầu:** Tính diện tích tấm thảm.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Chiều dài và chiều rộng đều được cung cấp và là số đo có đơn vị là mét (m), nên dữ kiện là **đủ và nhất quán**.\n\n**3. Giải bài toán:**\n\nDiện tích của một hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 2,4 \\, \\text{m} \\times 1,5 \\, \\text{m}\n$$\n\nTính toán:\n\n$$\n2,4 \\times 1,5 = (2 + 0,4) \\times 1,5 = 2 \\times 1,5 + 0,4 \\times 1,5 = 3 + 0,6 = 3,6\n$$\n\n**Kết quả:** Diện tích tấm thảm là **3,6 m²**.\n\n**4. Kiểm lại kết quả:**\n\n- Các số liệu đã được cung cấp và sử dụng đúng đơn vị (mét), không có mâu thuẫn.\n- Tính toán đúng, không có sai sót.\n\n**5. Lời giải đầy đủ:**\n\n- Diện tích tấm thảm được tính bằng cách nhân chiều dài với chiều rộng:  \n  $$\n  2,4 \\times 1,5 = 3,6\n  $$\n\n**Kết quả:** Diện tích tấm thảm là **3,6 m²**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 426896201,
+      "generation_seconds": 24.871173074000126
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_answer_02",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "eb6b88af1e6a54483a69a93ee4ba1a3f66a8fa661d820110d8bf2b00898116a5",
+      "max_new_tokens": 1024,
+      "generated_tokens": 421,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Chiều dài tấm thảm: 2,4 m  \n  - Chiều rộng tấm thảm: 1,5 m  \n\n- **Yêu cầu:** Tính diện tích tấm thảm.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Dữ kiện đầy đủ và nhất quán. Không có mâu thuẫn.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 2,4 \\, \\text{m} \\times 1,5 \\, \\text{m}\n$$\n\nTính toán:\n\n$$\n2,4 \\times 1,5 = (2 + 0,4) \\times (1 + 0,5) = 2 \\times 1 + 2 \\times 0,5 + 0,4 \\times 1 + 0,4 \\times 0,5 = 2 + 1 + 0,4 + 0,2 = 3,6\n$$\n\n**Kiểm lại kết quả:**  \n$2,4 \\times 1,5 = 3,6$ (m²)\n\n**4. Kết luận:**\n\nDiện tích tấm thảm là **3,6 m²**.\n\n**Lời giải đầy đủ:**\n\n- Diện tích tấm thảm được tính bằng cách nhân chiều dài với chiều rộng.\n- $2,4 \\times 1,5 = 3,6$\n- Kiểm lại: $2,4 \\times 1,5 = 3,6$ (đúng)\n\n**Đáp án:** Diện tích tấm thảm là **3,6 m²**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 426896201,
+      "generation_seconds": 37.074675013999695
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_hint_no_answer_01",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Một cửa hàng giảm giá 20% cho chiếc cặp giá 150 000 đồng. Hãy tìm số tiền được giảm.",
+      "expected_answer": "Gợi ý: Đổi 20% thành phân số hoặc số thập phân rồi nhân với giá ban đầu. Đáp số tính bằng đồng.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_hint_no_answer_01",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "46d8ef79dfd0d024879e9938c80f71fed97ef233b1f7a4d4989a06b1b1db38d8",
+      "max_new_tokens": 1024,
+      "generated_tokens": 151,
+      "output": "**Bước đầu:**  \nChúng ta cần tìm số tiền được giảm khi cửa hàng giảm giá 20% cho một chiếc cặp giá 150 000 đồng.\n\n**Giải thích:**  \nGiảm giá 20% nghĩa là giá trị được giảm là 20% của giá gốc.\n\n**Lời giải:**  \nTính số tiền được giảm:  \n$ 150 000 \\times \\frac{20}{100} = 150 000 \\times 0.2 = 30 000 $ đồng.\n\n**Kết quả:**  \nSố tiền được giảm là 30 000 đồng.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 130580822,
+      "generation_seconds": 9.203228225999965
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_hint_no_answer_01",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "46d8ef79dfd0d024879e9938c80f71fed97ef233b1f7a4d4989a06b1b1db38d8",
+      "max_new_tokens": 1024,
+      "generated_tokens": 152,
+      "output": "**Bước đầu:**  \nChúng ta cần tìm số tiền được giảm khi cửa hàng giảm giá 20% cho chiếc cặp giá 150 000 đồng.\n\n**Giải thích:**  \nGiảm giá 20% có nghĩa là giá trị được giảm là 20% của giá gốc.\n\n**Lời giải:**  \nTính số tiền được giảm:  \n$ 150 000 \\times \\frac{20}{100} = 150 000 \\times 0.2 = 30 000 $ đồng.\n\n**Kết luận:**  \nSố tiền được giảm là **30 000 đồng**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 130580822,
+      "generation_seconds": 13.313656632999937
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_hint_no_answer_02",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Một chuyến đi dài 135 km. Xe đã đi 2/5 quãng đường. Hãy tìm quãng đường xe đã đi.",
+      "expected_answer": "Gợi ý: “2/5 của 135 km” nghĩa là chia tổng quãng đường thành 5 phần bằng nhau rồi lấy 2 phần.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_hint_no_answer_02",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "cca85b17ca11322f55cdcabf4ad3d25104bd6bd32d4038f02cf12a4cd29a9b3a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 110,
+      "output": "**Bước đầu:**\n\n- Quãng đường tổng cộng: 135 km  \n- Quãng đường đã đi: $\\frac{2}{5}$ quãng đường tổng cộng\n\n**Lời giải:**\n\n- Quãng đường đã đi = $\\frac{2}{5} \\times 135$  \n- Tính toán: $135 \\div 5 = 27$, sau đó $27 \\times 2 = 54$\n\n**Đáp án: 54 km**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 579892918,
+      "generation_seconds": 6.577636493
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_hint_no_answer_02",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "cca85b17ca11322f55cdcabf4ad3d25104bd6bd32d4038f02cf12a4cd29a9b3a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 109,
+      "output": "**Bước đầu:**\n\n- Quãng đường tổng cộng: 135 km  \n- Quãng đường đã đi: $\\frac{2}{5}$ quãng đường tổng cộng\n\n**Lời giải:**\n\n- Quãng đường đã đi = $\\frac{2}{5} \\times 135$  \n- Tính toán: $135 \\div 5 = 27$; $27 \\times 2 = 54$\n\n**Đáp án: 54 km**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 579892918,
+      "generation_seconds": 9.497571717999563
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_missing_or_contradictory_info_01",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một hình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm. Hỏi thể tích hình hộp là bao nhiêu?",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều cao để tính thể tích.",
+      "rubric": [
+        "height absent",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_missing_or_contradictory_info_01",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "dc38e6fb01e9b6eee88975246af761ee4a7da588bcdf93ebba84a9b2b2d82383",
+      "max_new_tokens": 1024,
+      "generated_tokens": 350,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Chiều dài hình hộp chữ nhật: 8 cm  \n  - Chiều rộng hình hộp chữ nhật: 5 cm  \n\n- **Yêu cầu:**  \n  - Tính thể tích hình hộp chữ nhật.\n\n**2. Kiểm tra dữ kiện và nhất quán:**\n\n- Dữ kiện đầy đủ và nhất quán, không có mâu thuẫn.\n\n**3. Giải bài toán:**\n\nHình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm, chiều cao chưa được cung cấp.\n\n**Lưu ý:** Thể tích của hình hộp chữ nhật được tính bằng công thức:\n\n$$\nV = \\text{chiều dài} \\times \\text{chiều rộng} \\times \\text{chiều cao}\n$$\n\nTuy nhiên, trong đề bài thiếu thông tin về **chiều cao**. Do đó, **đề thiếu dữ kiện**.\n\n**4. Kết luận:**\n\n- **Vấn đề:** Đề bài thiếu thông tin về chiều cao của hình hộp chữ nhật.\n- **Lời giải:** Không thể tính được thể tích vì thiếu dữ kiện.\n\n**Nếu có thông tin về chiều cao, ta có thể tiếp tục giải bài toán như sau:**\n\nGiả sử chiều cao là $ h $ cm, thì thể tích là:\n\n$$\nV = 8 \\times 5 \\times h = 40h \\text{ cm}^3\n$$\n\nTuy nhiên, **đề bài thiếu thông tin về chiều cao**, nên không thể tính toán chính xác.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 702754840,
+      "generation_seconds": 20.972675556000013
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_missing_or_contradictory_info_01",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "dc38e6fb01e9b6eee88975246af761ee4a7da588bcdf93ebba84a9b2b2d82383",
+      "max_new_tokens": 1024,
+      "generated_tokens": 299,
+      "output": "**Đề bài:**\n\nMột hình hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm. Hỏi thể tích hình hộp là bao nhiêu?\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**\n\n- **Dữ kiện:** Chiều dài = 8 cm, chiều rộng = 5 cm.\n- **Yêu cầu:** Tính thể tích hình hộp chữ nhật.\n\n**Phân tích:**\n\n- Hình hộp chữ nhật có 3 kích thước: chiều dài, chiều rộng, chiều cao.\n- Thể tích của hình hộp chữ nhật được tính bằng công thức:\n  $$\n  V = \\text{chiều dài} \\times \\text{chiều rộng} \\times \\text{chiều cao}\n  $$\n- Tuy nhiên, đề bài chỉ cung cấp 2 kích thước (chiều dài và chiều rộng), không có thông tin về chiều cao.\n\n**Phân tích mâu thuẫn:**\n\n- Đề bài thiếu thông tin về **chiều cao** của hình hộp chữ nhật.\n- Không thể tính được thể tích vì thiếu dữ kiện.\n\n---\n\n**Kết luận:**\n\n- **Phần thiếu:** Chiều cao của hình hộp chữ nhật.\n- **Lời giải:** Đề bài thiếu dữ kiện.\n\n---\n\n**Lời giải cần bổ sung:**  \nCần bổ sung thông tin về chiều cao của hình hộp chữ nhật để tính thể tích.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 702754840,
+      "generation_seconds": 25.907628319000196
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g5_student_error_01",
+      "grade": 5,
+      "mode": "student_error",
+      "userproblem": "Một bể có 80 l nước, đã dùng 3/10 lượng nước. Hạnh viết: “Đã dùng 24 l và còn 66 l.” Hãy nhận xét đúng dòng Hạnh đã viết.",
+      "expected_answer": "3/10 × 80 = 24 l đã dùng là đúng. Lượng còn lại là 80 - 24 = 56 l, không phải 66 l.",
+      "rubric": [
+        "check amount used and remainder; only address provided claim",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g5_student_error_01",
+      "grade": 5,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "00da0be1a642a0a4dabe11650638a71528e4522f153d7baceaadf3542a79284a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 430,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể có 80 l nước, đã dùng $\\frac{3}{10}$ lượng nước.\n- **Yêu cầu:** Nhận xét đúng hay sai dòng Hạnh viết: “Đã dùng 24 l và còn 66 l.”\n\n**2. Giải bài toán:**\n\n- Tổng lượng nước ban đầu: 80 l.\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**3. Nhận xét:**\n\n- **Sai:** Hạnh đã viết “Đã dùng 24 l và còn 66 l.”  \n  - Lượng nước còn lại là **56 l**, không phải 66 l.  \n  - Lượng nước đã dùng là **24 l**, đúng với phép tính.\n\n**4. Lời giải đầy đủ:**\n\n- **Phép tính:** $\\frac{3}{10} \\times 80 = 24$ (l).\n- **Phép tính:** $80 - 24 = 56$ (l).\n- **Kết quả:** Lượng nước còn lại là 56 l, không phải 66 l.\n\n**5. Nhận xét cuối cùng:**\n\n- **Sai:** Dòng Hạnh viết “Đã dùng 24 l và còn 66 l.” là **sai**.\n- **Lỗi:** Lượng nước còn lại là $80 - 24 = 56$ l, không phải 66 l.\n- **Phải sửa:** Dòng Hạnh viết sai về lượng nước còn lại.\n\n**6. Kết luận:**\n\n- Dữ kiện đủ và nhất quán.\n- Lời giải đầy đủ và kiểm lại kết quả.\n- Lời nhận xét đúng: Dòng Hạnh viết sai.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1823916055,
+      "generation_seconds": 33.07315661100006
+    },
+    "adapter": {
+      "fixture_id": "dev25_g5_student_error_01",
+      "grade": 5,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "adapter_after_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "00da0be1a642a0a4dabe11650638a71528e4522f153d7baceaadf3542a79284a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 458,
+      "output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Bể có 80 l nước, đã dùng $\\frac{3}{10}$ lượng nước.\n- **Yêu cầu:** Nhận xét đúng hay sai dòng Hạnh viết: “Đã dùng 24 l và còn 66 l.”\n\n**2. Giải bài toán:**\n\n- Tổng lượng nước ban đầu: 80 l.\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**3. Nhận xét:**\n\n- **Sai:** Hạnh đã viết “Đã dùng 24 l và còn 66 l.”  \n  - Lượng nước còn lại là **56 l**, nhưng Hạnh viết là **66 l** → **Sai**.\n- **Đúng:** Lượng nước đã dùng là **24 l** (đúng), nhưng lượng nước còn lại là **56 l**, nhưng Hạnh viết là **66 l** → **Sai**.\n\n**4. Kết luận:**\n\n- Dòng Hạnh viết **sai**.\n- Lượng nước đã dùng: $ \\frac{3}{10} \\times 80 = 24 $ l.\n- Lượng nước còn lại: $ 80 - 24 = 56 $ l.\n\n**5. Đáp án cuối cùng:**\n\n- **Sai:** Dòng Hạnh viết sai.\n- **Lượng nước đã dùng:** 24 l.\n- **Lượng nước còn lại:** 56 l.\n\n**6. Lời giải đầy đủ:**\n\n- Lượng nước đã dùng: $\\frac{3}{10} \\times 80 = 24$ l.\n- Lượng nước còn lại: $80 - 24 = 56$ l.\n\n**Kết luận:** Dòng Hạnh viết sai. Lượng nước còn lại là 56 l, nhưng Hạnh viết là 66 l.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1823916055,
+      "generation_seconds": 39.65269318300034
+    }
+  }
+]

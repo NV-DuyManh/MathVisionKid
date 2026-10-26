@@ -1,0 +1,24 @@
+{
+  "status": "PASSED",
+  "run_id": "qwen3_06b_verified_math_v2_stable_epoch1_seed20261012",
+  "training_steps": 544,
+  "training_samples_exactly_once": 2176,
+  "source_and_data_hashes_verified": true,
+  "token_masks_and_padding_recomputed_with_pinned_tokenizer": true,
+  "all_prediction_token_ids_text_scores_and_summaries_recomputed": true,
+  "split_invariants_verified": true,
+  "selected_by_validation_only": true,
+  "selected": "adapter",
+  "per_grade_math_non_regression": true,
+  "canonical_plan_non_regression": true,
+  "adapter_sha256": "5d78e5528a3ff6cf7c9913c1952c78756b758b3e3b009a101c1ed59bd39eac3a",
+  "fresh_base_reload_evidence_verified": true,
+  "production_approved": false,
+  "does_not_certify_arbitrary_problem_semantics_or_pedagogy": true,
+  "limitations": [
+    "Finite synthetic phrases and numeric cases; not a secret independent teacher benchmark.",
+    "Answer accuracy measures model plans evaluated by exact arithmetic; raw numeric LLM reasoning is not certified.",
+    "Canonical plan equality is stricter than mathematical equivalence and can reject valid alternative plans.",
+    "Public train arithmetic/provenance do not certify semantic correctness."
+  ]
+}

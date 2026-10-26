@@ -1,0 +1,123 @@
+{
+  "authored_utc": "2026-10-18T09:05:27.380359+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:03:44.418Z",
+  "batch_sha256": "ad1516693c4595f2fb932af3552e52c189565d2b155328c10e92592ed7eca2bd",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_node": true,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_map_scale_0077_map_to_real_same_unit_then_convert",
+      "row_sha256": "8e84676f78b5af8280ae8f453037699cc11a2036b19191052b0f450ed138a162",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3.6*25000",
+          "(3.6*25000)/100",
+          "((3.6*25000)/100)/1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_map_scale_0077_real_to_two_map_scales",
+      "row_sha256": "86728de4efd240a69c319f0c875ad03eb4e1dcff6973ff822520958fd8c27ddd",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1.35*100000",
+          "(1.35*100000)/15000",
+          "(1.35*100000)/30000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_map_scale_0077_infer_scale_then_transfer_second_segment",
+      "row_sha256": "e234f379ad0a43947690017c77f51b542e239c8eee3e02f4f94027d5644c98a8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "12*100",
+          "(12*100)/8",
+          "4.4*((12*100)/8)/100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_map_scale_0077_misconception_scale_product_wrong_unit",
+      "row_sha256": "c6e0080e52d4c53524a679017faa3dd6075ab64b40138e9c3e7cb5bd4719dceb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "2.5*2000",
+          "(2.5*2000)/100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "real_distance_mm_repeated_tenths": 900000,
+    "map_lengths_by_inverse_grid": [
+      "9",
+      "9/2"
+    ],
+    "scale_denominator_by_search": [
+      150
+    ],
+    "CD_ground_mm_repeated_tenths": 6600,
+    "misconception_ground_mm": 50000
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "scale_same_units_and_direction_checked": true,
+  "straight_segments_and_unresized_uniform_scale_explicit": true,
+  "text_data_only_no_new_image_measurement": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous420_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 12,
+  "pre_official_QA_content_repairs_required": false,
+  "official_QA_utc": "2026-10-18T09:06:07.251403+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "68bfe042621e6632c706fd5e29334831eef6f0805060a82c7a2544181d4aff83"
+}

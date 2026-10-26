@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "uN43HyB3Pnos"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"TRAIN_ROW_BACKWARD_PREFLIGHT_NO_OPTIMIZER_STARTED\", \"pid\": 50128}\n"
+        ]
+      }
+    ]
+  }
+}

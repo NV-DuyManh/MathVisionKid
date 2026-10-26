@@ -1,0 +1,64 @@
+{
+  "g3v1": {
+    "public_images": 124,
+    "actual_images_read": 124,
+    "printed_content_pages_read": [
+      6,
+      121
+    ],
+    "content_page_count": 116,
+    "boundary_images_accounted": 8,
+    "unread_images": 0,
+    "mapping_status": "PAGE_TYPES_RECORDED_SEMANTIC_ADJUDICATION_PENDING"
+  },
+  "g3v2": {
+    "public_images": 128,
+    "actual_images_read": 128,
+    "printed_content_pages_read": [
+      4,
+      126
+    ],
+    "content_page_count": 123,
+    "boundary_images_accounted": 5,
+    "unread_images": 0,
+    "mapping_status": "PAGE_TYPES_RECORDED_SEMANTIC_ADJUDICATION_PENDING"
+  },
+  "no_completeness_claim_for_g3_both_volumes": false,
+  "adjudication_records": 38,
+  "cache_image_count": 0,
+  "network_access_used_for_adjudication": false,
+  "new_case_count": 9,
+  "all_public_images_visually_read": true,
+  "all_exercise_forms_semantically_mapped": false,
+  "receipt_sha256": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+  "network_access_used_for_remaining_actual_page_images": true,
+  "new_cases_status": "DRAFT_PENDING_CONTENT_CROSS_REVIEW",
+  "boundary_label_correction": {
+    "g3v1": {
+      "unnumbered_array_positions_1based": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        124
+      ],
+      "glossary_printed_pages": [
+        122,
+        123
+      ]
+    },
+    "g3v2": {
+      "unnumbered_or_front_matter_array_positions_1based": [
+        1,
+        2,
+        3,
+        128
+      ],
+      "glossary_printed_pages": [
+        127
+      ]
+    },
+    "note": "Historical receipt printed_page for front/colophon rows is an array label; do not claim a printed footer there. Content and numbered glossary pages verified separately."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T13:54:53.513954+00:00\", \"worker_alive\": true, \"worker_exit\": null, \"optimizer_worker_exit\": 0, \"fewshot_dev_exit\": 0, \"seconds_remaining\": 4372.485870838165, \"outputs\": {\"final_eval/base_generations.jsonl\": 20, \"final_eval/fewshot_selected/generations.partial.jsonl\": 1}, \"complete\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T13:54:53.513954+00:00\", \"worker_alive\": true, \"worker_exit\": null, \"optimizer_worker_exit\": 0, \"fewshot_dev_exit\": 0, \"seconds_remaining\": 4372.485870838165, \"outputs\": {\"final_eval/base_generations.jsonl\": 20, \"final_eval/fewshot_selected/generations.partial.jsonl\": 1}, \"complete\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-24T13:54:53.513954+00:00\\\", \\\"worker_alive\\\": true, \\\"worker_exit\\\": null, \\\"optimizer_worker_exit\\\": 0, \\\"fewshot_dev_exit\\\": 0, \\\"seconds_remaining\\\": 4372.485870838165, \\\"outputs\\\": {\\\"final_eval/base_generations.jsonl\\\": 20, \\\"final_eval/fewshot_selected/generations.partial.jsonl\\\": 1}, \\\"complete\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

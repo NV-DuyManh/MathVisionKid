@@ -1,0 +1,13 @@
+{
+  "status": "PASS_FINAL_DRAFT_READBACK_FROZEN",
+  "cases_sha256": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15",
+  "chat_sha256": "941667181533b61354072d765569e8154e75e45b7784ee93cb6a2c0cbb439059",
+  "qa7_source_hashes_verified": 12,
+  "chat_rawsource_hashes_verified": 48,
+  "all_four_modes_per_source": true,
+  "draft_status_preserved": true,
+  "run4_projection_frozen_unchanged": true,
+  "all_seven_local_frozen_files_unchanged": true,
+  "training_started": false,
+  "drive_mutated": false
+}

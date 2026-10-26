@@ -1,0 +1,20 @@
+{
+  "schema": "MathVisionKid.final_control_static_review.v1",
+  "review_scope": "CODE_AND_CONTROL_METADATA_ONLY_NOT_CORPUS_QA",
+  "helper_tests": 8,
+  "actual_runtime_install_receipt": "audit_checkpoint_20261023_5563144/status_cache_registered_corrected.json",
+  "final_controls_static_review": "No blocking schema/key mismatch found against actual frozen finalizer/adjudicator/antijoin sources; actual final evidence still required.",
+  "historical_count_review": {
+    "historical_accepted_counter": 1629922,
+    "actual_source_versions": 1629906,
+    "difference": 16,
+    "prior_recipe_source_rows": 1629842,
+    "prior_state_accepted_cases": 1629858,
+    "g2_delta_both": 64,
+    "exact_cause_proven": false,
+    "id_crosswalk_found": false,
+    "counter_rewritten": false
+  },
+  "no_data_or_evaluation_questions_read": true,
+  "training_started": false
+}

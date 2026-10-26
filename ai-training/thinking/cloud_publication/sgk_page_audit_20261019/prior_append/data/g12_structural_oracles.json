@@ -1,0 +1,200 @@
+{
+  "cases": 32,
+  "checks": [
+    {
+      "oracle_kind": "decompositions",
+      "sample_id": "sgk_g12_20261019_complete_decompositions_01",
+      "source_row_sha256": "de7947c85c32a3b1eaceb649bb81a83b9c13b395f58751338cf2c18d6eb99a8e",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "decompositions",
+      "sample_id": "sgk_g12_20261019_complete_decompositions_02",
+      "source_row_sha256": "26f83341e5a1759d2a2f11189887eeaf9e827a959cb93a6ee289b3962005a246",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "missing_decompositions",
+      "sample_id": "sgk_g12_20261019_complete_decompositions_03",
+      "source_row_sha256": "ede09d096b760febf5f1d0dea784741fc8c6335d538b9e42044e753e40d39a6f",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+      "source_row_sha256": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "grid",
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+      "source_row_sha256": "47b1d867b0d75699e4f7556f788b0f060728601ac67b69302ec8b860c48fe40f",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_patch",
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+      "source_row_sha256": "c5799109471859dc4326c1481844509827a7141c02fdb4f599ce25697d9e8e42",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "grid_below",
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+      "source_row_sha256": "fe0421d33ce39b16a3cb4ce3fe1f9c3cb648a0385bc466217427e80a4f69f5b2",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+      "source_row_sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "pyramid",
+      "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+      "source_row_sha256": "c7a9328f987a65014b50dc013fcbef05a33b0f74adbd96a4d3fddd6b60ff8df0",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "pyramid_inverse",
+      "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+      "source_row_sha256": "9e83e444b9b1b9fc1dc7d1ced309bc193ee70b55e32659354028aa4c48dc9f62",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "pyramid",
+      "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+      "source_row_sha256": "7f2f7353c59bcd79f1931ed32498114db66e6d10609e13148dc9b120b58fe54c",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_sum_pyramid_04",
+      "source_row_sha256": "55bc161cadacbe4209163a0834e2dd9a4d32a78ad8f13cb9bdb8421b5b4a6051",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "classify",
+      "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+      "source_row_sha256": "8f8cf94fc9bba6348fc12c07c09e613b009c7ad294c8453526e23c784b755cfb",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "classify_all",
+      "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+      "source_row_sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "classify",
+      "sample_id": "sgk_g12_20261019_expression_target_classification_03",
+      "source_row_sha256": "fe557d1134a245a0f4004bd7f0e7f3eddfd1a0dc809cd3dd41cfafcf0fe1524a",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_expression_target_classification_04",
+      "source_row_sha256": "4795ba381315567d3bf9cd4be49e1c6fbbd998349d0e0acee9149392e41c01c4",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "blank_digit",
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+      "source_row_sha256": "345e45414adf069947224e581576a7bf29aa350fed2a1cbe14a5ef7bc04b8f4f",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "blank_digit",
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+      "source_row_sha256": "39839a3f33dff3062949f8709ead4757977e282c01440b45a0718bb94791bac2",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "blank_digit",
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+      "source_row_sha256": "1720b4de2694a3f81337d1e07fcb815a5a26299542d75614934cd15feca29575",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "two_blanks",
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+      "source_row_sha256": "5817f2f8f0ed40fb60294dac0f9de76705bbc46f620d580fa8e38dbac9b328f4",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "swap",
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+      "source_row_sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "swap",
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_02",
+      "source_row_sha256": "cc32090e58ca037f98651594e67c600af6e06dfdfbd00c44ae2dd8eb57282a51",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "swap",
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+      "source_row_sha256": "31c5da0332ad69edcea844bad3a31133277e82da302af8c37b52d27b75e62fd8",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+      "source_row_sha256": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "graph",
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+      "source_row_sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "graph",
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+      "source_row_sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "graph",
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+      "source_row_sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+      "source_row_sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "board",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+      "source_row_sha256": "1de56d613a5c75080ffb3ea258a1f4cbc5c0fd4ec02b0dbe398299018070b737",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "board",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+      "source_row_sha256": "07cfec26cbc15e7397b79d00559b7d092ce616208c21354e8216bc7f6bf70161",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "board",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+      "source_row_sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+      "status": "PASS"
+    },
+    {
+      "oracle_kind": "explicit_relation",
+      "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+      "source_row_sha256": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e",
+      "status": "PASS"
+    }
+  ],
+  "no_training": true,
+  "source_sha256": "0580799b686ae22442c37e26edfc2cfb2b6f23f17b3887c654fb0923406c5ce6",
+  "status": "PASS"
+}

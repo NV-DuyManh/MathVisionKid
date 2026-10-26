@@ -1,0 +1,32 @@
+{
+  "corrective_worker_optimized_v2b.py": {
+    "bytes": 76258,
+    "folder_id": "1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho",
+    "fresh_raw_readback_verified": true,
+    "id": "1xf8CMVbtsSC4mZuMxJ0twzDnR20J0pvG",
+    "immutable": false,
+    "name": "corrective_worker_optimized_v2b.py",
+    "raw_verified_utc": "2026-10-24T01:15:54.082547+00:00",
+    "sha256": "d5f4f0bc2df2b9ff8b2999d607f7ab0b773a76e2ececd4cf48bada99ffcc787c"
+  },
+  "exhaustive_colab_loader.py": {
+    "bytes": 24727,
+    "folder_id": "1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho",
+    "fresh_raw_readback_verified": true,
+    "id": "1FFq86rhR0bBCSDK3WMKXQvDOPTbCBAUz",
+    "immutable": false,
+    "name": "exhaustive_colab_loader.py",
+    "raw_verified_utc": "2026-10-24T00:46:10.243359+00:00",
+    "sha256": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+  },
+  "start_publisher_runtime.py": {
+    "bytes": 27124,
+    "folder_id": "1gFb5Icuy1uUvmYKL__fLzEhEa4m5M7Ho",
+    "fresh_raw_readback_verified": true,
+    "id": "1ZwjnSGMXJ-aAsAMXhNsp0BuAceOxo9Kd",
+    "immutable": false,
+    "name": "start_publisher_runtime.py",
+    "raw_verified_utc": "2026-10-24T00:46:49.468253+00:00",
+    "sha256": "5f8d69f542e63bd7cc17f9a62551710c74e931d7d2c69974b0e13aaac326fb8e"
+  }
+}

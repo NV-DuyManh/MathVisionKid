@@ -1,0 +1,32 @@
+{
+  "TRAINING_DATASET_READY": false,
+  "controls": {
+    "chat": {
+      "bytes": 41005,
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\antigravity_intake_20261022\\next_chat.json",
+      "sha256": "337b03156d52c48f812abe3513dab2dea19240b487e7727aa9c3aa2c50109c06"
+    },
+    "context": {
+      "bytes": 792010,
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\antigravity_intake_20261022\\next_context.md",
+      "sha256": "cb56fb2a605a29aacabdac59d6adb3e182e25d3c2521144ab7cb72e5022caf9e"
+    },
+    "progress": {
+      "bytes": 15082343,
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\antigravity_intake_20261022\\next_progress.zip",
+      "sha256": "388ba9367d630a8933fba377c199c3314b57db95fa3a3a3ac3699ea2ca0fc3a7"
+    },
+    "state": {
+      "bytes": 325701,
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\antigravity_intake_20261022\\next_state.json",
+      "sha256": "ee90165e838cff3e976ed05d881ef1a78b547e7f38226e2c6a224dba599805d3"
+    }
+  },
+  "old_progress_members_preserved": true,
+  "state_must_be_written_last": true,
+  "training_started": false
+}

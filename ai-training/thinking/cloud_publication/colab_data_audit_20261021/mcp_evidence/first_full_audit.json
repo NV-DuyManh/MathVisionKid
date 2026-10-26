@@ -1,0 +1,40 @@
+{
+  "purpose": "DATA_PREPARATION_ONLY",
+  "runtime_accelerator": "none",
+  "old_20k_token_checkpoint_preserved": "1o3Q1uXA2ZTUAIHDpLCslHalg5qCbL-gr",
+  "latest_recipe": "93ec4110b9de95a84bb685ae60b1e4dc4b6df8c4fe568d88c60ca9c2e301c684",
+  "first_deep_audit_span": {
+    "member_key": "c9fa305a1bf0904b794e243ad39409d5e5616e081777e3431349365955e209d5",
+    "rows": 1000,
+    "processed": 1000,
+    "bounded_pause": true
+  },
+  "audit": {
+    "schema": "MathVisionKid.full_current_archive_audit.v1",
+    "identity": "e9609c3b8626b9234f884a2fdb8372166e0fd0ffbb3a1ff210d63a4bb93715b5",
+    "source_versions_indexed": 1000,
+    "unique_chat_rows_processed": 0,
+    "actual_rows_by_split": {},
+    "source_hash_origins": {},
+    "physical_chat_occurrences_processed": 0,
+    "exact_duplicate_references": 0,
+    "members_complete": 0,
+    "members_expected": 247,
+    "all_declared_members_scanned": false,
+    "max_sequence_tokens": null,
+    "max_completion_tokens": null,
+    "source_linkage_unverified_rows": 0,
+    "incomplete_four_mode_cases": 0,
+    "issues": {
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1000
+    },
+    "full_archive_token_linkage_split_audit_complete": false,
+    "all_rows_semantically_human_reviewed": false,
+    "whole_curriculum_certified": false,
+    "TRAINING_DATASET_READY": false,
+    "training_started": false,
+    "gpu_used": false,
+    "model_weights_loaded": false
+  },
+  "training_started": false
+}

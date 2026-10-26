@@ -1,0 +1,8 @@
+{
+  "absolute_difference": 4.76837158203125e-07,
+  "forward_called_without_labels": true,
+  "ignored_prompt_padding_positions_scored": false,
+  "model_backend": "native Transformers/PEFT",
+  "selected_token_row_CE_matches_per_row_reference": true,
+  "supervised_tokens": 84
+}

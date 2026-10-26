@@ -1,0 +1,350 @@
+{
+  "source_plan_sha256": "53d10d62ac91a36ca4dc506d3191a77eaaf2c313c8daedf724076e145cfeb10f",
+  "tasks": [
+    {
+      "actual_asset_or_observation_requirement": "A fully explicit finite text model can demonstrate only the specified mathematical/input-contract relation; no actual physical or publisher-image claim.",
+      "actual_candidate_evidence": [
+        {
+          "actual_page_receipts": [
+            {
+              "actual_page_read": true,
+              "book_id": "g2v1",
+              "exercise_types_read": [
+                "Tens and ones; construct all two-digit numerals from finite cards; estimate grouped count then exactcount"
+              ],
+              "image_sha256": "7c2983257b9ea0b4ee10f970a52bf8dcdeb3f43ffbf850e11d25f9bc700e7c65",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-9-1775742359247.png",
+              "printed_page": 8,
+              "receipt_line_sha256": "689d1334db094c715060f7eb4b5bb84584f05667a325918d0b5e7de1783bda8e",
+              "receipt_path": "g2v1_audit/page_review.jsonl"
+            },
+            {
+              "actual_page_read": true,
+              "book_id": "g2v1",
+              "exercise_types_read": [
+                "Number ray blanks and expression-to-position; before/after; strict bounds; cardzero numeral count"
+              ],
+              "image_sha256": "6a217890e981496dd2ab9970c887fb66f62f32256c9dfa33c4cab3567a9ef556",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-12-1775742360159.png",
+              "printed_page": 11,
+              "receipt_line_sha256": "d2b89f40eed0e0e4beac7f0b1ac98bc42b7eaf745c862ff138f7658470312ae9",
+              "receipt_path": "g2v1_audit/page_review.jsonl"
+            },
+            {
+              "actual_page_read": true,
+              "book_id": "g2v1",
+              "exercise_types_read": [
+                "Difference story; boundarypredecessor/successor; all cardnumerals+extrema difference; compare expressions"
+              ],
+              "image_sha256": "11af34f587c41ac1d36c65f320b1889c66dce0f02ee56a979f46d84bd9381812",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-25-1775742364350.png",
+              "printed_page": 24,
+              "receipt_line_sha256": "50d5a015e461a8a99844224eef49544c112fc02f2c5bb3da9f4aac0d049791d9",
+              "receipt_path": "g2v1_audit/page_review.jsonl"
+            }
+          ],
+          "actual_required_constraints": [
+            "Nearest accepted card task enumerates only even two-digit numbers from 0,3,8. The G2 pages request all numerals, leading-zero exclusion and extrema difference; parity-filtered enumeration does not demonstrate that entire representation. Merge the unrestricted/zero branch with the existing card-construction master."
+          ],
+          "book_id": "g2v1",
+          "candidate_id": "g2v1:g2_card_numeral_formation",
+          "grade": 2,
+          "nearest_actual_valid_train_rows": [
+            {
+              "grade": 4,
+              "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+              "sample_id": "sgk_gap_20261019_g4_parity_cards_two_digit_zero",
+              "source_file": "current_sources.jsonl",
+              "source_line_number": 995,
+              "source_row_sha256": "5580f5b88bf965d8194a2af484db1898045e13ccb932dedfd97e66d6e4f062f1",
+              "split": "train"
+            }
+          ],
+          "original_candidate_record_sha256": "4dcf907ae3551d5bfdf425b353a68e1bb3def6eae3b778ceea9f7e98b2e7ce55",
+          "prior_reconciliation": {
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "matched_new_examples": [],
+            "physical_or_publisher_image_result_claimed": false,
+            "prior_status": "MERGED_PENDING",
+            "remaining_constraints": [
+              "Nearest accepted card task enumerates only even two-digit numbers from 0,3,8. The G2 pages request all numerals, leading-zero exclusion and extrema difference; parity-filtered enumeration does not demonstrate that entire representation. Merge the unrestricted/zero branch with the existing card-construction master."
+            ],
+            "semantic_basis": "Nearest accepted card task enumerates only even two-digit numbers from 0,3,8. The G2 pages request all numerals, leading-zero exclusion and extrema difference; parity-filtered enumeration does not demonstrate that entire representation. Merge the unrestricted/zero branch with the existing card-construction master.",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED",
+            "whole_g2_candidate_closed": false
+          },
+          "queue_record": {
+            "candidate_id": "g2v1:g2_card_numeral_formation",
+            "constraints": [
+              "Nearest accepted card task enumerates only even two-digit numbers from 0,3,8. The G2 pages request all numerals, leading-zero exclusion and extrema difference; parity-filtered enumeration does not demonstrate that entire representation. Merge the unrestricted/zero branch with the existing card-construction master."
+            ],
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED"
+          }
+        }
+      ],
+      "authoring_scope": "Original finite fully explicit text/annotation or actual evidence only; grade2 enrichment/range explicit; preserve all source/page IDs.",
+      "candidate_ids": [
+        "g2v1:g2_card_numeral_formation"
+      ],
+      "category": "number_constraints",
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "grade": 2,
+      "grouping_semantic_basis": "Do not reuse the even-only0,3,8 exemplar as closure.",
+      "human_review_claimed": false,
+      "independent_acceptance_criteria": [
+        "Root reads actual problem/givens/request/student_work, every step/reason/explanation/unit/answer, initial guidance and all three hints.",
+        "Finite independent model and Fraction/Decimal where numeric; meaningful wrong-model/answer mutations.",
+        "Record exact raw source/draft/export hashes and QA7; accepted previous forms remain untouched.",
+        "Only explicit candidate-grade/constraint match may close a branch; same master/name or this plan never constitutes acceptance."
+      ],
+      "minimal_required_specific_branches": [
+        "Enumerate every two-digit numeral from a finite distinct physical-card stock containing zero; prohibit leading0, preserve one-use identity, report both extrema and their difference. No parity filter."
+      ],
+      "new_examples_created": 0,
+      "pending_candidates_closed": 0,
+      "preparation_kind": "text_finite",
+      "status": "PLANNED_NOT_AUTHORED_NOT_ACCEPTED",
+      "task_id": "g2_pending_01_numerals_distinct_all"
+    },
+    {
+      "actual_asset_or_observation_requirement": "A fully explicit finite text model can demonstrate only the specified mathematical/input-contract relation; no actual physical or publisher-image claim.",
+      "actual_candidate_evidence": [
+        {
+          "actual_page_receipts": [
+            {
+              "actual_page_read": true,
+              "book_id": "g2v1",
+              "exercise_types_read": [
+                "multiset_card_extrema",
+                "operation_chain",
+                "trace_single_crossing_curve",
+                "total_word_problem"
+              ],
+              "image_sha256": "502f062f7bda915f7cd27dcb021e815de649fc3b54bdc3597b927d7edd433d04",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-97-1775742386666.png",
+              "printed_page": 96,
+              "receipt_line_sha256": "e54509bc781875c5189183f1d19bfb3b99d0d91fbd92c84e4a657cae55589244",
+              "receipt_path": "g2v1_audit/page_review.jsonl"
+            }
+          ],
+          "actual_required_constraints": [
+            "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+          ],
+          "book_id": "g2v1",
+          "candidate_id": "g2v1:multiset_numeral_generation",
+          "grade": 2,
+          "nearest_actual_valid_train_rows": [
+            {
+              "grade": 4,
+              "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+              "sample_id": "sgk_gap_20261019_g4_parity_cards_two_digit_zero",
+              "source_file": "current_sources.jsonl",
+              "source_line_number": 995,
+              "source_row_sha256": "5580f5b88bf965d8194a2af484db1898045e13ccb932dedfd97e66d6e4f062f1",
+              "split": "train"
+            }
+          ],
+          "original_candidate_record_sha256": "46f5865eb2e32fb7e5ba0ec1121ed71604007c014240dcff1f47c9ebba4ac245",
+          "prior_reconciliation": {
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "matched_new_examples": [],
+            "physical_or_publisher_image_result_claimed": false,
+            "prior_status": "MERGED_PENDING",
+            "remaining_constraints": [
+              "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+            ],
+            "semantic_basis": "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals.",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED",
+            "whole_g2_candidate_closed": false
+          },
+          "queue_record": {
+            "candidate_id": "g2v1:multiset_numeral_generation",
+            "constraints": [
+              "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+            ],
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED"
+          }
+        },
+        {
+          "actual_page_receipts": [
+            {
+              "actual_page_read": true,
+              "book_id": "g2v2",
+              "exercise_types_read": [
+                "expanded form; missing term; all card permutations zero leading exclusion and extrema"
+              ],
+              "image_sha256": "8edc36aa8dafa487caaaea64ed8fb0bd55a8102b7444a31a0a75bd9dda5ceb91",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4713893812-page-113-1776050931815.png",
+              "printed_page": 112,
+              "receipt_line_sha256": "5289a1006756cd9442ee9b8ea73a30323d6727a272c0170b69c87346cac44c25",
+              "receipt_path": "g2v2_audit/page_review.jsonl"
+            }
+          ],
+          "actual_required_constraints": [
+            "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+          ],
+          "book_id": "g2v2",
+          "candidate_id": "g2v2:digit_card_permutations_zero",
+          "grade": 2,
+          "nearest_actual_valid_train_rows": [
+            {
+              "grade": 4,
+              "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+              "sample_id": "sgk_gap_20261019_g4_parity_cards_two_digit_zero",
+              "source_file": "current_sources.jsonl",
+              "source_line_number": 995,
+              "source_row_sha256": "5580f5b88bf965d8194a2af484db1898045e13ccb932dedfd97e66d6e4f062f1",
+              "split": "train"
+            }
+          ],
+          "original_candidate_record_sha256": "5fda92145d46edd7d972419b11b81236a2b942de916d3b34036f0bfa7f85618b",
+          "prior_reconciliation": {
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "matched_new_examples": [],
+            "physical_or_publisher_image_result_claimed": false,
+            "prior_status": "MERGED_PENDING",
+            "remaining_constraints": [
+              "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+            ],
+            "semantic_basis": "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals.",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED",
+            "whole_g2_candidate_closed": false
+          },
+          "queue_record": {
+            "candidate_id": "g2v2:digit_card_permutations_zero",
+            "constraints": [
+              "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+            ],
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED"
+          }
+        }
+      ],
+      "authoring_scope": "Original finite fully explicit text/annotation or actual evidence only; grade2 enrichment/range explicit; preserve all source/page IDs.",
+      "candidate_ids": [
+        "g2v1:multiset_numeral_generation",
+        "g2v2:digit_card_permutations_zero"
+      ],
+      "category": "number_constraints",
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "grade": 2,
+      "grouping_semantic_basis": "Both labels name the same repeated-resource/zero branch; preserve both source locators but use the same original model.",
+      "human_review_claimed": false,
+      "independent_acceptance_criteria": [
+        "Root reads actual problem/givens/request/student_work, every step/reason/explanation/unit/answer, initial guidance and all three hints.",
+        "Finite independent model and Fraction/Decimal where numeric; meaningful wrong-model/answer mutations.",
+        "Record exact raw source/draft/export hashes and QA7; accepted previous forms remain untouched.",
+        "Only explicit candidate-grade/constraint match may close a branch; same master/name or this plan never constitutes acceptance."
+      ],
+      "minimal_required_specific_branches": [
+        "Repeated-valued cards are distinct resources; enumerate unique unrestricted numeral values with exact multiplicities and zero-place restrictions; compute extrema, and distinguish identical values from physical assignments."
+      ],
+      "new_examples_created": 0,
+      "pending_candidates_closed": 0,
+      "preparation_kind": "text_finite",
+      "status": "PLANNED_NOT_AUTHORED_NOT_ACCEPTED",
+      "task_id": "g2_pending_02_numerals_repeated_zero"
+    },
+    {
+      "actual_asset_or_observation_requirement": "A fully explicit finite text model can demonstrate only the specified mathematical/input-contract relation; no actual physical or publisher-image claim.",
+      "actual_candidate_evidence": [
+        {
+          "actual_page_receipts": [
+            {
+              "actual_page_read": true,
+              "book_id": "g2v2",
+              "exercise_types_read": [
+                "three digit compare; rank measured heights; construct numeral greater than given subset from cards"
+              ],
+              "image_sha256": "e82de62d62d760022e1e67fa92bf1d3723dd371141229383f6fe8c572e89137a",
+              "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4713893812-page-60-1776050917306.png",
+              "printed_page": 59,
+              "receipt_line_sha256": "0e850dfdfbcd39733b6a61984e5592e9b8608604bc795cfbc10c6a0472351764",
+              "receipt_path": "g2v2_audit/page_review.jsonl"
+            }
+          ],
+          "actual_required_constraints": [
+            "The nearest rows enumerate even two-digit distinct-card numbers or select a missing digit by a single inequality. The page constructs extremal three-digit numerals from a finite pool while exceeding a given bound; global card-use and bound must be checked jointly. Merge with finite numeral construction, pending that joint branch."
+          ],
+          "book_id": "g2v2",
+          "candidate_id": "g2v2:digit_card_extrema",
+          "grade": 2,
+          "nearest_actual_valid_train_rows": [
+            {
+              "grade": 4,
+              "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+              "sample_id": "sgk_gap_20261019_g4_parity_cards_two_digit_zero",
+              "source_file": "current_sources.jsonl",
+              "source_line_number": 995,
+              "source_row_sha256": "5580f5b88bf965d8194a2af484db1898045e13ccb932dedfd97e66d6e4f062f1",
+              "split": "train"
+            },
+            {
+              "grade": 4,
+              "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+              "sample_id": "sgk_page_20261019_g4_digit_inequality_strict_low",
+              "source_file": "release/accepted_cases.jsonl",
+              "source_line_number": 31,
+              "source_row_sha256": "412e32005110f32b5ab55377bff3f2270ede9cdb10b5958f17ed2284cfbbbec0",
+              "split": "train"
+            }
+          ],
+          "original_candidate_record_sha256": "f7121814963ce23056bad768ab84a65990b2ec60469fc10a68763ef60342cb1b",
+          "prior_reconciliation": {
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "matched_new_examples": [],
+            "physical_or_publisher_image_result_claimed": false,
+            "prior_status": "MERGED_PENDING",
+            "remaining_constraints": [
+              "The nearest rows enumerate even two-digit distinct-card numbers or select a missing digit by a single inequality. The page constructs extremal three-digit numerals from a finite pool while exceeding a given bound; global card-use and bound must be checked jointly. Merge with finite numeral construction, pending that joint branch."
+            ],
+            "semantic_basis": "The nearest rows enumerate even two-digit distinct-card numbers or select a missing digit by a single inequality. The page constructs extremal three-digit numerals from a finite pool while exceeding a given bound; global card-use and bound must be checked jointly. Merge with finite numeral construction, pending that joint branch.",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED",
+            "whole_g2_candidate_closed": false
+          },
+          "queue_record": {
+            "candidate_id": "g2v2:digit_card_extrema",
+            "constraints": [
+              "The nearest rows enumerate even two-digit distinct-card numbers or select a missing digit by a single inequality. The page constructs extremal three-digit numerals from a finite pool while exceeding a given bound; global card-use and bound must be checked jointly. Merge with finite numeral construction, pending that joint branch."
+            ],
+            "crossgrade_master_id": "finite_digit_card_enumeration",
+            "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+            "status": "PRIOR_G2_DISPOSITION_RETAINED"
+          }
+        }
+      ],
+      "authoring_scope": "Original finite fully explicit text/annotation or actual evidence only; grade2 enrichment/range explicit; preserve all source/page IDs.",
+      "candidate_ids": [
+        "g2v2:digit_card_extrema"
+      ],
+      "category": "number_constraints",
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "grade": 2,
+      "grouping_semantic_basis": "A bounded3digit extremum is not the unrestricted2digit inventory task.",
+      "human_review_claimed": false,
+      "independent_acceptance_criteria": [
+        "Root reads actual problem/givens/request/student_work, every step/reason/explanation/unit/answer, initial guidance and all three hints.",
+        "Finite independent model and Fraction/Decimal where numeric; meaningful wrong-model/answer mutations.",
+        "Record exact raw source/draft/export hashes and QA7; accepted previous forms remain untouched.",
+        "Only explicit candidate-grade/constraint match may close a branch; same master/name or this plan never constitutes acceptance."
+      ],
+      "minimal_required_specific_branches": [
+        "Construct extremal three-digit numerals from supplied card pool while exceeding an explicit bound; exact card use, no leading zero and strict boundary tested jointly."
+      ],
+      "new_examples_created": 0,
+      "pending_candidates_closed": 0,
+      "preparation_kind": "text_finite",
+      "status": "PLANNED_NOT_AUTHORED_NOT_ACCEPTED",
+      "task_id": "g2_pending_03_numerals_bounded_three_digit"
+    }
+  ],
+  "closure_claim": false
+}

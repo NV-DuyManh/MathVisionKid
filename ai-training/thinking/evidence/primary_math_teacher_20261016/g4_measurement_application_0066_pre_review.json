@@ -1,0 +1,141 @@
+{
+  "authored_utc": "2026-10-18T04:23:40.905063+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:21:37.490Z",
+  "batch_sha256": "4c40d9fd3ce0f8ccca53a0e62812f8169d13110d6192d20b07f7fbfb80c7a80d",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_measurement_application_0066_mixed_capacity_serving_remainder",
+      "row_sha256": "81a831ce352ea1d168b12f9d69dddf7b5397ef437d1acf1452487a669369776c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*1000+350+1*1000+750",
+          "15*200",
+          "(2*1000+350+1*1000+750)-(15*200)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_measurement_application_0066_estimate_not_sufficient_for_limit",
+      "row_sha256": "27b62f6e97a03498294403423584172adf375c3bc54263756092488ba0c39ca8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2*100+48",
+          "2*100",
+          "(2*100+48)-240"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_measurement_application_0066_length_purchase_and_money_change",
+      "row_sha256": "978628414072dece8cecc7720eb8086f6de89b3a8f4246eb554325d0a4d2190f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(7*10+5)*4",
+          "((7*10+5)*4)*8",
+          "3000-(((7*10+5)*4)*8)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_measurement_application_0066_misconception_convert_already_ml_again",
+      "row_sha256": "a0027a5fadddb879beb9f501cc7c815cdc4830b293480ed55a9096010311e5ca",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3*1000+80",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_measurement_application_0066_guard_length_does_not_determine_mass",
+      "row_sha256": "c9eb22e50a19b15cb3dcdb78eed4c4493468aa3a33b335cae0a50b37ea7dce84",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "liquid_initial_ml": 4100,
+    "served_cup_ml_cells": 3000,
+    "remaining_ml_cells": 1100,
+    "actual_mass_kg": 248,
+    "nearest_hundred_by_distances_kg": 200,
+    "mass_excess_kg": 8,
+    "length_cm_units": 300,
+    "unit_price_charge_cells_dong": 2400,
+    "change_dong": 600,
+    "corrected_mixed_ml": 3080,
+    "same_length_different_mass_countermodels_g": {
+      "each10g": 40,
+      "each20g": 80
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Enumerated quantity/charge units, closest-hundred distances and different-mass countermodels validate hypothetical givens, not physical measurement, pricing research or actual scale images. Semantic/grade/hint review required.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous373_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_content_read_completed_utc": "2026-10-18T04:24:15.695013+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true,
+  "subskills_in_this_batch": [
+    "capacity mixed amounts and serving conservation",
+    "mass conversion plus rounding vs exact limit",
+    "length conversion plus stated unit-price/change",
+    "do not reconvert already-destination-unit part",
+    "dimensional insufficiency length vs mass"
+  ],
+  "not_claiming_every_measurement_subskill_from_only_this_node_quota": true
+}

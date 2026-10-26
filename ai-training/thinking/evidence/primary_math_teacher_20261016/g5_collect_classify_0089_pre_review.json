@@ -1,0 +1,1209 @@
+{
+  "batch": "g5_collect_classify_0089",
+  "phase": "AUTHORING_BEFORE_OFFICIAL_SEMANTIC_QA",
+  "source_sha256": "9a8bdc72febb888c571c2b6adb1aa71469a154ce2bfabe4ac77f536e0dacc33e",
+  "executed_utc": "2026-10-18T10:23:17.330326+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "row_sha256": "f6071e42f53f8425538abbeda6a3818cb8b6ac1da8dbbcba0b54fb50e21220e8",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "1+1+1+1+1",
+          "1+1+1+1",
+          "1+1+1",
+          "(1+1+1+1+1)+(1+1+1+1)+(1+1+1)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "row_sha256": "c8b423d427bd35b2a35c87916dd2f37d9e9e1080381f9ed93ed13de502854ad6",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "1",
+          "1+1+1",
+          "1+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "1+1+1+1+1+1",
+          "1+1+1+1+1",
+          "3+2+3",
+          "(1+1+1+1+1+1)+(1+1+1+1+1)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "row_sha256": "50191f88639267704d8934f192f3f07aee61bb642ea17111b9a1169411a242de",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6-1",
+          "1+1+1",
+          "1+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_guard_missing_length_group_thresholds",
+      "row_sha256": "70a592cd5fde4f6806945548f9a3108c0ad7c8d23042981f6aaafb5503ac41d5",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "step_id": "s1",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "step_id": "s2",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "step_id": "s3",
+      "Fraction": "3",
+      "Decimal": "3"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "step_id": "s4",
+      "Fraction": "12",
+      "Decimal": "12"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "step_id": "s2",
+      "Fraction": "1",
+      "Decimal": "1"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "step_id": "s3",
+      "Fraction": "3",
+      "Decimal": "3"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "step_id": "s4",
+      "Fraction": "2",
+      "Decimal": "2"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "step_id": "s1",
+      "Fraction": "6",
+      "Decimal": "6"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "step_id": "s2",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "step_id": "s3",
+      "Fraction": "8",
+      "Decimal": "8"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "step_id": "s4",
+      "Fraction": "11",
+      "Decimal": "11"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "step_id": "s1",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "step_id": "s2",
+      "Fraction": "3",
+      "Decimal": "3"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "step_id": "s3",
+      "Fraction": "2",
+      "Decimal": "2"
+    }
+  ],
+  "separate_oracles": {
+    "poll_counter": {
+      "football": 5,
+      "swim": 3,
+      "badminton": 4
+    },
+    "boundary_identity_buckets": [
+      [
+        "P"
+      ],
+      [
+        "Q",
+        "R",
+        "S"
+      ],
+      [
+        "T",
+        "U"
+      ]
+    ],
+    "multiple_response_identity_sets": {
+      "reading": [
+        "A",
+        "B",
+        "D",
+        "E",
+        "G",
+        "H"
+      ],
+      "planting": [
+        "A",
+        "C",
+        "D",
+        "F",
+        "G"
+      ],
+      "unique_people": 8,
+      "choice_ticks": 11
+    },
+    "duplicate_unique_id_count": 5,
+    "missing_threshold_QA_only_countermodels": [
+      [
+        1,
+        1,
+        1
+      ],
+      [
+        2,
+        1,
+        0
+      ]
+    ]
+  },
+  "actual_semantic_content_read": true,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "before_polish_actual_rows": [
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "case_group_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "split": "train",
+      "grade": 5,
+      "topic": "single_choice_survey_coding_tally_order",
+      "problem": "Một cuộc khảo sát giả định hỏi mỗi học sinh chọn đúng một môn muốn tham gia trong ba môn: bóng đá, cầu lông, bơi. Mỗi mã là một học sinh khác nhau, có đúng một phiếu hợp lệ, không thiếu phiếu trong danh sách: A bóng đá; B bơi; C cầu lông; D bóng đá; E cầu lông; F bơi; G bóng đá; H cầu lông; I bóng đá; J bơi; K cầu lông; L bóng đá. Hãy nêu cách ghi và kiểm phiếu, phân loại theo môn đã chọn, lập số học sinh của từng môn rồi sắp các môn theo số học sinh giảm dần. Giải thích và kiểm tổng; đây là dữ liệu giả định bằng chữ, không phải khảo sát thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Mỗi học sinh chọn đúng một môn; mã A đến L khác nhau",
+          "value": "12",
+          "unit": "học sinh",
+          "role": "complete_single_choice_population"
+        },
+        {
+          "id": "g1",
+          "text": "Toàn bộ phiếu A đến L được ghi trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_id_to_choice_records"
+        }
+      ],
+      "requested_quantity": "Số học sinh chọn bóng đá; Số học sinh chọn cầu lông; Số học sinh chọn bơi",
+      "student_work": null,
+      "initial_guidance": [
+        "Xác định mỗi phiếu đại diện một học sinh và dùng cùng tiêu chí môn đã chọn để phân nhóm.",
+        "Giữ mã phiếu khi đếm để có thể kiểm mỗi người vào đúng một nhóm, rồi mới so số lượng."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Ba nhóm theo môn đã chọn phải nhận đúng các mã trong danh sách.",
+          "question": "Em ghi mã vào từng nhóm và đánh dấu phiếu đã đếm như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Số người của mỗi nhóm là số mã khác nhau trong nhóm đó, không phụ thuộc tên môn dài hay ngắn.",
+          "question": "Em kiểm mỗi mã chỉ xuất hiện một lần trong bảng phân loại ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Tổng các nhóm của câu hỏi chỉ chọn một môn phải khớp số học sinh trong danh sách.",
+          "question": "Sau khi kiểm tổng, em sắp các môn theo số lượng giảm dần như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Chuẩn bị cách ghi và phân nhóm",
+          "reason": "Câu hỏi chọn đúng một môn nên giữ mã học sinh và tên một môn cho mỗi phiếu, không ghi một người vào hai nhóm.",
+          "result": "Bảng ghi mỗi dòng gồm mã học sinh và môn được chọn",
+          "explanation": "Dùng ba nhãn đúng như đề: bóng đá, cầu lông, bơi. Gắn từng mã vào đúng nhãn và đánh dấu mã đã xử lý; nếu khảo sát mới thì hỏi cùng một câu và ghi mỗi người một phiếu. Đây là cách làm đề xuất, không khẳng định đã thu phiếu thật.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Đếm nhóm bóng đá",
+          "reason": "Đếm các mã ghi môn bóng đá, mỗi mã một học sinh.",
+          "result": "5",
+          "explanation": "Bóng đá có A, D, G, I, L: đếm năm mã khác nhau được 5 học sinh.",
+          "expression": "1+1+1+1+1",
+          "unit": "học sinh",
+          "step_id": "s1"
+        },
+        {
+          "title": "Đếm nhóm cầu lông",
+          "reason": "Đếm các mã ghi môn cầu lông theo cùng đơn vị và quy tắc.",
+          "result": "4",
+          "explanation": "Cầu lông có C, E, H, K: 4 học sinh.",
+          "expression": "1+1+1+1",
+          "unit": "học sinh",
+          "step_id": "s2"
+        },
+        {
+          "title": "Đếm nhóm bơi",
+          "reason": "Đếm các mã còn ghi môn bơi, không nhập nhầm tên nhóm.",
+          "result": "3",
+          "explanation": "Bơi có B, F, J: 3 học sinh.",
+          "expression": "1+1+1",
+          "unit": "học sinh",
+          "step_id": "s3"
+        },
+        {
+          "title": "Kiểm đủ phiếu và sắp thứ tự",
+          "reason": "Mỗi người thuộc đúng một nhóm nên tổng nhóm phải bằng tổng phiếu; so số lượng để sắp giảm dần.",
+          "result": "12",
+          "explanation": "Kiểm 5 + 4 + 3 = 12 học sinh, mọi mã A đến L xuất hiện đúng một lần. Vì 5 > 4 > 3 nên thứ tự là bóng đá, cầu lông, bơi. Kết luận chỉ cho nhóm giả định được hỏi, chưa đại diện mọi học sinh.",
+          "expression": "{s1}+{s2}+{s3}",
+          "unit": "học sinh",
+          "step_id": "s4"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh chọn bóng đá",
+          "result": "5",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh chọn cầu lông",
+          "result": "4",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh chọn bơi",
+          "result": "3",
+          "unit": "học sinh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "single_choice_survey_coding_tally_order",
+        "operations": [
+          "1+1+1+1+1",
+          "1+1+1+1",
+          "1+1+1"
+        ],
+        "numeric_values": [
+          "12"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_RECORD_IDS_CODING_CRITERIA_AND_RESPONSE_UNIT"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "record_identity_criterion_and_count_unit_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "case_group_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "split": "train",
+      "grade": 5,
+      "topic": "ribbon_length_boundary_groups_and_sort",
+      "problem": "Có sáu đoạn ruy băng giả định với số đo đã cho: P dài 1,25 m; Q dài 1,5 m; R dài 1,75 m; S dài 2 m; T dài 2,25 m; U dài 2,5 m. Quy tắc phân loại: nhóm ngắn có độ dài nhỏ hơn 1,5 m; nhóm vừa có độ dài từ 1,5 m đến dưới 2,25 m; nhóm dài có độ dài từ 2,25 m trở lên. Hãy sắp các mã theo độ dài tăng dần, ghi từng mã vào đúng một nhóm, đếm số đoạn mỗi nhóm và kiểm không bỏ sót hoặc đếm hai lần ở các mốc ranh giới. Chỉ dùng số đo ghi bằng chữ, chưa có ảnh hoặc thao tác đo thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Độ dài P",
+          "value": "1.25",
+          "unit": "m",
+          "role": "P_length"
+        },
+        {
+          "id": "g1",
+          "text": "Độ dài Q",
+          "value": "1.5",
+          "unit": "m",
+          "role": "Q_length"
+        },
+        {
+          "id": "g2",
+          "text": "Độ dài R",
+          "value": "1.75",
+          "unit": "m",
+          "role": "R_length"
+        },
+        {
+          "id": "g3",
+          "text": "Độ dài S",
+          "value": "2",
+          "unit": "m",
+          "role": "S_length"
+        },
+        {
+          "id": "g4",
+          "text": "Độ dài T",
+          "value": "2.25",
+          "unit": "m",
+          "role": "T_length"
+        },
+        {
+          "id": "g5",
+          "text": "Độ dài U",
+          "value": "2.5",
+          "unit": "m",
+          "role": "U_length"
+        },
+        {
+          "id": "g6",
+          "text": "Ngắn <1,5; vừa từ1,5 đến dưới2,25; dài từ2,25 trở lên",
+          "value": null,
+          "unit": "m",
+          "role": "explicit_disjoint_boundary_rule"
+        }
+      ],
+      "requested_quantity": "Số đoạn nhóm ngắn; Số đoạn nhóm vừa; Số đoạn nhóm dài",
+      "student_work": null,
+      "initial_guidance": [
+        "Đọc rõ các từ nhỏ hơn, từ và đến dưới để biết số đo đúng ở mốc thuộc nhóm nào.",
+        "Các độ dài đã cùng đơn vị nên có thể so và sắp trước khi phân nhóm; giữ mã để kiểm từng đoạn."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Số thập phân có thể so sau khi viết cùng số chữ số ở phần thập phân.",
+          "question": "Em sắp các mã theo độ dài tăng dần và giữ kèm số đo thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Quy tắc cần phân biệt nhận hay không nhận chính số đo ở mốc ranh giới.",
+          "question": "Em đối chiếu từng số đo ở mốc với lời mô tả nhóm như thế nào?"
+        },
+        {
+          "level": 3,
+          "hint": "Mỗi đoạn phải vào đúng một nhóm và tổng nhóm phải bằng số mã ban đầu.",
+          "question": "Em dùng danh sách mã để kiểm có nhóm nào trùng hoặc thiếu đoạn ra sao?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Sắp độ dài với mã tương ứng",
+          "reason": "Cùng đơn vị mét nên so số thập phân, không so số chữ số của cách viết.",
+          "result": "P, Q, R, S, T, U theo độ dài tăng dần",
+          "explanation": "Viết S là 2,00 m và Q là 1,50 m để dễ so: 1,25 < 1,50 < 1,75 < 2,00 < 2,25 < 2,50. Vì thế thứ tự mã là P, Q, R, S, T, U; các độ dài đều khác nhau.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Phân nhóm theo đúng ranh giới",
+          "reason": "Nhỏ hơn không gồm mốc, từ có gồm mốc, đến dưới không gồm mốc cuối.",
+          "result": "Ngắn: P; vừa: Q,R,S; dài: T,U",
+          "explanation": "P nhỏ hơn 1,5; Q đúng 1,5 được vào vừa, R và S cũng thuộc vừa. T đúng 2,25 được vào dài cùng U, không cho T vào vừa. Ba nhóm không chồng nhau.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s1"
+        },
+        {
+          "title": "Đếm nhóm ngắn",
+          "reason": "Nhóm ngắn có một mã P, mỗi mã là một đoạn.",
+          "result": "1",
+          "explanation": "Ngắn có 1 đoạn P.",
+          "expression": "1",
+          "unit": "đoạn",
+          "step_id": "s2"
+        },
+        {
+          "title": "Đếm nhóm vừa",
+          "reason": "Đếm các mã Q, R, S sau khi phân loại.",
+          "result": "3",
+          "explanation": "Vừa có 3 đoạn Q, R, S.",
+          "expression": "1+1+1",
+          "unit": "đoạn",
+          "step_id": "s3"
+        },
+        {
+          "title": "Đếm nhóm dài",
+          "reason": "Đếm các mã T, U; T nằm đúng mốc được nhận vào nhóm dài.",
+          "result": "2",
+          "explanation": "Dài có 2 đoạn T, U; kiểm 1 + 3 + 2 = 6 đoạn, mỗi mã P đến U có đúng một chỗ.",
+          "expression": "1+1",
+          "unit": "đoạn",
+          "step_id": "s4"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số đoạn nhóm ngắn",
+          "result": "1",
+          "unit": "đoạn"
+        },
+        {
+          "quantity": "Số đoạn nhóm vừa",
+          "result": "3",
+          "unit": "đoạn"
+        },
+        {
+          "quantity": "Số đoạn nhóm dài",
+          "result": "2",
+          "unit": "đoạn"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "ribbon_length_boundary_groups_and_sort",
+        "operations": [
+          "1",
+          "1+1+1",
+          "1+1"
+        ],
+        "numeric_values": [
+          "1.25",
+          "1.5",
+          "1.75",
+          "2",
+          "2.25",
+          "2.5"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_RECORD_IDS_CODING_CRITERIA_AND_RESPONSE_UNIT"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "record_identity_criterion_and_count_unit_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "case_group_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "split": "train",
+      "grade": 5,
+      "topic": "multiple_response_people_vs_choice_counts",
+      "problem": "Một phiếu hỏi giả định cho phép mỗi học sinh chọn một hoặc cả hai hoạt động: đọc sách, trồng cây. Có đúng tám học sinh khác nhau với các mã và toàn bộ lựa chọn sau: A chọn cả hai; B chỉ đọc sách; C chỉ trồng cây; D chọn cả hai; E chỉ đọc sách; F chỉ trồng cây; G chọn cả hai; H chỉ đọc sách. Hãy nêu cách ghi phiếu để không mất mã người, đếm số học sinh chọn mỗi hoạt động, số học sinh tham gia ít nhất một hoạt động và tổng lượt chọn. Giải thích vì sao tổng lượt chọn có thể khác số người rồi kiểm bằng nhóm chỉ chọn một hoặc chọn cả hai. Chưa có khảo sát thực tế.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tám mã A đến H là tám học sinh khác nhau",
+          "value": "8",
+          "unit": "học sinh",
+          "role": "distinct_complete_respondents"
+        },
+        {
+          "id": "g1",
+          "text": "Mỗi mã chọn một hoặc cả hai; toàn bộ lựa chọn trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_multiple_response_records"
+        }
+      ],
+      "requested_quantity": "Số học sinh chọn đọc sách; Số học sinh chọn trồng cây; Số học sinh tham gia ít nhất một hoạt động; Tổng lượt chọn",
+      "student_work": null,
+      "initial_guidance": [
+        "Cần giữ đơn vị đếm là học sinh hay lượt chọn và ghi mã để nhận ra người có nhiều lựa chọn.",
+        "Một người có thể xuất hiện ở hai danh sách hoạt động mà vẫn là cùng một học sinh."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phiếu nhiều lựa chọn cần cột cho mã và từng hoạt động được đánh dấu.",
+          "question": "Em ghi dữ liệu sao cho vừa đếm theo hoạt động vừa nhận ra người xuất hiện ở cả hai thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Số người tham gia ít nhất một hoạt động đếm theo mã khác nhau, còn lượt chọn tính từng dấu chọn.",
+          "question": "Em lập các nhóm chỉ chọn một hoạt động hoặc chọn cả hai để phân biệt hai đơn vị đếm ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Người chọn cả hai góp một người nhưng nhiều lượt chọn hơn người chỉ chọn một hoạt động.",
+          "question": "Em kiểm tổng số người và tổng lượt bằng từng nhóm mã như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Lập bảng mã và lựa chọn",
+          "reason": "Giữ mỗi học sinh một dòng và hai cột hoạt động để không nhầm hai dấu chọn thành hai người.",
+          "result": "Mỗi dòng một mã; hai cột đọc sách và trồng cây",
+          "explanation": "A,D,G có dấu ở cả hai cột; B,E,H chỉ cột đọc sách; C,F chỉ cột trồng cây. Không bỏ mã rồi chỉ giữ một danh sách dấu chọn.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Đếm người chọn đọc sách",
+          "reason": "Đếm mã có dấu ở cột đọc sách, dù người đó có thêm lựa chọn khác.",
+          "result": "6",
+          "explanation": "Đọc sách gồm A,B,D,E,G,H: 6 học sinh.",
+          "expression": "1+1+1+1+1+1",
+          "unit": "học sinh",
+          "step_id": "s1"
+        },
+        {
+          "title": "Đếm người chọn trồng cây",
+          "reason": "Đếm mã ở cột trồng cây theo cùng quy tắc.",
+          "result": "5",
+          "explanation": "Trồng cây gồm A,C,D,F,G: 5 học sinh.",
+          "expression": "1+1+1+1+1",
+          "unit": "học sinh",
+          "step_id": "s2"
+        },
+        {
+          "title": "Đếm người có ít nhất một hoạt động",
+          "reason": "Đếm mã khác nhau một lần, không cộng lặp A,D,G khi ghép các danh sách.",
+          "result": "8",
+          "explanation": "Chỉ đọc sách có B,E,H là 3 người; chỉ trồng cây có C,F là 2; cả hai có A,D,G là 3. Tổng người = 3 + 2 + 3 = 8, khớp tám mã đã cho.",
+          "expression": "3+2+3",
+          "unit": "học sinh",
+          "step_id": "s3"
+        },
+        {
+          "title": "Đếm lượt chọn và đối chiếu",
+          "reason": "Mỗi dấu chọn là một lượt, nên người chọn cả hai góp hai lượt nhưng vẫn chỉ là một người.",
+          "result": "11",
+          "explanation": "Tổng lượt = 6 + 5 = 11 lượt chọn. Kiểm theo nhóm: 3 + 2 + 3 x 2 = 11 lượt; số lượt hơn số người 3, bằng số người chọn cả hai trong tình huống này. Không kết luận có 11 học sinh.",
+          "expression": "{s1}+{s2}",
+          "unit": "lượt chọn",
+          "step_id": "s4"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh chọn đọc sách",
+          "result": "6",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh chọn trồng cây",
+          "result": "5",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh tham gia ít nhất một hoạt động",
+          "result": "8",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Tổng lượt chọn",
+          "result": "11",
+          "unit": "lượt chọn"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "multiple_response_people_vs_choice_counts",
+        "operations": [
+          "1+1+1+1+1+1",
+          "1+1+1+1+1",
+          "3+2+3",
+          "6+5"
+        ],
+        "numeric_values": [
+          "8"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_RECORD_IDS_CODING_CRITERIA_AND_RESPONSE_UNIT"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "record_identity_criterion_and_count_unit_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "case_group_id": "primary_20261018_g5_collect_classify_0089_misconception_duplicate_record_not_new_person",
+      "split": "train",
+      "grade": 5,
+      "topic": "misconception_duplicate_record_not_new_person",
+      "problem": "Một bảng đăng ký giả định có sáu dòng theo thứ tự: mã U1 đọc sách; U2 trồng cây; U3 đọc sách; U2 trồng cây; U4 đọc sách; U5 trồng cây. Mỗi mã định danh đúng một học sinh; dòng U2 thứ hai là bản chép lặp của cùng đăng ký, không phải người mới hay một lượt đăng ký mới. Bài viết tổng hợp giả định ghi: Có 6 học sinh vì bảng có 6 dòng. Hãy giữ nguyên câu viết, nhận xét cách đếm dựa trên mã, tìm số học sinh khác nhau và đếm theo hoạt động sau khi loại bản chép lặp. Giải thích rồi kiểm, không suy ai đã chép nhầm hoặc nghĩ gì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số dòng ghi, có một bản chép lặp",
+          "value": "6",
+          "unit": "dòng",
+          "role": "raw_record_count"
+        },
+        {
+          "id": "g1",
+          "text": "Mỗi mã U1 đến U5 xác định một người; U2 lặp cùng đăng ký",
+          "value": null,
+          "unit": "",
+          "role": "explicit_duplicate_identity_rule"
+        }
+      ],
+      "requested_quantity": "Số học sinh khác nhau; Số học sinh chọn đọc sách; Số học sinh chọn trồng cây",
+      "student_work": {
+        "text": "Có 6 học sinh vì bảng có 6 dòng.",
+        "observations": [
+          {
+            "excerpt": "Có 6 học sinh vì bảng có 6 dòng.",
+            "claim_scope": "Explicit synthetic row-count used as person-count despite given duplicate-ID rule; no inferred author or hidden thought."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Số dòng và số học sinh khác nhau là hai đơn vị đếm cần phân biệt.",
+        "Giữ nguyên bảng gốc để kiểm, đồng thời dùng mã định danh nhận ra những dòng nói về cùng một người."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Cần kiểm mã định danh trước khi coi mỗi dòng là một người mới.",
+          "question": "Em đánh dấu các mã đã gặp để nhận ra dòng nào không thêm người như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Bản chép lặp vẫn giữ trong nguồn nhưng không cộng thêm vào bảng số người.",
+          "question": "Em lập danh sách mỗi mã một lần và giữ hoạt động tương ứng ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Tổng theo hoạt động sau xử lý phải khớp số mã khác nhau, không nhất thiết khớp số dòng gốc.",
+          "question": "Em kiểm hai cách đếm bằng danh sách mã như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Nhận xét câu viết bằng mã được cho",
+          "reason": "U2 xuất hiện hai lần nhưng đề nói rõ là cùng người và cùng đăng ký được chép lặp.",
+          "result": "Số dòng không bằng số học sinh khác nhau trong bảng này",
+          "explanation": "Câu Có 6 học sinh vì bảng có 6 dòng đã tính bản chép lặp như người mới. Chỉ kết luận lỗi đơn vị đếm từ quy tắc mã được cho, không đoán người gây lỗi hoặc nguyên nhân suy nghĩ.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Đếm số mã khác nhau",
+          "reason": "Giữ U1,U2,U3,U4,U5 mỗi mã một lần; một dòng lặp không làm tăng số người.",
+          "result": "5",
+          "explanation": "Số học sinh khác nhau = 6 - 1 = 5 học sinh, danh sách U1,U2,U3,U4,U5. Giữ cả hai dòng U2 trong nguồn audit nhưng đếm U2 một lần.",
+          "expression": "6-1",
+          "unit": "học sinh",
+          "step_id": "s1"
+        },
+        {
+          "title": "Đếm người chọn đọc sách",
+          "reason": "Sau khi dùng mỗi mã một lần, nhóm đọc sách gồm U1,U3,U4.",
+          "result": "3",
+          "explanation": "Đọc sách có 3 học sinh.",
+          "expression": "1+1+1",
+          "unit": "học sinh",
+          "step_id": "s2"
+        },
+        {
+          "title": "Đếm người chọn trồng cây và kiểm",
+          "reason": "Nhóm trồng cây gồm U2,U5; không đếm bản chép U2 thêm lần nữa.",
+          "result": "2",
+          "explanation": "Trồng cây có 2 học sinh. Kiểm 3 + 2 = 5 học sinh, đúng số mã khác nhau; hai nhóm bao hết U1 đến U5.",
+          "expression": "1+1",
+          "unit": "học sinh",
+          "step_id": "s3"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số học sinh khác nhau",
+          "result": "5",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh chọn đọc sách",
+          "result": "3",
+          "unit": "học sinh"
+        },
+        {
+          "quantity": "Số học sinh chọn trồng cây",
+          "result": "2",
+          "unit": "học sinh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "misconception_duplicate_record_not_new_person",
+        "operations": [
+          "6-1",
+          "1+1+1",
+          "1+1"
+        ],
+        "numeric_values": [
+          "6"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_RECORD_IDS_CODING_CRITERIA_AND_RESPONSE_UNIT"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "record_identity_criterion_and_count_unit_explicit": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_guard_missing_length_group_thresholds",
+      "case_group_id": "primary_20261018_g5_collect_classify_0089_guard_missing_length_group_thresholds",
+      "split": "train",
+      "grade": 5,
+      "topic": "guard_missing_length_group_thresholds",
+      "problem": "Một bảng giả định cho ba đoạn dây có mã X dài 10 cm, Y dài 15 cm, Z dài 20 cm. Yêu cầu phân vào ba nhóm mang tên ngắn, vừa, dài và đếm số đoạn ở mỗi nhóm, nhưng chưa cho tiêu chí độ dài của từng nhóm, các mốc ranh giới hay quy định nhận đúng mốc. Không có quy tắc chung nào khác được cung cấp. Hãy hỏi tiêu chí còn thiếu trước khi gán nhóm hoặc đưa số lượng; không tự dùng thứ hạng ba đoạn thay cho quy tắc phân loại.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Độ dài X",
+          "value": "10",
+          "unit": "cm",
+          "role": "X_length"
+        },
+        {
+          "id": "g1",
+          "text": "Độ dài Y",
+          "value": "15",
+          "unit": "cm",
+          "role": "Y_length"
+        },
+        {
+          "id": "g2",
+          "text": "Độ dài Z",
+          "value": "20",
+          "unit": "cm",
+          "role": "Z_length"
+        },
+        {
+          "id": "g3",
+          "text": "Chưa có ngưỡng và quy tắc ranh giới của ngắn/vừa/dài",
+          "value": null,
+          "unit": "",
+          "role": "missing_classification_criterion"
+        }
+      ],
+      "requested_quantity": "Hỏi tiêu chí ngưỡng và quy tắc ranh giới trước khi phân loại và đếm",
+      "student_work": null,
+      "initial_guidance": [
+        "Số đo đã đủ để so thứ tự độ dài nhưng tên nhóm chưa tự xác định mốc phân loại.",
+        "Cần quy tắc cho từng nhóm, kể cả cách xử lý số đo đúng ranh giới, để lập bảng số lượng có nghĩa."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Xếp tăng dần theo độ dài và phân vào các nhóm theo ngưỡng là hai yêu cầu khác nhau.",
+          "question": "Đề có nêu các mốc độ dài và điều kiện nhận vào từng nhóm chưa?"
+        },
+        {
+          "level": 2,
+          "hint": "Cùng các số đo có thể cho bảng nhóm khác nhau nếu dùng quy tắc khác.",
+          "question": "Em có thể gửi tiêu chí của nhóm ngắn, vừa và dài kèm đơn vị không?"
+        },
+        {
+          "level": 3,
+          "hint": "Muốn mỗi đoạn được tính đúng một lần cần biết nhóm nào nhận số đo đúng mốc.",
+          "question": "Em bổ sung cả quy định nhận hay không nhận ranh giới để kiểm bảng phân loại được không?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_missing_length_group_thresholds",
+        "operations": [],
+        "numeric_values": [
+          "10",
+          "15",
+          "20"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_collect_classify",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_RECORD_IDS_CODING_CRITERIA_AND_RESPONSE_UNIT"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "record_identity_criterion_and_count_unit_explicit": true
+      }
+    }
+  ],
+  "polish_reason": "Requested quantities include complete plan/classification/order scope; raw ribbon records put in unsorted order with givens aligned so sorting is an actual task; unchanged values, class assignments and numerical answers.",
+  "revised_fields": [
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_single_choice_survey_coding_tally_order",
+      "problem": "Một cuộc khảo sát giả định hỏi mỗi học sinh chọn đúng một môn muốn tham gia trong ba môn: bóng đá, cầu lông, bơi. Mỗi mã là một học sinh khác nhau, có đúng một phiếu hợp lệ, không thiếu phiếu trong danh sách: A bóng đá; B bơi; C cầu lông; D bóng đá; E cầu lông; F bơi; G bóng đá; H cầu lông; I bóng đá; J bơi; K cầu lông; L bóng đá. Hãy nêu cách ghi và kiểm phiếu, phân loại theo môn đã chọn, lập số học sinh của từng môn rồi sắp các môn theo số học sinh giảm dần. Giải thích và kiểm tổng; đây là dữ liệu giả định bằng chữ, không phải khảo sát thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Mỗi học sinh chọn đúng một môn; mã A đến L khác nhau",
+          "value": "12",
+          "unit": "học sinh",
+          "role": "complete_single_choice_population"
+        },
+        {
+          "id": "g1",
+          "text": "Toàn bộ phiếu A đến L được ghi trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_id_to_choice_records"
+        }
+      ],
+      "requested_quantity": "Cách ghi và kiểm phiếu; Phân loại theo môn; Số học sinh từng môn; Thứ tự môn theo số học sinh giảm dần"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_ribbon_length_boundary_groups_and_sort",
+      "problem": "Có sáu đoạn ruy băng giả định với số đo đã cho: R dài 1,75 m; P dài 1,25 m; U dài 2,5 m; Q dài 1,5 m; T dài 2,25 m; S dài 2 m. Quy tắc phân loại: nhóm ngắn có độ dài nhỏ hơn 1,5 m; nhóm vừa có độ dài từ 1,5 m đến dưới 2,25 m; nhóm dài có độ dài từ 2,25 m trở lên. Hãy sắp các mã theo độ dài tăng dần, ghi từng mã vào đúng một nhóm, đếm số đoạn mỗi nhóm và kiểm không bỏ sót hoặc đếm hai lần ở các mốc ranh giới. Chỉ dùng số đo ghi bằng chữ, chưa có ảnh hoặc thao tác đo thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Độ dài R",
+          "value": "1.75",
+          "unit": "m",
+          "role": "R_length"
+        },
+        {
+          "id": "g1",
+          "text": "Độ dài P",
+          "value": "1.25",
+          "unit": "m",
+          "role": "P_length"
+        },
+        {
+          "id": "g2",
+          "text": "Độ dài U",
+          "value": "2.5",
+          "unit": "m",
+          "role": "U_length"
+        },
+        {
+          "id": "g3",
+          "text": "Độ dài Q",
+          "value": "1.5",
+          "unit": "m",
+          "role": "Q_length"
+        },
+        {
+          "id": "g4",
+          "text": "Độ dài T",
+          "value": "2.25",
+          "unit": "m",
+          "role": "T_length"
+        },
+        {
+          "id": "g5",
+          "text": "Độ dài S",
+          "value": "2",
+          "unit": "m",
+          "role": "S_length"
+        },
+        {
+          "id": "g6",
+          "text": "Ngắn <1,5; vừa từ1,5 đến dưới2,25; dài từ2,25 trở lên",
+          "value": null,
+          "unit": "m",
+          "role": "explicit_disjoint_boundary_rule"
+        }
+      ],
+      "requested_quantity": "Thứ tự mã theo độ dài tăng dần; Mã trong từng nhóm theo quy tắc; Số đoạn mỗi nhóm"
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "problem": "Một phiếu hỏi giả định cho phép mỗi học sinh chọn một hoặc cả hai hoạt động: đọc sách, trồng cây. Có đúng tám học sinh khác nhau với các mã và toàn bộ lựa chọn sau: A chọn cả hai; B chỉ đọc sách; C chỉ trồng cây; D chọn cả hai; E chỉ đọc sách; F chỉ trồng cây; G chọn cả hai; H chỉ đọc sách. Hãy nêu cách ghi phiếu để không mất mã người, đếm số học sinh chọn mỗi hoạt động, số học sinh tham gia ít nhất một hoạt động và tổng lượt chọn. Giải thích vì sao tổng lượt chọn có thể khác số người rồi kiểm bằng nhóm chỉ chọn một hoặc chọn cả hai. Chưa có khảo sát thực tế.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tám mã A đến H là tám học sinh khác nhau",
+          "value": "8",
+          "unit": "học sinh",
+          "role": "distinct_complete_respondents"
+        },
+        {
+          "id": "g1",
+          "text": "Mỗi mã chọn một hoặc cả hai; toàn bộ lựa chọn trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_multiple_response_records"
+        }
+      ],
+      "requested_quantity": "Cách ghi mã và lựa chọn; Số học sinh chọn mỗi hoạt động; Số học sinh có ít nhất một hoạt động; Tổng lượt chọn và kiểm"
+    }
+  ],
+  "all_hint_count_read": 15,
+  "identity_criterion_boundary_count_unit_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:24:00.831412+00:00",
+  "official_QA_method": "Same-author actualfullread5problems/givens/request/studentquote/observations/initial/all19workedtitles/reasons/explanations/results/expressions/units/answers and15hints. Reread expandedneutralrequests, shuffledribboninput/givens beforeofficialQA. Grade5collectionplan, identity-basedclassification/tally/order, rationaldecimalboundaryinclusion, multiple-responsepersonsversuschoicecounts, explicitduplicate-recordrule andmissingcriterion. Fraction/Decimal all14numericsteps, independentCounter/IDsets/dedupdictionary/rationalbuckets andtwoQA-onlythresholdcountermodels. Directsemantics of5null-expressionsteps checked; parsernotsemanticproof. No actualsurvey/image/measurement/independentreview/newhumanattestation.",
+  "official_review_sha256": "1bcf29d4cdf00f766e48eb00bbb5fd8a26cd001d1b28cdc65c2719c461fdf4bf"
+}

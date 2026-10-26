@@ -1,0 +1,16 @@
+{
+  "accepted_cases": 96,
+  "chat_rows": 384,
+  "pending_cases": 31,
+  "core_cases": 64,
+  "remaining_core_cases": 431,
+  "core_nodes_complete": 15,
+  "pending_core_slots_already_authored": 20,
+  "core_slots_not_authored": 411,
+  "remaining_required_supplementary_tasks": 250,
+  "source_45_unchanged": true,
+  "new_official_review_count": 8,
+  "prior_37_official_reviews_unchanged": true,
+  "external_actor_verified": false,
+  "training_started": false
+}

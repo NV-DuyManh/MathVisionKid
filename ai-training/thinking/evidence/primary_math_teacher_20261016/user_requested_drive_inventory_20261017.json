@@ -1,0 +1,95 @@
+{
+  "created_utc": "2026-10-17T13:47:16.299801+00:00",
+  "scope": "NEW_PRIMARY_MATH_TEACHER_RESEARCH_PACK_ONLY; old unaudited training seeds excluded",
+  "authored_cases": 259,
+  "accepted_ai_research_cases": 172,
+  "pending_cases": 87,
+  "accepted_chat_rows": 688,
+  "chat_rows_are_not_unique_new_problems": true,
+  "authored_case_kinds": {
+    "core": 166,
+    "misconception": 52,
+    "guard": 35,
+    "supplementary": 6
+  },
+  "per_grade": [
+    {
+      "grade": 1,
+      "authored_cases": 70,
+      "accepted_ai_research_cases": 70,
+      "pending_cases": 0,
+      "registered_nodes": 20,
+      "nodes_at_minimum_three_core_cases": 15,
+      "accepted_core_cases": 45,
+      "target_core_cases": 60
+    },
+    {
+      "grade": 2,
+      "authored_cases": 105,
+      "accepted_ai_research_cases": 81,
+      "pending_cases": 24,
+      "registered_nodes": 28,
+      "nodes_at_minimum_three_core_cases": 17,
+      "accepted_core_cases": 51,
+      "target_core_cases": 84
+    },
+    {
+      "grade": 3,
+      "authored_cases": 71,
+      "accepted_ai_research_cases": 8,
+      "pending_cases": 63,
+      "registered_nodes": 42,
+      "nodes_at_minimum_three_core_cases": 0,
+      "accepted_core_cases": 4,
+      "target_core_cases": 126
+    },
+    {
+      "grade": 4,
+      "authored_cases": 5,
+      "accepted_ai_research_cases": 5,
+      "pending_cases": 0,
+      "registered_nodes": 38,
+      "nodes_at_minimum_three_core_cases": 0,
+      "accepted_core_cases": 5,
+      "target_core_cases": 114
+    },
+    {
+      "grade": 5,
+      "authored_cases": 8,
+      "accepted_ai_research_cases": 8,
+      "pending_cases": 0,
+      "registered_nodes": 37,
+      "nodes_at_minimum_three_core_cases": 0,
+      "accepted_core_cases": 6,
+      "target_core_cases": 111
+    }
+  ],
+  "registered_nodes": 165,
+  "current_reference_nodes": 106,
+  "historical_observed_topic_nodes": 59,
+  "nodes_minimum_quota_complete": 32,
+  "accepted_core_cases": 111,
+  "target_core_cases": 495,
+  "pending_core_cases_already_authored": 55,
+  "core_cases_not_authored": 329,
+  "required_supplementary_tasks_not_yet_accepted": 221,
+  "all_primary_curriculum_covered": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started_for_this_pack": false,
+  "source_limits": {
+    "research_pack": "All495originalcorecases and1980pairedchatrows authored, independent exact+semantic checks done, meaningful supplementarycases included, provenance/split grouping/content hashes complete.",
+    "registered_nodes_covered": "At least3case sets per165node, not proof all subskills/difficulty/real-world outcomes are exhausted.",
+    "current_source_confirmed": "2018 annex outcomes previously read; latest legal currency must be separately rechecked before current2026certification.",
+    "legacy_source_confirmed": "59observed historical topics; full2006annex and allolderprograms stillpending.",
+    "visual_practical": "Textguidance/hypotheticaldescription never counts as observedimage or actualinstrument competency."
+  },
+  "artifact_hashes": {
+    "thinking\\data\\primary_math_teacher_20261016\\data_build_state.json": "29b55e6e4799d3a16ac7da327bc16d5b982d9b3fea9a5f25beb118ed35018831",
+    "thinking\\data\\primary_math_teacher_20261016\\coverage_progress.json": "95020068a83e720d62fdea0abdc45781af2d9725e226a563a9097710ffa20cf5",
+    "thinking\\data\\primary_math_teacher_20261016\\exports\\teacher_chat_train.jsonl": "52301c1b01fe73025c052ec7b6bbab184f9859be9b41cfdb028524e906646ff5"
+  },
+  "drive_folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "progress_zip_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+  "pending_rows_excluded_from_accepted_chat": true
+}

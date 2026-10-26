@@ -1,0 +1,49 @@
+{
+  "branch": "skill_recovery_150m_20261024",
+  "branch_observation_sha256": "f6ac042e7ffe6f5703cb51a4d3026b7c45e396fa0367b8b42578a2871c6fb2e2",
+  "legacy_top_level_flags_preserved": true,
+  "metadata_control_transaction_only": true,
+  "order": [
+    "progress",
+    "chat",
+    "context",
+    "state"
+  ],
+  "prepared_hashes": {
+    "chat": "715dc7995e4e8125aad66e226d2c5caf74fc66f3237f6f971cb60b3731e7f3a4",
+    "context": "e27123f6e8b1923c5a1aca21571f2c14b3e6ac2b8e2a55006933e726e960cccb",
+    "progress": "53cfe072b7f0a982b0fec2a984a54ecdbc5987e3d6c849a7ef26b0e905208500",
+    "state": "ae7b4e46e4aebdeecad44f0fd058fa360e66872c08964e902a99504c323181b5"
+  },
+  "transaction": "four_existing_controls",
+  "verified_writes": [
+    {
+      "bytes": 20557506,
+      "fresh_raw_readback_verified": true,
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "kind": "progress",
+      "sha256": "53cfe072b7f0a982b0fec2a984a54ecdbc5987e3d6c849a7ef26b0e905208500"
+    },
+    {
+      "bytes": 1252830,
+      "fresh_raw_readback_verified": true,
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "kind": "chat",
+      "sha256": "715dc7995e4e8125aad66e226d2c5caf74fc66f3237f6f971cb60b3731e7f3a4"
+    },
+    {
+      "bytes": 858466,
+      "fresh_raw_readback_verified": true,
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "kind": "context",
+      "sha256": "e27123f6e8b1923c5a1aca21571f2c14b3e6ac2b8e2a55006933e726e960cccb"
+    },
+    {
+      "bytes": 1555787,
+      "fresh_raw_readback_verified": true,
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "kind": "state",
+      "sha256": "ae7b4e46e4aebdeecad44f0fd058fa360e66872c08964e902a99504c323181b5"
+    }
+  ]
+}

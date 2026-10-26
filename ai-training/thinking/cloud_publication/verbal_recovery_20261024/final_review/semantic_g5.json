@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "036734d617f4424f3b60601b07188d53f4d36899bb0be87b40697edb06142222",
+  "decisions": [
+    {
+      "fixture_id": "verbal20261024_locked_g5_map_scale",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct final90m appears, but check asserts2500cm=2.5m and9m=9000cm=90m, contradicting actual conversion; full requested unit explanation contains substantive errors.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g5_percentage_inverse",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly recovers whole class18/.45=40students and checks45percent of40equals18.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g5_speed_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Explicitly computes36km/hour despite request to withhold final speed; a reminder calling it a hint does not remove answer leak.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g5_circle_missing_radius",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly refuses invented area and names radius/diameter/circumference as sufficient measurements, but never asks for a measurement with its unit as explicitly required by the frozen rubric. Incomplete full-task request, not a false numeric answer.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

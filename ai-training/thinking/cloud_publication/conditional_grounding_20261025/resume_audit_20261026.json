@@ -1,0 +1,42 @@
+{
+  "schema": "MathVisionKid.resume_audit_20261026.v1",
+  "source_context": "MATH_TRAINING_CONTEXT.md 25/10 conditional native run and frozen-baseline entries; local conditional_grounding_20261025 evidence",
+  "training_state_in_context": "Native T4 run was started after restore from CP1; later saved step-100 base/adapter evaluation transcripts are complete for grades 1–5. No live runtime was queried in this audit.",
+  "evaluation_evidence": {
+    "grade3_to_5_pairs_reviewed": 18,
+    "all_eos_no_timeout": true,
+    "review_file": "independent_candidate_remainder18_review.json",
+    "review_sha256": "0af1b7d061331380ee5e38eccc75cd1bd3126d1bf4e91e9574908914be9af9ed",
+    "remainder_summary": {
+      "adapter_passes": 10,
+      "adapter_hint_leaks": 6,
+      "new_critical_errors": 0,
+      "new_wrong_math_or_unit_claims": 0
+    }
+  },
+  "gate_or_final_report": {
+    "completed_gate_found": false,
+    "final_report_found": false,
+    "checked_top_level_evidence_names": [
+      "build_quality_gate.py",
+      "test_build_quality_gate.py"
+    ]
+  },
+  "selected_best": {
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "semantic_review_pending": true,
+    "validation_output_sha256": "6467bebece38af25017ab25b1375033ca7a471530a0ffdf5611c0b0fa8094fca"
+  },
+  "remaining_work": [
+    "Finish root adjudication across the complete 30-pair evaluation using the existing paired reviews and frozen baseline flags.",
+    "Only build a quality gate if its explicit policy passes; current best artifact remains untrained base with semantic review pending.",
+    "If gate rejects the adapter, preserve corpus/checkpoints and run a newly justified development experiment only after the evaluation findings are adjudicated."
+  ],
+  "limitations": [
+    "This is a local evidence audit; no MCP, browser, Drive, or GPU was contacted.",
+    "No human-review or general-accuracy claim is made.",
+    "No sealed native15 data were read."
+  ]
+}

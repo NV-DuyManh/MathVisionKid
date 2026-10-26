@@ -1,0 +1,232 @@
+{
+  "authored_utc": "2026-10-18T03:56:38.123109+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:54:37.086Z",
+  "batch_sha256": "276c4e2140e75bf862c85831e10754bff5972e9f85eae84f70a95785f8b3316e",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_perpendicular_lines_given_right_angle",
+      "row_sha256": "697aff8182bf2e587e934ff8dd13ba567c744ba49f52a5026f5ec23a38a6c4a3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_parallel_direction_independent",
+      "row_sha256": "ed1d70ec9b681333aa734a99c58cad6d658c6fa518e9a69695327037aac93dc0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_tool_plan_through_external_point",
+      "row_sha256": "d13b7037e46a07b3f1133dc12706737dfe1d3fd9f98752b814b4c7fb0e8f8d39",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_misconception_any_intersection_is_perpendicular",
+      "row_sha256": "51224cf64fc23f716d4541ba7f74f1c2da504d0013687560982b2590272dfc25",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_guard_check_drawing_without_evidence",
+      "row_sha256": "05ce24d266d90c259d5a9ba7a52d536afd48e080d63ad55a09309321ba84230e",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "perpendicular_dot_zero": true,
+    "parallel_direction_determinant_zero": true,
+    "translation_tool_plan_models": [
+      {
+        "M": [
+          3,
+          4
+        ],
+        "d_intersection_a": [
+          3,
+          0
+        ],
+        "d_direction": [
+          0,
+          1
+        ],
+        "e_direction": [
+          1,
+          0
+        ],
+        "e_y": 4
+      },
+      {
+        "M": [
+          -2,
+          5
+        ],
+        "d_intersection_a": [
+          -2,
+          0
+        ],
+        "d_direction": [
+          0,
+          1
+        ],
+        "e_direction": [
+          1,
+          0
+        ],
+        "e_y": 5
+      },
+      {
+        "M": [
+          7,
+          -3
+        ],
+        "d_intersection_a": [
+          7,
+          0
+        ],
+        "d_direction": [
+          0,
+          1
+        ],
+        "e_direction": [
+          1,
+          0
+        ],
+        "e_y": -3
+      }
+    ],
+    "bounded_segment_countermodels": {
+      "same_no_meeting_in_frame": true,
+      "parallel_lines_example": "y=0 andy=1",
+      "nonparallel_lines_example": "segments ofy=0 for0<=x<=1 andy=2-x for0<=x<=1; supportlinesmeetat(2,0)outsideframe",
+      "same_observation_different_global_relation": true,
+      "exact_endpoint_separations_parallel": [
+        "1",
+        "1"
+      ],
+      "exact_endpoint_separations_nonparallel": [
+        "2",
+        "1"
+      ],
+      "affine_positive_gap_throughout_closed_interval": true,
+      "support_line_intersection_exact": [
+        "2",
+        "0"
+      ]
+    },
+    "given73_not90": true
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Coordinate models check directions/translation only in technicalevidence; exported grade4text uses ruler/set-square plans and definitions, not coordinate equations. Cannot certify physical instrumentplacement or actualdrawing.",
+  "actual_image_or_tool_execution_verified": false,
+  "visual_physical_outcomes_still_pending": true,
+  "guard_no_unseen_product_success_claim": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous343_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_semantic_read_completed_utc": "2026-10-18T03:59:49.126944+00:00",
+  "actual_semantic_read_fields": [
+    "problem",
+    "givens",
+    "requested_quantity",
+    "student_work",
+    "initial_guidance",
+    "worked_steps titles reasons results explanations expressions units",
+    "expected_answer",
+    "all15hint texts and questions",
+    "mapping",
+    "provenance modality"
+  ],
+  "same_author_QA_not_independent_human_review": true
+}

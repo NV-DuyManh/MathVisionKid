@@ -1,0 +1,339 @@
+{
+  "schema": "MathVisionKid.training_target_code_audit.v1",
+  "created_utc": "2026-10-24T00:36:18.288483+00:00",
+  "review_type": "LLM code semantic audit plus bounded CPU-only exact arithmetic checks; no human attestation or certification",
+  "scope": {
+    "source_code_only": true,
+    "existing_selected_train_rows_read": false,
+    "selected_train_row_content_validation": "Pending root readback in Colab; generator reconstruction is not evidence that a row is in the current selected view.",
+    "source_edits": false,
+    "corpus_download": false,
+    "gpu_or_training": false,
+    "drive_or_network": false,
+    "runtime_app_source_changed_or_executed": false,
+    "new_output_only": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\t4_budget_3h_20261023\\resume_20261024\\training_target_code_audit.json"
+  },
+  "source_sha256": {
+    "primary_math_data_pipeline.py": "08ae70ec97055b51d6b5613171ced337df199114dd5e81193579c0265469826d",
+    "exhaustive_primary_math.py": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+    "exhaustive_multidigit_math.py": "7a27fa97922b59ea0fca13751cfa7d621dc05dc775fbbf70bb163c22be52cfb2",
+    "exhaustive_fraction_math.py": "96ad955efdc5df5f3f9130ef6ea134b6b689ab7d73ef3c1331ab4e9d53240063",
+    "exhaustive_decimal_math.py": "00126a6b8eaeb788747f025db6676ca0e631ea1e885778473d43bb67c0891267",
+    "author_finite_remaining.py": "8d1f93baaf6c71bbf8d046e6080ca16b1e3b7eee34c278e53912b4685f40a4c3",
+    "author_primary_g2_regroup_mental_0011.py": "1bafaf01ed000a311a040eae20d1da115ef9b1d7d9e7210b242cfa77bf028b45",
+    "build_cloud_pedagogy.py": "9847816e38573a914354afbec52c43bd904096c86cd97016a854dcf68b3939b5",
+    "build_exhaustive_balanced_release.py": "8f5cf8e8ee8da567c5541efaba6f464e4540b4f2f6559a72d0d477a8032dea8e",
+    "teacher_math_data_v3.py": "5fe1fc40b0155654e31802a19587dffad68a40767b71f23f2b1e54e4db511336",
+    "teacher_math_data_v4.py": "534b4e47d9f7c2649ce7a27f563fd63df3561a8acca5f1527e781d5a71c2667a",
+    "data/primary_math_teacher_20261016/tutor_contract.json": "0e09c27b728dccf9fb1d374480699498425d647e0f55fcf016efe7d0eaca70c5"
+  },
+  "findings": [
+    {
+      "id": "GEN_GUARD_CONTRACT_INCONSISTENCY",
+      "severity": "material_contract_inconsistency",
+      "status": "CONFIRMED_IN_CODE",
+      "references": [
+        {
+          "path": "build_cloud_pedagogy.py",
+          "lines": [
+            35,
+            37
+          ]
+        },
+        {
+          "path": "primary_math_data_pipeline.py",
+          "lines": [
+            134,
+            136
+          ]
+        },
+        {
+          "path": "build_cloud_pedagogy.py",
+          "lines": [
+            84,
+            87
+          ]
+        }
+      ],
+      "exact_quotes": [
+        "can_solve=False",
+        "worked_steps=[{",
+        "expected_answer=[{",
+        "elif answers or steps: raise ValueError(\"missing-data case must not invent a numeric solution\")"
+      ],
+      "description": "The cloud pedagogy guard constructor sets can_solve false but retains a categorical step and answer. Four train guards (missing_side, inconsistent_counts, missing_image, zero_groups) use it. The primary authoring validator forbids any steps/answers when can_solve is false. This is not a fabricated numeric answer: it is an inconsistent neutral refusal convention that should be made explicit before further export.",
+      "training_membership_confirmed": false,
+      "recommended_action": "Root inspect selected actual train guards and choose one declared neutral refusal convention; retain original source hashes and derive corrected views only if needed."
+    },
+    {
+      "id": "GEN_SHARED_GENERIC_QUESTIONS",
+      "severity": "teaching_quality_limitation",
+      "status": "CONFIRMED_IN_CODE",
+      "references": [
+        {
+          "path": "author_finite_remaining.py",
+          "lines": [
+            109,
+            110
+          ]
+        },
+        {
+          "path": "build_cloud_pedagogy.py",
+          "lines": [
+            34,
+            34
+          ]
+        },
+        {
+          "path": "primary_math_data_pipeline.py",
+          "lines": [
+            120,
+            129
+          ]
+        }
+      ],
+      "exact_quotes": [
+        "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?",
+        "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?",
+        "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+      ],
+      "description": "H(a,b,c) assigns the same three questions to many authored topics. The task-specific hint statement may be useful, so the shared question alone is not always a failure. However level-2 guidance can refer to an unspecified relationship if its statement does not name the operation. The parser checks presence/order/question marks, not relevance or increasing specificity.",
+      "recommended_action": "Inspect selected full hint+question pairs; require a specific operation/relationship and a feasible next action rather than globally replacing every shared question."
+    },
+    {
+      "id": "GEN_PROSE_EQUALITY_VALIDATION_GAP",
+      "severity": "material_validation_gap",
+      "status": "CONFIRMED_BY_AUDIT_MUTATION",
+      "references": [
+        {
+          "path": "primary_math_data_pipeline.py",
+          "lines": [
+            137,
+            159
+          ]
+        },
+        {
+          "path": "exhaustive_multidigit_math.py",
+          "lines": [
+            368,
+            386
+          ]
+        },
+        {
+          "path": "exhaustive_fraction_math.py",
+          "lines": [
+            137,
+            153
+          ]
+        }
+      ],
+      "description": "Arithmetic checks bind machine-readable expression/result fields; they do not establish correctness of arbitrary numerical prose or its agreement with the requested quantity. A synthetic audit-only row with correct 453-128=325 expression/result but false explanation 13−8=4 passes inspect_case. This is a validator counterexample, not a claim that this false explanation exists in training. In multidigit validation, embedded-expression processing checks evaluability and signature coverage, but not the textual equality RHS; subtraction carry metadata checks do not independently verify every prose token.",
+      "recommended_action": "Root read actual numeric prose in selected rows; any derived repair should check all prose equalities and intermediate quantities alongside expression/result, with source-hash lineage."
+    },
+    {
+      "id": "GEN_NEUTRAL_CONTRACT_IS_INTENTIONAL",
+      "severity": "scope_boundary",
+      "status": "CONFIRMED_IN_CODE_AND_SAVED_CONTRACT",
+      "references": [
+        {
+          "path": "primary_math_data_pipeline.py",
+          "lines": [
+            308,
+            328
+          ]
+        },
+        {
+          "path": "exhaustive_primary_math.py",
+          "lines": [
+            183,
+            189
+          ]
+        },
+        {
+          "path": "data/primary_math_teacher_20261016/tutor_contract.json",
+          "json_paths": [
+            "neutral_teacher_schema",
+            "generation_contract",
+            "stateless_guide_contract"
+          ]
+        }
+      ],
+      "exact_quotes": [
+        "neutral_teacher_chat.v1_not_live_PlanDraft"
+      ],
+      "description": "Worked targets intentionally use can_solve, initial_guidance, steps and answer; hint targets use hint/question. The saved contract explicitly separates this from live PlanDraft canSolve/topic/goal/steps/finalAnswerStep and requires a reviewed adapter. JSON format alone is not a semantic error. Numeric machine-readable and prose values must still agree. Neutral hints map levels1..3 to runtime0..2 only after stage/no-number/pedagogy checks.",
+      "recommended_action": "Keep the bounded retrain task in a documented neutral tutor contract; do not claim runtime API compatibility or add live schema fields to data without the explicit conversion boundary."
+    },
+    {
+      "id": "GEN_EXACT_HELPERS_NO_NUMERIC_DEFECT_REPRODUCED",
+      "severity": "verified_bounded_positive",
+      "status": "PASS_WITH_SCOPE_LIMITS",
+      "references": [
+        {
+          "path": "exhaustive_primary_math.py",
+          "lines": [
+            89,
+            106
+          ]
+        },
+        {
+          "path": "exhaustive_fraction_math.py",
+          "lines": [
+            88,
+            121
+          ]
+        },
+        {
+          "path": "exhaustive_decimal_math.py",
+          "lines": [
+            46,
+            71
+          ]
+        },
+        {
+          "path": "author_primary_g2_regroup_mental_0011.py",
+          "lines": [
+            33,
+            59
+          ]
+        }
+      ],
+      "description": "Current exhaustive subtraction correctly updates the donor, intervening zeros and current column. Current fraction recipes use LCM/cross-products/Fraction with nonzero-divisor guards. The finite grade2 453−128 and427−156 authored explanations also update the correct donor column. No wrong numerical target was reproduced from these current helpers in the declared bounded checks. Decimal generator inputs are k/10 and its claim that both inputs have one decimal place is valid only inside that narrow representation domain, not a rule for arbitrary decimal word problems.",
+      "recommended_action": "Do not invent a generator bug from model errors or regenerate the corpus. Compare current source hashes with the actual selected target rows; repair concrete observed bad targets separately from model learning failures."
+    }
+  ],
+  "bounded_cpu_checks": {
+    "execution_method": "AST extract named pure functions only; no module main/import side effects, protection functions, corpus files, or app runtime invoked. Fraction signature helper replaced with a SHA256 stub because signature implementation is outside numeric target checking.",
+    "subtraction_domain": "All nonnegative ordered pairs 0<=b<=a<=1000",
+    "subtraction_pairs_checked": 501501,
+    "subtraction_embedded_equalities_checked": 1500399,
+    "subtraction_numeric_mismatches": 0,
+    "additional_cascading_examples": [
+      {
+        "inputs": [
+          1000,
+          1
+        ],
+        "result": 999,
+        "full_trace": [
+          "Hàng đơn vị chưa đủ bớt; đổi nhóm từ hàng cao hơn gần nhất còn đơn vị để đổi: hàng nghìn từ 1 còn 0; hàng trăm nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng chục nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng đơn vị thành 10; 10 − 1 = 9, ghi 9.",
+          "Hàng chục; 9 − 0 = 9, ghi 9.",
+          "Hàng trăm; 9 − 0 = 9, ghi 9.",
+          "Hàng nghìn; 0 − 0 = 0, ghi 0."
+        ],
+        "borrow_positions": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "inputs": [
+          10000,
+          999
+        ],
+        "result": 9001,
+        "full_trace": [
+          "Hàng đơn vị chưa đủ bớt; đổi nhóm từ hàng cao hơn gần nhất còn đơn vị để đổi: hàng chục nghìn từ 1 còn 0; hàng nghìn nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng trăm nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng chục nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng đơn vị thành 10; 10 − 9 = 1, ghi 1.",
+          "Hàng chục; 9 − 9 = 0, ghi 0.",
+          "Hàng trăm; 9 − 9 = 0, ghi 0.",
+          "Hàng nghìn; 9 − 0 = 9, ghi 9.",
+          "Hàng chục nghìn; 0 − 0 = 0, ghi 0."
+        ],
+        "borrow_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "inputs": [
+          1000000,
+          1
+        ],
+        "result": 999999,
+        "full_trace": [
+          "Hàng đơn vị chưa đủ bớt; đổi nhóm từ hàng cao hơn gần nhất còn đơn vị để đổi: hàng triệu từ 1 còn 0; hàng trăm nghìn nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng chục nghìn nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng nghìn nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng trăm nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng chục nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng đơn vị thành 10; 10 − 1 = 9, ghi 9.",
+          "Hàng chục; 9 − 0 = 9, ghi 9.",
+          "Hàng trăm; 9 − 0 = 9, ghi 9.",
+          "Hàng nghìn; 9 − 0 = 9, ghi 9.",
+          "Hàng chục nghìn; 9 − 0 = 9, ghi 9.",
+          "Hàng trăm nghìn; 9 − 0 = 9, ghi 9.",
+          "Hàng triệu; 0 − 0 = 0, ghi 0."
+        ],
+        "borrow_positions": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "inputs": [
+          40002,
+          1785
+        ],
+        "result": 38217,
+        "full_trace": [
+          "Hàng đơn vị chưa đủ bớt; đổi nhóm từ hàng cao hơn gần nhất còn đơn vị để đổi: hàng chục nghìn từ 4 còn 3; hàng nghìn nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng trăm nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng chục nhận 10 rồi chuyển 1 cho hàng liền thấp, còn 9; hàng đơn vị thành 12; 12 − 5 = 7, ghi 7.",
+          "Hàng chục; 9 − 8 = 1, ghi 1.",
+          "Hàng trăm; 9 − 7 = 2, ghi 2.",
+          "Hàng nghìn; 9 − 1 = 8, ghi 8.",
+          "Hàng chục nghìn; 3 − 0 = 3, ghi 3."
+        ],
+        "borrow_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "inputs": [
+          999999,
+          888888
+        ],
+        "result": 111111,
+        "full_trace": [
+          "Hàng đơn vị; 9 − 8 = 1, ghi 1.",
+          "Hàng chục; 9 − 8 = 1, ghi 1.",
+          "Hàng trăm; 9 − 8 = 1, ghi 1.",
+          "Hàng nghìn; 9 − 8 = 1, ghi 1.",
+          "Hàng chục nghìn; 9 − 8 = 1, ghi 1.",
+          "Hàng trăm nghìn; 9 − 8 = 1, ghi 1."
+        ],
+        "borrow_positions": []
+      }
+    ],
+    "fraction_domain": "30 representations n=0..5,d=1..5; valid operation domains from current generator",
+    "fraction_rows_reconstructed": 3187,
+    "fraction_rows_by_operation": {
+      "+": 900,
+      "-": 487,
+      "*": 900,
+      "/": 750,
+      "invalid_division": 150
+    },
+    "fraction_numeric_steps_checked": 6074,
+    "fraction_numeric_mismatches": 0,
+    "validation_gap_counterexample": {
+      "origin": "Synthetic audit-only mutation; never written into corpus or training data",
+      "false_prose": "13 − 8 = 4",
+      "correct_expression": "453-128",
+      "correct_result": "325",
+      "inspect_case_passed": true,
+      "inspect_case_warnings": []
+    }
+  },
+  "limits": [
+    "No selected training corpus row was opened, so no count of bad current training rows or causality for adapter behavior is established.",
+    "Numeric helper checks do not certify every natural-language target, hint, curriculum placement, sample lineage, or tokenizer/EOT behavior.",
+    "No edits to source, corpus, protected eval/pilot, runtime, training config or model.",
+    "An initial filename-oriented source search surfaced the excluded development-probe authoring script and historical semantic review-code excerpts; they were excluded from findings and no probe/eval/pilot JSONL was opened. Embedded reserved holdout definitions visible in the mixed train/holdout generator were not used to design findings, repairs or training content."
+  ],
+  "skills_applied": [],
+  "next_root_step": "Read a hash-bound selection of existing actual train rows in Colab across arithmetic, fractions, decimals, hints and guards; distinguish true bad labels from validator limitations. Preserve neutral schema and source lineage for any corrected bounded retrain."
+}

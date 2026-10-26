@@ -1,0 +1,12 @@
+{
+  "parent_sha256": "b53a9d77ad183ddb84bae5ea04ee6844e93aaa3f1791285601b1f8475aeb8d91",
+  "derived_sha256": "2f3137da92b222ce1f8fa0cf6236bcd77de5fd516d1f8bf0a868886c93326d6d",
+  "changes": [
+    "attach exact existing checkpoint after whole raw verification",
+    "claim writer metadata only, never create new checkpoint",
+    "save after first new span instead of uploading identical restored bytes"
+  ],
+  "ast_valid": true,
+  "files_create_absent": true,
+  "training_started": false
+}

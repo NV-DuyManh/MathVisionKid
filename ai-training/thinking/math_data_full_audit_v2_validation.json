@@ -1,0 +1,70 @@
+{
+  "schema": "MathVisionKid.full_audit_v2_derivation_validation.v1",
+  "status": "PASS",
+  "artifacts": {
+    "math_data_full_audit.py": {
+      "bytes": 12235,
+      "sha256": "642343937c54c1c761ec38708d76fb46e26165563ab2045e9bc6c45adf0624a1"
+    },
+    "test_math_data_full_audit.py": {
+      "bytes": 6982,
+      "sha256": "44589c5009a579fc1c269a260217d23119006671d0c0b97d82f563a8c45ff5e9"
+    },
+    "exhaustive_primary_math.py": {
+      "bytes": 33282,
+      "sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2"
+    },
+    "math_data_full_audit_v2.py": {
+      "bytes": 14729,
+      "sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee"
+    },
+    "test_math_data_full_audit_v2.py": {
+      "bytes": 6812,
+      "sha256": "2574819c921975174e5cbfa0e130e43d7919653f359556925ccbdc4bf0546e2c"
+    }
+  },
+  "v1_tests": {
+    "command": "python -X utf8 thinking/test_math_data_full_audit.py",
+    "passed": 10,
+    "failed": 0,
+    "duration_seconds": 10.106
+  },
+  "v2_tests": {
+    "command": "python -X utf8 thinking/test_math_data_full_audit_v2.py",
+    "passed": 6,
+    "failed": 0,
+    "duration_seconds": 10.148,
+    "tokenizer_revision": "frozen L.REVISION and existing local cache",
+    "coverage": [
+      "candidate source literal preserved with 4 exact-raw-hash linked train chats",
+      "candidate to validation/test rejected; explicit source split must match chat",
+      "unknown/missing source labels retain issues and unverified linkage",
+      "missing fourth mode and missing/unknown chat split rejected",
+      "incorrect pre-existing source hash never replaced by fallback",
+      "v2 identity differs and refuses v1 database before schema writes; whole v1 database hash unchanged"
+    ]
+  },
+  "changes": [
+    "v2 schema/content identity",
+    "builder-backed source-pool compatibility policy while storing original source label",
+    "source/chat split mismatch issue and unlinked status",
+    "source label and mapping counts in report",
+    "pre-schema existing checkpoint identity refusal"
+  ],
+  "preservation": {
+    "v1_source_sha256_unchanged": true,
+    "v1_test_sha256_unchanged": true,
+    "builder_sha256_unchanged": true,
+    "source_data_rewritten": false,
+    "v1_live_checkpoint_accessed_or_modified": false,
+    "live_colab_accessed_or_modified": false,
+    "drive_or_global_state_modified": false
+  },
+  "limits": [
+    "Unit fixtures use accepted case content with builder train_candidate source label; production make_row is not executed because local curriculum receipt files are intentionally absent.",
+    "This is not a whole-corpus audit result.",
+    "Pinned tokenizer only; no model weights, GPU, training or paid API."
+  ],
+  "training_started": false,
+  "TRAINING_DATASET_READY": false
+}

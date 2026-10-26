@@ -1,0 +1,1787 @@
+{
+  "artifact_raw_readback": {
+    "checkpoint_proofs": {
+      "3b9f54c2b1d03a48cc8bc96fbba1cb22cb39b9d5b310373b64c1c4009f49f4c6": {
+        "bytes": 117175495,
+        "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+        "fresh_raw_readback_verified": true,
+        "generation": "generation_step_000001_rows_00000016",
+        "id": "1ARzw6jCtXKfOsRSEyZYy7y2CgAxInMEe",
+        "immutable": true,
+        "manifest_sha256": "3b9f54c2b1d03a48cc8bc96fbba1cb22cb39b9d5b310373b64c1c4009f49f4c6",
+        "name": "checkpoint_step_000001_rows_00000016_3b9f54c2b1d03a48.zip",
+        "raw_verified_utc": "2026-10-24T11:37:00.942505+00:00",
+        "rows_done": 16,
+        "sha256": "5b700b183f66236263a280356e15a217363ceb3d80120a2669b0839352377fc1",
+        "step": 1
+      },
+      "787a628640450c320eddd42ecaa208259aa0abb922a47628267c935fa8b7cf50": {
+        "bytes": 117175484,
+        "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+        "fresh_raw_readback_verified": true,
+        "generation": "generation_step_000050_rows_00000800",
+        "id": "13wEIbiUoZHWmj-TCF2zsMIrUm2KgGvXd",
+        "immutable": true,
+        "manifest_sha256": "787a628640450c320eddd42ecaa208259aa0abb922a47628267c935fa8b7cf50",
+        "name": "checkpoint_step_000050_rows_00000800_787a628640450c32.zip",
+        "raw_verified_utc": "2026-10-24T11:39:42.648863+00:00",
+        "rows_done": 800,
+        "sha256": "5ffce191242a25961bef782bc8d37886e5a687520d1a1f2db9599e2b61b4f654",
+        "step": 50
+      }
+    },
+    "diagnostic_adapter": {
+      "bytes": 65976553,
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "fresh_raw_readback_verified": true,
+      "id": "1LmdUwQoJk3Y581nOu6Kiz94wd6_nA9c0",
+      "immutable": true,
+      "name": "last_adapter_diagnostic_7cc98cda71f85274.zip",
+      "raw_verified_utc": "2026-10-24T11:59:49.774835+00:00",
+      "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817"
+    },
+    "run_folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M"
+  },
+  "development_validation": {
+    "contract_sha256": "d0729b33627680209739effbdbf3a0c3be73147d00d959bdacfdf9c7ce02bf91",
+    "count": 30,
+    "criteria": "Full requested task, including correct complete result, no substantive contradictory explanation, explicit required checks, useful nonleaking hints, grounded guards and student feedback. NonEOS/truncated/timeouts cannot pass. Numerical-only answer accuracy is distinct.",
+    "decisions": [
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Writes47and40withcorrect4*10+7 andtens/unit explanation, no false position claim.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Writes47and40 correctly, but explicitly places digit4 as second from left in47, contradicting actual tens place. Full explanation contains a positional error.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_place_value",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct final order but false5<5 is used to justify50<54 before a later correct units comparison. Both full-task outputs fail for contradictory reasoning.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct final ordering and later unit comparison, but false4<5<5 chain remains in explanation.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_order_cards",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct9−6=3and9−3=6 and inverse3+6=9check; imprecise use of so-hang term does not change actual arithmetic relation.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Both required subtraction equations and checks are correct, but twice calls3or6 the result of original6+3 addition; original sum is9. Full explanation is inconsistent.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+        "grade": 1,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Only repeats instruction to give a hint and withhold answer, without a task-specific next step. No answer leak but no useful hint.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicit8<9reveals withheld comparison.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_compare_hint",
+        "grade": 1,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct inequality appears, but repeatedly misplaces1in61as tens and claims digit6is not larger than1. Full mathematical explanation is inconsistent.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct16<61 appears, but falsely claims1in61is tens and6in16is tens elsewhere, contradicting actual digit positions.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_student_place_error",
+        "grade": 1,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Recognizes1..5and nonuniqueness, but proposed extra condition is circular: number must be determinable. No concrete sufficient request such as revealing card or distinguishing property.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Identifies candidates1..5and lack of uniqueness, but proposes only parity to determine more exactly; explicit own examples leave2or3 possibilities. Does not supply/request a condition sufficient for unique identification.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct inclusive calculation19cards and lists all19labels without omission.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct inclusive64−46+1=19cards and covers both endpoints, consistent verification.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct common-unit conversion200cm, difference15cm and check; full answer supplied.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct2m=200cm and200−185=15cm with inverse-sized difference and consistent units.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_door_gap",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct4shape cycle and remainder2⇒square, no zero-based counting or false shape claim.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct4shape period,14=3*4+2and square at position2, consistent complete explanation. Mod notation is more advanced but translated into remainder meaning.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+        "grade": 2,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Explicit20+6=26and repeated final26leak, so hint-only failure.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicitly gives26legs despite hint-only request.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+        "grade": 2,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Explicitly distinguishes true arithmetic3+2=5 from wrong contextual operation and correctly supplies6candies.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct repeated3+3=6 and multiplication, flags the provided addition as inappropriate for this two-group context.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_student_group_error",
+        "grade": 2,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Finds contradiction but unconditionally selects17Wednesday and18Thursday without the required source verification.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Finds contradiction but unconditionally treats17Wednesday as verified, gives18Thursday and never asks to check original calendar.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+        "grade": 2,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct67with inverse check but never verifies4<9 as required by the rubric.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct67with9*7+4and inverse check, but omits the explicitly required remainder-less-than-divisor check.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_inverse_division",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct3240−850=2390g=2kg390g with consistent unit conversion and no false check.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct2390g/2kg390g final, but asserts2390−850=2390 in its check; substantive false equality.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct equal-three-side division32cm and multiplication check96.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct three equal sides total96cm, each32cm and sum check96.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+        "grade": 3,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Leaks42 at intermediate and final positions and supplies the whole solution despite hint-only request.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Useful parentheses-then-subtraction cue, but then says either left-to-right or right-to-left is allowed without conditions, contradicting required operation order.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+        "grade": 3,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct quotient0 and inverse relation, but explicitly endorses student check as correct for the supplied wrong quotient; does not identify wrong factor substitution.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Corrects quotient0, but says supplied check is unrelated and concludes student result was correct, contradicting actual claimed quotient7.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+        "grade": 3,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Refuses a numeric guess, but accepts an unspecified image alone as sufficient; never requests measurable scale or a recorded measurement with unit as rubric requires.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Invents20cm and claims it is exact without any measurement source.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct conversions and left-to-right order7/12,3/4,5/6, with consistent inequality.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct common-denominator comparison7/12<9/12<10/12 and original labels in ascending ray order.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_order",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct10cups by reciprocal multiplication and verifies original water volume.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct measured-quantity division10cups and10/12=5/6litre check.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct31points, but omits the explicitly required check of all-four-game average, so full requested task is incomplete.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct112total,81known,31missing and explicitly checks112/4=28 average.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+        "grade": 4,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": true,
+        "adapter_pass": false,
+        "adapter_reason": "Explicitly reveals4/7 then repeats until1024token cap, nonEOS and truncated; hint leak plus completion failure.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicitly reveals4/7 despite hint-only request.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+        "grade": 4,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Correct common-denominator inequality, but falsely attributes numerator-versus-denominator comparison to the supplied student work, which actually compares two numerators; feedback is not grounded in the stated error.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct inequality but calls15a common divisor and supplies a false same-numerator heading; also truncates beforeEOS.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+        "grade": 4,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Explicitly normalizes whole to1 and uses17/12>1 plus nonoverlap condition; correctly concludes impossible without changing supplied fractions.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Correct contradiction conclusion, but repeatedly asserts17/12*S>1 for arbitrary areaS and falsely restricts total area to1unit.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+        "grade": 4,
+        "mode": "missing_or_contradictory_info"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Incorrectly subtracts.2*x rather than.2*1.25*x and claims1.25*.8=1.05, giving105percent instead of100percent; new critical arithmetic error.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct different percentage bases,1.25*.8=1and100percent original.",
+        "critical_new_error": true,
+        "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct proportional-rate calculation24litres/minute then30litres, no changed time unit.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct24litres/minute and24*1.25=30litres, with consistent decimal calculations and units.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_pump_rate",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Explicitly divides all three lengths by.1dm then multiplies24*15*8=2880, consistent checks.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct conversion to24,15,8cm and cube edge1cm, then24*15*8=2880. Generic dimension/edge shorthand is imprecise but actual three-axis calculation is supplied and consistent.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_cube_packing",
+        "grade": 5,
+        "mode": "answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": false,
+        "adapter_reason": "Useful time conversion and individual-distance prompts without final leak, but stops before relating these distances by subtraction, omitting the required same-direction difference relation.",
+        "base_hint_leak": true,
+        "base_pass": false,
+        "base_reason": "Explicitly reveals forbidden.9km final distance.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+        "grade": 5,
+        "mode": "hint_no_answer"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct10000square-centimetres-per-square-metre explanation and6000cm2, with incorrect60cm2 clearly marked as the supplied error rather than endorsed.",
+        "base_hint_leak": false,
+        "base_pass": true,
+        "base_reason": "Correct square-unit explanation100*100=10000 and.6m2=6000cm2; addresses supplied length-factor error.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+        "grade": 5,
+        "mode": "student_error"
+      },
+      {
+        "adapter_hint_leak": false,
+        "adapter_pass": true,
+        "adapter_reason": "Correct conditional.9x/.8x examples, recognizes unknown exact discount and requests exact percentage without choosing a unique original price.",
+        "base_hint_leak": false,
+        "base_pass": false,
+        "base_reason": "Eventually gives correct200000..225000range and lack of uniqueness, but earlier reversed inequality225000<=x<=200000 falsely declares no feasible value. Contradictory mathematical explanation.",
+        "critical_new_error": false,
+        "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+        "grade": 5,
+        "mode": "missing_or_contradictory_info"
+      }
+    ],
+    "gate_sha256": "2a5481a94ed5ae5747ebbdfcd3bb1c70634cd3ccb1ce8d76760a13db156bf49b",
+    "not_directly_comparable_to_previous_json_prompt_trial": true,
+    "previous_locked20_not_reused": true,
+    "summary": {
+      "base": {
+        "answer_denominator": 15,
+        "answers": 10,
+        "by_grade": {
+          "1": {
+            "answer_denominator": 3,
+            "answers": 0,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 0
+          },
+          "2": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 4
+          },
+          "3": {
+            "answer_denominator": 3,
+            "answers": 1,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 1
+          },
+          "4": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 3
+          },
+          "5": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 4
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 15,
+            "pass": 10
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "pass": 0
+          },
+          "missing_or_contradictory_info": {
+            "count": 5,
+            "pass": 0
+          },
+          "student_error": {
+            "count": 5,
+            "pass": 2
+          }
+        },
+        "feedback": 2,
+        "guards": 0,
+        "hint_leaks": 4,
+        "hints": 0,
+        "total": 12
+      },
+      "baseline_answer_perfect": false,
+      "baseline_pass_regression_fixture_ids": [
+        "qrec20261024_v1_g4_missing_average_score",
+        "qrec20261024_v1_g5_percent_reversal"
+      ],
+      "baseline_pass_regressions": 2,
+      "candidate": {
+        "answer_denominator": 15,
+        "answers": 11,
+        "by_grade": {
+          "1": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 2
+          },
+          "2": {
+            "answer_denominator": 3,
+            "answers": 3,
+            "count": 6,
+            "feedback": 1,
+            "guards": 0,
+            "hints": 0,
+            "total": 4
+          },
+          "3": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 0,
+            "hints": 0,
+            "total": 2
+          },
+          "4": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 0,
+            "guards": 1,
+            "hints": 0,
+            "total": 3
+          },
+          "5": {
+            "answer_denominator": 3,
+            "answers": 2,
+            "count": 6,
+            "feedback": 1,
+            "guards": 1,
+            "hints": 0,
+            "total": 4
+          }
+        },
+        "by_mode": {
+          "answer": {
+            "count": 15,
+            "pass": 11
+          },
+          "hint_no_answer": {
+            "count": 5,
+            "pass": 0
+          },
+          "missing_or_contradictory_info": {
+            "count": 5,
+            "pass": 2
+          },
+          "student_error": {
+            "count": 5,
+            "pass": 2
+          }
+        },
+        "feedback": 2,
+        "guards": 2,
+        "hint_leaks": 3,
+        "hints": 0,
+        "total": 15
+      },
+      "candidate_eligible": false,
+      "fixture_count": 30,
+      "fixture_ids": [
+        "qrec20261024_v1_g1_place_value",
+        "qrec20261024_v1_g1_order_cards",
+        "qrec20261024_v1_g1_inverse_facts",
+        "qrec20261024_v1_g1_compare_hint",
+        "qrec20261024_v1_g1_student_place_error",
+        "qrec20261024_v1_g1_hidden_card_missing",
+        "qrec20261024_v1_g2_inclusive_ids",
+        "qrec20261024_v1_g2_door_gap",
+        "qrec20261024_v1_g2_repeating_tile",
+        "qrec20261024_v1_g2_table_leg_hint",
+        "qrec20261024_v1_g2_student_group_error",
+        "qrec20261024_v1_g2_calendar_conflict",
+        "qrec20261024_v1_g3_inverse_division",
+        "qrec20261024_v1_g3_mass_remaining",
+        "qrec20261024_v1_g3_equilateral_wire",
+        "qrec20261024_v1_g3_bracket_hint",
+        "qrec20261024_v1_g3_zero_dividend_error",
+        "qrec20261024_v1_g3_missing_measurement_image",
+        "qrec20261024_v1_g4_fraction_order",
+        "qrec20261024_v1_g4_fraction_cups",
+        "qrec20261024_v1_g4_missing_average_score",
+        "qrec20261024_v1_g4_unknown_fraction_hint",
+        "qrec20261024_v1_g4_fraction_compare_error",
+        "qrec20261024_v1_g4_disjoint_coloring_conflict",
+        "qrec20261024_v1_g5_percent_reversal",
+        "qrec20261024_v1_g5_pump_rate",
+        "qrec20261024_v1_g5_cube_packing",
+        "qrec20261024_v1_g5_relative_motion_hint",
+        "qrec20261024_v1_g5_area_conversion_error",
+        "qrec20261024_v1_g5_missing_discount_rate"
+      ],
+      "new_baseline_correct_answer_failures": 2,
+      "new_critical_error_fixture_ids": [
+        "qrec20261024_v1_g5_percent_reversal"
+      ],
+      "new_critical_errors": 1,
+      "new_guard_failures": 0,
+      "new_hint_leak_fixture_ids": [
+        "qrec20261024_v1_g3_bracket_hint"
+      ],
+      "new_hint_leaks": 1,
+      "new_student_feedback_failures": 0,
+      "new_useful_hint_failures": 0,
+      "safe_to_continue_pilot": false,
+      "schema": "MathVisionKid.quality_recovery_decisions_summary.v1",
+      "strict_answer_gain": 1,
+      "strict_gain_vs_base": 3,
+      "useful_hint_gain": 0
+    }
+  },
+  "limitations": [
+    "Thirty reused development tasks and twenty newly authored final tasks are small; only actual16k exact/number-masked collision screening, not proven independent of full6.5M corpus.",
+    "The explicit owner10034/33 probe is known before this test and is not evidence of unseen generalization.",
+    "Semantic judgments by LLM with full actual-output reasons and row/hash binding, no new human or external certification.",
+    "Matched greedy nonthinking evaluation, not evidence of best thinking mode or global model quality.",
+    "No production approval, no image/physical observation completion or whole-curriculum/legal certification.",
+    "Representational trial changes prompts as well as targets. Compare adapter with fresh base under this contract; cross-trial raw scores alone do not isolate a cause.",
+    "A small numerical-answer gain cannot override newly leaking hints, lost checks or completion failures. Keeping the base is not a claim of a reliable finished tutor."
+  ],
+  "locked_final_test": {
+    "all_actual_outputs_read": true,
+    "completed_eos_count": 20,
+    "counts": {
+      "by_grade": {
+        "1": {
+          "count": 4,
+          "pass": 3
+        },
+        "2": {
+          "count": 4,
+          "pass": 1
+        },
+        "3": {
+          "count": 4,
+          "pass": 2
+        },
+        "4": {
+          "count": 4,
+          "pass": 2
+        },
+        "5": {
+          "count": 4,
+          "pass": 1
+        }
+      },
+      "by_mode": {
+        "answer": {
+          "count": 10,
+          "pass": 7
+        },
+        "hint_no_answer": {
+          "count": 5,
+          "pass": 0
+        },
+        "missing_or_contradictory_info": {
+          "count": 3,
+          "pass": 2
+        },
+        "student_error": {
+          "count": 2,
+          "pass": 0
+        }
+      },
+      "hint_leaks": 5,
+      "total": {
+        "count": 20,
+        "pass": 9
+      }
+    },
+    "decisions": [
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g1_unknown_addend",
+        "grade": 1,
+        "mode": "answer",
+        "reason": "Correct missing addend5 via12−7 and explicitly checks7+5=12; complete and consistent.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g1_compare_lengths",
+        "grade": 1,
+        "mode": "answer",
+        "reason": "Correctly selects extrema14and9 using14>11>9 and computes5cm difference with matching units.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": true,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g1_birds_hint",
+        "grade": 1,
+        "mode": "hint_no_answer",
+        "reason": "Supplies13−4=9 and final9birds despite explicit hint-only withholding request.",
+        "selected_hint_leak": true,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g1_color_total_conflict",
+        "grade": 1,
+        "mode": "missing_or_contradictory_info",
+        "reason": "Correctly identifies that disjoint color counts4+5=9 conflict with total8. Labels the component counts as supplied facts and does not change them or invent multicolored balls; no source-identification request in this task.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g2_coin_budget",
+        "grade": 2,
+        "mode": "answer",
+        "reason": "Correctly counts3*200+100=700dong then subtracts450to250dong and explains both steps.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g2_duration_to_hour",
+        "grade": 2,
+        "mode": "answer",
+        "reason": "Initially identifies45minutes correctly but invents an extra interval10:00to10:15 and concludes60minutes, changing supplied ending time.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": true,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g2_untended_rows_hint",
+        "grade": 2,
+        "mode": "hint_no_answer",
+        "reason": "Explicit20−10=10trees reveals withheld final count, then falsely says the hint does not give the answer.",
+        "selected_hint_leak": true,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g2_subtraction_correction",
+        "grade": 2,
+        "mode": "student_error",
+        "reason": "Initially notes correct29 but changes given subtrahend19to17 to preserve wrong31, rather than correcting result and checking29+19=48. Also labels true48−17=31 both wrong and right.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g3_liquid_units",
+        "grade": 3,
+        "mode": "answer",
+        "reason": "Converts initial volume correctly to4125ml but repeatedly computes4125+875as4999instead of5000, giving wrong final volume.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g3_rectangle_missing_side",
+        "grade": 3,
+        "mode": "answer",
+        "reason": "Correct half-perimeter23 then width8cm and explicitly verifies2*(15+8)=46cm.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": true,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g3_quarter_set_hint",
+        "grade": 3,
+        "mode": "hint_no_answer",
+        "reason": "Explicitly states36/4=9and asks to take9cards, leaking the withheld answer.",
+        "selected_hint_leak": true,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g3_unknown_sales_increase",
+        "grade": 3,
+        "mode": "missing_or_contradictory_info",
+        "reason": "Recognizes many values above18 are possible and does not choose one; requests actual today count, which is sufficient equivalent information explicitly allowed by the reference, though requesting the increment would be more instructive.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g4_fraction_area",
+        "grade": 4,
+        "mode": "answer",
+        "reason": "Correct rectangle area by(3/4)*(2/3)=6/12=1/2 and gives square-metre unit consistently.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+        "grade": 4,
+        "mode": "answer",
+        "reason": "Correct quotient304remainder2 via300+4; checks33*304+2=10034and0<=r<33. Known owner probe, not unseen generalization evidence.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": true,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g4_unknown_factor_hint",
+        "grade": 4,
+        "mode": "hint_no_answer",
+        "reason": "Explicitly computes and substitutes39several times despite request not to revealx; final reminder does not undo leak.",
+        "selected_hint_leak": true,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g4_fraction_subtraction_error",
+        "grade": 4,
+        "mode": "student_error",
+        "reason": "Correct5/8appears, but calls8the least common divisor and invents an unprovided student conversion1/4=2/8, with self-contradictory subtraction feedback and a claim student did not check. Full feedback fails grounding and explanation.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g5_map_scale",
+        "grade": 5,
+        "mode": "answer",
+        "reason": "Correct final90m appears, but check asserts2500cm=2.5m and9m=9000cm=90m, contradicting actual conversion; full requested unit explanation contains substantive errors.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g5_percentage_inverse",
+        "grade": 5,
+        "mode": "answer",
+        "reason": "Correctly recovers whole class18/.45=40students and checks45percent of40equals18.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": true,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g5_speed_hint",
+        "grade": 5,
+        "mode": "hint_no_answer",
+        "reason": "Explicitly computes36km/hour despite request to withhold final speed; a reminder calling it a hint does not remove answer leak.",
+        "selected_hint_leak": true,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      },
+      {
+        "base_hint_leak": false,
+        "base_pass": false,
+        "fixture_id": "verbal20261024_locked_g5_circle_missing_radius",
+        "grade": 5,
+        "mode": "missing_or_contradictory_info",
+        "reason": "Correctly refuses invented area and names radius/diameter/circumference as sufficient measurements, but never asks for a measurement with its unit as explicitly required by the frozen rubric. Incomplete full-task request, not a false numeric answer.",
+        "selected_hint_leak": false,
+        "selected_pass": false,
+        "selected_reuses_exact_base_output": true
+      }
+    ],
+    "fixture_sha256": "b24339a30e9f0edfb8a4c5dbac538311f5ecea831abcb6d0ad7f8cd0e5f7edb3",
+    "manifest_sha256": "4823e6f2e20685303c0ec6fc03f44d5663ae04507dff12e7e7ec59ac70cb698e",
+    "not_used_to_retrain_or_reselect": true,
+    "output_sha256": "31ed4495d48800792a4ac29eeb446c49415804bed87e0b2c55f7682ab8d93287",
+    "owner_requested_division": {
+      "explicitly_known_probe_not_unseen_generalization": true,
+      "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+      "review": {
+        "base_hint_leak": false,
+        "base_pass": true,
+        "fixture_id": "verbal20261024_locked_g4_owner_division_probe",
+        "grade": 4,
+        "mode": "answer",
+        "reason": "Correct quotient304remainder2 via300+4; checks33*304+2=10034and0<=r<33. Known owner probe, not unseen generalization evidence.",
+        "selected_hint_leak": false,
+        "selected_pass": true,
+        "selected_reuses_exact_base_output": true
+      }
+    },
+    "rejected_adapter_not_tested": true,
+    "selected_before_test": true,
+    "selected_reuses_exact_base_outputs": true,
+    "test_run_count": 1
+  },
+  "loss_alignment_audit": {
+    "all_finite_and_next_token_parity": true,
+    "evidence_sha256": "3908c5a29f20208ce8bf201683992ea236e1aa0918ab56b90d79cd107854c69d",
+    "max_abs_next_token_loss_error": 4.76837158203125e-07,
+    "measurements": 6,
+    "scope": "Three real training microbatches on fresh base and existing prior step50; forward only, no optimizer, no heldout access. Does not prove whole stack correct or establish causal root cause."
+  },
+  "new_adapter_improvement_demonstrated": false,
+  "next_work": [
+    "Do not spend another full long run on this rejected configuration. First diagnose response length/repetition, training distribution and prompt-template behavior with broader skill-balanced development evidence.",
+    "Keep exact arithmetic checking and grounded explanation validation separate; no app or calculator changes made here."
+  ],
+  "observed_utc": "2026-10-24T12:07:17.003382+00:00",
+  "paid_resources": false,
+  "production_approved": false,
+  "representation_change": {
+    "causal_improvement_from_representation_proven": false,
+    "changed": [
+      "natural-language prompt rendering",
+      "natural-language assistant target rendering"
+    ],
+    "contract_metadata_caveat": "Frozen primitive eval_contract retains an old human-readable user_serialization=json.dumps label. Actual fixture_messages was overridden with the pinned verbal renderer in both dev and final workers; actual prompt token hashes are checked before each generation. Preserve original contract bytes for audit, do not describe that old label as actual serialization.",
+    "new_human_labels_applied_to_derived_bytes": false,
+    "preflight": {
+      "all_semantic_field_instances_preserved": 86293,
+      "assistant_character_counts": {
+        "source_json": 5375288,
+        "verbal": 4935253
+      },
+      "errors": [],
+      "human_attestation_added": false,
+      "prompt_shapes": {
+        "givens,grade,mode,problem,requested_quantity,student_work": 188,
+        "grade,mode,problem": 14888,
+        "grade,mode,problem,student_work": 924
+      },
+      "renderer_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+      "rows_scanned": 16000,
+      "samples": [
+        {
+          "actual_prompt": "Toán lớp 2.\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+          "actual_target": "Hướng dẫn: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nBước 1\nNội dung: Trừ theo từng hàng\nVì sao: Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.\nPhép tính hoặc quan hệ: 565-103\nKết quả bước này: 462\nGiải thích: Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.\nBước 2\nNội dung: Kiểm bằng phép cộng\nVì sao: Hiệu cộng số trừ phải bằng số bị trừ.\nPhép tính hoặc quan hệ: 462+103\nKết quả bước này: 565\nGiải thích: 462 + 103 = 565, đúng số bị trừ.\nĐại lượng cần tìm: Hiệu\nĐáp số: 462",
+          "grade": 2,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "Trừ theo từng hàng"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].expression",
+                "value": "565-103"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "462"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].title",
+                "value": "Kiểm bằng phép cộng"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].reason",
+                "value": "Hiệu cộng số trừ phải bằng số bị trừ."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].expression",
+                "value": "462+103"
+              },
+              {
+                "rendered_occurrences": 3,
+                "source_path": "steps[1].result",
+                "value": "565"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].explanation",
+                "value": "462 + 103 = 565, đúng số bị trừ."
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "answer[0].quantity",
+                "value": "Hiệu"
+              },
+              {
+                "rendered_occurrences": 5,
+                "source_path": "answer[0].result",
+                "value": "462"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "917ed2dfab37b89f34192f3cfd22664fe56a2af2a2e64365d1ca27af52fed8d1",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+          "source_original_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+          "actual_target": "Hướng dẫn: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nBước 1\nNội dung: Lập các nhóm đủ\nVì sao: Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.\nKết quả bước này: 788\nGiải thích: Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.\nBước 2\nNội dung: Kiểm số bị chia và số dư\nVì sao: Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.\nPhép tính hoặc quan hệ: 788*1+0\nKết quả bước này: 788\nGiải thích: 788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.\nĐại lượng cần tìm: Thương\nĐáp số: 788\nĐại lượng cần tìm: Số dư\nĐáp số: 0",
+          "grade": 3,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "Lập các nhóm đủ"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "788"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].title",
+                "value": "Kiểm số bị chia và số dư"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].reason",
+                "value": "Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].expression",
+                "value": "788*1+0"
+              },
+              {
+                "rendered_occurrences": 4,
+                "source_path": "steps[1].result",
+                "value": "788"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].explanation",
+                "value": "788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0."
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "answer[0].quantity",
+                "value": "Thương"
+              },
+              {
+                "rendered_occurrences": 6,
+                "source_path": "answer[0].result",
+                "value": "788"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "answer[1].quantity",
+                "value": "Số dư"
+              },
+              {
+                "rendered_occurrences": 4,
+                "source_path": "answer[1].result",
+                "value": "0"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "7bbdda3198fd156b31e57b62b44e8631a541ce37f911d9e805e24597364c912d",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+          "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý bước đầu để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+          "actual_target": "Gợi ý: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nEm thử trả lời: Số chia có khác không để phép chia có nghĩa không?",
+          "grade": 3,
+          "mode": "hint_level_1",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": null,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "hint",
+                "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "question",
+                "value": "Số chia có khác không để phép chia có nghĩa không?"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "2f1fb0887a8306c8c0c3d1374bb9701329a1aad9a2efa95e63e82ce43205091f",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+          "source_original_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý thêm một bước để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+          "actual_target": "Gợi ý: Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.\nEm thử trả lời: Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+          "grade": 3,
+          "mode": "hint_level_2",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": null,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "hint",
+                "value": "Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "question",
+                "value": "Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "1abd9e58b800d2a8fa5dbcbe4e1e7470f1e1589375f5a62312e26b5e3382744c",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+          "source_original_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý cách kiểm tra và hoàn thiện. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+          "actual_target": "Gợi ý: Nhân thương với số chia rồi cộng phần dư để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+          "grade": 3,
+          "mode": "hint_level_3",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": null,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "hint",
+                "value": "Nhân thương với số chia rồi cộng phần dư để kiểm."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "question",
+                "value": "Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "ae29b8531372bc60e166f7778b9079b53d8b200f7286f9cf57dbb005ec5fbd5f",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+          "source_original_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 5.\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+          "actual_target": "Hướng dẫn: Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.\nBước 1\nNội dung: Tính theo đơn vị phần mười\nVì sao: Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.\nPhép tính hoặc quan hệ: 13-4\nKết quả bước này: 9\nGiải thích: 1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.\nBước 2\nNội dung: Đổi về đơn vị ban đầu\nVì sao: Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.\nPhép tính hoặc quan hệ: 9/10\nKết quả bước này: 0.9\nGiải thích: 9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.\nBước 3\nNội dung: Kiểm bằng phép ngược\nVì sao: Dùng phép tính ngược để khôi phục số đầu.\nPhép tính hoặc quan hệ: (0.9)+0.4\nKết quả bước này: 1.3\nGiải thích: Phép kiểm cho 1,3, khớp số đầu.\nĐại lượng cần tìm: Kết quả\nĐáp số: 0.9",
+          "grade": 5,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Phân biệt số bị trừ với số trừ và đặt thẳng các hàng."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "Tính theo đơn vị phần mười"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].expression",
+                "value": "13-4"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "9"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].title",
+                "value": "Đổi về đơn vị ban đầu"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].reason",
+                "value": "Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].expression",
+                "value": "9/10"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].result",
+                "value": "0.9"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].explanation",
+                "value": "9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].title",
+                "value": "Kiểm bằng phép ngược"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].reason",
+                "value": "Dùng phép tính ngược để khôi phục số đầu."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].expression",
+                "value": "(0.9)+0.4"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].result",
+                "value": "1.3"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].explanation",
+                "value": "Phép kiểm cho 1,3, khớp số đầu."
+              },
+              {
+                "rendered_occurrences": 4,
+                "source_path": "answer[0].quantity",
+                "value": "Kết quả"
+              },
+              {
+                "rendered_occurrences": 3,
+                "source_path": "answer[0].result",
+                "value": "0.9"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "1bd64feaa514966c6d2700973bb6db3e9492f9caef85406f5e868cba37982ee8",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+          "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+          "student_work_present": false
+        },
+        {
+          "actual_prompt": "Toán lớp 5.\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\n4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số",
+          "actual_target": "Hướng dẫn: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nBước 1\nNội dung: So cùng hàng\nVì sao: Phần nguyên bằng nhau; so hàng phần mười trước.\nKết quả bước này: 4,09 < 4,9\nGiải thích: 4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.\nĐại lượng cần tìm: Quan hệ đúng\nĐáp số: 4,09 < 4,9",
+          "grade": 5,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "So cùng hàng"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Phần nguyên bằng nhau; so hàng phần mười trước."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "4,09 < 4,9"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "answer[0].quantity",
+                "value": "Quan hệ đúng"
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "answer[0].result",
+                "value": "4,09 < 4,9"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "823809716e9e673ed7af1cba082a704f2e7866d95c9190c2caa1338692791241",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+          "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+          "student_work_present": true
+        },
+        {
+          "actual_prompt": "Toán lớp 4.\n\nBàn tính có bốn cột nghìn, trăm, chục, đơn vị, mỗi cột tối đa 9 vòng. Phải dùng đủ 12 vòng. Bạn ghi: đặt cả 12 vòng ở cột nghìn là số lớn nhất. Nhận xét cách đặt và tìm giá trị lớn nhất hợp lệ. Không được đổi cấu tạo bàn tính.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\nđặt cả 12 vòng ở cột nghìn là số lớn nhất",
+          "actual_target": "Hướng dẫn: Phân biệt tổng số vòng với sức chứa mỗi cột.\nBước 1\nNội dung: Kiểm luật\nVì sao: Mỗi cột chỉ chứa tối đa chín vòng.\nKết quả bước này: Cách đặt đã cho không hợp lệ\nGiải thích: Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.\nBước 2\nNội dung: Phân bố hợp lệ\nVì sao: Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.\nKết quả bước này: 9,3,0,0\nGiải thích: Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.\nBước 3\nNội dung: Tính giá trị\nVì sao: Cộng giá trị từng cột.\nPhép tính hoặc quan hệ: 9*1000+3*100\nKết quả bước này: 9300\nGiải thích: Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.\nĐại lượng cần tìm: Kết quả\nĐáp số: 9300",
+          "grade": 4,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Phân biệt tổng số vòng với sức chứa mỗi cột."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "Kiểm luật"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Mỗi cột chỉ chứa tối đa chín vòng."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "Cách đặt đã cho không hợp lệ"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].title",
+                "value": "Phân bố hợp lệ"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].reason",
+                "value": "Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].result",
+                "value": "9,3,0,0"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].explanation",
+                "value": "Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].title",
+                "value": "Tính giá trị"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].reason",
+                "value": "Cộng giá trị từng cột."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].expression",
+                "value": "9*1000+3*100"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].result",
+                "value": "9300"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].explanation",
+                "value": "Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị."
+              },
+              {
+                "rendered_occurrences": 4,
+                "source_path": "answer[0].quantity",
+                "value": "Kết quả"
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "answer[0].result",
+                "value": "9300"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "209ee9a350fca048366972f8fa876a703149beaefc5ac3c5b8723403bd7de701",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+          "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+          "student_work_present": true
+        },
+        {
+          "actual_prompt": "Toán lớp 1.\n\nMỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcdefg;9=abcdfg. Mỗi vị trí được ghi có đúng một que, vị trí khác trống; các que bằng nhau. Ba ô chữ số theo thứ tự trong đẳng thức 6 + 4 = 4. Các dấu + và = in sẵn, không phải que và không được sửa. Chuyển đúng một que: lấy khỏi một vị trí đang có trong ba ô rồi đặt vào một vị trí đang trống khác của ba ô; có thể cùng ô, không chồng hoặc dùng nét ngoài bảng. Cuối cùng cả ba ô vẫn là đúng một chữ số chuẩn. Tìm mọi đẳng thức đúng có thể được, nêu chỗ lấy và đặt. Dấu và số ô giữ nguyên.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+          "actual_target": "Hướng dẫn: Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que.\nBước 1\nNội dung: Giữ đúng phép và kho\nVì sao: Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm.\nKết quả bước này: Chỉ xét sửa trong các ô chữ số\nGiải thích: Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số.\nBước 2\nNội dung: Đối chiếu mã và giá trị\nVì sao: Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef.\nKết quả bước này: 6 thành 0 bằng g sang b trong ô đầu\nGiải thích: Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi.\nBước 3\nNội dung: Kiểm đủ mọi ô và vị trí\nVì sao: Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã.\nPhép tính hoặc quan hệ: 0+4\nKết quả bước này: 4\nGiải thích: Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt.\nĐại lượng cần tìm: Đẳng thức\nĐáp số: 0+4=4\nĐại lượng cần tìm: Cách chuyển\nĐáp số: Ô đầu: g sang b",
+          "grade": 1,
+          "mode": "worked_solution",
+          "proof": {
+            "all_nonempty_semantic_text_fields_preserved": true,
+            "can_solve": true,
+            "excluded_internal_metadata": [
+              "steps[*].step_id",
+              "steps[*].relation_type",
+              "givens[*].id",
+              "givens[*].role",
+              "student_work.origin",
+              "student_work.observations[*].nature",
+              "student_work.observations[*].claim_scope"
+            ],
+            "fields": [
+              {
+                "rendered_occurrences": 1,
+                "source_path": "initial_guidance[0]",
+                "value": "Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].title",
+                "value": "Giữ đúng phép và kho"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].reason",
+                "value": "Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].result",
+                "value": "Chỉ xét sửa trong các ô chữ số"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[0].explanation",
+                "value": "Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].title",
+                "value": "Đối chiếu mã và giá trị"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].reason",
+                "value": "Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].result",
+                "value": "6 thành 0 bằng g sang b trong ô đầu"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[1].explanation",
+                "value": "Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi."
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].title",
+                "value": "Kiểm đủ mọi ô và vị trí"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].reason",
+                "value": "Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã."
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "steps[2].expression",
+                "value": "0+4"
+              },
+              {
+                "rendered_occurrences": 3,
+                "source_path": "steps[2].result",
+                "value": "4"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "steps[2].explanation",
+                "value": "Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt."
+              },
+              {
+                "rendered_occurrences": 2,
+                "source_path": "answer[0].quantity",
+                "value": "Đẳng thức"
+              },
+              {
+                "rendered_occurrences": 3,
+                "source_path": "answer[0].result",
+                "value": "0+4=4"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "answer[1].quantity",
+                "value": "Cách chuyển"
+              },
+              {
+                "rendered_occurrences": 1,
+                "source_path": "answer[1].result",
+                "value": "Ô đầu: g sang b"
+              }
+            ],
+            "numeric_calculation_performed_by_renderer": false,
+            "rendered_target_sha256": "cc3a62f1d04aa69710f228abffe1992648be8f472baa3fa01ff7b79f6c571309",
+            "version": "verbal_training_render.v3"
+          },
+          "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:worked_solution",
+          "source_original_raw_row_sha256": "ec81244e597fb74966bdfc85a21d2b18c0f4b05799bef84237f83fbdc68500a8",
+          "student_work_present": false
+        }
+      ],
+      "source_modified": false,
+      "train_started": false
+    },
+    "renderer_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+    "unchanged_source_math_and_sampling": true
+  },
+  "schema": "MathVisionKid.verbal_recovery_final_semantic_assessment.v1",
+  "selected_kind": "untrained_base",
+  "skills_applied": [
+    "google-drive"
+  ],
+  "source_preservation": {
+    "actual_fraction_of_derived_view": 0.12075471698113208,
+    "actual_unique_trained_chats": 800,
+    "all4000worked_in_sampling_plan": true,
+    "corpus_or_model_downloaded_to_pc": false,
+    "derived_sampling_rows": 6625,
+    "full_corpus_train_chats": 6502344,
+    "new_human_attestation": false,
+    "previous_checkpoints_preserved": true,
+    "source_data_or_labels_changed_or_deleted": false,
+    "source_view_cases": 4000,
+    "source_view_rows": 16000
+  },
+  "status": "REPRESENTATION_TRIAL_NOT_ELIGIBLE_DO_NOT_PROMOTE_ADAPTER",
+  "training": {
+    "best": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        10,
+        12,
+        0,
+        0,
+        2
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+    },
+    "budget_satisfied": true,
+    "complete": true,
+    "completed_unix": 1792843162.8530695,
+    "derived_view_epochs": 0.12075471698113208,
+    "derived_view_rows": 6625,
+    "hard_deadline_unix": 1792845958.0,
+    "last_adapter": {
+      "bytes": 65976553,
+      "diagnostic_only": true,
+      "path": "last_adapter_diagnostic.zip",
+      "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817"
+    },
+    "metrics": {
+      "last_gradient_norm": 0.8634874820709229,
+      "last_loss": 2.0610498189926147,
+      "last_lr": 1e-05,
+      "loss_sum": 139.49508994817734,
+      "rows_done": 800,
+      "step": 50,
+      "supervised_tokens": 169406
+    },
+    "production_approval": false,
+    "selected_artifact": {
+      "adapter": null,
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_evidence": {
+        "kind": "untrained_base",
+        "model": "Qwen/Qwen3-1.7B",
+        "production_approval": false,
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "selection_key": [
+          10,
+          12,
+          0,
+          0,
+          2
+        ],
+        "semantic_review_pending": false,
+        "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+      }
+    },
+    "source_view_rows": 16000,
+    "stop_reason": "QUALITY_GATE_STOP",
+    "training_seconds": 171.06867578100355,
+    "unique_examples": 800,
+    "whole_corpus_training_claimed": false
+  },
+  "trial_scope": {
+    "changed_factors": [
+      "prompt renderer",
+      "target renderer"
+    ],
+    "hard_deadline_unix": 1792845958,
+    "hypothesis": "Source JSON target/prompt representation may contribute to response-style drift; next-token CE parity passed, causal root cause not proven.",
+    "independent_final_test_pending": true,
+    "max_updates": 50,
+    "new_human_attestation": false,
+    "previous_locked20_not_read": true,
+    "retained_all_worked_in_sampling_plan": true,
+    "reused_development30": true,
+    "source_and_original_labels_preserved": true,
+    "unchanged_factors": [
+      "source problems/answers/reasons",
+      "source sampling order/IDs",
+      "modelrevision",
+      "NF4",
+      "FP16",
+      "LoRAr16alpha16",
+      "micro2effective16",
+      "LR1e-5warmup10",
+      "assistantmask/EOT",
+      "noGC/noPacking"
+    ]
+  }
+}

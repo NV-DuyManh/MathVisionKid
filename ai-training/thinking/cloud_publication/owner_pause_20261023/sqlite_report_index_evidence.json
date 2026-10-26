@@ -1,0 +1,66 @@
+{
+  "registered_utc": "2026-10-22T16:16:40.223559+00:00",
+  "state": "QUERY_INDEXES_COMMITTED",
+  "statements": [
+    "CREATE INDEX mvk_report_source_label_id_hash ON source_versions(source_split,id,raw_sha)",
+    "CREATE INDEX mvk_report_sample_link_split_case_hash ON samples(linkage,split,case_id,source_raw_sha)",
+    "CREATE INDEX mvk_report_sample_hash_origin ON samples(raw_hash_origin)"
+  ],
+  "scanner_adapter_files_changed": false,
+  "new_scanner_started": false,
+  "source_or_chat_rows_updated": false,
+  "non_unique_performance_indexes_only": true,
+  "training_started": false,
+  "completed_indexes": [
+    {
+      "name": "mvk_report_source_label_id_hash",
+      "seconds": 7.115316506999079,
+      "completed_utc": "2026-10-22T16:21:13.038977+00:00"
+    },
+    {
+      "name": "mvk_report_sample_link_split_case_hash",
+      "seconds": 19.62488905399732,
+      "completed_utc": "2026-10-22T16:21:32.665010+00:00"
+    },
+    {
+      "name": "mvk_report_sample_hash_origin",
+      "seconds": 7.425977131999389,
+      "completed_utc": "2026-10-22T16:21:40.109908+00:00"
+    }
+  ],
+  "started_utc": "2026-10-22T16:21:05.922552+00:00",
+  "query_plans_after": {
+    "candidate_link_count": [
+      [
+        4,
+        0,
+        0,
+        "SEARCH s USING COVERING INDEX mvk_report_sample_link_split_case_hash (linkage=? AND split=?)"
+      ],
+      [
+        9,
+        0,
+        0,
+        "SEARCH v USING COVERING INDEX mvk_report_source_label_id_hash (source_split=? AND id=? AND raw_sha=?)"
+      ]
+    ],
+    "source_label_counts": [
+      [
+        6,
+        0,
+        0,
+        "SCAN source_versions USING COVERING INDEX mvk_report_source_label_id_hash"
+      ]
+    ],
+    "source_hash_origin_counts": [
+      [
+        6,
+        0,
+        0,
+        "SCAN samples USING COVERING INDEX mvk_report_sample_hash_origin"
+      ]
+    ]
+  },
+  "completed_utc": "2026-10-22T16:21:40.110677+00:00",
+  "worker_alive_at_observation": true
+}

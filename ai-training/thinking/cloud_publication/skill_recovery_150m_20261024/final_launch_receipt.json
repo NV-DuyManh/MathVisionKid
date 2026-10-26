@@ -1,0 +1,19 @@
+{
+  "add": {
+    "newCellId": "3_ZCeo4zLKxO"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"preflight_passed\": true, \"selected_kind\": \"untrained_base\", \"mode_selection\": {\"hint_level_1\": \"fewshot_contract\", \"hint_level_2\": \"inference_contract\", \"hint_level_3\": \"inference_contract\", \"worked_solution\": \"inference_contract\"}, \"locked_fixture_count\": 20, \"locked_sha256\": \"03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615\", \"no_generation_performed\": true, \"packages\": {\"torch\": \"2.11.0+cu130\", \"transformers\": \"5.16.1\", \"unsloth\": \"2026.10.7\", \"unsloth_zoo\": \"2026.10.7\", \"peft\": \"0.21.2\", \"accelerate\": \"1.15.0\", \"bitsandbytes\": \"0.50.2\"}}\n",
+          "\n",
+          "{\"final_evaluation_launched\": true, \"pid\": 65618, \"source_training_exited\": true, \"once_after_dev_selection\": true, \"test_used_to_reselect\": false, \"no_optimizer_loaded\": true}\n"
+        ]
+      }
+    ]
+  }
+}

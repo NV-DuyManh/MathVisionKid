@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"state\": \"RESTORE_REGISTERED\", \"owner_resume_instruction\": \"tiếp tục\", \"registered_utc\": \"2026-10-23T01:27:13.084892+00:00\", \"checkpoint_id\": \"16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI\", \"expected_bytes\": 7083466752, \"expected_sha256\": \"3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648\", \"downloaded_bytes\": 0, \"training_started\": false, \"gpu_used\": false, \"model_weights_loaded\": false, \"new_cases\": 0, \"new_chats\": 0}\n"
+      ]
+    }
+  ]
+}

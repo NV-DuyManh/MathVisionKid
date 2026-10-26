@@ -1,0 +1,29 @@
+{
+  "parent_source_sha256": "92d1a0e1bf08f46e7c78eee2a19b3bf5e9aeaa11fa9ff856599367550809ba6c",
+  "derived_source_sha256": "4cd60aa892caf7bd1fa8e95cecebfdc87e46913b31d9fc10516f8d923569d0b1",
+  "sample_id": "sgk_final_geometry_20261021_notched_piece_rotation_without_reflection",
+  "parent_raw_row_sha256": "e4294895d2b49c9cffcfbb3ba2eda4a586067ba61871d5ab23b1ff5f8258fedd",
+  "derived_raw_row_sha256": "ec39ed58bbf4e967df82ecd6707fec0499bb4ce5a7c1860e069128bd4fa95dfb",
+  "fields": [
+    {
+      "path": "worked_steps[2].result",
+      "before": "Chỉ Q xoay 180 độ",
+      "after": "Chỉ Q xoay nửa vòng"
+    },
+    {
+      "path": "expected_answer[0].result",
+      "before": "Q xoay nửa vòng (180 độ); R không đạt",
+      "after": "Q xoay nửa vòng; R không đạt"
+    }
+  ],
+  "reason": "Root semantic grade1 review: use half-turn wording rather than formal degree notation; chosen piece, legal turns and all mathematics unchanged.",
+  "other_source_rows_byte_identical": 23,
+  "other_chat_rows_byte_identical": 92,
+  "source_oracle_model_unchanged": true,
+  "parent_preserved": {
+    "cases.jsonl": "92d1a0e1bf08f46e7c78eee2a19b3bf5e9aeaa11fa9ff856599367550809ba6c",
+    "chat.jsonl": "ea2411745f9231d0850b503e8dcea286c0a2533dcda1fb19dc5eb224313ac0b9",
+    "manifest.json": "d90e7d47e5900bb704fad13c08eb7e3b22582ca4121cacc0f897ffcd9c1c7078",
+    "selfqa7.jsonl": "ee4171e1a8091ed28aa90ca55a1d846f697a456258c32c6036b230d9bd911e6b"
+  }
+}

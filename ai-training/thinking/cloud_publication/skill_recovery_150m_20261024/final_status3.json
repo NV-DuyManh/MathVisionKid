@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T13:55:42.659405+00:00\", \"worker_alive\": false, \"worker_exit\": 0, \"optimizer_worker_exit\": 0, \"fewshot_dev_exit\": 0, \"seconds_remaining\": 4323.340259552002, \"outputs\": {\"final_eval/selected_generations.jsonl\": 20, \"final_eval/base_generations.jsonl\": 20, \"final_eval/fewshot_selected/generations.jsonl\": 5}, \"complete\": true, \"summary\": {\"selected_kind\": \"untrained_base\", \"base_outputs\": 20, \"selected_outputs\": 20, \"fewshot_outputs\": 5, \"fewshot_modes\": [\"hint_level_1\"], \"test_run_count\": 1, \"selection_changed\": false, \"training_performed\": false, \"production_approval\": false}}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T13:55:42.659405+00:00\", \"worker_alive\": false, \"worker_exit\": 0, \"optimizer_worker_exit\": 0, \"fewshot_dev_exit\": 0, \"seconds_remaining\": 4323.340259552002, \"outputs\": {\"final_eval/selected_generations.jsonl\": 20, \"final_eval/base_generations.jsonl\": 20, \"final_eval/fewshot_selected/generations.jsonl\": 5}, \"complete\": true, \"summary\": {\"selected_kind\": \"untrained_base\", \"base_outputs\": 20, \"selected_outputs\": 20, \"fewshot_outputs\": 5, \"fewshot_modes\": [\"hint_level_1\"], \"test_run_count\": 1, \"selection_changed\": false, \"training_performed\": false, \"production_approval\": false}}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-24T13:55:42.659405+00:00\\\", \\\"worker_alive\\\": false, \\\"worker_exit\\\": 0, \\\"optimizer_worker_exit\\\": 0, \\\"fewshot_dev_exit\\\": 0, \\\"seconds_remaining\\\": 4323.340259552002, \\\"outputs\\\": {\\\"final_eval/selected_generations.jsonl\\\": 20, \\\"final_eval/base_generations.jsonl\\\": 20, \\\"final_eval/fewshot_selected/generations.jsonl\\\": 5}, \\\"complete\\\": true, \\\"summary\\\": {\\\"selected_kind\\\": \\\"untrained_base\\\", \\\"base_outputs\\\": 20, \\\"selected_outputs\\\": 20, \\\"fewshot_outputs\\\": 5, \\\"fewshot_modes\\\": [\\\"hint_level_1\\\"], \\\"test_run_count\\\": 1, \\\"selection_changed\\\": false, \\\"training_performed\\\": false, \\\"production_approval\\\": false}}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

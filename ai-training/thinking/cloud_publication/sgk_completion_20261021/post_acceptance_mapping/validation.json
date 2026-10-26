@@ -1,0 +1,61 @@
+{
+  "all_36_raw_source_hashes_and_144_chat_links_bound": true,
+  "authoritative_queue_not_changed": true,
+  "counts": {
+    "accepted_or_exported_run5_cases_claimed": 0,
+    "authoritative_asset_only_masters_separate": 10,
+    "authoritative_global_master_tasks_unchanged": 45,
+    "candidate_projection_statuses": {
+      "BASELINE_UNCHANGED_NO_RUN5_DRAFT_MATCH": 184,
+      "FINITE_SAME_GRADE_TEXT_BRANCH_PENDING_EXPORT": 17,
+      "PARTIAL_FINITE_TEXT_BRANCH_PENDING_EXPORT": 1,
+      "RELATED_RELATION_ONLY_GRADE_AND_BRANCH_PENDING": 2
+    },
+    "core_slots_added": 0,
+    "draft_cases": 36,
+    "draft_chat_rows": 144,
+    "draft_masters": 18,
+    "external_g2_candidates_preserved": 91,
+    "finite_text_master_tasks_potentially_satisfied_after_acceptance": 15,
+    "global_candidates_preserved": 204,
+    "global_masters_preserved": 167,
+    "global_occurrences_preserved": 315,
+    "partial_master_tasks_with_new_drafts": 3,
+    "prospective_remaining_global_master_tasks": 30,
+    "untouched_global_master_tasks": 27
+  },
+  "drive_mutated": false,
+  "external_g2_91_verbatim_preserved": true,
+  "helper_sha256": "ed16dfca463e595eb85ed2fd0441a0430243e5a0fc265a89910b300851651849",
+  "input_hashes": {
+    "sgk_completion_20261021/g5_measurement_models_corrected/cases.jsonl": "5566927920148c8f35ace48767d97ad46778e9de51adda59cd924fadc9272df2",
+    "sgk_completion_20261021/g5_measurement_models_corrected/chat.jsonl": "17a9146de13ec37d0c080c2c8c09889664cab41d8cd806d53f86e9c46081985c",
+    "sgk_completion_20261021/g5_measurement_models_corrected/manifest.json": "84272454def2bb698bee4ebcd2f009cab1d49b7eea38d1a048d66113e5840a4c",
+    "sgk_completion_20261021/g5_measurement_models_corrected/selfqa7.jsonl": "009bef655330228aa050c54d5ff1c1e9f60b37648532eee93c30b9a7f084c5a7",
+    "sgk_completion_20261021/geometric_relations/cases.jsonl": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15",
+    "sgk_completion_20261021/geometric_relations/chat.jsonl": "941667181533b61354072d765569e8154e75e45b7784ee93cb6a2c0cbb439059",
+    "sgk_completion_20261021/geometric_relations/manifest.json": "17c53b33fa95c6b8ddf0275bf7704c652a4c97ff0b8a0f169b77c3ac660f0b86",
+    "sgk_completion_20261021/geometric_relations/selfqa7.jsonl": "0fe681549cdccecf2596992b3d381812183376c18d4bb3b70f3d1cac50ac7678",
+    "sgk_completion_20261021/inventory_edges/cases.jsonl": "c89b4f06a1c2f717294249e3ea09a7d24d80e5ef152c124c17fdd9341cb7ae44",
+    "sgk_completion_20261021/inventory_edges/chat.jsonl": "9d6778b5972d25b86067e7da183d9b7cafd56a58a318eb5e075973377bb15847",
+    "sgk_completion_20261021/inventory_edges/manifest.json": "87ba2fb7bd51168ecf2513faa7d018cd803a8a8bdaff3c043a44a406c9a03651",
+    "sgk_completion_20261021/inventory_edges/selfqa7.jsonl": "29680f0363db8b8a6dadc7be2db4e41fca80bbcbe52406318e53cb1a6c7b9990",
+    "sgk_completion_20261021/reconciliation/candidate_adjudication.json": "907da42d8a8e4396bd5b36743c3bd5e97d4332eba93ab6311fcf172e77d703cf",
+    "sgk_completion_20261021/reconciliation/next_uncovered_tasks.json": "194214108bb3da81affdbf5a62fb2af0ccf0860605cae077a02cdbfdd014971e",
+    "sgk_final_forms_20261020/reconciliation_projection.json": "43939965e588b671b9670fffd92debb748be815b16cc583288f55f00eaec8868"
+  },
+  "inputs_unchanged": true,
+  "occurrences315_verbatim_preserved": true,
+  "original_candidates_verbatim_preserved": true,
+  "original_masters_verbatim_preserved": true,
+  "output_hashes": {
+    "draft_actual_fields.jsonl": "b4c5b40c9722bd6411f10d093566559171a5b1cf89695d00c2d2b54afe3066b1",
+    "projection.json": "9e873fb3d009857496727aa5613b94c27481831837c98b6d090e32924eca6da1",
+    "remaining_master_tasks.json": "9297889110ba3460fe81dbe8aaa1bf8e5d0a91b909a165a53d003f950fdbf9fd"
+  },
+  "source_drafts_not_accepted_by_this_projection": true,
+  "state_mutated": false,
+  "status": "PASS_PRESERVATION_AND_MAPPING",
+  "training_started": false,
+  "whole_sgk_coverage_claimed": false
+}

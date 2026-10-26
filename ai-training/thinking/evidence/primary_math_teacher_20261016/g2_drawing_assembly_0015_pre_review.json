@@ -1,0 +1,125 @@
+{
+  "batch_sha256": "7143811f44d44b31497060722c5f5fec82a6512857bdc4e420ca36865b477c54",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_draw_from_zero",
+      "row_sha256": "029fcfd02bf5692e13ca1da620f3af0005cb2c915d07f5165854164c93e14c0a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_nonzero_start_mark",
+      "row_sha256": "bdc57716993f545c77f7a59cca9ae4a61702df96dbf333ab00e1a3efc1923fba",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3+8",
+          "(3+8)-3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_tile_grid_with_horizontal_piece",
+      "row_sha256": "13e18af309604b41bcc6becf11a54eac2a69b859a946eaaebea2f18dc3de6d0d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_misconception_plastic_edge",
+      "row_sha256": "b3279a56d638e278f3d661609b687fbfb1ff7b06dd13dc8d49ea8918f331b664",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1+6",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_guard_unmeasured_drawing",
+      "row_sha256": "765bba169ae9d601c3802dbadc896beb888196944e94ba0da24f0060a5bfb994",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "ruler_zero_start_distance": "6",
+    "nonzero_endpoint": "11",
+    "nonzero_distance": "8",
+    "plastic_edge_distance": "7",
+    "all_2_by_3_domino_tilings": 3,
+    "tilings_with_horizontal_piece": 2,
+    "worked_example_valid": true,
+    "mirror_example_valid": true
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read givens, ruler roles, all procedure hints, synthetic quote and both valid tilings. Same-author checking is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "No drawing or motor action observed. Grid is explicit text. Valid alternate tilings must not be rejected by exact-string matching. Neutral schema requires a separate PlanDraft adapter.",
+  "pre_review_wording_edit": {
+    "sample_id": "primary_20261017_g2_drawing_assembly_0015_nonzero_start_mark",
+    "field": "hints[0].question",
+    "reason": "Replace confusing repeated khong phrase with explicit zero mark. No answer changed.",
+    "snapshot_sha256": "32949627c1e3008261eedd787a2be2898ce6c3c0c586fbc501028eeb1e00e8c6"
+  }
+}

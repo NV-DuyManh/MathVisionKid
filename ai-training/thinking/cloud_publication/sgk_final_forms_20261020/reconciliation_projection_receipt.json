@@ -1,0 +1,27 @@
+{
+  "draft_cases_actual_fields_read": 18,
+  "drive_mutated": false,
+  "external_g2_unchanged": 91,
+  "global_candidates_conserved": 204,
+  "helper_sha256": "e032822c44a8f58ca17dec96e5ecf69aed9359543cbfac1efd59e55f4460e4c1",
+  "input_bytes_unchanged": true,
+  "next_assignments_disjoint": true,
+  "next_master_count": 18,
+  "occurrences_conserved": 315,
+  "old_state_mutated": false,
+  "outputs": [
+    {
+      "bytes": 401834,
+      "file": "reconciliation_projection.json",
+      "sha256": "43939965e588b671b9670fffd92debb748be815b16cc583288f55f00eaec8868"
+    },
+    {
+      "bytes": 74371,
+      "file": "reconciliation_projection_actual_fields.jsonl",
+      "sha256": "7b2dc46340e0548e9a58555cb60c86faa229c18ed8717ba50f394e0cd5cc72ee"
+    }
+  ],
+  "prospective_candidate_matches": 9,
+  "status": "PASS_PROJECTION_ONLY_NOT_ACCEPTANCE",
+  "training_started": false
+}

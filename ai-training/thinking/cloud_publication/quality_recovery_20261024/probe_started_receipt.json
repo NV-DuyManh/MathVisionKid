@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "40mJBDCVfhRA"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"probe_started\": true, \"pid\": 16046, \"training_performed\": false, \"checkpoint_step\": 1, \"locked_test_access\": false, \"run_complete\": {\"best\": {\"kind\": \"untrained_base\", \"model\": \"Qwen/Qwen3-1.7B\", \"production_approval\": false, \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"selection_key\": [13, 18, 0, 2, 3], \"semantic_review_pending\": false, \"validation_output_sha256\": \"e31e859954f4f5d2b7b57524bc222c83c198360b62f9ab1eb546cc916432abae\"}, \"budget_satisfied\": true, \"complete\": true, \"completed_unix\": 1792838314.6805396, \"derived_view_epochs\": 0.12075471698113208, \"derived_view_rows\": 6625, \"hard_deadline_unix\": 1792845958.0, \"last_adapter\": {\"bytes\": 66037879, \"diagnostic_only\": true, \"path\": \"last_adapter_diagnostic.zip\", \"sha256\": \"b7968ceca5268812abfa610e55c1f137fdf7214e41743d0f77a8d1ff41231477\"}, \"metrics\": {\"last_gradient_norm\": 1.0562458038330078, \"last_loss\": 2.122198060154915, \"last_lr\": 1e-05, \"loss_sum\": 143.38377963006496, \"rows_done\": 800, \"step\": 50, \"supervised_tokens\": 162336}, \"production_approval\": false, \"selected_artifact\": {\"adapter\": null, \"kind\": \"untrained_base\", \"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"selection_evidence\": {\"kind\": \"untrained_base\", \"model\": \"Qwen/Qwen3-1.7B\", \"production_approval\": false, \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"selection_key\": [13, 18, 0, 2, 3], \"semantic_review_pending\": false, \"validation_output_sha256\": \"e31e859954f4f5d2b7b57524bc222c83c198360b62f9ab1eb546cc916432abae\"}}, \"source_view_rows\": 16000, \"stop_reason\": \"QUALITY_GATE_STOP\", \"training_seconds\": 177.8885138250007, \"unique_examples\": 800, \"whole_corpus_training_claimed\": false}}\n"
+        ]
+      }
+    ]
+  }
+}

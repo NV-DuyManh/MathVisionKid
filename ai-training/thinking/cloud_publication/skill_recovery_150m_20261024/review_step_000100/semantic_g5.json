@@ -1,0 +1,80 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "bd27c1283a17df7b3a8f512184012e109dc4bb0bc2d7ef2a37d9f1ad0647b7f0",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Wrongly subtracts0.2xfrom1.25xand asserts1.25*0.8=1.05; final105%wrong.",
+      "adapter_reason": "Same wrong105%and1.25*0.8=1.05as baseline."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct7.2/0.3=24litres/minute and24*1.25=30litres, consistent units.",
+      "adapter_reason": "Correct30litres from24litres/minute times1.25minutes."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Counts24,15,8blocks per dimension and product2880, checks product without volume-factor confusion.",
+      "adapter_reason": "Correct24*15*8=2880blocks with consistent dimension conversion."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Computes full distances and final0.9km in hint despite withholding request.",
+      "adapter_reason": "Still gives0.9kmfinal in hint."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "grade": 5,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Explains squared conversion100cm*100cm=10000cm2and corrects0.6m2to6000cm2, grounded in provided work.",
+      "adapter_reason": "Correct squared area conversion10000and6000cm2, provided-work feedback only."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Reverses percentage interval0.9x<=180000<=0.8xand derives impossible225000<=x<=200000; correct final request does not fix invalid explanation.",
+      "adapter_reason": "Same reversed price bounds225000<=x<=200000and wrongly calls it feasible interval; full-task reasoning incorrect."
+    }
+  ]
+}

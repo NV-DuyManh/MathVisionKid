@@ -1,0 +1,30 @@
+{
+  "schema": "MathVisionKid.numeric_archive_complete_member_audit.v1",
+  "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+  "artifact_sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+  "source_rows": 900,
+  "expected_chat_rows": 2844,
+  "audit": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 2844,
+    "members_complete": 2,
+    "max_sequence_tokens": 527,
+    "max_completion_tokens": 424,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 2844,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  },
+  "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "state_count_not_inferred_as_four_modes_per_preserved_source": true,
+  "raw_chat_source_hash_field_caveat": "Missing historical row hash is reported, not replaced by canonical equality.",
+  "model_weights_loaded": false,
+  "training_started": false,
+  "full_archive_token_split_audit_complete": false
+}

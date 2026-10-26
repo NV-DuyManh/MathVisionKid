@@ -1,0 +1,278 @@
+{
+  "repo": "loversky02/vi-gsm8k-agentic",
+  "revision": "79f3a2bfb005c7ad58dcaab31eb1e9c534932f9e",
+  "license": {
+    "key": "mit",
+    "name": "MIT License",
+    "spdx_id": "MIT",
+    "url": "https://api.github.com/licenses/mit",
+    "node_id": "MDc6TGljZW5zZTEz"
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 178,
+      "sha": "f8a892d0d502b86dab7b01fd4024a8633f80b117"
+    },
+    {
+      "path": "BUILD_IN_PUBLIC.md",
+      "size": 6462,
+      "sha": "01d7dd3ba390b152fee5847cbd880a0aecce8bb6"
+    },
+    {
+      "path": "CITATION.cff",
+      "size": 712,
+      "sha": "198189fe360fabbc7166e3febd98e1e76c0b80cb"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1065,
+      "sha": "341860c98f346adda27d604b03ffa48b7c24a79f"
+    },
+    {
+      "path": "README.md",
+      "size": 3118,
+      "sha": "9a10cd4f5143d3ca4b416c0de9a6ab26705a9a25"
+    },
+    {
+      "path": "docs/00-paper-autodata.md",
+      "size": 3084,
+      "sha": "34b3b9a0984be3293c39566344d8b4a2e249ac3e"
+    },
+    {
+      "path": "docs/01-feasibility-scope.md",
+      "size": 2853,
+      "sha": "5a0d33407b3f55648cbe51b91176aba9d8d3de2b"
+    },
+    {
+      "path": "docs/02-vietnamese-data-landscape.md",
+      "size": 2439,
+      "sha": "a06922e7838436f646c49f23df9419bed93a4942"
+    },
+    {
+      "path": "docs/03-architecture-4-subagents.md",
+      "size": 4136,
+      "sha": "0f7acfe469ccf5433956a110ad600fc5a0723202"
+    },
+    {
+      "path": "docs/04-orchestrator-code-vs-llm.md",
+      "size": 4529,
+      "sha": "545a2809627f27bdbb23a702b4df07e7a60457fa"
+    },
+    {
+      "path": "docs/05-meta-optimizer.md",
+      "size": 5861,
+      "sha": "2f1ce859b93c14d91d40bb5f1ecf22684daa479a"
+    },
+    {
+      "path": "docs/06-open-questions.md",
+      "size": 3454,
+      "sha": "91c780596fb91b781314689e2e6e628d900ecfa7"
+    },
+    {
+      "path": "docs/07-training-config.md",
+      "size": 2820,
+      "sha": "2bbb0ec2ecc52b89b76a6abccb7b161f35344478"
+    },
+    {
+      "path": "docs/08-cost-estimate.md",
+      "size": 6917,
+      "sha": "9e2749013649e3fb91d325aa2bb51c18ff7055cb"
+    },
+    {
+      "path": "docs/09-build-plan.md",
+      "size": 3091,
+      "sha": "c97a303561d3e95146060b4b0a1f9cfbd401019e"
+    },
+    {
+      "path": "docs/10-pipeline-inner-loop.md",
+      "size": 5298,
+      "sha": "4dddcb5e6e50009fd270e3749805b0c364204011"
+    },
+    {
+      "path": "pipeline/.env.example",
+      "size": 969,
+      "sha": "0c1cd9e618023834505214cf0e554500a36e77bb"
+    },
+    {
+      "path": "pipeline/.gitignore",
+      "size": 36,
+      "sha": "0da68d4468275465fa9e406e52dda7964c1b6dd7"
+    },
+    {
+      "path": "pipeline/DATASET_CARD.md",
+      "size": 3478,
+      "sha": "19ecc04c0f5ec5824a7353704d974fcf47ca1db5"
+    },
+    {
+      "path": "pipeline/README.md",
+      "size": 1665,
+      "sha": "b65b59b36b8d56887c7457fb4199a83677984a00"
+    },
+    {
+      "path": "pipeline/RUNBOOK_TRAIN.md",
+      "size": 1616,
+      "sha": "c71cc525b71c1017647f790d825c0eceb54a42f9"
+    },
+    {
+      "path": "pipeline/check_models.py",
+      "size": 687,
+      "sha": "7a0d2348451dbb1e9376a11d64c9efbb49b7da9e"
+    },
+    {
+      "path": "pipeline/clean_dataset.py",
+      "size": 2449,
+      "sha": "6040017f6df607c3e6404637a3b15c23a1c6d9bd"
+    },
+    {
+      "path": "pipeline/config.py",
+      "size": 1864,
+      "sha": "61702e256aa3c6486b87add762406dbdee01ce1c"
+    },
+    {
+      "path": "pipeline/eval_all.sh",
+      "size": 350,
+      "sha": "0eb6869f87b1ce2ce0c6eb1bc322cc40e4eb63ba"
+    },
+    {
+      "path": "pipeline/eval_model.py",
+      "size": 2659,
+      "sha": "986a7e43c15005e6326b87c04aa1011a0e4733f4"
+    },
+    {
+      "path": "pipeline/eval_save.sh",
+      "size": 1509,
+      "sha": "f40a19ceeca6d285284623e27974e7e57a3ece06"
+    },
+    {
+      "path": "pipeline/llm_client.py",
+      "size": 2068,
+      "sha": "e537b8c7157d136ae218ecf5f6ffc1b34e03c400"
+    },
+    {
+      "path": "pipeline/make_gsm8k_splits.py",
+      "size": 1048,
+      "sha": "154c4f2b76e3220a11bcd2f96ce283d613bb567d"
+    },
+    {
+      "path": "pipeline/make_ood.py",
+      "size": 794,
+      "sha": "07706916d3568da5192382ebd2719d1d333cdb61"
+    },
+    {
+      "path": "pipeline/make_seeds.py",
+      "size": 751,
+      "sha": "9daba288d439c83e7731fa784180dfbedff35a7f"
+    },
+    {
+      "path": "pipeline/orchestrator.py",
+      "size": 3906,
+      "sha": "a6538e29009db34f7fde16fb70a54debc59172b1"
+    },
+    {
+      "path": "pipeline/prompts.py",
+      "size": 3883,
+      "sha": "df88939c9d32548388940e9474a9619be4582f79"
+    },
+    {
+      "path": "pipeline/push_hf.py",
+      "size": 1395,
+      "sha": "6323616d6b40a3938650bb07973b29a53aa9cc99"
+    },
+    {
+      "path": "pipeline/push_model.py",
+      "size": 1362,
+      "sha": "4aad193de1bbe67b17a14b35ff91a0d04dc3a047"
+    },
+    {
+      "path": "pipeline/requirements.txt",
+      "size": 33,
+      "sha": "6d078d52f77f04b79f1ab6aacd05e0ff68ce637e"
+    },
+    {
+      "path": "pipeline/requirements_train.txt",
+      "size": 125,
+      "sha": "f58e40e2e05aa00d437c41095a3b2abe9f070f43"
+    },
+    {
+      "path": "pipeline/run.py",
+      "size": 3025,
+      "sha": "70939a65083fc3a598632b099d8ea392654ce8e4"
+    },
+    {
+      "path": "pipeline/run_all.sh",
+      "size": 773,
+      "sha": "9f962ca3a03f47c556759d9e03d6ee19c1e08475"
+    },
+    {
+      "path": "pipeline/run_phase2b.sh",
+      "size": 1681,
+      "sha": "b965adbc373f490948218401179c8cd5bcd22545"
+    },
+    {
+      "path": "pipeline/run_rest.sh",
+      "size": 715,
+      "sha": "8c097e225a91d81f949f03a900fc01fbf86c581e"
+    },
+    {
+      "path": "pipeline/schema.py",
+      "size": 476,
+      "sha": "07bd1e3c681ff103364a7f7086f55cbb5191c754"
+    },
+    {
+      "path": "pipeline/seeds/gsm8k.jsonl",
+      "size": 536815,
+      "sha": "c296c7a4d9c89918dbc4ba7a942b7500e085e521"
+    },
+    {
+      "path": "pipeline/seeds/gsm8k_test200.jsonl",
+      "size": 112576,
+      "sha": "b052eeec464655b7f5762e4ef2eb8c11cf004b89"
+    },
+    {
+      "path": "pipeline/seeds/gsm8k_train1465.jsonl",
+      "size": 806880,
+      "sha": "6fba35654704c32167e932950103bdb9f5df8703"
+    },
+    {
+      "path": "pipeline/seeds/sample.jsonl",
+      "size": 460,
+      "sha": "e33acbf475db221152b92389353f8c4f03e33eb8"
+    },
+    {
+      "path": "pipeline/seeds/svamp150.jsonl",
+      "size": 29676,
+      "sha": "a679924866564921f2c0dac79633234d62db36e6"
+    },
+    {
+      "path": "pipeline/subagents.py",
+      "size": 1421,
+      "sha": "39df5f06860db1fb0b12e3341f9c3022e8fc658a"
+    },
+    {
+      "path": "pipeline/test_providers.py",
+      "size": 625,
+      "sha": "bf0ef495183a7ffb44a142be26313e88dc9e317a"
+    },
+    {
+      "path": "pipeline/train_sft.py",
+      "size": 2007,
+      "sha": "799c8da6e80c674064983b0d424da91625095e0f"
+    },
+    {
+      "path": "pipeline/translate_gsm8k.py",
+      "size": 3773,
+      "sha": "8117b4bc59e5d545f549496fd43ff3ac9c6cf9d7"
+    },
+    {
+      "path": "pipeline/verifier.py",
+      "size": 2392,
+      "sha": "bda9f1add4b9183b95fb554db81b65a54c3c3aa5"
+    },
+    {
+      "path": "pipeline/wait_eval.sh",
+      "size": 765,
+      "sha": "507dc18bc5d7abda2d767c9c297c5889216762d2"
+    }
+  ]
+}

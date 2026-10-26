@@ -93,6 +93,11 @@ public final class MathTutorDtos {
     public record WorkReviewResponse(String sourceId, String status, String summary, String praise,
                                      java.util.List<WorkReviewRow> rows, String nextAction, String alternative) {}
 
+    public record SpeechRequest(@NotBlank @Size(max = 2000) String text,
+                                @NotNull @Pattern(regexp = "vi-VN-(NamMinh|HoaiMy)Neural") String voice,
+                                @NotNull @jakarta.validation.constraints.DecimalMin("0.75")
+                                @jakarta.validation.constraints.DecimalMax("1.05") Double rate) {}
+
     public record LessonRequest(@NotBlank @Size(min = 3, max = 4000) String problemText,
                                 @NotNull @Size(max = 6000) String workText,
                                 @NotNull @AssertTrue Boolean problemConfirmed,

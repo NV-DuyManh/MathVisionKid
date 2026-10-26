@@ -1,0 +1,11 @@
+{
+  "source_sha256": "c89b4f06a1c2f717294249e3ea09a7d24d80e5ef152c124c17fdd9341cb7ae44",
+  "chat_sha256": "9d6778b5972d25b86067e7da183d9b7cafd56a58a318eb5e075973377bb15847",
+  "cases": 12,
+  "chats": 48,
+  "all_source_chat_hash_and_target_links": true,
+  "technical_ids_canonical": true,
+  "dedup_prior_rows": 1203,
+  "prior_sources_unchanged": true,
+  "training_started": false
+}

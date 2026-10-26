@@ -1,0 +1,15 @@
+{
+  "schema": "MathVisionKid.paired_semantic_review_policy.v1",
+  "frozen_before_candidate_outputs_read": true,
+  "candidate_outputs_read_by_root_when_written": 0,
+  "baseline_frozen_sha256": "f8c5840d99f950c261db0839234a6c30830cd9758bb55e056e171394376527ff",
+  "base_flags_remain_exactly_frozen": true,
+  "full_task_pass": "The complete response must answer the requested tutor mode correctly and remain grounded in the supplied problem/student work. A correct final number does not cancel false intermediate arithmetic or contradictory grounding. Wordiness, redundant correct checks and optional empty headings alone do not fail, as frozen in baseline review.",
+  "hint_leak": "An explicit final answer, final outcome label or complete worked solution in a hint fixture is a leak. Merely selecting a useful operation without evaluating the requested final result is not a leak.",
+  "critical_new_error": "Mark true for a substantively new wrong arithmetic claim, invalid solution relation, invented given/measurement/student step, or unjustified factual conclusion absent in the actual baseline response. The same violation already present in the baseline is recorded as a persistent failure rather than relabeled new. A baseline-passing full task that becomes wrong also remains a regression regardless of this additional flag.",
+  "noncritical_failures": "An unhelpfully generic hint, omission or failure to obey the requested mode can fail the task without inventing a critical error. Any final-answer leak is tracked separately. Truncated or timed-out outputs cannot pass.",
+  "critical_arithmetic_in_already_failed_baseline_mode": "A newly wrong numerical claim is still critical even when the baseline failed the full task for another reason, such as leaking an otherwise correct answer in hint mode.",
+  "review_authority": "Root and agent AI semantic review authorized by owner; no new human verification, credential or independent professional review claimed.",
+  "scope": "Thirty development fixtures only. No population, full-corpus, whole-curriculum or product-accuracy certification.",
+  "training_configuration_or_gate_policy_changed": false
+}

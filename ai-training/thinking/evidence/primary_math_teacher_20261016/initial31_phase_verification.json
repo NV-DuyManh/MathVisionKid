@@ -1,0 +1,84 @@
+{
+  "phase": "INITIAL31_PARTIAL_RESEARCH_DATA_COMPLETE_NOT_ENTIRE_CURRICULUM",
+  "created_utc": "2026-10-16T15:20:03.539539+00:00",
+  "authored_cases": 31,
+  "accepted_cases": 28,
+  "chat_train_rows": 112,
+  "core_cases_credited": 21,
+  "core_cases_target": 495,
+  "pending_cases": 3,
+  "tests_passed": 19,
+  "source_sha256": "bfbc597c3198a2fc52629ee5654eccbc0e7408f978aa57d1ee5d7479522005ac",
+  "pipeline_peer_status": "PASSED_TECHNICAL_GATES_NOT_SEMANTIC_APPROVAL",
+  "frozen_inputs": [
+    {
+      "path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+      "sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+      "sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl",
+      "sha256": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v3/knowledge_cards.jsonl",
+      "sha256": "d4be0db009a471986150c4d9e9b3e1d21be5ff6fd93a8c716c99c6871355bfdf",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v3/curriculum_training_coverage.json",
+      "sha256": "5c769f1325a38f287a530168159a6fe7b1b9f5064b4f64fddc5bdf377fb3c8d9",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v4/generated/dataset_report.json",
+      "sha256": "2d4c5b03c039bd70a54745b76f57618aadb85af2af2007b92f99a6feed58e754",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v4/generated/train.jsonl",
+      "sha256": "137d26f37eca1eebb2c487cb888154d9b03e52e3ed25116a804e9ee87621ab15",
+      "matches_prior": true
+    },
+    {
+      "path": "thinking/data/teacher_math_v4/generated/val.jsonl",
+      "sha256": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+      "matches_prior": true
+    }
+  ],
+  "interval_minutes": 2,
+  "automation_status": "ACTIVE",
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "full_curriculum_complete": false,
+  "drive_folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "export_metadata": {
+    "accepted_cases": {
+      "rows": 28,
+      "bytes": 109062,
+      "sha256": "2fbd4c147acd1bd4261aa94e80927b2c673822aa2eb78a2d27b9d500e2be1d81"
+    },
+    "chat_train": {
+      "rows": 112,
+      "bytes": 170635,
+      "sha256": "4231fd544acb8cb4ca5029771ccdede10478304f48af6fd2db7539a8c29fe0f9"
+    },
+    "pending_cases": {
+      "rows": 3,
+      "bytes": 12149,
+      "sha256": "96fe14398587431f00169bb3a348c15baf762c19a63d27b4fca93266a4f3257c"
+    },
+    "curation_manifest": {
+      "rows": 31,
+      "bytes": 12551,
+      "sha256": "5a97e6b1f38e50f5791ee2c9fedceb6ebdc6af49ecb278183d1c07af604bc878"
+    }
+  }
+}

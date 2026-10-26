@@ -1,0 +1,30 @@
+{
+  "observed_utc": "2026-10-24T10:18:05.932283+00:00",
+  "unittest_exit": 0,
+  "actual_unittest_output": "....................................\n----------------------------------------------------------------------\nRan 36 tests in 0.431s\n\nOK\n",
+  "compile": "PASS",
+  "hashes": {
+    "recovery_worker.py": "345ff9d1def663bca704b4ab47ea8828c9793964bf70fb5ed2b784517b494e29",
+    "recovery_policy.py": "fa9fe2a5d08e01d1e6563b2fbc7220beb29daff12cd436f2af8f76075450dd6a",
+    "publisher_runtime.py": "75d85e31a396e97779f06624b66709ece14c770b46d8f2392a1cd68c4dc7c184",
+    "test_recovery_worker.py": "3d06ff52784a88cd9f51f9224a0bcea42165c6790abe0bc4fc54805c213278a4",
+    "test_recovery_policy.py": "f89cab4b2797d4ec638bffc98862428cab6897b449f59b1b1e4d29d8fa382a0e",
+    "test_recovery_publisher.py": "db445cc91f9c29e5e264ebe73664a93c9958dbf068cc908a5a822f7973752dea"
+  },
+  "scope": "CPU logic invariants; no semantic or GPU performance proof",
+  "source_semantic_review": {
+    "diagnostic_sha256": "ad4c6a4f4fc86a074d90d54cde16d046e4e813470d964936c273c309997c000d",
+    "read_actual_rows": 34,
+    "all_actual_content_reviewed": true,
+    "confirmed_math_errors": 0,
+    "limited_oracle_unmatched_not_assumed_wrong": true
+  },
+  "dev_root_content_review": {
+    "file_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+    "actual_rows_read": 30,
+    "exact_math_and_full_rubric_review": "PASS",
+    "runtime_train_screening_pending": true
+  },
+  "locked_test_root_content_read": false,
+  "human_certification_added": false
+}

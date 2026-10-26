@@ -1,0 +1,38 @@
+{
+  "pass": true,
+  "errors": [],
+  "original_page_candidate_occurrence_conservation": {
+    "g1v1_audit": {
+      "expected": 39,
+      "mapped": 39
+    },
+    "g1v2_audit": {
+      "expected": 59,
+      "mapped": 59
+    },
+    "g3_audit": {
+      "expected": 0,
+      "mapped": 0
+    },
+    "g4_audit": {
+      "expected": 101,
+      "mapped": 101
+    },
+    "g5_audit": {
+      "expected": 71,
+      "mapped": 71
+    }
+  },
+  "additional_adjudication_and_spatial_receipt_occurrences": 45,
+  "unique_candidate_labels": 204,
+  "total_occurrences": 315,
+  "masters": 167,
+  "published_rows": 110,
+  "published_families": 40,
+  "fullfield_row_count": 332,
+  "raw_source_id_hash_split_validation": true,
+  "all_supported_semantic_fields_equal_exact_current_source_rows": true,
+  "source_files_same_hash_as_mapping_build": true,
+  "no_eval_pilot_protected_payload_output": true,
+  "limitations": "Semantic adjudication is manual bounded comparison of actual closest fields, not an algorithmic proof of exhaustive absence. Exact raw/source validations do not certify student outcomes or original visual/physical assets."
+}

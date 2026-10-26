@@ -1,0 +1,69 @@
+{
+  "events": [
+    {
+      "member": "audit/boundary_cases.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 69,
+        "complete": true
+      }
+    },
+    {
+      "member": "audit/pedagogy_cases_v3.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 60,
+        "complete": true
+      }
+    },
+    {
+      "member": "audit/boundary_chat.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 128,
+        "bounded_pause": true
+      }
+    },
+    {
+      "member": "audit/boundary_chat.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 216,
+        "complete": true
+      }
+    },
+    {
+      "member": "audit/pedagogy_chat_v3.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 128,
+        "bounded_pause": true
+      }
+    },
+    {
+      "member": "audit/pedagogy_chat_v3.jsonl",
+      "consume": {
+        "already_complete": false,
+        "rows": 240,
+        "complete": true
+      }
+    }
+  ],
+  "audit": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 456,
+    "members_complete": 4,
+    "max_sequence_tokens": 1481,
+    "max_completion_tokens": 1367,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 216,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  }
+}

@@ -1,0 +1,621 @@
+{
+  "schema": "MathVisionKid.Structural15SemanticReview.v1",
+  "scope": "Read-only semantic review of the 15 exact structural source rows named by new_linkage_diagnostic; no corpus-wide claim, no mutation, no human signoff.",
+  "observed_local_date": "2026-10-23",
+  "source_file": "thinking/cloud_publication/sgk_page_audit_20261019/extensions/structural.jsonl",
+  "diagnostic_file": "thinking/cloud_publication/owner_resume_20261023/new_linkage_diagnostic.json",
+  "diagnostic_sha256": "049c6a53a44b3129cae9137fd1124c28f2c1c535fc911e614f29a17a0f43b5ce",
+  "reviewer": {
+    "type": "AI_REVIEWER",
+    "authority": "OWNER_PREAUTHORIZED",
+    "human_verified": false,
+    "teacher_certified": false,
+    "owner_human_reviewed": false,
+    "independent_external_reviewer": false
+  },
+  "method": "Read every selected row problem/givens/request/student_work/steps/reasons/explanations/answer/initial guidance/all hints; independently recomputed arithmetic and grid geometry using the stated values. No keyword-oracle QA claimed.",
+  "criteria": [
+    "math_independent_oracle",
+    "language_and_grade",
+    "units",
+    "step_reasons_and_checks",
+    "evidence_grounded_wrong_work_response",
+    "hint_no_answer_leakage",
+    "split_provenance_and_id"
+  ],
+  "row_count": 15,
+  "unique_ids": 15,
+  "overall_semantic_result": "PASS_WITH_SCOPE_LIMITS",
+  "source_hash_linkage_result": "UNRESOLVED_BY_THIS_REVIEW: this receipt establishes current row hashes only and does not supply the archived chat-pinned source hashes.",
+  "limits": [
+    "Does not certify source-to-chat hash linkage, legal curriculum completeness, classroom effectiveness, physical construction, or whole-dataset readiness.",
+    "Synthetic student statements remain synthetic; no human or external review is claimed."
+  ],
+  "rows": [
+    {
+      "sample_id": "exhaustive_structure_g2_two_sign_arrow_machine",
+      "grade": 2,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "0c46d8b849f1824cf21076d85d0adcdba00737982779bbfaf03b620af2f4a4bb",
+      "current_canonical_row_sha256": "14a7ccbfeec063d19d38cabc16a3abdca651ad9579e56a7a6dbe56480e6c154c",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "96-34=62; 62+18=80; reverse 80-18=62, 62+34=96."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 2; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g2_two_sign_bare_expression",
+      "grade": 2,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "3ff980e5a58f78c497b49655badc4f620658d5837bc555a4ef8505829488893f",
+      "current_canonical_row_sha256": "25e59bd8b5567b10c9d655859a0a7c97a8781232bc955435e5a629870f4ebaf4",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "48+25=73; 73-13=60; reverse 60+13=73, 73-25=48."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 2; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g2_two_sign_equal_value_contrast",
+      "grade": 2,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "1dac5b9d61a0941ec0bc05518c96e3a74bba95c79884ec95bb424e8939366243",
+      "current_canonical_row_sha256": "f07e4f4c50fe4202c1668f34757d79aa7dbc1a45c6e46ea60ff71a875c163828",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "A: 265+120=385; 385-54=331. B: 265-54=211; 211+120=331. Reverse checks recover 385 and 211."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 2; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g2_two_sign_missing_operator",
+      "grade": 2,
+      "split": "train",
+      "case_kind": "guard",
+      "current_raw_line_sha256": "87428da541e69c6b6604b94577fe57f8a4fa3eda7275bd6f87ec2b2de272f7aa",
+      "current_canonical_row_sha256": "bc76413403258c75f690ee8f3feae8722900e272120b7253ece84ebf13c1df3d",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "The missing operator is not determined; e.g. 42+8-5=45 and 42-8-5=29 under left-to-right evaluation."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 2; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g2_two_sign_observed_parentheses_error",
+      "grade": 2,
+      "split": "train",
+      "case_kind": "misconception",
+      "current_raw_line_sha256": "861d2b068988cebaeb7d3bba778ab89380b505e72e1c553f0b1dfceccd2fe96c",
+      "current_canonical_row_sha256": "984bb6a95a1ca88a29728ee1b99463e633a09b7c9519a0a5116cedf21f50d610",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "Quoted 75-(20+6)=49 is arithmetically correct for the altered expression; requested unparenthesized sequence is 75-20=55; 55+6=61; reverse 61-6=55, 55+20=75."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 2; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "basis": "Correction is grounded only in explicitly synthetic quoted text; no hidden student reasoning is inferred."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g4_cube_faces_observed_count_error",
+      "grade": 4,
+      "split": "train",
+      "case_kind": "misconception",
+      "current_raw_line_sha256": "29daa025b2818599b87998447ab15454214f3960c22e6c3c8700099f7cfaa5e4",
+      "current_canonical_row_sha256": "5634966f842c40d1781d6027293387bbec692101f273448191347732bf739b85",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "A cube has 6 faces; 6-5=1 additional square sheet. Check 5+1=6."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 4; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "basis": "Feedback addresses only the explicitly synthetic written count claim; no unseen assembly is inferred."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g4_cube_frame_assembly_plan",
+      "grade": 4,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "cf3dd11b78b9d592dd27f9a826738b2246c4027cdd096c7b042a0885839fdfd6",
+      "current_canonical_row_sha256": "7993c4774cf86e1289a626ccaef135d96ccc0a24b9b6326d56d700305fdc4b1b",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "6 faces×4 edges/2 incidences=12 straws; 6×4 vertices/3 incidences=8 connectors. Two square frames use 8 straws; four corresponding connectors complete 12."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 4; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g4_parallel_guide_plan",
+      "grade": 4,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "c2c5ec4668debab0262683213a3197837b5dcd78366de2d499f0123aff22a67d",
+      "current_canonical_row_sha256": "0168b0ce130fda08a6fddeb479b3d7857920a4ab104fd98227234647370a065d",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "Translating a set square without rotation while a straightedge holds its direction preserves the selected edge parallel to d; align it through P."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 4; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g4_perpendicular_missing_drawing_guard",
+      "grade": 4,
+      "split": "train",
+      "case_kind": "guard",
+      "current_raw_line_sha256": "cb35e9d11077bd8e46dc48cbe52862d584f65315796f59a67573e3194b599d22",
+      "current_canonical_row_sha256": "285c9633602cd5dfe8304142c552b1f9f579223ef53e1d24f098597ef34ecec0",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "Without the drawing or angle/position evidence, perpendicularity and passage through P cannot be verified."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 4; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g4_rectangle_stencil_plan",
+      "grade": 4,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "8758b191a6ef38f1030ac353764cd949bdc7ce99bfd083b3708a31cbf27882de",
+      "current_canonical_row_sha256": "3f70636b4956a074e7e85a8af0c0e5933002273ae8b8f98f62fc2b2fe33a62f7",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "AB=6 cm; AD=BC=3 cm on same-side perpendiculars; this yields DC=6 cm and four right angles."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 4; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g5_grid_missing_picture_guard",
+      "grade": 5,
+      "split": "train",
+      "case_kind": "guard",
+      "current_raw_line_sha256": "d6acb725193372aaf430f500ca3b5ce941afe655a504b4db184826f1f824c81c",
+      "current_canonical_row_sha256": "d5ce9f8cd5d5011548911a1774a7e602a4dfcc266e279bc94076cbff406eff58",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "No vertex locations/order are provided, so whether the drawing has the claimed vertices/bases cannot be checked."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 5; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g5_grid_observed_rhombus_criterion_error",
+      "grade": 5,
+      "split": "train",
+      "case_kind": "misconception",
+      "current_raw_line_sha256": "05c5957fa90c5d3acf6bb16e0c4415637133512508d650f5a1ec1bd466b7b9e9",
+      "current_canonical_row_sha256": "bc92a47a441089bd145ee15a46649984f3e9be046462ed949f6bbd03ff917b57",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "A(0,0), B(4,0), C(4,2), D(0,2): AB=4 grid intervals, BC=2; rectangle has right angles but not four equal sides."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 5; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "basis": "Feedback responds only to the synthetic written criterion and supplied positions; no drawing actions inferred."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g5_grid_parallelogram_transfer",
+      "grade": 5,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "d468178609a07f9aa6169fc4dccef63d811eb64da4bef1d5f45be360efbc765f",
+      "current_canonical_row_sha256": "b76b54a591c920907e0cbfe603c23dbe2ac2a3f72f6ebcca0bb9b68965c543a1",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "A(0,0), B(5,0), C(7,3), D(2,3): AB and DC each translate 5 right; AD and BC each translate 2 right, 3 up; opposite-side pairs match."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 5; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g5_grid_rhombus_reflection",
+      "grade": 5,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "ec9007b22e656fb080393618d3b405c51a3e15ab19a0cb3d7d01ebd8b48dc9d5",
+      "current_canonical_row_sha256": "c9de16e01007dfb787d5d9bf4a9bc394b7935ddb1b3f57d8387a63d7d538b148",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "L(1,3), T(5,6), R(9,3), B(5,0): consecutive displacement patterns are (4,3),(4,-3),(-4,-3),(-4,3); each squared length is 4²+3²=25. The ordered boundary is simple."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 5; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    },
+    {
+      "sample_id": "exhaustive_structure_g5_grid_trapezoid_plan",
+      "grade": 5,
+      "split": "train",
+      "case_kind": "core",
+      "current_raw_line_sha256": "f27d306707000610aab59c2a110946db51b82ba85cf264196c28b47464766ab9",
+      "current_canonical_row_sha256": "2f011a0b77c1a26fd573e0891064f1697c61fc83d92b3855aaefe41f4c34e88e",
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "independent_check": "Grid positions A(0,0), B(6,0), C(4,3), D(1,3): AB=6 horizontal, DC=3 horizontal, both parallel; AD=(1,3), BC=(-2,3) nonparallel; separation of horizontal lines=3 grid intervals."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "basis": "Clear Vietnamese task at labeled grade 5; review covers only these rows and supplied task scope."
+        },
+        "units": {
+          "status": "PASS",
+          "basis": "Values and answer units are consistent: cm/count objects for measured constructions; grid counts use ô; pure arithmetic has no physical unit."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "basis": "Each worked step follows the stated operation/construction, gives a relevant reason, and supplies an inverse/geometric check where requested. Guard rows correctly have no solution steps."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "NOT_APPLICABLE",
+          "basis": "No student error is assessed in this row."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "basis": "Initial guidance and all three hint/questions cue the next reasoning step without stating a final numeric answer or construction result."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS",
+          "basis": "Exact ID is unique in the 15-row set; split=train; AI_AUTHORED_ORIGINAL; human_verified/teacher_certified/owner_human_reviewed=false; acceptance is owner-preauthorized. This is not a human signoff."
+        }
+      },
+      "findings": []
+    }
+  ]
+}

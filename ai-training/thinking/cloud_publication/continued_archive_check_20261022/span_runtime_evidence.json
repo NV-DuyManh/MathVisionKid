@@ -1,0 +1,50 @@
+{
+  "applied_utc": "2026-10-22T15:14:40.855836+00:00",
+  "old_span_rows": 50000,
+  "new_span_rows": 200000,
+  "commit_every": 256,
+  "token_batch_size": 256,
+  "scanner_or_adapter_files_changed": false,
+  "checkpoint_id_unchanged": true,
+  "already_started_calls_keep_captured_method": true,
+  "first_new_budget_call_observed": true,
+  "remote_checkpoint_tradeoff": "Checkpoint interval is checked at span boundaries; local SQLite still commits every256 rows.",
+  "original_stats": {
+    "batches": 4605,
+    "rows_batched": 1174864,
+    "cache_hits": 1174864,
+    "single_row_fallbacks": 0,
+    "skipped_resume_lines": 9233472,
+    "max_cache_rows": 256,
+    "max_rendered_chars": 288558,
+    "max_raw_chars": 454766,
+    "batch_prepare_fallbacks": 0,
+    "row_prepare_fallbacks": 0,
+    "cache_key_fallbacks": 0,
+    "stream_error_buffered_rows": 0
+  },
+  "training_started": false,
+  "calls": [
+    {
+      "ended_utc": "2026-10-22T15:23:47.231662+00:00",
+      "seconds": 508.0966846859992,
+      "requested_rows": 50000,
+      "effective_rows": 200000,
+      "processed": 200000,
+      "complete": false,
+      "new_batched_rows": 200000,
+      "skipped_prefix_rows": 400000
+    },
+    {
+      "ended_utc": "2026-10-22T15:39:43.174716+00:00",
+      "seconds": 511.8770334300025,
+      "requested_rows": 50000,
+      "effective_rows": 200000,
+      "processed": 200000,
+      "complete": false,
+      "new_batched_rows": 200000,
+      "skipped_prefix_rows": 600000
+    }
+  ],
+  "last_effective_rows": 200000
+}

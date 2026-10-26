@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "2dd704e7e5d58abce958c244c9eb5b5db8c17a067b73ebdc75f7cf96f330acde",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_locked_v1_g3_roman_card_sum",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly identifiesIX=9,XVI=16 and adds9+16=25; all requested values supplied.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g3_disjoint_square_area",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct independent square areas9and25cm2 and additive total34cm2; consistent units and nonoverlap interpretation.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g3_mixed_polyline_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Correct6cm=60mm and addition but explicitly reveals prohibited130mm, failing hint-only request.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g3_unrecorded_rest_time",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Computes8-to11 elapsed3hours, then explicitly distinguishes actual running time excluding unknown rest and concludes no unique result because rest duration is missing. Initial running-time label is imprecise but explicitly qualified and corrected; it does not assert180minutes as final actual running time.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

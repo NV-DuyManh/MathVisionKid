@@ -1,0 +1,9 @@
+{
+  "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "parent_raw_sha256": "342a8f73ffe9ea43c5f2198f4241bba109183e9acc2daf987d09fe2e4b9ff7e5",
+  "parent_raw_bytes": 332345,
+  "bytes": 577797,
+  "sha256": "56e8e20e68fb0bb06f1f0e63ebd321264a0c12a4ab8a08f985727e03e5341ad8",
+  "cell_count": 44,
+  "parent34cell_sources_preserved": true
+}

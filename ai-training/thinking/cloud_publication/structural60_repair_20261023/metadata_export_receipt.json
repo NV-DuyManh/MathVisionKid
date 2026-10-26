@@ -1,0 +1,33 @@
+{
+  "schema": "MathVisionKid.bounded_repair_metadata_export.v1",
+  "files": [
+    {
+      "name": "repair_receipt.json",
+      "bytes": 80553,
+      "sha256": "bfd1969ed8f006ba92f18ffab107a0e98c8a5bc52d11ca8c42ab81a70f6ec7c8"
+    },
+    {
+      "name": "derived_artifact_remote_verified.json",
+      "bytes": 427,
+      "sha256": "5a7ea4b1d8ef19abf97e3133b1c8cd2ed1ef7fa2c77b35796daa314a42915dff"
+    },
+    {
+      "name": "publish_latest_union_recipe.json",
+      "bytes": 790867,
+      "sha256": "4efe053f324ea34d6bbad9e447996454d2f0b1f3bd3e8206aa9b18e1e9d69077"
+    },
+    {
+      "name": "repair_recipe_prepared.json",
+      "bytes": 862,
+      "sha256": "8f1e28f3377de5072b94456aaaf7700296f0e779bfa5714864c25f2a665d6d02"
+    },
+    {
+      "name": "derived_recipe_provenance.json",
+      "bytes": 1153,
+      "sha256": "976a319d8f000d07c949711ed005c1796e311fac6c55a59070346b5b2cbfc97d"
+    }
+  ],
+  "bytes": 66802,
+  "sha256": "35f3723709e227d338bcf823eabefc04b571c443201b62fff2a8e7a32066c710",
+  "corpus_or_sqlite_downloaded": false
+}

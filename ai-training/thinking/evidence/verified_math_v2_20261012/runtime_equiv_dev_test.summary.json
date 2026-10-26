@@ -1,0 +1,15 @@
+{
+  "samples": 160,
+  "solvable_samples": 145,
+  "numeric_answers_accepted": 119,
+  "wrong_numeric_answers_accepted": 0,
+  "solvable_coverage": 0.8206896551724138,
+  "guards_correct": 15,
+  "guard_samples": 15,
+  "protocol_changed_posthoc": true,
+  "not_used_for_checkpoint_selection": true,
+  "semantic_scope": "published full-match raw question contracts only",
+  "equivalence_scope": "symbolic formula identity without substituting fact values; actual domain checked first",
+  "not_all_questions_answered": true,
+  "production_approved": false
+}

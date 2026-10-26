@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "hnZFyhF_JLgv"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"OLD_RUN_SAFE_BOUNDARY_SAVE_QUEUED\", \"current_step\": 1055, \"no_runtime_restart\": true}\n"
+        ]
+      }
+    ]
+  }
+}

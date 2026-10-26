@@ -1,0 +1,35 @@
+{
+  "phase": "DRIVE_SESSION_REBOUND_SAME_ACCOUNT_SAME_ARTIFACT_IDS",
+  "recorded_utc": "2026-10-18T03:51:57.947171+00:00",
+  "prior_link_id": "link_6abe1dbe42308191b83ea0d372a57459",
+  "current_advertised_link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+  "profile_verified": {
+    "id": "103000002357306706048",
+    "name": "Hoai Nam",
+    "email": "hoainam29082005@gmail.com"
+  },
+  "existing_ids_preserved": {
+    "folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+    "context_file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "progress_zip_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "chat_train_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "state_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme"
+  },
+  "diagnostic": "Earlier calls returned RPC Unknown tool before Drive operation. Current runtime advertises a different connectionbinding and newly availableprofile/metadata actions; both profile and existingartifactmetadata now succeed. This supports a stale session/toolbinding issue, not evidence of bad dataset orGooglepermissiondenial. No claim permanentplatformfix.",
+  "before_remote_snapshot": {
+    "accepted_cases": 326,
+    "chat_rows": 1304,
+    "progress_zip_bytes": 2082508,
+    "progress_zip_modified": "2026-10-18T03:35:40.941Z"
+  },
+  "local_snapshot_to_upload": {
+    "accepted_cases": 343,
+    "chat_rows": 1372
+  },
+  "same_account_verified": true,
+  "new_folders_or_files_created": false,
+  "sharing_or_permissions_changed": false,
+  "connector_uninstalled_or_reinstalled": false,
+  "upload_status": "PENDING",
+  "raw_readback_verified": false
+}

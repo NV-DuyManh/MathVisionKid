@@ -1,0 +1,153 @@
+{
+  "old_row": {
+    "sample_id": "primary_20261017_g3_drawing_tools_0039_misconception_diameter_as_opening",
+    "case_group_id": "primary_20261017_g3_drawing_tools_0039_misconception_diameter_as_opening",
+    "split": "train",
+    "grade": 3,
+    "topic": "misconception_diameter_as_opening",
+    "problem": "Bài thực hành giả định yêu cầu vẽ đường tròn tâm T, đường kính 14 cm. Bạn viết: Đề yêu cầu đường tròn đường kính 14 cm nên em mở compa 14 cm. Hãy nhận xét đúng câu đã viết, nêu cách sửa độ mở và cách kiểm. Chưa có ảnh nét vẽ, không suy thêm lỗi đặt tâm hay cách cầm compa.",
+    "givens": [
+      {
+        "id": "g0",
+        "text": "Tâm T",
+        "value": null,
+        "unit": "",
+        "role": "given_center"
+      },
+      {
+        "id": "g1",
+        "text": "Đường kính",
+        "value": "14",
+        "unit": "cm",
+        "role": "required_diameter"
+      },
+      {
+        "id": "g2",
+        "text": "Câu viết dùng độ mở bằng đường kính",
+        "value": null,
+        "unit": "",
+        "role": "explicit_student_statement"
+      }
+    ],
+    "requested_quantity": "Độ mở đúng",
+    "student_work": {
+      "text": "Đề yêu cầu đường tròn đường kính 14 cm nên em mở compa 14 cm.",
+      "observations": [
+        {
+          "excerpt": "Đề yêu cầu đường tròn đường kính 14 cm nên em mở compa 14 cm.",
+          "claim_scope": "Only the explicitly stated compass opening is evaluated; no drawing or grip inferred."
+        }
+      ]
+    },
+    "initial_guidance": [
+      "Xác định đoạn nào tương ứng với độ mở của compa.",
+      "Chỉ nhận xét bước đã được kể, chưa suy lỗi từ một nét vẽ chưa có."
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "hint": "Bán kính và đường kính khác nhau về vị trí hai đầu đoạn.",
+        "question": "Độ mở compa ứng với loại đoạn nào trong hai loại ấy?"
+      },
+      {
+        "level": 2,
+        "hint": "Xét đường kính đi qua tâm và mối liên hệ với hai bán kính.",
+        "question": "Muốn từ đường kính tìm độ mở phù hợp, em dùng quan hệ nào?"
+      },
+      {
+        "level": 3,
+        "hint": "Lời sửa cần được kiểm trở lại bằng chính số đo ban đầu.",
+        "question": "Hai lần độ mở đã sửa có bằng đường kính yêu cầu không?"
+      }
+    ],
+    "worked_steps": [
+      {
+        "title": "Chỉ ra sự nhầm giữa hai đại lượng",
+        "reason": "Độ mở compa là bán kính, còn câu viết đã lấy đường kính làm độ mở.",
+        "expression": null,
+        "result": "câu đã viết nhầm đường kính với bán kính",
+        "unit": "",
+        "explanation": "Chỉ kết luận về độ mở được kể. Không nói bạn đã đặt sai tâm T hoặc nét bị méo vì chưa có bằng chứng đó.",
+        "step_id": "s0"
+      },
+      {
+        "title": "Tìm độ mở và kiểm ngược",
+        "reason": "Đường kính gấp hai lần bán kính nên chia đường kính thành hai phần bằng nhau.",
+        "expression": "14/2",
+        "result": "7",
+        "unit": "cm",
+        "explanation": "Tính 14 : 2 = 7 cm, rồi kiểm 3 × 2 = 14 cm. Vì vậy mở compa 7 cm, giữ đầu nhọn ở T và độ mở ổn định khi quay.",
+        "step_id": "s1"
+      }
+    ],
+    "expected_answer": [
+      {
+        "quantity": "Độ mở đúng",
+        "result": "7",
+        "unit": "cm"
+      }
+    ],
+    "can_solve": true,
+    "canonical_case": {
+      "family": "misconception_diameter_as_opening",
+      "operations": [
+        "14/2"
+      ],
+      "numeric_values": [
+        "14"
+      ]
+    },
+    "curriculum_assignment": {
+      "node_id": "current_g3_draw_ekes_compass",
+      "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+      "case_kind": "misconception"
+    },
+    "provenance": {
+      "authoring_method": "original_AI_teacher",
+      "human_verified": false,
+      "teacher_certified": false,
+      "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+      "source_evidence": {
+        "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+        "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+        "source_id": "math_2018_annex",
+        "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+        "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+        "source_locator": [
+          31,
+          31
+        ],
+        "verification_status": "primary_annex_outcome_read",
+        "evidence_previously_read_on": "2026-10-13",
+        "refetched_or_legal_recertified_20261016": false,
+        "original_2006_annex_verified": false,
+        "current_2026_legal_currency_certified": false,
+        "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+        "limitations": []
+      },
+      "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+      "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+      "real_observation_claim": false,
+      "visual_or_physical_outcome_verified": false,
+      "actual_image_asset_supplied": false,
+      "student_work_origin": "EXPLICITLY_SYNTHETIC",
+      "authoring_label": "AI_TEACHER",
+      "authoring_agent": "root",
+      "content_review_status": "PENDING_INDEPENDENT_CONTENT_REVIEW"
+    },
+    "quality_flags": {
+      "app_plan_draft_compatible": false,
+      "app_mapping_status": "NEUTRAL_TEACHER_SCHEMA_REQUIRES_ADAPTER",
+      "full_worked_solution_requires_explicit_request": true,
+      "three_hint_levels_answer_free": true,
+      "text_description_only_not_vision_training": true,
+      "actual_image_or_physical_asset_present": false
+    }
+  },
+  "old_row_sha256": "293bc4a8c2de690b7ae8c6ab687293b0b694a67964e33210eefa791a48e51f3a",
+  "reason": "Readback caught stale multiplier 3 in free-text inverse check after changing an unissued protected candidate to diameter14. Primary14/2 and target7 already correct. Repair only pending own draft; not assigned task008; never accepted/exported.",
+  "changed_field": "worked_steps[1].explanation",
+  "before": "Tính 14 : 2 = 7 cm, rồi kiểm 3 × 2 = 14 cm. Vì vậy mở compa 7 cm, giữ đầu nhọn ở T và độ mở ổn định khi quay.",
+  "after": "Tính 14 : 2 = 7 cm, rồi kiểm 7 × 2 = 14 cm. Vì vậy mở compa 7 cm, giữ đầu nhọn ở T và độ mở ổn định khi quay.",
+  "independent_review_completed": false
+}

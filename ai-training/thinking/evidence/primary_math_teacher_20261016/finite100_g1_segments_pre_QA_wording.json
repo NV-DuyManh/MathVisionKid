@@ -1,0 +1,139 @@
+{
+  "before_row": {
+    "sample_id": "primary_20261018_finite100_g1_segments_zero_origin_plan",
+    "case_group_id": "primary_20261018_finite100_g1_segments_zero_origin_plan",
+    "split": "train",
+    "grade": 1,
+    "topic": "zero_origin_plan",
+    "problem": "Cần vẽ đoạn AB dài 7 cm trên giấy. Có thước thẳng chia vạch cm và bút. Hãy nêu cách đặt thước, đánh dấu hai đầu, nối và kiểm; chưa có hình vẽ thật.",
+    "givens": [
+      {
+        "id": "g0",
+        "text": "Độ dài cần",
+        "value": "7",
+        "unit": "cm",
+        "role": "explicit_given_0"
+      },
+      {
+        "id": "g1",
+        "text": "Có thước cm và bút",
+        "value": null,
+        "unit": "",
+        "role": "explicit_given_1"
+      }
+    ],
+    "requested_quantity": "Nêu quy trình vẽ và kiểm đoạn",
+    "student_work": null,
+    "initial_guidance": [
+      "Độ dài đoạn được kiểm giữa hai đầu, không chỉ bằng nhãn số ở một đầu."
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "hint": "Độ dài đoạn được kiểm giữa hai đầu, không chỉ bằng nhãn số ở một đầu.",
+        "question": "Em xác định hai đầu và vạch thước tương ứng thế nào?"
+      },
+      {
+        "level": 2,
+        "hint": "Thước thẳng, đúng đơn vị và các vạch đều giúp lấy khoảng cách giữa hai đầu.",
+        "question": "Em đánh dấu rồi nối hoặc đối chiếu các khoảng đơn vị ra sao?"
+      },
+      {
+        "level": 3,
+        "hint": "Cần đo lại từ đầu này đến đầu kia sau khi nối.",
+        "question": "Em kiểm độ dài và vị trí hai đầu thế nào?"
+      }
+    ],
+    "worked_steps": [
+      {
+        "step_id": "s0",
+        "title": "Đánh dấu và nối",
+        "reason": "Vạch không là đầu đo; hai đầu cách nhau đúng số khoảng cm.",
+        "result": "Đặt A ở vạch 0, B ở vạch 7, dùng cạnh thước nối AB",
+        "explanation": "Đặt thước thẳng, giữ yên khi chấm hai điểm và nối. Đây là kế hoạch, chưa chứng nhận đã vẽ.",
+        "expression": null,
+        "unit": ""
+      },
+      {
+        "step_id": "s1",
+        "title": "Đo lại",
+        "reason": "Hiệu vạch cuối và đầu là độ dài.",
+        "result": "7",
+        "explanation": "7 - 0 = 7 cm, đúng độ dài cần. Đo lại AB theo cùng đơn vị.",
+        "expression": "7-0",
+        "unit": "cm"
+      }
+    ],
+    "expected_answer": [
+      {
+        "quantity": "Độ dài cần kiểm",
+        "result": "7",
+        "unit": "cm"
+      }
+    ],
+    "can_solve": true,
+    "canonical_case": {
+      "family": "zero_origin_plan",
+      "operations": [
+        "7-0"
+      ],
+      "numeric_values": [
+        "7"
+      ]
+    },
+    "curriculum_assignment": {
+      "node_id": "old_g1_draw_segment",
+      "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+      "case_kind": "core",
+      "case_slot": "core_01",
+      "context_variant": "canonical_explicit_data",
+      "method_variant": "explain_rule_then_apply"
+    },
+    "provenance": {
+      "authoring_method": "original_AI_teacher",
+      "authoring_label": "AI_GENERATED",
+      "authoring_agent": "root",
+      "human_verified": false,
+      "teacher_certified": false,
+      "independent_external_reviewer": false,
+      "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+      "source_evidence": {
+        "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+        "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+        "source_id": "old_adjustment_school2015",
+        "source_url": "https://thtranquangdieu.hcm.edu.vn/tai-nguyen/huong-dan-dieu-chinh-noi-dung-day-hoc-tieu-hoc/ctmb/21524/94981",
+        "source_payload_sha256": "c7c274353d9706164daecbeed67346b1b582e15a8069fbcc24240e6612d7ba89",
+        "source_locator": "Grade1; week29; textbookp156",
+        "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+        "evidence_previously_read_on": "2026-10-13",
+        "refetched_or_legal_recertified_20261016": false,
+        "original_2006_annex_verified": false,
+        "current_2026_legal_currency_certified": false,
+        "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+        "limitations": [
+          "Text-only description cannot verify drawing accuracy."
+        ]
+      },
+      "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+      "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+      "acceptance_policy": "owner_acceptance_policy.json",
+      "real_observation_claim": false,
+      "visual_or_physical_outcome_verified": false,
+      "student_work_origin": null,
+      "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+      "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM",
+      "visual_asset_status": "PENDING_ACTUAL_IMAGE_OR_PHYSICAL_EVIDENCE"
+    },
+    "quality_flags": {
+      "app_plan_draft_compatible": false,
+      "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+      "three_hint_levels_answer_free": true,
+      "full_worked_solution_requires_explicit_request": true,
+      "actual_image_or_physical_asset_present": false,
+      "text_description_only_not_vision_training": true,
+      "historical_topic_only_not_complete_2006_curriculum": true
+    }
+  },
+  "before_row_sha256": "ab96190ac0768bb0a109ca0a59d0f41cc64d627ace915a0e2c882666fbeecf4b",
+  "reason": "Use explicit digit0 to remove Vietnamese khong ambiguity, no numeric/answer edits."
+}

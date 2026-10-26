@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-16T15:26:18.489060+00:00",
+  "before_batch_sha256": "93b8a7b145c70232a3a0d123cb3b7fe3b52a4b52957f4294c2e8ac10f63c1fd2",
+  "after_batch_sha256": "0395281bd2facf1d487382ad8c7825e84345d9235c5d11e88634705b8bc7a6ca",
+  "changes": [
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "before_row_sha256": "74099672c0e4be9ba757c657ae0e0a2986020c9b86524f6c31469c8745bfe1e6",
+      "after_row_sha256": "67832843bebcc3f524466f5d133bd1fb3b867c69d1a6213c33f1fa0c78368ccc",
+      "rationale": "Replace floor syntax with adjacent-multiple bounds, exact division of the packed portion, remainder and recomposition; retain original question and both original answers.",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "8*6",
+          "9*6",
+          "(8*6)/6",
+          "52-(8*6)",
+          "((8*6)/6)*6+(52-(8*6))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "original_tutor25_g3_03",
+      "before_row_sha256": "621dabf89eec4f62bc2ca00b0c4760ba9e29f0fd132eb170b317be5eead47cc3",
+      "after_row_sha256": "07f888fe79affae62a53544476d6d41d4ab507ae118c2b885885045038558995",
+      "rationale": "Implement independently proposed conservative bound repair: 23×4 has one carry, followed by one-borrow subtraction; original number and answer preserved in snapshot, no evaluation target changed.",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "4*23",
+          "(4*23)-36"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "before_row_sha256": "643c2b235d91797f4abba94bf224cecb85beca1336051bf1a11cb4f3922e67cb",
+      "after_row_sha256": "d7471a01991f48fc9b225479c27468cf84b9fc1824390e8a5d4890d776bbbe64",
+      "rationale": "Use explicit bounds for one versus two hours, exact conversion and recomposition; retain original duration and answers.",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1*60",
+          "2*60",
+          "(1*60)/60",
+          "92-(1*60)",
+          "((1*60)/60)*60+(92-(1*60))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "result": {
+    "accepted_cases": 31,
+    "chat_train_rows": 124,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 31
+    },
+    "remaining_core_cases": 472
+  },
+  "training_started": false,
+  "teacher_certified": false
+}

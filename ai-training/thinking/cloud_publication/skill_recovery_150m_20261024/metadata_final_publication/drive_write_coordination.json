@@ -1,0 +1,16 @@
+{
+  "shared_put_lock_applied_to_loaded_stores": [
+    "qrec_integrity_store",
+    "qrec_final_frozen_store",
+    "verbal_archive_store",
+    "skill_integrated_archive_lib",
+    "skill_serialization_repair_store",
+    "skill_active_code_archive_lib",
+    "skill_context_archive_lib",
+    "skill_completion_archive_lib"
+  ],
+  "observed_unix": 1792850065.7489905,
+  "frozen_store_bytes_changed": false,
+  "model_or_training_changed": false,
+  "purpose": "Serialize complete immutable Drive put transactions across publisher clients to avoid concurrent find/create races."
+}

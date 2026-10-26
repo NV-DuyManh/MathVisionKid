@@ -1,0 +1,174 @@
+{
+  "all_actual_final_answers_and_fixtures_read": true,
+  "candidate_eligible": false,
+  "decisions": [
+    {
+      "base_pass": true,
+      "base_reason": "Writes47and40with correct tens/unit decomposition and consistent check; both requested values supplied.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct47and40with consistent tens decomposition and check; retains baseline pass."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Correct final45,50,54order but explanation compares only units and falsely concludes45>50. Contradictory substantive reasoning.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct45,50,54and explains tens first then units for equal tens; repairs baseline contradictory units-only comparison."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Correctly recognizes1..5as possible, but requests extra condition number>5, which contradicts the given number<6and leaves no feasible number.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "native_pass": false,
+      "native_reason": "Correct candidate set1..5and nonuniqueness, but proposes impossible zero-digit clue and wrongly says each specified digit could still mean all5numbers. Same unsound missing-information guidance class as baseline."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correct inclusive64−46+1=19cards and explicit complete list verifies both endpoints.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct inclusive64−46+1=19and explains adding1for both endpoints. Wording18numbers between is imprecise for18gap count, but formula, endpoint instruction and conclusion are sound."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correct2m=200cm and200−185=15cm, consistent quantities and conclusion.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct2m=200cmthen200−185=15cmwith consistent check. TypoMèoonce in place of mép does not alter measured relation or conclusion."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Restates supplied wrong3+2operation in checking sequence, then explicitly rejects it for this task and uses two groups3*2=6candies. Final correction grounded in supplied work; no invented hidden action.",
+      "critical_new_error": true,
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error",
+      "native_pass": false,
+      "native_reason": "Correct final6and multiplication reasoning, but new check invents3packs with2candies each rather than supplied2packs with3each. Equal product does not justify swapping real group quantities in grounded feedback."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Computes67and verifies9*7+4correctly, but omits frozen rubric remainder bound4<9; numerical answer correct, full-task check incomplete.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "native_pass": false,
+      "native_reason": "Correct67and remainder4from67−9*7, but still omits4<9bound required by frozen full-task rubric; no numeric-answer regression."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correct3240−850=2390g=2kg390g with consistent units and both requested forms.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct3240−850=2390g=2kg390gwith both requested forms and consistent units."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Correct final0and multiplication0*7=0, but contradictory checking commentary and no clear account of why the supplied check does not verify claimed quotient7.",
+      "critical_new_error": true,
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "native_pass": false,
+      "native_reason": "Correct final quotient0but newly calls0the divisor and claims0cannot be divisible by7; substantive false division explanation despite correct multiplication check."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Correct equivalents9/12and10/12but falsely orders9/12<7/12<10/12and final labels wrong.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct common12fraction equivalents and7/12,3/4,5/6order, decimal checks use approximation properly."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correct quantity division5/6by1/12=10cups; inverse volume check returns5/6litre.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "native_pass": false,
+      "native_reason": "Correct10cups and division, but labeled check merely repeats givens and same division instead of reconstructing5/6litre as the frozen check rubric requires; numerical answer is correct."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correctly rejects numerator-only comparison; equivalent10/15and9/15and final2/3>3/5with explanation of common-sized parts.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "native_pass": true,
+      "native_reason": "Correct common15and10/15>9/15, explicitly rejects numerator-only comparison and grounds feedback in supplied statement."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Wrongly subtracts0.2xfrom1.25xand asserts1.25*0.8=1.05; final105%wrong.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "grade": 5,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct two percentage bases,125then20%of125=25then100; final100%with consistent check."
+    },
+    {
+      "base_pass": true,
+      "base_reason": "Correct7.2/0.3=24litres/minute and24*1.25=30litres, consistent units.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "grade": 5,
+      "mode": "answer",
+      "native_pass": true,
+      "native_reason": "Correct rate24litres/minute and30litres in1.25minutes with consistent units."
+    },
+    {
+      "base_pass": false,
+      "base_reason": "Reverses percentage interval0.9x<=180000<=0.8xand derives impossible225000<=x<=200000; correct final request does not fix invalid explanation.",
+      "critical_new_error": false,
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "native_pass": true,
+      "native_reason": "Correct original-price range200000..225000and both endpoint discount checks; explains nonuniqueness and asks exact discount, no fabricated single price."
+    }
+  ],
+  "dev_fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "dev_output_sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+  "frozen_before_native_final": true,
+  "human_review_claimed": false,
+  "no_adapter_weights_selected": true,
+  "no_production_approval": true,
+  "policy_sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+  "raw_thinking_used_as_answer": false,
+  "schema": "MathVisionKid.native_probe_gate.v1",
+  "summary": {
+    "base_answer_pass": 6,
+    "base_pass": 8,
+    "baseline_pass_regressions": 2,
+    "count": 15,
+    "native_answer_pass": 8,
+    "native_pass": 10,
+    "new_critical_errors": 2
+  }
+}

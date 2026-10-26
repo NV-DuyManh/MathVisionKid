@@ -1,0 +1,23 @@
+{
+  "schema": "MathVisionKid.corrective_optimized_v2.cpu_validation.v1",
+  "observed_utc": "2026-10-24T01:08:08.3215564Z",
+  "result": "PASS",
+  "tests_run": 7,
+  "compile_pass": true,
+  "GPU_or_Drive_used": false,
+  "runtime_tuning_performed": false,
+  "worker_sha256": "07f30dedd6b330218283ec7771e72c84d5ae008cf3c27885a1a8de8c0b169761",
+  "test_sha256": "30767bcf89c3abda882e1b250ff4163a2643bce0694ffa73c02e92e1f881e907",
+  "original_worker_sha256": "e1e6df2d48c5502cd016a333d0c653940798ba0bbf072650e6662eabdb598a8c",
+  "owner_budget_revision_sha256": "e3e5b960b65e618909329e18bbf2656e4d80435a445b60e3102a176f254aab00",
+  "pair_loss_helper_sha256": "6c737d6ea42a92800b3df469ab9dac2909cef21c52701777fee8da97c5f0b6fb",
+  "tested": [
+    "mixed/incomplete/NaN optimizer state rejection",
+    "continued time scheduler without reset",
+    "exact cutoff and reserve pins",
+    "original pair grouping and objective failclosed without helper",
+    "acknowledged log prefix order/tokens/exposures/cursor reconstruction",
+    "cooperative boundary signal request",
+    "safe pre-optimizer OOM fallback chain"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "AIAD3xXLZKcP"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PUBLISH_MUTABLE_FILES_FROM_IMMUTABLE_UPLOAD_SNAPSHOTS\", \"patched_live_publishers\": 2, \"current_and_future_retries_fixed\": true, \"training_config_changed\": false, \"checkpoint_corruption_detected\": false, \"failure_was_mutable_progress_race\": true}\n"
+        ]
+      }
+    ]
+  }
+}

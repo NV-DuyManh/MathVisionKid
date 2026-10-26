@@ -1,0 +1,35 @@
+{
+  "schema_version": "g3_locator_source_reaudit.v1",
+  "audit_date": "2026-10-23",
+  "scope": "Targeted source/metadata audit only; excluded eval, pilot, concept_challenge, and large data; no source pages reread.",
+  "target": {
+    "master_id": "placeclass_torn_strip_constraints",
+    "candidate_id": "tornplaceclass_strip_assembly",
+    "description_evidence_id": "18c495809a7d304eb0cc1b2d"
+  },
+  "findings": [
+    {
+      "evidence": "thinking/cloud_publication/sgk_finish_20261020/crossgrade_mapping/build_mapping.py:154",
+      "observation": "The mapping script groups tornplaceclass_strip_assembly and placeclass_strip_assembly under placeclass_torn_strip_constraints. Its reason cites G4 pp.43-44 and says exact strip boundaries/labels and legal adjacency are needed.",
+      "implication": "This establishes where the aliases were grouped in the crossgrade mapping, but does not establish an original G3 publisher source."
+    },
+    {
+      "evidence": "thinking/cloud_publication/sgk_page_audit_20261019/g3_audit/candidate_adjudication.json:2666 onward",
+      "observation": "The G3 audit entry for tornplaceclass_strip_assembly has actual_page_receipts empty. Its nearest actual training sources are a G1 bundled-sticks sample and a G4 place-value reading sample, neither identified as the torn-strip exercise.",
+      "implication": "No exact original G3 locator is present in the inspected G3 audit metadata."
+    },
+    {
+      "evidence": "thinking/cloud_publication/sgk_final_gaps_20261021/reconciliation/next_uncovered_tasks.json:832-847, 941-950; thinking/cloud_publication/sgk_final_gaps_20261021/reconciliation/candidate_adjudication.json:11739-11756",
+      "observation": "Evidence ID 18c495809a7d304eb0cc1b2d is preserved as the original description ID. The records state that G4 pp.43-44 cannot provide the missing original G3 locator and retain locator/grade pending status.",
+      "implication": "The evidence ID tracks the candidate description, not a resolved G3 page receipt."
+    },
+    {
+      "evidence": "thinking/cloud_publication/continued_archive_check_20261022/asset_locator_review.json:18-47",
+      "observation": "The two exact visual source receipts are book g4v1, printed pp.43 and 44, with image hashes and publisher URLs; the review records zero exact G3 receipts and zero exact candidate ID matches.",
+      "implication": "The related torn-strip source is G4 pp.43-44. These receipts do not justify relabeling it as G3."
+    }
+  ],
+  "determination": "Mapping history is established; origin of the original G3 alias is not established. Keep the G3 locator pending and preserve the exact G4 pp.43-44 receipts only as related G4 sources. No exact G3 source was found in this targeted audit.",
+  "actions_taken": ["Read targeted review and source metadata", "Searched alias/evidence ID with excluded paths/globs", "Saved this audit record"],
+  "not_done": ["No evaluation/pilot/concept-challenge or large corpus data read", "No source pages reread", "No grade relabeling", "No synthetic closure or training" ]
+}

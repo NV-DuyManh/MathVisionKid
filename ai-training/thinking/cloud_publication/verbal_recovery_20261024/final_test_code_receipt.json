@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "kSrjPH4Ttgsb"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"test_code_staged\": true, \"inference_executed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Y47YhtvvEWuR"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T13:20:02.568392+00:00\", \"worker_alive\": true, \"exit\": null, \"remaining_seconds\": 6463.429410457611, \"training/progress.json\": {\"derived_view_rows\": 6879, \"hard_deadline_unix\": 1792854466.0, \"last_gradient_norm\": 3.5175251960754395, \"last_loss\": 4.676220744848251, \"last_lr\": 3e-06, \"loss_sum\": 262.1231105029583, \"rows_done\": 864, \"state\": \"TRAINING\", \"step\": 54, \"supervised_tokens\": 95309, \"training_seconds\": 162.2224418549922, \"training_started\": true, \"unique_examples\": 864}, \"training/best.json\": {\"kind\": \"untrained_base\", \"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"semantic_review_pending\": true, \"validation_output_sha256\": \"c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173\"}, \"four_controls_publication_status.json\": {\"state\": \"READING_PARENTS\", \"error\": null, \"canonical_context_sha256\": null}, \"eval_rows\": {\"training/eval_step_000000/base_generations.jsonl\": 30}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"checkpoint_count\": 1, \"checkpoints\": {\"3481eff3376eadf12f07d4c77071ff02d7ffc6f44c03e3ff3593c5d7b3c38e3f\": {\"id\": \"11G-ygcgvvxQNbCXUv0pfKUCNHCxMvXW_\", \"sha256\": \"de70495a98d071a5c9f46602772e75af3797c10b636f818af0433ef5bd5bea98\", \"bytes\": 31155169, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:17:42.192088+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"checkpoint_step_000001_rows_00000016_3481eff3376eadf1.zip\", \"immutable\": true, \"step\": 1, \"rows_done\": 16, \"manifest_sha256\": \"3481eff3376eadf12f07d4c77071ff02d7ffc6f44c03e3ff3593c5d7b3c38e3f\", \"generation\": \"generation_step_000001_rows_00000016\"}}}}\n"
+        ]
+      }
+    ]
+  }
+}

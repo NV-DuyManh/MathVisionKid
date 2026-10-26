@@ -1,0 +1,347 @@
+{
+  "schema": "MathVisionKid.derived_onepass_batch_adapter_validation.v1",
+  "success": true,
+  "tests_run": 21,
+  "test_names": [
+    "__main__.OnePassDifferentialTests.test_actual_gzip_crc_and_utf8_damage_preserve_database_cursor",
+    "__main__.OnePassDifferentialTests.test_batch256_and_strict_character_bounds_and_oversize_fallback",
+    "__main__.OnePassDifferentialTests.test_batch_backend_failures_and_partial_cache_use_original_rows",
+    "__main__.OnePassDifferentialTests.test_batch_only_row_gate_mismatch_retries_original_scalar",
+    "__main__.OnePassDifferentialTests.test_buffered_stream_io_and_unicode_failures_preserve_committed_rows",
+    "__main__.OnePassDifferentialTests.test_canonical_row_encoding_failure_keeps_original_hash_error_position",
+    "__main__.OnePassDifferentialTests.test_declared_row_count_remains_enforced",
+    "__main__.OnePassDifferentialTests.test_duplicate_render_failure_keeps_original_short_circuit",
+    "__main__.OnePassDifferentialTests.test_embedded_delimiters_eot_and_length_exact_errors",
+    "__main__.OnePassDifferentialTests.test_exact_cache_key_includes_all_canonical_row_bytes",
+    "__main__.OnePassDifferentialTests.test_exact_template_token_mismatch_gate",
+    "__main__.OnePassDifferentialTests.test_full_ids_masks_counts_unicode_and_modes",
+    "__main__.OnePassDifferentialTests.test_full_scanner_database_parity_including_original_linkage_issues",
+    "__main__.OnePassDifferentialTests.test_invalid_lines_preserve_error_order_commits_and_cursor",
+    "__main__.OnePassDifferentialTests.test_length_failure_deferred_until_original_commit_boundary",
+    "__main__.OnePassDifferentialTests.test_official_batch_calls_are_independent_and_untruncated",
+    "__main__.OnePassDifferentialTests.test_official_prefix_mismatch_gate_is_unchanged",
+    "__main__.OnePassDifferentialTests.test_outside_context_thread_fallback_and_clean_uninstall",
+    "__main__.OnePassDifferentialTests.test_payload_hash_remains_enforced",
+    "__main__.OnePassDifferentialTests.test_render_failure_occurs_at_original_physical_commit_boundary",
+    "__main__.OnePassDifferentialTests.test_resume_keeps_every_physical_line_and_skips_encoding_old_rows"
+  ],
+  "tested_at_utc": "2026-10-22T15:34:31.042834+00:00",
+  "python": "3.13.9",
+  "transformers_version": "5.16.1",
+  "tokenizer_model": "Qwen/Qwen3-1.7B",
+  "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "tokenizer_files_sha256": {
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "derived_adapter_sha256": "d65eceda41f933ecaf00b21996e3cd547ca713d1916e85ed33ad18821dbdaf95",
+  "api_provenance": {
+    "transformers_version": "5.16.1",
+    "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "tokenizer_fast": true,
+    "apply_chat_template_source_file": "tokenization_utils_base.py",
+    "apply_chat_template_file_sha256": "520a914d0dcc873f8c8788e60ad3007f7db032c82c0b2b2c44ee7f44f2cdad8e",
+    "apply_chat_template_method_sha256": "41fab2fcd15f0a2a98ee2c4960a4ef3094358b9ebfc451c631c7bf3ad68bb45d",
+    "method_behavior_basis": "Pinned local Transformers source renders conversations, then calls self(rendered_chat, add_special_tokens=False, **tokenizer_kwargs); offset mapping is returned in same BatchEncoding."
+  },
+  "baseline_adapter_sha256": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+  "frozen_auditor_sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+  "benchmark": {
+    "rows": 512,
+    "fixture_sha256": "8a9e1ec14f4de1a5e341dd933133e871a13522b36dc99ba2be76946c43260fc1",
+    "result_and_report_and_db_cursor_parity": true,
+    "report_sha256_baseline": "5d836cbd70cada9e5a640cbf21e299e532cf9f347cc765ae719c2471b05e06cb",
+    "report_sha256_onepass": "5d836cbd70cada9e5a640cbf21e299e532cf9f347cc765ae719c2471b05e06cb",
+    "snapshot_sha256_baseline": "6646325c1add0b448bf312b1f436a2baa3524858ef4eea7ae039689ba25f5dec",
+    "snapshot_sha256_onepass": "6646325c1add0b448bf312b1f436a2baa3524858ef4eea7ae039689ba25f5dec",
+    "baseline": {
+      "seconds": 0.6057272999314591,
+      "rows_per_second": 845.2648577304262,
+      "stats": {
+        "batches": 2,
+        "rows_batched": 512,
+        "cache_hits": 512,
+        "single_row_fallbacks": 0,
+        "skipped_resume_lines": 0,
+        "max_cache_rows": 256,
+        "max_rendered_chars": 168324,
+        "max_raw_chars": 167372,
+        "batch_prepare_fallbacks": 0,
+        "row_prepare_fallbacks": 0,
+        "cache_key_fallbacks": 0,
+        "stream_error_buffered_rows": 0
+      }
+    },
+    "onepass": {
+      "seconds": 0.6093040000414476,
+      "rows_per_second": 840.3030342245767,
+      "stats": {
+        "batches": 2,
+        "rows_batched": 512,
+        "cache_hits": 512,
+        "single_row_fallbacks": 0,
+        "skipped_resume_lines": 0,
+        "max_cache_rows": 256,
+        "max_rendered_chars": 168324,
+        "max_raw_chars": 167372,
+        "batch_prepare_fallbacks": 0,
+        "row_prepare_fallbacks": 0,
+        "cache_key_fallbacks": 0,
+        "stream_error_buffered_rows": 0,
+        "onepass_official_encoding_calls": 2,
+        "onepass_render_verification_calls": 2
+      }
+    },
+    "timing_scope": "512 synthetic chat rows, local CPU, source index + exact V3 scanner parity; does not forecast Colab throughput."
+  },
+  "representative_benchmark": {
+    "fixture": {
+      "rows": 256,
+      "message_chars_min": 1143,
+      "message_chars_max": 1724,
+      "message_chars_median": 1413,
+      "fixture_sha256": "784ac84b096d3ba61489a9653e7e9e53c25bd1333377612a57bde131b16a4070"
+    },
+    "all_variant_reports_cursors_and_snapshots_equal": true,
+    "variants": {
+      "baseline_two_pass": {
+        "trials": [
+          {
+            "seconds": 0.507575900061056,
+            "rows_per_second": 504.35806737318677,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0
+            }
+          },
+          {
+            "seconds": 0.532096300041303,
+            "rows_per_second": 481.1159182654126,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0
+            }
+          },
+          {
+            "seconds": 0.5138226000126451,
+            "rows_per_second": 498.22643066634254,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0
+            }
+          }
+        ],
+        "median_seconds": 0.5138226000126451,
+        "median_rows_per_second": 498.22643066634254
+      },
+      "onepass_render_verified": {
+        "trials": [
+          {
+            "seconds": 0.48547609988600016,
+            "rows_per_second": 527.3174108058339,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 1
+            }
+          },
+          {
+            "seconds": 0.47164000000339,
+            "rows_per_second": 542.786871338648,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 1
+            }
+          },
+          {
+            "seconds": 0.46805990010034293,
+            "rows_per_second": 546.9385434324081,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 1
+            }
+          }
+        ],
+        "median_seconds": 0.47164000000339,
+        "median_rows_per_second": 542.786871338648,
+        "speedup_vs_baseline": 1.0894381307966923
+      },
+      "onepass_no_extra_batch_render": {
+        "trials": [
+          {
+            "seconds": 0.4322290999116376,
+            "rows_per_second": 592.2784931702543,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 0
+            }
+          },
+          {
+            "seconds": 0.4298388999886811,
+            "rows_per_second": 595.5719689556744,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 0
+            }
+          },
+          {
+            "seconds": 0.42041090002749115,
+            "rows_per_second": 608.9280748507231,
+            "report_sha256": "e2f8c140369363eadf0570eb17834f8fe1f2e1f305d306ae13790c93d5e6abc5",
+            "snapshot_sha256": "b95e0f02ba0d1ec00dd9680bee160f4f097eee2178f0af2c3214cb97c898f5b6",
+            "max_sequence_tokens": 606,
+            "stats": {
+              "batches": 1,
+              "rows_batched": 256,
+              "cache_hits": 256,
+              "single_row_fallbacks": 0,
+              "skipped_resume_lines": 0,
+              "max_cache_rows": 256,
+              "max_rendered_chars": 748382,
+              "max_raw_chars": 456118,
+              "batch_prepare_fallbacks": 0,
+              "row_prepare_fallbacks": 0,
+              "cache_key_fallbacks": 0,
+              "stream_error_buffered_rows": 0,
+              "onepass_official_encoding_calls": 1,
+              "onepass_render_verification_calls": 0
+            }
+          }
+        ],
+        "median_seconds": 0.4298388999886811,
+        "median_rows_per_second": 595.5719689556744,
+        "speedup_vs_baseline": 1.195384131185371
+      }
+    },
+    "timing_scope": "256 synthetic chat rows with 1,000–1,800 message characters each, local CPU; no full-corpus inference."
+  },
+  "fixture_coverage": [
+    "Unicode + combining marks + emoji",
+    "special tokens and assistant boundary",
+    "exact/over sequence limits",
+    "invalid JSON and gzip/UTF-8 errors",
+    "source linkage, split and duplicate behavior",
+    "256-row batches"
+  ],
+  "g2_256_chat_fixture": "Unavailable as a bounded local synthetic fixture; did not read archived/raw G2 content.",
+  "runtime_or_drive_touched": false,
+  "raw_eval_concept_or_pilot_rows_read": false,
+  "training_started": false,
+  "model_weights_loaded": false,
+  "provenance_note": "The two independent tokenizer encodings in the prior adapter are replaced by one official apply_chat_template encoding that returns both IDs and offsets. Prefix/full rendered-string checks and original row gates remain. This is a derived adapter experiment; no frozen scanner/adapter modification or live-worker install was performed."
+}

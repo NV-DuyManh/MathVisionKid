@@ -1,0 +1,67 @@
+{
+  "schema": "MathVisionKid.actual_memory_resume_binding.v1",
+  "observed_utc": "2026-10-25T03:24:07.186280+00:00",
+  "pid": 6987,
+  "actual_process_argv": [
+    "/content/mathvisionkid_conditional_grounding_20261025/venv/bin/python",
+    "-u",
+    "/content/mathvisionkid_conditional_grounding_20261025/recovery_worker_v5.py",
+    "--root",
+    "/content/mathvisionkid_conditional_grounding_20261025",
+    "--resume-generation",
+    "/content/mathvisionkid_conditional_grounding_20261025/training/generation_step_000001_rows_00000016"
+  ],
+  "parent_manifest_sha256": "7b9fe87846255e4cc31b1d732c591de18c4d7dcaa5acb9c8fa04d6fd06d9fdee",
+  "worker_sha256": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+  "backend_sha256": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+  "exact_config_differences": {
+    "loss_reduction": {
+      "before": "micro2 supervised-token mean weighted pair_rows/group_rows; source targets unchangedV3; conditional worked prompt; grade interleave10worked6hint no repeats",
+      "after": "row-count-weighted means of micro2 assistant-token losses, not a global token mean; unchanged objective from parentCP1; source targets unchangedV3"
+    },
+    "explicit_memory_resume_migration_sha256": {
+      "before": null,
+      "after": "930a1475212f4cafd7970e02996cbfd465b374480ab42b5eb8fbec935212c469"
+    },
+    "worker_sha256": {
+      "before": "3ce1b3c24a9741e1f93915930da5552ab41787daa6b13276b0892c7b2a529868",
+      "after": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0"
+    },
+    "gradient_checkpointing": {
+      "before": false,
+      "after": true
+    }
+  },
+  "resumed_shifted_loss_audit": {
+    "absolute_difference": 0.0,
+    "model_backend": "native Transformers/PEFT",
+    "prompt_tokens_excluded_by_source_mask": true,
+    "shifted_CE_matches_forward": true,
+    "supervised_tokens": 77
+  },
+  "resume_log_validation": {
+    "cursor": 16,
+    "prefix_sha256": "7b7c238ae3e95eb59472223298c826c62d345de108526cfbdd62cf7df6e332e2",
+    "preserved_tail_bytes": 5984,
+    "supervised_tokens": 3724
+  },
+  "progress": {
+    "derived_view_rows": 6625,
+    "hard_deadline_unix": 1792905460.0,
+    "last_gradient_norm": 2.440502166748047,
+    "last_loss": 3.7864052951335907,
+    "last_lr": 3e-06,
+    "loss_sum": 93.31621511280537,
+    "rows_done": 416,
+    "state": "TRAINING",
+    "step": 26,
+    "supervised_tokens": 86796,
+    "training_seconds": 208.004049943999,
+    "training_started": true,
+    "unique_examples": 416
+  },
+  "worker_alive": true,
+  "gpu": "8283 MiB, 15 %",
+  "training_code_or_configuration_modified": false,
+  "proof_scope": "Read-only live process and cloud file bindings; not a memory introspection proof of imported Python bytes"
+}

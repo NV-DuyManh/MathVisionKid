@@ -1,0 +1,116 @@
+{
+  "status": "12_DRAFTS_SELF_QA_PASSED_ROOT_CROSS_QA_PENDING",
+  "case_count": 12,
+  "chat_count": 48,
+  "master_counts": {
+    "bill_of_materials_area_cost": 2,
+    "compare_equal_sharing_cut_schemes": 2,
+    "grid_boundary_missing_dimensions": 2,
+    "gridded_net_dimensions_to_volume": 2,
+    "mixed_orientation_rectangle_tiling": 2,
+    "nested_triangle_base_altitude_assignment": 2
+  },
+  "numeric_steps": 9,
+  "oracles": 12,
+  "actual_nearest_rows": 21,
+  "inherited_page_receipts": 6,
+  "helper_sha256": "19bc8fdbfeeff135634776b9c4e5b1dbee886713c5a161ec307d834a203b99c1",
+  "input_projection_sha256": "43939965e588b671b9670fffd92debb748be815b16cc583288f55f00eaec8868",
+  "source_files": [
+    {
+      "file": "cases.jsonl",
+      "bytes": 81752,
+      "sha256": "b91c0a90cfc5976a14e1721206ba5159c3f7a7ce4167b93a2d4c75c1d66cbe26"
+    },
+    {
+      "file": "chat.jsonl",
+      "bytes": 127053,
+      "sha256": "6af76d17db003dfec926a47cd143545ea5a3dc959f09544aa9a7158fd85cb719"
+    },
+    {
+      "file": "selfqa7.jsonl",
+      "bytes": 59548,
+      "sha256": "94037f36e286e924a8f9cc03172619c2deadaa7df2920731aa97009ba643b44b"
+    },
+    {
+      "file": "independent_oracles.jsonl",
+      "bytes": 8928,
+      "sha256": "c967a91901254a7e8cfae4275cf5b292f8892fff42098f180087822ed2216ae7"
+    },
+    {
+      "file": "numeric_fraction_decimal.jsonl",
+      "bytes": 2396,
+      "sha256": "520178defb99a112e7a2236a888459c27433efaf80b3802a779caf29efbb1c7b"
+    },
+    {
+      "file": "nearest_actual_fullfields.jsonl",
+      "bytes": 56295,
+      "sha256": "5e1d2abc79feba4d96f5a2f34fcbbb1245f6f3cb93236694ffc38d56f6a3b9d7"
+    },
+    {
+      "file": "actual_page_receipts_readback.jsonl",
+      "bytes": 14055,
+      "sha256": "c25381d0d018cd5effbb0d9079ea457d7846b6266da3c9daaeb32959d2b4e07e"
+    },
+    {
+      "file": "candidate_task_snapshot.json",
+      "bytes": 17625,
+      "sha256": "4d70f19e0ed8aa0864e412bb0f268ca0e9bed4d9291d009f110ba9c639bc68e5"
+    },
+    {
+      "file": "independent_oracle.py",
+      "bytes": 6332,
+      "sha256": "eef0e1d50deeaab4c3cf0097aa7ff4fc8c6e738b94bd532e0e23b26cb51fdf5a"
+    }
+  ],
+  "prior_case_hashes": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g1_text_append\\cases.jsonl": "ed96cd9fb0b41f6aeca78bd69f0d06053b4e76d0b3511f49b7a460cd354f9730",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g2_append\\cases.jsonl": "1aed920b82e5231329d5c69e5316fdedaa78d8e8c8d07c1b29ccfcead6c30f16",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g34_network_text\\cases.jsonl": "35b162f4b0230030aac4cc1d2d6dd02a6a62610adacf9ace9b0c4d741497c571",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g3_reasoning\\cases.jsonl": "d1086bda245961d6f8cbf71a6899af0e7e26b109dc5af040af952be434b7aabe",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\cases.jsonl": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_text_append\\cases.jsonl": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\remaining_basic_text\\cases.jsonl": "c05077c3cf1eb14b9ac9cb3e84134abd3249005065f329b5d6940a716d8aa136",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\prior_before_technical_id_repair\\cases.jsonl": "9aa3b16372bce41a3da828996a7373c00d3b0f1840b0c0c2e8177f71ffdaf007",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g34_network_text\\parent_before_hint_repair\\cases.jsonl": "27b2ad3a4d3cddf5e022bdc131757eac337836a5de962581911d902e23aafb34",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g34_structure_polished\\cases.jsonl": "c39c3a80cf5b7a8618768ec7dd710643b04326181705439187301c26429112ec",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g34_structure_text\\cases.jsonl": "3e37775451f7d51237841e0a0cd7c3c6f5443ee3701892b7522cd46921566486",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_applied_text\\cases.jsonl": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_geometry_text\\cases.jsonl": "d93c98cb08ea23b9393e745febe0c6a2a3becc6be711fc6982c2249190223a06",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_final_forms_20261020\\g5_exact_text\\cases.jsonl": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_final_forms_20261020\\g5_residual_text\\cases.jsonl": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002"
+  },
+  "prior_unchanged": true,
+  "training_started": false,
+  "drive_mutated": false,
+  "all_sgk_forms_covered": false,
+  "additional_prose_arithmetic_facts": 78,
+  "wrong_model_answer_mutations_rejected": 12,
+  "readback_files": [
+    {
+      "file": "measure_readback.py",
+      "bytes": 7045,
+      "sha256": "464c83ea1121c6891606f087c43518da3cc6b093d25539dd331c2218389b560c"
+    },
+    {
+      "file": "prose_numeric_fraction_decimal.jsonl",
+      "bytes": 29600,
+      "sha256": "8ca3d569980cab9aa8394209c8a1c6528c90334e2eece7ed0fcec1fed33e6556"
+    },
+    {
+      "file": "adversarial_model_checks.jsonl",
+      "bytes": 3096,
+      "sha256": "cc635574ef28596a11758237f19b286b5a4d7798ae1ee7c0b91854abf478c8f7"
+    },
+    {
+      "file": "validation_readback.json",
+      "bytes": 697,
+      "sha256": "604be742e1b7ef0d01df18f8c79ec0cad936e871d34eadd2bb361e8da2d59630"
+    },
+    {
+      "file": "author_polish_delta.jsonl",
+      "bytes": 55727,
+      "sha256": "774a1eb41957e1b6ee1dce158f4aebe4d8a624383f31514250a35d4bafaf4e6b"
+    }
+  ]
+}

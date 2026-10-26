@@ -1,0 +1,100 @@
+{
+  "phase": "2026-10-19_data_preparation_only",
+  "status": "REMOTE_DATA_VERIFIED_AND_LOCAL_STAGING_REMOVED",
+  "report": {
+    "EXHAUSTIVE_ALL_REQUESTED_DOMAINS_COMPLETED": false,
+    "TRAINING_DATASET_READY": true,
+    "all_chat_rows_including_eval_audit": 6500312,
+    "all_small_new_domain_missing_pairs": 0,
+    "balanced_cases": 1256,
+    "balanced_chat_rows": 5024,
+    "balanced_split_chat_rows": {
+      "test": 40,
+      "train": 4944,
+      "validation": 40
+    },
+    "by_grade": {
+      "1": 6147,
+      "2": 772400,
+      "3": 240419,
+      "4": 607380,
+      "5": 3040
+    },
+    "chat_candidate_train_rows": 6500200,
+    "new_additional_logical_cases": 145,
+    "new_arithmetic_cases": 110070,
+    "new_total_cases": 1629386,
+    "new_verified_shards": 14,
+    "no_training_or_gpu": true,
+    "old_cases_preserved": 1519171,
+    "source_snapshot_sha256": "86b5a27095a6cea8b0da377432874af98ed446c50dc16d8a75ddd7074525566e"
+  },
+  "bundle": {
+    "all_bytes_equal": true,
+    "bytes": 2431367,
+    "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+    "file_name": "MathVisionKid_BALANCED_COLAB_BUNDLE.zip",
+    "fresh_raw_verified": true,
+    "sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+    "url": "https://drive.google.com/file/d/1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV/view?usp=drivesdk",
+    "verified_utc": "2026-10-19T03:32:24.692Z"
+  },
+  "notebook": {
+    "all_bytes_equal": true,
+    "bytes": 6862,
+    "file_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "file_name": "MathVisionKid_DATA_ONLY_COLAB.ipynb",
+    "fresh_raw_verified": true,
+    "sha256": "d3b41dbb94f6f6c39d071c575dc33342f8e9a12e931450d653e8e5b0540327a0",
+    "url": "https://drive.google.com/file/d/1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l/view?usp=drivesdk",
+    "verified_utc": "2026-10-19T03:32:33.188Z"
+  },
+  "progress_index": {
+    "key": "progress",
+    "file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "fresh_raw_verified": true,
+    "all_bytes_equal": true,
+    "bytes": 6890606,
+    "sha256": "27872835ccc7531de95f1e4e4e2a7548b136ca23008593f65dd4b9f5c74d37f9"
+  },
+  "payload_shards_verified": 14,
+  "old_payload_parts_preserved": 14,
+  "removed_temporary_bytes": 38215740,
+  "original_progress_sha256": "70071b60a78412b4d8709959414be795d2076fb9d7f71d4547a247e8e714217a",
+  "no_training_or_gpu": true,
+  "final_state_context_sync": "FRESH_RAW_BYTE_HASH_VERIFIED",
+  "long_path_cleanup_recovery": "Windows extended absolute path cleanup completed; intended run directory verified inside project before removal.",
+  "final_control_readback": {
+    "verified_utc": "2026-10-19T03:38:17.872Z",
+    "final_state_context_synced": true,
+    "artifacts": [
+      {
+        "key": "state",
+        "file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "bytes": 234459,
+        "sha256": "9896bb36d39c88a6b05448617febdfa356011eb8611fa64e32e0adf4d13f4e4d",
+        "fresh_raw_verified": true,
+        "all_bytes_equal": true
+      },
+      {
+        "key": "context",
+        "file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "bytes": 726028,
+        "sha256": "1d91950e1799e29e68030d6c2484bed34e6225c967d766876e27c119da5ae1c9",
+        "fresh_raw_verified": true,
+        "all_bytes_equal": true
+      }
+    ],
+    "all_new_data_remote": true,
+    "training_started": false
+  },
+  "preexisting_primary_data_hash_checks_after_cleanup": {
+    "status": "PASSED",
+    "files": {
+      "thinking/data/primary_math_teacher_20261016/exports/accepted_teacher_cases_polished.jsonl": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02",
+      "thinking/data/primary_math_teacher_20261016/exports/teacher_chat_train_polished.jsonl": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded",
+      "thinking/evidence/primary_math_teacher_20261016/Primary_Math_Teacher_20261016_PROGRESS.zip": "70071b60a78412b4d8709959414be795d2076fb9d7f71d4547a247e8e714217a"
+    }
+  },
+  "large_new_data_on_local_disk": false
+}

@@ -1,0 +1,143 @@
+{
+  "accepted_in_this_checkpoint": 110,
+  "all_sgk_exercise_forms_audited": false,
+  "books": [
+    {
+      "actual_content_pages_read": 108,
+      "all_content_pages_read": true,
+      "book_id": "g1v1",
+      "content_range": [
+        6,
+        113
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g1v1_audit/page_review.jsonl",
+      "receipt_sha256": "3c6565b0fabc5b42ccbaa86e31d78973c35b99283ded1b547c1b649e6b30c660",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 102,
+      "all_content_pages_read": true,
+      "book_id": "g1v2",
+      "content_range": [
+        4,
+        105
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g1v2_audit/page_review.jsonl",
+      "receipt_sha256": "7b521a21eaa48598df897e23169241c0d7cd13831a08dd1c583270dacfd0838e",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 132,
+      "all_content_pages_read": true,
+      "book_id": "g2v1",
+      "content_range": [
+        6,
+        137
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g2v1_audit/page_review.jsonl",
+      "receipt_sha256": "74ff3eff7be8f4fc0d74366e63861130194e7bb9337fa039c09b45008e083fcb",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 135,
+      "all_content_pages_read": true,
+      "book_id": "g2v2",
+      "content_range": [
+        4,
+        138
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g2v2_audit/page_review.jsonl",
+      "receipt_sha256": "b8404a9db61a200e1593e013b9e0ecd423115f8611ff40ad9cedc9448c71c628",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 116,
+      "all_content_pages_read": true,
+      "book_id": "g3v1",
+      "content_range": [
+        6,
+        121
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g3_audit/page_review.jsonl",
+      "receipt_sha256": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 123,
+      "all_content_pages_read": true,
+      "book_id": "g3v2",
+      "content_range": [
+        4,
+        126
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g3_audit/page_review.jsonl",
+      "receipt_sha256": "f49332b2a0bc415b05b9e9193886c46282d8ddb3aae692e090beb556f4ffb4e9",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 125,
+      "all_content_pages_read": true,
+      "book_id": "g4v1",
+      "content_range": [
+        6,
+        130
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g4_audit/page_review.jsonl",
+      "receipt_sha256": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 115,
+      "all_content_pages_read": true,
+      "book_id": "g4v2",
+      "content_range": [
+        4,
+        118
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g4_audit/page_review.jsonl",
+      "receipt_sha256": "7b05de1536eba482b159e7c2a7f1be08e544c0b68668a645cfa0e68dea7af6ec",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 133,
+      "all_content_pages_read": true,
+      "book_id": "g5v1",
+      "content_range": [
+        6,
+        138
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g5_audit/page_review.jsonl",
+      "receipt_sha256": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c",
+      "semantic_mapping_complete": false
+    },
+    {
+      "actual_content_pages_read": 131,
+      "all_content_pages_read": true,
+      "book_id": "g5v2",
+      "content_range": [
+        4,
+        134
+      ],
+      "missing_content_pages": [],
+      "receipt_path": "g5_audit/page_review.jsonl",
+      "receipt_sha256": "8e1138f117b982139f041a76a87a3f9dec3252febc888cf2af10ad5b09f7180c",
+      "semantic_mapping_complete": false
+    }
+  ],
+  "books_content_read_complete": 10,
+  "content_pages_read": 1220,
+  "pending_additional_drafts_are_not_accepted": true,
+  "pending_candidate_mapping": true,
+  "schema": "actual_page_audit_checkpoint.v1",
+  "training_started": false,
+  "utc": "2026-10-20T10:46:08.935177+00:00"
+}

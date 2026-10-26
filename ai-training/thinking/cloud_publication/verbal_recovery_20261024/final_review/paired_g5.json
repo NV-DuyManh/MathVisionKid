@@ -1,0 +1,198 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "m",
+        "value": "90"
+      },
+      "grade": 5,
+      "id": "verbal20261024_locked_g5_map_scale",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "3,6×2500=9000cm=90m.",
+      "rubric": [
+        "Nhân đúng hệ số tỉ lệ rồi đổi cm sangm.",
+        "Không nhầm9000cmthành9000m."
+      ],
+      "userproblem": "Trên bản đồ tỉ lệ 1 : 2500, đoạn đường dài 3,6 cm. Độ dài thật của đoạn đường là bao nhiêu mét? Giải thích việc đổi đơn vị."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_map_scale",
+      "generated_tokens": 430,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nTrên bản đồ tỉ lệ 1 : 2500 có đoạn đường dài 3,6 cm. Ta cần tìm độ dài thật của đoạn đường đó.\n\n**Bước 1:**\nĐổi đơn vị tỉ lệ từ cm sang mét.\n\nTỉ lệ bản đồ là 1 cm : 2500 cm.\n\nVì 1 cm trên bản đồ tương ứng với 2500 cm trên thực tế.\n\n**Bước 2:**\nTính độ dài thật của đoạn đường:\n\n$$\n\\text{Độ dài thật} = \\text{Độ dài trên bản đồ} \\times \\text{Tỉ lệ thực tế}\n$$\n\n$$\n= 3,6 \\, \\text{cm} \\times 2500\n$$\n\n$$\n= 9000 \\, \\text{cm}\n$$\n\n**Bước 3:**\nChuyển đổi từ cm sang mét:\n\n$$\n9000 \\, \\text{cm} = \\frac{9000}{100} = 90 \\, \\text{m}\n$$\n\n**Kết luận:**\nĐộ dài thật của đoạn đường là **90 mét**.\n\n---\n\n**Kiểm tra lại:**\n\n- Tỉ lệ bản đồ: 1 cm : 2500 cm → 1 cm → 2500 cm → 2500 cm = 2,5 m.\n- 3,6 cm → 3,6 × 2,5 = 9 m → 9 m = 9000 cm = 90 m.\n\n**Kết quả kiểm tra:** Đúng.\n\n---\n\n**Lời giải đầy đủ:**\n\n- Đổi đơn vị tỉ lệ: 2500 cm = 25 m.\n- Tính độ dài thật: $3,6 \\times 25 = 90$ m.\n\n**Đáp án:** Độ dài thật của đoạn đường là **90 mét**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "092effa50c41b7f0b395046d391b26e65d835d57e28eed177ac5200ec82fc269",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_map_scale",
+      "generated_tokens": 430,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nTrên bản đồ tỉ lệ 1 : 2500 có đoạn đường dài 3,6 cm. Ta cần tìm độ dài thật của đoạn đường đó.\n\n**Bước 1:**\nĐổi đơn vị tỉ lệ từ cm sang mét.\n\nTỉ lệ bản đồ là 1 cm : 2500 cm.\n\nVì 1 cm trên bản đồ tương ứng với 2500 cm trên thực tế.\n\n**Bước 2:**\nTính độ dài thật của đoạn đường:\n\n$$\n\\text{Độ dài thật} = \\text{Độ dài trên bản đồ} \\times \\text{Tỉ lệ thực tế}\n$$\n\n$$\n= 3,6 \\, \\text{cm} \\times 2500\n$$\n\n$$\n= 9000 \\, \\text{cm}\n$$\n\n**Bước 3:**\nChuyển đổi từ cm sang mét:\n\n$$\n9000 \\, \\text{cm} = \\frac{9000}{100} = 90 \\, \\text{m}\n$$\n\n**Kết luận:**\nĐộ dài thật của đoạn đường là **90 mét**.\n\n---\n\n**Kiểm tra lại:**\n\n- Tỉ lệ bản đồ: 1 cm : 2500 cm → 1 cm → 2500 cm → 2500 cm = 2,5 m.\n- 3,6 cm → 3,6 × 2,5 = 9 m → 9 m = 9000 cm = 90 m.\n\n**Kết quả kiểm tra:** Đúng.\n\n---\n\n**Lời giải đầy đủ:**\n\n- Đổi đơn vị tỉ lệ: 2500 cm = 25 m.\n- Tính độ dài thật: $3,6 \\times 25 = 90$ m.\n\n**Đáp án:** Độ dài thật của đoạn đường là **90 mét**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "092effa50c41b7f0b395046d391b26e65d835d57e28eed177ac5200ec82fc269",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "học sinh",
+        "value": "40"
+      },
+      "grade": 5,
+      "id": "verbal20261024_locked_g5_percentage_inverse",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "18:0,45=40;18:40=0,45=45%.",
+      "rubric": [
+        "Tìm toàn bộ từ phần45%,không nhân18với45%.",
+        "Nêu40vàkiểm45%."
+      ],
+      "userproblem": "Một lớp có 18 học sinh nữ, chiếm 45% tổng số học sinh của lớp. Lớp có tất cả bao nhiêu học sinh? Hãy kiểm lại tỉ lệ phần trăm."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_percentage_inverse",
+      "generated_tokens": 325,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có:\n\n- Số học sinh nữ là 18 học sinh, chiếm 45% tổng số học sinh của lớp.\n\nTa cần tìm tổng số học sinh của lớp.\n\n**Bước 1:**\nTỉ lệ phần trăm của học sinh nữ là 45%, tức là:\n\n$$\n\\frac{18}{T} = 45\\% = \\frac{45}{100}\n$$\n\nTrong đó $ T $ là tổng số học sinh của lớp.\n\n**Bước 2:**\nTa có:\n\n$$\n\\frac{18}{T} = \\frac{45}{100}\n$$\n\nNhân cả hai vế với $ T $:\n\n$$\n18 = \\frac{45}{100} \\cdot T\n$$\n\n$$\nT = \\frac{18 \\cdot 100}{45} = \\frac{1800}{45} = 40\n$$\n\n**Kết luận:**\nTổng số học sinh của lớp là **40 học sinh**.\n\n---\n\n**Kiểm tra lại:**\n\n- 45% của 40 học sinh là:\n\n$$\n\\frac{45}{100} \\cdot 40 = 0.45 \\cdot 40 = 18\n$$\n\nĐúng với số học sinh nữ đã cho.\n\n---\n\n**Kết luận:**\nLớp có tổng cộng **40 học sinh**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "23ae0e8504282b541c990d075ff4f709bc0f05b0d677037fd7f8805f6cff3b25",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_percentage_inverse",
+      "generated_tokens": 325,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có:\n\n- Số học sinh nữ là 18 học sinh, chiếm 45% tổng số học sinh của lớp.\n\nTa cần tìm tổng số học sinh của lớp.\n\n**Bước 1:**\nTỉ lệ phần trăm của học sinh nữ là 45%, tức là:\n\n$$\n\\frac{18}{T} = 45\\% = \\frac{45}{100}\n$$\n\nTrong đó $ T $ là tổng số học sinh của lớp.\n\n**Bước 2:**\nTa có:\n\n$$\n\\frac{18}{T} = \\frac{45}{100}\n$$\n\nNhân cả hai vế với $ T $:\n\n$$\n18 = \\frac{45}{100} \\cdot T\n$$\n\n$$\nT = \\frac{18 \\cdot 100}{45} = \\frac{1800}{45} = 40\n$$\n\n**Kết luận:**\nTổng số học sinh của lớp là **40 học sinh**.\n\n---\n\n**Kiểm tra lại:**\n\n- 45% của 40 học sinh là:\n\n$$\n\\frac{45}{100} \\cdot 40 = 0.45 \\cdot 40 = 18\n$$\n\nĐúng với số học sinh nữ đã cho.\n\n---\n\n**Kết luận:**\nLớp có tổng cộng **40 học sinh**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "23ae0e8504282b541c990d075ff4f709bc0f05b0d677037fd7f8805f6cff3b25",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "km/giờ",
+        "withheld_value": "36"
+      },
+      "grade": 5,
+      "id": "verbal20261024_locked_g5_speed_hint",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "1h30=1,5h;54:1,5=36km/h.",
+      "rubric": [
+        "Đổi toàn thời gian vềgiờ.",
+        "Chia quãng đường cho thời gian;không nêu36."
+      ],
+      "userproblem": "Một xe đi đều 54 km trong 1 giờ 30 phút. Hãy gợi ý cách tìm vận tốc bằng km/giờ, không nêu số vận tốc cuối cùng."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_speed_hint",
+      "generated_tokens": 220,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm vận tốc của xe, ta cần sử dụng công thức:\n\n$$\nv = \\frac{s}{t}\n$$\n\nTrong đó:\n- $ v $ là vận tốc (km/giờ)\n- $ s $ là quãng đường (km)\n- $ t $ là thời gian (giờ)\n\nBước đầu tiên, ta cần xác định thời gian đi 54 km. Theo đề bài, xe đi đều 54 km trong 1 giờ 30 phút.\n\n- 1 giờ 30 phút bằng $\\frac{3}{2}$ giờ (vì 30 phút là $\\frac{1}{2}$ giờ).\n\nVậy, vận tốc của xe là:\n\n$$\nv = \\frac{54}{\\frac{3}{2}} = 54 \\times \\frac{2}{3} = 36 \\text{ km/giờ}\n$$\n\nLưu ý: Đây là gợi ý bước đầu để em tự làm, không cần nêu đáp số cuối hoặc chọn đáp án.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a2ada1e20814d1de04e7395d19ae143dc1805c06835d46f934f507d27182c0f7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_speed_hint",
+      "generated_tokens": 220,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm vận tốc của xe, ta cần sử dụng công thức:\n\n$$\nv = \\frac{s}{t}\n$$\n\nTrong đó:\n- $ v $ là vận tốc (km/giờ)\n- $ s $ là quãng đường (km)\n- $ t $ là thời gian (giờ)\n\nBước đầu tiên, ta cần xác định thời gian đi 54 km. Theo đề bài, xe đi đều 54 km trong 1 giờ 30 phút.\n\n- 1 giờ 30 phút bằng $\\frac{3}{2}$ giờ (vì 30 phút là $\\frac{1}{2}$ giờ).\n\nVậy, vận tốc của xe là:\n\n$$\nv = \\frac{54}{\\frac{3}{2}} = 54 \\times \\frac{2}{3} = 36 \\text{ km/giờ}\n$$\n\nLưu ý: Đây là gợi ý bước đầu để em tự làm, không cần nêu đáp số cuối hoặc chọn đáp án.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a2ada1e20814d1de04e7395d19ae143dc1805c06835d46f934f507d27182c0f7",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "need": "Bán kính, đường kính hoặc số đo tương đương kèm đơn vị.",
+        "unique": false
+      },
+      "grade": 5,
+      "id": "verbal20261024_locked_g5_circle_missing_radius",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "Diện tích phụ thuộc kích thước; thiếu mọi số đo nên không có số diện tích duy nhất.",
+      "rubric": [
+        "Không tự gán bán kính hoặc nhận đã đo ảnh chưa gửi.",
+        "Xin số đo phù hợp kèm đơn vị."
+      ],
+      "userproblem": "Bài yêu cầu tính diện tích một hình tròn, nhưng em chưa có bán kính, đường kính, chu vi hoặc bất kỳ số đo nào. Chỉ biết đó là hình tròn. Có thể cho diện tích chính xác ngay không? Cần bổ sung gì?"
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_circle_missing_radius",
+      "generated_tokens": 260,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để tính diện tích của một hình tròn mà em chưa có bán kính, đường kính, chu vi hoặc bất kỳ số đo nào, ta cần **không thể tính được diện tích chính xác** vì thiếu thông tin cần thiết.\n\n### Giải thích:\n\nDiện tích của một hình tròn được tính theo công thức:\n\n$$\nA = \\pi r^2\n$$\n\nvới $ r $ là bán kính của hình tròn.\n\nTuy nhiên, để tính được $ r $, ta cần biết ít nhất một trong các đại lượng sau:\n\n- Bán kính $ r $\n- Đường kính $ d = 2r $\n- Chu vi $ C = 2\\pi r $\n\nNếu em chưa có bất kỳ thông tin nào về bán kính, đường kính, chu vi hay số đo nào khác, thì ta **không thể tính được diện tích** của hình tròn.\n\n### Bổ sung cần thiết:\n\n- Bán kính\n- Đường kính\n- Chu vi\n\n### Kết luận:\n\nKhông thể tính được diện tích của hình tròn mà em chưa có thông tin về bán kính, đường kính, chu vi hay bất kỳ số đo nào khác.\n\nNếu có thêm thông tin, em có thể tiếp tục giải bài toán.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c368be38ec8634f93fc02dc23059d9ca887c2e0941598af697d478f48ab6c177",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g5_circle_missing_radius",
+      "generated_tokens": 260,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để tính diện tích của một hình tròn mà em chưa có bán kính, đường kính, chu vi hoặc bất kỳ số đo nào, ta cần **không thể tính được diện tích chính xác** vì thiếu thông tin cần thiết.\n\n### Giải thích:\n\nDiện tích của một hình tròn được tính theo công thức:\n\n$$\nA = \\pi r^2\n$$\n\nvới $ r $ là bán kính của hình tròn.\n\nTuy nhiên, để tính được $ r $, ta cần biết ít nhất một trong các đại lượng sau:\n\n- Bán kính $ r $\n- Đường kính $ d = 2r $\n- Chu vi $ C = 2\\pi r $\n\nNếu em chưa có bất kỳ thông tin nào về bán kính, đường kính, chu vi hay số đo nào khác, thì ta **không thể tính được diện tích** của hình tròn.\n\n### Bổ sung cần thiết:\n\n- Bán kính\n- Đường kính\n- Chu vi\n\n### Kết luận:\n\nKhông thể tính được diện tích của hình tròn mà em chưa có thông tin về bán kính, đường kính, chu vi hay bất kỳ số đo nào khác.\n\nNếu có thêm thông tin, em có thể tiếp tục giải bài toán.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "c368be38ec8634f93fc02dc23059d9ca887c2e0941598af697d478f48ab6c177",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

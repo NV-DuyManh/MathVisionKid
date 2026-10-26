@@ -1,0 +1,96 @@
+{
+  "schema": "MathVisionKid.independent_preoptimizer_review.v1",
+  "reviewed_utc": "2026-10-26T09:05:10.680361+00:00",
+  "scope": "Static, local-only pre-optimizer audit of the fresh recovery branch. No corpus rows, sealed/native-final data, MCP, Drive, browser, or GPU were accessed. No active code was changed.",
+  "artifact_sha256": {
+    "recovery_worker_20261026.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "native_backend_20261026.py": "66aa1473bb6835497fb59b16ab0c76e2a609eec0358d9b7cd03f2662e3f3a046",
+    "preflight_checks.py": "8a4333f198524c140658da5bd9b02c96980c8bbaa7f08f008e48e2be5ae050e9",
+    "root_reviewed_training_plan.json": "1234d9d4159c4326ea2d423da124005aff7f08cfe1650e91b1b36e30c3f0c4fa",
+    "owner_run_scope.json": "8af8bebf841452def1ee908d6040feaa605abb06e4e17e7c6e06f7afe9cac758",
+    "preparation_provenance.json": "7e5794dc5e8b7b2f62f4d28423494fb95ea7eb392d1fd0fc7e8a25a0a0c853dc",
+    "staged_code_pins.json": "c4433ebf9721858d86c06a97b78a7382b8328bb6502f15d272197767c3648509",
+    "recovery_policy_20261026.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd"
+  },
+  "hash_consistency": {
+    "worker_matches_stage_pin_and_provenance": true,
+    "backend_matches_stage_pin_and_provenance": true,
+    "preflight_matches_stage_pin_and_provenance": true,
+    "policy_matches_stage_pin_and_provenance": true,
+    "reviewed_plan_matches_stage_pin": true
+  },
+  "owner_budget": {
+    "budget_start_utc": "2026-10-26T08:54:18Z",
+    "hard_deadline_utc": "2026-10-26T11:14:18Z",
+    "train_cutoff_utc": "2026-10-26T11:04:18Z",
+    "reserve_seconds": 600,
+    "plan_max_wall_clock_seconds": 8400,
+    "consistent": true,
+    "note": "The preparation note contains an older 1500-second reserve; its structured scope_update and current owner_run_scope supersede it with 600 seconds."
+  },
+  "configuration_review": {
+    "model": "Qwen/Qwen3-1.7B",
+    "pinned_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "fresh_base_only": true,
+    "lora_rank_alpha": [
+      16,
+      16
+    ],
+    "lora_targets": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "peak_lr": 2e-05,
+    "warmup_updates": 10,
+    "microbatch_rows": 2,
+    "effective_batch_rows": 16,
+    "gradient_checkpointing": "enabled, non-reentrant",
+    "precision": "FP16 forward autocast with CUDA GradScaler; NF4 double quant base",
+    "max_updates": 300,
+    "gates": [
+      100,
+      300,
+      "terminal boundary"
+    ],
+    "training_cutoff_and_final_reserve_consistent": true
+  },
+  "objective_review": {
+    "shifted_logits_labels": "logits[:, :-1, :] paired with labels[:, 1:]",
+    "ignored_positions": "labels == -100 excluded before CE; no model-side labels passed to forward",
+    "row_weighting": "Unreduced CE on selected target tokens; token CE averaged per row; row means averaged within each microbatch and multiplied by microbatch_rows/effective_batch_rows before accumulation. This gives equal row weight across a full effective batch and up to 16 rows at the terminal partial batch.",
+    "gradient_scaling": "FP16 GradScaler spans microbatch backward calls; unscale once before global norm clipping and optimizer step. Scale decrease after update is treated as a skipped step and fails closed.",
+    "first_microbatch_audit": "Compares selected-token vectorized CE against an explicit per-row reference at first microbatch; fails if absolute difference exceeds 1e-6.",
+    "static_conclusion": "No loss-shift, mask, row-weight, accumulation, gradient-scaling, or LoRA target inconsistency found."
+  },
+  "preflight": {
+    "command": "python preflight_checks.py",
+    "result": "PASS",
+    "coverage": "Synthetic sampling-plan dedup/worked-row retention, 30-fixture review-gate validation, selected-token CE value and gradient equivalence, and zero gradient at ignored positions. CPU-only; no corpus."
+  },
+  "review_gate_review": {
+    "base_remains_candidate": true,
+    "at_100_and_300_or_terminal": true,
+    "requires_full_30_pair_review": true,
+    "no_baseline_pass_regression": true,
+    "no_new_critical_error": true,
+    "no_new_hint_leak": true,
+    "requires_answer_gain_unless_base_answer_ceiling": true,
+    "no_automatic_production_promotion": true
+  },
+  "findings": [],
+  "blockers_before_optimizer_update": [
+    "Worker waits for pretrain_qa_approved.json and rejects approval unless it binds the exact current source_plan_sha256 and renderer_sha256, asserts actual source samples were reviewed, and human_review_claimed=false. Do not approve optimizer updates until that exact cloud-projected source QA evidence and owner authorization are present.",
+    "This branch is fresh-base only and must retain the 600-second evaluation/publication reserve; inherited adapter/checkpoint resume is rejected."
+  ],
+  "risk_notes": [
+    "The stronger r16/alpha16 and 2e-5 LR are a hypothesis with increased regression risk; only the strict 30-pair development gate can establish eligibility.",
+    "The 30-item development set is reused from prior development and is not an unseen final benchmark."
+  ],
+  "training_authorized_by_this_review": false,
+  "human_review_claimed": false
+}

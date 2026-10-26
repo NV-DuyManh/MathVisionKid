@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "tests_passed": 8,
+  "scope": "Exact actual root-review gate rejects changed fields, incorrect raw hash, failed criterion or unread content; additive union preserves old217source/30chat prefixes and36artifacts, rejects existingID ormember bytes. Unit union descriptors are synthetic fixtures, not publication evidence.",
+  "code_sha256": "e960b17b1b18d9f5b7aa37605ee12e85a8cf277b5a0a48c041a623e1956f09f1",
+  "test_sha256": "e118deced6980f37e72b7578a6a200ebf876c4b01d1d2fb9a1fb2d158d8bed2e",
+  "training_started": false,
+  "drive_mutated": false
+}

@@ -1,0 +1,70 @@
+{
+  "dev_base_output_sha256": "e31e859954f4f5d2b7b57524bc222c83c198360b62f9ab1eb546cc916432abae",
+  "gate_proofs": [
+    {
+      "gate_file": "gate_step_000001.json",
+      "gate_sha256": "51fd22b6ebd92639a7c47031ecc08f11446df028546dfcf2abfb069218bdc626",
+      "generation": "generation_step_000001_rows_00000016",
+      "manifest_sha256": "8e767b8b596301d1ca9ec55a2ab7ab1269615d824a5bd6740ca5b06693ea1a49",
+      "step": 1
+    },
+    {
+      "gate_file": "gate_step_000050.json",
+      "gate_sha256": "311ea84fa5a5e178f0dd47f0a121fe44e21423d8d78e394a2ef130c4080aa81f",
+      "generation": "generation_step_000050_rows_00000800",
+      "manifest_sha256": "e0b364f7b3722a92418faeb7b15feb86cbe4bac9776036404e18a8cd206feeaf",
+      "step": 50
+    }
+  ],
+  "input_hashes": {
+    "derived_sampling_plan.json": "f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad",
+    "frozen_training_primitives.py": "d5f4f0bc2df2b9ff8b2999d607f7ab0b773a76e2ececd4cf48bada99ffcc787c",
+    "locked_test_candidates.jsonl": "41413ac3e61e7180cee53d06ccec6186256f1cfdf845557a6a598822f6ca22d0",
+    "new_validation_candidates.jsonl": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+    "owner_run_scope.json": "53a4128a91d9569c93eab5b87e2d3bf45494d212ca47d98d2752c6ace4f8e0ed",
+    "recovery_policy.py": "fa9fe2a5d08e01d1e6563b2fbc7220beb29daff12cd436f2af8f76075450dd6a",
+    "recovery_worker.py": "345ff9d1def663bca704b4ab47ea8828c9793964bf70fb5ed2b784517b494e29",
+    "training/best.json": "4e3bef14a629194ecece81561f5ddca9da85649b5ab70aeae1abc8a73088f8ec",
+    "training/run_complete.json": "4a66d62a0bfa8e51e7c423ffa7bb19ed43acd7cb5dcf1b68d0a0481ea789fd0f",
+    "training/run_config.json": "ef42344e5e911e0cd50257c82f32163481a90517beb962d9aa007dc0ce7e56c1"
+  },
+  "selected_artifact": {
+    "adapter": null,
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_evidence": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        13,
+        18,
+        0,
+        2,
+        3
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "e31e859954f4f5d2b7b57524bc222c83c198360b62f9ab1eb546cc916432abae"
+    }
+  },
+  "selected_before_locked_inference": true,
+  "selected_best": {
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "production_approval": false,
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_key": [
+      13,
+      18,
+      0,
+      2,
+      3
+    ],
+    "semantic_review_pending": false,
+    "validation_output_sha256": "e31e859954f4f5d2b7b57524bc222c83c198360b62f9ab1eb546cc916432abae"
+  },
+  "selected_kind": "untrained_base",
+  "test_results_used_for_selection": false
+}

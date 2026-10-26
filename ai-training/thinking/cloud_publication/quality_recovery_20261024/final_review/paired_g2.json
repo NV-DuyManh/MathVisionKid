@@ -1,0 +1,236 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g2_clock_hour_later",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Trên đồng hồ kim, kim phút chỉ số 6, kim giờ nằm giữa số 8 và số 9. Đồng hồ đang chỉ mấy giờ? Đúng một giờ sau sẽ là mấy giờ?",
+      "exact_reference_answer": {
+        "initial_hour": "8",
+        "initial_minute": "30",
+        "later_hour": "9",
+        "later_minute": "30"
+      },
+      "checker": {
+        "type": "clock_pair",
+        "initial": "08:30",
+        "later": "09:30"
+      },
+      "oracle": {
+        "calculation": "Kim phút ở số 6 biểu thị 30 phút; kim giờ giữa 8 và 9 biểu thị 8 giờ 30 phút. Cộng một giờ được 9 giờ 30 phút.",
+        "expected": "8 giờ 30 phút; một giờ sau là 9 giờ 30 phút."
+      },
+      "rubric": [
+        "Đọc đúng số 6 của kim phút là 30 phút, không phải 6 phút.",
+        "Đọc giờ là 8 vì kim giờ chưa tới 9.",
+        "Thêm một giờ nhưng giữ phần 30 phút."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_clock_hour_later",
+      "generated_tokens": 143,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nTrên đồng hồ kim, khi kim phút chỉ số 6, thì đó là 60 phút (tức là 1 giờ). Khi kim phút chỉ số 6, kim giờ nằm giữa số 8 và số 9, tức là đang ở giữa 8 giờ và 9 giờ.\n\nDo đó, thời gian hiện tại là **6 giờ**.\n\n**Đúng một giờ sau sẽ là mấy giờ?**  \nKhi hiện tại là 6 giờ, sau một giờ sẽ là **7 giờ**.\n\n**Kết luận:**  \n- Đồng hồ đang chỉ **6 giờ**.  \n- Sau một giờ sẽ là **7 giờ**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "6fdcfe5f07c6c1c80f9b6bce680ec0c1e1686853d3509a78778ae028b0474b18",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_clock_hour_later",
+      "generated_tokens": 143,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nTrên đồng hồ kim, khi kim phút chỉ số 6, thì đó là 60 phút (tức là 1 giờ). Khi kim phút chỉ số 6, kim giờ nằm giữa số 8 và số 9, tức là đang ở giữa 8 giờ và 9 giờ.\n\nDo đó, thời gian hiện tại là **6 giờ**.\n\n**Đúng một giờ sau sẽ là mấy giờ?**  \nKhi hiện tại là 6 giờ, sau một giờ sẽ là **7 giờ**.\n\n**Kết luận:**  \n- Đồng hồ đang chỉ **6 giờ**.  \n- Sau một giờ sẽ là **7 giờ**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "6fdcfe5f07c6c1c80f9b6bce680ec0c1e1686853d3509a78778ae028b0474b18",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g2_additive_sequence",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Dãy số 8, 13, 18, 23 được tạo bằng cách mỗi lần cộng cùng một số. Viết tiếp hai số ngay sau 23 và nói rõ quy luật.",
+      "exact_reference_answer": {
+        "next_values": [
+          "28",
+          "33"
+        ],
+        "increment": "5"
+      },
+      "checker": {
+        "type": "sequence_continuation",
+        "values": [
+          28,
+          33
+        ],
+        "increment": 5
+      },
+      "oracle": {
+        "calculation": "13 − 8 = 5; 18 − 13 = 5; 23 − 18 = 5. Tiếp tục 23 + 5 = 28; 28 + 5 = 33.",
+        "expected": "28 và 33; mỗi lần cộng 5."
+      },
+      "rubric": [
+        "Nhận ra đúng mức tăng không đổi.",
+        "Viết đủ hai số theo thứ tự tiếp nối.",
+        "Không lặp lại số cuối đã có trong đề như một số mới."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_additive_sequence",
+      "generated_tokens": 187,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nDãy số đã cho là:  \n**8, 13, 18, 23, ? , ?**\n\nTa thấy rằng mỗi số sau được tạo bằng cách **cộng một số cố định** với số trước đó.\n\n- 13 - 8 = 5  \n- 18 - 13 = 5  \n- 23 - 18 = 5  \n\nVậy **các bước cộng là 5** mỗi lần.\n\n**Tính toán tiếp:**\n- 23 + 5 = 28  \n- 28 + 5 = 33**\n\n**Kết luận:**  \nHai số tiếp theo của dãy số là **28 và 33**.\n\n**Quy luật:** Mỗi số sau được tạo bằng cách **cộng 5 với số trước đó**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ba053385a782e671ce2167053e6ea412aae49587b1e3bc72c506d733f3a68b52",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_additive_sequence",
+      "generated_tokens": 187,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nDãy số đã cho là:  \n**8, 13, 18, 23, ? , ?**\n\nTa thấy rằng mỗi số sau được tạo bằng cách **cộng một số cố định** với số trước đó.\n\n- 13 - 8 = 5  \n- 18 - 13 = 5  \n- 23 - 18 = 5  \n\nVậy **các bước cộng là 5** mỗi lần.\n\n**Tính toán tiếp:**\n- 23 + 5 = 28  \n- 28 + 5 = 33**\n\n**Kết luận:**  \nHai số tiếp theo của dãy số là **28 và 33**.\n\n**Quy luật:** Mỗi số sau được tạo bằng cách **cộng 5 với số trước đó**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ba053385a782e671ce2167053e6ea412aae49587b1e3bc72c506d733f3a68b52",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g2_equal_segments_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Một đoạn dây dài 45 cm được chia thành các phần, mỗi phần dài 5 cm và không còn dây thừa. Hãy gợi ý cách tìm số phần dây, đừng nói số phần cuối cùng.",
+      "exact_reference_answer": {
+        "value": "9",
+        "unit": "phần dây",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": 9,
+        "required_relation": "whole_length_divided_by_length_of_each_part"
+      },
+      "oracle": {
+        "calculation": "45 : 5 = 9 phần; kiểm 9 × 5 = 45 cm. Không tiết lộ số phần trong gợi ý.",
+        "expected": "Gợi ý xem có bao nhiêu nhóm 5 cm trong 45 cm, dùng phép chia hoặc cộng lặp để tự tìm."
+      },
+      "rubric": [
+        "Phân biệt tổng chiều dài với chiều dài của một phần.",
+        "Gợi ý chia tổng cho độ dài mỗi phần hoặc đếm các nhóm bằng nhau.",
+        "Không nêu 9 phần hoặc chín phần."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_equal_segments_hint",
+      "generated_tokens": 134,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm số phần dây, ta có thể thực hiện các bước sau:\n\n1. **Xác định tổng độ dài của tất cả các phần dây**: Tổng độ dài của tất cả các phần dây là 45 cm.\n2. **Xác định độ dài mỗi phần dây**: Mỗi phần dây dài 5 cm.\n3. **Tính số phần dây**: Số phần dây được tìm bằng cách chia tổng độ dài cho độ dài mỗi phần.\n\nCụ thể:\n\n$$\n\\text{Số phần dây} = \\frac{45}{5} = 9\n$$\n\nVậy số phần dây là **9**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ac1f7de226a78dc51b400069dcb0d315856541ac32b59080a329e5e30b3b3710",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_equal_segments_hint",
+      "generated_tokens": 134,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm số phần dây, ta có thể thực hiện các bước sau:\n\n1. **Xác định tổng độ dài của tất cả các phần dây**: Tổng độ dài của tất cả các phần dây là 45 cm.\n2. **Xác định độ dài mỗi phần dây**: Mỗi phần dây dài 5 cm.\n3. **Tính số phần dây**: Số phần dây được tìm bằng cách chia tổng độ dài cho độ dài mỗi phần.\n\nCụ thể:\n\n$$\n\\text{Số phần dây} = \\frac{45}{5} = 9\n$$\n\nVậy số phần dây là **9**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "ac1f7de226a78dc51b400069dcb0d315856541ac32b59080a329e5e30b3b3710",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g2_dm_cm_error",
+      "grade": 2,
+      "mode": "student_error",
+      "userproblem": "Biết 1 dm = 10 cm. Em viết: \"3 dm 2 cm = 302 cm vì viết 30 rồi ghép thêm 2\". Hãy nhận xét dòng đổi này và sửa.",
+      "exact_reference_answer": {
+        "value": "32",
+        "unit": "cm",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_unit_conversion",
+        "value": 32,
+        "unit": "cm"
+      },
+      "oracle": {
+        "calculation": "3 dm = 30 cm; thêm 2 cm là 30 + 2 = 32 cm, không phải ghép chữ số thành 302.",
+        "expected": "3 dm 2 cm = 32 cm."
+      },
+      "rubric": [
+        "Nêu đúng quan hệ đổi dm sang cm đã cho.",
+        "Phân biệt cộng hai số đo với ghép chữ số.",
+        "Chỉ sửa dòng đổi đã được cung cấp, không suy thêm lỗi đặt thước hoặc nét chữ."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_dm_cm_error",
+      "generated_tokens": 171,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời nhận xét:**  \nDòng đổi này có lỗi trong việc chuyển đổi đơn vị. Việc viết \"3 dm 2 cm = 302 cm\" là sai vì:\n\n- 3 dm = 30 cm (vì 1 dm = 10 cm)\n- 3 dm 2 cm = 30 cm + 2 cm = 32 cm\n\n**Lời sửa:**  \nPhải viết đúng là:  \n**3 dm 2 cm = 32 cm**\n\n**Lời giải đầy đủ:**  \n- 3 dm = 3 × 10 cm = 30 cm  \n- 3 dm 2 cm = 30 cm + 2 cm = 32 cm  \n- Vậy: **3 dm 2 cm = 32 cm**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "95f05de55aab47a3f876c4b615ef35cf0de51c335c98f76fa0ae7d3b1c5c78fe",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g2_dm_cm_error",
+      "generated_tokens": 171,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Lời nhận xét:**  \nDòng đổi này có lỗi trong việc chuyển đổi đơn vị. Việc viết \"3 dm 2 cm = 302 cm\" là sai vì:\n\n- 3 dm = 30 cm (vì 1 dm = 10 cm)\n- 3 dm 2 cm = 30 cm + 2 cm = 32 cm\n\n**Lời sửa:**  \nPhải viết đúng là:  \n**3 dm 2 cm = 32 cm**\n\n**Lời giải đầy đủ:**  \n- 3 dm = 3 × 10 cm = 30 cm  \n- 3 dm 2 cm = 30 cm + 2 cm = 32 cm  \n- Vậy: **3 dm 2 cm = 32 cm**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "95f05de55aab47a3f876c4b615ef35cf0de51c335c98f76fa0ae7d3b1c5c78fe",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

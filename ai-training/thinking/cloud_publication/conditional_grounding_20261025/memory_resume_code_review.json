@@ -1,0 +1,46 @@
+{
+  "schema": "MathVisionKid.memory_resume_code_review.v1",
+  "scope": "Static read-only review of versioned OOM recovery and checkpoint restore; no runtime/GPU/MCP/Drive access.",
+  "reviewed_file_sha256": {
+    "recovery_worker_v5.py": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+    "native_backend_v3.py": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+    "prepare_memory_resume.py": "c676dff84ade8591a0cc042a482ae13ba30d9a4e62f21901fbbfea0fbf7cd040",
+    "memory_resume_migration.json": "930a1475212f4cafd7970e02996cbfd465b374480ab42b5eb8fbec935212c469"
+  },
+  "overall": "Gradient-checkpointing path and state restore appear internally coherent, but migration binding should pin the exact source checkpoint and backend hash before calling it fail-closed.",
+  "verified": [
+    "Worker config comparison preserves exact source plan, dev, contract, deadline, source view/manifest, policy, and optimizer parameter names; only explicit worker migration plus gradient_checkpointing false→true and loss-description text are allowed.",
+    "Checkpoint restore compares adapter tensors exactly, checks optimizer parameter-name mapping/coherence, restores optimizer and GradScaler state, then restores Torch CPU/CUDA and Python RNG states; cursor/training time come from checkpoint.",
+    "Log reconciliation verifies acknowledged prefix IDs/cursor/steps/token counts and hash, stores the unapplied tail immutably, then truncates working log to the committed prefix.",
+    "Backend requests PEFT k-bit preparation with use_reentrant=False; training mode enables checkpointing with the same setting and use_cache=False. No obvious frozen-base/LoRA gradient incompatibility in code; runtime progress confirms path initialized, though no external validation was done."
+  ],
+  "findings": [
+    {
+      "severity": "P1",
+      "location": "recovery_worker_v5.py resume migration validation",
+      "issue": "memory_resume_migration.json names the intended cp1 generation and manifest/archive hashes, but worker validation does not compare args.resume_generation.name or its manifest SHA to those fields. A different otherwise-compatible generation could inherit the v4→v5 exception.",
+      "recommendation": "Before loading checkpoint state, require exact parent_checkpoint_generation and parent_generation_manifest_sha256 match; bind archive SHA if the archive is the transfer artifact."
+    },
+    {
+      "severity": "P2",
+      "location": "recovery_worker_v5.py / native_backend_v3.py code binding",
+      "issue": "Migration JSON records resumed_backend_sha256, but worker does not verify it against native_backend_v3.py bytes. worker_sha pins the caller file only, not its imported backend implementation.",
+      "recommendation": "Verify the backend SHA against migration receipt/config immediately before import/use and persist it in run_config."
+    },
+    {
+      "severity": "P2",
+      "location": "recovery_worker_v5.py migration allowlist",
+      "issue": "Allowlist admits `loss_reduction` text change as well as code/checkpointing. It is documented as a clarification only and code weighting is unchanged, but current check does not pin the old/new exact text.",
+      "recommendation": "Bind exact parent and resumed loss_reduction strings (or exclude this field from runtime diff by carrying the parent description plus separate correction note)."
+    }
+  ],
+  "gradient_checkpointing_review": {
+    "mode": "non-reentrant",
+    "use_cache": false,
+    "double_enable": "prepare_model_for_kbit_training enables it and for_training enables again; likely idempotent but redundant. Remove duplicate enable only in a future version, not during this run.",
+    "optimizer_parameters": "Gradient checkpointing does not itself alter trainable parameter names/order; exact name check protects optimizer-state mapping.",
+    "numerical_caveat": "Recomputation can cause small FP16 numerical drift; migration preserves schedule/state but not bitwise identical trajectory."
+  },
+  "training_correctness_blocker_from_review": false,
+  "human_review_claimed": false
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "MathVisionKid.all_valid_candidate_stream_scope.v1",
+  "parent_catalog_sha256": "e25be0e98a1f3aa26ec3c96934a894ea28c8cbe583a87a2560caf2131660aef1",
+  "payload_artifacts": 32,
+  "previous_payload_artifacts": 31,
+  "explicit_accepted94_append_sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+  "candidate_chat_members": 26,
+  "source_members": 213,
+  "raw_declared_chat_rows": 6501468,
+  "declared_train_candidate_rows": 6501420,
+  "current_pedagogy_validation_test_rows_separate": 48,
+  "old_6501044_train_candidates_preserved": true,
+  "new_accepted94_chat_rows": 376,
+  "source_members_never_implicitly_used_as_chat": true,
+  "diagnostic_selected_duplicates_and_audit_history_excluded_roles": {
+    "audit_history_or_metadata": 694,
+    "evaluation_only": 2,
+    "diagnostic_duplicate_excluded": 3,
+    "metadata_only": 981
+  },
+  "future_append_contract": "Call discover_supplements on latest STATE/CHAT; register each explicit descriptor with its pinned members manifest. Any missing source_member/hash/row count is a hard error or visible pending discovery; stream refuses partial union.",
+  "full_archive_token_split_audit_complete": false,
+  "training_started": false,
+  "accepted94_verified_publication_id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ"
+}

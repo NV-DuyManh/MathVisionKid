@@ -1,0 +1,45 @@
+{
+  "events": [
+    {
+      "role": "candidate_source",
+      "consume": {
+        "already_complete": false,
+        "rows": 101,
+        "complete": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 256,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 296,
+        "complete": true
+      }
+    }
+  ],
+  "audit": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 296,
+    "members_complete": 2,
+    "max_sequence_tokens": 938,
+    "max_completion_tokens": 833,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 296,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  }
+}

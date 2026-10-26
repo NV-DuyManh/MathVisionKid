@@ -1,0 +1,152 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_review": true,
+  "input_pair_sha256": "37476137507b4697031807dea65cbff2f999740fc72fccc6e00a6415e46de622",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Computes67and verifies9*7+4correctly, but omits frozen rubric remainder bound4<9; numerical answer correct, full-task check incomplete.",
+      "adapter_reason": "Correct67and inverse multiplication-plus-addition but still omits remainder4<9check required by frozen rubric."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct3240−850=2390g=2kg390g with consistent units and both requested forms.",
+      "adapter_reason": "Correct2390g=2kg390g and consistent conversion/subtraction."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Recognizes full96cmwire as three equal sides, divides by3and checks32+32+32=96cm.",
+      "adapter_reason": "Correct96/3=32cmwith total check32+32+32=96."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Useful hint computes parentheses first, then takes84minus that result; withholds42.",
+      "adapter_reason": "New reversal: tells student to compute24+18then subtract84from it, rather than84minus parentheses. No numeric leak, but invalid method."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Correct final0and multiplication0*7=0, but contradictory checking commentary and no clear account of why the supplied check does not verify claimed quotient7.",
+      "adapter_reason": "Correct quotient0but newly concludes the supplied check was correct even though it cannot verify claimed quotient7; fails requested feedback relation."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Invents10cmthen claims it was measured without image or measurement, violating missing-source guard.",
+      "adapter_reason": "Still fabricates10cmwithout a measurement and now calls arbitrary value exact; same missing-source failure."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct equivalents9/12and10/12but falsely orders9/12<7/12<10/12and final labels wrong.",
+      "adapter_reason": "Repairs fraction order with correct common12and7/12,3/4,5/6ascending, no contradiction."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct quantity division5/6by1/12=10cups; inverse volume check returns5/6litre.",
+      "adapter_reason": "Correct10cups and inverse10/12=5/6litre check."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct31points and total112but calls it consistent with total average28without actually checking112/4=28as frozen rubric requests.",
+      "adapter_reason": "Correct31points plus explicit full-score112/4=28mean check."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Reveals4/7multiple times in hint despite withholding request.",
+      "adapter_reason": "Still exposes4/7in hint."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly rejects numerator-only comparison; equivalent10/15and9/15and final2/3>3/5with explanation of common-sized parts.",
+      "adapter_reason": "Correct common15fraction comparison10>9and rejects numerator-only reasoning; terminology imprecise but arithmetic and relation consistent."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Uses disjoint-area sum17/12>1to reject simultaneous premises, no fabricated replacement data.",
+      "adapter_reason": "Correct disjoint-area contradiction17/12S>S; uses supplied non-overlap premise."
+    }
+  ]
+}

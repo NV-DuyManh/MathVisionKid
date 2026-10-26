@@ -1,0 +1,29 @@
+{
+  "status": "PASS_ALL_FOUR_CONTROL_RAW_BYTES",
+  "controls": [
+    {
+      "file": "prewrite_progress.zip",
+      "bytes": 11139889,
+      "sha256": "90bffe070a54694d3c9d9a972f8a2048a33d726c07db94bf6ad4f800b4f0b6f1",
+      "verified_utc": "2026-10-21T10:48:01.247Z"
+    },
+    {
+      "file": "prewrite_chat.json",
+      "bytes": 22634,
+      "sha256": "800386e940e1d9aaa900913718e6ee81247b0fff17d9512256e210f4a08e850a",
+      "verified_utc": "2026-10-21T10:48:01.372Z"
+    },
+    {
+      "file": "prewrite_state.json",
+      "bytes": 264972,
+      "sha256": "9e24dbc02eb725a850963d9e36c30aff6d9efd1b417fd583ca0807055cf69be3",
+      "verified_utc": "2026-10-21T10:48:01.508Z"
+    },
+    {
+      "file": "prewrite_context.md",
+      "bytes": 770970,
+      "sha256": "dabf8fcba96830d6e68de0c5498085df40b0583b05df3a8a83ff535bf19af380",
+      "verified_utc": "2026-10-21T10:48:01.966Z"
+    }
+  ]
+}

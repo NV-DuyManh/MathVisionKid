@@ -1,0 +1,79 @@
+{
+  "status": "12_DRAFTS_AUTHOR_QA_PASSED_ROOT_QA_PENDING",
+  "case_count": 12,
+  "chat_count": 48,
+  "master_counts": {
+    "decimal_symbol_open_interval_synthesis": 2,
+    "finite_decimal_digit_card_enumeration": 2,
+    "edge_scale_square_cube_relation": 2,
+    "large_cube_painted_face_classification": 2,
+    "same_height_triangle_area_ratio": 2,
+    "triangle_parallel_apex_area_invariant": 2
+  },
+  "numeric_steps": 8,
+  "oracles": 12,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a",
+      "bytes": 74406,
+      "rows": 12
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "e4491f20adcc4cafb48667a479b934e3f6a1e714ea413f3dbc72fabe8b176f13",
+      "bytes": 104726,
+      "rows": 48
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "49055f3d56324037f320c9124a14d9d4b048b81b732eb0e3639b972b374333c7",
+      "bytes": 50472,
+      "rows": 12
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "854c3dcf0f3ac5d69a813efd2a9c55dca4aadd420909a22494f8572d0e4fc888",
+      "bytes": 7079,
+      "rows": 12
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "6f54a425bfde87f0a59eea67e4ed6c0c4d7f5dc4bd0d67e498e7809364ae99d8",
+      "bytes": 2077,
+      "rows": 8
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "3b5bebefbb59066f7139a1360d0bf115e20f83d4a22fb065db0fd7eb62a2bf55",
+      "bytes": 20629,
+      "rows": 6
+    },
+    {
+      "path": "actual_page_receipts_readback.jsonl",
+      "sha256": "e3c8b7d9ee7c6744e95a41131c6cf33b2f720e5b38839394a85d0e058acf0632",
+      "bytes": 20445,
+      "rows": 9
+    }
+  ],
+  "helper_sha256": "e813959b03642cf017cba54cf164a12baf5416f984420c561c93a9899c1ff52f",
+  "input_mapping_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "no_shared_sources_mutated": true,
+  "no_training": true,
+  "no_drive_mutation": true,
+  "limitations": [
+    "Original text reasoning only; no visual/physical outcome claims.",
+    "Age models are bounded enrichment.",
+    "Finite nearest-source comparison does not prove full curriculum coverage.",
+    "Draft status requires parent content cross-review."
+  ],
+  "schema_helper": "thinking/sgk_finish_g5_text_append.py",
+  "prior_case_hashes": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_text_append\\cases.jsonl": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\g5_second_text\\cases.jsonl": "a79d66046507e83d6ab8926d5e42dfabb766a3826c5c20cd85deacf02cc12709",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_applied_text\\cases.jsonl": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g5_geometry_text\\cases.jsonl": "d93c98cb08ea23b9393e745febe0c6a2a3becc6be711fc6982c2249190223a06",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\g34_structure_polished\\cases.jsonl": "c39c3a80cf5b7a8618768ec7dd710643b04326181705439187301c26429112ec"
+  },
+  "prior_unchanged": true
+}

@@ -1,0 +1,49 @@
+{
+  "canonical_context_rule": "All per-phase preparation provenance is stored in this JSON record.",
+  "created_date": "2026-10-26",
+  "final_evaluator_note": {
+    "deadline_utc": "2026-10-26T11:14:18Z",
+    "execution": "Prepared only; no MCP/GPU/Drive execution. Root review is required before any eligible run.",
+    "maximum_total_evaluation_seconds": 600,
+    "packages": {
+      "accelerate": "1.15.0",
+      "bitsandbytes": "0.50.2",
+      "peft": "0.21.2",
+      "transformers": "5.20.2"
+    },
+    "purpose": "One-shot matched sealed-native15 inference only after run completion and an eligible current-best development gate.",
+    "sealed_fixture": "Only the existing expected raw SHA is recorded here; no fixture rows or prior final outputs were inspected during code preparation.",
+    "selection": "Requires current completed-run best, eligible dev gate, selected generation manifest hash, and selected ZIP hash/member hashes. Final evaluation cannot train, change selection, or approve production."
+  },
+  "final_evaluator_precision_v2_note": {
+    "adapter_validation": "Read adapter config from selected checkpoint without overrides; compare loaded PEFT config and exact adapter tensors to checkpoint state.",
+    "output_directory": "final_eval_20261026_v2",
+    "precision_match": "Generate the fresh-base pass at loaded FP16 first; then apply PEFT prepare_model_for_kbit_training(use_gradient_checkpointing=False), record before/after nonquant parameter dtype/shape/requires-grad maps, and only then attach the selected PEFT adapter.",
+    "supersedes_for_execution": "Use final_eval_worker_20261026_v2.py; preserve final_eval_worker_20261026.py (v1) unchanged.",
+    "testing": "Syntax/import/static ordering only; no GPU/Drive/MCP or sealed content accessed."
+  },
+  "preparation_note": "# Fresh recovery branch prepared 2026-10-26\n\nThis directory contains a new worker, native backend copy, recovery policy copy, and CPU-only preflight checks. The 2026-10-25 source branch is unchanged. No source corpus, tokenizer/model files, prior adapter, prior checkpoint, final/locked test fixture, or Drive/MCP artifact was read or modified during preparation.\n\nThe worker reads `hard_deadline_unix` and positive owner-authorized `reserve_seconds` from the scope file to derive the train cutoff; the current authorized values are 2026-10-26T11:14:18Z and 1500 seconds, yielding 10:49:18Z. The worker must be pointed at a separately staged trusted root after independent review. That root must supply its own current source/manifest, trusted renderer and inference contract, owner scope/deadline, and the preexisting 30-item development set already used by the earlier run; cached base outputs and prior adapter outputs are not acceptable. This is a reused development benchmark, not unseen or independent evaluation. Source QA remains required against the exact new plan and renderer before optimizer setup. The worker rejects inherited checkpoint resume and requires a fresh base.\n\nThe backend fetches the exact pinned model commit using `snapshot_download` with an allowlist built from the pinned weight index and known tokenizer/config metadata, verifies the commit snapshot and shards, then loads locally only. The worker checks the authorized cutoff before and after download/load. The prepared change uses LoRA r=16/alpha=16 over q/k/v/o and gate/up/down projections, 2e-5 peak LR with 10-update linear warmup, microbatch 2/effective batch 16, non-reentrant gradient checkpointing, and 8-bit AdamW. Its explicit objective selects supervised shifted target logits only, computes CE on those positions, and gives equal weight to each row after averaging its assistant-token CE. Ignored prompt/padding positions are never passed to CE. The forward pass excludes labels so Transformers does not build an unused global-token loss graph; a first-microbatch selected-token reference checks value agreement, and CPU preflight checks values and gradients against a per-row loop. It preserves one-pass sampling, caps at 300 updates, pauses at 100 and 300, and also gates at end-of-view. This increases adaptation capacity and LR versus the prior weak 3e-6/r8 setting, so regression risk is higher; the paired development gate and retain-base selection policy remain mandatory. This is a training hypothesis, not a performance guarantee.\n\nPreparation does not connect to MCP/T4, inspect or stage the source corpus, run training, or evaluate locked/final tests. A root-level reviewer must check this package and the later staged root before any run is launched.\n",
+  "schema": "MathVisionKid.recovery_20261026.preparation_provenance.v1",
+  "scope_update": {
+    "current_authorized_reserve_seconds": 600,
+    "derived_train_cutoff_utc": "2026-10-26T11:04:18Z",
+    "hard_deadline_utc": "2026-10-26T11:14:18Z",
+    "status": "supersedes historical reserve value in preparation_note",
+    "worker_behavior": "Reads reserve_seconds from owner scope at launch; no static reserve is pinned in worker code."
+  },
+  "source_sha256": {
+    "branch_final_eval_preflight_v1.py": "ae689a2af977964a2c50460bc331f5505bcf61e388f05ff1aa68733c70d3972d",
+    "branch_final_eval_preflight_v2.py": "1e34c9ca7a6701d5ddbb285392af82eef7045fa5b6436b128c874b5bc156dbe0",
+    "branch_final_eval_worker_v1.py": "f697f15bad56da39ad042f06a185d23f914ed3e1c220ff928384d1ecbbf428b2",
+    "branch_final_eval_worker_v2.py": "88f2447843e0804dd72063bd324d5d06b3d5a1ecd0e4977b3fee12385effcb7e",
+    "branch_native_backend.py": "66aa1473bb6835497fb59b16ab0c76e2a609eec0358d9b7cd03f2662e3f3a046",
+    "branch_preflight_checks.py": "8a4333f198524c140658da5bd9b02c96980c8bbaa7f08f008e48e2be5ae050e9",
+    "branch_recovery_policy.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "branch_worker.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "parent_final_eval_worker.py": "2a07e4b961250039bbf5f2c6b3ab54e5cf5346ce3fe9f16f87c6ba985b7b2498",
+    "parent_native_backend_v3.py": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+    "parent_recovery_policy_v2.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "parent_worker_v5.py": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+    "source_projection_diagnosis.py": "15c2eb55279032f27e2575f33bafd48a847533b6cd76351e73b67e545ad38478"
+  }
+}

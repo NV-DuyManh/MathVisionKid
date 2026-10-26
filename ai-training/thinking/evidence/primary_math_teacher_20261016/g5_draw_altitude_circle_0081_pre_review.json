@@ -1,0 +1,228 @@
+{
+  "authored_utc": "2026-10-18T09:33:06.944150+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:30:44.845Z",
+  "batch_sha256": "5f5ca44bb603edd1d5c6de950ca450462514b156c5e4c44951928cf7855415c6",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_grid_interior_altitude_construction_plan",
+      "row_sha256": "fc30efe6a069264e56475cf2ac0789a5e62477e4b7945bd04b0f15ebbaf9e234",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "(7-1)*0.5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_exterior_altitude_extension_vs_vertex_join",
+      "row_sha256": "c429393debae0f80773aac652e1b81d0eee062a520a59c916ca66ef4ec08ba44",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "(6-2)*0.4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_compass_radius_vs_diameter_two_circle_plan",
+      "row_sha256": "3aa8bd871e0264d236f2b0d2debcd41f2ca244cee4e347f1700ad84793db8060",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "7.2/2",
+          "2.8",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_misconception_midpoint_is_not_perpendicular",
+      "row_sha256": "92be4e7bd154200abba44665c9504f368315539bc6446b9a299922668f6b2a58",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "(6-0)*1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_guard_actual_drawing_and_target_missing",
+      "row_sha256": "c5f500392af2d6c11fffce7410ea207658f75025f34d0e281675fc161f77be5e",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "grid_perpendicularity_incidence_and_interval_ledgers": [
+      {
+        "A": [
+          4,
+          7
+        ],
+        "B": [
+          1,
+          1
+        ],
+        "C": [
+          9,
+          1
+        ],
+        "H": [
+          4,
+          1
+        ],
+        "perpendicular_dot": 0,
+        "line_incidence_cross": 0,
+        "foot_inside_segment": true,
+        "interval_count": 6,
+        "length_cm": "3"
+      },
+      {
+        "A": [
+          1,
+          6
+        ],
+        "B": [
+          3,
+          2
+        ],
+        "C": [
+          8,
+          2
+        ],
+        "H": [
+          1,
+          2
+        ],
+        "perpendicular_dot": 0,
+        "line_incidence_cross": 0,
+        "foot_inside_segment": false,
+        "interval_count": 4,
+        "length_cm": "8/5"
+      },
+      {
+        "A": [
+          2,
+          6
+        ],
+        "B": [
+          0,
+          0
+        ],
+        "C": [
+          8,
+          0
+        ],
+        "H": [
+          2,
+          0
+        ],
+        "perpendicular_dot": 0,
+        "line_incidence_cross": 0,
+        "foot_inside_segment": true,
+        "interval_count": 6,
+        "length_cm": "6",
+        "midpoint_M": [
+          4,
+          0
+        ],
+        "AM_dot_BC_nonzero": 16
+      }
+    ],
+    "compass_integer_tenths_diameter_search": {
+      "O_radius_tenths_cm": 36,
+      "O_reassembled_diameter_tenths_cm": 72,
+      "P_given_radius_tenths_cm": 28
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "coordinate_dot_cross_QA_only_not_student_method": true,
+  "construction_plans_not_verified_physical_drawings": true,
+  "visual_outcome_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous439_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "c60d347b8e9cc723b9ed8772a20dc17d4dcb6376687cca938ed1d5fc28624b1f",
+  "pre_official_QA_repairs": [
+    {
+      "sample_id": "primary_20261018_g5_draw_altitude_circle_0081_compass_radius_vs_diameter_two_circle_plan",
+      "field": "hints[0].hint",
+      "before": "Độ dài từ tâm đến đường tròn và độ dài xuyên qua tâm nối hai điểm trên đường tròn có quan hệ khác nhau.",
+      "after": "Bán kính nối tâm tới một điểm trên đường tròn; đường kính nối hai điểm trên đường tròn và đi qua tâm.",
+      "reason": "Replace vague relation wording with concrete radius/diameter definitions, without final numbers or filled answer. Facts and answers unchanged."
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "circle_hint1_pedagogical_polish_reread": true,
+  "official_QA_utc": "2026-10-18T09:34:02.862253+00:00",
+  "official_QA_method": "Same-author read actual5fullproblems/givens/request/student quote/observations/initial guidance/all worked titles/reasons/explanations/expressions/results/units/answers and15hints. Reread polished circle hint1 concrete definitions. Grade5 semantic QA of grid altitude inside/outside segment, extension construction versus endpoint join, compass radius/diameter roles, midpoint versus perpendicular, and absent drawing/target clarification. Fraction/Decimal, independent interval ledger, incidence/perpendicular dot-cross and integer tenths search corroborate; coordinate algebra QA-only. Parser is not semantic proof; no actual image or physical drawing, external reviewer or new human review.",
+  "official_review_sha256": "1622c6f97475c033c952c027b48b0dada3b892420635c860f420aa6a187cfe8a"
+}

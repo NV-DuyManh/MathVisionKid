@@ -1,0 +1,237 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g3_roman_card_sum",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Hai thẻ ghi các số La Mã IX và XVI. Viết mỗi số bằng chữ số thông thường rồi tính tổng giá trị của hai thẻ.",
+      "exact_reference_answer": {
+        "first_value": "9",
+        "second_value": "16",
+        "sum": "25"
+      },
+      "checker": {
+        "type": "roman_values_and_sum",
+        "values": {
+          "IX": 9,
+          "XVI": 16
+        },
+        "sum": 25
+      },
+      "oracle": {
+        "calculation": "IX = 10 − 1 = 9; XVI = 10 + 5 + 1 = 16; tổng là 9 + 16 = 25.",
+        "expected": "IX là 9, XVI là 16; tổng là 25."
+      },
+      "rubric": [
+        "Đọc đúng IX theo quy tắc I đứng trước X.",
+        "Đọc đủ X, V, I của XVI.",
+        "Nêu cả hai giá trị và tổng, không cộng số lượng kí tự."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_roman_card_sum",
+      "generated_tokens": 80,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1:** Viết các số La Mã IX và XVI bằng chữ số thông thường:\n\n- IX = 9\n- XVI = 16\n\n**Bước 2:** Tính tổng giá trị của hai số:\n\n$$\n9 + 16 = 25\n$$\n\n**Kết quả:** Tổng giá trị của hai thẻ là 25.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f937cdcdf429ad77c0681cb51b2e11ab91c442bd19de9d89dded03342bd540f0",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_roman_card_sum",
+      "generated_tokens": 80,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bước 1:** Viết các số La Mã IX và XVI bằng chữ số thông thường:\n\n- IX = 9\n- XVI = 16\n\n**Bước 2:** Tính tổng giá trị của hai số:\n\n$$\n9 + 16 = 25\n$$\n\n**Kết quả:** Tổng giá trị của hai thẻ là 25.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f937cdcdf429ad77c0681cb51b2e11ab91c442bd19de9d89dded03342bd540f0",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g3_disjoint_square_area",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Một hình ghép gồm hai miếng vuông: miếng thứ nhất có cạnh 3 cm, miếng thứ hai có cạnh 5 cm. Hai miếng không chồng lên nhau. Tính tổng diện tích phần hình được ghép.",
+      "exact_reference_answer": {
+        "value": "34",
+        "unit": "cm²"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 34,
+        "unit": "cm²"
+      },
+      "oracle": {
+        "calculation": "Diện tích hai miếng lần lượt 3 × 3 = 9 cm² và 5 × 5 = 25 cm²; tổng 9 + 25 = 34 cm².",
+        "expected": "34 cm²."
+      },
+      "rubric": [
+        "Tính diện tích mỗi miếng vuông từ cạnh tương ứng.",
+        "Cộng hai diện tích vì không chồng nhau.",
+        "Dùng đơn vị diện tích, không cộng hai cạnh rồi bình phương hoặc trả lời bằng cm."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_disjoint_square_area",
+      "generated_tokens": 242,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để tính tổng diện tích phần hình được ghép, ta thực hiện các bước sau:\n\n1. **Tính diện tích của miếng vuông thứ nhất**:\n   - Cạnh của miếng vuông thứ nhất là 3 cm.\n   - Diện tích miếng vuông thứ nhất là:  \n     $$\n     3 \\times 3 = 9 \\text{ cm}^2\n     $$\n\n2. **Tính diện tích của miếng vuông thứ hai**:\n   - Cạnh của miếng vuông thứ hai là 5 cm.\n   - Diện tích miếng vuông thứ hai là:  \n     $$\n     5 \\times 5 = 25 \\text{ cm}^2\n     $$\n\n3. **Tính tổng diện tích của hai miếng vuông**:\n   - Tổng diện tích là:  \n     $$\n     9 + 25 = 34 \\text{ cm}^2\n     $$\n\n**Kết luận**: Tổng diện tích phần hình được ghép là $34 \\text{ cm}^2$.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f740d778e43956e3d203af5309fee62a4b6b103904d6f88fc49e76cbad7bd9c3",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_disjoint_square_area",
+      "generated_tokens": 242,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để tính tổng diện tích phần hình được ghép, ta thực hiện các bước sau:\n\n1. **Tính diện tích của miếng vuông thứ nhất**:\n   - Cạnh của miếng vuông thứ nhất là 3 cm.\n   - Diện tích miếng vuông thứ nhất là:  \n     $$\n     3 \\times 3 = 9 \\text{ cm}^2\n     $$\n\n2. **Tính diện tích của miếng vuông thứ hai**:\n   - Cạnh của miếng vuông thứ hai là 5 cm.\n   - Diện tích miếng vuông thứ hai là:  \n     $$\n     5 \\times 5 = 25 \\text{ cm}^2\n     $$\n\n3. **Tính tổng diện tích của hai miếng vuông**:\n   - Tổng diện tích là:  \n     $$\n     9 + 25 = 34 \\text{ cm}^2\n     $$\n\n**Kết luận**: Tổng diện tích phần hình được ghép là $34 \\text{ cm}^2$.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f740d778e43956e3d203af5309fee62a4b6b103904d6f88fc49e76cbad7bd9c3",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g3_mixed_polyline_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Một đường gấp khúc gồm ba đoạn liên tiếp dài 45 mm, 6 cm và 25 mm. Biết 1 cm = 10 mm. Hãy gợi ý cách tìm tổng độ dài bằng mi-li-mét, không nói tổng cuối cùng.",
+      "exact_reference_answer": {
+        "value": "130",
+        "unit": "mm",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": 130,
+        "unit": "mm",
+        "required_operations": [
+          "convert_cm_to_mm",
+          "add_all_three_lengths"
+        ]
+      },
+      "oracle": {
+        "calculation": "6 cm = 60 mm; 45 + 60 + 25 = 130 mm. Không nêu tổng này trong gợi ý.",
+        "expected": "Gợi ý đổi đoạn đang ghi cm về mm rồi cộng đủ ba đoạn theo thứ tự hoặc nhóm thuận tiện."
+      },
+      "rubric": [
+        "Nhắc đưa về cùng đơn vị mm trước khi cộng.",
+        "Gợi ý cộng đủ ba độ dài, không chỉ hai đoạn đã cùng đơn vị.",
+        "Không tiết lộ 130 mm hoặc một trăm ba mươi mi-li-mét."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_mixed_polyline_hint",
+      "generated_tokens": 127,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm tổng độ dài của đường gấp khúc này, ta cần chuyển tất cả các độ dài thành cùng một đơn vị đo, cụ thể là mm.\n\n- Đoạn thứ nhất: 45 mm  \n- Đoạn thứ hai: 6 cm = 6 × 10 = 60 mm  \n- Đoạn thứ ba: 25 mm  \n\nTổng độ dài là:  \n45 mm + 60 mm + 25 mm = 130 mm\n\n**Lời giải:**  \nTổng độ dài đường gấp khúc là **130 mm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a9f4c1035289d71eae36ff1e7935b2d2241dc5b82977ee161506f7da692a8cb0",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_mixed_polyline_hint",
+      "generated_tokens": 127,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Để tìm tổng độ dài của đường gấp khúc này, ta cần chuyển tất cả các độ dài thành cùng một đơn vị đo, cụ thể là mm.\n\n- Đoạn thứ nhất: 45 mm  \n- Đoạn thứ hai: 6 cm = 6 × 10 = 60 mm  \n- Đoạn thứ ba: 25 mm  \n\nTổng độ dài là:  \n45 mm + 60 mm + 25 mm = 130 mm\n\n**Lời giải:**  \nTổng độ dài đường gấp khúc là **130 mm**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a9f4c1035289d71eae36ff1e7935b2d2241dc5b82977ee161506f7da692a8cb0",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_locked_v1_g3_unrecorded_rest_time",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một xe khởi hành lúc 8 giờ và đến nơi lúc 11 giờ cùng ngày. Xe có nghỉ giữa đường nhưng chưa ghi lại thời gian nghỉ. Hỏi xe thực sự chạy trong bao nhiêu phút, không tính lúc nghỉ. Có đủ dữ kiện để cho một kết quả duy nhất chưa?",
+      "exact_reference_answer": {
+        "can_determine_unique": false,
+        "total_elapsed_minutes": "180",
+        "needed_information": "Tổng số phút xe đã nghỉ."
+      },
+      "checker": {
+        "type": "missing_component_duration",
+        "elapsed_minutes": 180,
+        "missing_component": "rest_minutes",
+        "must_not_answer_elapsed_as_running": true
+      },
+      "oracle": {
+        "calculation": "Từ 8 giờ đến 11 giờ là 180 phút cả chạy và nghỉ. Chạy thực tế = 180 phút − thời gian nghỉ chưa biết. Nghỉ 15 phút cho chạy 165 phút; nghỉ 30 phút cho chạy 150 phút.",
+        "expected": "Chưa có thời gian chạy duy nhất; cần bổ sung tổng thời gian nghỉ."
+      },
+      "rubric": [
+        "Phân biệt thời gian chuyến đi với thời gian thực sự chạy.",
+        "Không trả lời ngay 180 phút là thời gian chạy.",
+        "Xin số phút nghỉ, không tự gán một thời gian nghỉ cụ thể làm dữ kiện thật."
+      ]
+    },
+    "base": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_unrecorded_rest_time",
+      "generated_tokens": 188,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi yêu cầu xác định thời gian mà xe thực sự chạy trong bao nhiêu phút, không tính thời gian nghỉ. Dữ kiện cung cấp là:\n\n- Xe khởi hành lúc **8 giờ** cùng ngày.\n- Xe đến nơi lúc **11 giờ** cùng ngày.\n\nDo đó, thời gian xe chạy là:\n\n$$\n11 \\text{ giờ} - 8 \\text{ giờ} = 3 \\text{ giờ}\n$$\n\nTuy nhiên, câu hỏi yêu cầu **không tính thời gian nghỉ**. Tuy nhiên, trong trường hợp này, không có thông tin nào được cung cấp về thời gian nghỉ, nên ta không thể xác định thời gian nghỉ, và do đó không thể tính thời gian thực sự chạy.\n\n**Kết luận:** Có **không đủ dữ kiện** để cho một kết quả duy nhất.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "da0664e6d519d1ce16ac5fd1facf4f12696cc62f74b53540d32c92ea71fd10b4",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "ad78741d5d4112a40219cb0e23c50fa7df6c903c4376b9fae156f4d81ca6ba1f",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_locked_v1_g3_unrecorded_rest_time",
+      "generated_tokens": 188,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Câu hỏi yêu cầu xác định thời gian mà xe thực sự chạy trong bao nhiêu phút, không tính thời gian nghỉ. Dữ kiện cung cấp là:\n\n- Xe khởi hành lúc **8 giờ** cùng ngày.\n- Xe đến nơi lúc **11 giờ** cùng ngày.\n\nDo đó, thời gian xe chạy là:\n\n$$\n11 \\text{ giờ} - 8 \\text{ giờ} = 3 \\text{ giờ}\n$$\n\nTuy nhiên, câu hỏi yêu cầu **không tính thời gian nghỉ**. Tuy nhiên, trong trường hợp này, không có thông tin nào được cung cấp về thời gian nghỉ, nên ta không thể xác định thời gian nghỉ, và do đó không thể tính thời gian thực sự chạy.\n\n**Kết luận:** Có **không đủ dữ kiện** để cho một kết quả duy nhất.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "da0664e6d519d1ce16ac5fd1facf4f12696cc62f74b53540d32c92ea71fd10b4",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "schema": "MathVisionKid.G2Cohort1.PeerPolishedDraft.v1",
+  "status": "DRAFT_ROOT_REVIEW_REQUIRED",
+  "cases": 6,
+  "chat_rows": 24,
+  "files": [
+    {
+      "path": "cases.jsonl",
+      "bytes": 45991,
+      "sha256": "b29337cd0b65f00a9e3b7ae0d146042e0cb3921f4549a8846fe4de3147477e97"
+    },
+    {
+      "path": "chat.jsonl",
+      "bytes": 69789,
+      "sha256": "5d35f2f3f7120cfd42e8f01c33406df31b8c72bccd2d9404b415388002b83dd0"
+    },
+    {
+      "path": "independent_mutation_checks.json",
+      "bytes": 1566,
+      "sha256": "3e8b739ddd7d2ac450f000445a1affb63410ab779d825dcf0b569c6c26a2633a"
+    },
+    {
+      "path": "peer_qa7.jsonl",
+      "bytes": 12991,
+      "sha256": "cadd3fa1b990bc473333cb06700107f6906a54225484612cbb9f91ab38d149d3"
+    },
+    {
+      "path": "wording_deltas.jsonl",
+      "bytes": 21585,
+      "sha256": "aeaa0fc67a33caf3c414ab612ee7b7400bff43a1fee162f5a7caef9c44390842"
+    }
+  ],
+  "parent_cases_sha256": "cf37b8eac71da477df4de90e9eb5db546d2a9da923dcfc5bbd7664c386221555",
+  "peer_review_sha256": "06f30c3b417f7e8eb0d854588b75299f6301b25056147238dbe02fcf96f40bce",
+  "script_sha256": "dc3567a1be1e51131200d5c99fa03e17f3ec54bd55f412c6666f5daa00c0c706",
+  "expected_answers_unchanged": true,
+  "human_review_claimed": false,
+  "accepted": false
+}

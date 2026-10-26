@@ -1,0 +1,157 @@
+{
+  "TEXT_TRAINING_DATASET_READY": true,
+  "TRAINING_DATASET_READY": false,
+  "acceptance_basis": "OWNER_PREAUTHORIZED_ACCEPTANCE_AND_COMPLETED_CURRENT_RECIPE_TECHNICAL_ADJUDICATION",
+  "all_declared_members_scanned": true,
+  "all_rows_semantically_human_reviewed": false,
+  "audited_max_sequence_tokens": 1481,
+  "balanced_subset_selected": false,
+  "candidate_source_linkage_unverified_rows": 0,
+  "checkpoint": {
+    "bytes": 9129140224,
+    "fresh_raw_readback_verified": true,
+    "id": "1scVuXcjUz1EwMykVJ_F36IMfUlsfSVWH",
+    "observed_utc": "2026-10-23T06:10:41.041462+00:00",
+    "report_at_snapshot": {
+      "TRAINING_DATASET_READY": false,
+      "actual_rows_by_split": {
+        "test": 24,
+        "train": 6502344,
+        "validation": 24
+      },
+      "all_declared_members_scanned": true,
+      "all_rows_semantically_human_reviewed": false,
+      "candidate_source_train_chat_links": 6496820,
+      "derivation_provenance": {
+        "candidate_pool_promoted_to_train": false,
+        "frozen_v3_parent_sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+        "original_source_and_exported_row_hashes_distinct": true,
+        "parent_file": "math_data_full_audit_v2.py",
+        "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+        "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+        "raw_source_rewritten": false,
+        "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+        "source_label_evidence_file": "exhaustive_primary_math.py",
+        "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+        "structural15_bindings_sha256": "95d9fbf8536b908a6456256d8ff04175e8bd017cd34a406e190513844d316e87",
+        "structural15_exact_adapter_code_sha256": "a4c80b48779f2a075db1cdb41091d7affaba9b3eccd7bbee15551188de26fbaf",
+        "v1_checkpoint_and_issues_preserved": true,
+        "v2_checkpoint_and_issues_preserved": true
+      },
+      "exact_duplicate_references": 0,
+      "full_archive_token_linkage_split_audit_complete": false,
+      "gpu_used": false,
+      "identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+      "incomplete_four_mode_cases": 0,
+      "issues": {
+        "CROSS_SPLIT_CANONICAL": 36,
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      },
+      "max_completion_tokens": 1367,
+      "max_sequence_tokens": 1481,
+      "members_complete": 251,
+      "members_expected": 251,
+      "model_weights_loaded": false,
+      "physical_chat_occurrences_processed": 6502392,
+      "schema": "MathVisionKid.full_current_archive_audit.v3",
+      "source_hash_origins": {
+        "ORIGINAL_RAW_HASH_VERIFIED": 2384,
+        "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+        "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 6496820,
+        "STRUCTURAL15_RAW_CANONICAL_AND_CHAT_HASH_VERIFIED": 60
+      },
+      "source_labels_indexed": {
+        "regression_only": 1,
+        "test": 6,
+        "train": 1381,
+        "train_candidate": 1628512,
+        "validation": 6
+      },
+      "source_linkage_unverified_rows": 0,
+      "source_versions_indexed": 1629906,
+      "training_started": false,
+      "unique_chat_rows_processed": 6502392,
+      "whole_curriculum_certified": false
+    },
+    "sha256": "d2d43c6d32951fe48a229af18d9cd37aa1838315113647b136f7184201d12190"
+  },
+  "core_cases": 495,
+  "core_chat_rows": 1980,
+  "core_nodes": 165,
+  "deferred_requirements": {
+    "actual_observation_tasks": 5,
+    "asset_masters": 10,
+    "constraints": 7,
+    "g3_exact_source_locator": 1
+  },
+  "enable_thinking": false,
+  "global_or_protected_unread_eval_independence": "NOT_CLAIMED",
+  "gpu_used_for_this_release": false,
+  "historical_counter_difference_unresolved": 16,
+  "human_verification_scope": "EXISTING_ENUMERATED_SIGNOFF_HASHES_ONLY",
+  "initial_epoch_count": 1,
+  "loss_mask": "ASSISTANT_COMPLETION_ONLY_INCLUDING_SINGLE_EOT",
+  "max_sequence_tokens": 2048,
+  "modality": "text",
+  "model": "Qwen/Qwen3-1.7B",
+  "model_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "new_cases": 0,
+  "new_chat_rows": 0,
+  "new_human_signoffs_created": 0,
+  "numeric_expression_disjoint": false,
+  "numeric_overlap_policy": "EXACT_HASH_BOUND_OWNER_AUTHORIZED_EXCEPTION_AFTER_QA",
+  "observed_utc": "2026-10-23T11:39:09.456841+00:00",
+  "raw_parent_findings_preserved": {
+    "CROSS_SPLIT_CANONICAL": 36,
+    "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+  },
+  "readiness_status": "READY_FOR_FULL_TEXT_TRAINING",
+  "recipe_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+  "recipe_pointer": {
+    "actual_train_only_row_total_verified": false,
+    "chat_members": 32,
+    "current_pedagogy_eval_rows_separate": 48,
+    "declared_candidate_chat_rows": 6502344,
+    "full_archive_audit_complete": false,
+    "historical_split_totals_pending_full_archive_audit": true,
+    "member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "payload_references": 38,
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "source_members": 219
+  },
+  "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+  "rows_by_split": {
+    "test": 24,
+    "train": 6502344,
+    "validation": 24
+  },
+  "sampling": false,
+  "schema": "MathVisionKid.text_training_readiness.v1",
+  "scope": "TEXT_ONLY_ALL_CURRENT_TRAIN_CANDIDATES",
+  "selection": "ALL_CURRENT_TRAIN_CANDIDATES_WITH_EVALUATION_SPLITS_RETAINED_SEPARATELY",
+  "silent_truncation_allowed": false,
+  "source_candidate_manifest": {
+    "bytes": 7658,
+    "member": "crosssplit_final_closeout_20261023/actual_audit/final_current_text_candidate_manifest.json",
+    "sha256": "82c1efc23b026955e489612f561d9bd0a9657b415fc31dc53a69e72ddffca524"
+  },
+  "source_case_ids": 1625586,
+  "source_chat_payload_bytes_changed": 0,
+  "source_only_audit_rows_retained": 4308,
+  "source_only_classifications": {
+    "protected_numeric": 4099,
+    "regression_only": 1,
+    "selected_holdout": 208
+  },
+  "status": "CURRENT_RECIPE_ONLY_TECHNICAL_PASS_WITH_HASH_BOUND_NUMERIC_OVERLAP_AND_REGRESSION_EXCLUSION",
+  "technical_adjudication": {
+    "bytes": 15843,
+    "member": "crosssplit_final_closeout_20261023/actual_audit/final_candidate_chat_technical_adjudication.json",
+    "sha256": "1209753e7f95beb51a43bc470c537828d69e9bbd8538acd0f889970c6600a125"
+  },
+  "train_row_limit": null,
+  "training_started": false,
+  "vision_or_physical_capability_certified": false,
+  "whole_curriculum_certified": false
+}

@@ -1,0 +1,8 @@
+{
+  "parent_worker_source_sha256": "851e4cd2c2501692adbdf666f680390162f8df7794fa65e07bb76befd3371f01",
+  "runtime_migration_code_sha256": "02d27758df6a52c394f35163fe95757896769dc40713e0e09b34b58bc20f989e",
+  "frozen_auditor_sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+  "next_recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+  "code_bytes": 17135,
+  "no_training": true
+}

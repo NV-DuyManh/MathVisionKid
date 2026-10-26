@@ -1,0 +1,258 @@
+{
+  "batch": "g1_measurement_0006",
+  "authoring_agent": "primary_length_author_0006",
+  "batch_sha256": "6cb0da5becec40388ef336fd4e915b90ebe7cd345e6154bc01f567492219fe77",
+  "review_sha256": "89b152ed3212e5c6ddeb9bf786ddbbe92cda200942cbe35f4aebfcb579e745ca",
+  "reviewed_cases": 10,
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_read_write",
+      "row_sha256": "b7f8e997851c8fc81b382fe3681308f38bd1d81e2703390f518a389ed7799558",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7-0",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "enumerate_unit_intervals",
+        "result_cm": 7,
+        "reading": "bảy xăng-ti-mét"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+      "row_sha256": "29f9170d01a1a1ded5826253bb6dbf3f1d3f128a1e12afbae8d744e8bd7ae03c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "integer_order_with_matching_units",
+        "red_cm": 42,
+        "blue_cm": 36,
+        "larger": "đỏ"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_offset_origin",
+      "row_sha256": "327a44a580d2eae90bb690f92f09137e1eb44ed73aa8e151f368fa12ffe19ee9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "18-3",
+          "3+(18-3)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "interval_cardinality_and_inverse",
+        "result_cm": 15,
+        "end_mark": 18
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_misconception_endmark",
+      "row_sha256": "29333a739a28a3c09e8ab8c871bcb24aeb874d4a1ebc0bdac9240b5bf5610f7c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "9-2",
+          "2+(9-2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "interval_cardinality_and_inverse",
+        "result_cm": 7,
+        "end_mark": 9
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_guard_missing_start",
+      "row_sha256": "157c5e9f2a5deac2697aa395752d1cca1a78453ac1069865915c1f6ce54693c3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "distinct_completions_of_missing_start",
+        "end_cm": 12,
+        "possible_starts": [
+          0,
+          4
+        ],
+        "possible_lengths": [
+          12,
+          8
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_handspan_complete_units",
+      "row_sha256": "6c9639ca44b03632de1ae4ad0a0df011600072297ba708998dc186ad513932fe",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "4",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "count_explicit_measurement_labels",
+        "labels": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "result_handspans": 4,
+        "cm_conversion": "NOT_PROVIDED"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_estimate_against_measurement",
+      "row_sha256": "4902d21d9fd25e29eb9b6d9ccbc761a133c99849076ea9822ccd92377e80926b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "25-0",
+          "(25-0)-22"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "exact_rational_comparison_of_estimate_and_measure",
+        "measured_cm": 25,
+        "estimate_cm": 22,
+        "difference_cm": "3"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_different_step_units_same_path",
+      "row_sha256": "1a5334f38748185c14a5428d344700ce29dfd12007a4d008d250def02289326d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "equal_path_different_unit_witness",
+        "path_abstract_units": 12,
+        "child_steps": 6,
+        "child_unit": 2,
+        "adult_steps": 4,
+        "adult_unit": 3,
+        "actual_cm_not_assigned": true
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_unit_misconception",
+      "row_sha256": "aca675e8852bfb0cde85e8ae0f041d4f678963e80bdde26c6853e2fce2fc3d31",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "count_and_dimension_consistency",
+        "count": 5,
+        "unit": "gang tay của bạn",
+        "cm_per_handspan": "NOT_PROVIDED"
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_guard_unknown_reference",
+      "row_sha256": "9d642bd1708be4069258d9356faef1de8ab9fa5a0f6d552258d2f268eec9d73b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "two_unobserved_objects_consistent_with_input",
+        "possible_handspans": [
+          4,
+          6
+        ],
+        "no_actual_dimension_assigned": true
+      }
+    }
+  ],
+  "independent_parent_content_review": true,
+  "authoring_agent_turn_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "physical_outcome_verified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

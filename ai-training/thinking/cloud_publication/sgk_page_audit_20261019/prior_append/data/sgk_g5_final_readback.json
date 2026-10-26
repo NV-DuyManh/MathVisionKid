@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "tests_run": 6,
+  "failures": 0,
+  "errors": 0,
+  "cases": 29,
+  "chat_rows": 116,
+  "source_sha256": "984449efd6e109f6c1cc0c2406b67e1368b638fe0b5ac4df0610f0612c4bb2bf",
+  "chat_sha256": "c02d3345c520fc742b568645d58426b268fb3cfc06d15b494ed3da199c0aafa2",
+  "catalog_sha256": "65631bc60326d5920aa4e6bbea3578f54a9224295180c378b4800b3837923576",
+  "source_binding": "SHA256 exact stored UTF-8 line excluding newline",
+  "semantic_scope": "Author read all 29 final cases; root actual content cross-review requested and changes applied. Automated checks do not themselves prove semantics.",
+  "source_page_byte_policy": "Do not package SGK PNG/PDF bytes; references and hashes only."
+}

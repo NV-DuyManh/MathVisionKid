@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "9YPS8zEkj-DQ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"rows\": 5, \"generation_metadata\": [{\"fixture_id\": \"dev25_g1_answer_01\", \"generated_tokens\": 229, \"ended_eos\": true, \"possibly_truncated\": false, \"timed_out\": false, \"generation_seconds\": 26.323264664999897}, {\"fixture_id\": \"dev25_g1_answer_02\", \"generated_tokens\": 142, \"ended_eos\": true, \"possibly_truncated\": false, \"timed_out\": false, \"generation_seconds\": 14.53379958000005}, {\"fixture_id\": \"dev25_g1_hint_no_answer_01\", \"generated_tokens\": 27, \"ended_eos\": true, \"possibly_truncated\": false, \"timed_out\": false, \"generation_seconds\": 2.7605200869998043}, {\"fixture_id\": \"dev25_g1_hint_no_answer_02\", \"generated_tokens\": 58, \"ended_eos\": true, \"possibly_truncated\": false, \"timed_out\": false, \"generation_seconds\": 5.999941166000099}, {\"fixture_id\": \"dev25_g1_missing_or_contradictory_info_01\", \"generated_tokens\": 1024, \"ended_eos\": false, \"possibly_truncated\": true, \"timed_out\": false, \"generation_seconds\": 110.45456475099991}]}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "XJNX12vMaIxN"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"parent\": {\"id\": \"19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n\", \"name\": \"primary_math_teacher_20261016\", \"mimeType\": \"application/vnd.google-apps.folder\", \"trashed\": false, \"capabilities\": {\"canAddChildren\": true}}, \"folders\": {\"files\": [{\"mimeType\": \"application/vnd.google-apps.folder\", \"id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"MathVisionKid_QUALITY_RECOVERY_20261024\", \"trashed\": false, \"capabilities\": {\"canAddChildren\": true}}]}}\n"
+        ]
+      }
+    ]
+  }
+}

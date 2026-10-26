@@ -27,6 +27,23 @@ class MathTutorServiceTest {
     private MockRestServiceServer server;
     private MathTutorService service;
 
+    @Test void speechForwardsVietnameseVoiceAndAcceptsOnlyMp3() {
+        byte[] bytes = new byte[128]; bytes[0] = (byte) 0xff; bytes[1] = (byte) 0xf3;
+        server.expect(requestTo(URL + "/internal/v1/tutor/speech"))
+                .andExpect(header("X-Internal-API-Key", "test-only-internal-key"))
+                .andExpect(jsonPath("$.voice").value("vi-VN-NamMinhNeural"))
+                .andExpect(jsonPath("$.rate").value(.9))
+                .andRespond(withSuccess(bytes, MediaType.parseMediaType("audio/mpeg")));
+        assertArrayEquals(bytes, service.speech(new SpeechRequest("Chào em.", "vi-VN-NamMinhNeural", .9)));
+        server.verify();
+    }
+
+    @Test void speechRejectsNonAudioProviderResponses() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/speech"))
+                .andRespond(withSuccess("not an audio file".repeat(20), MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.speech(new SpeechRequest("Chào em.", "vi-VN-NamMinhNeural", .9)));
+    }
+
     @Test void videoUsesOnlySessionAndAuthenticatedOwner() {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/video"))
                 .andExpect(jsonPath("$.owner").value("pupil-a"))

@@ -1,0 +1,18 @@
+{
+  "schema": "MathVisionKid.corrective5h.cpu_validation.v1",
+  "observed_utc": "2026-10-24T00:45:00.6749522Z",
+  "command": "python test_corrective_worker.py",
+  "exit_code": 0,
+  "tests_run": 11,
+  "result": "PASS",
+  "duration_seconds": null,
+  "scope": "CPU-only deterministic contract/scheduler/budget/checkpoint tests with a fake torch checkpoint serializer; no installed torch, GPU, model, Drive or runtime used",
+  "worker_sha256": "e1e6df2d48c5502cd016a333d0c653940798ba0bbf072650e6662eabdb598a8c",
+  "test_sha256": "37576149f790c88af3202494af9e5dcd4e8ed90dba9e666afee6ba3e3ffed240",
+  "prior_worker_sha256_observed": "3d2ba446f80cbd43ef56cbce061794516c00256db93987b480625a88c5b572ac",
+  "automatic_resume_implemented": false,
+  "gpu_validation_performed": false,
+  "training_started": false,
+  "helper_fail_closed_test": "PASS: mismatched helper rejected before import",
+  "initial_production_checkpoint": "after successful step1, then every300updates/900seconds"
+}

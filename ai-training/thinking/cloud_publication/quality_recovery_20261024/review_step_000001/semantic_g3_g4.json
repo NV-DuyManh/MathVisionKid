@@ -1,0 +1,151 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "83056f1c06d8a80dbd80fd0736a0e22e8da0c735a3f23775d9b6df7d3cf2174e",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly reconstructs 67 as 9×7+4, assigns divisor/quotient/remainder correctly and performs the explicitly requested multiplication-and-addition check. It does not separately state 4<9, but the given remainder is valid and no incorrect claim appears.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly reconstructs 67 as 9×7+4, assigns divisor/quotient/remainder correctly and performs the explicitly requested multiplication-and-addition check. It does not separately state 4<9, but the given remainder is valid and no incorrect claim appears."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct conversion 3kg240g=3240g, subtraction3240−850=2390g and mixed-unit form2kg390g; explanation and both requested answers are complete.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correct conversion 3kg240g=3240g, subtraction3240−850=2390g and mixed-unit form2kg390g; explanation and both requested answers are complete."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly identifies the entire96cm wire as the sum of three equal sides, divides96 by3 and states32cm consistently.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly identifies the entire96cm wire as the sum of three equal sides, divides96 by3 and states32cm consistently."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Reveals42 as both parenthesized sum and final answer, violating the explicit withholding request despite correct arithmetic.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Reveals42 as both parenthesized sum and final answer, violating the explicit withholding request despite correct arithmetic."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Corrects0:7=7 to0:7=0, gives general relation a=b×c and the correct0×7=0 check. Saying multiplication is the right checking operation but was used incorrectly addresses the supplied work rather than claiming7×0 itself is false.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Corrects0:7=7 to0:7=0, gives general relation a=b×c and the correct0×7=0 check. Saying multiplication is the right checking operation but was used incorrectly addresses the supplied work rather than claiming7×0 itself is false."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Recognizes absent image/measurement and requests information, but proposes giving an assumed length and does not require a correctly scaled/calibrated image. That fails the strict no-invented-measurement guard.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Recognizes absent image/measurement and requests information, but proposes giving an assumed length and does not require a correctly scaled/calibrated image. That fails the strict no-invented-measurement guard."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Conversions3/4=9/12 and5/6=10/12 are correct, but the response falsely orders9/12<10/12<7/12 and concludes3/4,5/6,7/12 from left to right.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Conversions3/4=9/12 and5/6=10/12 are correct, but the response falsely orders9/12<10/12<7/12 and concludes3/4,5/6,7/12 from left to right."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly computes(5/6)÷(1/12)=10 and answers10 full cups, preserving the volume-per-cup relationship.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly computes(5/6)÷(1/12)=10 and answers10 full cups, preserving the volume-per-cup relationship."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly reconstructs four-match total28×4=112points, sums24+30+27=81points and subtracts to31points for match4.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly reconstructs four-match total28×4=112points, sums24+30+27=81points and subtracts to31points for match4."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": true,
+      "critical_new_error": false,
+      "base_reason": "Correctly solves x=4/7 but explicitly reveals4/7, violating the no-answer request.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly solves x=4/7 but explicitly reveals4/7, violating the no-answer request."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly obtains10/15>9/15 and reverses the student's sign, but falsely calls15 the least common divisor of3 and5 ('ước chung nhỏ nhất ...15'). This substantive false explanation prevents a full task pass.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly obtains10/15>9/15 and reverses the student's sign, but falsely calls15 the least common divisor of3 and5 ('ước chung nhỏ nhất ...15'). This substantive false explanation prevents a full task pass."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly uses non-overlap to add3/4+2/3=17/12>1, explains why both inside-one-sheet/disjoint conditions cannot hold and concludes inconsistency.",
+      "adapter_reason": "Full actual step-one output is identical to the base output; the same semantic judgment applies. Correctly uses non-overlap to add3/4+2/3=17/12>1, explains why both inside-one-sheet/disjoint conditions cannot hold and concludes inconsistency."
+    }
+  ]
+}

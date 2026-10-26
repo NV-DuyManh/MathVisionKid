@@ -1,0 +1,57 @@
+{
+  "status": "PASS_INDEPENDENT_AI_PEER_QA",
+  "reviewer": "qa_final_numbers_new",
+  "cases": 24,
+  "chat_rows": 96,
+  "source_sha256": "68955882a4b3427effb790ee6a6a971acaefce477c4bf0ec69637107e732b781",
+  "chat_sha256": "c0ce9640a9d7102cfb229bfccca8aebac905bb999944fed3798f307da8e36ad9",
+  "semantic_cases_read": 24,
+  "all_initial_guidance_and_three_hints_read": true,
+  "criteria": 7,
+  "different_method_finite_oracles": 24,
+  "fraction_decimal_expression_checks": 16,
+  "meaningful_mutations_rejected": 24,
+  "chat_field_linkage_checks": 96,
+  "blocking_findings": [],
+  "changes_required": [],
+  "source_manifest_frozen": true,
+  "human_review_claimed": false,
+  "training_started": false,
+  "artifacts": [
+    {
+      "path": "peer_independent_oracles.jsonl",
+      "bytes": 11829,
+      "sha256": "ffb1ec7427ca200febc99834cb1840a8d9d504128ac684c052bd4cb00d5998de"
+    },
+    {
+      "path": "peer_mutations.jsonl",
+      "bytes": 10921,
+      "sha256": "5fc0bc61d491234a181b3b1767c1d6d4cdeb13286ee54040a34382f948c04695"
+    },
+    {
+      "path": "peer_numeric_fraction_decimal.jsonl",
+      "bytes": 4249,
+      "sha256": "c3c9128f73b0e2f77f9e7c6f717a53b5529f2c943ef53845df5f57556f9f74b2"
+    },
+    {
+      "path": "peer_chat_linkage.jsonl",
+      "bytes": 30096,
+      "sha256": "6d71981e1da9a40eff9ce6c51c119bb10e8b6942cc5cbc38d3b75ed9832a7c07"
+    },
+    {
+      "path": "peer_qa7.jsonl",
+      "bytes": 27111,
+      "sha256": "172d0a340f629b05dfe1e84827c3eb03e425692ba190587471e9a52ceddb88fe"
+    },
+    {
+      "path": "peer_independent_review.py",
+      "bytes": 22633,
+      "sha256": "146493e4df11a37b153d722c45ba2bd2ad2b057af6edf15ef290f240c21bad11"
+    }
+  ],
+  "limitations": [
+    "Text relations and original finite enrichment only, no image/physical competency certification.",
+    "Open-domain shelf examples prove one lawful answer, not an exhaustive list or optimum.",
+    "Peer finite mathematical checks do not establish full-archive split/duplicate absence or training readiness."
+  ]
+}

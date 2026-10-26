@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "xSClyC50I3Lj"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"started\": true, \"old_training_alive\": true, \"deadline_utc\": \"2026-10-23T17:15:52.441626+00:00\", \"install_status\": \"/content/mathvisionkid_t4_budget_3h_20261023/install_status.json\"}\n"
+        ]
+      }
+    ]
+  }
+}

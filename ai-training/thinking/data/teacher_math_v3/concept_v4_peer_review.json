@@ -1,0 +1,1121 @@
+{
+  "review_role": "Independent local AI source/grade/arithmetic and scoring review; no GPU/Colab use",
+  "status": "REFERENCE_DATA_REVIEW_PASSED_SCORER_SCREENING_LIMITS_REQUIRE_ACKNOWLEDGEMENT",
+  "trainer_sha256_snapshot": "f6c6e94cba467919453d545974f3869d78bac00bb98505216d239741a9571823",
+  "concept_train_sha256": "50b57a8d72e9c95b29fd435481604e7af20d84e24069fb40059d1777cc26f983",
+  "concept_validation_sha256": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+  "reviewed_train_labels": 330,
+  "reviewed_validation_references": 30,
+  "source_grade_links_matched": true,
+  "training_numeric_checks": 188,
+  "validation_numeric_checks": 32,
+  "frozen_numeric_v3_unchanged": true,
+  "source_ledgers": [
+    {
+      "path": "curriculum_sources.json",
+      "sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a"
+    },
+    {
+      "path": "legacy_curriculum_sources.json",
+      "sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061"
+    }
+  ],
+  "reference_screening_passed": 20,
+  "reference_screening_results": [
+    {
+      "sample_id": "concept_validation_v4_001",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_002",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "31 + 12 = 43",
+            "expressions": [
+              "31 + 12",
+              "43"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_003",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "8 - 3 = 5",
+            "expressions": [
+              "8 - 3",
+              "5"
+            ],
+            "passed": true
+          },
+          {
+            "observed_equation_chain": "5 + 2 = 7",
+            "expressions": [
+              "5 + 2",
+              "7"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_004",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 1,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": true,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_005",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 1,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_006",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "9 - 4 = 5",
+            "expressions": [
+              "9 - 4",
+              "5"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_007",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "5 × 2 = 10",
+            "expressions": [
+              "5 * 2",
+              "10"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_008",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "2 × 60 = 120",
+            "expressions": [
+              "2 * 60",
+              "120"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_009",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "4 × 2 = 8",
+            "expressions": [
+              "4 * 2",
+              "8"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_010",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_011",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 1,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": true,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_012",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "11 - 7 = 4",
+            "expressions": [
+              "11 - 7",
+              "4"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_013",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_014",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "7 × 5 + 3 = 38",
+            "expressions": [
+              "7 * 5 + 3",
+              "38"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [
+          {
+            "label": "thương",
+            "expected_value": "5",
+            "observed_values": [],
+            "passed": false
+          },
+          {
+            "label": "dư",
+            "expected_value": "3",
+            "observed_values": [
+              "3"
+            ],
+            "passed": true
+          }
+        ],
+        "numeric_bindings_valid": false,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_015",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "(8 + 3) × 2 = 22",
+            "expressions": [
+              "(8 + 3) * 2",
+              "22"
+            ],
+            "passed": true
+          },
+          {
+            "observed_equation_chain": "8 × 3 = 24",
+            "expressions": [
+              "8 * 3",
+              "24"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_016",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": true,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_017",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_018",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_019",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "(9 + 12 + 15) : 3 = 12",
+            "expressions": [
+              "(9 + 12 + 15) / 3",
+              "12"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_020",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 4,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "(62 + 14) : 2 = 38",
+            "expressions": [
+              "(62 + 14) / 2",
+              "38"
+            ],
+            "passed": true
+          },
+          {
+            "observed_equation_chain": "(62 - 14) : 2 = 24",
+            "expressions": [
+              "(62 - 14) / 2",
+              "24"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [
+          {
+            "label": "số lớn",
+            "expected_value": "38",
+            "observed_values": [],
+            "passed": false
+          },
+          {
+            "label": "số bé",
+            "expected_value": "24",
+            "observed_values": [],
+            "passed": false
+          }
+        ],
+        "numeric_bindings_valid": false,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_021",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_022",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_023",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 1,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": true,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_024",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "3618 : 201 = 18",
+            "expressions": [
+              "3618 / 201",
+              "18"
+            ],
+            "passed": true
+          },
+          {
+            "observed_equation_chain": "201 × 18 = 3618",
+            "expressions": [
+              "201 * 18",
+              "3618"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_025",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "2,4 : 0,6 = 24 : 6 = 4",
+            "expressions": [
+              "2.4 / 0.6",
+              "24 / 6",
+              "4"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_026",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "10 : 40 × 100 = 25",
+            "expressions": [
+              "10 / 40 * 100",
+              "25"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_027",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "10 × 7 : 2 = 35",
+            "expressions": [
+              "10 * 7 / 2",
+              "35"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_028",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "45 × 2 = 90",
+            "expressions": [
+              "45 * 2",
+              "90"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_029",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "9/30 = 3/10",
+            "expressions": [
+              "9/30",
+              "3/10"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_030",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "18 : 12 = 1,5",
+            "expressions": [
+              "18 / 12",
+              "1.5"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    }
+  ],
+  "wrong_outputs_screened_correct": 4,
+  "adversarial_results": [
+    {
+      "sample_id": "concept_validation_v4_001",
+      "wrong_response": "46 gồm 6 chục và 4 đơn vị.",
+      "reason_wrong": "reversed place values",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_002",
+      "wrong_response": "Ta dùng phép cộng và được 143 que.",
+      "reason_wrong": "digit43inside143",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_005",
+      "wrong_response": "Sau thứ Tư là thứ Sáu; thứ Năm nằm trước thứ Tư.",
+      "reason_wrong": "weekday wrong direction",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 1,
+        "matched_claim_groups": 1,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_007",
+      "wrong_response": "Nhân số túi với số bút; số bút là 100.",
+      "reason_wrong": "digit10inside100",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_008",
+      "wrong_response": "Mỗi giờ 60 phút nên hai giờ có 1200 phút.",
+      "reason_wrong": "digit120inside1200",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_010",
+      "wrong_response": "Không thể lấy bóng xanh vì túi chỉ có bóng vàng. Tuy vậy lần này đã lấy bóng xanh.",
+      "reason_wrong": "contradictory impossible event",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_014",
+      "wrong_response": "Thương 5 và dư 3 là kết quả đúng; nhưng em hãy ghi thương 3 và dư 5. Số dư nhỏ hơn số chia.",
+      "reason_wrong": "contradictory quotientremainder",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [
+          {
+            "label": "thương",
+            "expected_value": "5",
+            "observed_values": [
+              "5",
+              "3"
+            ],
+            "passed": false
+          },
+          {
+            "label": "dư",
+            "expected_value": "3",
+            "observed_values": [
+              "3"
+            ],
+            "passed": true
+          }
+        ],
+        "numeric_bindings_valid": false,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_020",
+      "wrong_response": "Số lớn là 38 và số bé là 24 để nhắc lý thuyết; bài này ghi số lớn là 24 và số bé là 38. Tổng 62 và hiệu 14.",
+      "reason_wrong": "contradictory large small",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 4,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [
+          {
+            "label": "số lớn",
+            "expected_value": "38",
+            "observed_values": [
+              "38",
+              "24"
+            ],
+            "passed": false
+          },
+          {
+            "label": "số bé",
+            "expected_value": "24",
+            "observed_values": [
+              "24"
+            ],
+            "passed": true
+          }
+        ],
+        "numeric_bindings_valid": false,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_021",
+      "wrong_response": "Nhân cả tử và mẫu cùng một số cho hai phân số có giá trị bằng nhau. Nhưng ở bài này chỉ nhân tử là đủ.",
+      "reason_wrong": "wrong fractionrule",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 3,
+        "matched_claim_groups": 3,
+        "forbidden_claim_hit": true,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_025",
+      "wrong_response": "24 : 6 = 4 là phép chia đúng. Với đề này kết quả bằng 40.",
+      "reason_wrong": "correctauxequation wrong final",
+      "score": {
+        "screened_correct": true,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": false,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "24 : 6 = 4",
+            "expressions": [
+              "24 / 6",
+              "4"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    },
+    {
+      "sample_id": "concept_validation_v4_029",
+      "wrong_response": "9/30 = 3/10, đây là tần suất. Không nghi ngờ gì, lần sau chắc chắn đỏ.",
+      "reason_wrong": "wrong certainty",
+      "score": {
+        "screened_correct": false,
+        "required_claim_groups": 2,
+        "matched_claim_groups": 2,
+        "forbidden_claim_hit": true,
+        "hint_structurally_safe": false,
+        "observation_request": true,
+        "displayed_equation_checks": [
+          {
+            "observed_equation_chain": "9/30 = 3/10",
+            "expressions": [
+              "9/30",
+              "3/10"
+            ],
+            "passed": true
+          }
+        ],
+        "displayed_arithmetic_valid": true,
+        "numeric_binding_checks": [],
+        "numeric_bindings_valid": true,
+        "truncated": false,
+        "semantic_correctness_verified": false,
+        "pedagogy_teacher_reviewed": false,
+        "evaluation_kind": "lexical_and_structural_screening_only"
+      }
+    }
+  ],
+  "semantic_correctness_verified": false,
+  "pedagogy_teacher_reviewed": false,
+  "human_verified": false,
+  "teacher_private_benchmark": false,
+  "production_approved": false,
+  "limits": [
+    "Lexical required phrases cannot prove correct relationships, absence of contradiction, useful guidance or overall meaning.",
+    "Required number substrings can match larger wrong numbers unless exact numeric boundaries are enforced.",
+    "Correct auxiliary equations can coexist with wrong final prose; role bindings must reject contradictory bindings as well as demand one correct binding.",
+    "Displayed-equation regex must parse entire parenthesized expression; the snapshot can falsely extract a tail operand as left side.",
+    "An absent displayed equation has vacuously valid arithmetic; do not interpret that as mathematical correctness.",
+    "Known taught concepts with independently authored new question wording are evaluated, not unseen-knowledge generalization.",
+    "All labels and judgments are AI reviewed; independent teacher pedagogy validation remains missing."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:14:20.895895+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"WAITING_SOURCE_QA_BEFORE_OPTIMIZER\", \"step\": 0}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 30, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:14:20.895895+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"WAITING_SOURCE_QA_BEFORE_OPTIMIZER\", \"step\": 0}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 30, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-26T09:14:20.895895+00:00\\\", \\\"worker_exit\\\": null, \\\"training/progress.json\\\": {\\\"state\\\": \\\"WAITING_SOURCE_QA_BEFORE_OPTIMIZER\\\", \\\"step\\\": 0}, \\\"training/native_first_microbatch_audit.json\\\": {\\\"supervised_tokens\\\": 84, \\\"selected_token_row_CE_matches_per_row_reference\\\": true, \\\"absolute_difference\\\": 4.76837158203125e-07}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"artifact_count\\\": 30, \\\"checkpoints\\\": 0}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": 30}, \\\"four_controls_state\\\": \\\"COMPLETE_RAW_VERIFIED\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

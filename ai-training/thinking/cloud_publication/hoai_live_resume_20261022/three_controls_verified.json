@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 14196894,
+    "sha256": "aae86d259f840f2461c6bd8230757ec74f839d9a2342f4b2f06835f9795b4e38",
+    "fresh_raw_verified": true,
+    "all_bytes_equal": true
+  },
+  {
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 35027,
+    "sha256": "34aef6fe1c12d3534ea6c46ce38f01e70318f74bc961d5c3297bdd7a5c0bb76b",
+    "fresh_raw_verified": true,
+    "all_bytes_equal": true
+  },
+  {
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 785912,
+    "sha256": "222d3efeb1494f99c40d30c6d3ab1d8b2b5063980b59ecf51a7293e9dbc73a82",
+    "fresh_raw_verified": true,
+    "all_bytes_equal": true
+  }
+]

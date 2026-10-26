@@ -1,0 +1,984 @@
+[
+  {
+    "id": "vi-gsm-000065",
+    "question": "Tại nhà máy sản xuất bút Bút Sáng, có hai phân xưởng hoạt động. Phân xưởng A có 15 công nhân, mỗi công nhân sản xuất được 80 chiếc bút bi mỗi giờ. Họ làm việc 8 giờ mỗi ngày. Phân xưởng B có 10 công nhân, nhưng nhờ áp dụng máy móc hiện đại, mỗi công nhân sản xuất được 120 chiếc bút bi mỗi giờ. Phân xưởng B cũng làm việc 8 giờ mỗi ngày. Sau khi sản xuất, trung bình 5% tổng số bút bị lỗi và không thể bán được. Trong số những chiếc bút đạt chất lượng, 1/3 số bút được đóng gói để xuất khẩu. Hỏi có bao nhiêu chiếc bút đạt chất lượng được đóng gói để bán trong nước mỗi ngày?",
+    "solution": "Bước 1: Tính số bút phân xưởng A sản xuất mỗi ngày.\n\n15 công nhân, mỗi công nhân làm 80 chiếc/giờ, làm 8 giờ/ngày:\n\n15 × 80 × 8 = 9600 chiếc bút\n\nBước 2: Tính số bút phân xưởng B sản xuất mỗi ngày.\n\n10 công nhân, mỗi công nhân làm 120 chiếc/giờ, làm 8 giờ/ngày:\n\n10 × 120 × 8 = 9600 chiếc bút\n\nBước 3: Tính tổng số bút hai phân xưởng sản xuất mỗi ngày.\n\n9600 + 9600 = 19200 chiếc bút\n\nBước 4: Tính số bút bị lỗi.\n\nTrung bình 5% tổng số bút bị lỗi:\n\n19200 × 5% = 19200 × 0,05 = 960 chiếc bút\n\nBước 5: Tính số bút đạt chất lượng.\n\n19200 - 960 = 18240 chiếc bút\n\nBước 6: Tính số bút đạt chất lượng được bán trong nước.\n\nTrong số bút đạt chất lượng, 1/3 được xuất khẩu, nên số bút bán trong nước là 2/3:\n\n18240 × 2/3 = 12160 chiếc bút\n\nĐÁP ÁN CUỐI: 12160",
+    "answer": "12160",
+    "partial_audit_faults": [
+      {
+        "equation": "2/3/18240 * 2/3 = 12160",
+        "correct": false,
+        "computed": "1/41040",
+        "stated": "12160"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000130",
+    "question": "Một đội thợ xây đang thi công một bức tường dài 60 mét và cao 2.5 mét. Biết rằng cứ mỗi mét vuông tường cần 50 viên gạch.\n\nĐội thi công bức tường theo ba giai đoạn:\n*   Giai đoạn 1: Xây 1/3 tổng số gạch của bức tường.\n*   Giai đoạn 2: Xây 2/5 số gạch còn lại sau Giai đoạn 1.\n*   Giai đoạn 3: Xây phần tường còn lại.\n\nChi phí nhân công cho Giai đoạn 1 là 1.500 đồng cho mỗi viên gạch. Do yêu cầu về tiến độ và độ khó, chi phí nhân công cho mỗi viên gạch ở các giai đoạn sau Giai đoạn 1 sẽ tăng 10% so với Giai đoạn 1.\n\nHãy tính tổng chi phí nhân công mà đội thợ nhận được khi hoàn thành toàn bộ bức tường.",
+    "solution": "Bước 1: Tính diện tích bức tường\n\nDiện tích = chiều dài × chiều cao\n\n60 × 2.5 = 150 m²\n\nBước 2: Tính tổng số viên gạch cần dùng\n\nMỗi mét vuông cần 50 viên gạch, nên:\n\n150 × 50 = 7500 viên gạch\n\nBước 3: Tính số gạch xây ở Giai đoạn 1\n\nGiai đoạn 1 xây 1/3 tổng số gạch:\n\n7500 × 1/3 = 2500 viên\n\nSố gạch còn lại sau Giai đoạn 1:\n\n7500 - 2500 = 5000 viên\n\nBước 4: Tính số gạch xây ở Giai đoạn 2\n\nGiai đoạn 2 xây 2/5 số gạch còn lại:\n\n5000 × 2/5 = 2000 viên\n\nBước 5: Tính số gạch xây ở Giai đoạn 3\n\nSố gạch còn lại:\n\n5000 - 2000 = 3000 viên\n\nBước 6: Tính chi phí nhân công từng giai đoạn\n\nChi phí Giai đoạn 1 là 1.500 đồng/viên:\n\n2500 × 1500 = 3.750.000 đồng\n\nChi phí mỗi viên ở Giai đoạn 2 và 3 tăng 10% so với Giai đoạn 1:\n\n1500 × 110% = 1650 đồng/viên\n\nChi phí Giai đoạn 2:\n\n2000 × 1650 = 3.300.000 đồng\n\nChi phí Giai đoạn 3:\n\n3000 × 1650 = 4.950.000 đồng\n\nBước 7: Tính tổng chi phí nhân công\n\n3.750.000 + 3.300.000 + 4.950.000 = 12.000.000 đồng\n\nĐÁP ÁN CUỐI: 12000000",
+    "answer": "12000000",
+    "partial_audit_faults": [
+      {
+        "equation": "1/7500 - 2500 = 5000",
+        "correct": false,
+        "computed": "-18749999/7500",
+        "stated": "5000"
+      },
+      {
+        "equation": "1/1500 * (110/100) = 1650",
+        "correct": false,
+        "computed": "11/15000",
+        "stated": "1650"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000138",
+    "question": "Một chiếc điện thoại thông minh mới có dung lượng pin tối đa là 4800 mAh. Sau khi được sạc đầy 100%, người dùng bắt đầu sử dụng. Đầu tiên, anh ấy chơi game trong 3 giờ, với mức tiêu thụ pin trung bình là 450 mAh mỗi giờ. Sau đó, anh ấy chuyển sang lướt web trong 2.5 giờ, với mức tiêu thụ pin trung bình là 280 mAh mỗi giờ. Cuối cùng, anh ấy cắm sạc với tốc độ ổn định là 1200 mAh mỗi giờ. Hỏi cần bao nhiêu phút để sạc điện thoại từ mức pin hiện tại sau khi sử dụng lên đến 90% tổng dung lượng pin tối đa?",
+    "solution": "Bước 1: Tính lượng pin tiêu thụ khi chơi game.\n\nTrong 3 giờ, mỗi giờ tiêu thụ 450 mAh:\n\n3 × 450 = 1350 mAh\n\nBước 2: Tính lượng pin tiêu thụ khi lướt web.\n\nTrong 2.5 giờ, mỗi giờ tiêu thụ 280 mAh:\n\n2.5 × 280 = 700 mAh\n\nBước 3: Tính tổng lượng pin đã tiêu thụ.\n\n1350 + 700 = 2050 mAh\n\nBước 4: Tính lượng pin còn lại sau khi sử dụng.\n\nPin ban đầu là 4800 mAh:\n\n4800 - 2050 = 2750 mAh\n\nBước 5: Tính mức pin tương ứng với 90% dung lượng tối đa.\n\n90% của 4800 mAh là:\n\n0.9 × 4800 = 4320 mAh\n\nBước 6: Tính lượng pin cần sạc thêm.\n\n4320 - 2750 = 1570 mAh\n\nBước 7: Tính thời gian sạc.\n\nTốc độ sạc là 1200 mAh mỗi giờ, nên thời gian cần là:\n\n1570 ÷ 1200 = 1.3083 giờ\n\nĐổi sang phút:\n\n1.3083 × 60 = 78.5 phút\n\nĐÁP ÁN CUỐI: 78.5",
+    "answer": "78.5",
+    "partial_audit_faults": [
+      {
+        "equation": "1570 / 1200 = 1.3083",
+        "correct": false,
+        "computed": "157/120",
+        "stated": "13083/10000"
+      },
+      {
+        "equation": "1.3083 * 60 = 78.5",
+        "correct": false,
+        "computed": "39249/500",
+        "stated": "157/2"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000137",
+    "question": "Một thư viện lớn có tổng cộng 1200 cuốn sách, được phân bổ đều vào 4 phòng đọc khác nhau. Mỗi phòng đọc lại có 5 kệ sách, với số lượng sách trên mỗi kệ cũng bằng nhau.\n\nTại phòng đọc số 1, kệ sách đầu tiên có 20% số sách là truyện tranh. Số sách khoa học trên kệ này nhiều hơn sách truyện tranh 15 cuốn. Số sách còn lại trên kệ là sách lịch sử.\n\nTrong tuần này, bạn An đã mượn 3 cuốn truyện tranh và 2 cuốn sách lịch sử từ kệ sách đầu tiên của phòng đọc số 1. Cùng lúc đó, bạn Bình đã trả lại 1 cuốn sách khoa học và 1 cuốn sách lịch sử vào đúng kệ sách đó.\n\nHãy tính tổng số sách còn lại trên kệ sách đầu tiên của phòng đọc số 1 sau tất cả các hoạt động trên.",
+    "solution": "Bước 1: Tính số sách trong mỗi phòng đọc.\n\nThư viện có 1200 cuốn sách, chia đều vào 4 phòng đọc:\n\n1200 : 4 = 300\n\nVậy mỗi phòng đọc có 300 cuốn sách.\n\nBước 2: Tính số sách trên mỗi kệ.\n\nMỗi phòng đọc có 5 kệ sách, số sách trên mỗi kệ bằng nhau:\n\n300 : 5 = 60\n\nVậy kệ sách đầu tiên của phòng đọc số 1 có 60 cuốn sách.\n\nBước 3: Tính số truyện tranh trên kệ.\n\nKệ này có 20% số sách là truyện tranh:\n\n20% của 60 = 60 × 20 : 100 = 12\n\nVậy có 12 cuốn truyện tranh.\n\nBước 4: Tính số sách khoa học.\n\nSố sách khoa học nhiều hơn truyện tranh 15 cuốn:\n\n12 + 15 = 27\n\nVậy có 27 cuốn sách khoa học.\n\nBước 5: Tính số sách lịch sử ban đầu.\n\nTổng số sách trên kệ là 60 cuốn, gồm truyện tranh, khoa học và lịch sử:\n\n60 - 12 - 27 = 21\n\nVậy có 21 cuốn sách lịch sử.\n\nBước 6: Tính thay đổi sau khi An mượn sách.\n\nAn mượn 3 cuốn truyện tranh và 2 cuốn lịch sử, tổng cộng:\n\n3 + 2 = 5\n\nSố sách trên kệ giảm 5 cuốn.\n\nBước 7: Tính thay đổi sau khi Bình trả sách.\n\nBình trả lại 1 cuốn khoa học và 1 cuốn lịch sử, tổng cộng:\n\n1 + 1 = 2\n\nSố sách trên kệ tăng 2 cuốn.\n\nBước 8: Tính tổng số sách còn lại trên kệ.\n\nBan đầu có 60 cuốn, sau đó giảm 5 cuốn và tăng 2 cuốn:\n\n60 - 5 + 2 = 57\n\nĐÁP ÁN CUỐI: 57",
+    "answer": "57",
+    "partial_audit_faults": [
+      {
+        "equation": "60 = 60 * 20/100",
+        "correct": false,
+        "computed": "60",
+        "stated": "12"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000153",
+    "question": "Trong gia đình ông Hải, An là cô con gái nhỏ nhất. Năm nay, An 8 tuổi. Tuổi của mẹ An gấp 3 lần tuổi An. Tuổi của bố An nhiều hơn tuổi mẹ An 5 tuổi. Ông Hải, ông nội của An, có số tuổi gấp đôi tuổi bố An, sau đó trừ đi 10 tuổi. Tính tổng số tuổi của ông Hải, bố An và mẹ An, sau đó trừ đi số tuổi của An.",
+    "solution": "Bước 1: Tính tuổi của mẹ An.\n\nAn 8 tuổi, mẹ An gấp 3 lần tuổi An:\n\n8 × 3 = 24\n\nVậy mẹ An 24 tuổi.\n\nBước 2: Tính tuổi của bố An.\n\nBố An nhiều hơn mẹ An 5 tuổi:\n\n24 + 5 = 29\n\nVậy bố An 29 tuổi.\n\nBước 3: Tính tuổi của ông Hải.\n\nÔng Hải có số tuổi gấp đôi tuổi bố An, sau đó trừ đi 10:\n\n29 × 2 - 10 = 58 - 10 = 48\n\nVậy ông Hải 48 tuổi.\n\nBước 4: Tính tổng tuổi của ông Hải, bố An và mẹ An.\n\n48 + 29 + 24 = 101\n\nBước 5: Trừ đi số tuổi của An.\n\n101 - 8 = 93\n\nĐÁP ÁN CUỐI: 93",
+    "answer": "93",
+    "partial_audit_faults": [
+      {
+        "equation": "10/29 * 2 - 10 = 58 - 10",
+        "correct": false,
+        "computed": "-270/29",
+        "stated": "48"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000200",
+    "question": "Ông Ba là một nông dân cần mẫn. Vụ mùa này, ông có hai thửa ruộng lúa. Thửa ruộng thứ nhất rộng 1.5 hecta, đạt năng suất 6.5 tấn lúa mỗi hecta. Thửa ruộng thứ hai rộng 2.3 hecta, đạt năng suất 7 tấn lúa mỗi hecta. Sau khi thu hoạch, ông Ba quyết định giữ lại 1/10 tổng số lúa thu được để làm giống và dự trữ cho gia đình, số lúa còn lại ông đem bán.\nNgoài việc trồng lúa, ông Ba còn nuôi một đàn bò gồm 25 con. Mỗi con bò ăn trung bình 12 kg cỏ mỗi ngày.\nHỏi, trong 30 ngày, tổng số lúa (tính bằng kilogam) mà ông Ba bán được nhiều hơn tổng số cỏ (tính bằng kilogam) mà đàn bò của ông đã ăn là bao nhiêu kilogam?",
+    "solution": "Bước 1: Tính số lúa thu được ở thửa ruộng thứ nhất.\n\n1.5 hecta × 6.5 tấn/hecta = 9.75 tấn\n\nBước 2: Tính số lúa thu được ở thửa ruộng thứ hai.\n\n2.3 hecta × 7 tấn/hecta = 16.1 tấn\n\nBước 3: Tính tổng số lúa thu hoạch được.\n\n9.75 + 16.1 = 25.85 tấn\n\nBước 4: Ông Ba giữ lại 1/10 tổng số lúa, nên đem bán 9/10 tổng số lúa.\n\n25.85 × 9/10 = 23.265 tấn\n\nBước 5: Đổi số lúa bán được sang kilogam.\n\n23.265 tấn = 23,265 kg\n\nBước 6: Tính lượng cỏ đàn bò ăn trong 30 ngày.\n\nMỗi ngày đàn bò ăn:\n\n25 × 12 = 300 kg\n\nTrong 30 ngày đàn bò ăn:\n\n300 × 30 = 9,000 kg\n\nBước 7: Tính số lúa bán được nhiều hơn số cỏ đã ăn.\n\n23,265 - 9,000 = 14,265 kg\n\nĐÁP ÁN CUỐI: 14265",
+    "answer": "14265",
+    "partial_audit_faults": [
+      {
+        "equation": "300 * 30 = 9,000",
+        "correct": false,
+        "computed": "9000",
+        "stated": "9"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000214",
+    "question": "Anh Nam ghi lại chỉ số đồng hồ điện của gia đình mình vào cuối mỗi tháng. Cuối tháng 3, chỉ số là 12345 kWh. Cuối tháng 4, chỉ số là 12567 kWh.\nCông ty điện lực áp dụng biểu giá điện sinh hoạt lũy tiến như sau:\n*   Bậc 1 (cho 50 kWh đầu tiên): 1.728 đồng/kWh\n*   Bậc 2 (cho 50 kWh tiếp theo, từ kWh thứ 51 đến 100): 1.786 đồng/kWh\n*   Bậc 3 (cho 100 kWh tiếp theo, từ kWh thứ 101 đến 200): 2.074 đồng/kWh\n*   Bậc 4 (cho 100 kWh tiếp theo, từ kWh thứ 201 đến 300): 2.612 đồng/kWh\n\nNgoài tiền điện tính theo bậc, hóa đơn còn phải chịu thêm 10% thuế giá trị gia tăng (VAT).\nHỏi tổng số tiền mà gia đình anh Nam phải thanh toán cho tháng 4 (làm tròn đến đồng) là bao nhiêu?",
+    "solution": "Bước 1: Tính số điện tiêu thụ trong tháng 4.\n\nCuối tháng 4 trừ cuối tháng 3:\n\n12567 - 12345 = 222 kWh\n\nVậy gia đình anh Nam dùng 222 kWh trong tháng 4.\n\nBước 2: Tính tiền điện theo từng bậc.\n\nBậc 1: 50 kWh đầu tiên\n\n50 x 1.728 = 86.400 đồng\n\nBậc 2: 50 kWh tiếp theo\n\n50 x 1.786 = 89.300 đồng\n\nBậc 3: 100 kWh tiếp theo\n\n100 x 2.074 = 207.400 đồng\n\nBậc 4: Số điện còn lại:\n\n222 - 50 - 50 - 100 = 22 kWh\n\nTiền điện bậc 4:\n\n22 x 2.612 = 57.464 đồng\n\nBước 3: Tính tổng tiền điện trước VAT.\n\n86.400 + 89.300 + 207.400 + 57.464 = 440.564 đồng\n\nBước 4: Tính VAT 10%.\n\n440.564 x 10% = 44.056,4 đồng\n\nBước 5: Tính tổng tiền phải thanh toán.\n\n440.564 + 44.056,4 = 484.620,4 đồng\n\nLàm tròn đến đồng:\n\n484.620 đồng\n\nĐÁP ÁN CUỐI: 484620",
+    "answer": "484620",
+    "partial_audit_faults": [
+      {
+        "equation": "3/12567 - 12345 = 222",
+        "correct": false,
+        "computed": "-51713204/4189",
+        "stated": "222"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000234",
+    "question": "Gia đình bạn An sử dụng điện sinh hoạt hàng tháng. Vào đầu tháng 5, chỉ số công tơ điện là 1500 kWh. Đến đầu tháng 6, chỉ số công tơ là 1780 kWh.\nGiá điện được áp dụng theo biểu lũy tiến như sau:\n*   Bậc 1 (0-50 kWh): 1.806 VNĐ/kWh\n*   Bậc 2 (51-100 kWh): 1.866 VNĐ/kWh\n*   Bậc 3 (101-200 kWh): 2.167 VNĐ/kWh\n*   Bậc 4 (201-300 kWh): 2.729 VNĐ/kWh\nNgoài ra, hóa đơn tiền điện còn phải chịu thuế VAT 10% và phí bảo vệ môi trường cố định là 5.000 VNĐ.\nHỏi tổng số tiền mà gia đình An phải thanh toán cho hóa đơn điện tháng 5 là bao nhiêu?",
+    "solution": "Bước 1: Tính số điện đã sử dụng trong tháng 5.\n\nChỉ số đầu tháng 6 trừ chỉ số đầu tháng 5:\n\n1780 - 1500 = 280 kWh\n\nGia đình An đã dùng 280 kWh.\n\nBước 2: Tính tiền điện theo từng bậc.\n\nBậc 1: 50 kWh đầu tiên\n\n50 × 1.806 = 90.300 VNĐ\n\nBậc 2: 50 kWh tiếp theo, từ 51 đến 100 kWh\n\n50 × 1.866 = 93.300 VNĐ\n\nBậc 3: 100 kWh tiếp theo, từ 101 đến 200 kWh\n\n100 × 2.167 = 216.700 VNĐ\n\nBậc 4: Số kWh còn lại từ 201 đến 280 là:\n\n280 - 200 = 80 kWh\n\n80 × 2.729 = 218.320 VNĐ\n\nBước 3: Tính tổng tiền điện trước thuế.\n\n90.300 + 93.300 + 216.700 + 218.320 = 618.620 VNĐ\n\nBước 4: Tính thuế VAT 10%.\n\n618.620 × 10% = 61.862 VNĐ\n\nBước 5: Cộng thêm phí bảo vệ môi trường cố định.\n\nTổng tiền phải thanh toán là:\n\n618.620 + 61.862 + 5.000 = 685.482 VNĐ\n\nĐÁP ÁN CUỐI: 685482",
+    "answer": "685482",
+    "partial_audit_faults": [
+      {
+        "equation": "5/1780 - 1500 = 280",
+        "correct": false,
+        "computed": "-533999/356",
+        "stated": "280"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000280",
+    "question": "Bác An là một nông dân cần cù. Mùa vụ này, bác thu hoạch lúa từ hai thửa ruộng. Thửa ruộng thứ nhất rộng 3.5 hecta, đạt năng suất 6 tấn lúa trên mỗi hecta. Thửa ruộng thứ hai rộng 4 hecta, đạt năng suất 5.5 tấn lúa trên mỗi hecta. Sau khi thu hoạch, bác An quyết định giữ lại một phần lúa để nuôi 20 con lợn của mình. Biết rằng mỗi con lợn cần 0.7 kg lúa mỗi ngày và bác muốn dự trữ đủ lúa cho chúng ăn trong 150 ngày. Phần lúa còn lại sau khi trừ đi số lúa dự trữ cho lợn sẽ được bác An đóng gói vào các bao, mỗi bao nặng 25 kg để bán ra thị trường. Hỏi bác An có thể đóng gói được bao nhiêu bao lúa?",
+    "solution": "Bước 1: Tính lượng lúa thu được từ thửa ruộng thứ nhất.\n\n3.5 hecta × 6 tấn/hecta = 21 tấn\n\nBước 2: Tính lượng lúa thu được từ thửa ruộng thứ hai.\n\n4 hecta × 5.5 tấn/hecta = 22 tấn\n\nBước 3: Tính tổng lượng lúa bác An thu hoạch được.\n\n21 + 22 = 43 tấn\n\nĐổi ra ki-lô-gam:\n\n43 tấn = 43,000 kg\n\nBước 4: Tính lượng lúa cần dự trữ cho 20 con lợn trong 150 ngày.\n\nMỗi ngày, 20 con lợn cần:\n\n20 × 0.7 = 14 kg\n\nTrong 150 ngày, số lúa cần là:\n\n14 × 150 = 2,100 kg\n\nBước 5: Tính lượng lúa còn lại để đóng bao.\n\n43,000 - 2,100 = 40,900 kg\n\nBước 6: Tính số bao lúa, mỗi bao nặng 25 kg.\n\n40,900 ÷ 25 = 1,636 bao\n\nĐÁP ÁN CUỐI: 1636",
+    "answer": "1636",
+    "partial_audit_faults": [
+      {
+        "equation": "14 * 150 = 2,100",
+        "correct": false,
+        "computed": "2100",
+        "stated": "21/10"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000294",
+    "question": "Gia đình bạn An sử dụng điện sinh hoạt hàng tháng. Vào ngày 1/5, chỉ số công tơ điện là 12345 kWh. Đến ngày 1/6, chỉ số công tơ điện là 12515 kWh.\nBiểu giá điện được áp dụng như sau (chưa bao gồm VAT):\n*   Bậc 1 (0 – 50 kWh): 1.786 đồng/kWh\n*   Bậc 2 (51 – 100 kWh): 1.850 đồng/kWh\n*   Bậc 3 (101 – 200 kWh): 2.340 đồng/kWh\nThuế giá trị gia tăng (VAT) cho dịch vụ điện là 8%.\nHỏi tổng số tiền điện mà gia đình An phải thanh toán cho tháng 5 là bao nhiêu (làm tròn đến đơn vị đồng)?",
+    "solution": "Bước 1: Tính lượng điện tiêu thụ trong tháng 5.\n\nChỉ số ngày 1/6 trừ chỉ số ngày 1/5:\n\n12515 - 12345 = 170 kWh\n\nVậy gia đình An dùng 170 kWh.\n\nBước 2: Tính tiền điện theo từng bậc.\n\nBậc 1: 50 kWh đầu tiên\n\n50 × 1.786 = 89.300 đồng\n\nBậc 2: 50 kWh tiếp theo, từ 51 đến 100 kWh\n\n50 × 1.850 = 92.500 đồng\n\nBậc 3: Phần còn lại từ 101 đến 170 kWh là:\n\n170 - 100 = 70 kWh\n\n70 × 2.340 = 163.800 đồng\n\nBước 3: Tính tổng tiền điện trước VAT.\n\n89.300 + 92.500 + 163.800 = 345.600 đồng\n\nBước 4: Tính VAT 8%.\n\n345.600 × 8% = 27.648 đồng\n\nBước 5: Tính tổng tiền phải thanh toán.\n\n345.600 + 27.648 = 373.248 đồng\n\nSố tiền đã là số nguyên đồng, nên sau khi làm tròn vẫn là 373.248 đồng.\n\nĐÁP ÁN CUỐI: 373248",
+    "answer": "373248",
+    "partial_audit_faults": [
+      {
+        "equation": "1/5/12515 - 12345 = 170",
+        "correct": false,
+        "computed": "-772488374/62575",
+        "stated": "170"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000302",
+    "question": "Trong một buổi tổng kết học kì, cô giáo chủ nhiệm lớp 6A thông báo về kết quả học tập của các em. Lớp 6A có tổng cộng 32 học sinh. Số học sinh đạt danh hiệu học sinh giỏi môn Toán bằng một phần tư tổng số học sinh của cả lớp. Số học sinh đạt danh hiệu học sinh giỏi môn Văn ít hơn số học sinh giỏi môn Toán 2 em. Đặc biệt, số học sinh đạt danh hiệu học sinh giỏi môn Tiếng Anh lại gấp đôi số học sinh giỏi môn Văn. Biết rằng mỗi học sinh chỉ có thể đạt danh hiệu học sinh giỏi ở duy nhất một môn trong ba môn Toán, Văn, Tiếng Anh. Hỏi có bao nhiêu học sinh trong lớp 6A chưa đạt danh hiệu học sinh giỏi ở bất kỳ môn nào trong ba môn này?",
+    "solution": "Bước 1: Tính số học sinh giỏi môn Toán.\n\nLớp 6A có 32 học sinh.\n\nSố học sinh giỏi Toán bằng một phần tư tổng số học sinh:\n\n32 : 4 = 8\n\nVậy có 8 học sinh giỏi Toán.\n\nBước 2: Tính số học sinh giỏi môn Văn.\n\nSố học sinh giỏi Văn ít hơn số học sinh giỏi Toán 2 em:\n\n8 - 2 = 6\n\nVậy có 6 học sinh giỏi Văn.\n\nBước 3: Tính số học sinh giỏi môn Tiếng Anh.\n\nSố học sinh giỏi Tiếng Anh gấp đôi số học sinh giỏi Văn:\n\n6 x 2 = 12\n\nVậy có 12 học sinh giỏi Tiếng Anh.\n\nBước 4: Tính tổng số học sinh đạt danh hiệu học sinh giỏi ở ba môn.\n\nVì mỗi học sinh chỉ đạt danh hiệu ở duy nhất một môn, nên ta cộng trực tiếp:\n\n8 + 6 + 12 = 26\n\nVậy có 26 học sinh đạt danh hiệu học sinh giỏi ở một trong ba môn.\n\nBước 5: Tính số học sinh chưa đạt danh hiệu ở môn nào.\n\nTổng số học sinh là 32, số học sinh đã đạt danh hiệu là 26:\n\n32 - 26 = 6\n\nVậy có 6 học sinh chưa đạt danh hiệu học sinh giỏi ở bất kỳ môn nào trong ba môn này.\n\nĐÁP ÁN CUỐI: 6",
+    "answer": "6",
+    "partial_audit_faults": [
+      {
+        "equation": "26/32 - 26 = 6",
+        "correct": false,
+        "computed": "-403/16",
+        "stated": "6"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000314",
+    "question": "Gia đình ông An sử dụng điện sinh hoạt hàng tháng. Vào ngày 30 tháng 4, chỉ số công tơ điện là 1200 kWh. Đến ngày 30 tháng 5, chỉ số công tơ điện là 1380 kWh.\nTheo quy định, giá điện sinh hoạt được tính theo các bậc như sau:\n*   Bậc 1 (0-50 kWh): 1.780 VNĐ/kWh\n*   Bậc 2 (51-100 kWh): 1.950 VNĐ/kWh\n*   Bậc 3 (101-200 kWh): 2.242 VNĐ/kWh\nNgoài ra, tổng số tiền điện còn phải chịu thêm 10% thuế giá trị gia tăng (VAT).\nHỏi gia đình ông An phải trả tổng cộng bao nhiêu tiền điện cho tháng 5?",
+    "solution": "Bước 1: Tính lượng điện tiêu thụ trong tháng 5.\n\nChỉ số ngày 30/5 trừ chỉ số ngày 30/4:\n\n1380 - 1200 = 180 kWh\n\nVậy gia đình ông An dùng 180 kWh.\n\nBước 2: Tính tiền điện theo từng bậc.\n\nBậc 1: 50 kWh đầu tiên\n\n50 × 1.780 = 89.000 VNĐ\n\nBậc 2: từ 51 đến 100 kWh, tức 50 kWh tiếp theo\n\n50 × 1.950 = 97.500 VNĐ\n\nBậc 3: từ 101 đến 200 kWh. Gia đình dùng 180 kWh nên phần ở bậc 3 là:\n\n180 - 100 = 80 kWh\n\nTiền bậc 3:\n\n80 × 2.242 = 179.360 VNĐ\n\nBước 3: Tính tổng tiền điện trước VAT.\n\n89.000 + 97.500 + 179.360 = 365.860 VNĐ\n\nBước 4: Tính thuế VAT 10%.\n\n365.860 × 10% = 36.586 VNĐ\n\nBước 5: Tính tổng tiền phải trả.\n\n365.860 + 36.586 = 402.446 VNĐ\n\nĐÁP ÁN CUỐI: 402446",
+    "answer": "402446",
+    "partial_audit_faults": [
+      {
+        "equation": "30/4/1380 - 1200 = 180",
+        "correct": false,
+        "computed": "-220799/184",
+        "stated": "180"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000371",
+    "question": "Ông Tư có một vườn cây ăn quả với 120 cây cam và 80 cây bưởi.\nTrung bình mỗi cây cam thu hoạch được 35 kg trái.\nTrung bình mỗi cây bưởi thu hoạch được 40 kg trái.\n\nSau khi thu hoạch, ông Tư phân loại và thấy rằng 1/10 số cam và 1/8 số bưởi không đạt chất lượng để bán.\nSố trái cây còn lại (cam và bưởi) được ông Tư bán hết.\nTổng số tiền ông Tư thu được từ việc bán cam và bưởi là 31,920,000 đồng.\nBiết rằng giá bán mỗi kg bưởi cao hơn giá bán mỗi kg cam 2,000 đồng.\n\nHỏi giá bán mỗi kg cam là bao nhiêu đồng?",
+    "solution": "Bước 1: Tính tổng số kg cam thu hoạch được.\n\n120 cây cam, mỗi cây 35 kg:\n\n120 × 35 = 4,200 kg cam\n\nBước 2: Tính số kg cam đạt chất lượng để bán.\n\nCó 1/10 số cam không đạt chất lượng, nên số cam bán được là 9/10:\n\n4,200 × 9/10 = 3,780 kg cam\n\nBước 3: Tính tổng số kg bưởi thu hoạch được.\n\n80 cây bưởi, mỗi cây 40 kg:\n\n80 × 40 = 3,200 kg bưởi\n\nBước 4: Tính số kg bưởi đạt chất lượng để bán.\n\nCó 1/8 số bưởi không đạt chất lượng, nên số bưởi bán được là 7/8:\n\n3,200 × 7/8 = 2,800 kg bưởi\n\nBước 5: Gọi giá bán mỗi kg cam là x đồng.\n\nVì giá bán mỗi kg bưởi cao hơn cam 2,000 đồng, nên giá bán mỗi kg bưởi là:\n\nx + 2,000 đồng\n\nBước 6: Lập phương trình tổng tiền bán được.\n\nTiền bán cam:\n\n3,780x\n\nTiền bán bưởi:\n\n2,800(x + 2,000)\n\nTổng tiền là 31,920,000 đồng, nên:\n\n3,780x + 2,800(x + 2,000) = 31,920,000\n\nBước 7: Giải phương trình.\n\n3,780x + 2,800x + 5,600,000 = 31,920,000\n\n6,580x + 5,600,000 = 31,920,000\n\n6,580x = 26,320,000\n\nx = 26,320,000 ÷ 6,580 = 4,000\n\nVậy giá bán mỗi kg cam là 4,000 đồng.\n\nĐÁP ÁN CUỐI: 4000",
+    "answer": "4000",
+    "partial_audit_faults": [
+      {
+        "equation": "9/10/4,200 * 9/10 = 3,780",
+        "correct": false,
+        "computed": "27/140",
+        "stated": "189/50"
+      },
+      {
+        "equation": "7/8/3,200 * 7/8 = 2,800",
+        "correct": false,
+        "computed": "245/1024",
+        "stated": "14/5"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000390",
+    "question": "Một đội thợ xây cần xây một bức tường rào có chiều dài 25 mét và chiều cao 2.5 mét. Để hoàn thành bức tường, đội thợ ước tính cần 50 viên gạch cho mỗi mét vuông. Giá của mỗi viên gạch là 1,200 VNĐ. Ngoài ra, họ cần 0.6 bao xi măng cho mỗi mét vuông, với giá mỗi bao xi măng là 75,000 VNĐ. Chi phí công thợ được tính là 120,000 VNĐ cho mỗi mét vuông tường xây. Hỏi tổng chi phí để xây dựng bức tường này là bao nhiêu?",
+    "solution": "Bước 1: Tính diện tích bức tường\n\nDiện tích = chiều dài × chiều cao\n\nDiện tích = 25 × 2.5 = 62.5 m²\n\nBước 2: Tính chi phí gạch\n\nSố viên gạch cần dùng cho 1 m² là 50 viên.\n\nTổng số viên gạch cần dùng:\n\n62.5 × 50 = 3,125 viên\n\nChi phí gạch:\n\n3,125 × 1,200 = 3,750,000 VNĐ\n\nBước 3: Tính chi phí xi măng\n\nSố bao xi măng cần dùng cho 1 m² là 0.6 bao.\n\nTổng số bao xi măng cần dùng:\n\n62.5 × 0.6 = 37.5 bao\n\nChi phí xi măng:\n\n37.5 × 75,000 = 2,812,500 VNĐ\n\nBước 4: Tính chi phí công thợ\n\nChi phí công thợ cho 1 m² là 120,000 VNĐ.\n\nChi phí công thợ:\n\n62.5 × 120,000 = 7,500,000 VNĐ\n\nBước 5: Tính tổng chi phí\n\nTổng chi phí = chi phí gạch + chi phí xi măng + chi phí công thợ\n\nTổng chi phí = 3,750,000 + 2,812,500 + 7,500,000 = 14,062,500 VNĐ\n\nĐÁP ÁN CUỐI: 14062500",
+    "answer": "14062500",
+    "partial_audit_faults": [
+      {
+        "equation": "62.5 * 50 = 3,125",
+        "correct": false,
+        "computed": "3125",
+        "stated": "25/8"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000392",
+    "question": "Một bể nước hình hộp chữ nhật có dung tích lớn. Ban đầu, bể đang chứa 1/4 dung tích của nó.\nCó hai vòi nước A và B chảy vào bể, và một vòi C tháo nước ra khỏi bể.\n\nVòi A chảy với tốc độ 40 lít/phút.\nVòi B chảy với tốc độ 35 lít/phút.\nVòi C tháo nước với tốc độ 15 lít/phút.\n\nVào buổi sáng, người ta mở vòi A trong 1 giờ 20 phút. Sau đó, người ta đóng vòi A và mở vòi B trong 40 phút. Trong suốt thời gian vòi A và vòi B hoạt động, vòi C LUÔN được mở.\n\nBiết rằng sau tất cả các quá trình trên, lượng nước trong bể chiếm 3/5 dung tích bể. Hỏi dung tích của bể nước đó là bao nhiêu lít?",
+    "solution": "Bước 1: Đổi thời gian\n\n- Vòi A mở trong 1 giờ 20 phút = 80 phút.\n- Vòi B mở trong 40 phút.\n- Vòi C luôn mở trong cả hai giai đoạn.\n\nBước 2: Tính lượng nước tăng thêm ở giai đoạn mở vòi A\n\nVòi A chảy vào: 40 lít/phút.  \nVòi C tháo ra: 15 lít/phút.\n\nVậy lượng nước tăng thực tế mỗi phút là:\n\n```text\n40 - 15 = 25 lít/phút\n```\n\nTrong 80 phút, lượng nước tăng là:\n\n```text\n25 × 80 = 2000 lít\n```\n\nBước 3: Tính lượng nước tăng thêm ở giai đoạn mở vòi B\n\nVòi B chảy vào: 35 lít/phút.  \nVòi C tháo ra: 15 lít/phút.\n\nVậy lượng nước tăng thực tế mỗi phút là:\n\n```text\n35 - 15 = 20 lít/phút\n```\n\nTrong 40 phút, lượng nước tăng là:\n\n```text\n20 × 40 = 800 lít\n```\n\nBước 4: Tính tổng lượng nước tăng thêm\n\n```text\n2000 + 800 = 2800 lít\n```\n\nBước 5: Tính phần dung tích bể tương ứng với 2800 lít\n\nBan đầu bể chứa:\n\n```text\n1/4 dung tích\n```\n\nSau cùng bể chứa:\n\n```text\n3/5 dung tích\n```\n\nPhần dung tích tăng thêm là:\n\n```text\n3/5 - 1/4 = 12/20 - 5/20 = 7/20\n```\n\nVậy 2800 lít chính là `7/20` dung tích bể.\n\nBước 6: Tính dung tích bể\n\n```text\nDung tích bể = 2800 : 7/20\n              = 2800 × 20/7\n              = 8000 lít\n```\n\nĐÁP ÁN CUỐI: 8000",
+    "answer": "8000",
+    "partial_audit_faults": [
+      {
+        "equation": "2800/7/20 = 2800 * 20/7",
+        "correct": false,
+        "computed": "20",
+        "stated": "8000"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000424",
+    "question": "Minh là một vận động viên chạy bộ đang tập luyện cho giải marathon. Anh ấy đặt mục tiêu tăng dần quãng đường chạy mỗi tuần.\nTuần 1, Minh chạy được 20 km.\nTuần 2, anh ấy tăng quãng đường chạy lên 1/5 so với Tuần 1.\nTuần 3, anh ấy tiếp tục tăng quãng đường chạy thêm 1/4 so với Tuần 2.\nMục tiêu tổng cộng của Minh trong 4 tuần tập luyện là đạt 150 km.\nHỏi: Để đạt mục tiêu đề ra, Minh cần chạy thêm bao nhiêu km trong Tuần 4 so với quãng đường anh ấy đã chạy trong Tuần 3?",
+    "solution": "Bước 1: Tính quãng đường Minh chạy trong Tuần 2.\n\nTuần 2 tăng thêm `1/5` so với Tuần 1, nên:\n\n```text\nTuần 2 = 20 + 20 × 1/5 = 20 + 4 = 24 km\n```\n\nBước 2: Tính quãng đường Minh chạy trong Tuần 3.\n\nTuần 3 tăng thêm `1/4` so với Tuần 2, nên:\n\n```text\nTuần 3 = 24 + 24 × 1/4 = 24 + 6 = 30 km\n```\n\nBước 3: Tính tổng quãng đường đã chạy trong 3 tuần đầu.\n\n```text\n20 + 24 + 30 = 74 km\n```\n\nBước 4: Tính quãng đường cần chạy trong Tuần 4 để đạt tổng 150 km.\n\n```text\nTuần 4 = 150 - 74 = 76 km\n```\n\nBước 5: Tính Minh cần chạy thêm bao nhiêu km trong Tuần 4 so với Tuần 3.\n\n```text\n76 - 30 = 46 km\n```\n\nĐÁP ÁN CUỐI: 46",
+    "answer": "46",
+    "partial_audit_faults": [
+      {
+        "equation": "2 = 20 + 20 * 1/5",
+        "correct": false,
+        "computed": "2",
+        "stated": "24"
+      },
+      {
+        "equation": "3 = 24 + 24 * 1/4",
+        "correct": false,
+        "computed": "3",
+        "stated": "30"
+      },
+      {
+        "equation": "4 = 150 - 74",
+        "correct": false,
+        "computed": "4",
+        "stated": "76"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000439",
+    "question": "Hội từ thiện \"Vì Tương Lai\" tổ chức chương trình quyên góp sách truyện và đồ dùng học tập cho các em học sinh có hoàn cảnh khó khăn.\nTrong giai đoạn đầu, các em học sinh đã tích cực quyên góp sách truyện:\n*   Học sinh khối lớp 3 quyên góp được 15 thùng sách, mỗi thùng có 25 quyển.\n*   Học sinh khối lớp 4 quyên góp được số thùng sách gấp đôi số thùng của khối lớp 3, nhưng mỗi thùng chỉ có 20 quyển.\n\nSau khi tổng hợp, Hội từ thiện nhận thấy:\n*   Trong tổng số sách truyện thu được, có 1/5 số sách là sách tham khảo và được chuyển đến thư viện trường, không dùng để tặng quà.\n*   Số sách còn lại được chia đều thành các gói quà nhỏ, mỗi gói chứa 5 quyển sách.\n\nĐể làm cho mỗi gói quà thêm ý nghĩa, Hội từ thiện quyết định tặng kèm một bộ dụng cụ học tập trị giá 35.000 đồng cho mỗi gói quà sách. Hội từ thiện có một quỹ dự kiến để mua dụng cụ học tập là 2.500.000 đồng.\n\nHỏi Hội từ thiện cần quyên góp thêm bao nhiêu tiền nữa để có đủ dụng cụ học tập cho tất cả các gói quà sách?",
+    "solution": "Bước 1: Tính số sách khối lớp 3 quyên góp được.\n\n15 thùng, mỗi thùng 25 quyển:\n\n15 × 25 = 375 quyển\n\nBước 2: Tính số sách khối lớp 4 quyên góp được.\n\nSố thùng của khối lớp 4 gấp đôi khối lớp 3:\n\n15 × 2 = 30 thùng\n\nMỗi thùng có 20 quyển:\n\n30 × 20 = 600 quyển\n\nBước 3: Tính tổng số sách truyện thu được.\n\n375 + 600 = 975 quyển\n\nBước 4: Tính số sách tham khảo chuyển đến thư viện.\n\nSố sách tham khảo chiếm 1/5 tổng số sách:\n\n975 × 1/5 = 195 quyển\n\nBước 5: Tính số sách còn lại để chia thành gói quà.\n\n975 - 195 = 780 quyển\n\nBước 6: Tính số gói quà sách.\n\nMỗi gói có 5 quyển sách:\n\n780 : 5 = 156 gói\n\nBước 7: Tính tổng tiền cần mua dụng cụ học tập.\n\nMỗi gói cần một bộ dụng cụ học tập trị giá 35.000 đồng:\n\n156 × 35.000 = 5.460.000 đồng\n\nBước 8: Tính số tiền cần quyên góp thêm.\n\nQuỹ dự kiến hiện có là 2.500.000 đồng:\n\n5.460.000 - 2.500.000 = 2.960.000 đồng\n\nĐÁP ÁN CUỐI: 2960000",
+    "answer": "2960000",
+    "partial_audit_faults": [
+      {
+        "equation": "3/15 * 2 = 30",
+        "correct": false,
+        "computed": "2/5",
+        "stated": "30"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000454",
+    "question": "Gia đình chị Mai sử dụng điện sinh hoạt và nhận hóa đơn hàng tháng. Chỉ số công tơ điện vào cuối tháng 5 là 1500 kWh. Vào cuối tháng 6, chỉ số công tơ là 1750 kWh.\n\nBiểu giá điện lực quy định cho khách hàng sinh hoạt (chưa bao gồm 10% VAT) như sau:\n*   Bậc 1 (0 – 50 kWh đầu tiên): 1.678 VNĐ/kWh\n*   Bậc 2 (51 – 100 kWh tiếp theo): 1.734 VNĐ/kWh\n*   Bậc 3 (101 – 200 kWh tiếp theo): 2.014 VNĐ/kWh\n*   Bậc 4 (Từ 201 kWh trở lên): 2.536 VNĐ/kWh\n\nHỏi tổng số tiền điện mà gia đình chị Mai phải thanh toán cho tháng 6 là bao nhiêu?",
+    "solution": "Bước 1: Tính lượng điện tiêu thụ trong tháng 6.\n\nChỉ số cuối tháng 6 - chỉ số cuối tháng 5:\n\n1750 - 1500 = 250 kWh\n\nVậy gia đình chị Mai đã dùng 250 kWh điện trong tháng 6.\n\nBước 2: Tính tiền điện theo từng bậc, chưa gồm VAT.\n\nBậc 1: 50 kWh đầu tiên\n\n50 x 1.678 = 83.900 VNĐ\n\nBậc 2: 50 kWh tiếp theo\n\n50 x 1.734 = 86.700 VNĐ\n\nBậc 3: 100 kWh tiếp theo\n\n100 x 2.014 = 201.400 VNĐ\n\nBậc 4: Số điện còn lại từ 201 kWh trở lên\n\n250 - 200 = 50 kWh\n\n50 x 2.536 = 126.800 VNĐ\n\nBước 3: Tính tổng tiền điện chưa gồm VAT.\n\n83.900 + 86.700 + 201.400 + 126.800 = 498.800 VNĐ\n\nBước 4: Tính VAT 10%.\n\n498.800 x 10% = 49.880 VNĐ\n\nBước 5: Tính tổng số tiền phải thanh toán.\n\n498.800 + 49.880 = 548.680 VNĐ\n\nĐÁP ÁN CUỐI: 548680",
+    "answer": "548680",
+    "partial_audit_faults": [
+      {
+        "equation": "5/1750 - 1500 = 250",
+        "correct": false,
+        "computed": "-524999/350",
+        "stated": "250"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000490",
+    "question": "Anh Ba thuê một đội thợ để xây bức tường rào bao quanh một mảnh đất hình chữ nhật có chiều dài 30m và chiều rộng 20m. Bức tường được xây cao 1.8m.\n\nBiết rằng:\n*   Mỗi mét vuông tường cần 60 viên gạch.\n*   Cứ 150 viên gạch thì cần 1 bao xi măng.\n*   Giá mỗi viên gạch là 1,500 VNĐ.\n*   Giá mỗi bao xi măng là 90,000 VNĐ.\n*   Đội thợ gồm 2 thợ chính (mỗi thợ 500,000 VNĐ/ngày) và 3 thợ phụ (mỗi thợ 350,000 VNĐ/ngày).\n*   Công trình dự kiến hoàn thành trong 8 ngày.\n\nHỏi tổng chi phí (tiền vật liệu và tiền công thợ) để xây bức tường rào là bao nhiêu?",
+    "solution": "Bước 1: Tính chu vi mảnh đất hình chữ nhật\n\nChu vi = 2 × (chiều dài + chiều rộng)\n\n= 2 × (30 + 20)\n\n= 2 × 50\n\n= 100 m\n\nBước 2: Tính diện tích bức tường rào\n\nDiện tích tường = chu vi × chiều cao\n\n= 100 × 1.8\n\n= 180 m²\n\nBước 3: Tính số viên gạch cần dùng\n\nMỗi mét vuông tường cần 60 viên gạch.\n\nSố gạch cần dùng = 180 × 60\n\n= 10,800 viên\n\nBước 4: Tính tiền mua gạch\n\nGiá mỗi viên gạch là 1,500 VNĐ.\n\nTiền gạch = 10,800 × 1,500\n\n= 16,200,000 VNĐ\n\nBước 5: Tính số bao xi măng cần dùng\n\nCứ 150 viên gạch cần 1 bao xi măng.\n\nSố bao xi măng = 10,800 ÷ 150\n\n= 72 bao\n\nBước 6: Tính tiền xi măng\n\nGiá mỗi bao xi măng là 90,000 VNĐ.\n\nTiền xi măng = 72 × 90,000\n\n= 6,480,000 VNĐ\n\nBước 7: Tính tiền công thợ mỗi ngày\n\nTiền công 2 thợ chính mỗi ngày:\n\n2 × 500,000 = 1,000,000 VNĐ\n\nTiền công 3 thợ phụ mỗi ngày:\n\n3 × 350,000 = 1,050,000 VNĐ\n\nTổng tiền công mỗi ngày:\n\n1,000,000 + 1,050,000 = 2,050,000 VNĐ\n\nBước 8: Tính tiền công trong 8 ngày\n\nTiền công thợ = 2,050,000 × 8\n\n= 16,400,000 VNĐ\n\nBước 9: Tính tổng chi phí\n\nTổng chi phí = tiền gạch + tiền xi măng + tiền công thợ\n\n= 16,200,000 + 6,480,000 + 16,400,000\n\n= 39,080,000 VNĐ\n\nĐÁP ÁN CUỐI: 39080000",
+    "answer": "39080000",
+    "partial_audit_faults": [
+      {
+        "equation": "180 * 60 = 10,800",
+        "correct": false,
+        "computed": "10800",
+        "stated": "54/5"
+      },
+      {
+        "equation": "10,800 / 150 = 72",
+        "correct": false,
+        "computed": "9/125",
+        "stated": "72"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000565",
+    "question": "Một nhà máy sản xuất linh kiện điện tử có hai ca làm việc mỗi ngày. Ca sáng có 40 công nhân, mỗi người làm việc 8 giờ và sản xuất trung bình 10 linh kiện mỗi giờ. Ca chiều có số công nhân nhiều hơn ca sáng 25%, và năng suất trung bình của mỗi công nhân ca chiều thấp hơn ca sáng 10%. Nhà máy nhận được một đơn hàng cần sản xuất tổng cộng 35,000 linh kiện. Hỏi sau 5 ngày làm việc, nhà máy còn phải sản xuất bao nhiêu linh kiện nữa để hoàn thành đơn hàng?",
+    "solution": "Bước 1: Tính số linh kiện ca sáng sản xuất trong 1 ngày.\n\nCa sáng có 40 công nhân, mỗi người làm 8 giờ, mỗi giờ sản xuất 10 linh kiện.\n\nSố linh kiện ca sáng sản xuất mỗi ngày là:\n\n40 × 8 × 10 = 3,200 linh kiện\n\nBước 2: Tính số công nhân ca chiều.\n\nCa chiều nhiều hơn ca sáng 25%, nên số công nhân ca chiều là:\n\n40 × (1 + 25%) = 40 × 1.25 = 50 công nhân\n\nBước 3: Tính năng suất mỗi công nhân ca chiều.\n\nNăng suất ca chiều thấp hơn ca sáng 10%, nên mỗi công nhân ca chiều sản xuất mỗi giờ:\n\n10 × (1 - 10%) = 10 × 0.9 = 9 linh kiện/giờ\n\nBước 4: Tính số linh kiện ca chiều sản xuất trong 1 ngày.\n\nMỗi công nhân ca chiều cũng làm 8 giờ, nên số linh kiện ca chiều sản xuất mỗi ngày là:\n\n50 × 8 × 9 = 3,600 linh kiện\n\nBước 5: Tính tổng số linh kiện nhà máy sản xuất trong 1 ngày.\n\n3,200 + 3,600 = 6,800 linh kiện\n\nBước 6: Tính số linh kiện sản xuất sau 5 ngày.\n\n6,800 × 5 = 34,000 linh kiện\n\nBước 7: Tính số linh kiện còn phải sản xuất.\n\nĐơn hàng cần 35,000 linh kiện, nên số linh kiện còn lại là:\n\n35,000 - 34,000 = 1,000 linh kiện\n\nĐÁP ÁN CUỐI: 1000",
+    "answer": "1000",
+    "partial_audit_faults": [
+      {
+        "equation": "40 * 8 * 10 = 3,200",
+        "correct": false,
+        "computed": "3200",
+        "stated": "16/5"
+      },
+      {
+        "equation": "50 * 8 * 9 = 3,600",
+        "correct": false,
+        "computed": "3600",
+        "stated": "18/5"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000564",
+    "question": "Tiền đạo ngôi sao Quang Hải đã có một sự nghiệp đáng nể.\nTrong Mùa giải 1, anh ghi được 15 bàn thắng.\nĐến Mùa giải 2, anh tiếp tục phong độ cao và ghi nhiều hơn mùa giải 1 là 7 bàn.\nMùa giải 3, CLB của Quang Hải ghi tổng cộng 75 bàn thắng, trong đó anh đóng góp 28% số bàn thắng của cả đội.\nMùa giải 4, do bị chấn thương, Quang Hải chỉ chơi được một nửa số trận. Tuy nhiên, anh vẫn ghi được số bàn thắng bằng hai phần ba số bàn thắng anh đã ghi ở Mùa giải 1.\nHỏi, tổng cộng Quang Hải đã ghi được bao nhiêu bàn thắng trong cả 4 mùa giải trên?",
+    "solution": "Bước 1: Tính số bàn thắng ở Mùa giải 1.\n\nQuang Hải ghi được 15 bàn.\n\nBước 2: Tính số bàn thắng ở Mùa giải 2.\n\nMùa giải 2 anh ghi nhiều hơn Mùa giải 1 là 7 bàn, nên:\n\n15 + 7 = 22 bàn\n\nBước 3: Tính số bàn thắng ở Mùa giải 3.\n\nCLB ghi tổng cộng 75 bàn, Quang Hải đóng góp 28% số bàn của đội:\n\n75 × 28% = 75 × 0,28 = 21 bàn\n\nBước 4: Tính số bàn thắng ở Mùa giải 4.\n\nAnh ghi bằng hai phần ba số bàn ở Mùa giải 1:\n\n15 × 2/3 = 10 bàn\n\nBước 5: Tính tổng số bàn thắng trong 4 mùa giải.\n\n15 + 22 + 21 + 10 = 68 bàn\n\nĐÁP ÁN CUỐI: 68",
+    "answer": "68",
+    "partial_audit_faults": [
+      {
+        "equation": "1/15 * 2/3 = 10",
+        "correct": false,
+        "computed": "2/45",
+        "stated": "10"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000653",
+    "question": "Gia đình của An gồm có An, anh trai Bình, mẹ An, bố An và ông nội An.\nHiện tại, tổng số tuổi của An và Bình là 20. Biết rằng Bình hơn An 4 tuổi.\nTuổi của mẹ An gấp 3 lần tuổi của Bình.\nTuổi của bố An bằng tổng số tuổi hiện tại của An và Bình cộng thêm 10.\nTuổi của ông nội An bằng tổng số tuổi của bố và mẹ An, sau đó cộng thêm 8 tuổi.\nHỏi tổng số tuổi của tất cả các thành viên trong gia đình An sẽ là bao nhiêu trong 2 năm tới?",
+    "solution": "Gọi tuổi hiện tại của An là x.\n\nBình hơn An 4 tuổi nên tuổi Bình là:\n\nx + 4\n\nTổng tuổi của An và Bình là 20:\n\nx + (x + 4) = 20\n\n2x + 4 = 20\n\n2x = 16\n\nx = 8\n\nVậy hiện tại:\n\n- An 8 tuổi\n- Bình 8 + 4 = 12 tuổi\n\nTuổi mẹ An gấp 3 lần tuổi Bình:\n\n12 × 3 = 36 tuổi\n\nTuổi bố An bằng tổng tuổi hiện tại của An và Bình cộng thêm 10:\n\n20 + 10 = 30 tuổi\n\nTuổi ông nội An bằng tổng tuổi của bố và mẹ An, rồi cộng thêm 8:\n\n30 + 36 + 8 = 74 tuổi\n\nTổng tuổi hiện tại của cả gia đình là:\n\n8 + 12 + 36 + 30 + 74 = 160 tuổi\n\nGia đình có 5 người, sau 2 năm mỗi người tăng thêm 2 tuổi.\n\nTổng số tuổi tăng thêm là:\n\n5 × 2 = 10 tuổi\n\nVậy tổng số tuổi của cả gia đình trong 2 năm tới là:\n\n160 + 10 = 170\n\nĐÁP ÁN CUỐI: 170",
+    "answer": "170",
+    "partial_audit_faults": [
+      {
+        "equation": "10/20 + 10 = 30",
+        "correct": false,
+        "computed": "21/2",
+        "stated": "30"
+      },
+      {
+        "equation": "8/30 + 36 + 8 = 74",
+        "correct": false,
+        "computed": "664/15",
+        "stated": "74"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000735",
+    "question": "Công ty may mặc Phong Cách Việt ra mắt một bộ sưu tập áo sơ mi mới. Chi phí thiết kế và chuẩn bị mẫu ban đầu cho bộ sưu tập là 15,000,000 đồng. Mỗi chiếc áo cần 1.5 mét vải, với giá 80,000 đồng/mét. Chi phí phụ liệu (nút, chỉ, mác) cho mỗi chiếc áo là 15,000 đồng và tiền công may cho mỗi chiếc áo là 45,000 đồng. Công ty bán mỗi chiếc áo với giá cao hơn 80% so với tổng chi phí sản xuất một chiếc áo (gồm vải, phụ liệu và công may). Trong 10 tuần ra mắt, công ty đã sản xuất và bán được trung bình 350 chiếc áo mỗi tuần. Hỏi sau 10 tuần, công ty Phong Cách Việt thu được tổng cộng bao nhiêu tiền lợi nhuận ròng từ bộ sưu tập này?",
+    "solution": "Bước 1: Tính chi phí vải cho mỗi chiếc áo\n\nMỗi áo cần 1.5 mét vải, giá 80,000 đồng/mét.\n\n1.5 × 80,000 = 120,000 đồng\n\nVậy chi phí vải cho mỗi áo là 120,000 đồng.\n\nBước 2: Tính tổng chi phí sản xuất một chiếc áo\n\nChi phí gồm:\n- Vải: 120,000 đồng\n- Phụ liệu: 15,000 đồng\n- Công may: 45,000 đồng\n\nTổng chi phí sản xuất một áo là:\n\n120,000 + 15,000 + 45,000 = 180,000 đồng\n\nBước 3: Tính giá bán một chiếc áo\n\nCông ty bán cao hơn 80% so với chi phí sản xuất.\n\nGiá bán = 180,000 × 180%\n\n180,000 × 1.8 = 324,000 đồng\n\nVậy giá bán mỗi áo là 324,000 đồng.\n\nBước 4: Tính lợi nhuận gộp trên mỗi chiếc áo\n\nLợi nhuận gộp mỗi áo = Giá bán - Chi phí sản xuất\n\n324,000 - 180,000 = 144,000 đồng\n\nBước 5: Tính tổng số áo bán được trong 10 tuần\n\nMỗi tuần bán trung bình 350 áo, trong 10 tuần:\n\n350 × 10 = 3,500 áo\n\nBước 6: Tính tổng lợi nhuận gộp trong 10 tuần\n\n3,500 × 144,000 = 504,000,000 đồng\n\nBước 7: Trừ chi phí thiết kế và chuẩn bị mẫu ban đầu\n\nChi phí ban đầu là 15,000,000 đồng.\n\nLợi nhuận ròng = 504,000,000 - 15,000,000\n\n= 489,000,000 đồng\n\nĐÁP ÁN CUỐI: 489000000",
+    "answer": "489000000",
+    "partial_audit_faults": [
+      {
+        "equation": "350 * 10 = 3,500",
+        "correct": false,
+        "computed": "3500",
+        "stated": "7/2"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000825",
+    "question": "Một nhà máy sản xuất linh kiện điện tử có hai dây chuyền hoạt động, mỗi ngày làm việc 8 giờ. Dây chuyền 1 sản xuất được 250 linh kiện mỗi giờ, và dây chuyền 2 sản xuất được 300 linh kiện mỗi giờ. Trong 10 ngày đầu tiên, tỷ lệ linh kiện lỗi trung bình của toàn nhà máy là 5%. Sau 10 ngày đó, nhà máy đưa vào hoạt động thêm dây chuyền 3, với năng suất 200 linh kiện mỗi giờ. Năng suất của dây chuyền 1 và 2 vẫn giữ nguyên. Đồng thời, nhờ quy trình cải tiến, tỷ lệ linh kiện lỗi đã giảm xuống còn 3%. Hỏi tổng cộng trong 15 ngày (bao gồm 10 ngày đầu và 5 ngày sau đó), nhà máy đã sản xuất được bao nhiêu linh kiện đạt chuẩn?",
+    "solution": "Bước 1: Tính sản lượng mỗi ngày trong 10 ngày đầu.\n\n- Dây chuyền 1 sản xuất mỗi ngày: 250 × 8 = 2000 linh kiện\n- Dây chuyền 2 sản xuất mỗi ngày: 300 × 8 = 2400 linh kiện\n\nTổng sản lượng mỗi ngày trong 10 ngày đầu là:\n\n2000 + 2400 = 4400 linh kiện\n\nTrong 10 ngày đầu, tổng số linh kiện sản xuất được là:\n\n4400 × 10 = 44000 linh kiện\n\nBước 2: Tính số linh kiện đạt chuẩn trong 10 ngày đầu.\n\nTỷ lệ lỗi là 5%, nên tỷ lệ đạt chuẩn là:\n\n100% - 5% = 95%\n\nSố linh kiện đạt chuẩn trong 10 ngày đầu là:\n\n44000 × 95% = 44000 × 0,95 = 41800 linh kiện\n\nBước 3: Tính sản lượng mỗi ngày trong 5 ngày sau.\n\nSau 10 ngày, nhà máy có thêm dây chuyền 3.\n\n- Dây chuyền 1: 250 × 8 = 2000 linh kiện/ngày\n- Dây chuyền 2: 300 × 8 = 2400 linh kiện/ngày\n- Dây chuyền 3: 200 × 8 = 1600 linh kiện/ngày\n\nTổng sản lượng mỗi ngày trong 5 ngày sau là:\n\n2000 + 2400 + 1600 = 6000 linh kiện\n\nTrong 5 ngày sau, tổng số linh kiện sản xuất được là:\n\n6000 × 5 = 30000 linh kiện\n\nBước 4: Tính số linh kiện đạt chuẩn trong 5 ngày sau.\n\nTỷ lệ lỗi giảm xuống còn 3%, nên tỷ lệ đạt chuẩn là:\n\n100% - 3% = 97%\n\nSố linh kiện đạt chuẩn trong 5 ngày sau là:\n\n30000 × 97% = 30000 × 0,97 = 29100 linh kiện\n\nBước 5: Tính tổng số linh kiện đạt chuẩn trong 15 ngày.\n\nTổng số linh kiện đạt chuẩn là:\n\n41800 + 29100 = 70900 linh kiện\n\nĐÁP ÁN CUỐI: 70900",
+    "answer": "70900",
+    "partial_audit_faults": [
+      {
+        "equation": "1/250 * 8 = 2000",
+        "correct": false,
+        "computed": "4/125",
+        "stated": "2000"
+      },
+      {
+        "equation": "2/300 * 8 = 2400",
+        "correct": false,
+        "computed": "4/75",
+        "stated": "2400"
+      },
+      {
+        "equation": "3/200 * 8 = 1600",
+        "correct": false,
+        "computed": "3/25",
+        "stated": "1600"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000891",
+    "question": "Ông Ba sở hữu một vườn cây ăn quả rộng lớn. Trong vườn có 20 cây cam và 18 cây ổi. Trung bình, mỗi cây cam cho thu hoạch 50 kg quả và mỗi cây ổi cho 40 kg quả. Tuy nhiên, do một đợt gió lớn, 1/4 số quả cam và 1/3 số quả ổi đã bị hư hại và không thể thu hoạch. Sau khi thu hoạch số quả còn lại, ông Ba đã bán đi 2/3 số cam và 5/8 số ổi. Số quả cam và ổi còn lại sau khi bán được ông Ba đóng gói vào các thùng nhỏ, mỗi thùng chứa đúng 10 kg quả. Hỏi ông Ba cần bao nhiêu thùng để đóng gói hết số quả còn lại?",
+    "solution": "Bước 1: Tính tổng số cam ban đầu.\n\n20 cây cam, mỗi cây 50 kg:\n\n20 × 50 = 1000 kg cam\n\nBước 2: Tính số cam còn lại sau khi bị hư hại.\n\nCam bị hư hại 1/4, nên cam còn lại là 3/4:\n\n1000 × 3/4 = 750 kg cam\n\nBước 3: Tính số cam còn lại sau khi bán.\n\nÔng Ba bán 2/3 số cam, nên còn lại 1/3:\n\n750 × 1/3 = 250 kg cam\n\nBước 4: Tính tổng số ổi ban đầu.\n\n18 cây ổi, mỗi cây 40 kg:\n\n18 × 40 = 720 kg ổi\n\nBước 5: Tính số ổi còn lại sau khi bị hư hại.\n\nỔi bị hư hại 1/3, nên ổi còn lại là 2/3:\n\n720 × 2/3 = 480 kg ổi\n\nBước 6: Tính số ổi còn lại sau khi bán.\n\nÔng Ba bán 5/8 số ổi, nên còn lại 3/8:\n\n480 × 3/8 = 180 kg ổi\n\nBước 7: Tính tổng số quả còn lại cần đóng gói.\n\n250 + 180 = 430 kg\n\nBước 8: Tính số thùng cần dùng.\n\nMỗi thùng chứa 10 kg:\n\n430 ÷ 10 = 43 thùng\n\nĐÁP ÁN CUỐI: 43",
+    "answer": "43",
+    "partial_audit_faults": [
+      {
+        "equation": "3/4/1000 * 3/4 = 750",
+        "correct": false,
+        "computed": "9/16000",
+        "stated": "750"
+      },
+      {
+        "equation": "1/3/750 * 1/3 = 250",
+        "correct": false,
+        "computed": "1/6750",
+        "stated": "250"
+      },
+      {
+        "equation": "2/3/720 * 2/3 = 480",
+        "correct": false,
+        "computed": "1/1620",
+        "stated": "480"
+      },
+      {
+        "equation": "3/8/480 * 3/8 = 180",
+        "correct": false,
+        "computed": "3/10240",
+        "stated": "180"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000898",
+    "question": "An bắt đầu buổi sáng với chiếc điện thoại có 75% pin. Cô ấy dành 2 giờ chơi game, mà trò chơi này tiêu thụ 9% pin mỗi giờ. Sau đó, An thực hiện một cuộc gọi video dài 1.5 giờ, với ứng dụng gọi video tiêu thụ 12% pin mỗi giờ. Trước khi ra ngoài, An muốn sạc điện thoại lên 95%. Biết rằng điện thoại của An sạc được 4% pin mỗi phút. Hỏi An cần sạc điện thoại trong bao nhiêu phút để đạt được mức pin mong muốn?",
+    "solution": "Bước 1: Tính lượng pin tiêu thụ khi chơi game.\n\nMỗi giờ chơi game tiêu thụ 9% pin, An chơi trong 2 giờ:\n\n9 × 2 = 18%\n\nSau khi chơi game, pin còn:\n\n75 - 18 = 57%\n\nBước 2: Tính lượng pin tiêu thụ khi gọi video.\n\nMỗi giờ gọi video tiêu thụ 12% pin, An gọi trong 1.5 giờ:\n\n12 × 1.5 = 18%\n\nSau khi gọi video, pin còn:\n\n57 - 18 = 39%\n\nBước 3: Tính lượng pin cần sạc thêm để đạt 95%.\n\n95 - 39 = 56%\n\nBước 4: Tính thời gian cần sạc.\n\nĐiện thoại sạc được 4% pin mỗi phút, nên thời gian cần sạc là:\n\n56 ÷ 4 = 14 phút\n\nĐÁP ÁN CUỐI: 14",
+    "answer": "14",
+    "partial_audit_faults": [
+      {
+        "equation": "9 * 2 = (18/100)",
+        "correct": false,
+        "computed": "18",
+        "stated": "9/50"
+      },
+      {
+        "equation": "75 - 18 = (57/100)",
+        "correct": false,
+        "computed": "57",
+        "stated": "57/100"
+      },
+      {
+        "equation": "12 * 1.5 = (18/100)",
+        "correct": false,
+        "computed": "18",
+        "stated": "9/50"
+      },
+      {
+        "equation": "57 - 18 = (39/100)",
+        "correct": false,
+        "computed": "39",
+        "stated": "39/100"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000907",
+    "question": "Một công ty phần mềm đang triển khai một dự án lớn với 4 giai đoạn. Giai đoạn 1 (Phân tích và thiết kế) kéo dài 25 ngày làm việc. Giai đoạn 2 (Phát triển) ban đầu được dự kiến 50 ngày làm việc. Sau khi hoàn thành Giai đoạn 1, do có một số yêu cầu phát sinh, Giai đoạn 2 phải kéo dài thêm 20% so với thời gian dự kiến ban đầu. Giai đoạn 3 (Kiểm thử) có thời gian bằng 60% tổng thời gian thực tế đã dành cho cả Giai đoạn 1 và Giai đoạn 2. Giai đoạn 4 (Triển khai và bàn giao) kéo dài 10 ngày làm việc. Toàn bộ dự án có hạn chót là 150 ngày làm việc kể từ khi bắt đầu. Hỏi dự án sẽ hoàn thành sớm hơn hay muộn hơn hạn chót tổng thể bao nhiêu ngày làm việc?",
+    "solution": "Bước 1: Tính thời gian thực tế của Giai đoạn 2.\n\n- Giai đoạn 2 dự kiến ban đầu: 50 ngày\n- Kéo dài thêm 20% so với dự kiến ban đầu:\n\n```text\n20% của 50 = 50 × 20% = 10 ngày\n```\n\nVậy thời gian thực tế của Giai đoạn 2 là:\n\n```text\n50 + 10 = 60 ngày\n```\n\nBước 2: Tính tổng thời gian thực tế của Giai đoạn 1 và Giai đoạn 2.\n\n- Giai đoạn 1: 25 ngày\n- Giai đoạn 2 thực tế: 60 ngày\n\n```text\n25 + 60 = 85 ngày\n```\n\nBước 3: Tính thời gian của Giai đoạn 3.\n\nGiai đoạn 3 bằng 60% tổng thời gian thực tế của Giai đoạn 1 và Giai đoạn 2:\n\n```text\n60% của 85 = 85 × 60% = 51 ngày\n```\n\nVậy Giai đoạn 3 kéo dài 51 ngày.\n\nBước 4: Tính tổng thời gian hoàn thành toàn bộ dự án.\n\n- Giai đoạn 1: 25 ngày\n- Giai đoạn 2: 60 ngày\n- Giai đoạn 3: 51 ngày\n- Giai đoạn 4: 10 ngày\n\n```text\n25 + 60 + 51 + 10 = 146 ngày\n```\n\nBước 5: So sánh với hạn chót 150 ngày.\n\n```text\n150 - 146 = 4 ngày\n```\n\nDự án hoàn thành trong 146 ngày, sớm hơn hạn chót 4 ngày làm việc.\n\nĐÁP ÁN CUỐI: 4",
+    "answer": "4",
+    "partial_audit_faults": [
+      {
+        "equation": "50 = 50 * (20/100)",
+        "correct": false,
+        "computed": "50",
+        "stated": "10"
+      },
+      {
+        "equation": "85 = 85 * (60/100)",
+        "correct": false,
+        "computed": "85",
+        "stated": "51"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000944",
+    "question": "Đội bóng 'Mạnh Nhất' muốn đánh giá hiệu suất thi đấu của mình qua hai mùa giải bằng cách sử dụng một 'chỉ số sức mạnh'. Chỉ số này được tính theo công thức: (Tổng điểm * 2) + (Hiệu số bàn thắng bại * 3).\n\nTrong mùa giải đầu tiên, đội bóng đã thi đấu 38 trận, trong đó thắng 20 trận, hòa 10 trận. Số bàn thắng ghi được là 65 và số bàn thua là 30.\nTrong mùa giải thứ hai, đội bóng cũng thi đấu 38 trận, nhưng đã thắng 25 trận, hòa 5 trận. Số bàn thắng ghi được là 70 và số bàn thua là 32.\n\nBiết rằng mỗi trận thắng được 3 điểm, mỗi trận hòa được 1 điểm và mỗi trận thua không có điểm nào.\n\nHỏi chỉ số sức mạnh của đội 'Mạnh Nhất' đã tăng thêm bao nhiêu điểm từ mùa giải đầu tiên sang mùa giải thứ hai?",
+    "solution": "Bước 1: Tính tổng điểm mùa giải đầu tiên.\n\n- Thắng 20 trận, mỗi trận được 3 điểm: 20 × 3 = 60 điểm\n- Hòa 10 trận, mỗi trận được 1 điểm: 10 × 1 = 10 điểm\n- Tổng điểm mùa 1: 60 + 10 = 70 điểm\n\nBước 2: Tính hiệu số bàn thắng bại mùa giải đầu tiên.\n\n- Bàn thắng: 65\n- Bàn thua: 30\n- Hiệu số: 65 - 30 = 35\n\nBước 3: Tính chỉ số sức mạnh mùa giải đầu tiên.\n\n- Công thức: (Tổng điểm × 2) + (Hiệu số × 3)\n- Chỉ số mùa 1: (70 × 2) + (35 × 3)\n- Chỉ số mùa 1: 140 + 105 = 245\n\nBước 4: Tính tổng điểm mùa giải thứ hai.\n\n- Thắng 25 trận, mỗi trận được 3 điểm: 25 × 3 = 75 điểm\n- Hòa 5 trận, mỗi trận được 1 điểm: 5 × 1 = 5 điểm\n- Tổng điểm mùa 2: 75 + 5 = 80 điểm\n\nBước 5: Tính hiệu số bàn thắng bại mùa giải thứ hai.\n\n- Bàn thắng: 70\n- Bàn thua: 32\n- Hiệu số: 70 - 32 = 38\n\nBước 6: Tính chỉ số sức mạnh mùa giải thứ hai.\n\n- Chỉ số mùa 2: (80 × 2) + (38 × 3)\n- Chỉ số mùa 2: 160 + 114 = 274\n\nBước 7: Tính mức tăng chỉ số sức mạnh.\n\n- Mức tăng: 274 - 245 = 29\n\nĐÁP ÁN CUỐI: 29",
+    "answer": "29",
+    "partial_audit_faults": [
+      {
+        "equation": "1/60 + 10 = 70",
+        "correct": false,
+        "computed": "601/60",
+        "stated": "70"
+      },
+      {
+        "equation": "1/140 + 105 = 245",
+        "correct": false,
+        "computed": "14701/140",
+        "stated": "245"
+      },
+      {
+        "equation": "2/75 + 5 = 80",
+        "correct": false,
+        "computed": "377/75",
+        "stated": "80"
+      },
+      {
+        "equation": "2/160 + 114 = 274",
+        "correct": false,
+        "computed": "9121/80",
+        "stated": "274"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000981",
+    "question": "Một công ty giao hàng có 15 xe máy. Mỗi xe máy trung bình di chuyển 80 km mỗi ngày làm việc và công ty làm việc 6 ngày mỗi tuần. Mức tiêu thụ nhiên liệu của mỗi xe là 2.5 lít xăng cho mỗi 100 km. Biết giá xăng hiện tại là 23,500 đồng mỗi lít. Hãy tính tổng số tiền xăng công ty phải chi trả cho tất cả các xe máy trong 4 tuần.",
+    "solution": "Bước 1: Tính số ngày làm việc trong 4 tuần.\n\nMỗi tuần công ty làm việc 6 ngày, nên trong 4 tuần:\n\n6 × 4 = 24 ngày\n\nBước 2: Tính quãng đường một xe máy đi trong 4 tuần.\n\nMỗi xe đi trung bình 80 km mỗi ngày, nên trong 24 ngày:\n\n80 × 24 = 1,920 km\n\nBước 3: Tính lượng xăng một xe máy tiêu thụ trong 4 tuần.\n\nMức tiêu thụ là 2.5 lít cho mỗi 100 km, nên với 1,920 km:\n\n1,920 ÷ 100 × 2.5 = 48 lít\n\nBước 4: Tính lượng xăng của 15 xe máy.\n\n48 × 15 = 720 lít\n\nBước 5: Tính tổng tiền xăng.\n\nGiá xăng là 23,500 đồng mỗi lít, nên:\n\n720 × 23,500 = 16,920,000 đồng\n\nĐÁP ÁN CUỐI: 16920000",
+    "answer": "16920000",
+    "partial_audit_faults": [
+      {
+        "equation": "80 * 24 = 1,920",
+        "correct": false,
+        "computed": "1920",
+        "stated": "48/25"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000993",
+    "question": "Trong gia đình bạn Minh, em trai Minh là An năm nay 8 tuổi. Chị gái Minh là Bình có số tuổi gấp đôi tuổi của An. Mẹ Mai của Minh có tuổi bằng tổng số tuổi của An và Bình cộng thêm 12. Bà nội của Minh có số tuổi gấp đôi tuổi của mẹ Mai, nhưng đã trừ đi 15 năm. Hỏi bà nội của Minh năm nay bao nhiêu tuổi?",
+    "solution": "Bước 1: Tính tuổi của An.\n\nAn năm nay 8 tuổi.\n\nBước 2: Tính tuổi của Bình.\n\nBình có số tuổi gấp đôi tuổi của An:\n\n8 x 2 = 16\n\nVậy Bình 16 tuổi.\n\nBước 3: Tính tuổi của mẹ Mai.\n\nTuổi mẹ Mai bằng tổng tuổi của An và Bình cộng thêm 12:\n\n8 + 16 + 12 = 36\n\nVậy mẹ Mai 36 tuổi.\n\nBước 4: Tính tuổi của bà nội.\n\nTuổi bà nội bằng gấp đôi tuổi mẹ Mai, rồi trừ đi 15:\n\n36 x 2 - 15 = 72 - 15 = 57\n\nVậy bà nội của Minh năm nay 57 tuổi.\n\nĐÁP ÁN CUỐI: 57",
+    "answer": "57",
+    "partial_audit_faults": [
+      {
+        "equation": "12/8 + 16 + 12 = 36",
+        "correct": false,
+        "computed": "59/2",
+        "stated": "36"
+      },
+      {
+        "equation": "15/36*2 - 15 = 72 - 15",
+        "correct": false,
+        "computed": "-85/6",
+        "stated": "57"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001015",
+    "question": "Xưởng may An Bình chuyên sản xuất áo sơ mi. Để may một chiếc áo, xưởng cần 1.2 mét vải với giá 75,000 VNĐ/mét và các loại phụ liệu (chỉ, cúc, nhãn) trị giá 18,000 VNĐ. Chi phí công may cho mỗi chiếc áo là 65,000 VNĐ. Ngoài ra, xưởng phải chịu chi phí thuê xưởng và quản lý cố định hàng tháng là 25,000,000 VNĐ. \nMỗi tuần, xưởng may và bán được 450 chiếc áo. Giá bán của mỗi chiếc áo được tính bằng 1.6 lần tổng chi phí nguyên vật liệu và công may của nó. \nHỏi, sau 6 tuần hoạt động, xưởng may An Bình thu được lợi nhuận là bao nhiêu tiền?",
+    "solution": "Bước 1: Tính chi phí vải cho 1 chiếc áo\n\n1 chiếc áo cần 1.2 mét vải, giá 75,000 VNĐ/mét.\n\n```text\nChi phí vải = 1.2 × 75,000 = 90,000 VNĐ\n```\n\nBước 2: Tính tổng chi phí nguyên vật liệu và công may cho 1 chiếc áo\n\n```text\nChi phí phụ liệu = 18,000 VNĐ\nChi phí công may = 65,000 VNĐ\n```\n\nVậy tổng chi phí cho 1 chiếc áo là:\n\n```text\n90,000 + 18,000 + 65,000 = 173,000 VNĐ\n```\n\nBước 3: Tính giá bán của 1 chiếc áo\n\nGiá bán bằng 1.6 lần tổng chi phí nguyên vật liệu và công may.\n\n```text\nGiá bán = 1.6 × 173,000 = 276,800 VNĐ\n```\n\nBước 4: Tính lợi nhuận trước chi phí cố định trên 1 chiếc áo\n\n```text\nLợi nhuận trước chi phí cố định = 276,800 - 173,000 = 103,800 VNĐ\n```\n\nBước 5: Tính số áo bán được sau 6 tuần\n\nMỗi tuần bán được 450 chiếc áo.\n\n```text\nSố áo sau 6 tuần = 450 × 6 = 2,700 chiếc\n```\n\nBước 6: Tính tổng lợi nhuận trước chi phí cố định\n\n```text\n103,800 × 2,700 = 280,260,000 VNĐ\n```\n\nBước 7: Tính chi phí cố định trong 6 tuần\n\nChi phí cố định hàng tháng là 25,000,000 VNĐ. Lấy 1 tháng = 4 tuần, nên 6 tuần = 1.5 tháng.\n\n```text\nChi phí cố định = 25,000,000 × 1.5 = 37,500,000 VNĐ\n```\n\nBước 8: Tính lợi nhuận sau 6 tuần\n\n```text\nLợi nhuận = 280,260,000 - 37,500,000 = 242,760,000 VNĐ\n```\n\nĐÁP ÁN CUỐI: 242760000",
+    "answer": "242760000",
+    "partial_audit_faults": [
+      {
+        "equation": "450 * 6 = 2,700",
+        "correct": false,
+        "computed": "2700",
+        "stated": "27/10"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001034",
+    "question": "Gia đình bạn Lan sử dụng điện và nước sinh hoạt trong tháng 10. Chỉ số công tơ điện đầu tháng là 1200 kWh, chỉ số cuối tháng là 1450 kWh.\nGiá điện được tính theo các bậc thang như sau:\n*   Bậc 1 (0-50 kWh): 1800 VNĐ/kWh\n*   Bậc 2 (51-100 kWh): 2000 VNĐ/kWh\n*   Bậc 3 (101-200 kWh): 2500 VNĐ/kWh\n*   Các kWh tiếp theo (từ 201 kWh trở lên): 3000 VNĐ/kWh\n\nChi phí nước sinh hoạt cố định trong tháng là 80.000 VNĐ.\nTổng hóa đơn phải chịu thêm 10% thuế giá trị gia tăng (VAT) trên tổng số tiền điện và nước (sau khi đã tính các bậc giá điện).\nHỏi tổng số tiền mà gia đình Lan phải thanh toán cho hóa đơn điện nước tháng 10 là bao nhiêu?",
+    "solution": "Bước 1: Tính số điện đã sử dụng trong tháng 10:\n\n1450 - 1200 = 250 kWh\n\nBước 2: Tính tiền điện theo từng bậc:\n\n- Bậc 1: 50 kWh đầu tiên  \n  50 × 1800 = 90.000 VNĐ\n\n- Bậc 2: 50 kWh tiếp theo  \n  50 × 2000 = 100.000 VNĐ\n\n- Bậc 3: 100 kWh tiếp theo  \n  100 × 2500 = 250.000 VNĐ\n\n- Phần còn lại:  \n  250 - 200 = 50 kWh  \n  50 × 3000 = 150.000 VNĐ\n\nBước 3: Tính tổng tiền điện:\n\n90.000 + 100.000 + 250.000 + 150.000 = 590.000 VNĐ\n\nBước 4: Cộng thêm tiền nước cố định:\n\n590.000 + 80.000 = 670.000 VNĐ\n\nBước 5: Tính thuế VAT 10%:\n\n670.000 × 10% = 67.000 VNĐ\n\nBước 6: Tính tổng số tiền phải thanh toán:\n\n670.000 + 67.000 = 737.000 VNĐ\n\nĐÁP ÁN CUỐI: 737000",
+    "answer": "737000",
+    "partial_audit_faults": [
+      {
+        "equation": "10/1450 - 1200 = 250",
+        "correct": false,
+        "computed": "-173999/145",
+        "stated": "250"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001073",
+    "question": "Gia đình bạn Hương có 4 thành viên: Hương, mẹ, bố và ông nội. Năm nay, Hương 9 tuổi. Tuổi mẹ gấp 4 lần tuổi Hương. Tuổi bố nhiều hơn tuổi mẹ 3 tuổi. Tuổi ông nội bằng tổng số tuổi của bố và mẹ, sau đó trừ đi 10 năm. Hỏi tổng số tuổi của cả bốn thành viên trong gia đình bạn Hương là bao nhiêu?",
+    "solution": "Bước 1: Tính tuổi của mẹ.\n\nMẹ gấp 4 lần tuổi Hương, mà Hương 9 tuổi:\n\n9 × 4 = 36\n\nVậy mẹ 36 tuổi.\n\nBước 2: Tính tuổi của bố.\n\nBố nhiều hơn mẹ 3 tuổi:\n\n36 + 3 = 39\n\nVậy bố 39 tuổi.\n\nBước 3: Tính tuổi của ông nội.\n\nTuổi ông nội bằng tổng tuổi của bố và mẹ, rồi trừ đi 10:\n\n39 + 36 - 10 = 65\n\nVậy ông nội 65 tuổi.\n\nBước 4: Tính tổng tuổi của cả 4 người.\n\nHương 9 tuổi, mẹ 36 tuổi, bố 39 tuổi, ông nội 65 tuổi:\n\n9 + 36 + 39 + 65 = 149\n\nĐÁP ÁN CUỐI: 149",
+    "answer": "149",
+    "partial_audit_faults": [
+      {
+        "equation": "10/39 + 36 - 10 = 65",
+        "correct": false,
+        "computed": "1024/39",
+        "stated": "65"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000905",
+    "question": "Nhà máy sản xuất linh kiện điện tử Z có kế hoạch sản xuất 2500 bảng mạch chủ (mainboard) mỗi tuần. Nhà máy có hai dây chuyền sản xuất hoạt động 5 ngày mỗi tuần.\n\nDây chuyền 1 có 30 công nhân, mỗi công nhân sản xuất được 8 bảng mạch chủ mỗi ngày.\nDây chuyền 2 có 25 công nhân, mỗi công nhân sản xuất được 9 bảng mạch chủ mỗi ngày.\n\nVào cuối ngày làm việc thứ 3, do yêu cầu đột xuất, 5 công nhân từ Dây chuyền 1 được chuyển sang hỗ trợ Dây chuyền 2 cho 2 ngày làm việc còn lại trong tuần.\n\nHỏi nhà máy còn thiếu bao nhiêu bảng mạch chủ để đạt được kế hoạch sản xuất tuần?",
+    "solution": "Bước 1: Tính sản lượng mỗi ngày trong 3 ngày đầu.\n\nDây chuyền 1:\n30 công nhân × 8 bảng/ngày = 240 bảng/ngày\n\nDây chuyền 2:\n25 công nhân × 9 bảng/ngày = 225 bảng/ngày\n\nTổng mỗi ngày trong 3 ngày đầu:\n240 + 225 = 465 bảng/ngày\n\nSản lượng trong 3 ngày đầu:\n465 × 3 = 1395 bảng\n\nBước 2: Tính sản lượng mỗi ngày trong 2 ngày còn lại sau khi chuyển công nhân.\n\nSau khi chuyển 5 công nhân từ Dây chuyền 1 sang Dây chuyền 2:\n\nDây chuyền 1 còn:\n30 - 5 = 25 công nhân\n\nDây chuyền 2 có:\n25 + 5 = 30 công nhân\n\nSản lượng Dây chuyền 1:\n25 × 8 = 200 bảng/ngày\n\nSản lượng Dây chuyền 2:\n30 × 9 = 270 bảng/ngày\n\nTổng mỗi ngày trong 2 ngày cuối:\n200 + 270 = 470 bảng/ngày\n\nSản lượng trong 2 ngày cuối:\n470 × 2 = 940 bảng\n\nBước 3: Tính tổng sản lượng cả tuần.\n\n1395 + 940 = 2335 bảng\n\nBước 4: Tính số bảng còn thiếu so với kế hoạch.\n\nKế hoạch là 2500 bảng, thực tế sản xuất được 2335 bảng.\n\n2500 - 2335 = 165 bảng\n\nĐÁP ÁN CUỐI: 165",
+    "answer": "165",
+    "partial_audit_faults": [
+      {
+        "equation": "1/25 * 8 = 200",
+        "correct": false,
+        "computed": "8/25",
+        "stated": "200"
+      },
+      {
+        "equation": "2/30 * 9 = 270",
+        "correct": false,
+        "computed": "3/5",
+        "stated": "270"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000942",
+    "question": "Lớp 7A có 30 học sinh. Trong bài kiểm tra giữa kỳ môn Toán, có 15 học sinh đạt điểm 9, 10 học sinh đạt điểm 8, và số còn lại đạt điểm 7. Lớp 7B có 28 học sinh. Trong cùng bài kiểm tra, có 12 học sinh đạt điểm 9, 9 học sinh đạt điểm 8, và số còn lại đạt điểm 7. Để khuyến khích tinh thần học tập, cô giáo quyết định cộng thêm 2 điểm thưởng cho mỗi học sinh đạt điểm 9 ở cả hai lớp. Hỏi tổng số điểm cuối cùng của tất cả học sinh hai lớp sau khi cộng điểm thưởng là bao nhiêu?",
+    "solution": "Bước 1: Tính số học sinh đạt điểm 7 của lớp 7A.\n\nLớp 7A có 30 học sinh, trong đó:\n- 15 học sinh đạt điểm 9\n- 10 học sinh đạt điểm 8\n\nSố học sinh đạt điểm 7 là:\n\n30 - 15 - 10 = 5\n\nBước 2: Tính tổng điểm ban đầu của lớp 7A.\n\n15 học sinh đạt điểm 9:\n\n15 × 9 = 135\n\n10 học sinh đạt điểm 8:\n\n10 × 8 = 80\n\n5 học sinh đạt điểm 7:\n\n5 × 7 = 35\n\nTổng điểm ban đầu của lớp 7A là:\n\n135 + 80 + 35 = 250\n\nBước 3: Tính điểm thưởng của lớp 7A.\n\nCó 15 học sinh đạt điểm 9, mỗi học sinh được cộng 2 điểm:\n\n15 × 2 = 30\n\nTổng điểm sau thưởng của lớp 7A là:\n\n250 + 30 = 280\n\nBước 4: Tính số học sinh đạt điểm 7 của lớp 7B.\n\nLớp 7B có 28 học sinh, trong đó:\n- 12 học sinh đạt điểm 9\n- 9 học sinh đạt điểm 8\n\nSố học sinh đạt điểm 7 là:\n\n28 - 12 - 9 = 7\n\nBước 5: Tính tổng điểm ban đầu của lớp 7B.\n\n12 học sinh đạt điểm 9:\n\n12 × 9 = 108\n\n9 học sinh đạt điểm 8:\n\n9 × 8 = 72\n\n7 học sinh đạt điểm 7:\n\n7 × 7 = 49\n\nTổng điểm ban đầu của lớp 7B là:\n\n108 + 72 + 49 = 229\n\nBước 6: Tính điểm thưởng của lớp 7B.\n\nCó 12 học sinh đạt điểm 9, mỗi học sinh được cộng 2 điểm:\n\n12 × 2 = 24\n\nTổng điểm sau thưởng của lớp 7B là:\n\n229 + 24 = 253\n\nBước 7: Tính tổng điểm cuối cùng của cả hai lớp.\n\n280 + 253 = 533\n\nĐÁP ÁN CUỐI: 533",
+    "answer": "533",
+    "partial_audit_faults": [
+      {
+        "equation": "7/5 * 7 = 35",
+        "correct": false,
+        "computed": "49/5",
+        "stated": "35"
+      },
+      {
+        "equation": "7/7 * 7 = 49",
+        "correct": false,
+        "computed": "7",
+        "stated": "49"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000950",
+    "question": "Một đội thợ xây được giao nhiệm vụ xây một bức tường rào cho một công trình. Bức tường có chiều dài 15 mét và chiều cao 2.5 mét. Để hoàn thành công việc, đội thợ cần tính toán các chi phí sau:\n\n*   Mỗi mét vuông tường cần 60 viên gạch. Giá mỗi viên gạch là 1,500 đồng.\n*   Mỗi mét vuông tường cần 10 kg xi măng để trộn vữa. Giá mỗi kg xi măng là 2,000 đồng.\n*   Chi phí công thợ xây dựng là 120,000 đồng cho mỗi mét vuông tường hoàn thành.\n\nHãy tính tổng số tiền mà chủ đầu tư phải chi trả cho việc xây dựng bức tường này, bao gồm tiền gạch, tiền xi măng và tiền công thợ.",
+    "solution": "Bước 1: Tính diện tích bức tường\n\nDiện tích = chiều dài × chiều cao\n\nDiện tích = 15 × 2.5 = 37.5 m²\n\nBước 2: Tính tiền gạch\n\nMỗi mét vuông cần 60 viên gạch, nên số viên gạch cần dùng là:\n\n37.5 × 60 = 2,250 viên\n\nGiá mỗi viên gạch là 1,500 đồng, nên tiền gạch là:\n\n2,250 × 1,500 = 3,375,000 đồng\n\nBước 3: Tính tiền xi măng\n\nMỗi mét vuông cần 10 kg xi măng, nên số xi măng cần dùng là:\n\n37.5 × 10 = 375 kg\n\nGiá mỗi kg xi măng là 2,000 đồng, nên tiền xi măng là:\n\n375 × 2,000 = 750,000 đồng\n\nBước 4: Tính tiền công thợ\n\nChi phí công thợ là 120,000 đồng cho mỗi mét vuông, nên tiền công là:\n\n37.5 × 120,000 = 4,500,000 đồng\n\nBước 5: Tính tổng chi phí\n\nTổng chi phí = tiền gạch + tiền xi măng + tiền công\n\nTổng chi phí = 3,375,000 + 750,000 + 4,500,000 = 8,625,000 đồng\n\nĐÁP ÁN CUỐI: 8625000",
+    "answer": "8625000",
+    "partial_audit_faults": [
+      {
+        "equation": "37.5 * 60 = 2,250",
+        "correct": false,
+        "computed": "2250",
+        "stated": "9/4"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000953",
+    "question": "Trong gia đình An, ông nội hơn bà nội 3 tuổi. Hiện tại, tổng số tuổi của ông nội và bà nội là 139 tuổi. Cách đây 5 năm, tuổi mẹ An bằng một phần ba (1/3) tuổi của ông nội An lúc đó. Năm nay, tuổi của An bằng một phần ba (1/3) tuổi của mẹ An. Hỏi sau bao nhiêu năm nữa thì tuổi của mẹ An sẽ gấp đôi (gấp 2 lần) tuổi của An?",
+    "solution": "Bước 1: Tính tuổi ông nội và bà nội hiện nay.\n\nÔng nội hơn bà nội 3 tuổi, tổng tuổi là 139.\n\nGọi tuổi bà nội là x, thì tuổi ông nội là x + 3.\n\nTa có:\n\n```text\nx + (x + 3) = 139\n2x + 3 = 139\n2x = 136\nx = 68\n```\n\nVậy bà nội 68 tuổi, ông nội 71 tuổi.\n\nBước 2: Tính tuổi mẹ An hiện nay.\n\nCách đây 5 năm, ông nội An:\n\n```text\n71 - 5 = 66 tuổi\n```\n\nKhi đó tuổi mẹ An bằng 1/3 tuổi ông nội:\n\n```text\n66 : 3 = 22 tuổi\n```\n\nVậy hiện nay mẹ An:\n\n```text\n22 + 5 = 27 tuổi\n```\n\nBước 3: Tính tuổi An hiện nay.\n\nNăm nay, tuổi An bằng 1/3 tuổi mẹ:\n\n```text\n27 : 3 = 9 tuổi\n```\n\nVậy hiện nay An 9 tuổi.\n\nBước 4: Tìm sau bao nhiêu năm nữa mẹ gấp đôi tuổi An.\n\nGọi số năm nữa là t.\n\nKhi đó:\n\n```text\nTuổi mẹ = 27 + t\nTuổi An = 9 + t\n```\n\nTa cần:\n\n```text\n27 + t = 2 × (9 + t)\n27 + t = 18 + 2t\n27 - 18 = 2t - t\n9 = t\n```\n\nVậy sau 9 năm nữa, tuổi mẹ An sẽ gấp đôi tuổi An.\n\nĐÁP ÁN CUỐI: 9",
+    "answer": "9",
+    "partial_audit_faults": [
+      {
+        "equation": "27 - 18 = 2",
+        "correct": false,
+        "computed": "9",
+        "stated": "2"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-000978",
+    "question": "Điện thoại của An An có 90% pin vào buổi sáng. An An chơi game \"Thế giới ảo\" trong 40 phút, biết rằng game này tiêu thụ 0.9% pin mỗi phút. Sau đó, An An chuyển sang xem video hướng dẫn làm thí nghiệm khoa học trên YouTube trong 1 giờ, với mức tiêu thụ là 0.6% pin mỗi phút. Thấy pin còn lại thấp, An An cắm sạc trong 40 phút và điện thoại được sạc với tốc độ 1.5% pin mỗi phút. Hỏi với lượng pin còn lại sau khi sạc, An An có thể sử dụng ứng dụng học từ vựng \"Vocabulary Master\" trong bao nhiêu phút, biết rằng ứng dụng này tiêu thụ 0.4% pin mỗi phút?",
+    "solution": "Bước 1: Tính lượng pin tiêu thụ khi chơi game.\n\nGame tiêu thụ 0.9% pin mỗi phút, chơi trong 40 phút:\n\n40 × 0.9 = 36%\n\nSau khi chơi game, pin còn:\n\n90% - 36% = 54%\n\nBước 2: Tính lượng pin tiêu thụ khi xem YouTube.\n\nAn An xem YouTube trong 1 giờ = 60 phút.\n\nYouTube tiêu thụ 0.6% pin mỗi phút:\n\n60 × 0.6 = 36%\n\nSau khi xem YouTube, pin còn:\n\n54% - 36% = 18%\n\nBước 3: Tính lượng pin được sạc thêm.\n\nĐiện thoại được sạc trong 40 phút, tốc độ sạc là 1.5% pin mỗi phút:\n\n40 × 1.5 = 60%\n\nSau khi sạc, pin có:\n\n18% + 60% = 78%\n\nBước 4: Tính thời gian dùng ứng dụng Vocabulary Master.\n\nỨng dụng tiêu thụ 0.4% pin mỗi phút. Với 78% pin, thời gian sử dụng là:\n\n78 ÷ 0.4 = 195 phút\n\nĐÁP ÁN CUỐI: 195",
+    "answer": "195",
+    "partial_audit_faults": [
+      {
+        "equation": "40 * 0.9 = (36/100)",
+        "correct": false,
+        "computed": "36",
+        "stated": "9/25"
+      },
+      {
+        "equation": "60 * 0.6 = (36/100)",
+        "correct": false,
+        "computed": "36",
+        "stated": "9/25"
+      },
+      {
+        "equation": "40 * 1.5 = (60/100)",
+        "correct": false,
+        "computed": "60",
+        "stated": "3/5"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001010",
+    "question": "Anh An đang xây dựng một nhà kho nhỏ cho công ty của mình. Anh ấy lên kế hoạch xây 4 bức tường, mỗi bức dài 8 mét và cao 3 mét.\nĐể đảm bảo chất lượng, mỗi mét vuông tường cần trung bình 50 viên gạch. Anh An cũng tính toán rằng sẽ có khoảng 15% số gạch mua về bị hao hụt hoặc vỡ trong quá trình vận chuyển và thi công, vì vậy anh cần mua thêm số lượng gạch dự phòng này.\nGiá mỗi viên gạch là 1,200 VNĐ. Ngoài ra, anh cần mua 20 bao xi măng với giá 90,000 VNĐ mỗi bao.\nAnh An thuê 3 công nhân, mỗi công nhân làm việc trong 5 ngày. Tiền công cho mỗi công nhân là 400,000 VNĐ mỗi ngày.\nCuối cùng, tổng chi phí xây dựng (bao gồm cả vật liệu và tiền công) sẽ phải chịu thêm 10% thuế giá trị gia tăng (VAT).\nHỏi tổng số tiền mà anh An phải chi trả để hoàn thành nhà kho này là bao nhiêu?",
+    "solution": "Bước 1: Tính tổng diện tích 4 bức tường.\n\nMỗi bức tường có diện tích:\n\n8 × 3 = 24 m²\n\nCó 4 bức tường nên tổng diện tích là:\n\n24 × 4 = 96 m²\n\nBước 2: Tính số gạch cần dùng trước hao hụt.\n\nMỗi mét vuông cần 50 viên gạch, nên số gạch cần là:\n\n96 × 50 = 4,800 viên\n\nBước 3: Tính số gạch cần mua thêm do hao hụt 15%.\n\nSố gạch hao hụt là:\n\n4,800 × 15% = 720 viên\n\nVậy tổng số gạch cần mua là:\n\n4,800 + 720 = 5,520 viên\n\nBước 4: Tính tiền mua gạch.\n\nMỗi viên gạch giá 1,200 VNĐ, nên tiền gạch là:\n\n5,520 × 1,200 = 6,624,000 VNĐ\n\nBước 5: Tính tiền xi măng.\n\nAnh An mua 20 bao xi măng, mỗi bao giá 90,000 VNĐ:\n\n20 × 90,000 = 1,800,000 VNĐ\n\nBước 6: Tính tiền công nhân.\n\nCó 3 công nhân, mỗi người làm 5 ngày, mỗi ngày 400,000 VNĐ:\n\n3 × 5 × 400,000 = 6,000,000 VNĐ\n\nBước 7: Tính tổng chi phí trước thuế VAT.\n\n6,624,000 + 1,800,000 + 6,000,000 = 14,424,000 VNĐ\n\nBước 8: Tính thuế VAT 10%.\n\n14,424,000 × 10% = 1,442,400 VNĐ\n\nBước 9: Tính tổng chi phí sau thuế.\n\n14,424,000 + 1,442,400 = 15,866,400 VNĐ\n\nĐÁP ÁN CUỐI: 15866400",
+    "answer": "15866400",
+    "partial_audit_faults": [
+      {
+        "equation": "96 * 50 = 4,800",
+        "correct": false,
+        "computed": "4800",
+        "stated": "24/5"
+      },
+      {
+        "equation": "4,800 * (15/100) = 720",
+        "correct": false,
+        "computed": "18/25",
+        "stated": "720"
+      },
+      {
+        "equation": "4,800 + 720 = 5,520",
+        "correct": false,
+        "computed": "3624/5",
+        "stated": "138/25"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001044",
+    "question": "Trong Giải bóng đá Thanh Thiếu Niên Thành Phố, Đội Vàng và Đội Xanh là hai đối thủ mạnh.\nMùa giải trước:\n- Đội Vàng đã ghi tổng cộng 75 bàn thắng sau 25 trận đấu.\n- Đội Xanh đã ghi tổng cộng 68 bàn thắng sau 25 trận đấu.\n\nBước vào mùa giải mới, cả hai đội đều đặt ra những mục tiêu cao:\n- Đội Vàng đặt mục tiêu tăng hiệu suất ghi bàn trung bình mỗi trận lên 20% so với mùa trước.\n- Đội Xanh đặt mục tiêu tổng số bàn thắng của họ trong mùa giải này đạt 120% so với tổng số bàn thắng của Đội Vàng trong mùa giải trước.\n\nBiết rằng cả hai đội đều sẽ thi đấu 30 trận trong mùa giải này.\nNếu cả hai đội đều đạt được mục tiêu của mình, thì tổng số bàn thắng của Đội Vàng trong mùa giải này sẽ nhiều hơn tổng số bàn thắng của Đội Xanh trong mùa giải này là bao nhiêu bàn?",
+    "solution": "Bước 1: Tính hiệu suất ghi bàn trung bình mỗi trận của Đội Vàng mùa trước.\n\n75 : 25 = 3\n\nVậy mùa trước Đội Vàng ghi trung bình 3 bàn/trận.\n\nBước 2: Đội Vàng đặt mục tiêu tăng hiệu suất trung bình lên 20%.\n\n20% của 3 là:\n\n3 × 20% = 3 × 0,2 = 0,6\n\nHiệu suất mới của Đội Vàng là:\n\n3 + 0,6 = 3,6 bàn/trận\n\nBước 3: Tính tổng số bàn thắng của Đội Vàng trong 30 trận mùa mới.\n\n3,6 × 30 = 108\n\nVậy Đội Vàng ghi 108 bàn.\n\nBước 4: Tính mục tiêu tổng số bàn thắng của Đội Xanh.\n\nĐội Xanh đặt mục tiêu đạt 120% so với tổng số bàn thắng của Đội Vàng mùa trước, tức là 120% của 75:\n\n75 × 120% = 75 × 1,2 = 90\n\nVậy Đội Xanh ghi 90 bàn.\n\nBước 5: Tính Đội Vàng nhiều hơn Đội Xanh bao nhiêu bàn.\n\n108 - 90 = 18\n\nĐÁP ÁN CUỐI: 18",
+    "answer": "18",
+    "partial_audit_faults": [
+      {
+        "equation": "75/75 * (120/100) = 75 * 1,2",
+        "correct": false,
+        "computed": "6/5",
+        "stated": "90"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001095",
+    "question": "Một xưởng may nhận đơn hàng sản xuất 150 áo sơ mi và 80 quần âu. Để hoàn thành đơn hàng, mỗi áo sơ mi cần 1.8 mét vải và mỗi quần âu cần 2.2 mét vải. Xưởng tính toán phải dự trữ thêm 5% lượng vải so với tổng số lượng vải cơ bản cần cho các chi tiết phụ và hao hụt. Giá vải là 75,000 đồng mỗi mét.\n\nVề công may, thợ may mất 45 phút để hoàn thành một chiếc áo sơ mi và 60 phút cho một chiếc quần âu. Tiền công được trả là 60,000 đồng mỗi giờ.\n\nHỏi tổng chi phí (tiền vải và tiền công may) mà xưởng phải bỏ ra để hoàn thành đơn hàng này là bao nhiêu?",
+    "solution": "Bước 1: Tính lượng vải cơ bản cần cho áo sơ mi.\n\n150 áo sơ mi, mỗi áo cần 1.8 mét vải:\n\n150 × 1.8 = 270 mét\n\nBước 2: Tính lượng vải cơ bản cần cho quần âu.\n\n80 quần âu, mỗi quần cần 2.2 mét vải:\n\n80 × 2.2 = 176 mét\n\nBước 3: Tính tổng lượng vải cơ bản.\n\n270 + 176 = 446 mét\n\nBước 4: Tính lượng vải cần dự trữ thêm 5%.\n\n446 × 5% = 446 × 0.05 = 22.3 mét\n\nBước 5: Tính tổng lượng vải cần mua.\n\n446 + 22.3 = 468.3 mét\n\nBước 6: Tính tiền vải.\n\nGiá vải là 75,000 đồng/mét:\n\n468.3 × 75,000 = 35,122,500 đồng\n\nBước 7: Tính thời gian may áo sơ mi.\n\nMỗi áo mất 45 phút:\n\n150 × 45 = 6,750 phút\n\nĐổi ra giờ:\n\n6,750 ÷ 60 = 112.5 giờ\n\nBước 8: Tính thời gian may quần âu.\n\nMỗi quần mất 60 phút:\n\n80 × 60 = 4,800 phút\n\nĐổi ra giờ:\n\n4,800 ÷ 60 = 80 giờ\n\nBước 9: Tính tổng thời gian công may.\n\n112.5 + 80 = 192.5 giờ\n\nBước 10: Tính tiền công may.\n\nTiền công là 60,000 đồng/giờ:\n\n192.5 × 60,000 = 11,550,000 đồng\n\nBước 11: Tính tổng chi phí.\n\nTổng chi phí = tiền vải + tiền công may:\n\n35,122,500 + 11,550,000 = 46,672,500 đồng\n\nĐÁP ÁN CUỐI: 46672500",
+    "answer": "46672500",
+    "partial_audit_faults": [
+      {
+        "equation": "150 * 45 = 6,750",
+        "correct": false,
+        "computed": "6750",
+        "stated": "27/4"
+      },
+      {
+        "equation": "6,750 / 60 = 112.5",
+        "correct": false,
+        "computed": "9/80",
+        "stated": "225/2"
+      },
+      {
+        "equation": "80 * 60 = 4,800",
+        "correct": false,
+        "computed": "4800",
+        "stated": "24/5"
+      },
+      {
+        "equation": "4,800 / 60 = 80",
+        "correct": false,
+        "computed": "2/25",
+        "stated": "80"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001138",
+    "question": "Minh vừa mua chiếc CyberPhone X mới tinh. Sáng sớm, pin điện thoại đầy 100%. Minh đã dùng điện thoại để chơi game trong 2 giờ 30 phút. Mỗi giờ chơi game tiêu thụ 12% pin. Sau đó, Minh cắm sạc điện thoại trong 45 phút. Tốc độ sạc của CyberPhone X là 1.5% pin mỗi phút. Buổi chiều, Minh tiếp tục dùng điện thoại để xem phim trong 1 giờ 45 phút. Mỗi giờ xem phim tiêu thụ 8% pin. Hỏi đến cuối ngày, pin điện thoại của Minh còn lại bao nhiêu phần trăm?",
+    "solution": "Bước 1: Tính lượng pin tiêu thụ khi chơi game.\n\nMinh chơi game trong 2 giờ 30 phút = 2,5 giờ.\n\nMỗi giờ chơi game tiêu thụ 12% pin, nên lượng pin tiêu thụ là:\n\n2,5 × 12 = 30%\n\nPin còn lại sau khi chơi game:\n\n100% - 30% = 70%\n\nBước 2: Tính lượng pin sạc thêm.\n\nMinh sạc trong 45 phút.\n\nMỗi phút sạc được 1,5% pin, nên lượng pin sạc thêm là:\n\n45 × 1,5 = 67,5%\n\nNếu cộng trực tiếp:\n\n70% + 67,5% = 137,5%\n\nNhưng pin điện thoại tối đa chỉ là 100%, nên sau khi sạc, pin đầy lại là:\n\n100%\n\nBước 3: Tính lượng pin tiêu thụ khi xem phim.\n\nMinh xem phim trong 1 giờ 45 phút = 1,75 giờ.\n\nMỗi giờ xem phim tiêu thụ 8% pin, nên lượng pin tiêu thụ là:\n\n1,75 × 8 = 14%\n\nPin còn lại cuối ngày:\n\n100% - 14% = 86%\n\nĐÁP ÁN CUỐI: 86",
+    "answer": "86",
+    "partial_audit_faults": [
+      {
+        "equation": "2,5 * 12 = (30/100)",
+        "correct": false,
+        "computed": "30",
+        "stated": "3/10"
+      },
+      {
+        "equation": "45 * 1,5 = (67,5/100)",
+        "correct": false,
+        "computed": "135/2",
+        "stated": "27/40"
+      },
+      {
+        "equation": "1,75 * 8 = (14/100)",
+        "correct": false,
+        "computed": "14",
+        "stated": "7/50"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001145",
+    "question": "Nhà máy sản xuất đồ chơi trẻ em Ước Mơ có 80 công nhân, mỗi người sản xuất được 15 bộ đồ chơi mỗi ngày. Nhà máy nhận một đơn hàng lớn gồm 28,000 bộ đồ chơi cần hoàn thành trong 20 ngày. Sau 12 ngày làm việc, giám đốc nhận thấy tiến độ cần được đẩy nhanh. Ông quyết định tăng năng suất của mỗi công nhân hiện có lên 17 bộ đồ chơi mỗi ngày cho những ngày còn lại. Tuy nhiên, với số công nhân hiện tại và năng suất mới này, nhà máy vẫn không thể hoàn thành đơn hàng đúng hạn. Để đảm bảo giao hàng đúng 20 ngày, nhà máy cần thuê thêm bao nhiêu công nhân, biết rằng mỗi công nhân mới cũng sẽ làm việc với năng suất 17 bộ đồ chơi mỗi ngày?",
+    "solution": "Bước 1: Tính số đồ chơi nhà máy sản xuất được mỗi ngày ban đầu.\n\n80 công nhân, mỗi người làm 15 bộ/ngày:\n\n80 × 15 = 1,200 bộ/ngày\n\nBước 2: Tính số đồ chơi đã sản xuất sau 12 ngày.\n\n1,200 × 12 = 14,400 bộ\n\nBước 3: Tính số đồ chơi còn lại cần hoàn thành.\n\n28,000 - 14,400 = 13,600 bộ\n\nBước 4: Tính số ngày còn lại.\n\n20 - 12 = 8 ngày\n\nBước 5: Tính số đồ chơi 80 công nhân hiện tại làm được trong 8 ngày với năng suất mới.\n\nMỗi công nhân làm 17 bộ/ngày, nên 80 công nhân làm:\n\n80 × 17 = 1,360 bộ/ngày\n\nTrong 8 ngày:\n\n1,360 × 8 = 10,880 bộ\n\nBước 6: Tính số đồ chơi còn thiếu.\n\n13,600 - 10,880 = 2,720 bộ\n\nBước 7: Tính số đồ chơi một công nhân mới làm được trong 8 ngày.\n\n17 × 8 = 136 bộ\n\nBước 8: Tính số công nhân mới cần thuê.\n\n2,720 ÷ 136 = 20\n\nVậy nhà máy cần thuê thêm 20 công nhân.\n\nĐÁP ÁN CUỐI: 20",
+    "answer": "20",
+    "partial_audit_faults": [
+      {
+        "equation": "80 * 15 = 1,200",
+        "correct": false,
+        "computed": "1200",
+        "stated": "6/5"
+      },
+      {
+        "equation": "80 * 17 = 1,360",
+        "correct": false,
+        "computed": "1360",
+        "stated": "34/25"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001151",
+    "question": "Ông Tám có một vườn cây ăn quả rộng lớn với 20 cây xoài và 15 cây ổi. Vụ mùa này, trung bình mỗi cây xoài cho thu hoạch 120 trái, và mỗi cây ổi cho thu hoạch 80 trái. Sau khi thu hoạch, ông Tám phát hiện có 1/12 tổng số trái cây bị dập nát và không thể bán được. Số trái cây còn lại được ông Tám phân loại: 2/3 trong số đó là trái loại 1, số còn lại là trái loại 2. Để chuẩn bị vận chuyển, trái cây loại 1 được đóng vào các thùng, mỗi thùng chứa 25 trái. Trái cây loại 2 được đóng vào các thùng nhỏ hơn, mỗi thùng chứa 20 trái. Hỏi ông Tám cần tổng cộng bao nhiêu thùng để đóng gói hết tất cả số trái cây loại 1 và loại 2?",
+    "solution": "Bước 1: Tính số trái xoài thu hoạch được.\n\n20 cây xoài, mỗi cây 120 trái:\n\n20 × 120 = 2400 trái\n\nBước 2: Tính số trái ổi thu hoạch được.\n\n15 cây ổi, mỗi cây 80 trái:\n\n15 × 80 = 1200 trái\n\nBước 3: Tính tổng số trái cây thu hoạch được.\n\n2400 + 1200 = 3600 trái\n\nBước 4: Tính số trái bị dập nát.\n\nCó 1/12 tổng số trái cây bị dập nát:\n\n3600 × 1/12 = 300 trái\n\nBước 5: Tính số trái cây còn lại có thể bán được.\n\n3600 - 300 = 3300 trái\n\nBước 6: Tính số trái loại 1.\n\nCó 2/3 số trái còn lại là loại 1:\n\n3300 × 2/3 = 2200 trái\n\nBước 7: Tính số trái loại 2.\n\nSố còn lại là loại 2:\n\n3300 - 2200 = 1100 trái\n\nBước 8: Tính số thùng cần cho trái loại 1.\n\nMỗi thùng chứa 25 trái:\n\n2200 ÷ 25 = 88 thùng\n\nBước 9: Tính số thùng cần cho trái loại 2.\n\nMỗi thùng chứa 20 trái:\n\n1100 ÷ 20 = 55 thùng\n\nBước 10: Tính tổng số thùng cần dùng.\n\n88 + 55 = 143 thùng\n\nĐÁP ÁN CUỐI: 143",
+    "answer": "143",
+    "partial_audit_faults": [
+      {
+        "equation": "1/3300 * 2/3 = 2200",
+        "correct": false,
+        "computed": "1/4950",
+        "stated": "2200"
+      },
+      {
+        "equation": "2/3300 - 2200 = 1100",
+        "correct": false,
+        "computed": "-3629999/1650",
+        "stated": "1100"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001154",
+    "question": "Gia đình bạn An sử dụng điện theo biểu giá bậc thang của EVN. Trong tháng 7, gia đình đã tiêu thụ tổng cộng 285 kWh điện. Biểu giá điện áp dụng cho hộ gia đình được quy định như sau:\n*   Bậc 1 (0-50 kWh): 1.728 VNĐ/kWh\n*   Bậc 2 (51-100 kWh): 1.786 VNĐ/kWh\n*   Bậc 3 (101-200 kWh): 2.077 VNĐ/kWh\n*   Bậc 4 (201-300 kWh): 2.612 VNĐ/kWh\n*   Bậc 5 (301-400 kWh): 2.927 VNĐ/kWh\n*   Bậc 6 (từ 401 kWh trở lên): 3.015 VNĐ/kWh\nNgoài chi phí tiền điện tính theo bậc thang, mỗi tháng gia đình còn phải trả thêm phí dịch vụ môi trường là 5.000 VNĐ. Sau khi cộng tổng tiền điện và phí dịch vụ môi trường, hóa đơn sẽ được tính thêm 10% thuế GTGT (VAT).\nHãy tính tổng số tiền mà gia đình An phải thanh toán cho hóa đơn điện tháng 7.",
+    "solution": "Bước 1: Chia 285 kWh theo các bậc giá\n\n- Bậc 1: 50 kWh\n- Bậc 2: 50 kWh\n- Bậc 3: 100 kWh\n- Bậc 4: 285 - 200 = 85 kWh\n\nBước 2: Tính tiền điện từng bậc\n\n- Bậc 1: 50 × 1.728 = 86.400 VNĐ\n- Bậc 2: 50 × 1.786 = 89.300 VNĐ\n- Bậc 3: 100 × 2.077 = 207.700 VNĐ\n- Bậc 4: 85 × 2.612 = 222.020 VNĐ\n\nBước 3: Tính tổng tiền điện trước phí và thuế\n\n86.400 + 89.300 + 207.700 + 222.020 = 605.420 VNĐ\n\nBước 4: Cộng phí dịch vụ môi trường\n\n605.420 + 5.000 = 610.420 VNĐ\n\nBước 5: Tính thuế VAT 10%\n\n610.420 × 10% = 61.042 VNĐ\n\nBước 6: Tính tổng số tiền phải thanh toán\n\n610.420 + 61.042 = 671.462 VNĐ\n\nĐÁP ÁN CUỐI: 671462",
+    "answer": "671462",
+    "partial_audit_faults": [
+      {
+        "equation": "4/285 - 200 = 85",
+        "correct": false,
+        "computed": "-56996/285",
+        "stated": "85"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001176",
+    "question": "Ông Hải có một trang trại nuôi gà đẻ trứng. Hiện tại, ông có 320 con gà mái và 80 con gà con. Mỗi ngày, một con gà mái đẻ trung bình 0.75 quả trứng, và mỗi quả trứng bán được với giá 3,200 đồng. Về chi phí, mỗi con gà mái ăn 130 gram cám mỗi ngày, còn mỗi con gà con ăn 50 gram cám mỗi ngày. Giá cám mà ông Hải mua là 14,500 đồng cho mỗi kilogram. Hãy tính tổng lợi nhuận mà trang trại của ông Hải thu được trong 25 ngày hoạt động. (Lợi nhuận được tính bằng tổng doanh thu từ trứng trừ đi tổng chi phí cám)",
+    "solution": "Bước 1: Tính số trứng gà mái đẻ trong 1 ngày.\n\n320 con gà mái, mỗi con đẻ trung bình 0.75 quả/ngày:\n\n320 × 0.75 = 240 quả trứng/ngày\n\nBước 2: Tính doanh thu bán trứng trong 1 ngày.\n\nMỗi quả trứng bán được 3,200 đồng:\n\n240 × 3,200 = 768,000 đồng/ngày\n\nBước 3: Tính doanh thu bán trứng trong 25 ngày.\n\n768,000 × 25 = 19,200,000 đồng\n\nBước 4: Tính lượng cám gà mái ăn trong 1 ngày.\n\nMỗi con gà mái ăn 130 gram/ngày:\n\n320 × 130 = 41,600 gram = 41.6 kg\n\nBước 5: Tính lượng cám gà con ăn trong 1 ngày.\n\nMỗi con gà con ăn 50 gram/ngày:\n\n80 × 50 = 4,000 gram = 4 kg\n\nBước 6: Tính tổng lượng cám ăn trong 1 ngày.\n\n41.6 + 4 = 45.6 kg/ngày\n\nBước 7: Tính chi phí cám trong 1 ngày.\n\nGiá cám là 14,500 đồng/kg:\n\n45.6 × 14,500 = 661,200 đồng/ngày\n\nBước 8: Tính chi phí cám trong 25 ngày.\n\n661,200 × 25 = 16,530,000 đồng\n\nBước 9: Tính lợi nhuận trong 25 ngày.\n\nLợi nhuận = Doanh thu - Chi phí cám\n\n19,200,000 - 16,530,000 = 2,670,000 đồng\n\nĐÁP ÁN CUỐI: 2670000",
+    "answer": "2670000",
+    "partial_audit_faults": [
+      {
+        "equation": "320 * 130 = 41,600",
+        "correct": false,
+        "computed": "41600",
+        "stated": "208/5"
+      },
+      {
+        "equation": "80 * 50 = 4,000",
+        "correct": false,
+        "computed": "4000",
+        "stated": "4"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001180",
+    "question": "Ông An là một nông dân cần cù. Mùa vụ này, ông thu hoạch lúa từ hai thửa ruộng. Thửa ruộng thứ nhất có diện tích 1.2 hecta với năng suất 6 tấn lúa mỗi hecta. Thửa ruộng thứ hai có diện tích 0.8 hecta với năng suất 6.5 tấn lúa mỗi hecta. Sau khi thu hoạch, ông bán toàn bộ số lúa với giá 7,500 đồng mỗi kilogam.\nĐể thu hoạch, ông An phải thuê nhân công với chi phí 1,500,000 đồng cho mỗi hecta.\nNgoài ra, ông An còn nuôi 150 con vịt. Mỗi con vịt tiêu thụ trung bình 0.2 kilogam thức ăn mỗi ngày. Ông đã nuôi số vịt này trong 60 ngày và giá thức ăn chăn nuôi là 12,000 đồng mỗi kilogam.\nHãy tính tổng lợi nhuận ròng mà ông An thu được từ việc trồng lúa và nuôi vịt trong mùa vụ này.",
+    "solution": "Bước 1: Tính sản lượng lúa từ thửa ruộng thứ nhất.\n\nDiện tích thửa 1 là 1.2 hecta, năng suất 6 tấn/hecta.\n\nSản lượng thửa 1:\n\n1.2 × 6 = 7.2 tấn\n\nBước 2: Tính sản lượng lúa từ thửa ruộng thứ hai.\n\nDiện tích thửa 2 là 0.8 hecta, năng suất 6.5 tấn/hecta.\n\nSản lượng thửa 2:\n\n0.8 × 6.5 = 5.2 tấn\n\nBước 3: Tính tổng sản lượng lúa.\n\n7.2 + 5.2 = 12.4 tấn\n\nĐổi ra kilogam:\n\n12.4 tấn = 12,400 kg\n\nBước 4: Tính doanh thu từ việc bán lúa.\n\nGiá bán là 7,500 đồng/kg.\n\nDoanh thu:\n\n12,400 × 7,500 = 93,000,000 đồng\n\nBước 5: Tính chi phí thuê nhân công thu hoạch.\n\nTổng diện tích hai thửa ruộng:\n\n1.2 + 0.8 = 2 hecta\n\nChi phí nhân công là 1,500,000 đồng/hecta.\n\nChi phí nhân công:\n\n2 × 1,500,000 = 3,000,000 đồng\n\nBước 6: Tính lượng thức ăn cho vịt.\n\nSố vịt là 150 con, mỗi con ăn 0.2 kg/ngày.\n\nLượng thức ăn mỗi ngày:\n\n150 × 0.2 = 30 kg\n\nNuôi trong 60 ngày nên tổng lượng thức ăn là:\n\n30 × 60 = 1,800 kg\n\nBước 7: Tính chi phí thức ăn cho vịt.\n\nGiá thức ăn là 12,000 đồng/kg.\n\nChi phí thức ăn:\n\n1,800 × 12,000 = 21,600,000 đồng\n\nBước 8: Tính tổng lợi nhuận ròng.\n\nLợi nhuận ròng = Doanh thu bán lúa - Chi phí nhân công - Chi phí thức ăn cho vịt\n\n93,000,000 - 3,000,000 - 21,600,000 = 68,400,000 đồng\n\nĐÁP ÁN CUỐI: 68400000",
+    "answer": "68400000",
+    "partial_audit_faults": [
+      {
+        "equation": "1/1.2 * 6 = 7.2",
+        "correct": false,
+        "computed": "5",
+        "stated": "36/5"
+      },
+      {
+        "equation": "2/0.8 * 6.5 = 5.2",
+        "correct": false,
+        "computed": "65/4",
+        "stated": "26/5"
+      },
+      {
+        "equation": "30 * 60 = 1,800",
+        "correct": false,
+        "computed": "1800",
+        "stated": "9/5"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001374",
+    "question": "Gia đình bạn Minh sử dụng điện sinh hoạt hàng tháng. Vào ngày 30 tháng 9, chỉ số công tơ điện ghi nhận là 2145 kWh. Đến ngày 30 tháng 10, chỉ số công tơ là 2475 kWh.\n\nGiá điện sinh hoạt được áp dụng theo các bậc như sau (chưa bao gồm VAT):\n*   Bậc 1 (0 – 50 kWh): 1.734 đồng/kWh\n*   Bậc 2 (51 – 100 kWh): 1.786 đồng/kWh\n*   Bậc 3 (101 – 200 kWh): 2.074 đồng/kWh\n*   Bậc 4 (201 – 300 kWh): 2.612 đồng/kWh\n*   Bậc 5 (301 – 400 kWh): 2.927 đồng/kWh\n*   Bậc 6 (Trên 400 kWh): 3.015 đồng/kWh\n\nNgoài ra, hóa đơn tiền điện còn phải chịu thuế giá trị gia tăng (VAT) là 10% trên tổng số tiền điện chưa bao gồm VAT. Nếu trong tháng 10, gia đình Minh còn phải đóng thêm 80.000 đồng phí vệ sinh môi trường hàng tháng vào hóa đơn tổng, hỏi tổng số tiền mà gia đình Minh phải thanh toán cho hóa đơn tháng 10 là bao nhiêu?",
+    "solution": "Bước 1: Tính lượng điện tiêu thụ trong tháng 10.\n\nChỉ số cuối tháng 10 trừ chỉ số cuối tháng 9:\n\n2475 - 2145 = 330 kWh\n\nGia đình Minh đã dùng 330 kWh.\n\nBước 2: Tính tiền điện theo từng bậc.\n\n- Bậc 1: 50 kWh đầu tiên  \n  50 × 1.734 = 86.700 đồng\n\n- Bậc 2: 50 kWh tiếp theo  \n  50 × 1.786 = 89.300 đồng\n\n- Bậc 3: 100 kWh tiếp theo  \n  100 × 2.074 = 207.400 đồng\n\n- Bậc 4: 100 kWh tiếp theo  \n  100 × 2.612 = 261.200 đồng\n\n- Bậc 5: còn lại 30 kWh  \n  30 × 2.927 = 87.810 đồng\n\nBước 3: Tính tổng tiền điện chưa bao gồm VAT.\n\n86.700 + 89.300 + 207.400 + 261.200 + 87.810 = 732.410 đồng\n\nBước 4: Tính VAT 10%.\n\n732.410 × 10% = 73.241 đồng\n\nBước 5: Tính tiền điện sau VAT.\n\n732.410 + 73.241 = 805.651 đồng\n\nBước 6: Cộng thêm phí vệ sinh môi trường.\n\n805.651 + 80.000 = 885.651 đồng\n\nĐÁP ÁN CUỐI: 885651",
+    "answer": "885651",
+    "partial_audit_faults": [
+      {
+        "equation": "9/2475 - 2145 = 330",
+        "correct": false,
+        "computed": "-589874/275",
+        "stated": "330"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001417",
+    "question": "An là một học sinh rất thích đọc sách ở thư viện. Trong đợt 1, An mượn 3 cuốn sách, mỗi cuốn có 160 trang. An đã đọc hết toàn bộ số sách này trong 4 ngày. Trong đợt 2, An mượn số sách gấp đôi số sách đã mượn trong đợt 1. Mỗi cuốn sách trong đợt 2 có trung bình 130 trang. An cũng đã đọc hết toàn bộ số sách này trong 5 ngày. Hỏi trung bình mỗi ngày An đã đọc bao nhiêu trang sách trong cả hai đợt?",
+    "solution": "Bước 1: Tính số trang An đọc trong đợt 1.\n\nAn mượn 3 cuốn, mỗi cuốn 160 trang:\n\n3 × 160 = 480 trang\n\nBước 2: Tính số sách An mượn trong đợt 2.\n\nĐợt 2 An mượn số sách gấp đôi đợt 1:\n\n3 × 2 = 6 cuốn\n\nBước 3: Tính số trang An đọc trong đợt 2.\n\nMỗi cuốn trung bình 130 trang:\n\n6 × 130 = 780 trang\n\nBước 4: Tính tổng số trang An đọc trong cả hai đợt.\n\n480 + 780 = 1260 trang\n\nBước 5: Tính tổng số ngày An đọc trong cả hai đợt.\n\n4 + 5 = 9 ngày\n\nBước 6: Tính trung bình mỗi ngày An đọc bao nhiêu trang.\n\n1260 ÷ 9 = 140 trang\n\nĐÁP ÁN CUỐI: 140",
+    "answer": "140",
+    "partial_audit_faults": [
+      {
+        "equation": "1/3 * 2 = 6",
+        "correct": false,
+        "computed": "2/3",
+        "stated": "6"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001452",
+    "question": "Một bể chứa nước ban đầu chỉ có một lượng nước bằng 30% tổng dung tích của nó. Để chuẩn bị cho việc sử dụng, người ta bơm thêm 1500 lít nước vào bể. Sau khi bơm xong, lượng nước trong bể chiếm 55% tổng dung tích. Sau đó, một van xả được mở và nước chảy ra ngoài với tốc độ 200 lít mỗi phút trong 5 phút. Hỏi sau khi xả nước, trong bể còn lại bao nhiêu lít nước?",
+    "solution": "Gọi tổng dung tích của bể là \\(x\\) lít.\n\nBan đầu, lượng nước trong bể bằng 30% dung tích, tức là:\n\n\\[\n0{,}30x\n\\]\n\nSau khi bơm thêm 1500 lít, lượng nước trong bể chiếm 55% dung tích, tức là:\n\n\\[\n0{,}55x\n\\]\n\nVậy ta có phương trình:\n\n\\[\n0{,}30x + 1500 = 0{,}55x\n\\]\n\nChuyển vế:\n\n\\[\n1500 = 0{,}55x - 0{,}30x\n\\]\n\n\\[\n1500 = 0{,}25x\n\\]\n\nSuy ra:\n\n\\[\nx = \\frac{1500}{0{,}25} = 6000\n\\]\n\nVậy tổng dung tích của bể là 6000 lít.\n\nSau khi bơm xong, lượng nước trong bể là:\n\n\\[\n0{,}55 \\times 6000 = 3300\n\\]\n\nVan xả chảy ra với tốc độ 200 lít mỗi phút trong 5 phút, nên lượng nước bị xả ra là:\n\n\\[\n200 \\times 5 = 1000\n\\]\n\nSau khi xả nước, lượng nước còn lại trong bể là:\n\n\\[\n3300 - 1000 = 2300\n\\]\n\nĐÁP ÁN CUỐI: 2300",
+    "answer": "2300",
+    "partial_audit_faults": [
+      {
+        "equation": "55 * 6000 = 3300",
+        "correct": false,
+        "computed": "330000",
+        "stated": "3300"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001505",
+    "question": "Nhà máy \"Đổi Mới\" nhận mục tiêu sản xuất 28,000 máy xay sinh tố trong quý 1 (gồm 2 tháng). Trong tháng 1, nhà máy có 50 công nhân, mỗi công nhân sản xuất được 15 máy xay mỗi ngày. Tháng 1 có 22 ngày làm việc. Để đảm bảo đạt mục tiêu, sang tháng 2 (có 20 ngày làm việc), nhà máy quyết định tuyển thêm 10 công nhân mới. Năng suất của mỗi công nhân mới cao hơn năng suất của công nhân cũ 5 máy xay/ngày. Hỏi trong tháng 2, nhà máy đã sản xuất được số máy xay nhiều hơn hay ít hơn số máy còn thiếu để hoàn thành mục tiêu là bao nhiêu?",
+    "solution": "Bước 1: Tính số máy xay sản xuất trong tháng 1.\n\nMỗi ngày, 50 công nhân cũ sản xuất được:\n\n50 × 15 = 750 máy\n\nTháng 1 có 22 ngày làm việc, nên sản xuất được:\n\n750 × 22 = 16,500 máy\n\nBước 2: Tính số máy còn thiếu sau tháng 1.\n\nMục tiêu là 28,000 máy, nên số máy còn thiếu là:\n\n28,000 - 16,500 = 11,500 máy\n\nBước 3: Tính năng suất trong tháng 2.\n\nSang tháng 2, nhà máy có thêm 10 công nhân mới.\n\nMỗi công nhân mới có năng suất cao hơn công nhân cũ 5 máy/ngày, nên mỗi công nhân mới sản xuất được:\n\n15 + 5 = 20 máy/ngày\n\nMỗi ngày trong tháng 2:\n- 50 công nhân cũ sản xuất: 50 × 15 = 750 máy\n- 10 công nhân mới sản xuất: 10 × 20 = 200 máy\n\nTổng mỗi ngày sản xuất được:\n\n750 + 200 = 950 máy\n\nBước 4: Tính số máy sản xuất trong tháng 2.\n\nTháng 2 có 20 ngày làm việc, nên sản xuất được:\n\n950 × 20 = 19,000 máy\n\nBước 5: So sánh với số máy còn thiếu.\n\nSố máy tháng 2 sản xuất được nhiều hơn số máy còn thiếu là:\n\n19,000 - 11,500 = 7,500 máy\n\nVậy trong tháng 2, nhà máy sản xuất nhiều hơn số máy còn thiếu để hoàn thành mục tiêu là 7,500 máy.\n\nĐÁP ÁN CUỐI: 7500",
+    "answer": "7500",
+    "partial_audit_faults": [
+      {
+        "equation": "750 * 22 = 16,500",
+        "correct": false,
+        "computed": "16500",
+        "stated": "33/2"
+      },
+      {
+        "equation": "950 * 20 = 19,000",
+        "correct": false,
+        "computed": "19000",
+        "stated": "19"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001507",
+    "question": "Công ty phần mềm Sáng Tạo Số có một đội gồm 10 lập trình viên. Mỗi lập trình viên làm việc 8 giờ mỗi ngày, từ thứ Hai đến thứ Sáu. Trung bình, mỗi lập trình viên viết được 60 dòng mã (code) mỗi giờ. Công ty được giao một dự án lớn yêu cầu tổng cộng 1,920,000 dòng mã. Sau khi hoàn thành chính xác một nửa tổng số dòng mã của dự án, 2 lập trình viên trong đội được điều động khẩn cấp sang một dự án khác. Các lập trình viên còn lại tiếp tục công việc cho phần còn lại của dự án với năng suất không đổi. Hỏi tổng cộng bao nhiêu tuần làm việc thực tế công ty cần để hoàn thành toàn bộ dự án này? (Chỉ tính các ngày làm việc trong tuần, không tính ngày nghỉ cuối tuần hoặc các ngày nghỉ lễ khác).",
+    "solution": "Bước 1: Tính năng suất ban đầu của cả đội.\n\nMỗi lập trình viên viết được:\n\n60 × 8 = 480 dòng mã mỗi ngày\n\nCả đội có 10 lập trình viên, nên mỗi ngày viết được:\n\n10 × 480 = 4,800 dòng mã\n\nMỗi tuần làm việc có 5 ngày, nên mỗi tuần viết được:\n\n4,800 × 5 = 24,000 dòng mã\n\nBước 2: Tính số dòng mã cần hoàn thành trước khi có người rời đội.\n\nDự án yêu cầu tổng cộng:\n\n1,920,000 dòng mã\n\nMột nửa dự án là:\n\n1,920,000 ÷ 2 = 960,000 dòng mã\n\nBước 3: Tính thời gian để hoàn thành nửa đầu dự án.\n\nVới năng suất 24,000 dòng mã mỗi tuần, thời gian cần là:\n\n960,000 ÷ 24,000 = 40 tuần\n\nBước 4: Tính năng suất sau khi 2 lập trình viên rời đội.\n\nSố lập trình viên còn lại là:\n\n10 - 2 = 8 lập trình viên\n\nMỗi ngày, 8 lập trình viên viết được:\n\n8 × 480 = 3,840 dòng mã\n\nMỗi tuần viết được:\n\n3,840 × 5 = 19,200 dòng mã\n\nBước 5: Tính thời gian để hoàn thành nửa còn lại của dự án.\n\nNửa còn lại cũng là:\n\n960,000 dòng mã\n\nThời gian cần là:\n\n960,000 ÷ 19,200 = 50 tuần\n\nBước 6: Tính tổng thời gian làm việc thực tế.\n\nTổng số tuần cần để hoàn thành toàn bộ dự án là:\n\n40 + 50 = 90 tuần\n\nĐÁP ÁN CUỐI: 90",
+    "answer": "90",
+    "partial_audit_faults": [
+      {
+        "equation": "10 * 480 = 4,800",
+        "correct": false,
+        "computed": "4800",
+        "stated": "24/5"
+      },
+      {
+        "equation": "8 * 480 = 3,840",
+        "correct": false,
+        "computed": "3840",
+        "stated": "96/25"
+      }
+    ]
+  },
+  {
+    "id": "vi-gsm-001596",
+    "question": "Trang trại của chú Nam có 300 con gà và 200 con vịt. Mỗi ngày, một con gà ăn 130 gram cám và một con vịt ăn 190 gram cám. Chú Nam tính toán chi phí cám cho 25 ngày tới. Cám được mua với giá 18,000 VNĐ/kg.\nBên cạnh đó, trang trại thu hoạch được trung bình 400 quả trứng gà và 250 quả trứng vịt mỗi ngày. Toàn bộ số trứng thu được trong 25 ngày sẽ được bán với giá 2,100 VNĐ/quả để bù đắp một phần chi phí cám.\nHỏi sau khi dùng tiền bán trứng để bù đắp, chú Nam còn phải chi thêm bao nhiêu tiền nữa để mua cám đủ dùng cho 25 ngày?",
+    "solution": "Bước 1: Tính lượng cám gà ăn mỗi ngày.\n\n300 con gà, mỗi con ăn 130 gram/ngày:\n\n300 × 130 = 39,000 gram = 39 kg\n\nBước 2: Tính lượng cám vịt ăn mỗi ngày.\n\n200 con vịt, mỗi con ăn 190 gram/ngày:\n\n200 × 190 = 38,000 gram = 38 kg\n\nBước 3: Tính tổng lượng cám cần mỗi ngày.\n\n39 + 38 = 77 kg\n\nBước 4: Tính lượng cám cần cho 25 ngày.\n\n77 × 25 = 1,925 kg\n\nBước 5: Tính tiền mua cám cho 25 ngày.\n\nGiá cám là 18,000 VNĐ/kg:\n\n1,925 × 18,000 = 34,650,000 VNĐ\n\nBước 6: Tính số trứng thu được mỗi ngày.\n\n400 quả trứng gà + 250 quả trứng vịt = 650 quả/ngày\n\nBước 7: Tính số trứng thu được trong 25 ngày.\n\n650 × 25 = 16,250 quả\n\nBước 8: Tính tiền bán trứng.\n\nMỗi quả bán được 2,100 VNĐ:\n\n16,250 × 2,100 = 34,125,000 VNĐ\n\nBước 9: Tính số tiền chú Nam còn phải chi thêm.\n\n34,650,000 - 34,125,000 = 525,000 VNĐ\n\nĐÁP ÁN CUỐI: 525000",
+    "answer": "525000",
+    "partial_audit_faults": [
+      {
+        "equation": "300 * 130 = 39,000",
+        "correct": false,
+        "computed": "39000",
+        "stated": "39"
+      },
+      {
+        "equation": "200 * 190 = 38,000",
+        "correct": false,
+        "computed": "38000",
+        "stated": "38"
+      }
+    ]
+  }
+]

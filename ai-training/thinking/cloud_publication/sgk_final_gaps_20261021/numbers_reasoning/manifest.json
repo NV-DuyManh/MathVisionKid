@@ -1,0 +1,141 @@
+{
+  "status": "24_DRAFTS_AUTHOR_QA_PASSED_ROOT_REVIEW_PENDING",
+  "cases": 24,
+  "chat_rows": 96,
+  "grades": {
+    "3": 11,
+    "4": 5,
+    "5": 8
+  },
+  "masters": {
+    "angle_ray_pair_enumeration": 2,
+    "balance_order_substitution_chain": 3,
+    "bill_of_materials_area_cost": 2,
+    "bounded_color_multiset_without_replacement": 3,
+    "collinear_triple_complete_enumeration": 2,
+    "finite_inventory_collection_game": 3,
+    "gregorian_leap_year_convention": 2,
+    "partial_product_column_reconstruction": 2,
+    "placeclass_torn_strip_constraints": 2,
+    "repeated_value_identity_assignment": 3
+  },
+  "numeric_steps": 16,
+  "independent_oracles": 24,
+  "adversarial_mutations": 86,
+  "nearest_actual_rows": 18,
+  "training_started": false,
+  "drive_mutated": false,
+  "files": [
+    {
+      "path": "actual_page_review.json",
+      "sha256": "ef6444266ea5f7d57805b59bcee1c380994e83f524f68aa3b5c7f5764cb85b2f",
+      "bytes": 2552
+    },
+    {
+      "path": "adversarial_mutations.jsonl",
+      "sha256": "4b960589171d172b0484b4d6b4909d5ce77d7ec3499d3576c900251ff9087de7",
+      "bytes": 21514
+    },
+    {
+      "path": "author_semantic_read.jsonl",
+      "sha256": "62d880733cff2e780888bbdc67ab77d466059caa521a02c7bac37fb758e4d4fd",
+      "bytes": 16515
+    },
+    {
+      "path": "candidate_snapshot.json",
+      "sha256": "f2324c1d7f69015cb619dc2287322acfacad964875842e28f5b19e8d1b41dcb8",
+      "bytes": 55022
+    },
+    {
+      "path": "cases.jsonl",
+      "sha256": "68955882a4b3427effb790ee6a6a971acaefce477c4bf0ec69637107e732b781",
+      "bytes": 139181
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "c0ce9640a9d7102cfb229bfccca8aebac905bb999944fed3798f307da8e36ad9",
+      "bytes": 216709
+    },
+    {
+      "path": "coverage_residual_matrix.json",
+      "sha256": "c95965b944068286c18b8c5bec8c560d76e3a8aab9fdafb88d566a21b7419521",
+      "bytes": 11039
+    },
+    {
+      "path": "gregorian_primary_source.json",
+      "sha256": "6dce790c06697ea559942d2c01ee353814d2711d1cc6b54540044c2eda68c452",
+      "bytes": 502
+    },
+    {
+      "path": "independent_oracle.py",
+      "sha256": "17a164e8342666e2bef06d297b5d9d001ad6c6d2e7724f51344cb12c0723b412",
+      "bytes": 11996
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "35ce1c05af6efcfe4be4d1fbccbda758aacd41b7539facc0778734816191fa11",
+      "bytes": 8608
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "e2f39a46a348090926007c1caa98bbb1a8a2c899e694946a480dd6ff7bf1d1ba",
+      "bytes": 135663
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "9d4397a6972f65b1fabab0ec9e5b7e9a17cb748b7027641121d7a058b5875213",
+      "bytes": 3804
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "33861984072d3b93e5c43d4fad970b5e94afe12838a982f4cef4d23035a21862",
+      "bytes": 17304
+    },
+    {
+      "path": "source_114.png",
+      "sha256": "c33d185f6bb018a5f9563faf22f2d23c3b639b52b04a83a2d87b6039ebc3467a",
+      "bytes": 674456
+    },
+    {
+      "path": "source_115.png",
+      "sha256": "eda85f87a8af92cf80e079ba789584eee7c8eeafd44c44258d0168388f01620e",
+      "bytes": 727280
+    },
+    {
+      "path": "source_126.png",
+      "sha256": "97404d8e61d90757bc3f5b19de6a1bd7ad185df037ab91c22f83553167f16ad9",
+      "bytes": 566131
+    }
+  ],
+  "prior_source_snapshots": [
+    {
+      "path": "cloud_publication\\sgk_page_audit_20261019\\current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+    },
+    {
+      "path": "cloud_publication\\sgk_completion_20261021\\release\\accepted_cases.jsonl",
+      "sha256": "1e9b81a0178c8ca93e9759359629c94d789e953902e4e28feb114342d6944f9a"
+    },
+    {
+      "path": "cloud_publication\\sgk_final_forms_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "8d80ff7f2cf5a00adb2c657a58121e19e9cf05b25d294355e19f5c00897da318"
+    },
+    {
+      "path": "cloud_publication\\sgk_finish_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025"
+    },
+    {
+      "path": "cloud_publication\\sgk_page_audit_20261019\\release\\accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45"
+    },
+    {
+      "path": "cloud_publication\\sgk_remaining_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296"
+    }
+  ],
+  "meaningful_model_mutations": 24,
+  "generator_source": {
+    "path": "thinking/sgk_final_gaps_numbers.py",
+    "sha256": "9d16e0d6850653b07ad809e9f4571d23a601e3bf4b79aa7f8c148f0d681a9293"
+  }
+}

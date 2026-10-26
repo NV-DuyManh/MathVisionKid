@@ -1,0 +1,49 @@
+{
+  "schema": "MathVisionKid.skill_recovery_final_control_metadata.v1",
+  "phase": "COMPLETED_NO_ELIGIBLE_MODEL_UPGRADE",
+  "all_experiment_workers_exited": true,
+  "source_and_corpus_preserved": true,
+  "new_data_cases": 0,
+  "new_train_chats": 0,
+  "actually_trained_existing_chats": 1600,
+  "successful_optimizer_updates": 100,
+  "supervised_tokens": 178939,
+  "whole6502344_epoch_completed": false,
+  "adapter_promoted": false,
+  "production_approved": false,
+  "sft_dev_base_fulltask": 15,
+  "sft_dev_candidate_fulltask": 17,
+  "dev_fixture_count": 30,
+  "context_final20_base": 11,
+  "context_final20_selected": 11,
+  "native_dev_base": 8,
+  "native_dev_candidate": 10,
+  "native_dev_fixture_count": 15,
+  "native_new15_test_not_run_due_failed_dev_gate": true,
+  "selected_weight_kind": "untrained_pinned_base",
+  "report": {
+    "id": "1y8fg8k5Mgr2XMCr5g_w2-yXAjydCpJG5",
+    "sha256": "0d7e5e2fe032aeb3e03384892634f8c6b627594e8812ef3edccc3c7b5ce4c855",
+    "bytes": 83323,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T14:24:04.110553+00:00",
+    "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+    "name": "training__final_semantic_assessment.json",
+    "immutable": false
+  },
+  "audit_bundle": {
+    "id": "1u3735Od9qWKAE_YQ2dVAlHh7YX_JFqW4",
+    "sha256": "4636f1d6fb96d8f7de5dc941a72dbeb6b832ebf828fada95a16ebd104d787349",
+    "bytes": 228690,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T14:23:14.611284+00:00",
+    "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+    "name": "quality_recovery_audit_bundle_4636f1d6fb96d8f7.zip",
+    "immutable": true
+  },
+  "raw_readback_publication_finalized": true,
+  "fresh_worker_observation_receipt_sha256": "447fc7dc4757cd346eff5ef3c892cc19e33c0ab21c6b527cc614bc52acd0369b",
+  "skills_applied": [
+    "google-drive:google-drive"
+  ]
+}

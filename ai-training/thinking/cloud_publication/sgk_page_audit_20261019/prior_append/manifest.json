@@ -1,0 +1,171 @@
+{
+  "acceptance": "OWNER_PREAUTHORIZED_AFTER_QA",
+  "all_existing_data_preserved": true,
+  "all_sgk_exercise_forms_audited": false,
+  "gpu_used": false,
+  "members": {
+    "audit_only_not_training/g12_cases_before_copyedit.jsonl": {
+      "bytes": 101948,
+      "sha256": "0ba34758ba228fab289a143b937beabd7b40a6c581e5bdc1f11edb4f953d7f85"
+    },
+    "audit_only_not_training/sgk_g5_excluded_drafts.jsonl": {
+      "bytes": 22180,
+      "sha256": "815b562c3291774e84a9f0cfcd3d8eaf68ef04d2d0fa4c8291b5a3649d058f1b"
+    },
+    "code/build_sgk_g34_gaps.py": {
+      "bytes": 84537,
+      "sha256": "3d088f83c715140a671cff25ea68f845cd3cf66af13c617095d80b18a14deca6"
+    },
+    "code/build_sgk_g5_gap.py": {
+      "bytes": 48180,
+      "sha256": "452c1b5b670712af4318748d1bd53f37fc3c7662fe5a8c4e5932a2b0c7313d1f"
+    },
+    "code/catalog_sgk_g5.py": {
+      "bytes": 10522,
+      "sha256": "8078bcb3aacf8696450b58ae2bf16699bda6c0949fbfb4168ee8fdd8f63805a3"
+    },
+    "code/exhaustive_colab_loader.py": {
+      "bytes": 24727,
+      "sha256": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+    },
+    "code/sgk_g12_audit.py": {
+      "bytes": 45747,
+      "sha256": "c443290cfbe7749a7b7cad63e81115768cb651eef8921132462206ef58572a64"
+    },
+    "code/sgk_g12_catalog.py": {
+      "bytes": 11600,
+      "sha256": "795ec0bd76abfa08c13d9ad97b6d36819d90b4e8f71c4f9cab28f829c609fb69"
+    },
+    "code/sgk_gap_release.py": {
+      "bytes": 29501,
+      "sha256": "5d03022aaa38fd53590ee1b639f688b5aa289eb8ee0ff46267c35f9ca26197c6"
+    },
+    "code/test_sgk_g12_audit.py": {
+      "bytes": 6809,
+      "sha256": "708d22514b98a7927ff49ffea63eeef93591c38d276fa159086f800dcc34e452"
+    },
+    "code/test_sgk_g12_structural.py": {
+      "bytes": 4871,
+      "sha256": "0532c8f85c5cf378fe88de308712058c6d5c66122c7fbff2da537878206e4891"
+    },
+    "code/test_sgk_g34_gaps.py": {
+      "bytes": 4748,
+      "sha256": "016a3a38bd6d89bcf98ef0b618da2cbc98c68a9d5fbb71e8ec1d5ee66de5e493"
+    },
+    "code/test_sgk_g5_gap.py": {
+      "bytes": 4695,
+      "sha256": "04d541e9d94a00b0a9520480ef571b7285ab390dd8377672f188ab130bc3ce70"
+    },
+    "data/accepted_sgk_cases.jsonl": {
+      "bytes": 474772,
+      "sha256": "de4831728fe2ef6457a7a816588a78ac04e8045b3408d0380cf951e032d79e21"
+    },
+    "data/accepted_sgk_chat.jsonl": {
+      "bytes": 823601,
+      "sha256": "0b009dcb7cd62cc39606b4031cbb611e0757cf6a047280c4f2221b8f2351f97e"
+    },
+    "data/catalog_summary.json": {
+      "bytes": 1043,
+      "sha256": "0546decda2f85f514985058b8bbe0a2fc57c32b60a7d4c6e5f8628bbee60e128"
+    },
+    "data/cross_review_corrections.json": {
+      "bytes": 1514,
+      "sha256": "e6741713b005ce3dd11a23cabd1c03f65a71563f1e20a5bfb79f2991d410105b"
+    },
+    "data/final_tests_receipt.json": {
+      "bytes": 441,
+      "sha256": "0353793965084e4675d96c36683966637f386960be5f398d8e3f252c44c7664d"
+    },
+    "data/g12_exact_oracles.json": {
+      "bytes": 7638,
+      "sha256": "be627169671f4e0eca24e2180763a97549f10dca6a5548774b782d8c30f7d1df"
+    },
+    "data/g12_official_endpoints.json": {
+      "bytes": 2340,
+      "sha256": "c287c9cae5fa3872b4bffe1cb9cbf695c17d1b408972dbffba5b2adce6d727bd"
+    },
+    "data/g12_official_pages.json": {
+      "bytes": 53268,
+      "sha256": "bc2bc023986daf555f5770ed38094eb176450843c25b836701bf4f818d02509e"
+    },
+    "data/g12_structural_oracles.json": {
+      "bytes": 7809,
+      "sha256": "ff0345c4c39fb76e6741e1c87c6d25c21ff527f7e7a6a6eae4b63e13c1a836e7"
+    },
+    "data/new_chat_token_audit.json": {
+      "bytes": 7557,
+      "sha256": "bbd0b986101606c4ff1f868e63e335f40dfcb3f7a1d3536ee47c7f4af9f4e8aa"
+    },
+    "data/official_source_file_hashes.json": {
+      "bytes": 46725,
+      "sha256": "cd9b6a48ca2cb1abe14265d9663d3fecfb196150e5ae0eab85ff24146d3e21e4"
+    },
+    "data/pending_sgk_exercise_audit.json": {
+      "bytes": 116954,
+      "sha256": "d1f120c289ec549250d99ac537597ace47cded7bcc2242fe640dc181abd9aad7"
+    },
+    "data/root_audit.json": {
+      "bytes": 4300,
+      "sha256": "8d31c0adf8fa303e8cfefa2e7b8ca21347876a7a504f33933e0efe0b55d09702"
+    },
+    "data/root_cross_reviews.jsonl": {
+      "bytes": 84716,
+      "sha256": "d049a5d2bb0ec54b815eaec12ed30d8a58cf4c7d05b6d84ee5f6c550fcee0b9f"
+    },
+    "data/root_numeric_oracle.json": {
+      "bytes": 28451,
+      "sha256": "4b38e8918b00a5befcb7f83c07d2f677a7426b46bacfa52d94bbd800802cb425"
+    },
+    "data/self_qa_all.jsonl": {
+      "bytes": 129143,
+      "sha256": "46f237e59b06d557d36f472b9a80c0209e831c447f05e8c2f51be2e366742035"
+    },
+    "data/sgk_g12_catalog.json": {
+      "bytes": 105201,
+      "sha256": "f1f71ee62ee2f0cf06e0679b8dbbd38130d9d8ec02cb11c60894666054baade1"
+    },
+    "data/sgk_g12_peer_review.json": {
+      "bytes": 8945,
+      "sha256": "9fe62677550193117492add423cf30bb75e907b8f2292da337c9baaa6279acce"
+    },
+    "data/sgk_g12_peer_review_resolution.json": {
+      "bytes": 428,
+      "sha256": "c8d40db1a4b0574429a8f7c3ce0b3a5a251df9fc29d0c4cf609348c5dc29258f"
+    },
+    "data/sgk_g34_catalog.json": {
+      "bytes": 308640,
+      "sha256": "8358daab5c71b4093ca55f17b490dc300dc3bcf255138714b6330ea61b38b22b"
+    },
+    "data/sgk_g34_qa.json": {
+      "bytes": 1271,
+      "sha256": "af4b0904c285d615354348801a81c3a259d8bf89b3c72051a590b9e612a5f625"
+    },
+    "data/sgk_g34_tests_receipt.json": {
+      "bytes": 307,
+      "sha256": "8d9666a41820e497c2d55a5c568c9030fb82f56e07ab120daef528e672d4e98d"
+    },
+    "data/sgk_g5_catalog.json": {
+      "bytes": 214357,
+      "sha256": "65631bc60326d5920aa4e6bbea3578f54a9224295180c378b4800b3837923576"
+    },
+    "data/sgk_g5_final_readback.json": {
+      "bytes": 717,
+      "sha256": "635794473b11afed32133b01a8c0c4767d49958da0e7cf0ae8bedfdc71ef76f4"
+    },
+    "data/sgk_g5_qa.json": {
+      "bytes": 1187,
+      "sha256": "cd0a62066405803208d39c966532307ec7b55f3e8a2bf65cf8a1a543d492e313"
+    },
+    "data/training_eligibility_by_hash.jsonl": {
+      "bytes": 38351,
+      "sha256": "c5a37fe9cfab83e680de99f2ad722899256740e0bfecbae9fa5b0d8450dfa878"
+    },
+    "sources/official_update_raw_hashes.json": {
+      "bytes": 1268,
+      "sha256": "fc511b331a3e42e93dadb2cf25e63086decc6819f3a82066a006864fb0621afa"
+    }
+  },
+  "official_sgk_images_pdf_or_complete_books_redistributed": false,
+  "schema": "MathVisionKid.SGK_GAP_APPEND.v1",
+  "training_started": false
+}

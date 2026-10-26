@@ -1,0 +1,12 @@
+{
+  "samples": 160,
+  "solvable_samples": 145,
+  "numeric_answers_accepted": 80,
+  "wrong_numeric_answers_accepted": 0,
+  "solvable_coverage": 0.5517241379310345,
+  "guard_samples": 15,
+  "guards_correct": 15,
+  "semantic_contract": "published raw full-match templates only; not arbitrary Vietnamese/OCR",
+  "model_plan_vs_calculator": "model must select valid grounded plan; exact calculator produces final answer",
+  "production_approved": false
+}

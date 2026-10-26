@@ -1,0 +1,67 @@
+{
+  "schema": "MathVisionKid.locked_test_candidate_protocol.v1",
+  "file": "locked_test_candidates.jsonl",
+  "sha256": "41413ac3e61e7180cee53d06ccec6186256f1cfdf845557a6a598822f6ca22d0",
+  "status": "SEALED_CANDIDATES_PENDING_RUNTIME_COLLISION_SCREEN_BEFORE_FINAL_LOCK",
+  "candidate_count": 20,
+  "grade_counts": {
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  },
+  "mode_counts": {
+    "answer": 10,
+    "hint_no_answer": 5,
+    "student_error": 2,
+    "missing_or_contradictory_info": 3
+  },
+  "per_grade_composition": {
+    "answer": 2,
+    "hint_no_answer": 1,
+    "odd_grades": "one missing/contradictory-info task",
+    "even_grades": "one provided-student-error task"
+  },
+  "authorship_and_QA": "Original Vietnamese LLM-authored candidates. Author read complete tasks/references/rubrics and verified all declared exact checks; no human certification.",
+  "qa": {
+    "schema_fields_valid": true,
+    "unique_ids": true,
+    "exact_arithmetic_checks": 44,
+    "exact_arithmetic_checks_passed": true,
+    "engines": [
+      "fractions.Fraction",
+      "decimal.Decimal for decimal quantities",
+      "independent integer recomposition/ordering/representation checks"
+    ],
+    "exact_normalized_prompt_overlap_with_new_validation": 0,
+    "old_28_not_rewritten_or_reparameterized": true,
+    "protected_V3_V4_pilot_challenge_content_used": false,
+    "grade_placement": "Author checked natural-number prerequisites by grade; grade2 division stays within the two/five tables; formal fractions are grade4 and decimals are grade5. This is placement QA, not curriculum certification."
+  },
+  "screening": {
+    "runtime_screen_against_actual_selected_16000_rows": "PENDING",
+    "screen_against_fresh_development_candidates": "PENDING_RUNTIME_NORMALIZED_AND_SEMANTIC_SCREEN",
+    "full_6502344_training_rows_independence": "UNPROVEN",
+    "independent_heldout_test_claimed": false,
+    "do_not_infer_no_leakage_from_no_exact_prompt_collision": true
+  },
+  "locked_test_protocol": {
+    "root_should_not_inspect_task_content_or_answers_before_model_selection": true,
+    "root_should_not_inspect_test_results_before_selection": true,
+    "freeze_after_collision_screening": true,
+    "record_selected_checkpoint_id_and_sha_before_test": true,
+    "test_runs_after_best_selection": 1,
+    "never_select_or_tune_from_test": true,
+    "do_not_retrain_from_locked_test_failures_within_this_selection_cycle": true,
+    "paired_contract_if_baseline_is_reported": "If a baseline is preregistered, run it in the same final one-time locked evaluation session using the same prompts/decoding; do not use outcomes for selection."
+  },
+  "reporting": "Report aggregate grade/mode counts and full-output semantic failures only after selection. Preserve raw outputs and prompt/token/decoding contract hashes; no human or full-curriculum certification. Correct answers with contradictory explanations fail strict task success; useful answer-free guidance is required in hint mode.",
+  "operations": {
+    "runtime_calls": 0,
+    "drive_calls": 0,
+    "gpu_calls": 0,
+    "training_started": false,
+    "source_corpus_changed": false
+  }
+}

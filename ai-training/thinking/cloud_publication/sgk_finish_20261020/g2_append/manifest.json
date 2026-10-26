@@ -1,0 +1,520 @@
+{
+  "status": "28_DRAFTS_AUTHOR_QA_PASS_ROOT_QA_PENDING",
+  "case_count": 28,
+  "chat_count": 112,
+  "master_counts": {
+    "G2_CHANGING_LAYER_AND_SHAPE_PATTERN": 2,
+    "G2_FINITE_ANIMAL_COUNT_LEG_CONSTRAINT": 2,
+    "G2_FINITE_POSITIVE_RESOURCE_DISTRIBUTION": 2,
+    "G2_GRAPH_PRESCRIBED_RESULT_SEQUENCE": 2,
+    "G2_LOCAL_BRANCH_COMPARISON_ROUTE": 2,
+    "G2_MEASURE_REPEAT_UPPER_LOWER_BOUND_LANGUAGE": 2,
+    "G2_ORTHOGONAL_COMMAND_EXECUTION_AND_LANDING_SUM": 2,
+    "G2_OVERLAPPING_REGION_MEMBERSHIP_EXTREMA": 2,
+    "G2_RELATIVE_HEIGHT_REFERENCE_UPDATE": 2,
+    "G2_ROUTE_COLLECTED_LABEL_SUM": 2,
+    "G2_SCALED_GRID_DISTANCE_THRESHOLD": 2,
+    "G2_SHARED_ARITHMETIC_CARD_ASSIGNMENT": 2,
+    "G2_SHARED_INTERSECTION_POINT_COUNT": 2,
+    "G2_SHARED_NODE_TWO_PATH_OPERATION_CONSISTENCY": 2
+  },
+  "numeric_steps": 31,
+  "family_oracles": 28,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "1aed920b82e5231329d5c69e5316fdedaa78d8e8c8d07c1b29ccfcead6c30f16",
+      "bytes": 149926,
+      "rows": 28
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "d74ede9e6b6ba0863f68b2130f9f44cdf87b1257c00ea298a8bf63a3ccc6f036",
+      "bytes": 216989,
+      "rows": 112
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "e5e9f4ba5161056514935729edfe2a7efd45d5bc8012bf6af3d2b9d6a3f74a56",
+      "bytes": 107739,
+      "rows": 28
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "8ba3ccd103456f4a5e6cac9ba6458a73b8260612eb6aae66abca8302a835dc23",
+      "bytes": 12053,
+      "rows": 28
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "3e8518a13f7b6425a1be656f85d20579fbffa14621ef90a874e20cf6983b3af3",
+      "bytes": 3991,
+      "rows": 31
+    },
+    {
+      "path": "nearest_actual_full_field_review.jsonl",
+      "sha256": "8e70bdf333961fc8e6f824a30c2c9a1eaabd2ee15e9af8f35727e6f6be690063",
+      "bytes": 45023,
+      "rows": 17
+    },
+    {
+      "path": "actual_page_receipts_readback.jsonl",
+      "sha256": "e08c7b4d15266d23c430b5692cab7f64aaec75daa3dea1572a32dee585548e5a",
+      "bytes": 20376,
+      "rows": 16
+    }
+  ],
+  "pending_untouched": [
+    {
+      "finite_master_id": "G12_EXPRESSION_CLASS_COUNT_EXTENSION",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v2:g2v2_expression_class_count"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:trace_single_crossing_curve"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G1V2_ATTRIBUTE_FILTERED_EXTREMA",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:conjunctive_attribute_expression_filter",
+        "g2v1:conjunctive_attribute_filter"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_CALENDAR_ANCHOR_OFFSET",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:calendar_missing_cells"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_ELAPSED_WHOLE_HOURS",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:clock_hand_motion"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_PREDICATE_PATH_ASSET",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v2:shape_filtered_maze"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:role_specific_equation_matching"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:grid_path_length_comparison",
+        "g2v2:grid_path_length"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_SORT_REPAIR_ONE_SWAP",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:single_pair_sort_repair"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:g2_card_numeral_formation",
+        "g2v1:multiset_numeral_generation",
+        "g2v2:digit_card_extrema",
+        "g2v2:digit_card_permutations_zero"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G1_RESOURCE_ASSIGNMENT_CAPACITY_BRANCH",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v2:capacity_assignment"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G2_HIDDEN_UNIT_CUBE_ASSEMBLY",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:unit_cube_count_assembly"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G2_LABELLED_MAZE_LOCAL_CONDITIONS",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v2:conditional_labelled_maze"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G2_PERSONAL_OBSERVATION_SURVEY_RECORD",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v2:physical_observation",
+        "g2v2:personal_survey"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G2_PHYSICAL_MEASUREMENT_AND_RECORD",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:physical_measurement_guard",
+        "g2v2:physical_measurement"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G2_SOLID_TOP_FACE_VISIBILITY",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:solid_visible_face_directions"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G2_TRAJECTORY_PICTURE_OBSERVATION_GUARD",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v2:trajectory_observation_guard"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G2_VERTEX_SUM_RULE_WITH_AMBIGUITY_GUARD",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:rule_inference_ambiguity"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G3_AREA_PRESERVING_CUT_REARRANGEMENT",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:dissection_reassembly_square"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_BALANCE_RELATION_CHAIN",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:balance_chain_substitution",
+        "g2v2:substitution_equal_mark"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G3_BOUNDED_MEASURE_SUBSET",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:fixed_cardinality_subset_sum",
+        "g2v1:finite_subset_sum_extrema",
+        "g2v2:fixed_cardinality_subset_sum"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G3_COLLINEAR_ALL_SEGMENT_ENUMERATION",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:point_segment_edge_list"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_COLLINEAR_ENUMERATION",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:collinear_triples"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_COMPOSITE_POLYGON_ENUMERATION_ASSET",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:composite_polygon_count",
+        "g2v2:composite_shape_count"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_FIXED_PIECE_ASSEMBLY_FEASIBILITY",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:piece_tiling",
+        "g2v2:physical_assembly"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_PAPER_FOLD_CUT_SYMMETRY",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:fold_cut_spatial"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_PHYSICAL_GEOMETRIC_CONSTRUCTION",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:physical_construction_guidance"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_SILHOUETTE_PIECE_GRID_REPRODUCTION",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v2:grid_copy"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G3_TWO_JUG_TRANSFER",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:capacity_conservation_repour"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_BALANCE_ORIENTATION_ORDER",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:balance_orientation_order",
+        "g2v2:balance_orientation_order"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:finite_inventory_collection_state",
+        "g2v1:finite_inventory_game_state",
+        "g2v2:finite_token_game",
+        "g2v2:finite_board_ownership"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_INSTRUMENT_SCALE_READING_ASSET",
+      "status": "ASSET_PENDING",
+      "candidate_refs": [
+        "g2v1:instrument_scale_reading"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Original asset or explicit incidence/scale/physical record required; do not treat a text analogue as image/physical completion."
+    },
+    {
+      "finite_master_id": "G4_JUMP_SKIP_NODES_INTERPRETATION",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:jump_skip_nodes_interpretation"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_MISSING_PERSONAL_DATE_OR_TIMETABLE_CONTEXT",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:missing_personal_timetable_guard",
+        "g2v1:missing_current_date_guard"
+      ],
+      "books": [
+        "g2v1"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_OVERLAP_LENGTH_BAR_ALIGNMENT",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v2:aligned_segment_difference"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_SEVEN_SEGMENT_RELOCATION",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v1:seven_segment_relocation",
+        "g2v2:matchstick_numeral_extrema"
+      ],
+      "books": [
+        "g2v1",
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    },
+    {
+      "finite_master_id": "G4_TWO_DRAW_COLOR_MULTISETS",
+      "status": "MERGED_PENDING",
+      "candidate_refs": [
+        "g2v2:two_draw_without_replacement"
+      ],
+      "books": [
+        "g2v2"
+      ],
+      "next_action": "Resume the existing finite master and these exact G2 branches; no duplicate task or automatic acceptance from merge."
+    }
+  ],
+  "limitations": [
+    "Only explicit text relations authored; publisher images/physical tasks remain pending.",
+    "Confirmed gaps relative to inspected nearest rows, not semantic reread of all archived sources.",
+    "All new rows remain draft until root content QA; no human or external review claimed.",
+    "No training, Drive mutation, app edits or git."
+  ],
+  "old_sources_preserved": true,
+  "chat_metadata_repair": {
+    "parent_sha256": "d3e4ac9fa62a0f05429c1477290da9d58ad0d6326a98ce69f4215863a1a78957",
+    "parent_path": "chat_before_source_hash_repair.jsonl",
+    "fields_added": [
+      "source_row_sha256"
+    ],
+    "source_cases_changed": false,
+    "message_content_changed": false
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "fewshot_dev/contract.json": "e26c1689742945e0f5ee21cf0b628ada936652a54a35e43513a49b9dcfa3df93",
+  "fewshot_dev/complete.json": "078dac4fb6774acaf34fb9f53d1c83edc72af1f544248e7ffba1cf978d8b9a11",
+  "fewshot_dev/runtime_progress.json": "a4799a90552d421c5fed89de698b648f57212bcd1e254baba0fe26e75eeb732f",
+  "fewshot_code_publication_status.json": "ab1f40a9b7994e01d849f28681ecab0e21b5062c4c547bd7d1467129f5ee3d22",
+  "fewshot_dev/generations.jsonl": "9f53c1c1192f00d4d74a22a2fe26022fa0ff98845ae1cf0e5e7b3ba963761f30"
+}

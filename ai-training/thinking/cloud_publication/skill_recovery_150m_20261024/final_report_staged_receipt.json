@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "2EDHYTj1SnQz"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"final_report_staged\": true, \"sha256\": \"0d7e5e2fe032aeb3e03384892634f8c6b627594e8812ef3edccc3c7b5ce4c855\", \"bytes\": 83323, \"production_approved\": false, \"all_gpu_workers_exited\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "add_generation_prompt": true,
+  "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+  "decoding": {
+    "do_sample": true,
+    "max_new_tokens": 1024,
+    "min_p": 0.0,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "temperature": 0.7,
+    "top_k": 20,
+    "top_p": 0.8,
+    "use_cache": true
+  },
+  "enable_thinking": false,
+  "example_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "example_bank_source_files": {
+    "combined_approved_samples": 24,
+    "projection_preflight.json": {
+      "sample_count": 14,
+      "sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022"
+    },
+    "source_behavior_samples.json": {
+      "sample_count": 10,
+      "sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18"
+    }
+  },
+  "example_selections_by_fixture": {
+    "skill150_locked_g1_3": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "skill150_locked_g2_3": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "skill150_locked_g3_3": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "skill150_locked_g4_3": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ],
+    "skill150_locked_g5_3": [
+      "exhaustive_v1_sub_565_103:hint_level_1",
+      "exhaustive_v1_div_788_1:hint_level_1"
+    ]
+  },
+  "fixture_ids": [
+    "skill150_locked_g1_3",
+    "skill150_locked_g2_3",
+    "skill150_locked_g3_3",
+    "skill150_locked_g4_3",
+    "skill150_locked_g5_3"
+  ],
+  "fixture_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "frozen_fixture_ids": [
+    "skill150_locked_g1_1",
+    "skill150_locked_g1_2",
+    "skill150_locked_g1_3",
+    "skill150_locked_g1_4",
+    "skill150_locked_g2_1",
+    "skill150_locked_g2_2",
+    "skill150_locked_g2_3",
+    "skill150_locked_g2_4",
+    "skill150_locked_g3_1",
+    "skill150_locked_g3_2",
+    "skill150_locked_g3_3",
+    "skill150_locked_g3_4",
+    "skill150_locked_g4_1",
+    "skill150_locked_g4_2",
+    "skill150_locked_g4_3",
+    "skill150_locked_g4_4",
+    "skill150_locked_g5_1",
+    "skill150_locked_g5_2",
+    "skill150_locked_g5_3",
+    "skill150_locked_g5_4"
+  ],
+  "mode_map": {
+    "answer": "worked_solution",
+    "hint_no_answer": "hint_level_1",
+    "missing_or_contradictory_info": "worked_solution",
+    "student_error": "worked_solution"
+  },
+  "model": "Qwen/Qwen3-1.7B",
+  "prompt_token_limit": 3072,
+  "prompt_token_sha256": {
+    "skill150_locked_g1_3": "5ea91dc340652792b7fc3630c7434e480ee7c4d775acfd76f7ba9f09233957f2",
+    "skill150_locked_g2_3": "8a2e534554fda31ba00c75b2a567926d3bd942567a964f672fda28f159989ec4",
+    "skill150_locked_g3_3": "9126a0f732d37bc6a36e2f564bcfadc1be5d92b9927c16d4829ed08059f8df6d",
+    "skill150_locked_g4_3": "a8c542b8554801ad4f5a8fe046e1a39a4817461054553463dd283d783756e7e6",
+    "skill150_locked_g5_3": "7f80cd7f3c3c7f0f12595ec4d5da005abb3feadd997307f17122b043ed7716bd"
+  },
+  "renderer_version": "behavior_render.v1",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "schema": "MathVisionKid.fewshot_matched_dev_eval.v1",
+  "seed_policy": "20261024 + first8hex fixtureID SHA modulo2^31; reset per fixture",
+  "selection_policy": "Examples selected only by requested mode; oracle labels and fixture metadata are excluded from prompt messages.",
+  "system": "Bạn là gia sư Toán tiểu học. Chỉ dùng dữ kiện trong đề và lời làm thực sự được cung cấp; không tự tạo lời làm của học sinh. Giải thích ngắn gọn, nhất quán với chế độ được yêu cầu; với lời giải đầy đủ, hãy kiểm tra kết quả. Không bịa dữ kiện khi đề thiếu thông tin.",
+  "system_sha256": "6431f7c59fa4e175483765d57fc6e869fbc530cba2176c279e3b1af6bda0c19c",
+  "truncation": "forbidden; over-limit prompts fail before generation"
+}

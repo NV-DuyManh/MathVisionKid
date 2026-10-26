@@ -1,0 +1,80 @@
+{
+  "baseline_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+  "best": {
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "production_approval": false,
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_key": [
+      10,
+      15,
+      1,
+      1,
+      3
+    ],
+    "semantic_review_pending": false,
+    "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+  },
+  "dev_contract_sha256": "4a2efcd8dc32e2521f311dd134b7293f5114a70241f8587db98227e8c646e812",
+  "evidence_hashes": {
+    "training/eval_step_000000/base_generations.jsonl": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+    "training/eval_step_000000/eval_bindings.json": "b6b6122fcfa57dc5a53f278355b2cd1a670a9ebaf5d269b08245296c3f4e827b",
+    "training/eval_step_000100/adapter_generations.jsonl": "726a79f780ab23f32c73715c2af7b58d7c5aee8f855522b0b4ef6e6b29acc460",
+    "training/eval_step_000100/eval_bindings.json": "32493c03778ccaef2d10c8a88cb1c2f2eec7a65487c6efa3a4b4b8ace13f7deb",
+    "training/evaluation_contract.json": "a9e272faec3e3af52107cac6fe5e36469937a4327062bdb0a0e0d93578eb7b61",
+    "training/gate_step_000100.json": "49c7f22f503c2fd8d404a307fbef7bfaf476336a86bdba7eb4947468b895012a",
+    "training/generation_step_000001_rows_00000016/README.md": "4db1fd1b6e4b885f0f95c20a947b56ad9af7aecbf649df27431f168765999b00",
+    "training/generation_step_000001_rows_00000016/adapter_config.json": "b83f66d143b5cf51f3633066ede7f915cbb721545e6958cf9da1096cfdc6d8ae",
+    "training/generation_step_000001_rows_00000016/adapter_model.safetensors": "096e84a080caf5cc9634c0c7bd73ff80c848f28a57f18b79ef6d0538c2c77e93",
+    "training/generation_step_000001_rows_00000016/chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "training/generation_step_000001_rows_00000016/generation_manifest.json": "3481eff3376eadf12f07d4c77071ff02d7ffc6f44c03e3ff3593c5d7b3c38e3f",
+    "training/generation_step_000001_rows_00000016/metrics.json": "c9c9b6eedb19110d12d26231d83c40120db9ce0158a68026580601ba791d3016",
+    "training/generation_step_000001_rows_00000016/resume_state.pt": "33fb9f2494e5b2965c21e0031eac3e8c6df9e0a7269006c8996a80454b3d6db8",
+    "training/generation_step_000001_rows_00000016/run_config.json": "0e4ce2b0b4d0cc806d2778fa3eebf5d4da95e766f62e80adc29c758c5185dea6",
+    "training/generation_step_000001_rows_00000016/tokenizer.json": "476870a1f2fb6f6a2759a6ede2383bf9d5d738f17844563b65c91965b722ae09",
+    "training/generation_step_000001_rows_00000016/tokenizer_config.json": "0b1fc1181363e213e4d696fa2e7184f5e1133d8de1d7b039e5e79a9e8290d0f0",
+    "training/generation_step_000100_rows_00001600/README.md": "4db1fd1b6e4b885f0f95c20a947b56ad9af7aecbf649df27431f168765999b00",
+    "training/generation_step_000100_rows_00001600/adapter_config.json": "b83f66d143b5cf51f3633066ede7f915cbb721545e6958cf9da1096cfdc6d8ae",
+    "training/generation_step_000100_rows_00001600/adapter_model.safetensors": "6bdca6bce38f2aa03e4e1503f72c3835806c34a32c0bdc87953df035003f7f30",
+    "training/generation_step_000100_rows_00001600/chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "training/generation_step_000100_rows_00001600/generation_manifest.json": "7927b59d264f7930963190fef73bbcd91c9f1cc51ea4f7bd11161356d09d81e7",
+    "training/generation_step_000100_rows_00001600/metrics.json": "e8fa035eb835f58c265c572adcf81bcca8dd83adc044f901f7c3a3f826213148",
+    "training/generation_step_000100_rows_00001600/resume_state.pt": "983bb7d56f10c4610b5c36a912144e68ec76e415a99355e1fb624a9960a7d6c6",
+    "training/generation_step_000100_rows_00001600/run_config.json": "0e4ce2b0b4d0cc806d2778fa3eebf5d4da95e766f62e80adc29c758c5185dea6",
+    "training/generation_step_000100_rows_00001600/tokenizer.json": "476870a1f2fb6f6a2759a6ede2383bf9d5d738f17844563b65c91965b722ae09",
+    "training/generation_step_000100_rows_00001600/tokenizer_config.json": "0b1fc1181363e213e4d696fa2e7184f5e1133d8de1d7b039e5e79a9e8290d0f0"
+  },
+  "gate_proofs": [
+    {
+      "gate_file": "gate_step_000100.json",
+      "gate_sha256": "49c7f22f503c2fd8d404a307fbef7bfaf476336a86bdba7eb4947468b895012a",
+      "generation": "generation_step_000100_rows_00001600",
+      "manifest_sha256": "7927b59d264f7930963190fef73bbcd91c9f1cc51ea4f7bd11161356d09d81e7",
+      "step": 100
+    }
+  ],
+  "selected_artifact": {
+    "adapter": null,
+    "kind": "untrained_base",
+    "model": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "selection_evidence": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        10,
+        15,
+        1,
+        1,
+        3
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+    }
+  },
+  "selected_before_locked_inference": true,
+  "selected_kind": "untrained_base",
+  "test_results_used_for_selection": false
+}

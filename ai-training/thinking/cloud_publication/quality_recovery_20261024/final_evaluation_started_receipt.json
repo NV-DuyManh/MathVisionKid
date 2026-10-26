@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "8hpKZXq1hvu8"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"final_evaluation_started\": true, \"pid\": 18678, \"training_started\": false, \"locked_test_once\": true, \"publication_thread_started\": true}\n"
+        ]
+      }
+    ]
+  }
+}

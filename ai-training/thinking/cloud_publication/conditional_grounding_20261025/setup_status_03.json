@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "hobswpA6_e-F"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T02:57:33.604966+00:00\", \"root_exists\": true, \"conditional_install_process\": {\"pid\": 860, \"exit\": 0}, \"conditional_training_process\": null, \"owner_run_scope.json\": {\"schema\": \"MathVisionKid.conditional_grounding_owner_scope.v1\", \"authorization\": \"Owner requested Hoai MCP reconnection and further free-T4 training; reuse last2h30 maximum as stated before launch.\", \"budget_start_unix\": 1792896460.0, \"hard_deadline_unix\": 1792905460.0, \"hard_deadline_utc\": \"2026-10-25T05:17:40Z\", \"reserve_seconds\": 1800, \"paid_resources\": false, \"previous_adapters_loaded\": false, \"source_and_old_checkpoints_preserved\": true, \"corpus_or_model_download_to_pc\": false, \"production_change\": false, \"new_human_attestation\": false, \"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"backend\": \"native Transformers/PEFT/bitsandbytes, not Unsloth\", \"reason\": \"Two prior full-environment installations coincided with replacement of the Colab VM; causal mechanism unproven. Keep native libraries and install only missing bitsandbytes.\"}, \"install.log_tail\": \"Collecting bitsandbytes==0.50.2\\n  Downloading bitsandbytes-0.50.2-py3-none-manylinux_2_24_x86_64.whl.metadata (10 kB)\\nDownloading bitsandbytes-0.50.2-py3-none-manylinux_2_24_x86_64.whl (43.1 MB)\\n   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.1/43.1 MB 27.7 MB/s  0:00:01\\nInstalling collected packages: bitsandbytes\\nSuccessfully installed bitsandbytes-0.50.2\\n\", \"gpu\": \"Tesla T4, 0 MiB, 15360 MiB, 0 %\"}\n"
+        ]
+      }
+    ]
+  }
+}

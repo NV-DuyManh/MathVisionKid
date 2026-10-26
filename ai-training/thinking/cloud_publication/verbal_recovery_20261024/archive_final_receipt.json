@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "8zL0-5k41H8S"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"verified_utc\": \"2026-10-24T12:13:37.408406+00:00\", \"archive_receipt_proof\": {\"id\": \"10hDZa9HQXJE4Ga_lmvIPUeBK-A7pkXTP\", \"sha256\": \"5c69f0d039c51a2b41b318d988427628655fdd250bfcf8b1d5ca8a7b4e58e4a5\", \"bytes\": 7016, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T12:13:37.408326+00:00\", \"folder_id\": \"18kRud04F04OF34HcI2l9okHYUmzFVY4M\", \"name\": \"final_controls_raw_verified_receipt.json\", \"immutable\": true}, \"all_four_controls_raw_verified\": true, \"training_alive\": false, \"final_evaluation_alive\": false}\n"
+        ]
+      }
+    ]
+  }
+}

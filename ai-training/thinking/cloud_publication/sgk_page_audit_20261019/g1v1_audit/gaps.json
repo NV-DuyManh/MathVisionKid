@@ -1,0 +1,619 @@
+[
+  {
+    "gap_id": "G1V1_ADD_GROUP_STRICT_COMPARISON",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Chọn phần thêm để tổng mới thỏa quan hệ chặt; nguồn tìm phần còn thiếu chỉ yêu cầu bằng tổng và chọn thẻ chỉ so trực tiếp.",
+    "pages": [
+      23
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 23,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-24-1775728314439.png",
+        "source_image_sha256": "60ada15ba69eb9e2c2ee12b5c71b667ff678ace948ed86616d69e3f6557d114f"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261018_finite099_g1_words_unknown_category",
+        "source_row_sha256": "36a004828a9fadba01a1e70b8059f650facbef7d08fd05befa7fa203bdaa987b"
+      },
+      {
+        "sample_id": "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than",
+        "source_row_sha256": "190ddb014d9362766209282fd5e647dac65133ba4b64a977ee72ca06d9422615"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_COMPLEMENTARY_BOUNDARY_MATCH",
+    "status": "SEMANTIC_REPRESENTATION_GAP_AND_ASSET",
+    "reason": "Chọn hai mảnh không đều theo đường biên lồi/lõm để được hình đích. Nguồn khôi phục hình vuông chỉ có hai tam giác từ cùng một đường cắt đã biết.",
+    "pages": [
+      53
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 53,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-54-1775728323783.png",
+        "source_image_sha256": "5314313e7764fe5b8b8d68def6373251616d78d192c13ddd7cfc05a7948f488e"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "source_row_sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_COMPOSITE_SHAPE_COUNT",
+    "status": "SEMANTIC_REPRESENTATION_GAP_AND_ASSET",
+    "reason": "Nhận dạng/đếm các hình thành phần trong hình ghép hoặc que chung cạnh, gồm số đơn vị tam giác không vẽ hết đường chia. Nguồn gọi tên bốn thẻ rời không đếm hình lồng/ghép.",
+    "pages": [
+      47,
+      48,
+      49,
+      55
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 47,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-48-1775728321881.png",
+        "source_image_sha256": "5a62269a8e9f6f09c3c6cc32c389022853f33160d85981c4c839ca123fb07e18"
+      },
+      {
+        "printed_page": 48,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-49-1775728322225.png",
+        "source_image_sha256": "bc0777e34e95435a730decaaf192d48f8414dccf01791e100cadadcbdde03b1d"
+      },
+      {
+        "printed_page": 49,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-50-1775728322527.png",
+        "source_image_sha256": "bad89db84c7cb4a2f2c9450e39c539697e75609218851fed51013d6101d8c8a0"
+      },
+      {
+        "printed_page": 55,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-56-1775728324461.png",
+        "source_image_sha256": "a00567689c647ad357b0b61bf71c0b33ffb12e68bcee0f4e78c23109aacd0c70"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "source_row_sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600"
+      },
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "source_row_sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_CONSTRUCT_EQUATIONS_FROM_NUMBER_CARDS",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Tạo phép đúng bằng tập thẻ số cho sẵn và dấu cộng/trừ/bằng; sửa một lần đổi hai thẻ không chứng minh tạo và liệt kê phép hợp lệ từ tập số.",
+    "pages": [
+      107
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 107,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-108-1775728341727.png",
+        "source_image_sha256": "42f5847801dc6b55a6c4ce93cb5c31573857185cb10ed0df2bfe9fa9356aa7c5"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+        "source_row_sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+        "source_row_sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+    "status": "MODALITY_ONLY",
+    "reason": "Theo đường dây cong giao nhau cần ảnh, không được suy từ danh sách văn bản.",
+    "pages": [
+      77
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 77,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-78-1775728332137.png",
+        "source_image_sha256": "5de591feeaef088496a00f7b4d15160760ef529b6e4caaa39de407cf0a2c7ce2"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261018_finite099_g1_words_unknown_category",
+        "source_row_sha256": "36a004828a9fadba01a1e70b8059f650facbef7d08fd05befa7fa203bdaa987b"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_DICE_REGION_BOUNDARY_MATCH",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Chọn một vùng có tất cả nhãn trên biên khớp mặt xúc xắc là phép kết hợp nhiều điều kiện; nguồn boardgame chỉ theo dõi bước/nhảy và nguồn đường đi chỉ kiểm nhãn từng đỉnh.",
+    "pages": [
+      19
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 19,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-20-1775728313106.png",
+        "source_image_sha256": "71067743d0918821dedf9f3b373462d6f7f2f5456fd6a080cb2cac691cc54a73"
+      }
+    ],
+    "nearest_train_sources": [],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_DIGIT_STROKE_ASSET",
+    "status": "MODALITY_PHYSICAL_ONLY",
+    "reason": "Theo nét chữ số và dấu cần ảnh/mẫu nét hoặc bằng chứng thao tác; dữ liệu văn bản không xác minh nét viết.",
+    "pages": [
+      9,
+      15,
+      24,
+      26,
+      28
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 9,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-10-1775728309767.png",
+        "source_image_sha256": "a34a10f4275497006b279e4acdd5b9dfbc7c1282a184aaefb26df56513cc7b64"
+      },
+      {
+        "printed_page": 15,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-16-1775728311766.png",
+        "source_image_sha256": "8a15e4c7d077fb11d2ffadb0f615a234e87d81bc73a1b8833f3643be39c45368"
+      },
+      {
+        "printed_page": 24,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-25-1775728314733.png",
+        "source_image_sha256": "1476b6d7522dcce3194234f6b20e449e25568ca274cbde9555ceecab2a16e430"
+      },
+      {
+        "printed_page": 26,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-27-1775728315345.png",
+        "source_image_sha256": "d92399fea88e7410a1ef186fc69c6147b56375e2ebf5455c059a7e1cd82dba23"
+      },
+      {
+        "printed_page": 28,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-29-1775728315969.png",
+        "source_image_sha256": "560afa44ad70ddbf791e933231ba8b7b23d3538505a14408de24b6066e6c4534"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "source_row_sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee"
+      },
+      {
+        "sample_id": "primary_20261018_finite099_g1_words_unknown_category",
+        "source_row_sha256": "36a004828a9fadba01a1e70b8059f650facbef7d08fd05befa7fa203bdaa987b"
+      },
+      {
+        "sample_id": "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than",
+        "source_row_sha256": "190ddb014d9362766209282fd5e647dac65133ba4b64a977ee72ca06d9422615"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET",
+    "status": "MODALITY_ONLY",
+    "reason": "Nhận chữ số chìm trong nét nền là yêu cầu thị giác, không phải bài toán văn bản mới.",
+    "pages": [
+      38
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 38,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-39-1775728319044.png",
+        "source_image_sha256": "9a1ddff591960b1f6ec2888a51f15adf897d91d068de5aedaaa3a7a78ff5b817"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "source_row_sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_MULTIPIECE_SILHOUETTE_ASSET",
+    "status": "MODALITY_AND_SPATIAL_EXTENSION",
+    "reason": "Bài ghép hai mảnh có nguyên lý không hở/chồng, nhưng các silhouette đa mảnh cần mô tả hình học/ảnh và kiểm riêng; không tuyên bố physical execution.",
+    "pages": [
+      50,
+      51,
+      52,
+      111
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 50,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-51-1775728322860.png",
+        "source_image_sha256": "d0bd10123add63bff8e7fa2f4d58cb64611f367e89e295e4b7a45cf0195a4d03"
+      },
+      {
+        "printed_page": 51,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-52-1775728323137.png",
+        "source_image_sha256": "f605f4c528264b1f34b95245c1ecbe3a93d0fda42fba6d3932f6b7168f918029"
+      },
+      {
+        "printed_page": 52,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-53-1775728323456.png",
+        "source_image_sha256": "f2241a45edf8fbe402bc759013d7c318a5be66b3718ad69deda0fb2b785adf5a"
+      },
+      {
+        "printed_page": 111,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-112-1775728342904.png",
+        "source_image_sha256": "9257bf91228887def481dadf20884aa00ef851c7a4c58a43f6e20fc6e8d49d4e"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "source_row_sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_ORDINAL_AFTER_INSERTION",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Cập nhật thứ hạng sau chèn một đối tượng; nguồn hàng tĩnh và đổi vị trí cốc không xét thay đổi số người trước đối tượng.",
+    "pages": [
+      105
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 105,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-106-1775728341056.png",
+        "source_image_sha256": "92670f07c73d48b337fc5945b8b7feda77a82c86ff8e47e66cf887ed71c25f85"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+        "source_row_sha256": "6a5da390cce07a548e36930322e960e0b6598051d6040090f310172483517f41"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_complete_decompositions_02",
+        "source_row_sha256": "26f83341e5a1759d2a2f11189887eeaf9e827a959cb93a6ee289b3962005a246"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_ORDINAL_FROM_BOTH_ENDS",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Đếm vị trí từ trái hoặc phải. Nguồn hàng ba bạn chỉ quan hệ liền trước/sau/giữa, không định hạng từ hai đầu.",
+    "pages": [
+      98
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 98,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-99-1775728338703.png",
+        "source_image_sha256": "b5d11e37837579900dcb3a9dfa047d879013b148cb6b9686dba5bdd432841b7e"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_left_right_anchor",
+        "source_row_sha256": "c11c5ecad28fbd1a5c2e91d84ad0435055616c98f0e05beabfdcda06355dceea"
+      },
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+        "source_row_sha256": "6a5da390cce07a548e36930322e960e0b6598051d6040090f310172483517f41"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_PERIODIC_ATTRIBUTE_PATTERN",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Quy luật lặp thuộc tính chu kỳ hai/ba/bốn phần tử, khác dãy số liên tiếp tăng một. Không tìm thấy task chu kỳ hình/màu trong actual problem index nguồn train.",
+    "pages": [
+      55,
+      95,
+      111,
+      113
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 55,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-56-1775728324461.png",
+        "source_image_sha256": "a00567689c647ad357b0b61bf71c0b33ffb12e68bcee0f4e78c23109aacd0c70"
+      },
+      {
+        "printed_page": 95,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-96-1775728337694.png",
+        "source_image_sha256": "89a205b39e0c6ac1f07f6d7547fd855e99ee61cd90a5f340681e30a47414bcc1"
+      },
+      {
+        "printed_page": 111,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-112-1775728342904.png",
+        "source_image_sha256": "9257bf91228887def481dadf20884aa00ef851c7a4c58a43f6e20fc6e8d49d4e"
+      },
+      {
+        "printed_page": 113,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-114-1775728343599.png",
+        "source_image_sha256": "0c94e8447ee28da28ff819d3fc9447f620d246dd85cc228eba3776e655e77b51"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_foundations_0002_mental_within10",
+        "source_row_sha256": "2527f61f6fef27de02259dc5ad14e5ec5ca93cb95639a48725cde79486271252"
+      },
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+        "source_row_sha256": "869d7e8d8d677b4d6a6187f55928b38ebd32de81074464ece0da39059f51e983"
+      },
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+        "source_row_sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d"
+      },
+      {
+        "sample_id": "primary_20261018_finite099_g1_words_unknown_category",
+        "source_row_sha256": "36a004828a9fadba01a1e70b8059f650facbef7d08fd05befa7fa203bdaa987b"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_RESOURCE_ASSIGNMENT_INEQUALITY",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Ghép từng xe cho từng chuồng, mỗi xe dùng một lần và từng cặp thỏa bất đẳng thức. Nguồn chọn thẻ chỉ kiểm một ô độc lập, không kiểm phân công hai đối tượng.",
+    "pages": [
+      27
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 27,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-28-1775728315645.png",
+        "source_image_sha256": "8ce949f62481f5c5ad1456100ec5fab569b90f44d889f017116fc1114fd5a30f"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than",
+        "source_row_sha256": "190ddb014d9362766209282fd5e647dac65133ba4b64a977ee72ca06d9422615"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_REVERSE_SEQUENCE_COMPLETION",
+    "status": "REPRESENTATION_EXTENSION_CANDIDATE",
+    "reason": "Nguồn lớp 1 có tăng một và kiểm ngược một bước, nhưng chưa task hoàn thành nhiều ô giảm dần. Không xem thay số đơn thuần là gap tự động.",
+    "pages": [
+      10,
+      13,
+      16
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 10,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-11-1775728310087.png",
+        "source_image_sha256": "70a63da9a1f2f73f160e3df0d6a33650dd8c741046286da34ac4e1043ab955a6"
+      },
+      {
+        "printed_page": 13,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-14-1775728311113.png",
+        "source_image_sha256": "10653c604894453ea25dcfee2462390275660c4e63e6923e73318587b0dcf78b"
+      },
+      {
+        "printed_page": 16,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-17-1775728312091.png",
+        "source_image_sha256": "567be84665883e6369bc13589bf6d660d81291861566efb738a3980c5cd50cd1"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_foundations_0002_count14",
+        "source_row_sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee"
+      },
+      {
+        "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+        "source_row_sha256": "5dd4816241111b1ffc69dc46d2d3802650a303144686a48861b76c5673e319c7"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS",
+    "status": "SEMANTIC_REPRESENTATION_GAP_AND_ASSET",
+    "reason": "Ánh xạ màu/số chấm vào mặt trước/trên/phải trong phối cảnh. Nguồn nhận dạng khối từ đặc điểm các mặt không ánh xạ ba hướng nhìn.",
+    "pages": [
+      99,
+      100
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 99,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-100-1775728338979.png",
+        "source_image_sha256": "8b06ecbef9a4b76f327eecdb740a161074b6af67d9e5c430100c9f0f55e370fc"
+      },
+      {
+        "printed_page": 100,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-101-1775728339307.png",
+        "source_image_sha256": "3c3198a6ef25d72b0fbfc84c4df99ca91fb0e2f143510b2975a680ad67060a6f"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_left_right_anchor",
+        "source_row_sha256": "c11c5ecad28fbd1a5c2e91d84ad0435055616c98f0e05beabfdcda06355dceea"
+      },
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+        "source_row_sha256": "869d7e8d8d677b4d6a6187f55928b38ebd32de81074464ece0da39059f51e983"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_STICK_SHARED_EDGE_CONSTRUCTION",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Dựng hai tam giác bằng năm que cần dùng chung cạnh; nguồn ghép hai tam giác từ hình vuông đã cho sẵn đường cắt không hướng dẫn dựng khung que theo số lượng.",
+    "pages": [
+      54
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 54,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-55-1775728324162.png",
+        "source_image_sha256": "a6db7bcafa6666c85afe0c6f41bddcfc9b0f52298812794a5d5197b596857d2c"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+        "source_row_sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_SUCCESSIVE_TWO_REMOVALS",
+    "status": "REPRESENTATION_EXTENSION_CANDIDATE",
+    "reason": "Nguồn có hai thay đổi cộng/cộng, trừ/cộng, cộng/trừ; chưa thấy task hai lần bớt cùng câu chuyện. Đây là dấu phép/biểu diễn cần thẩm định, không tự yêu cầu thêm hàng loạt.",
+    "pages": [
+      78
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 78,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-79-1775728332464.png",
+        "source_image_sha256": "3cb107cdebcc21ab8354cc3dba65d79434a192adabf48bf43a67a471bc0d999c"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+        "source_row_sha256": "a837a795682fe4c495c6261f33272d503901d96b234b38a0b197d08c5077e6f2"
+      },
+      {
+        "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+        "source_row_sha256": "0d16bd617f69f22986c04ac9532710c23d8c28979211d665343f1fcd9c15960d"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_TWO_SIDED_STRICT_BOUND_SELECTION",
+    "status": "SEMANTIC_REPRESENTATION_GAP",
+    "reason": "Chọn số thỏa đồng thời lớn hơn cận dưới và nhỏ hơn cận trên; nguồn so một cận chưa kiểm giao hai điều kiện.",
+    "pages": [
+      104
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 104,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-105-1775728340735.png",
+        "source_image_sha256": "8023c312e562d4efe92aa0192a87253c5689572e7a4238f09618fd3aa1d24b0f"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+        "source_row_sha256": "e96187651026ae39f95836498f2722ed281d1f4af35cbc968cca1e1d106b1960"
+      },
+      {
+        "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+        "source_row_sha256": "5dd4816241111b1ffc69dc46d2d3802650a303144686a48861b76c5673e319c7"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_UNIT_CUBE_COUNT_ASSEMBLY",
+    "status": "GRADE1_SEMANTIC_REPRESENTATION_GAP_AND_PHYSICAL",
+    "reason": "Đếm theo cấu trúc khối đơn vị, so cấu trúc đổi dạng và xếp tám khối thành khối lớn. Nguồn lớp 1 chỉ gọi tên toàn khối theo mặt, không có phép dựng/đếm đơn vị.",
+    "pages": [
+      94,
+      95,
+      101
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 94,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-95-1775728337418.png",
+        "source_image_sha256": "1e84aa4e0a4e4b9e7419017287469782b33ec8f6c34a09904bd4358e7d492124"
+      },
+      {
+        "printed_page": 95,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-96-1775728337694.png",
+        "source_image_sha256": "89a205b39e0c6ac1f07f6d7547fd855e99ee61cd90a5f340681e30a47414bcc1"
+      },
+      {
+        "printed_page": 101,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-102-1775728339640.png",
+        "source_image_sha256": "d50b1a90b94bdec59affdb817c069cdbe631b10ae85f0530752d78123e0362d8"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+        "source_row_sha256": "869d7e8d8d677b4d6a6187f55928b38ebd32de81074464ece0da39059f51e983"
+      },
+      {
+        "sample_id": "primary_20261018_old_g1_compare_0097_one_to_one_buttons_less_than",
+        "source_row_sha256": "190ddb014d9362766209282fd5e647dac65133ba4b64a977ee72ca06d9422615"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  },
+  {
+    "gap_id": "G1V1_ZERO_SUBTRACTION_EXPLICIT",
+    "status": "NO_NEW_TYPE_GENERIC_SUBTRACTION_COVERS_ARITHMETIC",
+    "reason": "Trừ chính nó và trừ không là trường hợp biên của phép trừ đã có; không tạo topic mới chỉ để đổi số. Có thể thêm ví dụ sư phạm nếu cần nhưng chưa chứng minh thiếu semantic type.",
+    "pages": [
+      74,
+      75
+    ],
+    "page_evidence": [
+      {
+        "printed_page": 74,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-75-1775728331151.png",
+        "source_image_sha256": "968e7bc82935edc375de811134ed0bbd5b7e7decdf6c82d54bf1fb47792fb626"
+      },
+      {
+        "printed_page": 75,
+        "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-76-1775728331472.png",
+        "source_image_sha256": "a21ac54b24cb28f1a00414527ef814c201164239cf1d9c0bb7e79bddc22efc5e"
+      }
+    ],
+    "nearest_train_sources": [
+      {
+        "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+        "source_row_sha256": "6d7e80a9dcffd8eba2f7b5b47e0f3e4a252473772bfbc238a85c642313465047"
+      },
+      {
+        "sample_id": "primary_20261018_finite099_g1_words_unknown_category",
+        "source_row_sha256": "36a004828a9fadba01a1e70b8059f650facbef7d08fd05befa7fa203bdaa987b"
+      },
+      {
+        "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+        "source_row_sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7"
+      }
+    ],
+    "scope": "Grade-1 publisher forms compared to current train source problem index and full fields of listed nearest cases; not a claim all 5784 rows were individually read in full. No eval/pilot/sealed content used."
+  }
+]

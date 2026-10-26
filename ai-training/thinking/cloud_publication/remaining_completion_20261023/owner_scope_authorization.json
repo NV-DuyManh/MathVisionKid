@@ -1,0 +1,11 @@
+{
+  "instruction_exact": "vậy làm nốt đi, rồi  vào việc train chứ trì hoãn quá lâu rồi",
+  "new_human_content_review_attested": false,
+  "observed_utc": "2026-10-23T11:39:09.456841+00:00",
+  "origin": "DIRECT_HUMAN_USER_REPLY_IN_CURRENT_CONVERSATION",
+  "paid_resources_authorized": false,
+  "sampling_or_balanced_subset_authorized": false,
+  "schema": "MathVisionKid.owner_full_text_training_authorization.v1",
+  "scope_choice_exact": "Train toàn bộ phần văn bản trước; bổ sung hình ảnh/thực hành sau",
+  "train_all_current_train_split": true
+}

@@ -1,0 +1,231 @@
+{
+  "authored_utc": "2026-10-18T03:15:56.701447+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:12:06.427Z",
+  "batch_sha256": "6a67c4bb85639f825ac90685fb19e6a5e8875d5188e911762863d9fd854e0cbd",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_muldiv_0052_two_digit_partial_products",
+      "row_sha256": "e0c9fb88e5acf38363b2d3c5990ef3d5707243ec39ba19aa192b4619c364a8eb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "374*6",
+          "374*20",
+          "(374*6)+(374*20)",
+          "300*26+70*26+4*26"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_muldiv_0052_division_zero_quotient_place",
+      "row_sha256": "72b190d9f612d087322c626ab808c7fabfba74511ef940f19cef5f1b0bdb8941",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "48/24",
+          "",
+          "4896/24",
+          "(4896/24)*24"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_muldiv_0052_bundle_units_thousand_hundred_ten",
+      "row_sha256": "8ec210dc4e63dbb9784d2ea0794c3cd97f7f9d1778348ae6c1b4887e43bbd6e8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "184*1000",
+          "(184*1000)/100",
+          "((184*1000)/100)/10",
+          "(((184*1000)/100)/10)*10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_muldiv_0052_misconception_tens_partial_unscaled",
+      "row_sha256": "b8db07d7a71635244d579157f1074a74b39e378dfe5dfde3bd5ed09d803e6809",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "326*20",
+          "(326*20)+1304",
+          "300*24+20*24+6*24"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_muldiv_0052_guard_missing_pack_size",
+      "row_sha256": "dd7c497c5b200901f37b7f23fdf0cc2a722eceab7248d5592357b5f7013f8d77",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_repeated_addition_products": [
+    {
+      "a": 374,
+      "b": 6,
+      "repeated_addition_value": 2244
+    },
+    {
+      "a": 374,
+      "b": 20,
+      "repeated_addition_value": 7480
+    },
+    {
+      "a": 374,
+      "b": 26,
+      "repeated_addition_value": 9724
+    },
+    {
+      "a": 326,
+      "b": 2,
+      "repeated_addition_value": 652
+    },
+    {
+      "a": 326,
+      "b": 4,
+      "repeated_addition_value": 1304
+    },
+    {
+      "a": 326,
+      "b": 20,
+      "repeated_addition_value": 6520
+    },
+    {
+      "a": 326,
+      "b": 24,
+      "repeated_addition_value": 7824
+    },
+    {
+      "a": 184,
+      "b": 1000,
+      "repeated_addition_value": 184000
+    },
+    {
+      "a": 1840,
+      "b": 100,
+      "repeated_addition_value": 184000
+    },
+    {
+      "a": 184,
+      "b": 10,
+      "repeated_addition_value": 1840
+    },
+    {
+      "a": 204,
+      "b": 24,
+      "repeated_addition_value": 4896
+    }
+  ],
+  "independent_repeated_subtraction_divisions": [
+    {
+      "dividend": 4896,
+      "divisor": 24,
+      "quotient_by_repeated_subtraction": 204,
+      "remainder": 0
+    },
+    {
+      "dividend": 4800,
+      "divisor": 24,
+      "quotient_by_repeated_subtraction": 200,
+      "remainder": 0
+    },
+    {
+      "dividend": 96,
+      "divisor": 24,
+      "quotient_by_repeated_subtraction": 4,
+      "remainder": 0
+    },
+    {
+      "dividend": 184000,
+      "divisor": 100,
+      "quotient_by_repeated_subtraction": 1840,
+      "remainder": 0
+    },
+    {
+      "dividend": 1840,
+      "divisor": 10,
+      "quotient_by_repeated_subtraction": 184,
+      "remainder": 0
+    }
+  ],
+  "long_division_place_trace": {
+    "first_prefix": 48,
+    "hundreds_quotient_digit": 2,
+    "first_remainder": 0,
+    "next_partial_dividend": 9,
+    "tens_quotient_digit": 0,
+    "last_partial_dividend": 96,
+    "units_quotient_digit": 4,
+    "final_remainder": 0
+  },
+  "guard_nonuniqueness_witnesses": [
+    {
+      "labels_per_pack": 12,
+      "packs": 390
+    },
+    {
+      "labels_per_pack": 24,
+      "packs": 195
+    }
+  ],
+  "exact_Fraction_Decimal_crosschecks": true,
+  "bounds_note": "Ordinary multipliers/divisors are two digits or less. 100/1000 used only in explicitly included powers-of-ten grouping strand. No general three-digit division algorithm claimed. No remainder skill claimed. Technical oracle may use //; live calculator still unchanged and no // or % expressions exported.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous311_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_review_readability_repair": {
+    "division_stem_old": "Thực hiện phép chia 4 896 : 24. Giải thích vì sao phải giữ một chữ số ở hàng chục của thương, thay vì ghép ngay hai chữ số tìm được ở các lượt có phép trừ khác không. Đối chiếu cách chia theo hàng với cách tách số bị chia và kiểm bằng phép nhân.",
+    "division_stem_new": "Thực hiện phép chia 4 896 : 24. Giải thích vì sao phải giữ một chữ số ở hàng chục của thương, thay vì bỏ vị trí của lượt chưa đủ chia rồi ghép các chữ số còn lại. Đối chiếu cách chia theo hàng với cách tách số bị chia và kiểm bằng phép nhân.",
+    "hint3_refined_for_core01_core02": "More direct place-value scaffolding without computed values or final quotient/product."
+  }
+}

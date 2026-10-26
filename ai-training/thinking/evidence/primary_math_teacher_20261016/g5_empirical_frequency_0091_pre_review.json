@@ -1,0 +1,1102 @@
+{
+  "batch": "g5_empirical_frequency_0091",
+  "phase": "AUTHORING_BEFORE_OFFICIAL_SEMANTIC_QA",
+  "source_sha256": "b0d461aa48963375a5de63dddeb4db08eca8ac8a21de94b73acd05095355b18f",
+  "executed_utc": "2026-10-18T10:33:22.140934+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "row_sha256": "9380dde862841f3fc3cd97c79e13af6ab703e63dc260a5929babaa03634fed2b",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1+1+1+1+1+1+1",
+          "20-(1+1+1+1+1+1+1)",
+          "(1+1+1+1+1+1+1)/20"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "row_sha256": "5ab04417c9c1bd1bd92c5ba2b2fe06b7317725d2985bf1053c0177ff1debe51d",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2+13",
+          "10+30",
+          "(2+13)/(10+30)",
+          "8+17"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+      "row_sha256": "c262e9efb465bec3c7418c3a53d6760a14b5ec19ae99b35f96f982de06a02a6c",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "12/15",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_misconception_event_to_nonevent_denominator",
+      "row_sha256": "1842aa6786010304cd9059b7035f29d2eb1eb541ee2b88a19919384437ee3346",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "9+21",
+          "9/(9+21)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_guard_unread_outcomes_in_full_trial_scope",
+      "row_sha256": "5559e765d4d997cb6cd66b369af5cd594581ab88885a301c3798797169849382",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "step_id": "s0",
+      "Fraction": "7",
+      "Decimal": "7"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "step_id": "s1",
+      "Fraction": "13",
+      "Decimal": "13"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "step_id": "s2",
+      "Fraction": "7/20",
+      "Decimal": "0.35"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "step_id": "s0",
+      "Fraction": "15",
+      "Decimal": "15"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "step_id": "s1",
+      "Fraction": "40",
+      "Decimal": "40"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "step_id": "s2",
+      "Fraction": "3/8",
+      "Decimal": "0.375"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "step_id": "s3",
+      "Fraction": "25",
+      "Decimal": "25"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+      "step_id": "s0",
+      "Fraction": "4/5",
+      "Decimal": "0.8"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_misconception_event_to_nonevent_denominator",
+      "step_id": "s1",
+      "Fraction": "30",
+      "Decimal": "30"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_misconception_event_to_nonevent_denominator",
+      "step_id": "s2",
+      "Fraction": "3/10",
+      "Decimal": "0.3"
+    }
+  ],
+  "separate_oracles": {
+    "raw_log_length": 20,
+    "red_positions": [
+      1,
+      4,
+      6,
+      9,
+      12,
+      15,
+      18
+    ],
+    "combined_trial_enumeration": {
+      "red": 15,
+      "all": 40
+    },
+    "future_QA_only_possible_red_counts": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "future_sequences_QA_only": 32,
+    "unknown_outcomes_QA_only_possible_ratios": [
+      "7/18",
+      "4/9",
+      "1/2",
+      "5/9"
+    ]
+  },
+  "equal_probability_of_future_sequences_claim": false,
+  "observed_trials_not_physical_experiment_proof": true,
+  "actual_semantic_content_read": true,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "before_polish_actual_rows": [
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "case_group_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "split": "train",
+      "grade": 5,
+      "topic": "raw_trial_log_count_and_observed_ratio",
+      "problem": "Một bản ghi giả định của 20 lần quay vòng quay được chép đủ theo thứ tự. Đ là kết quả đỏ, X là kết quả xanh; mỗi lần có đúng một kết quả: Đ, X, X, Đ, X, Đ, X, X, Đ, X, X, Đ, X, X, Đ, X, X, Đ, X, X. Hãy nêu cách đánh dấu từng lần thử, đếm số lần đỏ và xanh, lập tỉ số số lần đỏ trên tổng số lần thử, viết dạng phân số tối giản và số thập phân rồi kiểm. Chỉ mô tả kết quả đã ghi, không suy xác suất chính xác hoặc bảo đảm lần quay sau; chưa có quay hoặc ảnh dụng cụ thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lần thử có bản ghi đầy đủ",
+          "value": "20",
+          "unit": "lần",
+          "role": "complete_observed_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Toàn bộ dãy kết quả Đ/X được cho trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_trial_order_and_event_code"
+        }
+      ],
+      "requested_quantity": "Số lần đỏ; Số lần xanh; Tỉ số quan sát đỏ trên toàn bộ lần thử",
+      "student_work": null,
+      "initial_guidance": [
+        "Mỗi vị trí trong dãy là một lần thử, cần giữ thứ tự khi đánh dấu để không đếm lặp hoặc bỏ sót.",
+        "Tỉ số đang hỏi dùng số lần xuất hiện kết quả đỏ so với toàn bộ các lần đã ghi."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Mã kết quả phải được hiểu theo chú giải trong đề và đếm từng vị trí một lần.",
+          "question": "Em đánh dấu các vị trí có kết quả cần tìm và kiểm với những vị trí còn lại ra sao?"
+        },
+        {
+          "level": 2,
+          "hint": "Mẫu của tỉ số là toàn bộ số lần thử thuộc đúng bản ghi đang xét.",
+          "question": "Em lập phân số theo vai trò số lần kết quả và tổng số lần như thế nào?"
+        },
+        {
+          "level": 3,
+          "hint": "Có thể rút gọn phân số hoặc chia để viết số thập phân, nhưng ý nghĩa vẫn gắn với dữ liệu đã ghi.",
+          "question": "Em kiểm số đếm và tỉ số mà không biến nó thành dự báo chắc chắn ra sao?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Đếm đỏ theo vị trí trong bản ghi",
+          "reason": "Mỗi lần quay là một vị trí; chỉ đếm vị trí mang mã Đ theo chú giải.",
+          "result": "7",
+          "explanation": "Đ xuất hiện ở các vị trí 1,4,6,9,12,15,18: 7 lần. Đánh dấu từng vị trí, không đếm số loại màu thay số lần xuất hiện.",
+          "expression": "1+1+1+1+1+1+1",
+          "unit": "lần",
+          "step_id": "s0"
+        },
+        {
+          "title": "Kiểm số xanh và tổng",
+          "reason": "Mỗi lần chỉ Đ hoặc X, nên số xanh bằng tổng trừ số đỏ.",
+          "result": "13",
+          "explanation": "X có 20 - 7 = 13 lần. Kiểm 7 + 13 = 20, đủ toàn bộ vị trí; có thể đếm trực tiếp các vị trí X để đối chiếu.",
+          "expression": "20-{s0}",
+          "unit": "lần",
+          "step_id": "s1"
+        },
+        {
+          "title": "Lập tỉ số quan sát và kiểm",
+          "reason": "Lấy số lần Đ chia tổng mọi lần thử trong bản ghi vì đang tìm phần lần Đ của toàn bộ.",
+          "result": "0.35",
+          "explanation": "Tỉ số = 7/20 = 0,35. Phân số đã tối giản vì 7 và 20 không có ước chung lớn hơn 1. Kiểm 0,35 x 20 = 7 lần; tỉ số không mang đơn vị lần và chỉ mô tả 20 lần đã ghi.",
+          "expression": "{s0}/20",
+          "unit": "",
+          "step_id": "s2"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số lần đỏ",
+          "result": "7",
+          "unit": "lần"
+        },
+        {
+          "quantity": "Số lần xanh",
+          "result": "13",
+          "unit": "lần"
+        },
+        {
+          "quantity": "Tỉ số quan sát đỏ trên toàn bộ lần thử",
+          "result": "7/20",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "raw_trial_log_count_and_observed_ratio",
+        "operations": [
+          "1+1+1+1+1+1+1",
+          "20-7",
+          "7/20"
+        ],
+        "numeric_values": [
+          "20"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_experimental_frequency_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_TRIAL_LOG_EVENT_COUNT_DENOMINATOR_AND_FUTURE_SCOPE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "observed_ratio_not_future_guarantee": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "case_group_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "split": "train",
+      "grade": 5,
+      "topic": "combine_unequal_trial_blocks_ratio",
+      "problem": "Hai đợt thử giả định dùng cùng một cách thử và cùng quy tắc ghi Đ là đỏ, X là không đỏ. Đợt A có 10 lần, gồm 2 Đ và 8 X; đợt B có 30 lần khác, gồm 13 Đ và 17 X. Các đợt không chồng lần thử, không có kết quả thiếu hoặc loại bỏ. Hãy gộp số lần, tính tỉ số số lần đỏ trên tổng số lần của cả hai đợt theo phân số tối giản và số thập phân rồi kiểm. Giải thích vì sao phải cộng số lần theo đúng vai trò, không lấy trung bình cộng hai tỉ số như hai đợt có cùng số lần.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng đợt A",
+          "value": "10",
+          "unit": "lần",
+          "role": "trial_count_A"
+        },
+        {
+          "id": "g1",
+          "text": "Đỏ đợt A",
+          "value": "2",
+          "unit": "lần",
+          "role": "event_count_A"
+        },
+        {
+          "id": "g2",
+          "text": "Không đỏ đợt A",
+          "value": "8",
+          "unit": "lần",
+          "role": "non_event_count_A"
+        },
+        {
+          "id": "g3",
+          "text": "Tổng đợt B",
+          "value": "30",
+          "unit": "lần",
+          "role": "trial_count_B"
+        },
+        {
+          "id": "g4",
+          "text": "Đỏ đợt B",
+          "value": "13",
+          "unit": "lần",
+          "role": "event_count_B"
+        },
+        {
+          "id": "g5",
+          "text": "Không đỏ đợt B",
+          "value": "17",
+          "unit": "lần",
+          "role": "non_event_count_B"
+        }
+      ],
+      "requested_quantity": "Số lần đỏ sau gộp; Tổng số lần sau gộp; Tỉ số quan sát chung",
+      "student_work": null,
+      "initial_guidance": [
+        "Hai đợt có số lần khác nhau, mỗi lần thử vẫn được tính một lần khi gộp.",
+        "Giữ riêng số lần xuất hiện kết quả và tổng số lần; ghép các số cùng vai trò trước khi lập tỉ số chung."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Các đợt không trùng nên có thể ghép bản ghi bằng cách nối các lần thử.",
+          "question": "Em cộng những số nào để tìm số lần đỏ và những số nào để tìm tổng số lần?"
+        },
+        {
+          "level": 2,
+          "hint": "Trung bình cộng hai tỉ số cho hai đợt vai trò bằng nhau, trong khi số lần của chúng khác nhau.",
+          "question": "Em lập tỉ số từ tổng số lần đã gộp để mỗi lần thử được tính như nhau ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Số lần đỏ cộng số lần không đỏ phải bằng tổng sau gộp.",
+          "question": "Em dùng các số không đỏ và phép nhân ngược để kiểm phân số đã rút gọn như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Gộp số lần đỏ",
+          "reason": "Số lần đỏ của hai đợt không trùng được cộng để có số lần xuất hiện trong dữ liệu ghép.",
+          "result": "15",
+          "explanation": "Đỏ sau gộp = 2 + 13 = 15 lần. Không cộng đỏ của một đợt với tổng của đợt kia.",
+          "expression": "2+13",
+          "unit": "lần",
+          "step_id": "s0"
+        },
+        {
+          "title": "Gộp tổng mọi lần thử",
+          "reason": "Tổng tỉ số chung phải bao gồm mọi lần của cả hai đợt.",
+          "result": "40",
+          "explanation": "Tổng = 10 + 30 = 40 lần. Kiểm A:2+8=10 và B:13+17=30, không có lần bị bỏ.",
+          "expression": "10+30",
+          "unit": "lần",
+          "step_id": "s1"
+        },
+        {
+          "title": "Lập tỉ số chung",
+          "reason": "Số lần đỏ trong dữ liệu ghép chia tổng lần thử của chính dữ liệu ghép cho tỉ số quan sát chung.",
+          "result": "0.375",
+          "explanation": "Tỉ số = 15/40 = 3/8 = 0,375. Chia cả tử và mẫu cho5 để rút gọn, không đổi ý nghĩa phần số lần. Hai đợt dài khác nhau nên không dùng trung bình cộng đơn giản của hai tỉ số đợt.",
+          "expression": "{s0}/{s1}",
+          "unit": "",
+          "step_id": "s2"
+        },
+        {
+          "title": "Kiểm bằng kết quả còn lại",
+          "reason": "Mỗi lần chỉ đỏ hoặc không đỏ nên hai số đếm phải cộng lại đủ tổng.",
+          "result": "25",
+          "explanation": "Không đỏ = 8 + 17 = 25 lần; 15 + 25 = 40. Kiểm 0,375 x 40 = 15, và 3/8 x 40 = 15. Kết quả chỉ mô tả các lần đã gộp, không đảm bảo lần thử tiếp theo.",
+          "expression": "8+17",
+          "unit": "lần",
+          "step_id": "s3"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số lần đỏ sau gộp",
+          "result": "15",
+          "unit": "lần"
+        },
+        {
+          "quantity": "Tổng số lần sau gộp",
+          "result": "40",
+          "unit": "lần"
+        },
+        {
+          "quantity": "Tỉ số quan sát chung",
+          "result": "3/8",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "combine_unequal_trial_blocks_ratio",
+        "operations": [
+          "2+13",
+          "10+30",
+          "(2+13)/(10+30)"
+        ],
+        "numeric_values": [
+          "10",
+          "2",
+          "8",
+          "30",
+          "13",
+          "17"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_experimental_frequency_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_TRIAL_LOG_EVENT_COUNT_DENOMINATOR_AND_FUTURE_SCOPE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "observed_ratio_not_future_guarantee": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+      "case_group_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+      "split": "train",
+      "grade": 5,
+      "topic": "observed_frequency_not_fixed_next_block",
+      "problem": "Trong mô hình giả định, hộp có cả thẻ đỏ và thẻ xanh. Mỗi lần rút một thẻ, ghi màu rồi trả lại trước lần sau; chưa cho số thẻ mỗi màu hoặc xác suất chính xác. Bản ghi đầy đủ của 15 lần đã thử có 12 lần đỏ và 3 lần xanh. Hãy lập tỉ số quan sát của đỏ theo phân số tối giản và số thập phân, rồi đánh giá nhận định: Trong 5 lần tiếp theo nhất định có đúng 4 lần đỏ. Giải thích phạm vi kết luận bằng hai bản ghi tiếp theo có thể xảy ra trong mô hình, không khẳng định đã thực hiện phép thử thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lần đã quan sát",
+          "value": "15",
+          "unit": "lần",
+          "role": "observed_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Số lần đỏ đã ghi",
+          "value": "12",
+          "unit": "lần",
+          "role": "observed_red_count"
+        },
+        {
+          "id": "g2",
+          "text": "Số lần xanh đã ghi",
+          "value": "3",
+          "unit": "lần",
+          "role": "observed_blue_count"
+        },
+        {
+          "id": "g3",
+          "text": "Số lần tiếp theo được nói đến",
+          "value": "5",
+          "unit": "lần",
+          "role": "future_block_size"
+        },
+        {
+          "id": "g4",
+          "text": "Hộp có cả hai màu, mỗi thẻ rút được trả lại; chưa biết số thẻ từng màu",
+          "value": null,
+          "unit": "",
+          "role": "both_colours_possible_no_known_probability"
+        }
+      ],
+      "requested_quantity": "Tỉ số quan sát đỏ trong bản ghi đã cho",
+      "student_work": null,
+      "initial_guidance": [
+        "Tỉ số từ bản ghi trả lời về các lần đã có dữ liệu, còn nhận định nói về một nhóm lần chưa quan sát.",
+        "Giữ riêng hai phạm vi thời gian và xem điều kiện của mô hình có bắt buộc một kết quả cụ thể cho nhóm sau không."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân số cần dùng hai số đếm của chính bản ghi đã cho.",
+          "question": "Em lập và rút gọn tỉ số đỏ trên tổng các lần đã quan sát như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Nhận định dùng từ nhất định mạnh hơn việc mô tả một tỉ số đã quan sát.",
+          "question": "Em kiểm mô hình rút rồi trả lại có loại trừ những dãy kết quả nào trong nhóm sau ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Có thể xét các bản ghi tiếp theo khác nhau nhưng vẫn giữ nguyên dữ liệu đã quan sát trước đó.",
+          "question": "Em nêu hai bản ghi như vậy để kiểm nhận định mà không dự báo kết quả thật như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Kiểm bản ghi rồi lập tỉ số quan sát",
+          "reason": "12 đỏ và3 xanh bao hết15lần nên tỉ số đỏ dùng12chia15.",
+          "result": "0.8",
+          "explanation": "Tỉ số = 12/15 = 4/5 = 0,8. Kiểm 12 + 3 = 15 và 0,8 x 15 = 12; đây là mô tả dữ liệu đã ghi, không phải chứng minh xác suất đỏ chính xác bằng0,8.",
+          "expression": "12/15",
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Đánh giá phạm vi nhận định",
+          "reason": "Rút rồi trả lại trong hộp có cả hai màu không ép nhóm tiếp theo phải có cùng tỉ số như bản ghi trước.",
+          "result": "Không bảo đảm có đúng bốn lần đỏ trong năm lần tiếp theo",
+          "explanation": "Ví dụ bản ghi tiếp theo Đ,Đ,Đ,Đ,X có4lần đỏ; Đ,Đ,X,X,X có2lần đỏ. Cả hai đều phù hợp việc có cả hai màu và trả lại thẻ, không thay15lần trước. Chúng là ví dụ khả dĩ để bác bỏ chữ nhất định, không nói đã xảy ra hoặc có khả năng bằng nhau.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s1"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tỉ số quan sát đỏ trong bản ghi đã cho",
+          "result": "4/5",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "observed_frequency_not_fixed_next_block",
+        "operations": [
+          "12/15"
+        ],
+        "numeric_values": [
+          "15",
+          "12",
+          "3",
+          "5"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_experimental_frequency_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_TRIAL_LOG_EVENT_COUNT_DENOMINATOR_AND_FUTURE_SCOPE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "observed_ratio_not_future_guarantee": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_misconception_event_to_nonevent_denominator",
+      "case_group_id": "primary_20261018_g5_empirical_frequency_0091_misconception_event_to_nonevent_denominator",
+      "split": "train",
+      "grade": 5,
+      "topic": "misconception_event_to_nonevent_denominator",
+      "problem": "Bản ghi giả định gồm đúng 30 lần thử, mỗi lần chỉ đỏ hoặc không đỏ; có 9 lần đỏ và 21 lần không đỏ, không thiếu kết quả. Bài viết tổng hợp giả định ghi: Tỉ số số lần đỏ là 9/21 vì có 9 lần đỏ và 21 lần không đỏ. Đề muốn tỉ số số lần đỏ trên tổng mọi lần thử. Hãy giữ nguyên câu viết, nhận xét vai trò mẫu số, lập đúng tỉ số theo phân số tối giản và số thập phân rồi kiểm. Không suy em đã đếm sai hoặc nghĩ gì ngoài câu được cho.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng số lần thử",
+          "value": "30",
+          "unit": "lần",
+          "role": "total_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Số lần đỏ",
+          "value": "9",
+          "unit": "lần",
+          "role": "event_count"
+        },
+        {
+          "id": "g2",
+          "text": "Số lần không đỏ",
+          "value": "21",
+          "unit": "lần",
+          "role": "non_event_count"
+        }
+      ],
+      "requested_quantity": "Tỉ số đỏ trên tổng mọi lần thử",
+      "student_work": {
+        "text": "Tỉ số số lần đỏ là 9/21 vì có 9 lần đỏ và 21 lần không đỏ.",
+        "observations": [
+          {
+            "excerpt": "Tỉ số số lần đỏ là 9/21 vì có 9 lần đỏ và 21 lần không đỏ.",
+            "claim_scope": "Explicit synthetic event/non-event denominator used for requested event/all ratio; no unsupported counting-error or mental-cause inference."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Cần xác định hai đại lượng mà đề yêu cầu so, không chỉ ghép hai số có trong bảng.",
+        "Mẫu số phải thể hiện đúng phạm vi được hỏi; số lần không đỏ và tổng mọi lần là hai đại lượng khác nhau."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Câu viết đang so số lần đỏ với số lần không đỏ, còn đề hỏi với toàn bộ lần thử.",
+          "question": "Em chỉ rõ vai trò tử và mẫu của tỉ số được yêu cầu như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tổng mọi lần bao gồm cả đỏ lẫn không đỏ vì hai kết quả bao hết bản ghi.",
+          "question": "Em kiểm tổng bằng các nhóm rồi chọn mẫu tương ứng ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Tỉ số đúng nhân tổng phải khôi phục số lần có kết quả đang xét.",
+          "question": "Em rút gọn phân số và dùng phép kiểm ngược để đối chiếu yêu cầu như thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "title": "Nhận xét mẫu số đã viết",
+          "reason": "21là số lần không đỏ, không phải tổng mọi lần trong bản ghi.",
+          "result": "9/21 so đỏ với không đỏ, chưa phải tỉ số đỏ trên tổng",
+          "explanation": "Câu viết giữ đúng số9và21nhưng chọn sai đại lượng ở mẫu so với câu hỏi. Đề không yêu cầu tỉ số đỏ so với không đỏ. Không kết luận em đếm sai từ bằng chứng này.",
+          "expression": null,
+          "unit": "",
+          "step_id": "s0"
+        },
+        {
+          "title": "Kiểm tổng lần thử",
+          "reason": "Hai nhóm đỏ và không đỏ không trùng và bao hết nên cộng để kiểm tổng.",
+          "result": "30",
+          "explanation": "9 + 21 = 30 lần, khớp tổng đã cho.",
+          "expression": "9+21",
+          "unit": "lần",
+          "step_id": "s1"
+        },
+        {
+          "title": "Lập đúng tỉ số quan sát",
+          "reason": "Lấy số đỏ chia tổng đã kiểm, rồi rút gọn cùng một hệ số ở tử và mẫu.",
+          "result": "0.3",
+          "explanation": "Tỉ số = 9/30 = 3/10 = 0,3. Kiểm 0,3 x 30 = 9 lần, đúng số đỏ; tỉ số không mang đơn vị lần.",
+          "expression": "9/{s1}",
+          "unit": "",
+          "step_id": "s2"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tỉ số đỏ trên tổng mọi lần thử",
+          "result": "3/10",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "misconception_event_to_nonevent_denominator",
+        "operations": [
+          "9/(9+21)"
+        ],
+        "numeric_values": [
+          "30",
+          "9",
+          "21"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_experimental_frequency_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_TRIAL_LOG_EVENT_COUNT_DENOMINATOR_AND_FUTURE_SCOPE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "observed_ratio_not_future_guarantee": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_guard_unread_outcomes_in_full_trial_scope",
+      "case_group_id": "primary_20261018_g5_empirical_frequency_0091_guard_unread_outcomes_in_full_trial_scope",
+      "split": "train",
+      "grade": 5,
+      "topic": "guard_unread_outcomes_in_full_trial_scope",
+      "problem": "Một bản ghi giả định xác nhận đã thực hiện đủ 18 lần thử, mỗi lần cho đúng một trong hai kết quả đỏ hoặc xanh. Hiện chỉ chép rõ được 7 kết quả đỏ, 8 kết quả xanh; kết quả của 3 lần còn lại chưa đọc được và chưa có ảnh rõ hoặc bản chép bổ sung. Cần tìm tỉ số số lần đỏ trên toàn bộ 18 lần, không phải chỉ trên các lần đọc rõ. Hãy hỏi thông tin cần bổ sung trước khi đưa một tỉ số chính xác; không tự gán màu cho các dòng chưa đọc.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lần đã thực hiện",
+          "value": "18",
+          "unit": "lần",
+          "role": "full_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Đỏ đọc rõ",
+          "value": "7",
+          "unit": "lần",
+          "role": "known_red_count"
+        },
+        {
+          "id": "g2",
+          "text": "Xanh đọc rõ",
+          "value": "8",
+          "unit": "lần",
+          "role": "known_blue_count"
+        },
+        {
+          "id": "g3",
+          "text": "Số kết quả chưa đọc được",
+          "value": "3",
+          "unit": "lần",
+          "role": "unread_outcome_count"
+        }
+      ],
+      "requested_quantity": "Hỏi các kết quả chưa đọc hoặc số đỏ trong phần đó để tính tỉ số trên toàn bộ18lần",
+      "student_work": null,
+      "initial_guidance": [
+        "Tổng số lần đã biết, nhưng số lần đỏ của toàn bộ bản ghi còn phụ thuộc các kết quả chưa đọc.",
+        "Giữ đúng phạm vi toàn bộ các lần đã thử, không tự thu hẹp sang phần bản ghi đọc rõ."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Những kết quả chưa đọc có thể ảnh hưởng số lần xuất hiện màu đang hỏi.",
+          "question": "Em có thể chép rõ các kết quả còn thiếu hoặc cho biết số lần đỏ trong phần đó không?"
+        },
+        {
+          "level": 2,
+          "hint": "Ảnh bổ sung cần cho thấy nhãn kết quả của đúng những lần chưa rõ, không cần đoán từ các dòng đã đọc.",
+          "question": "Em có thể gửi ảnh rõ hoặc bản chép xác nhận phần kết quả chưa đọc được không?"
+        },
+        {
+          "level": 3,
+          "hint": "Sau khi đủ số lần đỏ của toàn bộ, mới lập tỉ số với tổng phạm vi đã yêu cầu.",
+          "question": "Em kiểm bản chép bổ sung đủ mọi lần mà không đổi câu hỏi sang phần dữ liệu rõ như thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_unread_outcomes_in_full_trial_scope",
+        "operations": [],
+        "numeric_values": [
+          "18",
+          "7",
+          "8",
+          "3"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "current_g5_experimental_frequency_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "root",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/curriculum_sources.json",
+          "registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+          "source_id": "math_2018_annex",
+          "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+          "source_payload_sha256": "f35d34ff84da2ca3f9ab72d5d67482ada414684b611deea98c4b329801b661ab",
+          "source_locator": [
+            45,
+            45
+          ],
+          "verification_status": "primary_annex_outcome_read",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "2018_ANNEX_OUTCOME_READ_CURRENT_LEGAL_CONSOLIDATION_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "EXPLICIT_TEXT_TRIAL_LOG_EVENT_COUNT_DENOMINATOR_AND_FUTURE_SCOPE"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "observed_ratio_not_future_guarantee": true
+      }
+    }
+  ],
+  "polish_reason": "Expand neutral requested quantities; make random draw and both colours possible at every trial explicit to ground two future-sequence examples. No count/ratio or source history changed.",
+  "revised_fields": [
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+      "problem": "Một bản ghi giả định của 20 lần quay vòng quay được chép đủ theo thứ tự. Đ là kết quả đỏ, X là kết quả xanh; mỗi lần có đúng một kết quả: Đ, X, X, Đ, X, Đ, X, X, Đ, X, X, Đ, X, X, Đ, X, X, Đ, X, X. Hãy nêu cách đánh dấu từng lần thử, đếm số lần đỏ và xanh, lập tỉ số số lần đỏ trên tổng số lần thử, viết dạng phân số tối giản và số thập phân rồi kiểm. Chỉ mô tả kết quả đã ghi, không suy xác suất chính xác hoặc bảo đảm lần quay sau; chưa có quay hoặc ảnh dụng cụ thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lần thử có bản ghi đầy đủ",
+          "value": "20",
+          "unit": "lần",
+          "role": "complete_observed_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Toàn bộ dãy kết quả Đ/X được cho trong đề",
+          "value": null,
+          "unit": "",
+          "role": "explicit_trial_order_and_event_code"
+        }
+      ],
+      "requested_quantity": "Cách đánh dấu từng lần; Số lần đỏ và xanh; Tỉ số đỏ trên toàn bộ theo phân số tối giản và số thập phân; Kiểm"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+      "problem": "Hai đợt thử giả định dùng cùng một cách thử và cùng quy tắc ghi Đ là đỏ, X là không đỏ. Đợt A có 10 lần, gồm 2 Đ và 8 X; đợt B có 30 lần khác, gồm 13 Đ và 17 X. Các đợt không chồng lần thử, không có kết quả thiếu hoặc loại bỏ. Hãy gộp số lần, tính tỉ số số lần đỏ trên tổng số lần của cả hai đợt theo phân số tối giản và số thập phân rồi kiểm. Giải thích vì sao phải cộng số lần theo đúng vai trò, không lấy trung bình cộng hai tỉ số như hai đợt có cùng số lần.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng đợt A",
+          "value": "10",
+          "unit": "lần",
+          "role": "trial_count_A"
+        },
+        {
+          "id": "g1",
+          "text": "Đỏ đợt A",
+          "value": "2",
+          "unit": "lần",
+          "role": "event_count_A"
+        },
+        {
+          "id": "g2",
+          "text": "Không đỏ đợt A",
+          "value": "8",
+          "unit": "lần",
+          "role": "non_event_count_A"
+        },
+        {
+          "id": "g3",
+          "text": "Tổng đợt B",
+          "value": "30",
+          "unit": "lần",
+          "role": "trial_count_B"
+        },
+        {
+          "id": "g4",
+          "text": "Đỏ đợt B",
+          "value": "13",
+          "unit": "lần",
+          "role": "event_count_B"
+        },
+        {
+          "id": "g5",
+          "text": "Không đỏ đợt B",
+          "value": "17",
+          "unit": "lần",
+          "role": "non_event_count_B"
+        }
+      ],
+      "requested_quantity": "Số đỏ và tổng sau gộp; Tỉ số chung theo phân số tối giản và số thập phân; Giải thích cách gộp và kiểm"
+    },
+    {
+      "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+      "problem": "Trong mô hình giả định, hộp có cả thẻ đỏ và thẻ xanh. Mỗi lần rút ngẫu nhiên một thẻ không chọn màu, ghi màu rồi trả lại trước lần sau; cả hai màu đều có thể được rút ở mỗi lần; chưa cho số thẻ mỗi màu hoặc xác suất chính xác. Bản ghi đầy đủ của 15 lần đã thử có 12 lần đỏ và 3 lần xanh. Hãy lập tỉ số quan sát của đỏ theo phân số tối giản và số thập phân, rồi đánh giá nhận định: Trong 5 lần tiếp theo nhất định có đúng 4 lần đỏ. Giải thích phạm vi kết luận bằng hai bản ghi tiếp theo có thể xảy ra trong mô hình, không khẳng định đã thực hiện phép thử thật.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng lần đã quan sát",
+          "value": "15",
+          "unit": "lần",
+          "role": "observed_trial_count"
+        },
+        {
+          "id": "g1",
+          "text": "Số lần đỏ đã ghi",
+          "value": "12",
+          "unit": "lần",
+          "role": "observed_red_count"
+        },
+        {
+          "id": "g2",
+          "text": "Số lần xanh đã ghi",
+          "value": "3",
+          "unit": "lần",
+          "role": "observed_blue_count"
+        },
+        {
+          "id": "g3",
+          "text": "Số lần tiếp theo được nói đến",
+          "value": "5",
+          "unit": "lần",
+          "role": "future_block_size"
+        },
+        {
+          "id": "g4",
+          "text": "Hộp có cả hai màu; rút ngẫu nhiên không chọn màu, trả lại, mỗi màu có thể xuất hiện ở mọi lần; chưa biết số thẻ từng màu",
+          "value": null,
+          "unit": "",
+          "role": "both_colours_possible_no_known_probability"
+        }
+      ],
+      "requested_quantity": "Tỉ số quan sát theo phân số và số thập phân; Đánh giá nhận định về nhóm lần tiếp theo bằng hai bản ghi khả dĩ"
+    }
+  ],
+  "all_hint_count_read": 15,
+  "empirical_ratio_count_scope_and_future_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:34:02.383928+00:00",
+  "official_QA_method": "Same-author actualfullread5problems/givens/request/studentquote/observations/initial/all12steps/reasons/explanations/results/expressions/units/answers and15hints; rereadneutralexpandedrequestsandexplicitrandom-return/both-colours-possible premise. Grade5observedcount/allratio, rawlogtally, disjointunequalblockpooling, exactfraction/decimalanddimensionlessunit, observationnotfutureguarantee, explicitwrongdenominatorfeedback, incompleteoutcomeguard. Fraction/Decimal all10numericsteps, separateindex/listconcatenationandbinaryfuture/unreadenumeration. Directread2null-expressionsteps. Noequalprobabilityclaimforfuturesequences, noactualexperiment/image/independentreview/newhumanattestation. Existing0089protectedholdunchanged; noevalusedtoadjustdata.",
+  "official_review_sha256": "4e3b58d6a74886afb68bad82e1cc905c122562ff901dceb2c4baf45ae5ceffb2",
+  "review_note_typography_corrected_no_decision_change": true
+}

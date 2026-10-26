@@ -1,0 +1,142 @@
+{
+  "authored_utc": "2026-10-18T04:14:36.115567+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:13:07.352Z",
+  "batch_sha256": "50e93062ea0f6ece8cefeb770de4c7024f732eed8ad348b98cee31c9ac0947d0",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_seconds_centuries_0064_minutes_seconds_duration_conversion",
+      "row_sha256": "37e5b5b1987289e6a598a1d8ca38333debbdf74842b2f21f7ef2762adcd3902b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "4*60",
+          "(4*60)+37",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_seconds_centuries_0064_century_boundary_years",
+      "row_sha256": "5d5cd1d7953fb4b27f30550cb3e86ebba1a17ab62e8dacd069a5834b013d98da",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "(20-1)*100+1",
+          "20*100",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_seconds_centuries_0064_elapsed_seconds_cross_minute_marks",
+      "row_sha256": "ae6c394ba3d147ac837035eb6bc532bec5134d0058d51b2622590c8ebef93ba3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "60-48",
+          "(17-(14+1))*60",
+          "(60-48)+((17-(14+1))*60)+12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_seconds_centuries_0064_misconception_concatenate_minutes_seconds",
+      "row_sha256": "75520a15ef7b47870e72b8ef2717699ff61a7a165e0b8c32a808de856a2ad0d1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "2*60",
+          "(2*60)+45"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_seconds_centuries_0064_guard_unknown_timer_display_format",
+      "row_sha256": "a18a2c2c86b3e70e34d9bae0b9e9a3511481cf6c79859894520e200b5208164d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "four_minutes_plus37_seconds_tick_count": 277,
+    "century20_first": 1901,
+    "century20_last": 2000,
+    "century21_first": 2001,
+    "each_century_100_years_no_overlap": true,
+    "year_century_membership": {
+      "1999": 20,
+      "2000": 20,
+      "2001": 21
+    },
+    "datetime_elapsed_seconds": 144,
+    "distinct_consecutive_second_ticks": 144,
+    "two_minutes_plus45_tick_count": 165,
+    "guard_display_countermodels_seconds": {
+      "elapsed_minutes_seconds": 192,
+      "elapsed_hours_minutes": 11520
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Datetime/set enumeration confirms stated same-day time and explicit calendar convention; no real timer image or event observation. Semantic/grade/hint review still required.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous363_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_official_QA_repairs": [
+    "Replace ambiguous endpoint question with explicitly last year and next year.",
+    "Remove negative-number terminology from grade4hint; ask remaining seconds to next minute."
+  ],
+  "actual_content_read_completed_utc": "2026-10-18T04:15:13.699110+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

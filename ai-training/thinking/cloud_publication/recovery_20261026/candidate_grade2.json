@@ -1,0 +1,98 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g2_answer_01",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Một khay có 5 hàng bánh, mỗi hàng có 4 chiếc. Hỏi khay có tất cả bao nhiêu chiếc bánh?",
+      "expected_answer": "20 chiếc bánh",
+      "rubric": [
+        "Use familiar grade2 five-times table.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": "**Dữ kiện:**  \n- Khay có 5 hàng bánh.  \n- Mỗi hàng có 4 chiếc bánh.  \n\n**Yêu cầu:**  \n- Tính số chiếc bánh trong khay.  \n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu.**  \n- Dữ kiện đủ và nhất quán.  \n- Số liệu rõ ràng, không mâu thuẫn.  \n\n---\n\n**Bước 2: Giải bài toán.**  \n- Mỗi hàng có 4 chiếc bánh.  \n- Khay có 5 hàng bánh.  \n\n**Phép tính:**  \n$$\n5 \\text{ hàng} \\times 4 \\text{ chiếc bánh/hàng} = 20 \\text{ chiếc bánh}\n$$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- Mỗi hàng có 4 chiếc bánh → 5 hàng → $5 \\times 4 = 20$.  \n- Kết quả hợp lý, không có sai sót.\n\n---\n\n**Lời giải:**  \nKhay có tổng cộng **20 chiếc bánh**.",
+    "adapter": "Hướng dẫn: Đọc đề và xác định rõ yêu cầu.\nĐề: Một khay có 5 hàng bánh, mỗi hàng có 4 chiếc. Hỏi khay có tất cả bao nhiêu chiếc bánh?\nYêu cầu: Tính số chiếc bánh trong khay.\nDữ kiện: Khay có 5 hàng, mỗi hàng có 4 chiếc.\nĐề đủ và nhất quán.\nGiải:\nBước 1: Đếm số hàng và số chiếc mỗi hàng.\nPhép tính: 5 × 4\nĐại lượng cần tìm: Tổng số chiếc bánh\nGiải thích: Vì mỗi hàng có 4 chiếc và có 5 hàng, nên số chiếc bánh của khay là tổng số chiếc bánh của mỗi hàng.\nĐại lượng cần tìm được xác định đúng.\nBước 2: Đếm số hàng và số chiếc mỗi hàng.\nPhép tính: 5 × 4\nĐại lượng cần tìm: Tổng số chiếc bánh\nGiải thích: Vì mỗi hàng có 4 chiếc và có 5 hàng, nên số chiếc bánh của khay là tổng số chiếc bánh của mỗi hàng.\nĐại lượng cần tìm được xác định đúng.\nKiểm lại: Đáp số đúng theo yêu cầu.\nĐáp số: 20 chiếc bánh.",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_answer_02",
+      "grade": 2,
+      "mode": "answer",
+      "userproblem": "Thư viện lớp có 42 quyển truyện. Các bạn mượn 17 quyển. Hỏi còn lại bao nhiêu quyển truyện?",
+      "expected_answer": "25 quyển truyện",
+      "rubric": [
+        "subtraction; count items",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Dữ kiện:**  \n- Thư viện có 42 quyển truyện.  \n- Các bạn mượn 17 quyển.  \n\n**Yêu cầu:**  \nTính số quyển truyện còn lại.\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**  \n- Dữ kiện đủ và nhất quán.  \n- Đề yêu cầu tính số quyển truyện còn lại sau khi các bạn mượn 17 quyển.\n\n---\n\n**Bước 2: Giải bài toán.**  \n- Số quyển truyện ban đầu: 42.  \n- Số quyển truyện mượn: 17.  \n- Số quyển truyện còn lại = Số ban đầu - Số mượn = $42 - 17$.\n\n**Phép tính:**  \n$42 - 17 = 25$\n\n---\n\n**Bước 3: Kiểm lại kết quả.**  \n- 42 - 17 = 25.  \n- 25 là số quyển truyện còn lại.  \n- Dữ kiện và phép tính đúng, không có mâu thuẫn.\n\n---\n\n**Kết luận:**  \nCó **25 quyển truyện** còn lại.",
+    "adapter": "Hướng dẫn: Tìm số còn lại bằng cách lấy tổng trừ đi số đã lấy.\nBước 1: Tổng số quyển truyện của thư viện là bao nhiêu?\nDữ kiện: Thư viện có 42 quyển truyện.\nĐại lượng cần tìm: Tổng số quyển truyện của thư viện.\nPhép tính: 42\nĐại lượng cần tìm: Tổng số quyển truyện của thư viện.\nQuan hệ: 42\nBước 2: Số quyển truyện đã mượn là bao nhiêu?\nDữ kiện: Các bạn mượn 17 quyển truyện.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nPhép tính: 42 - 17\nĐại lượng cần tìm: Số quyển truyện còn lại.\nQuan hệ: 42\nBước 3: Kiểm số và trả lời.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nPhép tính: 42 - 17\nĐại lượng cần tìm: Số quyển truyện còn lại.\nQuan hệ: 42\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số quyển truyện còn lại.\nĐại lượng cần tìm: Số",
+    "ended_eos": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_hint_no_answer_01",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Có 5 túi, mỗi túi đựng 3 quả bóng bàn. Em hãy tìm số quả bóng bàn trong các túi.",
+      "expected_answer": "Gợi ý: Các túi có số quả bằng nhau. Có thể cộng cùng một số nhiều lần hoặc dùng phép nhân.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Bước đầu:**  \nEm hãy tính số quả bóng bàn trong các túi. Mỗi túi có 3 quả, và có 5 túi.  \nEm có thể tính như sau: 3 quả/buộc × 5 túi = ?  \n\n**Lời giải:**  \n3 × 5 = 15  \n\n**Kết quả:** 15 quả bóng bàn.",
+    "adapter": "Gợi ý: Mỗi túi có số quả bóng bàn bằng tổng số quả bóng bàn trong các túi em đã biết.\nEm thử trả lời: Em biết số quả bóng bàn trong mỗi túi bằng bao nhiêu?",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_hint_no_answer_02",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "userproblem": "Một sợi dây dài 36 cm được cắt đi 14 cm. Hỏi đoạn dây còn lại dài bao nhiêu?",
+      "expected_answer": "Gợi ý: Độ dài còn lại bằng độ dài ban đầu trừ phần đã cắt. Giữ đơn vị cm trong đáp số.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Bước đầu:**  \n- Đoạn dây ban đầu dài 36 cm.  \n- Được cắt đi 14 cm.  \n- Vậy đoạn dây còn lại là: 36 cm - 14 cm = ?\n\n**Lời giải:**  \n- 36 cm - 14 cm = 22 cm.\n\n**Đáp án:** 22 cm.",
+    "adapter": "Gợi ý: Em thử trả lời: Em có biết số phần cần tìm chưa?\nEm thử trả lời: Em có thể tìm phần còn lại bằng cách nào?",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_missing_or_contradictory_info_01",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Có 4 hộp bút, mỗi hộp có 6 chiếc bút. Dòng ghi chú lại nói “mỗi hộp có 5 chiếc”. Hỏi có tất cả bao nhiêu chiếc bút?",
+      "expected_answer": "Hai thông tin mâu thuẫn: cần kiểm tra mỗi hộp có 6 hay 5 chiếc bút trước khi tính tổng.",
+      "rubric": [
+        "identify contradiction; no arbitrary choice",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": "**Dữ kiện và yêu cầu:**\n\n- Có 4 hộp bút.\n- Mỗi hộp có 6 chiếc bút.\n- Dòng ghi chú lại nói “mỗi hộp có 5 chiếc” (có thể là sai thông tin).\n\n**Phân tích:**\n\n- Dữ kiện được cung cấp: 4 hộp, mỗi hộp có 6 chiếc bút.\n- Dữ kiện có mâu thuẫn: \"mỗi hộp có 5 chiếc\" (trong đề có ghi \"mỗi hộp có 5 chiếc\", nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\").\n\n**Lời giải:**\n\n- Dữ kiện có mâu thuẫn: Trong đề có ghi \"mỗi hộp có 5 chiếc\" (có thể là sai thông tin), nhưng trong câu hỏi lại nói \"mỗi hộp có 6 chiếc\".\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu:**\n- Dữ kiện không nhất quán: đề có ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n\n**Bước 2: Xác định số liệu cần bổ sung:**\n- Cần xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không, hay có thể là thông tin bổ sung cần kiểm lại.\n\n**Bước 3: Giải bài toán theo dữ kiện đã được cung cấp (mỗi hộp có 6 chiếc):**\n\n- Số hộp: 4\n- Số bút trong mỗi hộp: 6\n- Tổng số bút: $4 \\times 6 = 24$\n\n**Kết quả:**\n- Có tổng cộng $24$ chiếc bút.\n\n**Lời giải đầy đủ:**\n- Dữ kiện có mâu thuẫn do đề ghi \"mỗi hộp có 5 chiếc\", nhưng câu hỏi lại nói \"mỗi hộp có 6 chiếc\". Điều này dẫn đến mâu thuẫn.\n- Cần kiểm lại thông tin để xác định xem liệu \"mỗi hộp có 5 chiếc\" có phải là sai thông tin hay không.\n- Nếu lấy dữ kiện \"mỗi hộp có 6 chiếc\", thì tổng số bút là $4 \\times 6 = 24$.\n\n**Kết luận:**\n- Có tổng cộng $24$ chiếc bút.",
+    "adapter": "Hướng dẫn: Đọc đề và xác định dữ kiện, yêu cầu.\nDữ kiện: Có 4 hộp bút, mỗi hộp có 6 chiếc bút.\nYêu cầu: Tính tổng số chiếc bút có tất cả.\nBước 1: Đếm số bút mỗi hộp.\nPhép tính: 4 × 6\nKết quả bước này: 24\nGiải thích: Mỗi hộp có 6 bút, có 4 hộp, nên số bút là 6×4.\nBước 2: Tính tổng số bút.\nPhép tính: 24\nKết quả bước này: 24\nGiải thích: Tổng số bút là 24.\nĐáp số: 24",
+    "ended_eos": true
+  },
+  {
+    "fixture": {
+      "id": "dev25_g2_student_error_01",
+      "grade": 2,
+      "mode": "student_error",
+      "userproblem": "Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9 quả mận.” Hãy nhận xét đúng dòng Minh đã viết.",
+      "expected_answer": "Phép cộng 2 + 7 = 9 đúng về số học, nhưng không biểu diễn tổng số quả. Có 2 nhóm, mỗi nhóm 7 quả nên cần 2 × 7 = 14 quả mận.",
+      "rubric": [
+        "Distinguish true arithmetic from wrong relation; grade2 two-times table.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Có 2 đĩa, mỗi đĩa có 7 quả mận. Minh viết: “2 + 7 = 9”.\n- **Yêu cầu:** Nhận xét đúng dòng Minh đã viết.\n\n**2. Giải thích:**\n\n- **Dữ kiện:** Đúng, đề đã cung cấp thông tin rõ ràng: 2 đĩa, mỗi đĩa có 7 quả mận.\n- **Phép tính:** 2 + 7 = 9.\n  - **Giải thích:** Đây là phép tính cộng có nghĩa là: 2 + 7 = 9.\n  - **Tính toán:** 2 + 7 = 9 (đúng).\n  - **Đơn vị:** Đơn vị của số liệu là “quả mận”.\n  - **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng số quả mận là 2 + 7 = 9.\n\n**3. Kiểm lại kết quả:**\n\n- **Tổng số quả mận:** 2 + 7 = 9 (đúng).\n- **Đơn vị:** Đúng.\n- **Ý nghĩa:** 2 đĩa có 7 quả mận, tổng là 9 quả mận.\n\n**4. Nhận xét:**\n\n- **Dòng Minh đã viết:** “2 + 7 = 9” là phép tính đúng.\n- **Đúng:** 2 + 7 = 9.\n- **Không mâu thuẫn:** Dữ kiện đầy đủ và nhất quán.\n- **Không thiếu dữ kiện:** Đề đã cung cấp đủ thông tin.\n\n**5. Kết luận:**\n\nDòng “2 + 7 = 9” của Minh là **đúng**, vì phép tính cộng đúng và đơn vị, ý nghĩa đều phù hợp với dữ kiện đã cho.\n\n**Đáp án:** Đúng.",
+    "adapter": "Hướng dẫn: Đọc đề và dữ kiện; xác định phép tính hoặc quan hệ cần dùng.\nBước 1: Đọc đề và dữ kiện.\nDữ kiện: Có 2 đĩa, mỗi đĩa có 7 quả mận.\nYêu cầu: Nhận xét đúng dòng Minh đã viết.\nGiải: Đọc dữ kiện và yêu cầu.\nDữ kiện đủ và nhất quán.\nBước 2: Xác định phép tính hoặc quan hệ cần dùng.\nPhép tính: Tổng.\nPhép tính: Tích.\nGiải thích: Hai đĩa, mỗi đĩa có 7 quả mận. Tổng số quả mận là 2×7=14. Vì vậy, số quả mận được viết là 14. Không đúng.\nBước 3: Kiểm lại kết quả.\nKết quả: 14.\nĐáp số: 14.",
+    "ended_eos": true
+  }
+]

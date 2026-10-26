@@ -1,0 +1,12 @@
+{"sample_id":"sgk_completion_rel_20261021_halves_regroup_three_equal_parts","source_row_sha256":"8de776e18c70fcf2596fb3325031e23a11117fe785b9b5af13de3099ce1b2769","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_piece_count_not_area_count","source_row_sha256":"0945abcec6ee6a8b55bf3295a4d4d0b9de5a10610d4a879fcb6a3ce364f23098","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_common_region_congruent_triangle_cancellation","source_row_sha256":"836db73e4207398d76224ea0c1bcef3329a86e5a37769234fe943180305d6e34","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_transfer_overlap_breaks_area_claim","source_row_sha256":"0964138c1f7e7fafbf9e08202c344868526013a217ccab406d16291a76265071","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_ordered_parallelogram_fourth_vertex","source_row_sha256":"59f1ad1a252ce8b278aab53e780a6410d2a23187aa45e33ba06d1a74be11b4a0","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_unordered_three_vertices_all_completions","source_row_sha256":"04a810dd4b208f12227a720a4c64146006208e03082da797add994347dc00c64","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_layer_partial_order_all_consistent_orders","source_row_sha256":"294deca7efa1c58693970f9a49841c0d73e7442a0c96596b7e3f196f422921b8","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_layer_cycle_incompatible_claims","source_row_sha256":"9fcd3289e8cd34c5a00c98e1584fae92cc1c3423d8ad0af311371cb644d08ae8","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_tangent_row_rectangle_full_extents","source_row_sha256":"e1806d82d7ebb0c19b9dbdfa2d739ad773ffbf2da452ed7ffcadc6d31f16946b","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_tangent_row_inverse_gap_count_error","source_row_sha256":"aed0f9cc8c4d67365780caa40a33b9742c4e0edecb5485fe7da8b8f3eeb8b1f3","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_trapezoid_midcut_halfturn_rectangle","source_row_sha256":"1f27a475c82bd46bd424849dd927ead9e94df711086fddc39afc1093bcf9221e","wrong_answer_detected":true}
+{"sample_id":"sgk_completion_rel_20261021_trapezoid_translate_overlap_counterexample","source_row_sha256":"2b0c8a0b16709aa003c9ee8f881cf55b35c97678d84dea524392599f2dc3ef44","wrong_answer_detected":true}

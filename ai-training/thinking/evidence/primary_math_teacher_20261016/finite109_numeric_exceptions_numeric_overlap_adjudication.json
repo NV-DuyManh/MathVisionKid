@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-18T14:05:51.150332+00:00",
+  "policy_sha256": "c9aa008fb84b81e705e540c56d018c9c2d07278edc775fba57a6d28a2309e472",
+  "cases": [
+    {
+      "sample_id": "primary_20261018_finite105_g2_muldiv_group_size_vs_group_count",
+      "source_row_sha256": "283f67966efe77776e9505cb19fe9b041897175e9637143b4b9d5ca0d81b3f6a",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "20/5"
+      ],
+      "current_review_row_sha256": "283f67966efe77776e9505cb19fe9b041897175e9637143b4b9d5ca0d81b3f6a",
+      "same_author_QA_notes": "Grouping20/5=4bagsvs20/4=5cardsperbag,distinctunits/roles,inverses;allfields/hintsread.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    }
+  ],
+  "sealed_concept_challenge_read": false,
+  "protected_questions_disclosed": false,
+  "frozen_sources_modified": false,
+  "source_answers_modified": false,
+  "acceptance_basis": "OWNER_AUTHORIZED_NUMERIC_OVERLAP_EXCEPTION_AFTER_SELF_QA",
+  "limitations": "Exact numeric overlap remains. Do not claim these numeric tests independently evaluate the overlapping calculations. No claim of semantic non-equivalence to unread protected content."
+}

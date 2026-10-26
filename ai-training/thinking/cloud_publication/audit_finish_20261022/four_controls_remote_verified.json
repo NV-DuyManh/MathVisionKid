@@ -1,0 +1,51 @@
+{
+  "schema": "MathVisionKid.four_controls_raw_verified.v1",
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 14385786,
+      "sha256": "c62944c2dfed8b22fdd6819ae798a3eaed777c2505a7b88e5182863e1cd4115d",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 34753,
+      "sha256": "6ad7ce332f8bc5216ff788fbdeeefea6787c01bd4260d0462a7a1b0144509d3a",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 788326,
+      "sha256": "692eb164552d63a30922437bcc602467047960d6d35f087a3cb434e1047fdf3f",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 298928,
+      "sha256": "62d2452bf5017ca1849044f63db75e79af2ffdc7faf5eec693b0faccafa46ade",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    }
+  },
+  "notebook": {
+    "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "bytes": 313528,
+    "sha256": "72fb246fb77ca7560faa38da4e495d85a9b25cc5ad8a1a75878b27ffae655dd8",
+    "fresh_raw_verified": true,
+    "cell_count": 29,
+    "original_first15_sources_preserved": true,
+    "source_save_point": "OBSERVED_CELLS_0_TO_28",
+    "publication_helper_source_preserved_in_progress": true,
+    "training_started": false
+  },
+  "state_written_last": true,
+  "old_progress_members_preserved": true,
+  "new_case_count": 0,
+  "new_chat_count": 0,
+  "source_rows_changed": false,
+  "training_started": false,
+  "TRAINING_DATASET_READY": false
+}

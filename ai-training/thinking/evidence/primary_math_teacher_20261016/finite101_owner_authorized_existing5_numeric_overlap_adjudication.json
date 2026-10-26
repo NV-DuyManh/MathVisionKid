@@ -1,0 +1,75 @@
+{
+  "utc": "2026-10-18T13:59:35.988826+00:00",
+  "policy_sha256": "c9aa008fb84b81e705e540c56d018c9c2d07278edc775fba57a6d28a2309e472",
+  "cases": [
+    {
+      "sample_id": "primary_20261018_finite100_g1_segments_nonzero_record",
+      "source_row_sha256": "94c42ef2e9ffed38eea172d818653b142580f71e57b475faa5edf7bb0cc1cf5e",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "9-3"
+      ],
+      "current_review_row_sha256": "94c42ef2e9ffed38eea172d818653b142580f71e57b475faa5edf7bb0cc1cf5e",
+      "same_author_QA_notes": "Record3to9gives6cmnot9,3+6=9;onlytextrecordconsistentwith6request,actualassetpending. Allfields/hintsread.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_finite100_g1_segments_two_origins_same_length",
+      "source_row_sha256": "2d3a987b6f0649eee5266379ddf4d855b094867bf21d7a0ceaf7000d25eda6d6",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "7-2"
+      ],
+      "current_review_row_sha256": "2d3a987b6f0649eee5266379ddf4d855b094867bf21d7a0ceaf7000d25eda6d6",
+      "same_author_QA_notes": "0to5and2to7each5cm;unitintervalcountsinvariantunderoriginshift. Grade1explicitdescription,samenumericnotproofalone. Allfields/hintsread.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_ruler_record_nonzero_start_estimate_check",
+      "source_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "19-2"
+      ],
+      "current_review_row_sha256": "8c32e720ee1d304ea69d1fa2598f3bf09e4ccad35d3a43e4bf1716a910addd6d",
+      "same_author_QA_notes": "Grade2explicit ruleralignedstraight/equalcm intervals/endmarks2and19,prior20cmestimate. Correctinterval17cm,estimatehigherby3cm,inverse2+17=19,17+3=20. Procedurestart0orrecordbothmarksclearanddoesnotassertactualchildmeasurement. Separateunitintervalenumeration17 plusFraction/Decimal numericstepsverify. Readproblem/givens/expandedneutralrequest/initial/all3steps/answers/3hints; no17/3/filledsubtraction/estimate-directionlabelinhints. Smallintegercm arithmeticwithin grade2, no physical mastery claimed.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_misconception_ruler_end_label_as_length",
+      "source_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+      "question_exact_collision": false,
+      "own_matching_expressions": [
+        "8-3"
+      ],
+      "current_review_row_sha256": "6a6b5d1e42cef64c74189853bc1bbef00c6c5c395a75ee2ec8dce61efebcf6cb",
+      "same_author_QA_notes": "Exactsyntheticquoteend8thereforelength8retainedwithstart3provided. Correct5cm interval,3+5=8 andfiveunitintervals. Feedbackdescribeswrittenendpointsubstitutiononly,noguesstilt/vision/hiddenmentalstate. Repeatedwordtypo fixedandfeedbackactualreread,noanswerchange. Fraction/Decimal andintervalenumerationagree. Initial/3hints no5/finalverdict/substituted8-3; simple primaryintegercm reasoning. Noimageoractualmeasurementcertification.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    },
+    {
+      "sample_id": "primary_20261018_g5_collect_classify_0089_multiple_response_people_vs_choice_counts",
+      "source_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+      "question_exact_collision": false,
+      "own_matching_expressions": [],
+      "current_review_row_sha256": "4f3a6c1d8335b86321229d1affdcc7cfa5f83689b6342e4eddb3dfb651db30cb",
+      "same_author_QA_notes": "Multiselect8respondents:readingABDEGH6,plantingACDFG5,intersectionADG3,readingonlyBEH3,plantonlyCF2. Distinctpersons8 versus11choice-ticks; groupcheck3+2+3=8 and3+2+3*2=11 valid. SetsoracleandFraction/Decimal verify separatecountunits; conceptualsetnotationQAonly, explanationprimaryfriendlyIDs/tables. PlanoneIDrowtwocolumns preservesidentity, no fabricated actualsurvey. Allworkedreason/numericsteps/answers/initial/3hints read; no6/5/8/11filledhint orcompleteanswer.",
+      "numeric_test_independence_claimed": false,
+      "authorization": "Explicit direct owner reply authorizes per-hash exceptions after QA; not evidence of human content review.",
+      "semantic_non_equivalence_to_unread_protected_content_proven": false
+    }
+  ],
+  "sealed_concept_challenge_read": false,
+  "protected_questions_disclosed": false,
+  "frozen_sources_modified": false,
+  "source_answers_modified": false,
+  "acceptance_basis": "OWNER_AUTHORIZED_NUMERIC_OVERLAP_EXCEPTION_AFTER_SELF_QA",
+  "limitations": "Exact numeric overlap remains. Do not claim these numeric tests independently evaluate the overlapping calculations. No claim of semantic non-equivalence to unread protected content."
+}

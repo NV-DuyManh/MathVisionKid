@@ -1,0 +1,11 @@
+{
+  "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "bytes": 68507,
+  "sha256": "f956a3ae5d31b75fbf99979a8d6dc12e3926042423e23feb2a5aeb91ad504ee6",
+  "cell_count": 13,
+  "prior_versions_preserved": true,
+  "all_bytes_equal": true,
+  "fresh_raw_verified": true,
+  "training_started": false,
+  "verified_utc": "2026-10-21T11:15:02.284Z"
+}

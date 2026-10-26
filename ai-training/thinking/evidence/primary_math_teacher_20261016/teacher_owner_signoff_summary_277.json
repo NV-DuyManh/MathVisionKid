@@ -1,0 +1,26 @@
+{
+  "schema_version": "mathvisionkid.owner_tutor_self_attestation.v1",
+  "date": "2026-10-17",
+  "source_zip_file_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+  "source_zip_sha256": "50c64ab542e3ca2b1bed1a05f1736724c00e67b86719aa2aafbd6cc9c540b55b",
+  "source_snapshot_authored_cases": 277,
+  "original_accepted_AI_research": 172,
+  "original_pending": 105,
+  "self_attested_owner_tutor_approved": 277,
+  "owner_approval_rate_percent": 100.0,
+  "grades": {
+    "1": 70,
+    "2": 105,
+    "3": 89,
+    "4": 5,
+    "5": 8
+  },
+  "review_basis": "Owner/user self-attests as a primary-school tutor and approves all records in this exact frozen snapshot; this is a declaration of approval, not evidence of a complete item-by-item independent teacher examination.",
+  "credential_verification": "self_report_only",
+  "independent_label_accuracy_percent": null,
+  "independent_model_accuracy_percent": null,
+  "official_source_state_unchanged": true,
+  "does_not_apply_to_future_rows": true,
+  "training_started": false,
+  "file_sha256": "a61b0b75ffd1847ac6dd8b79e74a55acda7817d3a6154e8fb85346f610099079"
+}

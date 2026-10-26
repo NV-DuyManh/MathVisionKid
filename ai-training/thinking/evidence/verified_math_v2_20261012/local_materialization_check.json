@@ -1,0 +1,11 @@
+{
+  "original_export_bytes": 40185455,
+  "adapter_sha256": "5d78e5528a3ff6cf7c9913c1952c78756b758b3e3b009a101c1ed59bd39eac3a",
+  "steps": 544,
+  "last_step": 544,
+  "train_seconds": 667.37,
+  "overflow_retries": 0,
+  "peak_vram_gib": 3.395,
+  "source_data_and_adapter_hashes_verified": true,
+  "production_approved": false
+}

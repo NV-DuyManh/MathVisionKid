@@ -1,0 +1,18 @@
+{
+ "schema":"MathVisionKid.root_reviewed_training_plan.v1",
+ "owner_authorized_training":true,
+ "maximum_wall_clock_seconds":8400,
+ "hard_deadline_utc":"2026-10-26T11:14:18Z",
+ "train_cutoff_utc":"2026-10-26T11:04:18Z",
+ "source_cases":4000,"source_rows":16000,"derived_rows_expected":6625,
+ "source_targets_or_acceptance_labels_changed":false,
+ "source_corpus_and_prior_checkpoints_preserved":true,
+ "training_hypothesis":"Higher adaptation capacity across attention and MLP projections, a moderately stronger learning rate, and equal-row assistant-only loss may learn tutor behavior more effectively. This is a measured experiment, not an assured improvement.",
+ "changes_from_rejected_parent":{"attention_mlp_lora_rank":16,"alpha":16,"peak_learning_rate":0.00002,"warmup_updates":10,"max_updates":300,"nonreentrant_gradient_checkpointing":true,"effective_batch_rows":16,"microbatch_rows":2,"objective":"mean of per-row assistant-token mean cross-entropies, selected supervised positions only"},
+ "source_QA":"Reuse24actualsource semantic reviews only after exact raw-row hash and identical projected target binding in current cloud; no fullcorpus semantic proof or new human attestation.",
+ "development":"Reuse prior30development fixtures with fresh base generation and same prompts/seeds/decoding; development is used and is not an unseen final test. No fixture oracle or outputs enter training targets.",
+ "selection":"Keep untrained base; review30full paired responses at100,300 or terminalboundary. No baseline-pass regression, newcriticalerror or newhintleak; preserve base primary answer passes and require fulltaskgain. Stop if failed. No automatic production promotion.",
+ "heldout":"native15 remains sealed until development eligibility and selection; never read concept_challenge_v4 or used final sets for this change.",
+ "review_authority":"Root and peer AI review authorized by owner; human_review_claimed=false",
+ "human_review_claimed":false,"paid_resources":false,"production_approved":false,"whole6502344_epoch_claimed":false
+}

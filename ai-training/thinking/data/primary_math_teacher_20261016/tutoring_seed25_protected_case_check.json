@@ -1,0 +1,52 @@
+{
+  "dataset": "tutoring_seed25.jsonl",
+  "dataset_sha256": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8",
+  "excluded_numeric_case_count": 671,
+  "old_numeric_dataset_hashes": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "pilot_hashes": {
+    "independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928"
+  },
+  "fresh_val_sha256": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+  "checked_expanded_steps": 36,
+  "collisions": [],
+  "unsupported_canonical_steps": [
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s0",
+      "expression": "52//6",
+      "reason": "EUCLIDEAN_DIVISION_NOT_IN_PREVIOUS_CANONICAL_AST"
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s1",
+      "expression": "(52//6)*6",
+      "reason": "EUCLIDEAN_DIVISION_NOT_IN_PREVIOUS_CANONICAL_AST"
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s2",
+      "expression": "52-((52//6)*6)",
+      "reason": "EUCLIDEAN_DIVISION_NOT_IN_PREVIOUS_CANONICAL_AST"
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "step_id": "s0",
+      "expression": "92//60",
+      "reason": "EUCLIDEAN_DIVISION_NOT_IN_PREVIOUS_CANONICAL_AST"
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "step_id": "s1",
+      "expression": "92-(92//60)*60",
+      "reason": "EUCLIDEAN_DIVISION_NOT_IN_PREVIOUS_CANONICAL_AST"
+    }
+  ],
+  "status": "NO_COLLISION_IN_SUPPORTED_CANONICAL_EXPRESSIONS",
+  "equivalence_limit": "Previous bounded associative/commutative +/* and ordered -/division. No universal semantic equivalence, no concept challenge content read.",
+  "unsupported_policy": "CAPABILITY_PENDING_RESEARCH_ONLY_DO_NOT_AUTOEXPORT_TO_APP"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "MathVisionKid.union_helper_preflight.v1",
+  "accepted94": {
+    "file_id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+    "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+    "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+    "bytes": 4411114,
+    "fresh_local_full_archive_sha256_verified": true,
+    "fresh_local_member_sha256_verified": 190,
+    "fresh_remote_full_raw_verified_receipt": true,
+    "remote_verified_utc": "2026-10-20T11:42:17.702Z",
+    "accepted_source_rows_verified": 94,
+    "accepted_chat_rows_verified": 376,
+    "source_raw_row_hash_and_prompt_target_linkage_verified": true,
+    "fourmodes_per_source_verified": true
+  },
+  "accepted36_status": "WAIT_FOR_BUNDLE_REMOTE_VERIFIED",
+  "full_old31_raw_verified": false,
+  "training_started": false
+}

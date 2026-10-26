@@ -1,0 +1,40 @@
+{
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 14694188,
+      "sha256": "66fde0fdaa0a505f49e3b67cddd9a2e9cbb9c7fea555bfc7007c2ed22cbbe505",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 37045,
+      "sha256": "aa12ec65ee6066a5d13ff3333b6b0ce7656f23ddf08275b17b4e65fbcf87d76e",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 789437,
+      "sha256": "305e295448ef540de1418e177a0250c358b4921bfc449c55d1333bf38d9eaecf",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 307812,
+      "sha256": "24ff3f6604f9f437b2b59ebcfb79812480b04d5fc17ab410d6335c6978337820",
+      "fresh_raw_readback_verified": true,
+      "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+    }
+  },
+  "state_written_last": true,
+  "finite_core_confirmed_complete": true,
+  "finite_core_cases": 495,
+  "finite_core_nodes": 165,
+  "full_expanded_dataset_complete": false,
+  "training_started": false,
+  "observed_utc": "2026-10-22T11:59:50.575070+00:00",
+  "unique_chat_rows_committed": 501792
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "pYRvfU4BaPj6"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"files\": [{\"mimeType\": \"application/vnd.google-apps.folder\", \"parents\": [\"19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n\"], \"id\": \"1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ\", \"name\": \"MathVisionKid_QUALITY_RECOVERY_20261024\"}]}\n"
+        ]
+      }
+    ]
+  }
+}

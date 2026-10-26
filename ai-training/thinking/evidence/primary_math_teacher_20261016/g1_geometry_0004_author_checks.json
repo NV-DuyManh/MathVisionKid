@@ -1,0 +1,9 @@
+{
+  "batch_sha256": "d05ad1174379462f335d57d82b019bf6ddc33dea1ef95e3c696fdd7d7f027d83",
+  "authored": 10,
+  "content_review_status": "PENDING_SEPARATE_CONTENT_PASS",
+  "all_steps_categorical": true,
+  "actual_image_supplied": false,
+  "training_started": false,
+  "skills_matched": "none"
+}

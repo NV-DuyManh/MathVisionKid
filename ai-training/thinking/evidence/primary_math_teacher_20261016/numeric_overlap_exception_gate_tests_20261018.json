@@ -1,0 +1,15 @@
+{
+  "tests": {
+    "authorized_exact_hash_after_QA": true,
+    "no_exception_stays_excluded": true,
+    "exact_question_never_waived": true,
+    "changed_source_hash_not_waived": true,
+    "failed_content_QA_not_waived": true,
+    "tampered_evidence_rejected": true,
+    "missing_owner_authority_rejected": true
+  },
+  "passed": true,
+  "fixture": "Original authored source case only, protection sets mocked; no protected questions/solutions read for test design.",
+  "actual_primary_data_mutated": false,
+  "sealed_concept_challenge_read": false
+}

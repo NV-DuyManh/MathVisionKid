@@ -1,0 +1,440 @@
+# MathVisionKid — ngữ cảnh và báo cáo huấn luyện toán duy nhất
+
+Cập nhật: 13/10/2026, múi giờ Asia/Bangkok.
+
+## Quy tắc sử dụng file này
+
+Đây là file ngữ cảnh và báo cáo tiếp tục duy nhất cho phần AI của dự án MathVisionKid. Đọc file này trước mỗi đợt làm; sau khi kết thúc hoặc bị ngắt, cập nhật trạng thái hiện tại, kết quả đã xác minh, quyết định, vấn đề và bước kế tiếp ngay tại đây. Thêm một mục nhật ký vào cuối file, không tạo báo cáo `.md` mới cho mỗi đợt. Các báo cáo cũ được giữ làm bằng chứng lịch sử; nếu khác nhau, ưu tiên trạng thái mới có evidence tại file này.
+
+Evidence kỹ thuật vẫn lưu riêng bằng JSON/JSONL, ảnh, notebook và checkpoint theo run ID để giữ khả năng kiểm tra. Không thay kết quả cũ bằng số của một run mới. Không ghi API key, token, link kết nối có secret hoặc biến môi trường nhạy cảm vào file này. Không ghi "đã làm" cho việc mới đề xuất.
+
+Mỗi lần cập nhật phải trả lời: đã thay đổi gì; chạy kiểm tra nào; kết quả và giới hạn; artifact ở đâu; còn thiếu gì; hành động tiếp theo cụ thể là gì. Nếu có tiến trình đang chạy, ghi session/run ID và cách kiểm tra trạng thái trước khi chạy lại.
+
+## Mục tiêu và quyết định của chủ dự án
+
+- Làm dự án capstone toán chính MathVisionKid, hỗ trợ toán tiểu học Việt Nam lớp 1–5. Không tiếp tục dự án HandAI riêng chỉ nhận chữ trong nhánh công việc này.
+- Ưu tiên độ đúng của dữ kiện, cách giải, phép tính và đáp số; mong muốn không đưa lời giải sai cho học sinh.
+- Sửa và chạy trực tiếp notebook OCR hiện có; phần THINKING đặt ở cuối cùng notebook. Giữ checkpoint OCR và dữ liệu cũ có thể khôi phục.
+- Nhãn Gemini có thể tự chấp nhận theo lựa chọn trước đây của chủ dự án, không bắt duyệt từng ảnh để pipeline tiếp tục. Chính sách này không chứng minh độ chính xác 100%, không được ghi `human_verified=true` hoặc coi nhãn AI là benchmark độc lập đã duyệt.
+- Ảnh/vùng không đọc được được loại khỏi tập train và ghi lý do; giữ nguồn nguyên trạng. Nhãn chép chữ phải giữ nguyên lỗi của học sinh; đáp số chuẩn của bài toán nằm ở trường khác.
+- Chủ dự án đã cho phép pilot huấn luyện trong notebook. Không commit/push; không tự triển khai adapter cho học sinh. Những bước kiểm dữ liệu, thiết kế và kiểm chứng tiếp theo thuộc phạm vi đang làm; không cần xin lại cho các thao tác thông thường đã được giao.
+- Từ 11/10/2026: cập nhật chính file `.md` này sau mỗi đợt, không sinh hàng loạt báo cáo `.md`.
+
+## Trạng thái hiện tại đã xác minh
+
+**FULL_THINKING_REVIEW_COMPLETE — 13/10/2026.** Đã hoàn tất inference và audit262baseline+262candidate; đọc/review đầy đủ524 visible outputs bằng ba reviewer AI riêng cho hint/guard, baseworked và candidateworked. Không trainV4 trong lịch theo dõi. Heartbeat `nh-gi-thinking-mathvisionkid-sau-colab` đã DELETE thành công sau khi báo cáo/evidence được lưu và verified readback; không còn tự chạy lại training/evaluation này. Lịch kiểm các mốc trước nằm tại `thinking/evidence/teacher_math_v3_20261013/full_thinking_monitor.json`.
+
+Model pinned Qwen/Qwen3-1.7B revision70d244cc86ccca08cf5af4e1e306ecf908b1ad5e; adapter20e99388093c5f7caa1aacaac2a6014cdc0bfd4b4b1bb6f25b5a593ea8beae8d. Protocol thinking sampling0.6/top_p0.95/top_k20/seed20261013/batch4/cap2048. PID10673 đã kết thúc (Zs), statecompleted_numeric_comparison, GPU3MiB/0% tại mốc06:24UTC; không dùng PID lịch sử để restart. Primary greedy selection cũ vẫnbase. Thinking adapter cũng bị từ chối bởi gate giữ raw số/unit từnglớp: tổng có tiến bộ nhưng lớp3/4 giảm. Không chấp nhận model nào để hướng dẫn học sinh tự động; production_approved=false, standalone_student_tutor_approved=false.
+
+| Chỉ số trên validation phát triển | Base thinking | Adapter thinking |
+|---|---:|---:|
+| Raw số đúng |165/173 (95,4%)|167/173 (96,5%)|
+| Raw số và đơn vị đúng |101/173 (58,4%)|164/173 (94,8%)|
+| Strict đúng đáp số+unit |88/173|161/173|
+| Strict reference-path solution_verified |1/173|134/173|
+| AI review worked: nội dung toán/lời giải đúng |150/173|149/173|
+| AI review worked: hướng dẫn hữu ích |129/173|145/173|
+| Worked đạt toàn bộ common+method/grade/usefulness criteria |109/173|137/173|
+| AI review hint hữu ích, đúng, đúnginstruction và khônglộđáp số |0/59|15/59|
+| Hint lộ đáp số |58/59|30/59|
+| Guard đúng nội dung |21/30|24/30|
+| Guard đạt toàn bộ instruction/grounding/grade criteria |0/30|20/30|
+| Output truncated toàn262 |2|4|
+
+Guard/hint0 đạt toàn bộ không có nghĩa không lý do hay phép tính nào đúng. Semantic/math-intent review và aliases thủ công là supplemental; không thay rawmetric. Strict1/173 của base là reference/schema/pathscore, không có nghĩa base chỉ biết giải1bài. Adapter có18bài raw đáp số đúng nhưng semantic giải thích sai;19workedsevere vsbase21. Một phương pháp chia trước để tính diện tích hình thang có số đúng, nhưng lời bước cuối gọi nửa tổng là tổng và còn nói chiahai; parent đọc/adjudicate hai mẫu123/125, giữnonsevere semanticfail.
+
+| Lớp gán kỹ thuật | Base raw số | Adapter raw số | Base AIworkedsemantic | Adapter AIworkedsemantic |
+|---|---:|---:|---:|---:|
+|1|15/15|15/15|13/15|14/15|
+|2|15/15|15/15|15/15|15/15|
+|3|38/38|36/38|36/38|30/38|
+|4|35/36|32/36|32/36|25/36|
+|5|62/69|69/69|54/69|65/69|
+
+Paired raw số:159cảhaiđúng,8adapter-only,6base-only; tăng tổng2bài trong mộtseed, chưa chứng minh tăngtríthôngminh ổnđịnh. Canonicalunit:98cảhaiđúng,66adapter-only,3base-only,6cảhaisai. Lỗi điển hình:12giờ hoạt động+30phút nghỉ bị trừ thành690 thayvì cộng750; dãy bội76,152 bị nhânđôi thành304 thayvì228; kết quả học sinh605904+357733=963638 bị chấpnhận dù đúng963637; phép chia dùng result là dư cho expression toànphépchia; explanation cột nhớ/mượn và lời chia phân số bị sai. Một số đề được gánlớp3 còn có số/phépnhân vượt mức đãmapping (vd263kg→263000g, diện tích nhân2số2chữsố); phải rà chất lượng dữ liệu/gánlớp trước V4, không nhận đó là lỗi riêng của model hoặc đã bao phủ chương trình chính thức.
+
+Sensitivity bổsung261 bỏ duy nhất valID91d23b441cd60a087952fa5c:172worked+59hint+30guard. Raw base164/172số,101/172số+unit; adapter166/172số,163/172số+unit. Gate từnglớp vẫnfail, selectionprimary262 khôngđổi. Chỉ bỏ mộtknownoperation-equivalentcollision, không chứngminh zero semantic leakage toànbộdataset.
+
+Evidence local: `thinking/evidence/teacher_math_v3_20261013/full_thinking_readback` chứa16file raw đầyđủ; `full_thinking_semantic_review` chứapacket/audit,173base+173candidate+178hintguard decisions, hợpnhất524, numeric_and_sensitivity_report.json vàfinal_thinking_review.json. Source/dataprotocol frozen khôngđổi; reviewhelper14tests vàactualtokendecode/scores/metadata/summaryaudit PASS. Semanticreview làAI research, human_verified=false, teacher_certified=false; chỉ1seed trênAI-authoreddevelopmentval saupilot, chưabenchmark giáo viên giữkín/chưa gầnassistant/chưaOCR hoặcmọichươngtrình.
+
+Báo cáo Drive: https://drive.google.com/file/d/11NUDecwbtP8An8F3ZHetNETBcKCsgpwD/view . ZIP review (351255bytes, SHA134481cc011e88f09f95933f5e7dc38b92b628fe4cf61bf954225067ad460f5b) https://drive.google.com/file/d/1Jcom-Whz31z4lpeFDvqygXVFTOPgFpcl/view . ZIP gồmvisiblepacket/decisions/protocol/report, khôngweights/hidden think; không nhận làmodeldeployable. ReportSHA8cb8d7aa502c3eba58d5dd8302ef975804fd108ee17a9789e6b730b9cbe37422; notebook70cellSHA9a653d13322bb5184ad247d3eee099569f100923415464a4631f9f63453ef775 đãsave cùngID17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM. Rawreadback cả3artifact bytes khớp;8OCRobjectgốc giữnguyên.
+
+Bước tiếp theo cụthể: rà/sửa gánlớp và wording của training data trongversionmới; tạo ví dụteacher mới đúng từng cột, phépchia/phânsố vàvai trò dữkiện, khôngnhét nguyên câu/đáp sốvalidation vào train; tăng dữliệu hint1câuhỏi khônglộđáp án vàguardthiếudata; review lại4170numeric replay+330concept current/legacy vàLR2e-5 trướcfreezeV4. Đánhgiá outputconcise vàthinkingbudget riêng; arithmeticverifier khôngđược sửa rawmodelmetric. Dùng bài thực tế độc lập giáo viênduyệt đểđo chấtlượng;conceptchallenge50vẫn chưađọc/chưadùng. V4vẫnPREPARATION_ONLY. Khôngcommit/push/production, khôngtrainingmới trong đợtđánhgiánày.
+
+Skills applied: google-drive:google-drive (artifact sync/rawreadback), openai-docs (lịchfollow-up); workspace ML skills matched:none. Báo cáo chỉtại fileMDngữcảnhnày, evidenceJSON/JSONL riêng.
+
+### Lịch sử đợt teacher_math_v3, 13/10/2026 — các mốc trước khi hoàn tất review
+
+
+**MCP_CHROME_RECOVERED; FULL_THINKING_VALIDATION_RUNNING — 13/10/2026.** Đã kết nối lại qua Colab MCP trong Chrome theo yêu cầu chủ dự án. Không dùng Computer Use tiếp sau khi chủ dự án yêu cầu MCP-only. Đã thực thi preflight và mount Drive: Tesla T4 14,563 GiB, torch2.11/cu130, transformers5.18, PEFT0.21.1; sửa torchao0.10→0.17. Root và SHA train khớp đúng project cũ, không tạo dataset/checkpoint thay thế. Cả controller V3 và posthoc cũ đã completed trước khi đổi tài khoản; PID cũ chỉ là lịch sử.
+
+V3 đã train đủ 4.170 mẫu / 1.043 updates / một epoch / 1.739 giây, 0 overflow retry, peak allocation 6,006 GiB. Auditor PASSED, recompute 4.170 token masks, đủ log epoch, file/tensor checkpoint, 262 baseline/262 candidate/262 challenge. Primary greedy selection giữ model nền: adapter raw số đúng 113/173 so với base138/173, dù đáp số+unit adapter113/173 so với base91/173. Không promote adapter greedy hoặc gọi đây là solver chính xác 100%.
+
+Review AI output thật: 59 hint solve có39 hữu ích,12 liên quan nhưng yếu,8 gây hiểu sai hoặc sai; hình thức một câu hỏi/no answer leakage đạt59 nhưng không đủ chứng minh chất lượng. 20 worked solutions đã verified,4/lớp: không thấy sai số/đơn vị,4 vấn đề nhỏ về cách trình bày. File `teacher_math_v3_output_semantic_review.json` ở evidence local/main_run_readback; AI-review/posthoc, không human_verified. Independent anchor model nền25 solve:21 đúng số,17 đúng số+unit; không thay bằng kết quả calculator. Runtime hữu hạn trên challenge chỉ nhận2/173 lời giải,0 wrong accepted; hint renderer59/59 và guard30/30. Coverage thấp được ghi rõ, không gọi toàn bộ262 câu đã giải đúng.
+
+Thinking probe cũ chỉ8 bài: base7/8 đúng số,4/8 đúng số+unit; adapter8/8 cả hai,0 truncated. Vì mẫu quá ít, đã khai báo và launch phép so sánh thinking trên đủ262 validation, base và adapter cùng2048 tokens/batch4/sampling0.6-top_p0.95-top_k20/seed20261013. Đây là kiểm phát triển sau pilot, không benchmark giáo viên giữ kín. PID mới10673; directory `runs/qwen3_17b_teacher_math_v3_epoch1_seed20261013/full_thinking_validation_seed20261013`; helper SHA `d4547e3cab2edf9fce90dfdd07d6937e383c5d25788841df9142d06e90ccb1bd`. Đóng băng source dependencies và generation environment trong protocol; giữ original greedy selection, không đọc challenge, không optimizer update. Cần đọc số đo rồi review lời hướng dẫn thực tế trước khi chấp nhận bất kỳ role thinking nào. Kiểm cell monitor `dxBqWo6Kk8ND` và state/process/log trước chạy lại; không chạy GPU job V4 song song.
+
+V4 mới **PREPARATION_ONLY**: 330 source concept chats212 hiện hành/118 lịch sử;165 worked/165hint;188 phép tính tham chiếu đã kiểm. Validation30 câu/32 phép tính; challenge mới50 câu/44 phép tính,10/lớp,40worked/10hint thiếu ảnh/dữ kiện, chỉ đọc sau selection. Train SHA50b57a8d…, val65826b8a…, challenge4aacf59e…; chưa vào weights. 43 mixed/integrity tests passed; concept lexical screening chỉ advisory, selection yêu cầu review AI đủ60 output thật và hard retention số/unit overall/per-grade. Chưa launch V4. Kế hoạch LR2e-5/fresh1.7B/4.170 numeric+330concept×4 chỉ là cấu hình đang chuẩn bị, phải cập nhật theo full-thinking evidence trước launch.
+
+Notebook trong Chrome phục hồi từ bản65 cell đã lưu. Đã thêm65 preflight `--M81y52h6NN`,66 Drive `psPEhAd-iJb-`,67 helper `2hZ9VIenj6x7`,68 launch `jgFX2ywKk8Jf`,69 monitor `dxBqWo6Kk8ND`; cell52 dependencies được chạy lại. Không chạy/sửa8 OCR đầu. Đã lưu snapshot70 cell qua cùng notebook ID và tải raw readback: toàn bộ JSON khớp, 8 object OCR gốc giữ nguyên; notebook SHA `d05a00ea7f8421dbd3db041759c45efe38db8f458173ced406112be5cf190c1f`. Context được sync cùng file ID, raw bytes khớp tại mốc kiểm 04:55UTC. Lần gọi reconnect MCP tiếp theo trả true, chạy monitor thật xác nhận baseline92/262, candidate0/262, GPU T4 hoạt động; chưa có kết quả cuối.
+
+Chủ dự án đã yêu cầu thực hiện hướng teacher–student distillation: kiến thức Toán tiểu học Việt Nam lớp 1–5 hiện hành và chương trình cũ, lời giải từng bước, gợi ý cho học sinh, kết hợp kiểm chứng toán học. Đây là ủy quyền train mới trên Colab; không phải cam kết có thể chuyển trực tiếp trí thông minh của assistant hoặc đạt gần bằng assistant trước khi đo. Giữ các checkpoint và kết quả v2; adapter v2 bị từ chối cho standalone vẫn không dùng làm model nền.
+
+Đã đọc lại context/AGENTS, registry skill dự án (không có skill ML phù hợp) và tài liệu Expo v57 theo yêu cầu repository. Dùng google-drive:google-drive cho artifact/context sync. Chia ba phần độc lập: nguồn chương trình chính thức; dữ liệu original AI-teacher và oracle độc lập; trainer completion-only cho lời giải/gợi ý từ đề nguyên văn. Chưa gọi dữ liệu mới là đầy đủ mọi kiến thức hay human-verified.
+
+Colab MCP kết nối thành công, thêm cell preflight `BzzYhrSNACR0` ở index51 sau51cell cũ. Thực chạy xác nhận TeslaT4 15360MiB,0MiB đang dùng, không có tiến trình train. Model pin: Qwen3-0.6B `c1899de289a04d12100db370d81485cdf75e47ca`; Qwen3-1.7B `70d244cc86ccca08cf5af4e1e306ecf908b1ad5e`; cả hai card Apache2.0. Môi trường mới torch2.11/cu130, transformers5.18, peft0.21.1, torchao0.10 cần xử lý tương thích trước importPEFT. Root mới `/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/teacher_math_v3`.
+
+Trạng thái mới: BASELINE_COMPARISON_RUNNING; chưa có optimizerupdate hoặc adapterv3. Đã đóng băng4170train/262val/262challenge,57nhóm bài số học và6guard; inputchỉgrade/problem/mode, targetlời giải tính toán trực tiếp hoặc1hint. Source/data mới giữ nguyênv2. SHAtrain `d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda`,val `63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf`,challenge `0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2`. AI-teacher authored, human_verified=false/semantic_correctness_verified=false; gradephân bố396/226/901/955/1692train, chưa cân bằng. Có56trainbài làm sai giữ nguyên kết quả, tính từngcột có nhớ/mượn vàinversecheck. Không coi thầyAI tương đương giáo viên duyệt.
+
+Đối chiếu chương trình2018trang21–46,106mục kiến thức và các sửa đổi20/2021,13/2022,17/2025 không thay Toán tiểu học trong các văn bản đã rà. Registry57nhóm số học và9legacycandidate; bản phụ lụcToán2006 đầy đủ chưa truy cập được nên không nhận đã rà toàn bộ chương trìnhcũ. Thống kê/hìnhảnh/thựchành/khái niệm định tính còn thiếu trongnumerictrain. Nguồn/evidence `thinking/data/teacher_math_v3/curriculum_sources.json`; không suy ra toàn bộ106mục đãđược huấn luyện từ57nhóm.
+
+AIreview kiểm4694dòng,285cách diễnđạt số học+30guard,772unitchecks,300boundschecks,152column/inversechecks,20adversarialcases. Sửa3lỗi trướcfreeze: “cùngchứa”→“mỗihộp”, giới hạn thừa sốdecimal, đơn vịđồvật bị thiếu. Runtimechặn fractionalobjectcounts, câu ngoài mẫu và chữsố học sinh quá dài. Đây chỉ kiểm mẫu đã công bố, không NLU/OCR tổng quát. `semantic_template_review.json` PASSED_FOR_PUBLISHED_NUMERIC_TEMPLATE_RESEARCH; `trainer_peer_review.json` ghi metricfreeexplanation/hintkhông chứng nhận sưphạm.
+
+138tests passed local và thực Colab. Tokeninspection4170mẫu: longest696,completionmax412,0truncation; khóa context768/generation512,batch2accum2,1epoch LoRAr16. ActualT4longestbackwardPASS,peak5.803GiB,estimateoptimizer0.130GiB,0optimizerstep/khôngsaveadapter. ConfigexpandedSHA `1348aab79e717ac9340d96559eb2c7141545cbaa5aab7baa24581a11d128cd3f`. Nofreeprose/hiddenreasoningcertification: trainvisibleworkedsteps, thinkingmode sẽ đo riêng; chỉsố rawanswer/step so với reference không được thay bởi calculator.
+
+Đã launch baselineRunner PID20838 (phải kiểm ps/status trước chạy lại): `.6B` rồi `1.7B` freshpinnedbase trên cùng262val,max512,greedy/no-thinking, chưatrain. Root `teacher_math_v3`,state `baseline_runner_state.json`,log `baseline_runner.log`,configs `compare_06.json/main_final.json`. Run chính dự kiến `qwen3_17b_teacher_math_v3_epoch1_seed20261013`, compare `qwen3_06b_teacher_math_v3_base_probe_seed20261013`. Notebook mới có58cell ở thời điểm này:51preflight,52depsfix,53bundle,54tests/inspect,55budget/memory,56launchbaselines,57monitor. 8OCRgốc không sửa hoặc chạy. BundleSHA `6956fc0cb68a33f10afb6b61227ad4ec4e2b99b9ec81d40d48c504b807e20b64`.
+
+Bước tiếp: xem đủhai baseline rồi chọn freshbase đểtrain; val chọn checkpoint trước challenge; đo thinking samplingphùhợp riêng; auditor recompute token/score/log/hash/freshreload; xuất researchZIP cùngnotebook/context. Phải giữ metricLLM riêng calculator/guard, không dùng arithmeticcheck chứng nhận hiểuđề/sưphạm. Production_approved=false, khôngcommit/push.
+
+Cập nhật sau baseline0.6B: schema0/262 do thiếuexplanation/các kiểufield; không nhận0/173 là khôngbiếttoán. Táchdiagnostic đọc trực tiếpJSONanswer/unit gốc, nounalias rõràng, không sửađáp số bằngoracle: numeric76/173,đáp số+unit52/173,extracted164/173. Moduleaux `teacher_math_numeric_diagnostic_v3.py`,4testspassedlocal/Colab. Giữ metricstrictgốc; rawdiagnosticprotocolposthoc sauquan sátbaseline nên khôngtestđộc lập, nhưng gate đãđịnh trước lúcoptimizertrain. Trainercore không sửahash. Main1.7Bbaseline còn chạy. TrainingwaitPID22610 đãdừngkhi vẫnwaiting/0updates; runner mớiPID24611 đợi baselines xong, chọn modelbằngrawanswer+unit/numeric rồistrictsteps/hint/guard, auditcuối vàrejectadapternếurawoverall hoặcpergrade giảm. Kiểm `training_runner_state.json`/ps trước khởiđộnglại; notebookcell63 cậpnhậtrunner,cell61 giữquyếtđịnhdừngwaitcũ.
+
+Supplementreference106knowledgecards đãsoạn/AIpeerreview, numeric106expressions/77cards kiểmFraction,29cardsđịnh tính/thực hành khôngclaimarithmeticalproof. Một ví dụbảngchia lớp2 sửa20/4→20/5=4 trước lưu bảncuối; cardsSHA `d4be0db009a471986150c4d9e9b3e1d21be5ff6fd93a8c716c99c6871355bfdf`, trạng tháiNOT_USED_IN_NUMERIC_V3_TRAINING. Tệp `curriculum_training_coverage.json` bámactualdata:38/106mục partialtextsamegrade,7chỉrelatedskillothergrade,61chưa đưa vào;0mục fulloutcomecertified,NNmasterymeasured=false. Chưa thể nhận toàn chươngtrìnhhoặctríchmọi kiếnthức củaassistantđãvàoweights. Đang tìmnguồnlegacybổsung riêng, không đổinumericfreeze.
+
+Lưu notebook58cell trênDrive và tải rawreadback đãxácminhfullJSONkhớp,8OCRobjects đầyđủgiữ nguyên (MCPbỏdisplaymetadata nên mergegiữobjectgốc). Cells58–64 thêm sau snapshot58 cầnsave/readbackcuối. ConnectorPersonal profile103000002357306706048 đượcreconnect, link_idmới `link_6abe1dbe42308191b83ea0d372a57459` cùngaccount; khôngđổiowner/parents/IDs. Context đãsyncDrive sauphasebaselinepreparing, cầnsyncupdatehiện tại/cuối.
+
+Bổ sung03:15UTC/10:15local: v3trainđến671/1043update,peakactual5.953GiB,0overflowretry ởmốcđãđọc; chưakếtluậnaccuracytừloss. Controllertrain24611, posthocđợi27618 (PID26321cũđãdừngkhiwaiting,khôngloadGPU): sauauditedtrainđo30anchor riêng,thinking8bài gồmđủlớp1–5 (mỗi8bài base/adapter,caps2048,sampling0.6/0.95/20),runtimechallenge. Thinkingprobeexploratory,capkhôngchứngnhậntoàn nănglựcsuy luận. Notebookđãthêmcell65posthoc,66compactmonitor `UReBBrRINja4`,67balanceprobe `tNDDgAdsOGVv`,68verifyuploads `kiyEebwrP1bg`; snap65cell đãlưuDrive trướcnhữngcellnày nên cầnsavefinal.
+
+Legacyledger mới `legacy_curriculum_sources.json`:59node lịch sử theo các tài liệu thật đãđọc (school2015adjustments,Ministryorigin2021COVIDannex,author/NXBGDVNcomparison80page). Sáu/9candidate cũ chứngthực,1partial,2pending; chưaphụlụcToán2006đầyđủ/chưađọcmọisáchgiáokhoa. SHA `06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061`. KhôngnhậnhướngdẫnCOVIDlàchươngtrìnhhiệnhành2026. UploadverifiedColabshaởteacher_math_v3/supplementary,folderDriveID `17m41Mh08YsTGZPlH6aKLvTaZrRcHeYNx`;rootv3DriveID `1cBCKxNB3CdOr6wL06xpNEYOxbLc4YiVi`.
+
+Independencesupplementaudit25nhómcommutative phát hiện1case train–val `68+4*8`/`68+8*4` (valID91d23b441cd60a087952fa5c),0train–challenge/val–challenge trongquytắcđãkiểm; namedparameters0overlap/wordings0overlap. Primarymetrics/selectionkhôngđổi; phải báo bổsung261val exclude1 theo `split_independence_audit.json` SHA `c4cddd36f611d21a588b6d81043b09809c3c802a88cf51f450b4b13920fdd818`. Khôngnhậnzero∀semanticnumericcopies.
+
+Đểthực hiệnphầnhọckhái niệmhiện tại+cũ, chuẩn bịlượtMIXED_V4 riêng:330conceptchats212current(106node×2)+118legacy(59×2),165worked/165hint,186numericexpressions kiểmđộclập. File `concept_teacher_instructions.jsonl` banđầuSHA8b818ce5198ad32c84749d88828fbef308578d5b55a47faff4aed358a9a3ad99 đãupload/Colabreadbackverified, **đangđượcAIreview/sửa drawrectanglesquarelegacy trướcV4freeze**, chưatrainv3. Filesv4new trainer/dataeval đangtạo; khôngsửa v3src/data. V4nếu thực thi sẽfreshpinned1.7B,mixed4170numeric+330concept,cầnpairedvalrawretention/math+conceptscreening; khôngđượcchọnadapternếuđiểmToángiảm. Lưu330chats trongDrivekhôngđồngnghĩa đãvàoweights. Chưalaunchv4/chưamodelsmartnessnearassistant.
+
+### Kết quả mới nhất — hoàn tất train planner và hướng dẫn có kiểm chứng
+
+**Đã train xong trên Tesla T4; chấp nhận adapter cho nghiên cứu lập kế hoạch có bộ kiểm, từ chối dùng làm model giải toán độc lập.** Trạng thái cuối `GROUNDED_PLANNER_RESEARCH_ONLY_STANDALONE_SOLVER_REJECTED`. Đợt bắt đầu12/10/2026, báo cáo hoàn tất cập nhật13/10/2026 theo thời gian client Asia/Bangkok. Không phê duyệt production, không commit/push. Không gọi đây là model không sai trên mọi đề lớp1–5.
+
+Run `qwen3_06b_verified_math_v2_stable_epoch1_seed20261012` từ pinned Qwen/Qwen3-0.6B revision `c1899de289a04d12100db370d81485cdf75e47ca`: một epoch đủ2.176mẫu/544optimizersteps, 667.37giây train, peakVRAM3.395GiB. AMPinit_scale1024/growth_interval2000;0overflowretry trong lượt ổn định. PID10388 và PID14208 là lịch sử của hai tiến trình đã kết thúc. Lượt FP16 trước failstep75 giữ riêng log74/checkpoint50; không dùng partialadapter làm base. Sửa môi trường torchao0.10→0.17 trước lượt ổn định. Source/data/oldweights giữ nguyên.
+
+| Chỉ số trên synthetic phrase/numeric holdout | Validation | Development test |
+|---|---:|---:|
+| Đáp số và đơn vị đúng khi tính biểu thức do model lập | 112/145 | 119/145 |
+| Guard thiếu dữ kiện/ngoài nhiệm vụ đúng |15/15|15/15|
+| AST khớp nghiêm, gồm guard |90/160|95/160|
+| Output bị cắt |0|0|
+
+Đây là năng lực lập biểu thức được Fraction calculator tính, không phải LLM tự tính đáp số. Baseline cùng planningprotocol2/145 nhưng155/160output dùngliteral thayfactrefs, nên không nhận mức tăng đó là cải thiện tổng quát năng lực toán. Adapter được chọn bằngval đúngđáp số+unit, guard/canonicalplan/pergrade không regression; test chỉ chạy sau lựa chọn ban đầu. Thay runtime proof sau quan sát dữ liệu là kiểm posthoc/development, không test giáo viên giữ kín.
+
+| Lớp phân bổ kỹ thuật | Val đúng đáp số/đơn vị | Dev test đúng đáp số/đơn vị |
+|---|---:|---:|
+| 1 | 22/29 | 23/29 |
+| 2 | 21/29 | 27/29 |
+| 3 | 14/29 | 17/29 |
+| 4 | 26/29 | 23/29 |
+| 5 | 29/29 | 29/29 |
+
+Lớp3 còn yếu; developmenttest rectangle_perimeter0/7, sum_difference_large0/6, sub_remaining1/7, division_remainder3/8. Tập nhỏ, cách phân lớp/topic là phân bổ kỹ thuật, chưa xác nhận đủ chương trình quốc gia. Không nhận29/29 lớp5 là100% toán lớp5 ngoài tập đã đo.
+
+**Diagnostic đáp số do LLM tự sinh, khôngfacts/plan/calculator trong input:** base43/145 đúngđáp số+unit; adapter35/145. Chỉ số numeric bỏunit lần lượt49/145 và42/145. Greedy/no-thinking, cap128token; đây là protocol posthocdevelopment, không suy ra thiếu mọi năng lực reasoning từ một lượt đo. Guard base0/15, adapter15/15. Báo cáo kiểm lại toàn bộtokenIDs/EOS/text/cache/score và giữ nguyênhash completed/selection. Vì rawanswer giảm, `standalone_math_solver_approved=false`, `use_as_general_math_training_base=false`; giữbase khi cần so tiếp năng lực tổng quát.
+
+**Runtime an toàn trong hợp đồng hỗ trợ:** parser fullmatch rawquestion, facts spans/quotes, operation/unit contract; kiểm cả mẫu số thực rồi chứng minh hai biểu thức tương đương bằng rational-polynomial symbolic identity. Không thayfactvalues để suy luận hai công thức bằng nhau. Runtime ASTnghiêm nhận80/145; proof bổ sung nhận119/145, chặn26/145, wrongaccepted0/119 và15/15guard đúng trên cùngdevtest. Không nhận là đã trảlời đúng160/160 hay100%mọi đề. Câu ngoài grammar hoặcplan sai sẽ dừng/xin làm rõ. Proof bổ sung không đổiweights/source trainer/selection. Mọi metric gốc được giữ.
+
+**Hướng dẫn theo yêu cầu chủ dự án đã bổ sung và kiểm:** đọc proposal754đoạn nội dung khôngrỗng và projectplan620đoạn, lưu SHA/đoạn nguyên văn tại `tutoring_requirements_sources.json`. MVP proposal là cộng/trừ đặt tính hai số tự nhiên1–6chữ số, có nhớ/mượn, teacherfinalauthority; học sinh mặc địnhmột Socratichint/lượt, retry, không lộđáp số. Word/fraction/decimal/geometry24topic là nghiên cứu mở rộng theo yêu cầu chủ dự án, không nhận hoàn tất corecapstone bằng metric wordplanner.
+
+`verified_math_tutoring_v2.py` hướng dẫn theo thứ tự: WHY+phép tính trung gian+đơn vị, quyđồng/LCM/rútgọn/GCD vớifraction, từngcột/carry/borrowcascade như3002−1785, kiểm tra ngược. `mode=hint` chỉmột câu hỏi, không computedsteps/finalanswer; `worked_solution` phải được gọi rõ và app kiểm quyền/nguyện vọng. Sai số học của học sinh giữ nguyên trong observed_result_verbatim; chỉ xác địnhchữ số kết quả lệch đầu tiên, không đoán sai dấu nhớ/mượn chưa quan sát. OCR chưa rõ→confirmation, không quy lỗi học sinh. Confidence threshold nghiên cứu0.90 chưa calibration. Đáp sốkhớp không đồng nghĩa toàn bộ bài làm/dấu nhớ đúng. Code deterministic tạo hướng dẫn, currentweights chỉexpressionplanner; chưa trainfreeprose/vision/carrymarkteacher và chưa giáo viên đánh giá sư phạm.
+
+**Kiểm chứng:**123localtests passed,1TorchCPUtest skipped do môi trườnglocal khôngTorch; test đó đã chạy thật trong82coretestsColabpassed. Colab thêm8rawdiagnostictests và34tutoring/equivalencetests, tổng124. Auditor thực recompute masks/tokenlength,544logsteps/2176successfultrainIDs mỗiIDđúngmộtlần, mọiprediction/ID/score/hash vàreload392adaptertensors freshbase PASSED. LoRAassistant-only,2176tokenlength213–603,0truncation. Tải lại ZIP/adapter/source/datahash từDrive khớp. Audit kỹ thuật không chứng nhận ngữ nghĩa tự do/sư phạm/OCR.
+
+Data mới:2000synthetictrain+176publictrain,160val/160testsynthetic cân bằng lớp. Đã kiểm số học205sourcecandidate, đọc nghĩa đủ205 bằngAI reviewer, loại28wrong/ambiguous/incomplete và1vượt ASTlimit. Public final: lớp2=89,lớp3=56,lớp4=4,unknown=27; không claimpublic cân bằng1–5. Ghim hllj/vi_math_problem_crawl `a26b53f14ef4c7708858b11beb29ad95bf9a8930` và vuongtsc/vi-gsm8k-agentic `13190f41e5cdf298640d6001377ad6335fe42570`, cardMIT; sourceimported,human_verified=false,semantic_correctness_verified=false. Không tin code-execflag củaagentic; không executePython từsource. Raw/research/importreview lưu riêng; labels/parser cũ lỗi giữ nguyên làm evidence.
+
+Drive ảnh chỉ đã kiểm tênfile/ZIPmetadata+previewlabels:1373ảnh “Chữ Viết Tay Về Toán”,279ảnh “Ảnh”,5405ảnhcrop,ZIP3179ảnh. Nhãn chứa đẳngthức sai/placeholder, **chưa đối chiếu pixel nên không kết luận mọi lỗi là OCR**, có thể là bài sai của học sinh. Không dùng transcription làm expectedanswer/gold. Giữ ảnh,ZIP,checkpointOCR và8cellOCR gốc.
+
+Artifact:
+- [Run](https://drive.google.com/drive/folders/1_xNYURHnp4wLP7ILQbSqRfNDKxuUbJTu).
+- [ZIP adapter và code/evidence nghiên cứu](https://drive.google.com/file/d/11WjYpPLtXi92x-eHzV4GP-upg6SYdSir/view?usp=drivesdk): 40,124,480byte, SHA `7de42201d909f98d7c76d6d8068e424350b9d425477be28e41e763d8cb83c1cd`; adapterSHA `5d78e5528a3ff6cf7c9913c1952c78756b758b3e3b009a101c1ed59bd39eac3a`. ZIP có role_review/model_card/provenance/tests/tutoring/proof, không resume_state hoặcpycache. Cần pinnedbase, chưamerged/quantized.
+- Notebook cùngID `17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM`; cell30preflight,41frozenstablebundle,42launch,43progress,44audit,45–47rawdiagnostic,49tutor/proof,50finalrole/export. Các launcher completed chỉđọc kếtquả; khôngRunall/khởi động lại các lượt cũ bị loại. Đã lưu 51 cell và tải raw notebook lại từ Drive: toàn bộ notebook khớp bản intended, 8 cell OCR đầu giống nguyên JSON object nguồn/output/ID của snapshot trước đợt này. Context trên Drive cũng khớp từng byte với file local; evidence saved_artifact_verification.json. Cell35 của lượt FP16 cũ đã được đổi thành chỉ đọc báo cáo lỗi, không khởi động lại partial run.
+- Local `thinking/evidence/verified_math_v2_20261012/`: completed/audit/config/selection/log/rawdiagnostic/runtime/coverage/finalZIP/readback/phase_status; nguồn code mới trong `thinking/`. RootDrive `thinking/verified_math_v2_stable/`. Canonicalcontext cùngfileID13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9, không sinhMarkdownphase khác.
+
+**Bước kế tiếp:** ưu tiên nối tutor corevào luồngOCR–confirmation–studenthint/retry với trạng thái do backend xác thực, có bộ ảnh/bước tính được giáo viên duyệt để đo earliesterror vàhintquality. API/RBAC/teacherapproveoverride/realimagecalibration chưa được nghiệm thu trong lượt này. Nếu tiếp tục model rộng hơn: sửa numericgroundingtrùng vai trò trong importer, mở rộng paraphrase/sourceverified, so model/taskobjective mới bằngval math+unit/plan/rawretention vàbenchmarkmới chưa dùng; không chỉ tăngepoch trênsource nhãnAI/chạy lại testcũ. Không dùng adapter này làmgeneralbase hoặccho model tự phát lời giải chưa kiểm.
+
+Skills applied: `google-drive:google-drive` (metadata/artifact/notebook cùngID/contextsync); `documents:documents` (read-onlyDOCX đối chiếu yêu cầu tutoring). WorkspaceMLskills matched:none. Không dùng ComputerUse, không nhắn người khác, khôngcommit/push/production.
+
+### Lịch sử chuẩn bị verified_math_v2 — 12/10/2026
+
+Chủ dự án yêu cầu tiếp tục: thiếu dữ liệu Drive thì tự tìm nguồn công khai, train trên Colab cho toán tiểu học Việt Nam lớp1–5. Đã kết nối lại notebook gốc bằng Colab MCP, mount Drive thành công và xác nhận Tesla T4; chưa ghi một checkpoint mới là đạt chất lượng trước khi train/eval/audit hoàn tất.
+
+**Phát hiện mới làm hạ độ tin cậy benchmark MCQ cũ:** review full745/118/100 tìm3 nhãn train trích sai (storedA, sourcefinalD),11train/1val/2test lựa chọn có tham chiếu vị trí. Hai câu rotated-test đổi nghĩa do xoay đáp án mà giữ “Cả A,B,C đều đúng”. Thêm lỗi parser leading-whitespace gây flag phép tính giả. Bằng chứng `thinking/evidence/source_label_audit_20261012/audit.json`; code/data frozen cũ giữ nguyên. Các điểm số lịch sử bên dưới vẫn là số đã đo nhưng chưa đủ làm benchmark độc lập/căn cứ quy toàn bộ regression cho năng lực model.
+
+**Kiểm kê Drive thực tế bằng Colab filesystem metadata:** tên thư mục dùng Unicode decomposed, đã sửa matching bằng NFC. “Chữ Viết Tay Về Toán”:1.373 ảnh ngoài ZIP/6 thư mục; “Ảnh”:279ảnh; “Ảnh Crop”:5.405ảnh. Không có annotation file ngoài ZIP trong ba cây này. ZIP chính3184members gồm3179ảnh vàlabels.csv/labels.txt; chỉ đọc metadata+preview nhãn, chưa visual-review toàn ảnh. Preview nhãn chứa sai số học/placeholder rõ ràng: `15:0,15=30`, `45:30=2,5`, “Đây là một dòng biểu thức toán học hoặc chữ viết tay”. Không dùng crop OCR/student transcription làm gold lời giải. Giữ nguồn ZIP/ảnh nguyên trạng. Evidence Colab `thinking/evidence/verified_math_v2_20261012/{drive_source_inventory.json,drive_archive_inventory.json}`.
+
+**Nguồn mạng đã tải đọc và ghim:** hllj/vi_math_problem_crawl `a26b53f14ef4c7708858b11beb29ad95bf9a8930` (10.246 trang lớp1–5, cardMIT); vuongtsc/vi-gsm8k-agentic `13190f41e5cdf298640d6001377ad6335fe42570` (1465bài,40seedgroups,cardMIT). Agentic ghi code-exec nhưng author implementation chỉ so số+LLMjudge, không tin flag này. ViMathQA train7107/test1104 có82exact/256numeric-skeleton giao split, chưa thấylicense, không dùng đợt này. Raw/research/provenance tại `thinking/data/source_research_20261012/`, không execute mã Python từ dataset.
+
+**Data/trainer mới:**24topic synthetic +3guard, train2000/val160/test160, cân bằng mỗi lớp400/32/32; wording/numericcase groups tách split, phép tính AST đối chiếu công thức Fraction riêng. Model output compact{status,expr,unit} từ rawproblem+facts numeric spans; không nhận target/role/topic/đáp số trong prompt. Teacher source đã lọc205candidate train-only sau kiểm số học/no-solution-marker, nhưng AI semantic reviewer tìm thêm wrong-role/wrong-problem trường hợp nên đang loại trước freeze. Không gọi source imported là human-verified hoặc semantic-certified. Train mới từ pinned Qwen3-0.6B base, giữ các adapter cũ; một epoch đủ toàn train, chọn bằng valsolvable math+unit,guard+per-grade+canonicalplan nonregression. Đây là học lập kế hoạch tính, không chứng minh suy luận nội bộ/toán tự do/OCR/chương trình quốc gia đúng100%.
+
+**Kiểm kỹ thuật đã chạy:**49tests+22subtests passed local trước review bổ sung; sau freeze phải chạy suite cùng sourcehash trên Colab. Auditor yêu cầu raw generatedtokenIDs/EOS, decode+chấm lại mọi prediction/ID/hash/metrics, tái dựng masks/tokenlength bằng pinnedtokenizer, mỗi trainID đúngmộtlần/epoch và freshbase reload. Không lấyJSONaccuracy làm bằng chứng LLMmathcompetence; answer metric là biểu thức do model chọn được calculator tính. Chưa production/commit/push. Skills applied: google-drive:google-drive (global); workspace MLskills none.
+
+**Bước tiếp tục:**đọc kết quả semantic reviewer205, freeze bundle/data mới, chạy kiểm trong Colab rồi baseline-val→một epochSFT→candidateval→selectedsynthetictest→independentaudit/export. Kiểmprocess/GPU trướclaunch; chưa có process.json của run mới nghĩa là chưa launch. RunID dự kiến `qwen3_06b_verified_math_v2_epoch1_seed20261012`, root`/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/verified_math_v2`.
+
+**Cập nhật thực thi verified_math_v2:** Đã đọc nghĩa đủ205bài source bằng AI reviewer, loại28:1saiđáp số,7sai vai trò dữ kiện,10mơ hồ,10thiếu/nhiễu yêu cầu; thêm1vượt giới hạn AST. Freeze2176train=2000synthetic+176source, val160/test160 synthetic mới. Public imported: lớp2=89,lớp3=56,lớp4=4,unknown=27; không có source lớp1/lớp5 được giữ sau gate, không nhận là source cân bằng toàn chương trình. Nhãn source vẫn human_verified=false, semantic_correctness_verified=false. `public_semantic_reviewer_audit.json` lưu hết205ID/28excludes; lỗi numeric-grounding trùng intermediate/constant vớiquantity khác cần sửa trước khi chạy importer đại trà.
+
+74tests passed cả local và Colab. Đã lưu38cell vào notebook gốc,8OCR đầu giữ nguyên object nguồn/output/ID. Actual token audit2176mẫu dài213–603token,0truncated. Baseline planningprotocol160schema hợp lệ nhưng chỉ2/145đáp số đúng qua bộ tính,0canonicalplan/15guard; model dùngliteral thayfN nên đây không phải số đo năng lực toán trực tiếp. Cần diagnostic rawanswer riêng, không nhận0–100%plan như cải thiện toàn bộ arithmetic.
+
+**Lượt đầu đã bị dừng, không promote:** PID6903 lỗi PEFT do torchao0.10.0 trước optimizerstep; sửa0.17.0 và PID7810 train74step, failstep75 vì gradientFP16overflow. Log74/checkpoint50/corehash/data giữ nguyên tại root`thinking/verified_math_v2/`; `failure_review.json` ghi TRAIN_ABORTED_FP16_GRADIENT_OVERFLOW. Adapter partialSHA84068dd6dc2d1373f9bf43f187dcaede278b8f0eb06c90133d4bb6d40c1aee49, không dùng làm model nền/production. Không có completed_run.json, không được ghi huấn luyện hoàn tất.
+
+**Lượt tiếp theo:** source mới `train_verified_math_v2_stable.py`, root`thinking/verified_math_v2_stable/`, run`qwen3_06b_verified_math_v2_stable_epoch1_seed20261012`, bắt đầu lại từ pinnedbase/samedata, AMPinit_scale1024/growth_interval2000 và retry cùngbatch khi nonfinite ởscale thấp hơn, rollbackRNG, không tự bỏsample/schedulerstep. Auditor mới kiểm số liệu/tokens/hashes/eachsuccessfultrainID mộtlần; raw-answer diagnostic là posthocdevelopmentprotocol riêng. Chưa launcher stable trước khi nguồn/test/freeze sẵn sàng. Tiếp tục kiểmPID/GPU trước launch, sau544step chọn bằngval/math+units+guards+pergrade+plan, test rồireload/audit/runtimecoverage/export, cập nhật file này.
+
+### Đợt MCQ trước: giữ base, loại adapter SFT đề thật
+
+**Đã hoàn tất đợt đề thật và kiểm bổ sung; giữ Qwen3-0.6B nền cùng planner có kiểm chứng cũ. Adapter SFT mới bị loại vì kém hơn base khi chấm đáp án rõ ràng, không chỉ JSON.** Không phê duyệt dùng cho học sinh; chưa có model giải tự luận/vision toàn lớp 1–5 đáng tin cậy.
+
+| Cùng bộ đề và giới hạn sinh 768 token | Base + chuẩn hóa final | Adapter epoch 2 |
+|---|---:|---:|
+| Validation đúng đáp án | 90/118 (76,27%) | 74/118 (62,71%) |
+| Test cũ / development đúng đáp án | 72/100 | 59/100 |
+| Development khi xoay lựa chọn | 63/100 | 60/100 |
+| Có đáp án hoàn tất, development gốc | 81/100 | 98/100 |
+| Đúng trong số đã trả lời, development gốc | 72/81 (88,89%) | 59/98 (60,20%) |
+| Nhất quán lựa chọn qua hai lượt | 64/100 | 62/100 |
+
+Không gọi 88,89% là độ đúng trên toàn bộ 100 câu. Base có 19 output bị cắt ở 768 token; đây là thiếu đáp án hoàn tất, **không chứng minh model chủ động nhận biết đề thiếu dữ kiện**. Validation base có 98 đáp án hoàn tất, đúng 90/98. Tập chủ yếu lớp 4–5; validation không có lớp 2; không suy ra 100% lớp 1–2 từ vài mẫu test đúng.
+
+Tiêu chí JSON ban đầu thiên về định dạng: baseline chỉ đúng 24/118 theo JSON nghiêm, epoch 1 đúng 69/118, epoch 2 đúng 74/118 và được chương trình chọn. Base thường viết suy luận ngắn rồi JSON ở cuối. Reviewer bổ sung `mcq_final_answer.py` chỉ đọc đáp án final đã nêu rõ, bỏ output bị cắt/think chưa xong/đáp án mâu thuẫn/JSON lặp key; không suy luận từ gold hoặc tự tính hộ rồi nhận là LLM đúng. Chấm lại val base 90 > adapter 74 nên quyết định **`SFT_REJECTED_MATH_ACCURACY_REGRESSION`**. Báo cáo gốc giữ lịch sử lựa chọn theo JSON; không thay số cũ hoặc giả nhận đã chọn base từ đầu. Không nhận 20,34% → 62,71% là cải thiện năng lực toán.
+
+Adapter có lỗi giải thích dù chọn đúng: `(5/9)+(3/7) = (35/63)+(18/63)`, đúng phải là `(35/63)+(27/63)`. Auditor có 6 val và 3 test chọn đúng nhưng bị kiểm phép tính đánh dấu. Phép kiểm một phần có thể hiểu sai đổi đơn vị/locale/ký hiệu, không nhận mọi flag là lỗi thật. Base cũng chưa được chứng nhận lời giải sư phạm. Không xuất prose tự do trực tiếp cho học sinh. Runtime planner cũ giữ nguyên nhưng chỉ hỗ trợ bốn dạng/32 grammar.
+
+**SFT đã hoàn tất nhưng bị loại:** `qwen3_06b_real_mcq_2epoch_seed20261012`, 2 epoch / 374 bước, mỗi epoch đủ 745 mẫu; PID 15776 lịch sử. Đã reload trên fresh pinned base và so tensor; audit recompute mọi score/ID/hash và kiểm mỗi mẫu đúng một lần mỗi epoch PASSED. Audit kỹ thuật không đồng nghĩa model đạt chuẩn chất lượng. LoRA FP16 r16/alpha32, LR5e-5, batch2/accum2; max_length1536, 745/745 mẫu không cắt, max557 token, assistant-only loss. Validation chọn epoch2 theo tiêu chí gốc trước test, sau reviewer từ chối dùng. SHA adapter `bb466c520bd4baa004b3e33381da0ed12b914075ecd39d9c47cd7fae443582f5`. ZIP nghiên cứu bị loại đã đóng kèm `reviewer_rejection.json` và `reviewer_acceptance.json`, promote/use_as_next_training_base=false; 39,641,500 byte, SHA `cb62810d6e7a2c640edc0dfca938d22375422e2e67ccb0d320fb60fa6a40394d`. Không dùng ZIP này làm checkpoint mới cho app.
+
+**Kiểm bổ sung đã hoàn tất, không sửa weights:** `base_normalized_mcq_posthoc_seed20261012`, PID 26011 lịch sử, trạng thái `BASE_RETAINED_SFT_REJECTED_RESEARCH_ONLY`. Giữ base bằng normalized validation trước chạy thêm test; cả 100 development và 100 xoay lựa chọn đã đo đủ. Config/normalizer/evaluator/source cũ/data hash và mọi ID/score đã recompute PASSED. Đây là protocol sửa sau thử nghiệm; test đã được đọc nên chỉ là diagnostic/development/regression, không test mới giữ kín hoặc gold độc lập. Lượt PID25353 từng dừng ở assertion do normalizer chưa nhận prose trước JSON, chưa chạy GPU/đổi weights; đã sửa bằng ví dụ validation và regression trước PID26011. Không có training thêm trong lượt bổ sung. Base revision `c1899de289a04d12100db370d81485cdf75e47ca`.
+
+Nguồn [hllj/vi_grade_school_math_mcq](https://huggingface.co/datasets/hllj/vi_grade_school_math_mcq), revision `2eac2ac592afe35cea1fd8584dd14cf2ee3c9edd`; raw SHA `d56ec440f585579044676df1a399a0e5a6d8a8aaa4e7fb50f2cb3b76eb0a96b4`. Đã đọc bằng chương trình hết 2.733 trang / 13.615 câu. Lọc mất hình/bảng/công thức, thiếu 4 lựa chọn/lời giải, nhãn mâu thuẫn và 26 trường hợp phép tính/ký hiệu cần kiểm thêm; không nói cả 26 sai thật. Parser ban đầu từng đọc nhầm vế phải biểu thức/hàng nghìn; sửa trước freeze/training. Nguồn có lỗi thật và dữ kiện mất khi crawl, nên vẫn `SOURCE_LABEL_IMPORTED`, `human_verified=false`, `semantic_correctness_verified=false`; source card khai báo MIT không chứng minh là gold giáo viên. Contamination pretraining của nguồn public chưa xác định.
+
+Data sau dedup / nhóm trang nguồn / loại giao nhau câu và wording thay số: train745 / val118 / test100; hash local/Colab khớp. Train lớp1:7, lớp2:24, lớp3:54, lớp4:317, lớp5:343; val thiếu lớp2. Chưa loại mọi paraphrase nghĩa tương đương. Prompt không chứa đáp án/lời giải/URL; lựa chọn train xoay cố định theo ID và target đổi tương ứng. Test hiện đã dùng, không tái nhận là test cuối độc lập khi sửa dữ liệu/prompt/hyperparameters.
+
+56 tests local qua; 12 tests pipeline + 3 tests normalizer qua Colab; hai auditor thực chạy PASSED. Code: `real_math_data.py`, `real_math_training.py`, `train_real_math.py`, `audit_real_math_run.py`, `mcq_final_answer.py`, `eval_base_normalized.py`, `audit_base_normalized.py`. Normalizer/evaluator có `run/src` riêng, không đổi nguồn trainer đã freeze. Evidence local `ai-training/thinking/evidence/real_math_20261012/` và `evidence/base_normalized_20261012/`.
+
+- [Run SFT đã bị loại](https://drive.google.com/drive/folders/1OxMUNvgHUDmcaol7iJDulAaDvqHi4unB).
+- [Run giữ base và kiểm bổ sung](https://drive.google.com/drive/folders/16GFVa5EmHmYPkU2BGeHhmoQfHgR76ODx).
+- [Bộ code/evidence base](https://drive.google.com/file/d/1K0TyPkus7IFnCawkbwprLwH5GslSZxoH/view?usp=drivesdk): 183,907 byte, SHA `71bc28ca6ba408185d094f4071dfce5c5fd636ba5160b149213c366e306392cf`; đã tải về evidence local, kiểm SHA/report trong ZIP khớp, không kèm base weights hoặc adapter mới được nhận. Không phải ZIP model đã train tốt hơn.
+
+Notebook gốc đã lưu 30 cell vào cùng ID `17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM`, raw readback xác nhận đủ 30 và 8 OCR đầu giống nguyên JSON object nguồn/output/ID của snapshot trước đợt này. Cell22probe `-Aj1G1KRsaUR`,23deploy `odX6fevru6pa`,24SFT `A4rPXan8u9hG`,25progress `lUTFA5L3u_xa`,26audit/export `ylvFGsm5wBwx`,27base-normalizer `QyjiXzSI3sfa`,28progress `vgaKwLoa3uzy`,29audit `JEMg-i1D6EtN`. Monitor cuối xác nhận PROCESS_ACTIVE=False; cả hai run đã hoàn tất. Khi đã có `completed_run.json`, launcher chỉ đọc kết quả; không cần train/evaluate lại. Kiểm process và GPU trước run khác; các PID trên là lịch sử. Đã đồng bộ cùng file ngữ cảnh lên Drive, không sinh `.md` mới.
+
+**Bước kế tiếp:** tạo benchmark mới chưa dùng, cân bằng lớp1–5 và đề tự luận không phụ thuộc vị trí đáp án; chuẩn hóa bộ đề–lời giải đa bước với dữ kiện/đơn vị/phân số được kiểm độc lập. Mở rộng verifier và bộ tính trước khi cho model giải thích tự do. Đánh giá raw answer/coverage/kế hoạch/phép tính/lời giải/OCR riêng. Nếu thử SFT mới: val chọn bằng độ đúng toán sau chuẩn hóa tương đương, có kiểm giữ năng lực base; không mặc định thêm epoch hoặc model lớn hơn sẽ khôn hơn. Không dùng bộ745 này hay test cũ để hứa không sai. Không commit/push/production trong đợt này.
+
+### Planner synthetic đã hoàn tất, giữ làm mốc
+
+**Đã hoàn tất SFT `qwen3_06b_grounded_sft_epoch1_seed20261012` trên Tesla T4; trạng thái `SFT_COMPLETED_RESEARCH_ONLY`. Có adapter mới, đã reload và audit thành công, chưa phê duyệt dùng cho học sinh.** PID3800 là tiến trình lịch sử của run đã hoàn tất; không khởi chạy lại một run mới với cùng ID/dữ liệu/cấu hình. Chạy lại launcher khi có `completed_run.json` chỉ đọc báo cáo. Adapter pilot cũ giữ nguyên.
+
+| Kết quả schema kế hoạch mới | Validation | Test phát triển |
+|---|---:|---:|
+| Kế hoạch hợp lệ do model tạo, gồm guard | 133/133 | 131/131 |
+| Bài hỗ trợ được trả lời đúng qua bộ tính | 106/106 | 106/106 |
+| Guard đúng ở output model | 27/27 | 25/25 |
+| Output bị cắt | 0 | 0 |
+| Đáp số sai lọt qua runtime | 0 | 0 |
+
+Đây là 100% trên các tập synthetic phát triển của bốn dạng/32 grammar cố định. Không phải 100% trên toán tự do, ảnh thật hoặc toàn chương trình lớp1–5. Đáp số được bộ tính kiểm chứng tạo, lời giải hiển thị do template runtime dựng; reasoning/prose nội bộ của LLM chưa chấm chất lượng sư phạm. Baseline không tạo schema hợp lệ và115/133 output bị cắt với cap256; mức0% baseline thể hiện giao thức định dạng/giới hạn sinh của nhiệm vụ mới, không kết luận model nền không biết toán.
+
+Đã huấn luyện463 bước, đi qua đủ1.852 mẫu đúng một lần, trong585,15 giây phần train; loss đầu2,626286/cuối0,00010292, peak allocatedVRAM2,622GiB. Chọn adapter bằng raw-plan accuracy trên đủ133 val, sau đó mới đánh giá131 dev-test. Dev-test không tham gia chọn checkpoint; không đo baseline dev-test. Audit độc lập file evidence đã recompute toàn bộ score/ID, kiểm log463 bước và hash. Reload fresh base có392 tensor adapter khớp.
+
+- [Run và log hoàn tất](https://drive.google.com/drive/folders/1hfPPUTiWxtTuk4V9GrCb4i1pUwQWFZSh)
+- [ZIP adapter nghiên cứu](https://drive.google.com/file/d/1Pz-P_xNbO2LqADtttGgMWjKWvsHzUOHz/view?usp=drivesdk) — cần model nền Qwen3-0.6B đúng revision; chưa merged/quantized.
+- SHA-256 adapter: `fb20133b113488dd39bbd4fc0a65536e30e36201a25f8dc02856588672094640`.
+- Evidence local: `ai-training/thinking/evidence/planner_sft_20261012/{completed_run.json,reviewer_audit.json,phase_status.json,OCR_WITH_PLANNER_SFT_SAVED.ipynb}`.
+- [File ngữ cảnh đồng bộ trên Drive](https://drive.google.com/file/d/13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9/view?usp=drivesdk) cùng tên/path logic với file local, không sinh báo cáo Markdown mới.
+
+Trainer mới `train_scope_planner.py` và helpers `planner_training_data.py`, `planner_metrics.py` đã triển khai. 46 tests local/31 tests Colab qua; actual token audit1.852 mẫu dài253–383 token, không cắt, loss assistant-only. Cấu hình đã chạy: một epoch đủ1.852 mẫu =463 optimizer steps, batch2/accumulation2, LR1e-4/cosine/warmup23, LoRA r16/alpha32/dropout0.05 FP16. Dùng đủ133 val đo baseline/candidate, reload adapter từ fresh pinned base và so hash tensor; chọn bằng raw-plan accuracy val, test131 development chỉ sau lựa chọn. Inference thinking sampling0.6/top_p0.95/top_k20, batch8/max_new_tokens256; output cắt tính là lỗi. Runtime có guard được đo tách khỏi accuracy LLM.
+
+Colab đã mở lại chỉ có8 cell OCR cũ; nguồn8 cell THINKING trước được phục hồi từ snapshot local, không chạy lại. Drive metadata bản gốc cònmodifiedTime01/10 trước khi lưu; chỉ chỉnh cell trong phiên trước chưa xác nhận persistence. Đã lưu notebook22cell vào cùng file ID gốc bằng Drive files.update, readback xác nhận22cell và8OCR giữ nguyên ID/source/output. Colab chuẩn hóa một số execution_count khi save; không đổi code/output OCR. Snapshot trên Drive `thinking/NOTEBOOK_CURRENT.ipynb` và evidence local giữ bản sao; không dựa chỉ vào tab.
+
+ID các cell trước đổi khi phục hồi: intro `nhzbRTDEkXQe`, preflight `bVNVB5CVkXRX`, bootstrap `69UqmZv-kXSy`, deploypilot `zCY1dnqKkXUX`, trainpilot `VghTu44KkXXh`, reportpilot `SNXeI04TkXZW`, exportpilot `A4U3WdbCkXbI`, scope-contract `AdcZXkBBkXdm`. Cell mới: probe `EbPPCpvWiXPj`, deploy `PcuNIsyJjbeI`, launch `uov-V_4zjhy3`, monitor `RE8bM5WHjjsS`, export `QXiVSLL2jlwH`, audit `5Ee2hA-amQsE`. Indices16–21 trong bản đã lưu. Cell backup nội bộ chứa snapshot lớn đã không đưa vào bản notebook gốc để tránh lặp nội dung; backup file vẫn có trên Drive.
+
+Runtime lần đầu chưa kết nối nên probe timeout180s. Chủ dự án đã trả lời "Đã kết nối GPU T4"; probe sau xác nhận Python3.13.15/TeslaT4/data tồn tại. Computer Use dừng vì không xác định URL browser đủ chắc cho policy; không tiếp tục UI, công việc qua Colab MCP vẫn làm được. Không cần hỏi lại quyền train.
+
+Lịch sử đợt dữ liệu11/10: đã thêm cell `TCi9AyZdcxAG` (index15), chạy thành công và giữ nguyên15cell có trước khi kết thúc đợt đó. Trạng thái phase khi ấy `DATA_AND_VERIFIER_READY_NOT_MODEL_TRAINED`; từ12/10 đã có SFT hoàn tất như phần trên. Code `scope_contract.py`, `scope_runtime.py` kiểm dữ kiện/kế hoạch và tính chính xác cho32 cách diễn đạt cố định thuộc cộng, bớt, nhóm bằng nhau, chia đều. Cách diễn đạt ngoài phạm vi bộ kiểm dừng với `unsupported_input`, không nhận là toán ngoài lớp1–5. Request ngoài phạm vi được chặn trước khi gọi model; lời giải đưa ra do bộ kiểm dựng, không xuất prose tự do của model.
+
+**Bộ dữ liệu mới:** 2.116 mẫu, train1.852/val133/test131; 1.816 bài hỗ trợ + 300 guard (180 hỏi lại,60 ngoài phạm vi,60 chưa hỗ trợ). Có span/quote/value/unit của dữ kiện, target là kế hoạch dùng fact ID; đáp số chuẩn tính độc lập. Export thêm `*.sft.jsonl` với lời giải ngắn và JSON kế hoạch. Đầu vào model không chứa nhãn status/topic/operation/role của bộ kiểm. Nhãn không ghi human_verified. Test mới ở đây vẫn là synthetic development test có thể xem, chưa là benchmark đề thật giữ kín.
+
+**Kiểm chứng đợt dữ liệu11/10:** 41 tests qua local (15 cũ+26 mới),26 tests mới qua Colab. Audit2.116 mẫu hợp lệ,5.448 kế hoạch bị sửa sai đều bị chặn,300 guard không có đáp số. Cộng/nhân đổi thứ tự hai operand được chấp nhận; trừ/chia đổi vai trò bị chặn. Chặn JSON lặp key, JSON quá sâu, output chưa xong, thừa trường/đáp số do model bịa. Đây là kết quả bộ kiểm trên grammar hữu hạn, không phải accuracy LLM hoặc bảo đảm cho mọi tiếng Việt. Đợt SFT12/10 thêm5tests, tổng46local/31Colab như phần trên.
+
+Drive data/code: `/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/scope_planner_v1/{src,data}/`; schema `data/plan-schema.json`, audit `verification_audit.json`, nguồn `drive_source_inventory.json`, tests `tests_output.txt`. Evidence local `ai-training/thinking/evidence/scope_planner_v1/`. Fingerprint JSONL local/Colab trùng; đã cố định LF để hash không lệch trên Windows.
+
+**Bước kế tiếp:** chuẩn bị benchmark đề thật độc lập, chấm cả hiểu đề và lời giải tiếng Việt; mở rộng chương trình lớp1–5 (bài nhiều bước, số lớn, thập phân/phân số, đo lường, hình học, tổng–hiệu...) cùng bộ kiểm/ngữ pháp mới. Không train lại chỉ để tăng số trên tập synthetic đã đạt100%. Test131 hiện đã được đọc, giữ làm regression; không dùng nó như test cuối độc lập cho run tiếp theo. Adapter hiện là planner trong pipeline có kiểm chứng, chưa là solver vision hoặc model toán tự do toàn chương trình.
+
+Repository local: `D:\nhom6\train thử\MathVisionKid`. CWD của chat là `D:\system integration\costop`, vì vậy đặt workdir rõ khi thao tác repo. Git có thay đổi/untracked từ trước; không reset hoặc xóa chúng.
+
+Notebook: [MathVision OCR + THINKING](https://colab.research.google.com/drive/17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM).
+
+| Chỉ số | Model nền, val | Adapter, val | Adapter, test |
+|---|---:|---:|---:|
+| Đáp số đúng, bài đủ dữ kiện | 6/12 | 8/12 | 7/12 |
+| Đơn vị đúng | 5/12 | 12/12 | 12/12 |
+| Phép tính và đáp số nội bộ nhất quán | 5/12 | 10/12 | 10/12 |
+| Đúng đáp số/đơn vị/phép tính và khớp kế hoạch nghiêm | 3/12 | 8/12 | 6/12 |
+| Hỏi lại/từ chối đúng | 0/2 | 0/2 | 0/2 |
+| JSON parse được | 14/14 | 14/14 | 14/14 |
+
+Mỗi tập đã đánh giá chỉ có 14 mẫu cố định: 12 bài + 1 thiếu dữ kiện + 1 ngoài phạm vi, chọn trước baseline. Chưa đánh giá đủ val 92/test 104. Chưa đo model nền trên test; không kết luận mức tăng test. Test pilot đã được đọc để phân tích lỗi, từ nay là tập regression đã biết, không dùng lại làm bằng chứng cuối độc lập khi điều chỉnh theo lỗi đó.
+
+Model `Qwen/Qwen3-0.6B`, revision `c1899de289a04d12100db370d81485cdf75e47ca`. LoRA FP16 r16/alpha32/dropout0.05, lr1e-4, batch1, accumulation4. Train 32 optimizer steps = 128 lượt mẫu, chưa hết một epoch. 10.092.544 tham số LoRA. Loss đầu/cuối 1,835391 / 0,066887. Loss giảm không chứng minh model hiểu đề tốt.
+
+Dữ liệu `mvk_math_text_pilot_v1`: 1.670 mẫu sinh bằng chương trình; train1.474/val92/test104; 12 họ bài, thêm 6 mẫu thiếu dữ kiện và 4 mẫu ngoài phạm vi. Kiểm phép tính bằng Fraction; `human_verified=false`. Cùng dữ kiện và một số hoán đổi tương đương ở cùng split; val/test dùng cách diễn đạt riêng. Chưa phủ toàn chương trình, chưa có benchmark đề thật được kiểm độc lập. OCR và solver văn bản hiện là hai model riêng; đặt chung notebook không biến chúng thành một model thị giác.
+
+15 unit tests dữ liệu/evaluator đã qua trên local và Colab. Audit 1.474 mẫu train: 246–397 token, không cắt nhãn, loss chỉ trên completion assistant. Kiểm safetensors/hash: 392 tensor, 196 LoRA B khác zero. Chưa kiểm reload độc lập, merge/quantize hoặc triển khai. Rerun sau hoàn tất chỉ đọc report, log vẫn đúng 32 bước.
+
+## Lỗi phải xử lý và giới hạn đánh giá
+
+- Đọc/chọn sai dữ kiện: `4 + 6` táo thành `4 + 4 = 8`; chia 27 bút cho 9 túi thành `27/3 = 9`.
+- Hiểu sai hành động: `3,1 − 0,7` kg thành cộng; bài nhập thêm rồi chuyển đi bị đảo dấu.
+- Sai kế hoạch tổng–hiệu, mất chia 2 trong diện tích hình thang.
+- Tự bịa dữ kiện: hình chữ nhật chỉ cho một cạnh bị coi là hình vuông.
+- Không tuân thủ phạm vi: vẫn giải yêu cầu lập trình hoặc toán cao cấp.
+- Cách giải một bước `47+13−1=59` hợp lệ bị kiểm tra mẫu hai bước loại. Evaluator phải phân biệt sai toán với cách giải tương đương.
+- Chỉ số phép tính nội bộ có thể đạt khi model dùng sai số hoặc sai phép toán. JSON parse được không có nghĩa đủ schema hoặc giải đúng.
+- Bật thinking hoặc tăng epoch không tự bảo đảm độ đúng. Chưa có bằng chứng 0.6B thiếu khả năng sau huấn luyện đầy đủ; không quyết định thay model chỉ từ pilot 32 bước.
+
+## Kiến trúc đích và phần còn lại
+
+Mục tiêu là hệ thống giải đáng tin cậy trong phạm vi đã định nghĩa, có khả năng hỏi lại/từ chối. Không có cơ sở cam kết một LLM không sai trên mọi đề và mọi ảnh. Kết quả không lỗi trên một tập kiểm thử chỉ áp dụng cho tập đó. Luôn công bố cả độ đúng câu đã trả lời, tỷ lệ trả lời và tỷ lệ sai/đoán khi thiếu dữ kiện; không đạt "100%" bằng cách từ chối mọi bài khó.
+
+Luồng đề xuất: **ảnh → đọc đề → dữ kiện có dẫn chứng → kế hoạch phép toán có cấu trúc → bộ tính và kiểm tra độc lập → lời giải ngắn**. Model giải thích cách chọn phép toán; chương trình tính bằng số hữu tỉ/thập phân chính xác và dựng đáp số. Không để model tự sửa phép tính sai rồi vẫn xuất lời giải.
+
+Bộ tính chặn sai số học, nhưng không tự biết `4+4` dùng sai dữ kiện của đề `4+6`. Vì vậy kế hoạch phải tham chiếu dữ kiện nguồn và được kiểm theo dạng bài; nếu chưa xác định được cách hiểu duy nhất thì hỏi lại. Với đề ảnh, lỗi OCR phải được đánh giá riêng trước khi đánh giá giải toán. Điểm tự tin model hoặc nhiều model đồng ý không phải chứng nhận đúng.
+
+### Đợt dữ liệu và hợp đồng kiểm chứng
+
+Đã triển khai bước nền tảng 1–4 cho phạm vi grammar nhỏ; source inventory JSONL hoàn chỉnh trong các root đã ghi. Bước5–6 mới được đáp ứng bằng dữ liệu synthetic ban đầu, chưa có dữ liệu sư phạm/benchmark đề thật độc lập. Các việc mở rộng dưới đây vẫn còn cần làm.
+
+1. Đọc schema/source hiện có, lập danh sách dạng bài và phạm vi hỗ trợ ban đầu. Kiểm kê nguồn thực tế trên đúng Drive/runtime, ghi số đã đọc và nguồn đã bỏ qua. Không lẫn kho OCR với tập đề–lời giải.
+2. Chuẩn hóa mỗi mẫu: đề nguyên văn; lớp/dạng bài; từng dữ kiện, đơn vị và vị trí trong đề; yêu cầu tìm; kế hoạch có tham chiếu dữ kiện; lời giải trình bày ngắn; đáp số tính độc lập; nguồn và trạng thái nhãn. Với ảnh, lưu source/page/crop ID và bằng chứng đọc ảnh. Đáp án học sinh và đáp án đúng là hai trường riêng.
+3. Xây bộ kiểm kế hoạch và bộ tính cho một phạm vi nhỏ trước: cộng/bớt, nhóm bằng nhau/chia đều. Kiểm cả dữ kiện, vai trò, phép toán, đơn vị và kết quả. Mỗi dạng mới cần hợp đồng kiểm riêng; chưa kiểm được không tự nhận hỗ trợ an toàn.
+4. Kiểm thử các phản ví dụ đã thấy: đổi `4+6` thành `4+4`; đảo tổng/số nhóm; đề thiếu cạnh; phép tính đúng nhưng sai đề; đáp số đúng ngẫu nhiên với kế hoạch sai. Đây là regression kỹ thuật, không phải test cuối chưa xem.
+5. Mở rộng train với cách diễn đạt đa dạng, số và đơn vị phong phú, bài nhiều bước, dữ kiện dư/mâu thuẫn, thiếu dữ kiện và ngoài phạm vi. Không gán nhãn chỉ theo từ khóa "thêm/bớt". Tăng mẫu guard theo tập tình huống thật, không chỉ lặp hai câu cố định.
+6. Tạo validation đủ lớn để chọn checkpoint; tạo một test mới độc lập giữ kín đến đánh giá cuối. Nhóm theo nguồn/trang, template/dữ kiện, paraphrase và biến thể tương đương để kiểm rò rỉ. Đề thật cần đáp số/lời giải được kiểm độc lập; nhãn Gemini tự chấp nhận cho train không đủ để gọi là gold test.
+
+Đầu ra code/schema/tests và báo cáo JSON của phạm vi đầu tiên đã có. Chưa chạy GPU trong đợt hợp đồng này. Dữ liệu mới thay schema nên cần trainer mới và kiểm serialization/masking trước đợt train tiếp.
+
+### Sau khi đạt các điều kiện dữ liệu/kiểm chứng
+
+- Huấn luyện run mới từ model nền ghim revision, không ghi đè pilot. Đo baseline trên validation mới, huấn luyện đủ tập train với lịch đánh giá và giới hạn số bước/epoch đã ghi trong config; chọn checkpoint bằng validation. Nếu checkpoint sau train kém hơn, giữ model nền/ứng viên tốt hơn và ghi thất bại.
+- Chỉ điều chỉnh bằng train/validation. Test mới chạy sau khi chốt cấu hình. Báo cáo riêng LLM thuần và hệ thống có kiểm chứng, theo lớp/dạng bài/nguồn; không gộp để che lỗi.
+- Nếu 0.6B vẫn không đạt sau thử nghiệm có kiểm soát, so sánh model lớn hơn trên cùng dữ liệu/validation và chi phí thực tế. Đổi model là thí nghiệm cần đo, chưa là quyết định hiện tại.
+- Tách chỉ số OCR, hiểu đề, kế hoạch, tính toán, đơn vị, đáp số, hỏi lại và giải thích sư phạm. Kiểm tra cách giải tương đương; không chỉ so chuỗi biểu thức với nhãn.
+- Chỉ nhận triển khai trong dạng bài đã có bằng chứng kiểm thử. Phải kiểm reload adapter, cùng base revision, tốc độ/bộ nhớ và đầu ra thực tế trước tích hợp.
+
+## Vị trí code, artifact và kết nối
+
+Code local: `ai-training/thinking/{preflight.py,bootstrap.py,dataset.py,metrics.py,train_pilot.py,test_dataset.py,test_metrics.py}`. Dữ liệu pilot: `ai-training/thinking/data/pilot_v1/`. Evidence: `ai-training/thinking/evidence/pilot32_20261011/` gồm report, audit prediction, log, notebook và kiểm nguyên vẹn OCR.
+
+Drive root thực tế có khoảng trắng đầu tên: `/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/math_text_pilot_v1/`. Log thuộc kết nối Drive cá nhân đã kiểm tra; không suy luận account khác có cùng dữ liệu. Ổ G không được mount khi làm pilot trên local; không khẳng định đã đọc toàn kho ảnh local.
+
+- [Thư mục run đã hoàn tất](https://drive.google.com/drive/folders/1OCe2mgRt05ffKi1UmgcSdO4EjjZY2PM2)
+- [ZIP adapter nghiên cứu](https://drive.google.com/file/d/1xZIzmZmFzWxJz5OdRPrPVHsKU-5AxmdL/view)
+- Adapter SHA-256: `70f93e90c0cb673a6b4623cb19cb3840900498391fc950358b5b6c6e296ef34d`.
+- Báo cáo cũ đã đóng băng: `report/THINKING_PILOT_20261011.md`; từ nay cập nhật file này.
+
+Colab MCP cài tại `C:\Users\My PC\.codex\integrations\colab-mcp`, server loopback có xác thực `http://127.0.0.1:8769/mcp`. Dùng client SDK có sẵn (`local_client.py`, `thinking_session.py`), đọc tool schema và trạng thái kết nối trước khi gọi. Không in file auth/state vì có secret. Tool `get_cells`, `update_cell`, `add_code_cell`, `run_code_cell` đã dùng thành công; vẫn kiểm kết nối mỗi phiên, không coi là luôn online. Kiểm `output_type=error` trong receipt, không chỉ outer `is_error`.
+
+Cell THINKING pilot indices8–14; các ID cũ `ykjiFLvbT92h`, `icdN43XVUl8V`, `1t4_T31EU-6k` đã đổi khi phục hồi12/10. Dùng mapping mới ở phần trạng thái trên, và đọc source trước khi sửa. Không Run all vì có cell merge OCR cũ phía trên. Backup8cellOCR và notebook hiện tại ở evidence.
+
+Runtime pilot: T4, Python3.13.15, torch2.11.0+cu130, transformers5.18.0, peft0.21.1, accelerate1.15.0. Stock torchao0.10.0 không tương thích; đã dùng torchao0.17.0 trong subprocess mới, không thay torch/CUDA. Nếu runtime thay đổi phải probe lại. Checkpoint optimizer/RNG mỗi 8 bước; hoàn tất thì rerun chỉ đọc report.
+
+Báo cáo Antigravity Task005 pilot20/provenance trước đây là nội dung người dùng cung cấp, chưa được kiểm trực tiếp đầy đủ trong giai đoạn này. Không tìm thấy `gemini_auto_v2` trong root đã kiểm ở account Colab; không suy ra mọi account đều không có. Đợt scope đọc hết 4.153 dòng ở 14 JSONL trong `ai-training/data/manifests` của Drive hiện tại, gồm manifest trùng theo thư mục `(1)`. Không có mẫu có đủ ba cột `problem/solution/expected_answer`; các schema khác cần mapping riêng, không suy ra mọi file trên Drive đều không có lời giải. Local đọc hết 30 dòng ở 7 manifest; `ai-training/annotations` không tồn tại trong checkout này. Không quét ảnh/archive/API. Không coi nhãn OCR hoặc lời giải chép từ bài làm học sinh là lời giải chuẩn.
+
+## Nhật ký cập nhật
+
+### 11/10/2026 — pilot trước khi lập file ngữ cảnh
+
+Hoàn tất 32-step LoRA, đánh giá 14 val + 14 test, đối chiếu câu sai, xuất adapter ZIP. 15 tests local/Colab qua, kiểm hash/safetensors và giữ nguyên 8 cell OCR. Chưa production; số liệu/evidence ở các mục trên. Skill đã dùng trong đợt đó: `google-drive:google-drive` để kiểm log/artifact; không có workspace skill ML phù hợp.
+
+### 11/10/2026 — lập ngữ cảnh cố định và hướng cải thiện
+
+Đã đọc báo cáo pilot, evidence hoàn tất và quy tắc repo. Tạo chính file này theo yêu cầu chủ dự án; thêm chỉ dẫn đọc/cập nhật vào AGENTS và link từ README hiện có. Không tạo báo cáo đợt mới. Đề xuất luồng kế hoạch có kiểm chứng + bộ tính chính xác, tập dữ liệu đa dạng và test độc lập; các phần này chưa được triển khai hoặc đo chất lượng. Không chạy training mới trong lượt này. Bước tiếp tục: làm hợp đồng dữ kiện/kế hoạch và bộ kiểm cho bốn dạng cộng, bớt, nhóm bằng nhau, chia đều; lưu kết quả và cập nhật file này.
+
+Kiểm tra lượt này: đường dẫn/liên kết local và số liệu trong file được đối chiếu với evidence; không cần unit test cho thay đổi tài liệu. Skills matched: none; Skills applied: none.
+
+Nguồn kỹ thuật tham khảo (không phải evidence chất lượng dự án): [Qwen3-0.6B model card](https://huggingface.co/Qwen/Qwen3-0.6B) xác nhận model nền và chế độ thinking; [Hugging Face SFT Trainer](https://huggingface.co/docs/trl/sft_trainer) mô tả fine-tune supervised. Không nguồn nào chứng minh model của dự án đạt 100%.
+
+### 11/10/2026 — hoàn tất hợp đồng và dữ liệu kế hoạch có kiểm chứng
+
+Theo yêu cầu làm bước tiếp theo, triển khai `scope_contract.py`, `scope_dataset.py`, `scope_runtime.py`, `scope_audit.py`, `source_inventory.py` và các tests. Schema JSON và 6 JSONL train/val/test + SFT xuất trong `data/scope_planner_v1/`; không tạo báo cáo `.md` mới. API runtime chỉ trả lời đã kiểm hoặc trạng thái dừng; không tạo endpoint chat tổng quát. Fine-tune không xóa kiến thức khác của model nền, vì vậy mục đích MathVisionKid được thực thi bằng cả dữ liệu/system prompt và lớp runtime kiểm chứng.
+
+Kiểm tra thực tế: 41/41 local, 26/26 Colab; 2.116 mẫu đúng theo oracle, 5.448 mutation sai bị chặn; hash data local/Colab khớp; giữ nguyên 15 cell có trước. Bổ sung kiểm commutative và JSON sâu sau khi rà soát. Evidence machine-readable tại `ai-training/thinking/evidence/scope_planner_v1/phase_status.json` cùng report/audit/inventory. Cell mới `TCi9AyZdcxAG` đã chạy; không job training/API gán ảnh, không đổi adapter cũ.
+
+Giới hạn: chưa có adapter được train schema mới, chưa đo neural accuracy; parser full-match32grammar không hiểu tiếng Việt tùy ý; guard cú pháp còn đơn giản; lời giải template chưa giáo viên kiểm. Hợp đồng mới hiện tính vật đếm nguyên, chưa nhận số thập phân/phân số, hình học hoặc bài nhiều bước. Quy trình runtime đã có callable planner và binder Hugging Face, chưa tích hợp backend production. Bước kế tiếp ghi ở phần trạng thái hiện tại. Skills matched: none; Skills applied: none.
+
+### 12/10/2026 — SFT planner hoàn tất, reload/audit/ZIP và lưu notebook thật
+
+Tiếp tục theo yêu cầu chủ dự án. Viết trainer/helpers/evaluator và5tests mới; kiểm đủ46local/31Colab. Khởi động lại MCP, user tự kết nối T4 sau probe timeout180s, rồi chạy SFT một epoch463 bước/1.852 mẫu. Đo đủ133 baseline val, train, nạp lại adapter vào fresh pinned base, đánh giá133candidate val, chọn bằng validation rồi131dev-test. Audit read-only recompute toàn bộ scores/IDs, log và SHA qua. Các số liệu/raw-plan/runtime/giới hạn và link ở phần trạng thái hiện tại là kết quả cuối.
+
+Đã export ZIP39.572.473 byte, không gồm base weights hoặc optimizer. Adapter cần Qwen3-0.6B revision đã ghim. Không commit/push/production. Report và auditJSON trong `evidence/planner_sft_20261012/`; giữ nguyên adapter cũ. Bộ test hiện đã được xem và là regression; không nhận là gold độc lập.
+
+Giải quyết persistence: raw Drive notebook chỉ có8OCR trước lưu; phục hồi8THINKING từ snapshot, sau đó lưu22cell vào cùngID `17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM` bằng connector. Readback raw có22cell và giữ nguyên nguồn/output8OCR; vài execution_count được Colab chuẩn hóa, nên hash toàn file có thể đổi khi Colab save. Snapshot dự phòng ở `thinking/NOTEBOOK_CURRENT.ipynb`; file ngữ cảnh cùng tên được đồng bộ, không tạo báo cáo `.md` đợt mới.
+
+Khắc phục MCP frame limit: log xác nhận WebSocket1009, frame vượt1MiB khi đọc notebook cósnapshot lớn. Chỉnh wrapper `local_host.py` để có giới hạn16MiB trên cảIPv4/IPv6, giữ loopback, token/origin/subprotocol checks. Restart chỉ server Windows; không dừng GPU process. Kết nối lại thành công, run vẫn hoàn tất. Không bỏ giới hạn kích thước hoặc mở quyền mạng ngoài loopback.
+
+Skills applied:
+- `computer-use:computer-use` — SKILL.md: `C:/Users/My PC/.codex/plugins/cache/openai-bundled/computer-use/26.1007.21434/skills/computer-use/SKILL.md`; thử đọc trạng thái Colab, helper dừng do không xác định đượcURL. Không thực hiện UI input hoặc authentication; user tự kết nối runtime.
+- `google-drive:google-drive` — SKILL.md: `C:/Users/My PC/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.20/skills/google-drive/SKILL.md`; kiểm artifact/metadata, lưu lại đúng notebook gốc và đồng bộ ngữ cảnh bằng connector.
+
+Đã đạt mục tiêu của đợt huấn luyện planner nền tảng. Việc còn thiếu để phục vụ toàn MathVisionKid: đề thật/benchmark độc lập, mở rộng các dạng lớp1–5, kiểm tiếng Việt/sư phạm, OCR đầu vào, tích hợp runtime/backend và đánh giá triển khai. Không tiếp tục tăngepoch trên chính bộtoy để tuyên bố độ đúng mọi toán.
+
+### 12/10/2026 — đề thật, SFT bị loại và giữ base sau sửa tiêu chí
+
+Theo yêu cầu tiếp tục làm thông minh hơn: đọc đủ nguồn public tiếng Việt, lọc/dedup/group split và giữ provenance; train2epoch745mẫu/374bước trên T4, đánh giá đủ118val/100test/100xoay lựa chọn, reload/audit/ZIP. Kết quả JSON chọn epoch2 nhưng kiểm lại đáp án rõ cho thấy base90/118 > adapter74/118; adapter59/100test và có lời giải sai dù chọn đúng. Sửa tiêu chí quá thiên vềJSON bằng normalizer có test, đánh dấuSFT_REJECTED_MATH_ACCURACY_REGRESSION, giữbase và planner cũ. Đo bổ sung base100+100:72/100gốc,63/100xoay,64%nhất quán;81%output cófinal ở test gốc. Không nhận tốt nhất toàn chương trình hay 100%.
+
+Auditor cả hai run qua;56local/12pipelineColab/3normalizerColab tests qua. Giữ report gốc và reviewer rejection/acceptance để không xóa lịch sử hoặc vô tình dùng adapter kém. Export base chỉ là code+evidence, không weights mới. Cập nhật cùng file ngữ cảnh, không báo cáo `.md` mới; không commit/push/production. Test đã được dùng và protocol sửa sau thử nghiệm, lần sau cần test mới để đánh giá độc lập. Bước kế tiếp ghi ở trạng thái mới nhất.
+
+Skills applied: `google-drive:google-drive`; SKILL.md: `C:/Users/My PC/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.20/skills/google-drive/SKILL.md` — kiểm metadata/artifact, lưu notebook đúngID và đồng bộ cùng file ngữ cảnh. Workspace skills matched:none cho ML; không dùng Computer Use trong đợt này.
+
+### Nhật ký 12/10/2026 — mở đợt verified_math_v2
+
+Tiếp tục theo chỉ thị mới, kết nối T4/Drive thật, kiểm kê ảnh/ZIP, hạ mức tin cậy MCQ cũ do parser/rotation, triển khai generator24dạng và source arithmetic importer, reviewer tiếp tục kiểm nghĩa205bài trướcfreeze. Chưa ghi đã có adapter mới trước khi GPU hoàn tất. Xem trạng thái hiện tại đầu file.
+
+### Nhật ký 12/10/2026 — freeze dữ liệu và retry FP16
+
+Dữ liệu2176/160/160 đãqua74tests local/Colab,public final176source. Lượt1 train74step rồigradientoverflow, giữfailedweights/evidence; tạo code/runstablemới từbase vàsamefrozendata, khônghồi phục partialadapter thànhmodeltốt. Xem trạng thái chính đầu file; khôngcommit/push/production.
+
+### Nhật ký hoàn tất 13/10/2026 — planner, kiểm đáp số và hướng dẫn từng bước
+
+Đãhoàn tấtstableSFT544step/2176mẫuT4, freshbasereload/audit/hashreadback. Chọnadapterchỉchoexpressionplanning vớiverifier; rawanswer35/145<base43/145 nênrejectstandalonesolver. Runtimeproofnhận119/145devtest,0wrongaccepted,26abstained; tutoronehintdefault/fullsolutionexplicit đãtest. LưuZIPnghiêncứu/cùngnotebook/cùngcontext, giới hạn vàhành độngkế tiếp ghiởđầu file. Khôngcommit/push/production.
+
+
+## Nhật ký 13/10/2026 — tiếp tục sau lượt số học V3
+
+Đã đo đủ validation 262 câu sau fresh reload, giữ số LLM tự sinh riêng với bộ kiểm toán học. Chưa promote adapter V3 dù lời giải có cấu trúc tốt hơn. Challenge/auditor và 30 anchor + 8 thinking probe riêng còn chạy/đợi; kiểm `training_runner_state.json`, `posthoc_runner_state.json` và cell compact monitor `UReBBrRINja4` trước khởi chạy lại. Notebook đã thêm read-only diagnostic cell `qKWQyTmeVeyW` ở index69; snapshot Drive cần save/readback sau các cell mới.
+
+Review khái niệm: `concept_v4_peer_review.json` giữ các reproduction của scorer cũ, không sửa thành pass giả. Local `teacher_multitask_v4.py` mới dùng review AI trực tiếp từng output, hash bound vào predictions/reference; review không phải human_verified hoặc teacher certification. Lượt V4 chỉ được chạy sau audit V3 thành công và GPU rảnh. Mọi tệp V3 freeze, checkpoint OCR và 8 OCR cell đầu giữ nguyên. Không commit/push, không gọi API trả phí, không deploy cho học sinh.
+
+
+## Nhật ký 13/10/2026 — Chrome MCP phục hồi và mở rộng kiểm thinking
+
+Đã sửa integration `local_host.py` để official MCP open flow chọn Chrome, bảo vệ lifetime initialization khỏi bị timeout60s hủy, giữ đúng endpoint qua một restart có kiểm chứng. Origin/token validation và loopback giữ nguyên; không log token/URL fragment. MCP mới đã báo websocket_connected=true/client_ready=true; đọc notebook thật và chạy cell thật xác minh T4 + Drive/project/hash. Không dùng Computer Use sau yêu cầu MCP-only.
+
+Evidence V3 đã tải raw từ Drive về `thinking/evidence/teacher_math_v3_20261013/main_run_readback` và `posthoc_readback`, giữ metrics gốc tách với calculator/runtime. Full thinking evaluation mới có peer review PASSED_FOR_PAIRED_DEVELOPMENT_EVALUATION_ONLY,3 tests local/Colab; chỉ eval, không train. Tiến trình mới phải hoàn tất và được review trước kế hoạch mixed concept V4. Không production/commit/push/API trả phí. Báo cáo ngữ cảnh vẫn chỉ một file `.md` này.
+
+## Nhật ký 13/10/2026, 04:58 UTC — kiểm reconnect và sensitivity
+
+Theo yêu cầu chủ dự án, gọi lại open_colab_browser_connection qua MCP: result=true. Chạy monitor thật trong notebook Chrome xác nhận PID10673 vẫn baseline_full_thinking_validation, model_loaded=true, baseline100/262, candidate0/262, GPU4995MiB/69% tại mốc kiểm; chưa có kết quả cuối. Không chạy thêm training hoặc controller GPU. Không cần chủ dự án bấm Connect thêm ở trạng thái này.
+
+Đã lưu notebook70cell cùng DriveID17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM; tải raw readback và so full JSON/8OCRobjects đều khớp. Context cùng DriveID13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9, giữ một file báo cáo. Skills applied: google-drive:google-drive (sync/readback artifact); không có skill ML workspace phù hợp.
+
+Kiểm sensitivity bổ sung trên greedyV3: loại duy nhất valID91d23b441cd60a087952fa5c, còn261=172worked+59hint+30guard. Raw base137/172 số đúng,91/172 số+unit; adapter113/172 cả hai. Strict base78/172 số+unit,0reference-path verified; adapter113/172 số+unit,96verified. Auditor recompute thực tokenIDs/scores262+262 từ pinned tokenizer; frozen source/data/reports SHA không đổi. Quyết định vẫn base vì raw overall và lớp3–5 giảm; không thay originalselection. Evidence local main_run_readback/validation261_sensitivity.json SHA ae24c8fef1ddc768b088651fe721f5d162c7838e39d605ef69c15bdd5f0dd0d8. Kiểm strict0 của base không có nghĩa base không biết toán. Đây là posthoc greedy sensitivity, không thay full-thinking evaluation đang chạy.
+
+Bước tiếp theo: đọc monitor/full-thinking state trước khi gọi lại launcher; khi đủ262baseline+262candidate, audit và review output hướng dẫn thực tế rồi chọn protocol cho mixedV4. V4 vẫn preparation_only, chưa train. Giữ production_approved=false.
+
+## Nhật ký 13/10/2026 — tự theo dõi và đánh giá sau inference
+
+Chủ dự án nhắc phải đánh giá sau khi chạy xong. Đã thiết lập heartbeat trong cùngchat mỗi10phút, ACTIVE, ID nh-gi-thinking-mathvisionkid-sau-colab, view card xác minh. Đọc state trước mọi action; không chạy lại launcher, không trainV4 song song hoặc trong lịch này. Báo kết luận khi đủ bằng chứng, lỗi hoặc cần thao tác; không gửi thông báo cho tiến độ thường lệ. Khi báo cáo xong tắt/xóa lịch này. Local follow-up yêu cầu máy bật, Codex đang chạy; giữ Chrome Colab để MCP truy cập.
+
+Cell69 monitor dxBqWo6Kk8ND đã thêm timestampUTC và ps processhealth, giữ read-only. Thực chạy: baseline144/262,candidate0/262,PID10673Rsl,phasebaseline_full_thinking_validation; chưa có kết luận. Snapshot70cell mới SHA4f574e435f0b0a5529d4283ac7aa3623ceb5dab84f9d2e8fb3b73d871b63a8d8 đã save cùngNotebookID và rawreadback xác minh fullJSON/8OCRobjects khớp.
+
+Helper CPU thinking/prepare_thinking_semantic_review_v3.py SHA4f6b4c231c3c054957375e0a8ca2a29d119d0867eb4d192a39cefb32035e0296;14/14 meaningful tests passed. Plan thinking/data/teacher_math_v3/full_thinking_semantic_review_plan.json SHA1b492c4ed71f001aa854409592c934728bd109b49e0a012c980c34ffa3beab4b; evidence full_thinking_review_preparation_evidence.json ghi CLI. Bắt buộc statecompleted_numeric_comparison, frozenvalSHA/protocol, đủ262IDs mỗimodel,173worked+59hint+30guard; auditor actualtokens/metadata/scores/summary PASS cảhai mới xuất6bucketpackets+18workedshards≤20case và524pendingreviewrecords. Chỉ visibleoutput, không hidden think, không tự semanticcertification. Chưa review actualfullthinkingoutputs vì job đangpartial.
+
+Bước tiếp theo cho heartbeat: tải protocol/state/reload_verification, baseline/candidate JSONL+metadata+summary/evaluation_review/rawnumeric từ full_thinking_validation_seed20261013; kiểm actualadapterSHA20e99388093c5f7caa1aacaac2a6014cdc0bfd4b4b1bb6f25b5a593ea8beae8d và helperSHA d4547e3cab2edf9fce90dfdd07d6937e383c5d25788841df9142d06e90ccb1bd. Chạy helper với --validation thinking/data/teacher_math_v3/generated/val.jsonl --evaluation-dir FULL_THINKING_READBACK --output-dir EMPTY_NEW_OUTPUT_DIR. Review toàn bộ visible524 câu với rubric; ghi các lỗi sai đáp số, unit, data-role, lời giải mâu thuẫn, hint bịa dữ kiện/lộ đáp số hoặc không hữu ích, phương pháp chưa phù hợp lớp. Tách AIsemanticreview khỏi human/teacher verification. Không gọi near-assistant/100% từ mộtseed và AI-authoredval; không thay rawmetric bằng calculator. Báo sensitivity261 riêng không đổi primary262.
+
+Skills applied: openai-docs (hướng dẫn scheduled follow-up), google-drive:google-drive (save/readback notebook và context); workspace ML skills matched:none. Không tạoMD mới, không commit/push/production; source/data/trainingprotocol frozen giữ nguyên.
+
+
+## Nhật ký 13/10/2026 — full thinking review hoàn tất
+
+Đã hoàn tất audit cả262+262, review524visible, kiểmhashpercase/source, recompute coverage/booleans/counts và đónggóiZIP26members verifiedhash. Giữfrozenprimarygreedyselectionbase, từchối thinkingadapter bởi retentiontừnglớp và chưaphùhợpstudenttutor. Đãuploadreport/ZIP vàsave70cellnotebook cùngIDs, rawreadback3artifact khớp. Heartbeat đãdelete thànhcông sau khi hoàn tất báo cáo. Context được cậpnhật/syncchínhfile này. Mainmục tiêu model lớp1–5 giỏi/chính xác gầnassistant chưađạt; phaseđánhgiá này đãxong, V4chưatrain. Không dùngsemanticAIreview làmhumangold, khônglộhiddenthinking, khôngsửa source/data/curriculumfrozen.

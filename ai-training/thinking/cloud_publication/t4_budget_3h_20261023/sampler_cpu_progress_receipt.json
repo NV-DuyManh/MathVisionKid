@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "rzEW-IjeVoQ4"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_unix\": 1792768642.9336414, \"line\": 455, \"current_case\": \"<sqlite3.Row object at 0x791f98954af0>\", \"current_label\": \"grade:2\", \"selected\": 466, \"found\": 0, \"elapsed\": 2165.895778045, \"db_files\": {\"stratified_sampling.sqlite3-shm\": 2883584, \"stratified_sampling.sqlite3\": 2583568384, \"stratified_sampling.sqlite3-wal\": 1474819952}, \"resources\": \"Filesystem      Size  Used Avail Use% Mounted on\\noverlay         113G   53G   60G  47% /\\n\"}\n"
+        ]
+      }
+    ]
+  }
+}

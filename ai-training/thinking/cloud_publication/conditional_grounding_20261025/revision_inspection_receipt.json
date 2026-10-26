@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "_g3AFJC5Atgv"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"exit\": 0, \"stdout\": \"{\\\"model_config_commit_hash\\\": null, \\\"tokenizer_eos_id\\\": 151645, \\\"tokenizer_commit_hash\\\": null, \\\"cached_snapshot_revisions\\\": {\\\"config.json\\\": \\\"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\\\", \\\"tokenizer.json\\\": \\\"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\\\", \\\"model.safetensors.index.json\\\": \\\"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\\\"}, \\\"expected_revision\\\": \\\"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\\\", \\\"model_loaded\\\": false}\\n\", \"stderr\": \"\"}\n"
+        ]
+      }
+    ]
+  }
+}

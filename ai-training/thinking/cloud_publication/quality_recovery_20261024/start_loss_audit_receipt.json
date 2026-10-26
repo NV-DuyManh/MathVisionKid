@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "P5NfC4lzn254"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"forward_audit_started\": true, \"pid\": 25707, \"worker_sha256\": \"78b9d58c2e21b888c71bfaeaa5cc4004e84144e9806822c8fa2ee1f00f4df90a\", \"optimizer_updates\": 0}\n"
+        ]
+      }
+    ]
+  }
+}

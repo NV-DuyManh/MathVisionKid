@@ -1,0 +1,297 @@
+{
+  "batch_sha256": "f149f8d448256a2f55a25841f1b6fd0d76ed6af5b37ac88ca1a060d3efb17037",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count",
+      "row_sha256": "622f4a6e014191b9df175bde4690bf3b277c71ad7edcb0498d74ba283062b1dc",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "8",
+          "12",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_same_counts_not_same_cube_condition",
+      "row_sha256": "7981c40c32d975f2473e846537b889a4b42b14adb1cce897a23005122acb1515",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_incidence_and_opposite_face",
+      "row_sha256": "e2e76f9913640e53f58c1a9985c56e3f66be2d1db42f79ed6ccb894541cda1e5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_misconception_visible_faces_are_all",
+      "row_sha256": "8885e19d056186aa2efadb10bd01290b1c6ea0f1b7021b81185a59f44022bcee",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_solid_elements_0038_guard_single_square_view",
+      "row_sha256": "2b0cc8cb812ee122a2b5bb9b42802374e0011ba7f9397e0ab4fd114899d74d0b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "cube_vertices": {
+      "A": [
+        0,
+        0,
+        0
+      ],
+      "B": [
+        1,
+        0,
+        0
+      ],
+      "C": [
+        1,
+        1,
+        0
+      ],
+      "D": [
+        0,
+        1,
+        0
+      ],
+      "E": [
+        0,
+        0,
+        1
+      ],
+      "F": [
+        1,
+        0,
+        1
+      ],
+      "G": [
+        1,
+        1,
+        1
+      ],
+      "H": [
+        0,
+        1,
+        1
+      ]
+    },
+    "unique_edges": [
+      [
+        "A",
+        "B"
+      ],
+      [
+        "A",
+        "D"
+      ],
+      [
+        "A",
+        "E"
+      ],
+      [
+        "B",
+        "C"
+      ],
+      [
+        "B",
+        "F"
+      ],
+      [
+        "C",
+        "D"
+      ],
+      [
+        "C",
+        "G"
+      ],
+      [
+        "D",
+        "H"
+      ],
+      [
+        "E",
+        "F"
+      ],
+      [
+        "E",
+        "H"
+      ],
+      [
+        "F",
+        "G"
+      ],
+      [
+        "G",
+        "H"
+      ]
+    ],
+    "unique_faces": [
+      [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      [
+        "A",
+        "B",
+        "E",
+        "F"
+      ],
+      [
+        "A",
+        "D",
+        "E",
+        "H"
+      ],
+      [
+        "B",
+        "C",
+        "F",
+        "G"
+      ],
+      [
+        "C",
+        "D",
+        "G",
+        "H"
+      ],
+      [
+        "E",
+        "F",
+        "G",
+        "H"
+      ]
+    ],
+    "edge_face_incidence_counts": {
+      "AB": 2,
+      "AD": 2,
+      "AE": 2,
+      "FG": 2,
+      "EF": 2,
+      "GH": 2,
+      "CD": 2,
+      "BC": 2,
+      "DH": 2,
+      "CG": 2,
+      "BF": 2,
+      "EH": 2
+    },
+    "single_square_view_countermodels": [
+      {
+        "dimensions": [
+          2,
+          2,
+          2
+        ],
+        "front_face": [
+          2,
+          2
+        ],
+        "cube": true
+      },
+      {
+        "dimensions": [
+          2,
+          2,
+          4
+        ],
+        "front_face": [
+          2,
+          2
+        ],
+        "cube": false
+      }
+    ]
+  },
+  "oracle_method": "Independent bit-coordinate cube incidence graph enumerates8vertices,12edges,6faces; every edge belongs to2faces; opposite faces disjoint, adjacent faces shareedge. Literal count AST only binds targets, not proves cardinality.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read vertex/edge/face distinction, unique physical-edge counts, cube versus rectangular-box conditions, opposite face incidence, visible subset versus total, grounded quote and all15hints. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Hypothetical full-solid structure given explicitly. No unseen real object classification or image success verified. Coordinate graph is evidence only, not child-facing3D coordinates. Neutral schema is not live PlanDraft."
+}

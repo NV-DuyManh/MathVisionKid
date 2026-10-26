@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "qYZzM3Vbcy4V"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"cpu_only\": true, \"pid\": 65848, \"gpu_training_unchanged\": true}\n"
+        ]
+      }
+    ]
+  }
+}

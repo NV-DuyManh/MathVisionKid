@@ -1,0 +1,12 @@
+{
+  "schema": "MathVisionKid.native_snapshot_binding_repair.v1",
+  "reason": "Transformers5.20.2 leaves private _commit_hash unset. Actual cached config/tokenizer/index paths all match pinned revision; load directly from that snapshot with local_files_only and bind the proof.",
+  "prior_attempt_optimizer_updates": 0,
+  "previous_frozen_files_preserved": true,
+  "new_files": {
+    "native_backend_v2.py": "edacd60755ff5135e9d658662f3427d7410924788a78c7b977fdbf9d199a394f",
+    "recovery_worker_v4.py": "3ce1b3c24a9741e1f93915930da5552ab41787daa6b13276b0892c7b2a529868"
+  },
+  "targets_answers_source_or_quality_gate_changed": false,
+  "model_revision_changed": false
+}

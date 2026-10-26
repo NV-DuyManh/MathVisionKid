@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "X7Ko_e0EeNvV"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"started\": true, \"pid\": 67539, \"scope\": \"CPU read-only final-record collector after run_complete; no training action\"}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "kind": "progress",
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 16040201,
+    "sha256": "9d130040921a897d833c040335ded13179b28d91e042738992994f27659b4927",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T03:11:15.735Z"
+  },
+  {
+    "kind": "chat",
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 82405,
+    "sha256": "e173d380410ada570da17b06c608a51ba0b52fe424cd5b723598211d8e59d29c",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T03:11:15.843Z"
+  },
+  {
+    "kind": "context",
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 806456,
+    "sha256": "0d6ba3b4be3262443e187c80a230f38fc65ffcaa2af84a0b6dfcc0b795969e53",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T03:11:15.988Z"
+  },
+  {
+    "kind": "state",
+    "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+    "bytes": 385718,
+    "sha256": "73a47c9302b9e687e5d7d1f8da6f257bd5a33b0033d574dfec416b0358e6b5b9",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T03:11:16.115Z"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "9BzhMxMfIq2O"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"fewshot_dev_launched\": true, \"pid\": 62851, \"previous_training_exit\": 0, \"bank_sha256\": \"65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e\", \"selection_policy_sha256\": \"115d05bd975c4b672033dc6637db785c6634d6ee54b0e1914c0c07de6c9ebd70\", \"max_seconds\": 1200, \"new_optimizer\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T01:24:00.037414+00:00\", \"runtime_root_exists\": false, \"globals_present\": [], \"threads\": [], \"worker_state\": null, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T01:24:00.037414+00:00\", \"runtime_root_exists\": false, \"globals_present\": [], \"threads\": [], \"worker_state\": null, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-23T01:24:00.037414+00:00\\\", \\\"runtime_root_exists\\\": false, \\\"globals_present\\\": [], \\\"threads\\\": [], \\\"worker_state\\\": null, \\\"training_started\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

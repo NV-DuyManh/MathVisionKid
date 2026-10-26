@@ -1,0 +1,12 @@
+{
+  "state": "STARTING",
+  "started_utc": "2026-10-21T11:12:42.153326+00:00",
+  "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "audit_identity": "9139670f1e76e34e8c8ee32cc541d33399e86445cbc4da6b668b664e915655b0",
+  "recipe_sha256": "93ec4110b9de95a84bb685ae60b1e4dc4b6df8c4fe568d88c60ca9c2e301c684",
+  "checkpoint_id": "182zLHZU0XBpTfKm7ThJpfy37GgFJ7Ob2",
+  "training_started": false,
+  "gpu_used": false,
+  "model_weights_loaded": false,
+  "updated_utc": "2026-10-21T11:12:42.154959+00:00"
+}

@@ -1,0 +1,165 @@
+{
+  "batch_sha256": "cad4af98ed38068b3d3fcbc38587d45c00f63b03bbb44c90ac1562cd703ad57d",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_polyline_0022_sum_every_segment",
+      "row_sha256": "ed6518fd9dcd91ef03bf6dadc0e86321c1cb8b9cc3a29ffcfdab42f582cce759",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "26+13",
+          "(26+13)+8",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_polyline_0022_fewer_segments_not_shorter",
+      "row_sha256": "b1aedaafa261941268f5f4c3c6772bdab20161bb9bee9e344ebaa9e84861e390",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "1+6+1",
+          "5+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_polyline_0022_closed_walk_count_final_edge",
+      "row_sha256": "dc9db4e5353db63bd63bb47c3e410aad368ab7fa207b3a997ed153854fd8dbb8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "3+4",
+          "(3+4)+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_polyline_0022_misconception_shortcut_length",
+      "row_sha256": "06f20361ca7e6419e979430e64099bb0e31e5b5c32014f964da9134fc9330c69",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "33+18"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_polyline_0022_guard_missing_middle_length",
+      "row_sha256": "758bffb410ba0d88e55c115855325df157bd218ac7ba4a0bed2f157a88415dc1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "disjoint_segment_units_total": 47,
+    "two_route_coordinate_witness": {
+      "A": [
+        0,
+        0
+      ],
+      "B": [
+        0,
+        1
+      ],
+      "C": [
+        6,
+        1
+      ],
+      "D": [
+        6,
+        0
+      ],
+      "E": [
+        3,
+        4
+      ]
+    },
+    "route_squared_segment_lengths": [
+      1,
+      36,
+      1,
+      25,
+      25
+    ],
+    "closed_walk_total_m": 12,
+    "shortcut_triangle_lengths_feasible": [
+      33,
+      18,
+      40
+    ],
+    "correct_not_shortcut_total_cm": 51,
+    "missing_segment_countermodels": [
+      {
+        "BC_cm": 2,
+        "total_cm": 9
+      },
+      {
+        "BC_cm": 5,
+        "total_cm": 12
+      }
+    ]
+  },
+  "protected_candidate_signatures_not_authored": [
+    "7+5",
+    "6+5",
+    "10+7"
+  ],
+  "task007_manifest_packet_unchanged": true,
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read route versus shortcut, all segment identities, closed-loop boundary, count versus length, every hint and synthetic quote. Same-author check is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Coordinates/squared-distance checks are evidence-only existence witnesses, not child-facing Pythagorean instruction or real images. No unseen length is guessed. No task007 input changed. Neutral schema is not live PlanDraft."
+}

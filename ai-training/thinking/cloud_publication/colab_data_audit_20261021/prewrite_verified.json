@@ -1,0 +1,25 @@
+{
+  "status": "PASS_ALL_FOUR_CONTROL_RAW_BYTES",
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "sha256": "8cfa434e7f8959bcb33192eccde28cb3ccd807f59449a005b59650ffa9766970",
+      "bytes": 12466547
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "sha256": "3f837ed78fecffd97c91576963716ba6588c252a4d7b07060b199620fc827607",
+      "bytes": 24121
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "sha256": "45171e587c5293bbd2ebf887dcfb286e399baddd0b35e26186a1d544632e15e3",
+      "bytes": 272056
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "sha256": "7c2cfa2f5730bb31d47eb608b9df6fddf33a520c71ffed5de44c1c1521a72580",
+      "bytes": 789180
+    }
+  ]
+}

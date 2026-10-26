@@ -1,0 +1,49 @@
+{
+  "schema": "MathVisionKid.conditional_grounding_preparation.v1",
+  "phase": "CPU_PREPARATION_COMPLETE_COLAB_CONNECTION_REQUIRED",
+  "observed_utc": "2026-10-24T14:53:50.259647+00:00",
+  "requested_chrome_profile": "Duy Mạnh 1 / Profile 7",
+  "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "colab_mcp_connected_at_last_check": false,
+  "kernel_or_gpu_live_status": "unknown_since_MCP_disconnected",
+  "new_model_calls": 0,
+  "new_optimizer_updates": 0,
+  "previous_run_workers_last_verified_exited_utc": "2026-10-24T14:24:40Z",
+  "previous_run_checkpoint_and_adapter_promoted": false,
+  "cpu_tests_run": 19,
+  "cpu_tests_passed": true,
+  "sanity_projection_samples": 24,
+  "worked_prompt_suffix_changes": 14,
+  "hint_prompts_and_all_targets_unchanged": true,
+  "raw_source_hashes_inherited_not_reverified": true,
+  "full_16000_training_projection_built": false,
+  "archived_development_responses_audited": 60,
+  "explicit_relation_counts": {
+    "true": 166,
+    "false": 3,
+    "unsupported": 177
+  },
+  "relation_counts_are_answer_accuracy": false,
+  "arithmetic_checker_rewrites_outputs": false,
+  "model_improvement_established": false,
+  "corpus_labels_history_and_checkpoints_preserved": true,
+  "new_human_review_claimed": false,
+  "production_changes": false,
+  "paid_resources": false,
+  "drive_folder_id": "1f5CrIUPOYjmyhKJpOcNkXi0Ap-nzXuYK",
+  "connection_blockers": [
+    "Chrome launch rejected by automatic approval; no detailed reason supplied",
+    "Computer-use reports Local browser use is disabled in Work settings"
+  ],
+  "next_steps": [
+    "User opens the notebook in requested profile and connects MCP",
+    "Verify actual runtime/account/T4 before executing any model call",
+    "Use archived development only to compare the conditional prompt against pinned base",
+    "Keep final tests sealed until a candidate passes the predeclared quality gate",
+    "Only consider another SFT run after validating inputs, target masks and source quality"
+  ],
+  "skills_applied": [
+    "computer-use",
+    "google-drive:google-drive"
+  ]
+}

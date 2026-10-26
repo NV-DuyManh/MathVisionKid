@@ -1,0 +1,484 @@
+{
+  "assignment_id": "next_finite_inventory_and_edges",
+  "masters": [
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "all_boundary_labels_joint_match",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "G1V1_DICE_REGION_BOUNDARY_MATCH"
+        ],
+        "exact_page_receipts": [
+          {
+            "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+            "exercise_types": [
+              "dice_conditioned_region_selection_all_boundary_labels_match"
+            ],
+            "grade": 1,
+            "printed_page": 19,
+            "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-20-1775728313106.png",
+            "source_image_sha256": "71067743d0918821dedf9f3b373462d6f7f2f5456fd6a080cb2cac691cc54a73",
+            "volume": 1
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "all_boundary_labels_joint_match",
+        "nearest_refs": [
+          {
+            "line": 967,
+            "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+            "sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 968,
+            "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+            "sha256": "9d712b12658580d503f93634cb7a08c744b154f82cb3d5926b23d718940d58a3",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 969,
+            "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+            "sha256": "b541efdba7b3f19dab3b257cfdfa21b7f0044d897ebf600bfcb84acb7657c54b",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 970,
+            "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_04",
+            "sha256": "9c1b4a9346862f424eb8fac2faef0410241ee337d44d6e0a6fe31c2fa865b9c6",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "G1V1_DICE_REGION_BOUNDARY_MATCH": [
+            "ded10c590bae1a7bdfc9aa51"
+          ]
+        },
+        "original_master_reasons": [
+          "A region is eligible only if all boundary labels match supplied die outcomes; unary node filters and board position updates do not demonstrate this joint region constraint."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "G1V1_DICE_REGION_BOUNDARY_MATCH",
+            "constraints": [
+              "A region is eligible only if all boundary labels match supplied die outcomes; unary node filters and board position updates do not demonstrate this joint region constraint."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Supply explicit named regions and every boundary label plus die outcomes. Region eligibility must satisfy all boundary conditions jointly; include a misleading partial match.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 1
+    },
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "shared_edge_stick_construction",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "G1V1_STICK_SHARED_EDGE_CONSTRUCTION"
+        ],
+        "exact_page_receipts": [
+          {
+            "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+            "exercise_types": [
+              "real_object_shape_classification",
+              "copy_stick_configuration",
+              "construct_two_triangles_using_five_sticks"
+            ],
+            "grade": 1,
+            "printed_page": 54,
+            "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698216815-page-55-1775728324162.png",
+            "source_image_sha256": "a6db7bcafa6666c85afe0c6f41bddcfc9b0f52298812794a5d5197b596857d2c",
+            "volume": 1
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "shared_edge_stick_construction",
+        "nearest_refs": [
+          {
+            "line": 308,
+            "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+            "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 280,
+            "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+            "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "G1V1_STICK_SHARED_EDGE_CONSTRUCTION": [
+            "074977ce55c92cec15f56ac7"
+          ]
+        },
+        "original_master_reasons": [
+          "Diagonal-cut restoration does not construct two triangles under a five-stick inventory with one shared edge. Need finite edge model and inventory proof."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "G1V1_STICK_SHARED_EDGE_CONSTRUCTION",
+            "constraints": [
+              "Diagonal-cut restoration does not construct two triangles under a five-stick inventory with one shared edge. Need finite edge model and inventory proof."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Give a finite exact edge arrangement with two triangles sharing one edge and five sticks; verify inventory and that shared edge is counted once. No imaginary drawing or physical completion claim.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 1
+    },
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "composite_square_only_enumeration",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "G1V2_COMPOSITE_SQUARE_COUNT_ASSET"
+        ],
+        "exact_page_receipts": [
+          {
+            "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+            "exercise_types": [
+              "join_and_remove_word_problems",
+              "weekday_to_date_offset",
+              "physical_ruler_measurement",
+              "composite_square_count"
+            ],
+            "grade": 1,
+            "printed_page": 105,
+            "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-106-1776045490502.png",
+            "source_image_sha256": "a5b78e5f306b8d78894f2d72d935a48fbe9dae7f752d91f7370ffec3264afa7c",
+            "volume": 2
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "composite_square_only_enumeration",
+        "nearest_refs": [
+          {
+            "line": 70,
+            "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+            "sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 71,
+            "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_02",
+            "sha256": "69039fe0b83ffec96dcd529c2916f9c46396aeb5f3ee5b94b37350228acbfb07",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 72,
+            "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_03",
+            "sha256": "8acd2f371a6c559d7a2836e9d18b7de5917117e610fabf2b544c34c1addc2ce3",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 280,
+            "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+            "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 267,
+            "sample_id": "primary_20261016_g1_foundations_0002_count14",
+            "sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "G1V2_COMPOSITE_SQUARE_COUNT_ASSET": [
+            "cb6bfd3b69cfad17105db83f"
+          ]
+        },
+        "original_master_reasons": [
+          "The accepted 2x2 grid example enumerates all rectangles including squares, but does not work the square-only equal-side subset; retain one finite square-specific subform, not many number variants."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "G1V2_COMPOSITE_SQUARE_COUNT_ASSET",
+            "constraints": [
+              "The accepted 2x2 grid example enumerates all rectangles including squares, but does not work the square-only equal-side subset; retain one finite square-specific subform, not many number variants."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Provide a small explicit grid and enumerate square-only equal-side subsets including the outer composite square; distinguish rectangles that fail equal-side condition.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 1
+    },
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "finite_inventory_collection_game",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "finite_inventory_collection_state",
+          "finite_inventory_collection_game"
+        ],
+        "exact_page_receipts": [
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v2",
+            "exercise_types_read": [
+              "Dice circuit and equivalent-fraction flower collection; illustration shows nine flowers while termination text says five: eligibility needs clarification before deterministic adaptation"
+            ],
+            "image_sha256": "c30cfc08ba79a97572c6898c460fae92700c1476b583fc65c046c551dcc441f3",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_72-1791255630836.png",
+            "printed_page": 70
+          },
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v2",
+            "exercise_types_read": [
+              "Recover length from given multiple; reciprocal-card memory game with removal and win threshold"
+            ],
+            "image_sha256": "1b2b7c3139ee3b2b1f50d2327d31a90bb38314e2d90196aabe7db2b3f3002de8",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_96-1791255634204.png",
+            "printed_page": 94
+          },
+          {
+            "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+            "book_id": "g3v2",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-70-1776051223750.png",
+            "printed_page": 69,
+            "source_image_sha256": "64cb71521227db410708d807501fc93d88cd043407c24ddac31c327f180cb6a5"
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 3,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "finite_inventory_collection_game",
+        "nearest_refs": [
+          {
+            "line": 973,
+            "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+            "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 974,
+            "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+            "sha256": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "finite_inventory_collection_game": [
+            "336aa3d5fda9436981ae527f"
+          ],
+          "finite_inventory_collection_state": [
+            "dab9524da6ac1e881a62ce10"
+          ]
+        },
+        "original_master_reasons": [
+          "Position updates do not remove/own inventory, preserve token identity versus equal value, and apply win thresholds.",
+          "Collection ownership/removal/win threshold is not established by basic board position updates."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "finite_inventory_collection_state",
+            "constraints": [
+              "Position updates do not remove/own inventory, preserve token identity versus equal value, and apply win thresholds."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          },
+          {
+            "candidate_id": "finite_inventory_collection_game",
+            "constraints": [
+              "Collection ownership/removal/win threshold is not established by basic board position updates."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Fully specify board transitions, token identities, remove-on-collection, owner inventory and winning threshold. Distinguish repeated equal values from the same token and simulate supplied moves.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 3
+    },
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "edge_removal_game_terminal",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "matchstick_removal_game_terminal_state"
+        ],
+        "exact_page_receipts": [
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v1",
+            "exercise_types_read": [
+              "Turn-taking stick removal until no composite rhombus/parallelogram remains"
+            ],
+            "image_sha256": "00b9308512421e4ce70b5a4bf569829cc7eccc4eb7d52deb53b03c9699c12683",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_126-1791255480437.png",
+            "printed_page": 124
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "edge_removal_game_terminal",
+        "nearest_refs": [
+          {
+            "line": 973,
+            "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+            "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 280,
+            "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+            "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "matchstick_removal_game_terminal_state": [
+            "2d2622bc0376d628e0f180f6"
+          ]
+        },
+        "original_master_reasons": [
+          "Static shape enumeration does not simulate turns or quantify that no target composite shape remains at termination."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "matchstick_removal_game_terminal_state",
+            "constraints": [
+              "Static shape enumeration does not simulate turns or quantify that no target composite shape remains at termination."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Specify finite unit-edge geometry, turn sequence and removal legality. Re-enumerate every target shape after a move and prove termination under the declared no-target condition.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 4
+    },
+    {
+      "case_budget": "At most two substantive distinct branches; do not generate number-only variants. Exact candidate/nearest read and independent oracle required.",
+      "master_id": "glyph_parallel_perpendicular_filter",
+      "original_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "glyph_segment_relation_filter"
+        ],
+        "exact_page_receipts": [
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v1",
+            "exercise_types_read": [
+              "Parallel and perpendicular simultaneously in letter glyphs; locate parallel roads; classify polygon side relations"
+            ],
+            "image_sha256": "39e7364611b2c907d40905023e611c478888a0125e455df3d9279b386dd6488d",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_102-1791255475643.png",
+            "printed_page": 100
+          }
+        ],
+        "existing_relation_examples": [],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "glyph_parallel_perpendicular_filter",
+        "nearest_refs": [
+          {
+            "line": 308,
+            "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+            "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 13,
+            "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+            "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 14,
+            "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+            "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 15,
+            "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+            "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+            "source_file": "release/accepted_cases.jsonl"
+          },
+          {
+            "line": 626,
+            "sample_id": "primary_20261018_g4_shape_recognition_0061_opposite_parallel_unequal_adjacent",
+            "sha256": "0b3f436bf0728da843939d07b0fb7d61ac57d8ef4bd9fa995c92d7e543693e8d",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 609,
+            "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_tool_plan_through_external_point",
+            "sha256": "f1a7eb1eef1428001c4f3827f90da5f49aedf04a197f3a77112acb1d3917debf",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 541,
+            "sample_id": "primary_20261018_g4_angles_0059_given_angle_measure_and_vertex",
+            "sha256": "0cb9c3332880eae319e7b935b6e9e7736e8147885c571374812a87ffafecc711",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 280,
+            "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+            "sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "glyph_segment_relation_filter": [
+            "40f0ecc8782a6874a200085f",
+            "cba6301edad9b687c9f2f8c6"
+          ]
+        },
+        "original_master_reasons": [
+          "Shape names alone do not filter a glyph inventory by simultaneous parallel/perpendicular segment relations; explicit glyph edges needed."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "glyph_segment_relation_filter",
+            "constraints": [
+              "Shape names alone do not filter a glyph inventory by simultaneous parallel/perpendicular segment relations; explicit glyph edges needed."
+            ],
+            "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+          }
+        ],
+        "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+      },
+      "required_small_task": "Give exact straight segment endpoints for a small glyph inventory; filter simultaneous parallel/perpendicular relations with a stated incidence convention. No inference from an unstated font.",
+      "scope": "Original explicit mathematical model/text only; grade-appropriate enrichment if needed, no unseen original image or physical success claim.",
+      "status": "PROPOSED_NOT_STARTED",
+      "target_grade": 4
+    }
+  ],
+  "maximum_cases_if_two_each": 12,
+  "maximum_master_count": 6,
+  "status": "PROPOSED_NOT_STARTED"
+}

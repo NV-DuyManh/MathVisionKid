@@ -1,0 +1,67 @@
+{
+  "artifacts": {
+    "finalizer": {
+      "bytes": 10050,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\continued_archive_check_20261022\\finalize_current_candidate_metadata.py",
+      "sha256": "13be110eae09b01d232ce5a5ca29e75fb89ded223c6b30b00fc7f4621271950b"
+    },
+    "holdout_index": {
+      "bytes": 13607,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019\\prior_balanced\\audit\\holdout_signatures.json",
+      "sha256": "a5c15420a9606f27bdcfadd00f44b5eea0b23a2b528458e73a4a1c48d6304263"
+    },
+    "notebook": {
+      "bytes": 577797,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\continued_archive_check_20261022\\notebook_savepoint.ipynb",
+      "sha256": "56e8e20e68fb0bb06f1f0e63ebd321264a0c12a4ab8a08f985727e03e5341ad8"
+    },
+    "protected_index": {
+      "bytes": 55690,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019\\extensions\\protected_numeric_signatures.json",
+      "sha256": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8"
+    }
+  },
+  "conclusion": "No blocking static defect found in finalizer. Preserve bounded status and failure-state interpretation until the existing worker and downstream metadata-only checks actually finish.",
+  "findings": [
+    {
+      "detail": "Notebook registration cell supplies ROOT, qa_dir, full_audit_worker, V3_DB, V3_ID, pointer_all, file_digest, recipe_all, and batch_module; finalizer pins expected V3 identity and recipe SHA before registering.",
+      "severity": "pass",
+      "topic": "global bindings"
+    },
+    {
+      "detail": "Waits by joining existing worker; requires exact finished-with-findings state, exact checkpoint ID and fresh readback, report equality at snapshot, and snapshot byte/hash equality.",
+      "severity": "pass",
+      "topic": "checkpoint/report binding"
+    },
+    {
+      "detail": "Compares complete member cursor/role/expected-row mapping to ordered recipe-derived member IDs; checks exact per-row token validity and unique case split totals; adjudicator receives pinned candidate/split/mode counts and diagnostic/link evidence.",
+      "severity": "pass",
+      "topic": "final counts and member binding"
+    },
+    {
+      "detail": "Exceptions produce FINALIZATION_STOPPED_WITH_EVIDENCE. Manifest explicitly sets whole curriculum, human review, TRAINING_DATASET_READY, and training_started false and states pending physical/image/source acceptance.",
+      "severity": "pass",
+      "topic": "failure and readiness claims"
+    },
+    {
+      "detail": "Callback only joins registered worker, then performs metadata queries and calls source-chat antijoin subprocess; no scanner or DB mutation is launched by finalizer.",
+      "severity": "pass",
+      "topic": "no additional scan"
+    },
+    {
+      "detail": "This static review cannot establish the asynchronous worker result, DB contents, subprocess result, or publication state. No claim of curriculum readiness or human full review.",
+      "severity": "note",
+      "topic": "review limit"
+    }
+  ],
+  "index_binding": {
+    "embedded_sha256": {
+      "holdout_signatures.json": "a5c15420a9606f27bdcfadd00f44b5eea0b23a2b528458e73a4a1c48d6304263",
+      "protected_numeric_signatures.json": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8"
+    },
+    "holdout_index_embedded_bytes_match_local_file": true,
+    "protected_numeric_index_embedded_bytes_match_local_file": true
+  },
+  "review_scope": "Static source review only; no database/runtime/Drive operations, no worker interaction, no payload or question reading.",
+  "schema": "MathVisionKid.finalizer_static_review.v1"
+}

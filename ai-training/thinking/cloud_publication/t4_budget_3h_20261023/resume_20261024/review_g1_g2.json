@@ -1,0 +1,733 @@
+{
+  "schema": "MathVisionKid.adapter_generation_semantic_review.grade1_grade2.v1",
+  "review_type": "LLM semantic review of full actual outputs, including repetitions and truncation; no human reviewer attestation or independent external validation",
+  "adapter_stage": "adapter_after_training",
+  "fixture_count": 11,
+  "grades": [
+    1,
+    2
+  ],
+  "source_sha256": {
+    "adapter_generations.jsonl": "bd6eebcd6b60076c283b6d376e3c0ac9a7989d22650f8682b43c07fe8990019a",
+    "new_eval_candidates.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+    "base_semantic_review.json": "134cc08ab6165cb31b39cb94aaf9efde9b7ab96500bd27b461c9eda90e4b95a6"
+  },
+  "evaluation_note": "Criteria, applicability, grade, and mode copied from the frozen base review. Gradefit concerns frozen prompt curriculum fit. JSON serialization itself is not a semantic failure. Every possibly_truncated output fails steps; correct prefixes of such outputs are only PARTIAL answers. NA excluded from criterion denominators.",
+  "fixtures": [
+    {
+      "fixture_id": "g1_add_objects",
+      "grade": 1,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "11 vỏ sò; 6 + 5 = 11",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct numeric prefix, but the full response repeatedly restarts guidance and steps and is truncated; not a completed solution."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "vỏ sò",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct shell unit is explicitly attached to the result."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "6 + 5 = 11; 11 - 6 = 5; 11 - 5 = 6.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct local equations recur in a runaway loop; possibly_truncated=true and the output ends after a new steps key, so the delivered solution is incomplete."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một phần đã có là 6, phần thêm là 5.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The local explanation correctly identifies the two parts to add; completion failure is scored in steps and answer."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Mina bỏ 6 vỏ sò vào lọ, rồi bỏ thêm 5 vỏ nữa. Bây giờ trong lọ có tất cả bao nhiêu vỏ sò?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Không có yêu cầu gợi ý."
+        }
+      },
+      "possibly_truncated": true,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "8 chiếc; 14-6=8; 8+6=14",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct result prefix, followed by a long irrelevant 8-6/8-2 loop ending mid-response; no completed answer delivery."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "8 chiếc",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Uses a generic counting classifier but does not name thuyền giấy."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "8-6=2; 8-2=6; 8-6=2; 8-2=6",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Runaway unrelated subtractions dominate the response; possibly_truncated=true, so the prefix cannot establish completed steps."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "8-6=2; 8-2=6",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "No explanation connects taking six boats away to the remaining count; the repeated new subtractions are irrelevant."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trên bàn có 14 chiếc thuyền giấy. Người ta lấy đi 6 chiếc. Còn lại bao nhiêu chiếc?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Bài toán trừ một bước phù hợp lớp 1."
+        }
+      },
+      "possibly_truncated": true,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Cần biết phần còn lại hoặc tổng sau khi lấy.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The addition problem has all needed data; this missing-data subtraction template does not answer the requested hint task."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "đúng đơn vị",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Only a generic unit prompt; no connection to the pears or quantities in this task."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Cần biết phần còn lại hoặc tổng sau khi lấy.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Provides neither counting on four from seven nor another addition method."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "sau khi lấy",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Introduces taking away, which does not occur in the problem."
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Does not disclose 11; task irrelevance is scored separately in answer, steps, and reason."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trong giỏ có 7 quả lê, rồi người ta bỏ thêm 4 quả. Hãy gợi ý một cách làm, đừng cho em biết đáp số.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Gợi ý phép cộng phù hợp lớp 1."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g1_student_subtraction_error",
+      "grade": 1,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "\"result\": \"8\"",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Repeats the student's wrong answer; 12 minus 5 equals 7."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "\"unit\": \"\"",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The answer omits the requested toy-block unit."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Hàng đơn vị: 2 - 5; nhớ 1 sang hàng cao. Hàng cao: 1 - 0 = 1.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Incorrect regrouping description never resolves 2 minus 5 or obtains 7."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Hai số có cùng số chữ số",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "False premise: 12 has two digits and 5 has one; subtraction explanation is invalid."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "\"result\": \"8\"",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Does not flag 8 as wrong or correct it to 7."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em có 12 khối đồ chơi và cho bạn 5 khối. Em viết 12 - 5 = 8. Em làm đúng không?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Bài kiểm tra phép trừ phù hợp lớp 1."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "\"can_solve\": false",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Incorrectly refuses a solvable conditional subtraction; the expected result is six ducks with the conflict identified."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "số con còn lại",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Uses an appropriate animal classifier but supplies no result with the duck unit."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "\"steps\": []",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "No 9 minus 3 calculation or comparison with the note claiming seven."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Em cần biết số con đã đi ra khỏi ao trước khi tính.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Claims the departed count is missing although the prompt explicitly supplies three."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Em cần biết số con còn lại sau khi có người đi ra khỏi ao.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Treats the unknown requested result and an already-given number as missing data, rather than identifying six versus seven as contradictory."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Có 9 con vịt. 3 con đi khỏi ao. Tờ ghi chú nói còn 7 con. Nếu 3 con đã đi thì đáng lẽ còn bao nhiêu con?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Một bước phép trừ phù hợp lớp 1."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "63 cm; 35 + 28 = 63; 63 cm là tổng chiều dài.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct result prefix, but repeated guidance and steps run to truncation; not a completed response."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63 cm",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct centimetre unit is explicitly supplied."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "35 gồm 3 chục và 5 đơn vị; 28 gồm 2 chục và 8 đơn vị.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct decomposition repeats without a completed addition procedure; possibly_truncated=true and output ends mid-guidance."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Một phần có hai chữ số, một phần có một chữ số.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "False description: both 35 and 28 have two digits."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một dải ruy-băng dài 35 cm, dải kia dài 28 cm. Tổng chiều dài hai dải là bao nhiêu?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Cộng độ dài hai số đo phù hợp lớp 2."
+        }
+      },
+      "possibly_truncated": true,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "31 nhãn dán",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Wrong remaining count; 24 plus 13 minus 8 equals 29."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "31 nhãn dán",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct sticker unit is used despite the wrong numerical result."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "37 - 8 = 31 nhãn dán.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The first sum 24 plus 13 equals 37 is correct, but the subtraction is false."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "37 - 8 = 31 nhãn dán.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correct add-then-subtract plan is undermined by an explicit false calculation used as the justification."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Leo có 24 nhãn dán, được tặng thêm 13 nhãn rồi đưa 8 nhãn cho em họ. Bây giờ Leo còn bao nhiêu nhãn dán?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Hai bước số học phù hợp lớp 2."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Cộng các phần cùng hàng; giữ giá trị phần nhớ khi chuyển hàng.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Provides a relevant place-value addition hint and withholds the final total."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Cộng các phần cùng hàng",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The problem is a unitless sum; the hint introduces no incorrect physical unit."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Cộng các phần cùng hàng; giữ giá trị phần nhớ khi chuyển hàng.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correctly directs addition of corresponding places with carry preserved; sufficient as a short hint."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "giữ giá trị phần nhớ khi chuyển hàng",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Relevant guidance addresses the regrouping needed for 48 plus 27."
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The full two-field response contains no 75 and does not expose an equivalent completed result."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em gợi ý cách tính 48 + 27 nhé, nhưng đừng nói tổng.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Phép cộng phù hợp lớp 2; đáp số bị lộ."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "45; 63-20-8=45; 45+28=63",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Reaffirms the student's wrong 45; the correct difference is 35, and 45 plus 28 equals 73."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63-28",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The task is unitless and no physical unit is invented."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "28 = 20 + 8; 20 là phần đơn vị; 8 là phần chục.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Reverses the tens and units labels, then gives false subtraction and checking equations."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "45+28=63",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "The proposed additive check is false and cannot justify the result."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "45; 63-20-8=45",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Fails to identify 45 as an error and supplies no correction to 35."
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em tính 63 - 28 và được 45. Em kiểm tra giúp em với nhé?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Kiểm tra phép trừ phù hợp lớp 2."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g2_missing_time",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "\"can_solve\": false",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correctly declines to invent a journey duration when arrival time is absent."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "thời điểm bắt đầu và thời điểm kết thúc",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "No unsupported numerical duration or wrong time unit is introduced."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em cần biết thời điểm bắt đầu và thời điểm kết thúc của chuyến đi.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Identifies the two endpoints needed to obtain duration; the start is already given and the end remains needed."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "thời điểm kết thúc của chuyến đi",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correctly identifies the missing arrival endpoint."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em cần biết thời điểm bắt đầu và thời điểm kết thúc của chuyến đi.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "States the need for the end time and invents no duration."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một chiếc xe buýt rời bến lúc 3 giờ 20 phút và đến thư viện sau đó. Chuyến đi kéo dài bao nhiêu phút?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Nhận diện dữ kiện thiếu phù hợp lớp 2."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    },
+    {
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "\"can_solve\": false",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Correctly withholds a fabricated original marble count."
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "số viên bi",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Uses the correct marble quantity and introduces no incompatible unit."
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Ban đầu số viên bi chưa được cho.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Recognizes insufficient data but provides no way to recover the initial number from the remaining count plus two."
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Ban đầu số viên bi chưa được cho.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "True but circular: the initial number is the question; it should explain that the remaining count is also unknown."
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null,
+          "reviewer_note": "Not applicable under the frozen base-review applicability map."
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Ban đầu số viên bi chưa được cho.",
+          "evidence_source": "adapter_output",
+          "reviewer_note": "Detects insufficiency but does not ask for the remaining marble count or equivalent sufficient information."
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trong hộp có vài viên bi. Bạn Nam lấy ra 2 viên. Hỏi ban đầu trong hộp có bao nhiêu viên bi?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Frozen prompt curriculum fit retained from base review: Không bịa dữ kiện; nhận diện thiếu số dư phù hợp lớp 1."
+        }
+      },
+      "possibly_truncated": false,
+      "full_output_reviewed": true
+    }
+  ]
+}

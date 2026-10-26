@@ -1,0 +1,25 @@
+{
+  "add": {
+    "newCellId": "ecHcUv9AUzpG"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"authenticated\": true, \"profile\": {\"user\": {\"displayName\": \"Nam Hoài\", \"emailAddress\": \"namnam.trannam@gmail.com\"}}, \"no_training_started\": true}\n"
+        ]
+      }
+    ]
+  }
+}

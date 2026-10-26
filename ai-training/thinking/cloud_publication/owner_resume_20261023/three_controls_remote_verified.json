@@ -1,0 +1,23 @@
+[
+  {
+    "kind": "progress",
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 16013487,
+    "sha256": "9dbb89f2c14d0195793896ed10cfc92555dfe60471c6cddb79460a70d4867ab6",
+    "fresh_raw_readback_verified": true
+  },
+  {
+    "kind": "chat",
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 62454,
+    "sha256": "c112514dca3b377d014aaa46e060d7e28b24456306dff53afbcbc444afa0562c",
+    "fresh_raw_readback_verified": true
+  },
+  {
+    "kind": "context",
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 802793,
+    "sha256": "6022fcc0badb0b02423e7399b7effd078d24281ba08310d3e1488952c8bbffaf",
+    "fresh_raw_readback_verified": true
+  }
+]

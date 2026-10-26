@@ -1,0 +1,66 @@
+{
+  "actual_nearest_rows_read": 12,
+  "by_grade": {
+    "3": 4,
+    "4": 6,
+    "5": 2
+  },
+  "cases": 12,
+  "chat_rows": 48,
+  "drive_mutated": false,
+  "files": {
+    "adversarial_answer_mutations.jsonl": {
+      "bytes": 2362,
+      "sha256": "ff5e3fa037fe06b8a61503e60ac4a4ee0aaabb0d3df8ea503ea9754dfaa4f320"
+    },
+    "cases.jsonl": {
+      "bytes": 76970,
+      "sha256": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15"
+    },
+    "chat.jsonl": {
+      "bytes": 117621,
+      "sha256": "941667181533b61354072d765569e8154e75e45b7784ee93cb6a2c0cbb439059"
+    },
+    "independent_oracles.jsonl": {
+      "bytes": 4890,
+      "sha256": "6978676da8c10fc953817d5579490b0afd457baae041bec223bb904a64fbebf1"
+    },
+    "independent_relation_oracle.py": {
+      "bytes": 8951,
+      "sha256": "b01573aca1206786a943e99b4e3cd3a1c0737858ad89fa811c232d9099d004a0"
+    },
+    "nearest_actual_fullfields.jsonl": {
+      "bytes": 38337,
+      "sha256": "f23618f75293bda1148a8f98eec9328d44106fb5ee8930453d4a4ba2934cdc3e"
+    },
+    "numeric_fraction_decimal.jsonl": {
+      "bytes": 3696,
+      "sha256": "0a104cbdb03b8cfda2cbf28e9e9f9b598f9fc3936421ee77d66c9a3bb7ad9874"
+    },
+    "selfqa7.jsonl": {
+      "bytes": 57372,
+      "sha256": "0fe681549cdccecf2596992b3d381812183376c18d4bb3b70f3d1cac50ac7678"
+    }
+  },
+  "helper_sha256": "c46c96266c82ce67c81fd7c9c3d9f363a114354537271a1b459f66b6064b45ac",
+  "limits": [
+    "Original explicit text/grid models only; inherited image receipts not newly viewed.",
+    "Grade5 trapezoid branch does not close lower-grade dissection aliases.",
+    "Root/peer exact-content review required; no human content attestation or accuracy guarantee."
+  ],
+  "masters": {
+    "equal_area_geometric_regrouping": 2,
+    "equal_area_transfer_cancellation": 2,
+    "missing_parallelogram_vertex": 2,
+    "occlusion_partial_layer_order": 2,
+    "specified_area_preserving_dissection": 2,
+    "tangent_circle_alignment_lengths": 2
+  },
+  "numeric_steps": 15,
+  "old_state_mutated": false,
+  "oracle_helper_sha256": "b01573aca1206786a943e99b4e3cd3a1c0737858ad89fa811c232d9099d004a0",
+  "separate_oracles": 12,
+  "status": "12_DRAFTS_AUTHOR_QA_COMPLETE_PENDING_ROOT",
+  "training_started": false,
+  "wrong_answer_mutations_rejected": 12
+}

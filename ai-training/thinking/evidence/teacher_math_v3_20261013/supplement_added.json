@@ -1,0 +1,17 @@
+{
+  "is_error": false,
+  "data": {
+    "newCellId": "MKZ-AoRLKhsQ"
+  },
+  "structured_content": {
+    "newCellId": "MKZ-AoRLKhsQ"
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"newCellId\":\"MKZ-AoRLKhsQ\"}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

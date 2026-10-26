@@ -1,0 +1,27 @@
+{
+  "status": "PASS_AUTHOR_SELF_QA_PENDING_ROOT_CROSS_REVIEW",
+  "cases": 29,
+  "chat_rows": 116,
+  "guards": 6,
+  "all_actual_fields_semantic_author_read": true,
+  "independent_numeric_checks": [
+    "Fraction/Decimal all actual numeric steps",
+    "separately specified first-step expectations32",
+    "Decimal ROUND_HALF_UP direct/successive",
+    "enumerated inverse rounding grid",
+    "literal observed logs recounted independently",
+    "enumerated rounded chart ambiguity"
+  ],
+  "comparison_corpus_rows": 5683,
+  "comparison_corpus_sha256": "101ad0630afc1aca5891151278ad66f003dcc160528ebcd2a49369e922ef8f09",
+  "source_sha256": "984449efd6e109f6c1cc0c2406b67e1368b638fe0b5ac4df0610f0612c4bb2bf",
+  "chat_sha256": "c02d3345c520fc742b568645d58426b268fb3cfc06d15b494ed3da199c0aafa2",
+  "review_sha256": "b72bb3dd3d847526c6f53105d9f665128c52f40c2fd23b72db436b2bf5e807c9",
+  "storage": "BOUNDED_TEMPORARY_FOR_ROOT_DRIVE_PUBLICATION",
+  "limits": [
+    "Representation enrichment, broad source families already existed",
+    "Not all SGK exercise pages read",
+    "No full corpus semantic independence claim",
+    "No sealed challenge read or training"
+  ]
+}

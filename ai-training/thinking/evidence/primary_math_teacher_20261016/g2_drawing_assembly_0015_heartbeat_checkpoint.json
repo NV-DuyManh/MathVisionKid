@@ -1,0 +1,21 @@
+{
+  "heartbeat_utc": "2026-10-17T11:58:30.371Z",
+  "verified_at": "2026-10-17T12:03:36.943149+00:00",
+  "authored_cases": 147,
+  "accepted_cases": 96,
+  "chat_rows": 384,
+  "pending_cases": 51,
+  "core_cases": 64,
+  "remaining_core_cases": 431,
+  "pending_core_slots": 32,
+  "core_slots_not_authored": 399,
+  "batch_sha256": "7143811f44d44b31497060722c5f5fec82a6512857bdc4e420ca36865b477c54",
+  "task006_reported_status": "queued",
+  "task006_manifest_unchanged": true,
+  "chat_export_unchanged": true,
+  "human_verified": false,
+  "training_started": false,
+  "skills_applied": [
+    "google-drive:google-drive"
+  ]
+}

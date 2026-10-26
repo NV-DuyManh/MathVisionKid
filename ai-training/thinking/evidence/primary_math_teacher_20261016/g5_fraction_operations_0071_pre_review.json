@@ -1,0 +1,142 @@
+{
+  "authored_utc": "2026-10-18T04:48:09.703351+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:46:37.851Z",
+  "batch_sha256": "b6cac201207c0a821685a395e80bbe3acdf4ae7607bd9257891ab316b0c9b6bb",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_fraction_operations_0071_unlike_denominator_mix_then_use",
+      "row_sha256": "58efff1ba757e9896efdb2e33f215c49c4a88a805c110b97c57193dbadaec59c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(4*8)/(9*8)",
+          "((4*8)/(9*8))+5/8",
+          "(((4*8)/(9*8))+5/8)-1/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_fraction_operations_0071_fraction_of_volume_then_equal_portions",
+      "row_sha256": "1001c5d4ea14878f878c35d5c18cc8aedfb070ec6508c2fb10cc6b4e6069ed41",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(7/9)*(3/7)",
+          "((7/9)*(3/7))/(1/12)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_fraction_operations_0071_mixed_length_fraction_of_original_then_cut",
+      "row_sha256": "21498dc827a56597040343ebc1e4cfb90f3e4f72ef278769a24c55a9947d714a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(2*4+1)/4",
+          "((2*4+1)/4)*(2/5)",
+          "((2*4+1)/4)-(((2*4+1)/4)*(2/5))",
+          "(((2*4+1)/4)-(((2*4+1)/4)*(2/5)))-1/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_fraction_operations_0071_misconception_add_both_denominators",
+      "row_sha256": "94eae7ea545a974ee7156e5ba0c76bc36c453d22edd816366702aa6afa44918b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(3*7)/(5*7)",
+          "((3*7)/(5*7))+2/7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_fraction_operations_0071_guard_fraction_of_missing_whole_volume",
+      "row_sha256": "6f878f1401b3dd104cd2174216b03d18fe36473908fdde7888278ef702ed8412",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "litre_grid_denominator": 72,
+    "mixture_total_cells": 77,
+    "remaining_cells": 65,
+    "volume_cell_denominator": 63,
+    "initial_volume_cells": 49,
+    "selected_volume_cells": 21,
+    "cup_count_by_search": 4,
+    "ribbon_cell_denominator": 60,
+    "ribbon_initial_cells": 135,
+    "decoration_cells": 54,
+    "extra_cut_cells": 10,
+    "ribbon_remaining_cells": 71,
+    "addition_thirty_fifth_cells": 31,
+    "guard_countermodels": {
+      "2 litres initially": "2/3",
+      "3 litres initially": "1"
+    }
+  },
+  "exact_Fraction_and_precision45_Decimal_crosschecks": true,
+  "decimal_not_used_as_exact_rational_proof": true,
+  "oracle_limit": "Integer grids/search and disjoint cells verify mathematical hypothetical quantities; semantic reading and units still required. No actual measurement, image, independent reviewer or human attestation.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous396_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_official_QA_repairs": [
+    "Add spaces around prose/numbers for legibility; remove unsolicited incorrect mixed-number conversion from otherwise correct worked explanation. No mathematics/answer changes."
+  ],
+  "pre_polish_batch_sha256": "651a8fdea1c1973edb8d84380cce68252a172e1f6e1d785cc9899ad7c1ed3865",
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "polished_explanations_reread": true,
+  "official_QA_utc": "2026-10-18T08:37:19.382595+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "eaa90cccd484822d11aca0404a01db1913e4e10bb9cd8e62a6d1420b7b2456f5"
+}

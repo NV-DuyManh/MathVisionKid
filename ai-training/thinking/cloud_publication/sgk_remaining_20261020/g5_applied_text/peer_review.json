@@ -1,0 +1,29 @@
+{
+  "status": "PASS_INDEPENDENT_PEER",
+  "cases": 12,
+  "chats": 48,
+  "full_field_reviews": 12,
+  "numeric_steps": 24,
+  "independent_models": 12,
+  "adversarial_mutations_detected": 48,
+  "source_hashes": {
+    "cases.jsonl": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552",
+    "chat.jsonl": "f17f8b940f8db5ba148f31d6d1d7875277b7af753ba27a481a1ba3ea191cb8d3",
+    "selfqa7.jsonl": "c640ecf81bbfa55ac49628eeb491fe3a7f6450e513d2d82ec5006d8ede416ab9",
+    "independent_oracles.jsonl": "645132c7150eb2355cafd433524fd3602beef625f3cee95d55b6643b0bd271bf",
+    "numeric_fraction_decimal.jsonl": "1ba31c4a51ff497a7b11b330066e419810303908ad5460924e6b4eed6cb2c508",
+    "manifest.json": "537ee834080124a1e7d7331c6c073f5f6f3885bf0c6318d81910010af14c78cb"
+  },
+  "source_files_unchanged": true,
+  "fixes_required": [],
+  "substantive_limitations": [
+    "Finite grade5 original text enrichment; no physical/image result claims.",
+    "No model accuracy or human attestation assigned."
+  ],
+  "artifact_hashes": {
+    "peer_fullfield_reviews.jsonl": "bb4f8028783a7d14a69aa9f6a47e82728f3f2a23b3ab8a0981999cecd433fe7a",
+    "peer_independent_oracles.jsonl": "5d12b0248855b042767c45bfb10d7424776e6ed388bebae481461f507a3708b4",
+    "peer_numeric_checks.jsonl": "5c9d5f21e333b544a2dc427e47e7598c0c1b61d08dced59402066ab6eaed0127",
+    "peer_adversarial_mutations.jsonl": "019c07153510984340434519519eef90fe1651c11b6e2268fd253abb688f7144"
+  }
+}

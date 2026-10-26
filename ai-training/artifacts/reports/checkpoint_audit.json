@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "checkpoint_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\staging\\ocr_engine_handoff_final\\ocr_engine\\best_cer.pth",
+  "checkpoint_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "checkpoint_size_bytes": 23856925,
+  "model_source_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\staging\\ocr_engine_handoff_final\\ocr_engine\\model.py",
+  "model_source_sha256": "ba0f7922fbf63527e863999de257d64c5611f3029cff12f1272023926fed75a4",
+  "vocab_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\handoff\\staging\\ocr_engine_handoff_final\\ocr_engine\\vocab.json",
+  "vocab_sha256": "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d",
+  "architecture": "CRNN (4-block Conv2d + GroupNorm + BiLSTM + Linear)",
+  "parameter_count": 5962560,
+  "vocab_size": 320,
+  "blank_index": 0,
+  "classifier_layer": "fc",
+  "classifier_dimension": 320,
+  "input_channels": 3,
+  "input_height": 64,
+  "input_width": 1024,
+  "output_shape_for_1024": [
+    1,
+    128,
+    320
+  ],
+  "state_dict_keys": {
+    "cnn.0.weight": {
+      "shape": [
+        64,
+        3,
+        3,
+        3
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 1728
+    },
+    "cnn.0.bias": {
+      "shape": [
+        64
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 64
+    },
+    "cnn.1.weight": {
+      "shape": [
+        64
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 64
+    },
+    "cnn.1.bias": {
+      "shape": [
+        64
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 64
+    },
+    "cnn.4.weight": {
+      "shape": [
+        128,
+        64,
+        3,
+        3
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 73728
+    },
+    "cnn.4.bias": {
+      "shape": [
+        128
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 128
+    },
+    "cnn.5.weight": {
+      "shape": [
+        128
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 128
+    },
+    "cnn.5.bias": {
+      "shape": [
+        128
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 128
+    },
+    "cnn.8.weight": {
+      "shape": [
+        256,
+        128,
+        3,
+        3
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 294912
+    },
+    "cnn.8.bias": {
+      "shape": [
+        256
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 256
+    },
+    "cnn.9.weight": {
+      "shape": [
+        256
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 256
+    },
+    "cnn.9.bias": {
+      "shape": [
+        256
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 256
+    },
+    "cnn.12.weight": {
+      "shape": [
+        512,
+        256,
+        3,
+        3
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 1179648
+    },
+    "cnn.12.bias": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "cnn.13.weight": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "cnn.13.bias": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "rnn.weight_ih_l0": {
+      "shape": [
+        512,
+        4096
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 2097152
+    },
+    "rnn.weight_hh_l0": {
+      "shape": [
+        512,
+        128
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 65536
+    },
+    "rnn.bias_ih_l0": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "rnn.bias_hh_l0": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "rnn.weight_ih_l0_reverse": {
+      "shape": [
+        512,
+        4096
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 2097152
+    },
+    "rnn.weight_hh_l0_reverse": {
+      "shape": [
+        512,
+        128
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 65536
+    },
+    "rnn.bias_ih_l0_reverse": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "rnn.bias_hh_l0_reverse": {
+      "shape": [
+        512
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 512
+    },
+    "fc.weight": {
+      "shape": [
+        320,
+        256
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 81920
+    },
+    "fc.bias": {
+      "shape": [
+        320
+      ],
+      "dtype": "torch.float32",
+      "num_elements": 320
+    }
+  },
+  "compatibility": {
+    "strict_load": true,
+    "forward_pass_pass": true,
+    "weights_only_safe": true
+  }
+}

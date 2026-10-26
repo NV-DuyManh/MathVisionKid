@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "reviewer_role": "INDEPENDENT_PEER_AGENT",
+  "human_review_claimed": false,
+  "source_file": "cases.jsonl",
+  "source_sha256": "ee0ced14c50bb5a45a611b42e22e21c2629a729abdaa589ee193c2358582258a",
+  "chat_sha256": "43cbbf57af6f3bf69942a65025a19e484eb39b3a18c82a6155d7929793f2c64d",
+  "reviewed_cases": 23,
+  "reviewed_chat": 92,
+  "actual_semantic_fields_read": true,
+  "qa7_rows": 23,
+  "independent_finite_oracles": 23,
+  "wrong_model_mutations_rejected": 23,
+  "fraction_decimal_steps": 27,
+  "chat_links_verified": 92,
+  "critical_issues": [],
+  "artifacts": {
+    "peer_finite_oracles.json": {
+      "bytes": 15841,
+      "sha256": "689447945c3cbee41d079b896bb3b7db93f2af04e62fea83067ff7c3263f092b"
+    },
+    "peer_wrong_model_mutations.json": {
+      "bytes": 5591,
+      "sha256": "2d0d1e7d5333424f59be5e4c163e022cbb0778f0fb921c590c057432f84718b8"
+    },
+    "peer_fraction_decimal.json": {
+      "bytes": 6601,
+      "sha256": "344233aa7f07944f433d3ee5acb038887b8e500e219c54af4833b24ba82c7c94"
+    },
+    "peer_chat_linkage.json": {
+      "bytes": 28886,
+      "sha256": "4a92213049f167113f002b7306851bc039c3c8a4960aafa01a7fdb40913df463"
+    },
+    "peer_qa7.json": {
+      "bytes": 24521,
+      "sha256": "74b8a107714dc07c3c0d2a012923a116d1fc84b908d9e976fdf75628e6447daf"
+    },
+    "peer_independent_review.py": {
+      "bytes": 15560,
+      "sha256": "39d29051f6dc28a2f3b1a24882651ceda8197472d5c16e25cde3173d55ad4a0a"
+    }
+  },
+  "limits": [
+    "Not live physical/visual outcome verification",
+    "No new human attestation",
+    "No whole-corpus audit",
+    "Parent malformed tangram preserved; only corrected source reviewed for this decision"
+  ]
+}

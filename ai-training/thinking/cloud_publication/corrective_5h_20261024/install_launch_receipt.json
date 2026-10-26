@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "xUl_CtunVxg-"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"installer_started\": true, \"train_hours_authorized\": 5, \"optimizer_updates\": 0}\n"
+        ]
+      }
+    ]
+  }
+}

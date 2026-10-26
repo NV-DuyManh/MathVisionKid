@@ -1,0 +1,109 @@
+{
+  "state": "COMPLETE_RAW_VERIFIED",
+  "artifacts": {
+    "final_evaluation_worker.py": {
+      "id": "1JTR7hPxnC70s8KvNML8LIrH_Z7COKZMb",
+      "sha256": "3d075d7a4f32c1f1b528fbdfafaa4f19fab9afea6578167b2733ee14cec03605",
+      "bytes": 22985,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:20.772283+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_evaluation_worker.py",
+      "immutable": true
+    },
+    "test_final_evaluation_worker.py": {
+      "id": "1NsD3cb6jOgoJTMxdtj4Ow0rfiB4o-axa",
+      "sha256": "82eafb7a657d1468d21110e09bdc6eed8af0ec49fd118d8fb39c438507e2796c",
+      "bytes": 8387,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:25.766768+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "test_final_evaluation_worker.py",
+      "immutable": true
+    },
+    "final_eval__attempt_started.json": {
+      "id": "1ElMmbYSCt4nfSiZp4oe6yD6uFwK8h36Y",
+      "sha256": "fbc71bdc6c4404d5fc0b7807ad077ca6edf74f6cd964010dc9c2dec975387072",
+      "bytes": 334,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:30.787325+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__attempt_started.json",
+      "immutable": true
+    },
+    "final_eval__base_generation_provenance.json": {
+      "id": "1h4laKpofas5JxYkE9HCQsV0oHklyMqNe",
+      "sha256": "c3bc0338420a608b46d29a598647586e0e2dd9bf9b75d731d3261c6451172648",
+      "bytes": 429,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:35.719767+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__base_generation_provenance.json",
+      "immutable": true
+    },
+    "final_eval__base_generations.jsonl": {
+      "id": "1QJL8H-dKe1EVBl3EiYsBueCBom40t3ou",
+      "sha256": "31ed4495d48800792a4ac29eeb446c49415804bed87e0b2c55f7682ab8d93287",
+      "bytes": 29334,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:40.787798+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__base_generations.jsonl",
+      "immutable": true
+    },
+    "final_eval__collision_screening.json": {
+      "id": "16cl2k7tjmIB3E8b65owdVCdQ2Dhkmv21",
+      "sha256": "1cea11c449459e0d2ce774b8ac35210a42d49e01a5cf26e2596d8fa91a9a7899",
+      "bytes": 378,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:45.774209+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__collision_screening.json",
+      "immutable": true
+    },
+    "final_eval__evaluation_contract.json": {
+      "id": "1utIb-aptE5Sov0LrTySVvTkm03TXXjdp",
+      "sha256": "87f20e6e0560f04b9c25cef5eae3c6456e521f4594a332b988b91010987dcdba",
+      "bytes": 4724,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:50.790636+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__evaluation_contract.json",
+      "immutable": true
+    },
+    "final_eval__final_eval_manifest.json": {
+      "id": "14T5Ao692RvmRKosjCYGyVT08LVT0B0nz",
+      "sha256": "4823e6f2e20685303c0ec6fc03f44d5663ae04507dff12e7e7ec59ac70cb698e",
+      "bytes": 3696,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:06:55.764405+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__final_eval_manifest.json",
+      "immutable": true
+    },
+    "final_eval__selected_output_reference.json": {
+      "id": "1J5JxMVD5fGG4sOMkPjKjvqK37oi9feb7",
+      "sha256": "09e29b9a55d3526da7a748b7c96b36458277dc63cf36fcc0ce2cc3b08171630f",
+      "bytes": 272,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:07:00.776607+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__selected_output_reference.json",
+      "immutable": true
+    },
+    "final_eval__selection_before_test.json": {
+      "id": "1-RKXqYDdQKzEgfC01_LzGdPqeInXeTMk",
+      "sha256": "e6f0f6ae69653ae22e8a69a4d7c7231a1d035a474f9043a546cceef98251f163",
+      "bytes": 2788,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:07:05.838003+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "final_eval__selection_before_test.json",
+      "immutable": true
+    }
+  },
+  "fixture_count": 20,
+  "test_run_count": 1,
+  "selected_before_test": true,
+  "human_review_claimed": false
+}

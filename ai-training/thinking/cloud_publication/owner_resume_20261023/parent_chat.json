@@ -1,0 +1,1184 @@
+{
+  "DO_NOT_AUTO_RESUME": true,
+  "TRAINING_DATASET_READY": false,
+  "all_available_chat_rows_including_evaluation_and_audit": 6502456,
+  "archive_original_chat_rows": 6074308,
+  "archive_parts": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 75191056,
+      "chat_rows": 963504,
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 1,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "url": "https://drive.google.com/file/d/1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 70720600,
+      "chat_rows": 900800,
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 2,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "url": "https://drive.google.com/file/d/1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71168825,
+      "chat_rows": 900864,
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 3,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "url": "https://drive.google.com/file/d/1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71573224,
+      "chat_rows": 900880,
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 4,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "url": "https://drive.google.com/file/d/1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75237855,
+      "chat_rows": 970052,
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 5,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "url": "https://drive.google.com/file/d/1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71246149,
+      "chat_rows": 926788,
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 6,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "url": "https://drive.google.com/file/d/1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 39328574,
+      "chat_rows": 511420,
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 7,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "url": "https://drive.google.com/file/d/1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4/view"
+    }
+  ],
+  "archive_warning": "Original7chatgzip parts and new zip/chat members are preserved candidate archives, not the balanced evaluation-disjoint release. No archive data was deleted to balance the selected release.",
+  "chat_rows": 6502344,
+  "count_reconciliation": {
+    "actual_full_chat_count_verification_complete": false,
+    "actual_source_versions_indexed": 1629906,
+    "all_original_sources_retained": true,
+    "current_raw_chat_rows_including_evaluation": 6502392,
+    "declared_candidate_chat_rows": 6502344,
+    "difference_attribution": "Pending exact crosswalk; do not call historical counter a verified unique case count.",
+    "historical_accepted_case_counter_preserved": 1629922,
+    "historical_case_counter_difference": 16
+  },
+  "current_drive_connection": {
+    "email": "hoainam29082005@gmail.com",
+    "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+    "name": "Hoai Nam",
+    "profile_id": "103000002357306706048",
+    "verified_current_connector": true
+  },
+  "dataset_usage_current": {
+    "full_archive_token_audit_completed": false,
+    "new_exact_hash_numeric_exceptions": 19,
+    "new_sgk_cases_training_eligible_after_qa": 101,
+    "owner_intent": "Use all valid generated data for future training, not just the small balanced subset.",
+    "preserve_all_data": true,
+    "protected_frozen_evaluation_payloads_remain_separate": true,
+    "training_started": false
+  },
+  "extension_zip_shards": [
+    {
+      "bytes": 3449972,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1dRRtUxhlqKCC8FgjW7WYVa-ikaLye2uI",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000000000_000010000_08fb550da5a03852.zip",
+      "sha256": "08fb550da5a03852b881cf28cff35326c1feeb3d5ffbb50e33f6c6d366f51070",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092543,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1Wsw5maFoimhoASyP_Xo2UmXgBTQJewRj",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000010000_000020000_c413bcda1d6fed78.zip",
+      "sha256": "c413bcda1d6fed788c86b55089e10a3970700f94b2770d977cb582d637aa7a4a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092334,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1EJ0MYKgRhCrwcs929fNHWmfcACw2MaLE",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000020000_000030000_4a786b2eefac3fd9.zip",
+      "sha256": "4a786b2eefac3fd93e7f75cd04694e20b59a5cb4729c1e68ff4601693fbcfd4a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092546,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1KYT-pYFvUcv8VVA1adQVX6-_f-tVm7fY",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000030000_000040000_0db120004993b495.zip",
+      "sha256": "0db120004993b495ed1e8f43c86e814513e3ae0f33969c5c5bb3562215825c6a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092616,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1Ic8WkXN8CyKEITRSrZ_tHqbj0auLAeNa",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000040000_000050000_74324e044818a577.zip",
+      "sha256": "74324e044818a5773a6a51023246e9c69a23790fb5d9ad3ce6fdcbac776221a0",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4093003,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1UV75k8jhHS4KE33zmQ_o9RYmBqjIm0mU",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000050000_000060000_ec360da8d3bb0dcc.zip",
+      "sha256": "ec360da8d3bb0dcca6eb86653ed039caa0bd00a665d72902c345186df09fe177",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092932,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "13Aq_U7o-WJARywrpeBggdJ4OdphWvHEe",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000060000_000070000_7cb6b71fbd5b95e8.zip",
+      "sha256": "7cb6b71fbd5b95e811579310b2acc1a02c7027e32307a1de366acf4387ef4d26",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092295,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1kiF6NsuItp2vhBeQErAQ3oAeENfKT1ik",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000070000_000080000_502af8a0b4662402.zip",
+      "sha256": "502af8a0b4662402382ecf64931700a06cadd0af7064831d9f6927c206e293f0",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092158,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1sdK2hdrIdZD1Onbc2VkEE4c19stk_SYb",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000080000_000090000_41d72a04f00e3f24.zip",
+      "sha256": "41d72a04f00e3f2425b8fa81175b2dc94e31b152c889c8ce46c1495b96c0b804",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 440868,
+      "cases": 900,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 3596,
+      "file_id": "1cUH20LmSvDh9jlsOyV-7hXHEj85BHZxF",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000090000_000090900_083c8b517999fe4f.zip",
+      "sha256": "083c8b517999fe4fbba435bedbe139839600ed803bef2d7526cc32e9ed078ef2",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4349878,
+      "cases": 9090,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 35864,
+      "file_id": "1_MMP-ph0kfHJg2xkjKFkVUocIRa-6wRe",
+      "file_name": "MVK_division_dividend_0_100_divisor_two_digits__000000000_000009090_3cf6b41a57927e89.zip",
+      "sha256": "3cf6b41a57927e89d0b29053ba94f5498456617f83e13084187ce4bcb52ad623",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 486813,
+      "cases": 900,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 2844,
+      "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+      "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 61506,
+      "cases": 101,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 296,
+      "file_id": "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+      "file_name": "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+      "sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4818292,
+      "cases": 9079,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 22884,
+      "file_id": "1PqHaAIm8qeOfmeA4kNzY6BHSGtOQ2JIv",
+      "file_name": "MVK_multiplication_0_100_two_digits__000000000_000009079_bae19ea09ef2edd7.zip",
+      "sha256": "bae19ea09ef2edd7952a711081a4f18cea07847f820884d52e7fee8ab8fbc498",
+      "source_member": "source.jsonl.gz"
+    }
+  ],
+  "external_data_authoring_handoff": {
+    "accepted_repaired_and_new_rows": 64,
+    "blanket_original_acceptance_claim_replaced_by_hash_bound_review": true,
+    "external_agents_running_reported_by_owner": true,
+    "external_agents_running_verified": false,
+    "external_results_received": true,
+    "global_control_writes_reserved_to_codex": true,
+    "id": "15gExlfFt7QM2tBcnY8vAwZd3Rn3RAzB-",
+    "original_53_rows_audit_only": true,
+    "original_intake_drive_id": "1Ji6l7rg-lpg81ddq3JG4gUeIDyOOGLYM",
+    "prompt_prepared": true,
+    "report_origin": "OWNER_DIRECT_MESSAGE_ANTIGRAVITY_DANG_CHAY",
+    "scope": "FINITE_SGK_CONTENT_AUTHORING_AND_QA_SEPARATE_FROM_CODEX_ARCHIVE_AUDIT",
+    "sha256": "84b8e2d7e2f62eda72e532f63eeadf17bf890d28ba37073da24f063eb350053e"
+  },
+  "final_metadata_check": {
+    "prior_controlled_stop_evidence_preserved": true,
+    "state": "PAUSED_BY_OWNER_AWAITING_RESUME",
+    "training_started": false
+  },
+  "finite_core_completion_confirmation": {
+    "TRAINING_DATASET_READY": false,
+    "all_rows_newly_human_reviewed": false,
+    "decision": "CONFIRMED_COMPLETE_FINITE495_RELEASE",
+    "expanded_archive_audit_complete": false,
+    "final_core_audit_sha256": "1592402a90e3117772e33258b82254cf7aa7c44eacf3fedcc0dd6f25ffd2db66",
+    "final_core_audit_status": "PASSED_FINITE_DATA_AUDIT",
+    "finite_core_cases": 495,
+    "finite_core_chat_rows": 1980,
+    "finite_core_generation_complete": true,
+    "finite_core_nodes": 165,
+    "finite_release_all_cases": 782,
+    "finite_release_all_chat_rows": 3128,
+    "gpu_used": false,
+    "model_weights_loaded": false,
+    "new_cases": 0,
+    "new_chat_rows": 0,
+    "observed_utc": "2026-10-22T11:58:30.812325+00:00",
+    "original_owner299_signoffs_unchanged": true,
+    "release_files": {
+      "accepted_cases": {
+        "bytes": 4161711,
+        "matches_frozen_release": true,
+        "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\accepted_teacher_cases_polished.jsonl",
+        "rows": 782,
+        "sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02"
+      },
+      "chat_train": {
+        "bytes": 6971304,
+        "matches_frozen_release": true,
+        "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\teacher_chat_train_polished.jsonl",
+        "rows": 3128,
+        "sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded"
+      },
+      "manifest": {
+        "bytes": 565940,
+        "matches_frozen_release": true,
+        "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\polished_export_manifest.jsonl",
+        "rows": 782,
+        "sha256": "a3189d7e6ab9c7960678813437dd25be50522ea40562f3f79df1efff6a69f6d1"
+      }
+    },
+    "release_index_sha256": "cfa444ef18a469999d7272437def57fa8c338a8685110fbd563bc3a213d4f959",
+    "schema": "MathVisionKid.finite_core_release_reverification.v1",
+    "scope_note": "Confirmation covers the already published finite495 release. It does not mark full expanded corpus, SGK extension queues, physical assets or legal2026 coverage complete, and does not select a subset for training.",
+    "sgk_extension_complete": false,
+    "source_rows_changed": false,
+    "training_started": false
+  },
+  "format": "partitioned_gzip_jsonl",
+  "latest_all_data_union_recipe": {
+    "actual_train_only_row_total_verified": false,
+    "chat_members": 32,
+    "current_pedagogy_eval_rows_separate": 48,
+    "declared_candidate_chat_rows": 6502344,
+    "full_archive_audit_complete": false,
+    "historical_split_totals_pending_full_archive_audit": true,
+    "member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "payload_references": 38,
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "source_members": 219
+  },
+  "latest_applied_checkpoint_append": {
+    "checkpoint": {
+      "bytes": 3415044096,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-22T14:12:47.377373+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 1078352
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 1074968,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 221,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 1078352,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 1074968
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 1078352,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "361d9f798e90194f1041cec5aa4ce9c1c09a542b11c50581d1b921a9c467869a"
+    },
+    "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "evidence_member": "resume_after_g2_20261022/verified_runtime_observation.json",
+    "fresh_raw_readback_verified": true,
+    "next_action": "After the current single worker stops, use FullArchiveAudit.extend_recipe on the same existing runtime database. Instantiate next recipe to index its new source before consuming new chat. Preserve all old cursor/member/source/sample/issue rows. Do not reset or create a second checkpoint.",
+    "next_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+    "next_recipe": {
+      "actual_train_only_row_total_verified": false,
+      "chat_members": 32,
+      "current_pedagogy_eval_rows_separate": 48,
+      "declared_candidate_chat_rows": 6502344,
+      "full_archive_audit_complete": false,
+      "historical_split_totals_pending_full_archive_audit": true,
+      "member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+      "payload_references": 38,
+      "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+      "source_members": 219
+    },
+    "old_source_and_chat_prefixes_verified": true,
+    "original_cursors_and_issues_must_be_preserved": true,
+    "previous_identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+    "previous_recipe_sha256": "e4197a8e797a6c4d22b938779b663d0e306536dc8af75a5f81fb3c98f7e1a7a8",
+    "prior_cursor_and_issue_rows_preserved": true,
+    "schema": "MathVisionKid.PendingAppendOnlyAuditMigration.v1",
+    "training_started": false,
+    "transition_performed": true
+  },
+  "latest_cloud_preparation_inventory": {
+    "created_utc": "2026-10-22T10:18:03.607106+00:00",
+    "member": "mcp_prepare_20261022/cloud_preparation_inventory.json",
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "deac8a6bfb25922a3d3eb1ee1af7ef793333055fafa45c81e5dae636aa4b06d5",
+    "verification_scope": "INVENTORY_AND_REFERENCE_CONSISTENCY_ONLY_NOT_FULL_CORPUS_ROW_AUDIT"
+  },
+  "latest_colab_runtime_observation": {
+    "TRAINING_DATASET_READY": false,
+    "batch_adapter_stats": {
+      "batch_prepare_fallbacks": 0,
+      "batches": 1184,
+      "cache_hits": 302048,
+      "cache_key_fallbacks": 0,
+      "max_cache_rows": 256,
+      "max_raw_chars": 453678,
+      "max_rendered_chars": 287726,
+      "row_prepare_fallbacks": 0,
+      "rows_batched": 302048,
+      "single_row_fallbacks": 0,
+      "skipped_resume_lines": 2450000,
+      "stream_error_buffered_rows": 0
+    },
+    "checkpoint": {
+      "bytes": 7083466752,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 4427328
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 4423944,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 224,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 4427328,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 4427328,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+    },
+    "committed_physical_chat_rows": 4427328,
+    "current_issues": {
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+    },
+    "evidence_member": "owner_pause_20261023/owner_pause_observation.json",
+    "evidence_progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "executing_recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+    "full_archive_audit_complete": false,
+    "journal_mode": "wal",
+    "last_verified_checkpoint_unique_chat_rows": 4427328,
+    "live_report": {
+      "TRAINING_DATASET_READY": false,
+      "actual_rows_by_split": {
+        "train": 500000
+      },
+      "all_declared_members_scanned": false,
+      "all_rows_semantically_human_reviewed": false,
+      "candidate_source_train_chat_links": 496872,
+      "derivation_provenance": {
+        "candidate_pool_promoted_to_train": false,
+        "original_source_and_exported_row_hashes_distinct": true,
+        "parent_file": "math_data_full_audit_v2.py",
+        "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+        "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+        "raw_source_rewritten": false,
+        "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+        "source_label_evidence_file": "exhaustive_primary_math.py",
+        "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+        "v1_checkpoint_and_issues_preserved": true,
+        "v2_checkpoint_and_issues_preserved": true
+      },
+      "exact_duplicate_references": 0,
+      "full_archive_token_linkage_split_audit_complete": false,
+      "gpu_used": false,
+      "identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+      "incomplete_four_mode_cases": 0,
+      "issues": {
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      },
+      "max_completion_tokens": 1213,
+      "max_sequence_tokens": 1378,
+      "members_complete": 218,
+      "members_expected": 249,
+      "model_weights_loaded": false,
+      "physical_chat_occurrences_processed": 500000,
+      "schema": "MathVisionKid.full_current_archive_audit.v3",
+      "source_hash_origins": {
+        "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+        "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 496872
+      },
+      "source_labels_indexed": {
+        "regression_only": 1,
+        "test": 6,
+        "train": 1317,
+        "train_candidate": 1628512,
+        "validation": 6
+      },
+      "source_linkage_unverified_rows": 0,
+      "source_versions_indexed": 1629842,
+      "training_started": false,
+      "unique_chat_rows_processed": 500000,
+      "whole_curriculum_certified": false
+    },
+    "live_status_cell": "3vI_dXfrnsz1",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "observed_utc": "2026-10-22T17:28:21.580112+00:00",
+    "pending_next_recipe_identity": null,
+    "performance_upgrade": {
+      "adapter_sha256": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+      "checkpoint_interval_seconds": 1800,
+      "original_auditor_unchanged": true,
+      "source_rows_changed": false,
+      "thread_local_batch_size": 256,
+      "validation_tests": 21
+    },
+    "runtime_status": "PAUSED_BY_OWNER_AT_FRESH_RAW_VERIFIED_CHECKPOINT",
+    "source_versions_indexed": 1629906,
+    "training_started": false,
+    "transport": "OFFICIAL_COLAB_MCP_AUTHORIZED_DRIVE_SESSION",
+    "unique_chat_rows_committed": 4427328,
+    "worker_alive_at_observation": false
+  },
+  "latest_data_only_colab_observation": {
+    "TRAINING_DATASET_READY": false,
+    "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "checkpoint_metadata": {
+      "fresh_raw_verified": false,
+      "metadata": {
+        "created_time": null,
+        "current_user_can_share": null,
+        "display_url": "https://drive.google.com/file/d/16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI/view?usp=drivesdk",
+        "drive_id": null,
+        "file_or_folder": null,
+        "has_augmented_permissions": null,
+        "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+        "mime_type": null,
+        "modified_time": "2026-10-22T04:18:03.804Z",
+        "parent_ids": null,
+        "permissions": null,
+        "shared": null,
+        "size": "2321960960",
+        "source_visibility_status": "access_not_verified",
+        "title": "MathVisionKid_FULL_DATA_AUDIT_V3_06339a42b0a4b8d2.sqlite",
+        "url": "https://drive.google.com/file/d/16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI/view?usp=drivesdk"
+      },
+      "observed_utc": "2026-10-22T09:46:11.264Z",
+      "scope": "DRIVE_METADATA_ONLY_NOT_A_LIVE_WORKER_STATUS_OR_COMPLETE_CHECKPOINT_HASH_CHECK"
+    },
+    "client_reporting_date": "2026-10-22",
+    "full_archive_audit_complete": false,
+    "live_v3_status_cell": "kMrD9lPx_l2W",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "prior_v3_migration_receipt_member": "data_resume_20261022/mcp_evidence/v3_actual_migration_and_primary_complete.json",
+    "runtime_status": {
+      "resume_checkpoint_required": true,
+      "state": "RUNTIME_OR_STATUS_MISSING",
+      "training_started": false
+    },
+    "training_started": false,
+    "transport": "OFFICIAL_GOOGLE_COLAB_MCP",
+    "worker_running_currently_verified": false
+  },
+  "latest_finite_sgk_reconciliation": {
+    "accepted_case_delta": 64,
+    "all_sgk_forms_covered": false,
+    "candidate_constraints_pending": 7,
+    "finite_tasks_pending": 5,
+    "finite_text_tasks_closed": 33,
+    "member": "antigravity_intake_20261022/next_uncovered_tasks.json",
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "cc93642b29667ff2b071db2368c99d8bb5144631da68b88e99a7f9f821633507"
+  },
+  "latest_mcp_runtime_observation": {
+    "checkpoint_fresh_raw_verified_this_run": false,
+    "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "checkpoint_last_observed_bytes": 2321960960,
+    "checkpoint_last_observed_modified_utc": "2026-10-22T04:18:03.804Z",
+    "client_ready": true,
+    "cpu_runtime_execution_verified": false,
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "probe_cell_id": "LHsQvxgpGOCc",
+    "probe_execution_count": null,
+    "probe_outputs": [],
+    "reason": "HOSTED_RUNTIME_CONNECTION_PENDING; MCP notebook edits/readback work but CPU probe did not execute.",
+    "training_started": false,
+    "transport": "OFFICIAL_GOOGLE_COLAB_MCP",
+    "websocket_connected": true,
+    "worker_started_this_run": false
+  },
+  "latest_verified_v3_checkpoint": {
+    "bytes": 7083466752,
+    "fresh_raw_readback_verified": true,
+    "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+    "report_at_snapshot": {
+      "TRAINING_DATASET_READY": false,
+      "actual_rows_by_split": {
+        "train": 4427328
+      },
+      "all_declared_members_scanned": false,
+      "all_rows_semantically_human_reviewed": false,
+      "candidate_source_train_chat_links": 4423944,
+      "derivation_provenance": {
+        "candidate_pool_promoted_to_train": false,
+        "original_source_and_exported_row_hashes_distinct": true,
+        "parent_file": "math_data_full_audit_v2.py",
+        "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+        "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+        "raw_source_rewritten": false,
+        "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+        "source_label_evidence_file": "exhaustive_primary_math.py",
+        "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+        "v1_checkpoint_and_issues_preserved": true,
+        "v2_checkpoint_and_issues_preserved": true
+      },
+      "exact_duplicate_references": 0,
+      "full_archive_token_linkage_split_audit_complete": false,
+      "gpu_used": false,
+      "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+      "incomplete_four_mode_cases": 0,
+      "issues": {
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      },
+      "max_completion_tokens": 1213,
+      "max_sequence_tokens": 1378,
+      "members_complete": 224,
+      "members_expected": 251,
+      "model_weights_loaded": false,
+      "physical_chat_occurrences_processed": 4427328,
+      "schema": "MathVisionKid.full_current_archive_audit.v3",
+      "source_hash_origins": {
+        "ORIGINAL_RAW_HASH_VERIFIED": 256,
+        "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+        "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+      },
+      "source_labels_indexed": {
+        "regression_only": 1,
+        "test": 6,
+        "train": 1381,
+        "train_candidate": 1628512,
+        "validation": 6
+      },
+      "source_linkage_unverified_rows": 0,
+      "source_versions_indexed": 1629906,
+      "training_started": false,
+      "unique_chat_rows_processed": 4427328,
+      "whole_curriculum_certified": false
+    },
+    "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+  },
+  "owner_requested_pause": {
+    "active": true,
+    "checkpoint": {
+      "bytes": 7083466752,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 4427328
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 4423944,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 224,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 4427328,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 4427328,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+    },
+    "do_not_auto_resume": true,
+    "evidence_member": "owner_pause_20261023/owner_pause_receipt.json",
+    "physical_chat_rows_saved": 4427328,
+    "reason": "Owner explicitly requested save, stop, and continue in the next session.",
+    "requested_utc": "2026-10-22T17:17:48.431015+00:00",
+    "resume_requires_new_owner_instruction": true,
+    "unique_chat_rows_saved": 4427328,
+    "verified_utc": "2026-10-22T17:27:44.294077+00:00"
+  },
+  "parts": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 75191056,
+      "chat_rows": 963504,
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 1,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "url": "https://drive.google.com/file/d/1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 70720600,
+      "chat_rows": 900800,
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 2,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "url": "https://drive.google.com/file/d/1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71168825,
+      "chat_rows": 900864,
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 3,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "url": "https://drive.google.com/file/d/1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71573224,
+      "chat_rows": 900880,
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 4,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "url": "https://drive.google.com/file/d/1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75237855,
+      "chat_rows": 970052,
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 5,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "url": "https://drive.google.com/file/d/1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71246149,
+      "chat_rows": 926788,
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 6,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "url": "https://drive.google.com/file/d/1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 39328574,
+      "chat_rows": 511420,
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 7,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "url": "https://drive.google.com/file/d/1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4/view"
+    }
+  ],
+  "pending_checkpoint_append": null,
+  "performance_decision": {
+    "active_adapter": "Frozen two-encoding batch256 adapter",
+    "cheap_delegated_agents": 3,
+    "cheap_delegated_model": "gpt-6-luna",
+    "commit_every_rows": 256,
+    "onepass_optimizer_applied": false,
+    "outer_span_rows": 200000,
+    "query_index_evidence_member": "owner_pause_20261023/sqlite_report_index_evidence.json",
+    "query_indexes_applied": true,
+    "reason": "Bounded tests passed but speed gain did not justify changing the independent encoding comparison.",
+    "root_review_and_repairs_performed": true,
+    "scanner_adapter_files_changed": false
+  },
+  "protection_note": "Known protected arithmetic overlaps retained in full corpus and excluded from new training views. Baseline13numeric exceptions disclosed; no claim of total evaluation independence.",
+  "read_in_order": true,
+  "recommended_training_view": {
+    "TRAINING_DATASET_READY": true,
+    "bundle": {
+      "all_bytes_equal": true,
+      "bytes": 2431367,
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "file_name": "MathVisionKid_BALANCED_COLAB_BUNDLE.zip",
+      "fresh_raw_verified": true,
+      "sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "url": "https://drive.google.com/file/d/1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV/view?usp=drivesdk",
+      "verified_utc": "2026-10-19T03:32:24.692Z"
+    },
+    "historical_diagnostic_subset_only": true,
+    "manifest_member": "balanced_release/MathVisionKid_BALANCED_TRAINING_MANIFEST.json",
+    "train_validation_test_counts": {
+      "test": 40,
+      "train": 4944,
+      "validation": 40
+    },
+    "use_train_split_only_for_future_training": true
+  },
+  "selection": "All valid data requested; every old archive preserved. Full-corpus tokenizer/split audit pending; frozen evaluation/audit members are not silently added to training.",
+  "storage": "Remote only; local new data removed after control verification.",
+  "supplement_bundles": [
+    {
+      "acceptance": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "all_sgk_exercise_forms_audited": false,
+      "books": 10,
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 389896,
+        "file_id": "17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo",
+        "file_name": "MathVisionKid_SGK_GAP_APPEND_20261019_bba05af405a61580.zip",
+        "fresh_raw_verified": true,
+        "sha256": "bba05af405a61580aa2b9e89991d76521b5f7a9bb3b9cebfa1daf056e97dfd1f",
+        "url": "https://drive.google.com/file/d/17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo/view?usp=drivesdk",
+        "verified_utc": "2026-10-19T04:44:33.016Z"
+      },
+      "by_grade": {
+        "1": 28,
+        "2": 4,
+        "3": 20,
+        "4": 20,
+        "5": 29
+      },
+      "cases": 101,
+      "catalog_member": "data/catalog_summary.json",
+      "chat_member": "data/accepted_sgk_chat.jsonl",
+      "chat_rows": 404,
+      "human_manual_attestation_added": false,
+      "numbered_sgk_lessons_registered": 345,
+      "numeric_benchmark_independence_claimed": false,
+      "numeric_overlap_exact_hash_exceptions": 19,
+      "original_core_cases": 495,
+      "pending_queue_member": "data/pending_sgk_exercise_audit.json",
+      "run_id": "sgk_gap_20261019",
+      "source_member": "data/accepted_sgk_cases.jsonl",
+      "token_audit_member": "data/new_chat_token_audit.json"
+    },
+    {
+      "acceptance": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "all_sgk_exercise_forms_audited": false,
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 1196154,
+        "cases": 110,
+        "chat_rows": 440,
+        "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+        "fresh_raw_verified": true,
+        "id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+        "member_count": 181,
+        "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+        "url": "https://drive.google.com/file/d/1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T10:46:39.588Z"
+      },
+      "by_grade": {
+        "1": 21,
+        "3": 9,
+        "4": 68,
+        "5": 12
+      },
+      "cases": 110,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 440,
+      "exact_hash_numeric_exceptions": 13,
+      "human_attestation_added": false,
+      "page_checkpoint_member": "data/release/page_audit_checkpoint.json",
+      "run_id": "sgk_page_audit_20261019",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 4411114,
+        "cases": 94,
+        "chat_rows": 376,
+        "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+        "fresh_raw_verified": true,
+        "id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+        "member_count": 191,
+        "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+        "url": "https://drive.google.com/file/d/1XFLAfwdhaURScQPJjysadiKB1268_joQ/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T11:42:17.702Z"
+      },
+      "by_grade": {
+        "1": 18,
+        "2": 28,
+        "3": 16,
+        "4": 8,
+        "5": 24
+      },
+      "cases": 94,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 376,
+      "discovered_catalog_member": "data/portable_resume/member_catalog_discovered.json",
+      "new_human_attestation": false,
+      "portable_checkpoint_member": "data/portable_resume/portable_checkpoint.json",
+      "run_id": "sgk_finish_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 2374386,
+        "cases": 36,
+        "chat_rows": 144,
+        "file_name": "MathVisionKid_SGK_REMAINING_APPEND_20261020_e9443f67a1baaad3.zip",
+        "fresh_raw_verified": true,
+        "id": "15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD",
+        "member_count": 108,
+        "sha256": "e9443f67a1baaad33f6cb6bbe64a8eb8f8db99cc70c889760377b85ce85d8b23",
+        "url": "https://drive.google.com/file/d/15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T11:57:50.912Z"
+      },
+      "by_grade": {
+        "3": 2,
+        "4": 7,
+        "5": 27
+      },
+      "cases": 36,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 144,
+      "new_human_attestation": false,
+      "run_id": "sgk_remaining_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 496507,
+        "cases": 18,
+        "chat_rows": 72,
+        "file_name": "MathVisionKid_SGK_FINAL_FORMS_APPEND_20261021_867537e0ef05679d.zip",
+        "fresh_raw_verified": true,
+        "id": "1FU1MLP422giB1PiIjR9X8SrV0y37_f5t",
+        "member_count": 71,
+        "sha256": "867537e0ef05679db1967a29acaec785644820093113ffeecc4460c8450bb05f",
+        "url": "https://drive.google.com/file/d/1FU1MLP422giB1PiIjR9X8SrV0y37_f5t/view?usp=drivesdk",
+        "verified_utc": "2026-10-21T05:00:06.013Z"
+      },
+      "by_grade": {
+        "5": 18
+      },
+      "cases": 18,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 72,
+      "new_human_attestation": false,
+      "run_id": "sgk_final_forms_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 1909803,
+        "cases": 36,
+        "chat_rows": 144,
+        "file_name": "MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+        "fresh_raw_verified": true,
+        "id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "member_count": 141,
+        "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_completion_20261021\\MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+        "sha256": "f12edd01177a26e235d8ebd3cd1fb109c4efbf964ef6ccda38b536938677cfe2",
+        "url": "https://drive.google.com/file/d/1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31/view?usp=drivesdk",
+        "verified_utc": "2026-10-21T05:32:24.272Z"
+      },
+      "by_grade": {
+        "1": 6,
+        "3": 6,
+        "4": 10,
+        "5": 14
+      },
+      "cases": 36,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 144,
+      "new_human_attestation": false,
+      "run_id": "sgk_completion_20261021",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 5499839,
+        "cases": 71,
+        "chat_rows": 284,
+        "file_name": "MathVisionKid_SGK_FINAL_GAPS_APPEND_20261021_3b9ea570c28ed38f.zip",
+        "fresh_raw_verified": true,
+        "id": "1nlBxqxREBrQszEJlXer2Yu5JYcYcG_5x",
+        "member_count": 266,
+        "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_final_gaps_20261021\\MathVisionKid_SGK_FINAL_GAPS_APPEND_20261021_3b9ea570c28ed38f.zip",
+        "sha256": "3b9ea570c28ed38f17db653f9ac6167980ffebc5e07fc9dba1614b7cafb1e5f3",
+        "url": "https://drive.google.com/file/d/1nlBxqxREBrQszEJlXer2Yu5JYcYcG_5x/view?usp=drivesdk",
+        "verified_utc": "2026-10-21T10:53:42.197Z"
+      },
+      "by_grade": {
+        "1": 12,
+        "2": 1,
+        "3": 14,
+        "4": 22,
+        "5": 22
+      },
+      "cases": 71,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 284,
+      "new_human_attestation": false,
+      "run_id": "sgk_final_gaps_20261021",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 243886,
+        "cases": 6,
+        "chat_rows": 24,
+        "file_name": "MathVisionKid_G2_FINITE_FORMS_APPEND_20261021_b175c81bf587c4a7.zip",
+        "fresh_raw_verified": true,
+        "id": "1XOiOABccSQZZYul1aWJpXrKBQRuTTuqg",
+        "member_count": 44,
+        "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\g2_finite_forms_20261021\\MathVisionKid_G2_FINITE_FORMS_APPEND_20261021_b175c81bf587c4a7.zip",
+        "sha256": "b175c81bf587c4a7cacecf16c37e2a8185a857ba7528dd8d1b9694c2d4d49448",
+        "url": "https://drive.google.com/file/d/1XOiOABccSQZZYul1aWJpXrKBQRuTTuqg/view?usp=drivesdk",
+        "verified_utc": "2026-10-22T03:21:07.059Z"
+      },
+      "by_grade": {
+        "2": 6
+      },
+      "cases": 6,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 24,
+      "new_human_attestation": false,
+      "run_id": "g2_finite_forms_20261021",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 239047,
+        "file_name": "MathVisionKid_G2_DERIVED_REPAIR_20261022_6322d9828567b845.zip",
+        "fresh_raw_readback_verified": true,
+        "id": "1eor6VUIQ261dUpjGMPGP9gBwsvsBfYBI",
+        "sha256": "6322d9828567b84530b18d4b054ce1c17cce2664d3ae62993fcba975be376db0",
+        "url": "https://drive.google.com/file/d/1eor6VUIQ261dUpjGMPGP9gBwsvsBfYBI/view?usp=drivesdk"
+      },
+      "cases": 64,
+      "chat_member": "accepted_chat.jsonl",
+      "chat_rows": 256,
+      "full_archive_audit_pending": true,
+      "human_manual_attestation_added": false,
+      "numeric_overlap_exact_hash_exceptions": 14,
+      "original53_audit_only": true,
+      "run_id": "antigravity_intake_20261022",
+      "source_member": "accepted_cases.jsonl",
+      "token_audit_member": "root_token_audit.json"
+    }
+  ],
+  "training_started": false
+}

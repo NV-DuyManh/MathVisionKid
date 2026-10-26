@@ -12,6 +12,7 @@ from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, Less
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
 from app.tutoring import video
+from app.tutoring import speech
 
 router = APIRouter()
 
@@ -20,6 +21,15 @@ async def require_internal_key(request: Request):
     provided = request.headers.get("X-Internal-API-Key", "")
     if not provided or not secrets.compare_digest(provided.encode(), settings.internal_api_key.encode()):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
+
+
+@router.post('/speech', dependencies=[Depends(require_internal_key)])
+async def speech_endpoint(request: speech.SpeechRequest):
+    try:
+        return Response(await speech.synthesize(request), media_type='audio/mpeg',
+                        headers={'Cache-Control': 'no-store'})
+    except TutorUnavailable:
+        raise HTTPException(status_code=503, detail='Chưa tạo được lời đọc. Em thử lại hoặc đọc phần chữ nhé.') from None
 
 
 def video_call(function, request):

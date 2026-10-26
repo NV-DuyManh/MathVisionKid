@@ -1,0 +1,139 @@
+{
+  "batch": "finish_g5_mm2_dam2_hm2",
+  "utc": "2026-10-18T14:14:36.466663+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_square_metric_grid",
+      "row_sha256": "995dd0e8956b64de4071568cd4a0cf0fddb84255e2da6a671efa1a939c40783b",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "10*10",
+          "3.6*(10*10)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_dam2_hm2_same_decimal",
+      "row_sha256": "4ffd96c1b0d310694d88502fa220daf2bc86711efb853b7fcc8b0c127bd56419",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "2.4*100",
+          "0.024*10000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_mixed_area_land",
+      "row_sha256": "2daffacea50dc9888e373a80f0bdbe021f70e5cf405b3eaa188a77b33b6e5fe7",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1+35/100",
+          "1*10000+35*100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_area_not_length_factor",
+      "row_sha256": "b71c4490636bc72c5df79aaa250b7040bfce8e0c13b21b318c799e60281565dc",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "5*10*10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_missing_area_unit",
+      "row_sha256": "f5310620d826b0e9759d5f0eb7bc0342ce8d8e01002ad0dafb3cecc9a1f52c46",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_square_metric_grid",
+      "step_id": "s0",
+      "expression": "10*10",
+      "fraction": "100",
+      "decimal": "100",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_square_metric_grid",
+      "step_id": "s1",
+      "expression": "3.6*(10*10)",
+      "fraction": "360",
+      "decimal": "360.0",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_dam2_hm2_same_decimal",
+      "step_id": "s0",
+      "expression": "2.4*100",
+      "fraction": "240",
+      "decimal": "240.0",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_dam2_hm2_same_decimal",
+      "step_id": "s1",
+      "expression": "0.024*10000",
+      "fraction": "240",
+      "decimal": "240.000",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_mixed_area_land",
+      "step_id": "s0",
+      "expression": "1+35/100",
+      "fraction": "27/20",
+      "decimal": "1.35",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_mixed_area_land",
+      "step_id": "s1",
+      "expression": "1*10000+35*100",
+      "fraction": "13500",
+      "decimal": "13500",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_mm2_dam2_hm2_area_not_length_factor",
+      "step_id": "s0",
+      "expression": "5*10*10",
+      "fraction": "500",
+      "decimal": "500",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "official_review_sha256": "f173604021bdd6b7a518ae69b3c7187c76f6dd7b7b90c0f962138fc44584eb49",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

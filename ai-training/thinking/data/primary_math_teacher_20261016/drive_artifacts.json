@@ -1,0 +1,2720 @@
+{
+  "account_identity": {
+    "email": "hoainam29082005@gmail.com",
+    "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+    "name": "Hoai Nam",
+    "profile_id": "103000002357306706048",
+    "verified_current_connector": true
+  },
+  "account_identity_history": [
+    {
+      "email": "duymanhdnvn20092005@gmail.com",
+      "name": "Duy Mạnh",
+      "profile_id": "100868736881483931302",
+      "tool_binding": "single_connected_account_no_link_id"
+    },
+    {
+      "binding": "EXPLICIT_OWNER_SELECTED_ACCOUNT_CONNECTOR_PROFILE_VERIFIED",
+      "email": "hoainam29082005@gmail.com",
+      "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+      "name": "Hoai Nam",
+      "profile_id": "103000002357306706048"
+    },
+    {
+      "binding": "CURRENT_CONNECTOR_REVERIFIED_SAME_FOUR_IDS_HASHES_20261020",
+      "email": "duymanhdnvn20092005@gmail.com",
+      "link_id": "current_connector_runtime",
+      "name": "Duy Mạnh",
+      "profile_id": "100868736881483931302"
+    }
+  ],
+  "artifact_replacement_policy": "Same four existing control IDs; PROGRESS is a small index ZIP, chat_train_id is CHAT_PARTS.json manifest. Fourteen unique payload parts in existing folder; no new folder or duplicate payload.",
+  "balanced_bundle_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+  "chat_train_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+  "chat_train_local_path": null,
+  "cloud_parts": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 40280810,
+      "chat_rows": null,
+      "file_id": "1mVnZRvKOicelMkn6dFCX-dSOuJO8kHLr",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_01_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 1,
+      "sha256": "dcc09edf5c61e5a235eb10f544a53c8c24da2974a57fcdbb530a1466c43cf84a",
+      "url": "https://drive.google.com/file/d/1mVnZRvKOicelMkn6dFCX-dSOuJO8kHLr/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75695710,
+      "chat_rows": null,
+      "file_id": "1pOxE705Ag6e_TAokHZ-l4LLsI0EMr0YG",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_02_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 2,
+      "sha256": "d900577f8d451246b71fe130319b27048a1c8be46eba6ab25f09fa5747c38b8c",
+      "url": "https://drive.google.com/file/d/1pOxE705Ag6e_TAokHZ-l4LLsI0EMr0YG/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 74624227,
+      "chat_rows": null,
+      "file_id": "1Gktq05M6XzRjZfg1GRHRIr-Z9GtOp7i2",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_03_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 3,
+      "sha256": "20c0c17afac874ab9890d936cbbd3f078612b239f15a18cce6aa3b3c81ed56a1",
+      "url": "https://drive.google.com/file/d/1Gktq05M6XzRjZfg1GRHRIr-Z9GtOp7i2/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 73816249,
+      "chat_rows": null,
+      "file_id": "1BSGrs-IMa9i7TCvrwJydl02rHrkWNQDi",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_04_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 4,
+      "sha256": "9d2fd8126f4771348207962b229d58b10586523d53e0a955a3f3978bae2c004f",
+      "url": "https://drive.google.com/file/d/1BSGrs-IMa9i7TCvrwJydl02rHrkWNQDi/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 76862596,
+      "chat_rows": null,
+      "file_id": "1glUJCoMPx3dp_PiDfZZd17I2tKCbS4fJ",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_05_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 5,
+      "sha256": "748d6eff9d8614e369c1645e074fde3f8cfdf93068d4a219195d34f4e5248d50",
+      "url": "https://drive.google.com/file/d/1glUJCoMPx3dp_PiDfZZd17I2tKCbS4fJ/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 72805289,
+      "chat_rows": null,
+      "file_id": "12IKlbyJn79pcGWE8PGjkR8ph0y7SCq7-",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_06_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 6,
+      "sha256": "1ee9e1af6a95438d8b9bc501717f1c804eb5d63828e42017d810ef4b7b5526ac",
+      "url": "https://drive.google.com/file/d/12IKlbyJn79pcGWE8PGjkR8ph0y7SCq7-/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 66182244,
+      "chat_rows": null,
+      "file_id": "1xGxZFqD8tgUjDO8tZpMLWWk-ZTnNANwV",
+      "file_name": "MathVisionKid_FULL_CORPUS_part_07_of_07.zip",
+      "kind": "corpus_zip",
+      "part": 7,
+      "sha256": "e1d95aa91363c51dcfcdd4e49e186e5c9281185bc7328bb4c2508d9856e7aef9",
+      "url": "https://drive.google.com/file/d/1xGxZFqD8tgUjDO8tZpMLWWk-ZTnNANwV/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75191056,
+      "chat_rows": 963504,
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 1,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "url": "https://drive.google.com/file/d/1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 70720600,
+      "chat_rows": 900800,
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 2,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "url": "https://drive.google.com/file/d/1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71168825,
+      "chat_rows": 900864,
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 3,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "url": "https://drive.google.com/file/d/1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71573224,
+      "chat_rows": 900880,
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 4,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "url": "https://drive.google.com/file/d/1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75237855,
+      "chat_rows": 970052,
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 5,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "url": "https://drive.google.com/file/d/1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71246149,
+      "chat_rows": 926788,
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 6,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "url": "https://drive.google.com/file/d/1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 39328574,
+      "chat_rows": 511420,
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 7,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "url": "https://drive.google.com/file/d/1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4/view"
+    }
+  ],
+  "cloud_reference": "thinking/exhaustive_cloud_reference.json",
+  "connection_binding_verified_utc": "2026-10-21T10:53:52.627320+00:00",
+  "connection_recovery_rule": "Before Drive calls in a fresh tool runtime, use currently advertised link_id for this same profile, confirm profile + existingartifactmetadata, update registry if binding differs. Never repeatedly retry stale runtime/tool bindings; never switch accounts or create replacement artifactIDs.",
+  "context_file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+  "current_tool_binding": "Multi-account connector: use chosen Hoai Nam profile. Reinspect link_id on reconnect.",
+  "data_only_colab_notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "extension_shard_ids": [
+    "1dRRtUxhlqKCC8FgjW7WYVa-ikaLye2uI",
+    "1Wsw5maFoimhoASyP_Xo2UmXgBTQJewRj",
+    "1EJ0MYKgRhCrwcs929fNHWmfcACw2MaLE",
+    "1KYT-pYFvUcv8VVA1adQVX6-_f-tVm7fY",
+    "1Ic8WkXN8CyKEITRSrZ_tHqbj0auLAeNa",
+    "1UV75k8jhHS4KE33zmQ_o9RYmBqjIm0mU",
+    "13Aq_U7o-WJARywrpeBggdJ4OdphWvHEe",
+    "1kiF6NsuItp2vhBeQErAQ3oAeENfKT1ik",
+    "1sdK2hdrIdZD1Onbc2VkEE4c19stk_SYb",
+    "1cUH20LmSvDh9jlsOyV-7hXHEj85BHZxF",
+    "1_MMP-ph0kfHJg2xkjKFkVUocIRa-6wRe",
+    "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+    "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+    "1PqHaAIm8qeOfmeA4kNzY6BHSGtOQ2JIv"
+  ],
+  "external_data_authoring_handoff": {
+    "accepted_repaired_and_new_rows": 64,
+    "blanket_original_acceptance_claim_replaced_by_hash_bound_review": true,
+    "external_agents_running_reported_by_owner": true,
+    "external_agents_running_verified": false,
+    "external_results_received": true,
+    "global_control_writes_reserved_to_codex": true,
+    "id": "15gExlfFt7QM2tBcnY8vAwZd3Rn3RAzB-",
+    "original_53_rows_audit_only": true,
+    "original_intake_drive_id": "1Ji6l7rg-lpg81ddq3JG4gUeIDyOOGLYM",
+    "prompt_prepared": true,
+    "report_origin": "OWNER_DIRECT_MESSAGE_ANTIGRAVITY_DANG_CHAY",
+    "scope": "FINITE_SGK_CONTENT_AUTHORING_AND_QA_SEPARATE_FROM_CODEX_ARCHIVE_AUDIT",
+    "sha256": "84b8e2d7e2f62eda72e532f63eeadf17bf890d28ba37073da24f063eb350053e"
+  },
+  "final_release_index": "thinking/data/primary_math_teacher_20261016/final_release_index.json",
+  "folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "historical_account_identity": "Hoai Nam / Cá nhân / profile103000002357306706048 / hoainam29082005@gmail.com; re-grounded current tools by successful profile and existingfilemetadata",
+  "latest_antigravity_g2_repair": {
+    "TRAINING_DATASET_READY": false,
+    "bundle": {
+      "all_bytes_equal": true,
+      "bytes": 239047,
+      "file_name": "MathVisionKid_G2_DERIVED_REPAIR_20261022_6322d9828567b845.zip",
+      "fresh_raw_readback_verified": true,
+      "id": "1eor6VUIQ261dUpjGMPGP9gBwsvsBfYBI",
+      "sha256": "6322d9828567b84530b18d4b054ce1c17cce2664d3ae62993fcba975be376db0",
+      "url": "https://drive.google.com/file/d/1eor6VUIQ261dUpjGMPGP9gBwsvsBfYBI/view?usp=drivesdk"
+    },
+    "controls": {
+      "chat": {
+        "all_bytes_equal": true,
+        "bytes": 41005,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "337b03156d52c48f812abe3513dab2dea19240b487e7727aa9c3aa2c50109c06"
+      },
+      "context": {
+        "all_bytes_equal": true,
+        "bytes": 792010,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "cb56fb2a605a29aacabdac59d6adb3e182e25d3c2521144ab7cb72e5022caf9e"
+      },
+      "progress": {
+        "all_bytes_equal": true,
+        "bytes": 15082343,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "388ba9367d630a8933fba377c199c3314b57db95fa3a3a3ac3699ea2ca0fc3a7"
+      },
+      "state": {
+        "all_bytes_equal": true,
+        "bytes": 325701,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "ee90165e838cff3e976ed05d881ef1a78b547e7f38226e2c6a224dba599805d3"
+      }
+    },
+    "new_case_count": 64,
+    "new_chat_count": 256,
+    "old_progress_members_preserved": true,
+    "state_written_last": true,
+    "training_started": false
+  },
+  "latest_audit_finish_phase": {
+    "TRAINING_DATASET_READY": false,
+    "controls": {
+      "chat": {
+        "bytes": 34753,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "6ad7ce332f8bc5216ff788fbdeeefea6787c01bd4260d0462a7a1b0144509d3a",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "context": {
+        "bytes": 788326,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "692eb164552d63a30922437bcc602467047960d6d35f087a3cb434e1047fdf3f",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "progress": {
+        "bytes": 14385786,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "c62944c2dfed8b22fdd6819ae798a3eaed777c2505a7b88e5182863e1cd4115d",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "state": {
+        "bytes": 298928,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "62d2452bf5017ca1849044f63db75e79af2ffdc7faf5eec693b0faccafa46ade",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      }
+    },
+    "evidence_member": "audit_finish_20261022/runtime_observed.json",
+    "evidence_progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "notebook": {
+      "bytes": 313528,
+      "cell_count": 29,
+      "fresh_raw_verified": true,
+      "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+      "original_first15_sources_preserved": true,
+      "publication_helper_source_preserved_in_progress": true,
+      "sha256": "72fb246fb77ca7560faa38da4e495d85a9b25cc5ad8a1a75878b27ffae655dd8",
+      "source_save_point": "OBSERVED_CELLS_0_TO_28",
+      "training_started": false
+    },
+    "training_started": false
+  },
+  "latest_checkpoint_progress": [
+    {
+      "bytes": 16077326,
+      "fresh_raw_readback_verified": true,
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "kind": "progress",
+      "observed_utc": "2026-10-23T04:00:12.718Z",
+      "sha256": "8d8405ae61a65a43fff3593fb78e6c72198f98596a47b6384c1205f3cd726699"
+    },
+    {
+      "bytes": 93166,
+      "fresh_raw_readback_verified": true,
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "kind": "chat",
+      "observed_utc": "2026-10-23T04:00:12.854Z",
+      "sha256": "0197fcc33f6cc1cd1d347ca672b66417268739992e54941cbe22994dcb7c87aa"
+    },
+    {
+      "bytes": 809073,
+      "fresh_raw_readback_verified": true,
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "kind": "context",
+      "observed_utc": "2026-10-23T04:00:12.991Z",
+      "sha256": "ca0cdf45025875c61d1278ab984124d5db644ec84f27618099be9d9f468349b1"
+    },
+    {
+      "bytes": 396476,
+      "fresh_raw_readback_verified": true,
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "kind": "state",
+      "observed_utc": "2026-10-23T04:01:06.833Z",
+      "sha256": "6d79bb7d65eb80c25cb112b5c0d4e62af7f8a7a852909a2ce9f890f9fdde7b08"
+    }
+  ],
+  "latest_colab_runtime_observation": {
+    "TRAINING_DATASET_READY": false,
+    "batch_adapter_stats": {
+      "batch_prepare_fallbacks": 0,
+      "batches": 1184,
+      "cache_hits": 302048,
+      "cache_key_fallbacks": 0,
+      "max_cache_rows": 256,
+      "max_raw_chars": 453678,
+      "max_rendered_chars": 287726,
+      "row_prepare_fallbacks": 0,
+      "rows_batched": 302048,
+      "single_row_fallbacks": 0,
+      "skipped_resume_lines": 2450000,
+      "stream_error_buffered_rows": 0
+    },
+    "checkpoint": {
+      "bytes": 7083466752,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 4427328
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 4423944,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 224,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 4427328,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 4427328,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+    },
+    "committed_physical_chat_rows": 4427328,
+    "current_issues": {
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+    },
+    "evidence_member": "owner_pause_20261023/owner_pause_observation.json",
+    "evidence_progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "executing_recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+    "full_archive_audit_complete": false,
+    "journal_mode": "wal",
+    "last_verified_checkpoint_unique_chat_rows": 4427328,
+    "live_report": {
+      "TRAINING_DATASET_READY": false,
+      "actual_rows_by_split": {
+        "train": 500000
+      },
+      "all_declared_members_scanned": false,
+      "all_rows_semantically_human_reviewed": false,
+      "candidate_source_train_chat_links": 496872,
+      "derivation_provenance": {
+        "candidate_pool_promoted_to_train": false,
+        "original_source_and_exported_row_hashes_distinct": true,
+        "parent_file": "math_data_full_audit_v2.py",
+        "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+        "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+        "raw_source_rewritten": false,
+        "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+        "source_label_evidence_file": "exhaustive_primary_math.py",
+        "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+        "v1_checkpoint_and_issues_preserved": true,
+        "v2_checkpoint_and_issues_preserved": true
+      },
+      "exact_duplicate_references": 0,
+      "full_archive_token_linkage_split_audit_complete": false,
+      "gpu_used": false,
+      "identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+      "incomplete_four_mode_cases": 0,
+      "issues": {
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      },
+      "max_completion_tokens": 1213,
+      "max_sequence_tokens": 1378,
+      "members_complete": 218,
+      "members_expected": 249,
+      "model_weights_loaded": false,
+      "physical_chat_occurrences_processed": 500000,
+      "schema": "MathVisionKid.full_current_archive_audit.v3",
+      "source_hash_origins": {
+        "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+        "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 496872
+      },
+      "source_labels_indexed": {
+        "regression_only": 1,
+        "test": 6,
+        "train": 1317,
+        "train_candidate": 1628512,
+        "validation": 6
+      },
+      "source_linkage_unverified_rows": 0,
+      "source_versions_indexed": 1629842,
+      "training_started": false,
+      "unique_chat_rows_processed": 500000,
+      "whole_curriculum_certified": false
+    },
+    "live_status_cell": "3vI_dXfrnsz1",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "observed_utc": "2026-10-22T17:28:21.580112+00:00",
+    "pending_next_recipe_identity": null,
+    "performance_upgrade": {
+      "adapter_sha256": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+      "checkpoint_interval_seconds": 1800,
+      "original_auditor_unchanged": true,
+      "source_rows_changed": false,
+      "thread_local_batch_size": 256,
+      "validation_tests": 21
+    },
+    "runtime_status": "PAUSED_BY_OWNER_AT_FRESH_RAW_VERIFIED_CHECKPOINT",
+    "source_versions_indexed": 1629906,
+    "training_started": false,
+    "transport": "OFFICIAL_COLAB_MCP_AUTHORIZED_DRIVE_SESSION",
+    "unique_chat_rows_committed": 4427328,
+    "worker_alive_at_observation": false
+  },
+  "latest_continued_archive_check": {
+    "committed_physical_chat_rows_at_observation": 2696304,
+    "controls": {
+      "chat": {
+        "all_bytes_equal": true,
+        "bytes": 47148,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "3aa52f82843527d4cb1a6205159093a08b0ae3fe07893a1cd3f894bc4113d512",
+        "verified_utc": "2026-10-22T15:44:32.024Z"
+      },
+      "context": {
+        "all_bytes_equal": true,
+        "bytes": 797449,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "ff22b64cdd297ccc0f8fcac075022c68427fa3bbcb4f431356c81400af3801f6",
+        "verified_utc": "2026-10-22T15:44:40.145Z"
+      },
+      "progress": {
+        "all_bytes_equal": true,
+        "bytes": 15355263,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "a3de9f2c391dd9e1282aed7175a6f3717736fd49e8174594e3c380446cb1ae44",
+        "verified_utc": "2026-10-22T15:44:26.734Z"
+      },
+      "state": {
+        "all_bytes_equal": true,
+        "bytes": 343871,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "29d5de2f9792a3ae4c5c58324eb73c56b97cdd6e67b7dc0ed45c1649e7bcbf07",
+        "verified_utc": "2026-10-22T15:44:47.371Z"
+      }
+    },
+    "final_metadata_check": {
+      "new_cases": 0,
+      "new_chat_rows": 0,
+      "recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+      "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+      "registered_utc": "2026-10-22T15:37:20.567375+00:00",
+      "state": "WAITING_FOR_EXISTING_FULL_SCAN",
+      "training_started": false
+    },
+    "notebook": {
+      "all_bytes_equal": true,
+      "bytes": 577797,
+      "cell_count": 44,
+      "fresh_raw_readback_verified": true,
+      "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+      "parent34cell_sources_preserved": true,
+      "parent_raw_bytes": 332345,
+      "parent_raw_sha256": "342a8f73ffe9ea43c5f2198f4241bba109183e9acc2daf987d09fe2e4b9ff7e5",
+      "sha256": "56e8e20e68fb0bb06f1f0e63ebd321264a0c12a4ab8a08f985727e03e5341ad8",
+      "verified_utc": "2026-10-22T15:40:47.938Z"
+    },
+    "observed_runtime": "2026-10-22T15:41:58.880425+00:00",
+    "onepass_optimizer_applied": false,
+    "recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+    "source_versions_indexed": 1629906,
+    "training_started": false
+  },
+  "latest_data_only_mcp_observation": {
+    "TRAINING_DATASET_READY": false,
+    "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "checkpoint_metadata": {
+      "fresh_raw_verified": false,
+      "metadata": {
+        "created_time": null,
+        "current_user_can_share": null,
+        "display_url": "https://drive.google.com/file/d/16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI/view?usp=drivesdk",
+        "drive_id": null,
+        "file_or_folder": null,
+        "has_augmented_permissions": null,
+        "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+        "mime_type": null,
+        "modified_time": "2026-10-22T04:18:03.804Z",
+        "parent_ids": null,
+        "permissions": null,
+        "shared": null,
+        "size": "2321960960",
+        "source_visibility_status": "access_not_verified",
+        "title": "MathVisionKid_FULL_DATA_AUDIT_V3_06339a42b0a4b8d2.sqlite",
+        "url": "https://drive.google.com/file/d/16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI/view?usp=drivesdk"
+      },
+      "observed_utc": "2026-10-22T09:46:11.264Z",
+      "scope": "DRIVE_METADATA_ONLY_NOT_A_LIVE_WORKER_STATUS_OR_COMPLETE_CHECKPOINT_HASH_CHECK"
+    },
+    "client_reporting_date": "2026-10-22",
+    "full_archive_audit_complete": false,
+    "live_v3_status_cell": "kMrD9lPx_l2W",
+    "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "prior_v3_migration_receipt_member": "data_resume_20261022/mcp_evidence/v3_actual_migration_and_primary_complete.json",
+    "runtime_status": {
+      "resume_checkpoint_required": true,
+      "state": "RUNTIME_OR_STATUS_MISSING",
+      "training_started": false
+    },
+    "training_started": false,
+    "transport": "OFFICIAL_GOOGLE_COLAB_MCP",
+    "worker_running_currently_verified": false
+  },
+  "latest_data_only_notebook": {
+    "all_bytes_equal": true,
+    "bytes": 624257,
+    "cell_count": 50,
+    "fresh_raw_readback_verified": true,
+    "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+    "owner_pause_code_and_verified_output_saved": true,
+    "parent34cell_sources_preserved": true,
+    "parent_notebook_full_bytes_preserved": true,
+    "sha256": "3f4345d043994c7e71240121f49e5bc7bc45e431ddbc25befe0da1dbc53ade1d",
+    "verified_utc": "2026-10-22T17:29:11.375Z"
+  },
+  "latest_finite_core_confirmation": {
+    "controls": {
+      "chat": {
+        "bytes": 37045,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "aa12ec65ee6066a5d13ff3333b6b0ce7656f23ddf08275b17b4e65fbcf87d76e",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "context": {
+        "bytes": 789437,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "305e295448ef540de1418e177a0250c358b4921bfc449c55d1333bf38d9eaecf",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "progress": {
+        "bytes": 14694188,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "66fde0fdaa0a505f49e3b67cddd9a2e9cbb9c7fea555bfc7007c2ed22cbbe505",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      },
+      "state": {
+        "bytes": 307812,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "24ff3f6604f9f437b2b59ebcfb79812480b04d5fc17ab410d6335c6978337820",
+        "transport": "AUTHORIZED_COLAB_MCP_DRIVE_API_FALLBACK"
+      }
+    },
+    "finite_core_cases": 495,
+    "finite_core_confirmed_complete": true,
+    "finite_core_nodes": 165,
+    "full_expanded_dataset_complete": false,
+    "observed_utc": "2026-10-22T11:59:50.575070+00:00",
+    "state_written_last": true,
+    "training_started": false,
+    "unique_chat_rows_committed": 501792
+  },
+  "latest_finite_g2_append": {
+    "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+    "bundle": {
+      "all_bytes_equal": true,
+      "bytes": 243886,
+      "cases": 6,
+      "chat_rows": 24,
+      "file_name": "MathVisionKid_G2_FINITE_FORMS_APPEND_20261021_b175c81bf587c4a7.zip",
+      "fresh_raw_verified": true,
+      "id": "1XOiOABccSQZZYul1aWJpXrKBQRuTTuqg",
+      "member_count": 44,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\g2_finite_forms_20261021\\MathVisionKid_G2_FINITE_FORMS_APPEND_20261021_b175c81bf587c4a7.zip",
+      "sha256": "b175c81bf587c4a7cacecf16c37e2a8185a857ba7528dd8d1b9694c2d4d49448",
+      "url": "https://drive.google.com/file/d/1XOiOABccSQZZYul1aWJpXrKBQRuTTuqg/view?usp=drivesdk",
+      "verified_utc": "2026-10-22T03:21:07.059Z"
+    },
+    "by_grade": {
+      "2": 6
+    },
+    "cases": 6,
+    "chat_member": "data/release/accepted_chat.jsonl",
+    "chat_rows": 24,
+    "new_human_attestation": false,
+    "run_id": "g2_finite_forms_20261021",
+    "source_member": "data/release/accepted_cases.jsonl",
+    "token_audit_member": "data/release/token_audit.json",
+    "training_started": false
+  },
+  "latest_owner_pause": {
+    "active": true,
+    "checkpoint": {
+      "bytes": 7083466752,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 4427328
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 4423944,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 224,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 4427328,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 4427328,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+    },
+    "controls": {
+      "chat": {
+        "all_bytes_equal": true,
+        "bytes": 50411,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "3fc35f8aa203292a94953afd4558d054b692c3a7ae46b62449b8b25bcc8397f8",
+        "verified_utc": "2026-10-22T17:30:18.302Z"
+      },
+      "context": {
+        "all_bytes_equal": true,
+        "bytes": 799861,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "99f5f02b630dd9d6d5622c17bae3fdff114343e00af7987ce892856ea136cf86",
+        "verified_utc": "2026-10-22T17:30:28.539Z"
+      },
+      "progress": {
+        "all_bytes_equal": true,
+        "bytes": 15736326,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "d9a12f3204749f86b8038fb816c3deaf668e9df934535de4a9d48515d1dd9855",
+        "verified_utc": "2026-10-22T17:30:13.132Z"
+      },
+      "state": {
+        "all_bytes_equal": true,
+        "bytes": 354080,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "c731223ac0a1278fddc2054f05cb7fe1d4d2b5b1bad7049d3348e5f6fd414092",
+        "verified_utc": "2026-10-22T17:30:34.440Z"
+      }
+    },
+    "notebook": {
+      "all_bytes_equal": true,
+      "bytes": 624257,
+      "cell_count": 50,
+      "fresh_raw_readback_verified": true,
+      "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+      "owner_pause_code_and_verified_output_saved": true,
+      "parent34cell_sources_preserved": true,
+      "parent_notebook_full_bytes_preserved": true,
+      "sha256": "3f4345d043994c7e71240121f49e5bc7bc45e431ddbc25befe0da1dbc53ade1d",
+      "verified_utc": "2026-10-22T17:29:11.375Z"
+    },
+    "resume_requires_owner_instruction": true,
+    "saved_chat_rows": 4427328,
+    "training_started": false,
+    "worker_stopped": true
+  },
+  "latest_owner_resume": {
+    "controls": [
+      {
+        "bytes": 16013487,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "kind": "progress",
+        "sha256": "9dbb89f2c14d0195793896ed10cfc92555dfe60471c6cddb79460a70d4867ab6"
+      },
+      {
+        "bytes": 62454,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "kind": "chat",
+        "sha256": "c112514dca3b377d014aaa46e060d7e28b24456306dff53afbcbc444afa0562c"
+      },
+      {
+        "bytes": 802793,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "kind": "context",
+        "sha256": "6022fcc0badb0b02423e7399b7effd078d24281ba08310d3e1488952c8bbffaf"
+      },
+      {
+        "bytes": 365752,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "kind": "state",
+        "sha256": "347339ba04db9536d42f690573638c8d8fb93c83b1d09e8ee6cdec4057b77be2"
+      }
+    ],
+    "notebook": {
+      "all50_parent_sources_preserved": true,
+      "bytes": 802500,
+      "cells": 55,
+      "fresh_raw_readback_verified": true,
+      "id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+      "sha256": "90704cc4b0ab7ca557a98dd60ddb6c644f935ee7a7ecc89db2d84e2cf47bb3df"
+    },
+    "observed_utc": "2026-10-23T01:48:27.316482+00:00",
+    "runtime_observation": {
+      "chat_members_complete": 5,
+      "checkpoint": {
+        "bytes": 7083466752,
+        "fresh_raw_readback_verified": true,
+        "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+        "observed_utc": "2026-10-22T17:26:50.281263+00:00",
+        "report_at_snapshot": {
+          "TRAINING_DATASET_READY": false,
+          "actual_rows_by_split": {
+            "train": 4427328
+          },
+          "all_declared_members_scanned": false,
+          "all_rows_semantically_human_reviewed": false,
+          "candidate_source_train_chat_links": 4423944,
+          "derivation_provenance": {
+            "candidate_pool_promoted_to_train": false,
+            "original_source_and_exported_row_hashes_distinct": true,
+            "parent_file": "math_data_full_audit_v2.py",
+            "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+            "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+            "raw_source_rewritten": false,
+            "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+            "source_label_evidence_file": "exhaustive_primary_math.py",
+            "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+            "v1_checkpoint_and_issues_preserved": true,
+            "v2_checkpoint_and_issues_preserved": true
+          },
+          "exact_duplicate_references": 0,
+          "full_archive_token_linkage_split_audit_complete": false,
+          "gpu_used": false,
+          "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+          "incomplete_four_mode_cases": 0,
+          "issues": {
+            "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+          },
+          "max_completion_tokens": 1213,
+          "max_sequence_tokens": 1378,
+          "members_complete": 224,
+          "members_expected": 251,
+          "model_weights_loaded": false,
+          "physical_chat_occurrences_processed": 4427328,
+          "schema": "MathVisionKid.full_current_archive_audit.v3",
+          "source_hash_origins": {
+            "ORIGINAL_RAW_HASH_VERIFIED": 256,
+            "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+            "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+          },
+          "source_labels_indexed": {
+            "regression_only": 1,
+            "test": 6,
+            "train": 1381,
+            "train_candidate": 1628512,
+            "validation": 6
+          },
+          "source_linkage_unverified_rows": 0,
+          "source_versions_indexed": 1629906,
+          "training_started": false,
+          "unique_chat_rows_processed": 4427328,
+          "whole_curriculum_certified": false
+        },
+        "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648"
+      },
+      "checkpoint_prefetch": {
+        "bytes": 7083466752,
+        "checkpoint_mutated": false,
+        "seconds": 35.48479639099992,
+        "sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648",
+        "state": "RUNTIME_SNAPSHOT_HASH_REVERIFIED_READONLY",
+        "training_started": false
+      },
+      "committed_physical_chat_rows": 4428352,
+      "expected_raw_chat_rows": 6502392,
+      "final_metadata_alive": true,
+      "final_metadata_status": {
+        "new_cases": 0,
+        "new_chat_rows": 0,
+        "recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+        "registered_utc": "2026-10-23T01:46:39.878036+00:00",
+        "state": "WAITING_FOR_EXISTING_FULL_SCAN",
+        "training_started": false
+      },
+      "gpu_used": false,
+      "model_weights_loaded": false,
+      "observed_utc": "2026-10-23T01:47:58.413536+00:00",
+      "report": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 4427328
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 4423944,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 224,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 4427328,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 4423944
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 4427328,
+        "whole_curriculum_certified": false
+      },
+      "restore_alive": false,
+      "restore_status": {
+        "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+        "completed_utc": "2026-10-23T01:44:44.157407+00:00",
+        "downloaded_bytes": 7083466752,
+        "expected_bytes": 7083466752,
+        "expected_sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648",
+        "gpu_used": false,
+        "model_weights_loaded": false,
+        "new_cases": 0,
+        "new_chats": 0,
+        "owner_resume_instruction": "tiếp tục",
+        "prior_restore_exit_preserved": {
+          "error": "",
+          "error_type": "AssertionError",
+          "reason": "Incorrect materialized cursor count assumption: actual225 of251 declared members, exact saved cursor digest matches",
+          "state": "RESTORE_STOPPED_WITH_EVIDENCE"
+        },
+        "registered_utc": "2026-10-23T01:27:13.084892+00:00",
+        "restore_receipt": {
+          "audit_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+          "checkpoint_bytes": 7083466752,
+          "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+          "checkpoint_mutated": false,
+          "checkpoint_sha256": "3c7cb05061c0040812111a6bb73a0709cc59a244493dc135a3b95aa389bf0648",
+          "fresh_raw_readback_verified": true,
+          "member_cursors_sha256": "7b164f0f65c91c220d91509b4db819b98e25aca523a1ca21094c696832d4f3fc",
+          "members_complete": 224,
+          "members_expected": 251,
+          "observed_utc": "2026-10-23T01:44:18.721729+00:00",
+          "physical_chat_occurrences_processed": 4427328,
+          "prior_issues_preserved": true,
+          "query_indexes_preserved": true,
+          "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+          "remote_metadata_unchanged_during_restore": true,
+          "source_versions_indexed": 1629906,
+          "state": "EXISTING_V3_CHECKPOINT_RAW_VERIFIED_READONLY",
+          "training_started": false,
+          "unique_chat_rows_processed": 4427328
+        },
+        "resumed_utc": "2026-10-23T01:46:15.165432+00:00",
+        "state": "EXACT_CHECKPOINT_RESUMED_SINGLE_CPU_WORKER",
+        "tokenizer_pin_recovery": {
+          "gate_unchanged": true,
+          "method": "Reload actual immutable local HF snapshot directory whose basename equals pinned revision",
+          "reason": "Remote-name tokenizer lacked _commit_hash metadata under current installed transformers; frozen adapter correctly refused it before any row processing",
+          "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+          "weights_loaded": false
+        },
+        "training_started": false,
+        "worker_alive": true
+      },
+      "runtime_cpu_seconds": {
+        "system": 73.231157,
+        "user": 129.0265
+      },
+      "runtime_io": {
+        "cancelled_write_bytes": 12210176,
+        "rchar": 45098105200,
+        "read_bytes": 7455809536,
+        "syscr": 9421575,
+        "syscw": 20299,
+        "wchar": 7403895493,
+        "write_bytes": 7424385024
+      },
+      "training_started": false,
+      "unique_chat_rows_processed": 4428352,
+      "worker_alive": true,
+      "worker_error": null,
+      "worker_state": "RUNNING_DATA_ONLY"
+    },
+    "training_started": false
+  },
+  "latest_resumed_g2_checkpoint_phase": {
+    "TRAINING_DATASET_READY": false,
+    "append_transition_completed": true,
+    "checkpoint_id_unchanged": true,
+    "controls": {
+      "chat": {
+        "all_bytes_equal": true,
+        "bytes": 45691,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "sha256": "be7723074378308a05beb2191ae323d385dce0ed69baeb6b0bbfdf36a3b29ea0"
+      },
+      "context": {
+        "all_bytes_equal": true,
+        "bytes": 794768,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "sha256": "51f134b1884a49f19448beb7c59646da15427b1e83f6dec1aa173bf77317954c"
+      },
+      "progress": {
+        "all_bytes_equal": true,
+        "bytes": 15199602,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "sha256": "8c9bb566222088e5a91b17dd37a647b7ad5926b4838ef10394e76f349000c910"
+      },
+      "state": {
+        "all_bytes_equal": true,
+        "bytes": 335028,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "sha256": "d46c3c9a878a638f8ff9fa51f7ff8f83d5525020cbeac5256bdb3be59e3c4d00"
+      }
+    },
+    "new_case_count": 0,
+    "new_chat_count": 0,
+    "old_progress_members_preserved": true,
+    "state_written_last": true,
+    "training_started": false
+  },
+  "latest_verified_v3_checkpoint": {
+    "bytes": 9129140224,
+    "fresh_raw_readback_verified": true,
+    "id": "1scVuXcjUz1EwMykVJ_F36IMfUlsfSVWH",
+    "observed_utc": "2026-10-23T06:10:41.041462+00:00",
+    "report_at_snapshot": {
+      "TRAINING_DATASET_READY": false,
+      "actual_rows_by_split": {
+        "test": 24,
+        "train": 6502344,
+        "validation": 24
+      },
+      "all_declared_members_scanned": true,
+      "all_rows_semantically_human_reviewed": false,
+      "candidate_source_train_chat_links": 6496820,
+      "derivation_provenance": {
+        "candidate_pool_promoted_to_train": false,
+        "frozen_v3_parent_sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+        "original_source_and_exported_row_hashes_distinct": true,
+        "parent_file": "math_data_full_audit_v2.py",
+        "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+        "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+        "raw_source_rewritten": false,
+        "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+        "source_label_evidence_file": "exhaustive_primary_math.py",
+        "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+        "structural15_bindings_sha256": "95d9fbf8536b908a6456256d8ff04175e8bd017cd34a406e190513844d316e87",
+        "structural15_exact_adapter_code_sha256": "a4c80b48779f2a075db1cdb41091d7affaba9b3eccd7bbee15551188de26fbaf",
+        "v1_checkpoint_and_issues_preserved": true,
+        "v2_checkpoint_and_issues_preserved": true
+      },
+      "exact_duplicate_references": 0,
+      "full_archive_token_linkage_split_audit_complete": false,
+      "gpu_used": false,
+      "identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+      "incomplete_four_mode_cases": 0,
+      "issues": {
+        "CROSS_SPLIT_CANONICAL": 36,
+        "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+      },
+      "max_completion_tokens": 1367,
+      "max_sequence_tokens": 1481,
+      "members_complete": 251,
+      "members_expected": 251,
+      "model_weights_loaded": false,
+      "physical_chat_occurrences_processed": 6502392,
+      "schema": "MathVisionKid.full_current_archive_audit.v3",
+      "source_hash_origins": {
+        "ORIGINAL_RAW_HASH_VERIFIED": 2384,
+        "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+        "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 6496820,
+        "STRUCTURAL15_RAW_CANONICAL_AND_CHAT_HASH_VERIFIED": 60
+      },
+      "source_labels_indexed": {
+        "regression_only": 1,
+        "test": 6,
+        "train": 1381,
+        "train_candidate": 1628512,
+        "validation": 6
+      },
+      "source_linkage_unverified_rows": 0,
+      "source_versions_indexed": 1629906,
+      "training_started": false,
+      "unique_chat_rows_processed": 6502392,
+      "whole_curriculum_certified": false
+    },
+    "sha256": "d2d43c6d32951fe48a229af18d9cd37aa1838315113647b136f7184201d12190"
+  },
+  "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+  "portable_resume_policy": "Immutable file IDs/hash identify data; resolve connector link dynamically. Mutable controls use same IDs. Alternate read access is not write permission. Never recreate folders/files on account switch.",
+  "previous_link_id": "link_6abe1dbe42308191b83ea0d372a57459",
+  "previous_publication_account_identity": "Duy Mạnh / profile100868736881483931302 / duymanhdnvn20092005@gmail.com; current connector, same authorized folder and artifact IDs",
+  "progress_zip_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+  "recommended_training_view": "ALL_CURRENT_TRAIN_SPLIT_6502344_FULL_TEXT",
+  "sgk_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 389896,
+      "file_id": "17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo",
+      "file_name": "MathVisionKid_SGK_GAP_APPEND_20261019_bba05af405a61580.zip",
+      "fresh_raw_verified": true,
+      "sha256": "bba05af405a61580aa2b9e89991d76521b5f7a9bb3b9cebfa1daf056e97dfd1f",
+      "url": "https://drive.google.com/file/d/17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo/view?usp=drivesdk",
+      "verified_utc": "2026-10-19T04:44:33.016Z"
+    }
+  ],
+  "sgk_completion_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 1909803,
+      "cases": 36,
+      "chat_rows": 144,
+      "file_name": "MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+      "fresh_raw_verified": true,
+      "id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+      "member_count": 141,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_completion_20261021\\MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+      "sha256": "f12edd01177a26e235d8ebd3cd1fb109c4efbf964ef6ccda38b536938677cfe2",
+      "url": "https://drive.google.com/file/d/1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31/view?usp=drivesdk",
+      "verified_utc": "2026-10-21T05:32:24.272Z"
+    }
+  ],
+  "sgk_final_forms_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 496507,
+      "cases": 18,
+      "chat_rows": 72,
+      "file_name": "MathVisionKid_SGK_FINAL_FORMS_APPEND_20261021_867537e0ef05679d.zip",
+      "fresh_raw_verified": true,
+      "id": "1FU1MLP422giB1PiIjR9X8SrV0y37_f5t",
+      "member_count": 71,
+      "sha256": "867537e0ef05679db1967a29acaec785644820093113ffeecc4460c8450bb05f",
+      "url": "https://drive.google.com/file/d/1FU1MLP422giB1PiIjR9X8SrV0y37_f5t/view?usp=drivesdk",
+      "verified_utc": "2026-10-21T05:00:06.013Z"
+    }
+  ],
+  "sgk_final_gaps_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 5499839,
+      "cases": 71,
+      "chat_rows": 284,
+      "file_name": "MathVisionKid_SGK_FINAL_GAPS_APPEND_20261021_3b9ea570c28ed38f.zip",
+      "fresh_raw_verified": true,
+      "id": "1nlBxqxREBrQszEJlXer2Yu5JYcYcG_5x",
+      "member_count": 266,
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_final_gaps_20261021\\MathVisionKid_SGK_FINAL_GAPS_APPEND_20261021_3b9ea570c28ed38f.zip",
+      "sha256": "3b9ea570c28ed38f17db653f9ac6167980ffebc5e07fc9dba1614b7cafb1e5f3",
+      "url": "https://drive.google.com/file/d/1nlBxqxREBrQszEJlXer2Yu5JYcYcG_5x/view?usp=drivesdk",
+      "verified_utc": "2026-10-21T10:53:42.197Z"
+    }
+  ],
+  "sgk_finish_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 4411114,
+      "cases": 94,
+      "chat_rows": 376,
+      "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+      "fresh_raw_verified": true,
+      "id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+      "member_count": 191,
+      "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+      "url": "https://drive.google.com/file/d/1XFLAfwdhaURScQPJjysadiKB1268_joQ/view?usp=drivesdk",
+      "verified_utc": "2026-10-20T11:42:17.702Z"
+    }
+  ],
+  "sgk_page_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 1196154,
+      "cases": 110,
+      "chat_rows": 440,
+      "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+      "fresh_raw_verified": true,
+      "id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+      "member_count": 181,
+      "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+      "url": "https://drive.google.com/file/d/1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI/view?usp=drivesdk",
+      "verified_utc": "2026-10-20T10:46:39.588Z"
+    }
+  ],
+  "sgk_remaining_append_bundles": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 2374386,
+      "cases": 36,
+      "chat_rows": 144,
+      "file_name": "MathVisionKid_SGK_REMAINING_APPEND_20261020_e9443f67a1baaad3.zip",
+      "fresh_raw_verified": true,
+      "id": "15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD",
+      "member_count": 108,
+      "sha256": "e9443f67a1baaad33f6cb6bbe64a8eb8f8db99cc70c889760377b85ce85d8b23",
+      "url": "https://drive.google.com/file/d/15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD/view?usp=drivesdk",
+      "verified_utc": "2026-10-20T11:57:50.912Z"
+    }
+  ],
+  "state_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+  "verified_v3_checkpoint_history": [
+    {
+      "bytes": 8680194048,
+      "fresh_raw_readback_verified": true,
+      "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+      "observed_utc": "2026-10-23T03:48:44.219474+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "train": 6074564
+        },
+        "all_declared_members_scanned": false,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 6071120,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "SOURCE_CHAT_LINKAGE_UNVERIFIED": 60,
+          "SOURCE_RAW_HASH_NOT_FOUND": 60,
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1213,
+        "max_sequence_tokens": 1378,
+        "members_complete": 227,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 6074564,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 256,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 6071120,
+          "UNVERIFIED": 60
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 60,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 6074564,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "013585962eb850fcdd0d6f9031e788a9c9bfb47441169328227bd76499dbf33e"
+    }
+  ],
+  "pending_full_scan_closeout_history": [
+    {
+      "TRAINING_DATASET_READY": false,
+      "asset_masters_pending": 10,
+      "blocked_read_only_cell_id": "Z3DFg9KDHRaK",
+      "candidate_chat_rows": 6502344,
+      "cloud_control_parent_reader": {
+        "cell_id": "LV9eZGJWJcQW",
+        "status": "PREPARED_NOT_RUN"
+      },
+      "constraints_pending": 7,
+      "core_cases": 495,
+      "core_nodes": 165,
+      "drive_controls_publication": {
+        "last_published_checkpoint_rows": 6074564,
+        "reason": "Google Drive connector fetch/search return Unknown tool. Colab Drive API remains authenticated, but the main notebook cell is occupied by the slow read-only verifier. Prepared fallback publisher must raw-verify before claiming success.",
+        "same_ids_required": true,
+        "status": "NOT_UPDATED_THIS_PHASE"
+      },
+      "full_scan_chat_rows": 6502392,
+      "g3_source_locator_pending": 1,
+      "gpu_used": false,
+      "machine_evidence17_status": "NOT_CONFIRMED_QUERY_STILL_RUNNING_AT_LAST_CELL_OBSERVATION",
+      "manual_action_requested": "Stop only this final read-only cell; do not disconnect/restart the runtime. Background parent/child audit threads must be retained.",
+      "model_weights_loaded": false,
+      "new_cases": 0,
+      "new_chat_rows": 0,
+      "no_eval_question_payloads_opened_for_this_diagnosis": true,
+      "observed_utc": "2026-10-23T05:07:57.895219+00:00",
+      "optimized_single_scan_code": "thinking\\cloud_publication\\crosssplit_20261023\\verify_train17_numeric_overlap_once.py",
+      "parent_full_scan_checkpoint": {
+        "bytes": 9128976384,
+        "fresh_raw_readback_verified": true,
+        "id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+        "observed_utc": "2026-10-23T04:53:00.109105+00:00",
+        "report_at_snapshot": {
+          "TRAINING_DATASET_READY": false,
+          "actual_rows_by_split": {
+            "test": 24,
+            "train": 6502344,
+            "validation": 24
+          },
+          "all_declared_members_scanned": true,
+          "all_rows_semantically_human_reviewed": false,
+          "candidate_source_train_chat_links": 6496820,
+          "derivation_provenance": {
+            "candidate_pool_promoted_to_train": false,
+            "original_source_and_exported_row_hashes_distinct": true,
+            "parent_file": "math_data_full_audit_v2.py",
+            "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+            "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+            "raw_source_rewritten": false,
+            "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+            "source_label_evidence_file": "exhaustive_primary_math.py",
+            "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+            "v1_checkpoint_and_issues_preserved": true,
+            "v2_checkpoint_and_issues_preserved": true
+          },
+          "exact_duplicate_references": 0,
+          "full_archive_token_linkage_split_audit_complete": false,
+          "gpu_used": false,
+          "identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+          "incomplete_four_mode_cases": 0,
+          "issues": {
+            "CROSS_SPLIT_CANONICAL": 36,
+            "SOURCE_CHAT_LINKAGE_UNVERIFIED": 60,
+            "SOURCE_RAW_HASH_NOT_FOUND": 60,
+            "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+          },
+          "max_completion_tokens": 1367,
+          "max_sequence_tokens": 1481,
+          "members_complete": 251,
+          "members_expected": 251,
+          "model_weights_loaded": false,
+          "physical_chat_occurrences_processed": 6502392,
+          "schema": "MathVisionKid.full_current_archive_audit.v3",
+          "source_hash_origins": {
+            "ORIGINAL_RAW_HASH_VERIFIED": 2384,
+            "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+            "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 6496820,
+            "UNVERIFIED": 60
+          },
+          "source_labels_indexed": {
+            "regression_only": 1,
+            "test": 6,
+            "train": 1381,
+            "train_candidate": 1628512,
+            "validation": 6
+          },
+          "source_linkage_unverified_rows": 60,
+          "source_versions_indexed": 1629906,
+          "training_started": false,
+          "unique_chat_rows_processed": 6502392,
+          "whole_curriculum_certified": false
+        },
+        "sha256": "586904f37ad439e6c5ab5e00c5ccf5e494cccf8d7def09f4d4db9e9dba697fee"
+      },
+      "physical_observation_tasks_pending": 5,
+      "schema": "MathVisionKid.full_scan_closeout_resume.v1",
+      "semantic_review17": {
+        "new_human_signoffs": 0,
+        "path": "thinking\\cloud_publication\\crosssplit_20261023\\train17_semantic_review.json",
+        "sha256": "b4d4e12a0c5d1d72bfe18a11b77194c2cc3c6b1495add76bf497cf23151b39f8",
+        "status": "PASS_WITH_SCOPE_LIMITS"
+      },
+      "source_chat_payload_bytes_changed": 0,
+      "source_versions_indexed": 1629906,
+      "structural15_preserve_split_repair": {
+        "namespace": "_repair2_namespace",
+        "preserves_raw_cross_split_findings": 36,
+        "registered_cell_id": "Qw5uVaoJFrJK",
+        "runtime_directory": "/content/mathvisionkid_data_only/structural15_preserve_split_20261023",
+        "status": "REGISTERED_CHILD_COMPLETION_NOT_YET_OBSERVED",
+        "thread_name": "MathVisionKidStructural15PreserveSplitRepair"
+      },
+      "test_chat_rows": 24,
+      "training_started": false,
+      "validation_chat_rows": 24
+    }
+  ],
+  "latest_current_text_closeout": {
+    "TRAINING_DATASET_READY": false,
+    "actual_case_counts_by_split": {
+      "test": 6,
+      "train": 1625586,
+      "validation": 6
+    },
+    "all_rows_semantically_human_reviewed": false,
+    "asset_masters_pending": 10,
+    "candidate_chat_rows": 6502344,
+    "checkpoint": {
+      "bytes": 9129140224,
+      "fresh_raw_readback_verified": true,
+      "id": "1scVuXcjUz1EwMykVJ_F36IMfUlsfSVWH",
+      "observed_utc": "2026-10-23T06:10:41.041462+00:00",
+      "report_at_snapshot": {
+        "TRAINING_DATASET_READY": false,
+        "actual_rows_by_split": {
+          "test": 24,
+          "train": 6502344,
+          "validation": 24
+        },
+        "all_declared_members_scanned": true,
+        "all_rows_semantically_human_reviewed": false,
+        "candidate_source_train_chat_links": 6496820,
+        "derivation_provenance": {
+          "candidate_pool_promoted_to_train": false,
+          "frozen_v3_parent_sha256": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+          "original_source_and_exported_row_hashes_distinct": true,
+          "parent_file": "math_data_full_audit_v2.py",
+          "parent_sha256": "81b1e3f04c5886f78282386ecb34d47ba4ba9da63edfec8856bab82034a093ee",
+          "primary782_binding_code_sha256": "4d75e90c07eecccf7571d68015dda16e85a690e7ee2379b28d517d201472580b",
+          "raw_source_rewritten": false,
+          "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+          "source_label_evidence_file": "exhaustive_primary_math.py",
+          "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+          "structural15_bindings_sha256": "95d9fbf8536b908a6456256d8ff04175e8bd017cd34a406e190513844d316e87",
+          "structural15_exact_adapter_code_sha256": "a4c80b48779f2a075db1cdb41091d7affaba9b3eccd7bbee15551188de26fbaf",
+          "v1_checkpoint_and_issues_preserved": true,
+          "v2_checkpoint_and_issues_preserved": true
+        },
+        "exact_duplicate_references": 0,
+        "full_archive_token_linkage_split_audit_complete": false,
+        "gpu_used": false,
+        "identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+        "incomplete_four_mode_cases": 0,
+        "issues": {
+          "CROSS_SPLIT_CANONICAL": 36,
+          "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+        },
+        "max_completion_tokens": 1367,
+        "max_sequence_tokens": 1481,
+        "members_complete": 251,
+        "members_expected": 251,
+        "model_weights_loaded": false,
+        "physical_chat_occurrences_processed": 6502392,
+        "schema": "MathVisionKid.full_current_archive_audit.v3",
+        "source_hash_origins": {
+          "ORIGINAL_RAW_HASH_VERIFIED": 2384,
+          "PRIMARY_ORIGINAL_AND_EXPORTED_HASH_VERIFIED": 3128,
+          "READ_TIME_DERIVED_BY_FULL_PROMPT_TARGET_LINKAGE": 6496820,
+          "STRUCTURAL15_RAW_CANONICAL_AND_CHAT_HASH_VERIFIED": 60
+        },
+        "source_labels_indexed": {
+          "regression_only": 1,
+          "test": 6,
+          "train": 1381,
+          "train_candidate": 1628512,
+          "validation": 6
+        },
+        "source_linkage_unverified_rows": 0,
+        "source_versions_indexed": 1629906,
+        "training_started": false,
+        "unique_chat_rows_processed": 6502392,
+        "whole_curriculum_certified": false
+      },
+      "sha256": "d2d43c6d32951fe48a229af18d9cd37aa1838315113647b136f7184201d12190"
+    },
+    "constraints_pending": 7,
+    "evaluation_chat_rows": {
+      "test": 24,
+      "validation": 24
+    },
+    "exact_raw_finding_count": 37,
+    "g3_source_locator_pending": 1,
+    "historical_accepted_cases": 1629922,
+    "historical_source_counter_difference": 16,
+    "historical_training_chat_rows": 6502344,
+    "human_signoffs_created": 0,
+    "issues": {
+      "CROSS_SPLIT_CANONICAL": 36,
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+    },
+    "numeric_expression_disjoint": false,
+    "physical_observation_tasks_pending": 5,
+    "recipe_identity": "6faccfa8b6cae5ae100cdd4777c3481b6d193cb79acae2679086ec8e25718f56",
+    "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "scope": "CURRENT_RECIPE_ONLY",
+    "source_versions_indexed": 1629906,
+    "status": "CURRENT_RECIPE_ONLY_TECHNICAL_PASS_WITH_HASH_BOUND_NUMERIC_OVERLAP_AND_REGRESSION_EXCLUSION",
+    "training_started": false,
+    "unique_chat_rows": 6502392,
+    "whole_curriculum_certified": false
+  },
+  "text_training_release": {
+    "TEXT_TRAINING_DATASET_READY": true,
+    "bytes": 6699,
+    "member": "full_text_training_release_20261023/release_manifest.json",
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "rows_by_split": {
+      "test": 24,
+      "train": 6502344,
+      "validation": 24
+    },
+    "scope": "TEXT_ONLY_ALL_CURRENT_TRAIN_CANDIDATES",
+    "sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc"
+  },
+  "TEXT_TRAINING_DATASET_READY": true,
+  "latest_control_raw_readback": {
+    "controls": {
+      "progress": {
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "bytes": 17344436,
+        "sha256": "daeaf1736b395ab7b6ac83340d4971be04430ab6ffcf4eb3df7c9d285a90556c",
+        "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-T88pJK\\adaptive\\next_progress.zip",
+        "fresh_raw_readback_verified": true
+      },
+      "chat": {
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "bytes": 192937,
+        "sha256": "87fb37c1b1697be3fae0a813a5e86ac7592938e1436cc6518fdb95030b6bcd59",
+        "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-T88pJK\\adaptive\\next_chat.json",
+        "fresh_raw_readback_verified": true
+      },
+      "context": {
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "bytes": 820072,
+        "sha256": "38699077e3d3449a234445e2c65b73ae1fa1f69b810093922b7da68f13c8b4b2",
+        "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-T88pJK\\adaptive\\next_context.md",
+        "fresh_raw_readback_verified": true
+      },
+      "state": {
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "bytes": 504044,
+        "sha256": "88f9e3768f156a9722016fc4c0e2376673b1187b49ebac8d35e39bb23ecc4140",
+        "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-T88pJK\\adaptive\\next_state.json",
+        "fresh_raw_readback_verified": true
+      }
+    },
+    "launcher": {
+      "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+      "bytes": 5519,
+      "sha256": "386c1792c777ce7a51774875fc1fff068381ad3267bdf8534051db8e6af27753",
+      "fresh_raw_readback_verified": true
+    },
+    "account_email": "hoainam29082005@gmail.com",
+    "link_id": "link_6abe1d9c5acc819196c39d715a3044bb",
+    "state_committed_last": true,
+    "fresh_raw_byte_hash_verification": true
+  },
+  "current_full_text_training_run": {
+    "checkpoint_pointer_file_id": "1cADUsyiQm-tRvjj5HYmTzmYX-tkkX59o",
+    "epoch_complete": false,
+    "execution_overlay_member": "full_text_training_release_20261023/execution_adaptive_v3_20261023/",
+    "launcher": {
+      "bytes": 5519,
+      "fresh_raw_readback_verified": true,
+      "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+      "sha256": "386c1792c777ce7a51774875fc1fff068381ad3267bdf8534051db8e6af27753"
+    },
+    "original_semantic_config_unchanged": true,
+    "progress_file_id": "1tES2KilfuodLlTxpl95_9zsAVmWi8Ow7",
+    "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+    "runtime_observation": {
+      "TEXT_TRAINING_DATASET_READY": true,
+      "config": {
+        "accumulation": 16,
+        "epochs": 1,
+        "expected_rows": 6502344,
+        "lora_alpha": 32,
+        "lora_dropout": 0.05,
+        "lora_r": 16,
+        "lr": 0.0001,
+        "max_sequence_tokens": 2048,
+        "microbatch": 1,
+        "model": "Qwen/Qwen3-1.7B",
+        "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+        "release_sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "seed": 20261023
+      },
+      "expected_rows": 6502344,
+      "expected_train_rows": 6502344,
+      "gpu": "Tesla T4",
+      "last_update": {
+        "amp_scale": 1024,
+        "effective_optimizer_group": 16,
+        "grad_norm": 0.02770841121673584,
+        "gradient_checkpointing": true,
+        "loss": 0.0013164184347260743,
+        "overflow_retries": 0,
+        "padded_token_budget": 3800,
+        "physical_chunk_sizes": [
+          4,
+          4,
+          4,
+          4
+        ],
+        "physical_microbatch": 4,
+        "selected_supervised_logits": true
+      },
+      "last_verified_checkpoint": {
+        "bytes": 209670333,
+        "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+        "epoch_complete": false,
+        "fresh_raw_readback_verified": true,
+        "id": "15fBO3jL1rw-O4OZVByqDoEWTVw-_OKju",
+        "name": "checkpoint_step_0000641_rows_00010256_803d69eb9db18bf9.pt",
+        "rows_done": 10256,
+        "sha256": "803d69eb9db18bf91f97587ae7b2d088bf2997fc813207988ee4421d6ad53f6e",
+        "step": 641
+      },
+      "libraries": {
+        "accelerate": "1.15.0",
+        "bitsandbytes": "0.50.2",
+        "peft": "0.21.2",
+        "tokenizers": "0.23.3",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.16.1"
+      },
+      "max_sequence_tokens": 2048,
+      "observed_utc": "2026-10-23T13:44:23.840796+00:00",
+      "registered_utc": "2026-10-23T12:31:23.231438+00:00",
+      "rows_done": 10480,
+      "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+      "seconds_this_session": 4280.6,
+      "state": "TRAINING_ALL_TEXT",
+      "step": 655,
+      "subset_limit": null,
+      "t4_batch_optimization": {
+        "actual_train_row_loss_parity": {
+          "abs_difference": 1.3238168321549892e-05,
+          "batched_mean": 0.0025198818184435368,
+          "old_mean": 0.002506643650121987
+        },
+        "adaptive_batching": true,
+        "before_rows": 10256,
+        "before_step": 641,
+        "benchmark_optimizer_updates": 0,
+        "checkpoint_before": {
+          "bytes": 209670333,
+          "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+          "epoch_complete": false,
+          "fresh_raw_readback_verified": true,
+          "id": "15fBO3jL1rw-O4OZVByqDoEWTVw-_OKju",
+          "name": "checkpoint_step_0000641_rows_00010256_803d69eb9db18bf9.pt",
+          "rows_done": 10256,
+          "sha256": "803d69eb9db18bf91f97587ae7b2d088bf2997fc813207988ee4421d6ad53f6e",
+          "step": 641
+        },
+        "code_sha256": "ed5924cc728d367f1f6e35e72abd1d4a5b88c7b7cd8b23a9976b7e8ebf22510d",
+        "drive_evidence": {
+          "bytes": 5205,
+          "fresh_raw_readback_verified": true,
+          "id": "1dqdbSjmvhm-GaO_DzgZN4p4fbsk89eNC",
+          "name": "t4_batch_optimization_v3.json",
+          "sha256": "610673e0f8dfcf87c29df3796399ecf038fc5f315e87681d1d40b0ceaf9a5bd5"
+        },
+        "effective_optimizer_group": 16,
+        "extra_optimizer_updates": 0,
+        "gradient_accumulation_microsteps": "VARIABLE_EXACT_GROUP_WEIGHTING",
+        "gradient_checkpointing": true,
+        "length_grouping_within_optimizer_step": true,
+        "measured_speedup": 1.3689896915591553,
+        "model_weights_unchanged_during_probe": true,
+        "padded_token_budget": 3800,
+        "physical_microbatch": 4,
+        "probes": [
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 5.375643253326416,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 9.187528133392334,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 6.633513480000147,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187528133392334,
+                "requested_rows": 2
+              }
+            ],
+            "microbatch": 2,
+            "padded_token_budget": 2962,
+            "representative_peak_gib": 4.00546407699585,
+            "safe": true,
+            "samples_per_second": 2.41199479706185,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.536101818084717,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.027069568634033,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 5.534383653000077,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187532901763916,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.027069568634033,
+                "requested_rows": 3
+              }
+            ],
+            "microbatch": 3,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 4.646104335784912,
+            "safe": true,
+            "samples_per_second": 2.891017501348452,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.4564361572265625,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.106735229492188,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 4.845554002999961,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.265493392944336,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.106735229492188,
+                "requested_rows": 3
+              },
+              {
+                "padded_length": 950,
+                "peak_gib": 11.106292724609375,
+                "requested_rows": 4
+              }
+            ],
+            "microbatch": 4,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 5.365108013153076,
+            "safe": true,
+            "samples_per_second": 3.301996013271989,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.4777889251708984,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.085382461547852,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 5.342512613000508,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187528133392334,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.027064800262451,
+                "requested_rows": 3
+              },
+              {
+                "padded_length": 950,
+                "peak_gib": 11.085382461547852,
+                "requested_rows": 4
+              },
+              {
+                "padded_length": 760,
+                "peak_gib": 11.084105491638184,
+                "requested_rows": 5
+              },
+              {
+                "padded_length": 633,
+                "peak_gib": 11.076234340667725,
+                "requested_rows": 6
+              },
+              {
+                "padded_length": 542,
+                "peak_gib": 11.064711570739746,
+                "requested_rows": 7
+              },
+              {
+                "padded_length": 475,
+                "peak_gib": 11.076039791107178,
+                "requested_rows": 8
+              }
+            ],
+            "microbatch": 8,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 7.846086025238037,
+            "safe": true,
+            "samples_per_second": 2.9948455266283296,
+            "selected_supervised_logits": true
+          }
+        ],
+        "rng_restored_after_probe": true,
+        "selected_supervised_logits": true,
+        "source_or_target_bytes_changed": 0,
+        "state": "APPLIED",
+        "training_rows_added_or_removed": 0,
+        "training_rows_after_probe": 10256,
+        "truncation_allowed": false,
+        "version": 3
+      },
+      "t4_batch_optimization_history": [
+        {
+          "actual_train_row_loss_parity": {
+            "abs_difference": 0.0001137852668762207,
+            "batched_mean": 1.7361440658569336,
+            "old_mean": 1.7362578511238098
+          },
+          "before_rows": 2640,
+          "before_step": 165,
+          "benchmark_optimizer_updates": 0,
+          "checkpoint_before": {
+            "bytes": 209670333,
+            "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+            "epoch_complete": false,
+            "fresh_raw_readback_verified": true,
+            "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+            "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+            "rows_done": 2640,
+            "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+            "step": 165
+          },
+          "code_sha256": "6b54b7c48750ef6e58a15f19120c3cf0ccedce6c1a95f1b05d7eb035bfff0307",
+          "drive_evidence": {
+            "bytes": 3596,
+            "fresh_raw_readback_verified": true,
+            "id": "1qJocNKYmhK4CS6fcf1bMZXvl1ARmFoQQ",
+            "name": "t4_batch_optimization_v2.json",
+            "sha256": "6b5c8a4aaa64843f9c3cca53b9e9f68d23cf471b362fae69f97744fa842860b6"
+          },
+          "effective_optimizer_group": 16,
+          "extra_optimizer_updates": 0,
+          "gradient_accumulation_microsteps": 8,
+          "gradient_checkpointing": true,
+          "length_grouping_within_optimizer_step": true,
+          "measured_speedup": 1.5704239616901972,
+          "model_weights_unchanged_during_probe": true,
+          "physical_microbatch": 2,
+          "probes": [
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 9.08844518661499,
+              "length_grouping_within_optimizer_step": false,
+              "max_length_peak_gib": 5.47472620010376,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 14.797221336999883,
+              "microbatch": 1,
+              "representative_peak_gib": 4.541913986206055,
+              "safe": true,
+              "samples_per_second": 1.0812840894656766,
+              "selected_supervised_logits": false
+            },
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 8.633655548095703,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 5.929515838623047,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 13.727229126999646,
+              "microbatch": 1,
+              "representative_peak_gib": 4.368467330932617,
+              "safe": true,
+              "samples_per_second": 1.1655666159552998,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 5.371101379394531,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 9.192070007324219,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 9.422437315000025,
+              "microbatch": 2,
+              "representative_peak_gib": 6.104764938354492,
+              "safe": true,
+              "samples_per_second": 1.6980744434912654,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": true,
+              "microbatch": 4,
+              "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+              "safe": false,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": false,
+              "headroom_gib": 2.041215419769287,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 12.521955966949463,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 9.568127218999962,
+              "microbatch": 1,
+              "representative_peak_gib": 10.305962562561035,
+              "safe": true,
+              "samples_per_second": 1.672218568355562,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": false,
+              "microbatch": 2,
+              "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+              "safe": false,
+              "selected_supervised_logits": true
+            }
+          ],
+          "rng_restored_after_probe": true,
+          "selected_supervised_logits": true,
+          "source_or_target_bytes_changed": 0,
+          "state": "APPLIED",
+          "training_rows_added_or_removed": 0,
+          "training_rows_after_probe": 2640,
+          "truncation_allowed": false,
+          "version": 2
+        }
+      ],
+      "test_rows_reserved": 24,
+      "total_updates": 406397,
+      "training_started": true,
+      "validation_rows_reserved": 24,
+      "worker_alive": true,
+      "worker_stack": [
+        {
+          "file": "full_text_training_run.py",
+          "function": "update_group",
+          "line": 179
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "wrapper",
+          "line": 218
+        },
+        {
+          "file": "train_teacher_math_v3.py",
+          "function": "run_amp_update",
+          "line": 375
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "<lambda>",
+          "line": 217
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "backward",
+          "line": 110
+        },
+        {
+          "file": "_tensor.py",
+          "function": "backward",
+          "line": 631
+        },
+        {
+          "file": "__init__.py",
+          "function": "backward",
+          "line": 381
+        },
+        {
+          "file": "graph.py",
+          "function": "_engine_run_backward",
+          "line": 869
+        }
+      ]
+    },
+    "training_started": true
+  },
+  "last_verified_training_checkpoint": {
+    "bytes": 209670333,
+    "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+    "epoch_complete": false,
+    "fresh_raw_readback_verified": true,
+    "id": "15fBO3jL1rw-O4OZVByqDoEWTVw-_OKju",
+    "name": "checkpoint_step_0000641_rows_00010256_803d69eb9db18bf9.pt",
+    "rows_done": 10256,
+    "sha256": "803d69eb9db18bf91f97587ae7b2d088bf2997fc813207988ee4421d6ad53f6e",
+    "step": 641
+  },
+  "training_started": true,
+  "full_text_training_execution_history": [
+    {
+      "previous": {
+        "checkpoint_pointer_file_id": "1cADUsyiQm-tRvjj5HYmTzmYX-tkkX59o",
+        "epoch_complete": false,
+        "launcher": {
+          "bytes": 4440,
+          "fresh_raw_readback_verified": true,
+          "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+          "sha256": "e5919202a42390c52d4129a47d2796e5bf4de486b6348be1774467359eed8631"
+        },
+        "progress_file_id": "1tES2KilfuodLlTxpl95_9zsAVmWi8Ow7",
+        "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+        "runtime_observation": {
+          "TEXT_TRAINING_DATASET_READY": true,
+          "config": {
+            "accumulation": 16,
+            "epochs": 1,
+            "expected_rows": 6502344,
+            "lora_alpha": 32,
+            "lora_dropout": 0.05,
+            "lora_r": 16,
+            "lr": 0.0001,
+            "max_sequence_tokens": 2048,
+            "microbatch": 1,
+            "model": "Qwen/Qwen3-1.7B",
+            "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+            "release_sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+            "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+            "seed": 20261023
+          },
+          "expected_rows": 6502344,
+          "expected_train_rows": 6502344,
+          "gpu": "Tesla T4",
+          "last_update": {
+            "amp_scale": 1024,
+            "grad_norm": 12.732837677001953,
+            "loss": 4.67828594148159,
+            "overflow_retries": 0
+          },
+          "last_verified_checkpoint": {
+            "bytes": 209669181,
+            "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+            "epoch_complete": false,
+            "fresh_raw_readback_verified": true,
+            "id": "1PRwGOsfu84__1AhRe81oFDWLdSwsBEsX",
+            "name": "checkpoint_step_0000001_rows_00000016_8fc6341f7b332745.pt",
+            "rows_done": 16,
+            "sha256": "8fc6341f7b332745ec8f073b8bed09c05809afaf95b33666ba1142391d768984",
+            "step": 1
+          },
+          "libraries": {
+            "accelerate": "1.15.0",
+            "bitsandbytes": "0.50.2",
+            "peft": "0.21.2",
+            "tokenizers": "0.23.3",
+            "torch": "2.11.0+cu130",
+            "transformers": "5.16.1"
+          },
+          "max_sequence_tokens": 2048,
+          "observed_utc": "2026-10-23T11:56:46.171001+00:00",
+          "registered_utc": "2026-10-23T11:51:33.901384+00:00",
+          "rows_done": 96,
+          "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+          "seconds_this_session": 152.8,
+          "state": "TRAINING_ALL_TEXT",
+          "step": 6,
+          "subset_limit": null,
+          "test_rows_reserved": 24,
+          "total_updates": 406397,
+          "training_started": true,
+          "validation_rows_reserved": 24,
+          "worker_alive": true,
+          "worker_stack": [
+            {
+              "file": "2363617237.py",
+              "function": "_full_text_worker",
+              "line": 43
+            },
+            {
+              "file": "full_text_training_run.py",
+              "function": "run",
+              "line": 197
+            },
+            {
+              "file": "full_text_training_run.py",
+              "function": "update_group",
+              "line": 179
+            },
+            {
+              "file": "train_teacher_math_v3.py",
+              "function": "run_amp_update",
+              "line": 375
+            },
+            {
+              "file": "full_text_training_run.py",
+              "function": "backward",
+              "line": 174
+            },
+            {
+              "file": "_tensor.py",
+              "function": "backward",
+              "line": 631
+            },
+            {
+              "file": "__init__.py",
+              "function": "backward",
+              "line": 381
+            },
+            {
+              "file": "graph.py",
+              "function": "_engine_run_backward",
+              "line": 869
+            }
+          ]
+        },
+        "training_started": true
+      },
+      "publication_proof": "thinking/cloud_publication/remaining_completion_20261023/four_controls_t4_optimization_verified.json"
+    },
+    {
+      "previous": {
+        "checkpoint_pointer_file_id": "1cADUsyiQm-tRvjj5HYmTzmYX-tkkX59o",
+        "epoch_complete": false,
+        "execution_overlay_member": "full_text_training_release_20261023/execution_optimization_20261023/",
+        "launcher": {
+          "bytes": 5520,
+          "fresh_raw_readback_verified": true,
+          "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+          "sha256": "a4db1a79c966107a59e934c485adb0d9ffb4753279dae0e01dc24c399ef737ad"
+        },
+        "original_semantic_config_unchanged": true,
+        "progress_file_id": "1tES2KilfuodLlTxpl95_9zsAVmWi8Ow7",
+        "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+        "runtime_observation": {
+          "TEXT_TRAINING_DATASET_READY": true,
+          "config": {
+            "accumulation": 16,
+            "epochs": 1,
+            "expected_rows": 6502344,
+            "lora_alpha": 32,
+            "lora_dropout": 0.05,
+            "lora_r": 16,
+            "lr": 0.0001,
+            "max_sequence_tokens": 2048,
+            "microbatch": 1,
+            "model": "Qwen/Qwen3-1.7B",
+            "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+            "release_sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+            "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+            "seed": 20261023
+          },
+          "expected_rows": 6502344,
+          "expected_train_rows": 6502344,
+          "gpu": "Tesla T4",
+          "last_update": {
+            "amp_scale": 1024,
+            "effective_optimizer_group": 16,
+            "grad_norm": 4.2310967445373535,
+            "gradient_checkpointing": true,
+            "loss": 2.7354623675346375,
+            "overflow_retries": 0,
+            "physical_microbatch": 2,
+            "selected_supervised_logits": true
+          },
+          "last_verified_checkpoint": {
+            "bytes": 209670333,
+            "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+            "epoch_complete": false,
+            "fresh_raw_readback_verified": true,
+            "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+            "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+            "rows_done": 2640,
+            "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+            "step": 165
+          },
+          "libraries": {
+            "accelerate": "1.15.0",
+            "bitsandbytes": "0.50.2",
+            "peft": "0.21.2",
+            "tokenizers": "0.23.3",
+            "torch": "2.11.0+cu130",
+            "transformers": "5.16.1"
+          },
+          "max_sequence_tokens": 2048,
+          "observed_utc": "2026-10-23T12:37:56.205193+00:00",
+          "registered_utc": "2026-10-23T12:31:23.231438+00:00",
+          "rows_done": 2672,
+          "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+          "seconds_this_session": 288.1,
+          "state": "TRAINING_ALL_TEXT",
+          "step": 167,
+          "subset_limit": null,
+          "t4_batch_optimization": {
+            "actual_train_row_loss_parity": {
+              "abs_difference": 0.0001137852668762207,
+              "batched_mean": 1.7361440658569336,
+              "old_mean": 1.7362578511238098
+            },
+            "before_rows": 2640,
+            "before_step": 165,
+            "benchmark_optimizer_updates": 0,
+            "checkpoint_before": {
+              "bytes": 209670333,
+              "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+              "epoch_complete": false,
+              "fresh_raw_readback_verified": true,
+              "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+              "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+              "rows_done": 2640,
+              "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+              "step": 165
+            },
+            "code_sha256": "6b54b7c48750ef6e58a15f19120c3cf0ccedce6c1a95f1b05d7eb035bfff0307",
+            "drive_evidence": {
+              "bytes": 3596,
+              "fresh_raw_readback_verified": true,
+              "id": "1qJocNKYmhK4CS6fcf1bMZXvl1ARmFoQQ",
+              "name": "t4_batch_optimization_v2.json",
+              "sha256": "6b5c8a4aaa64843f9c3cca53b9e9f68d23cf471b362fae69f97744fa842860b6"
+            },
+            "effective_optimizer_group": 16,
+            "extra_optimizer_updates": 0,
+            "gradient_accumulation_microsteps": 8,
+            "gradient_checkpointing": true,
+            "length_grouping_within_optimizer_step": true,
+            "measured_speedup": 1.5704239616901972,
+            "model_weights_unchanged_during_probe": true,
+            "physical_microbatch": 2,
+            "probes": [
+              {
+                "gradient_checkpointing": true,
+                "headroom_gib": 9.08844518661499,
+                "length_grouping_within_optimizer_step": false,
+                "max_length_peak_gib": 5.47472620010376,
+                "max_length_tokens": 1481,
+                "median_group_seconds": 14.797221336999883,
+                "microbatch": 1,
+                "representative_peak_gib": 4.541913986206055,
+                "safe": true,
+                "samples_per_second": 1.0812840894656766,
+                "selected_supervised_logits": false
+              },
+              {
+                "gradient_checkpointing": true,
+                "headroom_gib": 8.633655548095703,
+                "length_grouping_within_optimizer_step": true,
+                "max_length_peak_gib": 5.929515838623047,
+                "max_length_tokens": 1481,
+                "median_group_seconds": 13.727229126999646,
+                "microbatch": 1,
+                "representative_peak_gib": 4.368467330932617,
+                "safe": true,
+                "samples_per_second": 1.1655666159552998,
+                "selected_supervised_logits": true
+              },
+              {
+                "gradient_checkpointing": true,
+                "headroom_gib": 5.371101379394531,
+                "length_grouping_within_optimizer_step": true,
+                "max_length_peak_gib": 9.192070007324219,
+                "max_length_tokens": 1481,
+                "median_group_seconds": 9.422437315000025,
+                "microbatch": 2,
+                "representative_peak_gib": 6.104764938354492,
+                "safe": true,
+                "samples_per_second": 1.6980744434912654,
+                "selected_supervised_logits": true
+              },
+              {
+                "gradient_checkpointing": true,
+                "microbatch": 4,
+                "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+                "safe": false,
+                "selected_supervised_logits": true
+              },
+              {
+                "gradient_checkpointing": false,
+                "headroom_gib": 2.041215419769287,
+                "length_grouping_within_optimizer_step": true,
+                "max_length_peak_gib": 12.521955966949463,
+                "max_length_tokens": 1481,
+                "median_group_seconds": 9.568127218999962,
+                "microbatch": 1,
+                "representative_peak_gib": 10.305962562561035,
+                "safe": true,
+                "samples_per_second": 1.672218568355562,
+                "selected_supervised_logits": true
+              },
+              {
+                "gradient_checkpointing": false,
+                "microbatch": 2,
+                "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+                "safe": false,
+                "selected_supervised_logits": true
+              }
+            ],
+            "rng_restored_after_probe": true,
+            "selected_supervised_logits": true,
+            "source_or_target_bytes_changed": 0,
+            "state": "APPLIED",
+            "training_rows_added_or_removed": 0,
+            "training_rows_after_probe": 2640,
+            "truncation_allowed": false,
+            "version": 2
+          },
+          "test_rows_reserved": 24,
+          "total_updates": 406397,
+          "training_started": true,
+          "validation_rows_reserved": 24,
+          "worker_alive": true,
+          "worker_stack": [
+            {
+              "file": "threading.py",
+              "function": "run",
+              "line": 995
+            },
+            {
+              "file": "784392212.py",
+              "function": "_full_text_worker",
+              "line": 66
+            },
+            {
+              "file": "full_text_training_run.py",
+              "function": "run",
+              "line": 197
+            },
+            {
+              "file": "full_text_training_run.py",
+              "function": "update_group",
+              "line": 179
+            },
+            {
+              "file": "t4_microbatch_optimization_v2.py",
+              "function": "wrapper",
+              "line": 197
+            },
+            {
+              "file": "train_teacher_math_v3.py",
+              "function": "run_amp_update",
+              "line": 375
+            },
+            {
+              "file": "t4_microbatch_optimization_v2.py",
+              "function": "<lambda>",
+              "line": 196
+            },
+            {
+              "file": "t4_microbatch_optimization_v2.py",
+              "function": "backward",
+              "line": 94
+            }
+          ]
+        },
+        "training_started": true
+      },
+      "publication_proof": "thinking/cloud_publication/remaining_completion_20261023/four_controls_t4_adaptive_v3_verified.json"
+    }
+  ],
+  "control_raw_readback_history": [
+    {
+      "verified": [
+        {
+          "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+          "bytes": 17295639,
+          "sha256": "1cf8735252c72944fa83134b4bdbb4454efc33e5fcf4086392fd1a500feb2371",
+          "kind": "progress",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+          "bytes": 127038,
+          "sha256": "595b553c8f8d30802582222ae908f8b82bd190d309751dc6e2452b74270c4148",
+          "kind": "chat",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+          "bytes": 817461,
+          "sha256": "94b4e52d3ce96263597bfa3ed6aa338345f5a2b975caf23ba0cd9061008ddf0c",
+          "kind": "context",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+          "bytes": 438145,
+          "sha256": "d1b38b0f716c107116473bdc4ae81cb8f7b72c1829e3f74ab365b0000850680c",
+          "kind": "state",
+          "fresh_raw_readback_verified": true
+        }
+      ],
+      "training_started": true,
+      "state_written_last": true,
+      "observed_utc": "2026-10-23T11:59:18.815Z"
+    },
+    {
+      "controls": {
+        "progress": {
+          "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+          "bytes": 17322594,
+          "sha256": "fe13c593199f5128cecb18b3c1dbdcea88adf5f76fd6370539e76474413208f9",
+          "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_progress.zip",
+          "fresh_raw_readback_verified": true
+        },
+        "chat": {
+          "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+          "bytes": 151815,
+          "sha256": "661fed2b0e3992f6c2f41d39d723ce8053d7bee1be86eaae2167d5f19ae97ab4",
+          "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_chat.json",
+          "fresh_raw_readback_verified": true
+        },
+        "context": {
+          "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+          "bytes": 818939,
+          "sha256": "ae43aabe6607786ee47e3ebc4c9c94a03c226d53fc5673984a594b337efb59da",
+          "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_context.md",
+          "fresh_raw_readback_verified": true
+        },
+        "state": {
+          "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+          "bytes": 462922,
+          "sha256": "784d49ecb06429a499a834f9ba0512cfa4311694aef9d9e59dae078275dae7cb",
+          "path": "C:\\Users\\My PC\\AppData\\Local\\Temp\\mathvisionkid-text-controls-kROIDS\\optimized\\next_state.json",
+          "fresh_raw_readback_verified": true
+        }
+      },
+      "launcher": {
+        "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+        "bytes": 5520,
+        "sha256": "a4db1a79c966107a59e934c485adb0d9ffb4753279dae0e01dc24c399ef737ad",
+        "fresh_raw_readback_verified": true
+      },
+      "fresh_raw_readback_verified": true,
+      "state_committed_last": true
+    }
+  ],
+  "t4_budget3h_publication_history": [
+    {
+      "phase": "branch_preparation",
+      "controls": [
+        {
+          "kind": "progress",
+          "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+          "bytes": 17412633,
+          "sha256": "ee8cd16f4bf8b22fb7efc77528addab13d9c6d1b36cf218f9a563892023d8454",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "kind": "chat",
+          "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+          "bytes": 211649,
+          "sha256": "a3cc8f6242976f7102835b8f651cecd02452285dce784c09ceb6f9f83870b835",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "kind": "context",
+          "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+          "bytes": 821091,
+          "sha256": "9fc9d009f2c870d153e1c52b8f3563284d4b697facaad95ca60d682d117df7ca",
+          "fresh_raw_readback_verified": true
+        },
+        {
+          "kind": "state",
+          "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+          "bytes": 522805,
+          "sha256": "8c3145fb9453177be15d2162ebd85462e0702fa5ec34d6a3c7ba136c05daa6e8",
+          "fresh_raw_readback_verified": true
+        }
+      ],
+      "state_committed_last": true,
+      "fresh_raw_readback_verified": true
+    }
+  ],
+  "latest_t4_budget3h_controls": [
+    {
+      "kind": "progress",
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 17412633,
+      "sha256": "ee8cd16f4bf8b22fb7efc77528addab13d9c6d1b36cf218f9a563892023d8454",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "kind": "chat",
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 211649,
+      "sha256": "a3cc8f6242976f7102835b8f651cecd02452285dce784c09ceb6f9f83870b835",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "kind": "context",
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 821091,
+      "sha256": "9fc9d009f2c870d153e1c52b8f3563284d4b697facaad95ca60d682d117df7ca",
+      "fresh_raw_readback_verified": true
+    },
+    {
+      "kind": "state",
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 522805,
+      "sha256": "8c3145fb9453177be15d2162ebd85462e0702fa5ec34d6a3c7ba136c05daa6e8",
+      "fresh_raw_readback_verified": true
+    }
+  ],
+  "latest_t4_budget3h_runtime": {
+    "observed_utc": "2026-10-23T15:39:21.532742+00:00",
+    "training": {
+      "current_loss": 0.3856703694036696,
+      "cursor_batches": 1200,
+      "deadline_unix": 1792775752.4416852,
+      "elapsed_seconds": 584.7812774181366,
+      "gradients_finite_after_optimizer_step": true,
+      "nonpadding_tokens": 594135,
+      "overflow_retries": 0,
+      "rows_done": 2400,
+      "scaler_scale": 1024.0,
+      "state": "TRAINING",
+      "step": 150,
+      "supervised_tokens": 276533
+    },
+    "config": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "base_cached_output_limit": 512,
+      "base_cached_outputs_all_eos_before_limit": true,
+      "benchmark": {
+        "1": {
+          "mean_group_seconds": 6.532852522667478,
+          "nonpad_tokens_per_second": 710.1032793720277,
+          "optimizer_steps_during_probe": 0,
+          "peak_vram_bytes": 2398401536,
+          "repeats": [
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 6.747468265000862,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            },
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 6.312621496001157,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            },
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 6.538467807000416,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            }
+          ],
+          "same_16_examples": true,
+          "state": "PASS",
+          "supervised_tokens_per_second": 389.26334111728096,
+          "unique_examples_per_second": 2.4491598340057
+        },
+        "2": {
+          "mean_group_seconds": 4.93109897233262,
+          "nonpad_tokens_per_second": 940.7639201785388,
+          "optimizer_steps_during_probe": 0,
+          "peak_vram_bytes": 2091182080,
+          "repeats": [
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 4.960105419999309,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            },
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 4.930634946998907,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            },
+            {
+              "nonpad_tokens": 4639,
+              "seconds": 4.902556549999645,
+              "supervised_tokens": 2543,
+              "unique_examples": 16
+            }
+          ],
+          "same_16_examples": true,
+          "state": "PASS",
+          "supervised_tokens_per_second": 515.7065421457263,
+          "unique_examples_per_second": 3.2447128094107827
+        }
+      },
+      "bnb_4bit_use_double_quant": true,
+      "checkpoint_export_reserve_seconds": 1500,
+      "compute_dtype": "float16",
+      "deadline_unix": 1792775752.4416852,
+      "effective_batch": 16,
+      "eval_fixtures_sha256": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+      "evaluation_output_limit": 1536,
+      "flash_attention_2": false,
+      "grad_accumulation": 8,
+      "gradient_checkpointing": "unsloth",
+      "learning_rate": 0.0002,
+      "lora_alpha": 16,
+      "lora_bias": "none",
+      "lora_dropout": 0.0,
+      "lora_r": 16,
+      "loss_aggregation": "microbatch_losses_weighted_by_example_count",
+      "loss_reduction": "ordinary_token_mean_per_microbatch",
+      "max_seq_len": 2048,
+      "measured_at_unix": 1792769362.783769,
+      "measured_group_seconds": 4.93109897233262,
+      "measured_remaining_seconds": 6389.657916307449,
+      "microbatch": 1,
+      "model": "Qwen/Qwen3-1.7B",
+      "optimizer": "bitsandbytes.optim.AdamW8bit",
+      "packing": false,
+      "padding_free": false,
+      "quantization": "4bit NF4",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "safety_factor": 1.35,
+      "scheduler": null,
+      "seed": 20261023,
+      "selected_microbatch": 2,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ],
+      "target_steps": 734,
+      "train_view_manifest_sha256": "444db8845af0c12bb528795b7e441b996571960dd58ab6898eb9394c77031545",
+      "train_view_sha256": "14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331",
+      "view_rows": 16000,
+      "weight_decay": 0.01
+    },
+    "checkpoint": {
+      "bytes": 99201456,
+      "fresh_raw_readback_verified": true,
+      "id": "1ofv7XZaG3-CtFrkxTcQfaZCTPB7XQ1r3",
+      "name": "checkpoint_step_000100_rows_00001600_88b8176e1f94a2bc.zip",
+      "rows_done": 1600,
+      "sha256": "6072ae8de0d40ee0cc2cb867e8fda61049973ab4b89516fca91d5be9a2b40297",
+      "step": 100
+    },
+    "folder_id": "1OvUWLz4E-d2zi5eicgOYZeVpuh_7aQpo",
+    "whole_corpus_epoch_complete": false,
+    "training_view_cases": 4000,
+    "training_view_rows": 16000,
+    "drive_four_controls_pending_sync": true,
+    "last_verified_four_controls_proof": "four_controls_branch_preparation_verified.json",
+    "connector_state": "Google Drive plugin not installed in current chat account; Colab authenticated Drive publisher is working",
+    "local_temp_cleanup": "automatic policy rejected deletion; inspected temporary controls retained; no corpus/model staged on PC"
+  }
+}

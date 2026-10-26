@@ -1,0 +1,20 @@
+{
+  "task_id": "006_independent_primary45_20261017",
+  "transport": "mathvision_bridge",
+  "reported_status": "queued",
+  "review_completed": false,
+  "cases_requested": 45,
+  "new_pending_cases": 8,
+  "tool_does_not_launch_antigravity": true,
+  "user_action_if_worker_not_active": "Open Antigravity and request task006 via the already configured MathVision Bridge.",
+  "manifest_sha256": "bcab5bdf2e7b3d594054a01851432e51e7e57a769b70ca6441088d746bdb2ed0",
+  "human_verified": false,
+  "teacher_certified": false,
+  "checks": {
+    "pending_not_exported": true,
+    "accepted_chat_rows": 352,
+    "authored_cases": 96,
+    "accepted_cases": 88
+  },
+  "training_started": false
+}

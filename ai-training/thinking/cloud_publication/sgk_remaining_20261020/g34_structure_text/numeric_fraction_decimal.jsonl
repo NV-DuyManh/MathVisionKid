@@ -1,0 +1,11 @@
+{"Decimal":"5000","Fraction":"5000","expression":"5*1000","sample_id":"sgk_remaining_structure_20261020_strips_connector_chain","step_id":"s2"}
+{"Decimal":"936","Fraction":"936","expression":"156+780","sample_id":"sgk_remaining_structure_20261020_partial_products_digit_reconstruct","step_id":"s2"}
+{"Decimal":"31","Fraction":"31","expression":"93/3","sample_id":"sgk_remaining_structure_20261020_partial_factor_and_shift_error","step_id":"s0"}
+{"Decimal":"713","Fraction":"713","expression":"93+620","sample_id":"sgk_remaining_structure_20261020_partial_factor_and_shift_error","step_id":"s2"}
+{"Decimal":"10","Fraction":"10","expression":"15-5","sample_id":"sgk_remaining_structure_20261020_overlap_fixed_axis_union","step_id":"s0"}
+{"Decimal":"7","Fraction":"7","expression":"12-5","sample_id":"sgk_remaining_structure_20261020_overlap_fixed_axis_union","step_id":"s1"}
+{"Decimal":"15","Fraction":"15","expression":"12+10-7","sample_id":"sgk_remaining_structure_20261020_overlap_fixed_axis_union","step_id":"s2"}
+{"Decimal":"3","Fraction":"3","expression":"6-3","sample_id":"sgk_remaining_structure_20261020_overlap_opposite_orientation","step_id":"s1"}
+{"Decimal":"12","Fraction":"12","expression":"8+7-3","sample_id":"sgk_remaining_structure_20261020_overlap_opposite_orientation","step_id":"s2"}
+{"Decimal":"60","Fraction":"60","expression":"100-40","sample_id":"sgk_remaining_structure_20261020_all_ray_pairs_compound","step_id":"s1"}
+{"Decimal":"5","Fraction":"5","expression":"6-1","sample_id":"sgk_remaining_structure_20261020_ray_pairs_exclude_straight_error","step_id":"s2"}

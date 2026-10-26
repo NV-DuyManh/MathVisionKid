@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "4gcXIXsJWyZx"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_unix\": 1792768946.3988028, \"stages\": [{\"line\": 513, \"member_index\": 31, \"counts\": {\"train_rows_scanned\": 6502344, \"nontrain_validation\": 24, \"nontrain_test\": 24, \"members_complete\": 32, \"mode_worked_solution\": 1625334, \"mode_hint_level_1\": 1625334, \"mode_hint_level_2\": 1625334, \"mode_hint_level_3\": 1625334}, \"selected_cases\": 4000, \"materialized_rows\": 13048, \"strata_labels\": 437}], \"overlay\": {\"state\": \"ACTIVE\", \"first_pass_changed\": false, \"full_archive_hash_validation_preserved\": true, \"selected_full_row_hash_validation_preserved\": true, \"unselected_first_key_ids_skipped\": 6062280, \"fallback_full_parser_lines\": 336033, \"applied_unix\": 1792768766.7181125}, \"sampler_alive\": true, \"gpu_orchestration\": {\"state\": \"WAITING_FOR_VERIFIED_TRAINING_VIEW\", \"training_started\": false, \"observed_unix\": 1792768785.1683986}}\n"
+        ]
+      }
+    ]
+  }
+}

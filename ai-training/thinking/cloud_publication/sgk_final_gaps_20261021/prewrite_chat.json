@@ -1,0 +1,551 @@
+{
+  "all_available_chat_rows_including_evaluation_and_audit": 6501892,
+  "archive_original_chat_rows": 6074308,
+  "archive_parts": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 75191056,
+      "chat_rows": 963504,
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 1,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "url": "https://drive.google.com/file/d/1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 70720600,
+      "chat_rows": 900800,
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 2,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "url": "https://drive.google.com/file/d/1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71168825,
+      "chat_rows": 900864,
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 3,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "url": "https://drive.google.com/file/d/1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71573224,
+      "chat_rows": 900880,
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 4,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "url": "https://drive.google.com/file/d/1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75237855,
+      "chat_rows": 970052,
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 5,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "url": "https://drive.google.com/file/d/1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71246149,
+      "chat_rows": 926788,
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 6,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "url": "https://drive.google.com/file/d/1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 39328574,
+      "chat_rows": 511420,
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 7,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "url": "https://drive.google.com/file/d/1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4/view"
+    }
+  ],
+  "archive_warning": "Original7chatgzip parts and new zip/chat members are preserved candidate archives, not the balanced evaluation-disjoint release. No archive data was deleted to balance the selected release.",
+  "chat_rows": 6501780,
+  "current_drive_connection": {
+    "binding": "RUNTIME_REBOUND_SAME_PROFILE_SAME_IDS_FRESH_RAW_HASHES_20261021",
+    "email": "hoainam29082005@gmail.com",
+    "link_id": "link_6abe1dbe42308191b83ea0d372a57459",
+    "name": "Hoai Nam",
+    "profile_id": "103000002357306706048"
+  },
+  "dataset_usage_current": {
+    "full_archive_token_audit_completed": false,
+    "new_exact_hash_numeric_exceptions": 19,
+    "new_sgk_cases_training_eligible_after_qa": 101,
+    "owner_intent": "Use all valid generated data for future training, not just the small balanced subset.",
+    "preserve_all_data": true,
+    "protected_frozen_evaluation_payloads_remain_separate": true,
+    "training_started": false
+  },
+  "extension_zip_shards": [
+    {
+      "bytes": 3449972,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1dRRtUxhlqKCC8FgjW7WYVa-ikaLye2uI",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000000000_000010000_08fb550da5a03852.zip",
+      "sha256": "08fb550da5a03852b881cf28cff35326c1feeb3d5ffbb50e33f6c6d366f51070",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092543,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1Wsw5maFoimhoASyP_Xo2UmXgBTQJewRj",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000010000_000020000_c413bcda1d6fed78.zip",
+      "sha256": "c413bcda1d6fed788c86b55089e10a3970700f94b2770d977cb582d637aa7a4a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092334,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1EJ0MYKgRhCrwcs929fNHWmfcACw2MaLE",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000020000_000030000_4a786b2eefac3fd9.zip",
+      "sha256": "4a786b2eefac3fd93e7f75cd04694e20b59a5cb4729c1e68ff4601693fbcfd4a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092546,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1KYT-pYFvUcv8VVA1adQVX6-_f-tVm7fY",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000030000_000040000_0db120004993b495.zip",
+      "sha256": "0db120004993b495ed1e8f43c86e814513e3ae0f33969c5c5bb3562215825c6a",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092616,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1Ic8WkXN8CyKEITRSrZ_tHqbj0auLAeNa",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000040000_000050000_74324e044818a577.zip",
+      "sha256": "74324e044818a5773a6a51023246e9c69a23790fb5d9ad3ce6fdcbac776221a0",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4093003,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1UV75k8jhHS4KE33zmQ_o9RYmBqjIm0mU",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000050000_000060000_ec360da8d3bb0dcc.zip",
+      "sha256": "ec360da8d3bb0dcca6eb86653ed039caa0bd00a665d72902c345186df09fe177",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092932,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "13Aq_U7o-WJARywrpeBggdJ4OdphWvHEe",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000060000_000070000_7cb6b71fbd5b95e8.zip",
+      "sha256": "7cb6b71fbd5b95e811579310b2acc1a02c7027e32307a1de366acf4387ef4d26",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092295,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1kiF6NsuItp2vhBeQErAQ3oAeENfKT1ik",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000070000_000080000_502af8a0b4662402.zip",
+      "sha256": "502af8a0b4662402382ecf64931700a06cadd0af7064831d9f6927c206e293f0",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4092158,
+      "cases": 10000,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 40000,
+      "file_id": "1sdK2hdrIdZD1Onbc2VkEE4c19stk_SYb",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000080000_000090000_41d72a04f00e3f24.zip",
+      "sha256": "41d72a04f00e3f2425b8fa81175b2dc94e31b152c889c8ce46c1495b96c0b804",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 440868,
+      "cases": 900,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 3596,
+      "file_id": "1cUH20LmSvDh9jlsOyV-7hXHEj85BHZxF",
+      "file_name": "MVK_division_dividend_0_100_divisor_three_digits__000090000_000090900_083c8b517999fe4f.zip",
+      "sha256": "083c8b517999fe4fbba435bedbe139839600ed803bef2d7526cc32e9ed078ef2",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4349878,
+      "cases": 9090,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 35864,
+      "file_id": "1_MMP-ph0kfHJg2xkjKFkVUocIRa-6wRe",
+      "file_name": "MVK_division_dividend_0_100_divisor_two_digits__000000000_000009090_3cf6b41a57927e89.zip",
+      "sha256": "3cf6b41a57927e89d0b29053ba94f5498456617f83e13084187ce4bcb52ad623",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 486813,
+      "cases": 900,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 2844,
+      "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+      "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 61506,
+      "cases": 101,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 296,
+      "file_id": "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+      "file_name": "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+      "sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+      "source_member": "source.jsonl.gz"
+    },
+    {
+      "bytes": 4818292,
+      "cases": 9079,
+      "chat_member": "chat.jsonl.gz",
+      "chat_rows": 22884,
+      "file_id": "1PqHaAIm8qeOfmeA4kNzY6BHSGtOQ2JIv",
+      "file_name": "MVK_multiplication_0_100_two_digits__000000000_000009079_bae19ea09ef2edd7.zip",
+      "sha256": "bae19ea09ef2edd7952a711081a4f18cea07847f820884d52e7fee8ab8fbc498",
+      "source_member": "source.jsonl.gz"
+    }
+  ],
+  "format": "partitioned_gzip_jsonl",
+  "latest_finite_sgk_reconciliation": {
+    "accepted_cases_bound": 36,
+    "all_sgk_forms_covered": false,
+    "asset_only_masters_separate": 10,
+    "bound_run": "sgk_completion_20261021",
+    "finite_text_tasks_discharged": 15,
+    "global_master_tasks": 30,
+    "member": "sgk_residual_20261021/reconciliation/next_uncovered_tasks.json",
+    "never_appended_missing_masters": 19,
+    "partial_master_tasks": 11,
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051"
+  },
+  "parts": [
+    {
+      "all_bytes_equal": true,
+      "bytes": 75191056,
+      "chat_rows": 963504,
+      "file_id": "1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4",
+      "file_name": "MathVisionKid_CHAT_part_01_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 1,
+      "sha256": "c5b72cc2f7c9f7dd067bee50f6762e8198d1b55a740d9db63e4462c1d261c06b",
+      "url": "https://drive.google.com/file/d/1su52h2igomOJ-Ge2NoCHm6jJMY1L7uu4/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 70720600,
+      "chat_rows": 900800,
+      "file_id": "1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF",
+      "file_name": "MathVisionKid_CHAT_part_02_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 2,
+      "sha256": "79094dd99ed030d07c3d3924a38725389f639802023ee743b97746612eae6c34",
+      "url": "https://drive.google.com/file/d/1MW3gfitbKzMtPpJrSl_5BeTSZDF-gOMF/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71168825,
+      "chat_rows": 900864,
+      "file_id": "1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C",
+      "file_name": "MathVisionKid_CHAT_part_03_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 3,
+      "sha256": "8161fe5fbb6fd353983e7d2187fc6c502429316c27d5454fe9bbe6e6b19dd613",
+      "url": "https://drive.google.com/file/d/1qWnDoJcXKfkwmlfiNlE1UUiW-zbh_47C/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71573224,
+      "chat_rows": 900880,
+      "file_id": "1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe",
+      "file_name": "MathVisionKid_CHAT_part_04_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 4,
+      "sha256": "b6d8f85674a6e18de435b42a90eda10cd5b5389f4b8c3b16130cb48960531a34",
+      "url": "https://drive.google.com/file/d/1IRQI0wWNwzi0YH1nBhtZ5IZa2F7UHHJe/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 75237855,
+      "chat_rows": 970052,
+      "file_id": "1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO",
+      "file_name": "MathVisionKid_CHAT_part_05_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 5,
+      "sha256": "7c6ff013d437612496e71a0d582794514fad41c569b2923e0ffa5a959bb40432",
+      "url": "https://drive.google.com/file/d/1mDiyqFAyhzgcQg9FSlezVkm3F13zPQWO/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 71246149,
+      "chat_rows": 926788,
+      "file_id": "1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX",
+      "file_name": "MathVisionKid_CHAT_part_06_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 6,
+      "sha256": "9f986204ade9340fe0b6c01efd9df47916870ae1af917342a1547a7005267210",
+      "url": "https://drive.google.com/file/d/1cXysfaGE0GK_KPwFMYmh3rY8zSTaVBpX/view"
+    },
+    {
+      "all_bytes_equal": true,
+      "bytes": 39328574,
+      "chat_rows": 511420,
+      "file_id": "1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4",
+      "file_name": "MathVisionKid_CHAT_part_07_of_07.jsonl.gz",
+      "kind": "chat_gzip",
+      "part": 7,
+      "sha256": "f9ed2105c9bffed758b88182a305d487531eb9134f1bd23b94a69645bf68de09",
+      "url": "https://drive.google.com/file/d/1zz4EiN3qVE--tIzYWatRUOEnXfBLIkp4/view"
+    }
+  ],
+  "protection_note": "Known protected arithmetic overlaps retained in full corpus and excluded from new training views. Baseline13numeric exceptions disclosed; no claim of total evaluation independence.",
+  "read_in_order": true,
+  "recommended_training_view": {
+    "TRAINING_DATASET_READY": true,
+    "bundle": {
+      "all_bytes_equal": true,
+      "bytes": 2431367,
+      "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+      "file_name": "MathVisionKid_BALANCED_COLAB_BUNDLE.zip",
+      "fresh_raw_verified": true,
+      "sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+      "url": "https://drive.google.com/file/d/1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV/view?usp=drivesdk",
+      "verified_utc": "2026-10-19T03:32:24.692Z"
+    },
+    "historical_diagnostic_subset_only": true,
+    "manifest_member": "balanced_release/MathVisionKid_BALANCED_TRAINING_MANIFEST.json",
+    "train_validation_test_counts": {
+      "test": 40,
+      "train": 4944,
+      "validation": 40
+    },
+    "use_train_split_only_for_future_training": true
+  },
+  "selection": "All valid data requested; every old archive preserved. Full-corpus tokenizer/split audit pending; frozen evaluation/audit members are not silently added to training.",
+  "storage": "Remote only; local new data removed after control verification.",
+  "supplement_bundles": [
+    {
+      "acceptance": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "all_sgk_exercise_forms_audited": false,
+      "books": 10,
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 389896,
+        "file_id": "17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo",
+        "file_name": "MathVisionKid_SGK_GAP_APPEND_20261019_bba05af405a61580.zip",
+        "fresh_raw_verified": true,
+        "sha256": "bba05af405a61580aa2b9e89991d76521b5f7a9bb3b9cebfa1daf056e97dfd1f",
+        "url": "https://drive.google.com/file/d/17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo/view?usp=drivesdk",
+        "verified_utc": "2026-10-19T04:44:33.016Z"
+      },
+      "by_grade": {
+        "1": 28,
+        "2": 4,
+        "3": 20,
+        "4": 20,
+        "5": 29
+      },
+      "cases": 101,
+      "catalog_member": "data/catalog_summary.json",
+      "chat_member": "data/accepted_sgk_chat.jsonl",
+      "chat_rows": 404,
+      "human_manual_attestation_added": false,
+      "numbered_sgk_lessons_registered": 345,
+      "numeric_benchmark_independence_claimed": false,
+      "numeric_overlap_exact_hash_exceptions": 19,
+      "original_core_cases": 495,
+      "pending_queue_member": "data/pending_sgk_exercise_audit.json",
+      "run_id": "sgk_gap_20261019",
+      "source_member": "data/accepted_sgk_cases.jsonl",
+      "token_audit_member": "data/new_chat_token_audit.json"
+    },
+    {
+      "acceptance": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "all_sgk_exercise_forms_audited": false,
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 1196154,
+        "cases": 110,
+        "chat_rows": 440,
+        "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+        "fresh_raw_verified": true,
+        "id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+        "member_count": 181,
+        "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+        "url": "https://drive.google.com/file/d/1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T10:46:39.588Z"
+      },
+      "by_grade": {
+        "1": 21,
+        "3": 9,
+        "4": 68,
+        "5": 12
+      },
+      "cases": 110,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 440,
+      "exact_hash_numeric_exceptions": 13,
+      "human_attestation_added": false,
+      "page_checkpoint_member": "data/release/page_audit_checkpoint.json",
+      "run_id": "sgk_page_audit_20261019",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 4411114,
+        "cases": 94,
+        "chat_rows": 376,
+        "file_name": "MathVisionKid_SGK_FINISH_APPEND_20261020_c938fdf049b02f66.zip",
+        "fresh_raw_verified": true,
+        "id": "1XFLAfwdhaURScQPJjysadiKB1268_joQ",
+        "member_count": 191,
+        "sha256": "c938fdf049b02f666286ed0f14397c39185c6d402b8a42e0591c59322d2cc201",
+        "url": "https://drive.google.com/file/d/1XFLAfwdhaURScQPJjysadiKB1268_joQ/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T11:42:17.702Z"
+      },
+      "by_grade": {
+        "1": 18,
+        "2": 28,
+        "3": 16,
+        "4": 8,
+        "5": 24
+      },
+      "cases": 94,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 376,
+      "discovered_catalog_member": "data/portable_resume/member_catalog_discovered.json",
+      "new_human_attestation": false,
+      "portable_checkpoint_member": "data/portable_resume/portable_checkpoint.json",
+      "run_id": "sgk_finish_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 2374386,
+        "cases": 36,
+        "chat_rows": 144,
+        "file_name": "MathVisionKid_SGK_REMAINING_APPEND_20261020_e9443f67a1baaad3.zip",
+        "fresh_raw_verified": true,
+        "id": "15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD",
+        "member_count": 108,
+        "sha256": "e9443f67a1baaad33f6cb6bbe64a8eb8f8db99cc70c889760377b85ce85d8b23",
+        "url": "https://drive.google.com/file/d/15zfvWaDHDM0wNIvxFYIcde_xHUCIxAgD/view?usp=drivesdk",
+        "verified_utc": "2026-10-20T11:57:50.912Z"
+      },
+      "by_grade": {
+        "3": 2,
+        "4": 7,
+        "5": 27
+      },
+      "cases": 36,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 144,
+      "new_human_attestation": false,
+      "run_id": "sgk_remaining_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 496507,
+        "cases": 18,
+        "chat_rows": 72,
+        "file_name": "MathVisionKid_SGK_FINAL_FORMS_APPEND_20261021_867537e0ef05679d.zip",
+        "fresh_raw_verified": true,
+        "id": "1FU1MLP422giB1PiIjR9X8SrV0y37_f5t",
+        "member_count": 71,
+        "sha256": "867537e0ef05679db1967a29acaec785644820093113ffeecc4460c8450bb05f",
+        "url": "https://drive.google.com/file/d/1FU1MLP422giB1PiIjR9X8SrV0y37_f5t/view?usp=drivesdk",
+        "verified_utc": "2026-10-21T05:00:06.013Z"
+      },
+      "by_grade": {
+        "5": 18
+      },
+      "cases": 18,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 72,
+      "new_human_attestation": false,
+      "run_id": "sgk_final_forms_20261020",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    },
+    {
+      "acceptance_status": "ACCEPTED_VALIDATED_OWNER_PREAUTHORIZED",
+      "bundle": {
+        "all_bytes_equal": true,
+        "bytes": 1909803,
+        "cases": 36,
+        "chat_rows": 144,
+        "file_name": "MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+        "fresh_raw_verified": true,
+        "id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "member_count": 141,
+        "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_completion_20261021\\MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+        "sha256": "f12edd01177a26e235d8ebd3cd1fb109c4efbf964ef6ccda38b536938677cfe2",
+        "url": "https://drive.google.com/file/d/1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31/view?usp=drivesdk",
+        "verified_utc": "2026-10-21T05:32:24.272Z"
+      },
+      "by_grade": {
+        "1": 6,
+        "3": 6,
+        "4": 10,
+        "5": 14
+      },
+      "cases": 36,
+      "chat_member": "data/release/accepted_chat.jsonl",
+      "chat_rows": 144,
+      "new_human_attestation": false,
+      "run_id": "sgk_completion_20261021",
+      "source_member": "data/release/accepted_cases.jsonl",
+      "token_audit_member": "data/release/token_audit.json",
+      "training_started": false
+    }
+  ]
+}

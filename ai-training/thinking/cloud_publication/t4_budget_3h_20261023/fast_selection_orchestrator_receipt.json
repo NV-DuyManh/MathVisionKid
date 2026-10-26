@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "mVrdsvhtWLE1"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"FULL_SCAN_REUSED_FAST_SELECTION_THEN_BENCHMARK_AND_TRAIN\", \"pid\": 57768, \"optimizer_updates\": 0, \"all_32_member_scan_preserved\": true}\n"
+        ]
+      }
+    ]
+  }
+}

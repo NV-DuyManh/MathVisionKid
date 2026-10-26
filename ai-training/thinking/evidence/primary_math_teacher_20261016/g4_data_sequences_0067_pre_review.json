@@ -1,0 +1,176 @@
+{
+  "authored_utc": "2026-10-18T04:27:48.277293+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:26:07.586Z",
+  "batch_sha256": "ff94b57382c8463cf413117b123d35000ce507a6c80784d94a196943f901b9b2",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_node": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_sort_daily_data_preserve_zero_repeats",
+      "row_sha256": "c702707cf2303ea58326f0e378bc23ddc9c13cec0f00d8ec9357f5601e4a4ac9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "1+1+1+1+1+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_sort_finish_times_with_tie",
+      "row_sha256": "5d96b1dcfc056a6fe30d70178124b5e766b90860a94a1bd651a6800d975faf01",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_filter_threshold_then_descending_labels",
+      "row_sha256": "386fd0df8b2d3a583b5ef8cb23e6440e3d1d0c4bb1f47b9a32717a89ee91a915",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "1+1+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_misconception_drop_duplicate_observations",
+      "row_sha256": "8b376c62f1ad3184d616bbae4b43e8a6ea47e723c5e37ef719fade48e077c6f4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          "1+1+1+1+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "exhaustive_value_orders": [
+      [
+        0,
+        18,
+        18,
+        21,
+        25,
+        32
+      ]
+    ],
+    "daily_value_multiplicities": {
+      "18": 2,
+      "25": 1,
+      "0": 1,
+      "32": 1,
+      "21": 1
+    },
+    "valid_time_orders_allowing_tie": [
+      [
+        "Bình",
+        "Chi",
+        "An",
+        "Dũng"
+      ],
+      [
+        "Chi",
+        "Bình",
+        "An",
+        "Dũng"
+      ]
+    ],
+    "threshold_selected_original_order": [
+      "B",
+      "C",
+      "D"
+    ],
+    "unique_stable_descending_order": [
+      [
+        "B",
+        "D",
+        "C"
+      ]
+    ],
+    "misconception_correct_multiset_order": [
+      [
+        12,
+        12,
+        16,
+        16,
+        20
+      ]
+    ],
+    "original_observation_counts": [
+      6,
+      5
+    ]
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Exhaustive permutation/identity/multiplicity checks verify given hypothetical records, not actual collection or observation; categorical sorting/criteria/feedback require semantic reading.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous378_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_content_read_completed_utc": "2026-10-18T04:28:13.379405+00:00",
+  "actual_content_read_includes_all12hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

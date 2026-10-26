@@ -1,0 +1,8 @@
+{
+  "selected": "adapter",
+  "criterion": "val solvable exact calculated answer + unit increases; guards, exact plans and per-grade math do not regress",
+  "test_used_for_selection": false,
+  "candidate_improved": true,
+  "per_grade_non_regression": true,
+  "production_approved": false
+}

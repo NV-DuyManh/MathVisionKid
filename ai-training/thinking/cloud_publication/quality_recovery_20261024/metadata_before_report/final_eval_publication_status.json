@@ -1,0 +1,95 @@
+{
+  "state": "PUBLISHING",
+  "artifacts": {
+    "final_evaluation_worker.py": {
+      "id": "1F8IRWdP2Xtcfo89BiJhwoH3wQKb170e9",
+      "sha256": "5d8d7e89e0a31615db2820c99f4074038ea827b0303c94a3685c9517f2380b3e",
+      "bytes": 21955,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:11.750604+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_evaluation_worker.py",
+      "immutable": true
+    },
+    "test_final_evaluation_worker.py": {
+      "id": "18w8GkLuiRRzlERCm97YQh_K4JP0Nlg-E",
+      "sha256": "82eafb7a657d1468d21110e09bdc6eed8af0ec49fd118d8fb39c438507e2796c",
+      "bytes": 8387,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:16.751796+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "test_final_evaluation_worker.py",
+      "immutable": true
+    },
+    "final_eval__attempt_started.json": {
+      "id": "1FSmZxNbd1RyMudHq3D9CGRxETgI4VH3Z",
+      "sha256": "12560f2617e6e6fafbbdd1dcd5fd1278155bbc93a69647e198be4b21e471e5c6",
+      "bytes": 335,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:21.764172+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__attempt_started.json",
+      "immutable": true
+    },
+    "final_eval__base_generation_provenance.json": {
+      "id": "1VhVt91xV0kUShWhW5HfRIrsvRjY-Bt1W",
+      "sha256": "045a0a50f874498bb9480b66d1e58aa78953eb34799821fbc97ed39a2ee8b81e",
+      "bytes": 429,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:26.774251+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__base_generation_provenance.json",
+      "immutable": true
+    },
+    "final_eval__base_generations.jsonl": {
+      "id": "1aOG7UQ81IJ7P_F3uRI5resPL-jAibQhT",
+      "sha256": "dec9137aec52728720a1fefc140b1397323efe8bda6d6b348ea8c2249d0c7e43",
+      "bytes": 23926,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:31.805588+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__base_generations.jsonl",
+      "immutable": true
+    },
+    "final_eval__collision_screening.json": {
+      "id": "1OWPTCP_XDvPVeFSkm52gPPLzaIPGsrxC",
+      "sha256": "1cea11c449459e0d2ce774b8ac35210a42d49e01a5cf26e2596d8fa91a9a7899",
+      "bytes": 378,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:36.786440+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__collision_screening.json",
+      "immutable": true
+    },
+    "final_eval__evaluation_contract.json": {
+      "id": "1YmkFc9G3ioB6BKP5XRNYK06hFuCqYT0m",
+      "sha256": "e31af69b2e3a494f618e8758fdc0265aa32f807b410dc009f9d074534fb1f082",
+      "bytes": 4812,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:41.732541+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__evaluation_contract.json",
+      "immutable": true
+    },
+    "final_eval__final_eval_manifest.json": {
+      "id": "1fkr6vLbLrdZcYQdhq24el1XivYiUboB1",
+      "sha256": "65e8695d8a60f78042203d8a341d7fc2d3ba6c7f562eb604e9980fe44d16bc4f",
+      "bytes": 3491,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:46.798540+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__final_eval_manifest.json",
+      "immutable": true
+    },
+    "final_eval__selected_output_reference.json": {
+      "id": "12EOaxulAnbGu5Dl73UyzpT3v6LWQj6Jh",
+      "sha256": "201087c6b306ec02e0ddbd6e9b0c18425857f4ee582e66c6cafa0d1e63447156",
+      "bytes": 272,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T10:53:51.776831+00:00",
+      "folder_id": "1ml93i1tx9zzSjEl3gKXx1RmzLYVWK2TJ",
+      "name": "final_eval__selected_output_reference.json",
+      "immutable": true
+    }
+  }
+}

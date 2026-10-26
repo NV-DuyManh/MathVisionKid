@@ -1,0 +1,27 @@
+{
+  "content_pages_count": 102,
+  "content_pages_range": [
+    4,
+    105
+  ],
+  "missing_content_pages": [],
+  "duplicate_pages": 0,
+  "duplicate_image_hashes": 0,
+  "candidate_labels": 31,
+  "actual_full_field_nearest_train_rows": 24,
+  "new_rows_authored": 0,
+  "cache_png_bytes": 0,
+  "checks": [
+    "exact_content_page_set",
+    "unique_page_and_image_hash",
+    "train_only_nearest_rows",
+    "cache_empty"
+  ],
+  "status": "PASS_STRUCTURAL_RECEIPT_CHECK_NOT_SEMANTIC_PROOF",
+  "hashes": {
+    "page_review.jsonl": "7b521a21eaa48598df897e23169241c0d7cd13831a08dd1c583270dacfd0838e",
+    "candidate_adjudication.json": "74443283e517bb418a00a2d067831544ceea82714e084e73f699f5afdf98d934",
+    "nearest_full_field_review.json": "63eded3e3341a4cd0e4f78c05388b462b1605ff7116e3bc2394e0c521d032ca8",
+    "summary.json": "54708a347d01d0959cd15c148c525cd28898e48ce2d2856ec108e724106cb654"
+  }
+}

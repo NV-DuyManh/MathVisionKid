@@ -1,0 +1,37 @@
+{
+  "verified_utc": "2026-10-21T05:00:52.771Z",
+  "bundle_id": "1FU1MLP422giB1PiIjR9X8SrV0y37_f5t",
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 8904479,
+      "sha256": "8c600ad538fecb97abe2d1ca05c5e7c2b8aa7408b3ebd83dca325b59cd678ead",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 20751,
+      "sha256": "999fff31d230bb7699c35c3a97fdfef9beabb8e51265ab17c42d25f2e44e7139",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 260149,
+      "sha256": "71d9f47a17200d49b4d1455db06a21ea4c3a3997177b1fcc01d17eee603dadf1",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 751505,
+      "sha256": "b3dee158c4434afa6f9c4db2ffb75a63eb30b1862b07d64900b60f2e3f2f5d64",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    }
+  ],
+  "training_started": false,
+  "whole_dataset_ready": false,
+  "cleanup_blocked_previously": true
+}

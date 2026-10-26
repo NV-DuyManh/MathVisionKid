@@ -1,0 +1,51 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "6569e0cb7425e7e06fe78d6c1dfb3371a4816e269f13c71b668d3fc6f3b67f87",
+  "decisions": [
+    {
+      "fixture_id": "skill150_locked_g2_1",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct3equal groups of8and24story books; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g2_2",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct37+19=56containers, sensible37+20−1check; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g2_3",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": false,
+      "critical_new_error": true,
+      "reason": "Baseline gives wrong full answer52in a hint and wrong borrowing. Selected withholds final but says transfer1towards tens instead of from tens to units; new wrong transfer-direction instruction, not a sound hint."
+    },
+    {
+      "fixture_id": "skill150_locked_g2_4",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Preserves provided correct4+8=12carry and fixes3+2+1to6and final62without fabricated hidden actions; exact baseline reuse."
+    }
+  ]
+}

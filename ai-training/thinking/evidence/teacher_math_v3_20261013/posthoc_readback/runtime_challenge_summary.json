@@ -1,0 +1,12 @@
+{
+  "samples": 262,
+  "solution_samples": 173,
+  "accepted_solutions": 2,
+  "wrong_accepted": 0,
+  "hint_renderer_matches": 59,
+  "guards_correct": 30,
+  "semantic_scope": "exact published templates",
+  "numeric_score_separate": true,
+  "pedagogy_teacher_reviewed": false,
+  "production_approved": false
+}

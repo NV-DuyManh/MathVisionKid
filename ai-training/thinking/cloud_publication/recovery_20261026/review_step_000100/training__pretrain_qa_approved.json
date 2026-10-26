@@ -1,0 +1,18 @@
+{
+  "all24_original_raw_source_hashes_reverified_in_current_cloud": true,
+  "all24_targets_equal_previously_read_content": true,
+  "core_code_raw_verified_before_optimizer": true,
+  "human_review_claimed": false,
+  "independent_code_review_sha256": "920733c740a7dc3b1023279a65ea1192134428e25a65bc57606f41860de57f34",
+  "renderer_sha256": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+  "review_scope": "Reused24fullsource semantic reviews, exact raw-source rebind and unchanged target check. Conditional instruction suffix independently reviewed; no new human attestation or fullcorpus semantic proof.",
+  "root_actual_source_samples_reviewed": true,
+  "root_approval_scope": "Reuse exact24reviewedsource target bindings, tested row objective and pinned configuration. This is automated root/peer QA, no human attestation or performance guarantee.",
+  "root_final_code_review_complete": true,
+  "sample_count": 24,
+  "source_plan_sha256": "f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad",
+  "source_review_files_sha256": {
+    "source_semantic_review_g1_g3.json": "c64b3feb675e4d3db5b72bea43e4e49f9f35f74f7d2f1c5cee3a95f518091295",
+    "source_semantic_review_g4_g5.json": "05b5a3d473f382d4a6b2697ccabc4c8c11dae66e3367e1f0a6af6028548bded5"
+  }
+}

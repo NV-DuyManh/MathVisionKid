@@ -1,0 +1,12 @@
+{
+  "duplicate_selected_generation_performed": false,
+  "fewshot_modes": [
+    "hint_level_1"
+  ],
+  "fewshot_rows": 5,
+  "file": "selected_generations.jsonl",
+  "outputs": 20,
+  "reuses_exact_fresh_base_outputs": false,
+  "selected_kind": "untrained_base",
+  "sha256": "406712804792705e4465f2554393574f5d5d462785a6e333ecea951d887f2608"
+}

@@ -1,0 +1,37 @@
+{
+  "heartbeat_utc": "2026-10-17T13:55:02.169Z",
+  "authored_cases": 272,
+  "accepted_cases": 172,
+  "chat_rows": 688,
+  "pending_cases": 100,
+  "accepted_core_cases": 111,
+  "remaining_core_cases": 384,
+  "pending_core_slots_prepared": 61,
+  "core_slots_not_authored": 323,
+  "task007_already_adjudicated_not_accepted_again": true,
+  "task008_source_rows_unchanged": true,
+  "task008_assigned_pending_cases": 67,
+  "unassigned_pending_cases": 33,
+  "batch_sha256": "9dba3669379acba5ffebd586b5aa7d42dfb77fbe8c29ab909cd19bf75b693ed5",
+  "chat_sha256": "52301c1b01fe73025c052ec7b6bbab184f9859be9b41cfdb028524e906646ff5",
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "docx_hash_unchanged": true,
+  "next_nodes": [
+    "current_g3_money_vietnam_100000",
+    "current_g3_convert_measurements",
+    "current_g3_perimeter"
+  ],
+  "training_started": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "drive_sync_status": "UPLOAD_READBACK_PENDING"
+}

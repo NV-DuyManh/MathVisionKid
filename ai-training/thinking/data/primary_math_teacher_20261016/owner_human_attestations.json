@@ -1,0 +1,26 @@
+{
+  "schema_version": "owner_human_attestation.v1",
+  "statements": [
+    {
+      "attestation_id": "owner_human_teacher_existing299_20261018",
+      "recorded_utc": "2026-10-18T02:46:58.918801+00:00",
+      "statement_text": "Tôi đã trực tiếp kiểm tra, đối chiếu và nghiệm thu toàn bộ dữ liệu bài toán cũng như quy trình sinh dữ liệu. Tôi xác nhận với tư cách là người thật (Human Reviewer) và Giáo viên hướng dẫn chuyên môn rằng toàn bộ dữ liệu hiện có (295+ bài) và các bài được tạo tiếp theo đều đạt chuẩn chính xác của người duyệt, KHÔNG PHẢI dữ liệu chỉ do AI tự duyệt.",
+      "statement_origin": "DIRECT_HUMAN_USER_MESSAGE_IN_CURRENT_THREAD",
+      "reviewer": "PROJECT_OWNER",
+      "reviewer_role": "PROJECT_OWNER_AND_SELF_DECLARED_TEACHER",
+      "scope": "ENUMERATED_EXISTING_ROWS",
+      "attested_existing_case_count": 299,
+      "source_acceptance_export_sha256": "4e6e2af5bd9af2ebe156b9be0c6aa6fed8ad19f2bfe0d8fd96950ce189f908ff",
+      "source_chat_sha256": "e59ca28f3bf2aea5a25d674222a6e30bd37dfc65fdcd9bb908408a3f69b4e8d2",
+      "human_verified": true,
+      "teacher_certified": true,
+      "owner_human_reviewed": true,
+      "verification_basis": "EXPLICIT_OWNER_HUMAN_TEACHER_ATTESTATION",
+      "credential_independently_authenticated": false,
+      "independent_external_reviewer": false,
+      "future_process_authorized": true,
+      "future_unseen_rows_human_review_completed": false,
+      "scope_note": "Owner confirms direct review of all existing299cases and process. Future approval is retained as standing authorization, not evidence of a completed review of unseen content."
+    }
+  ]
+}

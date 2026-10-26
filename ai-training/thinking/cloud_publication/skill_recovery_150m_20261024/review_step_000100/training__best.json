@@ -1,0 +1,7 @@
+{
+  "kind": "untrained_base",
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "semantic_review_pending": true,
+  "validation_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173"
+}

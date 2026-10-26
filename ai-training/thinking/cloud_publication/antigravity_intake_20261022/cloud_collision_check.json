@@ -1,0 +1,126 @@
+{
+  "observed_utc": "2026-10-22T12:35:01.290599+00:00",
+  "indexed_source_versions": 1629842,
+  "committed_chat_rows": 1078096,
+  "worker_alive": true,
+  "id_collisions": [],
+  "exact_source_problem_hash_collisions": [],
+  "observed_split_keys": [
+    {
+      "kind": "canonical",
+      "key": "0cdb1e0f2b6da9a3b759baf55f161177c57539c6bb6a9480d5c4dc1f25225b35",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "15d92f133295e9677c70ad13a817166f337d79228507c3acb7cbfd8b98a343ef",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "24e572e8492d75ac075d48dc7a19c32254c3ec23647aed968fa919a3d67c284e",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "49cad7f8dcefd695c64a25243aefb5a43fe68e4232b7d319c1f47a6bb49354d0",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "5144cef5c01f20215504f813319f76d03da4f45f518e817aca4bae7b7bcfc14b",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "64f631c3a39b5cb40316fbfc8522d9dc7dd8a9d26a2ad08b64def1aa164e25c5",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "67db4d4fe2e8f7dd6245b129dd70792e4b8722cd6da6a86d2f5de38862edb595",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "72ae938d8e722a5432a9bda92d8c7eba2aa6e3b9197394b69611995212764c8d",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "81c8e571eb14ce13e3502ed83da2b963f185b7afdd70ea1544a5c7bd0e780cd3",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "82da6d9f8224e19aafc751f58603134cc194e6e11c45fa102427bfeba91c7e3b",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "8dde95aaf1a275be715e63e0902869bde33b4a11f824505dde67854d91ac1403",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "953f46d804646234b49906a7ae62be2bdd96ec443f5515cab9fd36476a6588e9",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "9cd238067ba8fef14c2ae235b62f413deaf549069121fcb80cc23d498a286f22",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "9e1b18f80083a35d7d3e9cdbb95236c767dd7416375372f81a680cc53201a2af",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "9eb2499b64170b454f27022f82c776e6a4802f4a9754fee00e9b06b13f10f416",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "aa684a3c6ef5f18cf5cf2aa7f50564182c5d0a8e5d74fed04ef6c59456a462a7",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "ab9fe8e1d7836e76d2e2b98872db73c1a3908c2662b69e914c5c7048eb8f6d57",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "ae6ffa8ae39952aec8f6c258ffd66a968528b1a8ce8970c7e0065123c046da6e",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "b072dce7a9b3acb15eb4d3d295f5676c40dbcd821484a8c1c0799207dcdbf0ca",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "b20a208162479afa7a068936ba47ef7f1a5b8b5c1457086937679a240f9e4fe1",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "d5bc83f49330f94753e6e34e686f5c03bcabf5d34c258f9dc7762121f05b789b",
+      "split": "train"
+    },
+    {
+      "kind": "canonical",
+      "key": "d6370658ebe335e4d4298510623ac6eab9ed509ae8bba91500552c434391a478",
+      "split": "train"
+    }
+  ],
+  "current_issues": {
+    "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+  },
+  "full_archive_complete": false,
+  "training_started": false,
+  "normalized_question_check_scope": "Current committed chats only; full source exact field hash scan also completed."
+}

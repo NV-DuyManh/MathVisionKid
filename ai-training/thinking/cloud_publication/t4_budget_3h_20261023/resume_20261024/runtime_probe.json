@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "q6nlzEztT7Wu"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"pid\": 1204, \"prior_runtime_directory_exists\": false, \"gpu\": \"Tesla T4, 15360 MiB, 0 MiB, 0 %\\n\"}\n"
+        ]
+      }
+    ]
+  }
+}

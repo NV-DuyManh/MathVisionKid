@@ -1,0 +1,704 @@
+{
+  "before_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_unitary_same_price_pens",
+      "case_group_id": "primary_20261018_finish_g3_unitary_same_price_pens",
+      "split": "train",
+      "grade": 3,
+      "topic": "same_price_pens",
+      "problem": "Mua 5 chiếc bút cùng loại, cùng đơn giá hết 35000 đồng, không phí hay giảm giá. Hỏi 3 chiếc cùng loại và cùng đơn giá đó hết bao nhiêu đồng.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số bút đã mua",
+          "value": "5",
+          "unit": "chiếc",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Tiền đã trả",
+          "value": "35000",
+          "unit": "đồng",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Số bút cần mua",
+          "value": "3",
+          "unit": "chiếc",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tìm tiền mua số bút cần mua qua đơn giá.",
+      "student_work": null,
+      "initial_guidance": [
+        "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm lượng ứng với một phần trước, rồi nhân số phần cần tìm hoặc chia tổng cần xếp.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cách tái tạo lượng được cho; không áp dụng cùng đơn vị nếu đề chưa bảo đảm các phần bằng nhau.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm tiền một bút",
+          "reason": "Các bút cùng đơn giá nên chia tổng tiền cho số bút.",
+          "result": "7000",
+          "explanation": "7000*5=35000 tái tạo hóa đơn.",
+          "expression": "35000/5",
+          "unit": "đồng"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm tiền cần trả",
+          "reason": "Mỗi bút vẫn cùng đơn giá nên nhân với số bút cần.",
+          "result": "21000",
+          "explanation": "21000:3=7000; không dùng tổng tiền ban đầu làm giá một bút.",
+          "expression": "{s0}*3",
+          "unit": "đồng"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Tiền mua bút",
+          "result": "21000",
+          "unit": "đồng"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "same_price_pens",
+        "operations": [],
+        "numeric_values": [
+          "5",
+          "35000",
+          "3"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_unitary_word_problems",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_unitary_compare_unit_package_mass",
+      "case_group_id": "primary_20261018_finish_g3_unitary_compare_unit_package_mass",
+      "split": "train",
+      "grade": 3,
+      "topic": "compare_unit_package_mass",
+      "problem": "Kiện A có 4 túi bằng nhau, tổng 28 kg. Kiện B có 3 túi bằng nhau, tổng 24 kg. Các túi trong mỗi kiện bằng nhau, chưa nói túi giữa hai kiện bằng nhau. Một túi ở kiện nào nặng hơn.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "A số túi",
+          "value": "4",
+          "unit": "túi",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "A tổng",
+          "value": "28",
+          "unit": "kg",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "B số túi",
+          "value": "3",
+          "unit": "túi",
+          "role": "explicit_given_2"
+        },
+        {
+          "id": "g3",
+          "text": "B tổng",
+          "value": "24",
+          "unit": "kg",
+          "role": "explicit_given_3"
+        }
+      ],
+      "requested_quantity": "Tìm khối lượng một túi mỗi kiện rồi so sánh.",
+      "student_work": null,
+      "initial_guidance": [
+        "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm lượng ứng với một phần trước, rồi nhân số phần cần tìm hoặc chia tổng cần xếp.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cách tái tạo lượng được cho; không áp dụng cùng đơn vị nếu đề chưa bảo đảm các phần bằng nhau.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Một túi A",
+          "reason": "Các túi A bằng nhau nên rút khối lượng về một túi.",
+          "result": "7",
+          "explanation": "Bốn nhóm7kg có28kg.",
+          "expression": "28/4",
+          "unit": "kg"
+        },
+        {
+          "step_id": "s1",
+          "title": "Một túi B",
+          "reason": "Rút riêng kiện B vì chưa biết đơn vị túi hai kiện bằng nhau.",
+          "result": "8",
+          "explanation": "Ba nhóm8kg có24kg.",
+          "expression": "24/3",
+          "unit": "kg"
+        },
+        {
+          "step_id": "s2",
+          "title": "So sánh đơn vị",
+          "reason": "Cùng là khối lượng của một túi nên so hai kết quả.",
+          "result": "Túi B nặng hơn túi A",
+          "explanation": "8kg lớn hơn7kg; tổng kiện A lớn hơn không suy ra mỗi túi A nặng hơn.",
+          "expression": null,
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Một túi A",
+          "result": "7",
+          "unit": "kg"
+        },
+        {
+          "quantity": "Một túi B",
+          "result": "8",
+          "unit": "kg"
+        },
+        {
+          "quantity": "So sánh",
+          "result": "Túi B nặng hơn túi A",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "compare_unit_package_mass",
+        "operations": [],
+        "numeric_values": [
+          "4",
+          "28",
+          "3",
+          "24"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_unitary_word_problems",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_unitary_unit_mass_inverse_bag_count",
+      "case_group_id": "primary_20261018_finish_g3_unitary_unit_mass_inverse_bag_count",
+      "split": "train",
+      "grade": 3,
+      "topic": "unit_mass_inverse_bag_count",
+      "problem": "Bốn bao gạo chứa bằng nhau, tổng 36 kg. Muốn xếp 63 kg gạo vào các bao có khối lượng gạo bằng mỗi bao đã nêu, xếp vừa hết. Cần bao nhiêu bao.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số bao mẫu",
+          "value": "4",
+          "unit": "bao",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Tổng gạo mẫu",
+          "value": "36",
+          "unit": "kg",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Tổng cần xếp",
+          "value": "63",
+          "unit": "kg",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tìm số bao cần qua khối lượng một bao.",
+      "student_work": null,
+      "initial_guidance": [
+        "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm lượng ứng với một phần trước, rồi nhân số phần cần tìm hoặc chia tổng cần xếp.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cách tái tạo lượng được cho; không áp dụng cùng đơn vị nếu đề chưa bảo đảm các phần bằng nhau.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm mỗi bao",
+          "reason": "Các bao mẫu bằng nhau nên chia để về một bao.",
+          "result": "9",
+          "explanation": "9*4=36kg, khớp mẫu.",
+          "expression": "36/4",
+          "unit": "kg"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm số bao",
+          "reason": "Đếm số phần khối lượng bằng một bao trong tổng cần xếp.",
+          "result": "7",
+          "explanation": "7*9=63kg, xếp vừa hết.",
+          "expression": "63/{s0}",
+          "unit": "bao"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số bao cần",
+          "result": "7",
+          "unit": "bao"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "unit_mass_inverse_bag_count",
+        "operations": [],
+        "numeric_values": [
+          "4",
+          "36",
+          "63"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_unitary_word_problems",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_unitary_mis_total_as_unit",
+      "case_group_id": "primary_20261018_finish_g3_unitary_mis_total_as_unit",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_total_as_unit",
+      "problem": "Sáu hộp bút bằng nhau chứa tổng 54 bút. Hỏi 4 hộp như vậy chứa bao nhiêu bút. Học sinh viết \"54 nhân 4 bằng 216 bút vì mỗi hộp có 54 bút.\" Sửa theo dữ kiện.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số hộp ban đầu",
+          "value": "6",
+          "unit": "hộp",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Tổng bút",
+          "value": "54",
+          "unit": "bút",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Hộp cần tìm",
+          "value": "4",
+          "unit": "hộp",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tìm số bút trong số hộp cần bằng rút về một hộp.",
+      "student_work": {
+        "text": "54 nhân 4 bằng 216 bút vì mỗi hộp có 54 bút.",
+        "observations": [
+          {
+            "excerpt": "54 nhân 4 bằng 216 bút vì mỗi hộp có 54 bút.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm lượng ứng với một phần trước, rồi nhân số phần cần tìm hoặc chia tổng cần xếp.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Kiểm bằng cách tái tạo lượng được cho; không áp dụng cùng đơn vị nếu đề chưa bảo đảm các phần bằng nhau.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm một hộp",
+          "reason": "54 là tổng sáu hộp, không phải một hộp như câu viết.",
+          "result": "9",
+          "explanation": "9*6=54; chỉ nhận xét vai trò tổng và một hộp đã được trích dẫn.",
+          "expression": "54/6",
+          "unit": "bút"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm số bút cần",
+          "reason": "Nhân lượng một hộp với số hộp cùng loại.",
+          "result": "36",
+          "explanation": "36:4=9; sáu hộp54bút thì bốn hộp phải ít hơn54.",
+          "expression": "{s0}*4",
+          "unit": "bút"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Bút trong bốn hộp",
+          "result": "36",
+          "unit": "bút"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_total_as_unit",
+        "operations": [],
+        "numeric_values": [
+          "6",
+          "54",
+          "4"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_unitary_word_problems",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_unitary_guard_unequal_boxes",
+      "case_group_id": "primary_20261018_finish_g3_unitary_guard_unequal_boxes",
+      "split": "train",
+      "grade": 3,
+      "topic": "guard_unequal_boxes",
+      "problem": "Có 4 hộp chứa tổng 40 viên phấn. Đề chưa cho các hộp có bằng nhau không hoặc hộp nào chứa bao nhiêu. Muốn biết số phấn của 1 hộp được chỉ định cần bổ sung gì.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số hộp",
+          "value": "4",
+          "unit": "hộp",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Tổng phấn",
+          "value": "40",
+          "unit": "viên",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Số từng hộp và điều kiện bằng nhau chưa cho",
+          "value": null,
+          "unit": "",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Xin điều kiện chia đều hoặc số phấn hộp được chỉ định.",
+      "student_work": null,
+      "initial_guidance": [
+        "Tổng và số hộp chưa đảm bảo lượng một hộp khi các phần có thể khác nhau."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Tổng và số hộp chưa đảm bảo lượng một hộp khi các phần có thể khác nhau.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Xin xác nhận các hộp bằng nhau hoặc số phấn riêng hộp được hỏi.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Không tự lấy trung bình làm số phấn thực tế của một hộp thiếu dữ kiện.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_unequal_boxes",
+        "operations": [],
+        "numeric_values": [
+          "4",
+          "40"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_unitary_word_problems",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFpp22,24; textbookpp128–129,167–168",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_sha256": "c396402672b029967913448842a8982b4b177f03d155ec9a050de2241825ab13",
+  "numeric_expressions_unchanged": true
+}

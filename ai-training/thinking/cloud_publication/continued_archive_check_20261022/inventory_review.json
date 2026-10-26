@@ -1,0 +1,283 @@
+{
+  "schema": "MathVisionKid.inventory_reconciliation_review.v1",
+  "reviewed_utc": "2026-10-22",
+  "scope": "Metadata-only reconciliation of declared recipe counts, member row totals, V3 source index/runtime observation, role/duplicate/exclusion declarations. Protected payload contents were not opened; no Drive/Colab/corpus writes or training performed.",
+  "sources": {
+    "recipe": "thinking/cloud_publication/antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "historical_reference": "thinking/exhaustive_cloud_reference.json",
+    "runtime_observation": "thinking/cloud_publication/resume_after_g2_20261022/verified_runtime_observation.json",
+    "v3_auditor_code": "thinking/math_data_full_audit_v3.py",
+    "recipe_current_fields": [
+      "declared_accepted_case_total",
+      "declared_candidate_chat_rows",
+      "raw_candidate_chat_rows_including_declared_current_splits",
+      "current_pedagogy_validation_test_rows_separate",
+      "source_members",
+      "chat_members",
+      "duplicate_member_references",
+      "excluded_members"
+    ],
+    "v3_provenance_fields": [
+      "migration.new_report.source_versions_indexed",
+      "migration.new_report.source_labels_indexed",
+      "migration.checkpoint.report_at_snapshot",
+      "actual_source_versions",
+      "actual_chat_rows_committed"
+    ]
+  },
+  "accepted_case_count": {
+    "declared_logical_accepted_cases": 1629922,
+    "historical_reference_accepted_cases": 1629922,
+    "current_recipe_source_member_rows_sum": 1629906,
+    "v3_source_versions_indexed_at_snapshot": 1629906,
+    "difference_declared_logical_minus_indexed_source_versions": 16,
+    "difference_preceded_latest_64_append": true,
+    "pre_append_counts_from_project_context": {
+      "accepted_logical": 1629858,
+      "source_versions": 1629842,
+      "difference": 16
+    },
+    "finding": "The 16-row gap is exact and persists before/after the latest 64-case append. The count sources use different identities/scopes: recipe/reference logical accepted aggregate versus V3 indexed source-version rows. No identity-level mapping in the inspected metadata proves which 16 logical cases lack/overlap source versions.",
+    "status": "UNRESOLVED_IDENTITY_CROSSWALK_REQUIRED",
+    "possible_metadata_only_clue_not_proven": "exhaustive_cloud_reference.additional_nonexhaustive_source_cases declares 16 new arithmetic holdout sources (8 selected, 8 superseded audit-only); no basis here to equate them with the 16-count gap.",
+    "holdout_metadata_ids_only": {
+      "source": "thinking/cloud_publication/sgk_page_audit_20261019/prior_balanced/audit/holdout_arithmetic_reservations.json and holdout_arithmetic_reservations_v2.json",
+      "counts": {
+        "holdout_arithmetic_reservations.json": 8,
+        "holdout_arithmetic_reservations_v2.json": 8
+      },
+      "ids_by_metadata_file_and_split": {
+        "holdout_arithmetic_reservations.json": {
+          "validation": [
+            "math_1a310ab3ad8ea191d3221a1b3f0e067951d61ce72f432723f34a68234794cb39",
+            "math_1d4f80f7bf8e50086fc839ca5f71bb70b8fb7280a3641d5b86459498daadf64d",
+            "math_4b230acacbc6e73ccb5b8e34fc1d3a29313104662045b3901e4f368ed0ad56e3",
+            "math_dcc1c52bc8eed44dab40727ee6a2dd286a01d27bef3c38f37befc4f27df1a760"
+          ],
+          "test": [
+            "math_4c7fbbd59d52478586eddbeffd3206648d0a33377569ce9b84343c6738e3e467",
+            "math_b64739675be5de87efacfa3b662672f0c7753de85066c9d324aabf38ffb2b3ab",
+            "math_cfa032711a716cde983d050abdeb54cb56b603581a5849dba6b2b906e7ca3d29",
+            "math_e17655bd300b1c69f5c6be50341ad761d319fe2642f87fbffe3490170b8b2848"
+          ]
+        },
+        "holdout_arithmetic_reservations_v2.json": {
+          "validation": [
+            "math_c57b626fd6015d7e50a2d390d092133935141f93f43c8debfe2b2a2a1641abb4",
+            "math_5f987b47dbf7b18aecc6e87eac1cc9fd5db3a15a01a5b349ef1b6eb741fd0f91",
+            "math_aa404d35fb29a6a691801e0c128a2b7f9f9c1c5319398247ba60f2c30a855dc8",
+            "math_38fc3ac2485d0181e38fdbc6e0dcf033f561cd0245a7db3889900881baa2cf76"
+          ],
+          "test": [
+            "math_a713fb3aca6377dbcab8dfc3fdc1adcb0be10a7dd08bed6292a112d8f3f668e0",
+            "math_ce56b06cddcaf6fe356bdbcc158eedfc7e1a37e8e348cbe4e97db8fd27ee43c8",
+            "math_461e41283b4b21cd228956fa46c8ec9d690813903a9b619c01f87a0f0393cbaa",
+            "math_c9997713f14684707293bfeec088b954f2d9839142dfc6f964d0710b54f54dc5"
+          ]
+        }
+      },
+      "interpretation": "These are 8 original and 8 v2 holdout case IDs preserved in reservation metadata. Their count matches the 16 discrepancy, but exact IDs have not been cross-joined to the accepted-case ledger or V3 source_versions. Treat as a lead only; some are explicitly audit-only/evaluation-only and must remain excluded from training."
+    }
+  },
+  "chat_count": {
+    "recipe_declared_candidate_chat_rows": 6502344,
+    "recipe_current_eval_rows_separate": 48,
+    "recipe_raw_candidate_chat_rows_including_current_declared_splits": 6502392,
+    "sum_of_32_candidate_chat_member_declared_rows": 6502392,
+    "verified_arithmetic": "6502392 = 6502344 + 48",
+    "historical_reference_all_available_chat_rows_including_eval_and_audit": 6502456,
+    "historical_minus_current_raw": 64,
+    "historical_status": "Legacy all-available/evaluation/audit counter in exhaustive_cloud_reference; historic split totals are explicitly pending full archive audit. Its +64 to current raw is not partitioned by the current recipe and must not be presented as current candidate or train-only rows.",
+    "train_only_total_verified": false
+  },
+  "recipe_member_inventory": {
+    "source_member_count": 219,
+    "source_roles": {
+      "candidate_source": 219
+    },
+    "source_member_rows_sum": 1629906,
+    "chat_member_count": 32,
+    "chat_roles": {
+      "candidate_chat": 32
+    },
+    "chat_member_rows_sum": 6502392,
+    "duplicate_member_reference_count": 11,
+    "duplicate_reference_rows_sum": 0,
+    "duplicate_exact_member_keys": 0,
+    "duplicate_note": "All 11 listed duplicate references have zero declared rows; no duplicate (role,file_id,member) key among declared member entries. Repeated archive file IDs represent distinct member paths.",
+    "excluded_metadata_entry_count": 1680,
+    "excluded_roles": {
+      "audit_history_or_metadata": 694,
+      "evaluation_only": 2,
+      "diagnostic_duplicate_excluded": 3,
+      "metadata_only": 981
+    },
+    "frozen_exclusion_examples_metadata_only": [
+      "audit/holdout_arithmetic_cases_v2.jsonl (evaluation_only)",
+      "audit/holdout_arithmetic_chat_v2.jsonl (evaluation_only)",
+      "balanced_release/train.jsonl.gz (diagnostic_duplicate_excluded)",
+      "balanced_release/validation.jsonl.gz (diagnostic_duplicate_excluded)",
+      "balanced_release/test.jsonl.gz (diagnostic_duplicate_excluded)",
+      "data/release/preservation_frozen_local.json (audit_history_or_metadata)",
+      "owner/human_attestation/signoff ledger members (metadata_only or audit_history_or_metadata)"
+    ],
+    "protected_payloads_opened": false
+  },
+  "v3_runtime": {
+    "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+    "recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+    "verified_snapshot_utc": "2026-10-22T14:12:47.377373+00:00",
+    "snapshot_source_versions": 1629906,
+    "snapshot_source_labels": {
+      "regression_only": 1,
+      "test": 6,
+      "train": 1381,
+      "train_candidate": 1628512,
+      "validation": 6
+    },
+    "snapshot_chats_processed": 1078352,
+    "snapshot_members_complete_expected": [
+      221,
+      251
+    ],
+    "snapshot_issue_count": 1,
+    "later_runtime_observed_utc": "2026-10-22T14:16:15.728316+00:00",
+    "later_runtime_worker_alive": true,
+    "later_runtime_committed_chats": 1128016,
+    "later_runtime_source_versions": 1629906,
+    "latest_issue_count": 1,
+    "full_archive_audit_complete": false,
+    "training_dataset_ready": false,
+    "readiness_note": "Counts at live observation are partial. Source index count agrees with recipe row sum; chat commit count is progress, not corpus total."
+  },
+  "proof_required_before_claiming_reconciled_readiness": [
+    "Using the existing V3 SQLite checkpoint, compare only the 16 holdout IDs above against source_versions(id,raw_sha,source_split) and the accepted logical case-ID ledger, in both directions; report per-ID source version count, source split and member/hash provenance. Do not assume numeric equality proves identity.",
+    "For chat counts, finish or inspect the completed member-level V3 report with exact rows per declared chat member and split totals; reconcile the historical +64 through a historical recipe/member list with explicit eval/audit partition and hash provenance.",
+    "Keep training readiness false until full archive token/linkage/split audit is complete and remaining curriculum/asset acceptance gates are separately satisfied."
+  ],
+  "proposed_existing_checkpoint_queries": [
+    "SELECT COUNT(*) AS source_versions, COUNT(DISTINCT id) AS distinct_source_ids FROM source_versions;",
+    "SELECT source_split,COUNT(*) AS versions,COUNT(DISTINCT id) AS distinct_ids FROM source_versions GROUP BY source_split ORDER BY source_split;",
+    "SELECT id,COUNT(*) AS versions,GROUP_CONCAT(DISTINCT source_split) AS labels FROM source_versions WHERE id IN (<16 metadata IDs>) GROUP BY id ORDER BY id;",
+    "Anti-join the accepted logical case-ID ledger to source_versions.id and vice versa; include raw_sha and exact recipe member key/line for every one of the 16 unmatched/multiple-version identities."
+  ],
+  "source_chat_case_boundary_reconciliation": {
+    "method": "Metadata-only arithmetic: sum declared source member rows by family and compare against declared chat member rows divided by four modes. This is an aggregate boundary trace, not an ID/source_chat linkage proof.",
+    "current_candidate_scope_arithmetic": {
+      "source_versions": 1629906,
+      "nontrain_source_labels": {
+        "test": 6,
+        "validation": 6,
+        "regression_only": 1
+      },
+      "train_and_train_candidate_source_rows": 1629893,
+      "raw_chat_member_rows": 6502392,
+      "current_eval_rows_separate": 48,
+      "candidate_chat_rows": 6502344,
+      "candidate_chat_four_mode_case_equivalent": 1625586,
+      "train_source_minus_candidate_chat_case_equivalent": 4307
+    },
+    "family_formula": [
+      {
+        "family": "original_corpus vs original_chat",
+        "source_member_rows": 1519171,
+        "chat_member_rows": 6074308,
+        "chat_case_equivalent": 1518577,
+        "source_minus_chat_cases": 594,
+        "trace": "194 source members in the seven FULL_CORPUS ZIPs (group rows by archive listed below) vs seven CHAT part members; family labels differ, so no per-payload identity pairing is asserted."
+      },
+      {
+        "family": "numeric_extension",
+        "source_member_rows": 110070,
+        "chat_member_rows": 425484,
+        "chat_case_equivalent": 106371,
+        "source_minus_chat_cases": 3699,
+        "trace": "9 three-digit-division shard pairs match 1:4; remaining gaps: last division shard +1; two-digit division +124; one-digit multiplication +189; three-digit multiplication +27; two-digit multiplication +3358."
+      },
+      {
+        "family": "balanced_plus_supplement_history",
+        "source_member_rows": 129,
+        "chat_member_rows": 456,
+        "chat_case_equivalent": 114,
+        "source_minus_chat_cases": 15,
+        "trace": "audit/boundary_cases.jsonl has 69 source rows against audit/boundary_chat.jsonl 216/4=54 (gap 15); pedagogy v3 is 60 against 240/4=60."
+      },
+      {
+        "family": "all finite append families",
+        "source_member_rows": 536,
+        "chat_member_rows": 2144,
+        "chat_case_equivalent": 536,
+        "source_minus_chat_cases": 0,
+        "trace": "antigravity repair 64/256, G2 finite forms 6/24, SGK completion 36/144, final forms 18/72, final gaps 71/284, finish 94/376, gap 101/404, page audit 110/440, remaining 36/144; all declared member totals satisfy 4 chats per source."
+      }
+    ],
+    "original_corpus_source_rows_by_archive": {
+      "MathVisionKid_FULL_CORPUS_part_01_of_07.zip": {
+        "members": 7,
+        "rows": 115827
+      },
+      "MathVisionKid_FULL_CORPUS_part_02_of_07.zip": {
+        "members": 10,
+        "rows": 250250
+      },
+      "MathVisionKid_FULL_CORPUS_part_03_of_07.zip": {
+        "members": 10,
+        "rows": 250250
+      },
+      "MathVisionKid_FULL_CORPUS_part_04_of_07.zip": {
+        "members": 10,
+        "rows": 250250
+      },
+      "MathVisionKid_FULL_CORPUS_part_05_of_07.zip": {
+        "members": 119,
+        "rows": 266502
+      },
+      "MathVisionKid_FULL_CORPUS_part_06_of_07.zip": {
+        "members": 15,
+        "rows": 258000
+      },
+      "MathVisionKid_FULL_CORPUS_part_07_of_07.zip": {
+        "members": 23,
+        "rows": 128092
+      }
+    },
+    "nonmatching_numeric_extension_members": [
+      {
+        "file": "MVK_division_dividend_0_100_divisor_three_digits__000090000_000090900_083c8b517999fe4f.zip",
+        "source_rows": 900,
+        "chat_rows": 3596,
+        "chat_case_equivalent": 899,
+        "delta": 1
+      },
+      {
+        "file": "MVK_division_dividend_0_100_divisor_two_digits__000000000_000009090_3cf6b41a57927e89.zip",
+        "source_rows": 9090,
+        "chat_rows": 35864,
+        "chat_case_equivalent": 8966,
+        "delta": 124
+      },
+      {
+        "file": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+        "source_rows": 900,
+        "chat_rows": 2844,
+        "chat_case_equivalent": 711,
+        "delta": 189
+      },
+      {
+        "file": "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+        "source_rows": 101,
+        "chat_rows": 296,
+        "chat_case_equivalent": 74,
+        "delta": 27
+      },
+      {
+        "file": "MVK_multiplication_0_100_two_digits__000000000_000009079_bae19ea09ef2edd7.zip",
+        "source_rows": 9079,
+        "chat_rows": 22884,
+        "chat_case_equivalent": 5721,
+        "delta": 3358
+      }
+    ],
+    "interpretation": "The aggregate recipe accounts for 4,308 source rows beyond four-mode chat case-equivalents: original corpus 594 + numeric extensions 3,699 + boundary supplement 15. Recipe split labels yield 4,307 train/train_candidate source rows beyond declared candidate chat case-equivalents after excluding 13 nontrain source rows and 12 separate eval cases (net -1). These family/member declarations explain the arithmetic location of the gap, not the specific source IDs or whether each is legitimately chatless. Await the full V3 ID-level anti-join before adjusting counts or labels."
+  }
+}

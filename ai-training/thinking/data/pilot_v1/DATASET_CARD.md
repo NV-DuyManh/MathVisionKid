@@ -1,0 +1,50 @@
+# MathVisionKid — text math pilot
+
+{
+  "dataset_version": "mvk_math_text_pilot_v1",
+  "rows": 1670,
+  "splits": {
+    "train": 1474,
+    "test": 104,
+    "val": 92
+  },
+  "grades": {
+    "1": 231,
+    "2": 145,
+    "3": 426,
+    "4": 438,
+    "5": 426,
+    "None": 4
+  },
+  "topics": {
+    "add_join": 83,
+    "sub_remaining": 147,
+    "add_books": 143,
+    "equal_groups": 143,
+    "share_equal": 142,
+    "gain_then_loss": 141,
+    "sum_difference": 145,
+    "fraction_add": 141,
+    "rectangle_area": 149,
+    "decimal_add": 145,
+    "decimal_sub": 139,
+    "trapezoid_area": 142,
+    "clarification": 6,
+    "scope": 4
+  },
+  "group_overlap": 0,
+  "fingerprints": {
+    "train": "a20aea7ac80c6d44c02ccef6f1f886988d7e6ef06073f7a85503559b875bd1cd",
+    "val": "4d0ab4749feb1a28e6e9ae82bb973838799e7c0fdffa27a46db9fac033e80538",
+    "test": "a12bcd9eca2ac39cf744a612cc520e3db3cf904ba725eed50f6788729e899b8a"
+  },
+  "source": "synthetic_programmatic_templates",
+  "human_verified": false,
+  "scope": "12 selected topic families; not full Vietnamese curriculum",
+  "limitations": [
+    "Arithmetic is checked; pedagogical quality is not teacher certified.",
+    "Held-out phrasings and numbers remain in familiar topic families.",
+    "Performance here is not a benchmark on real student problems.",
+    "No OCR annotations or student wrong answers are used as correct solutions."
+  ]
+}

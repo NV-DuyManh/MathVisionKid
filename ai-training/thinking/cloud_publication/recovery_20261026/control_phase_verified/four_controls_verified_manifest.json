@@ -1,0 +1,49 @@
+{
+  "branch": "recovery_20261026",
+  "branch_observation_sha256": "8891537fc9e00667437c7e447496f367a116a9e0689ee2f8962f734b97293628",
+  "legacy_top_level_flags_preserved": true,
+  "metadata_control_transaction_only": true,
+  "order": [
+    "progress",
+    "chat",
+    "context",
+    "state"
+  ],
+  "prepared_hashes": {
+    "chat": "02ac2dcce72531359c08ada0e99928b02a841f54916cd5e90eea595ca3e5d43e",
+    "context": "20dc2d551ed9a68f60cac78fd837c0248d3cf44e332b7b9a8f749bae11b1ac67",
+    "progress": "798a016d65aed319684019867abaab3cf97c99da1b25b099ee46ec824340165b",
+    "state": "8bba35b1384e216e7435b701111ad6c212f2364385a0a46221365a661f32272f"
+  },
+  "transaction": "four_existing_controls",
+  "verified_writes": [
+    {
+      "bytes": 22256176,
+      "fresh_raw_readback_verified": true,
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "kind": "progress",
+      "sha256": "798a016d65aed319684019867abaab3cf97c99da1b25b099ee46ec824340165b"
+    },
+    {
+      "bytes": 1608062,
+      "fresh_raw_readback_verified": true,
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "kind": "chat",
+      "sha256": "02ac2dcce72531359c08ada0e99928b02a841f54916cd5e90eea595ca3e5d43e"
+    },
+    {
+      "bytes": 893908,
+      "fresh_raw_readback_verified": true,
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "kind": "context",
+      "sha256": "20dc2d551ed9a68f60cac78fd837c0248d3cf44e332b7b9a8f749bae11b1ac67"
+    },
+    {
+      "bytes": 1911019,
+      "fresh_raw_readback_verified": true,
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "kind": "state",
+      "sha256": "8bba35b1384e216e7435b701111ad6c212f2364385a0a46221365a661f32272f"
+    }
+  ]
+}

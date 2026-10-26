@@ -1,0 +1,16 @@
+[
+  {
+    "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+    "path": "small_audit_payloads/MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+    "bytes": 486813,
+    "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+    "whole_archive_hash_verified": true
+  },
+  {
+    "file_id": "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+    "path": "small_audit_payloads/MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+    "bytes": 61506,
+    "sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+    "whole_archive_hash_verified": true
+  }
+]

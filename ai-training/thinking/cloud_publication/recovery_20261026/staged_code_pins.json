@@ -1,0 +1,23 @@
+{
+  "recovery_worker_20261026.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+  "recovery_policy_20261026.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+  "native_backend_20261026.py": "66aa1473bb6835497fb59b16ab0c76e2a609eec0358d9b7cd03f2662e3f3a046",
+  "preflight_checks.py": "8a4333f198524c140658da5bd9b02c96980c8bbaa7f08f008e48e2be5ae050e9",
+  "preparation_provenance.json": "7e5794dc5e8b7b2f62f4d28423494fb95ea7eb392d1fd0fc7e8a25a0a0c853dc",
+  "publisher_runtime.py": "2a7e040be3d67adda62f000ac71e09a701a718a7236278bd46d1df055845d30c",
+  "root_reviewed_training_plan.json": "1234d9d4159c4326ea2d423da124005aff7f08cfe1650e91b1b36e30c3f0c4fa",
+  "conditional_behavior_renderer.py": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+  "behavior_renderer.py": "763da2f7a1931962a9ad1a49b16d4b8dfe5263a09e69603c49959adb02a5ec8f",
+  "verbal_training_renderer_v3.py": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+  "inference_contract.py": "a8398e1c6a414aa0c9d343ebaa737f7e744f6892b8298497c317ea83927a0642",
+  "exact_math_audit.py": "8ed1e23ae36865373f13c48598a615c3be65fe08786099306655306a69f2ca01",
+  "new_validation_candidates.jsonl": "450a642e328e232dcfaf7c7d289d45c75203ef5e7ee5c5181e305af159fadd85",
+  "new_validation_candidate_notes.json": "d1fd02d23a70994f8dba32b51c45c535d0bc19c8e5ca74e340032552365cee71",
+  "prior_used_development.jsonl": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "source_semantic_review_g1_g3.json": "c64b3feb675e4d3db5b72bea43e4e49f9f35f74f7d2f1c5cee3a95f518091295",
+  "source_semantic_review_g4_g5.json": "05b5a3d473f382d4a6b2697ccabc4c8c11dae66e3367e1f0a6af6028548bded5",
+  "projection_preflight_previous.json": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022",
+  "source_behavior_samples_previous.json": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18",
+  "updated_owner_scope.json": "8af8bebf841452def1ee908d6040feaa605abb06e4e17e7c6e06f7afe9cac758",
+  "root_prior_run_semantic_closure.json": "c97f99d06636e934a98e3f79a3638067699e27008067a09b4335acb33a4edeeb"
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "GSze4ZA3Ar1J"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"training_worker_launched\": true, \"pid\": 53815, \"optimizer_started_confirmed\": false, \"requires_root_source_QA_before_optimizer\": true, \"code_proofs\": {\"recovery_worker_v2.py\": {\"id\": \"1xuZy_xexG8v5931ODIfw3RM5FtHs7oyy\", \"sha256\": \"0a10e09dd33f8dd7146d5e6b2c7bfdb5950c7f7a989ae85081b396531135689c\", \"bytes\": 31449, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:04:05.872367+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"recovery_worker_v2.py\", \"immutable\": true}, \"recovery_policy_v2.py\": {\"id\": \"1OrBgiErFuTnDhD3FDiDELdT40OtN0B9D\", \"sha256\": \"5b6aa0e9976a60394ff74125c776d4fff729bc6158acfd664970a385b94d6588\", \"bytes\": 19930, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:04:10.716671+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"recovery_policy_v2.py\", \"immutable\": true}, \"inference_contract.py\": {\"id\": \"1iYhBpqCZdfHXjbj__prtNDuQP1uKs5cl\", \"sha256\": \"6b44ebabad6eeca636142012418e17f126ae9d57539e10b4d1fa5b4314033bc0\", \"bytes\": 4512, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-24T13:04:15.805440+00:00\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"name\": \"inference_contract.py\", \"immutable\": true}}, \"max_updates\": 300, \"gate_steps\": [100, 300]}\n"
+        ]
+      }
+    ]
+  }
+}

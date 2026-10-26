@@ -1,0 +1,23 @@
+{
+  "schema": "MathVisionKid.recovery_20261026.phase_metadata.v1",
+  "phase": "MODEL_LOADING_OPTIMIZER_APPROVAL_HELD",
+  "run_folder_id": "10drqDBNTGy60JBIUqanc9fFHFopCUivq",
+  "source_rows": 16000,
+  "source_cases": 4000,
+  "derived_rows": 6625,
+  "hard_deadline_utc": "2026-10-26T11:14:18Z",
+  "train_cutoff_utc": "2026-10-26T11:04:18Z",
+  "reserve_seconds": 600,
+  "optimizer_update_observed": false,
+  "model_improvement_established": false,
+  "prior_adapter_rejected": true,
+  "previous_review_drive_id": "1gz9LMFrDvWnbHp5ycOuyQm223i5SGptL",
+  "source_and_corpus_preserved": true,
+  "human_review_claimed": false,
+  "production_approved": false,
+  "paid_resources": false,
+  "skills_applied": [
+    "plugin-management",
+    "google-drive:google-drive"
+  ]
+}

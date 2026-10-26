@@ -1,0 +1,80 @@
+[
+  {
+    "case": 0,
+    "wrong_rule": "Even-only filter",
+    "witness": 27,
+    "rejected": true
+  },
+  {
+    "case": 0,
+    "wrong_rule": "Repeat absent second2card",
+    "witness": 22,
+    "rejected": true
+  },
+  {
+    "case": 1,
+    "wrong_rule": "Require0in every selected pair",
+    "witness": 14,
+    "rejected": true
+  },
+  {
+    "case": 1,
+    "wrong_rule": "Use all4cards in2slots",
+    "impossible_slot_count": true,
+    "rejected": true
+  },
+  {
+    "case": 2,
+    "wrong_rule": "Count two physical arrangements as two values",
+    "numeric_values": 1,
+    "physical_assignments": 2,
+    "rejected": true
+  },
+  {
+    "case": 2,
+    "wrong_rule": "Admit05",
+    "leading_zero_invalid": true,
+    "rejected": true
+  },
+  {
+    "case": 3,
+    "wrong_rule": "Delete repeated-value Bcard",
+    "witness": 20,
+    "invalid_length": 2,
+    "rejected": true
+  },
+  {
+    "case": 3,
+    "wrong_rule": "Count four placements as four values",
+    "numeric_values": 2,
+    "physical_assignments": 4,
+    "rejected": true
+  },
+  {
+    "case": 4,
+    "wrong_rule": "Change strict> into >=",
+    "equality": 306,
+    "in_before_bound": true,
+    "in_retained": false,
+    "rejected": true
+  },
+  {
+    "case": 4,
+    "wrong_rule": "Reuse6card to meet bound",
+    "witness": 660,
+    "rejected": true
+  },
+  {
+    "case": 5,
+    "wrong_rule": "Choose unrestricted maximum421",
+    "witness": 421,
+    "below_required_bound": 500,
+    "rejected": true
+  },
+  {
+    "case": 5,
+    "wrong_rule": "Return0as feasible minimum",
+    "witness": 0,
+    "rejected": true
+  }
+]

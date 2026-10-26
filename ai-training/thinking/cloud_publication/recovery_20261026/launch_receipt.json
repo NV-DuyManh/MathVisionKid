@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "YVBlCOmncxnh"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"worker_launched\": true, \"pid\": 4050, \"phase\": \"BASE_LOADING_THEN_BASE_DEVELOPMENT_EVALUATION\", \"optimizer_updates_confirmed\": false, \"new_run_folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"hard_deadline_utc\": \"2026-10-26T11:14:18Z\", \"train_cutoff_utc\": \"2026-10-26T11:04:18Z\", \"previous_adapter_loaded\": false, \"whole_corpus_training_claimed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

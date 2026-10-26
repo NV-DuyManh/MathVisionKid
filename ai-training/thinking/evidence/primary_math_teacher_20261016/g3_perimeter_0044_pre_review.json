@@ -1,0 +1,191 @@
+{
+  "batch_sha256": "b2ce67aab86d660db98f808203d3c3008867866bd016d4f40793bc3e7c73e0b4",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_perimeter_0044_triangle_boundary_each_edge_once",
+      "row_sha256": "4b291784b006bb44c09006799a7c63e2535c3992ad95d589357e2f06032d5178",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "13+14+15"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_perimeter_0044_same_perimeter_different_shapes",
+      "row_sha256": "4b50154c12d8a199014a066005318cccfed1a47c015767af580ea4c06ebd73d4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "(17+9)*2",
+          "13*4",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_perimeter_0044_whole_boundary_and_unfenced_gate",
+      "row_sha256": "7088ac7a4014259350a0b5dcd0e04ac8c99ab13378f62f3e75ba1749be920ae1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(14+9)*2",
+          "((14+9)*2)-4",
+          "(((14+9)*2)-4)+4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_perimeter_0044_misconception_only_two_adjacent_sides",
+      "row_sha256": "f6103a3e6287c2531869d01a50a64a9582ca181f801df4793a6200a13ace503f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(25+13)*2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_perimeter_0044_guard_missing_triangle_edge",
+      "row_sha256": "56309ee1b6135471af29346c6c1756050f5e7da46e6865d87031006b099ce1c3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "triangle_edges": {
+      "AB": 13,
+      "BC": 14,
+      "CA": 15
+    },
+    "rectangle_boundary": [
+      17,
+      9,
+      17,
+      9
+    ],
+    "square_boundary": [
+      13,
+      13,
+      13,
+      13
+    ],
+    "garden_boundary": [
+      14,
+      9,
+      14,
+      9
+    ],
+    "boundary_count": 46,
+    "fence_count": 42,
+    "gate_count": 4,
+    "fence_gate_disjoint": true,
+    "misconception_all_edges": [
+      25,
+      13,
+      25,
+      13
+    ],
+    "missing_side_countermodels": [
+      {
+        "edges": [
+          5,
+          8,
+          4
+        ],
+        "perimeter": 17
+      },
+      {
+        "edges": [
+          5,
+          8,
+          9
+        ],
+        "perimeter": 22
+      }
+    ]
+  },
+  "oracle_method": "Separate enumeration of each boundary edge; disjoint integer-length fence/gate partition; triangle inequality witnesses only in audit metadata; formulas checked by independent edge sums.",
+  "rejected_before_authoring": [
+    {
+      "length": 12,
+      "width": 7,
+      "reason": "Known exposed protected development collision for(12+7)*2; unissued draft not saved; new fully specified25by13problem authored instead, no target tampering."
+    }
+  ],
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read5original requests, boundary versus interior, repeated opposite edges, equal perimeters without equal-shape/area claim, gate remains in perimeter but is excluded from fence, grounded partial-side sum and15hints.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_281_previous_accepted_sources_unchanged": true,
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "self_QA_under_owner_authorization": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Explicit hypothetical polygons and lengths only, no unseen image or actual measurement verified. Triangle inequality is audit witness not required grade3method. Research self-QA, not independent teacher certification. Neutral schema not automatically live PlanDraft.",
+  "pre_acceptance_polish": {
+    "only_new_unreviewed_batch": true,
+    "old_canonical_hashes": {
+      "primary_20261017_g3_perimeter_0044_triangle_boundary_each_edge_once": "1c49c7c358215a858607e1b090166514ffc804bad4470338041545ce5de3ec8d",
+      "primary_20261017_g3_perimeter_0044_same_perimeter_different_shapes": "657daf03ad6adc2c98ac014e708099cc97ed9b487c52e40b0a45a6933b415bbc",
+      "primary_20261017_g3_perimeter_0044_whole_boundary_and_unfenced_gate": "1cbb5ddf9bc13757fa7781af04e5e8f9b1f879254bfb82026d35bf7a9fe487e9",
+      "primary_20261017_g3_perimeter_0044_misconception_only_two_adjacent_sides": "25e7d698b04bb1130f29ac9e67ece65078e58cb224f260f9ac25e556e60a3e5a",
+      "primary_20261017_g3_perimeter_0044_guard_missing_triangle_edge": "3e0126f30db4adceafff218890d89e044ccdbd9fc34ae6db5399b18a1ab646d5"
+    },
+    "changes": "Read actual all5rows and15hints; separated label/unit-word joins and punctuation spacing in visible prose; no arithmetic or scope change."
+  },
+  "self_QA_completed": true,
+  "official_review_path": "thinking\\data\\primary_math_teacher_20261016\\reviews\\g3_perimeter_0044_owner_preauthorized_self_QA.jsonl",
+  "official_review_sha256": "e99d0ba4687dbe80a899fd5b20986c205d6160e942d8743dea6602eaf2b5694f",
+  "accepted_cases_after_self_QA": 286
+}

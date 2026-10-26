@@ -1,0 +1,26 @@
+{
+  "cases.jsonl": {
+    "bytes": 71548,
+    "sha256": "9aa3b16372bce41a3da828996a7373c00d3b0f1840b0c0c2e8177f71ffdaf007"
+  },
+  "chat.jsonl": {
+    "bytes": 104199,
+    "sha256": "490b710fc93e10320e3620aa083cf8d9e5b43879b30a90d344baef94ecea624d"
+  },
+  "selfqa7.jsonl": {
+    "bytes": 50499,
+    "sha256": "add83be906e7a58fe9e6256fe7adf6bd84337a6095ab4d7c1e0ee13245ac9160"
+  },
+  "independent_oracles.jsonl": {
+    "bytes": 6408,
+    "sha256": "aa54797184f46949c813638630d1166f530016a73d3a871ddb6f309595f2fedd"
+  },
+  "numeric_fraction_decimal.jsonl": {
+    "bytes": 5641,
+    "sha256": "3c51887dec7296bc5eeee6a29c1a6fe084a85450a9f828dadde47efd066e9633"
+  },
+  "manifest.json": {
+    "bytes": 2495,
+    "sha256": "2afa689f609cdeb12c4784df99c81404f7b1a08c84ee0ee70fed4975ad86ec3e"
+  }
+}

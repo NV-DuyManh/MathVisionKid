@@ -1,0 +1,1466 @@
+{
+  "adapter_source_sha256": "bd6eebcd6b60076c283b6d376e3c0ac9a7989d22650f8682b43c07fe8990019a",
+  "adapter_summary": {
+    "answer_mode_numeric_answer_pass": {
+      "denominator": 13,
+      "pass": 1
+    },
+    "grade_mode_criterion_status_counts_excluding_NA": {
+      "grade_1|answer|answer": {
+        "PARTIAL": 2
+      },
+      "grade_1|answer|gradefit": {
+        "PASS": 2
+      },
+      "grade_1|answer|reason": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_1|answer|steps": {
+        "FAIL": 2
+      },
+      "grade_1|answer|unit": {
+        "PARTIAL": 1,
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|answer": {
+        "FAIL": 1
+      },
+      "grade_1|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|reason": {
+        "FAIL": 1
+      },
+      "grade_1|hint_no_answer|steps": {
+        "FAIL": 1
+      },
+      "grade_1|hint_no_answer|unit": {
+        "PARTIAL": 1
+      },
+      "grade_1|missing_or_contradictory_info|answer": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_1|missing_or_contradictory_info|gradefit": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|missing_info": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_1|missing_or_contradictory_info|reason": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_1|missing_or_contradictory_info|steps": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_1|missing_or_contradictory_info|unit": {
+        "PARTIAL": 1,
+        "PASS": 1
+      },
+      "grade_1|student_error|answer": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_1|student_error|reason": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|steps": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|student_error": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|unit": {
+        "PARTIAL": 1
+      },
+      "grade_2|answer|answer": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_2|answer|gradefit": {
+        "PASS": 2
+      },
+      "grade_2|answer|reason": {
+        "FAIL": 2
+      },
+      "grade_2|answer|steps": {
+        "FAIL": 2
+      },
+      "grade_2|answer|unit": {
+        "PASS": 2
+      },
+      "grade_2|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|reason": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|unit": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|answer": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|missing_info": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|reason": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|steps": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|unit": {
+        "PASS": 1
+      },
+      "grade_2|student_error|answer": {
+        "FAIL": 1
+      },
+      "grade_2|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|student_error|reason": {
+        "FAIL": 1
+      },
+      "grade_2|student_error|steps": {
+        "FAIL": 1
+      },
+      "grade_2|student_error|student_error": {
+        "FAIL": 1
+      },
+      "grade_2|student_error|unit": {
+        "PASS": 1
+      },
+      "grade_3|answer|answer": {
+        "FAIL": 1,
+        "PARTIAL": 2
+      },
+      "grade_3|answer|gradefit": {
+        "PARTIAL": 2,
+        "PASS": 1
+      },
+      "grade_3|answer|reason": {
+        "FAIL": 1,
+        "PARTIAL": 2
+      },
+      "grade_3|answer|steps": {
+        "FAIL": 3
+      },
+      "grade_3|answer|unit": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_3|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|reason": {
+        "PARTIAL": 1
+      },
+      "grade_3|hint_no_answer|steps": {
+        "PARTIAL": 1
+      },
+      "grade_3|hint_no_answer|unit": {
+        "PARTIAL": 1
+      },
+      "grade_3|missing_or_contradictory_info|answer": {
+        "FAIL": 1
+      },
+      "grade_3|missing_or_contradictory_info|gradefit": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|missing_info": {
+        "FAIL": 1
+      },
+      "grade_3|missing_or_contradictory_info|reason": {
+        "FAIL": 1
+      },
+      "grade_3|missing_or_contradictory_info|steps": {
+        "FAIL": 1
+      },
+      "grade_3|missing_or_contradictory_info|unit": {
+        "FAIL": 1
+      },
+      "grade_4|answer|answer": {
+        "FAIL": 1,
+        "PARTIAL": 2
+      },
+      "grade_4|answer|gradefit": {
+        "PASS": 3
+      },
+      "grade_4|answer|reason": {
+        "FAIL": 2,
+        "PARTIAL": 1
+      },
+      "grade_4|answer|steps": {
+        "FAIL": 2,
+        "PASS": 1
+      },
+      "grade_4|answer|unit": {
+        "PASS": 3
+      },
+      "grade_4|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|reason": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|unit": {
+        "PASS": 1
+      },
+      "grade_4|student_error|answer": {
+        "PASS": 1
+      },
+      "grade_4|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_4|student_error|reason": {
+        "PARTIAL": 1
+      },
+      "grade_4|student_error|steps": {
+        "PARTIAL": 1
+      },
+      "grade_4|student_error|student_error": {
+        "PARTIAL": 1
+      },
+      "grade_4|student_error|unit": {
+        "PASS": 1
+      },
+      "grade_5|answer|answer": {
+        "FAIL": 2,
+        "PASS": 1
+      },
+      "grade_5|answer|gradefit": {
+        "PASS": 3
+      },
+      "grade_5|answer|reason": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_5|answer|steps": {
+        "FAIL": 2,
+        "PASS": 1
+      },
+      "grade_5|answer|unit": {
+        "PASS": 3
+      },
+      "grade_5|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|reason": {
+        "PARTIAL": 1
+      },
+      "grade_5|hint_no_answer|steps": {
+        "PARTIAL": 1
+      },
+      "grade_5|hint_no_answer|unit": {
+        "PARTIAL": 1
+      },
+      "grade_5|missing_or_contradictory_info|answer": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|gradefit": {
+        "PASS": 2
+      },
+      "grade_5|missing_or_contradictory_info|missing_info": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|reason": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|steps": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|unit": {
+        "PARTIAL": 1,
+        "PASS": 1
+      },
+      "grade_5|student_error|answer": {
+        "PARTIAL": 1
+      },
+      "grade_5|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_5|student_error|reason": {
+        "FAIL": 1
+      },
+      "grade_5|student_error|steps": {
+        "FAIL": 1
+      },
+      "grade_5|student_error|student_error": {
+        "PARTIAL": 1
+      },
+      "grade_5|student_error|unit": {
+        "FAIL": 1
+      }
+    },
+    "gradefit_status_counts_excluding_NA": {
+      "PARTIAL": 2,
+      "PASS": 26
+    },
+    "hint_withholding_pass": {
+      "denominator": 5,
+      "pass": 4
+    },
+    "per_mode_strict_math_behavior": {
+      "answer": {
+        "denominator": 13,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason"
+        ],
+        "strict_math_behavior_pass": 1
+      },
+      "hint_no_answer": {
+        "denominator": 5,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "hint_safety"
+        ],
+        "strict_math_behavior_pass": 2
+      },
+      "missing_or_contradictory_info": {
+        "denominator": 6,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "missing_info"
+        ],
+        "strict_math_behavior_pass": 2
+      },
+      "student_error": {
+        "denominator": 4,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "student_error"
+        ],
+        "strict_math_behavior_pass": 0
+      }
+    }
+  },
+  "base_source_sha256": "7f763c04be976ba5ee188c6aff3f907ca99a6bafc0076464f30005171a568193",
+  "base_summary": {
+    "answer_mode_numeric_answer_pass": {
+      "denominator": 13,
+      "pass": 10
+    },
+    "grade_mode_criterion_status_counts_excluding_NA": {
+      "grade_1|answer|answer": {
+        "PASS": 2
+      },
+      "grade_1|answer|gradefit": {
+        "PASS": 2
+      },
+      "grade_1|answer|reason": {
+        "PARTIAL": 1,
+        "PASS": 1
+      },
+      "grade_1|answer|steps": {
+        "PASS": 2
+      },
+      "grade_1|answer|unit": {
+        "PARTIAL": 1,
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|reason": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_1|hint_no_answer|unit": {
+        "PASS": 1
+      },
+      "grade_1|missing_or_contradictory_info|answer": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|gradefit": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|missing_info": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|reason": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|steps": {
+        "PASS": 2
+      },
+      "grade_1|missing_or_contradictory_info|unit": {
+        "PASS": 2
+      },
+      "grade_1|student_error|answer": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_1|student_error|reason": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|steps": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|student_error": {
+        "FAIL": 1
+      },
+      "grade_1|student_error|unit": {
+        "PARTIAL": 1
+      },
+      "grade_2|answer|answer": {
+        "PASS": 2
+      },
+      "grade_2|answer|gradefit": {
+        "PASS": 2
+      },
+      "grade_2|answer|reason": {
+        "PASS": 2
+      },
+      "grade_2|answer|steps": {
+        "PASS": 2
+      },
+      "grade_2|answer|unit": {
+        "PASS": 2
+      },
+      "grade_2|hint_no_answer|answer": {
+        "FAIL": 1
+      },
+      "grade_2|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|hint_no_answer|hint_safety": {
+        "FAIL": 1
+      },
+      "grade_2|hint_no_answer|reason": {
+        "FAIL": 1
+      },
+      "grade_2|hint_no_answer|steps": {
+        "PARTIAL": 1
+      },
+      "grade_2|hint_no_answer|unit": {
+        "PARTIAL": 1
+      },
+      "grade_2|missing_or_contradictory_info|answer": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|missing_info": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|reason": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|steps": {
+        "PASS": 1
+      },
+      "grade_2|missing_or_contradictory_info|unit": {
+        "PASS": 1
+      },
+      "grade_2|student_error|answer": {
+        "PASS": 1
+      },
+      "grade_2|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_2|student_error|reason": {
+        "PASS": 1
+      },
+      "grade_2|student_error|steps": {
+        "PASS": 1
+      },
+      "grade_2|student_error|student_error": {
+        "PASS": 1
+      },
+      "grade_2|student_error|unit": {
+        "PASS": 1
+      },
+      "grade_3|answer|answer": {
+        "PARTIAL": 1,
+        "PASS": 2
+      },
+      "grade_3|answer|gradefit": {
+        "PARTIAL": 2,
+        "PASS": 1
+      },
+      "grade_3|answer|reason": {
+        "PASS": 3
+      },
+      "grade_3|answer|steps": {
+        "PASS": 3
+      },
+      "grade_3|answer|unit": {
+        "PASS": 3
+      },
+      "grade_3|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|reason": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_3|hint_no_answer|unit": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|answer": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|gradefit": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|missing_info": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|reason": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|steps": {
+        "PASS": 1
+      },
+      "grade_3|missing_or_contradictory_info|unit": {
+        "PASS": 1
+      },
+      "grade_4|answer|answer": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_4|answer|gradefit": {
+        "PASS": 3
+      },
+      "grade_4|answer|reason": {
+        "PARTIAL": 1,
+        "PASS": 2
+      },
+      "grade_4|answer|steps": {
+        "PARTIAL": 1,
+        "PASS": 2
+      },
+      "grade_4|answer|unit": {
+        "PARTIAL": 1,
+        "PASS": 2
+      },
+      "grade_4|hint_no_answer|answer": {
+        "FAIL": 1
+      },
+      "grade_4|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|hint_safety": {
+        "FAIL": 1
+      },
+      "grade_4|hint_no_answer|reason": {
+        "FAIL": 1
+      },
+      "grade_4|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_4|hint_no_answer|unit": {
+        "PARTIAL": 1
+      },
+      "grade_4|student_error|answer": {
+        "PASS": 1
+      },
+      "grade_4|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_4|student_error|reason": {
+        "PASS": 1
+      },
+      "grade_4|student_error|steps": {
+        "PASS": 1
+      },
+      "grade_4|student_error|student_error": {
+        "PASS": 1
+      },
+      "grade_4|student_error|unit": {
+        "PASS": 1
+      },
+      "grade_5|answer|answer": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_5|answer|gradefit": {
+        "PASS": 3
+      },
+      "grade_5|answer|reason": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_5|answer|steps": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_5|answer|unit": {
+        "FAIL": 1,
+        "PASS": 2
+      },
+      "grade_5|hint_no_answer|answer": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|gradefit": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|hint_safety": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|reason": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|steps": {
+        "PASS": 1
+      },
+      "grade_5|hint_no_answer|unit": {
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|answer": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|gradefit": {
+        "PASS": 2
+      },
+      "grade_5|missing_or_contradictory_info|missing_info": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_5|missing_or_contradictory_info|reason": {
+        "FAIL": 1,
+        "PARTIAL": 1
+      },
+      "grade_5|missing_or_contradictory_info|steps": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|missing_or_contradictory_info|unit": {
+        "FAIL": 1,
+        "PASS": 1
+      },
+      "grade_5|student_error|answer": {
+        "PARTIAL": 1
+      },
+      "grade_5|student_error|gradefit": {
+        "PASS": 1
+      },
+      "grade_5|student_error|reason": {
+        "PARTIAL": 1
+      },
+      "grade_5|student_error|steps": {
+        "FAIL": 1
+      },
+      "grade_5|student_error|student_error": {
+        "PARTIAL": 1
+      },
+      "grade_5|student_error|unit": {
+        "PASS": 1
+      }
+    },
+    "gradefit_status_counts_excluding_NA": {
+      "PARTIAL": 2,
+      "PASS": 26
+    },
+    "hint_withholding_pass": {
+      "denominator": 5,
+      "pass": 3
+    },
+    "per_mode_strict_math_behavior": {
+      "answer": {
+        "denominator": 13,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason"
+        ],
+        "strict_math_behavior_pass": 8
+      },
+      "hint_no_answer": {
+        "denominator": 5,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "hint_safety"
+        ],
+        "strict_math_behavior_pass": 3
+      },
+      "missing_or_contradictory_info": {
+        "denominator": 6,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "missing_info"
+        ],
+        "strict_math_behavior_pass": 4
+      },
+      "student_error": {
+        "denominator": 4,
+        "gradefit_excluded": true,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "student_error"
+        ],
+        "strict_math_behavior_pass": 2
+      }
+    }
+  },
+  "fixture_count": 28,
+  "fixture_source_sha256": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+  "no_output_text_keyword_scoring": true,
+  "overall_aggregation": "No pooled accuracy score. NA is excluded per criterion/mode; numeric-answer result applies only to answer mode; hint withholding is separate; grade fit is separate from mathematical behavior.",
+  "review_aggregation_frozen_before_adapter_comparison": true,
+  "review_type": "LLM semantic review aggregation of explicit reviewer statuses; no human reviewer attestation or independent external validation",
+  "schema": "MathVisionKid.frozen_eval_review_comparison.v1",
+  "status_change_count": 83,
+  "status_changes": [
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g1_add_objects",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g1_add_objects",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "missing_info",
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "missing_info",
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "reason",
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "answer",
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "PARTIAL",
+      "criterion": "unit",
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "PARTIAL",
+      "criterion": "steps",
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "reason",
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "hint_safety",
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "student_error",
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g3_area_hint",
+      "grade": 3,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g3_area_hint",
+      "grade": 3,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g3_area_hint",
+      "grade": 3,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "missing_info",
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g3_decimal_money",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g3_decimal_money",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g3_decimal_money",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g3_fraction_like_parts",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g3_fraction_like_parts",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g3_multistep_books",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g3_multistep_books",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g3_multistep_books",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g3_multistep_books",
+      "grade": 3,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "FAIL",
+      "criterion": "answer",
+      "fixture_id": "g4_decimal_measure",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "steps",
+      "fixture_id": "g4_decimal_measure",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "reason",
+      "fixture_id": "g4_decimal_measure",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g4_division_remainder",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "PARTIAL",
+      "criterion": "unit",
+      "fixture_id": "g4_division_remainder",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g4_division_remainder",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g4_fraction_of_group",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g4_fraction_of_group",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g4_fraction_of_group",
+      "grade": 4,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "answer",
+      "fixture_id": "g4_multistep_groups_hint",
+      "grade": 4,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "PARTIAL",
+      "criterion": "unit",
+      "fixture_id": "g4_multistep_groups_hint",
+      "grade": 4,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "reason",
+      "fixture_id": "g4_multistep_groups_hint",
+      "grade": 4,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "hint_safety",
+      "fixture_id": "g4_multistep_groups_hint",
+      "grade": 4,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g4_student_area_perimeter_mixup",
+      "grade": 4,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g4_student_area_perimeter_mixup",
+      "grade": 4,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "student_error",
+      "fixture_id": "g4_student_area_perimeter_mixup",
+      "grade": 4,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "reason",
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "missing_info",
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "unit",
+      "fixture_id": "g5_fraction_subtraction",
+      "grade": 5,
+      "mode": "answer"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "answer",
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "unit",
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "steps",
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "reason",
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PASS",
+      "base": "FAIL",
+      "criterion": "missing_info",
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g5_ratio_hint",
+      "grade": 5,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g5_ratio_hint",
+      "grade": 5,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "PARTIAL",
+      "base": "PASS",
+      "criterion": "reason",
+      "fixture_id": "g5_ratio_hint",
+      "grade": 5,
+      "mode": "hint_no_answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "unit",
+      "fixture_id": "g5_student_percent_error",
+      "grade": 5,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PARTIAL",
+      "criterion": "reason",
+      "fixture_id": "g5_student_percent_error",
+      "grade": 5,
+      "mode": "student_error"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "answer",
+      "fixture_id": "g5_triangle_side",
+      "grade": 5,
+      "mode": "answer"
+    },
+    {
+      "adapter": "FAIL",
+      "base": "PASS",
+      "criterion": "steps",
+      "fixture_id": "g5_triangle_side",
+      "grade": 5,
+      "mode": "answer"
+    }
+  ]
+}

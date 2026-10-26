@@ -1,0 +1,8 @@
+{
+  "exit": 0,
+  "actual_unittest_output": ".................................\n----------------------------------------------------------------------\nRan 33 tests in 0.204s\n\nOK\n",
+  "scope_budget_unchanged": true,
+  "source_math_or_labels_changed": false,
+  "preinitialization_failure_retained": true,
+  "worker_v3_sha256": "a855d1c2c7bb38f1d046ce49bf1ed539037985269b469aaf1c8ab42a8fef5df2"
+}

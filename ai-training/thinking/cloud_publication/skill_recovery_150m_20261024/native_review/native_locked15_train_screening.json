@@ -1,0 +1,11 @@
+{
+  "actual16k_screen": {
+    "fixtures": 15,
+    "training_rows_screened": 16000,
+    "collisions": [],
+    "scope": "exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim"
+  },
+  "prior_dev_and_context_final_numbermasked_collisions": 0,
+  "full6_5m_independence": "UNPROVEN",
+  "fixture_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7"
+}

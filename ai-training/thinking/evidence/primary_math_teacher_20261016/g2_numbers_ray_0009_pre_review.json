@@ -1,0 +1,189 @@
+{
+  "batch_sha256": "5324c2afbca05d35d82d898fdb053e7e5a01ca5cbaeaa99c3d0596720aba992f",
+  "authored_cases": 8,
+  "core_cases": 5,
+  "misconception_cases": 2,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_zero_tens_vs_zero_ones",
+      "row_sha256": "c8b5fa880c6465c13584b1d081154969dbd43a8fe4c0a953e520d9afb181a694",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "500+0+7",
+          "500+70+0"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_adjacent_hundred_boundary",
+      "row_sha256": "f8e1dc93982d164b166c85fa5a09ae2912aa42ba27672e867df9bc488c4b8635",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "700-1",
+          "700+1",
+          "(700-1)+1",
+          "(700+1)-1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_misconception_omit_zero_place",
+      "row_sha256": "9ddfe15616dcae77eb126cf88f2067d07f3ddaaa81b2ade4446b2bbcde3f0fc5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "400+0+7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_ray_single_unit_tick",
+      "row_sha256": "bc4ecc269591b31bd1491ca2c8d52db733dcb89f4d2e0c981e22d01b6f385272",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "203+1",
+          "(203+1)+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_ray_two_different_scales",
+      "row_sha256": "3359478c859415d778e13f6ca2f62cdc6c907272313dd1a18f937719373809a0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "60+1+1",
+          "60+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_ray_value_to_interval",
+      "row_sha256": "e59dfd0b3316511d27ef14d583f20d6cd32fb5bcfdad0f3d2fa26cb518a4fbd9",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_misconception_tick_vs_successor",
+      "row_sha256": "9276eaeff3be6efc43e830ce9488dbcada3c594a0ed5d0752d6cc0cd6d0ea43b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "310+10",
+          "(310+10)+10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_guard_unknown_tick_step",
+      "row_sha256": "3ed8ea6907b0c062309ef83941fdb41a9adff924e9074a815c452372894442ec",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "self_content_check": "Author checked visible reasoning, grade, units, pupil-work excerpts and all hints; independent semantic review is still required.",
+  "independent_semantic_review_completed": false,
+  "oracles": {
+    "zero_place_values": [
+      507,
+      570
+    ],
+    "adjacent_numbers": [
+      699,
+      700,
+      701
+    ],
+    "zero_place_correction": 407,
+    "single_tick": 204,
+    "different_scales": [
+      62,
+      80
+    ],
+    "unique_adjacent_bracket": [
+      [
+        730,
+        740
+      ]
+    ],
+    "step_not_successor": 320,
+    "missing_scale_completions": [
+      121,
+      130
+    ]
+  },
+  "arithmetic_oracle_is_semantic_proof": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

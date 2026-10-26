@@ -1,0 +1,110 @@
+{
+  "active_candidate_members": [
+    "accepted_cases.jsonl",
+    "accepted_chat.jsonl"
+  ],
+  "cases": 64,
+  "chats": 256,
+  "cloud_collision_gate_pending": false,
+  "cloud_source_ID_and_exact_problem_field_checks_passed": true,
+  "entries": {
+    "accepted_cases.jsonl": {
+      "bytes": 391320,
+      "rows": 64,
+      "sha256": "d0b0c3aa54f50478e1387d5537896611e9a67e79c7179c3274803c472505f606"
+    },
+    "accepted_chat.jsonl": {
+      "bytes": 792595,
+      "rows": 256,
+      "sha256": "05c852166886ba832cbca6d50a48ae0fb4af4977b885be3e5460cae2517482e0"
+    },
+    "cloud_collision_check.json": {
+      "bytes": 3671,
+      "sha256": "0bcb99d204057ec1ac8973512fb2a2f010827ae2bc41e1d2bda43568932fba2d"
+    },
+    "cloud_collision_request.json": {
+      "bytes": 21631,
+      "sha256": "d7c101c35a5075b2729f1b4b64004b1e3ce5e22ebedc94f48044587afd65507f"
+    },
+    "coverage_reconciliation.json": {
+      "bytes": 43167,
+      "sha256": "cad0c54a1398e54ad185a2815a8a8ffc3e05906fd9b563d5272a4b67bb70cb06"
+    },
+    "numeric_overlap_exceptions.jsonl": {
+      "bytes": 7827,
+      "rows": 14,
+      "sha256": "a8f52e7796f2a4953be20084bbab770ddb04f473923d49a7c99068d0b596a212"
+    },
+    "peer_b1.json": {
+      "bytes": 11102,
+      "sha256": "cce510f04161ce512622204d144ca184c3a6e1d4b798e677b02ad612ce26b83d"
+    },
+    "protected_exclusion_check.json": {
+      "bytes": 971,
+      "sha256": "1287fb7aaf99598482a186f9ae3f92bf112e847368b37fd39893de03dff5cd05"
+    },
+    "repair_validation_b1.json": {
+      "bytes": 1061,
+      "sha256": "80124ab9cea80c45aebb2c776cc77907d6025bfe23de27cd9c2ea2b92dc09b0d"
+    },
+    "repair_validation_b5_b8.json": {
+      "bytes": 614,
+      "sha256": "f48bd564d3ea9bdd4af460cb49705197f2d48d12e73cce6a5de57b90c5e1ca3c"
+    },
+    "review_b2_b4.json": {
+      "bytes": 22966,
+      "sha256": "72f4c30f7ebaba24af163ca21fa106e7d78574669373abb3d39c8b9cde05bd06"
+    },
+    "review_b5_b8.json": {
+      "bytes": 128834,
+      "sha256": "d6f1f83d7f8ffad2ee7940a6dff00fd67b3922bc213bb695a5d743839791f2a6"
+    },
+    "root_content_review.json": {
+      "bytes": 4824,
+      "sha256": "f5ffb6daacf232949fdb6e3b9661c55ac4c67667a46bae0a26590f549a9144a3"
+    },
+    "root_numeric_checks.json": {
+      "bytes": 13829,
+      "sha256": "289a5dd08da545145a3e119a533160ef65a6f4bd271acfa359512c04b607a3c2"
+    },
+    "root_qa7.jsonl": {
+      "bytes": 66379,
+      "rows": 64,
+      "sha256": "581b6479df0d6c0d745cee3c054545e5f41850c13cc41e6d9e00eb69f2a4a3ac"
+    },
+    "root_token_audit.json": {
+      "bytes": 85295,
+      "sha256": "9d723186050c080f38ae9e443db99a0301efe4c40a94ccb075f70f9d548d4d54"
+    },
+    "source_export_hashes.jsonl": {
+      "bytes": 31015,
+      "rows": 64,
+      "sha256": "66cafd73a0368fac6c77e9a2ec14660b7faa710a1bcd1b6de308614a91fce35a"
+    }
+  },
+  "full_archive_normalized_question_check_pending": true,
+  "full_archive_ready": false,
+  "new_core_cases": 0,
+  "original_intake_drive_id": "1Ji6l7rg-lpg81ddq3JG4gUeIDyOOGLYM",
+  "original_sources": [
+    {
+      "path": "repaired_b1_cases.jsonl",
+      "sha256": "981678d9142c66b3eb8ce18208b4e740b8d83ce58c96f17b70f277fc7e4839c2"
+    },
+    {
+      "path": "repaired_b2_b4_cases.jsonl",
+      "sha256": "f7ed7437f53bc5d587b274c28010a1c5c08099dbe12748ae7bf1a8c51f37013b"
+    },
+    {
+      "path": "repaired_b5_b8_cases.jsonl",
+      "sha256": "5b7367ece4bda0347db53af57e19051ada0f64dd39a45140ae6713fd0ebd9e41"
+    }
+  ],
+  "originals_audit_only": true,
+  "schema": "MathVisionKid.DerivedG2RepairAppend.v1",
+  "skills_applied": [
+    "google-drive:google-drive"
+  ],
+  "training_started": false,
+  "validator_sha256": "5690b4b26e8b2c62bd646ad36bf591e8f51fd08b1b735bcf671644c98617da9b"
+}

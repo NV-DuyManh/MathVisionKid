@@ -1,0 +1,17 @@
+from pathlib import Path
+p=Path('thinking/sgk_completion_release.py');s=p.read_text('utf8')
+s=s.replace("RUN=HERE/'cloud_publication/sgk_completion_20261021'","RUN=HERE/'cloud_publication/sgk_final_gaps_20261021'")
+s=s.replace("DIRS=['g5_measurement_models_corrected','inventory_edges','geometric_relations']","DIRS=['numbers_reasoning','geometry_inventory/g1_turn_wording_corrected','fold_geometry/standard_tangram_corrected']")
+s=s.replace("+rows(HERE/'cloud_publication/sgk_final_forms_20261020/release/accepted_cases.jsonl')","+rows(HERE/'cloud_publication/sgk_final_forms_20261020/release/accepted_cases.jsonl')+rows(HERE/'cloud_publication/sgk_completion_20261021/release/accepted_cases.jsonl')")
+s=s.replace("==36 and len(chats)==144","==71 and len(chats)==284").replace("==144","==284")
+s=s.replace('ALL_144_NEW_CHAT_ONLY_NO_TRAINING','ALL_284_NEW_CHAT_ONLY_NO_TRAINING')
+s=s.replace("cases=36,chat_rows=144","cases=71,chat_rows=284").replace("accepted_cases=36,chat_rows=144","accepted_cases=71,chat_rows=284")
+s=s.replace("'sgk_completion_release.py'","'sgk_final_gaps_release.py'").replace("'sgk_completion_publish_controls.py'","'sgk_final_gaps_publish_controls.py'")
+s=s.replace("'.txt','.ipynb')","'.txt','.ipynb','.svg','.png')")
+s=s.replace("'math_data_candidate_stream.py','test_math_data_candidate_stream.py'","'math_data_candidate_stream.py','test_math_data_candidate_stream.py','math_data_full_audit.py','test_math_data_full_audit.py','math_data_drive_bootstrap.py','math_data_portable_resume.py'")
+s=s.replace("'sgk_completion_measure.py'","'sgk_final_gaps_numbers.py','sgk_final_gaps_geometry.py','sgk_final_gaps_folds.py','sgk_final_gaps_root_review.py','sgk_final_gaps_union_recipe.py','sgk_final_gaps_reconcile.py','sgk_completion_measure.py'")
+s=s.replace("sgk_completion_append.v1","sgk_final_gaps_append.v1").replace("MathVisionKid_SGK_COMPLETION_APPEND_","MathVisionKid_SGK_FINAL_GAPS_APPEND_")
+s=s.replace("re.search(r'\\.blob\\.core\\.windows\\.net|Bearer\\s+[A-Za-z0-9]|[?&]sig=',b.decode('utf-8',errors='ignore'),re.I)","re.search(r'\\.blob\\.core\\.windows\\.net|Bearer\\s+[A-Za-z0-9]|[?&]sig=',b.decode('utf-8',errors='ignore'),re.I)")
+Path('thinking/sgk_final_gaps_release.py').write_text(s,encoding='utf8')
+print('Finite release helper71/284 written')
+

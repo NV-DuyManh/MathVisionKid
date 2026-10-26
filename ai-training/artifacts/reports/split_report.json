@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "split_by": "source_image_id",
+  "seed": 42,
+  "single_group_fixture": false,
+  "total_records": 6,
+  "total_groups": 5,
+  "train_count": 3,
+  "val_count": 1,
+  "test_count": 2,
+  "train_groups_count": 3,
+  "val_groups_count": 1,
+  "test_groups_count": 1,
+  "leakage_audit": {
+    "source_overlap_train_val": 0,
+    "source_overlap_train_test": 0,
+    "source_overlap_val_test": 0,
+    "hash_overlap_train_val": 0,
+    "hash_overlap_train_test": 0,
+    "hash_overlap_val_test": 0,
+    "zero_leakage_verified": true
+  }
+}

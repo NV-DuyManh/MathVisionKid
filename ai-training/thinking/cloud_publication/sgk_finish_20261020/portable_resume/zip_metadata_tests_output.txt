@@ -1,0 +1,9 @@
+test_crc_and_bounds_detect_tamper (__main__.ZipMetadataTests.test_crc_and_bounds_detect_tamper) ... ok
+test_protected_and_jsonl_payloads_never_decoded (__main__.ZipMetadataTests.test_protected_and_jsonl_payloads_never_decoded) ... ok
+test_range_roundtrip_reads_only_manifest (__main__.ZipMetadataTests.test_range_roundtrip_reads_only_manifest) ... ok
+test_truncated_directory_and_wrong_count_rejected (__main__.ZipMetadataTests.test_truncated_directory_and_wrong_count_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+OK

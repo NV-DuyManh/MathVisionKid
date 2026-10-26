@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "aY1owk2ALph7"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"BASE_EVALUATION_STARTED_WAITING_FOR_FULL_METADATA_SCAN\", \"pid\": 45651, \"deadline_unix\": 1792775752.4416852}\n"
+        ]
+      }
+    ]
+  }
+}

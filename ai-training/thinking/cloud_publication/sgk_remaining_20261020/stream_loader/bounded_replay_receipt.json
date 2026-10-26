@@ -1,0 +1,63 @@
+{
+  "schema": "MathVisionKid.candidate_stream_bounded_replay.v1",
+  "scope": "4364_TRAIN_ROWS_ONLY_NO_FULL_CORPUS_CLAIM",
+  "union_recipe_chat_members": 26,
+  "bounded_replay_chat_members": 6,
+  "final": {
+    "schema": "MathVisionKid.candidate_consumer_progress.v1",
+    "recipe_sha256": "a5a2f4c6bdf9d73fae6f7b92bf41f7d6bec9d6436498cfc196db46b11aac742d",
+    "split": "train",
+    "counts": {
+      "ACKNOWLEDGED_CANDIDATE": 4364,
+      "MEMBER_COMPLETE": 6,
+      "EXCLUDED_OTHER_SPLIT": 48
+    },
+    "acknowledged_rows": 4364,
+    "complete_members": 6,
+    "required_members": 6,
+    "incomplete_case_modes": 0,
+    "cursor": {
+      "member_index": 6,
+      "next_line": 0,
+      "recipe_sha256": "a5a2f4c6bdf9d73fae6f7b92bf41f7d6bec9d6436498cfc196db46b11aac742d",
+      "split": "train"
+    },
+    "stream_exhausted": true,
+    "all_data_training_ready": false,
+    "training_started": false
+  },
+  "first_reopen_cursor": {
+    "member_index": 0,
+    "next_line": 256,
+    "recipe_sha256": "a5a2f4c6bdf9d73fae6f7b92bf41f7d6bec9d6436498cfc196db46b11aac742d",
+    "split": "train"
+  },
+  "callback_rows_this_invocation": 4364,
+  "callback_sourcehash_origins": {
+    "DERIVED_FROM_VERIFIED_PINNED_SOURCE_MEMBER": 3356,
+    "ORIGINAL_FIELD_VERIFIED_AGAINST_PINNED_SOURCE_MEMBER": 192,
+    "ORIGINAL_RAW_FIELD_NOT_REVERIFIED_BY_THIS_STREAM": 816
+  },
+  "expected_existing_overlay_covered_train_rows": 3548,
+  "expected_derived_missing_legacy_hash_train_rows": 3356,
+  "new94_and_old110_original_hash_rows_not_reverified_as_source_by_reader": 816,
+  "all_frozen_input_hashes_unchanged": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\member_catalog_discovered.json": "e25be0e98a1f3aa26ec3c96934a894ea28c8cbe583a87a2560caf2131660aef1",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\member_catalog.json": "9af29f77f2e396ddab7b5357532e2ff9692e82877b3ab1ad787d331ae28ef2f6",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\portable_checkpoint.json": "8a015a14d28cb5fafb174b4d078c97d256bbdcb625eb2968b484ab8e10e1c083",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\source_hash_overlay\\manifest.json": "e80d24406c01faf771e7194a2dcf2bd9f803a1eb5fa473330cb9e854a1fa92fd",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_911a598ae1bc578f\\audit.sqlite": "8518d0b010d560e8269f1e63e026718ac4c809d2c7d7bbcf1d302ad8f3aa5252",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\numeric_7edba0a6ef712e51\\audit.sqlite": "3fd0da30384278bd266d4810b4bb3b5baefe5a76c2c12dbd70a3c55c9cbe5a87",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\portable_resume\\current_supplements\\audit.sqlite": "d65fc1a14c1fc9b7797f50e69257a2f99f7f58446909950d83193579bc779374"
+  },
+  "tokenizer_or_model_loaded": false,
+  "full_archive_token_split_audit_complete": false,
+  "training_started": false,
+  "drive_mutated": false,
+  "strict_explicit_split_replay_after_final_fix": {
+    "CANDIDATE": 4364,
+    "MEMBER_COMPLETE": 6,
+    "EXCLUDED_OTHER_SPLIT": 48
+  },
+  "append94_publication_locator_bound_without_cursor_identity_change": true
+}

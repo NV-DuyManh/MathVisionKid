@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "y0k2QqfwbLM3"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"evaluation_code_staged\": true, \"evaluation_executed\": false, \"hashes\": {\"final_evaluation_worker.py\": \"5d8d7e89e0a31615db2820c99f4074038ea827b0303c94a3685c9517f2380b3e\", \"test_final_evaluation_worker.py\": \"82eafb7a657d1468d21110e09bdc6eed8af0ec49fd118d8fb39c438507e2796c\"}}\n"
+        ]
+      }
+    ]
+  }
+}

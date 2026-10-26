@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "iGJgxyLAc65V"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:03:56.498281+00:00\", \"worker_exit\": null, \"pid\": 4050, \"training/progress.json\": {\"state\": \"LOADING_FRESH_BASE\", \"step\": 0, \"training_started\": false}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"artifacts\": 19, \"checkpoints\": 0}, \"core_code_raw_verified\": {\"recovery_worker_20261026.py\": true, \"native_backend_20261026.py\": true, \"recovery_policy_20261026.py\": true, \"conditional_behavior_renderer.py\": true, \"inference_contract.py\": true, \"derived_sampling_plan.json\": true, \"source_qa_binding.json\": true, \"owner_run_scope.json\": true}, \"eval_counts\": {}, \"log_tail\": \"\\nFetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\\n\\nFetching 9 files:  22%|██▏       | 2/9 [00:00<00:00, 16.29it/s]\\nFetching 9 files:  56%|█████▌    | 5/9 [00:00<00:00, 22.48it/s]\\nFetching 9 files:  89%|████████▉ | 8/9 [00:14<00:02,  2.38s/it]\", \"optimizer_approved\": false}\n"
+        ]
+      }
+    ]
+  }
+}

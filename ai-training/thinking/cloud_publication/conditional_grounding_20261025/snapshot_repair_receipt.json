@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "D-zw8O-1BDFp"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"worker_relaunched_after_preoptimizer_metadata_repair\": true, \"pid\": 3092, \"optimizer_updates_before_repair\": 0, \"code_raw_proofs\": {\"native_backend_v2.py\": {\"id\": \"1GWcSuhBQ0SOe4B-NMtK5VMxE57X20So-\", \"sha256\": \"edacd60755ff5135e9d658662f3427d7410924788a78c7b977fdbf9d199a394f\", \"bytes\": 3429, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:04:29.156288+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"native_backend_v2.py\", \"immutable\": true}, \"recovery_worker_v4.py\": {\"id\": \"1khpmznWBTnn9boUGj9l_3deBISwh4TVc\", \"sha256\": \"3ce1b3c24a9741e1f93915930da5552ab41787daa6b13276b0892c7b2a529868\", \"bytes\": 32521, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:04:34.224223+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"recovery_worker_v4.py\", \"immutable\": true}, \"code_repair_snapshot_binding.json\": {\"id\": \"1ez4_rIi8SfCgQWlIq76B00KCt4nxKNqm\", \"sha256\": \"075f1bec8033c131da4ae79f5c8bee5a4e662b5f3f84d68f57b49242098f1427\", \"bytes\": 683, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:04:39.209560+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"code_repair_snapshot_binding.json\", \"immutable\": true}}, \"active_code_proof\": {\"id\": \"1WGq80f4Fo9-Vya0IOzv5qPa9U6936Dn6\", \"sha256\": \"e0a6bf26a040edf6dad91861f0b17f9088c1e5ce9c5d41a67b283e00eebc08a7\", \"bytes\": 1213, \"fresh_raw_readback_verified\": true, \"raw_verified_utc\": \"2026-10-25T03:04:44.128443+00:00\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"name\": \"active_code_raw_verified.json\", \"immutable\": true}, \"runtime_restarted\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "status": "PASSED",
+  "all_passed": true,
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "training": {
+    "steps": 1043,
+    "examples_seen_once": 4170,
+    "overflow_retries": 0
+  },
+  "data_fingerprints_verified": true,
+  "source_fingerprints_verified": true,
+  "teacher_formula_and_split_invariants_verified": true,
+  "actual_adapter_tensor_count": 392,
+  "actual_token_masks_recomputed": 4170,
+  "evaluation_files": {
+    "baseline_val": {
+      "samples": 262,
+      "truncated": 3,
+      "enable_thinking": false,
+      "model_key": "base:Qwen/Qwen3-1.7B:70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "max_new_tokens": 512,
+      "summary_recomputed": true
+    },
+    "candidate_val": {
+      "samples": 262,
+      "truncated": 0,
+      "enable_thinking": false,
+      "model_key": "adapter:20e99388093c5f7caa1aacaac2a6014cdc0bfd4b4b1bb6f25b5a593ea8beae8d",
+      "max_new_tokens": 512,
+      "summary_recomputed": true
+    },
+    "selected_challenge": {
+      "samples": 262,
+      "truncated": 3,
+      "enable_thinking": false,
+      "model_key": "base:Qwen/Qwen3-1.7B:70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "max_new_tokens": 512,
+      "summary_recomputed": true
+    }
+  },
+  "checkpoint_selection_recomputed": true,
+  "production_approved": false,
+  "limitations": "Technical reproducibility audit, not teacher certification of Vietnamese semantics, hints, curriculum mastery or OCR."
+}

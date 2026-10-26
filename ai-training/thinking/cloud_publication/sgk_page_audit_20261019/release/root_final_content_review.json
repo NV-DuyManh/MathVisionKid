@@ -1,0 +1,21 @@
+{
+  "final_content_read_rows": 110,
+  "actual_read_by_root": true,
+  "final_g4_polish_source_sha256": "a57bea461bfc50ceadb40a0b8dfb35dc686add160fb136931c01fc85dfa3257c",
+  "changed_fields_reread": [
+    "chart_causal_guard_02.worked_steps[1].reason",
+    "closed_operation_cycle_02.givens"
+  ],
+  "all_answers_preserved": true,
+  "all_initial_and_three_hints_read": true,
+  "human_review_claimed": false,
+  "frozen_local_preservation": {
+    "owner_acceptance_policy.json": true,
+    "owner_human_attestations.json": true,
+    "owner_human_signoffs.jsonl": true,
+    "data_build_state.json": true,
+    "authoring_queue.json": true,
+    "supplementary_queue.json": true,
+    "coverage_adjudication_queue.json": true
+  }
+}

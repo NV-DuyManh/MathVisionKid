@@ -1,0 +1,24 @@
+{
+  "recipe_sha256": "4efe053f324ea34d6bbad9e447996454d2f0b1f3bd3e8206aa9b18e1e9d69077",
+  "identity": "bef3ecdf7d60509eda3a755deedaf292348503e9db328d442344d94568804f81",
+  "source_members": 219,
+  "chat_members": 32,
+  "source_rows": 1629906,
+  "chat_rows": 6502392,
+  "new_entry": {
+    "bytes": 20463369,
+    "family": "derived_original_chat_structural60_hash_group_repair",
+    "file_id": "1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ",
+    "file_name": "MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz",
+    "member": null,
+    "member_bytes": null,
+    "member_sha256": null,
+    "role": "candidate_chat",
+    "rows": 511420,
+    "sha256": "c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0",
+    "status": "REFERENCE_PINNED_NOT_PROCESSED"
+  },
+  "parent_originals_preserved": true,
+  "merged": false,
+  "training_started": false
+}

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T11:39:31.108924+00:00\", \"probe_only\": true, \"training_launched_by_probe\": false, \"threads\": [\"MainThread\", \"IOPub\", \"Heartbeat\", \"Control\", \"Thread-2\"], \"publication\": null, \"numeric\": null, \"has_authenticated_drive_service\": false, \"has_root\": false, \"gpu_inventory\": \"Tesla T4, 15360 MiB\", \"gpu_probe_returncode\": 0}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T11:39:31.108924+00:00\", \"probe_only\": true, \"training_launched_by_probe\": false, \"threads\": [\"MainThread\", \"IOPub\", \"Heartbeat\", \"Control\", \"Thread-2\"], \"publication\": null, \"numeric\": null, \"has_authenticated_drive_service\": false, \"has_root\": false, \"gpu_inventory\": \"Tesla T4, 15360 MiB\", \"gpu_probe_returncode\": 0}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-23T11:39:31.108924+00:00\\\", \\\"probe_only\\\": true, \\\"training_launched_by_probe\\\": false, \\\"threads\\\": [\\\"MainThread\\\", \\\"IOPub\\\", \\\"Heartbeat\\\", \\\"Control\\\", \\\"Thread-2\\\"], \\\"publication\\\": null, \\\"numeric\\\": null, \\\"has_authenticated_drive_service\\\": false, \\\"has_root\\\": false, \\\"gpu_inventory\\\": \\\"Tesla T4, 15360 MiB\\\", \\\"gpu_probe_returncode\\\": 0}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

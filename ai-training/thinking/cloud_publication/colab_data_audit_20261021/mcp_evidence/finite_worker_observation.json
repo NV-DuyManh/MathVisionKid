@@ -1,0 +1,68 @@
+{
+  "state": "RUNNING_DATA_ONLY",
+  "started_utc": "2026-10-21T11:12:42.153326+00:00",
+  "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "audit_identity": "9139670f1e76e34e8c8ee32cc541d33399e86445cbc4da6b668b664e915655b0",
+  "recipe_sha256": "93ec4110b9de95a84bb685ae60b1e4dc4b6df8c4fe568d88c60ca9c2e301c684",
+  "checkpoint_id": "182zLHZU0XBpTfKm7ThJpfy37GgFJ7Ob2",
+  "training_started": false,
+  "gpu_used": false,
+  "model_weights_loaded": false,
+  "updated_utc": "2026-10-21T11:13:49.348443+00:00",
+  "last_span": {
+    "member_key": "5083270150e8ada4650b74d2bc3abd2b664392d7e76f3c10be6950a79947fe09",
+    "rows": 10000,
+    "processed": 10000,
+    "complete": true
+  },
+  "report": {
+    "schema": "MathVisionKid.full_current_archive_audit.v2",
+    "identity": "9139670f1e76e34e8c8ee32cc541d33399e86445cbc4da6b668b664e915655b0",
+    "derivation_provenance": {
+      "parent_file": "math_data_full_audit.py",
+      "parent_sha256": "642343937c54c1c761ec38708d76fb46e26165563ab2045e9bc6c45adf0624a1",
+      "source_label_evidence_file": "exhaustive_primary_math.py",
+      "source_label_evidence_sha256": "d0af1e4adf73a55b8416757ee43de900474f378af7ff8290fffdd0b015acb8b2",
+      "source_label_evidence": "make_row returns train_candidate; chat_records explicitly returns train.",
+      "raw_source_rewritten": false,
+      "candidate_pool_promoted_to_train": false,
+      "v1_checkpoint_and_issues_preserved": true
+    },
+    "source_versions_indexed": 30000,
+    "source_labels_indexed": {
+      "train_candidate": 30000
+    },
+    "candidate_source_train_chat_links": 0,
+    "unique_chat_rows_processed": 0,
+    "actual_rows_by_split": {},
+    "source_hash_origins": {},
+    "physical_chat_occurrences_processed": 0,
+    "exact_duplicate_references": 0,
+    "members_complete": 3,
+    "members_expected": 247,
+    "all_declared_members_scanned": false,
+    "max_sequence_tokens": null,
+    "max_completion_tokens": null,
+    "source_linkage_unverified_rows": 0,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_linkage_split_audit_complete": false,
+    "all_rows_semantically_human_reviewed": false,
+    "whole_curriculum_certified": false,
+    "TRAINING_DATASET_READY": false,
+    "training_started": false,
+    "gpu_used": false,
+    "model_weights_loaded": false
+  },
+  "current_member": {
+    "role": "candidate_source",
+    "member": "source.jsonl.gz",
+    "payload_sha256": "4a786b2eefac3fd93e7f75cd04694e20b59a5cb4729c1e68ff4601693fbcfd4a"
+  },
+  "checkpoint": {
+    "id": "182zLHZU0XBpTfKm7ThJpfy37GgFJ7Ob2",
+    "bytes": 15548416,
+    "sha256": "60df300cf180d356dab1185fa415410cfe4459093c289089c40e9e0c2b9b6028",
+    "fresh_raw_readback_verified": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "VBeAkfF7ZJ1q"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T00:52:01.356856+00:00\", \"controls\": {\"state\": \"READING_PARENTS\", \"work\": \"/content/mathvisionkid_corrective_5h_20261024/four_controls_publication/20261024T005127122634Z\"}, \"base_generations.partial.jsonl\": {\"rows\": 28, \"generated_tokens\": 4558, \"ended_eos_count\": 28, \"mtime_unix\": 1792803089.6430168}, \"base_generations.jsonl\": {\"rows\": 28, \"generated_tokens\": 4558, \"ended_eos_count\": 28, \"mtime_unix\": 1792803089.6530175}, \"progress\": {\"clock\": {\"deadline_monotonic\": 19764.184927129, \"deadline_unix\": 1792821096.1909397, \"first_optimizer_group_begin_monotonic\": 1764.184927129, \"first_optimizer_group_begin_unix\": 1792803096.1909397, \"started_utc\": \"2026-10-24T00:51:36.190940+00:00\", \"training_budget_seconds\": 18000.0}, \"completed_view_epochs\": 0.001, \"cursor\": {\"epoch\": 0, \"microbatches_per_epoch\": 8000, \"next_microbatch\": 8, \"seed\": 20261023}, \"deadline_boundary_overrun_seconds\": 0.0, \"exposures_by_family\": {\"original_chat\": 14, \"sgk_gap_20261019\": 1, \"sgk_page_audit_20261019\": 1}, \"exposures_by_grade\": {\"1\": 3, \"2\": 1, \"3\": 6, \"4\": 2, \"5\": 4}, \"exposures_by_mode\": {\"hint_level_1\": 3, \"hint_level_2\": 2, \"hint_level_3\": 4, \"worked_solution\": 7}, \"gradients_finite_after_optimizer_step\": true, \"last_gradient_norm\": 5.16061544418335, \"last_group_loss\": 4.063974246382713, \"last_group_retries\": 0, \"last_lr\": 1.0004616326477762e-06, \"loss_sum\": 4.063974246382713, \"mean_loss\": 4.063974246382713, \"nonfinite_failed_attempts\": 0, \"nonfinite_retries\": 0, \"nonpadding_tokens\": 4431, \"oom_failed_attempts\": 0, \"oom_retries\": 0, \"peak_vram_bytes\": 2292021248, \"requested_training_wall_seconds\": 18000.0, \"resume_old_734\": false, \"rows_done\": 16, \"rows_per_second\": 1.1950623173438966, \"scaler_scale\": 1024.0, \"state\": \"TRAINING\", \"step\": 1, \"supervised_tokens\": 2444, \"supervised_tokens_per_second\": 182.5457689742802, \"total_failed_group_attempts\": 0, \"total_group_attempts\": 1, \"total_retries\": 0, \"training_started\": true, \"training_wall_seconds\": 13.388423154000066, \"unique_examples\": 16, \"unique_source_cases\": 16, \"view_rows\": 16000}, \"worker_alive\": true}\n"
+        ]
+      }
+    ]
+  }
+}

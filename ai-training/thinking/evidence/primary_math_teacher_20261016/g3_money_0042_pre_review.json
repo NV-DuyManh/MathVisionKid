@@ -1,0 +1,181 @@
+{
+  "batch_sha256": "548992cdcb46209fdc737267a2a7b5e59af125645a4c8a2e28f3866773ba59f5",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_money_0042_read_denominations_with_zeroes",
+      "row_sha256": "fe8c8e6432e253d3de6671f664b83d1fb176143788f9d6b6128c7a45a1bbc7cc",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_money_0042_equal_money_different_note_counts",
+      "row_sha256": "147c299999cf63b62c5f7820e26050fb6025b8e72b32fca2dec6416d0a693dc2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "50000",
+          "2*20000+10000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_money_0042_change_and_available_notes",
+      "row_sha256": "425c4906bb00d5dcb93cb4a92438ef23ddc46a4c6b8831c886cd1390cb70afca",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "50000-27000",
+          "20000+2000+1000",
+          "27000+(50000-27000)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_money_0042_misconception_dropped_place_value",
+      "row_sha256": "c10ad1299a50b62cadc0ef3bae1a6968f530ee15f2306ad4168a30ca20a7837a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_money_0042_guard_unseen_high_label_match",
+      "row_sha256": "283e683e29481aea3c60b7c8efaae5dfbf942ad0f4a180b83f58c56d6c44df21",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "label_values": {
+      "P": 10000,
+      "Q": 100000,
+      "R": 50000
+    },
+    "fixed_readings": {
+      "10000": "mười nghìn đồng",
+      "50000": "năm mươi nghìn đồng",
+      "100000": "một trăm nghìn đồng"
+    },
+    "largest_label": "Q",
+    "wallet_A": [
+      50000
+    ],
+    "wallet_B": [
+      20000,
+      20000,
+      10000
+    ],
+    "wallet_sums": [
+      50000,
+      50000
+    ],
+    "price": 27000,
+    "paid": 50000,
+    "change": 23000,
+    "available_notes": [
+      20000,
+      5000,
+      2000,
+      1000
+    ],
+    "all_exact_inventory_subsets": [
+      [
+        20000,
+        2000,
+        1000
+      ]
+    ],
+    "borrow_places_units_zero": [
+      3
+    ],
+    "inverse_carry_places_units_zero": [
+      3
+    ],
+    "missing_mapping_countermodels": [
+      {
+        "A": "200000",
+        "B": "500000"
+      },
+      {
+        "A": "500000",
+        "B": "200000"
+      }
+    ]
+  },
+  "oracle_method": "Independent integer sums and exhaustive2^4 inventory subsets, fixed denomination word/value mapping and ordering, per-digit borrow/carry traces; two bijections demonstrate unobserved labels cannot determine A/B.",
+  "exact_core_slots_checked_before_authoring": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "author_self_content_check": "Read5original cases, value versus count, digits/zeros and Vietnamese denomination words, change and note inventory, reasons, synthetic written reading and15hints. Same-author checking is not independent review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task008_manifest_packet_and_all_67_actual_rows_unchanged": true,
+  "task008_scope_not_expanded": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Simulated text labels only; no real banknote images, authenticity, currency-color recognition or transactions verified. Reading/calculation tasks<=100000;200000/500000only unspecified-label matching guard, not instruction to read larger numbers. High-denomination visual recognition outcome remains pending actual assets. Neutral schema not live PlanDraft."
+}

@@ -1,0 +1,49 @@
+{
+  "status": "PASS_ALL_FOUR_CONTROL_RAW_BYTES",
+  "verified_utc": "2026-10-21T05:33:29.211Z",
+  "bundle": {
+    "bytes": 1909803,
+    "cases": 36,
+    "chat_rows": 144,
+    "file_name": "MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+    "member_count": 141,
+    "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_completion_20261021\\MathVisionKid_SGK_COMPLETION_APPEND_20261021_f12edd01177a26e2.zip",
+    "sha256": "f12edd01177a26e235d8ebd3cd1fb109c4efbf964ef6ccda38b536938677cfe2",
+    "id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+    "url": "https://drive.google.com/file/d/1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31/view?usp=drivesdk",
+    "fresh_raw_verified": true,
+    "all_bytes_equal": true,
+    "verified_utc": "2026-10-21T05:32:24.272Z"
+  },
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 10203456,
+      "sha256": "05ff230618fd0a90e6f95b5bf193a53b4c8faf5d5dde513d96fa986c202d54f1",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 22063,
+      "sha256": "65f6dda2f4fe63ad2defe7a2cb0c62e32fae488b42e9d3b6cc232c9cd1e0e584",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 264362,
+      "sha256": "17a577fcb2d0670b7ce659826e769a10318163d76e7778144886389d6f2d1ef5",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 758076,
+      "sha256": "b194064fa3a5f83e2591e8b6f5d0f5ffaf3d225696626969ca1f06c466df6d1f",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    }
+  ],
+  "training_started": false
+}

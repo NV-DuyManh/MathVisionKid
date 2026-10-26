@@ -1,0 +1,8 @@
+
+
+### Nhật ký 23/10/2026 — checkpoint 5563144 chat đã raw-readback
+Worker CPU duy nhất tiếp tục từ checkpoint đã dừng, không sinh hoặc nhập lại lô. Đã lưu cùngID16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI snapshot8182935552byte SHA256be34860198f4f08f849b573ea2b050b36f809624b5c68e85e9ee2527f2874021; fresh streaming raw readback khớp đủbyte/hash, report tại snapshot có5563144unique/physicalchat và1629906sourceversions. Finding regression_only vẫn1; chưa fullscan, chưa train.
+Quan sát2026-10-23T03:07:30.845530+00:00: worker đang chạy, đã commit5572616chat; uniqueCOUNT thực5572616, thread chốt metadata còn đợi đúng worker. Mốc đã lưu an toàn riêng5563144, không nhập nhằng với phần mới chỉ commit trong runtime.
+Đã kiểm readonly toàn219source members: declared/physical/indexed cùng1629906, không có ID nhiều version; historicalaccepted1629922 giữ nguyên, chênh16chưa xác định nguyên nhân. Cài cache chỉ cho đúng progressreport callsite của worker đã pin codehash: báo tiến độ tổng hợp có thể cũ dưới200000row, nhưng checkpoint/final/error luôn chạy reportgốc mới. Cursor/issuequery trực tiếp vẫn mới; 8testfixture chỉ kiểmhelper, không làQA corpus. Không sửa frozenfiles/rows/gates; giữ2lần encoding thực. Lỗi syntax ban đầu của cellinstaller đã sửa trước install; không xử lý data lúc lỗi.
+Giữ495core/165node/1980chat,299human exact-hash signoff, recipe/hash hiện hành và toàn bộ dữ liệu/history. Tổng candidate vẫn6502344chat; allsplitraw6502392. Năm task quan sát thật/7constraints,10assetmasters,1locatorG3 giữpending; chưa chứng nhận toànSGK/pháp lý hoặcTRAINING_DATASET_READY. Khôngtrain/GPU/weights/paidAPI/app/commit/push.
+PROGRESS/chat/context/state cùngIDs, state ghi cuối và đọc raw so byte/hash trước khi xác nhận sync.

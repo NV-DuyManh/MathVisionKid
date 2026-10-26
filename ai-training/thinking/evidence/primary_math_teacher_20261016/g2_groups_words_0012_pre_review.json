@@ -1,0 +1,184 @@
+{
+  "batch_sha256": "080ddc20d432acb7c56317a288c044b5d30c794cdbfc6911f4bd5f7098154ca8",
+  "authored_cases": 8,
+  "core_cases": 4,
+  "misconception_cases": 2,
+  "guard_cases": 2,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_two_per_tray",
+      "row_sha256": "6d4b054bc5dc9ac79cbec58270409c9888f5d316505a2e6ed3962a31e1fc10c2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*7",
+          "2+2+2+2+2+2+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_two_division_roles",
+      "row_sha256": "a9178d40bc48e6a08e0917517a6e6994721f01ff9ce5530682f711f6e9503ddf",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "45/5",
+          "45/5",
+          "9*5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_misconception_share_as_remove",
+      "row_sha256": "d08f05dc119d1711144848b0e4016bb8f642186ca74cc2aea35c48e0aa5354e2",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "25/5",
+          "(25/5)*5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_guard_missing_bag_count",
+      "row_sha256": "b6e555c8cbc1119128a84c3c136ab3f304eeecfb408958010e3e54e0cd47bc63",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_known_larger_ask_smaller",
+      "row_sha256": "ab389f98154b1a3048d8e380fef1cc3fe9fa3c67dd47a30a8d27933c419ebee7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "37-9",
+          "(37-9)+9"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_difference_between_two_counts",
+      "row_sha256": "a46d3f0eb8696ba24af375d77df89a6239a80263ec3ff95b23c8fa8cb2efc42a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "46-39",
+          "39+(46-39)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_misconception_keyword_without_roles",
+      "row_sha256": "3a2e14710be7b7b78ed505985e82f57c3e9977c9b444ba6d56795cefa74ec81f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "24+6",
+          "(24+6)-6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_groups_words_0012_guard_comparison_without_base",
+      "row_sha256": "a598d82b7aa774529d54d47272b8944b6f5b6b8e873b82bb80f720383afebea7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "independent_semantic_review_completed": false,
+  "self_content_check": "Author checked both meanings of division, one primary word-problem operation with separate inverse verification, units, synthetic evidence and every hint. Independent content review remains pending.",
+  "oracles": {
+    "seven_groups_two": 14,
+    "A_share_45_among_5": [
+      9,
+      9,
+      9,
+      9,
+      9
+    ],
+    "B_groups_of_5_from_45": 9,
+    "share_25_among_5": [
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "known_larger_to_smaller": 28,
+    "difference": 7,
+    "known_smaller_to_larger": 30,
+    "missing_group_count": "Total20 supports different equal partitions; no count supplied so no numeric target.",
+    "missing_base_counterexamples": [
+      {
+        "Nam": 12,
+        "Mai": 19
+      },
+      {
+        "Nam": 20,
+        "Mai": 27
+      }
+    ]
+  },
+  "protected_candidates_not_authored": [
+    "30/5",
+    "20/5",
+    "35/5"
+  ],
+  "limits": "Integer set/group oracles do not certify pedagogy. No division remainder or table3/4 introduced under current grade2 node. No real image/physical success claimed.",
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false
+}

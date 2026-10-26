@@ -1,0 +1,238 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "quyển truyện",
+        "value": "24"
+      },
+      "grade": 2,
+      "id": "skill150_locked_g2_1",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "3nhóm8:8+8+8=24hoặc8*3=24.",
+      "rubric": [
+        "Nhận đúng3nhóm bằng nhau.",
+        "Nêu24quyển truyện."
+      ],
+      "userproblem": "Thư viện xếp 8 quyển truyện lên mỗi kệ trong 3 kệ như nhau. Ba kệ có tất cả bao nhiêu quyển truyện?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g2_1",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "0ea28d5fe9edb1f04a25e941d5a653461e97f25acba0f1281c85119659b28686",
+      "max_new_tokens": 1024,
+      "generated_tokens": 199,
+      "output": "**Giải pháp:**\n\nChế độ: Giải đầy đủ\n\n**Bước 1:**  \nChỗ dữ kiện được cung cấp là:  \n- Thư viện xếp 8 quyển truyện lên mỗi kệ  \n- Có 3 kệ\n\n**Bước 2:**  \nTính tổng số quyển truyện:\n\n$$\n\\text{Tổng số quyển truyện} = \\text{Số quyển trên mỗi kệ} \\times \\text{Số kệ}\n$$\n\n$$\n= 8 \\times 3 = 24\n$$\n\n**Bước 3:**  \nKiểm tra lại:  \n- Mỗi kệ có 8 quyển  \n- 3 kệ có: $8 \\times 3 = 24$ quyển\n\n**Kết luận:**  \nBa kệ có tổng cộng **24 quyển truyện**.\n\n---\n\n**Kết quả:** 24 quyển truyện.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1123493300,
+      "generation_seconds": 8.10322193399952
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g2_1",
+      "generated_tokens": 199,
+      "generation_seconds": 8.10322193399952,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\nChế độ: Giải đầy đủ\n\n**Bước 1:**  \nChỗ dữ kiện được cung cấp là:  \n- Thư viện xếp 8 quyển truyện lên mỗi kệ  \n- Có 3 kệ\n\n**Bước 2:**  \nTính tổng số quyển truyện:\n\n$$\n\\text{Tổng số quyển truyện} = \\text{Số quyển trên mỗi kệ} \\times \\text{Số kệ}\n$$\n\n$$\n= 8 \\times 3 = 24\n$$\n\n**Bước 3:**  \nKiểm tra lại:  \n- Mỗi kệ có 8 quyển  \n- 3 kệ có: $8 \\times 3 = 24$ quyển\n\n**Kết luận:**  \nBa kệ có tổng cộng **24 quyển truyện**.\n\n---\n\n**Kết quả:** 24 quyển truyện.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0ea28d5fe9edb1f04a25e941d5a653461e97f25acba0f1281c85119659b28686",
+      "seed": 1123493300,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "vỏ hộp",
+        "value": "56"
+      },
+      "grade": 2,
+      "id": "skill150_locked_g2_2",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "37+19=56.",
+      "rubric": [
+        "Cộng đủ hai ngày.",
+        "Nêu56vỏ hộp và không đổi dữ kiện."
+      ],
+      "userproblem": "Lớp thu gom 37 vỏ hộp vào thứ Hai và 19 vỏ hộp vào thứ Ba. Cả hai ngày thu gom bao nhiêu vỏ hộp?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g2_2",
+      "grade": 2,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "a6ba3b17779222e3fcd5c6fe92cc02b08ab0d60abf588642bda51170a7e98ce7",
+      "max_new_tokens": 1024,
+      "generated_tokens": 204,
+      "output": "**Giải pháp:**\n\nĐể tìm tổng số vỏ hộp thu gom trong hai ngày, ta thực hiện phép cộng:\n\n- Số vỏ hộp thu gom vào thứ Hai: 37\n- Số vỏ hộp thu gom vào thứ Ba: 19\n\nTổng số vỏ hộp thu gom trong hai ngày là:\n$$\n37 + 19 = 56\n$$\n\n**Giải thích:**\n- Ta cộng các số hạng 37 và 19.\n- 37 + 19 = 56 (vì 37 + 20 = 57, nên 37 + 19 = 57 - 1 = 56).\n\n**Kiểm tra kết quả:**\n- 37 + 19 = 56 (chính xác).\n\n**Kết luận:**\nLớp thu gom tổng cộng $\\boxed{56}$ vỏ hộp trong hai ngày.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1020336312,
+      "generation_seconds": 8.21728558399991
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g2_2",
+      "generated_tokens": 204,
+      "generation_seconds": 8.21728558399991,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải pháp:**\n\nĐể tìm tổng số vỏ hộp thu gom trong hai ngày, ta thực hiện phép cộng:\n\n- Số vỏ hộp thu gom vào thứ Hai: 37\n- Số vỏ hộp thu gom vào thứ Ba: 19\n\nTổng số vỏ hộp thu gom trong hai ngày là:\n$$\n37 + 19 = 56\n$$\n\n**Giải thích:**\n- Ta cộng các số hạng 37 và 19.\n- 37 + 19 = 56 (vì 37 + 20 = 57, nên 37 + 19 = 57 - 1 = 56).\n\n**Kiểm tra kết quả:**\n- 37 + 19 = 56 (chính xác).\n\n**Kết luận:**\nLớp thu gom tổng cộng $\\boxed{56}$ vỏ hộp trong hai ngày.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a6ba3b17779222e3fcd5c6fe92cc02b08ab0d60abf588642bda51170a7e98ce7",
+      "seed": 1020336312,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "withheld_value": "35"
+      },
+      "grade": 2,
+      "id": "skill150_locked_g2_3",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Đặt chục/đơnvị thẳng cột, đổi1chục thành10đơnvị trước khi bớt8;63−28=35chỉ cho người chấm.",
+      "rubric": [
+        "Nhắc các hàng thẳng cột và đổi1chục ra10đơnvị.",
+        "Không nêu35hoặc ba mươi lăm."
+      ],
+      "userproblem": "Em cần tính 63 − 28. Chỉ gợi ý cách đặt các hàng và đổi nhóm khi hàng đơn vị chưa trừ được, đừng nêu hiệu cuối cùng."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g2_3",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "848fb836d63b36512223dbc4b181d8860cd3d15fd0c43714959db973e38f96ab",
+      "max_new_tokens": 1024,
+      "generated_tokens": 189,
+      "output": "**Lời giải:**\n\n- Đặt phép tính: 63 − 28  \n- Chuyển 63 thành 63, 28 thành 28.\n\n- Chữ số hàng đơn vị: 3 − 8. Vì 3 < 8, nên phải lấy 10 − 8 = 2, nhưng phải lấy 1 từ hàng chục.\n\n- Chuyển 1 từ hàng chục sang hàng đơn vị: 10 − 8 = 2, thì hàng chục còn 6 − 1 = 5.\n\n- Kết quả: 52.\n\n**Giải thích ngắn gọn:**  \n- Đặt phép tính: 63 − 28  \n- Chuyển 3 − 8: lấy 10 − 8 = 2, lấy 1 từ hàng chục.  \n- Kết quả: 52.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 871203914,
+      "generation_seconds": 7.8488194499987
+    },
+    "selected": {
+      "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+      "ended_eos": true,
+      "fewshot_example_ids": [
+        "exhaustive_v1_sub_565_103:hint_level_1",
+        "exhaustive_v1_div_788_1:hint_level_1"
+      ],
+      "fixture_id": "skill150_locked_g2_3",
+      "generated_tokens": 65,
+      "generation_seconds": 2.676663684998857,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Đặt hàng đơn vị: 3 − 8. Vì 3 − 8 không thể, nên đổi nhóm: 3 − 8 → 13 − 8 (chuyển 1 sang hàng chục).  \nEm thử trả lời: Làm thế nào để đổi nhóm?",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8a2e534554fda31ba00c75b2a567926d3bd942567a964f672fda28f159989ec4",
+      "prompt_tokens": 414,
+      "seed": 871203914,
+      "selected_protocol": "fewshot_contract",
+      "source_output_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+      "stage": "fewshot_selected_after_base_review",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "",
+        "value": "62"
+      },
+      "grade": 2,
+      "id": "skill150_locked_g2_4",
+      "mode": "student_error",
+      "not_training_data": true,
+      "oracle": "4+8=12đúng;3+2+1=6khôngphải5; tổng62.",
+      "rubric": [
+        "Giữ phần đơn vị đúng, chỉ ra3+2+1=6.",
+        "Sửa62; không bịa thêm thao tác chưa được cho."
+      ],
+      "userproblem": "Em viết: “34 + 28: hàng đơn vị 4 + 8 = 12, viết 2 nhớ 1; hàng chục 3 + 2 + 1 = 5; kết quả 52”. Hãy kiểm đúng dòng tính em đã cho và sửa kết quả."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g2_4",
+      "grade": 2,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "eb402170847b936a95da384256c6387737d0e0bda8e3b1a239fffec14c6828ec",
+      "max_new_tokens": 1024,
+      "generated_tokens": 218,
+      "output": "**Giải:**\n\nEm đã thực hiện phép tính:  \n**34 + 28**  \nEm đã viết lại phép tính theo cách tính竖式 (viết hàng đơn vị, hàng chục):\n\n1. **Hàng đơn vị:** 4 + 8 = 12  \n   - Viết 2 ở hàng đơn vị, nhớ 1 ở hàng chục.\n\n2. **Hàng chục:** 3 + 2 + 1 (do nhớ) = 6\n\n**Kết quả:** 62\n\n**Lỗi:** Em đã viết **52** thay vì **62**.\n\n**Giải thích:**  \n- Trong phép cộng, hàng đơn vị: 4 + 8 = 12 → viết 2, nhớ 1.  \n- Hàng chục: 3 + 2 + 1 = 6.\n\n**Kết quả đúng:** **62**\n\n**Kiểm tra:**  \n34 + 28 = 62  \n✅ Đúng.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1663270305,
+      "generation_seconds": 8.98558291900008
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g2_4",
+      "generated_tokens": 218,
+      "generation_seconds": 8.98558291900008,
+      "grade": 2,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nEm đã thực hiện phép tính:  \n**34 + 28**  \nEm đã viết lại phép tính theo cách tính竖式 (viết hàng đơn vị, hàng chục):\n\n1. **Hàng đơn vị:** 4 + 8 = 12  \n   - Viết 2 ở hàng đơn vị, nhớ 1 ở hàng chục.\n\n2. **Hàng chục:** 3 + 2 + 1 (do nhớ) = 6\n\n**Kết quả:** 62\n\n**Lỗi:** Em đã viết **52** thay vì **62**.\n\n**Giải thích:**  \n- Trong phép cộng, hàng đơn vị: 4 + 8 = 12 → viết 2, nhớ 1.  \n- Hàng chục: 3 + 2 + 1 = 6.\n\n**Kết quả đúng:** **62**\n\n**Kiểm tra:**  \n34 + 28 = 62  \n✅ Đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "eb402170847b936a95da384256c6387737d0e0bda8e3b1a239fffec14c6828ec",
+      "seed": 1663270305,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

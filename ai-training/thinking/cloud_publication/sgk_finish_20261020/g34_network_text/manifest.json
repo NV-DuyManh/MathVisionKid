@@ -1,0 +1,98 @@
+{
+  "status": "12_DRAFTS_AUTHOR_QA_PASS_ROOT_QA_PENDING",
+  "cases": 12,
+  "chat": 48,
+  "master_counts": {
+    "capacity_edge_filtered_path": 2,
+    "bounded_color_multiset_without_replacement": 2,
+    "running_operation_graph_target": 2,
+    "skip_intermediate_nodes_k_plus_one": 2,
+    "nonoverlapping_schedule_interval_choice": 2,
+    "inventory_rule_termination_guard": 2
+  },
+  "grade_counts": {
+    "4": 8,
+    "3": 4
+  },
+  "numeric_steps": 10,
+  "family_oracles": 12,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "bytes": 74065,
+      "rows": 12,
+      "sha256": "35b162f4b0230030aac4cc1d2d6dd02a6a62610adacf9ace9b0c4d741497c571"
+    },
+    {
+      "path": "chat.jsonl",
+      "bytes": 102035,
+      "rows": 48,
+      "sha256": "2dc3755e6191ca31dbd828a769b4c45d0630a63920b0b948082f09982198e401"
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "bytes": 49691,
+      "rows": 12,
+      "sha256": "eb9699896ff79b91415fc47196193e10f45887b5991405631dffb535514fac3a"
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "bytes": 6002,
+      "rows": 12,
+      "sha256": "892e503d2678aff61c14745578162b6d19527e0bfbc48a5d26d35a44f95605ac"
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "bytes": 1374,
+      "rows": 10,
+      "sha256": "d120dfbf3480b97c0f3588778e34bb1ec48acf0a76d50883972f11a14fc4c882"
+    },
+    {
+      "path": "all_current_new_task_comparison.jsonl",
+      "bytes": 66283,
+      "rows": 82,
+      "sha256": "18af6578caaa3cf5c0422a7de4240d40a34c3deb2f598edde9e1b6cbf28e824a"
+    },
+    {
+      "path": "relevant_new_fullfield_comparison.jsonl",
+      "bytes": 47624,
+      "rows": 19,
+      "sha256": "22b7f758ce7a9f5993041bc97968c91ea62e350195ca671c6a89a2d4dd71d554"
+    },
+    {
+      "path": "mapping_snapshot.json",
+      "bytes": 15686,
+      "sha256": "5d3ce76538e91293f22c8365fe91714f8718e612b5e5d438b1ad72d508a0d540",
+      "rows": null
+    },
+    {
+      "path": "nearest_actual_full_field_review.jsonl",
+      "bytes": 57214,
+      "sha256": "c03c0de9f5e38306eac53940639e1cd1924cde35364339846e5615abebb9a6cb",
+      "rows": 20
+    },
+    {
+      "path": "hint_repair_delta.json",
+      "bytes": 1990,
+      "sha256": "8be0682469ce3762c73f9dcbfb6ecccb04093facd3379a020a3a8a09bb3c17d4",
+      "rows": null
+    }
+  ],
+  "mapping_source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "pending": [
+    "Root full-field cross-review of12drafts",
+    "Only exact branches listed per row authored; no blanket closure of all aliases/grades or G5 multidraw branches",
+    "Visual/physical assets remain unclaimed"
+  ],
+  "limitations": [
+    "Two game-rule guards mark can_solve=false for underlying game outcome while providing precise clarification requests.",
+    "No network/Drive, shared state/context, old data, app/git or training changes."
+  ],
+  "hint_repair": {
+    "source_changed_fields": [
+      "hints[2].hint"
+    ],
+    "delta_file": "hint_repair_delta.json",
+    "root_recheck_pending": true
+  }
+}

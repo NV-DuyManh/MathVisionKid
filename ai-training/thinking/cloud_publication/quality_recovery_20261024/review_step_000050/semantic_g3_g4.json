@@ -1,0 +1,151 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "2c025617faa1e94e9bd2a124a124aaf25544ada9fd38408ce3e94232bf660a90",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g3_inverse_division",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly reconstructs 67 as 9×7+4, assigns divisor/quotient/remainder correctly and performs the explicitly requested multiplication-and-addition check. It does not separately state 4<9, but the given remainder is valid and no incorrect claim appears.",
+      "adapter_reason": "Correctly defines divisor/quotient/remainder roles, reconstructs 67 and checks 63+4=67. Repeated conclusion and mixed JSON/prose do not change the valid math; no separate 4<9 statement."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_mass_remaining",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correct conversion 3kg240g=3240g, subtraction3240−850=2390g and mixed-unit form2kg390g; explanation and both requested answers are complete.",
+      "adapter_reason": "Only echoes the input grade/problem/mode; supplies no conversion, subtraction, 2390g or2kg390g answer. EOS completion does not establish task completion. This is answer omission rather than a new false numeric claim."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_equilateral_wire",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly identifies the entire96cm wire as the sum of three equal sides, divides96 by3 and states32cm consistently.",
+      "adapter_reason": "Correctly divides96cm by3, explicitly verifies32+32+32=96cm, and concludes32cm per side. An unfinished JSON-style wrapper is not penalized because the full EOS-ended semantic explanation is complete."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_bracket_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Reveals42 as both parenthesized sum and final answer, violating the explicit withholding request despite correct arithmetic.",
+      "adapter_reason": "Withholds42 but reverses subtraction: 'lấy kết quả trừ đi84' instructs (24+18)−84 instead of84−(24+18). This is a new substantive operation-direction error relative to the mathematically correct but leaking base."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_zero_dividend_error",
+      "grade": 3,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Corrects0:7=7 to0:7=0, gives general relation a=b×c and the correct0×7=0 check. Saying multiplication is the right checking operation but was used incorrectly addresses the supplied work rather than claiming7×0 itself is false.",
+      "adapter_reason": "Mentions the correct quotient0 but loops the same sentences until1024-token cutoff; ended_eos=false and possibly_truncated=true. No completed, coherent feedback is delivered. No new substantive false arithmetic or hallucinated student step beyond the base is asserted; truncation alone is not marked a new math/hallucination/leak error."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g3_missing_measurement_image",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Recognizes absent image/measurement and requests information, but proposes giving an assumed length and does not require a correctly scaled/calibrated image. That fails the strict no-invented-measurement guard.",
+      "adapter_reason": "Explicitly claims a precise length such as10cm,15cm or20cm can be given despite no image or measured data. Unlike the base's explicitly hypothetical suggestion, this presents unsupported choices as exact, a new substantive missing-source hallucination."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_order",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Conversions3/4=9/12 and5/6=10/12 are correct, but the response falsely orders9/12<10/12<7/12 and concludes3/4,5/6,7/12 from left to right.",
+      "adapter_reason": "Correctly maps3/4 to9/12 and5/6 to10/12, then orders7/12,9/12,10/12 from left to right. These are the correct equivalent values of the requested labels. Subsequent repetitions merely restate the input labels and do not assert a conflicting order."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_cups",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly computes(5/6)÷(1/12)=10 and answers10 full cups, preserving the volume-per-cup relationship.",
+      "adapter_reason": "Correct complete quotient calculation(5/6)×12=5×2=10 cups; unit and relation match the question."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_missing_average_score",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly reconstructs four-match total28×4=112points, sums24+30+27=81points and subtracts to31points for match4.",
+      "adapter_reason": "All four JSON/prose snippets are consistent: total112points, known81points, missing31points. Correct method and point unit; formatting is not a failure."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_unknown_fraction_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": true,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly solves x=4/7 but explicitly reveals4/7, violating the no-answer request.",
+      "adapter_reason": "Actionable correct hint x=6/7−2/7 identifies the unknown-addend inverse operation and leaves the final fraction unevaluated; does not reveal4/7."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_fraction_compare_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly obtains10/15>9/15 and reverses the student's sign, but falsely calls15 the least common divisor of3 and5 ('ước chung nhỏ nhất ...15'). This substantive false explanation prevents a full task pass.",
+      "adapter_reason": "Repeated generic error messages never provide the corrected2/3>3/5 comparison or same-size-parts justification; output reaches1024tokens without EOS and is truncated. This does not introduce a new specific false mathematical claim beyond the already incorrect base explanation."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g4_disjoint_coloring_conflict",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly uses non-overlap to add3/4+2/3=17/12>1, explains why both inside-one-sheet/disjoint conditions cannot hold and concludes inconsistency.",
+      "adapter_reason": "Correctly totals17/12>1 and concludes the two in-sheet regions cannot remain disjoint. The overlap statement explains the unavoidable contradiction rather than silently relaxing the no-overlap condition; full conclusion is consistent."
+    }
+  ]
+}

@@ -1,0 +1,1066 @@
+[
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "5+1",
+    "sample_id": "sgk_g12_20261019_complete_decompositions_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "2+4",
+    "sample_id": "sgk_g12_20261019_complete_decompositions_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "4+1",
+    "sample_id": "sgk_g12_20261019_complete_decompositions_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "25",
+    "expression": "24+1",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "34",
+    "expression": "24+10",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "35",
+    "expression": "34+1",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "51",
+    "expression": "41+10",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "52",
+    "expression": "51+1",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "66",
+    "expression": "56+10",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "56",
+    "expression": "66-10",
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "4",
+    "expression": "1+3",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "3+2",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9",
+    "expression": "4+5",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "3-1",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "2+0",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "3+2",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "2+1",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "2+0",
+    "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "3+4",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "7+0",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "1+1+1",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "1+2",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "8-3",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "1+1",
+    "sample_id": "sgk_g12_20261019_expression_target_classification_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "8-3",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "38",
+    "expression": "25+13",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "4",
+    "expression": "3+1",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "32",
+    "expression": "44-12",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "45",
+    "expression": "43+2",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "9-2",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "49",
+    "expression": "47+2",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "75",
+    "expression": "12+63",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "75",
+    "expression": "22+53",
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "42",
+    "expression": "63-21",
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "39",
+    "expression": "25+14",
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "46",
+    "expression": "14+32",
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "46",
+    "expression": "34+12",
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "60",
+    "expression": "20+40",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "60",
+    "expression": "80-20",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "33",
+    "expression": "45-12",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "50",
+    "expression": "60-10",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "34",
+    "expression": "20+14",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "50",
+    "expression": "30+20",
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "2+3",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "20",
+    "expression": "5*4",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "1+4",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9",
+    "expression": "18/2",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "3+2",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "10/2",
+    "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "2+1+2",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_stock",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "12-5",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_stock",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "12",
+    "expression": "5+7",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_stock",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "2+1",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_budget",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "1+2",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_budget",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "2+1+2",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_budget",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "2+2+1+1",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "2+4",
+    "sample_id": "sgk_gap_20261019_g3_roman_material_error",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "6-3",
+    "sample_id": "sgk_gap_20261019_g3_roman_routes_increasing",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "9-6",
+    "sample_id": "sgk_gap_20261019_g3_roman_routes_increasing",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "9-7",
+    "sample_id": "sgk_gap_20261019_g3_roman_routes_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "24-18",
+    "sample_id": "sgk_gap_20261019_g3_temperature_table_maximum_change",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "29-24",
+    "sample_id": "sgk_gap_20261019_g3_temperature_table_maximum_change",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "28-25",
+    "sample_id": "sgk_gap_20261019_g3_temperature_table_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "28",
+    "expression": "25+3",
+    "sample_id": "sgk_gap_20261019_g3_temperature_table_error",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "1+5",
+    "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_schedule",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "14",
+    "expression": "17-3",
+    "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_inclusive_error",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "15",
+    "expression": "14+1",
+    "sample_id": "sgk_gap_20261019_g3_calendar_occurrences_inclusive_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "48",
+    "expression": "(7+5)*4",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_select_models",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "48",
+    "expression": "7*4+5*4",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_select_models",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "48",
+    "expression": "30+18",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "8",
+    "expression": "48/6",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "48",
+    "expression": "8*6",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_insert_bracket",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "8",
+    "expression": "24/3",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_same_precedence_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "16",
+    "expression": "8*2",
+    "sample_id": "sgk_gap_20261019_g3_expression_choice_same_precedence_error",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/7",
+    "expression": "1/7",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_more_than_one",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9/7",
+    "expression": "9/7",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_more_than_one",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9",
+    "expression": "(9/7)*7",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_more_than_one",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/2",
+    "expression": "3/6",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_same_total_different_unit",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/2",
+    "expression": "3*(1/6)",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_same_total_different_unit",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7/4",
+    "expression": "7/4",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_invert_error",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "(7/4)*4",
+    "sample_id": "sgk_gap_20261019_g4_fraction_division_model_invert_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "45",
+    "expression": "12+18+15",
+    "sample_id": "sgk_gap_20261019_g4_data_reconstruction_missing_total",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "19",
+    "expression": "64-45",
+    "sample_id": "sgk_gap_20261019_g4_data_reconstruction_missing_total",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "64",
+    "expression": "12+18+19+15",
+    "sample_id": "sgk_gap_20261019_g4_data_reconstruction_missing_total",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "30",
+    "expression": "40-10",
+    "sample_id": "sgk_gap_20261019_g4_data_reconstruction_guard",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1500",
+    "expression": "50*30",
+    "sample_id": "sgk_gap_20261019_g4_estimate_bounds_product_upper",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "50",
+    "expression": "2000/40",
+    "sample_id": "sgk_gap_20261019_g4_estimate_bounds_quotient_lower",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6138",
+    "expression": "198*30+198",
+    "sample_id": "sgk_gap_20261019_g4_estimate_bounds_equality_error",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "138",
+    "expression": "6138-6000",
+    "sample_id": "sgk_gap_20261019_g4_estimate_bounds_equality_error",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1",
+    "expression": "5-4",
+    "sample_id": "sgk_kntt_g5_gap_20261019_001",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "53/20",
+    "expression": "(26/10+27/10)/2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_002",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "11/4",
+    "expression": "(27/10+28/10)/2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_002",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "137/50",
+    "expression": "275/100-1/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_002",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9/100",
+    "expression": "274/100-265/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_002",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/50",
+    "expression": "744/100-742/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_003",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "97/25",
+    "expression": "144/100+244/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_004",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "1+2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_004",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1",
+    "expression": "4-3",
+    "sample_id": "sgk_kntt_g5_gap_20261019_004",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/20",
+    "expression": "6250/1000-62/10",
+    "sample_id": "sgk_kntt_g5_gap_20261019_005",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "25/4",
+    "expression": "(62/10+63/10)/2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_005",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "18",
+    "expression": "3*6",
+    "sample_id": "sgk_kntt_g5_gap_20261019_007",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "23-18",
+    "sample_id": "sgk_kntt_g5_gap_20261019_007",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "23/6",
+    "expression": "3+5/6",
+    "sample_id": "sgk_kntt_g5_gap_20261019_007",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "23",
+    "expression": "(23/6)*6",
+    "sample_id": "sgk_kntt_g5_gap_20261019_007",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5/8",
+    "expression": "5/8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_008",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "21/8",
+    "expression": "2+5/8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_008",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5/8",
+    "expression": "21/8-2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_008",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2/7",
+    "expression": "9/7-1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_009",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "4+1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_009",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "37/7",
+    "expression": "5+2/7",
+    "sample_id": "sgk_kntt_g5_gap_20261019_009",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "0",
+    "expression": "(4+9/7)-(5+2/7)",
+    "sample_id": "sgk_kntt_g5_gap_20261019_009",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1",
+    "expression": "8/8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_010",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "2+1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_010",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "24",
+    "expression": "3*8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_010",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/12",
+    "expression": "2-(1+11/12)",
+    "sample_id": "sgk_kntt_g5_gap_20261019_011",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/12",
+    "expression": "(2+1/12)-2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_011",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/6",
+    "expression": "1/12+1/12",
+    "sample_id": "sgk_kntt_g5_gap_20261019_011",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/6",
+    "expression": "(2+1/12)-(1+11/12)",
+    "sample_id": "sgk_kntt_g5_gap_20261019_011",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "115",
+    "expression": "86+29",
+    "sample_id": "sgk_kntt_g5_gap_20261019_013",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "86",
+    "expression": "115-29",
+    "sample_id": "sgk_kntt_g5_gap_20261019_013",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "432",
+    "expression": "72*6",
+    "sample_id": "sgk_kntt_g5_gap_20261019_014",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "72",
+    "expression": "432/6",
+    "sample_id": "sgk_kntt_g5_gap_20261019_014",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "27/5",
+    "expression": "(36/10)*(15/10)",
+    "sample_id": "sgk_kntt_g5_gap_20261019_015",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "18/5",
+    "expression": "(54/10)/(15/10)",
+    "sample_id": "sgk_kntt_g5_gap_20261019_015",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "13/4",
+    "expression": "2500/1000+75/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_017",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5/2",
+    "expression": "325/100-75/100",
+    "sample_id": "sgk_kntt_g5_gap_20261019_017",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "1+1+1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_018",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3/8",
+    "expression": "3/8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_018",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "8",
+    "expression": "5+3",
+    "sample_id": "sgk_kntt_g5_gap_20261019_018",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "1+1+1+1+1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_019",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "4",
+    "expression": "2*2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_019",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1",
+    "expression": "5-4",
+    "sample_id": "sgk_kntt_g5_gap_20261019_019",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "5",
+    "expression": "2*2+1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_019",
+    "step_id": "s3"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7",
+    "expression": "4+3",
+    "sample_id": "sgk_kntt_g5_gap_20261019_020",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "7/12",
+    "expression": "7/12",
+    "sample_id": "sgk_kntt_g5_gap_20261019_020",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "12",
+    "expression": "7+5",
+    "sample_id": "sgk_kntt_g5_gap_20261019_020",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "1/2",
+    "expression": "(2+2+1)/10",
+    "sample_id": "sgk_kntt_g5_gap_20261019_022",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3/5",
+    "expression": "(2+1+3)/10",
+    "sample_id": "sgk_kntt_g5_gap_20261019_022",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "6",
+    "expression": "(3/5)*10",
+    "sample_id": "sgk_kntt_g5_gap_20261019_022",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3",
+    "expression": "9/3",
+    "sample_id": "sgk_kntt_g5_gap_20261019_023",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "24",
+    "expression": "3*8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_023",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "3/8",
+    "expression": "9/24",
+    "sample_id": "sgk_kntt_g5_gap_20261019_023",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "0",
+    "expression": "314/10-314/10",
+    "sample_id": "sgk_kntt_g5_gap_20261019_024",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "15",
+    "expression": "24-9",
+    "sample_id": "sgk_kntt_g5_gap_20261019_025",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "24",
+    "expression": "9+15",
+    "sample_id": "sgk_kntt_g5_gap_20261019_025",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "0",
+    "expression": "18-18",
+    "sample_id": "sgk_kntt_g5_gap_20261019_026",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "2",
+    "expression": "20-18",
+    "sample_id": "sgk_kntt_g5_gap_20261019_026",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "20",
+    "expression": "18+2",
+    "sample_id": "sgk_kntt_g5_gap_20261019_026",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9",
+    "expression": "27/3",
+    "sample_id": "sgk_kntt_g5_gap_20261019_030",
+    "step_id": "s0"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "72",
+    "expression": "9*8",
+    "sample_id": "sgk_kntt_g5_gap_20261019_030",
+    "step_id": "s1"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "9",
+    "expression": "9*1",
+    "sample_id": "sgk_kntt_g5_gap_20261019_030",
+    "step_id": "s2"
+  },
+  {
+    "decimal_90_digits_agrees": true,
+    "exact_result": "72",
+    "expression": "27+9*4+9",
+    "sample_id": "sgk_kntt_g5_gap_20261019_030",
+    "step_id": "s3"
+  }
+]

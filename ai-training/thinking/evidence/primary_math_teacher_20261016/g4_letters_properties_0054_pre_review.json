@@ -1,0 +1,134 @@
+{
+  "authored_utc": "2026-10-18T03:24:17.388884+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:22:36.610Z",
+  "batch_sha256": "91d51fe812356fa37fe835e98d8e3a8a8a920eedd26ea430d70cb69093643e5f",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_letters_properties_0054_one_letter_distributive_evaluation",
+      "row_sha256": "6edda5da306c18d6dda5ba14d0988e733fc6d5e17b465acbc39ece57f3a092ee",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "34+9",
+          "13*(34+9)",
+          "13*34+13*9"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_letters_properties_0054_three_letters_commute_associate_sum",
+      "row_sha256": "bd1c2130897f2fa1a4955fa51e0cefe83b284dc4f2e68adb1138750a97a87b5c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "148+52",
+          "(148+52)+275",
+          "(148+275)+52"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_letters_properties_0054_two_letter_pack_expression",
+      "row_sha256": "c37e57a5c90cae6956382a3d6519c73f889a89ab3c9129ad8d18fbd26efc7393",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "17+34",
+          "6*(17+34)",
+          "6*17+6*34"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_letters_properties_0054_misconception_subtraction_grouping",
+      "row_sha256": "593e016e75a4d6421b480c0fea496702fe2f3c056d4e94cf2078d312e5b9284d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "28+17",
+          "95-(28+17)",
+          "(95-(28+17))+(28+17)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "repeated_addition_13_times43": 559,
+    "disjoint_union_three_sizes": [
+      148,
+      275,
+      52
+    ],
+    "union_size": 475,
+    "regroup_pair_size": 200,
+    "enumerated_cards": 306,
+    "green_cards": 102,
+    "yellow_cards": 204,
+    "removed_disjoint_ranges": [
+      28,
+      17
+    ],
+    "remaining_initial95": 50,
+    "incorrect_expression_value84_correct_arithmetic": true,
+    "finite_small_domain_identity_checks": 1024
+  },
+  "oracle_limit": "Finite identity checks are corroboration only; actual structural explanations of the properties are read during semantic QA. No symbolic parser or live calculator support is added.",
+  "max_input_variables": 3,
+  "output_T_is_total_label_not_fourth_input_variable": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous319_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_review_repairs": {
+    "core02_property_chain": "Explicit first associativity from original left grouping before commuting inner terms and associating again.",
+    "core03_symbolic_step_unit": "thẻ",
+    "core01_hint3": "More procedural scaffolding without numeric answer or target symbolic expansion."
+  },
+  "all_instantiated_case_values_Decimal_crosschecked": true
+}

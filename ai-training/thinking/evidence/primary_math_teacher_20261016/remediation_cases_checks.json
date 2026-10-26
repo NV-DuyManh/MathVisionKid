@@ -1,0 +1,44 @@
+{
+  "local_date": "2026-10-16",
+  "status": "6_FRESH_CASES_EXACT_ARITHMETIC_CHECKED_PENDING_PEER_REVIEW",
+  "cases": 6,
+  "worked_step_expressions_checked": 52,
+  "expected_answers_independently_recomputed": 6,
+  "old_case_number_collisions": [],
+  "compared_old_sources": [
+    "thinking\\data\\teacher_math_v3\\generated\\train.jsonl",
+    "thinking\\data\\teacher_math_v3\\generated\\val.jsonl",
+    "thinking\\data\\teacher_math_v3\\generated\\challenge.jsonl",
+    "thinking\\data\\teacher_math_v4\\generated\\train.jsonl",
+    "thinking\\data\\teacher_math_v4\\generated\\val.jsonl",
+    "thinking\\data\\teacher_math_v3\\independent_anchor.jsonl",
+    "thinking\\data\\teacher_math_v4\\base_choice_pilot30.jsonl"
+  ],
+  "concept_challenge_read": false,
+  "model_training_run": false,
+  "human_verified": false,
+  "source_fingerprints": {
+    "thinking\\data\\teacher_math_v3\\generated\\train.jsonl": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "thinking\\data\\teacher_math_v3\\generated\\val.jsonl": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "thinking\\data\\teacher_math_v3\\generated\\challenge.jsonl": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+    "thinking\\data\\teacher_math_v4\\generated\\train.jsonl": "137d26f37eca1eebb2c487cb888154d9b03e52e3ed25116a804e9ee87621ab15",
+    "thinking\\data\\teacher_math_v4\\generated\\val.jsonl": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+    "thinking\\data\\teacher_math_v3\\independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "thinking\\data\\teacher_math_v4\\base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928"
+  },
+  "case_ids": [
+    "remediate_1d28a9fea2261b62a8120c24",
+    "remediate_82cc0adb049a71220dec4373",
+    "remediate_fa057b69f46687fe9b054f10",
+    "remediate_6613bfe7cb5317df54bf9f88",
+    "remediate_95828b32a3168b33ca4cc24d",
+    "remediate_b4b7e3b17531b1cb61c6638f"
+  ],
+  "output_sha256": "d224d2030be3feb3458c5917f832542d84b7e8291f00637728ad91cd448ff7b7",
+  "limits": [
+    "These are6 authored procedural examples, not full primarycurriculum data.",
+    "Exact expressionchecks are separate from peer pedagogical review.",
+    "New records use pending curriculummapping; no official grade certification."
+  ],
+  "explanation_digit_spacing_normalized": true
+}

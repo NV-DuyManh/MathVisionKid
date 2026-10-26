@@ -1,0 +1,312 @@
+{
+  "masters": [
+    {
+      "master_id": "angle_ray_pair_enumeration",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_three_arms_inside_right_corner",
+          "grade": 3,
+          "branch": "three_arms_inside_right_corner",
+          "exact_candidate_ids": [
+            "angle_count_ray_pairs"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_duplicate_point_same_arm",
+          "grade": 3,
+          "branch": "duplicate_point_same_arm",
+          "exact_candidate_ids": [
+            "angle_count_ray_pairs"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "angle_count_ray_pairs"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "balance_order_substitution_chain",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_down_pan_transitive_order",
+          "grade": 4,
+          "branch": "down_pan_transitive_order",
+          "exact_candidate_ids": [
+            "balance_orientation_order"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_decimal_labels_pan_consistency",
+          "grade": 5,
+          "branch": "decimal_labels_pan_consistency",
+          "exact_candidate_ids": [
+            "g5_candidate_balance_consistency"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_decimal_mass_label_swap_diagnosis",
+          "grade": 5,
+          "branch": "decimal_mass_label_swap_diagnosis",
+          "exact_candidate_ids": [
+            "g5_candidate_balance_consistency"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "g3_balance_relation_chain",
+        "balance_orientation_order",
+        "g5_candidate_balance_consistency"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "bill_of_materials_area_cost",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_open_shelf_any_valid_spec",
+          "grade": 5,
+          "branch": "open_shelf_any_valid_spec",
+          "exact_candidate_ids": [
+            "g5_candidate_materials_budget"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_open_shelf_repair_within_domain",
+          "grade": 5,
+          "branch": "open_shelf_repair_within_domain",
+          "exact_candidate_ids": [
+            "g5_candidate_materials_budget"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_materials_budget"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "bounded_color_multiset_without_replacement",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_two_draw_singleton_color",
+          "grade": 3,
+          "branch": "two_draw_singleton_color",
+          "exact_candidate_ids": [
+            "two_draw_multiset_without_replacement"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_three_draw_stock_bound",
+          "grade": 5,
+          "branch": "three_draw_stock_bound",
+          "exact_candidate_ids": [
+            "g5_candidate_multidraw_outcomes"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_three_draw_exhaustive_supply",
+          "grade": 5,
+          "branch": "three_draw_exhaustive_supply",
+          "exact_candidate_ids": [
+            "g5_candidate_multidraw_outcomes"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "two_draw_color_multisets",
+        "g5_candidate_multidraw_outcomes",
+        "two_draw_multiset_without_replacement"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "collinear_triple_complete_enumeration",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_segments_incidence_all_endpoints",
+          "grade": 3,
+          "branch": "segments_incidence_all_endpoints",
+          "exact_candidate_ids": [
+            "g3_collinear_enumeration",
+            "collinear_enumeration_and_segment_pairs"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_broken_line_not_imagined_segment",
+          "grade": 3,
+          "branch": "broken_line_not_imagined_segment",
+          "exact_candidate_ids": [
+            "g3_collinear_enumeration",
+            "collinear_enumeration_and_segment_pairs"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "g3_collinear_enumeration",
+        "collinear_enumeration_and_segment_pairs"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "finite_inventory_collection_game",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_fraction_flowers_clarified_threshold",
+          "grade": 4,
+          "branch": "fraction_flowers_clarified_threshold",
+          "exact_candidate_ids": [
+            "finite_inventory_collection_state",
+            "finite_inventory_collection_game"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_memory_reciprocal_face_removal",
+          "grade": 4,
+          "branch": "memory_reciprocal_face_removal",
+          "exact_candidate_ids": [
+            "finite_inventory_collection_state",
+            "finite_inventory_collection_game"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_flower_rule_ambiguity_guard",
+          "grade": 4,
+          "branch": "flower_rule_ambiguity_guard",
+          "exact_candidate_ids": [
+            "finite_inventory_collection_state",
+            "finite_inventory_collection_game"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "finite_inventory_collection_state",
+        "finite_inventory_collection_game"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "gregorian_leap_year_convention",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_gregorian_century_exception",
+          "grade": 5,
+          "branch": "gregorian_century_exception",
+          "exact_candidate_ids": [
+            "g5_source_caveat_leap_year"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_gregorian_interval_year_days",
+          "grade": 5,
+          "branch": "gregorian_interval_year_days",
+          "exact_candidate_ids": [
+            "g5_source_caveat_leap_year"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "g5_source_caveat_leap_year"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "partial_product_column_reconstruction",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_one_digit_multiplier_carry_blank",
+          "grade": 3,
+          "branch": "one_digit_multiplier_carry_blank",
+          "exact_candidate_ids": [
+            "g3_missing_digit_column"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_digit_cards_column_constraint",
+          "grade": 3,
+          "branch": "digit_cards_column_constraint",
+          "exact_candidate_ids": [
+            "g3_missing_digit_column"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "g3_missing_digit_column",
+        "g5_candidate_multicolumn_constraint"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    },
+    {
+      "master_id": "placeclass_torn_strip_constraints",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_three_digit_strip_connectors",
+          "grade": 3,
+          "branch": "three_digit_strip_connectors",
+          "exact_candidate_ids": [
+            "tornplaceclass_strip_assembly"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_strip_wrong_direction_no_solution",
+          "grade": 3,
+          "branch": "strip_wrong_direction_no_solution",
+          "exact_candidate_ids": [
+            "tornplaceclass_strip_assembly"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "tornplaceclass_strip_assembly",
+        "placeclass_strip_assembly"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "G3-origin strip alias original locator remains absent; original-page image/physical execution remains separate."
+    },
+    {
+      "master_id": "repeated_value_identity_assignment",
+      "rows": [
+        {
+          "sample_id": "sgk_final_numbers_20261021_distinct_cards_person_rank",
+          "grade": 3,
+          "branch": "distinct_cards_person_rank",
+          "exact_candidate_ids": [
+            "g3_two_digit_reasoning_rank"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_rank_partial_order_two_assignments",
+          "grade": 3,
+          "branch": "rank_partial_order_two_assignments",
+          "exact_candidate_ids": [
+            "g3_two_digit_reasoning_rank"
+          ]
+        },
+        {
+          "sample_id": "sgk_final_numbers_20261021_room_area_identity_elimination",
+          "grade": 4,
+          "branch": "room_area_identity_elimination",
+          "exact_candidate_ids": [
+            "equal_area_elimination"
+          ]
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_DUPLICATE_SCORE_ASSIGNMENT",
+        "g3_two_digit_reasoning_rank",
+        "equal_area_elimination"
+      ],
+      "scope": "Exact original explicit text branches only; no original-image/physical execution claim.",
+      "remaining": "Original-page physical/image execution remains separate."
+    }
+  ],
+  "global_closure_claimed": false
+}

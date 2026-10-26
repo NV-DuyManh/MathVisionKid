@@ -1,0 +1,739 @@
+{
+  "adversarial_mutations_detected": 34,
+  "artifact_hashes": {
+    "peer_adversarial_mutations.jsonl": "3e29fe679cbc6224c31b79e48318cb7f93bcadce8559708407608f0978a0493b",
+    "peer_fullfield_reviews.jsonl": "ee66e1c3865d5b816048e24eab47ec40b29d90ee7bbdea84bd82f6d5d49d8dbe",
+    "peer_independent_oracles.jsonl": "f7cbc6d97c6eb626898487f30e745673ed261b09067d633d06c59a7c59c238af",
+    "peer_numeric_checks.jsonl": "ebeffbc4af3799bd19f65f8b703a6c9c9a202d358aecfa7c291d8fc37259086c"
+  },
+  "cases": 12,
+  "chat_file_sha256": "941667181533b61354072d765569e8154e75e45b7784ee93cb6a2c0cbb439059",
+  "chats": 48,
+  "fixes_required": [],
+  "full_field_reviews": 12,
+  "independent_models": 12,
+  "limitations": [
+    "Independent AI peer content review; not human attestation, actual physical result or wholecurriculum certification.",
+    "Parent root final acceptance/publication remains pending."
+  ],
+  "numeric_steps": 15,
+  "peer_helper_sha256": "c1b597b63b720be9e7874de8c3aa9d22dfcf22638db9897e8e9632a11b402754",
+  "reviews": [
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "The six cells partition into twelve congruent right triangles; L2/U5 can translate to complementary halves, and all original pieces used exactly once. Each group area2, A fraction1/3; hints describe unit/regrouping only.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "areas": {
+          "A": "2",
+          "B": "2",
+          "C": "2"
+        },
+        "atoms_used_once": true,
+        "method": "TRIANGULATE_UNIT_CELLS_AND_SHOELACE_GROUP_AREAS",
+        "whole_area": 6
+      },
+      "sample_id": "sgk_completion_rel_20261021_halves_regroup_three_equal_parts",
+      "semantic_decision": "The six cells partition into twelve congruent right triangles; L2/U5 can translate to complementary halves, and all original pieces used exactly once. Each group area2, A fraction1/3; hints describe unit/regrouping only.",
+      "source_row_sha256": "8de776e18c70fcf2596fb3325031e23a11117fe785b9b5af13de3099ce1b2769",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Two full cells and four half cells each have area2. The supplied comparison of piece counts treats unlike-size pieces as equal units; solution preserves correct counts but corrects the area inference.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "areas": {
+          "P": "2",
+          "Q": "2"
+        },
+        "atoms_used_once": true,
+        "method": "TRIANGULATE_UNIT_CELLS_AND_SHOELACE_GROUP_AREAS",
+        "whole_area": 4
+      },
+      "sample_id": "sgk_completion_rel_20261021_piece_count_not_area_count",
+      "semantic_decision": "Two full cells and four half cells each have area2. The supplied comparison of piece counts treats unlike-size pieces as equal units; solution preserves correct counts but corrects the area inference.",
+      "source_row_sha256": "0945abcec6ee6a8b55bf3295a4d4d0b9de5a10610d4a879fcb6a3ce364f23098",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Both triangles fit rectangle and are separated by diagonal strips. Each area2 and nonoverlap; complementC8, M=N10. Common-part cancellation uses congruent translated pieces and disjoint unions.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "common": "8",
+        "method": "EXACT_HORIZONTAL_STRIPS_AND_COMMON_COMPLEMENT",
+        "overlap": "0",
+        "parts": [
+          "2",
+          "2"
+        ],
+        "regions": [
+          "10",
+          "10"
+        ]
+      },
+      "sample_id": "sgk_completion_rel_20261021_common_region_congruent_triangle_cancellation",
+      "semantic_decision": "Both triangles fit rectangle and are separated by diagonal strips. Each area2 and nonoverlap; complementC8, M=N10. Common-part cancellation uses congruent translated pieces and disjoint unions.",
+      "source_row_sha256": "836db73e4207398d76224ea0c1bcef3329a86e5a37769234fe943180305d6e34",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "A half-cell moves into an already covered identical half-cell; paper area remains4 but union loses old half-cell. Covered union3.5, with explicit overlap/hole; no hint fills numeric or final condition outcome.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "method": "EXPLICIT_SOURCE_DESTINATION_TRIANGLE_GEOMETRY",
+        "newly_covered_destination": "0",
+        "paper_area": "4",
+        "removed_region": "1/2",
+        "union": "7/2"
+      },
+      "sample_id": "sgk_completion_rel_20261021_transfer_overlap_breaks_area_claim",
+      "semantic_decision": "A half-cell moves into an already covered identical half-cell; paper area remains4 but union loses old half-cell. Covered union3.5, with explicit overlap/hole; no hint fills numeric or final condition outcome.",
+      "source_row_sha256": "0964138c1f7e7fafbf9e08202c344868526013a217ccab406d16291a76265071",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "OrderedABC fixes D2,3 uniquely. Side-step checks confirm both opposite pairs; diagonal midpoint result crosschecked independently by bounded-grid side equation enumeration.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "candidates_checked": 100,
+        "method": "BOUNDED_GRID_SEARCH_USING_BOTH_OPPOSITE_SIDE_VECTORS",
+        "valid": [
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "sample_id": "sgk_completion_rel_20261021_ordered_parallelogram_fourth_vertex",
+      "semantic_decision": "OrderedABC fixes D2,3 uniquely. Side-step checks confirm both opposite pairs; diagonal midpoint result crosschecked independently by bounded-grid side equation enumeration.",
+      "source_row_sha256": "59f1ad1a252ce8b278aab53e780a6410d2a23187aa45e33ba06d1a74be11b4a0",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Unordered three vertices admit three distinct completions0,4;4,0;6,4 within inclusive bounds. The supplied candidate6,4 is valid but the forced-order uniqueness rationale is unsupported.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "candidates_checked": 35,
+        "method": "ALL_BOUNDED_POINTS_AND_BOUNDARY_ORDERS_USING_SIDE_VECTORS",
+        "valid": [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            6,
+            4
+          ]
+        ]
+      },
+      "sample_id": "sgk_completion_rel_20261021_unordered_three_vertices_all_completions",
+      "semantic_decision": "Unordered three vertices admit three distinct completions0,4;4,0;6,4 within inclusive bounds. The supplied candidate6,4 is valid but the forced-order uniqueness rationale is unsupported.",
+      "source_row_sha256": "04a810dd4b208f12227a720a4c64146006208e03082da797add994347dc00c64",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Topological available-node recursion gives ABCD, ABDC, ADBC; all satisfy A<B<C andA<D. Three orders preserve the unresolved position ofD and avoid invented occlusion relations.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "method": "KAHN_AVAILABLE_NODE_RECURSION_NO_FULL_PERMUTATION_SEARCH",
+        "orders": [
+          [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          [
+            "A",
+            "B",
+            "D",
+            "C"
+          ],
+          [
+            "A",
+            "D",
+            "B",
+            "C"
+          ]
+        ]
+      },
+      "sample_id": "sgk_completion_rel_20261021_layer_partial_order_all_consistent_orders",
+      "semantic_decision": "Topological available-node recursion gives ABCD, ABDC, ADBC; all satisfy A<B<C andA<D. Three orders preserve the unresolved position ofD and avoid invented occlusion relations.",
+      "source_row_sha256": "294deca7efa1c58693970f9a49841c0d73e7442a0c96596b7e3f196f422921b8",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Transitive closure ofA<B<C<A contains selfreachability and has no global strict-layer order. Removing onlyC<A leaves uniqueABC and forcesA<C; contradiction is complete data, not missing image.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "after": [
+          [
+            "A",
+            "B",
+            "C"
+          ]
+        ],
+        "cycle_nodes": [
+          "A",
+          "B",
+          "C"
+        ],
+        "method": "TRANSITIVE_CLOSURE_CYCLE_CERTIFICATE_AND_KAHN_AFTER_EXACT_REMOVAL"
+      },
+      "sample_id": "sgk_completion_rel_20261021_layer_cycle_incompatible_claims",
+      "semantic_decision": "Transitive closure ofA<B<C<A contains selfreachability and has no global strict-layer order. Removing onlyC<A leaves uniqueABC and forcesA<C; contradiction is complete data, not missing image.",
+      "source_row_sha256": "9fcd3289e8cd34c5a00c98e1584fae92cc1c3423d8ad0af311371cb644d08ae8",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Three equal tangent circlesr2 require full extent12, width4; center-to-center span8. Linear endpoint budget distinguishes whole frame from two gaps; inherited contact relation explicit.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "center_gaps": 2,
+        "frame": "12",
+        "method": "LINEAR_CONTACT_GAP_AND_TWO_ENDPOINT_RADII_CONSTRAINT",
+        "radius": "2",
+        "span": "8",
+        "width": "4"
+      },
+      "sample_id": "sgk_completion_rel_20261021_tangent_row_rectangle_full_extents",
+      "semantic_decision": "Three equal tangent circlesr2 require full extent12, width4; center-to-center span8. Linear endpoint budget distinguishes whole frame from two gaps; inherited contact relation explicit.",
+      "source_row_sha256": "e1806d82d7ebb0c19b9dbdfa2d739ad773ffbf2da452ed7ffcadc6d31f16946b",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Four-circle frame24 supplies four diameters, not three center gaps: diameter6, radius3, span18. Check18+3+3=24; critique rests only on exact student quote.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "center_gaps": 3,
+        "frame": "24",
+        "method": "LINEAR_CONTACT_GAP_AND_TWO_ENDPOINT_RADII_CONSTRAINT",
+        "radius": "3",
+        "span": "18",
+        "width": "6"
+      },
+      "sample_id": "sgk_completion_rel_20261021_tangent_row_inverse_gap_count_error",
+      "semantic_decision": "Four-circle frame24 supplies four diameters, not three center gaps: diameter6, radius3, span18. Check18+3+3=24; critique rests only on exact student quote.",
+      "source_row_sha256": "aed0f9cc8c4d67365780caa40a33b9742c4e0edecb5485fe7da8b8f3eeb8b1f3",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Halfturn aboutM6.5,2 maps upper piece to opposite side ofMB and exact horizontal strips fill13by2 rectangle without gap/overlap. Area26; old perimeter22 versus new30. Area conservation does not impose perimeter conservation.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "method": "PIECEWISE_AFFINE_HORIZONTAL_WIDTH_INTEGRATION",
+        "new_perimeter": 30,
+        "old_perimeter": 22,
+        "overlap": "0",
+        "part_areas": [
+          "29/2",
+          "23/2"
+        ],
+        "rotated_vertices": [
+          [
+            "13",
+            "2"
+          ],
+          [
+            "13/2",
+            "2"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "13",
+            "0"
+          ]
+        ],
+        "strip_breaks": [
+          [
+            "0",
+            "2"
+          ]
+        ],
+        "union": "26"
+      },
+      "sample_id": "sgk_completion_rel_20261021_trapezoid_midcut_halfturn_rectangle",
+      "semantic_decision": "Halfturn aboutM6.5,2 maps upper piece to opposite side ofMB and exact horizontal strips fill13by2 rectangle without gap/overlap. Area26; old perimeter22 versus new30. Area conservation does not impose perimeter conservation.",
+      "source_row_sha256": "1f27a475c82bd46bd424849dd927ead9e94df711086fddc39afc1093bcf9221e",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Pure translation gives overlap triangle7,0;10,0;7,4 area6 and target gap triangle11,4;14,4;14,0 area6. Exact strip integration union50; halfturn around7,4 repairs to14by4 union56. Supplied transform points retained.",
+          "passed": true
+        },
+        {
+          "criterion": "mathematical_correctness_independent_oracle",
+          "evidence": "Separate geometric/finite methods implemented without importing author helper or oracle. Numeric expressions agree Fraction/Decimal.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_and_complete_check",
+          "evidence": "Every actual step/result/reason/explanation/answer read. Operation relation, cm versus cm2, transformations and exhaustive alternatives match request.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_answer_free",
+          "evidence": "All initial and three hint texts/questions read; strategy and conditions only, no filled requested value, final list or full solution.",
+          "passed": true
+        },
+        {
+          "criterion": "grounded_student_work_and_assets",
+          "evidence": "Feedback only on supplied synthetic statement; exact text/grid relations, inherited image receipts not claimed newly viewed or physically verified.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_enrichment_and_structural_diversity",
+          "evidence": "Grades3/4/5 enrichment explicit; paired branches change units, overlap, order, contradictory constraints, inverse roles or transform rather than numbers alone.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source QA row and chat hashes verified; original AI provenance retained, no new human content attestation.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "bad_overlap": "6",
+        "bad_strip_breaks": [
+          [
+            "0",
+            "4"
+          ]
+        ],
+        "bad_union": "50",
+        "corrected_overlap": "0",
+        "corrected_union": "56",
+        "method": "EXACT_HORIZONTAL_INTERVAL_UNION_VERSUS_OVERLAP",
+        "target_gap": "6"
+      },
+      "sample_id": "sgk_completion_rel_20261021_trapezoid_translate_overlap_counterexample",
+      "semantic_decision": "Pure translation gives overlap triangle7,0;10,0;7,4 area6 and target gap triangle11,4;14,4;14,0 area6. Exact strip integration union50; halfturn around7,4 repairs to14by4 union56. Supplied transform points retained.",
+      "source_row_sha256": "2b0c8a0b16709aa003c9ee8f881cf55b35c97678d84dea524392599f2dc3ef44",
+      "status": "PASS_INDEPENDENT_PEER"
+    }
+  ],
+  "seven_criteria_pass_count": 12,
+  "source_file_sha256": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15",
+  "source_files_unchanged": true,
+  "source_hashes": {
+    "adversarial_answer_mutations.jsonl": "ff5e3fa037fe06b8a61503e60ac4a4ee0aaabb0d3df8ea503ea9754dfaa4f320",
+    "candidate_snapshot.json": "2176c761d2f38d51741506f98c677f9ac41d06f5618a853733a9784e1de5a16c",
+    "cases.jsonl": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15",
+    "chat.jsonl": "941667181533b61354072d765569e8154e75e45b7784ee93cb6a2c0cbb439059",
+    "final_readback.json": "31c71033dd97d0113eb90344eb22075fce23a9b5475e148152868ccab3430fea",
+    "independent_oracles.jsonl": "6978676da8c10fc953817d5579490b0afd457baae041bec223bb904a64fbebf1",
+    "independent_relation_oracle.py": "b01573aca1206786a943e99b4e3cd3a1c0737858ad89fa811c232d9099d004a0",
+    "manifest.json": "17c53b33fa95c6b8ddf0275bf7704c652a4c97ff0b8a0f169b77c3ac660f0b86",
+    "nearest_actual_fullfields.jsonl": "f23618f75293bda1148a8f98eec9328d44106fb5ee8930453d4a4ba2934cdc3e",
+    "numeric_fraction_decimal.jsonl": "0a104cbdb03b8cfda2cbf28e9e9f9b598f9fc3936421ee77d66c9a3bb7ad9874",
+    "selfqa7.jsonl": "0fe681549cdccecf2596992b3d381812183376c18d4bb3b70f3d1cac50ac7678",
+    "validation_receipt.json": "cc794eeba16181c0762e810639cfa13cf2d9fa6b787fbcaad16db1081fec6df6"
+  },
+  "status": "PASS_INDEPENDENT_PEER"
+}

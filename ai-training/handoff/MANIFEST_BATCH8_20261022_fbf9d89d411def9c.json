@@ -1,0 +1,59 @@
+{
+  "schema": "MathVisionKid.SupplementalReleaseManifest.v1",
+  "release_name": "MathVisionKid_G2_FINITE_APPEND_BATCH8_20261022_fbf9d89d411def9c.zip",
+  "zip_bytes": 28791,
+  "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d",
+  "manifest_in_zip": {
+    "schema": "MathVisionKid.SupplementalReleaseManifest.v1",
+    "run_id": "g2_finite_append_batch8_20261022",
+    "total_files": 8,
+    "entries": {
+      "accepted_cases.jsonl": {
+        "bytes": 46667,
+        "sha256": "7843f2c7051723b64becbf30ba0d619b2c61fc9c05adfb04c3a3de33cad942ba"
+      },
+      "accepted_chat.jsonl": {
+        "bytes": 84376,
+        "sha256": "50b8409106911c751565b3e04b53c2241b9776d447d4cfe9440e67c15df865b1"
+      },
+      "coverage_delta.json": {
+        "bytes": 4592,
+        "sha256": "f392df17ff1b35aff062a1c819c68d80b11169d952d6b4ae206a08db50354cf5"
+      },
+      "independent_mutation_checks.json": {
+        "bytes": 2495,
+        "sha256": "23aa2bc25388de5e9299511d83e3d4d468f076bd0e98beeec72662dbe332adce"
+      },
+      "pending_remaining.json": {
+        "bytes": 685,
+        "sha256": "d14f937ebed407691a642409b43e720d02dabc0d33e8234890f2b13f7e0cda9a"
+      },
+      "qa7.jsonl": {
+        "bytes": 10791,
+        "sha256": "39ae0dbb601cc34d7f984098077dbf7828afd98c2bc3b82c07ce4fa0d082a26d"
+      },
+      "source_draft_export_hashes.json": {
+        "bytes": 3628,
+        "sha256": "face86a9ed95d256b0e83c0904611b71d7a5d41f34edb81ede181ad83fd35a0e"
+      },
+      "token_audit.json": {
+        "bytes": 5502,
+        "sha256": "7053d432907664a7207f039e0c5fe45c772d060ef679bcd6e0bf0748d15cab1d"
+      }
+    }
+  },
+  "closed_task_ids": [
+    "g2_pending_33_discover_equal_expression_classes",
+    "g2_pending_34_shape_recognition_filtered_maze",
+    "g2_pending_35_local_condition_labelled_maze",
+    "g2_pending_36_unit_capacity_bijection_inclusive",
+    "g2_pending_37_aligned_endpoint_length_difference",
+    "g2_pending_38_actual_trajectory_observation",
+    "g2_pending_39_actual_personal_survey_room_schedule",
+    "g2_pending_40_grid_copy_coordinates_incidence",
+    "g2_pending_41_sequential_draw_stock_outcomes_grade2"
+  ],
+  "cases_count": 9,
+  "chat_count": 36,
+  "raw_readback_verified": true
+}

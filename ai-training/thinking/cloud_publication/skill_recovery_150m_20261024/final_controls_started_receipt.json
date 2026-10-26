@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "I3GcUNp2Tolm"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"b34d8494cf0d8f2d5eba5e2adadce5ba5b77fd1fc49c8b08d8066e3e1afabc05\", \"run_metadata_sha256\": \"15dc14e58ee021fb5de2d6e92167b2db173a2814b59cddb8f14874708eef2542\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

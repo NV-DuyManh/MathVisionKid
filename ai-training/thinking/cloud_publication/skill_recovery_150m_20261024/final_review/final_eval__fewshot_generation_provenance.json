@@ -1,0 +1,39 @@
+{
+  "active_fixture_ids": [
+    "skill150_locked_g1_3",
+    "skill150_locked_g2_3",
+    "skill150_locked_g3_3",
+    "skill150_locked_g4_3",
+    "skill150_locked_g5_3"
+  ],
+  "bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+  "frozen_fixture_ids": [
+    "skill150_locked_g1_1",
+    "skill150_locked_g1_2",
+    "skill150_locked_g1_3",
+    "skill150_locked_g1_4",
+    "skill150_locked_g2_1",
+    "skill150_locked_g2_2",
+    "skill150_locked_g2_3",
+    "skill150_locked_g2_4",
+    "skill150_locked_g3_1",
+    "skill150_locked_g3_2",
+    "skill150_locked_g3_3",
+    "skill150_locked_g3_4",
+    "skill150_locked_g4_1",
+    "skill150_locked_g4_2",
+    "skill150_locked_g4_3",
+    "skill150_locked_g4_4",
+    "skill150_locked_g5_1",
+    "skill150_locked_g5_2",
+    "skill150_locked_g5_3",
+    "skill150_locked_g5_4"
+  ],
+  "full_fixture_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "identical_prompt_claim": false,
+  "module_sha256": "1b0ba5b12a40f4d7bd8f635305e8aeb6b3a8d6e2b20ea4edf1966fa38995d07c",
+  "output_rows": 5,
+  "outputs_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+  "training_performed": false
+}

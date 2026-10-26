@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "bc2d1f2a8f6ddba9e5c791b3bd644652cbcc8fc203b9a437f52e835511e6e8b3",
+  "decisions": [
+    {
+      "fixture_id": "verbal20261024_locked_g2_coin_budget",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly counts3*200+100=700dong then subtracts450to250dong and explains both steps.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g2_duration_to_hour",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Initially identifies45minutes correctly but invents an extra interval10:00to10:15 and concludes60minutes, changing supplied ending time.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g2_untended_rows_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Explicit20−10=10trees reveals withheld final count, then falsely says the hint does not give the answer.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g2_subtraction_correction",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Initially notes correct29 but changes given subtrahend19to17 to preserve wrong31, rather than correcting result and checking29+19=48. Also labels true48−17=31 both wrong and right.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

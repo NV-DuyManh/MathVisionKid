@@ -1,0 +1,214 @@
+{
+  "schema": "MathVisionKid.final_grade5_paired_semantic_review.v1",
+  "review_type": "LLM semantic review of both complete actual outputs; no human certification or independent external validation",
+  "scope": "Grade 5 fixtures only. The same 28 development fixtures were reused; this is not an independent heldout test.",
+  "fixture_count": 7,
+  "all_outputs_reviewed_in_full": true,
+  "criterion": "Strict semantic task pass requires correct task-relevant answer and units, mathematically consistent explanation, no invented data or student work, useful non-answer-leaking hints, and required missing/contradictory-data handling. JSON schema alone is not a pass/fail basis; correct numeric prefixes do not override later errors. Any truncation or timeout fails strict task completion.",
+  "input_sha256": {
+    "eval_fixtures.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100",
+    "training/base_generations.jsonl": "65888d0f80fbb973467e14f1e2959abccc54cc84c21cf8f6b5d9bba8361c3018",
+    "training/adapter_generations.jsonl": "95f26e73848b02a16dafd4b2015250a37c81c606554edd8affe43c1cb777feb6"
+  },
+  "contract_sha256": "062ba5cbcbedc34f454e2d6ebccc7ac7bd940f9a1053a4536b328661446cf285",
+  "fixtures": [
+    {
+      "fixture_id": "g5_fraction_subtraction",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Correctly subtracts 1/4 of maximum capacity from the initial 5/6; gives 7/12 with correct capacity reference and complete common-denominator explanation.",
+        "evidence_quotes": [
+          "\\frac{5}{6} - \\frac{1}{4} = \\frac{10}{12} - \\frac{3}{12} = \\frac{7}{12}",
+          "Bể còn lại $\\frac{7}{12}$ dung tích tối đa."
+        ]
+      },
+      "adapter": {
+        "reason": "Wrong 19/24 final result. It falsely equates 5/24 of maximum capacity with 1/4 of maximum capacity, then uses an unjustified expression rather than 5/6 - 1/4 = 7/12. Capacity unit wording is present but does not repair the math.",
+        "evidence_quotes": [
+          "5/24 dung tích tối đa bằng 1/4 dung tích tối đa của bể.",
+          "\"expression\": \"{s0}*19/5\"",
+          "\"result\": \"19/24\""
+        ]
+      }
+    },
+    {
+      "fixture_id": "g5_decimal_rate",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base": {
+        "reason": "Correctly multiplies 2.4 km per lap by 3.5 laps to obtain 8.4 km; reason, arithmetic and distance unit are consistent.",
+        "evidence_quotes": [
+          "2,4 \\, \\text{km/vòng} \\times 3,5 \\, \\text{vòng} = 8,4 \\, \\text{km}",
+          "Người đó đi được $8,4$ km."
+        ]
+      },
+      "adapter": {
+        "reason": "Correct completed solution: multiply distance per lap by number of laps; 8.4 km with matching expression, explanation and answer.",
+        "evidence_quotes": [
+          "Nhân số vòng với độ dài mỗi vòng.",
+          "2,4 nhân 3,5 bằng 8,4 km.",
+          "\"expression\": \"2.4*3.5\""
+        ]
+      }
+    },
+    {
+      "fixture_id": "g5_triangle_side",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Correctly adds known sides to 16.5 cm then subtracts from 23 cm to obtain 6.5 cm, with correct perimeter reasoning and units.",
+        "evidence_quotes": [
+          "7,5 \\, \\text{cm} + 9 \\, \\text{cm} = 16,5 \\, \\text{cm}",
+          "Cạnh thứ ba dài $6,5$ cm."
+        ]
+      },
+      "adapter": {
+        "reason": "Final 1 cm is wrong (expected 6.5 cm) and violates triangle inequality with 7.5 and 9. It uses an invented trial third side, while its step result 7.5 contradicts the stated final answer and the correct written expression is not evaluated correctly.",
+        "evidence_quotes": [
+          "\"result\": \"7,5\"",
+          "7,5 + 9 + 7,5 = 24 cm; 24 − 23 = 1 cm. Cạnh thứ ba là 1 cm.",
+          "\"expression\": \"23 - 7.5 - 9\""
+        ]
+      }
+    },
+    {
+      "fixture_id": "g5_ratio_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Mathematically correct ratio calculation, but explicitly reveals 12 cups despite the request not to give the answer.",
+        "evidence_quotes": [
+          "\\frac{2}{3} = \\frac{8}{x} \\Rightarrow 2x = 24 \\Rightarrow x = 12",
+          "Vậy lượng sơn trắng cần dùng là 12 cốc."
+        ],
+        "hint_no_answer_leak": false,
+        "useful_task_specific_hint": true
+      },
+      "adapter": {
+        "reason": "Withholds the answer and makes no false numerical claim, but gives only a generic ratio/quantity prompt. It supplies no actionable relationship between 8 blue cups and the 2:3 ratio, groups of 2 or corresponding white cups; fails the strict useful-hint task.",
+        "evidence_quotes": [
+          "Tỉ lệ yêu cầu một quan hệ giữa hai lượng khác nhau.",
+          "Em xác định số nào là lượng được hỏi theo yêu cầu thế nào?"
+        ],
+        "hint_no_answer_leak": true,
+        "useful_task_specific_hint": false
+      }
+    },
+    {
+      "fixture_id": "g5_student_percent_error",
+      "grade": 5,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Reaches the correct 60% conclusion, but invents that the student calculated (3/5) divided by 5 instead of addressing the supplied claim 3 divided by 5 equals 0.3. It never explicitly corrects 3/5 to 0.6 and attributes an unsupported method to the student; strict evidence-grounded feedback fails.",
+        "evidence_quotes": [
+          "Bạn đã tính $ \\frac{3}{5} \\div 5 = 0.3 $, nhưng đây là sai lầm.",
+          "Lời giải của bạn sai, vì $\\frac{3}{5}$ lớp học tương đương 60%, không phải 30%."
+        ]
+      },
+      "adapter": {
+        "reason": "Does not correct 3/5 = 0.6 = 60%, and instead answers 30 and 3/10. The reason falsely equates 30% to 3/100 while the step result says 3/10, so it is internally contradictory and fails to diagnose the actual student error.",
+        "evidence_quotes": [
+          "30% của toàn bộ bằng 3/100 toàn bộ.",
+          "3/10 của toàn bộ bằng 30%. Không tự đổi số phần trăm thành số phần bằng nhau.",
+          "\"quantity\": \"Phần trăm\", \"result\": \"30\", \"unit\": \"\""
+        ]
+      }
+    },
+    {
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Correct 24 km computation with proper units, but the full output never identifies that the 20 km note conflicts with the stated map scale. That required contradiction handling is absent.",
+        "evidence_quotes": [
+          "6 \\, \\text{cm} \\times 4 \\, \\text{km/cm} = 24 \\, \\text{km}",
+          "Khoảng cách thật là **24 km**."
+        ]
+      },
+      "adapter": {
+        "reason": "Correct 6 × 4 = 24 km prefix and final number are overridden by the explicit false claim that 24 km equals 20 km. It fails to identify the note as contradictory; a correct numeric prefix does not pass the task.",
+        "evidence_quotes": [
+          "6 × 4 = 24 km; 24 km bằng 20 km."
+        ]
+      }
+    },
+    {
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base": {
+        "reason": "Wrongly assumes length is width plus 1 cm when the prompt only says length is greater. Invents a unique quadratic and approximate perimeter 27.78 cm rather than recognizing non-unique side pairs and asking for sufficient information.",
+        "evidence_quotes": [
+          "Vì chiều dài lớn hơn chiều rộng, nên chiều dài là $ x + 1 $ cm.",
+          "Chu vi hình chữ nhật là khoảng $ 27.78 $ cm."
+        ]
+      },
+      "adapter": {
+        "reason": "Wrongly declares solvable and invents a 4 cm side. Even those invented dimensions 12 and 4 would have perimeter 32 cm, while step result/answer say 48 cm and explanation says 96 cm. It neither detects missing information nor gives internally consistent arithmetic.",
+        "evidence_quotes": [
+          "\"can_solve\": true",
+          "\"expression\": \"48/4\"",
+          "\"expression\": \"(12+4)*2\"",
+          "48 × 2 = 96 cm.",
+          "\"quantity\": \"Chu vi\", \"result\": \"48\", \"unit\": \"cm\""
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "base_pass": 3,
+    "adapter_pass": 1,
+    "denominator": 7,
+    "base_to_adapter": {
+      "pass_to_pass": 1,
+      "pass_to_fail": 2,
+      "fail_to_pass": 0,
+      "fail_to_fail": 4
+    },
+    "strict_task_pass_by_mode": {
+      "answer": {
+        "base_pass": 3,
+        "adapter_pass": 1,
+        "denominator": 3
+      },
+      "hint_no_answer": {
+        "base_pass": 0,
+        "adapter_pass": 0,
+        "denominator": 1
+      },
+      "student_error": {
+        "base_pass": 0,
+        "adapter_pass": 0,
+        "denominator": 1
+      },
+      "missing_or_contradictory_info": {
+        "base_pass": 0,
+        "adapter_pass": 0,
+        "denominator": 2
+      }
+    },
+    "hint_withholding_only": {
+      "base_pass": 0,
+      "adapter_pass": 1,
+      "denominator": 1,
+      "note": "Withholding alone does not establish a useful hint or strict task pass."
+    },
+    "all_fourteen_outputs_eos_complete_untruncated": true,
+    "quality_conclusion": "Grade-5 strict semantic task performance regresses from 3/7 to 1/7 on these reused development items; no generalization or human-reviewed quality claim."
+  }
+}

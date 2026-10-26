@@ -1,0 +1,38 @@
+{
+  "verified_writes": [
+    {
+      "kind": "progress",
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 21298146,
+      "sha256": "94c02cc1b638e1c054bcc4b692bf0c357c352340648c02d4318d7a57beb1c7e2",
+      "fresh_raw_readback_verified": true,
+      "verified_utc": "2026-10-24T15:14:29.584Z",
+      "recovered_after_connector_account_change": true
+    },
+    {
+      "kind": "chat",
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 1492069,
+      "sha256": "3d7cebe4a8ed058da85a45c75bad2498a0a525bbc406bc258380d0d5073be725",
+      "fresh_raw_readback_verified": true,
+      "verified_utc": "2026-10-24T15:14:51.250Z"
+    },
+    {
+      "kind": "context",
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 867096,
+      "sha256": "ce1c996a102f0e3c7d51cddad121458caccc11fe8e22dd36470846589a534992",
+      "fresh_raw_readback_verified": true,
+      "verified_utc": "2026-10-24T15:15:03.513Z"
+    },
+    {
+      "kind": "state",
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 1795026,
+      "sha256": "a91c8163a49e9282c6f61fb0d390a0f8036c429164e312c1767de04dce5efc3e",
+      "fresh_raw_readback_verified": true,
+      "verified_utc": "2026-10-24T15:15:15.284Z"
+    }
+  ],
+  "state_written_last": true
+}

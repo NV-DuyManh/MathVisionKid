@@ -1,0 +1,48 @@
+[
+  {
+    "grade": 1,
+    "volume": 1,
+    "detail_url": "https://taphuan.nxbgd.vn/tap-huan/chi-tiet-sach/toan-1-tap-mot-940114881.940114881",
+    "reader_urls": [
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-1-tap-mot.4698216815",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgv-toan-1.4906251711",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/vbt-toan-1-tap-1-bai-mau.4727003199",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-tap-huan-day-hoc-theo-sgk-moi-mon-toan-1.4529095528"
+    ]
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "detail_url": "https://taphuan.nxbgd.vn/tap-huan/chi-tiet-sach/toan-1-tap-hai-940245815.940245815",
+    "reader_urls": [
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-1-tap-hai.4712748878",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgv-toan-1.4906405691",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/vbt-toan1-tap-2-bai-mau.4727015837",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-tap-huan-day-hoc-theo-sgk-moi-mon-toan-1.4529688488"
+    ]
+  },
+  {
+    "grade": 2,
+    "volume": 1,
+    "detail_url": "https://taphuan.nxbgd.vn/tap-huan/chi-tiet-sach/toan-2-tap-mot-939830550.939830550",
+    "reader_urls": [
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgv-toan-2.4906477769",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/vbt-toan2-tap-mot-bai-mau.4727254185",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-gioi-thieu-sgk-mon-toan-2.4528694944",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-tap-huan-giao-vien-mon-toan-2.4528695262"
+    ]
+  },
+  {
+    "grade": 2,
+    "volume": 2,
+    "detail_url": "https://taphuan.nxbgd.vn/tap-huan/chi-tiet-sach/toan-2-tap-hai-939971500.939971500",
+    "reader_urls": [
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-hai.4713893812",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgv-toan-2.4906486149",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/vbt-toan2-tap-hai-bai-mau.4727261364",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-gioi-thieu-sgk-mon-toan-2.4528889850",
+      "https://taphuan.nxbgd.vn/tap-huan/doc-sach/tai-lieu-tap-huan-giao-vien-mon-toan-2.4528890745"
+    ]
+  }
+]

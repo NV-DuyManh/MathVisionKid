@@ -1,0 +1,18 @@
+{
+  "masters": [
+    "complementary_irregular_boundary_match",
+    "composite_shape_square_nonaligned_inventory",
+    "fixed_piece_assembly_feasibility",
+    "fixed_piece_silhouette_placement",
+    "geometric_edge_removal_relocation",
+    "irregular_region_unit_area_count",
+    "midpoint_grid_multi_piece_dissection",
+    "nonaxis_composite_quadrilateral_enumeration",
+    "seven_segment_glyph_inventory_relocation",
+    "solid_visible_face_direction_binding"
+  ],
+  "cases_min": 20,
+  "cases_max": 30,
+  "scope": "Original explicit finite representations only; no publisher image reproduction/physical claims; no Drive writes/training",
+  "queue_sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051"
+}

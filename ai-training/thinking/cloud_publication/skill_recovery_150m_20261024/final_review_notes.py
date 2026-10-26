@@ -1,0 +1,23 @@
+# Actual one-time locked-test outputs. No subsequent model or protocol selection.
+R={
+0:(True,True,False,False,False,'Both83and80are correct and place value is consistently explained; selected row is the exact baseline.'),
+1:(True,True,False,False,False,'Correct6+3=9notebook labels with adding-gifts reason; exact baseline reuse.'),
+2:(False,True,True,False,False,'Baseline reveals7cars; selected hints to count existing cars and add2without giving7, appropriate actionable grade1hint.'),
+3:(False,False,False,False,False,'Both recognize7+2=9contradicts8and discuss conditional source errors, but do not request checking either age/difference as the explicit question requires. Exact baseline reuse.'),
+4:(True,True,False,False,False,'Correct3equal groups of8and24story books; exact baseline reuse.'),
+5:(True,True,False,False,False,'Correct37+19=56containers, sensible37+20−1check; exact baseline reuse.'),
+6:(False,False,True,False,True,'Baseline gives wrong full answer52in a hint and wrong borrowing. Selected withholds final but says transfer1towards tens instead of from tens to units; new wrong transfer-direction instruction, not a sound hint.'),
+7:(True,True,False,False,False,'Preserves provided correct4+8=12carry and fixes3+2+1to6and final62without fabricated hidden actions; exact baseline reuse.'),
+8:(True,True,False,False,False,'Correct7full boxes and3bottles;6*7=42and6*8=48>45show maximality and hence remainder<6;45−42=3checks total, equivalent to the frozen remainder condition. Exact baseline reuse.'),
+9:(True,True,False,False,False,'Correct3m=300cmthen+8cm=308cm, consistent units; exact baseline reuse.'),
+10:(True,True,False,False,False,'Both clearly perform24−9inside parentheses before multiplying5and withhold75. Baseline calls brackets square, a wording slip without wrong operation/order.'),
+11:(False,False,False,False,False,'Invents false triangle inequality and unsupported third-side range(3,4)instead of simply asking missing side; final nonuniqueness does not repair false geometry. Exact baseline reuse.'),
+12:(False,False,False,False,False,'Changes second fraction into1/4of already-read1/3and invents full-book-read premise, concluding no book instead of7/12. Exact baseline reuse.'),
+13:(False,False,False,False,False,'Rounds wrong place, misidentifies decision digit7instead of6and produces43,770,000instead of43,800,000. Exact baseline reuse.'),
+14:(False,False,True,False,False,'Baseline reveals10/11. Selected withholds it but merely asks to identify given numerators, omitting actionable add-numerators/keep-denominator rule explicitly required by rubric.'),
+15:(False,False,False,False,False,'Correct3/5but false check says3not divisible by3and5not divisible by5; invalid explanation of irreducibility, so full task fails. Exact baseline reuse.'),
+16:(True,True,False,False,False,'Correct5ratio parts,9perpart,18stickers for2parts and18+27=45check; exact baseline reuse.'),
+17:(True,True,False,False,False,'Correct12*5*4=240cm3with all three dimensions and cubic unit; exact baseline reuse.'),
+18:(True,False,False,False,False,'Baseline gives actionable800000*15%without final values. Selected only repeats take15%and asks how, omitting multiplication or10%+5%method required by frozen rubric; new useful-hint regression, no numerical leak.'),
+19:(False,False,False,False,False,'Recognizes4*5=20conflicts30but unconditionally calls area20true then replaces given length4by6and finalperimeter22without verifying which source is correct; exact baseline reuse.'),
+}

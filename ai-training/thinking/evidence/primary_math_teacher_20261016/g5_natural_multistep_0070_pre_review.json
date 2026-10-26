@@ -1,0 +1,167 @@
+{
+  "authored_utc": "2026-10-18T04:41:30.362715+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:39:37.731Z",
+  "batch_sha256": "e85addcb4ada2b422f0ef82bdae76a58ad1e9dcc117c37ec8671e733bd040544",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_natural_multistep_0070_boxed_and_loose_stock_reserve_equal_share",
+      "row_sha256": "71feef50ace9333fac89da1cdd35a822f827968d4b6ee047bdd1da5cb1ab03a7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "48*24",
+          "(48*24)+276",
+          "((48*24)+276)-168",
+          "(((48*24)+276)-168)/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true,
+      "within_four_steps": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_natural_multistep_0070_common_factor_reasonable_compute_and_round",
+      "row_sha256": "f8f0bd2a2cd7dc2cf0b3fe78eb29d285d166f15998583b5ebc4453293fa0d7dc",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "136+59",
+          "(136+59)*25",
+          "49*100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true,
+      "within_four_steps": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_natural_multistep_0070_unitary_boxes_then_reserve_and_share",
+      "row_sha256": "0cb4d26b1deab4e30cf9f47f1016d91c5efebaeee48e063f08fe71c772987a2c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "168/7",
+          "(168/7)*15",
+          "((168/7)*15)-96",
+          "(((168/7)*15)-96)/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true,
+      "within_four_steps": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_natural_multistep_0070_misconception_left_to_right_before_division",
+      "row_sha256": "637f79bc634bfb908544925ad7b54c25034b8e6704ffd2e17efd94750d2c7e26",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "144/6",
+          "360-(144/6)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true,
+      "within_four_steps": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_natural_multistep_0070_guard_unknown_reserve_before_equal_share",
+      "row_sha256": "3b5316662067378d421a1f995fe4f51f11585144777098442d7c1b11ef853753",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true,
+      "within_four_steps": true
+    }
+  ],
+  "independent_oracles": {
+    "boxed_item_count": 1152,
+    "total_with_loose": 1428,
+    "equal_class_pile_sizes": [
+      210,
+      210,
+      210,
+      210,
+      210,
+      210
+    ],
+    "separate_and_grouped_books": 4875,
+    "nearest_hundred_by_distance": 4900,
+    "known_equal_box_sizes": [
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24
+    ],
+    "new_box_total": 360,
+    "equal_group_pile_sizes": [
+      44,
+      44,
+      44,
+      44,
+      44,
+      44
+    ],
+    "precedence_token_value": "336",
+    "altered_parenthesized_value": 36,
+    "guard_reserve_countermodels": {
+      "40 reserved": "40",
+      "80 reserved": "35"
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Finite item allocations and separate regrouping/rounding/token checks verify hypothetical arithmetic/roles, not actual inventory or observations; semantic grade/unit/hint review required.",
+  "all_cases_at_most_four_worked_steps": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous391_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_official_QA_repairs": [
+    "Correct subtraction-role wording: division result24 is the subtrahend, while360 remains the minuend. No value/answer changes."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "repaired_subtraction_reason_reread": true,
+  "official_QA_utc": "2026-10-18T04:44:39.780979+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "a3c101ff5d449bcbe37149b40da9b7bd98e532c379c31c1e509d95d90f38996d"
+}

@@ -1,0 +1,577 @@
+[
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_limit_not_exact_rectangle",
+    "source_row_sha256": "4172a81a11824f0b51b97d38d93daf6ebee488d9091305e3c68e6407082931a2",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Finite 8-sector shape retains curved boundary; limit argument and approximate square unit correct.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_sector_rectangle_substitution_error",
+    "source_row_sha256": "5fb3b1ad3753deb7003e0c5f0022e23bac2db436090b63588e435b2b677caa9c",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Actual paper conserved; substitute rectangle differs by 2.55 cm² without contradiction.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_coincidence_midpoint",
+    "source_row_sha256": "d6627f8d20eb7565cf531b677f42125d6a878aa2494167d5e02772790e837d9c",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Equal intervals from endpoint coincidence; no unseen physical result certified; correct whole-unit length.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_cord_quarter_without_ruler",
+    "source_row_sha256": "f405a2eb1316f7b86ea6b334fe6047c93c1b367ed518dde0155cb38180c2fa5a",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Equal intervals from endpoint coincidence; no unseen physical result certified; correct whole-unit length.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_perpendicular_coincidence_fold",
+    "source_row_sha256": "7f1cc833ae7017899fc687d5ef08002f9fcafba3157d53522b35b558d8b2d286",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Keeping P fixed and opposing rays coincident determines perpendicular crease; arbitrary line through P fails.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g5_three_eighths_nonunit_strip",
+    "source_row_sha256": "fc2da6b587fe75712840893c315f539e7d8f8e953eba883649dcea245d9ce1b0",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Equal intervals from endpoint coincidence; no unseen physical result certified; correct whole-unit length.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_fold_outer_edge_two_notches",
+    "source_row_sha256": "4414c81d80938de7a163e6cc7afcd144c390f388b6234e86d583e6a2134ccc92",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Exterior cut maps to two upper corner notches and 46 unit cells remain.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_double_fold_central_connected_hole",
+    "source_row_sha256": "e81f5105a9799c9dca170c77c9b8612c72eb22d88a224d4578b1e182f6a2a26c",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Outer-edge cut creates two notches; double-fold intersection cut creates one connected central 2x2 hole.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_midpoint_seven_piece_inventory",
+    "source_row_sha256": "613d1e45716279a2346e28acd374ffe9b005af2e995e511eac9c6f8a1a91ef69",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Corrected seven pieces tile square and match classic tangram shape inventory; areas and fractions total whole.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_tangram_group_equal_area_different_count",
+    "source_row_sha256": "7729a0e9dcea0fb989ccee27f6c2c4022d3eeb2743827cef55368719dcbc0c80",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Two-piece and three-piece groups both area 5; outside X is 11/16, not only Y.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_mixed_unit_center_on_previous_circle",
+    "source_row_sha256": "ab0400c33fb6959533d5c8f162b3808242f4e9181e5293599f6796923c460351",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Mixed-unit openings 3,2,1.5 cm; OA/AB fixed while OB has at least two legal witnesses.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_same_compass_opening_radius_diameter",
+    "source_row_sha256": "40e59675fa6de427b9164d8736a74964e7ebee328f132f230efe6b8b9f960288",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Written quote only: first two openings correct, last must halve diameter. No actual drawing claim.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_acute_diagonal_grid_ray",
+    "source_row_sha256": "66d443c0324006a4c8ff561cc51575b26685cb4ee762b943b58b2510a7b7a4c0",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Grid-diagonal angle relative to rightward ray is 45 degrees; provided geometry suffices without observing tools.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_obtuse_diagonal_opposite_scale",
+    "source_row_sha256": "d43004e47dd6988baf3b98cbc4c83d973e639405c38a2c2d33ad4c3144320171",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Grid-diagonal angle relative to rightward ray is 135 degrees; provided geometry suffices without observing tools.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_orthogonal_half_folds_uniform_layers",
+    "source_row_sha256": "d8f20d7b5ce896723e893b361e33e345573ec0c6e6821ca1063fa873d87265c2",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Tracked every original cell; footprint shrinks while weighted layers preserve original area.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_offcenter_then_half_nonuniform_layers",
+    "source_row_sha256": "faf706e1e559a112374a2a7f877de63650064ce98e1529e7461da06aced2cb7c",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Tracked every original cell; footprint shrinks while weighted layers preserve original area.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_vertical_base_two_completions",
+    "source_row_sha256": "998df3f33cf1bd7972da620dc1c5d0d689075690658960dcfa8c19e88e8926a5",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Exhaustive prescribed points; exclusive trapezoid convention explicitly local and rotation handled.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_diagonal_base_exclusive_trapezoid",
+    "source_row_sha256": "b3322b63b7f2e1ea6417b06cfaa937afc247b89cf99851c7241101499ee726d1",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Exhaustive prescribed points; exclusive trapezoid convention explicitly local and rotation handled.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g3_rectangle_single_cut_to_square",
+    "source_row_sha256": "677168a3725004271c3e2dd84faf1edec257b4e172ede09747759ed77f330175",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "One cut gives two 4x2 pieces, stack opposite sides of common edge to 4x4; units and perimeter distinction correct.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_parallelogram_cut_translate",
+    "source_row_sha256": "c3efaa9f7efd53c241c8542f3199357639c1b61242f9b68233c72547ab4373a4",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Translation of AED to BFC fills right wedge with no overlap/gap, resulting 6x3 rectangle.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_g4_square_diagonal_pair_reassembly",
+    "source_row_sha256": "2093894c0d394f1ecbdd4ab72bd9a892192da267899580bdc36d819a4aee95b4",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Four diagonal triangles pair along hypotenuse; new side is old half-diagonal, final rectangle ratio 2:1; no irrational numerical demand.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_cm_to_m_fractional_turns",
+    "source_row_sha256": "0572e785746fee040800b617650aaedc3bbcd482f5bf4dedc7643c7c72ec6ad8",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Distance from 12 full circumferences plus half circumference =15.7m; no disk-area confusion.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  },
+  {
+    "sample_id": "sgk_final_gaps_folds_20261021_wheel_inverse_km_dm_radius",
+    "source_row_sha256": "186bad2d8bc2a8c1c58ca08703a7c110740304e40e18c4a9d4bfc552c02ca616",
+    "criteria": {
+      "mathematical_correctness": "PASS",
+      "given_requested_answer_alignment": "PASS",
+      "grade_and_units": "PASS",
+      "step_reasons_explanations_check": "PASS",
+      "initial_and_all_hints_no_answer_leak": "PASS",
+      "observable_student_work_only": "PASS",
+      "provenance_schema_source_hash_preservation": "PASS"
+    },
+    "actual_fields_read": [
+      "problem",
+      "givens",
+      "requested_quantity",
+      "student_work",
+      "worked_steps.title/expression/result/unit/reason/explanation",
+      "expected_answer",
+      "initial_guidance",
+      "hints.level/hint/question"
+    ],
+    "semantic_note": "Read explicit erroneous expression only; unify km/dm, convert to cm, 100 turns and reverse check.",
+    "grade_caveat": "Text relation/enrichment; no physical manipulation or unseen image certified."
+  }
+]

@@ -1,0 +1,19 @@
+test_append_only_recipe_migration_keeps_old_seen_and_cursor (__main__.StreamTests.test_append_only_recipe_migration_keeps_old_seen_and_cursor) ... ok
+test_count_mismatch_never_marks_member_complete (__main__.StreamTests.test_count_mismatch_never_marks_member_complete) ... ok
+test_cursor_split_and_protected_scope_rejected (__main__.StreamTests.test_cursor_split_and_protected_scope_rejected) ... ok
+test_durable_ack_and_reopen_only_unconsumed_rows (__main__.StreamTests.test_durable_ack_and_reopen_only_unconsumed_rows) ... ok
+test_exact_duplicates_dedup_conflicting_duplicate_fails (__main__.StreamTests.test_exact_duplicates_dedup_conflicting_duplicate_fails) ... ok
+test_future_supplement_unknown_key_discovered_not_skipped (__main__.StreamTests.test_future_supplement_unknown_key_discovered_not_skipped) ... ok
+test_handler_failure_does_not_ack_or_lose_row (__main__.StreamTests.test_handler_failure_does_not_ack_or_lose_row) ... ok
+test_hash_and_inner_hash_tamper_rejected_before_handler (__main__.StreamTests.test_hash_and_inner_hash_tamper_rejected_before_handler) ... ok
+test_history_and_diagnostic_excluded_without_opening (__main__.StreamTests.test_history_and_diagnostic_excluded_without_opening) ... ok
+test_later_numeric_payload_manifest_supported_and_role_swap_rejected (__main__.StreamTests.test_later_numeric_payload_manifest_supported_and_role_swap_rejected) ... ok
+test_missing_or_unknown_split_fails_before_callback (__main__.StreamTests.test_missing_or_unknown_split_fails_before_callback) ... ok
+test_real_overlay_applied_without_mutating_raw_split_or_claiming_all_rows (__main__.StreamTests.test_real_overlay_applied_without_mutating_raw_split_or_claiming_all_rows) ... ok
+test_same_archive_in_multiple_controls_idempotent (__main__.StreamTests.test_same_archive_in_multiple_controls_idempotent) ... ok
+test_union_plain_gzip_zip_and_split_filter (__main__.StreamTests.test_union_plain_gzip_zip_and_split_filter) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.843s
+
+OK

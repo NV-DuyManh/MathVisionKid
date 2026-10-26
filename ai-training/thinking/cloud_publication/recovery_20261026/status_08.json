@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:14:42.341031+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 2, \"rows_done\": 32, \"supervised_tokens\": 7359, \"last_loss\": 3.469830498099327, \"last_gradient_norm\": 4.245297908782959, \"training_seconds\": 20.51026203100014}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 33, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:14:42.341031+00:00\", \"worker_exit\": null, \"training/progress.json\": {\"state\": \"TRAINING\", \"step\": 2, \"rows_done\": 32, \"supervised_tokens\": 7359, \"last_loss\": 3.469830498099327, \"last_gradient_norm\": 4.245297908782959, \"training_seconds\": 20.51026203100014}, \"training/native_first_microbatch_audit.json\": {\"supervised_tokens\": 84, \"selected_token_row_CE_matches_per_row_reference\": true, \"absolute_difference\": 4.76837158203125e-07}, \"publication\": {\"state\": \"RUNNING\", \"artifact_count\": 33, \"checkpoints\": 0}, \"eval_counts\": {\"training/eval_step_000000/base_generations.jsonl\": 30}, \"four_controls_state\": \"COMPLETE_RAW_VERIFIED\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-26T09:14:42.341031+00:00\\\", \\\"worker_exit\\\": null, \\\"training/progress.json\\\": {\\\"state\\\": \\\"TRAINING\\\", \\\"step\\\": 2, \\\"rows_done\\\": 32, \\\"supervised_tokens\\\": 7359, \\\"last_loss\\\": 3.469830498099327, \\\"last_gradient_norm\\\": 4.245297908782959, \\\"training_seconds\\\": 20.51026203100014}, \\\"training/native_first_microbatch_audit.json\\\": {\\\"supervised_tokens\\\": 84, \\\"selected_token_row_CE_matches_per_row_reference\\\": true, \\\"absolute_difference\\\": 4.76837158203125e-07}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"artifact_count\\\": 33, \\\"checkpoints\\\": 0}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": 30}, \\\"four_controls_state\\\": \\\"COMPLETE_RAW_VERIFIED\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

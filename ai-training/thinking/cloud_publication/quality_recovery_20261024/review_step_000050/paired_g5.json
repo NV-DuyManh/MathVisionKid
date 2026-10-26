@@ -1,0 +1,362 @@
+[
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_percent_reversal",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một đại lượng được tăng 25% so với ban đầu. Sau đó người ta giảm 20% của giá trị mới vừa nhận được. Giá trị cuối cùng bằng bao nhiêu phần trăm giá trị ban đầu?",
+      "exact_reference_answer": {
+        "value": "100",
+        "unit": "% của giá trị ban đầu",
+        "comparison": "bằng giá trị ban đầu"
+      },
+      "checker": {
+        "type": "exact_percent_factor",
+        "value": "100",
+        "unit": "%",
+        "factor": "1"
+      },
+      "oracle": {
+        "calculation": "Lấy ban đầu là 100 phần: sau tăng là 125 phần; giảm 20% của 125 tức giảm 25 phần, còn 100 phần. Tương đương 1,25 × 0,80 = 1.",
+        "expected": "100% giá trị ban đầu; bằng giá trị ban đầu."
+      },
+      "rubric": [
+        "Phân biệt cơ sở tính 25% ban đầu với cơ sở tính 20% là giá trị sau tăng.",
+        "Không lấy 25% − 20% để kết luận tăng 5%.",
+        "Kết luận 100% và giải thích đúng hai cơ sở phần trăm."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "generated_tokens": 194,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Giả sử giá trị ban đầu là $ x $**.\n\n2. **Sau khi tăng 25%, giá trị mới là:**\n   $$\n   x + 0.25x = 1.25x\n   $$\n\n3. **Sau đó, giá trị này được giảm 20% (tức là giảm đi $ 0.2 \\times 1.25x = 0.25x $)**:\n   $$\n   1.25x - 0.25x = 1.0x = x\n   $$\n\n4. **Vậy giá trị cuối cùng bằng $ x $, tức là bằng 100% giá trị ban đầu.**\n\n**Kết luận:** Giá trị cuối cùng bằng **100%** giá trị ban đầu.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7833c47fdffc9ed4dca01ad185a952a04fa14c94231bc733afb03d53446630dc",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_percent_reversal",
+      "generated_tokens": 65,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "{\"grade\": 5, \"problem\": \"Một đại lượng được tăng 25% so với ban đầu. Sau đó người ta giảm 20% của giá trị mới vừa nhận được. Giá trị cuối cùng bằng bao nhiêu phần trăm giá trị ban đầu?\", \"mode\": \"worked_solution\"}",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7833c47fdffc9ed4dca01ad185a952a04fa14c94231bc733afb03d53446630dc",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_pump_rate",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một máy bơm hoạt động đều, bơm được 7,2 lít trong 0,3 phút. Nếu giữ đúng tốc độ đó thì trong 1,25 phút máy bơm được bao nhiêu lít?",
+      "exact_reference_answer": {
+        "value": "30",
+        "unit": "lít"
+      },
+      "checker": {
+        "type": "exact_decimal",
+        "value": "30",
+        "unit": "lít"
+      },
+      "oracle": {
+        "calculation": "Lưu lượng là 7,2 : 0,3 = 24 lít/phút; trong 1,25 phút được 24 × 1,25 = 30 lít. Kiểm 24 × 0,3 = 7,2.",
+        "expected": "30 lít."
+      },
+      "rubric": [
+        "Tìm lượng bơm trong một phút hoặc dùng tỉ lệ thời gian tương đương.",
+        "Giữ đúng phép chia thập phân và cùng đơn vị phút.",
+        "Trả lời 30 lít, không cộng thời gian với lượng nước."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "generated_tokens": 183,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta thực hiện các bước sau:\n\n1. **Tính tốc độ bơm của máy bơm:**  \n   Tốc độ bơm là:  \n   $$\n   \\frac{7,2 \\text{ lít}}{0,3 \\text{ phút}} = 24 \\text{ lít/phút}\n   $$\n\n2. **Tính lượng nước bơm được trong 1,25 phút:**  \n   Lượng nước bơm được là:  \n   $$\n   24 \\text{ lít/phút} \\times 1,25 \\text{ phút} = 30 \\text{ lít}\n   $$\n\n**Kết luận:** Trong 1,25 phút, máy bơm được bơm được **30 lít**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0057e6a020a1c1b88d46cd7df0be1297642b38fd1098ffa467f6548590a3b8c5",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_pump_rate",
+      "generated_tokens": 102,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "{\"solution\": \"Máy bơm hoạt động đều, bơm được 7,2 lít trong 0,3 phút. Tính toán tốc độ bơm: 7,2 lít / 0,3 phút = 24 lít/phút. Trong 1,25 phút, máy bơm được bơm: 24 lít/phút × 1,25 phút = 30 lít.\"}",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0057e6a020a1c1b88d46cd7df0be1297642b38fd1098ffa467f6548590a3b8c5",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_cube_packing",
+      "grade": 5,
+      "mode": "answer",
+      "userproblem": "Một hộp chữ nhật có kích thước trong lòng là 2,4 dm, 1,5 dm và 0,8 dm. Người ta xếp đầy hộp bằng các khối lập phương cạnh 0,1 dm theo từng hàng thẳng, không để khe hở. Cần bao nhiêu khối nhỏ?",
+      "exact_reference_answer": {
+        "value": "2880",
+        "unit": "khối lập phương nhỏ"
+      },
+      "checker": {
+        "type": "exact_integer",
+        "value": 2880,
+        "unit": "khối lập phương nhỏ"
+      },
+      "oracle": {
+        "calculation": "Mỗi chiều xếp được 2,4 : 0,1 = 24; 1,5 : 0,1 = 15; 0,8 : 0,1 = 8 khối. Tổng là 24 × 15 × 8 = 2880. Kiểm thể tích: 2,88 : 0,001 = 2880.",
+        "expected": "2880 khối lập phương nhỏ."
+      },
+      "rubric": [
+        "Tính đủ số khối theo cả ba chiều hoặc chia hai thể tích đúng.",
+        "Không dùng hệ số độ dài một lần thay cho tỉ lệ thể tích.",
+        "Không nhầm cạnh 0,1 dm với thể tích 0,1 dm³; thể tích mỗi khối là 0,001 dm³."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "generated_tokens": 234,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "Để tính số khối lập phương cạnh 0,1 dm cần để xếp đầy hộp chữ nhật có kích thước trong lòng là 2,4 dm, 1,5 dm và 0,8 dm, ta thực hiện các bước sau:\n\n1. **Tính số khối lập phương theo từng kích thước:**\n\n   - Kích thước theo chiều 2,4 dm:  \n     $ \\frac{2,4}{0,1} = 24 $ khối\n\n   - Kích thước theo chiều 1,5 dm:  \n     $ \\frac{1,5}{0,1} = 15 $ khối\n\n   - Kích thước theo chiều 0,8 dm:  \n     $ \\frac{0,8}{0,1} = 8 $ khối\n\n2. **Tính tổng số khối lập phương cần dùng:**\n\n   $ 24 \\times 15 \\times 8 = 2880 $ khối\n\n**Kết luận:** Cần 2880 khối lập phương cạnh 0,1 dm để xếp đầy hộp.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "aa2dccba201ba0db5405f5cf8b5ac5d26ba8c3230679535dc39fb4f019202746",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_cube_packing",
+      "generated_tokens": 322,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "{\"solution\": \"Các khối lập phương có cạnh 0,1 dm. Ta cần xác định số khối lập phương cần thiết để xếp đầy hộp chữ nhật có kích thước 2,4 dm x 1,5 dm x 0,8 dm. Ta thực hiện các bước sau:\"\n\n1. **Tính số khối lập phương theo chiều dài (2,4 dm):**\n   - Kích thước chiều dài: 2,4 dm\n   - Kích thước khối lập phương: 0,1 dm\n   - Số khối theo chiều dài: $ \\frac{2,4}{0,1} = 24 $\n\n2. **Tính số khối lập phương theo chiều rộng (1,5 dm):**\n   - Kích thước chiều rộng: 1,5 dm\n   - Số khối theo chiều rộng: $ \\frac{1,5}{0,1} = 15 $\n\n3. **Tính số khối lập phương theo chiều cao (0,8 dm):**\n   - Kích thước chiều cao: 0,8 dm\n   - Số khối theo chiều cao: $ \\frac{0,8}{0,1} = 8 $\n\n4. **Tính tổng số khối lập phương cần dùng:**\n   - Tổng số khối lập phương: $ 24 \\times 15 \\times 8 = 2880 $\n\n**Kết luận:** Cần $ \\boxed{2880} $ khối lập phương.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "aa2dccba201ba0db5405f5cf8b5ac5d26ba8c3230679535dc39fb4f019202746",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_relative_motion_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "userproblem": "Hai bạn xuất phát cùng lúc từ cùng một điểm và đi cùng chiều trên một đường thẳng. Vận tốc lần lượt là 4,8 km/giờ và 3,6 km/giờ, đều không đổi. Sau 45 phút, hai bạn cách nhau bao nhiêu ki-lô-mét? Chỉ gợi ý, đừng nêu khoảng cách cuối cùng.",
+      "exact_reference_answer": {
+        "value": "0.9",
+        "unit": "km",
+        "withhold_from_response": true
+      },
+      "checker": {
+        "type": "hint_no_answer",
+        "withheld_value": "0.9",
+        "unit": "km",
+        "required_operations": [
+          "subtract_speeds",
+          "convert_minutes_to_hours",
+          "multiply_speed_difference_by_time"
+        ]
+      },
+      "oracle": {
+        "calculation": "45 phút = 45/60 giờ = 3/4 giờ; (4,8 − 3,6) × 3/4 = 0,9 km. Không tiết lộ khoảng cách này trong gợi ý.",
+        "expected": "Gợi ý lấy hiệu vận tốc vì hai bạn đi cùng chiều từ cùng điểm; đổi phút ra giờ rồi nhân với thời gian."
+      },
+      "rubric": [
+        "Phân biệt cùng chiều với đi về phía nhau, dùng hiệu vận tốc.",
+        "Nhắc đổi 45 phút sang giờ trước khi nhân.",
+        "Không nêu 0,9 km hoặc chín phần mười ki-lô-mét."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "generated_tokens": 200,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý:  \n- Tính được thời gian đi 45 phút = 0,75 giờ.  \n- Tính được quãng đường mỗi bạn đi được trong 45 phút:  \n  - Bạn thứ nhất: $ 4,8 \\, \\text{km/giờ} \\times 0,75 \\, \\text{giờ} = 3,6 \\, \\text{km} $.  \n  - Bạn thứ hai: $ 3,6 \\, \\text{km/giờ} \\times 0,75 \\, \\text{giờ} = 2,7 \\, \\text{km} $.  \n\n- Vì hai bạn đi cùng chiều, nên khoảng cách giữa hai bạn là:  \n  $ 3,6 \\, \\text{km} - 2,7 \\, \\text{km} = 0,9 \\, \\text{km} $.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0f4f56891b5203f9c9624ef41bfbc5516a878b23b913e2559367da66ad4f66d7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_relative_motion_hint",
+      "generated_tokens": 38,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "{\"hint\": \"Tính quãng đường mỗi người đi được sau 45 phút, sau đó lấy hiệu của hai quãng đường để tìm khoảng cách giữa hai người.\"}",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0f4f56891b5203f9c9624ef41bfbc5516a878b23b913e2559367da66ad4f66d7",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_area_conversion_error",
+      "grade": 5,
+      "mode": "student_error",
+      "userproblem": "Em đổi: \"0,6 m² = 60 cm² vì mét sang xăng-ti-mét thì nhân 100\". Hãy kiểm tra dòng đổi này và sửa bằng cách giải thích đơn vị diện tích.",
+      "exact_reference_answer": {
+        "value": "6000",
+        "unit": "cm²",
+        "student_correct": false
+      },
+      "checker": {
+        "type": "student_error_exact_decimal",
+        "value": "6000",
+        "unit": "cm²",
+        "wrong_length_factor": 100
+      },
+      "oracle": {
+        "calculation": "1 m² = 100 cm × 100 cm = 10000 cm²; 0,6 × 10000 = 6000 cm². Kiểm 6000 : 10000 = 0,6 m².",
+        "expected": "0,6 m² = 6000 cm²; hệ số 100 dành cho độ dài, không phải diện tích."
+      },
+      "rubric": [
+        "Nhận đúng lỗi dùng hệ số độ dài cho diện tích.",
+        "Giải thích có hai chiều đều đổi theo hệ số 100.",
+        "Sửa thành 6000 cm² và không nhận xét thêm thao tác chưa được cung cấp."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "generated_tokens": 293,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "Dòng đổi \"0,6 m² = 60 cm² vì mét sang xăng-ti-mét thì nhân 100\" là **sai**.\n\n### Giải thích:\n\n1. **Đơn vị diện tích**: \n   - 1 mét (m) = 100 centimet (cm)\n   - Tuy nhiên, **1 mét vuông (m²)** không bằng 100 centimet vuông (cm²). \n     - 1 mét = 100 centimet → 1 mét vuông = (100 cm)² = 10000 cm²\n\n2. **Sai lầm**:\n   - Người ta đã **nhân 100** để chuyển từ mét sang centimet, nhưng **không phải là 1 mét vuông bằng 100 centimet vuông**. \n   - Thực tế, 1 mét vuông = 10000 cm².\n\n3. **Cách đổi đúng**:\n   - 0,6 m² = 0,6 × 10000 cm² = 6000 cm²\n\n### Kết luận:\nDòng đổi \"0,6 m² = 60 cm²\" là **sai**. Đúng là 0,6 m² = 6000 cm².",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "497b095d55387abc9964c43af57065eaef8457b7f37a6cd19be88aa3134ae2f9",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_area_conversion_error",
+      "generated_tokens": 77,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "output": "{\"error\": \"Lỗi: Lỗi trong câu trả lời: Câu trả lời không đúng. Hãy kiểm tra lại và sửa lại bằng cách giải thích đơn vị diện tích.\"}\n\n{\"error\": \"Lỗi: Lỗi trong câu trả lời: Câu trả lời không đúng. Hãy kiểm tra lại và sửa lại bằng cách giải thích đơn vị diện tích.\"}",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "497b095d55387abc9964c43af57065eaef8457b7f37a6cd19be88aa3134ae2f9",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "id": "qrec20261024_v1_g5_missing_discount_rate",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một món hàng sau một lần giảm giá còn 180000 đồng. Chỉ biết mức giảm từ 10% đến 20% giá gốc, kể cả hai đầu này, nhưng chưa biết phần trăm giảm chính xác. Có thể xác định duy nhất giá gốc không? Nếu chưa thì cần thêm dữ kiện gì?",
+      "exact_reference_answer": {
+        "can_determine_unique": false,
+        "needed_information": "Phần trăm giảm chính xác hoặc số tiền đã được giảm.",
+        "counterexamples": [
+          {
+            "discount_percent": "10",
+            "original_price": "200000"
+          },
+          {
+            "discount_percent": "20",
+            "original_price": "225000"
+          }
+        ]
+      },
+      "checker": {
+        "type": "underdetermined_percentage_base",
+        "final_price": "180000",
+        "discount_percent_range_inclusive": [
+          "10",
+          "20"
+        ],
+        "must_not_choose_one_original_price": true
+      },
+      "oracle": {
+        "calculation": "Nếu giảm 10%: 180000 : 0,90 = 200000 đồng. Nếu giảm 20%: 180000 : 0,80 = 225000 đồng. Hai giá gốc khác nhau đều thỏa dữ kiện.",
+        "expected": "Chưa có giá gốc duy nhất; cần biết mức giảm chính xác hoặc dữ kiện tương đương."
+      },
+      "rubric": [
+        "Phân biệt khoảng phần trăm giảm với phần trăm giảm đã xác định.",
+        "Không tự lấy trung bình 15% rồi coi giá gốc suy ra là duy nhất.",
+        "Nêu dữ kiện cần bổ sung; nếu dùng ví dụ phải là các mức giảm và giá gốc nhất quán."
+      ]
+    },
+    "base": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "generated_tokens": 322,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Để giải bài toán này, ta cần xác định giá gốc của món hàng trước khi giảm giá.\n\nGọi giá gốc của món hàng là $ x $ (đơn vị: đồng).\n\nSau khi giảm giá, giá mới là $ 180000 $ đồng.\n\nGiả sử mức giảm giá là $ m\\% $, với $ 10\\% \\leq m \\leq 20\\% $.\n\nKhi đó, giá mới là:\n$$\nx \\times \\left(1 - \\frac{m}{100}\\right) = 180000\n$$\n\nTa có:\n$$\nx = \\frac{180000}{1 - \\frac{m}{100}} = \\frac{180000}{\\frac{100 - m}{100}} = \\frac{180000 \\times 100}{100 - m}\n$$\n\nTuy nhiên, vì $ m $ chưa được xác định cụ thể, nên $ x $ cũng chưa được xác định duy nhất.\n\nDo đó, **không thể xác định duy nhất giá gốc** của món hàng.\n\n**Dữ kiện cần thêm** để xác định giá gốc là: **mức giảm giá $ m $** (tức là phần trăm giảm chính xác).\n\n**Kết luận:** Không thể xác định duy nhất giá gốc của món hàng với thông tin hiện có. Cần thêm dữ kiện về mức giảm giá chính xác.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "465090633dfb1fede0977c15fcc467385fbb35fb9527f3bfefc090534d1448b7",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "4eede744d62e8feaf55e8e0e8732a6c4ef725d5f931298730fd1f4febe18a1d3",
+      "ended_eos": true,
+      "fixture_id": "qrec20261024_v1_g5_missing_discount_rate",
+      "generated_tokens": 567,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "{\"solution\": \"Giả sử giá gốc là $ x $ đồng. Sau khi giảm giá 10% đến 20%, giá mới là $ x \\times (1 - 10\\%) = x \\times 0.9 $ đến $ x \\times (1 - 20\\%) = x \\times 0.8 $. Giá mới là 180000 đồng. Do đó, ta có:\n\n$$\n0.9x \\leq 180000 \\leq 0.8x\n$$\n\nTừ đó, ta có:\n\n$$\n180000 \\leq 0.9x \\Rightarrow x \\geq \\frac{180000}{0.9} = 200000\n$$\n\n$$\n180000 \\geq 0.8x \\Rightarrow x \\leq \\frac{180000}{0.8} = 225000\n$$\n\nVậy giá gốc $ x $ phải thỏa mãn:\n\n$$\n200000 \\leq x \\leq 225000\n$$\n\nVì vậy, giá gốc không thể xác định duy nhất. Cần thêm dữ kiện để xác định giá gốc chính xác.}\n\n{\"solution\": \"Giả sử giá gốc là $ x $ đồng. Sau khi giảm giá 10% đến 20%, giá mới là $ x \\times (1 - 10\\%) = x \\times 0.9 $ đến $ x \\times (1 - 20\\%) = x \\times 0.8 $. Giá mới là 180000 đồng. Do đó, ta có:\n\n$$\n0.9x \\leq 180000 \\leq 0.8x\n$$\n\nTừ đó, ta có:\n\n$$\n180000 \\leq 0.9x \\Rightarrow x \\geq \\frac{180000}{0.9} = 200000\n$$\n\n$$\n180000 \\geq 0.8x \\Rightarrow x \\leq \\frac{180000}{0.8} = 225000\n$$\n\nVậy giá gốc $ x $ phải thỏa mãn:\n\n$$\n200000 \\leq x \\leq 225000\n$$\n\nVì vậy, giá gốc không thể xác định duy nhất. Cần thêm dữ kiện để xác định giá gốc chính xác.}",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "465090633dfb1fede0977c15fcc467385fbb35fb9527f3bfefc090534d1448b7",
+      "stage": "adapter_after_training",
+      "timed_out": false
+    }
+  }
+]

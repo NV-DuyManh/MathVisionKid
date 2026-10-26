@@ -1,0 +1,281 @@
+[
+  {
+    "id": "hllj/vi_math_problem_crawl",
+    "sha": "a26b53f14ef4c7708858b11beb29ad95bf9a8930",
+    "gated": false,
+    "cardData": {
+      "license": "mit",
+      "task_categories": [
+        "text-generation"
+      ],
+      "language": [
+        "vi",
+        "en"
+      ],
+      "pretty_name": "Vietnamese Elementary Math Knowledge and Workbook",
+      "size_categories": [
+        "10K<n<100K"
+      ],
+      "tags": [
+        "vietnamese",
+        "math",
+        "reasoning",
+        "knowledge"
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "grade1.json",
+      "grade2.json",
+      "grade3.json",
+      "grade4.json",
+      "grade5.json"
+    ]
+  },
+  {
+    "id": "vinhnq29/vietnamese-elementary-math",
+    "sha": "80501cdf0bc65e95d4a0ded16110e817c542b6ed",
+    "gated": false,
+    "cardData": {
+      "dataset_info": {
+        "features": [
+          {
+            "name": "question",
+            "dtype": "string"
+          },
+          {
+            "name": "answer",
+            "dtype": "string"
+          },
+          {
+            "name": "right_choice",
+            "dtype": "string"
+          },
+          {
+            "name": "choices",
+            "sequence": "string"
+          },
+          {
+            "name": "instruction",
+            "dtype": "string"
+          }
+        ],
+        "splits": [
+          {
+            "name": "vimathqa_train_v1",
+            "num_bytes": 3397117,
+            "num_examples": 7107
+          },
+          {
+            "name": "vimathqa_test_v1",
+            "num_bytes": 520071,
+            "num_examples": 1104
+          },
+          {
+            "name": "vigsm8k_train",
+            "num_bytes": 5339575,
+            "num_examples": 7473
+          },
+          {
+            "name": "vigsm8k_test",
+            "num_bytes": 985774,
+            "num_examples": 1319
+          }
+        ],
+        "download_size": 4464432,
+        "dataset_size": 10242537
+      },
+      "configs": [
+        {
+          "config_name": "default",
+          "data_files": [
+            {
+              "split": "vimathqa_train_v1",
+              "path": "data/vimathqa_train_v1-*"
+            },
+            {
+              "split": "vimathqa_test_v1",
+              "path": "data/vimathqa_test_v1-*"
+            },
+            {
+              "split": "vigsm8k_train",
+              "path": "data/vigsm8k_train-*"
+            },
+            {
+              "split": "vigsm8k_test",
+              "path": "data/vigsm8k_test-*"
+            }
+          ]
+        }
+      ],
+      "language": [
+        "vi"
+      ],
+      "size_categories": [
+        "10K<n<100K"
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "data/vigsm8k_test-00000-of-00001.parquet",
+      "data/vigsm8k_train-00000-of-00001.parquet",
+      "data/vimathqa-00000-of-00001.parquet",
+      "data/vimathqa_test_v1-00000-of-00001.parquet",
+      "data/vimathqa_train_v1-00000-of-00001.parquet",
+      "data/vimathqa_v1-00000-of-00001.parquet"
+    ]
+  },
+  {
+    "id": "thanhdath/vietnamese-mathcoder",
+    "sha": "b01cf1cc74db572ca45315001c122837e8095068",
+    "gated": false,
+    "cardData": {
+      "dataset_info": {
+        "features": [
+          {
+            "name": "input",
+            "dtype": "string"
+          },
+          {
+            "name": "output",
+            "dtype": "string"
+          }
+        ],
+        "splits": [
+          {
+            "name": "train",
+            "num_bytes": 21151768,
+            "num_examples": 22825
+          }
+        ],
+        "download_size": 7937515,
+        "dataset_size": 21151768
+      },
+      "configs": [
+        {
+          "config_name": "default",
+          "data_files": [
+            {
+              "split": "train",
+              "path": "data/train-*"
+            }
+          ]
+        }
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "data/train-00000-of-00001.parquet"
+    ]
+  },
+  {
+    "id": "vuongtsc/vi-gsm8k-agentic",
+    "sha": "13190f41e5cdf298640d6001377ad6335fe42570",
+    "gated": false,
+    "cardData": {
+      "license": "mit",
+      "language": [
+        "vi"
+      ],
+      "task_categories": [
+        "text-generation"
+      ],
+      "tags": [
+        "math",
+        "instruction-tuning",
+        "vietnamese",
+        "synthetic",
+        "chain-of-thought",
+        "agentic-self-instruct"
+      ],
+      "size_categories": [
+        "1K<n<10K"
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "data/train-00000-of-00001.parquet"
+    ]
+  },
+  {
+    "id": "DHMATH/SFT_Data_Elementary",
+    "sha": "45a0929a63eaccb9ac5f3fa30e5f2a66be21809f",
+    "gated": "manual",
+    "cardData": {
+      "dataset_info": {
+        "features": [
+          {
+            "name": "instruction",
+            "dtype": "string"
+          },
+          {
+            "name": "input",
+            "dtype": "string"
+          },
+          {
+            "name": "output",
+            "dtype": "string"
+          },
+          {
+            "name": "type",
+            "dtype": "string"
+          }
+        ],
+        "splits": [
+          {
+            "name": "train",
+            "num_bytes": 19854120,
+            "num_examples": 29509
+          }
+        ],
+        "download_size": 7055017,
+        "dataset_size": 19854120
+      },
+      "configs": [
+        {
+          "config_name": "default",
+          "data_files": [
+            {
+              "split": "train",
+              "path": "data/train-*"
+            }
+          ]
+        }
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "data/train-00000-of-00001.parquet"
+    ]
+  },
+  {
+    "id": "hllj/vi_gsm8k",
+    "sha": "ea73073230d47321ee7f3b7e54934b827e13237a",
+    "gated": false,
+    "cardData": {
+      "license": "mit",
+      "task_categories": [
+        "text-generation",
+        "text2text-generation"
+      ],
+      "language": [
+        "vi"
+      ],
+      "pretty_name": "Vietnamese Translation of Grade School Math 8K Dataset",
+      "size_categories": [
+        "1K<n<10K"
+      ]
+    },
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "vi_test.json",
+      "vi_train.json"
+    ]
+  }
+]

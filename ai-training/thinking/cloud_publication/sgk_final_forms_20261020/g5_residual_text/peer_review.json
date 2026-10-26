@@ -1,0 +1,511 @@
+{
+  "adversarial_mutations_detected": 19,
+  "artifact_hashes": {
+    "peer_adversarial_mutations.jsonl": "8441a5f1232a020bccc51851840b7d32942463cda7b718cf11e83275eafc251e",
+    "peer_fullfield_reviews.jsonl": "7f8d5897d2db25e23dd3e196b0190bd560d30cfe3bac0a114e28bce247dbd9c7",
+    "peer_independent_oracles.jsonl": "c6f8d74cd62ea6d7e10f396f1e161f4841709d58b8822a1be8141c364488bce5",
+    "peer_numeric_checks.jsonl": "9ab96be1f011684122a87e802a82b1d4e07e7e1275f5f415dba520150c9928d4"
+  },
+  "cases": 6,
+  "chat_file_sha256": "cab230016ad010e15e267ddf098bf8480e0b32c052e47f62adc3383f97703a99",
+  "chats": 24,
+  "fixes_required": [],
+  "full_field_reviews": 6,
+  "independent_models": 6,
+  "limitations": [
+    "Independent AI content review; not human content attestation or wholecurriculum certification.",
+    "Finite original text relation and grade5 enrichment only; no actual image or physical success claimed.",
+    "Root final review and publication pending."
+  ],
+  "numeric_steps": 12,
+  "peer_helper_sha256": "ebc058fff75f5ec2da19bd243d7845cb8ed6ad9bbc6af17f8331bf9e78b39ed0",
+  "reviews": [
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "All four allowed plus/minus pairs explicitly assessed at fixed operand order. Residual equation 4s+2t=-2 has only s=-1,t=1; original fractions restore7/12. Initial and all hints give strategy only.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "complete_domain_size": 4,
+        "method": "TARGET_RESIDUAL_INTEGER_SIGN_EQUATION",
+        "scaled_residual": "-2",
+        "valid": [
+          [
+            -1,
+            1
+          ]
+        ]
+      },
+      "sample_id": "sgk_final_g5_20261020_fraction_plus_minus_complete",
+      "semantic_decision": "All four allowed plus/minus pairs explicitly assessed at fixed operand order. Residual equation 4s+2t=-2 has only s=-1,t=1; original fractions restore7/12. Initial and all hints give strategy only.",
+      "source_row_sha256": "de5881e00b261db3bbbe4a371b5b54e9ed5b8b2745ba4b74b3fa6c7d922213c8",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "The explicit student subtraction is wrong:2/3-1/4=5/12. Required residual1/6-2/3=-1/2 is neither allowed signed1/4, so complete impossibility rather than missing information. No hint gives the final no-solution label.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "allowed": [
+          "-1/4",
+          "1/4"
+        ],
+        "correct_subtraction": "5/12",
+        "method": "TARGET_MINUS_FIXED_FIRST_OPERAND",
+        "required_contribution": "-1/2",
+        "valid_signs": []
+      },
+      "sample_id": "sgk_final_g5_20261020_fraction_no_legal_sign_error",
+      "semantic_decision": "The explicit student subtraction is wrong:2/3-1/4=5/12. Required residual1/6-2/3=-1/2 is neither allowed signed1/4, so complete impossibility rather than missing information. No hint gives the final no-solution label.",
+      "source_row_sha256": "55ca81a76a5317ccb186f027bc4557cc9f3f5a29be8563fc2acc27b84a3eef22",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Two-way network has only three simple S-to-T alternatives; Dijkstra and tight-edge certificate pick SAT2km. Required inverse return totals4km; 30+24minutes=54 and8thousand cost. Rate roles and conversion explicit.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "cost_thousand": "8",
+        "distances": {
+          "A": "4/5",
+          "B": "1/2",
+          "S": "0",
+          "T": "2"
+        },
+        "inbound_minutes": "24",
+        "method": "DIJKSTRA_AND_TIGHT_EDGE_CERTIFICATE",
+        "one_way": "2",
+        "outbound_minutes": "30",
+        "total_minutes": "54",
+        "winners": [
+          "SAT"
+        ]
+      },
+      "sample_id": "sgk_final_g5_20261020_shortest_graph_roundtrip_cost",
+      "semantic_decision": "Two-way network has only three simple S-to-T alternatives; Dijkstra and tight-edge certificate pick SAT2km. Required inverse return totals4km; 30+24minutes=54 and8thousand cost. Rate roles and conversion explicit.",
+      "source_row_sha256": "fb463cd6e1aadc4b099930d2e5100b88fdb657fb5e88f63974f80dd7a723d592",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Dijkstra gives both HAT andHBT1.5km. Independent return choices give four ordered optimal pairs, roundtrip3km,60minutes,12thousand. Critique removes false uniqueness while retaining the valid HBT route.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "cost_thousand": "12",
+        "distances": {
+          "A": "9/10",
+          "B": "2/5",
+          "H": "0",
+          "T": "3/2"
+        },
+        "method": "DIJKSTRA_TIGHT_PATHS_PLUS_SEPARABLE_MINIMUM_BOUND",
+        "minutes": "60",
+        "one_way_best": "3/2",
+        "optimal_roundtrips": [
+          [
+            "HAT",
+            "HAT"
+          ],
+          [
+            "HAT",
+            "HBT"
+          ],
+          [
+            "HBT",
+            "HAT"
+          ],
+          [
+            "HBT",
+            "HBT"
+          ]
+        ],
+        "total": "3",
+        "winners": [
+          "HAT",
+          "HBT"
+        ]
+      },
+      "sample_id": "sgk_final_g5_20261020_tied_routes_independent_return_error",
+      "semantic_decision": "Dijkstra gives both HAT andHBT1.5km. Independent return choices give four ordered optimal pairs, roundtrip3km,60minutes,12thousand. Critique removes false uniqueness while retaining the valid HBT route.",
+      "source_row_sha256": "6d31c46676e531a8c95f8c820add907442698c86895f748349bb851efd2d3e93",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "All ten height-role factorizations of12 retained. Voxel horizontal-side boundary counting verifies areas26,16,14,28,20,30,24,32,36,48 and unique14minimum at4,3,1. Four lateral faces only; no top/base.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "excluded_faces": "TOP_AND_BOTTOM",
+        "method": "LAYER_DIVISORS_AND_EXPOSED_VOXEL_SIDE_FACE_COUNT",
+        "min_height": 1,
+        "minimum": 14,
+        "options": [
+          [
+            12,
+            1,
+            1,
+            26
+          ],
+          [
+            6,
+            2,
+            1,
+            16
+          ],
+          [
+            4,
+            3,
+            1,
+            14
+          ],
+          [
+            6,
+            1,
+            2,
+            28
+          ],
+          [
+            3,
+            2,
+            2,
+            20
+          ],
+          [
+            4,
+            1,
+            3,
+            30
+          ],
+          [
+            2,
+            2,
+            3,
+            24
+          ],
+          [
+            3,
+            1,
+            4,
+            32
+          ],
+          [
+            2,
+            1,
+            6,
+            36
+          ],
+          [
+            1,
+            1,
+            12,
+            48
+          ]
+        ],
+        "volume": 12,
+        "winners": [
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "sample_id": "sgk_final_g5_20261020_lateral_only_volume12_all_heights",
+      "semantic_decision": "All ten height-role factorizations of12 retained. Voxel horizontal-side boundary counting verifies areas26,16,14,28,20,30,24,32,36,48 and unique14minimum at4,3,1. Four lateral faces only; no top/base.",
+      "source_row_sha256": "c22c8772876e57b2f5b949aeb5c35205142cb8a00c89417387dc3271e0c05282",
+      "status": "PASS_INDEPENDENT_PEER"
+    },
+    {
+      "actual_fields_read": "ALL_ACTUAL_FIELDS",
+      "criteria": [
+        {
+          "criterion": "actual_problem_givens_request_consistency",
+          "evidence": "Height boundh>=2 filters factorizationsof18 to seven options. Voxel sidecount40,24,42,30,48,54,72 certifies minimum24 at3,3,2. Quoted30 is correct for3,2,3 but height-role rotation cannot prune optimum.",
+          "passed": true
+        },
+        {
+          "criterion": "independent_mathematical_correctness",
+          "evidence": "Separate peer methods without author oracle import, plus exact Fraction/Decimal checks.",
+          "passed": true
+        },
+        {
+          "criterion": "steps_reasons_units_complete_answer_check",
+          "evidence": "Read every actual title/result/reason/explanation/unit and answer; finite scope/operation/unit/reconstruction checks match.",
+          "passed": true
+        },
+        {
+          "criterion": "initial_guidance_all_hints_no_answer_leak",
+          "evidence": "Read initial guidance and all three hint texts/questions; method and constraints only, no filled requested value/final outcome/whole solution.",
+          "passed": true
+        },
+        {
+          "criterion": "student_work_grounding",
+          "evidence": "Feedback limited to actual supplied synthetic statement; no inferred thinking or unseen physical/image result.",
+          "passed": true
+        },
+        {
+          "criterion": "grade_and_structural_diversity",
+          "evidence": "Explicit grade5 enrichment; paired branches change solvability/return rule/ties/height constraint and observable error, not number-only substitution.",
+          "passed": true
+        },
+        {
+          "criterion": "hash_provenance_preservation",
+          "evidence": "Exact source row SHA and original-source role retained; future human review not implied; no data edits.",
+          "passed": true
+        }
+      ],
+      "independent_oracle": {
+        "excluded_faces": "TOP_AND_BOTTOM",
+        "method": "LAYER_DIVISORS_AND_EXPOSED_VOXEL_SIDE_FACE_COUNT",
+        "min_height": 2,
+        "minimum": 24,
+        "options": [
+          [
+            9,
+            1,
+            2,
+            40
+          ],
+          [
+            3,
+            3,
+            2,
+            24
+          ],
+          [
+            6,
+            1,
+            3,
+            42
+          ],
+          [
+            3,
+            2,
+            3,
+            30
+          ],
+          [
+            3,
+            1,
+            6,
+            48
+          ],
+          [
+            2,
+            1,
+            9,
+            54
+          ],
+          [
+            1,
+            1,
+            18,
+            72
+          ]
+        ],
+        "volume": 18,
+        "winners": [
+          [
+            3,
+            3,
+            2
+          ]
+        ]
+      },
+      "sample_id": "sgk_final_g5_20261020_lateral_only_height_constraint_error",
+      "semantic_decision": "Height boundh>=2 filters factorizationsof18 to seven options. Voxel sidecount40,24,42,30,48,54,72 certifies minimum24 at3,3,2. Quoted30 is correct for3,2,3 but height-role rotation cannot prune optimum.",
+      "source_row_sha256": "6d3c230f60b0af80d7fd377e3f3caf84b8cb9972e95f3b90d41bc00bd3e2c5b6",
+      "status": "PASS_INDEPENDENT_PEER"
+    }
+  ],
+  "seven_criteria_pass_count": 6,
+  "source_file_sha256": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002",
+  "source_files_unchanged": true,
+  "source_hashes": {
+    "candidate_snapshot.json": "9f3e73352cd50b7c850a25e43b5cee0b5053275656457e789008d4a04b16a836",
+    "cases.jsonl": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002",
+    "chat.jsonl": "cab230016ad010e15e267ddf098bf8480e0b32c052e47f62adc3383f97703a99",
+    "finite_oracle.py": "61962a7b6b2d00706a8a62e2e2c742cccb28b62041f02769cae53a1f685a1225",
+    "independent_oracles.jsonl": "f69d8919cc37e814d9bb2ec791d94c00336a82a66ca89bf50328719b757cec68",
+    "manifest.json": "392cedf52777826ca9b737d42a8e02106614aa2465136799c198a03d2f087010",
+    "nearest_actual_fullfields.jsonl": "c20dbeee814b81f8bf65f5652154747860243602881203ce638f59ed9650498d",
+    "numeric_fraction_decimal.jsonl": "de9b2f9724af41efa44439e6f1fcb6c6f028b02cfb98d35e559a7e6830d42443",
+    "selfqa7.jsonl": "dc61528af5d4ecfc241551ed1fc5e68fa98eb1d887b40cebcdea3288adc44273",
+    "validation_receipt.json": "606037e75577f2947255af762d8edcf20bbd0613e35ea5aefecef05add80018f"
+  },
+  "status": "PASS_INDEPENDENT_PEER"
+}

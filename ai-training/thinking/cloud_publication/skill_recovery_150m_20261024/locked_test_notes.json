@@ -1,0 +1,17 @@
+{
+  "version": "root_curated_v2_before_training",
+  "fixture_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "count": 20,
+  "language": "Vietnamese",
+  "changes_from_agent_draft": [
+    "Corrected grade placement, explicit hint wording and ambiguous guard questions.",
+    "Corrected invalid crate wording and incorrect decimal-scale oracle in draft.",
+    "Replaced English contexts and implausible walk180km with grade-appropriate Vietnamese tasks."
+  ],
+  "original_draft_retained": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\skill_recovery_150m_20261024\\authoring_history",
+  "exact_arithmetic_checks": 14,
+  "all_pass": true,
+  "screening_pending_actual16k": true,
+  "not_used_for_training": true,
+  "new_human_certification": false
+}

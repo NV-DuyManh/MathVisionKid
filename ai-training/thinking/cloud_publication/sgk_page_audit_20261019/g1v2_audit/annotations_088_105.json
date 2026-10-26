@@ -1,0 +1,389 @@
+[
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 88,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-89-1776045488174.png",
+    "source_image_sha256": "2bc5068af89d185aaaf4f5c58c1da0a9604ea293f0274024f5eabce1cfb67422",
+    "image_bytes": 736389,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "successor_predecessor_sequence",
+      "threshold_selection",
+      "attribute_filtered_extrema"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_ATTRIBUTE_FILTERED_EXTREMA"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 89,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-90-1776045488342.png",
+    "source_image_sha256": "c49b1c8ca622aa693673d90eb70253f079722822e38f01cadae5104104fa5d15",
+    "image_bytes": 840841,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "transfer_between_two_groups",
+      "temporal_stage_order",
+      "duplicate_score_assignment"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_TRANSFER_COMPARISON",
+      "G1V2_TEMPORAL_STAGE_ORDER",
+      "G1V2_DUPLICATE_SCORE_ASSIGNMENT"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 90,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-91-1776045488514.png",
+    "source_image_sha256": "89e2c98fb33272ea07ac1a9d327724cafe5ef82911e0613656cb1396670d0ce8",
+    "image_bytes": 1135776,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "expression_target_classification",
+      "bin_occupancy_count",
+      "sum_pyramid"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 91,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-92-1776045488644.png",
+    "source_image_sha256": "4b321bb10954675f12912a6b3f88c2a44b9f0391452b0c606eaa8575bedcd8ea",
+    "image_bytes": 738135,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "expression_comparison",
+      "expression_group_frequency_table"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 92,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-93-1776045488736.png",
+    "source_image_sha256": "5eacc1e737254ae165df2e287ee946cda0c7e71ccc90c2f0bc659d4ca95a2d00",
+    "image_bytes": 342578,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "seven_segment_digit_construction",
+      "fixed_match_count_digit_selection"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_MATCHSTICK_DIGIT_ASSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 93,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-94-1776045488880.png",
+    "source_image_sha256": "5449a68b38a02dbc446a7ce089fa8cf9d1efeb240e7a504c4acf8b0aad8c2775",
+    "image_bytes": 623278,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "single_match_move_equation_repair",
+      "two_stage_gate_pair_sum_path"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_SINGLE_MATCH_EQUATION_REPAIR",
+      "G1V2_GATE_PAIR_SUM_PATH"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 94,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-95-1776045489005.png",
+    "source_image_sha256": "70ee82b129e949c66020621f38182981301874375ba4bad60d31a938465f7bdb",
+    "image_bytes": 714712,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "bundled_tens_units",
+      "number_read_write"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 95,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-96-1776045489146.png",
+    "source_image_sha256": "d6f333e7898534178f9a53f24c643f8391747eef68b10900d3584c636b5cefaa",
+    "image_bytes": 687684,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "tens_units_decomposition",
+      "labelled_length_extrema",
+      "two_digit_card_enumeration_no_leading_zero"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 96,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-97-1776045489258.png",
+    "source_image_sha256": "dceeec8942c7414c6cfeec77a4f0d8eb41241e7e8d77456ef0990a6a1163fb75",
+    "image_bytes": 560190,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "round_tens_arithmetic",
+      "no_carry_column_arithmetic",
+      "equal_expression_matching"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 97,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-98-1776045489380.png",
+    "source_image_sha256": "e0551b52a39b4bb3907cc2c6eccbf1aa1c77b05d1ad21ebbf8cca16757b6d157",
+    "image_bytes": 696837,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "sequential_arithmetic_network",
+      "arithmetic_result_table"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_LINKED_ARITHMETIC_NETWORK"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 98,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-99-1776045489499.png",
+    "source_image_sha256": "16204fabfeb2429876202f118e64261ff145c67f894ee87607eb78607da06717",
+    "image_bytes": 533895,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "multi_blank_column_addition_subtraction",
+      "expression_threshold_filter"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_MISSING_DIGITS_COLUMN_SUBTRACTION"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 99,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-100-1776045489688.png",
+    "source_image_sha256": "7ea5a4fd2885cfe1b5a24a243f4360d8618dd897486f979b282c5661fffb3130",
+    "image_bytes": 1348546,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "part_whole_subtraction",
+      "join_two_disjoint_groups"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 100,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-101-1776045489846.png",
+    "source_image_sha256": "c3edfe058b8e15668e2635fa547ce71c2bab08e535039a3d50e3fa39d5dd9b39",
+    "image_bytes": 431823,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "cube_cuboid_identification_under_rotation",
+      "composite_picture_shape_inventory"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_COMPOSITE_SHAPE_INVENTORY_ASSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 101,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-102-1776045489953.png",
+    "source_image_sha256": "3d2c5537ff21dd4a67e0d9d80aad7343c46a6e962b016fa76d8b4f576adefd07",
+    "image_bytes": 364920,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "matchstick_remove_edges_count_triangles",
+      "periodic_shape_and_solid_attributes"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 102,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-103-1776045490110.png",
+    "source_image_sha256": "f33f4ed643b2af65427772f5a90bd40cd49502c0c2124df62c77206364f99cc6",
+    "image_bytes": 1056069,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "activity_clock_matching",
+      "calendar_anchor_day_offset",
+      "yesterday_tomorrow"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_CLOCK_READING_IMAGE_ASSET",
+      "G1V2_CALENDAR_ANCHOR_OFFSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 103,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-104-1776045490236.png",
+    "source_image_sha256": "622d82b361cb85802a38d255827d72a6ac8c539ba73ca48b0796ef7bb7fb0e41",
+    "image_bytes": 521902,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "physical_centimetre_measurement",
+      "grid_reference_length_comparison",
+      "plausible_unit_reference_estimation"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET",
+      "G1V2_COMMON_REFERENCE_LENGTH_COMPARISON",
+      "G1V2_PLAUSIBLE_REFERENCE_ESTIMATION"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 104,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-105-1776045490371.png",
+    "source_image_sha256": "25e825661f732491b707fd573b4c8098c5ef2c23643bb584351d02fa30824a7d",
+    "image_bytes": 649596,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "number_word_matching",
+      "ascending_sort",
+      "column_arithmetic",
+      "analogue_clock_reading"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_CLOCK_READING_IMAGE_ASSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  },
+  {
+    "grade": 1,
+    "volume": 2,
+    "printed_page": 105,
+    "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-106-1776045490502.png",
+    "source_image_sha256": "a5b78e5f306b8d78894f2d72d935a48fbe9dae7f752d91f7370ffec3264afa7c",
+    "image_bytes": 355766,
+    "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+    "exercise_types": [
+      "join_and_remove_word_problems",
+      "weekday_to_date_offset",
+      "physical_ruler_measurement",
+      "composite_square_count"
+    ],
+    "covered_source_ids": [],
+    "new_gap_candidate_ids": [
+      "G1V2_CALENDAR_ANCHOR_OFFSET",
+      "G1V2_DIRECT_LENGTH_IMAGE_ASSET",
+      "G1V2_COMPOSITE_SQUARE_COUNT_ASSET"
+    ],
+    "source_comparison_status": "PENDING_EXACT_FULL_FIELD_ADJUDICATION",
+    "reviewer": "replacement_agent_resume_g1_page_audit",
+    "footer_page_verified": true,
+    "uncertainty": "Actual image read; candidate is not an automatic gap. Physical ruler lengths and unseen outcomes are not inferred."
+  }
+]

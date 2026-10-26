@@ -1,0 +1,26 @@
+{
+  "schema": "MathVisionKid.root_performance_review.v1",
+  "reviewed_utc": "2026-10-22T11:50:15.684354+00:00",
+  "reviewer": "Codex root AI review; no human attestation",
+  "review_type": "ROOT_INTEGRATION_AND_DIFFERENTIAL_TEST_REVIEW",
+  "adapter_sha256": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+  "resume_sha256": "9f90598e95ba9f738f3b175c2fb53b693b5613349f7998917866f8610edc6a66",
+  "validation_sha256": "06a654a18ef28e2a385fe334354b881b0711977376333d482c4c83bad3bcfc24",
+  "tests_passed": 21,
+  "peer_findings_resolved": [
+    "Read-ahead stream/CRC/UTF8/IO failures flush previously read rows via unchanged original scalar validation before surfacing error.",
+    "Batch-only backend/preparation failures discard speculative cache; original row path remains authoritative.",
+    "Cached batch row-gate failure retries exact scalar tokenizer at actual row; root added differential regression.",
+    "Pause compares full committed member cursors with raw-verified snapshot as well as report; joined thread required.",
+    "Explicit adapter.consume integration uses original auditor method; no recursive method replacement.",
+    "Final code/test hashes checked against new successful validation, rather than transient author version."
+  ],
+  "runtime_revision_resolution": "First attempt refused unlabelled in-memory tokenizer. Corrected path loads explicit pinned cached snapshot, compares Rust tokenizer serialization and chat_template with prior tokenizer, then constructs adapter. Refusal preserved in notebook/evidence; no token gate weakened.",
+  "limitation": "Independent reviewers supplied failure findings and reviewed plan; root completed final scalar retry/test/integration. Final exact implementation is root reviewed, not falsely labelled independent peer-approved.",
+  "original_auditor_changed": false,
+  "source_rows_changed": false,
+  "checkpoint_interval_seconds": 1800,
+  "checkpoint_finish_and_error_save": true,
+  "local_pc_corpus_downloaded": false,
+  "training_started": false
+}

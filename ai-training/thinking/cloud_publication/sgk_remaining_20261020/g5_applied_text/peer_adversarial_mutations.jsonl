@@ -1,0 +1,48 @@
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_weighted_frequency_with_zero"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_weighted_frequency_with_zero"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_weighted_frequency_with_zero"}
+{"detected":true,"mutation":"expected_count changed","sample_id":"sgk_remaining_g5_20261020_weighted_frequency_with_zero"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_weighted_mean_of_categories_error"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_weighted_mean_of_categories_error"}
+{"detected":true,"mutation":"expected_count changed","sample_id":"sgk_remaining_g5_20261020_weighted_mean_of_categories_error"}
+{"detected":true,"mutation":"expected_max changed","sample_id":"sgk_remaining_g5_20261020_one_swap_largest_odd_all_pairs"}
+{"detected":true,"mutation":"expected_max changed","sample_id":"sgk_remaining_g5_20261020_one_swap_equal_cards_legal_error"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_whole_decimal_pieces_remainder"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_whole_decimal_pieces_remainder"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_whole_decimal_pieces_remainder"}
+{"detected":true,"mutation":"expected_free changed","sample_id":"sgk_remaining_g5_20261020_whole_decimal_pieces_remainder"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_whole_decimal_reserved_stock_round_error"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_whole_decimal_reserved_stock_round_error"}
+{"detected":true,"mutation":"expected_free changed","sample_id":"sgk_remaining_g5_20261020_whole_decimal_reserved_stock_round_error"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_area_spares_purchase"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_area_spares_purchase"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_area_spares_purchase"}
+{"detected":true,"mutation":"expected_boxes changed","sample_id":"sgk_remaining_g5_20261020_tile_boxes_area_spares_purchase"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_pooled_reusable_stock_boundary"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_pooled_reusable_stock_boundary"}
+{"detected":true,"mutation":"s3.result += 1","sample_id":"sgk_remaining_g5_20261020_tile_boxes_pooled_reusable_stock_boundary"}
+{"detected":true,"mutation":"expected_boxes changed","sample_id":"sgk_remaining_g5_20261020_tile_boxes_pooled_reusable_stock_boundary"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_piece_pack_equivalent_share_units"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_piece_pack_equivalent_share_units"}
+{"detected":true,"mutation":"expected_pieces changed","sample_id":"sgk_remaining_g5_20261020_piece_pack_equivalent_share_units"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_sealed_pack_indivisible_share_impossible"}
+{"detected":true,"mutation":"expected_possible changed","sample_id":"sgk_remaining_g5_20261020_sealed_pack_indivisible_share_impossible"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_rim_capacity_exact_with_join_allowance"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_rim_capacity_exact_with_join_allowance"}
+{"detected":true,"mutation":"expected_margin changed","sample_id":"sgk_remaining_g5_20261020_rim_capacity_exact_with_join_allowance"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_g5_20261020_rim_capacity_ignored_join_error"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_g5_20261020_rim_capacity_ignored_join_error"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_g5_20261020_rim_capacity_ignored_join_error"}
+{"detected":true,"mutation":"expected_margin changed","sample_id":"sgk_remaining_g5_20261020_rim_capacity_ignored_join_error"}
+{"detected":true,"expected":"3","mutation":"categorycount_denominator","wrong":"15/4"}
+{"detected":true,"expected":"7/2","mutation":"unweightedcategory_mean","wrong":"3"}
+{"detected":true,"expected":"8025","mutation":"allow_arbitrary_reordering","wrong":"8520"}
+{"detected":true,"expected":"2","mutation":"reject_equal_value_token_swap","wrong":"0"}
+{"detected":true,"expected":"12","mutation":"ceil_decimal_piececount","wrong":"13"}
+{"detected":true,"expected":"6","mutation":"consume_reserved_stock","wrong":"7"}
+{"detected":true,"expected":"3","mutation":"fractional_tile_box_purchase","wrong":"27/10"}
+{"detected":true,"expected":"2","mutation":"buy_oldstock_again","wrong":"3"}
+{"detected":true,"expected":"2","mutation":"retain_number2_change_unit_to_pack","wrong":"8"}
+{"detected":true,"expected":"False","mutation":"allow_fractional_sealedpacks","wrong":"True"}
+{"detected":true,"expected":"True","mutation":"reject_capacity_equality","wrong":"False"}
+{"detected":true,"expected":"167/5","mutation":"omit_join","wrong":"157/5"}

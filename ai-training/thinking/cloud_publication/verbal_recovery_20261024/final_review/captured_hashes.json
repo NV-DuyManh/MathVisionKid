@@ -1,0 +1,12 @@
+{
+  "locked_test_candidates.jsonl": "b24339a30e9f0edfb8a4c5dbac538311f5ecea831abcb6d0ad7f8cd0e5f7edb3",
+  "training/run_complete.json": "6d848caa159b8befeb2ca3816ca3624b3d0eccd4963de5ea4f79cf0084541b8e",
+  "training/best.json": "41d984023fe340667669745686b3ea8337f988319c07f8ce58743196a8b67e5d",
+  "final_eval/selection_before_test.json": "e6f0f6ae69653ae22e8a69a4d7c7231a1d035a474f9043a546cceef98251f163",
+  "final_eval/evaluation_contract.json": "87f20e6e0560f04b9c25cef5eae3c6456e521f4594a332b988b91010987dcdba",
+  "training/generation_step_000001_rows_00000016/metrics.json": "2c1e3fecc804bbce7d8653a61a3ed6a747186eeef445a09b09aeefa62b81d6ec",
+  "training/generation_step_000050_rows_00000800/metrics.json": "63e7514b52ee095ee25181f869109c1ec88d8e7b2386cec4763fa98ac2087b6f",
+  "final_eval/base_generations.jsonl": "31ed4495d48800792a4ac29eeb446c49415804bed87e0b2c55f7682ab8d93287",
+  "final_eval/selected_output_reference.json": "09e29b9a55d3526da7a748b7c96b36458277dc63cf36fcc0ce2cc3b08171630f",
+  "final_eval/final_eval_manifest.json": "4823e6f2e20685303c0ec6fc03f44d5663ae04507dff12e7e7ec59ac70cb698e"
+}

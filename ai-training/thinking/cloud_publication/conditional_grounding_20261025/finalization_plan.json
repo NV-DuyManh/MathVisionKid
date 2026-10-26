@@ -1,0 +1,68 @@
+{
+  "schema": "MathVisionKid.conditional_grounding_finalization_plan.v1",
+  "run": "conditional_grounding_20261025",
+  "status": "PLAN_ONLY_NOT_EXECUTED",
+  "gate": {
+    "prerequisite": "Proceed only if development gate policy validates the selected checkpoint against the exact stored training/eval_step_NNNNNN/eval_bindings.json and the checkpoint is candidate_eligible. Either STOP or CONTINUE_IMPROVED is acceptable when candidate_eligible is true and every selected-best hash matches.",
+    "source": "thinking/cloud_publication/conditional_grounding_20261025/build_quality_gate.py",
+    "checkpoint_source": "training/best.json (Colab run root)",
+    "if_not_pass": "Do not access native15 or run final inference; report development gate outcome only."
+  },
+  "sealed_evaluation": {
+    "fixture": "native15.jsonl (Colab/Drive only; do not open or copy to local workspace before the gate)",
+    "expected_raw_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+    "runner_reuse": [
+      "inference_contract.py: eval_contract(fixtures, tokenizer, fixture_sha256=<expected SHA>) binds fixture bytes/IDs, prompt-token hashes, system and renderer, thinking=false, matched per-fixture seed and decoding settings.",
+      "inference_contract.py: generate_fixtures(...) is the reusable matched-generation primitive for base_before_training and adapter_after_training; pass the same contract/SHA and native backend inference mode.",
+      "native_backend_v3.py: NativeBackend.from_pretrained loads the pinned Qwen revision; use the run's frozen native Transformers/PEFT stack and quantization settings from its run config."
+    ],
+    "runner_gap": "No conditional_grounding locked-final runner exists. After gate PASS, author a separate one-shot final evaluator in the Colab run root that follows this contract and the selected-checkpoint integrity checks; do not change active training code/config.",
+    "commands": [
+      "cd /content/mathvisionkid_conditional_grounding_20261025 && sha256sum native15.jsonl && test \"$(sha256sum native15.jsonl | cut -d' ' -f1)\" = 0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+      "cd /content/mathvisionkid_conditional_grounding_20261025 && ./venv/bin/python final_eval_worker.py --root /content/mathvisionkid_conditional_grounding_20261025",
+      "final_eval_worker.py writes one-shot attempt and binding metadata, matched fresh-base then selected-adapter generations, paired_generations.jsonl, and complete.json; its source is staged locally for root review and is not executed here. A root-authorized agent reviews paired semantic content after completion; label it AI/agent review, preserve source human-label provenance, and leave production approval false."
+    ],
+    "required_checks": [
+      "Verify raw fixture SHA before loading; preserve exact fixture order/IDs, source rows unchanged, and bind raw fixture SHA in contract and complete marker.",
+      "Use the exact inference_contract renderer/system, enable_thinking=false, add_generation_prompt=true, tokenizer and model revision, and decoding parameters (sampling=true, temperature=0.7, top_p=0.8, top_k=20, max_new_tokens=1024, repetition_penalty=1.0, one beam, eos=151645).",
+      "For each fixture reset identical deterministic seed per frozen seed policy for base and adapter; generate fresh base then selected adapter outputs, same prompts and runtime; verify loaded PEFT tensors match selected checkpoint and re-hash inputs after inference.",
+      "Write immutable one-shot attempt marker before inference; preserve partial/failed attempt evidence, never rerun against the sealed set or use sealed results to alter checkpoint/policy.",
+      "Verify pinned current code hashes for recovery_worker_v5.py, native_backend_v3.py, inference_contract.py, conditional_behavior_renderer.py, behavior_renderer.py, verbal_training_renderer_v3.py, and recovery_policy_v2.py, and check run_config worker/policy/renderer hashes before reading native15.",
+      "Require Transformers 5.20.2, PEFT 0.21.2, bitsandbytes 0.50.2, and Accelerate 1.15.0 in the run venv; recheck selected-best pointer and deadline before writing complete.json.",
+      "Require Transformers 5.20.2, PEFT 0.21.2, bitsandbytes 0.50.2, and Accelerate 1.15.0 in the run venv; recheck selected-best pointer and deadline before writing complete.json."
+    ]
+  },
+  "semantic_acceptance": {
+    "rule": "Automated integrity, exact-match, or quality gates do not constitute semantic acceptance. A root-authorized agent/AI semantic review of all paired native15 base/candidate outputs may determine final semantic acceptance. Label the reviewer and method accurately; do not claim human review, identity, credential, or certification. Preserve source human labels as source data and do not copy them onto newly generated outputs.",
+    "assessment": "Root-authored training/final_semantic_assessment.json from the authorized agent review, binding final_eval/complete.json, contract SHA, fixture SHA, selected checkpoint manifest/tensor evidence, output hashes, review method/model/date, decisions, and limitations. Record source-label provenance accurately; do not set human_review=true, claim a human identity/credential, or invent reviewer evidence. Production approval remains false.",
+    "precedent": "skill_recovery_150m_20261024/final_evaluation_worker_v2.py demonstrates one-shot locked inference provenance/selection-before-test and explicitly leaves semantic_results_reviewed/human_certification/production_approval false; its model-specific runtime is not directly reusable.",
+    "publisher": "conditional_grounding_20261025/publisher_runtime.py publishes final_eval/* only after complete.json and publishes training/final_semantic_assessment.json when present."
+  },
+  "publication_finalization": {
+    "requirements": [
+      "Wait for every GPU worker to exit; require run completion/checkpoint export and fresh raw Drive readback proof for the selected artifact and semantic assessment.",
+      "Place the root-authored agent semantic assessment at training/final_semantic_assessment.json; let publisher publish it and verify publication_status.json artifact SHA plus fresh_raw_readback_verified.",
+      "Create publication/finalize_requested.json with finalize_requested=true and final_semantic_assessment_sha256 equal to the exact published report SHA; include request time and all_gpu_workers_exited=true.",
+      "Publisher requires that explicit marker and matching current report SHA, then writes training_complete_publication_proof.json and reaches COMPLETE_RAW_VERIFIED. Raw publication integrity is not a semantic approval or production approval."
+    ],
+    "reference": "skill_recovery_150m_20261024/finalize_publication_runtime.py (mechanism reference only; hard-coded old-run IDs/hash must not be reused)."
+  },
+  "outputs_expected_only_after_execution": [
+    "final_eval/attempt_started.json",
+    "final_eval/input_bindings.json",
+    "final_eval/evaluation_contract.json",
+    "final_eval/base_generations.jsonl",
+    "final_eval/adapter_generations.jsonl",
+    "final_eval/paired_generations.jsonl",
+    "final_eval/complete.json",
+    "training/final_semantic_assessment.json",
+    "publication/finalize_requested.json",
+    "publication/training_complete_publication_proof.json"
+  ],
+  "limitations": [
+    "Plan contains no final inference outputs, results, or acceptance decision.",
+    "No local corpus, checkpoint, native15 contents, or protected fixture outputs were accessed.",
+    "Publisher's current checkpoint export names and completion preconditions must be checked against the actual run metadata after gate PASS; no publication action is authorized by this plan alone.",
+    "Evaluator source is prepared for root code review and is not executed. Confirm run-venv dependency/package pins and checkpoint-export readiness before any eligible run. No final inference outputs or acceptance decision are fabricated."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "new_validation_candidates.jsonl": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "training/evaluation_contract.json": "696deb1be3ee0efa33f554d8a1f2fca13d85aa51ecac487951dd5f6c33f9cdaa",
+  "training/run_config.json": "b62bb6f54fc5163d87b17cfc07b1f9594165dfad8b1c6dc484da828be121ba56",
+  "training/eval_step_000000/base_generations.jsonl": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529",
+  "training/best.json": "d1972c03d382fe1348886eeb8e13dcd42b82eff585d8032844920aa211f77421",
+  "training/eval_step_000050/eval_bindings.json": "55db84a79f8efa6d844697a03dba9087244b72f3194a4338b88ce65fa18b2579",
+  "training/eval_step_000050/adapter_generations.jsonl": "e57499b849c6f21adbf2f3cd8605d3eef50b09d709d5bf64ee42f320ad00cbea"
+}

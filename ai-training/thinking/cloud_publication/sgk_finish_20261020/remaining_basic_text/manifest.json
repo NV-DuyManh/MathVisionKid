@@ -1,0 +1,81 @@
+{
+  "status": "14_DRAFTS_AUTHOR_QA_PASS_ROOT_QA_PENDING",
+  "cases": 14,
+  "chat": 56,
+  "master_counts": {
+    "role_specific_equation_pool": 2,
+    "arrival_schedule_eligibility": 2,
+    "two_group_transfer_then_compare": 2,
+    "finite_route_total_optimization": 2,
+    "bounded_factor_pair_enumeration": 2,
+    "bounded_inventory_target_sum": 2,
+    "balance_order_substitution_chain": 2
+  },
+  "grade_counts": {
+    "1": 8,
+    "3": 6
+  },
+  "numeric_steps": 11,
+  "family_oracles": 14,
+  "manifest": [
+    {
+      "path": "cases.jsonl",
+      "bytes": 83473,
+      "rows": 14,
+      "sha256": "c05077c3cf1eb14b9ac9cb3e84134abd3249005065f329b5d6940a716d8aa136"
+    },
+    {
+      "path": "chat.jsonl",
+      "bytes": 113690,
+      "rows": 56,
+      "sha256": "453467816fd64d2b7f7fe310f14996ab4a871a2f4536042da0dbe9e8a2c823bd"
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "bytes": 54803,
+      "rows": 14,
+      "sha256": "ffba672590e096052e95b8cfa690e3f03a9097bcc272673170b8e099d7c27f45"
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "bytes": 7571,
+      "rows": 14,
+      "sha256": "c6af9406b8b075ec066404e5ccaf4d33a9f2edc69270ae0188bda68a281e6442"
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "bytes": 1432,
+      "rows": 11,
+      "sha256": "4ea6871e82bebe22e3ba1c4a4dc6bcf3e709bd054a35807f87e4aa67bc4fd23b"
+    },
+    {
+      "path": "mapping_snapshot.json",
+      "bytes": 20174,
+      "sha256": "90513624471ec6ea5c38b557881970a9fbc1016ca8a624627fd0085083cc0c93",
+      "rows": null
+    },
+    {
+      "path": "nearest_actual_full_field_review.jsonl",
+      "bytes": 69204,
+      "sha256": "5623fae73ab2972d60fb983ccbe7a3eabeece0d9974204d089be0c5e96f85f00",
+      "rows": 29
+    },
+    {
+      "path": "own_new_source_comparisons.jsonl",
+      "bytes": 19410,
+      "rows": 8,
+      "sha256": "ef014bdd939ecdf6c63ee4d39d49339c125c46b574bd152fffc99f831a15cc73"
+    }
+  ],
+  "mapping_source_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "pending": [
+    "Root full-field cross-review of14drafts",
+    "G5 finite_route_total_optimization network plus round-trip-time branch remains pending; these2 only cover G1 simple directed graph comparison",
+    "Other master branches not assigned here remain owned by root"
+  ],
+  "limitations": [
+    "Original explicit text analogues; no actual image/physical competency claim.",
+    "Finite oracle covers represented domains, not all archive numeric variants.",
+    "No training, Drive/network writes, shared state/context, app/git or old-source edits."
+  ]
+}

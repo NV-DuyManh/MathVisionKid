@@ -1,0 +1,636 @@
+{
+  "author_agent": "/root/finite_grade5",
+  "checks": [
+    {
+      "key": "mixed_parts",
+      "passed": true,
+      "independent_oracle": "Three disjoint sets of five fifth-pieces plus two loose pieces; regroup 17 into three groups of five and two."
+    },
+    {
+      "key": "mixed_compare",
+      "passed": true,
+      "independent_oracle": "Twenty-three eighth-metre ticks vs twenty-four ticks, one tick difference."
+    },
+    {
+      "key": "mixed_remove",
+      "passed": true,
+      "independent_oracle": "Remove seven distinct quarter-litre tokens from seventeen; ten remain, two full litres and two quarters."
+    },
+    {
+      "key": "mixed_mis",
+      "passed": true,
+      "independent_oracle": "Two full-unit sets contain eight quarters, plus three; the written product represents six quarters instead."
+    },
+    {
+      "key": "decimal_place",
+      "passed": true,
+      "independent_oracle": "Read digit positions 6|0|4|2; 6042 millimetres equals 6.042 metres, the four contributes forty millimetres."
+    },
+    {
+      "key": "decimal_order",
+      "passed": true,
+      "independent_oracle": "Integer thousandth ticks: 750 < 800 = 800 < 805."
+    },
+    {
+      "key": "decimal_interval",
+      "passed": true,
+      "independent_oracle": "Check every label as integer gram values, two strict inequalities required."
+    },
+    {
+      "key": "decimal_compare_mis",
+      "passed": true,
+      "independent_oracle": "Compare hundredth units 409 versus 490; extra digits do not determine magnitude."
+    },
+    {
+      "key": "decimal_combine",
+      "passed": true,
+      "independent_oracle": "Centimetre-token ledger 1248 and 760 received, 385 removed; 1623 remains, then divide by 100."
+    },
+    {
+      "key": "decimal_tuples",
+      "passed": true,
+      "independent_oracle": "630 hundredth-kg tokens partition into fourteen groups of forty-five."
+    },
+    {
+      "key": "decimal_price",
+      "passed": true,
+      "independent_oracle": "Centimetre quote route: 320 cm cost 272000 dong, 175 cm costs 148750 dong =148.75 thousand."
+    },
+    {
+      "key": "decimal_product",
+      "passed": true,
+      "independent_oracle": "Twelve tenths multiplied by three tenths forms thirty-six hundredths; positive factor under one shrinks result."
+    },
+    {
+      "key": "decimal_guard",
+      "passed": true,
+      "independent_oracle": "Counterexamples for missing package mass: 0.6 kg yields14,1.2kg yields7, both no remainder."
+    },
+    {
+      "key": "measure_length_mass",
+      "passed": true,
+      "independent_oracle": "Independent integer smallest-unit ledgers:708cm and2035g; corresponding decimal values7.08m,2.035kg."
+    },
+    {
+      "key": "measure_area_volume",
+      "passed": true,
+      "independent_oracle": "Area grid has100dm² per m²; volume grid has1000dm³ per m³; totals406 and4006 small units."
+    },
+    {
+      "key": "measure_compare",
+      "passed": true,
+      "independent_oracle": "85 unit dm³ blocks for A versus82 for B; three unmatched unit blocks."
+    },
+    {
+      "key": "measure_mis",
+      "passed": true,
+      "independent_oracle": "The explicit mixed length is305cm; quoted3.5m would350cm, not the same ledger."
+    },
+    {
+      "key": "measure_guard",
+      "passed": true,
+      "independent_oracle": "Unknown original unit:4.25m vs4.25cm convert to different metre results."
+    },
+    {
+      "key": "percent_ratio",
+      "passed": true,
+      "independent_oracle": "Cross-product using total as100%; count 72 of180."
+    },
+    {
+      "key": "percent_part",
+      "passed": true,
+      "independent_oracle": "Partition640 square-unit cells into eight groups80; three groups vegetables and five flowers."
+    },
+    {
+      "key": "percent_inverse",
+      "passed": true,
+      "independent_oracle": "The54 students are nine equal quota groups, each6; forty groups make240. Historical inverse-whole extension retained."
+    },
+    {
+      "key": "percent_mis",
+      "passed": true,
+      "independent_oracle": "Full denominator120;102 non-defective is a distinct comparison base, not total."
+    },
+    {
+      "key": "calc_ratio",
+      "passed": true,
+      "independent_oracle": "Disjoint four equal groups: one39 equals25%; keystroke sequence is hypothetical, not device verification."
+    },
+    {
+      "key": "calc_display",
+      "passed": true,
+      "independent_oracle": "Divide100-cell ratio grid into20 equal groups; seven groups fill35cells; screen decimal matches."
+    },
+    {
+      "key": "calc_input",
+      "passed": true,
+      "independent_oracle": "Price as two full kilograms plus four tenths; explicit key log uses24, ten times true mass."
+    },
+    {
+      "key": "calc_mis",
+      "passed": true,
+      "independent_oracle": "Reduce ratio to3/5 then scale to60/100;0.6% would6/1000, different value."
+    },
+    {
+      "key": "calc_guard",
+      "passed": true,
+      "independent_oracle": "No screen contents, key log or model provided; different symbols/device models imply different corrective actions. No unseen-screen diagnosis."
+    },
+    {
+      "key": "circle_radius",
+      "passed": true,
+      "independent_oracle": "Alternative diameter route d=9: quarter of9-by9 square times stipulated pi; circumference/area units distinct."
+    },
+    {
+      "key": "circle_circumference",
+      "passed": true,
+      "independent_oracle": "Recover diameter10 directly from circumference/pi, then quarter-square diameter-area route."
+    },
+    {
+      "key": "circle_annulus",
+      "passed": true,
+      "independent_oracle": "Compute separate outer28.26 and inner12.56 square metres and subtract; same-centre nesting guaranteed."
+    },
+    {
+      "key": "circle_mis",
+      "passed": true,
+      "independent_oracle": "Diameter-square route verifies correct area and fourfold overstatement in quote."
+    },
+    {
+      "key": "circle_guard",
+      "passed": true,
+      "independent_oracle": "If6cm is radius area113.04; if diameter area28.26. Missing role prevents unique area, no unseen-image claim."
+    },
+    {
+      "key": "surface_box",
+      "passed": true,
+      "independent_oracle": "Enumerate four side rectangles and both base rectangles exactly once."
+    },
+    {
+      "key": "surface_cube",
+      "passed": true,
+      "independent_oracle": "Six independent equal face cells vs five when top removed; difference exactly one face."
+    },
+    {
+      "key": "surface_wall",
+      "passed": true,
+      "independent_oracle": "Explicit two long/two short walls, then remove4m² openings; floor and ceiling excluded."
+    },
+    {
+      "key": "surface_mis",
+      "passed": true,
+      "independent_oracle": "Six9cm² face tiles, not four. Quote supports only missing two-face count, not private intent."
+    },
+    {
+      "key": "surface_guard",
+      "passed": true,
+      "independent_oracle": "Heights2 and3 both satisfy known base but different total areas208 and242."
+    },
+    {
+      "key": "volume_layers",
+      "passed": true,
+      "independent_oracle": "Enumerate84 disjoint unit-cube positions, each1dm³; count unit and volume unit recorded separately."
+    },
+    {
+      "key": "volume_contrast",
+      "passed": true,
+      "independent_oracle": "Separate coordinate sets have equal cardinality64 despite unequal dimensions."
+    },
+    {
+      "key": "volume_rise",
+      "passed": true,
+      "independent_oracle": "600 unit cm³ blocks per1cm layer, three layers consume1800=1.8 litres; no overflow or loss explicit."
+    },
+    {
+      "key": "volume_mis",
+      "passed": true,
+      "independent_oracle": "Four disjoint layers each30cm³; two-edge product alone is30cm²."
+    },
+    {
+      "key": "volume_guard",
+      "passed": true,
+      "independent_oracle": "Unspecified cube could edge2or3 cm, volume8or27; asking edge is necessary."
+    },
+    {
+      "key": "area_grid",
+      "passed": true,
+      "independent_oracle": "Enumerate100mm squares percm square, then360mm² for3.6cm²."
+    },
+    {
+      "key": "area_equal",
+      "passed": true,
+      "independent_oracle": "Convert both via integer dm² grids:24000dm² each, then240m²."
+    },
+    {
+      "key": "area_land",
+      "passed": true,
+      "independent_oracle": "One10000m² region plus35 disjoint100m² regions; quotient byhm² unit gives1.35."
+    },
+    {
+      "key": "area_mis",
+      "passed": true,
+      "independent_oracle": "Five100-cell square grids give500 square metres; linear factor only would omit nine rows per grid."
+    },
+    {
+      "key": "area_guard",
+      "passed": true,
+      "independent_oracle": "Could2.75dam²=275m² or2.75hm²=27500m²; original unit required."
+    },
+    {
+      "key": "m3_layers",
+      "passed": true,
+      "independent_oracle": "Enumerate10x10x10 unit-dm cube positions; count and volume independent unit bindings."
+    },
+    {
+      "key": "m3_compare",
+      "passed": true,
+      "independent_oracle": "Integer unit-dm cube ledger720 vs750, thirty extra cubes."
+    },
+    {
+      "key": "m3_cm",
+      "passed": true,
+      "independent_oracle": "One-thousandth m³ equals1000cm³ by unit-cube grid; six such volumes give6000cm³."
+    },
+    {
+      "key": "m3_mis",
+      "passed": true,
+      "independent_oracle": "Two complete1000cube grids, area relation only describes a layer."
+    },
+    {
+      "key": "m3_guard",
+      "passed": true,
+      "independent_oracle": "Unknown height1or2m yields3or6m³, same known base; no unique capacity."
+    },
+    {
+      "key": "motion_speed",
+      "passed": true,
+      "independent_oracle": "Independent metre-per-minute route:5400m/72min=75m/min then4.5km/h."
+    },
+    {
+      "key": "motion_contrast",
+      "passed": true,
+      "independent_oracle": "Minute-distance ledgers200m/min and250m/min repeated35times produce7/8.75km and1.75km gap."
+    },
+    {
+      "key": "motion_arrival",
+      "passed": true,
+      "independent_oracle": "Datetime timeline110min after08:40 gives10:30, running duration90min separate from20min rest."
+    },
+    {
+      "key": "motion_mis",
+      "passed": true,
+      "independent_oracle": "Metres-per-minute route gives200m/min=12km/h; quoted1.3h corresponds78min, not90."
+    },
+    {
+      "key": "motion_guard",
+      "passed": true,
+      "independent_oracle": "Missing time could1or2h, giving6or12km; uniform speed alone insufficient."
+    },
+    {
+      "key": "shape_identify",
+      "passed": true,
+      "independent_oracle": "Attribute oracle: parallel congruent circular bases plus side surface defines cylinder in elementary model; equal distances from one centre specifies sphere, avoiding generic curved-surface ambiguity."
+    },
+    {
+      "key": "shape_contrast",
+      "passed": true,
+      "independent_oracle": "P two parallel congruent bases, Q apex/one base, R planar disk; onlyP satisfies cylinder model. No volume formulas introduced."
+    },
+    {
+      "key": "shape_partition",
+      "passed": true,
+      "independent_oracle": "Three disjoint label sets cover allfive; plane-vs-curved attributes rather than colour/size/name."
+    },
+    {
+      "key": "shape_mis",
+      "passed": true,
+      "independent_oracle": "Sphere premise has no planar base; round silhouette of a sphere does not create a flat surface. Feedback stays within quoted claim."
+    },
+    {
+      "key": "shape_guard",
+      "passed": true,
+      "independent_oracle": "Circular front view could disk, cylinder end or sphere; need additional surface views/description. No inferred picture."
+    },
+    {
+      "key": "drawing_acute",
+      "passed": true,
+      "independent_oracle": "Coordinate witness B=(0,0),C=(6,0),A=(2,3),H=(2,0):AH perpendicularBC and H inside. This checks plan only, not any physical drawing."
+    },
+    {
+      "key": "drawing_external",
+      "passed": true,
+      "independent_oracle": "Coordinate witness B=(0,0),C=(6,0),A=(-2,3),H=(-2,0):foot is on extension throughB, perpendicularity retained; internal foot not required."
+    },
+    {
+      "key": "drawing_circle",
+      "passed": true,
+      "independent_oracle": "Compass opening is centre-to-pencil radius2.5cm, fixedO and fixed opening; axis-point witness distances2.5cm. Sampling is practical check, not proof of all actual drawn points."
+    },
+    {
+      "key": "drawing_mis",
+      "passed": true,
+      "independent_oracle": "Coordinate witness B=(0,0),C=(6,0),D=(3,0),A=(1,2):D midpoint yetAD not perpendicularBC. Explicit nonperpendicular premise refutes quoted inference."
+    },
+    {
+      "key": "drawing_guard",
+      "passed": true,
+      "independent_oracle": "Missing picture/scale/centre/base prevents actual-radius/perpendicularity audit; request evidence, no fabricated success."
+    }
+  ],
+  "inventory": [
+    {
+      "node_id": "old_g5_mixed_numbers",
+      "batch": "finish_g5_mixed_numbers.jsonl",
+      "case_count": 4,
+      "case_ids": [
+        "primary_20261018_finish_g5_mixed_numbers_whole_parts_to_fraction",
+        "primary_20261018_finish_g5_mixed_numbers_compare_regrouped_lengths",
+        "primary_20261018_finish_g5_mixed_numbers_pour_remove_mixed",
+        "primary_20261018_finish_g5_mixed_numbers_mixed_not_product"
+      ],
+      "source_sha256": "15f586a34fa3f992ab8c9e0999e7c07aec1c9dd364051ae4cbb63754c9e653df",
+      "row_hashes": {
+        "primary_20261018_finish_g5_mixed_numbers_whole_parts_to_fraction": "7e35d83f86218cb4a2ca3879c0c9dfa6f157a807f353339004f5fc90e764807c",
+        "primary_20261018_finish_g5_mixed_numbers_compare_regrouped_lengths": "991572e9c8995a20eae0c604433aba9ca194f18ce7e41d73ae3a78aea95eb208",
+        "primary_20261018_finish_g5_mixed_numbers_pour_remove_mixed": "023c9d2046217c59061b0b82a43a4e9acdaedef1a6f353f98f23fe56d3fc3afc",
+        "primary_20261018_finish_g5_mixed_numbers_mixed_not_product": "cc7facffd146ca0650ae28d449615558aec95c58a0e268a75ffc812ca3ea6c44"
+      },
+      "review_sha256": "9303785e55f9ab187071ddce7c8b784e991c4d3566201a4640ed8a1f4e141a74"
+    },
+    {
+      "node_id": "old_g5_decimal_read_compare",
+      "batch": "finish_g5_decimal_read_compare.jsonl",
+      "case_count": 4,
+      "case_ids": [
+        "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+        "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+        "primary_20261018_finish_g5_decimal_read_compare_open_interval_records",
+        "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger"
+      ],
+      "source_sha256": "6fe6f9e68d3c513950b45ff1d670e5cf3af4b322ebd074388e4308f048297f7d",
+      "row_hashes": {
+        "primary_20261018_finish_g5_decimal_read_compare_place_value_zero": "de66f3ca78fd0a762fadca8c789073031953c98c7ac83e996441629123a61c21",
+        "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort": "18ac4f3dd3daf065c8ff13bea0f92a65822219ed6b476c393e49cd8d6a19bccc",
+        "primary_20261018_finish_g5_decimal_read_compare_open_interval_records": "c698a45ae44b74c632cc61d2cd5247c7bbacfe10776c0e0d817e15f28e8a9ebd",
+        "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger": "2ea0d0366a05a604886c662c90e9df8e6b8eb6597502f7119f366c94d007c03d"
+      },
+      "review_sha256": "9d4ffd177fca52add5bfb1586585f1d52badb246b856dc0c73cd2b64c25a919e"
+    },
+    {
+      "node_id": "old_g5_decimal_operations",
+      "batch": "finish_g5_decimal_operations.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+        "primary_20261018_finish_g5_decimal_operations_decimal_divisor_equal_scale",
+        "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase",
+        "primary_20261018_finish_g5_decimal_operations_decimal_product_scaling",
+        "primary_20261018_finish_g5_decimal_operations_missing_package_mass"
+      ],
+      "source_sha256": "d18f4dddf5a05f5f20f8109af15887d8b8eacd5361cc0d6a1a2c0fd53569192e",
+      "row_hashes": {
+        "primary_20261018_finish_g5_decimal_operations_combine_then_remove": "623eb7f4dead01cf43a985d37e0734e59462a4e5482a3134da8f0a1c8a16fa6f",
+        "primary_20261018_finish_g5_decimal_operations_decimal_divisor_equal_scale": "fffe9e7c6255c48dfa422d03750594802667f7da4d2625000e6667d90e96f908",
+        "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase": "7ae0a8de5f927a0a03561c030a33aa6fa07e185cf8e6efbb30b027a636a807ba",
+        "primary_20261018_finish_g5_decimal_operations_decimal_product_scaling": "360fd7ef9592e2b524b8b1646a14437d326923287e2972a3121fdc87855dd758",
+        "primary_20261018_finish_g5_decimal_operations_missing_package_mass": "77c5feb3a53403f0371e859ccfd11703e19fecb8949f28adb5c30a8f281e7816"
+      },
+      "review_sha256": "0887197b886dda4a46a2971f2b0631cfe79b1b8e114dffa6404d8bebf26ceb82"
+    },
+    {
+      "node_id": "old_g5_decimal_measurements",
+      "batch": "finish_g5_decimal_measurements.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_decimal_measurements_length_mass_two_units",
+        "primary_20261018_finish_g5_decimal_measurements_area_volume_different_factors",
+        "primary_20261018_finish_g5_decimal_measurements_compare_compatible_capacity",
+        "primary_20261018_finish_g5_decimal_measurements_length_zero_placeholder",
+        "primary_20261018_finish_g5_decimal_measurements_unit_missing_measurement"
+      ],
+      "source_sha256": "a7d60587e709f5d9371d8e50b0c9056d628358942e52d2aa1a0287c88ab5a0f2",
+      "row_hashes": {
+        "primary_20261018_finish_g5_decimal_measurements_length_mass_two_units": "a3413089a12fc6fa4cefee467e13c0e66c241c8cb184ecac2cb50151cb291488",
+        "primary_20261018_finish_g5_decimal_measurements_area_volume_different_factors": "79de58646722388b4cb63bb60f73581b1257fa8380869ad6f341153f1b58f3d2",
+        "primary_20261018_finish_g5_decimal_measurements_compare_compatible_capacity": "da7f43d924bd92baf92bf6a40bce131d317ed87789217aced6d2186eda56047f",
+        "primary_20261018_finish_g5_decimal_measurements_length_zero_placeholder": "850dc87bd93efeb2a25708be946fcfa41641ab5631f05bfd3751ba21a59cfcf1",
+        "primary_20261018_finish_g5_decimal_measurements_unit_missing_measurement": "dbdba32e6b37253d9c06b46205a0543b8fd41f4bf5a7bba6ed48675d0ece3239"
+      },
+      "review_sha256": "2b0deb46ce70794744897adf82c19c0f36dd7ed3d139b8c5872affa79d071da8"
+    },
+    {
+      "node_id": "old_g5_percentage_three_types",
+      "batch": "finish_g5_percentage_three_types.jsonl",
+      "case_count": 4,
+      "case_ids": [
+        "primary_20261018_finish_g5_percentage_three_types_ratio_part_whole",
+        "primary_20261018_finish_g5_percentage_three_types_find_known_whole_part",
+        "primary_20261018_finish_g5_percentage_three_types_inverse_whole_from_part",
+        "primary_20261018_finish_g5_percentage_three_types_percentage_denominator_role"
+      ],
+      "source_sha256": "1ef40297e7281f5109878fc426849a355e7b353973cc5e9f5caf85ea0ae7336d",
+      "row_hashes": {
+        "primary_20261018_finish_g5_percentage_three_types_ratio_part_whole": "008c26ece3f7d934253a3326aa0c7749d66bffcf2ad73a9d1a5ed939ae4db0a7",
+        "primary_20261018_finish_g5_percentage_three_types_find_known_whole_part": "6ac755b95726499d9c49066199aca14a75f5e7fe88c78f8c78364bbdda06fff3",
+        "primary_20261018_finish_g5_percentage_three_types_inverse_whole_from_part": "b050ac32d4a2c192e83d713785ae682e33bfae449e451e1d24ed423d507e32ae",
+        "primary_20261018_finish_g5_percentage_three_types_percentage_denominator_role": "76b945d9209803fd9aa6f759bcca54ec26708e5a198f92db677d95fb90d3ee7d"
+      },
+      "review_sha256": "1fe265dd6f0b359d8fd4ac8a3f031c69185215c22a285541b2c12c87c9026b27"
+    },
+    {
+      "node_id": "old_g5_calculator",
+      "batch": "finish_g5_calculator.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_calculator_plan_keys_ratio",
+        "primary_20261018_finish_g5_calculator_display_decimal_meaning",
+        "primary_20261018_finish_g5_calculator_estimate_catches_entry",
+        "primary_20261018_finish_g5_calculator_display_not_percentage",
+        "primary_20261018_finish_g5_calculator_unseen_device_screen"
+      ],
+      "source_sha256": "b4303e282e4144bffcb3a10d1f24a026682ad81f6361944bca4fa0d8f4c45342",
+      "row_hashes": {
+        "primary_20261018_finish_g5_calculator_plan_keys_ratio": "1f694e13201af66b358d7e0701c3cbcc3ad08c2b20fcc85f12cd4780acb239cd",
+        "primary_20261018_finish_g5_calculator_display_decimal_meaning": "b8fbc28def6fee3daae5b3c08ee47aca0f4c1709c8eb5e229b564491b1b21065",
+        "primary_20261018_finish_g5_calculator_estimate_catches_entry": "ee4c3f5fef8d5d127c98f6cbfa1089c9a9c79aa4beb2d6897cbcdcdd7b9bc4dc",
+        "primary_20261018_finish_g5_calculator_display_not_percentage": "6bf60cc8ae3271633fd976f45fd329eca3f757672f651b8627db036af886439d",
+        "primary_20261018_finish_g5_calculator_unseen_device_screen": "d1e8f49f2fb6edf4f99a268dda7bd2a51188613cbfd22ca6865b7b3745e902ea"
+      },
+      "review_sha256": "6c12f7630b2968709668dad79dc354f1e497f6e6333b20915e17f83fbd20deab"
+    },
+    {
+      "node_id": "old_g5_circle_area",
+      "batch": "finish_g5_circle_area.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_circle_area_radius_area_explicit_pi",
+        "primary_20261018_finish_g5_circle_area_circumference_to_area",
+        "primary_20261018_finish_g5_circle_area_annular_border",
+        "primary_20261018_finish_g5_circle_area_diameter_as_radius",
+        "primary_20261018_finish_g5_circle_area_unlabelled_segment"
+      ],
+      "source_sha256": "2f45dc50d65333719113e04c88c4081c939549bf5d02c2165175cfe01c902570",
+      "row_hashes": {
+        "primary_20261018_finish_g5_circle_area_radius_area_explicit_pi": "072178b1eb63b670bcc7ade020b50fd41b472cd88727db83b96f7d8526ca8e73",
+        "primary_20261018_finish_g5_circle_area_circumference_to_area": "587940550305ffd6e98f3fe5a2dabddc9ea538bf583f56c1e30035db2710750f",
+        "primary_20261018_finish_g5_circle_area_annular_border": "e3e066611c87a10e7dd31ef7d1db68e81d983222edfce7b79f9f789d2c2e9fc5",
+        "primary_20261018_finish_g5_circle_area_diameter_as_radius": "a7c7705559148ad7ed76b2ec71200f6fb4d01d9bd79589061a4bfc9ba5e87d90",
+        "primary_20261018_finish_g5_circle_area_unlabelled_segment": "ce23da3b88cef1d5f853cb78d5cf59e43fc444481d8c8e549193a5fbbd751fcf"
+      },
+      "review_sha256": "884680aefbf1922cf5c2fc07ee7828dd48f992271ad1d8fa80cf2fe0eee28051"
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_surface",
+      "batch": "finish_g5_cuboid_cube_surface.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_cuboid_cube_surface_lateral_and_closed_surface",
+        "primary_20261018_finish_g5_cuboid_cube_surface_cube_open_vs_closed",
+        "primary_20261018_finish_g5_cuboid_cube_surface_wall_paint_opening",
+        "primary_20261018_finish_g5_cuboid_cube_surface_lateral_not_total_cube",
+        "primary_20261018_finish_g5_cuboid_cube_surface_missing_height_surface"
+      ],
+      "source_sha256": "b9858ac27b8ac8a49c386a7a6c92f97620bdd9eb38bb6ae0c0845e661802f41d",
+      "row_hashes": {
+        "primary_20261018_finish_g5_cuboid_cube_surface_lateral_and_closed_surface": "3ab9143c4f07b19dc2906e1bddb8615492e82a41061e836b92038142e8b90edf",
+        "primary_20261018_finish_g5_cuboid_cube_surface_cube_open_vs_closed": "7abf8015aae2eb4820d0ee1661fd11adea69429fbdc992062c41671eca09e7fb",
+        "primary_20261018_finish_g5_cuboid_cube_surface_wall_paint_opening": "b1dd9272931930a14ed01f0ea30602ea9cae9c07b2375f763dfda0df50a18ee7",
+        "primary_20261018_finish_g5_cuboid_cube_surface_lateral_not_total_cube": "feda1ddbc1b7c53424c4709680f6950ed4292d3560cf517c43940a2dcfda6d47",
+        "primary_20261018_finish_g5_cuboid_cube_surface_missing_height_surface": "d859c4f23f27d650fc5669769d7eba3432eb163744a21127c231563929b788d2"
+      },
+      "review_sha256": "553e1f49271a763895915d1832646d7c7002939a06e9b41dfeef5d0e15281431"
+    },
+    {
+      "node_id": "old_g5_cuboid_cube_volume",
+      "batch": "finish_g5_cuboid_cube_volume.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+        "primary_20261018_finish_g5_cuboid_cube_volume_same_surface_dimensions_volume",
+        "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow",
+        "primary_20261018_finish_g5_cuboid_cube_volume_base_area_not_volume",
+        "primary_20261018_finish_g5_cuboid_cube_volume_unknown_cube_edge"
+      ],
+      "source_sha256": "f14916dc7d2f965400afe7aeb6df357b9037f6e566b02bcc40984984d948e526",
+      "row_hashes": {
+        "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes": "9e38afb7e125144dea7a105771fb89e0512788caeb49372fccd8db6943d31819",
+        "primary_20261018_finish_g5_cuboid_cube_volume_same_surface_dimensions_volume": "a8452304e5b738e9a6f077d451fba56a2311ba2e82f58c006b60cce1db1fdfc4",
+        "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow": "dc1020b07a876f55d09d0a1ea7f50e53bde3efcb34bab3992a5459d5b44a0dd2",
+        "primary_20261018_finish_g5_cuboid_cube_volume_base_area_not_volume": "a050bd1f06dc2916edd0d1d7ca6178c2a7ac1ac28f1f67f4e31d79e0c57c9a56",
+        "primary_20261018_finish_g5_cuboid_cube_volume_unknown_cube_edge": "862141b3b77c83e52f60a8f13ad56b9f14496cbb5491d454dffd1e67de107f4d"
+      },
+      "review_sha256": "62ce8e794ebf66499a4858767948419a973198cef44c2dcbe00209380c6626df"
+    },
+    {
+      "node_id": "old_g5_mm2_dam2_hm2",
+      "batch": "finish_g5_mm2_dam2_hm2.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_mm2_dam2_hm2_square_metric_grid",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_dam2_hm2_same_decimal",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_mixed_area_land",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_area_not_length_factor",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_missing_area_unit"
+      ],
+      "source_sha256": "7b1c806c619a8e1e42189e658035de005d085e8156d3d6488762d82b05c28882",
+      "row_hashes": {
+        "primary_20261018_finish_g5_mm2_dam2_hm2_square_metric_grid": "995dd0e8956b64de4071568cd4a0cf0fddb84255e2da6a671efa1a939c40783b",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_dam2_hm2_same_decimal": "4ffd96c1b0d310694d88502fa220daf2bc86711efb853b7fcc8b0c127bd56419",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_mixed_area_land": "2daffacea50dc9888e373a80f0bdbe021f70e5cf405b3eaa188a77b33b6e5fe7",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_area_not_length_factor": "b71c4490636bc72c5df79aaa250b7040bfce8e0c13b21b318c799e60281565dc",
+        "primary_20261018_finish_g5_mm2_dam2_hm2_missing_area_unit": "f5310620d826b0e9759d5f0eb7bc0342ce8d8e01002ad0dafb3cecc9a1f52c46"
+      },
+      "review_sha256": "f173604021bdd6b7a518ae69b3c7187c76f6dd7b7b90c0f962138fc44584eb49"
+    },
+    {
+      "node_id": "old_g5_m3",
+      "batch": "finish_g5_m3.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_m3_metre_cube_layers",
+        "primary_20261018_finish_g5_m3_volume_compare_mixed_units",
+        "primary_20261018_finish_g5_m3_decimal_m3_to_cm3",
+        "primary_20261018_finish_g5_m3_wrong_cubic_factor",
+        "primary_20261018_finish_g5_m3_capacity_m3_missing_depth"
+      ],
+      "source_sha256": "b0e243b653ed1da6c94a6ed85b9cbd5b74052bd1fcf20479ed43fd10127ca69b",
+      "row_hashes": {
+        "primary_20261018_finish_g5_m3_metre_cube_layers": "f8c316a61ae1e07663c647a1e39689baa6297b391b4bc382ce6e542ad69ecc3f",
+        "primary_20261018_finish_g5_m3_volume_compare_mixed_units": "13b186fb59ee1d54b1adefdbc677dd5ad17e810ae2df9d6f366f7f9d2b15ed7f",
+        "primary_20261018_finish_g5_m3_decimal_m3_to_cm3": "0e3bfdee577e0f06a8037d12c51a723cb25492130fee01cb5fccbf23bbd2a58f",
+        "primary_20261018_finish_g5_m3_wrong_cubic_factor": "366cb5725f623308a54115911e36ab7ef1eada08a4c592f61c72c2a4cdeb160c",
+        "primary_20261018_finish_g5_m3_capacity_m3_missing_depth": "1b33925dba365299a49f9b2e4db1490fa74d2ae9b7b79c67a1aa0be616011ffe"
+      },
+      "review_sha256": "b7f3220e7ba87c430b7fcfb3ef49fc225049c33a83a72c2874ea58020175c5b9"
+    },
+    {
+      "node_id": "old_g5_uniform_motion",
+      "batch": "finish_g5_uniform_motion.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_uniform_motion_speed_from_moving_time",
+        "primary_20261018_finish_g5_uniform_motion_equal_time_contrast",
+        "primary_20261018_finish_g5_uniform_motion_arrival_including_rest",
+        "primary_20261018_finish_g5_uniform_motion_minute_decimal_error",
+        "primary_20261018_finish_g5_uniform_motion_unknown_time_distance"
+      ],
+      "source_sha256": "ee6482e5df78a336821df7723f2de8661660479766a9bb6477e0afa11f889dc1",
+      "row_hashes": {
+        "primary_20261018_finish_g5_uniform_motion_speed_from_moving_time": "6a8d1fba4da5c8672f26bb7aa3b3d17d1bcd02eca825bf56fd7cd525041734c8",
+        "primary_20261018_finish_g5_uniform_motion_equal_time_contrast": "78bd2afef258b40a9b49848651be2ac490e671250b3fbb02565be4716232605f",
+        "primary_20261018_finish_g5_uniform_motion_arrival_including_rest": "730e5d87172e042e5019de4225dfa80f0377259c575a16bf55c0f6aae212c821",
+        "primary_20261018_finish_g5_uniform_motion_minute_decimal_error": "70309e3318f58558ec94eb2c098e4d43a986192a3b4a28fb90a6184c9efcdac5",
+        "primary_20261018_finish_g5_uniform_motion_unknown_time_distance": "eba73b0e3b37f6282f3494943c5a30f8a5772515e2fef9a8e7ee45b52a63294a"
+      },
+      "review_sha256": "c117444808848866d3799005cb00750b615116dc64d45db1cad50aa1efda671a"
+    },
+    {
+      "node_id": "old_g5_cylinder_sphere",
+      "batch": "finish_g5_cylinder_sphere.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions",
+        "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape",
+        "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records",
+        "primary_20261018_finish_g5_cylinder_sphere_sphere_flat_face_claim",
+        "primary_20261018_finish_g5_cylinder_sphere_unseen_round_object"
+      ],
+      "source_sha256": "bc671cc5f02086019fa31c9327ebf5c50c1c6f16cbbda06398df1617ff9b1272",
+      "row_hashes": {
+        "primary_20261018_finish_g5_cylinder_sphere_explicit_shape_descriptions": "75a387608d1ada71fefe7a919698af777a354b65a9eb1ce0968b475661fe1c53",
+        "primary_20261018_finish_g5_cylinder_sphere_circle_face_not_full_shape": "db55f659b5da5f3ba1da47c7af06936922240fdcdbbe6a6f9a5b7651948ef37f",
+        "primary_20261018_finish_g5_cylinder_sphere_sort_attribute_records": "7f520a9befb5b438b435717a812a6f53b84455d8c6383e007e3a3bd8a746038a",
+        "primary_20261018_finish_g5_cylinder_sphere_sphere_flat_face_claim": "133ad8bdc7ad198ad3512d962116231f02429f0e97f1aa1e14a62b4cb4a6ac55",
+        "primary_20261018_finish_g5_cylinder_sphere_unseen_round_object": "0fe52d6fba3cacc6a5fdca8d7951b77a4bd1008d41e5ee0ff02fabee872f9295"
+      },
+      "review_sha256": "2b3723111475f47210c686ebcf5122d2cc5fc228a36f71ad181a6f930b671666"
+    },
+    {
+      "node_id": "old_g5_altitude_circle_drawing",
+      "batch": "finish_g5_altitude_circle_drawing.jsonl",
+      "case_count": 5,
+      "case_ids": [
+        "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+        "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+        "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+        "primary_20261018_finish_g5_altitude_circle_drawing_median_not_automatically_altitude",
+        "primary_20261018_finish_g5_altitude_circle_drawing_missing_drawing_and_scale"
+      ],
+      "source_sha256": "ed207ee0fbc66cf222c11cd67b5e0383c89b1011eb2b3d8b007f6b2c7353e057",
+      "row_hashes": {
+        "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan": "e2be14f9356c3d3d0267bb7c90f5b7285df0e71ad93a27ee55f2c8047c69c5c4",
+        "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot": "46f8ef7520e08447a6705e3f635145f9ac6bcfb9c0b1ba8f234f73319f48f1d5",
+        "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan": "cce227390e0b6475356c9539b55e4bea842bdc699b0de16935c440ad7e38631f",
+        "primary_20261018_finish_g5_altitude_circle_drawing_median_not_automatically_altitude": "83db5b94dc0d379f80730c7dab03e70414b7e1b64e0767a92a6b8079ae825ee1",
+        "primary_20261018_finish_g5_altitude_circle_drawing_missing_drawing_and_scale": "e58e88a66fff165ea90a6ad4e8fc4f93339e50afe62984299183b04939ab1016"
+      },
+      "review_sha256": "ce0706354e6778e5f7ddef4848f38909cda6b738e7baf765006240301db2cedf"
+    }
+  ],
+  "actual_full_content_read": true,
+  "semantic_proof_not_inferred_from_parser": true,
+  "same_author_QA_not_human_or_independent": true,
+  "physical_success_verified": false,
+  "full_2006_or_current_2026_legal_completeness_certified": false,
+  "sources_or_protections_or_shared_state_modified": false
+}

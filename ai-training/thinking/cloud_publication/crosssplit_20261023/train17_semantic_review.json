@@ -1,0 +1,1214 @@
+{
+  "schema": "MathVisionKid.CurrentRecipeNumericOverlap17SemanticReview.v1",
+  "reviewed_utc": "2026-10-23T04:52:00Z",
+  "reviewer": {
+    "type": "AI_REVIEWER",
+    "authority": "OWNER_PREAUTHORIZED",
+    "human_verified": false,
+    "teacher_certified": false,
+    "owner_human_reviewed": false,
+    "independent_external_review": false
+  },
+  "overall_semantic_result": "PASS_WITH_SCOPE_LIMITS",
+  "rows": [
+    {
+      "sample_id": "exhaustive_v1_div_140_5",
+      "source_raw_sha256": "e219f226cccba8772b565e9b3be48ab15b6e5598a097293ef4cce36c71b99966",
+      "source_canonical_sha256": "6e7f44848531533118237286eb429be9541aa33f6a85d2a7333b5183dea18513",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_div_140_5:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "225489f36cfaca3b16b55b0bd734e31902dd36ce1ad11619ae1d369127ff6d85"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_140_5:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "0ac696c4d61c31d101398b5a684287d278f40e1f47b7d779335b4e69bac16cdf"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_140_5:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "aa0a6716f9791b829b97b9bee1f56f4515296ea1db1163826d3be76de9b1e113"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_140_5:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "e96ae46239bc59a61be0c0c1c9dbc4046a8da8646d065d6630feed6e6efbe9e1"
+        }
+      ],
+      "overlap_signatures": [
+        "f1a2e44d5f775cc03946e076cb8a33af69778dd96eaacff85a9cbfaa3fa16855"
+      ],
+      "grade": 3,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "28",
+        "0"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_322_7",
+      "source_raw_sha256": "a9280e622791a268ed7587115df1d37c0e73733c5084f1c2233f9527632e413c",
+      "source_canonical_sha256": "adbf64205d1849b6a13d81a91d99aea71b2d66ceb591283950b443a847516c1b",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_div_322_7:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "c8f4385f96365ea54b867485f5276bdb0c89b15e31697cd87bd06d722514965b"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_322_7:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "578e70e000e897c8054c3f09ba828dc8c929e1a29d0d72f70f32fb910cde8f00"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_322_7:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "d3de69b6e1b10509c7cf82de1bd4ab1d547cea1ac6cde1c91ab3d3d600e9a8d6"
+        },
+        {
+          "sample_id": "exhaustive_v1_div_322_7:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "a4cebec6ce64c31a552b11d0c50ffd4fddbf69df15ea3ad8fedcea92b94dd8d0"
+        }
+      ],
+      "overlap_signatures": [
+        "3cb926c8c79fcba924f14269a181d7c726861efec943479d20642a82197e74a7"
+      ],
+      "grade": 3,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "46",
+        "0"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_156_39",
+      "source_raw_sha256": "10ea2388d17b5db2ecfdd6c1a9d6ebb82a1cf345061d4e8dfc8fa6087aabe207",
+      "source_canonical_sha256": "0066e612976948d8fd8faad7c1e0a4e1c9723a022c0de8aafdae0bee2af9fdc9",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_156_39:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "4c63f89347a03168ea8fba77af9d1d9b9f1826f52f6e57424302a4925de8f1ed"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_39:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "142c912e5f49208d67b6f292d1afa96cf01942c24bd2a2ce0d109557de27d51a"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_39:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "fe329c95ce89375f699c37d6f6573e64b76c3f70e0cf38c8df6de0c201b13da2"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_39:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "e59dabcaf34a778d6e3648e9649b19af45bc5599016971cfca6c4134547e99ea"
+        }
+      ],
+      "overlap_signatures": [
+        "c9593fea97b4f439c510f888486d859a7b887dea4bb8fb226087c57aba2f07a6"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "117"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_156_117",
+      "source_raw_sha256": "c51d90c6a96902d108ce639844442fbff30385d48c0e266f71494ab4f809c7b5",
+      "source_canonical_sha256": "3ddfd661d77f44b62e33422ad6d0ef3b0415048a413239f21a74e97f7cfb6ee2",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_156_117:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "9f1686cfe3e5194b6c99c77bf952cecfe5465a1ce50e5a789b029ccfa1e0efb2"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_117:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "4b7479cca7349d5644e8f18b79cab6b8359ef64f6a8b4485e90a874c66d5498a"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_117:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "34bd22c6de8ca4fdf10e7e200175f7a204c402c4777418e99b41869169b73ccf"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_156_117:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "741a571ba8321facb4ddb2d31d31bf0fded8357d0700fe6501b26e796aa9e550"
+        }
+      ],
+      "overlap_signatures": [
+        "c9593fea97b4f439c510f888486d859a7b887dea4bb8fb226087c57aba2f07a6",
+        "e11ee176cb4f6c166777e33a8f04057e124dfad4705349acd4b16aec73c7cd2a"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "39"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_317_304",
+      "source_raw_sha256": "ed132130301a06469b15a4192cf26334756a5061f11c4351bf6db440bfa98d32",
+      "source_canonical_sha256": "fa484a68626193404ea00b1c892227362bcee3401afbedbbaceba10d2e776c34",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_317_304:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "486beb1415982f9311409bd7b6ffad9b121afa9340ff0941693936465429dd24"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_317_304:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "c67cfa26095e9cc54a9f6cf655bde475d810fbc17058d19ba2eaa1519c745ab7"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_317_304:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "fca79ff610e8eae3eb79d32a4c6e73fbef4eaa1878e3b6f4a6e1b23befce72a6"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_317_304:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "cc47d73c443f508778a0a549d9ebdd541af3bde2b186cc5e6741f170d0a1efd2"
+        }
+      ],
+      "overlap_signatures": [
+        "550e211d725214468100b59cf718105023493375d6f53e5e5ba71c7e7307a63e"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "13"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_330_13",
+      "source_raw_sha256": "2837434af5f5110d155b8cde6b7693ea82375396a2bd2caf5cd1030d8f8365f5",
+      "source_canonical_sha256": "18d95551757f51f3fa1d7c65eecf7dadf08474a5a398a38973e2513ad0c611ce",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_330_13:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "dc663e6dd86f21b44d13996528f236fa10fb0aecb6712364c394b7cd3a5e8d15"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_13:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "b8a201dd8e9141cebf0f5517383b8c4c00c7d5935c9b38f1b83b9c1f6fa49f2e"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_13:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "266cfc7033fc022836b9a3b5d0162def39cc29b6d276aabe4d697d621abcddf5"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_13:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "5c029e4d582ae8dd24950048307527f16f317a8b6bd66536425d8743f7d26ed2"
+        }
+      ],
+      "overlap_signatures": [
+        "ac94404553df389eaa09d1130da82368f610b91096dbf9968eb2a4e746475b00",
+        "afd058faad5d4aef867492bad5050c490622f3b52fb6f4d7d5c586c6f133a226"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "317"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_330_317",
+      "source_raw_sha256": "1071162f2b4a2c9c5a2bb9b7d2344aa93ebf084b495473442a876657ea53a12f",
+      "source_canonical_sha256": "a0ecbc5e05073f7341b2fbcf59951fa9889fd7c0ac4aacb1218ec7e313657dcc",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_330_317:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "c21b6baace19219844e750469f470c550ea6895ff824533aab4a86d00c6f3e53"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_317:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "fd184e76398653e81db1c7df973f50f5f79bdb0298582673e8953613ebb50ea0"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_317:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "c934bcbb66db5914b198bca6ccb0e1ed78437aa04c5ec6d4b7979f453e26a459"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_330_317:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "bb63e9d01adae78262d09d7c589aaadde2a1751c49f08354b745fd0180af8750"
+        }
+      ],
+      "overlap_signatures": [
+        "afd058faad5d4aef867492bad5050c490622f3b52fb6f4d7d5c586c6f133a226"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "13"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_433_186",
+      "source_raw_sha256": "2bb42b171efe4834b2c30f32b7f056edf654c02d622be5d806b5cdd6848af1c4",
+      "source_canonical_sha256": "da01a350a953f01a75274e429fe1e976fa293bc7aba153880e7be4fe077e5fb1",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_433_186:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "f49aae8100126b3cb39eb71828d0d9bca632de5ac34af38e7901b7153e2e715f"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_186:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "249c735d2186b98444abd8bce9626d0979ba2ff82d398973d3b7c9ab6037d902"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_186:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "f4e79f0cd7c61ccf18e0c950a8e78dcf522aec1267fc2b7a32229f1d5032983f"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_186:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "52867569dbdc26771112b4c11fdd9312c35c33a97b68b6a5b81f517f3705bbee"
+        }
+      ],
+      "overlap_signatures": [
+        "db4990c9b85b7a3bb302196fff64f5fd1cbdcb2beac97001f4d4f3c0d678b082"
+      ],
+      "grade": 4,
+      "curriculum_scope": "ENRICHMENT_BEYOND_SPECIFIC_OPERATION_BOUND",
+      "expected_results_independently_checked": [
+        "247"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Consecutive-exchange arithmetic is explicitly retained as enrichment; grade 4 is a placement recommendation, not a required-programme claim."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_433_247",
+      "source_raw_sha256": "4e25db1ad323a9b8def73f5dd6df40d7b62fb19a39d1eab938842d94120df906",
+      "source_canonical_sha256": "1f8c77edb49f4943430ecec644acc0db29f8854860b605b53df9ac4ccc9c3f54",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_sub_433_247:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "3100f3bdcd6c0c81e88b094404cd40410e1253f65b49092001c2d06c16c1335d"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_247:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "ffd3ac4ba974ba985d489a084bc24d4063f62bb1b9e4827441fce4a3bf070935"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_247:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "fbe35eb45a5040b4cf0f1700784e8a916eed39f332cef5ff356959dd5956f7aa"
+        },
+        {
+          "sample_id": "exhaustive_v1_sub_433_247:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "fcfe18be2418224503d1ada33faac43f3df57211b8764839a2883655aa173323"
+        }
+      ],
+      "overlap_signatures": [
+        "db4990c9b85b7a3bb302196fff64f5fd1cbdcb2beac97001f4d4f3c0d678b082"
+      ],
+      "grade": 4,
+      "curriculum_scope": "ENRICHMENT_BEYOND_SPECIFIC_OPERATION_BOUND",
+      "expected_results_independently_checked": [
+        "186"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Consecutive-exchange arithmetic is explicitly retained as enrichment; grade 4 is a placement recommendation, not a required-programme claim."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_mul_52_3",
+      "source_raw_sha256": "e7331b01ee237f49420f09ed20fea4c85f7b38ef19f18515ab418fec662fbaff",
+      "source_canonical_sha256": "e7331b01ee237f49420f09ed20fea4c85f7b38ef19f18515ab418fec662fbaff",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_mul_52_3:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "443bfa53b730bc668bc4d0b45c241f4a358571238d460b1a835023a3d6f72707"
+        },
+        {
+          "sample_id": "exhaustive_v1_mul_52_3:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "c66ba0fe7b6f4778215a2ef0ac61e10571a609e1c5c41bd5879bf302d1f8d108"
+        },
+        {
+          "sample_id": "exhaustive_v1_mul_52_3:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "961f154be2017c01020843220284d8a20a853cad50d13b7ee69e70fe4b5852ee"
+        },
+        {
+          "sample_id": "exhaustive_v1_mul_52_3:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "51248e35656d91bfd721e25ce18984e202f1e3be4e29cfb1c4c00c764ba245de"
+        }
+      ],
+      "overlap_signatures": [
+        "e3f1627e75ea5ae11f25df6dd71d15b32dfac1f90ff9d2ddc1b06f35cf06b3d2"
+      ],
+      "grade": 3,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "156"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_186_247",
+      "source_raw_sha256": "bec930deee71c5ba5ad6913fdcfc411c0d319a4d93fb10461e95a09a57566e45",
+      "source_canonical_sha256": "5cf3c9721a1051dff5493450b21c1cd0e7ed789c2295f8cd1dceec78b0dc7c9c",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_186_247:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "c7ca2a3da0d8758e39c016b3d5e0b195b6ba9bc167170acb7d8d3949746735fc"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_186_247:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "8bf77b2d4bb033ccf99d64ee607aff3008ffcd38d46d5bc0ddc8951bd7b6ddec"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_186_247:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "59facddd9488e2efa5155a29c9c1415e3151a1bb61a99da65b9a08451fc98ab6"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_186_247:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "e3d025c79835dcc338027b903f6e43d5d088cadc06f50ca8d374ac07b551f383"
+        }
+      ],
+      "overlap_signatures": [
+        "db4990c9b85b7a3bb302196fff64f5fd1cbdcb2beac97001f4d4f3c0d678b082"
+      ],
+      "grade": 4,
+      "curriculum_scope": "ENRICHMENT_BEYOND_SPECIFIC_OPERATION_BOUND",
+      "expected_results_independently_checked": [
+        "433"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Consecutive-exchange arithmetic is explicitly retained as enrichment; grade 4 is a placement recommendation, not a required-programme claim."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_247_186",
+      "source_raw_sha256": "6099c7b147e11dbcbfbb680940fd94f0f324315ea3c5bc2ca2cd07c768ab1251",
+      "source_canonical_sha256": "d66746f8c665e76e9a0c874ddbd6c4d2564b4c38f12dbb83d9813a8944919744",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_247_186:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "cee8abb595d9b94b9d89ebb081e4a56842f93fbad0c6f87803231f96a8f9666f"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_247_186:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "4993cd5f5f72d65e7c47c2bd572cd9d4d31ad43e9738c9fd63797d655e85e890"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_247_186:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "c095f022be9c686d4c3c06c0c203f29d6e54e091e1a8d713276efa1dcfb100a6"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_247_186:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "0055738e18a02d38649884b5c30059d4110b37c2bb9241d2b4a0773931b4252f"
+        }
+      ],
+      "overlap_signatures": [
+        "db4990c9b85b7a3bb302196fff64f5fd1cbdcb2beac97001f4d4f3c0d678b082"
+      ],
+      "grade": 4,
+      "curriculum_scope": "ENRICHMENT_BEYOND_SPECIFIC_OPERATION_BOUND",
+      "expected_results_independently_checked": [
+        "433"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Consecutive-exchange arithmetic is explicitly retained as enrichment; grade 4 is a placement recommendation, not a required-programme claim."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_317_13",
+      "source_raw_sha256": "ee83c11a1f8b09afbbc57ab127e3260246dce7abd3e4a0c86af49240a4fb9397",
+      "source_canonical_sha256": "29acc064715ad1b2ed6327edd4044bca72faace701a2faba12ac13f2b2acf731",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_317_13:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "4e7e3d0c4ae304ba2977a416471b4007e8295a66a2ae753bdf68e2f3a48b7fe8"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_317_13:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "78566f5b3654f10c33ba8ac7b691d67334bf84674c72327f17741e326f71250c"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_317_13:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "83c2fbd361fba9ac33b44275afec3bbe8e6ec26cba3de2aa5a8bc595bc995088"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_317_13:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "10923e17ed8b4c2dac55439d4291f0608da62b1ad798a1a00e3860b8cf8c8475"
+        }
+      ],
+      "overlap_signatures": [
+        "ac94404553df389eaa09d1130da82368f610b91096dbf9968eb2a4e746475b00",
+        "afd058faad5d4aef867492bad5050c490622f3b52fb6f4d7d5c586c6f133a226"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "330"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_13_304",
+      "source_raw_sha256": "4fa222baf1119ba8759c88c2bb2f1da3290aca2fbe8f45aefcfb1518b82098e8",
+      "source_canonical_sha256": "8b7c8b157a36d849cb263b7b768391701ba087d562f41b8a9e2c063f622b8af8",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_13_304:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "b9a29c4d63e6f8e767a80f0699c7ef3d58b0335ea5a18347a0c65c94fef5d686"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_304:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "21d43ea289b9506cb4172c355634c4488a41c7f4d367f52ab8a6fc9dbc0e08ed"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_304:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "9ba6862dcbec6765829027bcc8c7ef970d12e641472f7c28d0eb31aedd375315"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_304:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "ec2dfc6e6286237ebcdd117355af827b728fbc250892cddc9461bb772ec5607d"
+        }
+      ],
+      "overlap_signatures": [
+        "550e211d725214468100b59cf718105023493375d6f53e5e5ba71c7e7307a63e"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "317"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_13_317",
+      "source_raw_sha256": "c6804681b3b3bfc0047bfdee7d2b9b7f80dd8ed1609d54c45301b82d8412f4b9",
+      "source_canonical_sha256": "0901838fbc438c70dd1c43d453431129aceb283de4173acb3b13ce4aad3d8d17",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_13_317:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "ce6295b43841258fc62a1b7a060fe5c48a731b1617415cf0de9411edfbffe86c"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_317:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "1c572814bb7f85a6d75eeee0e3e5d56f17cfab7b57a309646df97390b82aab33"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_317:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "95e9281a2c5e0d534a5f079903eacfd198366fafd220c4a40cc8eba3776f42c1"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_13_317:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "6d704d4429d45c3853798e8ab63740ef0f3c6619b53888a3c404c45fab4385ef"
+        }
+      ],
+      "overlap_signatures": [
+        "afd058faad5d4aef867492bad5050c490622f3b52fb6f4d7d5c586c6f133a226"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "330"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_39_117",
+      "source_raw_sha256": "67f106eeba70a20ae5085783d7c77408a5accd23c8ab562bf2663e9bc6248111",
+      "source_canonical_sha256": "c993c24e8f6c756b7be7b743f766b55d2ffcc4964c97e59669d80b0541b9a8d6",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_39_117:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "084f57e3711b2f6c231bd473b076e27768e8fa8c259c6418d187ded61cdc98f8"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_39_117:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "183a7be881c778e53b385f70352dba442a083dcbe4a7390cb466a134eeedd2fd"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_39_117:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "e948e8f55f0d65f27fd0af0acd6cfec0e43df837bcc82f7c7fcb809a25f86338"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_39_117:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "d3be99848cb9be68abe8ab9dfe0324734aebd0ef4a4806d739f3aa854746247c"
+        }
+      ],
+      "overlap_signatures": [
+        "c9593fea97b4f439c510f888486d859a7b887dea4bb8fb226087c57aba2f07a6",
+        "e11ee176cb4f6c166777e33a8f04057e124dfad4705349acd4b16aec73c7cd2a"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "156"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_117_39",
+      "source_raw_sha256": "8551971ab940fad50b88b0cf1901dba514b6602afddcd6ba175b94b4ac42e6b1",
+      "source_canonical_sha256": "03ab36a1ba3d46d3fcf204441174d2da047cae2f6560cbf12fe68ebb1156693c",
+      "chat_canonical_bindings": [
+        {
+          "sample_id": "exhaustive_v1_add_117_39:hint_level_1",
+          "mode": "hint_level_1",
+          "split": "train",
+          "canonical_sha256": "ae1709e50731addeb39992b19e2af769a51e3950bd651e8bd412308b503d1e1e"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_117_39:hint_level_2",
+          "mode": "hint_level_2",
+          "split": "train",
+          "canonical_sha256": "541d4a2d5ed2fb6a3d2d77329e6c75fba8aa9685de41643191c334308c8921f3"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_117_39:hint_level_3",
+          "mode": "hint_level_3",
+          "split": "train",
+          "canonical_sha256": "4f920391568e161e5cb24225511b749fb0a757f521a802663affa5ecf778b118"
+        },
+        {
+          "sample_id": "exhaustive_v1_add_117_39:worked_solution",
+          "mode": "worked_solution",
+          "split": "train",
+          "canonical_sha256": "0b7302f3965f52a65534e6b00da05bd85ea28f9ef3e3992c7966a55cd02f02bc"
+        }
+      ],
+      "overlap_signatures": [
+        "c9593fea97b4f439c510f888486d859a7b887dea4bb8fb226087c57aba2f07a6"
+      ],
+      "grade": 2,
+      "curriculum_scope": "CURRENT_2018_NUMERIC_REFERENCE",
+      "expected_results_independently_checked": [
+        "156"
+      ],
+      "checks": {
+        "math_independent_oracle": {
+          "status": "PASS",
+          "note": "Read actual givens, complete steps and answers; independently checked arithmetic and inverse relationships. A separate Fraction/Decimal machine check is still required and is recorded separately."
+        },
+        "language_and_grade": {
+          "status": "PASS",
+          "note": "Actual problem, column/group explanation and labelled grade are coherent within the pinned reference scope; no new legal/curriculum certification."
+        },
+        "units": {
+          "status": "PASS",
+          "note": "Bare arithmetic, empty units on actual givens/steps/answers are appropriate."
+        },
+        "step_reasons_and_checks": {
+          "status": "PASS",
+          "note": "Every actual step names its relation/operation and why; complete column/group explanations and inverse or independent reconstruction checked."
+        },
+        "evidence_grounded_wrong_work_response": {
+          "status": "PASS",
+          "note": "Actual student_work is null. Responses solve the supplied arithmetic without inferring hidden work or an unseen image."
+        },
+        "hint_no_answer_leakage": {
+          "status": "PASS",
+          "note": "Read actual initial guidance and all three distinct hint/question pairs referenced by the row; no final numeric answer or complete worked solution is provided."
+        },
+        "split_provenance_and_id": {
+          "status": "PASS_WITH_SCOPE_LIMITS",
+          "note": "Source remains train_candidate; four linked modes remain train. Current-recipe cross-split findings are arithmetic signatures only. Frozen numerical independence is not claimed; no protected-source eligibility or global exclusion is waived."
+        }
+      }
+    }
+  ],
+  "source_chat_payload_bytes_changed": 0,
+  "corpus_downloaded_to_pc": false,
+  "source_rows_inspected": 17,
+  "actual_field_scope": [
+    "problem",
+    "grade",
+    "givens",
+    "requested_quantity",
+    "student_work",
+    "initial_guidance",
+    "worked_steps including reasons/explanations/results",
+    "expected_answer",
+    "all three hints and questions",
+    "curriculum_assignment"
+  ],
+  "proof_scope": "Only the seventeen current train source hashes and current-recipe signatures. Does not certify unseen protected/evaluation text or all generated rows.",
+  "new_human_signoffs": 0,
+  "training_started": false,
+  "whole_curriculum_certified": false,
+  "TRAINING_DATASET_READY": false
+}

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "total_evaluated": 6,
+  "ready_for_review_count": 6,
+  "needs_review_count": 0,
+  "rejected_count": 0,
+  "validated_manifest": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\manifests\\validated_prelabels.jsonl"
+}

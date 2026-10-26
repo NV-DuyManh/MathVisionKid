@@ -1,0 +1,221 @@
+{
+  "created_utc": "2026-10-16T15:41:59.023468+00:00",
+  "batch_sha256": "e8e67f0dc99d1f86ebd474e20d096b012785d198264916d5d10b437b16106fe6",
+  "review_sha256": "11dcf2fd0b37446250ddc1632be01d70bebda6abaf3f0437799e56476316adcc",
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+      "row_sha256": "87dd390a24330c816c001a15ec240ad8d3df27240ed1312548635215d21a193c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "46-12",
+          "(46-12)+12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          34
+        ],
+        "result": 34
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_add",
+      "row_sha256": "fe110dcdeeb6e1155dfe8f4fba3266ef718fc88e13f5c1051c2f50c266f3972f",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "12+3",
+          "(12+3)+4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          15,
+          19
+        ],
+        "result": 19
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+      "row_sha256": "1359c809aa908bce739a08e4d6a4394c6e945f1604c4e785a431132dcd31bd47",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "18-5",
+          "(18-5)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          13,
+          15
+        ],
+        "result": 15
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "row_sha256": "19451c2924f7fe55d18686a9b1216dc2fb24f82cf17c92600fb416ff1b059ad5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "31+7",
+          "(31+7)-5",
+          "((31+7)-5)+5",
+          "(((31+7)-5)+5)-7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          38,
+          33
+        ],
+        "result": 33
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_leave",
+      "row_sha256": "ac2db506aaec1f2d6bbc6c701c744e992ed1eae04baf49ad313ff204866e0fa0",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "29-6",
+          "(29-6)+6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          23
+        ],
+        "result": 23
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_part_whole",
+      "row_sha256": "93fd1c745cb354f0fcecb6c4c3cabe3be9b2b22b1b3cdcc5d5e8ad280c4c44f7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "36-14",
+          "14+(36-14)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          22
+        ],
+        "result": 22
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_changed_plus",
+      "row_sha256": "1df3f77f9298efdea0bab82fe6b59c62ae607f4f179f222271b151e243c91666",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "18-5",
+          "(18-5)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          13,
+          15
+        ],
+        "result": 15
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_join_for_remove",
+      "row_sha256": "b5e544f4f4e4d7bd0685afc0da5fa9ef0ea03820a032417429958501dfe4d66e",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "25-3",
+          "(25-3)+3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [
+          22
+        ],
+        "result": 22
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_guard_missing_bird_picture",
+      "row_sha256": "47ac9e13645c6d3fbc8a781c2044454f5c0d522e13b55840a128b5f7299a5b39",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "finite_set_remove_append_or_partition",
+        "intermediate_counts": [],
+        "result": null
+      }
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "content_review_is_same_assistant_separate_pass": true,
+  "external_independent_semantic_review": false,
+  "human_verified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "result": {
+    "accepted_cases": 48,
+    "chat_train_rows": 192,
+    "remaining_core_cases": 458,
+    "core_nodes_complete": 6,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 48
+    }
+  }
+}

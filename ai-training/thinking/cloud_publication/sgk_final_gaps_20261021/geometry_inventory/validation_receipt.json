@@ -1,0 +1,14 @@
+{
+  "cases": 24,
+  "chats": 96,
+  "source_sha256": "92d1a0e1bf08f46e7c78eee2a19b3bf5e9aeaa11fa9ff856599367550809ba6c",
+  "chat_sha256": "ea2411745f9231d0850b503e8dcea286c0a2533dcda1fb19dc5eb224313ac0b9",
+  "source_chat_rawhash_linkage_all": true,
+  "numeric_steps": 16,
+  "independent_oracles": 24,
+  "mutation_rejections": 48,
+  "no_duplicate_prior_ids_or_problem": true,
+  "prior_sources_unchanged": true,
+  "training_started": false,
+  "drive_mutated": false
+}

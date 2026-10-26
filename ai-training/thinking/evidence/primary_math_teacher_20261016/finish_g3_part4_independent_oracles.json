@@ -1,0 +1,218 @@
+{
+  "unitary_unit_counts": [
+    {
+      "total": 35000,
+      "parts": 5,
+      "object_or_currency_unit_share_counts": [
+        7000,
+        7000,
+        7000,
+        7000,
+        7000
+      ]
+    },
+    {
+      "total": 28,
+      "parts": 4,
+      "object_or_currency_unit_share_counts": [
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "total": 24,
+      "parts": 3,
+      "object_or_currency_unit_share_counts": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "total": 36,
+      "parts": 4,
+      "object_or_currency_unit_share_counts": [
+        9,
+        9,
+        9,
+        9
+      ]
+    },
+    {
+      "total": 54,
+      "parts": 6,
+      "object_or_currency_unit_share_counts": [
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+      ]
+    }
+  ],
+  "banknote_arrays": [
+    {
+      "name": "all",
+      "values": [
+        5000,
+        5000,
+        2000,
+        2000,
+        2000,
+        1000
+      ],
+      "sum": 17000
+    },
+    {
+      "name": "payA",
+      "values": [
+        10000,
+        2000,
+        2000
+      ],
+      "sum": 14000
+    },
+    {
+      "name": "payB",
+      "values": [
+        5000,
+        2000,
+        2000,
+        2000,
+        2000
+      ],
+      "sum": 13000
+    },
+    {
+      "name": "receipt",
+      "values": [
+        4000,
+        4000,
+        4000
+      ],
+      "sum": 12000
+    },
+    {
+      "name": "mis",
+      "values": [
+        2000,
+        2000,
+        2000
+      ],
+      "sum": 6000
+    }
+  ],
+  "statistics": {
+    "book_ID_expansion": 43,
+    "max_book_class": "3B",
+    "min_book_class": "3C",
+    "height_counter": {
+      "105": 3,
+      "110": 2,
+      "115": 1
+    },
+    "height_ID_partition": {
+      "105": [
+        "P",
+        "R",
+        "U"
+      ],
+      "110": [
+        "Q",
+        "T"
+      ],
+      "115": [
+        "S"
+      ]
+    },
+    "pictogram_tree_ID_expansion": {
+      "A": 12,
+      "B": 18,
+      "C": 15
+    },
+    "student_ID_count": 4,
+    "distinct_book_value_count": 3
+  },
+  "grid_cell_and_boundary_oracles": [
+    {
+      "width": 13,
+      "height": 6,
+      "area_unit_cells": 78,
+      "unit_boundary_edges": 38
+    },
+    {
+      "width": 12,
+      "height": 4,
+      "area_unit_cells": 48,
+      "unit_boundary_edges": 32
+    },
+    {
+      "width": 8,
+      "height": 8,
+      "area_unit_cells": 64,
+      "unit_boundary_edges": 32
+    },
+    {
+      "width": 10,
+      "height": 7,
+      "area_unit_cells": 70,
+      "unit_boundary_edges": 34
+    },
+    {
+      "width": 6,
+      "height": 6,
+      "area_unit_cells": 36,
+      "unit_boundary_edges": 24
+    }
+  ],
+  "guard_countermodels": {
+    "unitary_same40total_first_box_diff": [
+      [
+        10,
+        10,
+        10,
+        10
+      ],
+      [
+        5,
+        5,
+        10,
+        20
+      ]
+    ],
+    "hidden_banknote_values": [
+      1000,
+      2000
+    ],
+    "table_counts": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ],
+    "rect_length9_width_options": [
+      {
+        "w": 2,
+        "P": 22,
+        "A": 18
+      },
+      {
+        "w": 4,
+        "P": 26,
+        "A": 36
+      }
+    ]
+  },
+  "inverse_width_enumeration": [
+    7
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "batch_sha256": "5a2f10437a5da33aceb419bc9c13fe2bfe908a0f408a7d49a60b2716d83619f3",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_length_units_0017_dm_to_cm_groups",
+      "row_sha256": "2061257c26b2acf1f07ded350a12c5167148e10edd97741383c08550ab3d625c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_length_units_0017_compare_m_and_dm",
+      "row_sha256": "b1ee270b1aa422f1713a8c492cb6181907c8fc1baf105945e99b4b4e04a819bb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_length_units_0017_same_distance_km_and_m",
+      "row_sha256": "4f6106aadf82364b66b330308f0845860a728b2cbcb43e1ee0c4d1f65f127552",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_length_units_0017_misconception_same_numeral_units",
+      "row_sha256": "e5199ac72ed7060aef388a1cb1e54ef8d0e9eb1c3e0e5f2f3833d54c2eea35d1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "10+10+10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_length_units_0017_guard_missing_length_unit",
+      "row_sha256": "caa261220cb303c29e7f06f82f28e4e3332924cf7b306061b0fd4ea2b9c7e902",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "disjoint_cm_groups_in_4dm": 40,
+    "2m_in_dm": 20,
+    "comparison_20_gt_19": true,
+    "km_m_same_distance": true,
+    "3m_in_dm": 30,
+    "missing_unit_countermodels": [
+      {
+        "A_label": "12 cm",
+        "A_cm": 12,
+        "B_cm": 100
+      },
+      {
+        "A_label": "12 dm",
+        "A_cm": 120,
+        "B_cm": 100
+      }
+    ]
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read unit roles, equality of measures versus addition of distinct segments, every repeated-addition explanation and three answer-free hints per case. Same-author check is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Original text cases, not observed measurements. Group conversion uses repeated addition or the explicit unit relationship, not teaching a new division table. Both missing-label countermodels stay within 0..1000. Neutral schema is not live PlanDraft."
+}

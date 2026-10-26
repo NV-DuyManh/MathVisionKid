@@ -1,0 +1,1173 @@
+{
+  "rows_scanned": 16000,
+  "prompt_shapes": {
+    "grade,mode,problem": 14888,
+    "grade,mode,problem,student_work": 924,
+    "givens,grade,mode,problem,requested_quantity,student_work": 188
+  },
+  "errors": [
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:worked_solution",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+            "text": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "worked_solution",
+        "problem": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+        "requested_quantity": "Đánh giá tính đúng sai của phát biểu và giải thích về đoạn thẳng được vẽ thực tế",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6",
+              "nature": "STUDENT_INVENTING_NONEXISTENT_DRAWN_SEGMENTS"
+            }
+          ],
+          "text": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6"
+        }
+      },
+      "actual_target": {
+        "answer": [
+          {
+            "quantity": "Đánh giá phát biểu",
+            "result": "Sai",
+            "unit": ""
+          },
+          {
+            "quantity": "Giải thích",
+            "result": "Điểm E không có nét vẽ nối với các điểm khác nên không có các đoạn thẳng EA, EB, EC, ED; chỉ được đếm những đoạn thẳng thực sự có nét vẽ nối trên hình",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "initial_guidance": [
+          "Quan sát xem giữa điểm E và các điểm A, B, C, D có nét vẽ thẳng nào nối lại với nhau hay không."
+        ],
+        "steps": [
+          {
+            "explanation": "Học sinh đếm cả các đoạn như EA, EB, EC dù điểm E nằm rời bên ngoài và không có bất kỳ nét vẽ nào nối điểm E với các điểm A, B, C, D.",
+            "expression": null,
+            "reason": "Đối chiếu với hình vẽ thực tế: chỉ đếm đoạn thẳng có nét vẽ nối hai điểm.",
+            "result": "Sai",
+            "step_id": "s0",
+            "title": "Nhận xét cách đếm của bạn học sinh",
+            "unit": ""
+          },
+          {
+            "explanation": "Vì không có đường kẻ nối điểm E với các điểm khác nên không tồn tại các đoạn thẳng EA, EB, EC, ED trên hình vẽ. Hình vẽ chỉ có đúng 6 đoạn thẳng nằm trên đường thẳng chứa A, B, C, D.",
+            "expression": null,
+            "reason": "Hai điểm chỉ tạo thành một đoạn thẳng trên hình khi có nét vẽ thẳng nối liền hai điểm đó.",
+            "result": "Chỉ đếm các đoạn thẳng thực sự được vẽ trên hình",
+            "step_id": "s1",
+            "title": "Giải thích quy tắc xác định đoạn thẳng được vẽ",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_1",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+            "text": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_1",
+        "problem": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+        "requested_quantity": "Đánh giá tính đúng sai của phát biểu và giải thích về đoạn thẳng được vẽ thực tế",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6",
+              "nature": "STUDENT_INVENTING_NONEXISTENT_DRAWN_SEGMENTS"
+            }
+          ],
+          "text": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6"
+        }
+      },
+      "actual_target": {
+        "hint": "Đọc xem đề yêu cầu đếm nét đã vẽ hay tất cả các đoạn có thể tự vẽ thêm.",
+        "question": "Hai yêu cầu ấy khác nhau ở đâu?"
+      }
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_2",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+            "text": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_2",
+        "problem": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+        "requested_quantity": "Đánh giá tính đúng sai của phát biểu và giải thích về đoạn thẳng được vẽ thực tế",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6",
+              "nature": "STUDENT_INVENTING_NONEXISTENT_DRAWN_SEGMENTS"
+            }
+          ],
+          "text": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6"
+        }
+      },
+      "actual_target": {
+        "hint": "Kiểm từng tên đoạn mà bạn đã ghi bằng mô tả về các nét nối.",
+        "question": "Đề có cho nét nối tương ứng không?"
+      }
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_3",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+            "text": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_3",
+        "problem": "Trên giấy có vẽ liền đoạn AD với bốn điểm theo thứ tự A, B, C, D. Phía trên đường ấy là điểm E đứng riêng, không có nét nối E với điểm nào. Một bạn nói: \"Em đếm thêm EA, EB, EC, ED nên số đoạn thẳng được vẽ nhiều hơn 6\". Hãy nhận xét cách đếm các đoạn được vẽ của bạn. Chỉ đếm nét đã vẽ, không yêu cầu tự nối điểm mới.",
+        "requested_quantity": "Đánh giá tính đúng sai của phát biểu và giải thích về đoạn thẳng được vẽ thực tế",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6",
+              "nature": "STUDENT_INVENTING_NONEXISTENT_DRAWN_SEGMENTS"
+            }
+          ],
+          "text": "Em đếm được cả đoạn thẳng EA, EB, EC, ED nữa nên tổng số đoạn thẳng phải nhiều hơn 6"
+        }
+      },
+      "actual_target": {
+        "hint": "Tách danh sách có bằng chứng nét nối khỏi những đoạn chỉ có thể vẽ thêm.",
+        "question": "Em giải thích cách kiểm của mình dựa vào dữ kiện nào?"
+      }
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:worked_solution",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Nhiệm vụ thực tế: Quan sát đường bay của chú bướm trong vườn trường.",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Bạn Nam khẳng định trước số đo và đường đi mà không cần quan sát.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "worked_solution",
+        "problem": "Trong giờ học trải nghiệm ngoài sân trường, cô giáo yêu cầu em theo dõi đường bay của một chú bướm từ luống hoa cúc đến bồn hoa hồng và mô tả lại quỹ đạo đường đi của chú bướm đó. Bạn Nam nói: \"Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét\". Theo em, bạn Nam nói như vậy có đúng không? Muốn mô tả chính xác đường đi thực tế của chú bướm, em cần phải làm gì?",
+        "requested_quantity": "Đánh giá ý kiến của Nam và phương pháp quan sát ghi nhận quỹ đạo đúng",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét",
+              "nature": "SUPPLIED_UNOBSERVED_CERTAINTY_CLAIM"
+            }
+          ],
+          "text": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét"
+        }
+      },
+      "actual_target": {
+        "answer": [
+          {
+            "quantity": "Đánh giá lời khẳng định",
+            "result": "Chưa có căn cứ để khẳng định đường bay thẳng dài đúng5m khi chưa quan sát",
+            "unit": ""
+          },
+          {
+            "quantity": "Thông tin cần thu thập",
+            "result": "Quan sát hoặc xin bản ghi đường bay thực tế, các mốc đi qua và dữ kiện đo nếu cần kết luận về độ dài",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "initial_guidance": [
+          "Kiểm nguồn của lời khẳng định trước khi dùng nó làm kết quả về đường bay."
+        ],
+        "steps": [
+          {
+            "explanation": "Đề chỉ nêu lời khẳng định của Nam, chưa cho các vị trí đường bay hoặc số liệu đo.",
+            "expression": null,
+            "reason": "Không dùng một dự đoán làm dữ kiện quan sát.",
+            "result": "Chưa có bản ghi quan sát hay đo độ dài",
+            "step_id": "s0",
+            "title": "Xác định bằng chứng đang có",
+            "unit": ""
+          },
+          {
+            "explanation": "Đường bay thực có thể khác nhau; chưa có quan sát thì không xác nhận được là thẳng hay dài đúng số mét đó. Cũng không tự kết luận chắc chắn đường bay phải cong.",
+            "expression": null,
+            "reason": "Phân biệt thiếu bằng chứng với việc đã quan sát thấy kết quả trái ngược.",
+            "result": "Lời khẳng định chưa được chứng minh",
+            "step_id": "s1",
+            "title": "Đánh giá mức chắc chắn",
+            "unit": ""
+          },
+          {
+            "explanation": "Theo dõi dưới hướng dẫn của cô giáo, ghi điểm xuất phát, những mốc thực sự thấy và điểm cuối. Nếu cần độ dài, cần thêm cách đo hoặc dữ liệu đo phù hợp.",
+            "expression": null,
+            "reason": "Chỉ mô tả điều đã quan sát hoặc được cung cấp, không bịa các điểm dừng.",
+            "result": "Quan sát và ghi lại các mốc thực tế",
+            "step_id": "s2",
+            "title": "Nêu cách kiểm",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_1",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Nhiệm vụ thực tế: Quan sát đường bay của chú bướm trong vườn trường.",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Bạn Nam khẳng định trước số đo và đường đi mà không cần quan sát.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_1",
+        "problem": "Trong giờ học trải nghiệm ngoài sân trường, cô giáo yêu cầu em theo dõi đường bay của một chú bướm từ luống hoa cúc đến bồn hoa hồng và mô tả lại quỹ đạo đường đi của chú bướm đó. Bạn Nam nói: \"Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét\". Theo em, bạn Nam nói như vậy có đúng không? Muốn mô tả chính xác đường đi thực tế của chú bướm, em cần phải làm gì?",
+        "requested_quantity": "Đánh giá ý kiến của Nam và phương pháp quan sát ghi nhận quỹ đạo đúng",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét",
+              "nature": "SUPPLIED_UNOBSERVED_CERTAINTY_CLAIM"
+            }
+          ],
+          "text": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét"
+        }
+      },
+      "actual_target": {
+        "hint": "Liệt kê những bằng chứng về đường bay mà đề thật sự đã cung cấp.",
+        "question": "Có bản ghi vị trí hoặc dữ kiện đo nào chưa?"
+      }
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_2",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Nhiệm vụ thực tế: Quan sát đường bay của chú bướm trong vườn trường.",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Bạn Nam khẳng định trước số đo và đường đi mà không cần quan sát.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_2",
+        "problem": "Trong giờ học trải nghiệm ngoài sân trường, cô giáo yêu cầu em theo dõi đường bay của một chú bướm từ luống hoa cúc đến bồn hoa hồng và mô tả lại quỹ đạo đường đi của chú bướm đó. Bạn Nam nói: \"Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét\". Theo em, bạn Nam nói như vậy có đúng không? Muốn mô tả chính xác đường đi thực tế của chú bướm, em cần phải làm gì?",
+        "requested_quantity": "Đánh giá ý kiến của Nam và phương pháp quan sát ghi nhận quỹ đạo đúng",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét",
+              "nature": "SUPPLIED_UNOBSERVED_CERTAINTY_CLAIM"
+            }
+          ],
+          "text": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét"
+        }
+      },
+      "actual_target": {
+        "hint": "Phân biệt điều được dự đoán với điều đã quan sát.",
+        "question": "Một số đo chắc chắn cần được kiểm bằng dữ liệu nào?"
+      }
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_3",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Nhiệm vụ thực tế: Quan sát đường bay của chú bướm trong vườn trường.",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Bạn Nam khẳng định trước số đo và đường đi mà không cần quan sát.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "hint_level_3",
+        "problem": "Trong giờ học trải nghiệm ngoài sân trường, cô giáo yêu cầu em theo dõi đường bay của một chú bướm từ luống hoa cúc đến bồn hoa hồng và mô tả lại quỹ đạo đường đi của chú bướm đó. Bạn Nam nói: \"Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét\". Theo em, bạn Nam nói như vậy có đúng không? Muốn mô tả chính xác đường đi thực tế của chú bướm, em cần phải làm gì?",
+        "requested_quantity": "Đánh giá ý kiến của Nam và phương pháp quan sát ghi nhận quỹ đạo đúng",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét",
+              "nature": "SUPPLIED_UNOBSERVED_CERTAINTY_CLAIM"
+            }
+          ],
+          "text": "Tớ không cần nhìn cũng biết chắc chắn chú bướm bay đúng một đường thẳng dài đúng 5 mét"
+        }
+      },
+      "actual_target": {
+        "hint": "Chọn thông tin cần ghi trước khi mô tả hình dạng hoặc số đo.",
+        "question": "Em sẽ theo dõi và xin thêm bằng chứng gì?"
+      }
+    },
+    {
+      "sample_id": "sgk_kntt_g5_gap_20261019_025:worked_solution",
+      "error": "ValueError('Unsupported step fields')",
+      "actual_prompt_object": {
+        "grade": 5,
+        "problem": "Vành đáy hình trụ giấy dài 24 cm, cao 9 cm. Tờ thân chữ nhật 24 cm × 9 cm không có mép dán. Bạn ghép hai cạnh dài 24 cm với nhau. Khi ấy mép vòng quanh ngắn hơn vành đáy bao nhiêu cm và vì sao không khớp mô tả?",
+        "mode": "worked_solution"
+      },
+      "actual_target": {
+        "can_solve": true,
+        "initial_guidance": [
+          "Đừng chọn kích thước chỉ vì cùng xuất hiện trên tờ giấy."
+        ],
+        "steps": [
+          {
+            "step_id": "s0",
+            "title": "Theo cạnh không ghép",
+            "reason": "Ghép hai cạnh dài làm cạnh ngắn đi vòng quanh, nên mép quanh dài chín xăng-ti-mét.",
+            "expression": null,
+            "result": "9",
+            "unit": "cm",
+            "explanation": "Ghép hai cạnh dài làm cạnh ngắn đi vòng quanh, nên mép quanh dài chín xăng-ti-mét. Theo mô tả và quy tắc đã cho: 9 cm.",
+            "relation_type": "EXPLICIT_DEVICE_OR_GEOMETRIC_STATE",
+            "display_result": "9"
+          },
+          {
+            "step_id": "s1",
+            "title": "So với vành",
+            "reason": "Lấy độ dài vành cần có bớt mép quanh tạo ra.",
+            "expression": "24-9",
+            "result": "15",
+            "unit": "cm",
+            "explanation": "Lấy độ dài vành cần có bớt mép quanh tạo ra. Tính 24-9 = 15 cm.",
+            "display_result": "15",
+            "display_expression": "24-9"
+          },
+          {
+            "step_id": "s2",
+            "title": "Kiểm",
+            "reason": "Mép tạo ra cộng phần thiếu phải khôi phục độ dài vành yêu cầu.",
+            "expression": "9+15",
+            "result": "24",
+            "unit": "cm",
+            "explanation": "Mép tạo ra cộng phần thiếu phải khôi phục độ dài vành yêu cầu. Tính 9+15 = 24 cm.",
+            "display_result": "24",
+            "display_expression": "9+15"
+          }
+        ],
+        "answer": [
+          {
+            "quantity": "Độ thiếu của mép quanh",
+            "result": "15",
+            "unit": "cm",
+            "display_result": "15"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard:worked_solution",
+      "error": "ValueError('Student work must remain actual provided text')",
+      "actual_prompt_object": {
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+            "text": "Theo kiểu chữ số bảy nét: chữ số 3 có 5 que, chữ số 8 có 7 que, chữ số 9 có 6 que. Số 38 có 12 que. Luật chỉ cho nhấc đúng một que đang có sang vị trí khác, không lấy thêm và không bỏ que. Một bạn lấy thêm một que trong hộp gắn vào chữ số 3 để thành số 98 rồi nói: \"Em chỉ thêm đúng 1 que diêm là đã được số 98 rất lớn rồi\". Thao tác ấy có hợp luật không? Giải thích bằng tổng số que.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "grade": 2,
+        "mode": "worked_solution",
+        "problem": "Theo kiểu chữ số bảy nét: chữ số 3 có 5 que, chữ số 8 có 7 que, chữ số 9 có 6 que. Số 38 có 12 que. Luật chỉ cho nhấc đúng một que đang có sang vị trí khác, không lấy thêm và không bỏ que. Một bạn lấy thêm một que trong hộp gắn vào chữ số 3 để thành số 98 rồi nói: \"Em chỉ thêm đúng 1 que diêm là đã được số 98 rất lớn rồi\". Thao tác ấy có hợp luật không? Giải thích bằng tổng số que.",
+        "requested_quantity": "Đánh giá tính hợp lệ của thao tác và giải thích luật chơi bảo toàn que diêm",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only the explicitly supplied student statement; no hidden reasoning or unseen image inferred.",
+              "excerpt": "Em chỉ thêm đúng 1 que diêm là đã được số 98 rất lớn rồi",
+              "nature": "STUDENT_VIOLATING_MOVE_BUDGET_BY_ADDING_EXTERNAL_STICK"
+            }
+          ],
+          "text": "Em chỉ thêm đúng 1 que diêm là đã được số 98 rất lớn rồi"
+        }
+      },
+      "actual_target": {
+        "answer": [
+          {
+            "quantity": "Đánh giá thao tác",
+            "result": "Sai",
+            "unit": ""
+          },
+          {
+            "quantity": "Giải thích",
+            "result": "Đề bài yêu cầu di chuyển que diêm sẵn có chứ không được thêm que mới từ ngoài vào; tổng số que diêm phải giữ nguyên là 12 que",
+            "unit": ""
+          }
+        ],
+        "can_solve": true,
+        "initial_guidance": [
+          "Phân biệt rõ giữa việc di chuyển một que diêm sẵn có và việc thêm một que diêm mới từ bên ngoài."
+        ],
+        "steps": [
+          {
+            "explanation": "Bạn lấy một que mới từ hộp, trong khi luật yêu cầu dùng các que đang có.",
+            "expression": null,
+            "reason": "Đối chiếu hành động được mô tả với luật.",
+            "result": "Luật yêu cầu di chuyển que sẵn có",
+            "step_id": "s0",
+            "title": "Đọc lại luật và thao tác",
+            "unit": ""
+          },
+          {
+            "explanation": "Lấy thêm một que làm tổng số que thành 12 + 1 = 13 que; không còn giữ nguyên 12 que ban đầu.",
+            "expression": "12 + 1",
+            "reason": "Phép cộng kiểm việc có thêm vật mới.",
+            "result": "13",
+            "step_id": "s1",
+            "title": "Kiểm tổng số que",
+            "unit": "que diêm"
+          },
+          {
+            "explanation": "Thao tác lấy thêm que không phải một lần chuyển que sẵn có.",
+            "expression": null,
+            "reason": "Luật không cho thêm hoặc bỏ que.",
+            "result": "Không hợp luật",
+            "step_id": "s2",
+            "title": "Kết luận về thao tác",
+            "unit": ""
+          }
+        ]
+      }
+    }
+  ],
+  "all_semantic_field_instances_preserved": 85503,
+  "assistant_character_counts": {
+    "source_json": 5325908,
+    "verbal": 4891009
+  },
+  "samples": [
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "grade": 2,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 2.\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nBước 1\nNội dung: Trừ theo từng hàng\nVì sao: Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.\nPhép tính hoặc quan hệ: 565-103\nKết quả bước này: 462\nGiải thích: Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.\nBước 2\nNội dung: Kiểm bằng phép cộng\nVì sao: Hiệu cộng số trừ phải bằng số bị trừ.\nPhép tính hoặc quan hệ: 462+103\nKết quả bước này: 565\nGiải thích: 462 + 103 = 565, đúng số bị trừ.\nĐại lượng cần tìm: Hiệu\nĐáp số: 462",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Trừ theo từng hàng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].expression",
+            "value": "565-103",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "462",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Kiểm bằng phép cộng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Hiệu cộng số trừ phải bằng số bị trừ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "462+103",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "565",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "462 + 103 = 565, đúng số bị trừ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Hiệu",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "462",
+            "rendered_occurrences": 5
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "917ed2dfab37b89f34192f3cfd22664fe56a2af2a2e64365d1ca27af52fed8d1"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "grade": 3,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nBước 1\nNội dung: Lập các nhóm đủ\nVì sao: Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.\nKết quả bước này: 788\nGiải thích: Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.\nBước 2\nNội dung: Kiểm số bị chia và số dư\nVì sao: Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.\nPhép tính hoặc quan hệ: 788*1+0\nKết quả bước này: 788\nGiải thích: 788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.\nĐại lượng cần tìm: Thương\nĐáp số: 788\nĐại lượng cần tìm: Số dư\nĐáp số: 0",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Lập các nhóm đủ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "788",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Kiểm số bị chia và số dư",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "788*1+0",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "788",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Thương",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "788",
+            "rendered_occurrences": 6
+          },
+          {
+            "source_path": "answer[1].quantity",
+            "value": "Số dư",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[1].result",
+            "value": "0",
+            "rendered_occurrences": 4
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "7bbdda3198fd156b31e57b62b44e8631a541ce37f911d9e805e24597364c912d"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "grade": 3,
+      "mode": "hint_level_1",
+      "source_original_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý bước đầu để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nEm thử trả lời: Số chia có khác không để phép chia có nghĩa không?",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Số chia có khác không để phép chia có nghĩa không?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "2f1fb0887a8306c8c0c3d1374bb9701329a1aad9a2efa95e63e82ce43205091f"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "grade": 3,
+      "mode": "hint_level_2",
+      "source_original_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý thêm một bước để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.\nEm thử trả lời: Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "1abd9e58b800d2a8fa5dbcbe4e1e7470f1e1589375f5a62312e26b5e3382744c"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "grade": 3,
+      "mode": "hint_level_3",
+      "source_original_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý cách kiểm tra và hoàn thiện. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nhân thương với số chia rồi cộng phần dư để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Nhân thương với số chia rồi cộng phần dư để kiểm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "ae29b8531372bc60e166f7778b9079b53d8b200f7286f9cf57dbb005ec5fbd5f"
+      }
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 5.\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.\nBước 1\nNội dung: Tính theo đơn vị phần mười\nVì sao: Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.\nPhép tính hoặc quan hệ: 13-4\nKết quả bước này: 9\nGiải thích: 1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.\nBước 2\nNội dung: Đổi về đơn vị ban đầu\nVì sao: Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.\nPhép tính hoặc quan hệ: 9/10\nKết quả bước này: 0.9\nGiải thích: 9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.\nBước 3\nNội dung: Kiểm bằng phép ngược\nVì sao: Dùng phép tính ngược để khôi phục số đầu.\nPhép tính hoặc quan hệ: (0.9)+0.4\nKết quả bước này: 1.3\nGiải thích: Phép kiểm cho 1,3, khớp số đầu.\nĐại lượng cần tìm: Kết quả\nĐáp số: 0.9",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Tính theo đơn vị phần mười",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].expression",
+            "value": "13-4",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Đổi về đơn vị ban đầu",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "9/10",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "0.9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Kiểm bằng phép ngược",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Dùng phép tính ngược để khôi phục số đầu.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "(0.9)+0.4",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "1.3",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Phép kiểm cho 1,3, khớp số đầu.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Kết quả",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "0.9",
+            "rendered_occurrences": 3
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "1bd64feaa514966c6d2700973bb6db3e9492f9caef85406f5e868cba37982ee8"
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "student_work_present": true,
+      "actual_prompt": "Toán lớp 5.\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\n4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số",
+      "actual_target": "Hướng dẫn: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nBước 1\nNội dung: So cùng hàng\nVì sao: Phần nguyên bằng nhau; so hàng phần mười trước.\nKết quả bước này: 4,09 < 4,9\nGiải thích: 4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.\nĐại lượng cần tìm: Quan hệ đúng\nĐáp số: 4,09 < 4,9",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "So cùng hàng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Phần nguyên bằng nhau; so hàng phần mười trước.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "4,09 < 4,9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Quan hệ đúng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "4,09 < 4,9",
+            "rendered_occurrences": 2
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "823809716e9e673ed7af1cba082a704f2e7866d95c9190c2caa1338692791241"
+      }
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+      "grade": 4,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+      "student_work_present": true,
+      "actual_prompt": "Toán lớp 4.\n\nBàn tính có bốn cột nghìn, trăm, chục, đơn vị, mỗi cột tối đa 9 vòng. Phải dùng đủ 12 vòng. Bạn ghi: đặt cả 12 vòng ở cột nghìn là số lớn nhất. Nhận xét cách đặt và tìm giá trị lớn nhất hợp lệ. Không được đổi cấu tạo bàn tính.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\nđặt cả 12 vòng ở cột nghìn là số lớn nhất",
+      "actual_target": "Hướng dẫn: Phân biệt tổng số vòng với sức chứa mỗi cột.\nBước 1\nNội dung: Kiểm luật\nVì sao: Mỗi cột chỉ chứa tối đa chín vòng.\nKết quả bước này: Cách đặt đã cho không hợp lệ\nGiải thích: Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.\nBước 2\nNội dung: Phân bố hợp lệ\nVì sao: Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.\nKết quả bước này: 9,3,0,0\nGiải thích: Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.\nBước 3\nNội dung: Tính giá trị\nVì sao: Cộng giá trị từng cột.\nPhép tính hoặc quan hệ: 9*1000+3*100\nKết quả bước này: 9300\nGiải thích: Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.\nĐại lượng cần tìm: Kết quả\nĐáp số: 9300",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Phân biệt tổng số vòng với sức chứa mỗi cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Kiểm luật",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi cột chỉ chứa tối đa chín vòng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "Cách đặt đã cho không hợp lệ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Phân bố hợp lệ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "9,3,0,0",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Tính giá trị",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Cộng giá trị từng cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "9*1000+3*100",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "9300",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Kết quả",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "9300",
+            "rendered_occurrences": 2
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "209ee9a350fca048366972f8fa876a703149beaefc5ac3c5b8723403bd7de701"
+      }
+    },
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:worked_solution",
+      "grade": 1,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "ec81244e597fb74966bdfc85a21d2b18c0f4b05799bef84237f83fbdc68500a8",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 1.\n\nMỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcdefg;9=abcdfg. Mỗi vị trí được ghi có đúng một que, vị trí khác trống; các que bằng nhau. Ba ô chữ số theo thứ tự trong đẳng thức 6 + 4 = 4. Các dấu + và = in sẵn, không phải que và không được sửa. Chuyển đúng một que: lấy khỏi một vị trí đang có trong ba ô rồi đặt vào một vị trí đang trống khác của ba ô; có thể cùng ô, không chồng hoặc dùng nét ngoài bảng. Cuối cùng cả ba ô vẫn là đúng một chữ số chuẩn. Tìm mọi đẳng thức đúng có thể được, nêu chỗ lấy và đặt. Dấu và số ô giữ nguyên.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que.\nBước 1\nNội dung: Giữ đúng phép và kho\nVì sao: Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm.\nKết quả bước này: Chỉ xét sửa trong các ô chữ số\nGiải thích: Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số.\nBước 2\nNội dung: Đối chiếu mã và giá trị\nVì sao: Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef.\nKết quả bước này: 6 thành 0 bằng g sang b trong ô đầu\nGiải thích: Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi.\nBước 3\nNội dung: Kiểm đủ mọi ô và vị trí\nVì sao: Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã.\nPhép tính hoặc quan hệ: 0+4\nKết quả bước này: 4\nGiải thích: Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt.\nĐại lượng cần tìm: Đẳng thức\nĐáp số: 0+4=4\nĐại lượng cần tìm: Cách chuyển\nĐáp số: Ô đầu: g sang b",
+      "proof": {
+        "version": "verbal_training_render.v2",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Giữ đúng phép và kho",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "Chỉ xét sửa trong các ô chữ số",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Đối chiếu mã và giá trị",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "6 thành 0 bằng g sang b trong ô đầu",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Kiểm đủ mọi ô và vị trí",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "0+4",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "4",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Đẳng thức",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "0+4=4",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "answer[1].quantity",
+            "value": "Cách chuyển",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[1].result",
+            "value": "Ô đầu: g sang b",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "cc3a62f1d04aa69710f228abffe1992648be8f472baa3fa01ff7b79f6c571309"
+      }
+    }
+  ],
+  "source_modified": false,
+  "train_started": false,
+  "human_attestation_added": false,
+  "renderer_sha256": "ebdbf37cc7486c475eb837fa6e06d900f4db7dd827836a35b2a326c9d4625bad"
+}

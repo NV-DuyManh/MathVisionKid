@@ -1,0 +1,23 @@
+{
+  "model_key": "adapter:20e99388093c5f7caa1aacaac2a6014cdc0bfd4b4b1bb6f25b5a593ea8beae8d",
+  "ids": [
+    "87aa6f6bf02be67b4a1dcf5c",
+    "0c7f89d7dbf27123d5fc80ab",
+    "a4378f2359889186debf627e",
+    "e5a2152a88e1de9477571dd1",
+    "fb80b0ec679d8d1b9ac806c4",
+    "3d9d46beabd461b1efdfe61e",
+    "3f01e1702c17e7c8f8d8cb7c",
+    "6ef4e5ba503d9c0bf6beb876"
+  ],
+  "enable_thinking": true,
+  "max_new_tokens": 2048,
+  "batch_size": 1,
+  "do_sample": true,
+  "seed": 20261013,
+  "temperature": 0.6,
+  "top_p": 0.95,
+  "top_k": 20,
+  "eos_token_id": 151645,
+  "input_sha256": "61e7469ad2519f21edbcf85df5ed6c0e593da19f41c1392b22757d6baedf888b"
+}

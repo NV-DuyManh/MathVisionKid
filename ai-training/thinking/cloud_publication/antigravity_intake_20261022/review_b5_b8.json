@@ -1,0 +1,4068 @@
+{
+  "schema": "MathVisionKid.AntigravityG2B5B8Review.v1",
+  "reviewed_utc": "2026-10-22T12:25:55.471582+00:00",
+  "scope": "Read all29 original sources/all116chat prompt-target fields and originalQA/oracle/mutation records; derive repairs and nine locked minimum new finite branches. No original ZIP or common controls changed.",
+  "skills_matched": [],
+  "skills_applied": [],
+  "status": "DERIVED_REPAIRS_SELF_QA_COMPLETE_ROOT_INTEGRATION_PENDING",
+  "original_cases": 29,
+  "repaired_original_cases": 29,
+  "new_case_count": 9,
+  "new_case_ids": [
+    "g2_codex_20261022_curve_missing_continuity_guard",
+    "g2_codex_20261022_calendar_grid_boundary_first_weekday",
+    "g2_codex_20261022_missing_learner_date_location_guard",
+    "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+    "g2_codex_20261022_grid_target_copy_all_incidence",
+    "g2_codex_20261022_cut_origin_square_complete_cover",
+    "g2_codex_20261022_clock_continuous_hour_rollover",
+    "g2_codex_20261022_local_max_maze_ties_dead_end",
+    "g2_codex_20261022_two_draw_all_unordered_events"
+  ],
+  "original_zip_pins": {
+    "5": {
+      "filename": "MathVisionKid_G2_FINITE_APPEND_BATCH5_20261022_a54bb733ba350593.zip",
+      "bytes": 21308,
+      "sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+    },
+    "6": {
+      "filename": "MathVisionKid_G2_FINITE_APPEND_BATCH6_20261022_4f9fc393990f0e8f.zip",
+      "bytes": 16870,
+      "sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+    },
+    "7": {
+      "filename": "MathVisionKid_G2_FINITE_APPEND_BATCH7_20261022_9716365106024ec0.zip",
+      "bytes": 24760,
+      "sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+    },
+    "8": {
+      "filename": "MathVisionKid_G2_FINITE_APPEND_BATCH8_20261022_fbf9d89d411def9c.zip",
+      "bytes": 28791,
+      "sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+    }
+  },
+  "source_parent_bindings": {
+    "g2_match_20261022_matchstick_single_move_maximum_numeral": {
+      "parent_source_row_sha256": "a518747b240242fe279873dc3e7dc0f6b969f552a09d5481221ac9da64207e15",
+      "derived_row_sha256": "6819520c423ae0680818879f4fca8db8e7dd54cdd7b2be4dbf593a726e350f1f",
+      "location": {
+        "batch": 5,
+        "line": 1,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Added exact segment alphabet, fixed slots, leading-zero rule; removed hint giving complete relocation and target digit."
+      ]
+    },
+    "g2_match_20261022_matchstick_illegal_extra_stick_guard": {
+      "parent_source_row_sha256": "32393ae4e6dc1ab08c97ddd9e93de29a1123d84cda581b8a4a2879838b826448",
+      "derived_row_sha256": "e5ae3430141c337529f07fb32bafeda6ab9898afc78a88a5f5b9f1b4d8c23ab7",
+      "location": {
+        "batch": 5,
+        "line": 2,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Made rule/context standalone; feedback confined to supplied action and conservation, not a full alternative solution."
+      ]
+    },
+    "g2_jump_20261022_skip_nodes_number_line_hop_rule": {
+      "parent_source_row_sha256": "2f49ff304ccb95761b73ecdc1e3e1475f270ba1a97a41b1fbfec13b0e595a175",
+      "derived_row_sha256": "cb307470c06fb9b653eb441f60e2726af508f8bc8ee5905f662139e48746f77b",
+      "location": {
+        "batch": 5,
+        "line": 3,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Kept correct landing15; scalar arithmetic result no longer stores an entire trajectory."
+      ]
+    },
+    "g2_jump_20261022_skip_nodes_count_distractor_misconception": {
+      "parent_source_row_sha256": "621b09a516918f6823e40b04dda10fde674db3d6f3afae1c84b27b20fd431349",
+      "derived_row_sha256": "cacd5f9fbc5cfd7d7d798ef49acf8637bf2cf1bb6156f7a243e986c7d1798253",
+      "location": {
+        "batch": 5,
+        "line": 4,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Removed dependence on previous example; all positions and learner quote now supplied."
+      ]
+    },
+    "g2_curve_20261022_trace_crossing_curved_wire_endpoints": {
+      "parent_source_row_sha256": "20d941691d7767eae479c76d2e8568ae169dc26d716b0ffd92b3f01bbb4419dc",
+      "derived_row_sha256": "89b6c5d3edf8b291133b0d56299c33bd8bbd9cf80408bcdbc7136536997bf3b7",
+      "location": {
+        "batch": 5,
+        "line": 5,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Replaced invented tangent/endpoint inference with explicit original synthetic port/segment continuity; no picture or physical observation claimed."
+      ]
+    },
+    "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs": {
+      "parent_source_row_sha256": "49e0fc1ab5966676dbaeb9e723b7575b1cdf2de5514d726ba9a84caac5f20cf9",
+      "derived_row_sha256": "b3dffc5d8d4a0c3f9ed89a962f4e6a1deb1e0beece0666d2e58f89555d27795a",
+      "location": {
+        "batch": 5,
+        "line": 6,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Removed hint listing requested final segment names; kept all six valid answers."
+      ]
+    },
+    "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard": {
+      "parent_source_row_sha256": "49fd19fb0e3bce39caaf6fb8715bea41fe133546f08a9be44a4db7f0bf5a8391",
+      "derived_row_sha256": "24143d0bdead719f59f722a8cef01a9f2f0b8a69d266ff9597ec7b2fc2e06b6c",
+      "location": {
+        "batch": 5,
+        "line": 7,
+        "zip_sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd"
+      },
+      "repair_notes": [
+        "Made drawn incidence and no-extra-lines instruction standalone."
+      ]
+    },
+    "g2_meas_20261022_actual_measurement_missing_calibration_guard": {
+      "parent_source_row_sha256": "28f4601fa34de97aef3f5eaf6a03434a6843617fa1903e419a0bfb2310e8345c",
+      "derived_row_sha256": "a2846caba82cab9151f05161ae0c2766e62953cfb23d909e6e8ee81593fa4a72",
+      "location": {
+        "batch": 6,
+        "line": 1,
+        "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+      },
+      "repair_notes": [
+        "Removed claim about hidden attention/thought; retained supplied endpoint calculation6cm. Synthetic offset reading does not close actual physical measurement."
+      ]
+    },
+    "g2_geom_20261022_all_collinear_triples_incidence_enumeration": {
+      "parent_source_row_sha256": "70f6d7f0f175133b8da47c894fa2f97b0ca63e92f660bec12340bb5bf6f66295",
+      "derived_row_sha256": "fd9327b01b85469f0290c9d98ce82668d7a511e74003d0ed3173fcc98d2fc7cd",
+      "location": {
+        "batch": 6,
+        "line": 2,
+        "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+      },
+      "repair_notes": [
+        "Kept complete five-point incidence; finite determinant enumeration independently finds exactly two triples."
+      ]
+    },
+    "g2_geom_20261022_collinear_triples_unaligned_distractor_guard": {
+      "parent_source_row_sha256": "20eec5c9e1acefb3419ed448ef196e9c0fc6db15ea38fcac98707ed8a66c9604",
+      "derived_row_sha256": "8a5b39d3f65e34646eff2436fde206689f6e93f5705db55eb322e4616224c55e",
+      "location": {
+        "batch": 6,
+        "line": 3,
+        "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+      },
+      "repair_notes": [
+        "Made crossing incidence standalone and avoided misusing geometric between-ness."
+      ]
+    },
+    "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory": {
+      "parent_source_row_sha256": "59964f43448f044c76d15a93f3e772bbaccdbcb952cd5a155870a429b149cfef",
+      "derived_row_sha256": "8c67fbbf1f389e34cdfdc45fcbd80b52a6493ddd40c4290f48d70fdb8f0c7d56",
+      "location": {
+        "batch": 6,
+        "line": 4,
+        "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+      },
+      "repair_notes": [
+        "Specified strict interior endpoints and every drawn boundary; eliminated diagonal/degenerate interpretation."
+      ]
+    },
+    "g2_grid_20261022_scaled_grid_route_manhattan_comparison": {
+      "parent_source_row_sha256": "fe469227858a82cda4987e35ed6fedca4cb601c57e877078068e565925aa4ca5",
+      "derived_row_sha256": "dd2e81656751054f1a600bc655a3a10c0ca641f2a111094fd967e3576f0f64ae",
+      "location": {
+        "batch": 6,
+        "line": 5,
+        "zip_sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06"
+      },
+      "repair_notes": [
+        "Exact route lengths5,5,5 independently checked, tie preserved."
+      ]
+    },
+    "g2_fold_20261022_fold_cut_unfold_symmetric_notch": {
+      "parent_source_row_sha256": "4cb2e5d99f521d7bd6507c565ef9465039c479dc55008825843ce64767ec778f",
+      "derived_row_sha256": "297dd74683807d42369a06c7102a86058cb420d3a4180a386bfbbd4d1aef53d8",
+      "location": {
+        "batch": 7,
+        "line": 1,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Original arbitrary triangle did not imply rhombus or center hole; derived synthetic cut fully specifies fold, vertices and layers; removes grade2 rhombus terminology and answer leak."
+      ]
+    },
+    "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly": {
+      "parent_source_row_sha256": "df5b8093caf2b526180377ad489d9c3290b3c909623d0fc0b0ba88859a64b5a3",
+      "derived_row_sha256": "06c72b63a9b11da09ee6c4b680566dc5498e811f91d7deedc01ac716dc3ec09f",
+      "location": {
+        "batch": 7,
+        "line": 2,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Added legal rotations/reflections, retained pair1/2 and constructive no-gap cover; simplified hypotenuse terminology."
+      ]
+    },
+    "g2_solid_20261022_actual_solid_assembly_support_guard": {
+      "parent_source_row_sha256": "16f9362b201f3b5a7d94dfdea974085adb596c6bacb6d1c908402a9dcc80ff39",
+      "derived_row_sha256": "6665899b72ef5157880584d3343a370040d19e6d7dd41b6fb53dbbcc132188a1",
+      "location": {
+        "batch": 7,
+        "line": 3,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Removed unsupported assertion of hidden block directly below; guard requests actual assembly evidence, does not close physical task27."
+      ]
+    },
+    "g2_square_20261022_dissection_reassembly_square_from_rectangles": {
+      "parent_source_row_sha256": "ee008994a585b2a526483e898ba7c27768cbf71b33b1938416ab294cdceb89ab",
+      "derived_row_sha256": "0e1386bf146100e2a60723285bf12fd5c06784bfad236a5c09e224db50203c4b",
+      "location": {
+        "batch": 7,
+        "line": 4,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Removed explicit side4cm/full solution from hint3; scalar2+2 result repaired without changing answer."
+      ]
+    },
+    "g2_draw_20261022_actual_segment_construction_zero_alignment_guard": {
+      "parent_source_row_sha256": "9f1223c7960e551604fa2869cf0660417e5b55651dfc611eadb42c5c56767526",
+      "derived_row_sha256": "b1707e68cee8272d4d5d90dd28b50cf81ca993e83e72983c3400f18794d49eb3",
+      "location": {
+        "batch": 7,
+        "line": 5,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Removed filled4cm and absolute zero-is-always-required claim from hints; zero is convenient standard method, other offsets can also give correct length."
+      ]
+    },
+    "g2_cal_20261022_calendar_grid_missing_cells_restoration": {
+      "parent_source_row_sha256": "455013d969b675d99350754ff785a34ee1028a14cdc3d0119c3757b53fd8f06e",
+      "derived_row_sha256": "78aa94ad9beedf097615a990241d51189f92b091761417c4c1c11f25d0542c29",
+      "location": {
+        "batch": 7,
+        "line": 6,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Preserved valid Thursday/week arithmetic; normalized scalar numeric steps; original alone does not close full month-grid task30."
+      ]
+    },
+    "g2_time_20261022_personal_date_timetable_missing_context_guard": {
+      "parent_source_row_sha256": "d2a041537ba98cbad4fe707d9d9d50b677b5fcc9fe0bbb1c89e998cf7159958d",
+      "derived_row_sha256": "5e91b604c89dd6dc65a47801297e291c18542ece8317e2ee985714234cbb4a63",
+      "location": {
+        "batch": 7,
+        "line": 7,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Removed hint stating complete missing-timetable response; date/location branch handled in additional separate case."
+      ]
+    },
+    "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time": {
+      "parent_source_row_sha256": "a434c0d3d9c8d3bb5b108cff0d8c230bcf8b76e9254be4a81994ef7cbf1800b8",
+      "derived_row_sha256": "6801aca520d4127cc7fbdfa9c1cd327f7c8e7cbd5b89b2c5bfc0783c77a10a72",
+      "location": {
+        "batch": 7,
+        "line": 8,
+        "zip_sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65"
+      },
+      "repair_notes": [
+        "Kept8:30/30min answer and continuous hour-hand relation; normalized scalar5*6 and mixed unit."
+      ]
+    },
+    "g2_expr_20261022_expression_class_count": {
+      "parent_source_row_sha256": "7865540642018637a3efda5698fd726069112487ae8951cb654596556b261250",
+      "derived_row_sha256": "a7971d656752aa8112d4ade94635d686348bcabff75663e1ed6d8478cbe39a7a",
+      "location": {
+        "batch": 8,
+        "line": 1,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Split multi-equality expression list into six scalar arithmetic steps; classes and answer unchanged."
+      ]
+    },
+    "g2_maze_20261022_shape_filtered_maze_triangle": {
+      "parent_source_row_sha256": "f3e8dd07282928930bfc7da14c44cb699d99e673d60928b21e8dc4eb1aa2a12e",
+      "derived_row_sha256": "295528535ee814586a4d9c29f5c461b936f954510912cf6a26aca90039dacbed",
+      "location": {
+        "batch": 8,
+        "line": 2,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Specified row-major grid incidence instead of assuming unspecified numbering."
+      ]
+    },
+    "g2_maze_20261022_conditional_labelled_even": {
+      "parent_source_row_sha256": "beda0600b908df2e2c7bb7336bb98ce26e31ae2ecb637bf1536635ba4386c940",
+      "derived_row_sha256": "9258ec70aa37b865e344e8eade39dec4cf9cd8dcf73d58d6031a0484ed73dc63",
+      "location": {
+        "batch": 8,
+        "line": 3,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Removed invented labels3 and8 from worked explanation; exact original graph and valid path unchanged."
+      ]
+    },
+    "g2_cap_20261022_unit_capacity_bijection": {
+      "parent_source_row_sha256": "e8b24fe3c92bc60570c9539c5f6ba6a76f4a879977b72349f03a3e49b0da571e",
+      "derived_row_sha256": "7642e0a3b2df771fd85c6616e6ea956056d89fb55488904161fe096961b44954",
+      "location": {
+        "batch": 8,
+        "line": 4,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Kept valid capacity sorting as enrichment, fixed expression/result contract; not falsely called inclusive one-to-one assignment coverage."
+      ]
+    },
+    "g2_len_20261022_aligned_endpoint_length_diff": {
+      "parent_source_row_sha256": "c07f14fd4cb3f92e7bb8fbf060c8a45950d25dde561dcb9d347985839ecf71f9",
+      "derived_row_sha256": "5ebb46b8538a935f6ab12f1c8549c1e0185d1466fc9fc698c9a7d244943025fc",
+      "location": {
+        "batch": 8,
+        "line": 5,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Explicit same-direction alignment, removed longer-strip label from hint2 and normalized numeric expression."
+      ]
+    },
+    "g2_traj_20261022_trajectory_observation_guard": {
+      "parent_source_row_sha256": "c908f37f83cb9697df51bf95cbda2e3f73276d6e84d1db444118a8313875f116",
+      "derived_row_sha256": "37a0aa7b6f29daa6612da7172571d81b68dce56b312f55a2507293ffdf34eeb8",
+      "location": {
+        "batch": 8,
+        "line": 6,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Removed unobserved assertion butterfly trajectory changes/curves; epistemic guard does not classify unseen actual path or close physical task38."
+      ]
+    },
+    "g2_surv_20261022_personal_survey_classroom_tally": {
+      "parent_source_row_sha256": "2e903cb8d5a57ab05496f5fee9db88d29426ce12727fadd9a154ea553f5a6b4a",
+      "derived_row_sha256": "d557c04aa13ddc2265ee17264b5c4957856113dc7b3a376019e5257879be5385",
+      "location": {
+        "batch": 8,
+        "line": 7,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Clearly labelled supplied counts synthetic, defined mixed item/box counting; not evidence of actual observation task39."
+      ]
+    },
+    "g2_grid_20261022_grid_copy_rectangle": {
+      "parent_source_row_sha256": "aabea3bc0d3c0f6fd4c1404778592eeacbdbde7a210cf4a72441367a27c38ae8",
+      "derived_row_sha256": "a4c9e10679d61436f29ce476cd47e960c5d34e76b64aa6e4a3470d0de26c6ddf",
+      "location": {
+        "batch": 8,
+        "line": 8,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Removed full C=(5,6)/4cm/3cm answer from hint3, split scalar numeric steps, simplified grade2 wording; old rectanglecompletion not whole secondgridcopy task40."
+      ]
+    },
+    "g2_prob_20261022_sequential_draw_balls": {
+      "parent_source_row_sha256": "9193db2363eb7f3143a4b78a41ff06f60ddaecb7f32f6c834ceeaa4325bb6a29",
+      "derived_row_sha256": "c2028e83fae7124cc611ff7d7be8c75ca1bd581fc356daa8f8043d7773849f63",
+      "location": {
+        "batch": 8,
+        "line": 9,
+        "zip_sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d"
+      },
+      "repair_notes": [
+        "Removed paraphrased final possibility classification from hint3; normalized2-1 result. Conditional first-red example valid, not complete all unordered event coverage."
+      ]
+    },
+    "g2_codex_20261022_curve_missing_continuity_guard": {
+      "parent_source_row_sha256": "20d941691d7767eae479c76d2e8568ae169dc26d716b0ffd92b3f01bbb4419dc",
+      "derived_row_sha256": "853f136a20c11f2de3b8a243ac1717d8b5b34af1bf1aac7374513f4c933f0514",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_curve_20261022_trace_crossing_curved_wire_endpoints"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_calendar_grid_boundary_first_weekday": {
+      "parent_source_row_sha256": "455013d969b675d99350754ff785a34ee1028a14cdc3d0119c3757b53fd8f06e",
+      "derived_row_sha256": "da70747b7e627647ddc4446989d9f87773871f343471aabd720f2bd3ef3d4ce4",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_missing_learner_date_location_guard": {
+      "parent_source_row_sha256": "d2a041537ba98cbad4fe707d9d9d50b677b5fcc9fe0bbb1c89e998cf7159958d",
+      "derived_row_sha256": "a658ff4f5f4eeaf2f02a581805b7df063ef6d4972a50a07d3b7d08da17f0f9ca",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_time_20261022_personal_date_timetable_missing_context_guard"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_capacity_inclusive_bijection_all_assignments": {
+      "parent_source_row_sha256": "e8b24fe3c92bc60570c9539c5f6ba6a76f4a879977b72349f03a3e49b0da571e",
+      "derived_row_sha256": "1cd67168f3ab4e5b7dbcbe69acf75e12aa928d47d4baad93682605bab5718231",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_cap_20261022_unit_capacity_bijection"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_grid_target_copy_all_incidence": {
+      "parent_source_row_sha256": "aabea3bc0d3c0f6fd4c1404778592eeacbdbde7a210cf4a72441367a27c38ae8",
+      "derived_row_sha256": "58f8114f7b563e6c89737bb85298ccc8779df2f51e39515d7f6e052efe835a22",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_grid_20261022_grid_copy_rectangle"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_cut_origin_square_complete_cover": {
+      "parent_source_row_sha256": "ee008994a585b2a526483e898ba7c27768cbf71b33b1938416ab294cdceb89ab",
+      "derived_row_sha256": "54d915b20e3550fa15ac6d1efbb087c08aac8a98c9324934653be90545ccde61",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_clock_continuous_hour_rollover": {
+      "parent_source_row_sha256": "a434c0d3d9c8d3bb5b108cff0d8c230bcf8b76e9254be4a81994ef7cbf1800b8",
+      "derived_row_sha256": "f0f2f72230db71866d9923b60f7cb4b77573d23418ae3fa99fbd44e0c5fbfa5d",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_local_max_maze_ties_dead_end": {
+      "parent_source_row_sha256": "beda0600b908df2e2c7bb7336bb98ce26e31ae2ecb637bf1536635ba4386c940",
+      "derived_row_sha256": "9161d8449d2160ce3b25305908112d62b2ceb14ab96e3f9a44c51225a68c422a",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_maze_20261022_conditional_labelled_even"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    },
+    "g2_codex_20261022_two_draw_all_unordered_events": {
+      "parent_source_row_sha256": "9193db2363eb7f3143a4b78a41ff06f60ddaecb7f32f6c834ceeaa4325bb6a29",
+      "derived_row_sha256": "82805c214bbf0bd05fea3bda6a1ee85defca8a851b9e1c51393d883cc3b9ad30",
+      "location": {
+        "batch": "NEW_FINITE_BRANCH",
+        "parent_sample_id": "g2_prob_20261022_sequential_draw_balls"
+      },
+      "repair_notes": [
+        "New minimum finite branch added because existing handoff example did not demonstrate exact queue constraint."
+      ]
+    }
+  },
+  "original_chat_comparison": [
+    {
+      "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral:worked_solution",
+      "raw_sha256": "28220b988fa15e3c19d88bc729ac56aaec26482eb793f4ac7c1ab10b2e1126f2",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral:hint_level_1",
+      "raw_sha256": "dd402d6afd264e123988d52267a48acd8b82a0bb82be823dff87ce979dabce37",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral:hint_level_2",
+      "raw_sha256": "a39bbd92757a564fb2790ec3a1bf5d2dea1634cfe610023c9d6a86c4d0629c96",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral:hint_level_3",
+      "raw_sha256": "d2724521e62835fa013f33009836c3a7bde6d0501c6d0fa0cf9221e7f7559223",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard:worked_solution",
+      "raw_sha256": "f9160584fc6a45ac4993340abf8b34bb1cbbefa24a6d205ad75b945e4a33b404",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard:hint_level_1",
+      "raw_sha256": "138e3a6686a63a2f718f2b479ac2eaecc2614c354bf4e974125cc14e6a2dd5e3",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard:hint_level_2",
+      "raw_sha256": "7db3760b90d22976f40a7f36f489ebc8fcbcb604b1febb1ae147dda88e69c24e",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard:hint_level_3",
+      "raw_sha256": "517df21a56c6e33334273d48f339805769cec315d2d26df41633130a3d052f33",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule:worked_solution",
+      "raw_sha256": "d783c002e91272e6614539bc0573898f58f57f4ca2d28615c20cd0266ce968de",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule:hint_level_1",
+      "raw_sha256": "350977e402aee1b74320d33ff405a6e3fc750f5673c5b45153dea7c3c64732df",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule:hint_level_2",
+      "raw_sha256": "91476a88a9bd7f3aa449abe6779e5d26778d6b899758390fa6c44ab685e32f68",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule:hint_level_3",
+      "raw_sha256": "b852176f90215f891ad09ebcf4ca8c4406f9c1ec8582e291158614477d4fe6e9",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception:worked_solution",
+      "raw_sha256": "ad854b37b0fef5044784bf3f674332a1f69b4978568f4847d0589dda1958aa5e",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception:hint_level_1",
+      "raw_sha256": "a00834632e3b3fe2b1b4098589c6de3c8c95d69d2210f4869a138f04a5ab24e3",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception:hint_level_2",
+      "raw_sha256": "3637617893beca1d7571e7adbce7ed69820e1a8bfce8f05fb8f83c1c47aed42b",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception:hint_level_3",
+      "raw_sha256": "90b8cc9ce632d2632d5d3081c1fa23ea91697cfafc893a153247574c4c7f7b7f",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_curve_20261022_trace_crossing_curved_wire_endpoints:worked_solution",
+      "raw_sha256": "51b14c03145961cd91644066a1930ba3e8574a7ccc5014acab2ac1ae8728b6fc",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_curve_20261022_trace_crossing_curved_wire_endpoints:hint_level_1",
+      "raw_sha256": "b4f9d3794af19c306e931eddef8a0291676d13047b2c21cb1dfbb2d5c052ba68",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_curve_20261022_trace_crossing_curved_wire_endpoints:hint_level_2",
+      "raw_sha256": "c5acdb6a47556dc9f990bfe5e2b6f12af131f569cd39e74602c4797208f842b6",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_curve_20261022_trace_crossing_curved_wire_endpoints:hint_level_3",
+      "raw_sha256": "886b0b47fdc79ca5319f7279b20b9f8d1b256f890d8415fb9b2b39815ac8ed89",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs:worked_solution",
+      "raw_sha256": "930366a9668daeeca44aa496d73bd96f70edb9ace520942a11696ab2d6a8fdb4",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs:hint_level_1",
+      "raw_sha256": "e16969647c9409791eaff2203213dfc9ff65e692d6101438e776d050c863db94",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs:hint_level_2",
+      "raw_sha256": "67e80123a16b7710ceac1e9c68eb4e9a13754ab549986bf7ba85e46777958435",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs:hint_level_3",
+      "raw_sha256": "f71de348c19fa37e06e7bc6b28b65c6f00b078e838fa98b69f0f4b25b551daf9",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:worked_solution",
+      "raw_sha256": "c7dd53eff030e73372721b1a8d2039a0d78912241f8e92fa5eb6e28f67460513",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_1",
+      "raw_sha256": "d9a05772f27e4ef72f01be53e2a5d677966f47c5a22e4276033ed2bf451fef23",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_2",
+      "raw_sha256": "21c9ef472c287475e74f256215a068478c9abefbdd7348bac0f5d0c383eb2db7",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard:hint_level_3",
+      "raw_sha256": "5c2581735918ef26bce441d612fef1c0f588cf0506c2eeaf3358bf44270d5023",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard:worked_solution",
+      "raw_sha256": "6cbcd090962a9f9005e75bcef582b72bb83bdba5a57af1adbee739cf188c4537",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard:hint_level_1",
+      "raw_sha256": "970fecd48e704d1cdc82378346ed073c803b0b48f466083ea984e27cbee94e89",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard:hint_level_2",
+      "raw_sha256": "d7537a8cc1bbe03e52a0ae98d982eacce427258a4f6edfad0dcba7b283239265",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard:hint_level_3",
+      "raw_sha256": "2b01fe31a50d570a4a55625ed118f9dac9ea6e3189cfd971cd66f18e0298a4b3",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_all_collinear_triples_incidence_enumeration:worked_solution",
+      "raw_sha256": "2fd74d9ca24e0b23e0e43e29838ea723acf545c051b62f54b5f75c3bdea5d105",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_all_collinear_triples_incidence_enumeration:hint_level_1",
+      "raw_sha256": "dc90d1661638c723d5499de258556581eb0eb272f8c73fcd2db126d6067ff048",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_all_collinear_triples_incidence_enumeration:hint_level_2",
+      "raw_sha256": "685c581621b3d7c4bdf2ed787891f18207cd776a12d4a4e6da50f24aaecfd137",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_all_collinear_triples_incidence_enumeration:hint_level_3",
+      "raw_sha256": "5243f2c6db2c95b2403fa2b49aeb48b1c0f9bbc56bb4151f2a97af7eec642d85",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_collinear_triples_unaligned_distractor_guard:worked_solution",
+      "raw_sha256": "78e82d0dba951e8a48ee526687addcb36c89997d577e6c5167d31a5e614f5b94",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_collinear_triples_unaligned_distractor_guard:hint_level_1",
+      "raw_sha256": "e8ec9d6774f5c649f2efe63aeafa8c979a7cef993310a2f52edb8faceb62ccd2",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_collinear_triples_unaligned_distractor_guard:hint_level_2",
+      "raw_sha256": "fb63fb1d7778fafc368ca279a36fe846be12c4128ba8efd24040f3fbfba58752",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_collinear_triples_unaligned_distractor_guard:hint_level_3",
+      "raw_sha256": "dfd38cf8e7c35e7b4c1ad59d6f002b445fbabf97bb8f29b60041a63d0f34a8d1",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory:worked_solution",
+      "raw_sha256": "1d2e8f318cc4defcbd2cdf80ea272d165fe0346b8065e4f8c3b1dbe4eba29a4e",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory:hint_level_1",
+      "raw_sha256": "046ddc123f029e4e21ee37716761b685eda567a7a917d883a095688ff8be1a0d",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory:hint_level_2",
+      "raw_sha256": "3cddcd99d4c181ff66b9ed16e76c7a981b3a4115b8dc73c02f1da5bbcac14ffc",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory:hint_level_3",
+      "raw_sha256": "e9c31802b22f3e0c1d0c7eacaa5089038a7724a6bb762fabf96053aada623f35",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison:worked_solution",
+      "raw_sha256": "908e39ca7eee24d16bf4c39fa0d94e547f03cd5f0822b543b978771c37da4414",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison:hint_level_1",
+      "raw_sha256": "c033e3fc8b2e7fee180c6fa957ce21e11e62c9446c83291105fdcd29af054f90",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison:hint_level_2",
+      "raw_sha256": "5da6593cc7d77a6a63c0ecce6df9276a17e29fbcb5ea08c6f75389b005383378",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison:hint_level_3",
+      "raw_sha256": "dd8de296feda571a427540579130e5017759c860d42f67a835a4900b1f0f8094",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_fold_20261022_fold_cut_unfold_symmetric_notch:worked_solution",
+      "raw_sha256": "53c022041aaa034bae4eff07d802a3a3286fa67dc40e87029de56296e00cef0c",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_fold_20261022_fold_cut_unfold_symmetric_notch:hint_level_1",
+      "raw_sha256": "0789cc234e0813ed80256d05572320d0ab9ed34dab38f65480739a33c865e757",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_fold_20261022_fold_cut_unfold_symmetric_notch:hint_level_2",
+      "raw_sha256": "806b69d5a6025eb02fb5178f51351c0703ead65e4be23a7fa4cd23391bd32926",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_fold_20261022_fold_cut_unfold_symmetric_notch:hint_level_3",
+      "raw_sha256": "29d4905f24210bcd2f88ad5866417193f53ac412b0668017636b9492e302c293",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly:worked_solution",
+      "raw_sha256": "ec7ea2a59d6e76fa0374cf888ed922a09d7e8ed0bd3e8ba21c82e2bf423fffcc",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly:hint_level_1",
+      "raw_sha256": "627f8d4a11fe08840735f9f84a1250b28926516f02745e30aee925f12ed8c5ac",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly:hint_level_2",
+      "raw_sha256": "5579ed4d1d63f7d5907a7471fab448b319feb6d471a0ffe02f5707aee2a95a7e",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly:hint_level_3",
+      "raw_sha256": "f01af7be7dd4e090eb3c54cc4445f6a45b9d93707cf04716f800614bb36fc733",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_solid_20261022_actual_solid_assembly_support_guard:worked_solution",
+      "raw_sha256": "8a31f08f6d3313a0784ab6f43ea480f4a1a30b64e3c50368d1cf0b568c01d7d2",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_solid_20261022_actual_solid_assembly_support_guard:hint_level_1",
+      "raw_sha256": "eacd00e999fa2433e9743ce8e06f79c476d8120600220941845bc556efaf24aa",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_solid_20261022_actual_solid_assembly_support_guard:hint_level_2",
+      "raw_sha256": "f29022e5d89036cb1d7de82671fadbd30a85e6a4e3d536ac957851487e3a072c",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_solid_20261022_actual_solid_assembly_support_guard:hint_level_3",
+      "raw_sha256": "0cbe06c2b627cceb0ab89720caf48a5f87ab22eb55cab54ed7576f2e805742b9",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles:worked_solution",
+      "raw_sha256": "364541fedeed0f858a348700e957bc599087262b6fab6c79e671f30a1ff7e98f",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles:hint_level_1",
+      "raw_sha256": "7f4f5b489fecfadfeb187eded5920cbc20419f913ff80e47b717b11778f78def",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles:hint_level_2",
+      "raw_sha256": "f787060d3202255ad437b997689ae53d8bcaf15924e93b6caff717344a3df058",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles:hint_level_3",
+      "raw_sha256": "599a5a6ea7d200926fbc3fe1317de5fbb8b62e920d7a3d39697758295217108b",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_draw_20261022_actual_segment_construction_zero_alignment_guard:worked_solution",
+      "raw_sha256": "826146aa65b262d37dc9e0c8432ec962429986e0f7f27f0a95020d3581f7d8de",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_draw_20261022_actual_segment_construction_zero_alignment_guard:hint_level_1",
+      "raw_sha256": "c14469936bc461a80b310c04cabcfc6696af0558d1ad438ee359ba2cd4030e65",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_draw_20261022_actual_segment_construction_zero_alignment_guard:hint_level_2",
+      "raw_sha256": "d5414ea4fc10973c28ca0dd66af74f81d27eac44089052d0768525139460ad5f",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_draw_20261022_actual_segment_construction_zero_alignment_guard:hint_level_3",
+      "raw_sha256": "a6d4709c9abbf2042bf4768ebb5b1b60643da40ae8234d8e9d58dc46e1ecb17e",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem",
+        "student_work"
+      ],
+      "student_work_in_user": true,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration:worked_solution",
+      "raw_sha256": "c867e04eef86048a7b1d569ca1cab43e29198948b1f3ac88e7d698918e24b36b",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration:hint_level_1",
+      "raw_sha256": "7e6931a4c7c5ea85497d0aa87537a04b16497eea23d970cb1e367b7f136fda1b",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration:hint_level_2",
+      "raw_sha256": "6e71ebf2cf6167942ab017973e881f1a5d6f3b8f1ee2523aa8e2e91f37253def",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration:hint_level_3",
+      "raw_sha256": "fa102ba97dd01aafe04a5331b02f2d40ced643adeff1487706bb806a78262569",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_time_20261022_personal_date_timetable_missing_context_guard:worked_solution",
+      "raw_sha256": "64bc373479a6e5f941db1bfc1158d381e07789afe5062c1ce29b207c4a004151",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_time_20261022_personal_date_timetable_missing_context_guard:hint_level_1",
+      "raw_sha256": "91102b64a6e39c287323c45fe32e081dd6f86e613349b40feb112a96919cb8c2",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_time_20261022_personal_date_timetable_missing_context_guard:hint_level_2",
+      "raw_sha256": "6da13911ea5d218ed31d35e30f3ed57f1cc436821aabc60ad27331350bb09412",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_time_20261022_personal_date_timetable_missing_context_guard:hint_level_3",
+      "raw_sha256": "0c6cfedeebdbf685912a727633d87e9d7954d0a502db5fa3b6cf25672f5ba56a",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time:worked_solution",
+      "raw_sha256": "268d04fb12047d5bccd34baecbec0f4d6cfed1a61d5760badb70a453640e880e",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time:hint_level_1",
+      "raw_sha256": "d8cb3cf4653448b54fde6d7050d6225bdc459653d5b340e331cc3a90e418929d",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time:hint_level_2",
+      "raw_sha256": "58adc2cd28e59fe075a7a129701aa236fed8c72bbd01a4c37b6994b81dd16bdd",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time:hint_level_3",
+      "raw_sha256": "e527adb03c00656416654d6d35f101aeeb9906b4113b6e6da17955d89824e46a",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count:worked_solution",
+      "raw_sha256": "c178c31e3ef21ecc77d4b6f5372174f74435398247bc7efb65c4629d3f51a8ba",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count:hint_level_1",
+      "raw_sha256": "f2af0cd1dd59cd075ab5fa79e908db916863c5b6046952dc9bf47a14140441af",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count:hint_level_2",
+      "raw_sha256": "d853cf2e022b2c8aca8b9eda38502378cbbc00faa80cc08b342332599f325acf",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count:hint_level_3",
+      "raw_sha256": "6fd46720c3f760d5cc971b3b5ed77364164b0f01353964c4ce5608874d42cbbe",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_shape_filtered_maze_triangle:worked_solution",
+      "raw_sha256": "60d151a0d46363b1ba03eeed8ce2918eedd7e0fccb5a6e5a3d8f844e193f33d6",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_shape_filtered_maze_triangle:hint_level_1",
+      "raw_sha256": "06ff41cd14d6a81bb2c30c4cf30f59b3e8f8e6304e17ed6524d6a3b82a15959c",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_shape_filtered_maze_triangle:hint_level_2",
+      "raw_sha256": "e5b5d29d7eb604510ddafedef8974216b9f87debca04b5735de6aae831c6b0d0",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_shape_filtered_maze_triangle:hint_level_3",
+      "raw_sha256": "96d1a1cf18006b69354a9bbeed230446073c63d3d8285180571494b7c02f04a0",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_conditional_labelled_even:worked_solution",
+      "raw_sha256": "2ee8b2746f857becd6f2bd55371abe55cb0e89d1c167f4fa70d65a42fe93a3d8",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_conditional_labelled_even:hint_level_1",
+      "raw_sha256": "7c10e18b8434594fa9ccc2719f361fde8d1c138aaf9cd030ceca7b39843ee3d6",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_conditional_labelled_even:hint_level_2",
+      "raw_sha256": "5019dff4e3f31f3f9fb5d04320069c37c26c2201204eabb1d0143475a60d0cc3",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_maze_20261022_conditional_labelled_even:hint_level_3",
+      "raw_sha256": "ff04438704a0ad50934fcf95baa2abc2aaac29348605cf44bcbafd5e2fa8c8e7",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cap_20261022_unit_capacity_bijection:worked_solution",
+      "raw_sha256": "9a20eba86aa51af44068ff8c5869e9f51444c5325b2fbb254fa088b6e2a4d763",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cap_20261022_unit_capacity_bijection:hint_level_1",
+      "raw_sha256": "11cc6dff43b837610815a212433318657cc879c4f3ba51157d727afc6b20371d",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cap_20261022_unit_capacity_bijection:hint_level_2",
+      "raw_sha256": "7303356ffadbeb5b32d7dc4ba0be427e3f9a3834d51e6e5667d34233a39636b5",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_cap_20261022_unit_capacity_bijection:hint_level_3",
+      "raw_sha256": "e522af47c34899b31beb7b0a23fe5cb5ec582e4fc678a6198252e2da83309a56",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_len_20261022_aligned_endpoint_length_diff:worked_solution",
+      "raw_sha256": "e750eb91de8ed96dcf92bc179c064c513c208071a3fb225f01ecfd411f8aef3d",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_len_20261022_aligned_endpoint_length_diff:hint_level_1",
+      "raw_sha256": "b5c9c7f209c3ac43dc1cd4a2a92e94720f823f387df02fbb65c8810523014f1c",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_len_20261022_aligned_endpoint_length_diff:hint_level_2",
+      "raw_sha256": "d77988372f9b0fcf48632f3ad8b1c1ab48d9ba72ff3eea7c8015132d81502da4",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_len_20261022_aligned_endpoint_length_diff:hint_level_3",
+      "raw_sha256": "f9a6b6d83ca922ae7dd0e0680ded9c486723944f2bbdd4366b8440b048a089f1",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:worked_solution",
+      "raw_sha256": "e3f113d6a32ffea1ebe611ad1b1bd4d143794389504464595ca2f86e11be6818",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_1",
+      "raw_sha256": "dbcd3416bdc121fe91475924a40ec4c72cbffc6d02b5bb0623041c9e73ff02c9",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_2",
+      "raw_sha256": "f1d90bce8f9c1b6da6cb9107b018206277091fcd879a05cbde95cf7655810119",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_traj_20261022_trajectory_observation_guard:hint_level_3",
+      "raw_sha256": "eb81cf31cc9ceaef9ce58bf569a37c7c2be525c9d0013b1d37fb0fa0e9fda594",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_surv_20261022_personal_survey_classroom_tally:worked_solution",
+      "raw_sha256": "38c002075ab8ba6e199dd6f139c2118d9058cb1edcf7e35ad388a2ead938c4c0",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_surv_20261022_personal_survey_classroom_tally:hint_level_1",
+      "raw_sha256": "0da6192944acce65fb288769742f1f61633449ab3b6f48001f75e350d5fad283",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_surv_20261022_personal_survey_classroom_tally:hint_level_2",
+      "raw_sha256": "ff808ba76c4627d4b170dc0108db2c52a5cfa5c71914a991d1f58aa1cc6b78fb",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_surv_20261022_personal_survey_classroom_tally:hint_level_3",
+      "raw_sha256": "a0a01ff8baf2727988a206fba92008095c6029507f67b92afbc6cb7b6c698369",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle:worked_solution",
+      "raw_sha256": "d579ea33c8e1b802c22cb07aba6d429478977130341d7b570059523c5726ba22",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle:hint_level_1",
+      "raw_sha256": "235db53a0a1dfa9475bb7cb00bedb1b674e6e621197e24828a156d08042f489b",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle:hint_level_2",
+      "raw_sha256": "b564f656c213e74682fd50107081119c6cfb981cd244a8da86c174d849524b05",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle:hint_level_3",
+      "raw_sha256": "5062d8557f878e845eefbd65bfbae2121abe550685bb96c99192d7c957c16487",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_prob_20261022_sequential_draw_balls:worked_solution",
+      "raw_sha256": "5334cd694a9b30e787bf193201f4d5bd62d47bd6481c7e1437b74cc803f51678",
+      "mode": "worked_solution",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_prob_20261022_sequential_draw_balls:hint_level_1",
+      "raw_sha256": "586a65e9000826c98fda89a62fb952d6ce93f967d50ff8b2b8a12055115a9096",
+      "mode": "hint_level_1",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_prob_20261022_sequential_draw_balls:hint_level_2",
+      "raw_sha256": "bc83a95767e9452511443d8b31065789674abc545176064847c133b7e354d9e9",
+      "mode": "hint_level_2",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    },
+    {
+      "sample_id": "g2_prob_20261022_sequential_draw_balls:hint_level_3",
+      "raw_sha256": "f6fb8e3907cda40b655de78e43819e07e07c2a0d8d35b64cfd53cab88d4edeef",
+      "mode": "hint_level_3",
+      "target_matches_actual_source": true,
+      "problem_matches": true,
+      "original_user_fields": [
+        "grade",
+        "mode",
+        "problem"
+      ],
+      "student_work_in_user": false,
+      "scope": "Compared every actual chat target/prompt with the fully read actual source; no generic required-field assumption"
+    }
+  ],
+  "all_original_chat_targets_equal_sources": true,
+  "no_generic_givens_field_requirement_claimed": true,
+  "new_or_repaired_numeric_checks": [
+    {
+      "sample_id": "g2_match_20261022_matchstick_single_move_maximum_numeral",
+      "step_id": "s0",
+      "expression": "5 + 7",
+      "result": "12",
+      "Fraction": "12",
+      "Decimal": "12"
+    },
+    {
+      "sample_id": "g2_match_20261022_matchstick_illegal_extra_stick_guard",
+      "step_id": "s1",
+      "expression": "12 + 1",
+      "result": "13",
+      "Fraction": "13",
+      "Decimal": "13"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_number_line_hop_rule",
+      "step_id": "s1",
+      "expression": "3 * 5",
+      "result": "15",
+      "Fraction": "15",
+      "Decimal": "15"
+    },
+    {
+      "sample_id": "g2_jump_20261022_skip_nodes_count_distractor_misconception",
+      "step_id": "s2",
+      "expression": "3 * 5",
+      "result": "15",
+      "Fraction": "15",
+      "Decimal": "15"
+    },
+    {
+      "sample_id": "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs",
+      "step_id": "s3",
+      "expression": "3 + 2 + 1",
+      "result": "6",
+      "Fraction": "6",
+      "Decimal": "6"
+    },
+    {
+      "sample_id": "g2_meas_20261022_actual_measurement_missing_calibration_guard",
+      "step_id": "s1",
+      "expression": "8 - 2",
+      "result": "6",
+      "Fraction": "6",
+      "Decimal": "6"
+    },
+    {
+      "sample_id": "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory",
+      "step_id": "s2",
+      "expression": "2 + 1",
+      "result": "3",
+      "Fraction": "3",
+      "Decimal": "3"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+      "step_id": "s0",
+      "expression": "3 + 2",
+      "result": "5",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+      "step_id": "s1",
+      "expression": "2 + 3",
+      "result": "5",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "g2_grid_20261022_scaled_grid_route_manhattan_comparison",
+      "step_id": "s2",
+      "expression": "1 + 1 + 2 + 1",
+      "result": "5",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "g2_square_20261022_dissection_reassembly_square_from_rectangles",
+      "step_id": "s1",
+      "expression": "2 + 2",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+      "step_id": "s0",
+      "expression": "12 + 7",
+      "result": "19",
+      "Fraction": "19",
+      "Decimal": "19"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+      "step_id": "s1",
+      "expression": "12 - 7",
+      "result": "5",
+      "Fraction": "5",
+      "Decimal": "5"
+    },
+    {
+      "sample_id": "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+      "step_id": "s2",
+      "expression": "12 + 3",
+      "result": "15",
+      "Fraction": "15",
+      "Decimal": "15"
+    },
+    {
+      "sample_id": "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time",
+      "step_id": "s1",
+      "expression": "5 * 6",
+      "result": "30",
+      "Fraction": "30",
+      "Decimal": "30"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s0",
+      "expression": "15 + 15",
+      "result": "30",
+      "Fraction": "30",
+      "Decimal": "30"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s1",
+      "expression": "20 + 30",
+      "result": "50",
+      "Fraction": "50",
+      "Decimal": "50"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s2",
+      "expression": "42 - 12",
+      "result": "30",
+      "Fraction": "30",
+      "Decimal": "30"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s3",
+      "expression": "65 - 15",
+      "result": "50",
+      "Fraction": "50",
+      "Decimal": "50"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s4",
+      "expression": "50 - 20",
+      "result": "30",
+      "Fraction": "30",
+      "Decimal": "30"
+    },
+    {
+      "sample_id": "g2_expr_20261022_expression_class_count",
+      "step_id": "s5",
+      "expression": "40 + 30",
+      "result": "70",
+      "Fraction": "70",
+      "Decimal": "70"
+    },
+    {
+      "sample_id": "g2_cap_20261022_unit_capacity_bijection",
+      "step_id": "s2",
+      "expression": "12 - 5",
+      "result": "7",
+      "Fraction": "7",
+      "Decimal": "7"
+    },
+    {
+      "sample_id": "g2_len_20261022_aligned_endpoint_length_diff",
+      "step_id": "s2",
+      "expression": "16 - 9",
+      "result": "7",
+      "Fraction": "7",
+      "Decimal": "7"
+    },
+    {
+      "sample_id": "g2_surv_20261022_personal_survey_classroom_tally",
+      "step_id": "s2",
+      "expression": "8 + 6 + 4",
+      "result": "18",
+      "Fraction": "18",
+      "Decimal": "18"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle",
+      "step_id": "s1",
+      "expression": "6 - 2",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_grid_20261022_grid_copy_rectangle",
+      "step_id": "s2",
+      "expression": "5 - 2",
+      "result": "3",
+      "Fraction": "3",
+      "Decimal": "3"
+    },
+    {
+      "sample_id": "g2_prob_20261022_sequential_draw_balls",
+      "step_id": "s1",
+      "expression": "2 - 1",
+      "result": "1",
+      "Fraction": "1",
+      "Decimal": "1"
+    },
+    {
+      "sample_id": "g2_codex_20261022_calendar_grid_boundary_first_weekday",
+      "step_id": "s0",
+      "expression": "3 + 1",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+      "step_id": "s0",
+      "expression": "1 * 2",
+      "result": "2",
+      "Fraction": "2",
+      "Decimal": "2"
+    },
+    {
+      "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+      "step_id": "s1",
+      "expression": "2 * 2",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_codex_20261022_capacity_inclusive_bijection_all_assignments",
+      "step_id": "s4",
+      "expression": "2 + 2",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_codex_20261022_cut_origin_square_complete_cover",
+      "step_id": "s1",
+      "expression": "2 + 2",
+      "result": "4",
+      "Fraction": "4",
+      "Decimal": "4"
+    },
+    {
+      "sample_id": "g2_codex_20261022_clock_continuous_hour_rollover",
+      "step_id": "s0",
+      "expression": "45 + 30",
+      "result": "75",
+      "Fraction": "75",
+      "Decimal": "75"
+    },
+    {
+      "sample_id": "g2_codex_20261022_clock_continuous_hour_rollover",
+      "step_id": "s1",
+      "expression": "75 - 60",
+      "result": "15",
+      "Fraction": "15",
+      "Decimal": "15"
+    },
+    {
+      "sample_id": "g2_codex_20261022_two_draw_all_unordered_events",
+      "step_id": "s0",
+      "expression": "2 - 1",
+      "result": "1",
+      "Fraction": "1",
+      "Decimal": "1"
+    }
+  ],
+  "independent_oracles": {
+    "matchstick_maximum": {
+      "actual": 99,
+      "expected": 99,
+      "status": "PASS"
+    },
+    "matchstick_external_add": {
+      "actual": 13,
+      "expected": 13,
+      "status": "PASS"
+    },
+    "jump_landings": {
+      "actual": [
+        3,
+        6,
+        9,
+        12,
+        15
+      ],
+      "expected": [
+        3,
+        6,
+        9,
+        12,
+        15
+      ],
+      "status": "PASS"
+    },
+    "curve_trace_ports": {
+      "actual": [
+        "A",
+        "X:trên-trái",
+        "X:dưới-phải",
+        "Y",
+        "2"
+      ],
+      "expected": [
+        "A",
+        "X:trên-trái",
+        "X:dưới-phải",
+        "Y",
+        "2"
+      ],
+      "status": "PASS"
+    },
+    "curve_missing_countermodels": {
+      "actual": [
+        1,
+        2
+      ],
+      "expected": [
+        1,
+        2
+      ],
+      "status": "PASS"
+    },
+    "segment_pairs": {
+      "actual": [
+        "AB",
+        "AC",
+        "AD",
+        "BC",
+        "BD",
+        "CD"
+      ],
+      "expected": [
+        "AB",
+        "AC",
+        "AD",
+        "BC",
+        "BD",
+        "CD"
+      ],
+      "status": "PASS"
+    },
+    "isolated_E_drawn_segments": {
+      "actual": [],
+      "expected": [],
+      "status": "PASS"
+    },
+    "ruler_offset_length": {
+      "actual": 6,
+      "expected": 6,
+      "status": "PASS"
+    },
+    "collinear_triples": {
+      "actual": [
+        [
+          "A",
+          "O",
+          "B"
+        ],
+        [
+          "O",
+          "C",
+          "D"
+        ]
+      ],
+      "expected": [
+        [
+          "A",
+          "O",
+          "B"
+        ],
+        [
+          "O",
+          "C",
+          "D"
+        ]
+      ],
+      "status": "PASS"
+    },
+    "quadrilateral_cell_unions": {
+      "actual": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "status": "PASS"
+    },
+    "route_lengths": {
+      "actual": [
+        5,
+        5,
+        5
+      ],
+      "expected": [
+        5,
+        5,
+        5
+      ],
+      "status": "PASS"
+    },
+    "fold_reflection_vertices": {
+      "actual": [
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "expected": [
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "status": "PASS"
+    },
+    "fold_interior_hole": {
+      "actual": true,
+      "expected": true,
+      "status": "PASS"
+    },
+    "original_arbitrary_triangle_not_always_rhombus": {
+      "actual": false,
+      "expected": false,
+      "status": "PASS"
+    },
+    "triangular_pair_area_necessary_and_constructed": {
+      "actual": [
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          2
+        ]
+      ],
+      "status": "PASS"
+    },
+    "square_join_dimensions": {
+      "actual": [
+        4,
+        4
+      ],
+      "expected": [
+        4,
+        4
+      ],
+      "status": "PASS"
+    },
+    "construction_endpoint_length": {
+      "actual": 4,
+      "expected": 4,
+      "status": "PASS"
+    },
+    "zero_not_logically_required_for_length5": {
+      "actual": 5,
+      "expected": 5,
+      "status": "PASS"
+    },
+    "calendar_week_offsets": {
+      "actual": [
+        19,
+        5,
+        15
+      ],
+      "expected": [
+        19,
+        5,
+        15
+      ],
+      "status": "PASS"
+    },
+    "clock_elapsed_minute_hour_angle": {
+      "actual": [
+        30,
+        180,
+        255
+      ],
+      "expected": [
+        30,
+        180,
+        255
+      ],
+      "status": "PASS"
+    },
+    "expression_classes": {
+      "actual": {
+        "30": [
+          "A",
+          "C",
+          "E"
+        ],
+        "50": [
+          "B",
+          "D"
+        ],
+        "70": [
+          "G"
+        ]
+      },
+      "expected": {
+        "30": [
+          "A",
+          "C",
+          "E"
+        ],
+        "50": [
+          "B",
+          "D"
+        ],
+        "70": [
+          "G"
+        ]
+      },
+      "status": "PASS"
+    },
+    "shape_maze_all_simple_paths": {
+      "actual": [
+        [
+          1,
+          4,
+          5,
+          8,
+          9
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          4,
+          5,
+          8,
+          9
+        ]
+      ],
+      "status": "PASS"
+    },
+    "parity_branch_choices": {
+      "actual": [
+        4,
+        12,
+        16
+      ],
+      "expected": [
+        4,
+        12,
+        16
+      ],
+      "status": "PASS"
+    },
+    "capacity_sort_difference": {
+      "actual": [
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        7
+      ],
+      "expected": [
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        7
+      ],
+      "status": "PASS"
+    },
+    "aligned_length_reconstruction": {
+      "actual": [
+        7,
+        16
+      ],
+      "expected": [
+        7,
+        16
+      ],
+      "status": "PASS"
+    },
+    "survey_total_and_max": {
+      "actual": [
+        18,
+        "Bút chì"
+      ],
+      "expected": [
+        18,
+        "Bút chì"
+      ],
+      "status": "PASS"
+    },
+    "grid_rectangle": {
+      "actual": [
+        5,
+        6,
+        4,
+        3
+      ],
+      "expected": [
+        5,
+        6,
+        4,
+        3
+      ],
+      "status": "PASS"
+    },
+    "two_draw_unordered_outcomes": {
+      "actual": [
+        "BR",
+        "RR"
+      ],
+      "expected": [
+        "BR",
+        "RR"
+      ],
+      "status": "PASS"
+    },
+    "after_known_red": {
+      "actual": [
+        "B",
+        "R"
+      ],
+      "expected": [
+        "B",
+        "R"
+      ],
+      "status": "PASS"
+    },
+    "full_calendar_grid_missing": {
+      "actual": [
+        4,
+        30,
+        31,
+        5,
+        28
+      ],
+      "expected": [
+        4,
+        30,
+        31,
+        5,
+        28
+      ],
+      "status": "PASS"
+    },
+    "inclusive_capacity_assignments": {
+      "actual": [
+        [
+          "A",
+          "B",
+          "C"
+        ],
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        [
+          "B",
+          "C",
+          "A"
+        ],
+        [
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "expected": [
+        [
+          "A",
+          "B",
+          "C"
+        ],
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        [
+          "B",
+          "C",
+          "A"
+        ],
+        [
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "status": "PASS"
+    },
+    "capacity_equal_fit_boundary": {
+      "actual": true,
+      "expected": true,
+      "status": "PASS"
+    },
+    "copied_target_translation": {
+      "actual": [
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "expected": [
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "status": "PASS"
+    },
+    "cut_origin_full_cell_cover": {
+      "actual": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "status": "PASS"
+    },
+    "clock_hour_rollover": {
+      "actual": [
+        12,
+        15,
+        3
+      ],
+      "expected": [
+        12,
+        15,
+        3
+      ],
+      "status": "PASS"
+    },
+    "local_max_maze_goal_and_deadend": {
+      "actual": [
+        [
+          [
+            "A",
+            "C",
+            "G",
+            "T"
+          ]
+        ],
+        [
+          [
+            "A",
+            "B",
+            "E"
+          ]
+        ]
+      ],
+      "expected": [
+        [
+          [
+            "A",
+            "C",
+            "G",
+            "T"
+          ]
+        ],
+        [
+          [
+            "A",
+            "B",
+            "E"
+          ]
+        ]
+      ],
+      "status": "PASS"
+    },
+    "two_draw_event_classification": {
+      "actual": [
+        "không thể",
+        "chắc chắn",
+        "có thể"
+      ],
+      "expected": [
+        "không thể",
+        "chắc chắn",
+        "có thể"
+      ],
+      "status": "PASS"
+    },
+    "missing_current_date_timezone_counterexample": {
+      "actual": [
+        [
+          0,
+          23,
+          30
+        ],
+        [
+          1,
+          1,
+          30
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          23,
+          30
+        ],
+        [
+          1,
+          1,
+          30
+        ]
+      ],
+      "status": "PASS"
+    },
+    "missing_timetable_possible_countermodels": {
+      "actual": [
+        "Toán",
+        "Tiếng Việt"
+      ],
+      "expected": [
+        "Toán",
+        "Tiếng Việt"
+      ],
+      "status": "PASS"
+    },
+    "trajectory_unobserved_countermodels": {
+      "actual": [
+        "thẳng5m",
+        "cong6m"
+      ],
+      "expected": [
+        "thẳng5m",
+        "cong6m"
+      ],
+      "status": "PASS"
+    }
+  },
+  "meaningful_mutations": [
+    {
+      "oracle": "matchstick_maximum",
+      "incorrect_model_or_result": 98,
+      "actual": 99,
+      "detected": true
+    },
+    {
+      "oracle": "matchstick_external_add",
+      "incorrect_model_or_result": 12,
+      "actual": 13,
+      "detected": true
+    },
+    {
+      "oracle": "jump_landings",
+      "incorrect_model_or_result": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "actual": [
+        3,
+        6,
+        9,
+        12,
+        15
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "curve_trace_ports",
+      "incorrect_model_or_result": [
+        "A",
+        "X:trên-trái",
+        "X:trên-phải",
+        "1"
+      ],
+      "actual": [
+        "A",
+        "X:trên-trái",
+        "X:dưới-phải",
+        "Y",
+        "2"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "curve_missing_countermodels",
+      "incorrect_model_or_result": [
+        2
+      ],
+      "actual": [
+        1,
+        2
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "segment_pairs",
+      "incorrect_model_or_result": [
+        "AB",
+        "AC",
+        "AD",
+        "BA",
+        "BC",
+        "BD",
+        "CD"
+      ],
+      "actual": [
+        "AB",
+        "AC",
+        "AD",
+        "BC",
+        "BD",
+        "CD"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "isolated_E_drawn_segments",
+      "incorrect_model_or_result": [
+        "EA",
+        "EB",
+        "EC",
+        "ED"
+      ],
+      "actual": [],
+      "detected": true
+    },
+    {
+      "oracle": "ruler_offset_length",
+      "incorrect_model_or_result": 8,
+      "actual": 6,
+      "detected": true
+    },
+    {
+      "oracle": "collinear_triples",
+      "incorrect_model_or_result": [
+        [
+          "A",
+          "O",
+          "B"
+        ],
+        [
+          "O",
+          "C",
+          "D"
+        ],
+        [
+          "A",
+          "O",
+          "C"
+        ]
+      ],
+      "actual": [
+        [
+          "A",
+          "O",
+          "B"
+        ],
+        [
+          "O",
+          "C",
+          "D"
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "quadrilateral_cell_unions",
+      "incorrect_model_or_result": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
+      "actual": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "route_lengths",
+      "incorrect_model_or_result": [
+        5,
+        5,
+        6
+      ],
+      "actual": [
+        5,
+        5,
+        5
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "fold_reflection_vertices",
+      "incorrect_model_or_result": [
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "actual": [
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "fold_interior_hole",
+      "incorrect_model_or_result": false,
+      "actual": true,
+      "detected": true
+    },
+    {
+      "oracle": "original_arbitrary_triangle_not_always_rhombus",
+      "incorrect_model_or_result": true,
+      "actual": false,
+      "detected": true
+    },
+    {
+      "oracle": "triangular_pair_area_necessary_and_constructed",
+      "incorrect_model_or_result": [
+        [
+          1,
+          3
+        ]
+      ],
+      "actual": [
+        [
+          1,
+          2
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "square_join_dimensions",
+      "incorrect_model_or_result": [
+        8,
+        2
+      ],
+      "actual": [
+        4,
+        4
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "construction_endpoint_length",
+      "incorrect_model_or_result": 5,
+      "actual": 4,
+      "detected": true
+    },
+    {
+      "oracle": "zero_not_logically_required_for_length5",
+      "incorrect_model_or_result": 6,
+      "actual": 5,
+      "detected": true
+    },
+    {
+      "oracle": "calendar_week_offsets",
+      "incorrect_model_or_result": [
+        19,
+        5,
+        14
+      ],
+      "actual": [
+        19,
+        5,
+        15
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "clock_elapsed_minute_hour_angle",
+      "incorrect_model_or_result": [
+        30,
+        180,
+        240
+      ],
+      "actual": [
+        30,
+        180,
+        255
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "expression_classes",
+      "incorrect_model_or_result": {
+        "30": [
+          "A",
+          "C"
+        ],
+        "50": [
+          "B",
+          "D",
+          "E"
+        ],
+        "70": [
+          "G"
+        ]
+      },
+      "actual": {
+        "30": [
+          "A",
+          "C",
+          "E"
+        ],
+        "50": [
+          "B",
+          "D"
+        ],
+        "70": [
+          "G"
+        ]
+      },
+      "detected": true
+    },
+    {
+      "oracle": "shape_maze_all_simple_paths",
+      "incorrect_model_or_result": [
+        [
+          1,
+          5,
+          9
+        ]
+      ],
+      "actual": [
+        [
+          1,
+          4,
+          5,
+          8,
+          9
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "parity_branch_choices",
+      "incorrect_model_or_result": [
+        7,
+        12,
+        16
+      ],
+      "actual": [
+        4,
+        12,
+        16
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "capacity_sort_difference",
+      "incorrect_model_or_result": [
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        8
+      ],
+      "actual": [
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        7
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "aligned_length_reconstruction",
+      "incorrect_model_or_result": [
+        7,
+        15
+      ],
+      "actual": [
+        7,
+        16
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "survey_total_and_max",
+      "incorrect_model_or_result": [
+        14,
+        "Bút chì"
+      ],
+      "actual": [
+        18,
+        "Bút chì"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "grid_rectangle",
+      "incorrect_model_or_result": [
+        5,
+        6,
+        5,
+        4
+      ],
+      "actual": [
+        5,
+        6,
+        4,
+        3
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "two_draw_unordered_outcomes",
+      "incorrect_model_or_result": [
+        "BB",
+        "BR",
+        "RR"
+      ],
+      "actual": [
+        "BR",
+        "RR"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "after_known_red",
+      "incorrect_model_or_result": [
+        "B",
+        "R",
+        "R"
+      ],
+      "actual": [
+        "B",
+        "R"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "full_calendar_grid_missing",
+      "incorrect_model_or_result": [
+        4,
+        30,
+        31,
+        5,
+        29
+      ],
+      "actual": [
+        4,
+        30,
+        31,
+        5,
+        28
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "inclusive_capacity_assignments",
+      "incorrect_model_or_result": [
+        [
+          "B",
+          "A",
+          "C"
+        ]
+      ],
+      "actual": [
+        [
+          "A",
+          "B",
+          "C"
+        ],
+        [
+          "B",
+          "A",
+          "C"
+        ],
+        [
+          "B",
+          "C",
+          "A"
+        ],
+        [
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "capacity_equal_fit_boundary",
+      "incorrect_model_or_result": false,
+      "actual": true,
+      "detected": true
+    },
+    {
+      "oracle": "copied_target_translation",
+      "incorrect_model_or_result": [
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "actual": [
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "cut_origin_full_cell_cover",
+      "incorrect_model_or_result": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "actual": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "clock_hour_rollover",
+      "incorrect_model_or_result": [
+        12,
+        15,
+        9
+      ],
+      "actual": [
+        12,
+        15,
+        3
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "local_max_maze_goal_and_deadend",
+      "incorrect_model_or_result": [
+        [
+          [
+            "A",
+            "B",
+            "F",
+            "T"
+          ]
+        ],
+        []
+      ],
+      "actual": [
+        [
+          [
+            "A",
+            "C",
+            "G",
+            "T"
+          ]
+        ],
+        [
+          [
+            "A",
+            "B",
+            "E"
+          ]
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "two_draw_event_classification",
+      "incorrect_model_or_result": [
+        "có thể",
+        "chắc chắn",
+        "chắc chắn"
+      ],
+      "actual": [
+        "không thể",
+        "chắc chắn",
+        "có thể"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "missing_current_date_timezone_counterexample",
+      "incorrect_model_or_result": [
+        [
+          0,
+          23,
+          30
+        ],
+        [
+          0,
+          1,
+          30
+        ]
+      ],
+      "actual": [
+        [
+          0,
+          23,
+          30
+        ],
+        [
+          1,
+          1,
+          30
+        ]
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "missing_timetable_possible_countermodels",
+      "incorrect_model_or_result": [
+        "Toán"
+      ],
+      "actual": [
+        "Toán",
+        "Tiếng Việt"
+      ],
+      "detected": true
+    },
+    {
+      "oracle": "trajectory_unobserved_countermodels",
+      "incorrect_model_or_result": [
+        "chắc chắncong"
+      ],
+      "actual": [
+        "thẳng5m",
+        "cong6m"
+      ],
+      "detected": true
+    }
+  ],
+  "original_mutation_evidence_limitation": "Original mutation files only append _MUTATED_WRONG to answer strings and state caught; not accepted as independent meaningful wrong-model proof.",
+  "coverage_queue_sha256": "bce4848aea672cbaa88b2ebcb0bd17e3d104a17545dfe3ca9c31a949a72365c9",
+  "task_source_bindings": {
+    "g2_pending_17_seven_segment_single_move_maximum": [
+      "g2_match_20261022_matchstick_single_move_maximum_numeral",
+      "g2_match_20261022_matchstick_illegal_extra_stick_guard"
+    ],
+    "g2_pending_18_skip_nodes_example_rule": [
+      "g2_jump_20261022_skip_nodes_number_line_hop_rule",
+      "g2_jump_20261022_skip_nodes_count_distractor_misconception"
+    ],
+    "g2_pending_19_crossing_curved_connector_trace": [
+      "g2_curve_20261022_trace_crossing_curved_wire_endpoints",
+      "g2_codex_20261022_curve_missing_continuity_guard"
+    ],
+    "g2_pending_20_all_drawn_segment_endpoint_pairs": [
+      "g2_seg_20261022_all_drawn_segment_compound_endpoint_pairs",
+      "g2_seg_20261022_all_drawn_segment_gap_nonexistent_crossline_guard"
+    ],
+    "g2_pending_21_actual_measurement_record": [
+      "g2_meas_20261022_actual_measurement_missing_calibration_guard"
+    ],
+    "g2_pending_22_all_collinear_triples_grade2": [
+      "g2_geom_20261022_all_collinear_triples_incidence_enumeration",
+      "g2_geom_20261022_collinear_triples_unaligned_distractor_guard"
+    ],
+    "g2_pending_23_composite_quadrilateral_inventory_grade2": [
+      "g2_geom_20261022_composite_quadrilateral_elementary_and_compound_inventory"
+    ],
+    "g2_pending_24_scaled_grid_route_lengths": [
+      "g2_grid_20261022_scaled_grid_route_manhattan_comparison"
+    ],
+    "g2_pending_25_fold_cut_unfold_grade2": [
+      "g2_fold_20261022_fold_cut_unfold_symmetric_notch"
+    ],
+    "g2_pending_26_triangular_piece_pair_feasibility_grade2": [
+      "g2_tiling_20261022_triangular_piece_pair_rectangle_assembly"
+    ],
+    "g2_pending_27_actual_solid_assembly_record": [
+      "g2_solid_20261022_actual_solid_assembly_support_guard"
+    ],
+    "g2_pending_28_cut_reassemble_square_grade2": [
+      "g2_square_20261022_dissection_reassembly_square_from_rectangles",
+      "g2_codex_20261022_cut_origin_square_complete_cover"
+    ],
+    "g2_pending_29_actual_segment_construction_record": [
+      "g2_draw_20261022_actual_segment_construction_zero_alignment_guard"
+    ],
+    "g2_pending_30_calendar_grid_missing_cells_offsets": [
+      "g2_cal_20261022_calendar_grid_missing_cells_restoration",
+      "g2_codex_20261022_calendar_grid_boundary_first_weekday"
+    ],
+    "g2_pending_31_personal_date_timetable_contract_guard": [
+      "g2_time_20261022_personal_date_timetable_missing_context_guard",
+      "g2_codex_20261022_missing_learner_date_location_guard"
+    ],
+    "g2_pending_32_continuous_clock_hand_motion": [
+      "g2_clock_20261022_continuous_clock_hand_motion_elapsed_time",
+      "g2_codex_20261022_clock_continuous_hour_rollover"
+    ],
+    "g2_pending_33_discover_equal_expression_classes": [
+      "g2_expr_20261022_expression_class_count"
+    ],
+    "g2_pending_34_shape_recognition_filtered_maze": [
+      "g2_maze_20261022_shape_filtered_maze_triangle"
+    ],
+    "g2_pending_35_local_condition_labelled_maze": [
+      "g2_maze_20261022_conditional_labelled_even",
+      "g2_codex_20261022_local_max_maze_ties_dead_end"
+    ],
+    "g2_pending_36_unit_capacity_bijection_inclusive": [
+      "g2_cap_20261022_unit_capacity_bijection",
+      "g2_codex_20261022_capacity_inclusive_bijection_all_assignments"
+    ],
+    "g2_pending_37_aligned_endpoint_length_difference": [
+      "g2_len_20261022_aligned_endpoint_length_diff"
+    ],
+    "g2_pending_38_actual_trajectory_observation": [
+      "g2_traj_20261022_trajectory_observation_guard"
+    ],
+    "g2_pending_39_actual_personal_survey_room_schedule": [
+      "g2_surv_20261022_personal_survey_classroom_tally"
+    ],
+    "g2_pending_40_grid_copy_coordinates_incidence": [
+      "g2_grid_20261022_grid_copy_rectangle",
+      "g2_codex_20261022_grid_target_copy_all_incidence"
+    ],
+    "g2_pending_41_sequential_draw_stock_outcomes_grade2": [
+      "g2_prob_20261022_sequential_draw_balls",
+      "g2_codex_20261022_two_draw_all_unordered_events"
+    ]
+  },
+  "physical_tasks_retained_open": {
+    "g2_pending_21_actual_measurement_record": "Synthetic endpoint reading only; no learner actual calibrated record/image.",
+    "g2_pending_27_actual_solid_assembly_record": "Missing real/pictured assembly inventory and support observation; derived guard requests it.",
+    "g2_pending_29_actual_segment_construction_record": "Synthetic supplied placement teaches assessment, not real learner construction record.",
+    "g2_pending_38_actual_trajectory_observation": "No actual path/trace was supplied; retained epistemic guard only.",
+    "g2_pending_39_actual_personal_survey_room_schedule": "Hypothetical stationery counts are not actual learner room/timetable/preferences/respondent records."
+  },
+  "finite_partial_constraints": {},
+  "original_false_claims_rejected": [
+    "Blanket allhints PASS despite fullanswer hints",
+    "Arbitrary reflected triangle always rhombus",
+    "Unprovided curve endpoint2",
+    "Hidden support block asserted without assembly rules",
+    "Unobserved butterfly path classified as necessarily nonstraight",
+    "Synthetic observation examples closing actual physical observation tasks"
+  ],
+  "source_rows_changed_in_original_archives": false,
+  "TRAINING_DATASET_READY": false,
+  "training_started": false
+}

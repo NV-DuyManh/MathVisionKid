@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "checks": {
+    "original_204_candidates_preserved_exactly": true,
+    "original_315_occurrences_preserved_exactly": true,
+    "original_external_91_g2_candidates_preserved_exactly": true,
+    "all_167_master_ids_and_315_occurrence_count_conserved": true,
+    "all_input_snapshot_hashes_unchanged": true,
+    "all_captured_training_rows_match_actual_source_bytes_and_split_train": true,
+    "all_evidence_ids_unique_and_links_resolve": true,
+    "36_canonical_accepted_rows_match_polished_or_selected_draft_math_fields": true,
+    "520_chat_links_checked_by_builder_against_actual_canonical_source_row_hash_and_problem": true,
+    "manifest_output_hashes_match": true
+  },
+  "evidence_kind_counts": {
+    "NEAREST_OR_PREVIOUS_ACCEPTED_HASH_VALIDATED": 344,
+    "NEW_ACCEPTED_FULLFIELDS": 130,
+    "ORIGINAL_CANDIDATE_DESCRIPTION_OR_PAGE_ANCHOR": 242
+  },
+  "output_hashes": [
+    {
+      "file": "candidate_adjudication.json",
+      "sha256": "f5e37c846fb41ab349ab16c57a504bcebb14adc75c4305550f96acca604c088d",
+      "bytes": 2281223
+    },
+    {
+      "file": "fullfield_evidence.jsonl",
+      "sha256": "a243ca285bdc483b6075a9fc3da572c0ccbb5c1755f42d00ad22f9c7bd0df888",
+      "bytes": 3620485
+    },
+    {
+      "file": "next_uncovered_tasks.json",
+      "sha256": "5b94f75936a98d4bf74dd5ddab821bfe24aab5df2b73c0401a32c15528f8279e",
+      "bytes": 256364
+    }
+  ],
+  "limitations": "Finite exact inventory/hash and explicit semantic-branch reconciliation only; not a new independent recertification of all 5784 old snapshot rows or all old semantic judgments."
+}

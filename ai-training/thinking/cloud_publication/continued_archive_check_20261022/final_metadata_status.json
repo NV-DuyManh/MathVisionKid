@@ -1,0 +1,9 @@
+{
+  "new_cases": 0,
+  "new_chat_rows": 0,
+  "recipe_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+  "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+  "registered_utc": "2026-10-22T15:37:20.567375+00:00",
+  "state": "WAITING_FOR_EXISTING_FULL_SCAN",
+  "training_started": false
+}

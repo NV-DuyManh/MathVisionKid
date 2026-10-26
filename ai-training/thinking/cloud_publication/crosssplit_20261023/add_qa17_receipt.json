@@ -1,0 +1,17 @@
+{
+  "is_error": false,
+  "data": {
+    "newCellId": "9kngh0dmGDok"
+  },
+  "structured_content": {
+    "newCellId": "9kngh0dmGDok"
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"newCellId\":\"9kngh0dmGDok\"}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

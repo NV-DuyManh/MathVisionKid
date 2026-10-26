@@ -1,0 +1,50 @@
+{
+  "status": "PASSED_FOR_PAIRED_DEVELOPMENT_EVALUATION_ONLY",
+  "review_kind": "INDEPENDENT_STATIC_AND_CPU_API_REVIEW",
+  "reviewer": "/root/mixed_v4_trainer_review",
+  "reviewed_at_utc": "2026-10-13T04:44:30.006446+00:00",
+  "source_sha256": "d4547e3cab2edf9fce90dfdd07d6937e383c5d25788841df9142d06e90ccb1bd",
+  "optimizer_steps_in_review": 0,
+  "gpu_or_browser_mutations_in_review": false,
+  "cpu_tests": "3 passed in 0.27s",
+  "verified_api": {
+    "trainer_evaluate_signature": "evaluate(model,tokenizer,examples,path,model_key,max_tokens,batch_size,thinking=False,seed=...)",
+    "thinking_sampling": {
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "max_new_tokens": 2048,
+      "batch_size": 4,
+      "seed": 20261013
+    },
+    "baseline_adapter_disabled": true,
+    "fresh_base_revision_and_adapter_file_tensor_hash_checks": true,
+    "full_frozen_validation_used": true,
+    "challenge_read": false,
+    "original_primary_selection_preserved": true,
+    "no_training_call": true,
+    "actual_imported_core_source_paths_and_hashes_checked": true,
+    "auditor_matches_frozen_bundle_manifest": true,
+    "diagnostic_reviewed_hash": "170ec0a5ec64cb5b7bca02bbc9f38dd3b3d6797bb769bf4c6e90e23d90aa594a",
+    "generation_environment_locked_for_resume": true,
+    "dynamic_vram_separately_appended": true,
+    "actual_generated_ids_and_scores_recomputed_by_auditor": true
+  },
+  "fixed_findings": [
+    "Actual core imported module paths now checked against frozen root/src, not just files at those paths.",
+    "Auditor/diagnostic helper hashes now bound to reviewed sources and all dependency hashes included in protocol.",
+    "Core audit now requires PASSED, matching run ID, and all_passed.",
+    "GPU capability/CUDA/library versions now locked in protocol; resume cannot silently mix software environments."
+  ],
+  "interpretation_limits": [
+    "One stochastic sampling seed on previously used development validation; not an independent hidden test or a universal precision claim.",
+    "Normal resumability relies on numeric.evaluate atomic whole-batch checkpoints; manually edited partial-batch caches are not a deterministic reproduction.",
+    "Positive provisional gate still requires reading actual visible guidance; numeric/structural scores do not certify pedagogy.",
+    "No final promotion, product deployment, original greedy checkpoint-selection overwrite or training occurs in this helper."
+  ],
+  "launch_conditions": [
+    "Use exact reviewed source SHA and existing frozen data/adapter.",
+    "Root must verify no concurrent GPU job remains and actual runtime package/environment is the intended one."
+  ],
+  "skills_applied": []
+}

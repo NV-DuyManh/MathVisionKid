@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "cPzyIrct-ilO"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T02:53:26.144696+00:00\", \"kernel_pid\": 172, \"hostname\": \"6319032d11d8\", \"nonce\": \"9425deb7ab2a442781843a9ce4bb2033\", \"recovery_credentials_present\": false, \"install_process_present\": false, \"work_directories\": [], \"bootstrap_progress_files\": []}\n"
+        ]
+      }
+    ]
+  }
+}

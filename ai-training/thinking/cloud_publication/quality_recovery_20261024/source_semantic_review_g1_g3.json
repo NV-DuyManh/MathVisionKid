@@ -1,0 +1,478 @@
+{
+  "schema": "MathVisionKid.quality_recovery.source_semantic_review.grade1_grade3.v1",
+  "review_type": "LLM review of every actual grade1-3 source_sample prompt and complete assistant target in the bounded diagnostic; no human certification added",
+  "input_file": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\quality_recovery_20261024\\source_diagnostic.json",
+  "input_sha256": "ad4c6a4f4fc86a074d90d54cde16d046e4e813470d964936c273c309997c000d",
+  "scope": "15 diagnostic sample rows only, not semantic certification of16000 training rows or the full6.5M corpus. All source_samples with grade1/2/3 were reviewed, including9 hints. No runtime/Drive/GPU calls or source modifications.",
+  "numeric_scope": "Numeric-uncheckable/categorical/null-expression output is not inferred wrong. Division quotient/remainder and symbolic puzzle were reviewed against their complete prompts.",
+  "summary": {
+    "sample_count": 15,
+    "semantic_pass": 15,
+    "semantic_fail": 0,
+    "confirmed_prompt_target_misbindings": 0,
+    "hint_rows": 9,
+    "hint_leaks_identified": 0,
+    "enrichment_grade_presentation_flags": 4,
+    "by_grade": {
+      "1": 5,
+      "2": 5,
+      "3": 5
+    }
+  },
+  "seven_segment_independent_cpu_check": {
+    "legal_take_place_pairs_examined": 98,
+    "valid_equations_and_moves": [
+      {
+        "digits": [
+          0,
+          4,
+          4
+        ],
+        "from_cell": 0,
+        "remove": "g",
+        "to_cell": 0,
+        "add": "b"
+      }
+    ],
+    "zero_based_cell_indexes": true,
+    "only_uses_table_and_rules_in_reviewed_prompt": true
+  },
+  "sampling_observation": "Conditional generic hints (for example borrowing when a place is insufficient) can be semantically sound despite no borrowing being needed in565-103. Repetition/low specificity may justify sampling reweighting, but is not evidence of an incorrect answer or misbinding.",
+  "samples": [
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:worked_solution",
+      "source_sample_index": 0,
+      "grade": 1,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "The proposed g-to-b move changes the first6 to0 while retaining both4 digits, producing0+4=4. Independent exhaustive CPU enumeration of all98 legal take/place pairs confirms it is the sole valid final equation and move. No unsupported physical observation is claimed.",
+      "grade_fit": {
+        "status": "ENRICHMENT_OR_ADULT_SCAFFOLDING",
+        "reason": "The long symbolic seven-segment encoding and exhaustive one-move enumeration exceed an ordinary grade1 task presentation. Treat as enrichment with adult scaffolding; this is separate from mathematical correctness, not a formal curriculum judgment.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "85f8dd2376f09ed95c6e458138a4b2b7facd5c3a112033d48fb3a56206d0e4db",
+      "source_prompt_sha256": "100db87793e6710e0679c0ada23cd5d95a570a6cefdbb9002b757dd84f01b221",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/0",
+        "source_row_sha256_declared": "cc25fd97c69a85b5d9d8043cbc317f0afc0768b276e461bd45ff9f5a053eaa30",
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "ec81244e597fb74966bdfc85a21d2b18c0f4b05799bef84237f83fbdc68500a8",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Mỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcd",
+        "assistant_evidence_quote": "Ô đầu: g sang b"
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_add_18_80:worked_solution",
+      "source_sample_index": 1,
+      "grade": 1,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "18+80=98; per-column 8+0=8 and 1+8=9; both subtraction checks are valid. Pure-number problem appropriately has no physical unit.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Two-digit no-carry addition within 100; no grade-enrichment concern identified.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "b5f83e0b3ba1d35939f514ab3a4b1d641a9cf7e948a7ebba2e307ffcb869ace4",
+      "source_prompt_sha256": "de2b1ddb8359a28cdb3ec7c2f71d4efe6ce5096dc96d37b552625be1c3624327",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/1",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "27bb3caf38033a6b8118ac8535c529592b404d143b764465cbedae0261eb63dd",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 18 + 80. Giải thích cách cộng theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "18 + 80 = 98."
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:hint_level_1",
+      "source_sample_index": 2,
+      "grade": 1,
+      "mode": "hint_level_1",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Relevant first-level constraint reminder: keep the printed operators and identify occupied segment positions. It does not disclose the digit change or final equation.",
+      "grade_fit": {
+        "status": "ENRICHMENT_OR_ADULT_SCAFFOLDING",
+        "reason": "The long symbolic seven-segment encoding and exhaustive one-move enumeration exceed an ordinary grade1 task presentation. Treat as enrichment with adult scaffolding; this is separate from mathematical correctness, not a formal curriculum judgment.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "2fc2d90ba4d5f12ba5263effa38d33c5351572aee325837235d11cb967572777",
+      "source_prompt_sha256": "4ffbb2ff4de070d1e98f14671ba9027f5eab7f44723d5753ba8a744c715a1837",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/2",
+        "source_row_sha256_declared": "cc25fd97c69a85b5d9d8043cbc317f0afc0768b276e461bd45ff9f5a053eaa30",
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "b2618fade0a52c4649690642cb681732e5175921343a886b1bb6c5cd55c1fde4",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Mỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcd",
+        "assistant_evidence_quote": "Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:hint_level_2",
+      "source_sample_index": 3,
+      "grade": 1,
+      "mode": "hint_level_2",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Correctly requires valid standard digits at affected cells after moving a stick; does not assert the source and destination must be different cells and does not disclose the move.",
+      "grade_fit": {
+        "status": "ENRICHMENT_OR_ADULT_SCAFFOLDING",
+        "reason": "The long symbolic seven-segment encoding and exhaustive one-move enumeration exceed an ordinary grade1 task presentation. Treat as enrichment with adult scaffolding; this is separate from mathematical correctness, not a formal curriculum judgment.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "26e5d4ce4c1189c348979948e6ebb5854ff9f692fbdf3b613451cae39a8ce793",
+      "source_prompt_sha256": "6e2bfd4ecbb985487bf16ba7d1d1cd4213ed04800ba8befcea45d695c94f8f8b",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/3",
+        "source_row_sha256_declared": "cc25fd97c69a85b5d9d8043cbc317f0afc0768b276e461bd45ff9f5a053eaa30",
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "bc4e25046cb06c75eddc9bb0d9510c7158163ef8d8b8b5f24533e0696e497a05",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Mỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcd",
+        "assistant_evidence_quote": "Một cách chuyển phải tạo mã chuẩn ở cả ô bị lấy lẫn ô được đặt."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:hint_level_3",
+      "source_sample_index": 4,
+      "grade": 1,
+      "mode": "hint_level_3",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Relevant higher-level instruction to recompute each candidate equation and check completeness/duplicates. No answer or unique move is disclosed.",
+      "grade_fit": {
+        "status": "ENRICHMENT_OR_ADULT_SCAFFOLDING",
+        "reason": "The long symbolic seven-segment encoding and exhaustive one-move enumeration exceed an ordinary grade1 task presentation. Treat as enrichment with adult scaffolding; this is separate from mathematical correctness, not a formal curriculum judgment.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "4517133b8c2e28f199d16af7d59d87b7ffbaee5154a19df64bdcf984b8e685cd",
+      "source_prompt_sha256": "e7aca0aa34fe2a89ffbe5cb6b220191ef009d309f12e57c30514bb24d5a248b4",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/4",
+        "source_row_sha256_declared": "cc25fd97c69a85b5d9d8043cbc317f0afc0768b276e461bd45ff9f5a053eaa30",
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "fe65cbbd6a11ac822ee5029f9d1c89546a0ac9ead8dfbed8cb6a87293d9321e2",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Mỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcd",
+        "assistant_evidence_quote": "Tính lại đẳng thức sau mỗi cách hợp lệ, không chỉ xem chữ số có đẹp."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "source_sample_index": 5,
+      "grade": 2,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "565-103=462; units5-3=2, tens6-0=6, hundreds5-1=4; inverse462+103=565 is valid.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Three-digit no-borrow subtraction within1000; retain the supplied grade2 label.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "b76ee7bd0a97da8c479ad58f4b22f5b9f237c3afdb0f4b6f203340d982efda89",
+      "source_prompt_sha256": "8d72713598ed638d167cf95845559db5bd180b956e071e2dbf85ac1b86f3d4d5",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/5",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "d3ac3a0b82ae23229da37ddf57ce13ac0f2aead873ccdd3e9c696f98c2c77513",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "565 − 103 = 462."
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_add_616_303:worked_solution",
+      "source_sample_index": 6,
+      "grade": 2,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "616+303=919; all three column statements and both inverse checks are correct.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Three-digit no-carry addition within1000; no enrichment concern identified.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "b8363778b7fffcd1b23ce63ed0eb4abf319971ffd7f7ca6c43614d3a26e6723f",
+      "source_prompt_sha256": "c430110b60a197ac06f918ebab8018727da8f3f0afe16065dc81bf4ee95c3f7c",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/6",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "378825eda136728d846c366c984b5c29f445b64752a53fd7ae2e4867aad75049",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 616 + 303. Giải thích cách cộng theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "616 + 303 = 919."
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_1",
+      "source_sample_index": 7,
+      "grade": 2,
+      "mode": "hint_level_1",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Correctly asks for minuend/subtrahend alignment and the starting column, without disclosing462.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade2 arithmetic task; the mode field is hint_level_1.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "28cdae787d3d1c9f788a97f47660daa318a01c7477e11a9437a23108cb19d5ec",
+      "source_prompt_sha256": "ba3fe2cf03b8d83be9a029843123ee5ddf6e0aec4927394f50688dc07d0802bd",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/7",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "e13107a096883cb739c4b27bb478da53e3792844dc34682d9e4de36a828ebb8e",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "Em nên bắt đầu bớt từ hàng nào?"
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_2",
+      "source_sample_index": 8,
+      "grade": 2,
+      "mode": "hint_level_2",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Regrouping guidance is conditional, not an assertion that this no-borrow example requires borrowing. Asking whether each place has enough is relevant and reveals no answer.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade2 arithmetic task. Conditional general scaffolding is mathematically valid; it could be made more tailored, but is not a wrong target.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "71d5e01ab5bd72f7a4e61821e949f7c8197b1ce68e0caa6f5eedd9d5a3b8b8f4",
+      "source_prompt_sha256": "b0bcc05663814441f5bc9ce7d5e52c70a7e9be5b7c7fb495d8913070524976f6",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/8",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "026de6deb35b19bde3c19ea1455e58a4290f55f4b417c5d1e6fb3833b2b5f5ad",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "Nếu một hàng chưa đủ bớt, đổi nhóm từ hàng cao hơn và cập nhật hàng cho đi."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_3",
+      "source_sample_index": 9,
+      "grade": 2,
+      "mode": "hint_level_3",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Correct inverse-check relation: difference plus subtrahend should recover minuend. No462 disclosure.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade2 arithmetic task.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "239f7039ee454db68a0b52fa9f2538bb03783d164194d234cb2cace677d2927b",
+      "source_prompt_sha256": "a18dba60c373f67571c8ada400c8a19d38e148d3e776908778f5a023efee6ea3",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/9",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "48a3b9e180ab20ec2d5eac20cae0b774d339000d56ca03fe359dd5eddd9a344d",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "Sau khi tính, cộng hiệu với số trừ để kiểm số bị trừ."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "source_sample_index": 10,
+      "grade": 3,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Quotient788 and remainder0 are correct. Group-size1 explanation,0<1 condition and788*1+0 inverse verification are correct. A numeric remainder with a null step expression is not an error.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Division by a one-digit positive divisor with three-digit dividend is compatible with the supplied grade3 scope.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "348b0782b7a894c1ba2a33896655b737a48b31639340880b3eaddc6d79dd16ce",
+      "source_prompt_sha256": "55273ca9e207d42429f1f31bf394e5890d77a66c02dc5df017a1684eb9df84fe",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/10",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "d18746a8073825f9900385c9d79248ee1183b3aed16da71caa420c0713dc154e",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Chia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.",
+        "assistant_evidence_quote": "788 × 1 + 0 = 788; 0 ≤ 0 < 1."
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_add_926_212:worked_solution",
+      "source_sample_index": 11,
+      "grade": 3,
+      "mode": "worked_solution",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "926+212=1138. Units8,tens3,hundreds11 carrying1 into thousands are all described correctly; both inverse checks are correct.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Three-digit addition extending into thousands; retain grade3 label without asserting formal curriculum certification.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "6d9e7bb57f9b9ca8fb7a9d681943496b64f0261ed0a7624016fdfb0a740546e1",
+      "source_prompt_sha256": "f0d2b27b238e762635339868d078795e3a70e830c84f1891d0036b18f6b54c0b",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/11",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "788da44b168e8b95a50eac1245413187baef676c77d359c514c35d096a1b6427",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Tính 926 + 212. Giải thích cách cộng theo hàng và kiểm lại kết quả.",
+        "assistant_evidence_quote": "926 + 212 = 1138."
+      },
+      "hint_answer_leakage": "NA",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "source_sample_index": 12,
+      "grade": 3,
+      "mode": "hint_level_1",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Identifies dividend/divisor and the nonzero-divisor prerequisite. The question is easy for divisor1 but relevant; it discloses neither quotient nor remainder.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade3 division task; generic prerequisite guidance is valid.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "3312ccdf749730e973ea3f8e448ecfcde1f9504be37d096ed60355bf9048d71f",
+      "source_prompt_sha256": "5e2a9940688ca9a44a9a99e97c77052b055cc8dae64e6ede3f36e6d702aa912f",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/12",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "930a69e6da4fe3b60bad2045cbb0c0503c3506a7021bbbf15bf396a1422fe459",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Chia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.",
+        "assistant_evidence_quote": "Số chia có khác không để phép chia có nghĩa không?"
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "source_sample_index": 13,
+      "grade": 3,
+      "mode": "hint_level_2",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Correctly connects quotient to full groups and remainder to less than one group, without providing788 or0.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade3 division task.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "91d2297d0880599e7c8d474d7576d9795120a9b3432c4c96bfe20bf84bb58048",
+      "source_prompt_sha256": "08871c5393eb07d0b48535253a2a01e2060a8c3d21ee0adb84d854bb19379b30",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/13",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "d97ca27b948aa64b91a73963d58390e4c00034566d6bb9d9557448e82174ecb8",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Chia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.",
+        "assistant_evidence_quote": "Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "source_sample_index": 14,
+      "grade": 3,
+      "mode": "hint_level_3",
+      "pass": true,
+      "semantic_status": "PASS_FOR_THIS_REVIEWED_PROMPT_TARGET_PAIR",
+      "issues": [],
+      "reason": "Correctly requests quotient*divisor+remainder verification and remainder<divisor, without a final numeric answer.",
+      "grade_fit": {
+        "status": "CORE_COMPATIBLE",
+        "reason": "Same grade3 division task.",
+        "separate_from_semantic_pass": true
+      },
+      "source_assistant_sha256": "3fcf7479fb123bbe83fee045c42f9d9cc89ca15da72a848d61bc88aa7003ef72",
+      "source_prompt_sha256": "af523b091409957680ceb4ea987283852268a71facd297d77410b9916760867b",
+      "source_row_evidence": {
+        "diagnostic_json_pointer": "/source_samples/14",
+        "source_row_sha256_declared": null,
+        "row_sha256_declared": null,
+        "canonical_embedded_row_sha256": "63d6acedbba179c457f4f650005236e2694984cc2dca1b3da7591ec1f514c8e5",
+        "canonical_embedded_hash_is_not_original_raw_jsonl_hash": true,
+        "prompt_problem_excerpt": "Chia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.",
+        "assistant_evidence_quote": "Nhân thương với số chia rồi cộng phần dư để kiểm."
+      },
+      "hint_answer_leakage": "NONE_IDENTIFIED",
+      "prompt_target_misbinding": "NONE_IDENTIFIED",
+      "student_work_present_in_prompt": false
+    }
+  ]
+}

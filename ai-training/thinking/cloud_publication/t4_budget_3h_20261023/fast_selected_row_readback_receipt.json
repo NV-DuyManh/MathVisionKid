@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "g8obfBPHWGp6"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"ACTIVE\", \"first_pass_changed\": false, \"full_archive_hash_validation_preserved\": true, \"selected_full_row_hash_validation_preserved\": true, \"unselected_first_key_ids_skipped\": 0, \"fallback_full_parser_lines\": 0, \"applied_unix\": 1792768766.7181125}\n"
+        ]
+      }
+    ]
+  }
+}

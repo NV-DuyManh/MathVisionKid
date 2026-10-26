@@ -1,0 +1,17 @@
+{
+  "status": "AUTHOR_REOPEN_FULLFIELD_QA_PASS_ROOT_PEER_PENDING",
+  "cases": 12,
+  "chats": 48,
+  "source_cases_sha256": "5566927920148c8f35ace48767d97ad46778e9de51adda59cd924fadc9272df2",
+  "source_chat_sha256": "17a9146de13ec37d0c080c2c8c09889664cab41d8cd806d53f86e9c46081985c",
+  "additional_prose_arithmetic_facts": 78,
+  "independent_models_rerun": 12,
+  "wrong_model_answer_mutations_rejected": 12,
+  "source_qa7_hashes": true,
+  "all_chat_source_prompt_target_links": true,
+  "technical_ids_canonical": true,
+  "original_author_draft_preserved": "../g5_measurement_models (including its author_pre_polish)",
+  "parent_lineage": "partition_repair_delta.json",
+  "training_started": false,
+  "drive_mutated": false
+}

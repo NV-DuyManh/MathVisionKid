@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "W7Lm78oNeQSC"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"PREPARED\", \"work\": \"/content/mathvisionkid_recovery_20261026/four_controls_publication/20261026T090523607728Z\"}\n"
+        ]
+      }
+    ]
+  }
+}

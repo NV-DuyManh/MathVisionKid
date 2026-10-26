@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "5-ob7vpGCplU"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"differences\": [{\"name\": \"dev_train_screening.json\", \"actual_local_sha256\": \"f05a32366616e5a62abc80aa6aadf6c61b1b5a34ef6538f756d31fbdca2958e0\", \"published_sha256\": \"3574e304d4c51997bca867242903994e4195fc8b9440093ba8697ead514557f4\", \"bytes\": 193, \"published_bytes\": 193}], \"training_worker_alive\": true, \"publisher_thread_alive\": false}\n"
+        ]
+      }
+    ]
+  }
+}

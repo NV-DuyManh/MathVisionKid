@@ -1,0 +1,10 @@
+{
+  "mapping.json": "86697318296dd12149157ea4f2b8c4983aca8ae4febf8963728324441654294e",
+  "resume_queue.json": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "nearest_fullfields.jsonl": "9e717ba18458619f79ecfde5424ebff54fbd1607514a5e64509307cdc5c64727",
+  "external_g2_aliases.json": "0c2aa49d179c75060b4b1aca7259e7f1529110d97245d61e4ac5a6858748f6f8",
+  "validation.json": "40197f3ff5e4337aa8fd4302ec77f3fef6ec36183db600e9fed30edb7350598b",
+  "build_mapping.py": "6d744206edfdc78dc47dfc6f94589eba9aebfa2907f086a384c919aa42d1b399",
+  "independent_validation.json": "fa5b5288fc670866a22fc5121e02cf82383967ca7f17c2b2280f67f54f130bad",
+  "verify_mapping.py": "acfae69580bd4702c3a634efffa320be876dcca1884650b4636a47240e1a9c60"
+}

@@ -1,0 +1,614 @@
+{
+  "book_id": "g4v2",
+  "grade": 4,
+  "volume": 2,
+  "printed_to_array_index_offset": 0,
+  "reader_html_sha256": "26d4affe297861acf4d259b210455a2d21c726d09f86eabe6356010b7f2657b9",
+  "pages": [
+    {
+      "index": 0,
+      "printed_page": 0,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_2-1791255615501.png"
+    },
+    {
+      "index": 1,
+      "printed_page": 1,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_3-1791255615589.png"
+    },
+    {
+      "index": 2,
+      "printed_page": 2,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_4-1791255615707.png"
+    },
+    {
+      "index": 3,
+      "printed_page": 3,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_5-1791255615810.png"
+    },
+    {
+      "index": 4,
+      "printed_page": 4,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_6-1791255615978.png"
+    },
+    {
+      "index": 5,
+      "printed_page": 5,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_7-1791255616154.png"
+    },
+    {
+      "index": 6,
+      "printed_page": 6,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_8-1791255616300.png"
+    },
+    {
+      "index": 7,
+      "printed_page": 7,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_9-1791255616412.png"
+    },
+    {
+      "index": 8,
+      "printed_page": 8,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_10-1791255616559.png"
+    },
+    {
+      "index": 9,
+      "printed_page": 9,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_11-1791255616677.png"
+    },
+    {
+      "index": 10,
+      "printed_page": 10,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_12-1791255616809.png"
+    },
+    {
+      "index": 11,
+      "printed_page": 11,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_13-1791255616924.png"
+    },
+    {
+      "index": 12,
+      "printed_page": 12,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_14-1791255617052.png"
+    },
+    {
+      "index": 13,
+      "printed_page": 13,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_15-1791255617155.png"
+    },
+    {
+      "index": 14,
+      "printed_page": 14,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_16-1791255617285.png"
+    },
+    {
+      "index": 15,
+      "printed_page": 15,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_17-1791255617411.png"
+    },
+    {
+      "index": 16,
+      "printed_page": 16,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_18-1791255617526.png"
+    },
+    {
+      "index": 17,
+      "printed_page": 17,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_19-1791255617650.png"
+    },
+    {
+      "index": 18,
+      "printed_page": 18,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_20-1791255617755.png"
+    },
+    {
+      "index": 19,
+      "printed_page": 19,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_21-1791255617860.png"
+    },
+    {
+      "index": 20,
+      "printed_page": 20,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_22-1791255617982.png"
+    },
+    {
+      "index": 21,
+      "printed_page": 21,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_23-1791255618094.png"
+    },
+    {
+      "index": 22,
+      "printed_page": 22,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_24-1791255618208.png"
+    },
+    {
+      "index": 23,
+      "printed_page": 23,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_25-1791255618342.png"
+    },
+    {
+      "index": 24,
+      "printed_page": 24,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_26-1791255618447.png"
+    },
+    {
+      "index": 25,
+      "printed_page": 25,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_27-1791255618557.png"
+    },
+    {
+      "index": 26,
+      "printed_page": 26,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_28-1791255618663.png"
+    },
+    {
+      "index": 27,
+      "printed_page": 27,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_29-1791255618793.png"
+    },
+    {
+      "index": 28,
+      "printed_page": 28,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_30-1791255618949.png"
+    },
+    {
+      "index": 29,
+      "printed_page": 29,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_31-1791255619094.png"
+    },
+    {
+      "index": 30,
+      "printed_page": 30,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_32-1791255619213.png"
+    },
+    {
+      "index": 31,
+      "printed_page": 31,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_33-1791255619333.png"
+    },
+    {
+      "index": 32,
+      "printed_page": 32,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_34-1791255619451.png"
+    },
+    {
+      "index": 33,
+      "printed_page": 33,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_35-1791255619574.png"
+    },
+    {
+      "index": 34,
+      "printed_page": 34,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_36-1791255620103.png"
+    },
+    {
+      "index": 35,
+      "printed_page": 35,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_37-1791255620397.png"
+    },
+    {
+      "index": 36,
+      "printed_page": 36,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_38-1791255621547.png"
+    },
+    {
+      "index": 37,
+      "printed_page": 37,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_39-1791255623132.png"
+    },
+    {
+      "index": 38,
+      "printed_page": 38,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_40-1791255623985.png"
+    },
+    {
+      "index": 39,
+      "printed_page": 39,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_41-1791255624330.png"
+    },
+    {
+      "index": 40,
+      "printed_page": 40,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_42-1791255624562.png"
+    },
+    {
+      "index": 41,
+      "printed_page": 41,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_43-1791255624792.png"
+    },
+    {
+      "index": 42,
+      "printed_page": 42,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_44-1791255625088.png"
+    },
+    {
+      "index": 43,
+      "printed_page": 43,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_45-1791255625486.png"
+    },
+    {
+      "index": 44,
+      "printed_page": 44,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_46-1791255625843.png"
+    },
+    {
+      "index": 45,
+      "printed_page": 45,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_47-1791255626071.png"
+    },
+    {
+      "index": 46,
+      "printed_page": 46,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_48-1791255626583.png"
+    },
+    {
+      "index": 47,
+      "printed_page": 47,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_49-1791255626755.png"
+    },
+    {
+      "index": 48,
+      "printed_page": 48,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_50-1791255626964.png"
+    },
+    {
+      "index": 49,
+      "printed_page": 49,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_51-1791255627234.png"
+    },
+    {
+      "index": 50,
+      "printed_page": 50,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_52-1791255627421.png"
+    },
+    {
+      "index": 51,
+      "printed_page": 51,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_53-1791255627579.png"
+    },
+    {
+      "index": 52,
+      "printed_page": 52,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_54-1791255627766.png"
+    },
+    {
+      "index": 53,
+      "printed_page": 53,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_55-1791255627928.png"
+    },
+    {
+      "index": 54,
+      "printed_page": 54,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_56-1791255628217.png"
+    },
+    {
+      "index": 55,
+      "printed_page": 55,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_57-1791255628466.png"
+    },
+    {
+      "index": 56,
+      "printed_page": 56,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_58-1791255628637.png"
+    },
+    {
+      "index": 57,
+      "printed_page": 57,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_59-1791255628811.png"
+    },
+    {
+      "index": 58,
+      "printed_page": 58,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_60-1791255628946.png"
+    },
+    {
+      "index": 59,
+      "printed_page": 59,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_61-1791255629136.png"
+    },
+    {
+      "index": 60,
+      "printed_page": 60,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_62-1791255629291.png"
+    },
+    {
+      "index": 61,
+      "printed_page": 61,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_63-1791255629434.png"
+    },
+    {
+      "index": 62,
+      "printed_page": 62,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_64-1791255629573.png"
+    },
+    {
+      "index": 63,
+      "printed_page": 63,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_65-1791255629708.png"
+    },
+    {
+      "index": 64,
+      "printed_page": 64,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_66-1791255629857.png"
+    },
+    {
+      "index": 65,
+      "printed_page": 65,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_67-1791255629990.png"
+    },
+    {
+      "index": 66,
+      "printed_page": 66,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_68-1791255630116.png"
+    },
+    {
+      "index": 67,
+      "printed_page": 67,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_69-1791255630375.png"
+    },
+    {
+      "index": 68,
+      "printed_page": 68,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_70-1791255630519.png"
+    },
+    {
+      "index": 69,
+      "printed_page": 69,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_71-1791255630646.png"
+    },
+    {
+      "index": 70,
+      "printed_page": 70,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_72-1791255630836.png"
+    },
+    {
+      "index": 71,
+      "printed_page": 71,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_73-1791255630977.png"
+    },
+    {
+      "index": 72,
+      "printed_page": 72,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_74-1791255631118.png"
+    },
+    {
+      "index": 73,
+      "printed_page": 73,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_75-1791255631390.png"
+    },
+    {
+      "index": 74,
+      "printed_page": 74,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_76-1791255631565.png"
+    },
+    {
+      "index": 75,
+      "printed_page": 75,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_77-1791255631696.png"
+    },
+    {
+      "index": 76,
+      "printed_page": 76,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_78-1791255631865.png"
+    },
+    {
+      "index": 77,
+      "printed_page": 77,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_79-1791255632004.png"
+    },
+    {
+      "index": 78,
+      "printed_page": 78,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_80-1791255632154.png"
+    },
+    {
+      "index": 79,
+      "printed_page": 79,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_81-1791255632295.png"
+    },
+    {
+      "index": 80,
+      "printed_page": 80,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_82-1791255632417.png"
+    },
+    {
+      "index": 81,
+      "printed_page": 81,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_83-1791255632576.png"
+    },
+    {
+      "index": 82,
+      "printed_page": 82,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_84-1791255632733.png"
+    },
+    {
+      "index": 83,
+      "printed_page": 83,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_85-1791255632896.png"
+    },
+    {
+      "index": 84,
+      "printed_page": 84,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_86-1791255633016.png"
+    },
+    {
+      "index": 85,
+      "printed_page": 85,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_87-1791255633134.png"
+    },
+    {
+      "index": 86,
+      "printed_page": 86,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_88-1791255633263.png"
+    },
+    {
+      "index": 87,
+      "printed_page": 87,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_89-1791255633384.png"
+    },
+    {
+      "index": 88,
+      "printed_page": 88,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_90-1791255633526.png"
+    },
+    {
+      "index": 89,
+      "printed_page": 89,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_91-1791255633647.png"
+    },
+    {
+      "index": 90,
+      "printed_page": 90,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_92-1791255633764.png"
+    },
+    {
+      "index": 91,
+      "printed_page": 91,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_93-1791255633868.png"
+    },
+    {
+      "index": 92,
+      "printed_page": 92,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_94-1791255633973.png"
+    },
+    {
+      "index": 93,
+      "printed_page": 93,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_95-1791255634078.png"
+    },
+    {
+      "index": 94,
+      "printed_page": 94,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_96-1791255634204.png"
+    },
+    {
+      "index": 95,
+      "printed_page": 95,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_97-1791255634328.png"
+    },
+    {
+      "index": 96,
+      "printed_page": 96,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_98-1791255634455.png"
+    },
+    {
+      "index": 97,
+      "printed_page": 97,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_99-1791255634587.png"
+    },
+    {
+      "index": 98,
+      "printed_page": 98,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_100-1791255634762.png"
+    },
+    {
+      "index": 99,
+      "printed_page": 99,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_101-1791255634879.png"
+    },
+    {
+      "index": 100,
+      "printed_page": 100,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_102-1791255634994.png"
+    },
+    {
+      "index": 101,
+      "printed_page": 101,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_103-1791255635157.png"
+    },
+    {
+      "index": 102,
+      "printed_page": 102,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_104-1791255635271.png"
+    },
+    {
+      "index": 103,
+      "printed_page": 103,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_105-1791255635389.png"
+    },
+    {
+      "index": 104,
+      "printed_page": 104,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_106-1791255635558.png"
+    },
+    {
+      "index": 105,
+      "printed_page": 105,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_107-1791255635672.png"
+    },
+    {
+      "index": 106,
+      "printed_page": 106,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_108-1791255635773.png"
+    },
+    {
+      "index": 107,
+      "printed_page": 107,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_109-1791255635893.png"
+    },
+    {
+      "index": 108,
+      "printed_page": 108,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_110-1791255636032.png"
+    },
+    {
+      "index": 109,
+      "printed_page": 109,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_111-1791255636199.png"
+    },
+    {
+      "index": 110,
+      "printed_page": 110,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_112-1791255636305.png"
+    },
+    {
+      "index": 111,
+      "printed_page": 111,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_113-1791255636400.png"
+    },
+    {
+      "index": 112,
+      "printed_page": 112,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_114-1791255636506.png"
+    },
+    {
+      "index": 113,
+      "printed_page": 113,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_115-1791255636610.png"
+    },
+    {
+      "index": 114,
+      "printed_page": 114,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_116-1791255636723.png"
+    },
+    {
+      "index": 115,
+      "printed_page": 115,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_117-1791255636837.png"
+    },
+    {
+      "index": 116,
+      "printed_page": 116,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_118-1791255636946.png"
+    },
+    {
+      "index": 117,
+      "printed_page": 117,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_119-1791255637050.png"
+    },
+    {
+      "index": 118,
+      "printed_page": 118,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_120-1791255637159.png"
+    },
+    {
+      "index": 119,
+      "printed_page": 119,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_121-1791255637248.png"
+    },
+    {
+      "index": 120,
+      "printed_page": 120,
+      "url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_122-1791255637341.png"
+    }
+  ]
+}

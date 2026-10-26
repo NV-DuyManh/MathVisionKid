@@ -1,0 +1,29 @@
+{
+  "status": "PASSED",
+  "checks": {
+    "baseline_val": {
+      "all_ids_once": true,
+      "scores_recomputed": true,
+      "rows": 133
+    },
+    "candidate_val": {
+      "all_ids_once": true,
+      "scores_recomputed": true,
+      "rows": 133
+    },
+    "selected_dev_test": {
+      "all_ids_once": true,
+      "scores_recomputed": true,
+      "rows": 131
+    }
+  },
+  "full_epoch_once": true,
+  "selection_validation_only": true,
+  "adapter_file_sha256_verified": true,
+  "reload_record_verified": true,
+  "quality_scope": "synthetic planner task; not real-student benchmark or free-text math accuracy",
+  "training_loss_first": 2.6262855529785156,
+  "training_loss_last": 0.00010292035403836053,
+  "peak_vram_gib": 2.622,
+  "training_seconds": 585.15
+}

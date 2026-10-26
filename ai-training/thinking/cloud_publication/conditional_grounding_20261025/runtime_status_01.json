@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "vVHLzoQh9k0p"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T02:49:13.298061+00:00\", \"purpose\": \"read_only_after_mcp_connection\", \"python_version\": \"3.13.16\", \"colab_module_already_loaded\": true, \"torch_module_already_loaded\": false, \"credentials_globals_present\": {\"credentials\": false, \"recovery_credentials\": false}, \"model_globals_present\": {\"model\": false, \"recovery_model\": false, \"base_model\": false}, \"known_previous_work_directories_exist\": {\"/content/mathvisionkid_skill_recovery_150m_20261024\": false, \"/content/mathvisionkid_verbal_recovery_20261024\": false}, \"worker_processes\": {\"skill_training_process\": \"not_bound\", \"recovery_process\": \"not_bound\", \"native_probe_process\": \"not_bound\", \"fewshot_process\": \"not_bound\"}, \"model_weights_loaded_by_this_cell\": false, \"optimizer_or_training_started_by_this_cell\": false, \"gpu_query_exit_code\": 0, \"gpu_query\": \"Tesla T4, 15360, 0, 0\"}\n"
+        ]
+      }
+    ]
+  }
+}

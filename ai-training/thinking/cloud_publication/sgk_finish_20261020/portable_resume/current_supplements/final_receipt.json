@@ -1,0 +1,35 @@
+{
+  "schema": "MathVisionKid.current_supplement_member_audit.v1",
+  "audit": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 456,
+    "members_complete": 4,
+    "max_sequence_tokens": 1481,
+    "max_completion_tokens": 1367,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 216,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  },
+  "by_split": {
+    "test": 24,
+    "train": 408,
+    "validation": 24
+  },
+  "candidate_train_chat_rows": 408,
+  "current_eval_chat_rows_not_promoted_to_train": 48,
+  "boundary_sources": 69,
+  "boundary_exported_chat_rows": 216,
+  "pedagogy_v3_sources": 60,
+  "pedagogy_v3_chat_rows": 240,
+  "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "holdout_or_sealed_or_pilot_files_opened": false,
+  "selected_balanced_diagnostic_duplicates_audited_or_added": false,
+  "training_started": false
+}

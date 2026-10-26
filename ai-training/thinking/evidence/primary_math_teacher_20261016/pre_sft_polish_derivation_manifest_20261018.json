@@ -1,0 +1,680 @@
+{
+  "schema_version": "primary_math.polish_derivation.v1",
+  "utc": "2026-10-18T14:19:14.344832+00:00",
+  "source_queue_sha256": "7b7d9b2385750b85e39465ddd147a337ba42fb84aea440b5f13830097146c5bb",
+  "cases": [
+    {
+      "index": 0,
+      "parent_sample_id": "primary_20261017_g2_measurement_0021_misconception_add_without_conversion",
+      "sample_id": "primary_20261017_g2_measurement_0021_misconception_add_without_conversion:polish_v1",
+      "source_row_sha256": "eb74c81d00d93cf17dddc1930c59ce5e6ebc4037c7b8db22e0f2bccfc25a9010",
+      "parent_overlay_row_sha256": "cf4b4f27bdc2c372879411f048138f1d4c59c867c3d1c5a42b7cf05dd173a90f",
+      "derived_source_row_sha256": "f48e1781e17134c00c7b9ee104846c9d4c3da073b3e74b13dd8306948d6fdc97",
+      "issues_addressed": [
+        "Một số hint nhắc lại chữ số của đề; không thể đưa thẳng vào runtime /guide nếu quy định cấm chữ số."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 1,
+      "parent_sample_id": "primary_20261017_g2_tally_0023_classify_pencils",
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils:polish_v1",
+      "source_row_sha256": "adbc7ad56e74aa6ed538340349f841a70425c6332048323e194e670e1f3332ce",
+      "parent_overlay_row_sha256": "9a30715e4b4a27b93c0e543240e26b26c1fb8b3677a97c45098f15aadd550dc6",
+      "derived_source_row_sha256": "628f6390794d27f7ac6f4c2cba98f697e0ee8e993dc5c934c1f4d0191533c238",
+      "issues_addressed": [
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý.",
+        "Hai bước trong lời giải lặp số bút vàng; nên gộp để diễn đạt gọn."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 2,
+      "parent_sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows",
+      "sample_id": "primary_20261017_g3_columns_0030_subtract_two_nonadjacent_borrows:polish_v1",
+      "source_row_sha256": "fbd14508cc68068c17aac83901f51943878e00f6d2a95ecb73a7f9efbb05f41f",
+      "parent_overlay_row_sha256": "dfd0740ba4a3267d5275ed99d32ce794b7d4359e61beaf7935289e9a23a26df5",
+      "derived_source_row_sha256": "ae604aabed8d1e3c292d9ee1fe7a6fdd05a13271b758a1d28ad52a687a76e658",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 3,
+      "parent_sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory",
+      "sample_id": "primary_20261017_g3_columns_0030_find_unknown_addend_from_inventory:polish_v1",
+      "source_row_sha256": "b2d59e4c11bef75b5d538467153f0a9dd0c8fbcadd170fed49d968a96490a654",
+      "parent_overlay_row_sha256": "d4e3c1f7c777c07a695de98b2f02309165c2056915784ed5c40f614424bce63f",
+      "derived_source_row_sha256": "d677b450437b90ddd25617cbca6c22a7930494d7310f58ff73e3a49813a0d7b9",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 4,
+      "parent_sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry",
+      "sample_id": "primary_20261017_g3_columns_0030_misconception_omit_incoming_carry:polish_v1",
+      "source_row_sha256": "092192df1b41cc0d9b30cf16d75efd5021e4227465db6511491b0a7b761d66f7",
+      "parent_overlay_row_sha256": "861094b266063f9efdce02edb09a1e34bea6da0ffbc27d3764ebef495d9bd03d",
+      "derived_source_row_sha256": "14a61bd4e8cbda439706d85bb9e04b713e18a0c95e1ae094ab77065b4b8e0271",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 5,
+      "parent_sample_id": "primary_20261017_g3_drawing_tools_0039_grid_rectangle_closure",
+      "sample_id": "primary_20261017_g3_drawing_tools_0039_grid_rectangle_closure:polish_v1",
+      "source_row_sha256": "6dc360ae7bc51e677fedc8c51c3e66e510215191789ca39abff3c7b6483f3ba4",
+      "parent_overlay_row_sha256": "63045e186b01bc26431a49a48d347c9d3911ffffe2523575a493a2c48a82dcbe",
+      "derived_source_row_sha256": "41d6d79677f815a1abc8499e4fb22e8b8bbc15a4081e145c5976224586452d6e",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 6,
+      "parent_sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order",
+      "sample_id": "primary_20261017_g3_expressions_0033_parentheses_change_operation_order:polish_v1",
+      "source_row_sha256": "757bc85fd55b22970053d19f60d56a9d0d97eda9205e065268576b62a1391cf7",
+      "parent_overlay_row_sha256": "6de57f8caaa699209f661b8fa618db8161e191cdde9196b29cf6c0eb937fc8c9",
+      "derived_source_row_sha256": "d0f252f940a62007b161bd175a015ef8a732769e62c4bee23db689fb21b2bf8b",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 7,
+      "parent_sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend",
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_minuend_not_subtrahend:polish_v1",
+      "source_row_sha256": "8919719699ea60e3034117a20e545f7561f2291a1cb74ed8ccb365026030c1d5",
+      "parent_overlay_row_sha256": "17320dc33a85b98d9155237b65dd9c02b79c0a929c01c7c76e3061ca44f5382e",
+      "derived_source_row_sha256": "130c61a4021f2787b7025a31632656c13e38246b9d09b93768262bace9a5b0e2",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 8,
+      "parent_sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor",
+      "sample_id": "primary_20261017_g3_expressions_0033_unknown_dividend_with_nonzero_divisor:polish_v1",
+      "source_row_sha256": "fa0f726d0a63b8ea38a62cc89e1de3617d14fd4c9565d91aee394414a34f9a09",
+      "parent_overlay_row_sha256": "bbf9476bb63c55ae8ccf8730a7e9c639d8d5038384ebadaffabe6e9fdf87ede5",
+      "derived_source_row_sha256": "34ba6452cc73fc32d5c5316236a8ef556bc1df530e667956ac8b493cfefe2229",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 9,
+      "parent_sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role",
+      "sample_id": "primary_20261017_g3_expressions_0033_misconception_unknown_subtrahend_role:polish_v1",
+      "source_row_sha256": "f77634a88c3cbde0ad7ac55199249c57442ccd31da135b7eea77ae12cafb6a5d",
+      "parent_overlay_row_sha256": "8ea3defb21158b7dcf641b83ef3da07101c250657b4cda48c5a8b8a2f5ee7b51",
+      "derived_source_row_sha256": "d6564166d0b369d026556de7a72cb98c8cfc6b1949af96a5fdc8fe443bb1138a",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 10,
+      "parent_sample_id": "primary_20261017_g3_midpoint_angles_0036_between_versus_midpoint",
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_between_versus_midpoint:polish_v1",
+      "source_row_sha256": "7a428090ac2346fb69d536c98164206a82b735839ce2fdfebbe9dc64aad5d2ef",
+      "parent_overlay_row_sha256": "72cda1aa6100b0718d17a31c5a6100e6338c6ee64be1b1c58f9a7489b0070e49",
+      "derived_source_row_sha256": "2252b9e651bbdb0739764e10421c0104a8d99915db4cc351f2fff6683cce1f05",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 11,
+      "parent_sample_id": "primary_20261017_g3_midpoint_angles_0036_equal_distances_off_line",
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_equal_distances_off_line:polish_v1",
+      "source_row_sha256": "8c44044e96fbef2d62c039cc58996e6d5b0ffddb6735092ed32f70c823e54691",
+      "parent_overlay_row_sha256": "f398686c2cb704aa219512f5356259b6c29a985cbbe6914fe4c75cd3e2a849be",
+      "derived_source_row_sha256": "52174d96fde85402d0e434a2f19df228d04dac7f5ffe21720cd2c506a04fde18",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 12,
+      "parent_sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square",
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square:polish_v1",
+      "source_row_sha256": "7e1a77d4e75b144c9f2e51d2f78adc03ff565deda6275cac5ece23345c1e0903",
+      "parent_overlay_row_sha256": "eec2782adc1267974d06f23bd3643d9377affe99ac433c245980c17abbd08ec0",
+      "derived_source_row_sha256": "e617a032d093574ca3076c217203c293eaa43be020ce75f33085fe3c06012972",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 13,
+      "parent_sample_id": "primary_20261017_g3_midpoint_angles_0036_misconception_equal_sides_right_angle",
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_misconception_equal_sides_right_angle:polish_v1",
+      "source_row_sha256": "891f3ab78f21a18bea00678f0144dc85147ed301c2a445638831f9b4ffc7b76f",
+      "parent_overlay_row_sha256": "f377765f0327c3f21ad268404840e6accff83ae2986932109012759952e277e5",
+      "derived_source_row_sha256": "1c623a2656e71deb329a21fa8c73f44fddafa067c945e037fb5addab24b6aa1d",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 14,
+      "parent_sample_id": "primary_20261017_g3_midpoint_angles_0036_guard_equal_distances_unknown_position",
+      "sample_id": "primary_20261017_g3_midpoint_angles_0036_guard_equal_distances_unknown_position:polish_v1",
+      "source_row_sha256": "31d11b6591f3a0ccc50ad109d95b1a6fdb7f00236dd2623fdafe6912d62fdd9f",
+      "parent_overlay_row_sha256": "064387acc031cae5f2a0ed690d870cd6a952e43a9148899e8ba44bf616fe1837",
+      "derived_source_row_sha256": "841685b4de61d33c56ca1d8df124e15775aec53d0e1a0e3f9217a5d6239f7914",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 15,
+      "parent_sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry",
+      "sample_id": "primary_20261017_g3_muldiv_0031_multiply_single_digit_with_carry:polish_v1",
+      "source_row_sha256": "f3418af1cf0bc29d5cbc1097d5b7f915d808647a69bc2646119db18d86da5236",
+      "parent_overlay_row_sha256": "607275324c1bfd001d65b7d322465936b63fc3c3f083f7bf267aca7c36021871",
+      "derived_source_row_sha256": "21df99d04a62770c706ecfece96fe5778375b0f3dbd5408efc3b47e5e362cc3c",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 16,
+      "parent_sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit",
+      "sample_id": "primary_20261017_g3_muldiv_0031_exact_division_zero_quotient_digit:polish_v1",
+      "source_row_sha256": "887a1e6d60d94fddf4ca15d6cd13d684c531b3c7be11688c2ac7bf2403bfaf4c",
+      "parent_overlay_row_sha256": "3bca0958c8c740eb0bdd2e7283160064e0ab3f059956c708056d85bc2644b28a",
+      "derived_source_row_sha256": "fc923951efa8ec3242d697d2e72e25c0d458ae9b2804df02b437949f25a30c24",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 17,
+      "parent_sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound",
+      "sample_id": "primary_20261017_g3_muldiv_0031_remainder_long_division_and_bound:polish_v1",
+      "source_row_sha256": "68e7eb496a8c5b8ea54933dd1a06efad69efd44a1df8e880dd8fe989d20e800c",
+      "parent_overlay_row_sha256": "57ecba07882bedcdc2cabd57e665d6606c05195a2209b41331004c90470e1d9f",
+      "derived_source_row_sha256": "bce1ac57e6d7f3a3e28f8608a164db7a3f59a758e2c44f81b03975dd0dc3d9c0",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 18,
+      "parent_sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small",
+      "sample_id": "primary_20261017_g3_muldiv_0031_misconception_remainder_not_small:polish_v1",
+      "source_row_sha256": "7c499c50f6637e71a1acb8607b4d6d4f7e8c22babc587b2625f1af75823f8134",
+      "parent_overlay_row_sha256": "7ffe86a76d73b9cebf837fe6436b074e4c142aac248bca2d2345bb0ed39fd47a",
+      "derived_source_row_sha256": "ac487eb6a7a077e37f5a2d2c1262046b564403d4ca7cb5158242fc952c4a3121",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 19,
+      "parent_sample_id": "primary_20261017_g3_muldiv_0031_guard_ambiguous_six_role",
+      "sample_id": "primary_20261017_g3_muldiv_0031_guard_ambiguous_six_role:polish_v1",
+      "source_row_sha256": "de4613937dcd59786b6a1ee12f1a72a603f63c69281365c87c4c556b2ad5956f",
+      "parent_overlay_row_sha256": "a77db8733b278e9cd50e9e109364e9dc470f1a389d72e28cefd79492380f660a",
+      "derived_source_row_sha256": "5433da793ef4a72e4259123035533abd0e90aba4d7e7351697371fe5b8fdcab7",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Một số hint nhắc lại chữ số của đề; không thể đưa thẳng vào runtime /guide nếu quy định cấm chữ số."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 20,
+      "parent_sample_id": "primary_20261017_g3_order_0028_five_to_six_digit_boundary",
+      "sample_id": "primary_20261017_g3_order_0028_five_to_six_digit_boundary:polish_v1",
+      "source_row_sha256": "d28c15e12fe2b2e362cfbd368c942fb262263476c01ad616a87ea1003b38f7f2",
+      "parent_overlay_row_sha256": "01989b14012f292719d370a6838c8c540107f95177e59b243054616cda38661f",
+      "derived_source_row_sha256": "54fb92379d1efe7129f0f3550faa42d2060903ef438a2faa0c7f8e77f9099fc5",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 21,
+      "parent_sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss",
+      "sample_id": "primary_20261017_g3_properties_0032_regroup_addends_without_loss:polish_v1",
+      "source_row_sha256": "3958c2eb4c7c01f833d73008cd4ce61cb5075e45522a431401053bcdbff49254",
+      "parent_overlay_row_sha256": "8b7b32df19bafe84684d5ed9db335ef7228db288e1ed08bc6b5c8a99b946e59a",
+      "derived_source_row_sha256": "7cf0a18dfc5d672f1e30f530fb4061085ea27bc9755fce14776c580f0c18b752",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 22,
+      "parent_sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways",
+      "sample_id": "primary_20261017_g3_properties_0032_associate_multiplication_two_ways:polish_v1",
+      "source_row_sha256": "ba943ad958ec5acae24683e00da245d7cc3e67cbf95b152b5dcb0b109e506e69",
+      "parent_overlay_row_sha256": "6c5c7187323af46d3feb1db54361ef8d42a21e631843e947d845e9ab1eae5b94",
+      "derived_source_row_sha256": "4e924b3f2a5495245ada7f3e975533e94efe56abf1eca8ee1dfdf16a75c64d16",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 23,
+      "parent_sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles",
+      "sample_id": "primary_20261017_g3_properties_0032_inverse_addition_checks_roles:polish_v1",
+      "source_row_sha256": "9dd148463f66a9c295b6da81ff27aded1155b2e2af36c0b66af0b0d2cbae5785",
+      "parent_overlay_row_sha256": "5617065e5d5086a45ee3dbda587d69621bb30b13bebef545315993b20aa824e2",
+      "derived_source_row_sha256": "e109f6777de7dad1c930eacc1404c5269613eae69365d2d14a91906ab0b75772",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 24,
+      "parent_sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity",
+      "sample_id": "primary_20261017_g3_properties_0032_misconception_subtraction_associativity:polish_v1",
+      "source_row_sha256": "bfca7f476133af513758806674dd60faebfa578c9abf64389ea52a85e5ad73e7",
+      "parent_overlay_row_sha256": "d756f8e697b24ea83ff3eb1d867d0dcccf17761f5d561ca21fdb7d841b772da9",
+      "derived_source_row_sha256": "2eadf12643d93a5bfc6afcac3aa8476281325f1584c139f0337ab87b4472e55b",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 25,
+      "parent_sample_id": "primary_20261017_g3_properties_0032_guard_missing_original_operator",
+      "sample_id": "primary_20261017_g3_properties_0032_guard_missing_original_operator:polish_v1",
+      "source_row_sha256": "d04154eb37712d5bbc0b73ab0a9e766918483aa52211cb02493f67d9d4e2e79a",
+      "parent_overlay_row_sha256": "2133b2f1ac2cc922dcddaeb83544db62002c0ffb6049bd3d2a35a4e13b6de6bb",
+      "derived_source_row_sha256": "1747569ae915c1d7a5bd87f41b7940fa025064501f7a072c7bcef44aa4625b63",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 26,
+      "parent_sample_id": "primary_20261017_g3_roman_0027_contrast_four_six_order",
+      "sample_id": "primary_20261017_g3_roman_0027_contrast_four_six_order:polish_v1",
+      "source_row_sha256": "77367be0196649d9be497e02a18121fccab07041904920239f73f9779714220c",
+      "parent_overlay_row_sha256": "a44785ee37b9b69a16a0dfc85948ca40be27dd1f97ab0de91813191bec33dc64",
+      "derived_source_row_sha256": "3ef939af6cafa84211bee9e375801fb0d678adad1f02100eb9ed47163ee60561",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 27,
+      "parent_sample_id": "primary_20261017_g3_rounding_0029_report_rounded_count_not_exact",
+      "sample_id": "primary_20261017_g3_rounding_0029_report_rounded_count_not_exact:polish_v1",
+      "source_row_sha256": "201e2e084d2f3c98dca07cc1ec4614c0137867bcb203b89ddb81541df22bcb74",
+      "parent_overlay_row_sha256": "6ec49ce9b6a8e7e21f7fd9827b5ea4ba2eb701de63d454bfb92699ebe1d28e7d",
+      "derived_source_row_sha256": "9ce81f5f0abcfdd4dbf63c4dd415dd57439138f293169333e58f0a5a98c5470c",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 28,
+      "parent_sample_id": "primary_20261017_g3_rounding_0029_misconception_inspect_wrong_digit",
+      "sample_id": "primary_20261017_g3_rounding_0029_misconception_inspect_wrong_digit:polish_v1",
+      "source_row_sha256": "0f2b29d3dda372231dd39782c7f14e99a56ba840b590c19c2f7150ed69ffacd2",
+      "parent_overlay_row_sha256": "24374163f770f53309d632184d2e5e01d5de630081592cdf8e07615910adce46",
+      "derived_source_row_sha256": "f93388524912bb86b2731aa26d4944b446b30fbb728ea7711f174050115ecc91",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 29,
+      "parent_sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal",
+      "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal:polish_v1",
+      "source_row_sha256": "5caafe8ce11adf4ee2b8a297105188c38db6ebd534c176d9537657f4c116f40f",
+      "parent_overlay_row_sha256": "b18c6389a32be7130eea7b5fba6563aaceb37c1e1134b620d3c34227e636883a",
+      "derived_source_row_sha256": "095f6bdfbde0bda0826baf8982fa04c711b7637d6d961e4379c052d2678aaaa9",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 30,
+      "parent_sample_id": "primary_20261017_g3_shape_elements_0037_equal_sides_need_right_angles",
+      "sample_id": "primary_20261017_g3_shape_elements_0037_equal_sides_need_right_angles:polish_v1",
+      "source_row_sha256": "21e4917a2a2db3923753ff17a4902b4d02e4ec283752e34e9addbfd70dfe8e9b",
+      "parent_overlay_row_sha256": "d9887c64e70314b1fc56818132a5963971deac4b4da9a897b9edf36a8e078292",
+      "derived_source_row_sha256": "07de9c6bb16abe56ff065e9bf5acd0d59e1ac219cb3b736ce379f0eb3e97edf4",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 31,
+      "parent_sample_id": "primary_20261017_g3_shape_elements_0037_circle_radius_diameter_and_noncentral_segment",
+      "sample_id": "primary_20261017_g3_shape_elements_0037_circle_radius_diameter_and_noncentral_segment:polish_v1",
+      "source_row_sha256": "9b1419e068211ebc354afc58c2380dae0d7dd6e416359ac040ab6a8b2c51de76",
+      "parent_overlay_row_sha256": "e0e1efababebeecdfcfd8660b8639f1bf6fc9ff98d47f87d73e3e8adfa10e024",
+      "derived_source_row_sha256": "9aec30940c6ad100a27528cc9d9fe3779bd0eb32377a17f49301b86837c4fa67",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 32,
+      "parent_sample_id": "primary_20261017_g3_shape_elements_0037_misconception_radius_called_diameter",
+      "sample_id": "primary_20261017_g3_shape_elements_0037_misconception_radius_called_diameter:polish_v1",
+      "source_row_sha256": "ae7ff1e75e651172e35e2abd4f92c27a57d77cc9859f99936e47e87249820742",
+      "parent_overlay_row_sha256": "6bb181f8982b185cff7835dd2c7123b8c90e4cc976049645a2ff8080ec9b6363",
+      "derived_source_row_sha256": "a3d29d21800c82e1aa36a25601afcce093ba9243cb290907bde3c7938d738773",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 33,
+      "parent_sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count",
+      "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+      "source_row_sha256": "622f4a6e014191b9df175bde4690bf3b277c71ad7edcb0498d74ba283062b1dc",
+      "parent_overlay_row_sha256": "9be6ff1e180888bd47b5ba6aefe1fcbe8574a63c216d34256648d4abf21ecd10",
+      "derived_source_row_sha256": "143ac73a7a213904bae33437302df843d7e2a5a35e929e798e7b18ad464379ec",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 34,
+      "parent_sample_id": "primary_20261017_g3_solid_elements_0038_same_counts_not_same_cube_condition",
+      "sample_id": "primary_20261017_g3_solid_elements_0038_same_counts_not_same_cube_condition:polish_v1",
+      "source_row_sha256": "7981c40c32d975f2473e846537b889a4b42b14adb1cce897a23005122acb1515",
+      "parent_overlay_row_sha256": "cc5fc52c979e24678f1c35922d7ffe1b3c6ef2bfdc07df4b59c2beb860412cc5",
+      "derived_source_row_sha256": "1056ab59a540e0701c9d5ccefeb5ba14bac5567d621f7ed567f924f0c47546d4",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 35,
+      "parent_sample_id": "primary_20261017_g3_solid_elements_0038_incidence_and_opposite_face",
+      "sample_id": "primary_20261017_g3_solid_elements_0038_incidence_and_opposite_face:polish_v1",
+      "source_row_sha256": "e2e76f9913640e53f58c1a9985c56e3f66be2d1db42f79ed6ccb894541cda1e5",
+      "parent_overlay_row_sha256": "6e331c1188c9091bfe8001073cec6c1ef4d79ccf0927c94983ca9002e9712965",
+      "derived_source_row_sha256": "ae57a3717acc3fb3326f1af2d17d451d0bb1692dae2b5c9bc1256c4d48ab8b1b",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 36,
+      "parent_sample_id": "primary_20261017_g3_solid_elements_0038_misconception_visible_faces_are_all",
+      "sample_id": "primary_20261017_g3_solid_elements_0038_misconception_visible_faces_are_all:polish_v1",
+      "source_row_sha256": "8885e19d056186aa2efadb10bd01290b1c6ea0f1b7021b81185a59f44022bcee",
+      "parent_overlay_row_sha256": "8ceb012b8868d8da629ff0c1aaeb5b56b15fee6a7ffa90c5b0cea237b6bc6dcd",
+      "derived_source_row_sha256": "8a631930a822425633129726c7f3a8c97b8ac0152680acd5af124131220baba0",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 37,
+      "parent_sample_id": "primary_20261017_g3_solid_elements_0038_guard_single_square_view",
+      "sample_id": "primary_20261017_g3_solid_elements_0038_guard_single_square_view:polish_v1",
+      "source_row_sha256": "2b0cc8cb812ee122a2b5bb9b42802374e0011ba7f9397e0ab4fd114899d74d0b",
+      "parent_overlay_row_sha256": "4f681bc23d4436c1f8b32ef8c77bbc048146df817b5a1c551a56d4be8560df50",
+      "derived_source_row_sha256": "a88f312aa0b609e31030e2bb63606954b20b64fde6a87526c8b4e87cb0f549e9",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 38,
+      "parent_sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference",
+      "sample_id": "primary_20261017_g3_two_step_0034_reduce_by_factor_then_difference:polish_v1",
+      "source_row_sha256": "7e3de5e1118bb6e90d3b25b44298ae0e19264ecd17d0a1a7e3e42582d55e0743",
+      "parent_overlay_row_sha256": "af2a9b213053ba13dfda6b1ca25ccd8008907a0cc2d39a83c5c2e5a6f73e2cdc",
+      "derived_source_row_sha256": "8e1e6abe8625213c894b908fd737787bd2f71d0e80742fe93c9d162f1925f279",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Một số hint nhắc lại chữ số của đề; không thể đưa thẳng vào runtime /guide nếu quy định cấm chữ số."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 39,
+      "parent_sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes",
+      "sample_id": "primary_20261017_g3_two_step_0034_ratio_after_one_group_changes:polish_v1",
+      "source_row_sha256": "9509ccc5b6db5434e46df1263429d5483884ceacb150e3d2a93ebe4b4dde8a2d",
+      "parent_overlay_row_sha256": "a9aaa99493271b04d08e1c22257f15becc86b213fcd9a498a66e7c86d21fbca4",
+      "derived_source_row_sha256": "cabf96af05d69484a3e4e1ee04eb7df3cfe6f21218847b7246b769e11cef7b35",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 40,
+      "parent_sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction",
+      "sample_id": "primary_20261017_g3_two_step_0034_misconception_factor_as_subtraction:polish_v1",
+      "source_row_sha256": "5cb67495b6c6d205b4dec6f9d84074f55b94de2b39b27558934b4066b75dca33",
+      "parent_overlay_row_sha256": "22d4b4f2772dc5b7ebb4dfcc32e02a695d12b749a3f43ad1ea192061001e5853",
+      "derived_source_row_sha256": "7c21f8177db018f1c20238ded067eee4fdadde6ca3ac778f746e353abdf4a4d0",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Một số hint nhắc lại chữ số của đề; không thể đưa thẳng vào runtime /guide nếu quy định cấm chữ số.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 41,
+      "parent_sample_id": "primary_20261017_g3_two_step_0034_guard_missing_items_per_bag",
+      "sample_id": "primary_20261017_g3_two_step_0034_guard_missing_items_per_bag:polish_v1",
+      "source_row_sha256": "84b737897354cac38291b4c8dfdd1912e27f33c1d38f1ef57cbbc921468720d0",
+      "parent_overlay_row_sha256": "21caf87df1bbe43e19fe1c51f52eeb22a1f847d28a3e26a07402f1df769605ea",
+      "derived_source_row_sha256": "074246656bb110c542570bf46260f5a6156b0fbb537d9fc12ef3bd577c461cd7",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 42,
+      "parent_sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts",
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_one_of_six_equal_area_parts:polish_v1",
+      "source_row_sha256": "61a344961aa91dff03c8c7d4064018648c6ca68b9e0964ab8a4ef8f56a3e2197",
+      "parent_overlay_row_sha256": "e66ad847fcaf49594449eeb78031eedd45967f78a9cebef42bec36880e724011",
+      "derived_source_row_sha256": "30dbf9caccc3744301d8ed2cbe6ca10643d4d442520cd9806751ca24c41d73fb",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 43,
+      "parent_sample_id": "primary_20261017_g3_unit_fraction_0035_unit_fraction_of_discrete_group",
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_unit_fraction_of_discrete_group:polish_v1",
+      "source_row_sha256": "889e51a90e9ea818b7c8ae63cfdf1a4fba4b71a48e4937bad023a187724d47f5",
+      "parent_overlay_row_sha256": "e53c77adb04f735384f1bd86de09d88e73d63090b01292bae2ad12ea55a9281b",
+      "derived_source_row_sha256": "0efc16cfdd00e284abfd66a4c6dc93eb9736a764edd24e3bbcb503222deadded",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 44,
+      "parent_sample_id": "primary_20261017_g3_unit_fraction_0035_seven_unequal_pieces_not_sevenths",
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_seven_unequal_pieces_not_sevenths:polish_v1",
+      "source_row_sha256": "aa2eb2cb7762038ed3e91295679818b43af374e011b75831b9aca3a97a78d4e0",
+      "parent_overlay_row_sha256": "363befd5a1230d4d9456e0b90231f6a9984169cc7ef357b6464ee94da61e0a95",
+      "derived_source_row_sha256": "b5c2c05bb880486f186825d806f20888b6291fc8fe7e54363ca3a1c06aea1119",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 45,
+      "parent_sample_id": "primary_20261017_g3_unit_fraction_0035_misconception_denominator_as_selected_count",
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_misconception_denominator_as_selected_count:polish_v1",
+      "source_row_sha256": "117da240614c82f2bb877393382482746a000e12edeb5887010c8d4989c1be6c",
+      "parent_overlay_row_sha256": "d6f52a8f7b4208e030db099d8b7bb93af05ae4f280d7563cdaa83418afbd75e7",
+      "derived_source_row_sha256": "7fd13da1ee459e6cd250e1f03f411b0e55bfb4d7608e6f7dab0644a987ebe3e1",
+      "issues_addressed": [
+        "Định dạng thiếu khoảng trắng giữa chữ và chữ số; nên chuẩn hóa trước SFT.",
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    },
+    {
+      "index": 46,
+      "parent_sample_id": "primary_20261017_g3_unit_fraction_0035_guard_unknown_equal_areas",
+      "sample_id": "primary_20261017_g3_unit_fraction_0035_guard_unknown_equal_areas:polish_v1",
+      "source_row_sha256": "2317c3dbac3279fcdf44a36552ee99d5055cba24576349596253262921de9308",
+      "parent_overlay_row_sha256": "41fedcf75cd17fb71cd1655c0853d9089074a1940fe83ab1d5f49f8e0e58a10e",
+      "derived_source_row_sha256": "e3810ca11e41ac4377467c7d0db435bf735569e0dc6ae8017e86c2b47f91db24",
+      "issues_addressed": [
+        "Thiếu khoảng trắng sau dấu câu trong đề; cần chuẩn hóa để tránh dạy model viết xấu.",
+        "Chỉ xác minh lập luận trên văn bản giả định; không kiểm chứng năng lực xử lý ảnh hoặc thao tác vật lý."
+      ],
+      "physical_or_vision_verification_claimed": false,
+      "new_human_review_claim": false
+    }
+  ],
+  "status": "47_DERIVATIVES_QA_COMPLETE",
+  "original_sources_modified": false,
+  "owner_signoffs_modified": false,
+  "QA_evidence_sha256": "2a739e9526506a520058a5c4afa3562243011b9e714bc3353d7e98e7e3c01a3d"
+}

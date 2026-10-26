@@ -1,0 +1,8 @@
+{
+  "fixture_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "count": 20,
+  "frozen_before_new_candidate_outputs": true,
+  "not_used_for_training": true,
+  "no_prior_locked_fixture_access": true,
+  "source_screening_scope": "Actual16k exact+numbermasked only; full6.5M independence unproven"
+}

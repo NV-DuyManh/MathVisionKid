@@ -1,0 +1,104 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g4_answer_01",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Một dải giấy dùng để trang trí. Buổi sáng dùng 7/12 m, buổi chiều dùng thêm 1/6 m. Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?",
+      "expected_answer": "3/4 m",
+      "rubric": [
+        "Replace grade5 decimal topic by grade4 fraction addition.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base_output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- Đề bài nói về một dải giấy được dùng để trang trí.\n- Buổi sáng dùng $\\frac{7}{12}$ m.\n- Buổi chiều dùng thêm $\\frac{1}{6}$ m.\n- Yêu cầu: Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?\n\n**Dữ kiện đủ và nhất quán**.\n\n---\n\n**Giải từng bước:**\n\n1. **Xác định đơn vị đo:** Dữ kiện đều được cho là mét (m), nên ta giữ nguyên đơn vị đo.\n\n2. **Tính tổng số mét giấy dùng trong hai buổi:**\n\n   - Số mét giấy dùng buổi sáng: $\\frac{7}{12}$ m.\n   - Số mét giấy dùng buổi chiều: $\\frac{1}{6}$ m.\n\n   Tính tổng:\n   $$\n   \\frac{7}{12} + \\frac{1}{6}\n   $$\n\n   Chuyển $\\frac{1}{6}$ thành $\\frac{2}{12}$ để cùng mẫu số:\n   $$\n   \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4} \\text{ m}\n   $$\n\n3. **Kiểm tra lại:**\n\n   - $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$ m.\n   - Đơn vị là mét (m), đúng với dữ kiện.\n\n---\n\n**Kết quả cuối cùng:**\n\nHai buổi dùng tổng cộng $\\boxed{\\frac{3}{4}}$ mét giấy.\n\n**Lời giải đầy đủ, kiểm lại đúng, không tự chọn số liệu.**",
+    "adapter_output": "**Trước hết kiểm tra dữ kiện và yêu cầu của đề:**\n\n- Đề bài nói về một dải giấy được dùng để trang trí.\n- Buổi sáng dùng $\\frac{7}{12}$ m.\n- Buổi chiều dùng thêm $\\frac{1}{6}$ m.\n- Yêu cầu: Hỏi hai buổi dùng tất cả bao nhiêu mét giấy?\n\n**Dữ kiện đủ và nhất quán**.\n\n---\n\n**Giải từng bước:**\n\n1. **Xác định đơn vị đo:** Dữ kiện đều được dùng trong mét (m), nên đơn vị đo là mét.\n\n2. **Tính tổng số mét giấy dùng trong hai buổi:**\n\n   - Số mét giấy dùng buổi sáng: $\\frac{7}{12}$ m.\n   - Số mét giấy dùng buổi chiều: $\\frac{1}{6}$ m.\n\n   Ta cộng hai phân số có cùng mẫu số:\n\n   $$\n   \\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4} \\text{ m}\n   $$\n\n3. **Kiểm tra lại:**  \n   - $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$.\n   - Đơn vị là mét, đúng với yêu cầu.\n\n4. **Kết luận:**  \n   Hai buổi dùng tổng cộng $\\frac{3}{4}$ mét giấy.\n\n---\n\n**Lời giải đầy đủ:**\n\n- Tổng số mét giấy dùng trong hai buổi là $\\frac{3}{4}$ m.\n- Kiểm tra lại: $\\frac{7}{12} + \\frac{1}{6} = \\frac{7}{12} + \\frac{2}{12} = \\frac{9}{12} = \\frac{3}{4}$.\n\n**Đáp án:** Hai buổi dùng tổng cộng $\\frac{3}{4}$ mét giấy.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_answer_02",
+      "grade": 4,
+      "mode": "answer",
+      "userproblem": "Một mảnh vườn hình chữ nhật dài 12 m và rộng 7 m. Tính diện tích mảnh vườn.",
+      "expected_answer": "84 m²",
+      "rubric": [
+        "area; square units",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Mảnh vườn hình chữ nhật có độ dài 12 m và độ rộng 7 m.\n- **Yêu cầu:** Tính diện tích mảnh vườn.\n\n**2. Kiểm tra tính nhất quán và đầy đủ của dữ kiện:**\n\n- Dữ kiện đủ và nhất quán.\n- Không có thiếu dữ kiện hoặc mâu thuẫn.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 12 \\, \\text{m} \\times 7 \\, \\text{m} = 84 \\, \\text{m}^2\n$$\n\n**4. Kiểm lại kết quả:**\n\n- Các số đo đều có đơn vị là mét (m), nên kết quả có đơn vị là mét vuông (m²).\n- Tính toán đúng, không có sai sót.\n\n**5. Kết luận:**\n\nDiện tích mảnh vườn là **84 m²**.\n\n**Lời giải đầy đủ:**\n\n- Diện tích mảnh vườn được tính bằng cách nhân chiều dài với chiều rộng: $12 \\times 7 = 84$.\n- Kết quả kiểm tra: đúng và nhất quán.\n\n**Đáp án: 84 m²**",
+    "adapter_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:** Mảnh vườn hình chữ nhật có độ dài 12 m và độ rộng 7 m.\n- **Yêu cầu:** Tính diện tích mảnh vườn.\n\n**2. Kiểm tra tính nhất quán và đầy đủ của dữ kiện:**\n\n- Dữ kiện đủ và nhất quán.\n- Không có mâu thuẫn.\n- Không thiếu dữ kiện.\n\n**3. Giải bài toán:**\n\nDiện tích của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Diện tích} = \\text{Chiều dài} \\times \\text{Chiều rộng}\n$$\n\nThay số vào công thức:\n\n$$\n\\text{Diện tích} = 12 \\, \\text{m} \\times 7 \\, \\text{m} = 84 \\, \\text{m}^2\n$$\n\n**4. Kiểm lại kết quả:**\n\n- Tính toán đúng, không có sai sót.\n- Đơn vị diện tích là mét vuông (m²), đúng với đơn vị của độ dài.\n- Kết quả 84 m² là hợp lý với kích thước mảnh vườn có kích thước 12 m x 7 m.\n\n**5. Lời giải đầy đủ:**\n\n- Diện tích mảnh vườn được tính bằng cách nhân chiều dài với chiều rộng.\n- Tính toán: $12 \\times 7 = 84$.\n- Kết quả: Diện tích mảnh vườn là $84 \\, \\text{m}^2$.\n\n**Lời giải đúng:** $84 \\, \\text{m}^2$.\n\n**Chỗ cần sửa (nếu có):** Không có chỗ cần sửa. Lời giải đúng và đầy đủ.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_hint_no_answer_01",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Một bình ban đầu có 7/8 l nước. Gia đình uống 1/4 l. Hãy tìm lượng nước còn lại.",
+      "expected_answer": "Gợi ý: Đổi hai phân số về cùng mẫu số, rồi lấy lượng ban đầu trừ lượng đã uống. Giữ đơn vị lít.",
+      "rubric": [
+        "Grade4 fractions; no final numerical answer in hint.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base_output": "**Bước đầu:**  \nChúng ta cần tìm lượng nước còn lại sau khi gia đình uống 1/4 l nước từ bình có 7/8 l nước ban đầu.\n\n**Lời giải:**\n\n1. Ban đầu có: $ \\frac{7}{8} $ l nước.\n2. Gia đình uống: $ \\frac{1}{4} $ l nước.\n3. Lượng nước còn lại = Ban đầu - Lượng uống = $ \\frac{7}{8} - \\frac{1}{4} $.\n\nĐể trừ hai phân số có cùng mẫu, ta đổi $\\frac{1}{4}$ thành $\\frac{2}{8}$:\n\n$ \\frac{7}{8} - \\frac{2}{8} = \\frac{5}{8} $ l nước.\n\n**Đáp án:** $ \\frac{5}{8} $ l nước.",
+    "adapter_output": "**Bước đầu:**\n\n- Bình ban đầu có 7/8 l nước.\n- Gia đình uống 1/4 l nước.\n\n**Lượng nước còn lại = Lượng ban đầu - Lượng đã uống = 7/8 l - 1/4 l**\n\n**Làm phép tính:**\n- 7/8 - 1/4 = 7/8 - 2/8 = 5/8\n\n**Kết quả:**\nLượng nước còn lại là 5/8 l.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_hint_no_answer_02",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "userproblem": "Một tấm bìa hình chữ nhật dài 16 cm, rộng 9 cm. Em hãy tìm chu vi tấm bìa.",
+      "expected_answer": "Gợi ý: Hình chữ nhật có hai cạnh dài và hai cạnh rộng bằng nhau. Cộng bốn cạnh hoặc dùng công thức chu vi.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base_output": "**Bước 1:** Chú ý rằng tấm bìa là hình chữ nhật có chiều dài 16 cm và chiều rộng 9 cm.\n\n**Bước 2:** Chu vi của hình chữ nhật được tính bằng công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\n**Bước 3:** Thay số vào công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (16 + 9) = 2 \\times 25 = 50 \\text{ cm}\n$$\n\n**Kết quả:** Chu vi tấm bìa là **50 cm**.",
+    "adapter_output": "**Bước 1: Xác định kích thước hình chữ nhật**  \nHình chữ nhật có chiều dài 16 cm và chiều rộng 9 cm.\n\n**Bước 2: Tính chu vi hình chữ nhật**  \nChu vi hình chữ nhật được tính bằng công thức:  \n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nThay số vào công thức:\n$$\n\\text{Chu vi} = 2 \\times (16 + 9) = 2 \\times 25 = 50 \\text{ cm}\n$$\n\n**Kết quả:** Chu vi tấm bìa là **50 cm**.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_missing_or_contradictory_info_01",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một tấm bìa hình chữ nhật dài 15 cm. Dòng thứ nhất ghi chiều rộng 8 cm; dòng thứ hai ghi chiều rộng 6 cm. Hỏi diện tích tấm bìa là bao nhiêu?",
+      "expected_answer": "Hai giá trị chiều rộng mâu thuẫn. Cần kiểm tra chiều rộng là 8 cm hay 6 cm trước khi chọn một diện tích duy nhất.",
+      "rubric": [
+        "Replace grade5 velocity with grade4 area/contradiction; do not pick value arbitrarily.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base_output": "**Đề bài:**\n\n- Một tấm bìa hình chữ nhật dài 15 cm.\n- Dòng thứ nhất ghi chiều rộng 8 cm.\n- Dòng thứ hai ghi chiều rộng 6 cm.\n\n**Yêu cầu:**\n\n- Kiểm tra dữ kiện và yêu cầu của đề.\n- Giải thích từng bước, kiểm lại kết quả.\n- Nếu thiếu dữ kiện hoặc mâu thuẫn, chỉ rõ và hỏi nguồn.\n\n---\n\n**1. Kiểm tra dữ kiện và yêu cầu:**\n\n- Dữ kiện: Tấm bìa hình chữ nhật dài 15 cm, chiều rộng lần lượt là 8 cm và 6 cm.\n- Yêu cầu: Tính diện tích tấm bìa.\n\n**2. Kiểm tra tính nhất quán:**\n\n- Dữ kiện có mâu thuẫn: Tấm bìa có hai chiều rộng: 8 cm và 6 cm. Điều này mâu thuẫn vì chiều rộng của một hình chữ nhật chỉ có một giá trị. Do đó, đề thiếu dữ kiện hoặc có mâu thuẫn.\n\n**3. Đề thiếu dữ kiện:**\n\n- **Phần thiếu:** Dữ kiện thiếu thông tin về chiều dài hoặc chiều rộng của tấm bìa. Cần bổ sung thông tin về chiều dài hoặc chiều rộng để tính diện tích.\n\n**4. Lời giải (nếu có thể):**\n\n- **Lời giải:** Đề thiếu dữ kiện. Không thể tính diện tích vì thiếu thông tin về chiều dài hoặc chiều rộng của tấm bìa.\n\n---\n\n**Kết luận:**\n\n- Đề thiếu dữ kiện.\n- Cần bổ sung thông tin về chiều dài hoặc chiều rộng của tấm bìa để tính diện tích.",
+    "adapter_output": "**Đề bài:**\n\n- Một tấm bìa hình chữ nhật dài 15 cm.\n- Dòng thứ nhất ghi chiều rộng 8 cm.\n- Dòng thứ hai ghi chiều rộng 6 cm.\n\n**Yêu cầu:**\n\n- Kiểm tra dữ kiện và yêu cầu của đề.\n- Giải thích từng bước, kiểm lại kết quả.\n- Nếu thiếu dữ kiện hoặc mâu thuẫn, chỉ rõ và hỏi nguồn.\n\n---\n\n**1. Kiểm tra dữ kiện và yêu cầu:**\n\n- Dữ kiện: Tấm bìa hình chữ nhật dài 15 cm, chiều rộng lần lượt là 8 cm và 6 cm.\n- Yêu cầu: Tính diện tích tấm bìa.\n\n**2. Kiểm tra tính nhất quán:**\n\n- Dữ kiện có mâu thuẫn: Tấm bìa có hai chiều rộng: 8 cm và 6 cm. Điều này mâu thuẫn vì chiều rộng của một hình chữ nhật chỉ có một giá trị. Do đó, đề thiếu dữ kiện hoặc có mâu thuẫn.\n\n**3. Đề thiếu dữ kiện:**\n\n- Dữ kiện thiếu: Cần biết chiều dài và chiều rộng của tấm bìa. Hiện tại, đề chỉ ghi chiều dài là 15 cm, nhưng không xác định chiều rộng. Ngoài ra, đề ghi hai chiều rộng: 8 cm và 6 cm, mâu thuẫn.\n\n**4. Lời giải (theo yêu cầu):**\n\n- **Đề thiếu dữ kiện:** Không thể tính diện tích tấm bìa vì thiếu thông tin về chiều rộng của tấm bìa.\n\n**→ Kết luận:**\n\n- Đề thiếu dữ kiện, cụ thể là thiếu thông tin về chiều rộng của tấm bìa. Không thể tính diện tích vì thiếu thông số.\n\n---\n\n**Lời giải đúng (theo yêu cầu):**\n\n- **Đề thiếu dữ kiện:** Không thể tính diện tích tấm bìa vì thiếu thông tin về chiều rộng của tấm bìa.",
+    "completed_eos": true,
+    "timed_out": false
+  },
+  {
+    "fixture": {
+      "id": "dev25_g4_student_error_01",
+      "grade": 4,
+      "mode": "student_error",
+      "userproblem": "Một sợi dây dài 3/4 m, đã dùng 1/8 m. Hà viết: “3/4 - 1/8 = 5/8 m còn lại.” Hãy nhận xét đúng dòng Hà đã viết.",
+      "expected_answer": "Dòng của Hà đúng: 3/4 = 6/8 nên 6/8 - 1/8 = 5/8 m.",
+      "rubric": [
+        "Grade4 fraction subtraction and correct supplied work acceptance.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Dây dài 3/4 m  \n  - Đã dùng 1/8 m  \n  - Hà viết: “3/4 - 1/8 = 5/8 m còn lại.”\n\n- **Yêu cầu:**  \n  - Nhận xét đúng dòng Hà đã viết.  \n  - Kiểm tra tính đúng đắn của phép tính và kết quả.\n\n**2. Giải thích từng bước:**\n\n- **Phép tính:**  \n  Hà đã thực hiện phép trừ:  \n  $$\n  \\frac{3}{4} - \\frac{1}{8}\n  $$\n\n- **Kiểm tra đơn vị và ý nghĩa:**  \n  - Dữ liệu được cung cấp trong đề là: 3/4 m và 1/8 m, đều có đơn vị là mét (m).  \n  - Phép tính được thực hiện đúng với đơn vị và ý nghĩa của các số đo.\n\n- **Tính toán:**  \n  $$\n  \\frac{3}{4} - \\frac{1}{8} = \\frac{6}{8} - \\frac{1}{8} = \\frac{5}{8} \\text{ m}\n  $$\n\n- **Kết quả:**  \n  - Kết quả là 5/8 m, đúng với phép tính và đơn vị.\n\n- **Nhận xét:**  \n  - Dòng Hà viết đúng: “3/4 - 1/8 = 5/8 m còn lại.”  \n  - Kết quả đúng, tính toán đúng, đơn vị và ý nghĩa đều phù hợp.\n\n**3. Kết luận:**\n\n- **Đúng:** Dòng Hà đã viết đúng.  \n- **Có thể sửa:** Không cần sửa, vì phép tính và kết quả đều đúng.\n\n**Đáp án:**  \nDòng Hà đã viết **đúng**.",
+    "adapter_output": "**1. Kiểm tra dữ kiện và yêu cầu của đề:**\n\n- **Dữ kiện:**  \n  - Dây dài 3/4 m  \n  - Đã dùng 1/8 m  \n  - Hà viết: “3/4 - 1/8 = 5/8 m còn lại.”\n\n- **Yêu cầu:**  \n  - Nhận xét đúng dòng Hà đã viết.  \n  - Kiểm tra tính đúng đắn của phép tính và kết quả.\n\n**2. Giải thích từng bước:**\n\n- **Phép tính:**  \n  Hà đã thực hiện phép trừ:  \n  $$\n  \\frac{3}{4} - \\frac{1}{8}\n  $$\n\n- **Kiểm tra đơn vị và ý nghĩa:**  \n  - Dữ liệu được cung cấp trong đề là: 3/4 m và 1/8 m (đơn vị là mét).  \n  - Kết quả được viết là 5/8 m, cũng có đơn vị là mét.  \n  - Tính toán đúng về đơn vị và ý nghĩa: 3/4 m là 0.75 m, 1/8 m là 0.125 m, hiệu là 0.625 m, tức là 5/8 m.\n\n- **Kiểm tra tính đúng đắn của phép tính:**  \n  - $ \\frac{3}{4} = \\frac{6}{8} $  \n  - $ \\frac{6}{8} - \\frac{1}{8} = \\frac{5}{8} $  \n  - Kết quả đúng.\n\n- **Kiểm lại kết quả:**  \n  - Dây ban đầu dài 3/4 m, đã dùng 1/8 m.  \n  - Còn lại: $ \\frac{3}{4} - \\frac{1}{8} = \\frac{5}{8} $ m.  \n  - Kết quả đúng.\n\n**3. Nhận xét:**  \n- **Đúng:** Dòng Hà đã viết đúng: $ \\frac{3}{4} - \\frac{1}{8} = \\frac{5}{8} $ m còn lại.  \n- **Có thể sửa:** Không có lỗi trong phép tính hay kết quả.  \n- **Không có mâu thuẫn, thiếu dữ kiện.**\n\n**4. Kết luận:**  \nDòng Hà đã viết đúng, phép tính và kết quả đều hợp lý. Không cần sửa.",
+    "completed_eos": true,
+    "timed_out": false
+  }
+]

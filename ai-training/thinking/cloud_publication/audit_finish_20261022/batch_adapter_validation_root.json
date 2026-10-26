@@ -1,0 +1,188 @@
+{
+  "schema": "MathVisionKid.exact_batch_token_adapter_validation.v1",
+  "success": true,
+  "tests_run": 21,
+  "test_names": [
+    "__main__.BatchAdapterTests.test_actual_gzip_crc_and_utf8_damage_preserve_database_cursor",
+    "__main__.BatchAdapterTests.test_batch256_and_strict_character_bounds_and_oversize_fallback",
+    "__main__.BatchAdapterTests.test_batch_backend_failures_and_partial_cache_use_original_rows",
+    "__main__.BatchAdapterTests.test_batch_only_row_gate_mismatch_retries_original_scalar",
+    "__main__.BatchAdapterTests.test_buffered_stream_io_and_unicode_failures_preserve_committed_rows",
+    "__main__.BatchAdapterTests.test_canonical_row_encoding_failure_keeps_original_hash_error_position",
+    "__main__.BatchAdapterTests.test_declared_row_count_remains_enforced",
+    "__main__.BatchAdapterTests.test_duplicate_render_failure_keeps_original_short_circuit",
+    "__main__.BatchAdapterTests.test_embedded_delimiters_eot_and_length_exact_errors",
+    "__main__.BatchAdapterTests.test_exact_cache_key_includes_all_canonical_row_bytes",
+    "__main__.BatchAdapterTests.test_exact_template_token_mismatch_gate",
+    "__main__.BatchAdapterTests.test_full_ids_masks_counts_unicode_and_modes",
+    "__main__.BatchAdapterTests.test_full_scanner_database_parity_including_original_linkage_issues",
+    "__main__.BatchAdapterTests.test_invalid_lines_preserve_error_order_commits_and_cursor",
+    "__main__.BatchAdapterTests.test_length_failure_deferred_until_original_commit_boundary",
+    "__main__.BatchAdapterTests.test_official_batch_calls_are_independent_and_untruncated",
+    "__main__.BatchAdapterTests.test_official_prefix_mismatch_gate_is_unchanged",
+    "__main__.BatchAdapterTests.test_outside_context_thread_fallback_and_clean_uninstall",
+    "__main__.BatchAdapterTests.test_payload_hash_remains_enforced",
+    "__main__.BatchAdapterTests.test_render_failure_occurs_at_original_physical_commit_boundary",
+    "__main__.BatchAdapterTests.test_resume_keeps_every_physical_line_and_skips_encoding_old_rows"
+  ],
+  "tested_at_utc": "2026-10-22T11:40:50.553911+00:00",
+  "test_seconds": 24.30171499995049,
+  "failures": [],
+  "errors": [],
+  "evidence": {
+    "damaged_crc": {
+      "cursor": 48,
+      "error_type": "BadGzipFile",
+      "database_sha256": "8b8bfd6cff75dc833f732156d355e11b221f16a5897e3d13eee638648b1c3724",
+      "stats": {
+        "batches": 0,
+        "rows_batched": 0,
+        "cache_hits": 0,
+        "single_row_fallbacks": 48,
+        "skipped_resume_lines": 0,
+        "max_cache_rows": 0,
+        "max_rendered_chars": 0,
+        "max_raw_chars": 0,
+        "batch_prepare_fallbacks": 0,
+        "row_prepare_fallbacks": 0,
+        "cache_key_fallbacks": 0,
+        "stream_error_buffered_rows": 48
+      }
+    },
+    "damaged_utf8": {
+      "cursor": 36,
+      "error_type": "UnicodeDecodeError",
+      "database_sha256": "728a3381dd767430262c338977181c4f07a9ebf900279bc342f9d7c04cbbb8c7",
+      "stats": {
+        "batches": 0,
+        "rows_batched": 0,
+        "cache_hits": 0,
+        "single_row_fallbacks": 36,
+        "skipped_resume_lines": 0,
+        "max_cache_rows": 0,
+        "max_rendered_chars": 0,
+        "max_raw_chars": 0,
+        "batch_prepare_fallbacks": 0,
+        "row_prepare_fallbacks": 0,
+        "cache_key_fallbacks": 0,
+        "stream_error_buffered_rows": 36
+      }
+    },
+    "bounded_stats": {
+      "batches": 39,
+      "rows_batched": 267,
+      "cache_hits": 267,
+      "single_row_fallbacks": 1,
+      "skipped_resume_lines": 0,
+      "max_cache_rows": 7,
+      "max_rendered_chars": 4785,
+      "max_raw_chars": 4731,
+      "batch_prepare_fallbacks": 0,
+      "row_prepare_fallbacks": 0,
+      "cache_key_fallbacks": 0,
+      "stream_error_buffered_rows": 0
+    },
+    "differential": {
+      "rows": 48,
+      "exact_encoded_sha256": "c46fd9429538fb46b6b367956a508c5605e1f9935c997ec0e41b198131d86ff4",
+      "canonical_fixture_sha256": "4f3c70c48ad8f38d72783d3d84128fa8e786e88d88b536dc9450cf2726c7e563",
+      "compared_fields": [
+        "input_ids",
+        "attention_mask",
+        "labels",
+        "completion_tokens",
+        "prompt_tokens"
+      ]
+    },
+    "scanner_database_sha256": "21aaaceae5ca29d9c5ae8fb4f8f347ba16af29a9a815754c8b1971e899cbdb02",
+    "resume_stats": {
+      "batches": 6,
+      "rows_batched": 281,
+      "cache_hits": 280,
+      "single_row_fallbacks": 0,
+      "skipped_resume_lines": 284,
+      "max_cache_rows": 128,
+      "max_rendered_chars": 83640,
+      "max_raw_chars": 83184,
+      "batch_prepare_fallbacks": 0,
+      "row_prepare_fallbacks": 0,
+      "cache_key_fallbacks": 0,
+      "stream_error_buffered_rows": 0
+    }
+  },
+  "python": "3.13.9",
+  "tokenizer_model": "Qwen/Qwen3-1.7B",
+  "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "transformers_version": "5.16.1",
+  "tokenizer_files_sha256": {
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "files_sha256": {
+    "math_data_batch_token_audit.py": "8d978eceeabebda9103ae23a16c23beab5b8cf5f2248984eda0b584facbedf92",
+    "test_math_data_batch_token_audit.py": "44f2afcb8265ba6188898b98d210797d2e38bc95065fe1bc4c3b33be933d8164",
+    "math_data_full_audit_v3.py": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+    "math_data_archive_audit.py": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+    "exhaustive_colab_loader.py": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+  },
+  "model_weights_loaded": false,
+  "training_started": false,
+  "protected_data_read": false,
+  "runtime_scanner_modified": false,
+  "fixtures": "Fresh temporary synthetic train sources and chats only",
+  "original_files_before_and_after_sha256": {
+    "math_data_full_audit_v3.py": "02431da433060a6574127f9a8e14d90cabffe85d8d0150c3b2a331dc15b4be1f",
+    "math_data_archive_audit.py": "d7540fc709b8d1ae5fccc959bda32cbd463b8f23bf9c9098db5f9d2659537d7a",
+    "exhaustive_colab_loader.py": "9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c"
+  },
+  "throughput": {
+    "rows": 512,
+    "fixture_sha256": "bc7b9e1aa069233b88e3625bffcf4a6107009e21e4077854a847752b4b6f0634",
+    "exact_encoded_sha256": "a588d696bbb4b598ad508d5fc8c3b7d479fbd19f2a216f0bd06b453691ce8bee",
+    "original_seconds": 0.6225528999930248,
+    "original_rows_per_second": 822.4200706570263,
+    "batches": {
+      "128": {
+        "seconds": 0.41718879994004965,
+        "rows_per_second": 1227.2620935019704,
+        "speedup": 1.4922569831272703,
+        "stats": {
+          "batches": 4,
+          "rows_batched": 512,
+          "cache_hits": 0,
+          "single_row_fallbacks": 0,
+          "skipped_resume_lines": 0,
+          "max_cache_rows": 128,
+          "max_rendered_chars": 92148,
+          "max_raw_chars": 91648,
+          "batch_prepare_fallbacks": 0,
+          "row_prepare_fallbacks": 0,
+          "cache_key_fallbacks": 0,
+          "stream_error_buffered_rows": 0
+        }
+      },
+      "256": {
+        "seconds": 0.30592309997882694,
+        "rows_per_second": 1673.6232080396535,
+        "speedup": 2.0349980110560852,
+        "stats": {
+          "batches": 2,
+          "rows_batched": 512,
+          "cache_hits": 0,
+          "single_row_fallbacks": 0,
+          "skipped_resume_lines": 0,
+          "max_cache_rows": 256,
+          "max_rendered_chars": 183204,
+          "max_raw_chars": 182252,
+          "batch_prepare_fallbacks": 0,
+          "row_prepare_fallbacks": 0,
+          "cache_key_fallbacks": 0,
+          "stream_error_buffered_rows": 0
+        }
+      }
+    },
+    "timing_scope": "render + exact tokenization + original gates + bounded cache; CPU synthetic only"
+  }
+}

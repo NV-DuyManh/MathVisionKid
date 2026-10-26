@@ -1,0 +1,723 @@
+{
+  "rows_scanned": 16000,
+  "prompt_shapes": {
+    "grade,mode,problem": 14888,
+    "grade,mode,problem,student_work": 924,
+    "givens,grade,mode,problem,requested_quantity,student_work": 188
+  },
+  "errors": [],
+  "all_semantic_field_instances_preserved": 86293,
+  "assistant_character_counts": {
+    "source_json": 5375288,
+    "verbal": 4935253
+  },
+  "samples": [
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "grade": 2,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 2.\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nBước 1\nNội dung: Trừ theo từng hàng\nVì sao: Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.\nPhép tính hoặc quan hệ: 565-103\nKết quả bước này: 462\nGiải thích: Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.\nBước 2\nNội dung: Kiểm bằng phép cộng\nVì sao: Hiệu cộng số trừ phải bằng số bị trừ.\nPhép tính hoặc quan hệ: 462+103\nKết quả bước này: 565\nGiải thích: 462 + 103 = 565, đúng số bị trừ.\nĐại lượng cần tìm: Hiệu\nĐáp số: 462",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Trừ theo từng hàng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].expression",
+            "value": "565-103",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "462",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Kiểm bằng phép cộng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Hiệu cộng số trừ phải bằng số bị trừ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "462+103",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "565",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "462 + 103 = 565, đúng số bị trừ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Hiệu",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "462",
+            "rendered_occurrences": 5
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "917ed2dfab37b89f34192f3cfd22664fe56a2af2a2e64365d1ca27af52fed8d1"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:worked_solution",
+      "grade": 3,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "22a0ccfc4903b33c56fca04dd53f1808e5adc9eefd930145b7ee2cc50143992d",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nBước 1\nNội dung: Lập các nhóm đủ\nVì sao: Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.\nKết quả bước này: 788\nGiải thích: Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.\nBước 2\nNội dung: Kiểm số bị chia và số dư\nVì sao: Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.\nPhép tính hoặc quan hệ: 788*1+0\nKết quả bước này: 788\nGiải thích: 788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.\nĐại lượng cần tìm: Thương\nĐáp số: 788\nĐại lượng cần tìm: Số dư\nĐáp số: 0",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Lập các nhóm đủ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi nhóm chứa đúng số chia đơn vị; thương đếm các nhóm đủ, phần còn lại là số dư.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "788",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Lập được 788 nhóm, mỗi nhóm 1 đơn vị, dùng 788 đơn vị và còn 0. Phần còn 0 bé hơn 1 nên không lập thêm được nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Kiểm số bị chia và số dư",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Thương nhân số chia cộng số dư phải khôi phục số bị chia; số dư không âm và nhỏ hơn số chia.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "788*1+0",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "788",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "788 × 1 + 0 = 788; 0 ≤ 0 < 1. Vậy thương là 788, số dư là 0.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Thương",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "788",
+            "rendered_occurrences": 6
+          },
+          {
+            "source_path": "answer[1].quantity",
+            "value": "Số dư",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[1].result",
+            "value": "0",
+            "rendered_occurrences": 4
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "7bbdda3198fd156b31e57b62b44e8631a541ce37f911d9e805e24597364c912d"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "grade": 3,
+      "mode": "hint_level_1",
+      "source_original_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý bước đầu để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nEm thử trả lời: Số chia có khác không để phép chia có nghĩa không?",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Xác định số bị chia và số chia trước khi lập các nhóm đủ.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Số chia có khác không để phép chia có nghĩa không?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "2f1fb0887a8306c8c0c3d1374bb9701329a1aad9a2efa95e63e82ce43205091f"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "grade": 3,
+      "mode": "hint_level_2",
+      "source_original_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý thêm một bước để em tự làm. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.\nEm thử trả lời: Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "1abd9e58b800d2a8fa5dbcbe4e1e7470f1e1589375f5a62312e26b5e3382744c"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "grade": 3,
+      "mode": "hint_level_3",
+      "source_original_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 3.\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nGợi ý cách kiểm tra và hoàn thiện. Không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nhân thương với số chia rồi cộng phần dư để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "hint",
+            "value": "Nhân thương với số chia rồi cộng phần dư để kiểm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "question",
+            "value": "Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": null,
+        "rendered_target_sha256": "ae29b8531372bc60e166f7778b9079b53d8b200f7286f9cf57dbb005ec5fbd5f"
+      }
+    },
+    {
+      "sample_id": "decimal_v1_sub_13_10_4_10:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "d2fcd015b46dac46d2dbacc9e883c23338e1aa24f8a77c08d837de48ca0c5f68",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 5.\n\nTính 1,3 − 0,4, giải thích cách làm và kiểm lại.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.\nBước 1\nNội dung: Tính theo đơn vị phần mười\nVì sao: Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.\nPhép tính hoặc quan hệ: 13-4\nKết quả bước này: 9\nGiải thích: 1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.\nBước 2\nNội dung: Đổi về đơn vị ban đầu\nVì sao: Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.\nPhép tính hoặc quan hệ: 9/10\nKết quả bước này: 0.9\nGiải thích: 9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.\nBước 3\nNội dung: Kiểm bằng phép ngược\nVì sao: Dùng phép tính ngược để khôi phục số đầu.\nPhép tính hoặc quan hệ: (0.9)+0.4\nKết quả bước này: 1.3\nGiải thích: Phép kiểm cho 1,3, khớp số đầu.\nĐại lượng cần tìm: Kết quả\nĐáp số: 0.9",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Phân biệt số bị trừ với số trừ và đặt thẳng các hàng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Tính theo đơn vị phần mười",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Hai số cùng có một chữ số thập phân nên đổi sang cùng đơn vị phần mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].expression",
+            "value": "13-4",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "1,3 là 13 phần mười; 0,4 là 4 phần mười. Tính 13 − 4 = 9 phần mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Đổi về đơn vị ban đầu",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Mười phần mười bằng một đơn vị; chia số đếm phần mười cho mười.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].expression",
+            "value": "9/10",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "0.9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "9 phần mười bằng 0,9; giữ dấu phẩy đúng giá trị hàng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Kiểm bằng phép ngược",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Dùng phép tính ngược để khôi phục số đầu.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "(0.9)+0.4",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "1.3",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Phép kiểm cho 1,3, khớp số đầu.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Kết quả",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "0.9",
+            "rendered_occurrences": 3
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "1bd64feaa514966c6d2700973bb6db3e9492f9caef85406f5e868cba37982ee8"
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "grade": 5,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "student_work_present": true,
+      "actual_prompt": "Toán lớp 5.\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\n4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số",
+      "actual_target": "Hướng dẫn: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nBước 1\nNội dung: So cùng hàng\nVì sao: Phần nguyên bằng nhau; so hàng phần mười trước.\nKết quả bước này: 4,09 < 4,9\nGiải thích: 4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.\nĐại lượng cần tìm: Quan hệ đúng\nĐáp số: 4,09 < 4,9",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "So cùng hàng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Phần nguyên bằng nhau; so hàng phần mười trước.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "4,09 < 4,9",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Quan hệ đúng",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "4,09 < 4,9",
+            "rendered_occurrences": 2
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "823809716e9e673ed7af1cba082a704f2e7866d95c9190c2caa1338692791241"
+      }
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_abacus_budget_reject_overfull:worked_solution",
+      "grade": 4,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "a0f6f4d96df62c66b89a070a468a1f2ba1cac41e2ab8384c86804ce20f508b17",
+      "student_work_present": true,
+      "actual_prompt": "Toán lớp 4.\n\nBàn tính có bốn cột nghìn, trăm, chục, đơn vị, mỗi cột tối đa 9 vòng. Phải dùng đủ 12 vòng. Bạn ghi: đặt cả 12 vòng ở cột nghìn là số lớn nhất. Nhận xét cách đặt và tìm giá trị lớn nhất hợp lệ. Không được đổi cấu tạo bàn tính.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.\n\nLời làm em đã cung cấp:\n\nđặt cả 12 vòng ở cột nghìn là số lớn nhất",
+      "actual_target": "Hướng dẫn: Phân biệt tổng số vòng với sức chứa mỗi cột.\nBước 1\nNội dung: Kiểm luật\nVì sao: Mỗi cột chỉ chứa tối đa chín vòng.\nKết quả bước này: Cách đặt đã cho không hợp lệ\nGiải thích: Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.\nBước 2\nNội dung: Phân bố hợp lệ\nVì sao: Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.\nKết quả bước này: 9,3,0,0\nGiải thích: Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.\nBước 3\nNội dung: Tính giá trị\nVì sao: Cộng giá trị từng cột.\nPhép tính hoặc quan hệ: 9*1000+3*100\nKết quả bước này: 9300\nGiải thích: Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.\nĐại lượng cần tìm: Kết quả\nĐáp số: 9300",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Phân biệt tổng số vòng với sức chứa mỗi cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Kiểm luật",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi cột chỉ chứa tối đa chín vòng.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "Cách đặt đã cho không hợp lệ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Mười hai vòng trong một cột vượt sức chứa, dù tổng vòng không đổi.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Phân bố hợp lệ",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Giữ nhiều vòng nhất ở hàng cao, rồi đến hàng kế tiếp.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "9,3,0,0",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "Chín vòng ở nghìn, ba ở trăm, không còn vòng cho hàng thấp.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Tính giá trị",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Cộng giá trị từng cột.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "9*1000+3*100",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "9300",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Đủ mười hai vòng; chuyển một vòng xuống sẽ giảm giá trị.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Kết quả",
+            "rendered_occurrences": 4
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "9300",
+            "rendered_occurrences": 2
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "209ee9a350fca048366972f8fa876a703149beaefc5ac3c5b8723403bd7de701"
+      }
+    },
+    {
+      "sample_id": "sgk_final_geometry_20261021_seven_segment_one_move_equation_unique:worked_solution",
+      "grade": 1,
+      "mode": "worked_solution",
+      "source_original_raw_row_sha256": "ec81244e597fb74966bdfc85a21d2b18c0f4b05799bef84237f83fbdc68500a8",
+      "student_work_present": false,
+      "actual_prompt": "Toán lớp 1.\n\nMỗi ô chữ số có bảy vị trí: a ngang trên, b đứng phải-trên, c đứng phải-dưới, d ngang dưới, e đứng trái-dưới, f đứng trái-trên, g ngang giữa. Bảng chuẩn: 0=abcdef;1=bc;2=abdeg;3=abcdg;4=bcfg;5=acdfg;6=acdefg;7=abc;8=abcdefg;9=abcdfg. Mỗi vị trí được ghi có đúng một que, vị trí khác trống; các que bằng nhau. Ba ô chữ số theo thứ tự trong đẳng thức 6 + 4 = 4. Các dấu + và = in sẵn, không phải que và không được sửa. Chuyển đúng một que: lấy khỏi một vị trí đang có trong ba ô rồi đặt vào một vị trí đang trống khác của ba ô; có thể cùng ô, không chồng hoặc dùng nét ngoài bảng. Cuối cùng cả ba ô vẫn là đúng một chữ số chuẩn. Tìm mọi đẳng thức đúng có thể được, nêu chỗ lấy và đặt. Dấu và số ô giữ nguyên.\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que.\nBước 1\nNội dung: Giữ đúng phép và kho\nVì sao: Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm.\nKết quả bước này: Chỉ xét sửa trong các ô chữ số\nGiải thích: Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số.\nBước 2\nNội dung: Đối chiếu mã và giá trị\nVì sao: Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef.\nKết quả bước này: 6 thành 0 bằng g sang b trong ô đầu\nGiải thích: Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi.\nBước 3\nNội dung: Kiểm đủ mọi ô và vị trí\nVì sao: Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã.\nPhép tính hoặc quan hệ: 0+4\nKết quả bước này: 4\nGiải thích: Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt.\nĐại lượng cần tìm: Đẳng thức\nĐáp số: 0+4=4\nĐại lượng cần tìm: Cách chuyển\nĐáp số: Ô đầu: g sang b",
+      "proof": {
+        "version": "verbal_training_render.v3",
+        "all_nonempty_semantic_text_fields_preserved": true,
+        "numeric_calculation_performed_by_renderer": false,
+        "fields": [
+          {
+            "source_path": "initial_guidance[0]",
+            "value": "Giữ nguyên dấu in sẵn và đánh dấu những vị trí đang có que.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].title",
+            "value": "Giữ đúng phép và kho",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].reason",
+            "value": "Mỗi ứng viên cuối phải thay đúng một vị trí mất và một vị trí thêm.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].result",
+            "value": "Chỉ xét sửa trong các ô chữ số",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[0].explanation",
+            "value": "Dấu in sẵn không được biến thành dấu khác. Có thể chuyển trong cùng một ô nhưng không xóa hẳn một chữ số.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].title",
+            "value": "Đối chiếu mã và giá trị",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].reason",
+            "value": "Mã 6 là acdefg; bỏ giữa g rồi thêm phải-trên b sẽ thành abcdef.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].result",
+            "value": "6 thành 0 bằng g sang b trong ô đầu",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[1].explanation",
+            "value": "Hai ô 4 giữ bcfg. Đẳng thức thành 0+4=4, đúng theo phép cộng; tổng que không đổi.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].title",
+            "value": "Kiểm đủ mọi ô và vị trí",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].reason",
+            "value": "Mọi cách đều là chọn một que có và một chỗ trống rồi kiểm lại ba mã.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "steps[2].expression",
+            "value": "0+4",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "steps[2].result",
+            "value": "4",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "steps[2].explanation",
+            "value": "Duyệt đủ các vị trí của cả ba ô theo bảng chỉ thu được đẳng thức 0+4=4. Những đổi mã khác không thỏa phép cộng hoặc cần thêm lượt.",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[0].quantity",
+            "value": "Đẳng thức",
+            "rendered_occurrences": 2
+          },
+          {
+            "source_path": "answer[0].result",
+            "value": "0+4=4",
+            "rendered_occurrences": 3
+          },
+          {
+            "source_path": "answer[1].quantity",
+            "value": "Cách chuyển",
+            "rendered_occurrences": 1
+          },
+          {
+            "source_path": "answer[1].result",
+            "value": "Ô đầu: g sang b",
+            "rendered_occurrences": 1
+          }
+        ],
+        "excluded_internal_metadata": [
+          "steps[*].step_id",
+          "steps[*].relation_type",
+          "givens[*].id",
+          "givens[*].role",
+          "student_work.origin",
+          "student_work.observations[*].nature",
+          "student_work.observations[*].claim_scope"
+        ],
+        "can_solve": true,
+        "rendered_target_sha256": "cc3a62f1d04aa69710f228abffe1992648be8f472baa3fa01ff7b79f6c571309"
+      }
+    }
+  ],
+  "source_modified": false,
+  "train_started": false,
+  "human_attestation_added": false,
+  "renderer_sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057"
+}

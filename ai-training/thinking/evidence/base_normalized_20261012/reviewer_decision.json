@@ -1,0 +1,36 @@
+{
+  "status": "SFT_REJECTED_MATH_ACCURACY_REGRESSION",
+  "experiment_selected_by_strict_json": "epoch2",
+  "reviewer_selected": "base",
+  "normalized_validation": {
+    "base": {
+      "samples": 118,
+      "correct": 90,
+      "accuracy": 0.7627118644067796,
+      "answered": 98,
+      "answer_accuracy_when_answered": 0.9183673469387755,
+      "pedagogical_or_semantic_verification": false
+    },
+    "epoch1": {
+      "samples": 118,
+      "correct": 69,
+      "accuracy": 0.5847457627118644,
+      "answered": 117,
+      "answer_accuracy_when_answered": 0.5897435897435898,
+      "pedagogical_or_semantic_verification": false
+    },
+    "epoch2": {
+      "samples": 118,
+      "correct": 74,
+      "accuracy": 0.6271186440677966,
+      "answered": 118,
+      "answer_accuracy_when_answered": 0.6271186440677966,
+      "pedagogical_or_semantic_verification": false
+    }
+  },
+  "selection_uses_validation_only": true,
+  "protocol_changed_posthoc": true,
+  "existing_test_is_now_development_not_new_gold": true,
+  "previous_safe_planner_preserved": true,
+  "production_approved": false
+}

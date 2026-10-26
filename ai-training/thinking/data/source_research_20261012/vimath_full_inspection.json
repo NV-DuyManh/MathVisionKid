@@ -1,0 +1,22 @@
+{
+  "train_count": 7107,
+  "test_count": 1104,
+  "train_source_counts": {
+    "zalo": 508,
+    "vietjack": 5987,
+    "tailieumoi": 592,
+    "hamchoi": 20
+  },
+  "test_source_counts": {
+    "vietjack": 984,
+    "tailieumoi": 119,
+    "hamchoi": 1
+  },
+  "train_url_present": 6599,
+  "test_url_present": 1104,
+  "unique_train_questions": 6749,
+  "unique_test_questions": 1095,
+  "exact_question_train_test_overlap": 82,
+  "grade_metadata": "No explicit grade in source row. Paper targets3\u20135; source includesZalo. Grade not inferred/claimed.",
+  "numeric_skeleton_train_test_overlap": 256
+}

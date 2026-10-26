@@ -1,0 +1,17 @@
+{
+  "concept_challenge_read": false,
+  "exact_question_matches": 0,
+  "no_answers_changed_for_gate": true,
+  "numeric_overlap_policy_sha256": "c9aa008fb84b81e705e540c56d018c9c2d07278edc775fba57a6d28a2309e472",
+  "numeric_overlap_rows": 14,
+  "numeric_test_independence_claimed": false,
+  "protected_pins": {
+    "base_choice_pilot30.jsonl": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2",
+    "independent_anchor.jsonl": "30f56b12826911d716b70316a791afa1c29e5f4b3d8bbc8b711de10850b354e5",
+    "known_concept_development_val30": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "v4_fresh_val": "39fb447146f0782293142a39fd05869c8bf3e8134e917627e16bf92bec82c0ed",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf"
+  }
+}

@@ -1,0 +1,8 @@
+
+
+### Nhật ký 23/10/2026 — checkpoint 5036356 chat đã raw-readback
+Worker CPU duy nhất tiếp tục từ checkpoint đã dừng, không sinh hoặc nhập lại lô. Đã lưu cùngID16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI snapshot7673417728byte SHA2566e2c0ead29f79583240d33319e3523b580aec33fd4afff5921e3ccb11c03048d; fresh streaming raw readback khớp đủbyte/hash, report tại snapshot có5036356unique/physicalchat và1629906sourceversions. Finding regression_only vẫn1; chưa fullscan, chưa train.
+Quan sát2026-10-23T02:31:40.068639+00:00: worker đang chạy, đã commit5105732chat; uniqueCOUNT thực5105732, thread chốt metadata còn đợi đúng worker. Mốc đã lưu an toàn riêng5036356, không nhập nhằng với phần mới chỉ commit trong runtime.
+Sau backup/rawreadback, report trên workingDB bị chậm do đọc đĩa. Đã đăng ký cache SQLite tối đa1GiB chỉ áp tại consume kế tiếp trong owningthread, và đọc tuần tự readonly workingfile để làm ấm cacheOS. Đây không là bằng chứng snapshotWAL hoặcQA nội dung; không đổi source/chat/index/gate và không áp onepass. Giữ auditor/adapter frozen, batch256/commit256/outerspan200000.
+Giữ495core/165node/1980chat,299human exact-hash signoff, recipe/hash hiện hành và toàn bộ dữ liệu/history. Tổng candidate vẫn6502344chat; allsplitraw6502392. Năm task quan sát thật/7constraints,10assetmasters,1locatorG3 giữpending; chưa chứng nhận toànSGK/pháp lý hoặcTRAINING_DATASET_READY. Khôngtrain/GPU/weights/paidAPI/app/commit/push.
+PROGRESS/chat/context/state cùngIDs, state ghi cuối và đọc raw so byte/hash trước khi xác nhận sync.

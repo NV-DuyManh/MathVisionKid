@@ -1,0 +1,133 @@
+{
+  "batch_sha256": "66dbead671c905b20dd0e0d2d3a863a8078f68642e2ebf11997989deb009aafb",
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "46-12",
+          "(46-12)+12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_add",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "12+3",
+          "(12+3)+4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "18-5",
+          "(18-5)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "31+7",
+          "(31+7)-5",
+          "((31+7)-5)+5",
+          "(((31+7)-5)+5)-7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_leave",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "29-6",
+          "(29-6)+6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_part_whole",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "36-14",
+          "14+(36-14)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_changed_plus",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "18-5",
+          "(18-5)+2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_join_for_remove",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "25-3",
+          "(25-3)+3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_guard_missing_bird_picture",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "protected_collision": false
+    }
+  ],
+  "semantic_review_status": "PENDING_SEPARATE_CONTENT_PASS",
+  "training_started": false,
+  "skills_matched": "none"
+}

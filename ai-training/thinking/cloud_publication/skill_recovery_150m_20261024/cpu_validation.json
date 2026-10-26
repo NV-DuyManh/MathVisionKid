@@ -1,0 +1,14 @@
+{
+  "exit": 0,
+  "stdout": "",
+  "stderr": "...............................\n----------------------------------------------------------------------\nRan 31 tests in 0.219s\n\nOK\n",
+  "code_sha256": {
+    "recovery_worker_v2.py": "0a10e09dd33f8dd7146d5e6b2c7bfdb5950c7f7a989ae85081b396531135689c",
+    "recovery_policy_v2.py": "5b6aa0e9976a60394ff74125c776d4fff729bc6158acfd664970a385b94d6588",
+    "behavior_renderer.py": "763da2f7a1931962a9ad1a49b16d4b8dfe5263a09e69603c49959adb02a5ec8f",
+    "inference_contract.py": "6b44ebabad6eeca636142012418e17f126ae9d57539e10b4d1fa5b4314033bc0"
+  },
+  "eligibility_rule_changed_before_new_candidate_outputs": true,
+  "source_targets_unchanged": true,
+  "scope": "CPU invariants; source semantic review still separate"
+}

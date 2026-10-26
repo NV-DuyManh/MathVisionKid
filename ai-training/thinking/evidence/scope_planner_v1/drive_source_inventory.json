@@ -1,0 +1,141 @@
+{
+  "mode": "all_jsonl_rows_under_explicit_roots_only",
+  "files": [
+    {
+      "root": "/content/drive/MyDrive/ MathVisionKidAI/datasets/gemini_auto_v2",
+      "exists": false
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean/test.jsonl",
+      "rows": 167,
+      "json_errors": 0,
+      "ocr_text_rows": 167,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean/train.jsonl",
+      "rows": 1376,
+      "json_errors": 0,
+      "ocr_text_rows": 1376,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean/val.jsonl",
+      "rows": 166,
+      "json_errors": 0,
+      "ocr_text_rows": 166,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean (1)/test.jsonl",
+      "rows": 167,
+      "json_errors": 0,
+      "ocr_text_rows": 167,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean (1)/train.jsonl",
+      "rows": 1376,
+      "json_errors": 0,
+      "ocr_text_rows": 1376,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/full_v3_single_line_clean (1)/val.jsonl",
+      "rows": 166,
+      "json_errors": 0,
+      "ocr_text_rows": 166,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/raw_prelabels.jsonl",
+      "rows": 6,
+      "json_errors": 0,
+      "ocr_text_rows": 0,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/source_images.jsonl",
+      "rows": 705,
+      "json_errors": 0,
+      "ocr_text_rows": 0,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/test.jsonl",
+      "rows": 2,
+      "json_errors": 0,
+      "ocr_text_rows": 2,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/train.jsonl",
+      "rows": 3,
+      "json_errors": 0,
+      "ocr_text_rows": 3,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/unified_dataset.jsonl",
+      "rows": 6,
+      "json_errors": 0,
+      "ocr_text_rows": 6,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/val.jsonl",
+      "rows": 1,
+      "json_errors": 0,
+      "ocr_text_rows": 1,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/validated_prelabels.jsonl",
+      "rows": 6,
+      "json_errors": 0,
+      "ocr_text_rows": 6,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    },
+    {
+      "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/data/manifests/verified_labels.jsonl",
+      "rows": 6,
+      "json_errors": 0,
+      "ocr_text_rows": 6,
+      "explicit_solution_candidates": 0,
+      "human_verified_solution_candidates": 0,
+      "complete_scan": true
+    }
+  ],
+  "scanned_files": 14,
+  "no_image_or_archive_content_scanned": true,
+  "limitations": [
+    "Columns other than problem/solution/expected_answer require manual schema mapping.",
+    "Candidate labels are not verified solutions or teacher-certified gold."
+  ]
+}

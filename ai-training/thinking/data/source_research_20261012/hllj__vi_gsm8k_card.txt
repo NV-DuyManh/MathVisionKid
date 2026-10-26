@@ -1,0 +1,46 @@
+---
+license: mit
+task_categories:
+- text-generation
+- text2text-generation
+language:
+- vi
+pretty_name: Vietnamese Translation of Grade School Math 8K Dataset
+size_categories:
+- 1K<n<10K
+---
+
+# Dataset Card for Vietnamese Translation of Grade School Math 8K Dataset
+
+## Dataset Summary
+
+This is a dataset translated from the original GSM8K dataset using GPT-3.5 to perform the translation task and tested by us.
+
+You can see the original [dataset in English](https://huggingface.co/datasets/gsm8k) for more details
+
+## Language
+The language in the dataset is translated into Vietnamese, however some units such as currency or personal names are kept the same.
+
+## Dataset Structure
+The data set has been slightly edited compared to the original GMS8K data, we separated the questions, explanations, and answers into different fields.
+
+```python
+{
+    "index": 0,
+    "question": "Natalia đã bán kẹp tóc cho 48 người bạn của cô ấy vào tháng 4, và sau đó cô ấy đã bán nửa số lượng kẹp tóc đó vào tháng 5. Natalia đã bán tổng cộng bao nhiêu kẹp tóc trong tháng 4 và tháng 5?",
+    "explanation": "Natalia đã bán 24 kẹp trong tháng 5.\nNatalia đã bán tổng cộng 72 kẹp trong tháng 4 và tháng 5.",
+    "answer": "72"
+}
+```
+
+In addition, we have not translated the accompanying question parts from the GMS8K socratic dataset. You can see them in more detail in [GSM8K's Github here](https://github.com/openai/grade-school-math/tree/master/grade_school_math/data). 
+We still welcome your contributions to this dataset.
+
+## Data Fields
+
+The current data set structure includes the fields:
+
+- index: numerical order.
+- question: string for the content of a mathematical question.
+- explanation: string for explanation to the question.
+- answer: a single value to answer to the question.

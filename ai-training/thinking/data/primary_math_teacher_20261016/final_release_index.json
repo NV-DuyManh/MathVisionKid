@@ -1,0 +1,59 @@
+{
+  "schema_version": "finite_primary_math_release_index.v1",
+  "status": "COMPLETE_FINITE495_NOT_TRAINED",
+  "created_utc": "2026-10-18T14:27:15.899961+00:00",
+  "cases": 782,
+  "chat_rows": 3128,
+  "core_cases": 495,
+  "core_chat_rows": 1980,
+  "nodes": 165,
+  "release_files": {
+    "accepted_cases": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\accepted_teacher_cases_polished.jsonl",
+      "rows": 782,
+      "bytes": 4161711,
+      "sha256": "99aefab7a58177e3b3222f7bf269c02e991fafeaf2fed79e83b5b5b39ebc5a02"
+    },
+    "chat_train": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\teacher_chat_train_polished.jsonl",
+      "rows": 3128,
+      "bytes": 6971304,
+      "sha256": "e33915cf24b8dcd39500c3bb4a5fd939b948f3c345cb851862aa35f6778f8ded"
+    },
+    "manifest": {
+      "path": "thinking\\data\\primary_math_teacher_20261016\\exports\\polished_export_manifest.jsonl",
+      "rows": 782,
+      "bytes": 565940,
+      "sha256": "a3189d7e6ab9c7960678813437dd25be50522ea40562f3f79df1efff6a69f6d1"
+    }
+  },
+  "use_only_chat_train_release_file_for_future_training_input": "exports/teacher_chat_train_polished.jsonl",
+  "do_not_concatenate_all_JSONL_sources_reviews_manifests_or_baseline_exports": true,
+  "baseline_cases_retained_for_audit": "exports/accepted_teacher_cases.jsonl",
+  "baseline_chat_retained_for_audit": "exports/teacher_chat_train.jsonl",
+  "original_owner299_human_signoffs_preserved": true,
+  "polished47_are_AI_derivatives_without_new_human_attestation": true,
+  "baseline_human_certified_cases": 299,
+  "polished_release_human_certified_cases": 252,
+  "polished_release_AI_preauthorized_cases": 530,
+  "split": "TRAIN_ONLY_GROUPED_FOUR_MODES_PER_CASE",
+  "numeric_overlap_exceptions_applied": 13,
+  "numeric_test_independence_for_overlaps": false,
+  "training_started": false,
+  "production_approved": false,
+  "full_legal2026_or2006_certification": false,
+  "full_curriculum_mastery_claim": false,
+  "physical_vision_outcome_verified": false,
+  "neutral_chat_not_live_PlanDraft": true,
+  "final_audit": {
+    "path": "thinking\\evidence\\primary_math_teacher_20261016\\finite495_final_audit_20261018.json",
+    "sha256": "1592402a90e3117772e33258b82254cf7aa7c44eacf3fedcc0dd6f25ffd2db66",
+    "status": "PASSED"
+  },
+  "drive_file_ids": {
+    "progress_zip_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "chat_train_id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "state_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+    "context_file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9"
+  }
+}

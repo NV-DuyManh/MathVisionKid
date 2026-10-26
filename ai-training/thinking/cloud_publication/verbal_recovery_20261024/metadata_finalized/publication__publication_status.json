@@ -1,0 +1,540 @@
+{
+  "artifacts": {
+    "owner_run_scope.json": {
+      "id": "1IZVOBHQPnhoyhMmVJkOUNOYUv2bnP3mQ",
+      "sha256": "49378c20736bf2266bdcdd95aee49033d0a15ad6c17f73e77567222d34ee6da7",
+      "bytes": 1453,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:24:58.867883+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "owner_run_scope.json",
+      "immutable": true
+    },
+    "recovery_policy.py": {
+      "id": "1Fbj7gNtzm4bYMz_gYBXDQ-ch7KVRxiUc",
+      "sha256": "fa9fe2a5d08e01d1e6563b2fbc7220beb29daff12cd436f2af8f76075450dd6a",
+      "bytes": 12158,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:03.872813+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "recovery_policy.py",
+      "immutable": true
+    },
+    "recovery_worker.py": {
+      "id": "13Mc87PUngUWaohWvHB8aN_1iBzbxq9zL",
+      "sha256": "20e41c06810a6591a66b7ec13bbde78e748b69f999835ab244212abc8e696567",
+      "bytes": 30055,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:08.957044+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "recovery_worker.py",
+      "immutable": true
+    },
+    "publisher_runtime.py": {
+      "id": "1DiP7y29z6eKY71C1yLpybEkSYWFZxI4L",
+      "sha256": "44df9db30c245fc701e4ff04651562c3d34f8324d0851a925ed413d148e064e0",
+      "bytes": 13229,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:13.959384+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "publisher_runtime.py",
+      "immutable": true
+    },
+    "frozen_code_references.json": {
+      "id": "17Onyt0w7hanlZlL7cBPmutOSgd7PsBIQ",
+      "sha256": "e915a3b3e2fe14e5f3fad3ab306df64127dd124064a54ed099c0f7b4c82e7eb4",
+      "bytes": 1275,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:18.922135+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "frozen_code_references.json",
+      "immutable": true
+    },
+    "new_validation_candidates.jsonl": {
+      "id": "1NJFNwKOYKEF9mNbsruEsKl8LOQJn6s5h",
+      "sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+      "bytes": 27326,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:23.989324+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "new_validation_candidates.jsonl",
+      "immutable": true
+    },
+    "new_validation_candidate_notes.json": {
+      "id": "1OBjGdcgCggiL6a-6xY-R-dM7MQNowP9t",
+      "sha256": "524aee66d030e3acaf1190bef51321f90433e0ee0d42b875cebbb5ae5d2f0793",
+      "bytes": 8075,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:29.004968+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "new_validation_candidate_notes.json",
+      "immutable": true
+    },
+    "derived_sampling_plan.json": {
+      "id": "1w7RBIvjrNaymZDWkfbLMUP9-2TcSPYuk",
+      "sha256": "f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad",
+      "bytes": 2370965,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:34.494616+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "derived_sampling_plan.json",
+      "immutable": true
+    },
+    "cpu_validation.json": {
+      "id": "1cWIEgNrVupcDGHvhJ6V6PCNsR9wBbJff",
+      "sha256": "63ca4f079757d9db4a27a0f934b9cf2b08c49bebae32685d6f8489b29734f439",
+      "bytes": 1027,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:39.016685+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "cpu_validation.json",
+      "immutable": true
+    },
+    "verbal_training_renderer_v3.py": {
+      "id": "1zo3kw9e_QWqvczj6SQm6taJpo7jUKM0W",
+      "sha256": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057",
+      "bytes": 5722,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:43.971093+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "verbal_training_renderer_v3.py",
+      "immutable": true
+    },
+    "test_verbal_training_renderer_v3.py": {
+      "id": "10i6-8jlyZnxvky3V20IIhfkTWyR3S0q4",
+      "sha256": "c73e13b6f7429fe44dc8ed6ac88f5eccad846c0000b1dc5717459b1e9e00dce5",
+      "bytes": 3528,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:48.951993+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "test_verbal_training_renderer_v3.py",
+      "immutable": true
+    },
+    "projection_preflight.json": {
+      "id": "1nQRk2JFb4_Qbth1kzzwI8WRLUjGciZYq",
+      "sha256": "a04629a205b97dc5370a1fa140ef563c54e176f01677e51caddac7d4c350bb36",
+      "bytes": 36049,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:53.989769+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "projection_preflight.json",
+      "immutable": true
+    },
+    "trial_scope.json": {
+      "id": "11nerNIRlxGtF9TAQL_mYt74hs1GgQQYe",
+      "sha256": "49d6efa97eb8911bee0d6bf11e6f2722ed85ec3d4dd330e0177fbeeae7bdeb45",
+      "bytes": 822,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:25:59.065845+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "trial_scope.json",
+      "immutable": true
+    },
+    "test_recovery_policy.py": {
+      "id": "1cwtRjDPlIc29qJjhIjsHytw5DOPkKpKi",
+      "sha256": "f89cab4b2797d4ec638bffc98862428cab6897b449f59b1b1e4d29d8fa382a0e",
+      "bytes": 7186,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:26:03.984202+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "test_recovery_policy.py",
+      "immutable": true
+    },
+    "test_recovery_worker.py": {
+      "id": "1brNrypYbU5ld5TcKXLdZLgqXOt4tJRDd",
+      "sha256": "3d06ff52784a88cd9f51f9224a0bcea42165c6790abe0bc4fc54805c213278a4",
+      "bytes": 9542,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:26:09.098189+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "test_recovery_worker.py",
+      "immutable": true
+    },
+    "training/progress.json": {
+      "id": "1qrN0c0EsM5BOWRVhgK71rtZoTBvCSgYU",
+      "sha256": "aa523d2442fceb4e404c94994a5e9b8b5857149eb00eee728b1f4787b650b5e4",
+      "bytes": 332,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:00:18.228940+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__progress.json",
+      "immutable": false
+    },
+    "LIVE_status.json": {
+      "id": "1dHJpqhqFYNQWuC52rnxklFPU8F4ktyB9",
+      "sha256": "0eddd43ff05472cdf1682817aaa90b5fcab69f7083d365dc863a69d5c8e28289",
+      "bytes": 1148,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:08:38.423793+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "LIVE_status.json",
+      "immutable": false
+    },
+    "dev_train_screening.json": {
+      "id": "1WHkLskJruOrRywMD9XMCWpQNhyaiZSmy",
+      "sha256": "f05a32366616e5a62abc80aa6aadf6c61b1b5a34ef6538f756d31fbdca2958e0",
+      "bytes": 193,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:26:38.126702+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "dev_train_screening.json",
+      "immutable": true
+    },
+    "verbal_projection_manifest.json": {
+      "id": "1Pnx_woOYakmx-hr3C0zHKkP_zl9G7pB_",
+      "sha256": "54559b1cd7cbcc890179c8f4d07fe7c17aa81a31f9e09bdaa24b26e634228261",
+      "bytes": 2961920,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:28:00.323213+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "verbal_projection_manifest.json",
+      "immutable": true
+    },
+    "training/run_config.json": {
+      "id": "1snIi_TrJKAoqoDFt-4i7qm80HLTxSOHa",
+      "sha256": "b62bb6f54fc5163d87b17cfc07b1f9594165dfad8b1c6dc484da828be121ba56",
+      "bytes": 32373,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:36:35.121861+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__run_config.json",
+      "immutable": false
+    },
+    "training/input_audit.json": {
+      "id": "18NoBujtQz09eaa9D7SCMftmqz4Wm8ecG",
+      "sha256": "6bf08fa0e1e8eb4d66a9a8e6812b8bd394958c29e9df2dee59ad14d472efa5c8",
+      "bytes": 721,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:28:10.005998+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__input_audit.json",
+      "immutable": false
+    },
+    "training/evaluation_contract.json": {
+      "id": "1Vcsq--uEVZlCMAy0FJf6oTfd2CHpK8-j",
+      "sha256": "696deb1be3ee0efa33f554d8a1f2fca13d85aa51ecac487951dd5f6c33f9cdaa",
+      "bytes": 5923,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:28:14.982010+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__evaluation_contract.json",
+      "immutable": false
+    },
+    "locked_test_candidates.jsonl": {
+      "id": "1aAJXKUMWwev0RGC1i9JQ6QMPF2hKVg_l",
+      "sha256": "b24339a30e9f0edfb8a4c5dbac538311f5ecea831abcb6d0ad7f8cd0e5f7edb3",
+      "bytes": 12078,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:30:58.436905+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "locked_test_candidates.jsonl",
+      "immutable": true
+    },
+    "locked_test_notes.json": {
+      "id": "1wwflI0Vezhzc9FsxAkMeRn1Ri6tPcvQr",
+      "sha256": "f0d9b6280c1c37dd91084b216d6dcd248d398cfdfca080a72d682adf02b34869",
+      "bytes": 571,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:31:03.633016+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "locked_test_notes.json",
+      "immutable": true
+    },
+    "training/best.json": {
+      "id": "1H2ti5tKvU1HiQ1YoPCqVLCq2Zr0estVe",
+      "sha256": "41d984023fe340667669745686b3ea8337f988319c07f8ce58743196a8b67e5d",
+      "bytes": 347,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:20.861983+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__best.json",
+      "immutable": false
+    },
+    "checkpoint_step_000001_rows_00000016_3b9f54c2b1d03a48.zip": {
+      "id": "1ARzw6jCtXKfOsRSEyZYy7y2CgAxInMEe",
+      "sha256": "5b700b183f66236263a280356e15a217363ceb3d80120a2669b0839352377fc1",
+      "bytes": 117175495,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:37:00.942505+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "checkpoint_step_000001_rows_00000016_3b9f54c2b1d03a48.zip",
+      "immutable": true
+    },
+    "training/eval_step_000000/base_generations.jsonl": {
+      "id": "1PpkpN07G_9n7M9zI2L7wOCiLkMPKHLVc",
+      "sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529",
+      "bytes": 50118,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:37:05.082896+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__eval_step_000000__base_generations.jsonl",
+      "immutable": true
+    },
+    "training/eval_step_000000/eval_bindings.json": {
+      "id": "1sT3k6HXufiUswl0efEl_bUfGb5TkW_6y",
+      "sha256": "f2975ccd9d0a2c88072559ca74356ffdf253c262bf1ff484210b07649bc694f8",
+      "bytes": 1681,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:37:10.137863+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__eval_step_000000__eval_bindings.json",
+      "immutable": true
+    },
+    "latest_checkpoint.json": {
+      "id": "13xVTGZFBQ_xSR0LMvAWKfvOkjbM4TBGs",
+      "sha256": "6b08fbd1df8065709f84bd530ce09c1f2447d99c9bd9e735855c2843a2bec66f",
+      "bytes": 876,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:39:46.745214+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "latest_checkpoint.json",
+      "immutable": false
+    },
+    "selected_best_checkpoint.json": {
+      "id": "1uLGtUPbBDSpgjV5XeVNXNF7VP6XeLLUT",
+      "sha256": "f7a417f20b7fce2909f572bae89ff16542f3328a8b89bd49e5eb3251472bb5f4",
+      "bytes": 448,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:35.871656+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "selected_best_checkpoint.json",
+      "immutable": false
+    },
+    "checkpoint_step_000050_rows_00000800_787a628640450c32.zip": {
+      "id": "13wEIbiUoZHWmj-TCF2zsMIrUm2KgGvXd",
+      "sha256": "5ffce191242a25961bef782bc8d37886e5a687520d1a1f2db9599e2b61b4f654",
+      "bytes": 117175484,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:39:42.648863+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "checkpoint_step_000050_rows_00000800_787a628640450c32.zip",
+      "immutable": true
+    },
+    "training/eval_step_000050/adapter_generations.jsonl": {
+      "id": "1LfD9C0Oj2zDF4-LxVD4v16WAveLfbcmK",
+      "sha256": "e57499b849c6f21adbf2f3cd8605d3eef50b09d709d5bf64ee42f320ad00cbea",
+      "bytes": 51314,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:53:44.453315+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__eval_step_000050__adapter_generations.jsonl",
+      "immutable": true
+    },
+    "training/eval_step_000050/eval_bindings.json": {
+      "id": "1J8z7snFOzEGFWw1bM1tHVMDhJc0L-sV-",
+      "sha256": "55db84a79f8efa6d844697a03dba9087244b72f3194a4338b88ce65fa18b2579",
+      "bytes": 1899,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:53:49.529944+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__eval_step_000050__eval_bindings.json",
+      "immutable": true
+    },
+    "training/eval_step_000050/gate_summary.json": {
+      "id": "1yuTJZRP0hYkVOXp2hpwXOKY6wMuegX_p",
+      "sha256": "70ab37169179408851c3f2c16f6898325b01ea4b8c4135bbe34d7855ccb0598e",
+      "bytes": 7858,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:25.989167+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__eval_step_000050__gate_summary.json",
+      "immutable": true
+    },
+    "training/gate_step_000050.json": {
+      "id": "1nnwsvUY2WZgOXQ6HENRHe7ThYs9c_lhH",
+      "sha256": "2a5481a94ed5ae5747ebbdfcd3bb1c70634cd3ccb1ce8d76760a13db156bf49b",
+      "bytes": 24376,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:30.905669+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__gate_step_000050.json",
+      "immutable": true
+    },
+    "last_adapter_diagnostic_7cc98cda71f85274.zip": {
+      "id": "1LmdUwQoJk3Y581nOu6Kiz94wd6_nA9c0",
+      "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817",
+      "bytes": 65976553,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:49.774835+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "last_adapter_diagnostic_7cc98cda71f85274.zip",
+      "immutable": true
+    },
+    "training_complete_publication_proof.json": {
+      "id": "1kEzoSOW2rXavW_QQzfqv7JqXmLW1Cn7I",
+      "sha256": "8163636aeb9b8b76bb763f4ef4e5f29c5ecc194c61edd0dfd49c058f9f38585b",
+      "bytes": 21978,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:09:04.620801+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training_complete_publication_proof.json",
+      "immutable": false
+    },
+    "training/run_complete.json": {
+      "id": "1A5aAe6x5EyUvNVUQAdZFbF1zz32YtBsr",
+      "sha256": "6d848caa159b8befeb2ca3816ca3624b3d0eccd4963de5ea4f79cf0084541b8e",
+      "bytes": 1833,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:00:23.264931+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__run_complete.json",
+      "immutable": false
+    },
+    "training/final_semantic_assessment.json": {
+      "id": "1cUetu3wbo_d8ARwe9HvES3Js5GQAzt0O",
+      "sha256": "445586a3e8ed7fc82563b4408108d59ddf7e6b8263eda34dca9083e3ca4a3f54",
+      "bytes": 81847,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:08:54.537776+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "training__final_semantic_assessment.json",
+      "immutable": false
+    },
+    "finalize_requested.json": {
+      "id": "19XuFt0v1rqruYEI79h64JBv_OKvNmVpb",
+      "sha256": "9460a0ea3abea32491d43a4a2c913a18ef39e74eff9ce9fa16eab83f42b4ecf7",
+      "bytes": 139,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T12:08:59.630249+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "finalize_requested.json",
+      "immutable": true
+    }
+  },
+  "checkpoints": {
+    "3b9f54c2b1d03a48cc8bc96fbba1cb22cb39b9d5b310373b64c1c4009f49f4c6": {
+      "id": "1ARzw6jCtXKfOsRSEyZYy7y2CgAxInMEe",
+      "sha256": "5b700b183f66236263a280356e15a217363ceb3d80120a2669b0839352377fc1",
+      "bytes": 117175495,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:37:00.942505+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "checkpoint_step_000001_rows_00000016_3b9f54c2b1d03a48.zip",
+      "immutable": true,
+      "step": 1,
+      "rows_done": 16,
+      "manifest_sha256": "3b9f54c2b1d03a48cc8bc96fbba1cb22cb39b9d5b310373b64c1c4009f49f4c6",
+      "generation": "generation_step_000001_rows_00000016"
+    },
+    "787a628640450c320eddd42ecaa208259aa0abb922a47628267c935fa8b7cf50": {
+      "id": "13wEIbiUoZHWmj-TCF2zsMIrUm2KgGvXd",
+      "sha256": "5ffce191242a25961bef782bc8d37886e5a687520d1a1f2db9599e2b61b4f654",
+      "bytes": 117175484,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:39:42.648863+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "checkpoint_step_000050_rows_00000800_787a628640450c32.zip",
+      "immutable": true,
+      "step": 50,
+      "rows_done": 800,
+      "manifest_sha256": "787a628640450c320eddd42ecaa208259aa0abb922a47628267c935fa8b7cf50",
+      "generation": "generation_step_000050_rows_00000800"
+    }
+  },
+  "errors": [],
+  "state": "COMPLETE_RAW_VERIFIED",
+  "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+  "folder_name": "MathVisionKid_VERBAL_RECOVERY_20261024",
+  "training_started_by_publisher": false,
+  "parent_metadata_fallback_proofs": [
+    {
+      "file_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "expected_parent": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+      "name": "MathVisionKid_VERBAL_RECOVERY_20261024",
+      "mimeType": "application/vnd.google-apps.folder",
+      "parents_from_fresh_list": [
+        "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n"
+      ],
+      "observed_unix": 1792841093.630108,
+      "method": "fresh_expected_parent_name_active_list_exact_id_match"
+    }
+  ],
+  "completion": {
+    "best": {
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "production_approval": false,
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_key": [
+        10,
+        12,
+        0,
+        0,
+        2
+      ],
+      "semantic_review_pending": false,
+      "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+    },
+    "budget_satisfied": true,
+    "complete": true,
+    "completed_unix": 1792843162.8530695,
+    "derived_view_epochs": 0.12075471698113208,
+    "derived_view_rows": 6625,
+    "hard_deadline_unix": 1792845958.0,
+    "last_adapter": {
+      "bytes": 65976553,
+      "diagnostic_only": true,
+      "path": "last_adapter_diagnostic.zip",
+      "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817"
+    },
+    "metrics": {
+      "last_gradient_norm": 0.8634874820709229,
+      "last_loss": 2.0610498189926147,
+      "last_lr": 1e-05,
+      "loss_sum": 139.49508994817734,
+      "rows_done": 800,
+      "step": 50,
+      "supervised_tokens": 169406
+    },
+    "production_approval": false,
+    "selected_artifact": {
+      "adapter": null,
+      "kind": "untrained_base",
+      "model": "Qwen/Qwen3-1.7B",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "selection_evidence": {
+        "kind": "untrained_base",
+        "model": "Qwen/Qwen3-1.7B",
+        "production_approval": false,
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "selection_key": [
+          10,
+          12,
+          0,
+          0,
+          2
+        ],
+        "semantic_review_pending": false,
+        "validation_output_sha256": "e70af51818e0d90906ff075c13d370d5de135638b1a76c5391936f3b03336529"
+      }
+    },
+    "source_view_rows": 16000,
+    "stop_reason": "QUALITY_GATE_STOP",
+    "training_seconds": 171.06867578100355,
+    "unique_examples": 800,
+    "whole_corpus_training_claimed": false
+  },
+  "final_artifacts": {
+    "last_adapter_diagnostic.zip": {
+      "id": "1LmdUwQoJk3Y581nOu6Kiz94wd6_nA9c0",
+      "sha256": "7cc98cda71f85274e975624def465e4c689fe9e6d0f3422c42c8dc1ccf22e817",
+      "bytes": 65976553,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T11:59:49.774835+00:00",
+      "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+      "name": "last_adapter_diagnostic_7cc98cda71f85274.zip",
+      "immutable": true
+    }
+  },
+  "publication_finalized": true,
+  "final_semantic_assessment_proof": {
+    "id": "1cUetu3wbo_d8ARwe9HvES3Js5GQAzt0O",
+    "sha256": "445586a3e8ed7fc82563b4408108d59ddf7e6b8263eda34dca9083e3ca4a3f54",
+    "bytes": 81847,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T12:08:54.537776+00:00",
+    "folder_id": "18kRud04F04OF34HcI2l9okHYUmzFVY4M",
+    "name": "training__final_semantic_assessment.json",
+    "immutable": false
+  }
+}

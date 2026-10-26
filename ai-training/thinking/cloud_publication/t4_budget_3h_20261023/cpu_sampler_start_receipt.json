@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "230TWx88LQe1"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"CPU_METADATA_SCAN_RUNNING\", \"worker_sha256\": \"05c272229582daef11709c66c467594cff4dee720334981575e36cc2ef5c58cd\", \"eval_fixture_sha256\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\", \"eval_fixture_count\": 28, \"protected_question_hash_file_sha256\": \"9fa1cd11b5bbca2b4a8d63268159ab0d498176bb7d601cf8ae3996f3d2e2f7ae\", \"scope\": \"pinned candidate_chat / train rows only\", \"target_cases\": 4000, \"deadline_unix\": 1792775752.4416852, \"worker_time_cap_seconds\": 1200, \"gpu_used\": false, \"model_loaded\": false, \"training_started\": false, \"drive_mutated\": false, \"eval_payload_used_for_training\": false}\n"
+        ]
+      }
+    ]
+  }
+}

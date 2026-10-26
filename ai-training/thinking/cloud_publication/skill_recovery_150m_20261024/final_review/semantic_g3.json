@@ -1,0 +1,51 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "605c2efb47cf96a75fb65f58de06a1e4f4e00ab722a6f9f0d0177ae5c74c3e18",
+  "decisions": [
+    {
+      "fixture_id": "skill150_locked_g3_1",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct7full boxes and3bottles;6*7=42and6*8=48>45show maximality and hence remainder<6;45−42=3checks total, equivalent to the frozen remainder condition. Exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g3_2",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct3m=300cmthen+8cm=308cm, consistent units; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g3_3",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Both clearly perform24−9inside parentheses before multiplying5and withhold75. Baseline calls brackets square, a wording slip without wrong operation/order."
+    },
+    {
+      "fixture_id": "skill150_locked_g3_4",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Invents false triangle inequality and unsupported third-side range(3,4)instead of simply asking missing side; final nonuniqueness does not repair false geometry. Exact baseline reuse."
+    }
+  ]
+}

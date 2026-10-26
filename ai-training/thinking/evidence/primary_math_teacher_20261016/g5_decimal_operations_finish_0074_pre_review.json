@@ -1,0 +1,110 @@
+{
+  "authored_utc": "2026-10-18T08:52:14.736732+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T08:50:44.212Z",
+  "batch_sha256": "98ec0fbc09dc9a6a89c85368aff61b98afcfb96ebf088a2aa1db93719637296b",
+  "authored_cases": 3,
+  "core_cases": 1,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_decimal_operations_finish_0074_contrast_multiplier_tenths_hundredths",
+      "row_sha256": "7cb629145203c02c6747ffb41a9f426e5a194558b7c723d88c8141d61a655524",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2735*24",
+          "(2735*24)/1000",
+          "(2735*24)/10000",
+          "27.35*2+27.35*0.4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_operations_finish_0074_misconception_scale_only_decimal_divisor",
+      "row_sha256": "c98650fd323b2b801d6879e8ae89df056a238ea60434bedcbec3226e1c0d5923",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "5.46*10",
+          "(5.46*10)/3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_decimal_operations_finish_0074_guard_missing_price_per_metre",
+      "row_sha256": "66f337c5f2e139144ca5f7414b1ea298498b046e621eb1729173883ba6b78723",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "digit_convolution_product": "65640",
+    "scaled_products": [
+      "1641/25",
+      "1641/250"
+    ],
+    "inverse_tenths_grid_quotient": "91/5",
+    "wrong_changed_quotient": "1.82",
+    "guard_unit_price_countermodels": {
+      "16/5": "44/5",
+      "24/5": "66/5"
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "decimal_operand_forms": {
+    "2.4": "a,b",
+    "0.24": "0,ab",
+    "0.3": "a,b",
+    "0.4": "a,b"
+  },
+  "existing_core01_core03_not_reauthored": true,
+  "only_exact_unoccupied_core_slot": "core_02",
+  "oracle_limit": "Digit convolution, scaled rational product, inverse-grid search and price countermodels verify mathematics; semantic/unit/hint review still required. No actual shop price or independent reviewer.",
+  "exact_slots_authored": [
+    "core_02"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous409_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "0e8cf8d8061f037c0e9199f494793eefa7a547cda95313c2af7eaf040e1c07c5",
+  "pre_official_QA_repairs": [
+    "Clarify hundredth-unit wording in first multiplication reason; no numerical or answer changes."
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 9,
+  "clarified_reason_reread": true,
+  "official_QA_utc": "2026-10-18T08:52:54.392398+00:00",
+  "official_QA_method": "Codex author self-QA; not independent reviewer",
+  "official_review_sha256": "4321c7b3f29921a832a7d624ca0255183cba07f6b196bdb1d196f6deebfb14d9"
+}

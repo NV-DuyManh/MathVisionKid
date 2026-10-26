@@ -1,0 +1,112 @@
+{
+  "status": "THINKING_ADAPTER_REJECTED_VALIDATION_RETENTION",
+  "provisional_selected": "base",
+  "provisional_strict_decision": {
+    "selected": "adapter",
+    "candidate_improved": true,
+    "metric_non_regression": true,
+    "per_grade_non_regression": true,
+    "test_or_challenge_used_for_selection": false,
+    "production_approved": false,
+    "criterion": "strictly more raw final-answer+unit+reference-checked solutions, with no answer/hint-safety/hint-reference/guard/per-grade regression on the identical frozen validation subset"
+  },
+  "direct_numeric_retention_non_regression": false,
+  "baseline_direct_numeric": {
+    "solution_samples": 173,
+    "answer_extracted": 167,
+    "numeric_correct": 165,
+    "answer_unit_correct": 101,
+    "strict_schema_valid": 157,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 11
+      },
+      "2": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 13
+      },
+      "3": {
+        "samples": 38,
+        "numeric_correct": 38,
+        "answer_unit_correct": 32
+      },
+      "4": {
+        "samples": 36,
+        "numeric_correct": 35,
+        "answer_unit_correct": 6
+      },
+      "5": {
+        "samples": 69,
+        "numeric_correct": 62,
+        "answer_unit_correct": 39
+      }
+    }
+  },
+  "candidate_direct_numeric": {
+    "solution_samples": 173,
+    "answer_extracted": 169,
+    "numeric_correct": 167,
+    "answer_unit_correct": 164,
+    "strict_schema_valid": 170,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 14
+      },
+      "2": {
+        "samples": 15,
+        "numeric_correct": 15,
+        "answer_unit_correct": 15
+      },
+      "3": {
+        "samples": 38,
+        "numeric_correct": 36,
+        "answer_unit_correct": 35
+      },
+      "4": {
+        "samples": 36,
+        "numeric_correct": 32,
+        "answer_unit_correct": 32
+      },
+      "5": {
+        "samples": 69,
+        "numeric_correct": 69,
+        "answer_unit_correct": 68
+      }
+    }
+  },
+  "technical_evaluation_audit": {
+    "baseline": {
+      "samples": 262,
+      "truncated": 2,
+      "enable_thinking": true,
+      "model_key": "base:Qwen/Qwen3-1.7B:70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "max_new_tokens": 2048,
+      "summary_recomputed": true
+    },
+    "candidate": {
+      "samples": 262,
+      "truncated": 4,
+      "enable_thinking": true,
+      "model_key": "adapter:20e99388093c5f7caa1aacaac2a6014cdc0bfd4b4b1bb6f25b5a593ea8beae8d",
+      "max_new_tokens": 2048,
+      "summary_recomputed": true
+    }
+  },
+  "actual_guidance_review_required": true,
+  "single_sampling_seed_only": true,
+  "original_primary_selection_unchanged": true,
+  "challenge_loaded": false,
+  "production_approved": false,
+  "near_assistant_intelligence_demonstrated": false
+}

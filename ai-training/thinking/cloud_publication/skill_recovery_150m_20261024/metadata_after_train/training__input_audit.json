@@ -1,0 +1,28 @@
+{
+  "all_four_modes": true,
+  "all_original_rows_retained_in_source": true,
+  "max_sequence_tokens": 1329,
+  "rows": 16000,
+  "selected_rows": 6879,
+  "silent_truncation": false,
+  "source_cases": 4000,
+  "supervised_eot": 151645,
+  "system_counts": [
+    {
+      "rows": 11596,
+      "sha256": "0137a055ce34116f23604ba029acac937e0ab030be537f561d0a0c2cf54b4933"
+    },
+    {
+      "rows": 2316,
+      "sha256": "6d213ca1ebea7d12cca664d7baa5be74819c199baec6284608d48cd0d8cd7151"
+    },
+    {
+      "rows": 1928,
+      "sha256": "ab9095c049a2e35d3213edc24121092f7194433eb74ca0764d9249b41b1d9fb3"
+    },
+    {
+      "rows": 160,
+      "sha256": "c94710f187165c400bbee5ae3111a63c5934ab99834b1671cc4c38cc308f0ab6"
+    }
+  ]
+}

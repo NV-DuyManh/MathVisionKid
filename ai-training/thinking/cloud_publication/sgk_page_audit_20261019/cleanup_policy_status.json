@@ -1,0 +1,27 @@
+{
+  "bundle": {
+    "all_bytes_equal": true,
+    "bytes": 1196154,
+    "cases": 110,
+    "chat_rows": 440,
+    "file_name": "MathVisionKid_SGK_PAGE_APPEND_20261020_db8649314cdbc832.zip",
+    "fresh_raw_verified": true,
+    "id": "1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI",
+    "member_count": 181,
+    "sha256": "db8649314cdbc83238340501613221a8f1551fbee1b07f0cddb1e6b205719885",
+    "url": "https://drive.google.com/file/d/1yJDYvPovUaH1Gxd2j3jg6GgjGVW6zHsI/view?usp=drivesdk",
+    "verified_utc": "2026-10-20T10:46:39.588Z"
+  },
+  "status": "CLEANUP_REJECTED_BY_AUTOMATIC_POLICY_STAGING_REMAINS",
+  "temporary_staging": {
+    "attempted_action": "Remove-Item -LiteralPath exact verified run directory -Recurse -Force",
+    "bytes": 65067414,
+    "files": 246,
+    "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019",
+    "rejected_utc": "2026-10-20T10:50:28.188390+00:00",
+    "rejection": "blocked by policy; no more specific reason supplied",
+    "retry_attempted": false,
+    "status": "CLEANUP_REJECTED_BY_AUTOMATIC_POLICY_STAGING_REMAINS"
+  },
+  "training_started": false
+}

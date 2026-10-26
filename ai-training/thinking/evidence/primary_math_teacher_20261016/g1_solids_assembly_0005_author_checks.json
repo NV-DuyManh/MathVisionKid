@@ -1,0 +1,9 @@
+{
+  "batch_sha256": "c972095071d83619b0bc96d4e851aae02f2973b507c02ed7d9c7da146de26e33",
+  "authored": 10,
+  "content_review_status": "PENDING_SEPARATE_CONTENT_PASS",
+  "text_only_hypothetical_cases": true,
+  "physical_outcome_verified": false,
+  "training_started": false,
+  "skills_matched": "none"
+}

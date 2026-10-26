@@ -7,6 +7,13 @@ import { recognitionDraftStore } from '../features/recognition/state/recognition
 import { AuthContext } from '../context/AuthContext';
 import { StudentWorkReview } from '../features/tutoring/StudentWorkReview';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
+import { clearSpeechCache, prefetchLessonOpening, prefetchNarration } from '../features/tutoring/speechCache';
+
+jest.mock('../features/tutoring/speechCache', () => ({
+  clearSpeechCache: jest.fn(), setSpeechOwner: jest.fn(),
+  prefetchLessonOpening: jest.fn().mockResolvedValue(undefined),
+  prefetchNarration: jest.fn().mockResolvedValue(true), warmSpeechSegments: jest.fn().mockResolvedValue(new Uint8Array()),
+}));
 
 jest.mock('expo-speech', () => ({ speak: jest.fn(), stop: jest.fn().mockResolvedValue(undefined), getAvailableVoicesAsync: jest.fn().mockResolvedValue([]) }));
 jest.mock('expo-audio', () => ({ AudioModule: {}, RecordingPresets: {}, useAudioRecorder: jest.fn(), useAudioRecorderState: jest.fn() }));
@@ -23,9 +30,9 @@ jest.mock('../features/tutoring/api/TutorService', () => ({
   TutorService: { inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn(), reviewWork: jest.fn() },
 }));
 jest.mock('../features/recognition/components/RecognitionProgress', () => ({
-  RecognitionProgress: ({ title, onCancel, cancelLabel }: any) => {
+  RecognitionProgress: ({ title, onCancel, cancelLabel, steps, activeStep, completedSteps }: any) => {
     const React = require('react'); const { View, Text, Pressable } = require('react-native');
-    return React.createElement(View, {}, React.createElement(Text, {}, title),
+    return React.createElement(View, { testID: 'mock-preparation-progress', steps, activeStep, completedSteps }, React.createElement(Text, {}, title),
       React.createElement(Pressable, { accessibilityLabel: cancelLabel, onPress: onCancel }, React.createElement(Text, {}, cancelLabel)));
   },
 }));
@@ -79,6 +86,8 @@ it('gives the summary its own transition before showing the first math step', as
 
 beforeEach(() => {
   jest.clearAllMocks(); recognitionDraftStore.clearDraft();
+  (prefetchNarration as jest.Mock).mockReset().mockResolvedValue(true);
+  (prefetchLessonOpening as jest.Mock).mockReset().mockResolvedValue(undefined);
   Object.values(TutorService).forEach(value => { if (jest.isMockFunction(value)) value.mockReset(); });
   (useLocalSearchParams as jest.Mock).mockReturnValue({ problemText: PROBLEM });
   (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true });
@@ -108,9 +117,57 @@ it('shows lesson preparation by itself immediately, then replaces it with the re
   expect(button('Dừng chờ')).toBeDefined();
   act(() => begin());
   expect(TutorService.startLesson).toHaveBeenCalledTimes(1);
+  expect(prefetchLessonOpening).toHaveBeenCalledWith(expect.anything());
+  expect((prefetchLessonOpening as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan((TutorService.startLesson as jest.Mock).mock.invocationCallOrder[0]);
   await act(async () => finish(LESSON));
   expect(view.root.findAllByProps({ testID: 'lesson-preparation-screen' })).toHaveLength(0);
   expect(readText()).toContain(LESSON.step.question);
+});
+
+it('prepares the first narration during lesson loading and advances only when it is ready', async () => {
+  let ready!: (value: boolean) => void;
+  (prefetchNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { ready = resolve; }));
+  await render();
+  await act(async () => button('Bắt đầu từng bước').props.onPress());
+  const progress = view.root.findAllByProps({ testID: 'mock-preparation-progress' })[0];
+  expect(progress.props.activeStep).toBe(1);
+  expect(progress.props.steps).toEqual(['Chuẩn bị các bước học', 'Chuẩn bị lời giảng', 'Sẵn sàng học']);
+  expect(prefetchNarration).toHaveBeenCalledWith([LESSON.step.explanation, LESSON.step.question], expect.anything());
+  expect(readText()).not.toContain(LESSON.step.question);
+  await act(async () => ready(true));
+  expect(readText()).toContain(LESSON.step.question);
+});
+
+it('shows the voice segment complete when parallel audio finishes before the lesson', async () => {
+  let ready!: () => void, finish!: (value: typeof LESSON) => void;
+  (prefetchLessonOpening as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { ready = resolve; }));
+  (TutorService.startLesson as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await render(); act(() => button('Bắt đầu từng bước').props.onPress());
+  await act(async () => ready());
+  const progress = view.root.findAllByProps({ testID: 'mock-preparation-progress' })[0];
+  expect(progress.props.activeStep).toBe(0); expect(progress.props.completedSteps).toEqual([1]);
+  expect(readText()).not.toContain(LESSON.step.question);
+  await act(async () => finish(LESSON));
+  expect(readText()).toContain(LESSON.step.question);
+});
+
+it('cancels narration preparation and ignores its late completion', async () => {
+  let ready!: (value: boolean) => void;
+  (prefetchNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { ready = resolve; }));
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  const signal = (prefetchNarration as jest.Mock).mock.calls[0][1];
+  act(() => button('Dừng chờ').props.onPress());
+  expect(signal.aborted).toBe(true); expect(clearSpeechCache).toHaveBeenCalled();
+  await act(async () => ready(true));
+  expect(readText()).not.toContain(LESSON.step.question);
+  expect(readText()).toContain(PROBLEM);
+});
+
+it('still opens a valid lesson when optional voice preparation is unavailable', async () => {
+  (prefetchNarration as jest.Mock).mockResolvedValue(false);
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  expect(readText()).toContain(LESSON.step.question);
+  expect(readText()).not.toContain('chưa chuẩn bị được hướng dẫn');
 });
 
 it('returns from preparation to the confirmed photo, ignores a late response, and allows another attempt', async () => {

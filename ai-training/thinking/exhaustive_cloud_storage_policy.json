@@ -1,0 +1,17 @@
+{
+  "updated_utc": "2026-10-18T15:12:04.576880+00:00",
+  "cloud_only": true,
+  "owner_instruction": "đưa data thẳng lên driver đi đừng lưu vào máy tôi",
+  "durable_payload_storage": "Google Drive folder 19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "local_bulk_generation_disabled": true,
+  "future_resume": "Use one bounded temporary shard at a time; exact QA, upload, fresh raw byte/hash readback, remote checkpoint, then delete that shard. Never rematerialize the published corpus locally.",
+  "existing_original_data": "Preserved; owner request removes newly generated payloads/staging only.",
+  "human_review_policy": "Validated labels accepted automatically; no authorship-based accuracy penalty, no invented future human review.",
+  "reporting_date": "2026-10-19 Asia/Bangkok",
+  "bounded_cloud_resume_implemented": true,
+  "temporary_shard_limit_bytes": 41943040,
+  "manager_rule": "One manager; immutable content-addressed shards; fresh payload verification before remote checkpoint, fresh checkpoint verification before local cleanup. Do not run old bulk init/run/build_views.",
+  "training_authorized": false,
+  "no_training_until_separate_owner_request": true,
+  "large_domains": "BLOCKED_STORAGE_CAPACITY until real Drive quota preflight"
+}

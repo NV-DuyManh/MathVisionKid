@@ -1,0 +1,34 @@
+{
+  "status": "PASSED_REFERENCE_CLAIMS_NUMERIC_SOURCE_AND_NO_EXACT_CHAT_OVERLAP_QA",
+  "rows": 30,
+  "grade_counts": {
+    "1": 6,
+    "2": 6,
+    "3": 6,
+    "4": 6,
+    "5": 6
+  },
+  "mode_counts": {
+    "worked_solution": 26,
+    "hint": 4
+  },
+  "current_rows": 25,
+  "legacy_rows": 5,
+  "numeric_reference_checks": 32,
+  "all_reference_keyclaims_matched": true,
+  "reference_rejected_claims_absent": true,
+  "exact_training_questions_and_replies_disjoint": true,
+  "images_requested_when_missing": true,
+  "sha256": "65826b8a18e78a7c6f823b712e88ed81850890f66906a1be00189c4b9d0726f2",
+  "teacher_private_benchmark": false,
+  "human_verified": false,
+  "pedagogy_teacher_reviewed": false,
+  "purpose": "Screen known concepts using independently authored new question wording; lexical checks are not pedagogical certification.",
+  "source_grade_corrected": "grade2pictogram example uses table2",
+  "numeric_role_binding_metadata_added": [
+    "014 quotient/remainder",
+    "020 large/small",
+    "025 expression equivalence"
+  ],
+  "lexical_screening_semantics_certified": false
+}

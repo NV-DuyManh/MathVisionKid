@@ -1,0 +1,136 @@
+{
+  "batch": "finish_g3_lengthunits",
+  "utc": "2026-10-18T14:14:51.255688+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_dam_to_metres",
+      "row_sha256": "fccb3d54b9fcc63014a9a478cbc0f0af2a4ca1f2daf49b64b758477b774370da",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*100",
+          "(2*100)+4*10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_contrast_close_units",
+      "row_sha256": "bebdb1e5b925c45186dd255d243ddd77a1bf489aef2d0a61ac06a17e334c2ef4",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "5*10+8",
+          "6*10",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_sum_route",
+      "row_sha256": "229869d5d26a9f607c0cc5176071d8e3c508d0a33b822890d689bfefd3129b5a",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3*100+7*10+20"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_mis_hm_dam_scale",
+      "row_sha256": "bc8a8abf343ade68958afe5e6ebe3827b7e00e1fa3b5c0d5544c1f51b8108f25",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "4*10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_guard_missing_length_unit",
+      "row_sha256": "6a5e0cb2ce61632f207c81305d331137e4ccce8323701f44afd79384c04de171",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_dam_to_metres",
+      "step_id": "s0",
+      "expression": "2*100",
+      "fraction": "200",
+      "decimal": "200",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_dam_to_metres",
+      "step_id": "s1",
+      "expression": "(2*100)+4*10",
+      "fraction": "240",
+      "decimal": "240",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_contrast_close_units",
+      "step_id": "s0",
+      "expression": "5*10+8",
+      "fraction": "58",
+      "decimal": "58",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_contrast_close_units",
+      "step_id": "s1",
+      "expression": "6*10",
+      "fraction": "60",
+      "decimal": "60",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_sum_route",
+      "step_id": "s0",
+      "expression": "3*100+7*10+20",
+      "fraction": "390",
+      "decimal": "390",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_mis_hm_dam_scale",
+      "step_id": "s1",
+      "expression": "4*10",
+      "fraction": "40",
+      "decimal": "40",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "pre_review_revision": "Spacing/terminology and explicit vertex/hour-interval wording; numeric expressions/results untouched.",
+  "official_review_sha256": "a4439bf4d291587123ac2dc6dd898978cbd04893cd81ac2f018f5f545f1b7b40",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

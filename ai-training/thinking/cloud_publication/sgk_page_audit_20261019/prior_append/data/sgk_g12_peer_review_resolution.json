@@ -1,0 +1,8 @@
+{
+  "all_32_final_structural_oracles_pass": true,
+  "final_source_sha256": "0580799b686ae22442c37e26edfc2cfb2b6f23f17b3887c654fb0923406c5ce6",
+  "peer_review_not_misrepresented_as_review_of_changed_bytes": true,
+  "prior_peer_review_source_sha256": "669353b3c0521cd36cb0e9ed98297178ab611e1b69f50114063db2da23b8d5b5",
+  "root_all_actual_fields_read": true,
+  "root_applied_and_read_two_precise_explanation_edits": true
+}

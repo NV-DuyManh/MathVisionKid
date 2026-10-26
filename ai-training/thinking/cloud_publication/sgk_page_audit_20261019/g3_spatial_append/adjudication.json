@@ -1,0 +1,861 @@
+{
+  "selected_draft_forms": [
+    {
+      "candidate_id": "g3_composite_polygon_count",
+      "status": "ORIGINAL_DRAFTS_CREATED_CROSS_REVIEW_PENDING",
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 22,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-23-1775743944946.png",
+          "image_sha256": "ee50b7bb935035662de3dc75d780226dc2094d34903fe30a7156010a65ab1875",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 57,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-58-1775743956295.png",
+          "image_sha256": "19d5f657de845dcfccfa60529e98ebf192cbc8eaf05b120a4e73dffbd6d0e6ed",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 66,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-67-1775743958891.png",
+          "image_sha256": "a09fd40ba212cb59043156c45b0b4474b1b4bc74779aef82553d8b4930829345",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261017_g2_geometry_0013_closed_four_edges",
+          "topic": "closed_four_edges",
+          "source_row_sha256": "f17751e52f1dd2418c401c2a5894366b0bb042b6e340a6f1853196ac0634bd11",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "Các thẻ có đường bao như sau: A gồm ba đoạn thẳng nối kín; B gồm bốn đoạn thẳng nối thành đường kín không tự cắt, các cạnh liền nhau tạo góc; C gồm bốn đoạn nối tiếp nhưng đầu cuối còn hở. Thẻ nào có dạng hình tứ giác? Giải thích vì sao chỉ đếm đoạn chưa đủ.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "A có ba cạnh nối kín.",
+              "value": null,
+              "unit": "",
+              "role": "explicit_text_description"
+            },
+            {
+              "id": "g1",
+              "text": "B có bốn cạnh thẳng, kín, không tự cắt.",
+              "value": null,
+              "unit": "",
+              "role": "explicit_text_description"
+            },
+            {
+              "id": "g2",
+              "text": "C có bốn đoạn nhưng chưa kín.",
+              "value": null,
+              "unit": "",
+              "role": "explicit_text_description"
+            }
+          ],
+          "requested_quantity": "Thẻ có dạng hình tứ giác",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Kiểm đồng thời hai dấu hiệu",
+              "reason": "Hình tứ giác có đường bao kín gồm bốn cạnh thẳng.",
+              "expression": null,
+              "result": "thẻ B",
+              "unit": "",
+              "explanation": "B có đủ bốn cạnh nối kín. A chỉ có ba cạnh, còn C tuy có bốn đoạn nhưng hở nên không đạt."
+            },
+            {
+              "step_id": "s1",
+              "title": "Đọc lại một vòng đường bao",
+              "reason": "Mỗi cạnh được tính một lần và đường bao trở về chỗ bắt đầu.",
+              "expression": null,
+              "result": "B thỏa cả số cạnh và đường kín",
+              "unit": "",
+              "explanation": "Đi một vòng B qua bốn cạnh rồi trở về đầu. Chỉ đếm bốn đoạn như ở C chưa đủ nếu đầu cuối không nối kín."
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Thẻ có dạng hình tứ giác",
+              "result": "thẻ B",
+              "unit": ""
+            }
+          ]
+        },
+        {
+          "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal:polish_v1",
+          "topic": "rectangle_vertices_edges_and_diagonal",
+          "source_row_sha256": "dbb16cc0cf52e68f66f732c22491d8c7834a5b47a1c5597b97550adf0f8aabe7",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "Hình ABCD được mô tả là đường bao kín theo thứ tự A–B–C–D–A, không tự cắt. Bốn góc ở A, B, C, D đều vuông; AB = CD = 8 cm và BC = DA = 5 cm. Có thêm đoạn AC nối hai đỉnh không kề nhau ở bên trong. Hãy liệt kê các đỉnh, các cạnh của đường bao, hai cặp cạnh đối diện và cho biết hình là hình chữ nhật nhưng có phải hình vuông không. Không có ảnh thật, chỉ xét mô tả.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Bốn góc vuông và đường bao A–B–C–D–A",
+              "value": null,
+              "unit": "",
+              "role": "ordered_boundary_and_angles"
+            },
+            {
+              "id": "g1",
+              "text": "AB = CD = 8 cm; BC = DA = 5 cm",
+              "value": null,
+              "unit": "",
+              "role": "opposite_lengths"
+            },
+            {
+              "id": "g2",
+              "text": "AC là đoạn bên trong nối đỉnh không kề",
+              "value": null,
+              "unit": "",
+              "role": "internal_nonboundary_segment"
+            }
+          ],
+          "requested_quantity": "Các đỉnh; Các cạnh đường bao; Các cặp cạnh đối diện; Tên hình",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "title": "Theo đường bao để gọi đỉnh và cạnh",
+              "reason": "Các đoạn trên hành trình kín tạo các cạnh của hình.",
+              "expression": null,
+              "result": "đỉnh A, B, C, D; cạnh AB, BC, CD, DA",
+              "unit": "",
+              "explanation": "AC nằm bên trong nên không là cạnh đường bao. Không tạo đỉnh thứ năm chỉ vì có thêm đoạn nối.",
+              "step_id": "s0"
+            },
+            {
+              "title": "Nhận cặp đối diện và góc",
+              "reason": "Bốn góc đều vuông; các cạnh không kề nhau là hai cặp đối diện.",
+              "expression": null,
+              "result": "AB đối diện CD; BC đối diện DA",
+              "unit": "",
+              "explanation": "AB và CD không chung đỉnh, BC và DA cũng vậy. Các góc ở A, B, C, D đều vuông theo dữ kiện.",
+              "step_id": "s1"
+            },
+            {
+              "title": "Gọi hình và kiểm điều kiện vuông",
+              "reason": "Hình có bốn góc vuông là hình chữ nhật; muốn hình vuông còn cần bốn cạnh bằng nhau.",
+              "expression": null,
+              "result": "hình chữ nhật, không phải hình vuông",
+              "unit": "",
+              "explanation": "AB dài 8 cm còn BC dài 5 cm, nên các cạnh không cùng dài. Vì vậy đây là hình chữ nhật nhưng không là hình vuông; không lấy bốn góc vuông làm đủ mọi điều kiện hình vuông.",
+              "step_id": "s2"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Các đỉnh",
+              "result": "A, B, C, D",
+              "unit": ""
+            },
+            {
+              "quantity": "Các cạnh đường bao",
+              "result": "AB, BC, CD, DA",
+              "unit": ""
+            },
+            {
+              "quantity": "Các cặp cạnh đối diện",
+              "result": "AB–CD; BC–DA",
+              "unit": ""
+            },
+            {
+              "quantity": "Tên hình",
+              "result": "hình chữ nhật, không phải hình vuông",
+              "unit": ""
+            }
+          ]
+        }
+      ],
+      "semantic_adjudication": "Boundary naming and single-polygon classification do not enumerate all simple/composite cycles, combine adjacent regions or deduplicate the same polygon under reversed vertex order. Merge with G4 composite polygon count.",
+      "missing_math_scope": "Specific represented reasoning only; no claim whole curriculum deficient or complete",
+      "authoring_performed": true,
+      "sealed_evaluation_used": false,
+      "draft_topic": "composite_polygon_enumeration",
+      "nearest_full_field_review_evidence": [
+        {
+          "sample_id": "primary_20261017_g2_geometry_0013_closed_four_edges",
+          "source_row_sha256": "f17751e52f1dd2418c401c2a5894366b0bb042b6e340a6f1853196ac0634bd11",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Boundary naming and single-polygon classification do not enumerate all simple/composite cycles, combine adjacent regions or deduplicate the same polygon under reversed vertex order. Merge with G4 composite polygon count."
+        },
+        {
+          "sample_id": "primary_20261017_g3_shape_elements_0037_rectangle_vertices_edges_and_diagonal:polish_v1",
+          "source_row_sha256": "dbb16cc0cf52e68f66f732c22491d8c7834a5b47a1c5597b97550adf0f8aabe7",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Boundary naming and single-polygon classification do not enumerate all simple/composite cycles, combine adjacent regions or deduplicate the same polygon under reversed vertex order. Merge with G4 composite polygon count."
+        }
+      ],
+      "authoring_source_file": "g3_spatial_append/cases.jsonl"
+    },
+    {
+      "candidate_id": "g3_fixed_stick_rectangles",
+      "status": "ORIGINAL_DRAFTS_CREATED_CROSS_REVIEW_PENDING",
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 60,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-61-1775743957172.png",
+          "image_sha256": "b4a6d17f438ab4d517a2022c5741978e5a223be2c9a3fb44f521ddb2cdffae73",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+          "topic": "same_perimeter_different_area",
+          "source_row_sha256": "e16d717e8209a58df74c4d489d854c371dc2c449b28d4b384514fa9572492297",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "A là hình chữ nhật 12 cm × 4 cm. B là hình vuông cạnh 8 cm. Tìm chu vi mỗi hình và so sánh diện tích để kiểm hai hình có cùng chu vi thì có bắt buộc cùng diện tích không.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "A dài",
+              "value": "12",
+              "unit": "cm",
+              "role": "explicit_given_0"
+            },
+            {
+              "id": "g1",
+              "text": "A rộng",
+              "value": "4",
+              "unit": "cm",
+              "role": "explicit_given_1"
+            },
+            {
+              "id": "g2",
+              "text": "B cạnh",
+              "value": "8",
+              "unit": "cm",
+              "role": "explicit_given_2"
+            }
+          ],
+          "requested_quantity": "Tính chu vi, diện tích hai hình và kết luận quan hệ.",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Chu vi A",
+              "reason": "Cộng đủ bốn cạnh chữ nhật.",
+              "result": "32",
+              "explanation": "12+4+12+4=32 cm.",
+              "expression": "(12+4)*2",
+              "unit": "cm"
+            },
+            {
+              "step_id": "s1",
+              "title": "Chu vi B",
+              "reason": "Vuông có bốn cạnh bằng nhau.",
+              "result": "32",
+              "explanation": "8+8+8+8=32 cm, bằng A.",
+              "expression": "8*4",
+              "unit": "cm"
+            },
+            {
+              "step_id": "s2",
+              "title": "Diện tích A",
+              "reason": "Đếm bốn hàng mười hai ô vuông 1 cm².",
+              "result": "48",
+              "explanation": "4 hàng 12 ô được 48 cm².",
+              "expression": "12*4",
+              "unit": "cm²"
+            },
+            {
+              "step_id": "s3",
+              "title": "Diện tích B",
+              "reason": "Đếm tám hàng tám ô vuông 1 cm².",
+              "result": "64",
+              "explanation": "8 hàng 8 ô được 64 cm².",
+              "expression": "8*8",
+              "unit": "cm²"
+            },
+            {
+              "step_id": "s4",
+              "title": "Kết luận",
+              "reason": "Chu vi bằng nhau trong khi số ô phủ mặt khác nhau.",
+              "result": "Cùng chu vi không bắt buộc cùng diện tích",
+              "explanation": "A và B là ví dụ có 32 cm chu vi nhưng 48 cm² và 64 cm² diện tích.",
+              "expression": null,
+              "unit": ""
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Chu vi A",
+              "result": "32",
+              "unit": "cm"
+            },
+            {
+              "quantity": "Chu vi B",
+              "result": "32",
+              "unit": "cm"
+            },
+            {
+              "quantity": "Diện tích A",
+              "result": "48",
+              "unit": "cm²"
+            },
+            {
+              "quantity": "Diện tích B",
+              "result": "64",
+              "unit": "cm²"
+            },
+            {
+              "quantity": "Quan hệ",
+              "result": "Cùng chu vi không bắt buộc cùng diện tích",
+              "unit": ""
+            }
+          ]
+        },
+        {
+          "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+          "topic": "complete_decompositions",
+          "source_row_sha256": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "Cần liệt kê mọi cách chia số lượng 7 bông vào hai lọ có tên A và B. Đề chưa nói lọ được để trống hay mỗi lọ phải có hoa. Có thể chốt một danh sách duy nhất theo yêu cầu chưa?",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Tổng 7; hai lọ có tên; chưa có quy định lọ trống",
+              "unit": "",
+              "value": null
+            }
+          ],
+          "requested_quantity": "Điều cần hỏi lại",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "explanation": "Cần hỏi: mỗi lọ có phải có ít nhất một bông hay lọ được phép trống? Không tự chọn một quy ước.",
+              "expression": null,
+              "reason": "Cho phép lọ trống thay đổi danh sách cần liệt kê.",
+              "result": null,
+              "step_id": "s0",
+              "title": "Nhận điều kiện chưa rõ",
+              "unit": ""
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Điều cần hỏi lại",
+              "result": "Hai lọ có được phép để trống không?",
+              "unit": ""
+            }
+          ]
+        }
+      ],
+      "semantic_adjudication": "Same perimeter contrasts two given rectangles but does not enumerate all integer side-pair layouts from fixed stick inventory or reject rotational duplicates. Additive decomposition is nearest enumeration strategy, not already this representation.",
+      "missing_math_scope": "Specific represented reasoning only; no claim whole curriculum deficient or complete",
+      "authoring_performed": true,
+      "sealed_evaluation_used": false,
+      "draft_topic": "fixed_stick_rectangle_inventory",
+      "nearest_full_field_review_evidence": [
+        {
+          "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+          "source_row_sha256": "e16d717e8209a58df74c4d489d854c371dc2c449b28d4b384514fa9572492297",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Same perimeter contrasts two given rectangles but does not enumerate all integer side-pair layouts from fixed stick inventory or reject rotational duplicates. Additive decomposition is nearest enumeration strategy, not already this representation."
+        },
+        {
+          "sample_id": "sgk_g12_20261019_complete_decompositions_04",
+          "source_row_sha256": "e0403ffba7c8752ad226058ef5ce1678e0ad9ba16c377c4ebb60e7db44d37b28",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Same perimeter contrasts two given rectangles but does not enumerate all integer side-pair layouts from fixed stick inventory or reject rotational duplicates. Additive decomposition is nearest enumeration strategy, not already this representation."
+        }
+      ],
+      "authoring_source_file": "g3_spatial_append/cases.jsonl"
+    },
+    {
+      "candidate_id": "g3_painted_cube_faces",
+      "status": "ORIGINAL_DRAFTS_CREATED_CROSS_REVIEW_PENDING",
+      "actual_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "printed_page": 66,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-67-1775743958891.png",
+          "image_sha256": "a09fd40ba212cb59043156c45b0b4474b1b4bc74779aef82553d8b4930829345",
+          "page_receipt_origin": "own actual-image reading"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 118,
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-119-1775743974934.png",
+          "image_sha256": "03a767ff0fe7155126ca49daf689252839c350873cf21172296591014257b769",
+          "page_receipt_origin": "own actual-image reading"
+        }
+      ],
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+          "topic": "count_cube_parts_without_double_count",
+          "source_row_sha256": "e2c4e433d1dbb69a883bb0e4f8127c47b15fab49cacd0cca3f3390ba164cbb72",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "Khối lập phương kín giả định có đáy ABCD và mặt trên EFGH; các đỉnh tương ứng nối bằng AE, BF, CG, DH. Các đỉnh A, B, C, D và E, F, G, H đều khác nhau. Hãy nêu số đỉnh, cạnh, mặt của cả khối và cách kiểm không đếm lặp cạnh chung của hai mặt. Chưa có ảnh thật, chỉ xét cấu trúc khối được mô tả.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Đáy ABCD, mặt trên EFGH; cạnh đứng AE, BF, CG, DH",
+              "value": null,
+              "unit": "",
+              "role": "labeled_cube_structure"
+            },
+            {
+              "id": "g1",
+              "text": "Khối lập phương kín, không bỏ mặt",
+              "value": null,
+              "unit": "",
+              "role": "closed_cube"
+            }
+          ],
+          "requested_quantity": "Số đỉnh; Số cạnh; Số mặt",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "title": "Đếm các đỉnh khác nhau",
+              "reason": "Mỗi tên A đến H chỉ một điểm gặp của các cạnh.",
+              "expression": "8",
+              "result": "8",
+              "unit": "đỉnh",
+              "explanation": "Đáy có A, B, C, D; mặt trên có E, F, G, H. Tất cả tám tên khác nhau nên khối có 8 đỉnh.",
+              "step_id": "s0"
+            },
+            {
+              "title": "Đếm cạnh theo ba nhóm rời",
+              "reason": "Các cạnh đáy, cạnh trên, cạnh nối hai tầng là các đoạn khác nhau.",
+              "expression": "12",
+              "result": "12",
+              "unit": "cạnh",
+              "explanation": "Cạnh đáy AB, BC, CD, DA; cạnh trên EF, FG, GH, HE; cạnh nối AE, BF, CG, DH. Có 12 cạnh. Một cạnh như AB được hai mặt dùng chung vẫn chỉ là một đoạn.",
+              "step_id": "s1"
+            },
+            {
+              "title": "Đếm mặt của khối kín",
+              "reason": "Mặt đáy, mặt trên và các mặt quanh thuộc toàn khối.",
+              "expression": "6",
+              "result": "6",
+              "unit": "mặt",
+              "explanation": "Các mặt ABCD, EFGH, ABFE, BCGF, CDHG, DAEH là 6 mặt. Kiểm bằng tên mặt để không đếm lại một mặt khi đổi hướng gọi.",
+              "step_id": "s2"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Số đỉnh",
+              "result": "8",
+              "unit": "đỉnh"
+            },
+            {
+              "quantity": "Số cạnh",
+              "result": "12",
+              "unit": "cạnh"
+            },
+            {
+              "quantity": "Số mặt",
+              "result": "6",
+              "unit": "mặt"
+            }
+          ]
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+          "topic": "layers_unit_cubes",
+          "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+          "source_hash_basis": "actual UTF8 JSONL line excluding line terminator",
+          "split": "train",
+          "problem": "Hộp chữ nhật có kích thước trong lòng dài 7 dm, rộng 4 dm, cao 3 dm. Xếp kín bằng khối lập phương cạnh 1 dm, không khe hở. Có bao nhiêu khối và thể tích bao nhiêu?",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Dài",
+              "value": "7",
+              "unit": "dm",
+              "role": "explicit_given_0"
+            },
+            {
+              "id": "g1",
+              "text": "Rộng",
+              "value": "4",
+              "unit": "dm",
+              "role": "explicit_given_1"
+            },
+            {
+              "id": "g2",
+              "text": "Cao",
+              "value": "3",
+              "unit": "dm",
+              "role": "explicit_given_2"
+            },
+            {
+              "id": "g3",
+              "text": "Cạnh khối nhỏ",
+              "value": "1",
+              "unit": "dm",
+              "role": "explicit_given_3"
+            }
+          ],
+          "requested_quantity": "Đếm khối đơn vị và tính thể tích.",
+          "student_work": null,
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Đếm một lớp",
+              "reason": "Mỗi lớp có số khối bằng số hàng nhân số khối mỗi hàng.",
+              "result": "28",
+              "explanation": "Bốn hàng, mỗi hàng bảy khối, phủ đủ đáy.",
+              "expression": "7*4",
+              "unit": "khối"
+            },
+            {
+              "step_id": "s1",
+              "title": "Đếm mọi lớp",
+              "reason": "Chiều cao cho ba lớp khối cao một đềximét.",
+              "result": "84",
+              "explanation": "Ba lớp không trùng, mỗi lớp hai mươi tám khối.",
+              "expression": "{s0}*3",
+              "unit": "khối"
+            },
+            {
+              "step_id": "s2",
+              "title": "Gắn đơn vị thể tích",
+              "reason": "Mỗi khối nhỏ chiếm một đềximét khối.",
+              "result": "84",
+              "explanation": "Số khối nhân thể tích mỗi khối cho thể tích hộp; chia ngược cho ba lớp được số khối một lớp.",
+              "expression": "{s1}*1",
+              "unit": "dm³"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Số khối",
+              "result": "84",
+              "unit": "khối"
+            },
+            {
+              "quantity": "Thể tích",
+              "result": "84",
+              "unit": "dm³"
+            }
+          ]
+        }
+      ],
+      "semantic_adjudication": "Existing full solid counts and layers count do not classify unit cubes by number of exposed/painted faces or count exposed unit faces after assembly. Distinguish whole6faces from small face incidences; meaningful spatial reasoning gap.",
+      "missing_math_scope": "Specific represented reasoning only; no claim whole curriculum deficient or complete",
+      "authoring_performed": true,
+      "sealed_evaluation_used": false,
+      "draft_topic": "assembled_cube_painted_faces",
+      "nearest_full_field_review_evidence": [
+        {
+          "sample_id": "primary_20261017_g3_solid_elements_0038_count_cube_parts_without_double_count:polish_v1",
+          "source_row_sha256": "e2c4e433d1dbb69a883bb0e4f8127c47b15fab49cacd0cca3f3390ba164cbb72",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Existing full solid counts and layers count do not classify unit cubes by number of exposed/painted faces or count exposed unit faces after assembly. Distinguish whole6faces from small face incidences; meaningful spatial reasoning gap."
+        },
+        {
+          "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+          "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+          "actual_fields_read": [
+            "problem",
+            "givens",
+            "requested_quantity",
+            "student_work",
+            "worked_steps",
+            "reason",
+            "explanation",
+            "expected_answer",
+            "initial_guidance",
+            "all_three_hints"
+          ],
+          "semantic_difference": "Existing full solid counts and layers count do not classify unit cubes by number of exposed/painted faces or count exposed unit faces after assembly. Distinguish whole6faces from small face incidences; meaningful spatial reasoning gap."
+        }
+      ],
+      "authoring_source_file": "g3_spatial_append/cases.jsonl"
+    }
+  ],
+  "cross_grade_merges": [
+    {
+      "canonical_form": "composite_polygon_enumeration",
+      "sources": [
+        {
+          "book_id": "g2v1",
+          "printed_page": 104,
+          "source_image_sha256": "a783f59c06e8df5f9479773009648b5c21ea021076896c37c5d3bae552ae4aa1",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-105-1775742389130.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 111,
+          "source_image_sha256": "bac5586c74a1e04f67b0e05365cd758cd58763de504829a98c322b2e8a947aa7",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-112-1775742391164.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 131,
+          "source_image_sha256": "c2edac3f6d62e73ef44889de53b2a5655f3ce1221efca85aa131d750fc0b0527",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-132-1775742397555.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 22,
+          "source_image_sha256": "ee50b7bb935035662de3dc75d780226dc2094d34903fe30a7156010a65ab1875",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-23-1775743944946.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 57,
+          "source_image_sha256": "19d5f657de845dcfccfa60529e98ebf192cbc8eaf05b120a4e73dffbd6d0e6ed",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-58-1775743956295.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v1",
+          "printed_page": 66,
+          "source_image_sha256": "a09fd40ba212cb59043156c45b0b4474b1b4bc74779aef82553d8b4930829345",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-67-1775743958891.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "One merged three-case draft family; triangle and axis-aligned rectangle analogues only. Arbitrary quadrilateral enumeration, square-only subset counts and actual-pixel recognition remain separate pending scope."
+    },
+    {
+      "canonical_form": "area_preserving_cut_rearrangement",
+      "sources": [
+        {
+          "book_id": "g2v1",
+          "printed_page": 106,
+          "source_image_sha256": "0781b0d617dbf97401dd0ddaff3062f49825cecce75ac7a8f50072bf07f01a8c",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-107-1775742389698.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 107,
+          "source_image_sha256": "befa0612ac3e6c5aa5b27f2f437a78525040639efa0293205255c89e6c717145",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-108-1775742389966.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 27,
+          "source_image_sha256": "a9bcf9e25b2966c53a921a9df0113664a771ba1c4bb62303785fc274f1eb431f",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-28-1776051211020.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Merge with G4 dissection candidate; no new case authored in this nine-case batch."
+    },
+    {
+      "canonical_form": "fixed_piece_assembly_feasibility",
+      "sources": [
+        {
+          "book_id": "g2v1",
+          "printed_page": 106,
+          "source_image_sha256": "0781b0d617dbf97401dd0ddaff3062f49825cecce75ac7a8f50072bf07f01a8c",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-107-1775742389698.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 107,
+          "source_image_sha256": "befa0612ac3e6c5aa5b27f2f437a78525040639efa0293205255c89e6c717145",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-108-1775742389966.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 131,
+          "source_image_sha256": "c2edac3f6d62e73ef44889de53b2a5655f3ce1221efca85aa131d750fc0b0527",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-132-1775742397555.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 33,
+          "source_image_sha256": "11a089d4b5c60ec5f35ff2009d45519c81f1160468a7fc039f3fdbf199f24b86",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-34-1776051212786.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Merge with G4 silhouette/polyomino candidate. Explicit piece geometry and allowed transformations required; pending."
+    },
+    {
+      "canonical_form": "collinear_enumeration_and_segment_pairs",
+      "sources": [
+        {
+          "book_id": "g2v1",
+          "printed_page": 98,
+          "source_image_sha256": "06a53d7f57541e5aaa995a84a68cadf56933fcd2a65fc8a965a268818d0d9a24",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-99-1775742387272.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 99,
+          "source_image_sha256": "b7a52d53c5b75f85796b4c2877a944cab5134a93ccbec0aa9b6a5d542999e5c8",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-100-1775742387569.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 100,
+          "source_image_sha256": "2ec9e181559ae3d0be1023f08b404b8d901fc1df82694e405f6e5da7e32eda0b",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-101-1775742387859.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 101,
+          "source_image_sha256": "640b945ec0205c1b283d27b2f7832da586a20eeb6e5ce8b168e542f3d8f57e2d",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-102-1775742388166.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 110,
+          "source_image_sha256": "b1c58837b779a2ace471a00e7c6020e237b4f7105c919885957a258aeb797619",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-111-1775742390801.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 111,
+          "source_image_sha256": "bac5586c74a1e04f67b0e05365cd758cd58763de504829a98c322b2e8a947aa7",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-112-1775742391164.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g2v1",
+          "printed_page": 130,
+          "source_image_sha256": "69a1b9e5bfb7eacdbdbb85a812b5930b669c6e8a8739d5d111ffe971e91500c7",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698648594-page-131-1775742397276.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Merge with G3 collinearity and G4 edge/ray enumeration; not covered by triangle-count cases alone."
+    },
+    {
+      "canonical_form": "two_draw_multiset_without_replacement",
+      "sources": [
+        {
+          "book_id": "g3v2",
+          "printed_page": 59,
+          "source_image_sha256": "bb864a25219ef9ede89db1002cd242c6851eadc6b801a132dda570495e4a659d",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-60-1776051220816.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 109,
+          "source_image_sha256": "fd8f367f9f7ad8175b26af38536fee4fe98e8f06aae7600abc37d8ea83450ef8",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-110-1776051238881.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        },
+        {
+          "book_id": "g3v2",
+          "printed_page": 124,
+          "source_image_sha256": "5d0174c03ce2f520868bbf67ee19056d48f0380803af856e4327c567d76b6d7e",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-125-1776051243810.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Merge G4 same-content candidate; actual valid train rows must be compared before authoring."
+    },
+    {
+      "canonical_form": "finite_inventory_collection_game",
+      "sources": [
+        {
+          "book_id": "g3v2",
+          "printed_page": 69,
+          "source_image_sha256": "64cb71521227db410708d807501fc93d88cd043407c24ddac31c327f180cb6a5",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-70-1776051223750.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Merge G2/G4 finite game; rule and state completeness pending source comparison."
+    },
+    {
+      "canonical_form": "non_overlapping_activity_interval_choice",
+      "sources": [
+        {
+          "book_id": "g3v2",
+          "printed_page": 84,
+          "source_image_sha256": "12c3b7c2393c07b1896c45ffbbfeb7ed36d43202fa61215dadead7c9dacaa856",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-85-1776051228143.png",
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent"
+        }
+      ],
+      "resolution": "Pending full-field nearest train comparison; no new case authored."
+    }
+  ],
+  "source_file_sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+  "source_line_count": 5784,
+  "protected_eval_pilot_used": false,
+  "semantic_review_scope": "Six full nearest train rows read for three selected forms; keyword/index search is retrieval only, not proof of exhaustive semantic absence. Existing valid data retained.",
+  "draft_source_sha256": "2d3dcc05e88997a0bb74affa2ade385d534a5405cf8e9537bc6aff7366d8f00a",
+  "case_count": 9
+}

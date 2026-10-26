@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "FSSXpxLUqDrs"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T11:25:07.810247+00:00\", \"worker_alive\": false, \"exit\": null, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"18kRud04F04OF34HcI2l9okHYUmzFVY4M\", \"error\": null, \"final_artifacts\": null, \"artifact_count\": 2, \"checkpoints\": {}}, \"eval_progress\": {}, \"gpu\": \"0 MiB, 0 %\"}\n"
+        ]
+      }
+    ]
+  }
+}

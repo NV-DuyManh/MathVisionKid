@@ -1,0 +1,108 @@
+{
+  "state": "COMPLETE_RAW_VERIFIED",
+  "bundle": {
+    "id": "1u3735Od9qWKAE_YQ2dVAlHh7YX_JFqW4",
+    "sha256": "4636f1d6fb96d8f7de5dc941a72dbeb6b832ebf828fada95a16ebd104d787349",
+    "bytes": 228690,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-24T14:23:14.611284+00:00",
+    "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+    "name": "quality_recovery_audit_bundle_4636f1d6fb96d8f7.zip",
+    "immutable": true
+  },
+  "manifest_sha256": "4b2274740ea5264ef50ff9dfd6aebc87eb070c84ddd6ecaaa3062d7576ddc22e",
+  "metadata_proofs": {
+    "native_probe_gate.json": {
+      "id": "1NNQ0Hu7mIk_rS26RfgJDkisRLBgQ-jmM",
+      "sha256": "3e471332c32c3b127f7601764356b70af2f47d9026f3ddfabca5a84c3a693bc9",
+      "bytes": 8358,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:22:33.322111+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe_gate.json",
+      "immutable": true
+    },
+    "context_trial_final_review.json": {
+      "id": "1N2J-tyNInbBli0bi710phoCyxPm1esDf",
+      "sha256": "49ac0a59e3b4831fee92006aba9d206f65cb26669e1ea8e3b3f6bb62af5d88cc",
+      "bytes": 10626,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:22:35.850213+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "context_trial_final_review.json",
+      "immutable": true
+    },
+    "drive_write_coordination.json": {
+      "id": "1F5GNO3zZ1EgakivBBpOyYaZCbEexawga",
+      "sha256": "2d4c7cb7e1eca419edf6ad099638f7387270ea261d5b82d98373628c62e33a40",
+      "bytes": 572,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:22:40.797531+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "drive_write_coordination.json",
+      "immutable": true
+    },
+    "training/final_semantic_assessment.json": {
+      "id": "1y8fg8k5Mgr2XMCr5g_w2-yXAjydCpJG5",
+      "sha256": "0d7e5e2fe032aeb3e03384892634f8c6b627594e8812ef3edccc3c7b5ce4c855",
+      "bytes": 83323,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:22:49.239336+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "training__final_semantic_assessment.json",
+      "immutable": false
+    },
+    "native_probe/dev/complete.json": {
+      "id": "1Zw8a_v8vJqrulYH3F8wNV61NkTRQt7Hb",
+      "sha256": "83c8593b866de3b10f0acf85ace2c8e7fcf99b334be4636b0e0d7fd08a15ced8",
+      "bytes": 901,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:22:55.374975+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__complete.json",
+      "immutable": true
+    },
+    "native_probe/dev/native_thinking_final.jsonl": {
+      "id": "1svIa96DVVa5n97hiQjPk5K8hSXhJTvu2",
+      "sha256": "fa1bbd655f1e118d0ce818e153ca3c6a23bc4728aa872748aa7afeaf00e567d0",
+      "bytes": 19862,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:23:01.322816+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__native_thinking_final.jsonl",
+      "immutable": true
+    },
+    "native_probe/dev/native_thinking_raw.jsonl": {
+      "id": "1GqoFjIe1bX9ZSzzLi-TOrrmvfa5wxcMa",
+      "sha256": "a49fe261d8aa952e5e545d546efb366d3dfd012f35dd2ce6c8c08245d725fac6",
+      "bytes": 50376,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:23:03.750520+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__native_thinking_raw.jsonl",
+      "immutable": true
+    },
+    "native_probe/dev/runtime_progress.json": {
+      "id": "1Qp3nw2QIVg9LW4Ls-wy3BF5ZDEoFsG_r",
+      "sha256": "e5dd7d1465e6ab043a00a28128f313a4a03be7a53056101366ec4375fc54ca08",
+      "bytes": 924,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:23:06.235298+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__runtime_progress.json",
+      "immutable": true
+    },
+    "native_probe/dev/contract.json": {
+      "id": "1C-2id1770seEqbKxyEosp0qyLzG0ZDMu",
+      "sha256": "1fa7e29c9b8206fdeaa9facafa8ff5954ac6abbe339e001410c846c72973a63c",
+      "bytes": 4097,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-24T14:23:08.767653+00:00",
+      "folder_id": "1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA",
+      "name": "native_probe__dev__contract.json",
+      "immutable": true
+    }
+  },
+  "all_gpu_workers_exited": true,
+  "production_approved": false
+}

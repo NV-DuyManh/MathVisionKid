@@ -1,0 +1,31 @@
+{
+  "scope": "offline only; no Drive or Colab calls performed",
+  "syntax": "PASS",
+  "targeted_fake_API_tests": 6,
+  "targeted_fake_API_failures": 0,
+  "transaction_source": "Adapted cloud_publication/crosssplit_20261023/cloud_control_transaction.py with scoped actual metadata and preserved legacy flags",
+  "files": [
+    {
+      "name": "prepare_four_controls_runtime.py",
+      "bytes": 10688,
+      "sha256": "8c4a950e4fafade5e124cea4579d5acb68c3b97e75dbd7052168f74b7b1baa43"
+    },
+    {
+      "name": "four_controls_transaction.py",
+      "bytes": 16889,
+      "sha256": "15e267571d6208ff03c165119bdf5b94d701b69c23ca0d8004c4b8b15ea02456"
+    },
+    {
+      "name": "test_four_controls_runtime.py",
+      "bytes": 7394,
+      "sha256": "31db3fa3604356350c5818d0391d1666076dd18e40e1454dc113d443e0ed8026"
+    },
+    {
+      "name": "four_controls_invocation.md",
+      "bytes": 3686,
+      "sha256": "6950a9fa1e47345d84328762bd4aa464856874b838363519135c71675f224bf8"
+    }
+  ],
+  "auth_refresh_reentry_regression_test": "PASS; RLock permits AuthorizedHttp same-thread refresh retry",
+  "runtime_change_performed": false
+}

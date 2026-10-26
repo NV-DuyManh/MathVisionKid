@@ -18,6 +18,9 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 ## PROJECT RULES
 
+- For MathVisionKid AI/data/OCR/math training work, read `ai-training/MATH_TRAINING_CONTEXT.md` before continuing. After each phase or interruption, update current status, verified results, evidence locations and next steps in that same file.
+- Owner requested one persistent context/report file: do not create new per-phase Markdown reports for this AI work. Keep machine-readable evidence and checkpoints separately by run ID; retain older reports as historical evidence.
+
 - Inspect → implement → test → report → STOP
 - No commit/push unless owner explicitly permits
 - No model training unless explicitly authorized

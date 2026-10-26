@@ -1,0 +1,13 @@
+{
+  "packages": {
+    "accelerate": "1.15.0",
+    "bitsandbytes": "0.50.2",
+    "peft": "0.21.2",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.16.1",
+    "unsloth": "2026.10.7",
+    "unsloth_zoo": "2026.10.7"
+  },
+  "prefix": "/content/mathvisionkid_skill_recovery_150m_20261024/venv",
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]"
+}

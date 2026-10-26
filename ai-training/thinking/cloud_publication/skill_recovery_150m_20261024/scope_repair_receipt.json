@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "EWHgL5RhBvE3"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"scope_fixture_binding_repaired\": true, \"original_scope_unchanged\": true, \"old_error_retained\": \"/content/mathvisionkid_skill_recovery_150m_20261024/error_history/attempt_0001_preinit/error.json\", \"worker_relaunched_preinit_only\": true, \"pid\": 54953, \"optimizer_started_confirmed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

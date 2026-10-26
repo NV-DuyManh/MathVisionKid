@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "QUg8yCYdavZR"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"publisher_started\": true, \"folder_name\": \"MathVisionKid_QUALITY_RECOVERY_20261024\", \"training_started_by_publisher\": false}\n"
+        ]
+      }
+    ]
+  }
+}

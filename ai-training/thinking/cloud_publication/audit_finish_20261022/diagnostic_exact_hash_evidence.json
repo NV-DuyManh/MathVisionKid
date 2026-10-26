@@ -1,0 +1,16 @@
+{
+  "schema": "MathVisionKid.diagnostic_exact_hash_evidence.v1",
+  "sample_id": "exhaustive_v1_div_1563_43",
+  "source_label": "regression_only",
+  "source_raw_row_sha256": "1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b",
+  "source_canonical_sha256": "1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b",
+  "evidence_file": "diagnostic_metadata_observed.json",
+  "evidence_sha256": "6374ccd7bfaaebfcd5a8fd125b7e0e583393ebd883c86519450cd219548469e9",
+  "same_id_source_versions": 1,
+  "chat_links_so_far": 0,
+  "status": "PRESERVED_DIAGNOSTIC_EXCLUSION_PENDING_FINAL_FULL_SCAN_PROOF",
+  "raw_scanner_finding_preserved": true,
+  "train_eligible": false,
+  "zero_links_is_final_proof": false,
+  "training_started": false
+}

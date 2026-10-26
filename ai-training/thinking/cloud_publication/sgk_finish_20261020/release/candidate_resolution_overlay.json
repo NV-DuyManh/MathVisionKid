@@ -1,0 +1,2398 @@
+{
+  "all_sgk_forms_covered": false,
+  "g2_confirmed_masters_authored": 14,
+  "g2_merged_or_asset_masters_still_open": 37,
+  "masters": [
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "abacus_fixed_ring_budget_extrema"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "abacus_budget",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "actual_scale_measurement",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_ADD_GROUP_STRICT_COMPARISON"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "add_group_strict_comparison",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_DICE_REGION_BOUNDARY_MATCH"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "all_boundary_labels_joint_match",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "angle_count_ray_pairs"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "angle_ray_pair_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "arrival_at_start_allowed",
+          "exported_row_sha256": "3657a45ca6463b5e851c242ff8c885505ea4749005e1d48f05e2aca2da1497dd",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_arrival_at_start_allowed"
+        },
+        {
+          "branch": "arrival_strict_before",
+          "exported_row_sha256": "e097ff15e84703994745ae75137296c8236fa8cdea6fcef026641eef49203ea8",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_arrival_strict_before"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_SCHEDULE_AFTER_ARRIVAL_SELECTION"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_SCHEDULE_AFTER_ARRIVAL_SELECTION"
+      ],
+      "master_id": "arrival_schedule_eligibility",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_painted_cube_faces",
+        "g5_candidate_joined_surface"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "assembled_cube_painted_faces",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "attribute_tied_maximum",
+          "exported_row_sha256": "15a10db20f941269fda551d6657bf25cb03fe54553bad56fbb6b3cd669b610b7",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_attribute_tied_maximum"
+        },
+        {
+          "branch": "attribute_empty_subset",
+          "exported_row_sha256": "93c95095329db15ce91341d43e3e1982fd20db6100d4072a80d310a366e62e14",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_attribute_empty_subset"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_ATTRIBUTE_FILTERED_EXTREMA"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_ATTRIBUTE_FILTERED_EXTREMA"
+      ],
+      "master_id": "attribute_filter_then_extremum",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "balance_transitive_substitution",
+          "exported_row_sha256": "6c44fd017ec663615b867ad6d2a245039755509a9bd66c0076f98fb85998d868",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_balance_transitive_substitution"
+        },
+        {
+          "branch": "balance_common_object_cancellation",
+          "exported_row_sha256": "0192242386719b3949a416f839cef0666d5a7468688d7840e385c48fddaf836d",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_balance_common_object_cancellation"
+        }
+      ],
+      "candidate_ids": [
+        "g3_balance_relation_chain",
+        "balance_orientation_order",
+        "g5_candidate_balance_consistency"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_balance_relation_chain"
+      ],
+      "master_id": "balance_order_substitution_chain",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [
+        "balance_orientation_order",
+        "g5_candidate_balance_consistency"
+      ],
+      "status": "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "bar_model_to_story"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "bar_model_to_story",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_materials_budget"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "bill_of_materials_area_cost",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_TEMPORAL_STAGE_ORDER"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "biological_stage_image_context",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "board_turn_privilege_transition"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "board_turn_privilege",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "boat_shuttle_state_plan"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "boat_shuttle",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "colors_unordered_limited",
+          "exported_row_sha256": "5f270223f8aef2625b13cc1117bba567cb9c97711f49302fe8231770a435c567",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_colors_unordered_limited"
+        },
+        {
+          "branch": "colors_order_vs_multiset",
+          "exported_row_sha256": "0f237d3ca0081a02821b7cdc0ac2bdfb9e32bc152cf51d0a17a617c8931ce243",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_colors_order_vs_multiset"
+        }
+      ],
+      "candidate_ids": [
+        "two_draw_color_multisets",
+        "g5_candidate_multidraw_outcomes",
+        "two_draw_multiset_without_replacement"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "two_draw_color_multisets"
+      ],
+      "master_id": "bounded_color_multiset_without_replacement",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [
+        "g5_candidate_multidraw_outcomes",
+        "two_draw_multiset_without_replacement"
+      ],
+      "status": "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "factor_pairs_unordered",
+          "exported_row_sha256": "0db6c1f600862a1e3996e19f6cc55fa40670f48848a70c806f7a8464352094a9",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_factor_pairs_unordered"
+        },
+        {
+          "branch": "factor_pairs_ordered_bounds",
+          "exported_row_sha256": "4dd698cc8c57879130931ae311f9b034d65f250c4ccdecad09589c74e2a43cd0",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_factor_pairs_ordered_bounds"
+        }
+      ],
+      "candidate_ids": [
+        "g3_factor_pair_search"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_factor_pair_search"
+      ],
+      "master_id": "bounded_factor_pair_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "inventory_fixed_cardinality",
+          "exported_row_sha256": "4c582817880c454161c0c6befce1f0303eba8b8c4c7451341c477e27b66725af",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_inventory_fixed_cardinality"
+        },
+        {
+          "branch": "inventory_no_extra_duplicate",
+          "exported_row_sha256": "72ff69814335fc851260bdbd290637b8732b763c003c3dc7d96afd07755a27f6",
+          "grade": 3,
+          "sample_id": "sgk_finish_basic_20261020_inventory_no_extra_duplicate"
+        }
+      ],
+      "candidate_ids": [
+        "g3_bounded_measure_subset"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_bounded_measure_subset"
+      ],
+      "master_id": "bounded_inventory_target_sum",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_CALENDAR_ANCHOR_OFFSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "calendar_anchor_day_offset",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "capacity_every_edge",
+          "exported_row_sha256": "037df7587feb1473d683ad8f84848548f3b22f58937edca4af86cd8a03fdc26f",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_capacity_every_edge"
+        },
+        {
+          "branch": "capacity_common_unit_cut",
+          "exported_row_sha256": "43b6b066162f8003315494b4a4753fca3d2f781ddf11bae29b96f684d1adb6a6",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_capacity_common_unit_cut"
+        }
+      ],
+      "candidate_ids": [
+        "capacity_constrained_network_route"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "capacity_constrained_network_route"
+      ],
+      "master_id": "capacity_edge_filtered_path",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "chart_causal_inference_guard"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "chart_causal_guard",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_circle_overlap"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "circle_material_overlap_allowance",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_circle_feasibility"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "circular_rim_capacity_feasibility",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_CLOCK_READING_IMAGE_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "clock_face_image_reading",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "closed_operation_cycle_consistency"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "closed_operation_cycle",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_collinear_enumeration",
+        "collinear_enumeration_and_segment_pairs"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "collinear_triple_complete_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_MISSING_DIGITS_COLUMN_SUBTRACTION",
+        "column_multi_blank_digits"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "column_multi_blank",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_COMMON_REFERENCE_LENGTH_COMPARISON"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "common_unit_length_image_alignment",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_sharing_schemes"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "compare_equal_sharing_cut_schemes",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_COMPLEMENTARY_BOUNDARY_MATCH"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "complementary_irregular_boundary_match",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_COMPOSITE_SHAPE_INVENTORY_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "composite_component_image_inventory",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_composite_polygon_count",
+        "composite_polygon_enumeration"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "composite_polygon_enumeration",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_COMPOSITE_SHAPE_COUNT"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "composite_shape_square_nonaligned_inventory",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_COMPOSITE_SQUARE_COUNT_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "composite_square_only_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_conditional_board"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "conditional_board_game",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "cashback_discounted_exact_threshold",
+          "exported_row_sha256": "5083a7d4fe9209e793a3bc0a46c3b1983c6550b70d79386fba5d227b768c2179",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_cashback_discounted_exact_threshold"
+        },
+        {
+          "branch": "cashback_wrong_original_threshold",
+          "exported_row_sha256": "0ced7e69c0ddcfe0cd2a482d31acaecc0f4242dc0d5f5c3943efa62ca2693dd1",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_cashback_wrong_original_threshold"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_cashback_threshold"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_cashback_threshold"
+      ],
+      "master_id": "conditional_cashback_threshold",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "digit_class_conjunctive_filter"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "conjunctive_numeral_filter",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_REVERSE_SEQUENCE_COMPLETION",
+        "G1V2_CONSTANT_STEP_SEQUENCE",
+        "inclusive_arithmetic_progression_count",
+        "g5_candidate_even_sequence"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "constant_step_sequence",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_CONSTRUCT_EQUATIONS_FROM_NUMBER_CARDS"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "construct_equations_from_number_cards",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_CURVED_CONNECTION_TRACING_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "curved_connection_image",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "date_fixed_yyyymmdd_encode",
+          "exported_row_sha256": "9a17361fef1d2b82381d1acec7974c30d34d3bba2c942aefbd12ed8337099b2b",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_date_fixed_yyyymmdd_encode"
+        },
+        {
+          "branch": "date_fixed_ddmmyyyy_leading_zero_repair",
+          "exported_row_sha256": "2e3eea73245881d9e91419462125852d80fa355b73d10db227253a2794d692f6",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_date_fixed_ddmmyyyy_leading_zero_repair"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_date_encoding"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_date_encoding"
+      ],
+      "master_id": "date_digit_string_encoding",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_decimal_symbol_choice"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "decimal_symbol_open_interval_synthesis",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "single_digit_deletion_order_preserved"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "delete_one_digit",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "blank_digit_inequality"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "digit_inequality",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "directional_estimation_bound_proof"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "directional_estimation_bound",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "discrete_fraction_integrality_claim"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "discrete_fraction_integrality",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_disk_derivation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "disk_sector_limit_area_argument",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "matchstick_removal_game_terminal_state"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "edge_removal_game_terminal",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_surface_volume_scaling"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "edge_scale_square_cube_relation",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_ELAPSED_WHOLE_HOURS"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "elapsed_time_intervals",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "embedded_digit_image",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_equal_area_heterogeneous_partition"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "equal_area_geometric_regrouping",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "equal_area_transfer_cancellation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "equal_area_transfer_cancellation",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "instrument_scale_reading"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "equal_interval_instrument_reading",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_zoom_line"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "equal_interval_numberline_refinement",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "capacity_feasible_cargo"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "exact_capacity_bound",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_expression_bin_filter_count"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "expression_target_classification",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_decimal_card_enumeration"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "finite_decimal_digit_card_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "finite_digit_card_enumeration",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "finite_inventory_collection_state",
+        "finite_inventory_collection_game"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "finite_inventory_collection_game",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "operator_synthesis",
+          "exported_row_sha256": "a11cfe020ac7d7c73da37491f7463c09aa429e1f5992a920a8d1091a36b9944f",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_operator_synthesis_01"
+        },
+        {
+          "branch": "operator_synthesis",
+          "exported_row_sha256": "1bcf38cc5dea91c775cdaac7f26e2f7cf4fe6235c5c3fc1828b04ce154664bfd",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_operator_synthesis_02"
+        }
+      ],
+      "candidate_ids": [
+        "g3_operator_synthesis",
+        "g5_candidate_unknown_fraction_operator"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_operator_synthesis"
+      ],
+      "master_id": "finite_operator_synthesis",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [
+        "g5_candidate_unknown_fraction_operator"
+      ],
+      "status": "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "finite_parameter_expression_extrema"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "finite_parameter_extrema",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "compound_two_years_compare_simple",
+          "exported_row_sha256": "8e251e8b7309c8e1a4c912870bba3e1cc2295a2b92254f919244fa3a6880196a",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_compound_two_years_compare_simple"
+        },
+        {
+          "branch": "compound_reverse_principal",
+          "exported_row_sha256": "e712a4f86879481a9188fe04f365775401c7ea61b3371db7abc6cadaf14a5ee6",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_compound_reverse_principal"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_compound_interest"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_compound_interest"
+      ],
+      "master_id": "finite_reinvested_compound_percent",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "route_global_minimum",
+          "exported_row_sha256": "58bcf20a4cf30b7a33f288bc2b30585bca632755dfe3429f6c627308a3437c9a",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_route_global_minimum"
+        },
+        {
+          "branch": "route_tied_minima_error",
+          "exported_row_sha256": "b4245de5376362eb9b16db2ae00b8c1730a7fc403865fd2c8b4f032b3d9b9753",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_route_tied_minima_error"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+        "g5_candidate_shortest_route"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON"
+      ],
+      "master_id": "finite_route_total_optimization",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [
+        "g5_candidate_shortest_route"
+      ],
+      "status": "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "train_tail_bridge_forward",
+          "exported_row_sha256": "505cc14942fbfad5c3694074494cee8fcdc5ea9f2ca24b46f4058f35341694de",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_train_tail_bridge_forward"
+        },
+        {
+          "branch": "train_bridge_inverse_length",
+          "exported_row_sha256": "6481a1e421152266f2e0fd32847aab48eb13961663d7016a35aa43368c87117c",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_train_bridge_inverse_length"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_train_length"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_train_length"
+      ],
+      "master_id": "finite_train_tunnel_bridge_crossing",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "fixed_piece_assembly_feasibility"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fixed_piece_assembly_feasibility",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_MULTIPIECE_SILHOUETTE_ASSET",
+        "silhouette_piece_assembly",
+        "g5_candidate_tangram_assembly"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fixed_piece_silhouette_placement",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_fixed_stick_rectangles"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fixed_stick_rectangle_inventory",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_equal_volume_surface"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fixed_volume_surface_arrangement_optimization",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_fold_midpoint",
+        "paper_fold_perpendicular_construction",
+        "folding_fraction_without_ruler",
+        "g5_candidate_fold_fraction"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fold_coincidence_fraction_perpendicular",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "paper_fold_cut_symmetry"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "fold_cut_unfold_boundary",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_frequency_weighted_mean"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "frequency_table_weighted_mean",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "age_future_ratio_reverse_current",
+          "exported_row_sha256": "c5a2b728c991504759291f80097449a618d1664522cd14e698d0dbe69cd93daa",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_age_future_ratio_reverse_current"
+        },
+        {
+          "branch": "age_ratio_changes_find_wait",
+          "exported_row_sha256": "43c5993934ff5adfaf760156afc1f19a954fcb23459fd8b74d6697166fe4bf94",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_age_ratio_changes_find_wait"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_future_age_ratio"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_future_age_ratio"
+      ],
+      "master_id": "future_age_invariant_difference_ratio",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_ZERO_SUBTRACTION_EXPLICIT"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "generic_subtraction_boundary",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_REMOVE_MATCHES_TRIANGLE_COUNT_ASSET",
+        "geometric_matchstick_relocation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "geometric_edge_removal_relocation",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "geometric_sequence_local_extension"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "geometric_sequence_local_extension",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "digit_cards_global_assignment_constraints"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "global_card_assignment",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "glyph_segment_relation_filter"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "glyph_parallel_perpendicular_filter",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_source_caveat_leap_year"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "gregorian_leap_year_convention",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_grid_hole_dimensions"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "grid_boundary_missing_dimensions",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_net_volume"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "gridded_net_dimensions_to_volume",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_DIGIT_STROKE_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "handwriting_stroke_execution",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "intervals_vs_posts_both_endpoints"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "inclusive_positions_intervals",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "infer_rounding_place"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "infer_rounding_place",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "single_operator_insertion_fixed_digits"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "insert_single_plus",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "bins_halfopen_shared_boundary",
+          "exported_row_sha256": "7579a113d52bbd98099a9aaf19ee0087b9d0f38a55b22f68b10f07acf2c6f49d",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_bins_halfopen_shared_boundary"
+        },
+        {
+          "branch": "bins_boundary_doublecount_error",
+          "exported_row_sha256": "b4da912066ca13bb9ee5b942f4bb0438f6aae6065f1fbdf5840ea8acb067c9a2",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_bins_boundary_doublecount_error"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_interval_frequency"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_interval_frequency"
+      ],
+      "master_id": "interval_bin_boundary_frequency",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "guard_stock_stop_conflict",
+          "exported_row_sha256": "ea6631ec52a0a9a9a756f0603e2d845aeb0493024beba4da4d2b49d8bc9cdd9d",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_guard_stock_stop_conflict"
+        },
+        {
+          "branch": "guard_unknown_eligible_set",
+          "exported_row_sha256": "3643cd7380345ad30efc92574de7fc5437bce199ac7cb1ab58fdbd38ee76a567",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_guard_unknown_eligible_set"
+        }
+      ],
+      "candidate_ids": [
+        "ambiguous_game_inventory_guard"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "ambiguous_game_inventory_guard"
+      ],
+      "master_id": "inventory_rule_termination_guard",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_GRID_REGION_UNIT_COUNT_ASSET"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "irregular_region_unit_area_count",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_painted_cubes"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "large_cube_painted_face_classification",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "midpoint_grid_dissection"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "midpoint_grid_multi_piece_dissection",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_tangram_area"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "midpoint_tangram_piece_area",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_minimum_capacity"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "minimum_capacity",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_SORT_REPAIR_ONE_SWAP",
+        "minimum_pair_swaps_permutation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "minimum_pair_swaps",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "missing_current_year_context"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "missing_calendar_reference_guard",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "hidden_vertex_parallelogram"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "missing_parallelogram_vertex",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_rectangle_tiling"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "mixed_orientation_rectangle_tiling",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_circle_center_chain"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "nested_circle_center_construction",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_nested_altitudes"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "nested_triangle_base_altitude_assignment",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_net_repair"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "net_repair_cut_one",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "composite_polygon_count"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "nonaxis_composite_quadrilateral_enumeration",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "interval_touch_allowed",
+          "exported_row_sha256": "049f9a211a3afb8cdeb82aeac7533ed02e5b9423806dbfe4acec4354486c3a79",
+          "grade": 3,
+          "sample_id": "sgk_finish_network_20261020_interval_touch_allowed"
+        },
+        {
+          "branch": "interval_positive_gap_required",
+          "exported_row_sha256": "79c8ffb80bd967bedbb7cb9441ba29394f922c4fb83a2dae8e07333afda3db16",
+          "grade": 3,
+          "sample_id": "sgk_finish_network_20261020_interval_positive_gap_required"
+        }
+      ],
+      "candidate_ids": [
+        "non_overlapping_activity_interval_choice"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "non_overlapping_activity_interval_choice"
+      ],
+      "master_id": "nonoverlapping_schedule_interval_choice",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "numeric_crossword_intersections"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "numeric_crossword",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "physical_geometric_construction"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "observed_physical_geometric_result",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "layering_order_occlusion"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "occlusion_partial_layer_order",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_digit_card_swap"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "one_digit_swap_repair",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_swap_optimization"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "one_swap_parity_extremum",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "optical_illusion_measurement_guard"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "optical_illusion_measurement_asset",
+      "original_category": "ASSET_ONLY_LIMITATION",
+      "pending_candidate_alias_check": [],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "itinerary_week_rollover",
+          "exported_row_sha256": "ba47f97e0d7e416a67f12aa97a2f47511d25191ac3606f6caf23104d78b5cad5",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_itinerary_week_rollover"
+        },
+        {
+          "branch": "itinerary_back_from_last",
+          "exported_row_sha256": "f9c3ea8b06db67eb84b4640ea0dbc10004e81a40fed3e24cfb7bab9abfd31e98",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_itinerary_back_from_last"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_ORDERED_ITINERARY_DAY_MAPPING"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_ORDERED_ITINERARY_DAY_MAPPING"
+      ],
+      "master_id": "ordered_itinerary_weekday_map",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_ORDINAL_AFTER_INSERTION"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "ordinal_after_insertion",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_ORDINAL_FROM_BOTH_ENDS"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "ordinal_from_both_ends",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "overlap_length_bar_alignment",
+        "g5_candidate_overlap_length"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "overlap_shared_origin_lengths",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "pair_gate_unique",
+          "exported_row_sha256": "294f2c49a275d10e3063cd0a8116e24c6bc0c894b24c7a1ba807368de16b3473",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_pair_gate_unique"
+        },
+        {
+          "branch": "pair_gate_disconnected_sum",
+          "exported_row_sha256": "5d240ca5600917140b1d29ed0225269e8473abd30004e6a8197993e35e3f2e23",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_pair_gate_disconnected_sum"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_GATE_PAIR_SUM_PATH"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_GATE_PAIR_SUM_PATH"
+      ],
+      "master_id": "pair_relation_stage_path",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_missing_digit_column",
+        "g5_candidate_multicolumn_constraint"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "partial_product_column_reconstruction",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_PERIODIC_ATTRIBUTE_PATTERN"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "periodic_attribute_pattern",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_pack_unit_choices"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "piece_pack_unit_role_choice",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "piecewise_routes_equal_time",
+          "exported_row_sha256": "76f5345d9fe01bcb4c166718fef37ab1c9ea584daf834249a096ef0a9800a078",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_piecewise_routes_equal_time"
+        },
+        {
+          "branch": "piecewise_rest_total_average_error",
+          "exported_row_sha256": "e533df1a68db89222437fbfc8429b2863a1657e42364d907289336f03690be62",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_piecewise_rest_total_average_error"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_piecewise_terrain"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_piecewise_terrain"
+      ],
+      "master_id": "piecewise_speed_travel_time_comparison",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "tornplaceclass_strip_assembly",
+        "placeclass_strip_assembly"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "placeclass_torn_strip_constraints",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_PLAUSIBLE_REFERENCE_ESTIMATION",
+        "plausible_measurement_unit",
+        "g5_candidate_area_magnitude",
+        "g5_candidate_volume_magnitude"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "plausible_measure_reference_options",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_PREDICATE_PATH_ASSET",
+        "expression_filtered_network_route"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "predicate_filtered_directed_path",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "prefix_digit_difference_invariance"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "prefix_difference",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "gridangleconstruction",
+        "grid_angle_construction"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "prescribed_grid_angle_construction",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "product_pyramid",
+          "exported_row_sha256": "5e27ecb42f04457bfb1c2b8479138563cff2d81a843b5b25194e032ac7fb781f",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_product_pyramid_01"
+        },
+        {
+          "branch": "product_pyramid",
+          "exported_row_sha256": "c985d4bc8363b1c00075acb67c6b8be6b8f4c0a040cf1f2ec66204ec7d55600f",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_product_pyramid_02"
+        }
+      ],
+      "candidate_ids": [
+        "g3_product_pyramid"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_product_pyramid"
+      ],
+      "master_id": "product_pyramid",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_EQUAL_QUANTITY_BALANCE_REPRESENTATION"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "quantity_balance_equality",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "regular_dial_angle"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "regular_dial_angle",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "two_digit_matching_symbols",
+          "exported_row_sha256": "065899776ae3602db67584812e562c005c1bb0e0ebe5ef81bfdbda2f8ee7430e",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_two_digit_matching_symbols"
+        },
+        {
+          "branch": "digit_length_guard",
+          "exported_row_sha256": "060c59877edc43d036d1d03b6eb4c6b518bd8d8543fef108cea446252dfcb3c8",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_digit_length_guard"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_REPEATED_DIGIT_NUMBER_SELECTION"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_REPEATED_DIGIT_NUMBER_SELECTION"
+      ],
+      "master_id": "repeated_digit_symbol_predicate",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_folded_visible_area"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "repeated_fold_visible_area",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "identity_equal_and_lower",
+          "exported_row_sha256": "1bbecbef6eafa7e74b81421a3f1ba5f06da7870d7debfcd299d6d30181e075f9",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_identity_equal_and_lower"
+        },
+        {
+          "branch": "identity_not_unique",
+          "exported_row_sha256": "c1724b6fb69d6ad8332d73aa6edba7f6295e41099b01b6bf2c4c05adff2c2e4e",
+          "grade": 1,
+          "sample_id": "sgk_finish_g1_20261020_identity_not_unique"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_DUPLICATE_SCORE_ASSIGNMENT",
+        "g3_two_digit_reasoning_rank",
+        "equal_area_elimination"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "repeated_value_identity_assignment",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [
+        "G1V2_DUPLICATE_SCORE_ASSIGNMENT",
+        "g3_two_digit_reasoning_rank",
+        "equal_area_elimination"
+      ],
+      "status": "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_RESOURCE_ASSIGNMENT_INEQUALITY"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "resource_assignment_inequality",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "recover_operand_from_supplied_algorithm_error"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "reverse_algorithm_error",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "role_pool_all_additions",
+          "exported_row_sha256": "2e49a7d508444843eb9effc49e7aa8eaddc61bc3db3c34e247dd0a29a94d9f2e",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_role_pool_all_additions"
+        },
+        {
+          "branch": "role_pool_subtraction_error",
+          "exported_row_sha256": "58cbaf7816ec499a6a8ea102339542522678125e5cfa9a3f234dadaccc918e74",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_role_pool_subtraction_error"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION"
+      ],
+      "master_id": "role_specific_equation_pool",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_rotated_trapezoid"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "rotated_trapezoid_completion",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_rotated_water"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "rotated_water",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "running_state_unique_path",
+          "exported_row_sha256": "e38a4f6809c0e607c5c985d7b8ffc455af68dc3fd50772c3a7b2c2f411e85344",
+          "grade": 3,
+          "sample_id": "sgk_finish_network_20261020_running_state_unique_path"
+        },
+        {
+          "branch": "running_state_shared_node",
+          "exported_row_sha256": "0353744b2ad658ad6709cc1379e85de68e856549e3b2f2393d715a17cc40546e",
+          "grade": 3,
+          "sample_id": "sgk_finish_network_20261020_running_state_shared_node"
+        }
+      ],
+      "candidate_ids": [
+        "g3_route_running_quantity"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_route_running_quantity"
+      ],
+      "master_id": "running_operation_graph_target",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_triangle_base_ratio"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "same_height_triangle_area_ratio",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_semicircle_boundary"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "semicircle_arc_plus_diameter_boundary",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_semicircle_chain"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "semicircle_chain_arc_length",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_MATCHSTICK_DIGIT_ASSET",
+        "G1V2_SINGLE_MATCH_EQUATION_REPAIR",
+        "seven_segment_single_move_minimum",
+        "seven_segment_relocation_with_digit_count_change"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "seven_segment_glyph_inventory_relocation",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_STICK_SHARED_EDGE_CONSTRUCTION"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "shared_edge_stick_construction",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "skip_two_interior_nodes",
+          "exported_row_sha256": "3727fb54f4a67b06fc0c82267f06b0fda1a50076343ccd4c75016d40b3e403a0",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_skip_two_interior_nodes"
+        },
+        {
+          "branch": "skip_zero_then_one_error",
+          "exported_row_sha256": "6cabb57d0e372c49654a81dd8526bf93bf3dd20fdfd9631131c09c9c1290b401",
+          "grade": 4,
+          "sample_id": "sgk_finish_network_20261020_skip_zero_then_one_error"
+        }
+      ],
+      "candidate_ids": [
+        "jump_skip_nodes_interpretation"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "jump_skip_nodes_interpretation"
+      ],
+      "master_id": "skip_intermediate_nodes_k_plus_one",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "clock_slow_forward_from_reset",
+          "exported_row_sha256": "320bceb904b3d70cedc4d3dbbc3030f1dc74389bdce43576f12992e7c7058d4a",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_clock_slow_forward_from_reset"
+        },
+        {
+          "branch": "clock_fast_inverse_display_elapsed",
+          "exported_row_sha256": "153d86a945e237aa9a24414423ee03cfa6cf0c7621fcc0f1bb9b805a1eb642c1",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_clock_fast_inverse_display_elapsed"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_clock_error"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_clock_error"
+      ],
+      "master_id": "slow_fast_clock_correction",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_SOLID_VISIBLE_FACE_DIRECTIONS"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "solid_visible_face_direction_binding",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "area_preserving_cut_rearrangement",
+        "g5_candidate_trapezoid_derivation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "specified_area_preserving_dissection",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_stadium"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "stadium_composite_area",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "fraction_strict_all_numerators",
+          "exported_row_sha256": "5f0ab7abdf14f1f2709acb854f313735afb5c73444e055d804ce2748e48f772c",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_fraction_strict_all_numerators"
+        },
+        {
+          "branch": "fraction_strict_equal_endpoint_error",
+          "exported_row_sha256": "0c779443c4f540bd9405ea72f7e0005919ed0890516cc880808890210e090d5d",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_fraction_strict_equal_endpoint_error"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_fraction_interval"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_fraction_interval"
+      ],
+      "master_id": "strict_fraction_unknown_numerator_interval",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "structural_product_cancellation",
+        "g5_candidate_cancellation"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "structural_product_cancel",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_displacement"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "submerged_displacement_volume",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_SUCCESSIVE_TWO_REMOVALS",
+        "G1V2_LINKED_ARITHMETIC_NETWORK"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "successive_add_subtract_sequence",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "remainder_two_stage_forward",
+          "exported_row_sha256": "078295df81548106ca279b65bb4a691c3318a2a93b08e7cf851b2d2697a57c9b",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_remainder_two_stage_forward"
+        },
+        {
+          "branch": "remainder_wrong_second_base",
+          "exported_row_sha256": "0d2ffb2fa1a4b46268af51747d7dd05b5736da141db938d4ea7852b09f3e8bab",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_remainder_wrong_second_base"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_remainder_base"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_remainder_base"
+      ],
+      "master_id": "successive_fraction_of_current_remainder",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_sum_pyramid"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "sum_pyramid",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g3_inscribed_touching_circles"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "tangent_circle_alignment_lengths",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "three_pairs_unique_decimal",
+          "exported_row_sha256": "d38a8070d65b0ae7535dcdf3ee45686343c83e16b92dd949338acd2bae4e2d0b",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_three_pairs_unique_decimal"
+        },
+        {
+          "branch": "three_pairs_total_conflict_repair",
+          "exported_row_sha256": "77c666302eb4a00063e51cd722c4ade8c557a92aa0858caa41c3ee9f2d270f1f",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_three_pairs_total_conflict_repair"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_three_masses"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_three_masses"
+      ],
+      "master_id": "three_unknown_pair_totals",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_tiered_tariff"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "tiered_tariff",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V2_TIMETABLE_MULTI_CRITERIA_LOOKUP"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "timetable_day_hour_lookup",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_timezone_rollover"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "timezone_given_table",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "trial_log_race_state"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "trial_log_race_state",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_triangle_parallel_apex"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "triangle_parallel_apex_area_invariant",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "pair_guarantee_any_color_not_red",
+          "exported_row_sha256": "2b022fcfdc07b8f5cee4dab60bd608f58ca674850728801f10f7f4c20ee5292c",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_pair_guarantee_any_color_not_red"
+        },
+        {
+          "branch": "pair_guarantee_blue_minimum_draws",
+          "exported_row_sha256": "dd74ea1807df21ec6048f9e1d439dd1b5625150ca853dc5be56c4efb822d3da0",
+          "grade": 5,
+          "sample_id": "sgk_finish_g5_20261020_pair_guarantee_blue_minimum_draws"
+        }
+      ],
+      "candidate_ids": [
+        "g5_candidate_pair_guarantee"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g5_candidate_pair_guarantee"
+      ],
+      "master_id": "two_color_three_draw_pair_guarantee",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "two_dimensional_attribute_pattern"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "two_dimensional_feature_constraints",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "transfer_equalizes",
+          "exported_row_sha256": "7f8bed483c3291ff29858734a45177d33c2473c9cb7474316ec6c19e9706d089",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_transfer_equalizes"
+        },
+        {
+          "branch": "transfer_reverses_order",
+          "exported_row_sha256": "11d4112705559e5213ec4cc9f682631d11387fe6be812aa1f6c17fb99ee4f8a6",
+          "grade": 1,
+          "sample_id": "sgk_finish_basic_20261020_transfer_reverses_order"
+        }
+      ],
+      "candidate_ids": [
+        "G1V2_TRANSFER_COMPARISON"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "G1V2_TRANSFER_COMPARISON"
+      ],
+      "master_id": "two_group_transfer_then_compare",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [
+        {
+          "branch": "two_jug_transfer",
+          "exported_row_sha256": "e02bf6dd547b52c93d14c74e6424d94cd64e391e87c1049d35326f5b3172f540",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_two_jug_transfer_01"
+        },
+        {
+          "branch": "two_jug_transfer",
+          "exported_row_sha256": "684501961d4a2edb6cbe9691c96a7fe4fbdb44c1d93e5484a9b7d677785c92a0",
+          "grade": 3,
+          "sample_id": "sgk_finish_20261020_g3_two_jug_transfer_02"
+        }
+      ],
+      "candidate_ids": [
+        "g3_two_jug_transfer"
+      ],
+      "covered_candidate_branches_in_this_append": [
+        "g3_two_jug_transfer"
+      ],
+      "master_id": "two_jug_state_transfer",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_TWO_SIDED_STRICT_BOUND_SELECTION"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "two_sided_strict_bound_selection",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "unbounded_natural_no_maximum"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "unbounded_naturals",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "G1V1_UNIT_CUBE_COUNT_ASSEMBLY"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "unit_cube_layers_assembly",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "distinct_unit_fraction_decomposition"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "unit_fraction_decomposition",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_weighted_mean"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "weighted_group_mean",
+      "original_category": "COVERED_EXACT_ID_HASH",
+      "pending_candidate_alias_check": [],
+      "status": "EXACT_OLD_COVERAGE_RETAINED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_wheel_rotations"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "wheel_turns_distance",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_tile_boxes"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "whole_package_area_procurement",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    },
+    {
+      "accepted_examples": [],
+      "candidate_ids": [
+        "g5_candidate_decimal_whole_pieces"
+      ],
+      "covered_candidate_branches_in_this_append": [],
+      "master_id": "whole_units_from_decimal_quotient",
+      "original_category": "FINITE_CONFIRMED_MISSING_MASTER",
+      "pending_candidate_alias_check": [],
+      "status": "FINITE_MASTER_NOT_YET_AUTHORED"
+    }
+  ],
+  "modality": "Original explicit text reasoning only; visual or physical mastery not certified",
+  "parent_queue_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "schema": "candidate_resolution_overlay.v1",
+  "status_counts": {
+    "ASSET_LIMITATION_RETAINED": 10,
+    "EXACT_OLD_COVERAGE_RETAINED": 63,
+    "FINITE_MASTER_NOT_YET_AUTHORED": 61,
+    "NEW_TEXT_EXAMPLES_ACCEPTED_ALIAS_CHECK_PENDING": 5,
+    "NEW_TEXT_REPRESENTATION_EXAMPLES_ACCEPTED": 28
+  }
+}

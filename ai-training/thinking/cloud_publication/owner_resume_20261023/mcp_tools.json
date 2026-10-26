@@ -1,0 +1,53 @@
+[
+  {
+    "name": "open_colab_browser_connection",
+    "title": null,
+    "description": "Opens a connection to a Google Colab browser session and unlocks notebook editing tools. Returns a boolean representing whether the connection attempt succeeded",
+    "inputSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "outputSchema": {
+      "description": "Generic wrapper for non-object return types.",
+      "properties": {
+        "result": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "type": "object",
+      "x-fastmcp-wrap-result": true
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "_fastmcp": {
+        "tags": []
+      }
+    },
+    "execution": null
+  },
+  {
+    "name": "local_colab_connection_status",
+    "title": null,
+    "description": null,
+    "inputSchema": {
+      "properties": {},
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "icons": null,
+    "annotations": null,
+    "meta": {
+      "_fastmcp": {
+        "tags": []
+      }
+    },
+    "execution": null
+  }
+]

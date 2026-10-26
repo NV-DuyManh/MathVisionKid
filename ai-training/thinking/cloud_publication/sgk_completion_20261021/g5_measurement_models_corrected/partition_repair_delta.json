@@ -1,0 +1,19 @@
+{
+  "status": "EXACT_DERIVATIVE_REPAIR",
+  "source_folder": "g5_measurement_models",
+  "derived_folder": "g5_measurement_models_corrected",
+  "original_source_file_sha256": "b91c0a90cfc5976a14e1721206ba5159c3f7a7ce4167b93a2d4c75c1d66cbe26",
+  "derived_source_file_sha256": "5566927920148c8f35ace48767d97ad46778e9de51adda59cd924fadc9272df2",
+  "sample_id": "sgk_completion_measure_20261021_nested_vertical_base_external_altitude_foot",
+  "source_row_sha256": "5660fe3d3e1fe87514d105e47a52108c5ae8cfc78c31af4336f9b58b2013b470",
+  "derived_row_sha256": "7dfd5a583546b04d2e81ea41cc0ecdac03f8ae380a2db64fcea72802da472c34",
+  "field": "worked_steps[2].explanation",
+  "before": "4 × 6:2=12;6+6+12=24 bằng 8 × 6:2 củaABC. AD chiaABE thànhADE vàDBE; AE chiaABC thànhABE vàACE, nên ba miền chỉ chung biên.",
+  "after": "4 × 6:2=12;6+6+12=24 bằng 8 × 6:2 củaABC. DE chiaABE thànhADE vàDBE; AE chiaABC thànhABE vàACE, nên ba miền chỉ chung biên.",
+  "mathematical_correction": "DE divides triangleABE intoADE andDBE; AD lies onABboundary",
+  "original_source_files_unchanged": true,
+  "unchanged_source_rows": 11,
+  "unchanged_chat_rows": 44,
+  "additional_cases": 0,
+  "answer_values_unchanged": true
+}

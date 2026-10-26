@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Y-4G5F6wanuA"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T08:53:53.381734+00:00\", \"hostname\": \"fb7636900c84\", \"kernel_pid\": 1225, \"prior_run_root_exists\": false, \"prior_worker_global_present\": false, \"gpu\": \"Tesla T4, 15360 MiB, 0 MiB, 0 %\", \"packages\": {\"torch\": \"2.11.0+cu130\", \"transformers\": \"5.20.2\", \"peft\": \"0.21.2\", \"accelerate\": \"1.15.0\", \"bitsandbytes\": null}}\n"
+        ]
+      }
+    ]
+  }
+}

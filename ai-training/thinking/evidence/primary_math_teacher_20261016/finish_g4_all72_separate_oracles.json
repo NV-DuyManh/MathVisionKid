@@ -1,0 +1,1107 @@
+{
+  "author_agent": "/root/finite_grade4",
+  "cases": 72,
+  "core": 48,
+  "misconception": 16,
+  "guards": 8,
+  "records": [
+    {
+      "sample_id": "primary_20261018_finish_g4_millions_place_value_read_classes",
+      "source_row_sha256": "4c5a12de324f1b075fd7ec835f9996ce4c695027fefeca2b49b64af7b06a941c",
+      "method": "Zero-pad and concatenate three-digit classes",
+      "oracle_numeric_answers": [
+        "42008305"
+      ],
+      "detail": {
+        "class_read": [
+          "42",
+          "008",
+          "305"
+        ],
+        "8_power": 3
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_millions_place_value_contrast_same_digit",
+      "source_row_sha256": "b4c33a764bfd1c40b64c2a45a0871f1025d55137e72d076cbcb9ed52b56cdcbb",
+      "method": "Lexicographic equal-length digit comparison and index powers",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "larger": "B",
+        "A_digit5_power": 5,
+        "B_digit5_power": 6
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_millions_place_value_compose_inventory",
+      "source_row_sha256": "6a94774375fd986f901e73806babae9cd69abc65856c891eacdef5e09a2d35d9",
+      "method": "Accumulate positional place buckets from package types",
+      "oracle_numeric_answers": [
+        "6014090"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_millions_place_value_zero_placeholder",
+      "source_row_sha256": "b07738f7f40a234e587cd462caac20f72676b6a98a8b8af5a350ccfae1b2d58e",
+      "method": "Concatenate padded spoken classes",
+      "oracle_numeric_answers": [
+        "3005007"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_letter_expression_substitute_sum",
+      "source_row_sha256": "328818755b551321dd2b54cfa0352fa77d7a37954f9b9765ad2118a0fe154af6",
+      "method": "Concatenate disjoint symbolic book-ID lists then count",
+      "oracle_numeric_answers": [
+        "25"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_letter_expression_bracket_contrast",
+      "source_row_sha256": "6dd44dcd9a32da81a9275dc24589d9aea1e5d23f9c28813647c46042ba55ac29",
+      "method": "Count four copies of a nine-cell list versus four six-cell lists and three extra cells",
+      "oracle_numeric_answers": [
+        "36",
+        "27"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_letter_expression_rectangle_variable",
+      "source_row_sha256": "87a4b432549691cbd9d05d2ec59db4505da5fb4b432cc294993a5a6d886b56fc",
+      "method": "Traverse four rectangle boundary segments",
+      "oracle_numeric_answers": [
+        "34"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_letter_expression_concatenation",
+      "source_row_sha256": "ed6ff02c5c93fc5155397103a986c25ad3f145e84af7308715f0d695ffca8a0d",
+      "method": "Count union of eight and five disjoint unit tokens",
+      "oracle_numeric_answers": [
+        "13"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_mass_yen_ta_tan_mixed_mass",
+      "source_row_sha256": "f77f96823128a75f44932eff0bbff4d39b35c97da4f605ccdad453c4d0eead23",
+      "method": "Expand each declared mass package into kilogram counts",
+      "oracle_numeric_answers": [
+        "2340"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_mass_yen_ta_tan_compare_loads",
+      "source_row_sha256": "077ff797d360282b36309b0518414b111f64ad8fdfcb7b60387efd6855c2e0de",
+      "method": "Count kilogram intervals of two loads and set difference",
+      "oracle_numeric_answers": [
+        "10"
+      ],
+      "detail": {
+        "larger": "B"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_mass_yen_ta_tan_full_bags",
+      "source_row_sha256": "842879c7813ebba4b970490a2fcd2af4dc365a90a52d04be0a7ba8ac26acafe1",
+      "method": "Remove24disjoint10kggroups from3000indexed kilogram tokens",
+      "oracle_numeric_answers": [
+        "2760"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_mass_yen_ta_tan_unit_step_error",
+      "source_row_sha256": "bf991bd509d44802560e21653c458a5f9e675811ff4ac71e1b061fdefddd36af",
+      "method": "Five mass blocks each labelled100kg",
+      "oracle_numeric_answers": [
+        "500"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_mass_yen_ta_tan_unknown_crate",
+      "source_row_sha256": "b72e1b6ada8f4ae542dadb71283751967f78fdb5c72cecf00aff0763556d4fc1",
+      "method": "Two completions of missing mass",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "extra_mass_kg": [
+          10,
+          20
+        ],
+        "totals_kg": [
+          210,
+          220
+        ],
+        "not_unique": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_second_century_seconds_duration",
+      "source_row_sha256": "626790e7c700c8e2f7b61256c228244d836fcb4159f963c048a2e7ca0999d6c1",
+      "method": "Count seconds on timeline of three complete minute blocks and25extra",
+      "oracle_numeric_answers": [
+        "205"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_second_century_century_boundary",
+      "source_row_sha256": "73aa1ae40fdf1e6a628f58424acbc1bfa444002e7acd107160d217b484842fe8",
+      "method": "Membership of inclusive century ranges",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "1900": "XIX",
+        "1901": "XX"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_second_century_timing_compare",
+      "source_row_sha256": "ac50db674bdbffd49f46a6c5c3853c9d55a65f94c6c13c5cfdaf804d37128b3a",
+      "method": "Compare second timeline index endpoints",
+      "oracle_numeric_answers": [
+        "3"
+      ],
+      "detail": {
+        "shorter": "A"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_second_century_minute_hundred",
+      "source_row_sha256": "36399bd9166c535549bb618d04d4543faf2af38ba78f4a80a8bed5d27a404c4c",
+      "method": "Two minute blocks plus15seconds",
+      "oracle_numeric_answers": [
+        "135"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_second_century_clock_missing_end",
+      "source_row_sha256": "1766bb989a00270f0170bec657aecda87ccd19feb5253cee56415fea7562490f",
+      "method": "Distinct stopped-watch readings both consistent with no reading supplied",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "possible_seconds": [
+          30,
+          50
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_pictogram_legend",
+      "source_row_sha256": "9f6765197a9522cf9e5f18db9cd7ea84c32f4d24e148e7aae1a85d3d9897e758",
+      "method": "Expand pictogram symbols into labelled tree-ID groups",
+      "oracle_numeric_answers": [
+        "20",
+        "12",
+        "32"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_bar_axis",
+      "source_row_sha256": "d2e12b34c9c2e9905fcf8c361103860ed850ab3434ef0fa37a848c383af540c5",
+      "method": "Count one interval from labelled10kgto15kg",
+      "oracle_numeric_answers": [
+        "5"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_table_to_bars",
+      "source_row_sha256": "e4d01b6ea5df9227d8aaadd306cb09611b130f34440e6e794b872a01d7a85195",
+      "method": "Pair book IDs into two-book cells",
+      "oracle_numeric_answers": [
+        "4",
+        "7",
+        "5"
+      ],
+      "detail": {
+        "maximum_day": "Thứ Ba"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_legend_ignored",
+      "source_row_sha256": "00bdb199a9c1c9b3eb9e824deddd9a5405d77b3c352fb41b8bb10a691e1c43f1",
+      "method": "Expand four symbols into six pen IDs each",
+      "oracle_numeric_answers": [
+        "24"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_charts_legend_missing",
+      "source_row_sha256": "03d7763fdf3f4a142a73a5069ee6b5baadbda2a3ad17d28d9625127b856f03ed",
+      "method": "Legend completions yield incompatible item counts",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "legend_values": [
+          2,
+          4
+        ],
+        "A_items": [
+          10,
+          20
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_round_hundred",
+      "source_row_sha256": "8329dc0fd9e735d1567c22c7c4702c579832b80f84ed10a39962681a0b24e79e",
+      "method": "Count a disjoint union of three integer token ranges",
+      "oracle_numeric_answers": [
+        "436"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_subtraction_boundary",
+      "source_row_sha256": "89bfa454664b7b988aa0b47b858dacc30962a9e8dbebe72ca776db587cd8517d",
+      "method": "Take away successive token suffixes versus take away net25minus15",
+      "oracle_numeric_answers": [
+        "40",
+        "70"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_receipts_group",
+      "source_row_sha256": "765aac04a1a296e7244cebb7e77f8f761ca2b4432803bf076b16a6744bf50c86",
+      "method": "Three separate receipt book-ID lists counted without nesting",
+      "oracle_numeric_answers": [
+        "275"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_add_associative_lost_addend",
+      "source_row_sha256": "396a8d5d0aee520a0fa5e3ac8f5d2bee47c98e9ebe58617b3162fe9e0cb4b6ff",
+      "method": "Count all three disjoint addend ID sets",
+      "oracle_numeric_answers": [
+        "49"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_two_shelves",
+      "source_row_sha256": "cfe71fb21606961656167a17abb7a19908cba0daa268aaf745f57d299aac32aa",
+      "method": "Enumerate nonnegative integer pairs satisfying both conditions",
+      "oracle_numeric_answers": [
+        "34",
+        "52"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_equal_boundary",
+      "source_row_sha256": "061fb226926d05edb8847dc1f477d3c1a3dac52eb30590b8f3bdbb8075699850",
+      "method": "Enumerate equal pair with fixed total",
+      "oracle_numeric_answers": [
+        "32"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_check_candidates",
+      "source_row_sha256": "2f2e9710e1152d6b3049ec0e9ae631c1b58f831ac7658ba7bec7793dd3924e60",
+      "method": "Candidate condition truth table",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "first": [
+          true,
+          true
+        ],
+        "second": [
+          true,
+          false
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_halved_sum_only",
+      "source_row_sha256": "c3dd62fdb0bb22a154ee7690b59ce034455473fe6379d72c7bfd529d5e2da740",
+      "method": "Enumerate pair with total and positive difference",
+      "oracle_numeric_answers": [
+        "32",
+        "42"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_two_digit_divisor_exact_book_boxes",
+      "source_row_sha256": "855e3447d7fbd85e720930ed8424f56158b69f67bd9d482e93ede3baa5c1ba02",
+      "method": "Repeated subtraction by package size",
+      "oracle_numeric_answers": [
+        "36"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_two_digit_divisor_remainder_bundles",
+      "source_row_sha256": "7c5524f7080fb3e9af4b42deda0709217daba2b534ef5cb7328e09da44bd5e3d",
+      "method": "Repeated subtraction without division/modulo",
+      "oracle_numeric_answers": [
+        "39",
+        "9"
+      ],
+      "detail": {
+        "canonical_metadata_only": "945%24",
+        "remainder_lt_divisor": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_two_digit_divisor_choose_divisor",
+      "source_row_sha256": "ba3b5d73327e4aba8fae74934f9a3cf5387d789839152932c3d28466df54e52e",
+      "method": "Repeated-group count under both package sizes",
+      "oracle_numeric_answers": [
+        "40",
+        "30"
+      ],
+      "detail": {
+        "fewer": "B"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_two_digit_divisor_invalid_remainder",
+      "source_row_sha256": "4a3dca75ab2f6f887759f2499f740f6b9ae1ba78dced2ef526638b3923a40ed1",
+      "method": "Repeated subtraction and invalid remainder-bound check",
+      "oracle_numeric_answers": [
+        "26"
+      ],
+      "detail": {
+        "given_bad_remainder_equals_divisor": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_three_digit_divisor_exact_pack",
+      "source_row_sha256": "357468e8e5a68055756c85a55195411ad2a78aec47858d32b6b3e2c1021bea7d",
+      "method": "Repeated subtraction with210-group",
+      "oracle_numeric_answers": [
+        "32"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_three_digit_divisor_remainders",
+      "source_row_sha256": "07083162cc5438a61fdc08dd301b09fb8f2784aad1a5c81fd62cf55c0c261596",
+      "method": "Repeated subtraction without division/modulo",
+      "oracle_numeric_answers": [
+        "12",
+        "10"
+      ],
+      "detail": {
+        "canonical_metadata_only": "1450%120",
+        "remainder_lt_divisor": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_three_digit_divisor_reverse_missing_dividend",
+      "source_row_sha256": "a55802376edc2fabf6c1a760c671ff8b1ec463f7cc86a14d64876c8e9b233b0e",
+      "method": "Construct sixteen disjoint125-token groups plus37loose tokens",
+      "oracle_numeric_answers": [
+        "2037"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_three_digit_divisor_drop_internal_zero",
+      "source_row_sha256": "aa77ac0a54224f60e052c98bb629537d19e82d3c02bcb0a0a3ff49495148bec8",
+      "method": "Repeated subtraction counters independent of digit deletion",
+      "oracle_numeric_answers": [
+        "34"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_draw_rectangle_square_rectangle_plan",
+      "source_row_sha256": "2880e60a4a65c2e1c25a9143ba8fcabe738d9da246c5e7c0da1a9aa8069085e8",
+      "method": "Symbolic coordinate model of proposed construction has perpendicular adjacent edges",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "actual_drawing_verified": false
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_draw_rectangle_square_square_or_rhombus",
+      "source_row_sha256": "ee246e7a95e0e5275fd3d05fc87e1c485b56ea4a77b770bb24463d7cbf99d2c0",
+      "method": "Conjunction of equal-sides and right-angle criteria",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "P": {
+          "equal_sides": true,
+          "all_right": true
+        },
+        "Q": {
+          "equal_sides": true,
+          "all_right": false
+        }
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_draw_rectangle_square_grid_transfer",
+      "source_row_sha256": "36155152e412619b1931c512a2fc5a88f922cd45831bf4296349a46054adf571",
+      "method": "Count perimeter grid intervals around5by3model",
+      "oracle_numeric_answers": [
+        "16"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_draw_rectangle_square_only_lengths",
+      "source_row_sha256": "e6fff12175c7b5d2f0a71b21a0ccafa3c279c3de12db5ea29dcd8bd7fd62928d",
+      "method": "Equal-side non-right rhombus countermodel",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "edge_vectors": [
+          [
+            3,
+            4
+          ],
+          [
+            -3,
+            4
+          ]
+        ],
+        "squared_lengths": [
+          25,
+          25
+        ],
+        "adjacent_dot_product": 7,
+        "actual_image_judged": false
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_draw_rectangle_square_missing_drawing",
+      "source_row_sha256": "25dacbcc16f322d6e496b64784b267e6e4dc4b8174e668ecee82f766851f16f3",
+      "method": "No asset or measurements cannot distinguish rectangle from non-rectangle",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "two_geometrically_different_drawings_compatible": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+      "source_row_sha256": "7cec66bf68b1dd30cf30b7fc1c43ba247ef031d830621433dded5fc2a382956a",
+      "method": "Four boundary lengths and cut-rearranged12by5unit-cell model",
+      "oracle_numeric_answers": [
+        "38",
+        "60"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_same_base_contrast",
+      "source_row_sha256": "065e652ff25c38eb709512a712f2ef99245dff507daaeae04cae6f296dee3217",
+      "method": "Compare unit-cell row sets after area-preserving cut/rearrangement",
+      "oracle_numeric_answers": [
+        "36",
+        "54",
+        "18"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_recover_base",
+      "source_row_sha256": "2439e43d32e750938433046bc084ff98ad9c8785cc31aa12fe5c7b7cedff9649",
+      "method": "Search integer base satisfying8equal area rows then traverse boundary",
+      "oracle_numeric_answers": [
+        "12",
+        "44"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_sloping_side_error",
+      "source_row_sha256": "de548de5a0ba36f9208d0f0d68ce568a4afa9d8e97fb3f6543ccd9a626b60b4f",
+      "method": "Cut/rearranged11by4unit-cell grid; slanted edge excluded from cell count",
+      "oracle_numeric_answers": [
+        "44"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_parallelogram_area_height_absent",
+      "source_row_sha256": "81fc94bb8e7abfc1437b21e4c2d70129e370cd83f624ea22d80a59cb62b5fb99",
+      "method": "Two realizable slanted-side5models with heights3and4",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "base": 9,
+        "heights": [
+          3,
+          4
+        ],
+        "areas": [
+          27,
+          36
+        ],
+        "nonunique": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_fraction_common_denominator_coprime_denominators",
+      "source_row_sha256": "a757417414ebc384aef295f2ebff9887f77e88a7c696601e5ae87f4f117d909d",
+      "method": "Count equal subdivisions on12cell whole:thirds4cells,quarters3cells",
+      "oracle_numeric_answers": [
+        "2/3",
+        "3/4"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_fraction_common_denominator_one_denominator_multiple",
+      "source_row_sha256": "1aca0c47a47ae41c4d340a6d3416b103de1523014bea1ce43e9adabaf3a02e10",
+      "method": "Ten-cell whole with three two-cell fifths and seven single tenths",
+      "oracle_numeric_answers": [
+        "3/5",
+        "7/10"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_fraction_common_denominator_compare_after_partition",
+      "source_row_sha256": "a589d833ebbadb9d2214f8a43fb3a1190f940012eb8618e2ca8fcdacc45b7560",
+      "method": "Equal18cell wholes;five triples and seven pairs",
+      "oracle_numeric_answers": [
+        "5/6",
+        "7/9"
+      ],
+      "detail": {
+        "larger_tinted": "A"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_fraction_common_denominator_only_denominator",
+      "source_row_sha256": "4e964a45ed653cafa7b37c851a3518e0187fbf9ce0d9c497c66b1ff7bc8c31e9",
+      "method": "Seven groups each subdivided into three equal cells;two groups occupy six",
+      "oracle_numeric_answers": [
+        "2/7"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_add_unrelated_denominators",
+      "source_row_sha256": "7837500acff60e30905f8dfeae5e55f682eac109ebc5f22e0089304769a1bfd5",
+      "method": "Fifteenth-metre tokens:10from first rope plus9from second",
+      "oracle_numeric_answers": [
+        "19/15"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_subtract_nondividing",
+      "source_row_sha256": "1d8be9a0855c960efab576199bac3acfdc45d930c7bbc7cae854bd5f0c1fec18",
+      "method": "Remove eight24th-litre tokens from twenty-one",
+      "oracle_numeric_answers": [
+        "13/24"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_multiply_divide_contrast",
+      "source_row_sha256": "177c00e4136181cb1f2379279fea8d0097096da1858d6e4668fc26eb1c9b6338",
+      "method": "Twenty-cell product grid and fortieth-unit grouping for division",
+      "oracle_numeric_answers": [
+        "3/10",
+        "15/8"
+      ],
+      "detail": {
+        "division_model": "30fortieths divided by16fortieths",
+        "divisor_nonzero": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_add_denominators",
+      "source_row_sha256": "384868668456cc5ef6c5bc595e551c59ddc2177213490e0fcf83097576930c41",
+      "method": "Sixth-unit portions:three half-whole cells plus two third-whole cells",
+      "oracle_numeric_answers": [
+        "5/6"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_all_fraction_operations_unknown_divisor",
+      "source_row_sha256": "d810383680050c2a03d44bbdfddbb6f3ef2fc9b8b3c0fa59eff8b312a0c93449",
+      "method": "Different nonzero divisor completions plus undefined zero",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "k_values": [
+          "1",
+          "3/2",
+          "0"
+        ],
+        "results": [
+          "3/4",
+          "1/2",
+          "undefined"
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_ratio_sum_ratio_books",
+      "source_row_sha256": "f57b3f84b45f263173c284515297dad24014954eb67467c70545e7203cf5f74a",
+      "method": "Enumerate integer pairs satisfying total and cross-multiplied ratio",
+      "oracle_numeric_answers": [
+        "36",
+        "60"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_ratio_difference_ratio_balls",
+      "source_row_sha256": "f7c965b4859cfc32097bfb4a8e6ba06f8c268e3dc4e882e2bcf7a9e642aa50b3",
+      "method": "Enumerate integer pairs satisfying difference and ratio",
+      "oracle_numeric_answers": [
+        "70",
+        "42"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_ratio_verify_conditions",
+      "source_row_sha256": "90faa29da2a42bc48d6683a18b7307408f2e69520582ca15a1eaefcd4b0a9c2c",
+      "method": "Candidate total-ratio truth table",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "P": [
+          true,
+          true
+        ],
+        "Q": [
+          true,
+          false
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_ratio_wrong_part_count",
+      "source_row_sha256": "40ad3e1879b38a2bd16f9ee2bf80a3aef05079c575c9eff0557babf10821b657",
+      "method": "Search pair by two simultaneous constraints",
+      "oracle_numeric_answers": [
+        "36",
+        "54"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_sum_difference_ratio_missing_relation",
+      "source_row_sha256": "42f5a2c1b7d9120c1bfb85f6c28ec6a321dc3db9001efca464aee076079a4a7f",
+      "method": "Two pairs with same total and no extra relation",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "pairs": [
+          [
+            20,
+            52
+          ],
+          [
+            30,
+            42
+          ]
+        ],
+        "same_total": 72
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_map_scale_map_to_real",
+      "source_row_sha256": "b03fdc1b7e280a1e4232ecd371e79f9f57c2cf65e6b333ecb7a3d8f59493ac5f",
+      "method": "Count four map-centimetre blocks each250metres",
+      "oracle_numeric_answers": [
+        "1000"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_map_scale_two_map_scales",
+      "source_row_sha256": "70db949dcd4f48d3deb4e40a00c303cee3829e04a3b82b049fafe9152909274c",
+      "method": "Whole-kilometre conversion per map centimetre: A1km,B2km",
+      "oracle_numeric_answers": [
+        "6",
+        "3"
+      ],
+      "detail": {
+        "shorter_on_map": "B",
+        "true_length_unchanged": true
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_map_scale_scaled_field_fence",
+      "source_row_sha256": "620eda5086c9f471811a2d890ff7999ae9a6839d3aeb343614e0ccf5c819ca41",
+      "method": "Each mapcmis5metres;sum per-edge unit blocks",
+      "oracle_numeric_answers": [
+        "35",
+        "20",
+        "110"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_map_scale_unit_confusion",
+      "source_row_sha256": "24f4f109def1917c1b93b7e489d254a40392b82bea8e7f703c53bd0d172485ea",
+      "method": "Each mapcmis10metres;three blocks",
+      "oracle_numeric_answers": [
+        "30"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_km2_square_unit",
+      "source_row_sha256": "c34e9ff1d5f9dd7541eaf929ea0c15806a91c37555c21633b05fd9a1f5c7b4eb",
+      "method": "Count row lengths of1000by1000squaremetre grid",
+      "oracle_numeric_answers": [
+        "1000000"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_km2_compare_mixed_areas",
+      "source_row_sha256": "d1d618c755ba68638d62246ad21d6e897814d70fc2ac02d43e6cde62b0a63248",
+      "method": "Count excess100000m²blocks after matching24with25blocks",
+      "oracle_numeric_answers": [
+        "100000"
+      ],
+      "detail": {
+        "larger": "B"
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_km2_rectangle_land",
+      "source_row_sha256": "30efcdb71b1496cf6e6c0d99f886f7510cd9eb9e6b3edda8596b648cfed2d1ca",
+      "method": "Six unitkm²tiles and independent3000rows each2000metres",
+      "oracle_numeric_answers": [
+        "6",
+        "6000000"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_km2_linear_factor_error",
+      "source_row_sha256": "3d2da48e816636a6ca9571c2fb3a4993ecfe5142b6e075be9f0dfaf169cb4ed4",
+      "method": "Four squarekilometre tile grids,each1000rows of1000m²",
+      "oracle_numeric_answers": [
+        "4000000"
+      ],
+      "detail": null,
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    },
+    {
+      "sample_id": "primary_20261018_finish_g4_km2_unit_missing",
+      "source_row_sha256": "ecf68a09c16ad21ccf583b48b479ee4d81027a0435c0426727e3f814145f05a8",
+      "method": "Two distinct source-unit completions",
+      "oracle_numeric_answers": [],
+      "detail": {
+        "units": [
+          "m²",
+          "km²"
+        ],
+        "target_m²": [
+          3,
+          3000000
+        ]
+      },
+      "matched_numeric_expected_answers": true,
+      "semantic_read_record": "Own actual-content read plus row-specific seven-criterion QA; oracle alone does not prove semantics."
+    }
+  ],
+  "limitations": [
+    "Same-author actual-content QA, not human or independent review.",
+    "Legacy topic sources are previously read historical evidence, not full2006orcurrent2026legalcertification.",
+    "Hypothetical descriptions/plans only; no physical or visual success verified.",
+    "Protected/evaluation content not read; no dataset gate bypass or answers changed.",
+    "Root alone curates, hash-adjudicates numeric overlaps, audits finalcoverage and syncs."
+  ],
+  "batch_manifest": [
+    {
+      "batch": "finish_g4_add_associative",
+      "node_id": "old_g4_add_associative",
+      "cases": 4,
+      "source_sha256": "316d415e5e516b4d8698e5dcaa1590fa7fbd8bed85c81ce6573320cb43699331",
+      "review_sha256": "cc18a74d28741de61da20e16e087c7b4cc28185610549cfe4167652b3aa8d0eb",
+      "pre_review_sha256": "db7448c1eaa3b3cfcd5ace4b496cab730056d05a209685d61bae0dbfdacf5a12"
+    },
+    {
+      "batch": "finish_g4_all_fraction_operations",
+      "node_id": "old_g4_all_fraction_operations",
+      "cases": 5,
+      "source_sha256": "d20cad2a9942efdba00ba4433b3c431b212c595ce0fcacf2e19cc8745ce12a0b",
+      "review_sha256": "a60b6fb68eb84fbb69ea18acf458e4da2e3ccddad712cc11a3b8152c1c7fdf8b",
+      "pre_review_sha256": "e4576ed090df8b84d527fda40b868f47055ef33d327f0f95119059b38f2d15b0"
+    },
+    {
+      "batch": "finish_g4_charts",
+      "node_id": "old_g4_charts",
+      "cases": 5,
+      "source_sha256": "38c5957e35bb1f47fc40f158007c8f73df76c75cac8830b22afbbe936f0342ee",
+      "review_sha256": "29ead0992276c3fa397b473a4d07b353196c8ff1630784cd2d29e534ac59eae1",
+      "pre_review_sha256": "1a13c816f3294567f9f10d8b12d0e0023ed30e988df3fbf72c9ad141de30351f"
+    },
+    {
+      "batch": "finish_g4_draw_rectangle_square",
+      "node_id": "old_g4_draw_rectangle_square",
+      "cases": 5,
+      "source_sha256": "7a3af9f64847f4589078224f85eddf210631b974c426b85a9566451570a2df33",
+      "review_sha256": "d8b308a541efc409018ab71c1c1c95de4dff0c97f3e25c091b296c0574950b9c",
+      "pre_review_sha256": "b0637ccb29ba214944010dacc9a8f258f6f3f268c76784a8c16111bcce49686a"
+    },
+    {
+      "batch": "finish_g4_fraction_common_denominator",
+      "node_id": "old_g4_fraction_common_denominator",
+      "cases": 4,
+      "source_sha256": "1dbe926e31038708cb7f0087d1d73d33a9811d74d1154a4a371bdd56b04876dc",
+      "review_sha256": "7d7a09fa3b4cc23cc2ec91bbc75a9462e5ead824c43ba2b72c971a111a0812c1",
+      "pre_review_sha256": "68ef15ba4f872f0e7ada798f352d02ca96637ab350994c4149d1e8db49709e7b"
+    },
+    {
+      "batch": "finish_g4_km2",
+      "node_id": "old_g4_km2",
+      "cases": 5,
+      "source_sha256": "d65dab7cf742cbe8d90f075396f1e4bd4a2260889302cd4ae977b7ed979c65f0",
+      "review_sha256": "811a0a4b731ecc8411c3982ac7f5bc7f34f56e9ef3a5e257d350fc2d00a54d04",
+      "pre_review_sha256": "f22ea650e54dc7bf935ef8f61299c5232d0ac0e19707603afbc40829d7990c91"
+    },
+    {
+      "batch": "finish_g4_letter_expression",
+      "node_id": "old_g4_letter_expression",
+      "cases": 4,
+      "source_sha256": "aab9631fe6df233406e2309cd218277f2377f0681cfef6edb2ba601c746da936",
+      "review_sha256": "0389e7677f38cf702eb628a895f4656597e5b6bbaa64ac927e3ddadc5d8080bb",
+      "pre_review_sha256": "d7de92884aa020723e86ed92ca6d3c66c7a80757d59f2daf91975bd021ec0d6c"
+    },
+    {
+      "batch": "finish_g4_map_scale",
+      "node_id": "old_g4_map_scale",
+      "cases": 4,
+      "source_sha256": "9730debf692d84c90ed125c22d65afccfd825a84288a4aecd878ee8f72a689e1",
+      "review_sha256": "56d88425a0d0c152d2dcdd9b2f8efd3557001af71e242523bf58f28de17c84ae",
+      "pre_review_sha256": "e42922c0b97f98a4ff9b193cc6c6a800c424e4d00a59b3e3d362cd1e851084d1"
+    },
+    {
+      "batch": "finish_g4_mass_yen_ta_tan",
+      "node_id": "old_g4_mass_yen_ta_tan",
+      "cases": 5,
+      "source_sha256": "908b4d55dfbdd6bca1c85946212066fa3930cb72a22bed158026a1e68580aae8",
+      "review_sha256": "f0f3e06795220b10f40708b95332749135a0d4bff78cfbf9edcdf18656b88b0c",
+      "pre_review_sha256": "3e65f134d0a00fc3d421ffbfb957994790d6f40ef87429d929abe5173c391205"
+    },
+    {
+      "batch": "finish_g4_millions_place_value",
+      "node_id": "old_g4_millions_place_value",
+      "cases": 4,
+      "source_sha256": "6a7278e7bf2aa162c9362bcc2c164dbdaf6db69fb075903618204713afd7d939",
+      "review_sha256": "c19ca4fe034a8aac6b9daaf46cedb4cf111c273ed1caa50f985cd51f86f52ef6",
+      "pre_review_sha256": "6f8040c3a1f0ecdc3cb7983c03a8219e89ca9cfd831772f9b773107df7d322a0"
+    },
+    {
+      "batch": "finish_g4_parallelogram_area",
+      "node_id": "old_g4_parallelogram_area",
+      "cases": 5,
+      "source_sha256": "14bbe9cbab99ba5d0a22812c37570bf403f0ce20f1bb70c310cc18a1123fd15b",
+      "review_sha256": "34e5bb12c4aa09a95d3874da69f68fe76ca8aec95e481e5dee254164a11a608e",
+      "pre_review_sha256": "9dcd7fe8e1d168da83b6a382428e45909be71f4bedd6d40c9f483b83467c1767"
+    },
+    {
+      "batch": "finish_g4_second_century",
+      "node_id": "old_g4_second_century",
+      "cases": 5,
+      "source_sha256": "286adf049241b19c3facb6ab680a6c77bf45a418e8d6e724b3370b2516321405",
+      "review_sha256": "688cbcd747b3ec5ae9f931800aa8bb46179a2250958aa05eecc965833dfc6893",
+      "pre_review_sha256": "f6db621f2640fb3716da1f74daa5f4a549c43d1db074e6c9fcd2b44eeeed39bc"
+    },
+    {
+      "batch": "finish_g4_sum_difference",
+      "node_id": "old_g4_sum_difference",
+      "cases": 4,
+      "source_sha256": "a9d5c44ea7397460d09c68d189e42d138eb6fc9fb2a6f7c90a8122484cc8d466",
+      "review_sha256": "a0ed1600047f44129aab23a179482b31144bb39c797e87e6178625c2f278209d",
+      "pre_review_sha256": "ca60a0d7b6622b3b4fe437692f0c8ec76a2d251201ecaa70fcac9a2c32f57f01"
+    },
+    {
+      "batch": "finish_g4_sum_difference_ratio",
+      "node_id": "old_g4_sum_difference_ratio",
+      "cases": 5,
+      "source_sha256": "1a45c34a144041df3fbc3ccdab86cb777bd854a74c58eeeea09fb7d10d2f81a9",
+      "review_sha256": "b705c8d8d9c4814291aa3f0f766d2dfbd4e364e85c73f56c7f6ff9a12dca9d9d",
+      "pre_review_sha256": "4946545d28bca851ad08a08cdbb6bca7f5fe0752beb68110ec2528feb8295fd0"
+    },
+    {
+      "batch": "finish_g4_three_digit_divisor",
+      "node_id": "old_g4_three_digit_divisor",
+      "cases": 4,
+      "source_sha256": "400d26f3446049909cd6bc1e6a9053427642c874752b36c3fa0d16492d71465a",
+      "review_sha256": "a7c7170273dafcc1d3027dad7187f80881ddf7ea4ab6ad8b1ec135344aa8061d",
+      "pre_review_sha256": "d913c274ca6e143d20371cae3c87e660adbcca2148df785d209e3cc9a1075464"
+    },
+    {
+      "batch": "finish_g4_two_digit_divisor",
+      "node_id": "old_g4_two_digit_divisor",
+      "cases": 4,
+      "source_sha256": "25e3d1591c36a63c6b20bb0de0dc0aae6261eb05b68bc337dc1fff671b6abee1",
+      "review_sha256": "0ea40c7c35a388977b94738fc80c5bafdf9177b12878034490f2aad8d2f25eca",
+      "pre_review_sha256": "a86a46b4040882b36382276386a966e285b84ae2ab2e75ae89c96d3ab5012ffb"
+    }
+  ]
+}

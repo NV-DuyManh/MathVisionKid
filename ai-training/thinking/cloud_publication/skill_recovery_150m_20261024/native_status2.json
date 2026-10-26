@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T14:15:24.208623+00:00\", \"seconds_remaining\": 3141.7912182807922, \"dev_process\": {\"alive\": true, \"exit\": null}, \"dev/runtime_progress.json\": {\"completed\": 7, \"last_ended_eos\": true, \"last_fixture_id\": \"qrec20261024_v1_g3_inverse_division\", \"last_generation_seconds\": 20.664055196000845, \"phase\": \"dev\", \"state\": \"GENERATING\", \"total\": 15}, \"dev_rows\": {\"native_thinking_final.partial.jsonl\": 7}, \"final_process\": null, \"final_rows\": {}, \"publication/publication_status.json\": {\"state\": \"WAITING_FINAL_REVIEW_PUBLICATION\", \"error\": null, \"completed\": null, \"proofs\": 0, \"artifact_count\": 66}, \"completion_evidence_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"proofs\": 33, \"artifact_count\": 0}}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T14:15:24.208623+00:00\", \"seconds_remaining\": 3141.7912182807922, \"dev_process\": {\"alive\": true, \"exit\": null}, \"dev/runtime_progress.json\": {\"completed\": 7, \"last_ended_eos\": true, \"last_fixture_id\": \"qrec20261024_v1_g3_inverse_division\", \"last_generation_seconds\": 20.664055196000845, \"phase\": \"dev\", \"state\": \"GENERATING\", \"total\": 15}, \"dev_rows\": {\"native_thinking_final.partial.jsonl\": 7}, \"final_process\": null, \"final_rows\": {}, \"publication/publication_status.json\": {\"state\": \"WAITING_FINAL_REVIEW_PUBLICATION\", \"error\": null, \"completed\": null, \"proofs\": 0, \"artifact_count\": 66}, \"completion_evidence_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"error\": null, \"completed\": null, \"proofs\": 33, \"artifact_count\": 0}}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-24T14:15:24.208623+00:00\\\", \\\"seconds_remaining\\\": 3141.7912182807922, \\\"dev_process\\\": {\\\"alive\\\": true, \\\"exit\\\": null}, \\\"dev/runtime_progress.json\\\": {\\\"completed\\\": 7, \\\"last_ended_eos\\\": true, \\\"last_fixture_id\\\": \\\"qrec20261024_v1_g3_inverse_division\\\", \\\"last_generation_seconds\\\": 20.664055196000845, \\\"phase\\\": \\\"dev\\\", \\\"state\\\": \\\"GENERATING\\\", \\\"total\\\": 15}, \\\"dev_rows\\\": {\\\"native_thinking_final.partial.jsonl\\\": 7}, \\\"final_process\\\": null, \\\"final_rows\\\": {}, \\\"publication/publication_status.json\\\": {\\\"state\\\": \\\"WAITING_FINAL_REVIEW_PUBLICATION\\\", \\\"error\\\": null, \\\"completed\\\": null, \\\"proofs\\\": 0, \\\"artifact_count\\\": 66}, \\\"completion_evidence_publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"error\\\": null, \\\"completed\\\": null, \\\"proofs\\\": 33, \\\"artifact_count\\\": 0}}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

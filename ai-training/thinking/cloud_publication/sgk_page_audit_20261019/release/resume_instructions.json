@@ -1,0 +1,19 @@
+{
+  "priority": [
+    "Resume only missing actual content pages from page_audit_checkpoint; never infer viewed status from downloaded images or annotations.",
+    "Complete each candidate adjudication against actual valid train source fields; merge common forms across grades.",
+    "Review additional bounded drafts before next acceptance; only rows in accepted_cases.jsonl are accepted.",
+    "Preserve all old payload IDs/hashes and frozen evaluation. No training authorized."
+  ],
+  "restore_comparison_source": {
+    "balanced_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+    "bytes": 23564694,
+    "corpus_part7_id": "1xGxZFqD8tgUjDO8tZpMLWWk-ZTnNANwV",
+    "path": "current_sources.jsonl",
+    "prior_append_id": "17Mu8ewL7JCEWylvdCTX4h_GJaVFm74lo",
+    "restore_receipt": "prior_restore_receipt.json",
+    "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+  },
+  "schema": "NEUTRAL_TEACHER_NOT_LIVE_GUIDE_OR_PLANDRAFT",
+  "training_started": false
+}

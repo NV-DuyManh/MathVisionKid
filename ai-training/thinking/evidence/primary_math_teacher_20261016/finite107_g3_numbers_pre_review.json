@@ -1,0 +1,89 @@
+{
+  "batch": "finite107_g3_numbers",
+  "utc": "2026-10-18T14:04:42.988683+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_place_read",
+      "row_sha256": "0c46a64b0d2fc21ba032ed4d008dcf7b97238a4456584b34abdfda0b5daf38e8",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_order_boundary",
+      "row_sha256": "fabc6ac2248cb13899427e20c19cf5d3d6fd9f4ab2478f6feb480efd9082cef3",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_successor_100000",
+      "row_sha256": "8e5de91c5226cd0d00bf7dd45ebb86f3122fee08d706bf418f89111ef8d350e3",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "99999+1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_mis_digit_value",
+      "row_sha256": "40ddc7d2e08dd027f26b574dfdfaea4476532aaafc3b8db18dec608d8fe08759",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2*100"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_successor_100000",
+      "step_id": "s0",
+      "expression": "99999+1",
+      "fraction": "100000",
+      "decimal": "100000",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finite107_g3_numbers_mis_digit_value",
+      "step_id": "s0",
+      "expression": "2*100",
+      "fraction": "200",
+      "decimal": "200",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "official_review_sha256": "0917ebc3592a347607995d5cf4ce731d1fb30e781b9cbb7fcf7c2ee5a245c3b8",
+  "review_method": "Current root author actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

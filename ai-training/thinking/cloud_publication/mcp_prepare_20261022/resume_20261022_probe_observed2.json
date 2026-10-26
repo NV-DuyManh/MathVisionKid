@@ -1,0 +1,53 @@
+{
+  "is_error": false,
+  "data": {
+    "cells": [
+      {
+        "cell_type": "code",
+        "id": "LHsQvxgpGOCc",
+        "source": [
+          "import os,json,threading\n",
+          "from pathlib import Path\n",
+          "import google.auth\n",
+          "try:\n",
+          "    probe_credentials,probe_project=google.auth.default()\n",
+          "    adc_available=True\n",
+          "except google.auth.exceptions.DefaultCredentialsError:\n",
+          "    adc_available=False\n",
+          "print({'stage':'MCP_CPU_DATA_ONLY_PROBE','gpu':os.environ.get('COLAB_GPU','0'),'adc_available':adc_available,'existing_globals':[k for k in ('ROOT','drive_api','recipe','recipe_pointer','v3_ref') if k in globals()],'audit_threads':[t.name for t in threading.enumerate() if t.name.startswith('MathVisionKid')],'training_started':False})\n"
+        ],
+        "execution_count": null,
+        "outputs": []
+      }
+    ]
+  },
+  "structured_content": {
+    "cells": [
+      {
+        "cell_type": "code",
+        "id": "LHsQvxgpGOCc",
+        "source": [
+          "import os,json,threading\n",
+          "from pathlib import Path\n",
+          "import google.auth\n",
+          "try:\n",
+          "    probe_credentials,probe_project=google.auth.default()\n",
+          "    adc_available=True\n",
+          "except google.auth.exceptions.DefaultCredentialsError:\n",
+          "    adc_available=False\n",
+          "print({'stage':'MCP_CPU_DATA_ONLY_PROBE','gpu':os.environ.get('COLAB_GPU','0'),'adc_available':adc_available,'existing_globals':[k for k in ('ROOT','drive_api','recipe','recipe_pointer','v3_ref') if k in globals()],'audit_threads':[t.name for t in threading.enumerate() if t.name.startswith('MathVisionKid')],'training_started':False})\n"
+        ],
+        "execution_count": null,
+        "outputs": []
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"cells\":[{\"cell_type\":\"code\",\"id\":\"LHsQvxgpGOCc\",\"source\":[\"import os,json,threading\\n\",\"from pathlib import Path\\n\",\"import google.auth\\n\",\"try:\\n\",\"    probe_credentials,probe_project=google.auth.default()\\n\",\"    adc_available=True\\n\",\"except google.auth.exceptions.DefaultCredentialsError:\\n\",\"    adc_available=False\\n\",\"print({'stage':'MCP_CPU_DATA_ONLY_PROBE','gpu':os.environ.get('COLAB_GPU','0'),'adc_available':adc_available,'existing_globals':[k for k in ('ROOT','drive_api','recipe','recipe_pointer','v3_ref') if k in globals()],'audit_threads':[t.name for t in threading.enumerate() if t.name.startswith('MathVisionKid')],'training_started':False})\\n\"],\"execution_count\":null,\"outputs\":[]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

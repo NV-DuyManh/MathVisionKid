@@ -1,0 +1,147 @@
+{
+  "batch_sha256": "b7c17e1fda2c196416773bc2566af74dbfa2ea810c1758487e648520bfe3990f",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_clock_0019_minute_hand_at_three",
+      "row_sha256": "aad6f6ef4db954ef1484b62ffa1ca84e3e541fbd8bec3775672068bbc5ee60b1",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "5+5+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_clock_0019_half_hour_between_labels",
+      "row_sha256": "058bbf11d88396ca0e294a53b3028a2008a81650194cf67674293f41ba3b2ee4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "5+5+5+5+5+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_clock_0019_order_two_clocks_same_hour",
+      "row_sha256": "0da36d8db9124072c5469c10ac8fdd88a8f5149666d4d56c81aaf0027739add6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_clock_0019_misconception_marker_as_minutes",
+      "row_sha256": "1cb0eb3ea9f9e24f7466e0d62475df64e97d7c53a97108dfddaeb02de860c953",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "5+5+5+5+5+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_clock_0019_guard_hidden_hour_hand",
+      "row_sha256": "7f91f53d2b05ceec150b95d639e5b333d16375efc4ee55d4dd78e634e0d8bd91",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "rational_hand_angle_witnesses": {
+      "7:15": {
+        "hour_degrees": "435/2",
+        "minute_degrees": "90"
+      },
+      "10:30": {
+        "hour_degrees": "315",
+        "minute_degrees": "180"
+      },
+      "8:15": {
+        "hour_degrees": "495/2",
+        "minute_degrees": "90"
+      },
+      "8:30": {
+        "hour_degrees": "255",
+        "minute_degrees": "180"
+      },
+      "4:30": {
+        "hour_degrees": "135",
+        "minute_degrees": "180"
+      }
+    },
+    "same_hour_order_minutes": [
+      495,
+      510
+    ],
+    "hidden_hour_guard_countermodels": [
+      "2:15 AM",
+      "8:15 AM"
+    ]
+  },
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read long/short hand roles, physically consistent fractional hour-hand positions, daypart, hour-before-next-label rule, every hint and synthetic misconception. Same-author check is not independent semantic review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Rational angles are verifier-only witnesses, not primary-school angle content or real images. No actual clock was viewed or read. Examples stay at minute marks3/6. Neutral schema is not live PlanDraft."
+}

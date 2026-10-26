@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:15:20.986853+00:00\", \"worker_exit\": null, \"worker_pid\": 3092, \"training/progress.json\": {\"derived_view_rows\": 6625, \"hard_deadline_unix\": 1792905460.0, \"last_gradient_norm\": 2.3546338081359863, \"last_loss\": 3.4519711285829544, \"last_lr\": 7.5e-07, \"loss_sum\": 17.631552264094353, \"rows_done\": 80, \"state\": \"TRAINING\", \"step\": 5, \"supervised_tokens\": 17437, \"training_seconds\": 30.2912221470001, \"training_started\": true, \"unique_examples\": 80}, \"training/native_first_microbatch_audit.json\": {\"absolute_difference\": 4.76837158203125e-07, \"model_backend\": \"native Transformers/PEFT\", \"prompt_tokens_excluded_by_source_mask\": true, \"shifted_CE_matches_forward\": true, \"supervised_tokens\": 84}, \"eval\": {\"training/eval_step_000000/base_generations.jsonl\": {\"rows\": 30, \"last_id\": \"dev25_g5_student_error_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 35, \"checkpoints\": {}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"12925 MiB, 100 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T03:15:20.986853+00:00\", \"worker_exit\": null, \"worker_pid\": 3092, \"training/progress.json\": {\"derived_view_rows\": 6625, \"hard_deadline_unix\": 1792905460.0, \"last_gradient_norm\": 2.3546338081359863, \"last_loss\": 3.4519711285829544, \"last_lr\": 7.5e-07, \"loss_sum\": 17.631552264094353, \"rows_done\": 80, \"state\": \"TRAINING\", \"step\": 5, \"supervised_tokens\": 17437, \"training_seconds\": 30.2912221470001, \"training_started\": true, \"unique_examples\": 80}, \"training/native_first_microbatch_audit.json\": {\"absolute_difference\": 4.76837158203125e-07, \"model_backend\": \"native Transformers/PEFT\", \"prompt_tokens_excluded_by_source_mask\": true, \"shifted_CE_matches_forward\": true, \"supervised_tokens\": 84}, \"eval\": {\"training/eval_step_000000/base_generations.jsonl\": {\"rows\": 30, \"last_id\": \"dev25_g5_student_error_01\", \"all_eos\": true}}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\", \"errors\": [], \"artifacts\": 35, \"checkpoints\": {}}, \"four_controls_publication_status.json\": {\"state\": \"COMPLETE_RAW_VERIFIED\", \"work\": \"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\", \"canonical_context_sha256\": \"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\"}, \"gpu\": \"12925 MiB, 100 %\"}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-25T03:15:20.986853+00:00\\\", \\\"worker_exit\\\": null, \\\"worker_pid\\\": 3092, \\\"training/progress.json\\\": {\\\"derived_view_rows\\\": 6625, \\\"hard_deadline_unix\\\": 1792905460.0, \\\"last_gradient_norm\\\": 2.3546338081359863, \\\"last_loss\\\": 3.4519711285829544, \\\"last_lr\\\": 7.5e-07, \\\"loss_sum\\\": 17.631552264094353, \\\"rows_done\\\": 80, \\\"state\\\": \\\"TRAINING\\\", \\\"step\\\": 5, \\\"supervised_tokens\\\": 17437, \\\"training_seconds\\\": 30.2912221470001, \\\"training_started\\\": true, \\\"unique_examples\\\": 80}, \\\"training/native_first_microbatch_audit.json\\\": {\\\"absolute_difference\\\": 4.76837158203125e-07, \\\"model_backend\\\": \\\"native Transformers/PEFT\\\", \\\"prompt_tokens_excluded_by_source_mask\\\": true, \\\"shifted_CE_matches_forward\\\": true, \\\"supervised_tokens\\\": 84}, \\\"eval\\\": {\\\"training/eval_step_000000/base_generations.jsonl\\\": {\\\"rows\\\": 30, \\\"last_id\\\": \\\"dev25_g5_student_error_01\\\", \\\"all_eos\\\": true}}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"folder_id\\\": \\\"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\\\", \\\"errors\\\": [], \\\"artifacts\\\": 35, \\\"checkpoints\\\": {}}, \\\"four_controls_publication_status.json\\\": {\\\"state\\\": \\\"COMPLETE_RAW_VERIFIED\\\", \\\"work\\\": \\\"/content/mathvisionkid_conditional_grounding_20261025/four_controls_publication/20261025T030922336456Z\\\", \\\"canonical_context_sha256\\\": \\\"8efc958d68cfeda687043a4dfd69994f4679fc0ad2a901c0ba551c615abfcb73\\\"}, \\\"gpu\\\": \\\"12925 MiB, 100 %\\\"}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

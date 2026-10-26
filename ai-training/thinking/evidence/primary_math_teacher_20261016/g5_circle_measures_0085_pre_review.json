@@ -1,0 +1,165 @@
+{
+  "authored_utc": "2026-10-18T09:57:55.562384+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T09:54:45.208Z",
+  "batch_sha256": "c72dd7bbae9ee8ae3590a5e86ce8a04a2c9bbed08b54c70452ddfb476207eb7a",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_diameter_edge_vs_disc_surface",
+      "row_sha256": "f2090da1e9eaa7e62b9aa5f30807eb7afa770b221fe8c6b972e9f6b6d2b6ef9a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "9/2",
+          "9*3.14",
+          "(9/2)*(9/2)*3.14"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_equal_circumference_radius_diameter_mixed_units",
+      "row_sha256": "41644f1cc547eec545020ecc9b274db8130521a63ec61e6f0e881d381920ef9d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "0.054*100",
+          "2.7*2*3.14",
+          "(0.054*100)*3.14"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_inverse_outer_circumference_concentric_ring_area",
+      "row_sha256": "a4be9afbff538dd86fb31866e9a5e688e519d3b6a3654ab6b7f03fe0a058237c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "65.94/3.14",
+          "(65.94/3.14)/2",
+          "((65.94/3.14)/2)*((65.94/3.14)/2)*3.14",
+          "6.5*6.5*3.14",
+          "(((65.94/3.14)/2)*((65.94/3.14)/2)*3.14)-(6.5*6.5*3.14)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_misconception_perimeter_formula_labelled_area",
+      "row_sha256": "0378573f27cbca00db48e0785ea966deae6e87fafaeee929c00da77caeb46f5b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "14.5*14.5*3.14",
+          "(14.5*14.5*3.14)/3.14/14.5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_guard_unlabelled_segment_radius_or_diameter",
+      "row_sha256": "8633e273e4114d16fad5b7d6e2135ea8d9964561b40a00bab1a0a759f410edd6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "longmultiplication_integer_decimal_scales": {
+      "sign_edge_hundredths": 2826,
+      "sign_disc_ten_thousandths": 635850,
+      "equal_circumferences_thousandths": 16956,
+      "outer_area_ten_thousandths": 3461850,
+      "inner_area_ten_thousandths": 1326650,
+      "ring_area_ten_thousandths": 2135200,
+      "mis_area_ten_thousandths": 6601850
+    },
+    "inverse_radius_tenths_search": [
+      105
+    ],
+    "unlabelled_segment_countermodels_QA_only": {
+      "8cm_as_radius": {
+        "C": "1256/25",
+        "S": "5024/25"
+      },
+      "8cm_as_diameter": {
+        "C": "628/25",
+        "S": "1256/25"
+      }
+    }
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "exact_arithmetic_only_for_declared_3_14_convention_not_true_pi_or_physical_truth": true,
+  "longmul_modulo_division_offline_only_not_live_calculator": true,
+  "visual_outcome_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous458_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "pre_polish_batch_sha256": "aa72212cb829ce589f0ed8b7937ee25cca577049abbeb2861e250a37ea99dadb",
+  "pre_official_QA_repairs": [
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_guard_unlabelled_segment_radius_or_diameter",
+      "field": "problem/givens[2].text",
+      "before_problem": "Trong bài này dùng 3,14 thay cho pi khi tính số và không làm tròn thêm; kết quả là theo quy ước tính này, không khẳng định là số đo chính xác của vật thật. Em chép số 8 cm gắn với một đoạn liên quan tới hình tròn trong đề, nhưng chưa gửi ảnh, chưa mô tả hai đầu đoạn hoặc đoạn đó có đi qua tâm không. Chưa biết 8 cm là bán kính hay đường kính và không có dữ kiện kích thước tương đương khác. Em muốn tính chu vi và diện tích. Hãy hỏi thông tin đoạn được đo trước khi đưa đáp số; không tự chọn bán kính hoặc đường kính từ độ lớn số hay hình thường gặp.",
+      "after_problem": "Trong bài này dùng 3,14 thay cho pi khi tính số và không làm tròn thêm; kết quả là theo quy ước tính này, không khẳng định là số đo chính xác của vật thật. Em chép số 8 cm gắn với một đoạn liên quan tới hình tròn trong đề, nhưng chưa gửi ảnh, chưa mô tả hai đầu đoạn hoặc đoạn đó có đi qua tâm không. Trong tình huống giả định này đã biết độ dài được cho thuộc một trong hai loại bán kính hoặc đường kính, nhưng em chưa chép được phần xác định loại nào; không có dữ kiện kích thước tương đương khác. Em muốn tính chu vi và diện tích. Hãy hỏi thông tin đoạn được đo trước khi đưa đáp số; không tự chọn bán kính hoặc đường kính từ độ lớn số hay hình thường gặp.",
+      "reason": "Make the hypothetical two-role alternative explicit; a generic segment need not be a radius or diameter. No answer invented; guard remains unresolved."
+    },
+    {
+      "sample_id": "primary_20261018_g5_circle_measures_0085_equal_circumference_radius_diameter_mixed_units",
+      "field": "initial_guidance[0]",
+      "before": "Hai số chỉ so được sau khi đã cùng đơn vị và cùng vai trò bán kính hoặc đường kính.",
+      "after": "Muốn đối chiếu đúng ý nghĩa hai kích thước cần đưa về cùng đơn vị và cùng vai trò bán kính hoặc đường kính.",
+      "reason": "Refer to comparing meanings of physical dimensions, not claim raw numbers themselves cannot be compared. Facts/results unchanged."
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "guard_two_role_premise_and_comparison_initial_reread": true,
+  "official_QA_utc": "2026-10-18T09:59:03.842452+00:00",
+  "official_QA_method": "Same-author read actual5fullproblems/givens/request/student quote/observations/initial/all worked titles/reasons/explanations/expressions/results/units/answers and15hints. Reread clarified guard two-role premise and dimensional-comparison initial. Grade5semanticQA of radius/diameter and mixed-length units, circumference-versus-area roles and units, inverse circumference and contained-ring partition, explicit wrong-formula quote and absent role clarification. Exact Fraction/Decimal only for stated3.14 convention, independent grade-school integer long multiplication/decimal scale and bounded inverse-radius search corroborate; not true-pi equality or physical accuracy proof. Parser not semantic proof; no image/measurement, independent external reviewer or new human attestation.",
+  "official_review_sha256": "c52f970628f2f535154a080d6ef81efaa260602945805cc45e0c1319137e2210"
+}

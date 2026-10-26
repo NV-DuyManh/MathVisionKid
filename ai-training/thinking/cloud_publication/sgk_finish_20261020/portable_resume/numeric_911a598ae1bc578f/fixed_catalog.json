@@ -1,0 +1,31 @@
+{
+  "schema": "MathVisionKid.single_numeric_data_audit.v1",
+  "members": [
+    {
+      "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "bytes": 486813,
+      "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+      "family": "numeric_extension",
+      "member": "source.jsonl.gz",
+      "member_sha256": "654db84dfdfc4c9e81ee432df2f92626f1349d589cebddea1b081eeb2ce4d26a",
+      "member_bytes": 340432,
+      "role": "candidate_source",
+      "rows": 900,
+      "status": "REFERENCE_PINNED_NOT_PROCESSED"
+    },
+    {
+      "file_id": "1ThYKkFD4otWtdNzfnp4hyz3ZIA48OK1F",
+      "sha256": "911a598ae1bc578f295157555703e99dde0b22bd55d2d3a788feb18c1809114e",
+      "bytes": 486813,
+      "file_name": "MVK_multiplication_0_100_one_digit__000000000_000000900_911a598ae1bc578f.zip",
+      "family": "numeric_extension",
+      "member": "chat.jsonl.gz",
+      "member_sha256": "122b20525d54267c45410a6c1b52653ada1288b26bfe42a205de6176ac731e11",
+      "member_bytes": 144926,
+      "role": "candidate_chat",
+      "rows": 2844,
+      "status": "REFERENCE_PINNED_NOT_PROCESSED"
+    }
+  ]
+}

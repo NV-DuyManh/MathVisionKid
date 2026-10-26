@@ -1,0 +1,164 @@
+{
+  "52": {
+    "exercise_types": [
+      "column_subtraction_two_digit_one_digit_no_borrow"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "53": {
+    "exercise_types": [
+      "column_subtraction",
+      "expression_result_matching",
+      "word_remove"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "54": {
+    "exercise_types": [
+      "repeated_minus_one_subtraction",
+      "column_true_false"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "primary_20261016_g1_operations_0003_left_add_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "55": {
+    "exercise_types": [
+      "equal_expression_results",
+      "unknown_part_from_total"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "56": {
+    "exercise_types": [
+      "inverse_add_subtract",
+      "operation_chain",
+      "strict_result_threshold"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_left_add_subtract",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "57": {
+    "exercise_types": [
+      "word_remove",
+      "dice_subtract_result_matching"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "58": {
+    "exercise_types": [
+      "column_subtraction_two_two_digits_no_borrow",
+      "round_tens_subtraction"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "59": {
+    "exercise_types": [
+      "column_subtraction",
+      "argmax_expression",
+      "unknown_part"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "60": {
+    "exercise_types": [
+      "round_tens_mental_subtraction",
+      "column_subtraction",
+      "successive_subtractions"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "primary_20261016_g1_operations_0003_left_add_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "61": {
+    "exercise_types": [
+      "missing_digits_column_subtraction",
+      "word_remove"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V2_MISSING_DIGITS_COLUMN_SUBTRACTION"
+    ],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "62": {
+    "exercise_types": [
+      "inverse_add_subtract",
+      "argmax_expression",
+      "cm_height_extrema"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261016_g1_measurement_0006_cm_compare_same_unit"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  },
+  "63": {
+    "exercise_types": [
+      "dice_result_expression_matching"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_TRAIN_FIELDS_TO_BE_FINALIZED_AFTER_FULL_FIELD_READ",
+    "uncertainty": "Text analogue only: visual recognition, hidden objects, diagram geometry or physical outcomes are not validated. Candidate means pending semantic adjudication, not automatically new data."
+  }
+}

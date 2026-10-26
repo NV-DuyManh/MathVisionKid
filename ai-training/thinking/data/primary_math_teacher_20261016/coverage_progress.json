@@ -1,0 +1,2642 @@
+[
+  {
+    "node_id": "current_g1_natural_numbers_100",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_compare_order_100",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_addition_subtraction_no_carry",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_mental_add_sub",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_left_to_right_add_sub",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_word_add_sub",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_spatial_orientation",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_plane_shapes",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_solid_shapes",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_assemble_shapes",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_length_cm",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_measure_estimate_length",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_calendar_week",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_clock_whole_hour",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_natural_numbers_1000",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_number_ray",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_compare_order_1000",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_estimate_tens",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_addition_subtraction_carry_once",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_mental_add_sub_20",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_multiplication_division_tables_2_5",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_word_one_step",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_points_lines_polyline",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_quadrilateral",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_cylinder_sphere",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_draw_segment_assemble",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_mass_kg_capacity_l",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_length_dm_m_km",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_time_calendar",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_clock_quarter_half",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_money_vietnam",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_convert_measurement",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_polyline_length",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_collect_tally",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_pictogram_read",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_possible_certain_impossible",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_natural_numbers_100000",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_roman_20",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_compare_order_100000",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_round_naturals",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_addition_subtraction_5digits",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 2,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_multiply_divide_one_digit",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_operation_properties",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_expressions_unknown",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_word_two_steps",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_unit_fractions",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_midpoint_angles",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_shape_elements",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_solid_elements",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_draw_ekes_compass",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_units_mm_cm2_g_ml_celsius",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_time_clock_minute",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_money_vietnam_100000",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_convert_measurements",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_perimeter",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_area_rectangle_square",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_table_collect_read",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_single_trial_outcomes",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_natural_numbers_millions",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_compare_round_naturals",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_addition_subtraction_many_digits",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_multiply_divide_two_digits",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_average",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_expressions_letters_properties",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_word_two_three_steps",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_fraction_concepts_reduce",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_fraction_compare_common_denominator",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_fraction_operations",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_angle_types",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_parallel_perpendicular",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_parallelogram_rhombus_recognition",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_mass_yen_ta_tan",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_area_units_mm2_dm2_m2",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_time_second_century",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_angle_degree",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_convert_measurements",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_data_sequences",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_bar_chart_mean",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_repeated_trial_counts",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_natural_operations_four_steps",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_fraction_operations_mixed",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_decimal_fraction_mixed_number",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_decimal_read_compare_round",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_decimal_operations",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_ratio_percent",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_sum_difference_ratio",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_map_scale",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_calculator_use",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_trapezoid_circle_triangle_types",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_solid_nets",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_draw_altitude_circle",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_area_km2_ha",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_volume_cm3_dm3_m3",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_triangle_trapezoid_area",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_circle_perimeter_area",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_cuboid_cube_surface_volume",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_time_arithmetic",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_uniform_motion",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_collect_classify",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_pie_chart",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_experimental_frequency_ratio",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g1_practice_experience",
+    "grade": 1,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g2_practice_experience",
+    "grade": 2,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g3_practice_experience",
+    "grade": 3,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g4_practice_experience",
+    "grade": 4,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "current_g5_practice_experience",
+    "grade": 5,
+    "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g1_numbers_100",
+    "grade": 1,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g1_compare",
+    "grade": 1,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g1_add_sub_no_carry_100",
+    "grade": 1,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g1_word_problem",
+    "grade": 1,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g1_draw_segment",
+    "grade": 1,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g2_subtraction_borrow",
+    "grade": 2,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g2_many_addends",
+    "grade": 2,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g2_unit_fractions_2_3_4_5",
+    "grade": 2,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g2_multiplication_division",
+    "grade": 2,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g2_money_transition",
+    "grade": 2,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_natural_100000",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_add_sub_10000",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_add_sub_100000",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_multiply_two_by_one_digits",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_multiply_four_by_one_digits",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_multiply_divide_five_by_one_digits",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_division_remainder",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_scale_up_down",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_find_divisor",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_two_step_problems",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_multiplicative_comparison",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_dam_hm_length_table",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_measure_length",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_right_angle_midpoint",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_calendar_clock",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_unitary_word_problems",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_vietnam_money",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_statistics",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g3_rectangle_square_perimeter_area",
+    "grade": 3,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_millions_place_value",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_letter_expression",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_mass_yen_ta_tan",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_second_century",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_charts",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_add_associative",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_sum_difference",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_two_digit_divisor",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_three_digit_divisor",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_draw_rectangle_square",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_parallelogram_area",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_fraction_common_denominator",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_all_fraction_operations",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_sum_difference_ratio",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_map_scale",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g4_km2",
+    "grade": 4,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_mixed_numbers",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_decimal_read_compare",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_decimal_operations",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_decimal_measurements",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_percentage_three_types",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 0,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_calculator",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_circle_area",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_cuboid_cube_surface",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_cuboid_cube_volume",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_mm2_dam2_hm2",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_m3",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_uniform_motion",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_cylinder_sphere",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  },
+  {
+    "node_id": "old_g5_altitude_circle_drawing",
+    "grade": 5,
+    "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+    "target_core_cases": 3,
+    "accepted_core_cases": 3,
+    "accepted_core_slots": [
+      "core_01",
+      "core_02",
+      "core_03"
+    ],
+    "remaining_core_slots": [],
+    "accepted_misconception_cases": 1,
+    "accepted_guard_cases": 1,
+    "remaining_core_cases": 0
+  }
+]

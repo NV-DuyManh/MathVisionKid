@@ -1,0 +1,20 @@
+{
+  "actual15_questions_references_rubrics_read": true,
+  "exact_checks_passed": 13,
+  "exact_fraction_decimal_check_script_sha256": "f179b870259b4c195cbdb24ba2923469013f604002e66472e14c5a4f5b4da6a6",
+  "fixture_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+  "human_review_claimed": false,
+  "not_training_data": true,
+  "original_draft_preserved": true,
+  "schema": "MathVisionKid.native_locked15_root_preflight.v1",
+  "screen_full6_5m_claimed": false,
+  "semantic_qa": {
+    "grade_appropriateness": true,
+    "grounded_student_work_or_missing_guard": true,
+    "math_and_oracle": true,
+    "no_hint_answer_leak_in_applicable_tasks": true,
+    "pedagogy_and_fully_requested_task": true,
+    "task_and_data_meaning": true,
+    "units": true
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "before_row": {
+    "sample_id": "primary_20261018_finite109_g3_add100000_initial_unknown",
+    "case_group_id": "primary_20261018_finite109_g3_add100000_initial_unknown",
+    "split": "train",
+    "grade": 3,
+    "topic": "initial_unknown",
+    "problem": "Sau khi nhận thêm 14675 phong bì, kho có 68320 phong bì, không mất hay xuất phong bì. Tìm số có trước khi nhận và kiểm.",
+    "givens": [
+      {
+        "id": "g0",
+        "text": "Thêm",
+        "value": "14675",
+        "unit": "phong bì",
+        "role": "explicit_given_0"
+      },
+      {
+        "id": "g1",
+        "text": "Sau",
+        "value": "68320",
+        "unit": "phong bì",
+        "role": "explicit_given_1"
+      }
+    ],
+    "requested_quantity": "Tìm số ban đầu",
+    "student_work": null,
+    "initial_guidance": [
+      "Xác định cần gộp, bớt hay tìm phần chưa biết trong quan hệ trước-sau."
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "hint": "Xác định cần gộp, bớt hay tìm phần chưa biết trong quan hệ trước-sau.",
+        "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+      },
+      {
+        "level": 2,
+        "hint": "Đặt đúng các hàng và thực hiện mọi phần chuyển/đổi.",
+        "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+      },
+      {
+        "level": 3,
+        "hint": "Ghép lại bằng phép tính ngược phải khôi phục dữ kiện ban đầu.",
+        "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+      }
+    ],
+    "worked_steps": [
+      {
+        "step_id": "s0",
+        "title": "Tách phần thêm",
+        "reason": "Số sau gồm ban đầu và phần nhận thêm.",
+        "result": "53645",
+        "explanation": "68320-14675=53645phong bì. Theo hàng đổi đủ đơn vị/chục trước khi bớt; kiểm53645+14675=68320.",
+        "expression": "68320-14675",
+        "unit": "phong bì"
+      }
+    ],
+    "expected_answer": [
+      {
+        "quantity": "Ban đầu",
+        "result": "53645",
+        "unit": "phong bì"
+      }
+    ],
+    "can_solve": true,
+    "canonical_case": {
+      "family": "initial_unknown",
+      "operations": [],
+      "numeric_values": [
+        "14675",
+        "68320"
+      ]
+    },
+    "curriculum_assignment": {
+      "node_id": "old_g3_add_sub_100000",
+      "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+      "case_kind": "core",
+      "case_slot": "core_03",
+      "context_variant": "transfer_withindomain",
+      "method_variant": "apply_then_independently_check"
+    },
+    "provenance": {
+      "authoring_method": "original_AI_teacher",
+      "authoring_label": "AI_GENERATED",
+      "authoring_agent": "root",
+      "human_verified": false,
+      "teacher_certified": false,
+      "independent_external_reviewer": false,
+      "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+      "source_evidence": {
+        "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+        "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+        "source_id": "old_adjustment3969_annex2",
+        "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+        "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+        "source_locator": "PDFpp23–24; textbookpp155–160",
+        "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+        "evidence_previously_read_on": "2026-10-13",
+        "refetched_or_legal_recertified_20261016": false,
+        "original_2006_annex_verified": false,
+        "current_2026_legal_currency_certified": false,
+        "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+        "limitations": []
+      },
+      "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+      "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+      "acceptance_policy": "owner_acceptance_policy.json",
+      "real_observation_claim": false,
+      "visual_or_physical_outcome_verified": false,
+      "student_work_origin": null,
+      "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+      "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+    },
+    "quality_flags": {
+      "app_plan_draft_compatible": false,
+      "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+      "three_hint_levels_answer_free": true,
+      "full_worked_solution_requires_explicit_request": true,
+      "actual_image_or_physical_asset_present": false,
+      "text_description_only_not_vision_training": true,
+      "historical_topic_only_not_complete_2006_curriculum": true
+    }
+  },
+  "before_hash": "aad62ffce34aebcd4d7a5ae0942e029cb8c19712c6fa12534e4d763f743f1303",
+  "reason": "Add complete visible borrow trace; no answer/value change."
+}

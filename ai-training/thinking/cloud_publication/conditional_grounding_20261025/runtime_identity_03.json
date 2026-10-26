@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "kK2FTx8o--Ix"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-25T02:55:18.991911+00:00\", \"kernel_pid\": 188, \"hostname\": \"1611698ac255\", \"nonce\": \"e885c264ede34ecfb5430c6ec3168886\", \"recovery_credentials_present\": false, \"install_process_present\": false, \"work_directories\": [], \"bootstrap_progress_files\": []}\n"
+        ]
+      }
+    ]
+  }
+}

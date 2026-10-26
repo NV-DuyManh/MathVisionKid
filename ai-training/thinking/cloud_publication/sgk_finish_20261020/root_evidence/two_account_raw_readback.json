@@ -1,0 +1,14 @@
+{
+  "same_file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+  "bytes": 247451,
+  "sha256": "063e95ed756b2824a30d9a76b3bc99da16b93beaea94d1864a9e6325e5e80411",
+  "whole_raw_bytes_equal": true,
+  "fresh_raw_verified": true,
+  "profiles_verified": [
+    "103000002357306706048",
+    "101610251490165325472"
+  ],
+  "account_access_claim": "BOTH_READ_SAME_EXISTING_STATE_ONLY; selected Hoai Nam writer previously verified; alternate update rights unproven",
+  "sharing_changed": false,
+  "verified_utc": "2026-10-20T11:00:29.644Z"
+}

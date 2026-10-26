@@ -1,0 +1,128 @@
+{
+  "batch": "finish_g5_decimal_operations",
+  "utc": "2026-10-18T14:10:17.390477+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+      "row_sha256": "623eb7f4dead01cf43a985d37e0734e59462a4e5482a3134da8f0a1c8a16fa6f",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "12.48+7.6",
+          "(12.48+7.6)-3.85"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_decimal_divisor_equal_scale",
+      "row_sha256": "fffe9e7c6255c48dfa422d03750594802667f7da4d2625000e6667d90e96f908",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "6.3/0.45"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase",
+      "row_sha256": "7ae0a8de5f927a0a03561c030a33aa6fa07e185cf8e6efbb30b027a636a807ba",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "272/3.2",
+          "(272/3.2)*1.75"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_decimal_product_scaling",
+      "row_sha256": "360fd7ef9592e2b524b8b1646a14437d326923287e2972a3121fdc87855dd758",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "1.2*0.3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_missing_package_mass",
+      "row_sha256": "77c5feb3a53403f0371e859ccfd11703e19fecb8949f28adb5c30a8f281e7816",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+      "step_id": "s0",
+      "expression": "12.48+7.6",
+      "fraction": "502/25",
+      "decimal": "20.08",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+      "step_id": "s1",
+      "expression": "(12.48+7.6)-3.85",
+      "fraction": "1623/100",
+      "decimal": "16.23",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_decimal_divisor_equal_scale",
+      "step_id": "s0",
+      "expression": "6.3/0.45",
+      "fraction": "14",
+      "decimal": "14",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase",
+      "step_id": "s0",
+      "expression": "272/3.2",
+      "fraction": "85",
+      "decimal": "85",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase",
+      "step_id": "s1",
+      "expression": "(272/3.2)*1.75",
+      "fraction": "595/4",
+      "decimal": "148.75",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_operations_decimal_product_scaling",
+      "step_id": "s0",
+      "expression": "1.2*0.3",
+      "fraction": "9/25",
+      "decimal": "0.36",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "official_review_sha256": "0887197b886dda4a46a2971f2b0631cfe79b1b8e114dffa6404d8bebf26ceb82",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

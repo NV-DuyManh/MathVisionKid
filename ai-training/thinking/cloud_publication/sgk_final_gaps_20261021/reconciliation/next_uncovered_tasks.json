@@ -1,0 +1,1172 @@
+{
+  "authoring_priority_guidance": "Do not reauthor the two global locator-only tasks. Address54 separate G2 candidate constraints with actual grade2 forms, plus explicit asset/physical limits. Shared masters, publisher-image recognition, and actual measurements are not certified by accepted text models.",
+  "counts": {
+    "asset_only_masters_separate": 10,
+    "external_g2_new_exact_text_candidates": 1,
+    "external_g2_remaining_separate": 54,
+    "global_master_tasks": 2,
+    "global_text_math_authoring_tasks": 0,
+    "never_appended_missing_masters": 0,
+    "partial_master_tasks": 2,
+    "source_locator_only_tasks": 2
+  },
+  "external_g2_new_exact_text_binding": [
+    {
+      "accepted_examples": [
+        {
+          "actual_math_fields": {
+            "expected_answer": [
+              {
+                "quantity": "Mặt được tính",
+                "result": "Mặt trên B",
+                "unit": ""
+              },
+              {
+                "quantity": "Tổng",
+                "result": "5",
+                "unit": "chấm"
+              }
+            ],
+            "givens": [
+              {
+                "id": "g0",
+                "role": "EXPLICIT_FINITE_TEXT_AS_SUPPLIED",
+                "text": "Có hai khối vuông A,B. B đặt ngay trên A, che kín toàn bộ mặt trên của A; mặt trên của B không bị che. Theo góc nhìn trước-phải, bảng ghi: A trước6chấm,phải4chấm,trên1chấm nhưng mặt trên A bị B che; B trước2chấm,phải3chấm,trên5chấm. Hỏi tổng chấm trên những mặt TRÊN NHÌN THẤY, không phải mọi mặt được nêu số. Không cộng mặt trước/phải và không coi biết số mặt khuất là đang nhìn thấy nó.",
+                "unit": "",
+                "value": null
+              }
+            ],
+            "hints": [
+              {
+                "hint": "Lọc mặt theo hướng rồi xét riêng tình trạng che khuất được đề mô tả.",
+                "level": 1,
+                "question": "Em cần giữ đúng những dữ kiện và luật nào?"
+              },
+              {
+                "hint": "Không coi mọi số trong bảng là đều thuộc tổng cần tìm.",
+                "level": 2,
+                "question": "Em thử và ghi các trường hợp hợp lệ thế nào?"
+              },
+              {
+                "hint": "Kiểm từng mặt được cộng có thỏa cả hai điều kiện cùng lúc không.",
+                "level": 3,
+                "question": "Em kiểm đủ điều kiện, không bỏ sót hay đếm lặp ra sao?"
+              }
+            ],
+            "initial_guidance": [
+              "Lọc mặt theo hướng rồi xét riêng tình trạng che khuất được đề mô tả."
+            ],
+            "problem": "Có hai khối vuông A,B. B đặt ngay trên A, che kín toàn bộ mặt trên của A; mặt trên của B không bị che. Theo góc nhìn trước-phải, bảng ghi: A trước6chấm,phải4chấm,trên1chấm nhưng mặt trên A bị B che; B trước2chấm,phải3chấm,trên5chấm. Hỏi tổng chấm trên những mặt TRÊN NHÌN THẤY, không phải mọi mặt được nêu số. Không cộng mặt trước/phải và không coi biết số mặt khuất là đang nhìn thấy nó.",
+            "requested_quantity": "Chọn mặt trên đồng thời nhìn thấy",
+            "student_work": null,
+            "worked_steps": [
+              {
+                "explanation": "Các số6,4,2,3 ở mặt trước/phải không được đưa vào tổng này.",
+                "expression": null,
+                "reason": "Chỉ các mặt được gọi là trên mới là ứng viên.",
+                "result": "Trên A ghi1; trên B ghi5",
+                "step_id": "s0",
+                "title": "Lọc theo hướng trước",
+                "unit": ""
+              },
+              {
+                "explanation": "Mặt trên A nằm dưới B và bị che kín; mặt trên B không bị che nên thỏa đồng thời hai điều kiện.",
+                "expression": null,
+                "reason": "Đã biết một số không có nghĩa mặt đó đang nhìn thấy.",
+                "result": "Chỉ mặt trên B được tính",
+                "step_id": "s1",
+                "title": "Lọc tiếp theo bị che hay không",
+                "unit": ""
+              },
+              {
+                "explanation": "Tổng chỉ có5chấm của mặt trên B. Cộng1+5 sẽ là tổng hai mặt trên có dữ kiện, khác tổng mặt trên nhìn thấy được hỏi.",
+                "expression": "5",
+                "reason": "Không cộng1của A vì sai điều kiện nhìn thấy.",
+                "result": "5",
+                "step_id": "s2",
+                "title": "Tổng và kiểm điều kiện kép",
+                "unit": "chấm"
+              }
+            ]
+          },
+          "branch": "top_faces_occlusion_selection",
+          "candidate_ids": [
+            "g2v1:solid_visible_face_directions"
+          ],
+          "export_reference": {
+            "file": "sgk_final_gaps_20261021/release/accepted_cases.jsonl",
+            "line": 48,
+            "sha256": "3a11ab8eb2be14dfd40987ffd77e8a0355c44c690aaf844e2aa47d25695c2d22"
+          },
+          "exported_row_sha256": "3a11ab8eb2be14dfd40987ffd77e8a0355c44c690aaf844e2aa47d25695c2d22",
+          "grade": 2,
+          "master_id": "solid_visible_face_direction_binding",
+          "publisher_image_recognition_or_physical_success_certified": false,
+          "reviewed_draft_row_sha256": "7a752d5adb081359bb718a7ac769ed4d851beac0b3125e3cdcac14239cc6b8b3",
+          "root_qa7_pinned": true,
+          "sample_id": "sgk_final_geometry_20261021_top_faces_occlusion_selection",
+          "source_reference": {
+            "file": "sgk_final_gaps_20261021/geometry_inventory/g1_turn_wording_corrected/cases.jsonl",
+            "line": 24,
+            "sha256": "7a752d5adb081359bb718a7ac769ed4d851beac0b3125e3cdcac14239cc6b8b3"
+          }
+        }
+      ],
+      "candidate_id": "g2v1:solid_visible_face_directions",
+      "grade": 2,
+      "physical_or_image_claim": false
+    }
+  ],
+  "external_g2_remaining_separate": [
+    {
+      "candidate_id": "g2v1:g2_card_numeral_formation",
+      "constraints": [
+        "Nearest accepted card task enumerates only even two-digit numbers from 0,3,8. The G2 pages request all numerals, leading-zero exclusion and extrema difference; parity-filtered enumeration does not demonstrate that entire representation. Merge the unrestricted/zero branch with the existing card-construction master."
+      ],
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:role_specific_equation_matching",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. The accepted row uses one undifferentiated pool 2,5,7. It does not restrict each operand/result role to a separate supplied list. Keep the existing role-pool master open instead of duplicating the ordinary equation family."
+      ],
+      "crossgrade_master_id": "role_specific_equation_pool",
+      "finite_master_id": "G1V2_ROLE_POOL_EQUATION_CONSTRUCTION",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:single_pair_sort_repair",
+      "constraints": [
+        "Nearest new G4 permutation row minimizes arbitrary pair swaps and requires three swaps. The G2 request permits exactly one selected pair and asks the repair itself; its one-swap feasibility branch remains in the existing G1 master, despite common swap vocabulary."
+      ],
+      "crossgrade_master_id": "minimum_pair_swaps",
+      "finite_master_id": "G1V2_SORT_REPAIR_ONE_SWAP",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:rule_inference_ambiguity",
+      "constraints": [
+        "The G4 new source explicitly shows two continuations compatible with a finite prefix and asks for the missing rule; the sum-pyramid row supplies a different adjacent-pair dependency. Neither exercises inferring/checking a common vertex-sum rule from the page diagrams. Preserve that representation as a finite pending branch; the general ambiguity guard is already present."
+      ],
+      "crossgrade_master_id": "G2_VERTEX_SUM_RULE_WITH_AMBIGUITY_GUARD",
+      "finite_master_id": "G2_VERTEX_SUM_RULE_WITH_AMBIGUITY_GUARD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:conjunctive_attribute_expression_filter",
+      "constraints": [
+        "G1 attribute/value examples do not evaluate expression truth then combine that truth with a visual attribute before extrema."
+      ],
+      "crossgrade_master_id": "attribute_filter_then_extremum",
+      "finite_master_id": "G1V2_ATTRIBUTE_FILTERED_EXTREMA",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:unit_cube_count_assembly",
+      "constraints": [
+        "The inspected G5 row counts all layers of a complete 7×4×3 cuboid; the G2 pictured irregular structures require hidden-support/layer inference from a particular arrangement. A whole cuboid formula does not close the irregular visibility task or the grade2 representation."
+      ],
+      "crossgrade_master_id": "unit_cube_layers_assembly",
+      "finite_master_id": "G2_HIDDEN_UNIT_CUBE_ASSEMBLY",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:finite_inventory_collection_state",
+      "constraints": [
+        "The existing board sources track position and rollback, not the mutable collection inventory or occupied/owned cells. Merge into the preexisting finite_inventory_collection_state / ambiguous_game_inventory_guard master with explicit G2 branches: remove collected card, memory-pair state, token availability, ownership and collinear win test. Those branches remain pending; G4 turn-privilege rows do not silently close them."
+      ],
+      "crossgrade_master_id": "finite_inventory_collection_game",
+      "finite_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:balance_orientation_order",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. The inspected grade2 balance row gives equality against 5+5+2kg; the weight guard asks for evidence. Neither tests down-pan heavier/up-pan lighter followed by transitive ordering. Both G2 volume labels merge with the existing G4 balance-orientation master, not accepted equality coverage."
+      ],
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "finite_master_id": "G4_BALANCE_ORIENTATION_ORDER",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:balance_chain_substitution",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. An explicit equal-weight sum and one lossless water transfer are present, but replacing a group by an equivalent group through several balances or equal boat water marks is not exercised. Merge into the existing balance-relation-chain master. G5 submerged-object volume displacement is a different relation and is not used to certify a boat mass substitution task."
+      ],
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "finite_master_id": "G3_BALANCE_RELATION_CHAIN",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:capacity_conservation_repour",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. A24L donor poured once into an empty9L recipient and a repeated measured-portion plan cover simple conservation. The page candidate spans exact repour choices and recipient capacity constraints. Keep the finite multi-container/state branch merged with two-jug transfer; simple subtraction is partial coverage, not a plan proof."
+      ],
+      "crossgrade_master_id": "two_jug_state_transfer",
+      "finite_master_id": "G3_TWO_JUG_TRANSFER",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:instrument_scale_reading",
+      "constraints": [
+        "The inspected graduated vessel row subtracts labelled ticks, divides by equal intervals, adds the stated offset and reconstructs all ticks. Thus scale interpolation mathematics is present. Reading each circular pointer, direction and tare state from a publisher image remains an explicit asset/representation task; no visual pass is claimed."
+      ],
+      "crossgrade_master_id": "equal_interval_instrument_reading",
+      "finite_master_id": "G4_INSTRUMENT_SCALE_READING_ASSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:fixed_cardinality_subset_sum",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. The grade2 payment row selects 500+200 to reach700 with each available card used once, but imposes no exact two/three-item constraint or complete feasible-subset enumeration. Fixed cardinality and bound branch remains merged with the existing bounded-measure-subset master."
+      ],
+      "crossgrade_master_id": "bounded_inventory_target_sum",
+      "finite_master_id": "G3_BOUNDED_MEASURE_SUBSET",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:seven_segment_relocation",
+      "constraints": [
+        "Digit inequality and arbitrary pair swaps do not model which physical digit segments can be removed/added by a single match move, fixed digit slots or the resulting maximum. Merge with the existing seven_segment_single_move_minimum / seven_segment_relocation_with_digit_count_change master; segment assets remain required."
+      ],
+      "crossgrade_master_id": "seven_segment_glyph_inventory_relocation",
+      "finite_master_id": "G4_SEVEN_SEGMENT_RELOCATION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:jump_skip_nodes_interpretation",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. A normal die step count excludes the start but counts landings. The observed jump-over versus landing rule comes from a supplied example and is not the same transition. Preserve the existing G4 jump-skip master and its exact rule/asset requirement."
+      ],
+      "crossgrade_master_id": "skip_intermediate_nodes_k_plus_one",
+      "finite_master_id": "G4_JUMP_SKIP_NODES_INTERPRETATION",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:conjunctive_attribute_filter",
+      "constraints": [
+        "G2 truth-and-colour/arithmetic conjunction remains outside G1 supplied-value attribute filtering."
+      ],
+      "crossgrade_master_id": "attribute_filter_then_extremum",
+      "finite_master_id": "G1V2_ATTRIBUTE_FILTERED_EXTREMA",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:multiset_numeral_generation",
+      "constraints": [
+        "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+      ],
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:trace_single_crossing_curve",
+      "constraints": [
+        "The inspected rows distinguish line/curve and name a straight polyline. They do not follow one curved connector through a crossing without switching. Use the preexisting curved-connection asset master, with the G2 page locator retained."
+      ],
+      "crossgrade_master_id": "curved_connection_image",
+      "finite_master_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:finite_inventory_game_state",
+      "constraints": [
+        "The existing board sources track position and rollback, not the mutable collection inventory or occupied/owned cells. Merge into the preexisting finite_inventory_collection_state / ambiguous_game_inventory_guard master with explicit G2 branches: remove collected card, memory-pair state, token availability, ownership and collinear win test. Those branches remain pending; G4 turn-privilege rows do not silently close them."
+      ],
+      "crossgrade_master_id": "finite_inventory_collection_game",
+      "finite_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:point_segment_edge_list",
+      "constraints": [
+        "New collinear triples do not enumerate every permitted segment or endpoint pair."
+      ],
+      "crossgrade_master_id": "collinear_triple_complete_enumeration",
+      "finite_master_id": "G3_COLLINEAR_ALL_SEGMENT_ENUMERATION",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:physical_measurement_guard",
+      "constraints": [
+        "Existing rows explicitly ask for ruler readings/clear image before claiming actual length and give a valid zero-aligned construction plan. The page requires real scale, measurement or record; those actions cannot be certified by a text plan. Mathematical/guard component exists, actual observation/asset remains pending."
+      ],
+      "crossgrade_master_id": "G2_PHYSICAL_MEASUREMENT_AND_RECORD",
+      "finite_master_id": "G2_PHYSICAL_MEASUREMENT_AND_RECORD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:collinear_triples",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. Nearest rows decide one supplied triple or exclude one collinear triple while listing triangles. They do not inventory every collinear triple in the page arrangement, including intermediate points. Merge the existing collinear-enumeration asset task; require explicit incidence or an original clear asset."
+      ],
+      "crossgrade_master_id": "collinear_triple_complete_enumeration",
+      "finite_master_id": "G3_COLLINEAR_ENUMERATION",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:composite_polygon_count",
+      "constraints": [
+        "Accepted new grade3 source lists ABD,ADC,ABC with drawn-side and noncollinearity checks, so selected text composite enumeration is present. G2 pages include different quadrilateral inventories and collinear composite segments. Arbitrary pictured inventory is not closed by the one triangle configuration; retain asset and shape-configuration scope without reauthoring its accepted text exemplar."
+      ],
+      "crossgrade_master_id": "composite_polygon_enumeration",
+      "finite_master_id": "G3_COMPOSITE_POLYGON_ENUMERATION_ASSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:grid_path_length_comparison",
+      "constraints": [
+        "G1 weighted finite graph comparison has no explicit grid/diagonal/scale geometry."
+      ],
+      "crossgrade_master_id": "finite_route_total_optimization",
+      "finite_master_id": "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v1:fold_cut_spatial",
+      "constraints": [
+        "An explicit domino placement and straight segment construction do not show which sides/regions coincide after a fold or how a cut maps on unfolding. Merge existing fold-cut asset master, not ordinary area or shape vocabulary."
+      ],
+      "crossgrade_master_id": "fold_cut_unfold_boundary",
+      "finite_master_id": "G3_PAPER_FOLD_CUT_SYMMETRY",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:piece_tiling",
+      "constraints": [
+        "A valid grade2 two-by-three domino tiling explicitly checks coverage/no overlap/rotation. Page candidates ask different triangular pieces and selecting a supplied pair. That geometry/feasibility is not implied by one domino solution; keep new original piece assets/representations pending."
+      ],
+      "crossgrade_master_id": "fixed_piece_assembly_feasibility",
+      "finite_master_id": "G3_FIXED_PIECE_ASSEMBLY_FEASIBILITY",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:dissection_reassembly_square",
+      "constraints": [
+        "Nearest domino source places preexisting pieces; it never selects cuts or proves a dissection reassembles a square. Merge the existing area-preserving cut-rearrangement task and require original cut/piece coordinates or asset."
+      ],
+      "crossgrade_master_id": "specified_area_preserving_dissection",
+      "finite_master_id": "G3_AREA_PRESERVING_CUT_REARRANGEMENT",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:physical_construction_guidance",
+      "constraints": [
+        "An explicit grade2 zero-aligned ruler plan and missing-measurement guard cover truthful guidance. They do not establish a student physically constructed the requested segment. Keep physical scale/endpoint evidence pending under the existing construction master."
+      ],
+      "crossgrade_master_id": "observed_physical_geometric_result",
+      "finite_master_id": "G3_PHYSICAL_GEOMETRIC_CONSTRUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:calendar_missing_cells",
+      "constraints": [
+        "The inspected calendar row follows27Tue,28Wed,29Thu to next1MarchFri and guard asks for year/last date. The observed pages additionally restore missing cells, first occurrences and previous-week dates. Keep those complete calendar-grid/anchor offsets in the existing master instead of counting rollover as all calendar representations."
+      ],
+      "crossgrade_master_id": "calendar_anchor_day_offset",
+      "finite_master_id": "G1V2_CALENDAR_ANCHOR_OFFSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:missing_personal_timetable_guard",
+      "constraints": [
+        "Actual guards refuse a machine-year substitution and ask for missing respondents. They establish truthful missing-data behaviour but do not explicitly cover the student's own timetable/current date input contract. Merge with existing missing_current_year_context and G1 timetable masters; do not supply the agent's calendar as the student's context."
+      ],
+      "crossgrade_master_id": "missing_calendar_reference_guard",
+      "finite_master_id": "G4_MISSING_PERSONAL_DATE_OR_TIMETABLE_CONTEXT",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:missing_current_date_guard",
+      "constraints": [
+        "Actual guards refuse a machine-year substitution and ask for missing respondents. They establish truthful missing-data behaviour but do not explicitly cover the student's own timetable/current date input contract. Merge with existing missing_current_year_context and G1 timetable masters; do not supply the agent's calendar as the student's context."
+      ],
+      "crossgrade_master_id": "missing_calendar_reference_guard",
+      "finite_master_id": "G4_MISSING_PERSONAL_DATE_OR_TIMETABLE_CONTEXT",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:clock_hand_motion",
+      "constraints": [
+        "Calendar advancement and ruler construction do not coordinate continuous hour/minute hand motion. Merge with the existing elapsed-time/clock-reading master while keeping hand-motion and any quarter-hour representation explicit. Static G4 dial-angle arithmetic does not close this motion task."
+      ],
+      "crossgrade_master_id": "elapsed_time_intervals",
+      "finite_master_id": "G1V2_ELAPSED_WHOLE_HOURS",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v1:finite_subset_sum_extrema",
+      "constraints": [
+        "New target-sum/cardinality examples do not maximize or minimize the selected subset sum."
+      ],
+      "crossgrade_master_id": "bounded_inventory_target_sum",
+      "finite_master_id": "G3_BOUNDED_MEASURE_SUBSET",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:g2v2_expression_class_count",
+      "constraints": [
+        "Existing grouping source lists members of two already named target groups. The G2 page asks discovery/count of equal-value classes. Preserve that finite output/partition branch pending; do not infer number of distinct classes from a row that only reports label groups for supplied targets."
+      ],
+      "crossgrade_master_id": "G12_EXPRESSION_CLASS_COUNT_EXTENSION",
+      "finite_master_id": "G12_EXPRESSION_CLASS_COUNT_EXTENSION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:physical_assembly",
+      "constraints": [
+        "Text domino placement and cuboid layer calculation cannot attest a real or pictured assembly. Merge with existing assembly master, retaining solid inventory, support/occlusion and physical record requirements."
+      ],
+      "crossgrade_master_id": "fixed_piece_assembly_feasibility",
+      "finite_master_id": "G3_FIXED_PIECE_ASSEMBLY_FEASIBILITY",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:shape_filtered_maze",
+      "constraints": [
+        "Directed typed predicate paths are represented, but the page predicate requires object/solid recognition from each pictured branch. Original shape-labelled asset or complete shape annotations are required; text arithmetic filtering is not visual shape recognition."
+      ],
+      "crossgrade_master_id": "predicate_filtered_directed_path",
+      "finite_master_id": "G1V2_PREDICATE_PATH_ASSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:balance_orientation_order",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. The inspected grade2 balance row gives equality against 5+5+2kg; the weight guard asks for evidence. Neither tests down-pan heavier/up-pan lighter followed by transitive ordering. Both G2 volume labels merge with the existing G4 balance-orientation master, not accepted equality coverage."
+      ],
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "finite_master_id": "G4_BALANCE_ORIENTATION_ORDER",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:conditional_labelled_maze",
+      "constraints": [
+        "The actual graph source uses one global predicate; the page pair includes label-conditioned movement and locally larger-edge choices. Merge as a branch of G2 local-branch route rather than claiming any labelled graph closes all conditional policies."
+      ],
+      "crossgrade_master_id": "G2_LABELLED_MAZE_LOCAL_CONDITIONS",
+      "finite_master_id": "G2_LABELLED_MAZE_LOCAL_CONDITIONS",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:finite_token_game",
+      "constraints": [
+        "The existing board sources track position and rollback, not the mutable collection inventory or occupied/owned cells. Merge into the preexisting finite_inventory_collection_state / ambiguous_game_inventory_guard master with explicit G2 branches: remove collected card, memory-pair state, token availability, ownership and collinear win test. Those branches remain pending; G4 turn-privilege rows do not silently close them."
+      ],
+      "crossgrade_master_id": "finite_inventory_collection_game",
+      "finite_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:digit_card_extrema",
+      "constraints": [
+        "The nearest rows enumerate even two-digit distinct-card numbers or select a missing digit by a single inequality. The page constructs extremal three-digit numerals from a finite pool while exceeding a given bound; global card-use and bound must be checked jointly. Merge with finite numeral construction, pending that joint branch."
+      ],
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:physical_measurement",
+      "constraints": [
+        "Existing rows explicitly ask for ruler readings/clear image before claiming actual length and give a valid zero-aligned construction plan. The page requires real scale, measurement or record; those actions cannot be certified by a text plan. Mathematical/guard component exists, actual observation/asset remains pending."
+      ],
+      "crossgrade_master_id": "G2_PHYSICAL_MEASUREMENT_AND_RECORD",
+      "finite_master_id": "G2_PHYSICAL_MEASUREMENT_AND_RECORD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:capacity_assignment",
+      "constraints": [
+        "Single-container filling and numeral enumeration do not assign a set of converted quantities one-to-one to finite containers. Merge into the existing resource-assignment family with an inclusive capacity branch and unit conversion, keeping global no-reuse constraints explicit. Strict greater-than resource variants do not close an equality-capacity boundary."
+      ],
+      "crossgrade_master_id": "resource_assignment_inequality",
+      "finite_master_id": "G1_RESOURCE_ASSIGNMENT_CAPACITY_BRANCH",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:aligned_segment_difference",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. A named polyline and a zero-start ruler plan do not extract a train/bridge length from offset aligned endpoints. Merge the existing overlap_length_bar_alignment master; require shared-reference endpoints rather than subtracting arbitrary labelled lengths."
+      ],
+      "crossgrade_master_id": "overlap_shared_origin_lengths",
+      "finite_master_id": "G4_OVERLAP_LENGTH_BAR_ALIGNMENT",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:matchstick_numeral_extrema",
+      "constraints": [
+        "Digit inequality and arbitrary pair swaps do not model which physical digit segments can be removed/added by a single match move, fixed digit slots or the resulting maximum. Merge with the existing seven_segment_single_move_minimum / seven_segment_relocation_with_digit_count_change master; segment assets remain required."
+      ],
+      "crossgrade_master_id": "seven_segment_glyph_inventory_relocation",
+      "finite_master_id": "G4_SEVEN_SEGMENT_RELOCATION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:finite_board_ownership",
+      "constraints": [
+        "The existing board sources track position and rollback, not the mutable collection inventory or occupied/owned cells. Merge into the preexisting finite_inventory_collection_state / ambiguous_game_inventory_guard master with explicit G2 branches: remove collected card, memory-pair state, token availability, ownership and collinear win test. Those branches remain pending; G4 turn-privilege rows do not silently close them."
+      ],
+      "crossgrade_master_id": "finite_inventory_collection_game",
+      "finite_master_id": "G4_FINITE_INVENTORY_AND_OWNERSHIP_STATE",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:trajectory_observation_guard",
+      "constraints": [
+        "Line-versus-curve definitions and missing-photo guard are present. Classifying a particular pictured trajectory still needs actual path evidence; no unseen trajectory is invented. Keep the page-specific original trajectory asset/annotation pending."
+      ],
+      "crossgrade_master_id": "G2_TRAJECTORY_PICTURE_OBSERVATION_GUARD",
+      "finite_master_id": "G2_TRAJECTORY_PICTURE_OBSERVATION_GUARD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:physical_observation",
+      "constraints": [
+        "Grade2 sources give a full hypothetical survey with respondent codes, one choice each and no false claim of actual interviews, plus incomplete-record guards. The pages require the learner's actual room/timetable/preferences. Existing principles cover recording/guard logic; actual personal observations remain required and cannot be generated as facts."
+      ],
+      "crossgrade_master_id": "G2_PERSONAL_OBSERVATION_SURVEY_RECORD",
+      "finite_master_id": "G2_PERSONAL_OBSERVATION_SURVEY_RECORD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:personal_survey",
+      "constraints": [
+        "Grade2 sources give a full hypothetical survey with respondent codes, one choice each and no false claim of actual interviews, plus incomplete-record guards. The pages require the learner's actual room/timetable/preferences. Existing principles cover recording/guard logic; actual personal observations remain required and cannot be generated as facts."
+      ],
+      "crossgrade_master_id": "G2_PERSONAL_OBSERVATION_SURVEY_RECORD",
+      "finite_master_id": "G2_PERSONAL_OBSERVATION_SURVEY_RECORD",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:digit_card_permutations_zero",
+      "constraints": [
+        "The nearest parity-card row has distinct 0,3,8 cards and filters even two-digit outputs. It does not cover repeated-valued cards as separate resources, unrestricted permutations or all extrema. Merge the zero and multiset branches with the existing numeral-construction master; retain per-card multiplicity in later originals."
+      ],
+      "crossgrade_master_id": "finite_digit_card_enumeration",
+      "finite_master_id": "G1V2_TWO_DIGIT_NUMBER_CARD_CONSTRUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:composite_shape_count",
+      "constraints": [
+        "Accepted new grade3 source lists ABD,ADC,ABC with drawn-side and noncollinearity checks, so selected text composite enumeration is present. G2 pages include different quadrilateral inventories and collinear composite segments. Arbitrary pictured inventory is not closed by the one triangle configuration; retain asset and shape-configuration scope without reauthoring its accepted text exemplar."
+      ],
+      "crossgrade_master_id": "composite_polygon_enumeration",
+      "finite_master_id": "G3_COMPOSITE_POLYGON_ENUMERATION_ASSET",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:grid_copy",
+      "constraints": [
+        "A finite domino tiling and explicit collinearity statement do not copy the given lattice silhouette while preserving coordinates/incidence. Merge the spatial silhouette/grid reproduction asset family, retaining actual G2 locator and a fully specified original grid requirement."
+      ],
+      "crossgrade_master_id": "fixed_piece_silhouette_placement",
+      "finite_master_id": "G3_SILHOUETTE_PIECE_GRID_REPRODUCTION",
+      "status": "PRIOR_G2_DISPOSITION_RETAINED"
+    },
+    {
+      "candidate_id": "g2v2:grid_path_length",
+      "constraints": [
+        "G1 weighted finite graph comparison has no explicit scaled-grid route-length model."
+      ],
+      "crossgrade_master_id": "finite_route_total_optimization",
+      "finite_master_id": "G1V2_ROUTE_TOTAL_LENGTH_COMPARISON",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:fixed_cardinality_subset_sum",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. The grade2 payment row selects 500+200 to reach700 with each available card used once, but imposes no exact two/three-item constraint or complete feasible-subset enumeration. Fixed cardinality and bound branch remains merged with the existing bounded-measure-subset master."
+      ],
+      "crossgrade_master_id": "bounded_inventory_target_sum",
+      "finite_master_id": "G3_BOUNDED_MEASURE_SUBSET",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:substitution_equal_mark",
+      "constraints": [
+        "Equal boat water-mark mass equivalence is absent from the new pan-balance substitution examples."
+      ],
+      "crossgrade_master_id": "balance_order_substitution_chain",
+      "finite_master_id": "G3_BALANCE_RELATION_CHAIN",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    },
+    {
+      "candidate_id": "g2v2:two_draw_without_replacement",
+      "constraints": [
+        "Keep original G2 constraints and grade/asset binding; shared master ID is not semantic closure. Finite card use within one numeral and missing survey data are partial only. Two sequential draws require updating the available multiplicities and testing possible/certain/impossible unordered colour outcomes without replacement. Merge the existing two_draw_color_multisets master, pending that explicit state relation."
+      ],
+      "crossgrade_master_id": "bounded_color_multiset_without_replacement",
+      "finite_master_id": "G4_TWO_DRAW_COLOR_MULTISETS",
+      "status": "RELATED_NEW_RELATION_G2_BRANCH_PENDING"
+    }
+  ],
+  "global_master_tasks": [
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g3_collinear_enumeration",
+        "collinear_enumeration_and_segment_pairs"
+      ],
+      "exact_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "image_sha256": "ea5b75cb31a13d9304e63764e21de0a7269047b66ec640b38160ddce0dec2419",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-22-1775743944587.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 21
+        }
+      ],
+      "existing_relation_examples": [
+        {
+          "file": "sgk_final_gaps_20261021/release/accepted_cases.jsonl",
+          "grade": 3,
+          "line": 11,
+          "reviewed_draft_row_sha256": "e8b7bbf6f0c52ad9ba56fac5ae0801d6d4f58b32de206eb0d02239c25300276e",
+          "sample_id": "sgk_final_numbers_20261021_segments_incidence_all_endpoints",
+          "sha256": "420745d829602b1100b46fd79dc4f20cf5b5180ccddd81ef3c3d1068247d8fce"
+        },
+        {
+          "file": "sgk_final_gaps_20261021/release/accepted_cases.jsonl",
+          "grade": 3,
+          "line": 12,
+          "reviewed_draft_row_sha256": "1adbfc094de8ec34ab248452f35325abc0cc2edecd88c5a62d03351ffd8835ef",
+          "sample_id": "sgk_final_numbers_20261021_broken_line_not_imagined_segment",
+          "sha256": "8608a989656893d6d73fda6f9e5b4519d46822460c3d083a956c21921e6ca736"
+        }
+      ],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "collinear_triple_complete_enumeration",
+      "nearest_refs": [
+        {
+          "line": 348,
+          "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+          "sha256": "47a710be011c03aa8f60d65b77ae538ed775abfb760ee67b7ae8a4b31caa1b0c",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "collinear_enumeration_and_segment_pairs": [
+          "d2fc28d51c333f8faceec277"
+        ],
+        "g3_collinear_enumeration": [
+          "cf70150fffe33fb40c67ccce"
+        ]
+      },
+      "original_master_reasons": [
+        "Actual old source verifies two supplied triples; it does not list every eligible triple across a multi-line arrangement. A finite explicit incidence list can establish the math; actual image reading remains separate.",
+        "Exact old row verifies given triples, not all triples/segments from a finite incidence structure."
+      ],
+      "prior_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "g3_collinear_enumeration",
+          "collinear_enumeration_and_segment_pairs"
+        ],
+        "exact_page_receipts": [
+          {
+            "book_id": "g3v1",
+            "image_sha256": "ea5b75cb31a13d9304e63764e21de0a7269047b66ec640b38160ddce0dec2419",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-22-1775743944587.png",
+            "page_receipt_origin": "own actual-image reading",
+            "printed_page": 21
+          }
+        ],
+        "existing_relation_examples": [
+          {
+            "branch": "collinear_four_on_line",
+            "evidence_id": "a171dc16b77d96c19e7cad32",
+            "grade": 3,
+            "reference": {
+              "line": 33,
+              "sample_id": "sgk_remaining_structure_20261020_collinear_four_on_line",
+              "sha256": "e7d9a8d13dd547ad0aa4cc61ec7f1840efc52436aef811d2e0b5315e4e65a411",
+              "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+            }
+          },
+          {
+            "branch": "collinear_diagonal_missing",
+            "evidence_id": "2f57c46bfbb776a4b6a27c50",
+            "grade": 3,
+            "reference": {
+              "line": 34,
+              "sample_id": "sgk_remaining_structure_20261020_collinear_diagonal_missing",
+              "sha256": "4b0ab417364e7dea36155855f9249350474af997d685ce9d51a7f8d3abaf3587",
+              "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+            }
+          }
+        ],
+        "finite_occurrence_count": 1,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "collinear_triple_complete_enumeration",
+        "nearest_refs": [
+          {
+            "line": 348,
+            "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+            "sha256": "47a710be011c03aa8f60d65b77ae538ed775abfb760ee67b7ae8a4b31caa1b0c",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "collinear_enumeration_and_segment_pairs": [
+            "d2fc28d51c333f8faceec277"
+          ],
+          "g3_collinear_enumeration": [
+            "cf70150fffe33fb40c67ccce"
+          ]
+        },
+        "original_master_reasons": [
+          "Actual old source verifies two supplied triples; it does not list every eligible triple across a multi-line arrangement. A finite explicit incidence list can establish the math; actual image reading remains separate.",
+          "Exact old row verifies given triples, not all triples/segments from a finite incidence structure."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "collinear_enumeration_and_segment_pairs",
+            "constraints": [
+              "Complete collinear triples are demonstrated, but complete segment/endpoint-pair inventory and its incidence convention are not; the original alias also has no page locator."
+            ],
+            "status": "UNWORKED_CONSTRAINT_BRANCH"
+          }
+        ],
+        "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+      },
+      "required_constraints": [
+        {
+          "candidate_id": "collinear_enumeration_and_segment_pairs",
+          "constraints": [
+            "All finite text mathematics is now demonstrated at G3, including endpoint-pair segment inventory; original alias has no exact source-page locator. Find/document the original locator, or explicitly record pending-source. Do not reauthor or relabel existing page evidence to simulate that locator."
+          ],
+          "status": "ORIGINAL_PAGE_LOCATOR_ONLY_PENDING"
+        }
+      ],
+      "run7_accepted_semantic_scope": "G3 complete endpoint-pair inventory, compound drawn segments and every collinear triple explicitly worked; broken-ink variant distinguishes geometric incidence from drawn boundary. Original unlocated alias locator remains unknown.",
+      "task_kind": "RESOLVE_OR_DOCUMENT_ORIGINAL_SOURCE_LOCATOR_ONLY_DO_NOT_REAUTHOR",
+      "text_mathematical_branch_complete": true
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "tornplaceclass_strip_assembly",
+        "placeclass_strip_assembly"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+          ],
+          "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+          "printed_page": 43
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+          ],
+          "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+          "printed_page": 44
+        }
+      ],
+      "existing_relation_examples": [
+        {
+          "file": "sgk_final_gaps_20261021/release/accepted_cases.jsonl",
+          "grade": 3,
+          "line": 20,
+          "reviewed_draft_row_sha256": "a864ac8f5e892b4a33469529fd85e2f4d4568a2e95311234e10f64ce287f8e05",
+          "sample_id": "sgk_final_numbers_20261021_three_digit_strip_connectors",
+          "sha256": "2e89a65ef8c7fccb449aef8a2e0da580791a69363b4c54cbd6da1764cde4d7cc"
+        },
+        {
+          "file": "sgk_final_gaps_20261021/release/accepted_cases.jsonl",
+          "grade": 3,
+          "line": 21,
+          "reviewed_draft_row_sha256": "03d35f08956a2185ac6e2b62d32295c46d9000687d04559e455d17473629ec02",
+          "sample_id": "sgk_final_numbers_20261021_strip_wrong_direction_no_solution",
+          "sha256": "be856c6e6bf97cd91285246b93e9893644f0b69f922b6983e3f7bca747ad6f0f"
+        }
+      ],
+      "finite_occurrence_count": 2,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "placeclass_torn_strip_constraints",
+      "nearest_refs": [
+        {
+          "line": 187,
+          "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+          "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 604,
+          "sample_id": "primary_20261018_g4_numbers_0049_contrast_zero_positions_in_thousands",
+          "sha256": "b0820299a424782b51b975ab896a11c1420974c37191e4aa115664b569e927c5",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 950,
+          "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+          "sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 779,
+          "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+          "sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 603,
+          "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes",
+          "sha256": "8324ec27b5699ada59d00a561c4ff17c265c18523d0f782438dc91e0f7e44d2f",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "placeclass_strip_assembly": [
+          "2d02157e15addf7d1af955fa"
+        ],
+        "tornplaceclass_strip_assembly": [
+          "18c495809a7d304eb0cc1b2d"
+        ]
+      },
+      "original_master_reasons": [
+        "Place-value reading does not order torn strips using matching connectors. G4pp43-44 provide locators; need exact strip boundaries/labels and legal adjacency."
+      ],
+      "prior_task": {
+        "avoid_number_only_duplicate": true,
+        "candidate_ids": [
+          "tornplaceclass_strip_assembly",
+          "placeclass_strip_assembly"
+        ],
+        "exact_page_receipts": [
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v1",
+            "exercise_types_read": [
+              "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+            ],
+            "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+            "printed_page": 43
+          },
+          {
+            "actual_visual_page_read": true,
+            "book_id": "g4v1",
+            "exercise_types_read": [
+              "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+            ],
+            "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+            "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+            "printed_page": 44
+          }
+        ],
+        "existing_relation_examples": [
+          {
+            "branch": "strips_connector_chain",
+            "evidence_id": "61bff174a5d11e6299a417eb",
+            "grade": 4,
+            "reference": {
+              "line": 25,
+              "sample_id": "sgk_remaining_structure_20261020_strips_connector_chain",
+              "sha256": "d3e5111d718b249baf689dfe973db2c8861b8f300dfe3ef3bd3de5b621c342a5",
+              "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+            }
+          },
+          {
+            "branch": "strips_decoy_pin",
+            "evidence_id": "2a43efe8c0bd7d1eb863db54",
+            "grade": 4,
+            "reference": {
+              "line": 26,
+              "sample_id": "sgk_remaining_structure_20261020_strips_decoy_pin",
+              "sha256": "250041de95234f091291e1e52e9b713753ad246c1110f7398edb5cf566fc40cd",
+              "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+            }
+          }
+        ],
+        "finite_occurrence_count": 2,
+        "image_or_physical_result_still_separate": true,
+        "master_id": "placeclass_torn_strip_constraints",
+        "nearest_refs": [
+          {
+            "line": 187,
+            "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+            "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 604,
+            "sample_id": "primary_20261018_g4_numbers_0049_contrast_zero_positions_in_thousands",
+            "sha256": "b0820299a424782b51b975ab896a11c1420974c37191e4aa115664b569e927c5",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 950,
+            "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+            "sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 779,
+            "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+            "sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a",
+            "source_file": "current_sources.jsonl"
+          },
+          {
+            "line": 603,
+            "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes",
+            "sha256": "8324ec27b5699ada59d00a561c4ff17c265c18523d0f782438dc91e0f7e44d2f",
+            "source_file": "current_sources.jsonl"
+          }
+        ],
+        "original_description_evidence_ids": {
+          "placeclass_strip_assembly": [
+            "2d02157e15addf7d1af955fa"
+          ],
+          "tornplaceclass_strip_assembly": [
+            "18c495809a7d304eb0cc1b2d"
+          ]
+        },
+        "original_master_reasons": [
+          "Place-value reading does not order torn strips using matching connectors. G4pp43-44 provide locators; need exact strip boundaries/labels and legal adjacency."
+        ],
+        "required_constraints": [
+          {
+            "candidate_id": "tornplaceclass_strip_assembly",
+            "constraints": [
+              "The original G3-origin alias has no exact page locator; G4 pp43-44 establish the strip relation but cannot supply the missing original locator or G3 adaptation."
+            ],
+            "status": "LOCATOR_AND_GRADE_PENDING"
+          }
+        ],
+        "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+      },
+      "required_constraints": [
+        {
+          "candidate_id": "tornplaceclass_strip_assembly",
+          "constraints": [
+            "G3 directed-fragment/place-value adaptation is now demonstrated, including impossible connector and zero placeholder. Original G3 alias exact page locator is still absent; existing G4 pp43-44 are not an original G3 locator. Resolve/document source mapping only; no number-only duplicate required."
+          ],
+          "status": "ORIGINAL_G3_PAGE_LOCATOR_ONLY_PENDING"
+        }
+      ],
+      "run7_accepted_semantic_scope": "G3 directed connector fragments, one-use orientation, leading/trailing endpoints and retained zero place tested; impossible reverse-connector variant rejects forced answer. Original G3 alias source-page locator still absent; G4 page cannot replace it.",
+      "task_kind": "RESOLVE_OR_DOCUMENT_ORIGINAL_SOURCE_LOCATOR_ONLY_DO_NOT_REAUTHOR",
+      "text_mathematical_branch_complete": true
+    }
+  ],
+  "parent_queue_sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+  "schema": "finite_next_uncovered_tasks.v4_accepted_run7",
+  "scope": "Only 204 original global candidate records / 315 occurrences, external 91 G2 records, frozen nearest valid-training refs, old accepted110, RUN2 accepted94 and RUN3 accepted36. Not an exhaustive search or absence claim over archives or a six-million-row corpus.",
+  "source_queue_sha256": "b58d6bfdc73c293679fb891485a0ae150c8f9fd35ec219ac18fe52065c88155b",
+  "unresolved_asset_only_masters": [
+    {
+      "candidate_ids": [
+        "G1V2_DIRECT_LENGTH_IMAGE_ASSET"
+      ],
+      "master_id": "actual_scale_measurement",
+      "matched_new_examples": [],
+      "original_occurrence_count": 6,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V2_DIRECT_LENGTH_IMAGE_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V2_TEMPORAL_STAGE_ORDER"
+      ],
+      "master_id": "biological_stage_image_context",
+      "matched_new_examples": [],
+      "original_occurrence_count": 1,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V2_TEMPORAL_STAGE_ORDER",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V2_CLOCK_READING_IMAGE_ASSET"
+      ],
+      "master_id": "clock_face_image_reading",
+      "matched_new_examples": [],
+      "original_occurrence_count": 8,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V2_CLOCK_READING_IMAGE_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V2_COMMON_REFERENCE_LENGTH_COMPARISON"
+      ],
+      "master_id": "common_unit_length_image_alignment",
+      "matched_new_examples": [],
+      "original_occurrence_count": 2,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V2_COMMON_REFERENCE_LENGTH_COMPARISON",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V2_COMPOSITE_SHAPE_INVENTORY_ASSET"
+      ],
+      "master_id": "composite_component_image_inventory",
+      "matched_new_examples": [],
+      "original_occurrence_count": 1,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V2_COMPOSITE_SHAPE_INVENTORY_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V1_CURVED_CONNECTION_TRACING_ASSET"
+      ],
+      "master_id": "curved_connection_image",
+      "matched_new_examples": [],
+      "original_occurrence_count": 2,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V1_CURVED_CONNECTION_TRACING_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET"
+      ],
+      "master_id": "embedded_digit_image",
+      "matched_new_examples": [],
+      "original_occurrence_count": 1,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V1_EMBEDDED_DIGIT_IMAGE_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "G1V1_DIGIT_STROKE_ASSET"
+      ],
+      "master_id": "handwriting_stroke_execution",
+      "matched_new_examples": [],
+      "original_occurrence_count": 5,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "G1V1_DIGIT_STROKE_ASSET",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "physical_geometric_construction"
+      ],
+      "master_id": "observed_physical_geometric_result",
+      "matched_new_examples": [],
+      "original_occurrence_count": 7,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "physical_geometric_construction",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    },
+    {
+      "candidate_ids": [
+        "optical_illusion_measurement_guard"
+      ],
+      "master_id": "optical_illusion_measurement_asset",
+      "matched_new_examples": [],
+      "original_occurrence_count": 2,
+      "physical_or_image_assets_complete": false,
+      "prior_category": "ASSET_ONLY_LIMITATION",
+      "remaining_candidate_branches": [
+        {
+          "candidate_id": "optical_illusion_measurement_guard",
+          "constraints": [
+            "Actual image/physical evidence limitation retained unchanged."
+          ],
+          "status": "PRIOR_ASSET_LIMITATION_RETAINED"
+        }
+      ],
+      "status": "ASSET_LIMITATION_RETAINED"
+    }
+  ]
+}

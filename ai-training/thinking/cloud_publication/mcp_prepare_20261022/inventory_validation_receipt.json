@@ -1,0 +1,17 @@
+{
+  "case_count_changed": false,
+  "checks": [
+    "fresh four-control raw hashes match prior publication",
+    "all249 member references bind37existing payload IDs and hashes",
+    "no duplicate archive-member identities within roles",
+    "6502136raw chat occurrences =6502088candidate+48current eval",
+    "read-only restore SELECTs compile against V3 schema"
+  ],
+  "created_utc": "2026-10-22T10:18:03.607106+00:00",
+  "inventory_sha256": "deac8a6bfb25922a3d3eb1ee1af7ef793333055fafa45c81e5dae636aa4b06d5",
+  "large_checkpoint_downloaded_to_pc": false,
+  "old_data_deleted": false,
+  "restore_code_sha256": "def08e0221115bb91aa4f450b6c0e5e963288fb6185a559ebd3c77fef972b374",
+  "restore_queries_verified": 7,
+  "training_started": false
+}

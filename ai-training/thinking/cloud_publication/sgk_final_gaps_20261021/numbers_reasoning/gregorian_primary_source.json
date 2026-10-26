@@ -1,0 +1,10 @@
+{
+  "url": "https://aa.usno.navy.mil/faq/leap_years",
+  "source": "United States Naval Observatory Astronomical Applications Department",
+  "reviewed_via_web": true,
+  "retrieved_date": "2026-10-21",
+  "web_tool_reference": "turn171view0 lines49-53",
+  "paraphrase": "Gregorian divisible-by4 with century exception unless divisible-by400; examples2100ordinary,2400leap.",
+  "all_questions_supply_full_rule": true,
+  "raw_http_download_attempt": "Connection reset; no raw HTML/hash claimed"
+}

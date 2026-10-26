@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "_4QdecXCIvsw"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-23T14:21:04.141114+00:00\", \"budget\": {\"schema\": \"MathVisionKid.T4_budget3h.v1\", \"started_utc\": \"2026-10-23T14:15:52.441626+00:00\", \"deadline_utc\": \"2026-10-23T17:15:52.441626+00:00\", \"started_unix\": 1792764952.4416845, \"deadline_unix\": 1792775752.4416852, \"state\": \"INSPECTING_EXISTING_RUN\", \"training_scope\": \"DETERMINISTIC_SKILL_STRATIFIED_VIEW_NOT_FULL_CORPUS\", \"original_train_rows\": 6502344, \"original_validation_rows\": 24, \"original_test_rows\": 24, \"full_epoch_claim_allowed\": false, \"paid_resources_allowed\": false}, \"remaining_seconds\": 10488.3002846241, \"old_worker_alive\": true, \"old_step\": 1034, \"install_status.json\": {\"state\": \"ISOLATED_INSTALL_FAILED\", \"started_unix\": 1792765108.460284, \"python_source\": \"/usr/bin/python3\", \"inherits_base_torch_readonly\": true, \"error\": \"Command '['/usr/bin/python3', '-m', 'venv', '--system-site-packages', '/content/mathvisionkid_t4_budget_3h_20261023/venv']' returned non-zero exit status 1.\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/tmp/ipykernel_1413/1451606704.py\\\", line 13, in _install_budget_environment\\n    subprocess.run([sys.executable,'-m','venv','--system-site-packages',str(env)],check=True,stdout=output,stderr=subprocess.STDOUT,timeout=90)\\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/subprocess.py\\\", line 577, in run\\n    raise CalledProcessError(retcode, process.args,\\n                             output=stdout, stderr=stderr)\\nsubprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'venv', '--system-site-packages', '/content/mathvisionkid_t4_budget_3h_20261023/venv']' returned non-zero exit status 1.\\n\", \"elapsed_seconds\": 0.17117953300476074}, \"install.log_tail\": \"Error: Command '['/content/mathvisionkid_t4_budget_3h_20261023/venv/bin/python3', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.\\n\", \"budget_process_alive\": false}\n"
+        ]
+      }
+    ]
+  }
+}

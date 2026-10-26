@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "iVHSZWpFSevZ"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"failed_gate_saved\": true, \"native_final_not_run\": true}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "controls": {
+    "chat": {
+      "bytes": 93166,
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\audit_checkpoint_20261023_6074564\\next_chat.json",
+      "sha256": "0197fcc33f6cc1cd1d347ca672b66417268739992e54941cbe22994dcb7c87aa"
+    },
+    "context": {
+      "bytes": 809073,
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\audit_checkpoint_20261023_6074564\\next_context.md",
+      "sha256": "ca0cdf45025875c61d1278ab984124d5db644ec84f27618099be9d9f468349b1"
+    },
+    "progress": {
+      "bytes": 16077326,
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\audit_checkpoint_20261023_6074564\\next_progress.zip",
+      "sha256": "8d8405ae61a65a43fff3593fb78e6c72198f98596a47b6384c1205f3cd726699"
+    },
+    "state": {
+      "bytes": 396476,
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\audit_checkpoint_20261023_6074564\\next_state.json",
+      "sha256": "6d79bb7d65eb80c25cb112b5c0d4e62af7f8a7a852909a2ce9f890f9fdde7b08"
+    }
+  },
+  "new_case_count": 0,
+  "new_chat_count": 0,
+  "state_must_be_written_last": true,
+  "training_started": false
+}

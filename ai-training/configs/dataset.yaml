@@ -1,0 +1,33 @@
+# Dataset Configuration for MathVision Kids OCR Pipeline
+
+drive:
+  default_root: "/content/drive/MyDrive/C1SE.01"
+  candidate_subdirs:
+    - "Chữ Viết Tay Về Toán/Lớp 4"
+    - "Chữ Viết Tay Về Toán/Lớp 5"
+    - "Chữ Viết Tay Về Toán/NEW/IMG"
+    - "Chữ Viết Tay Về Toán/Sưu tập Tùm Lum"
+    - "Ảnh"
+  image_extensions:
+    - ".jpg"
+    - ".jpeg"
+    - ".png"
+    - ".bmp"
+    - ".webp"
+
+data_sampling:
+  # Sampling ratios for balanced training across categories
+  text_ratio: 0.35      # Câu lời giải, chữ viết tay thuần tiếng Việt
+  math_ratio: 0.30      # Phép tính toán học thuần số và toán tử
+  mixed_ratio: 0.35     # Hỗn hợp câu lời giải + phép tính + đơn vị đo
+
+split:
+  train_ratio: 0.80
+  val_ratio: 0.10
+  test_ratio: 0.10
+  split_by: "source_image_id"   # Enforce image/writer disjoint to prevent leakage
+  seed: 42
+
+local_fixtures:
+  fixture_manifest: "data/manifests/fixture_manifest.jsonl"
+  sample_dir: "artifacts/samples"

@@ -1,0 +1,192 @@
+{
+  "schema_version": "primary_math.batch_pre_review.v1",
+  "batch": "old_g1_add_sub_no_carry_100_0098",
+  "created_utc": "2026-10-18T13:47:38.566655+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_join_two_disjoint_ticket_groups_by_place",
+      "row_sha256": "43a8a764068615bed489a2dcdba12bbe2fae1138e2e76cea4ea8cbe2ac82cdfb",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "4+5",
+          "30+20",
+          "(30+20)+(4+5)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_subtract_two_close_set_aside_plans",
+      "row_sha256": "7c9d53ecf1d874410cd7851c7c30e79b2de2bc6d981927917e7c1312c80d180b",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "3-1",
+          "60-20",
+          "(60-20)+(3-1)",
+          "63-20"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_unknown_added_part_before_after_record",
+      "row_sha256": "9ab583006f1d2d16fbf193d0cbf8de61d7e95abc4f298c16d9b7e096af888e84",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "8-5",
+          "70-40",
+          "(70-40)+(8-5)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_misconception_explicit_single_digit_column_alignment",
+      "row_sha256": "781ee1962e4451411fc5f28e207deec5d854a928227669423e4fbb3924ca60b2",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7+2",
+          "40+(7+2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_numeric_steps": [
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_join_two_disjoint_ticket_groups_by_place",
+      "step_id": "s0",
+      "expression": "4+5",
+      "fraction": "9",
+      "decimal": "9",
+      "unit": "vé"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_join_two_disjoint_ticket_groups_by_place",
+      "step_id": "s1",
+      "expression": "30+20",
+      "fraction": "50",
+      "decimal": "50",
+      "unit": "vé"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_join_two_disjoint_ticket_groups_by_place",
+      "step_id": "s2",
+      "expression": "50+9",
+      "fraction": "59",
+      "decimal": "59",
+      "unit": "vé"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_subtract_two_close_set_aside_plans",
+      "step_id": "s0",
+      "expression": "3-1",
+      "fraction": "2",
+      "decimal": "2",
+      "unit": "quyển"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_subtract_two_close_set_aside_plans",
+      "step_id": "s1",
+      "expression": "60-20",
+      "fraction": "40",
+      "decimal": "40",
+      "unit": "quyển"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_subtract_two_close_set_aside_plans",
+      "step_id": "s2",
+      "expression": "40+2",
+      "fraction": "42",
+      "decimal": "42",
+      "unit": "quyển"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_subtract_two_close_set_aside_plans",
+      "step_id": "s3",
+      "expression": "63-20",
+      "fraction": "43",
+      "decimal": "43",
+      "unit": "quyển"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_unknown_added_part_before_after_record",
+      "step_id": "s0",
+      "expression": "8-5",
+      "fraction": "3",
+      "decimal": "3",
+      "unit": "bưu thiếp"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_unknown_added_part_before_after_record",
+      "step_id": "s1",
+      "expression": "70-40",
+      "fraction": "30",
+      "decimal": "30",
+      "unit": "bưu thiếp"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_unknown_added_part_before_after_record",
+      "step_id": "s2",
+      "expression": "30+3",
+      "fraction": "33",
+      "decimal": "33",
+      "unit": "bưu thiếp"
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_misconception_explicit_single_digit_column_alignment",
+      "step_id": "s1",
+      "expression": "7+2",
+      "fraction": "9",
+      "decimal": "9",
+      "unit": ""
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_add_sub_no_carry_100_0098_misconception_explicit_single_digit_column_alignment",
+      "step_id": "s2",
+      "expression": "40+9",
+      "fraction": "49",
+      "decimal": "49",
+      "unit": ""
+    }
+  ],
+  "separate_oracles": {
+    "disjoint_ticket_ID_union": 59,
+    "independent_stock_removal_counts": [
+      42,
+      43
+    ],
+    "difference_of_remaining_ID_sets": 1,
+    "before_after_added_ID_set": 33,
+    "union_initial_and_added_matches_final": true,
+    "47_existing_plus_2_new_IDs": 49,
+    "digitwise_no_carry_no_borrow_bounds_checked": true
+  },
+  "actual_semantic_content_read": true,
+  "categorical_null_expression_steps_to_read": 1,
+  "historical_topic_scope_only": true,
+  "complete_2006_annex_verified": false,
+  "actual_physical_action_claim": false,
+  "new_human_review_claim": false,
+  "training_started": false,
+  "all_hint_count_read": 12,
+  "legacy_grade1_no_carry_and_no_borrow_semantic_read": true,
+  "official_QA_utc": "2026-10-18T13:48:11.143050+00:00",
+  "official_QA_method": "Same-author actualfullread4originalgrade1legacy-topicproblems/givens/neutralrequests/studentquote/observations/initial/all13steps/titles/reasons/explanations/results/expressions/units/answers and12hints. TwelveexactFraction/Decimalnumericsteps,separateunique-objectIDunion/alternative-removalsets/before-afterdifference/47plus2IDsoracles,digitwiseno-carry/no-borrowbounds. Onecategoricalalignmentstepreadsemanticallywithdirectwrittenevidence. Variedjoin/independentremovalcontrast/unknownaddedpart/explicitcolumnmisconception,notnumericclones. Alltotalswithin100,grade1placevaluerelationships;noinventedhiddenmethod/image,guardtarget0notforced. Historicaltopicreferenceonly,nocomplete2006/2026legalclaim. Parsernotsemanticproof;noeval/pilot/challengeusedtoadjustdata. SameauthorselfQAunderownerstandingauthorization,human/teacher/owner-human/externalfalse.",
+  "official_review_sha256": "3c14647692c5ae332e3509a606d16ac1068ea31d2f1fa1bfd3c75fd701da727c"
+}

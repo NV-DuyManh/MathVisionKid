@@ -1,0 +1,28 @@
+{
+  "complete": true,
+  "file_bytes": {
+    "README.md": 5362,
+    "adapter_config.json": 1257,
+    "adapter_model.safetensors": 69782384,
+    "chat_template.jinja": 4168,
+    "metrics.json": 316,
+    "resume_state.pt": 35918789,
+    "run_config.json": 33003,
+    "tokenizer.json": 11422650,
+    "tokenizer_config.json": 692
+  },
+  "files": {
+    "README.md": "17bee1dfbb3a94bef9d127317327f5bd37e28035a812a4fa2d67c8e9c1ffd4a8",
+    "adapter_config.json": "47c783891b829ba69a0a3d9fe916d45abb209f2f1b6de6b4c1abb1dd9f9c5906",
+    "adapter_model.safetensors": "d2d47f4075aedd89e0bdf302ac51702bd19effb94bb6e83dfba49f1611d5e1f9",
+    "chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "metrics.json": "3cf9ddca437be455b3030030b91354c530c923f973ed10da7907cd83b39d3970",
+    "resume_state.pt": "f51fd3e52423924c1c2f53a1b6a156dc97842f587d9d52be807494acc64f1327",
+    "run_config.json": "1bf942ab10fddd424db6a2435218401746bb5e43b7c6882ca222939bbc4ea603",
+    "tokenizer.json": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506",
+    "tokenizer_config.json": "1cc816812993bff176eb4f7495433b736f06fba9b6e7b05cac7b4a1780650c95"
+  },
+  "rows_done": 1600,
+  "schema": "MathVisionKid.quality_recovery_generation.v1",
+  "step": 100
+}

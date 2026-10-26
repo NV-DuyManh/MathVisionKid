@@ -1,0 +1,29 @@
+{
+  "is_error": false,
+  "data": {
+    "browser": "chrome",
+    "notebook_id": "17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM",
+    "websocket_connected": false,
+    "client_ready": false,
+    "initialization_cancelled": false,
+    "initialization_done": false,
+    "loopback_only": true
+  },
+  "structured_content": {
+    "browser": "chrome",
+    "notebook_id": "17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM",
+    "websocket_connected": false,
+    "client_ready": false,
+    "initialization_cancelled": false,
+    "initialization_done": false,
+    "loopback_only": true
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"browser\":\"chrome\",\"notebook_id\":\"17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM\",\"websocket_connected\":false,\"client_ready\":false,\"initialization_cancelled\":false,\"initialization_done\":false,\"loopback_only\":true}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

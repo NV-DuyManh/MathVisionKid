@@ -1,0 +1,25 @@
+{
+  "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+  "next_action": "After the current single worker stops, use FullArchiveAudit.extend_recipe on the same existing runtime database. Instantiate next recipe to index its new source before consuming new chat. Preserve all old cursor/member/source/sample/issue rows. Do not reset or create a second checkpoint.",
+  "next_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+  "next_recipe": {
+    "actual_train_only_row_total_verified": false,
+    "chat_members": 32,
+    "current_pedagogy_eval_rows_separate": 48,
+    "declared_candidate_chat_rows": 6502344,
+    "full_archive_audit_complete": false,
+    "historical_split_totals_pending_full_archive_audit": true,
+    "member": "antigravity_intake_20261022/publish_latest_union_recipe.json",
+    "payload_references": 38,
+    "progress_id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+    "source_members": 219
+  },
+  "old_source_and_chat_prefixes_verified": true,
+  "original_cursors_and_issues_must_be_preserved": true,
+  "previous_identity": "06339a42b0a4b8d2c8ce7b1031a41a6ca1fc936dd361dd4055e17f8796f5b8e2",
+  "previous_recipe_sha256": "e4197a8e797a6c4d22b938779b663d0e306536dc8af75a5f81fb3c98f7e1a7a8",
+  "schema": "MathVisionKid.PendingAppendOnlyAuditMigration.v1",
+  "training_started": false,
+  "transition_performed": false
+}

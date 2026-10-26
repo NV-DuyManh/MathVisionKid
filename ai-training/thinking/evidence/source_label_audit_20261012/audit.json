@@ -1,0 +1,604 @@
+{
+  "audit_id": "source_label_audit_20261012",
+  "status": "COMPLETED_READ_ONLY_FROZEN_SOURCE_UNCHANGED",
+  "counts": {
+    "train": {
+      "rows": 745,
+      "explicit_final_label_conflicts": 3,
+      "unsafe_meta_or_positional_option_rotation_candidates": 11,
+      "training_risky_nonzero_rotation": 7
+    },
+    "val": {
+      "rows": 118,
+      "explicit_final_label_conflicts": 0,
+      "unsafe_meta_or_positional_option_rotation_candidates": 1,
+      "training_risky_nonzero_rotation": null
+    },
+    "test": {
+      "rows": 100,
+      "explicit_final_label_conflicts": 0,
+      "unsafe_meta_or_positional_option_rotation_candidates": 2,
+      "training_risky_nonzero_rotation": null
+    }
+  },
+  "source_final_conflicts": [
+    {
+      "split": "train",
+      "sample_id": "18597acb230d59ff113207e3",
+      "question": "Khi biết tổng và hệu của hai số, ta có thể áp dụng công thức nào để tìm hai số đó?",
+      "choices": [
+        "Số lớn = (tổng + hiệu) : 2",
+        "Số bé = (tổng – hiệu) : 2",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng"
+      ],
+      "stored_answer": "A",
+      "explicit_source_final_answers": [
+        "D"
+      ],
+      "stored_explanation": "Với dạng toán tìm hai số khi biết tổng và hiệu của 2 số, để tìm hai số ta có thể áp dụng công thức sau: Số bé = (tổng – hiệu) : 2 Số lớn = (tổng + hiệu) : 2 Vậy cả hai  và B đều đúng Đáp án cần chọn là D",
+      "diagnosis": "OLD_LABEL_REGEX_READS_INNER_OPTION_REFERENCE_AND_MISSES_SOURCE_FINAL_DECLARATION",
+      "verification": "SOURCE_ANNOTATION_CONFLICT_NOT_TEACHER_SEMANTIC_CERTIFICATION",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-10-co-dap-an-on-tap-ve-giai-toan-phan-2",
+      "source_index": 0,
+      "raw_question": "Câu 1: \n \n Khi biết tổng và hệu của hai số, ta có thể áp dụng công thức nào để tìm hai số đó?",
+      "raw_choices": [
+        "A. Số lớn = (tổng + hiệu) : 2",
+        "B. Số bé = (tổng – hiệu) : 2",
+        "C. Cả A và B đều sai",
+        "D. Cả A và B đều đúng"
+      ],
+      "raw_explanation": "Với dạng toán tìm hai số khi biết tổng và hiệu của 2 số, để tìm hai số ta có thể áp dụng công thức sau: Số bé = (tổng – hiệu) : 2 Số lớn = (tổng + hiệu) : 2 Vậy cả hai đáp án A và B đều đúng Đáp án cần chọn là D"
+    },
+    {
+      "split": "train",
+      "sample_id": "c0c77b4e59e6e1c5f03e0383",
+      "question": "Khi nào ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian?",
+      "choices": [
+        "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai",
+        "Khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu của phân số thứ hai.",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng"
+      ],
+      "stored_answer": "A",
+      "explicit_source_final_answers": [
+        "D"
+      ],
+      "stored_explanation": "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai hoặc khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu số của phân số thứ hai thì ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian. Do đó cả hai  và B đều đúng Đáp án cần chọn là D",
+      "diagnosis": "OLD_LABEL_REGEX_READS_INNER_OPTION_REFERENCE_AND_MISSES_SOURCE_FINAL_DECLARATION",
+      "verification": "SOURCE_ANNOTATION_CONFLICT_NOT_TEACHER_SEMANTIC_CERTIFICATION",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-3-co-dap-an-on-tap-so-sanh-hai-phan-so-tiep",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Khi nào ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian?",
+      "raw_choices": [
+        "A. Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai",
+        "B. Khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu của phân số thứ hai.",
+        "C. Cả A và B đều sai",
+        "D. Cả A và B đều đúng"
+      ],
+      "raw_explanation": "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai hoặc khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu số của phân số thứ hai thì ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian.  Do đó cả hai đáp án A và B đều đúng Đáp án cần chọn là D"
+    },
+    {
+      "split": "train",
+      "sample_id": "cbd987e2d94cf09bedbe0347",
+      "question": "Số nào dưới đây bằng với số 69,080?",
+      "choices": [
+        "69,08",
+        "69,0800",
+        "69,08000",
+        "Cả ba đáp án trên đều đúng"
+      ],
+      "stored_answer": "A",
+      "explicit_source_final_answers": [
+        "D"
+      ],
+      "stored_explanation": "Số 69,080 có thể thêm hoặc bớt vào tận cùng bên phải phần thập phân các chữ số 0 thì vẫn được một số thập phân bằng nó. Ta có: 69,080 = 69,08 = 69,0800 = 69,08000 = ... Do đó cả ba , B, C đều đúng. Đáp án cần chọn là: D",
+      "diagnosis": "OLD_LABEL_REGEX_READS_INNER_OPTION_REFERENCE_AND_MISSES_SOURCE_FINAL_DECLARATION",
+      "verification": "SOURCE_ANNOTATION_CONFLICT_NOT_TEACHER_SEMANTIC_CERTIFICATION",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-luyen-tap-chung-ve-so-thap-phan-co-dap-an-nhan-biet",
+      "source_index": 3,
+      "raw_question": "Câu 4: \n \n Số nào dưới đây bằng với số 69,080?",
+      "raw_choices": [
+        "A. 69,08",
+        "B. 69,0800",
+        "C. 69,08000",
+        "D. Cả ba đáp án trên đều đúng"
+      ],
+      "raw_explanation": "Số 69,080 có thể thêm hoặc bớt vào tận cùng bên phải phần thập phân các chữ số 0 thì vẫn được một số thập phân bằng nó. Ta có: 69,080 = 69,08 = 69,0800 = 69,08000 = ... Do đó cả ba đáp án A, B, C đều đúng. Đáp án cần chọn là: D"
+    }
+  ],
+  "meta_or_positional_option_rotation_candidates": [
+    {
+      "split": "train",
+      "sample_id": "f65f0f012a38c70ec79722c3",
+      "question": "Cho hình tròn tâm O có bán kính là r và đường kính d. Công thức tính chu vi hình tròn tâm O là:",
+      "choices": [
+        "C = d × 3,14",
+        "C = r × 2 × 3,14",
+        "Cả A và B đều đúng",
+        "Cả A và B đều sai"
+      ],
+      "stored_answer": "C",
+      "training_shift": 0,
+      "shift1_choices": [
+        "C = r × 2 × 3,14",
+        "Cả A và B đều đúng",
+        "Cả A và B đều sai",
+        "C = d × 3,14"
+      ],
+      "shift1_target": "B",
+      "stored_explanation": "Hình tròn tâm O có bán kính là r và đường kính là d thì chu vi hình tròn tâm O là: C = d × 3,14 hoặc C = r × 2 × 3,14 Vậy cả A và B đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-3-co-dap-an-hinh-tron-duong-tron-chu-vi-hinh-tron",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Cho hình tròn tâm O có bán kính là r và đường kính d. Công thức tính chu vi hình tròn tâm O là:",
+      "raw_choices": [
+        "A. C = d × 3,14",
+        "B. C = r × 2 × 3,14",
+        "C. Cả A và B đều đúng",
+        "D. Cả A và B đều sai"
+      ],
+      "raw_explanation": "Hình tròn tâm O có bán kính là r và đường kính là d thì chu vi hình tròn tâm O là:  C = d × 3,14 hoặc C = r × 2 × 3,14 Vậy cả A và B đều đúng. Đáp án C"
+    },
+    {
+      "split": "train",
+      "sample_id": "b1310077e3e1d36d7f91faac",
+      "question": "Lựa chọn đáp án đúng nhất: Cho biểu thức: 16 x 24519. Tìm biểu thức có giá trị bằng biểu thức đã cho.",
+      "choices": [
+        "4 x 24519 x 4",
+        "4 x 24519 x 5",
+        "5 x 24519 x 4",
+        "Cả B và C đều đúng"
+      ],
+      "stored_answer": "A",
+      "training_shift": 0,
+      "shift1_choices": [
+        "4 x 24519 x 5",
+        "5 x 24519 x 4",
+        "Cả B và C đều đúng",
+        "4 x 24519 x 4"
+      ],
+      "shift1_target": "D",
+      "stored_explanation": "Ta có: 16 x 24519 = 24519 x 16 Mà 24519 x 16 = 24519 x 4 x 4 = 4 x 24519 x 4 Các đáp án còn lại không có giá trị bằng giá trị biểu thức đã cho Vậy ta chọn . 4 x 24519 x 4 Lưu ý : Khi đổi chỗ các thừa số trong một tích thì tích không thay đổi",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-bai-tap-toan-4-chuong-2-tinh-chat-giao-hoan-cua-phep-nhan-co-dap-an/66838",
+      "source_index": 3,
+      "raw_question": "Câu 4: \n \n Lựa chọn đáp án đúng nhất: Cho biểu thức: 16 x 24519. Tìm biểu thức có giá trị bằng biểu thức đã cho.",
+      "raw_choices": [
+        "A.  4 x 24519 x 4",
+        "B. 4 x 24519 x 5",
+        "C. 5 x 24519 x 4",
+        "D. Cả B và C đều đúng"
+      ],
+      "raw_explanation": "Ta có: 16 x 24519 = 24519 x 16 Mà 24519 x 16 = 24519 x 4 x 4 = 4 x 24519 x 4 Các đáp án còn lại không có giá trị bằng giá trị biểu thức đã cho Vậy ta chọn đáp án đúng là:  A.  4 x 24519 x 4 Lưu ý : Khi đổi chỗ các thừa số trong một tích thì tích không thay đổi."
+    },
+    {
+      "split": "train",
+      "sample_id": "7e437a6979bc3d2378bd6a27",
+      "question": "Phép nhân các số tự nhiên, phân số, số thập phân có chung các tính chất nào dưới đây?",
+      "choices": [
+        "Tính chất giao hoán",
+        "Tính chất kết hợp",
+        "Tính chất nhân một số với một tổng",
+        "Cả ba tính chất trên"
+      ],
+      "stored_answer": "D",
+      "training_shift": 0,
+      "shift1_choices": [
+        "Tính chất kết hợp",
+        "Tính chất nhân một số với một tổng",
+        "Cả ba tính chất trên",
+        "Tính chất giao hoán"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Phép nhân các số tự nhiên, phân số, số thập phân đều có các tính chất sau: - Tính chất giao hoán: $ a\\times b=b\\times a$ - Tính chất kết hợp: $ (a\\times b)\\times c=a\\times (b\\times c)$ - Nhân một số với một tổng: $ (a+b)\\times c=a\\times c+b\\times c$ - Phép nhân có thừa số bằng 1: $ 1\\times a=a\\times 1=a$ - Phép nhân có thừa số bằng 0: $ 0\\times a=a\\times 0=0$ Vậy cả ba tính chất đã nêu đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-9-co-dap-an-on-tap-ve-phep-nhan",
+      "source_index": 0,
+      "raw_question": "Câu 1: \n \n Phép nhân các số tự nhiên, phân số, số thập phân có chung các tính chất nào dưới đây?",
+      "raw_choices": [
+        "A. Tính chất giao hoán",
+        "B. Tính chất kết hợp",
+        "C. Tính chất nhân một số với một tổng",
+        "D. Cả ba tính chất trên"
+      ],
+      "raw_explanation": "Phép nhân các số tự nhiên, phân số, số thập phân đều có các tính chất sau: \n - Tính chất giao hoán:  $ a\\times b=b\\times a$ \n - Tính chất kết hợp:  $ (a\\times b)\\times c=a\\times (b\\times c)$ \n - Nhân một số với một tổng:  $ (a+b)\\times c=a\\times c+b\\times c$ \n - Phép nhân có thừa số bằng 1:  $ 1\\times a=a\\times 1=a$ \n - Phép nhân có thừa số bằng 0:  $ 0\\times a=a\\times 0=0$ \n Vậy cả ba tính chất đã nêu đều đúng. \n Đáp án D"
+    },
+    {
+      "split": "train",
+      "sample_id": "18597acb230d59ff113207e3",
+      "question": "Khi biết tổng và hệu của hai số, ta có thể áp dụng công thức nào để tìm hai số đó?",
+      "choices": [
+        "Số lớn = (tổng + hiệu) : 2",
+        "Số bé = (tổng – hiệu) : 2",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng"
+      ],
+      "stored_answer": "A",
+      "training_shift": 3,
+      "shift1_choices": [
+        "Số bé = (tổng – hiệu) : 2",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng",
+        "Số lớn = (tổng + hiệu) : 2"
+      ],
+      "shift1_target": "D",
+      "stored_explanation": "Với dạng toán tìm hai số khi biết tổng và hiệu của 2 số, để tìm hai số ta có thể áp dụng công thức sau: Số bé = (tổng – hiệu) : 2 Số lớn = (tổng + hiệu) : 2 Vậy cả hai  và B đều đúng Đáp án cần chọn là D",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-10-co-dap-an-on-tap-ve-giai-toan-phan-2",
+      "source_index": 0,
+      "raw_question": "Câu 1: \n \n Khi biết tổng và hệu của hai số, ta có thể áp dụng công thức nào để tìm hai số đó?",
+      "raw_choices": [
+        "A. Số lớn = (tổng + hiệu) : 2",
+        "B. Số bé = (tổng – hiệu) : 2",
+        "C. Cả A và B đều sai",
+        "D. Cả A và B đều đúng"
+      ],
+      "raw_explanation": "Với dạng toán tìm hai số khi biết tổng và hiệu của 2 số, để tìm hai số ta có thể áp dụng công thức sau: Số bé = (tổng – hiệu) : 2 Số lớn = (tổng + hiệu) : 2 Vậy cả hai đáp án A và B đều đúng Đáp án cần chọn là D"
+    },
+    {
+      "split": "train",
+      "sample_id": "c0c77b4e59e6e1c5f03e0383",
+      "question": "Khi nào ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian?",
+      "choices": [
+        "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai",
+        "Khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu của phân số thứ hai.",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng"
+      ],
+      "stored_answer": "A",
+      "training_shift": 2,
+      "shift1_choices": [
+        "Khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu của phân số thứ hai.",
+        "Cả A và B đều sai",
+        "Cả A và B đều đúng",
+        "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai"
+      ],
+      "shift1_target": "D",
+      "stored_explanation": "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai hoặc khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu số của phân số thứ hai thì ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian. Do đó cả hai  và B đều đúng Đáp án cần chọn là D",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-3-co-dap-an-on-tap-so-sanh-hai-phan-so-tiep",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Khi nào ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian?",
+      "raw_choices": [
+        "A. Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai",
+        "B. Khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu của phân số thứ hai.",
+        "C. Cả A và B đều sai",
+        "D. Cả A và B đều đúng"
+      ],
+      "raw_explanation": "Khi tử số của phân số thứ nhất bé hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại lớn hơn mẫu số của phân số thứ hai hoặc khi tử số của phân số thứ nhất lớn hơn tử số của phân số thứ hai và mẫu số của phân số thứ nhất lại nhỏ hơn mẫu số của phân số thứ hai thì ta có thể so sánh hai phân số bằng phương pháp so sánh với phân số trung gian.  Do đó cả hai đáp án A và B đều đúng Đáp án cần chọn là D"
+    },
+    {
+      "split": "train",
+      "sample_id": "ea2db1cd0ae61a3b6c323f55",
+      "question": "Số thập phân 245,018 gồm:",
+      "choices": [
+        "2 trăm, 4 chục, 0 đơn vị, 0 phần mười, 18 phần trăm.",
+        "2 trăm, 4 chục, 5 đơn vị, 1 phần mười, 0 phần trăm, 8 phần nghìn",
+        "2 trăm, 4 chục, 5 đơn vị, 0 phần mười, 1 phần trăm, 8 phần nghìn",
+        "Tất cả các đáp án trên đều đúng"
+      ],
+      "stored_answer": "C",
+      "training_shift": 3,
+      "shift1_choices": [
+        "2 trăm, 4 chục, 5 đơn vị, 1 phần mười, 0 phần trăm, 8 phần nghìn",
+        "2 trăm, 4 chục, 5 đơn vị, 0 phần mười, 1 phần trăm, 8 phần nghìn",
+        "Tất cả các đáp án trên đều đúng",
+        "2 trăm, 4 chục, 0 đơn vị, 0 phần mười, 18 phần trăm."
+      ],
+      "shift1_target": "B",
+      "stored_explanation": "Ta có: $ 245,018=200+40+5+\\frac{0}{10}+\\frac{1}{100}+\\frac{8}{1000}$ Vậy số thập phân 245,018 gồm 2 trăm, 4 chục, 5 đơn vị, 0 phần mười, 1 phần trăm, 8 phần nghìn",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-2-co-dap-an-hang-cua-so-thap-phan-doc-viet-so-thap-phan",
+      "source_index": 4,
+      "raw_question": "Câu 5: \n \n Số thập phân 245,018 gồm:",
+      "raw_choices": [
+        "A. 2 trăm, 4 chục, 0 đơn vị, 0 phần mười, 18 phần trăm.",
+        "B. 2 trăm, 4 chục, 5 đơn vị, 1 phần mười, 0 phần trăm, 8 phần nghìn",
+        "C. 2 trăm, 4 chục, 5 đơn vị, 0 phần mười, 1 phần trăm, 8 phần nghìn",
+        "D. Tất cả các đáp án trên đều đúng"
+      ],
+      "raw_explanation": "Ta có: $ 245,018=200+40+5+\\frac{0}{10}+\\frac{1}{100}+\\frac{8}{1000}$   Vậy số thập phân 245,018 gồm 2 trăm, 4 chục, 5 đơn vị, 0 phần mười, 1 phần trăm, 8 phần nghìn. Đáp án C"
+    },
+    {
+      "split": "train",
+      "sample_id": "b02cc6bb6b8574952deac349",
+      "question": "Một hình chữ nhật có chiều dài 24 cm, chiều dài gấp 4 lần chiều rộng. Diện tích của hình chữ nhật đó là:",
+      "choices": [
+        "96 $ {\\mathrm{cm}}^{2}$",
+        "144 $ {\\mathrm{cm}}^{2}$",
+        "134 $ {\\mathrm{cm}}^{2}$",
+        "Tất cả đáp án trên đều sai"
+      ],
+      "stored_answer": "B",
+      "training_shift": 3,
+      "shift1_choices": [
+        "144 $ {\\mathrm{cm}}^{2}$",
+        "134 $ {\\mathrm{cm}}^{2}$",
+        "Tất cả đáp án trên đều sai",
+        "96 $ {\\mathrm{cm}}^{2}$"
+      ],
+      "shift1_target": "A",
+      "stored_explanation": "Chiều rộng của hình chữ nhật đó là: 24 : 4 = 6 (cm) Diện tích của hình chữ nhật đó là: 24 × 6 = 144 $ \\left({\\mathrm{cm}}^{2}\\right)$ Đáp số: 144 $ {\\mathrm{cm}}^{2}$",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-3-co-dap-an-dien-tich-hinh-chu-nhat",
+      "source_index": 4,
+      "raw_question": "Câu 5: \n \n Một hình chữ nhật có chiều dài 24 cm, chiều dài gấp 4 lần chiều rộng. Diện tích của hình chữ nhật đó là:",
+      "raw_choices": [
+        "A.  96 $ {\\mathrm{cm}}^{2}$",
+        "B. 144 $ {\\mathrm{cm}}^{2}$",
+        "C. 134 $ {\\mathrm{cm}}^{2}$",
+        "D.  Tất cả đáp án trên đều sai"
+      ],
+      "raw_explanation": "Đáp án B Chiều rộng của hình chữ nhật đó là: 24 : 4 = 6 (cm) Diện tích của hình chữ nhật đó là: 24 × 6 = 144 $ \\left({\\mathrm{cm}}^{2}\\right)$ Đáp số:  144 $ {\\mathrm{cm}}^{2}$"
+    },
+    {
+      "split": "train",
+      "sample_id": "223bb1f1bc450d70ea413d84",
+      "question": "Trong các số sau số nào không chia hết cho 3?",
+      "choices": [
+        "4527",
+        "2554",
+        "5814",
+        "Tất cả các đáp án trên đều đúng"
+      ],
+      "stored_answer": "B",
+      "training_shift": 0,
+      "shift1_choices": [
+        "2554",
+        "5814",
+        "Tất cả các đáp án trên đều đúng",
+        "4527"
+      ],
+      "shift1_target": "A",
+      "stored_explanation": "Số4527có tổng các chữ số là4+5+2+7=18. Vì18chia hết cho3nên4527chia hết cho3. Số2554có tổng các chữ số là2+5+5+4=16. Vì16không chia hết cho3nên2554không chia hết cho3. Số5814có tổng các chữ số là5+8+1+4=18. Vì18chia hết cho3nên5814chia hết cho3. Vậy trong các số đã cho, số không chia hết cho3là2554",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-4-bai-4-co-dap-an-dau-hieu-chia-het-cho-3",
+      "source_index": 3,
+      "raw_question": "Câu 4: \n \n Trong các số sau số nào không chia hết cho 3?",
+      "raw_choices": [
+        "A. 4527",
+        "B. 2554",
+        "C. 5814",
+        "D. Tất cả các đáp án trên đều đúng"
+      ],
+      "raw_explanation": "Số4527có tổng các chữ số là4+5+2+7=18. Vì18chia hết cho3nên4527chia hết cho3. Số2554có tổng các chữ số là2+5+5+4=16. Vì16không chia hết cho3nên2554không chia hết cho3. Số5814có tổng các chữ số là5+8+1+4=18. Vì18chia hết cho3nên5814chia hết cho3. Vậy trong các số đã cho, số không chia hết cho3là2554. Đáp án B"
+    },
+    {
+      "split": "train",
+      "sample_id": "ffa5680986573c1bcd01e642",
+      "question": "Bỏ các chữ só 0 ở tận cùng bên phải của số thập phân 4,5000 để có các số thập phân viết dưới dạng gọn hơn.",
+      "choices": [
+        "4,500",
+        "4,50",
+        "4,5",
+        "Cả A, B, C đều đúng"
+      ],
+      "stored_answer": "D",
+      "training_shift": 1,
+      "shift1_choices": [
+        "4,50",
+        "4,5",
+        "Cả A, B, C đều đúng",
+        "4,500"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Số thập phân 4,5000 có các chữ số 0 ở tận cùng bên phải phần thập phân nên ta có thể bỏ bỏ chữ số 0 đó đi để được một số thập phân bằng nó và ở dạng gọn hơn: 4,5000 = 4,500 = 4,50 = 4,5 Vậy cả A, B, C đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-3-co-dap-an-on-tap-ve-so-thap-phan",
+      "source_index": 4,
+      "raw_question": "Câu 5: \n \n Bỏ các chữ só 0 ở tận cùng bên phải của số thập phân 4,5000 để có các số thập phân viết dưới dạng gọn hơn.",
+      "raw_choices": [
+        "A. 4,500",
+        "B. 4,50",
+        "C. 4,5",
+        "D. Cả A, B, C đều đúng"
+      ],
+      "raw_explanation": "Số thập phân 4,5000 có các chữ số 0 ở tận cùng bên phải phần thập phân nên ta có thể bỏ bỏ chữ số 0 đó đi để được một số thập phân bằng nó và ở dạng gọn hơn: 4,5000 = 4,500 = 4,50 = 4,5 Vậy cả A, B, C đều đúng. Đáp án D"
+    },
+    {
+      "split": "train",
+      "sample_id": "cbd987e2d94cf09bedbe0347",
+      "question": "Số nào dưới đây bằng với số 69,080?",
+      "choices": [
+        "69,08",
+        "69,0800",
+        "69,08000",
+        "Cả ba đáp án trên đều đúng"
+      ],
+      "stored_answer": "A",
+      "training_shift": 3,
+      "shift1_choices": [
+        "69,0800",
+        "69,08000",
+        "Cả ba đáp án trên đều đúng",
+        "69,08"
+      ],
+      "shift1_target": "D",
+      "stored_explanation": "Số 69,080 có thể thêm hoặc bớt vào tận cùng bên phải phần thập phân các chữ số 0 thì vẫn được một số thập phân bằng nó. Ta có: 69,080 = 69,08 = 69,0800 = 69,08000 = ... Do đó cả ba , B, C đều đúng. Đáp án cần chọn là: D",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-luyen-tap-chung-ve-so-thap-phan-co-dap-an-nhan-biet",
+      "source_index": 3,
+      "raw_question": "Câu 4: \n \n Số nào dưới đây bằng với số 69,080?",
+      "raw_choices": [
+        "A. 69,08",
+        "B. 69,0800",
+        "C. 69,08000",
+        "D. Cả ba đáp án trên đều đúng"
+      ],
+      "raw_explanation": "Số 69,080 có thể thêm hoặc bớt vào tận cùng bên phải phần thập phân các chữ số 0 thì vẫn được một số thập phân bằng nó. Ta có: 69,080 = 69,08 = 69,0800 = 69,08000 = ... Do đó cả ba đáp án A, B, C đều đúng. Đáp án cần chọn là: D"
+    },
+    {
+      "split": "train",
+      "sample_id": "993308b86ec9dc7f885bbfbd",
+      "question": "Lựa chọn đáp án đúng nhất: Cho biểu thức: 27 x 3019. Tìm biểu thức có giá trị bằng biểu thức đã cho.",
+      "choices": [
+        "3019 x 27",
+        "3019 x 9 x 3",
+        "3019 x 20 x 7",
+        "Cả A và B đều đúng"
+      ],
+      "stored_answer": "D",
+      "training_shift": 2,
+      "shift1_choices": [
+        "3019 x 9 x 3",
+        "3019 x 20 x 7",
+        "Cả A và B đều đúng",
+        "3019 x 27"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Ta có: 27 x 3019 = 3019 x 27 Mà 3019 x 27 = 3019 x 9 x 3 Nên 27 x 3019 = 3019 x 27 = 3019 x 9 x 3 Vậy ta chọn . Cả A và B đều đúng Lưu ý : Khi đổi chỗ các thừa số trong một tích thì tích không thay đổi",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-bai-tap-toan-4-chuong-2-tinh-chat-giao-hoan-cua-phep-nhan-co-dap-an/66838",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Lựa chọn đáp án đúng nhất: Cho biểu thức: 27 x 3019. Tìm biểu thức có giá trị bằng biểu thức đã cho.",
+      "raw_choices": [
+        "A.  3019 x 27",
+        "B. 3019 x 9 x 3",
+        "C. 3019 x 20 x 7",
+        "D. Cả A và B đều đúng"
+      ],
+      "raw_explanation": "Ta có: 27 x 3019 = 3019 x 27 Mà 3019 x 27 = 3019 x 9 x 3 Nên 27 x 3019 = 3019 x 27 = 3019 x 9 x 3 Vậy ta chọn đáp án đúng là:  D.  Cả A và B đều đúng Lưu ý : Khi đổi chỗ các thừa số trong một tích thì tích không thay đổi."
+    },
+    {
+      "split": "val",
+      "sample_id": "f6d442190d4b45eb61ec74a2",
+      "question": "Lựa chọn đáp án đúng nhất: 68 905g = ......",
+      "choices": [
+        "68 kg 9 hg 5 g",
+        "68 kg 90 dag 5 g",
+        "680 hg 90 dag 5g",
+        "Cả ba đáp án trên đều đúng"
+      ],
+      "stored_answer": "D",
+      "training_shift": 3,
+      "shift1_choices": [
+        "68 kg 90 dag 5 g",
+        "680 hg 90 dag 5g",
+        "Cả ba đáp án trên đều đúng",
+        "68 kg 9 hg 5 g"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Hướng dẫn giải: Ghi nhớ: Mỗi đơn vị đo khối lượng đều gấp 10 lần đơn vị đo bé hơn, liền nó Nên trước hết ta quy đổi 68 905g thành các đơn vị đo tương ứng khác nhau như các lựa chọn mà bài tập đã đưa ra Bài giải: 68 905g = 68 000g + 9 00g + 5g = 68 kg 9 hg 5 g = 68 kg 90 dag 5 g = 680 hg 90 dag 5 g = 6800 dag + 90 dag + 5 g = 6890dag + 5g Vậy . Cả ba đáp án trên đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-yen-ta-tan-bang-don-vi-do-khoi-luong-nang-cao",
+      "source_index": 2,
+      "raw_question": "Câu 3: \n \n Lựa chọn đáp án đúng nhất: 68 905g = ......",
+      "raw_choices": [
+        "A. 68 kg 9 hg 5 g",
+        "B. 68 kg 90 dag 5 g",
+        "C. 680 hg 90 dag 5g",
+        "D. Cả ba đáp án trên đều đúng"
+      ],
+      "raw_explanation": "Đáp án D Hướng dẫn giải: Ghi nhớ: Mỗi đơn vị đo khối lượng đều gấp 10 lần đơn vị đo bé hơn, liền nó Nên trước hết ta quy đổi 68 905g thành các đơn vị đo tương ứng khác nhau như các lựa chọn mà bài tập đã đưa ra Bài giải: 68 905g = 68 000g + 9 00g + 5g = 68 kg 9 hg 5 g = 68 kg 90 dag 5 g = 680 hg 90 dag 5 g = 6800 dag + 90 dag + 5 g = 6890dag + 5g Vậy đáp án đúng là: D. Cả ba đáp án trên đều đúng"
+    },
+    {
+      "split": "test",
+      "sample_id": "03b6a07972635dc3c14cdbe4",
+      "question": "Tính: 35 phút + 49 phút",
+      "choices": [
+        "84 phút",
+        "1 giờ 24 phút",
+        "1,4 giờ",
+        "Cả A, B, C đều đúng."
+      ],
+      "stored_answer": "D",
+      "training_shift": 2,
+      "shift1_choices": [
+        "1 giờ 24 phút",
+        "1,4 giờ",
+        "Cả A, B, C đều đúng.",
+        "84 phút"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Ta có: 35 phút + 49 phút = 84 phút = 1 giờ 24 phút = 1,4 giờ. Vậy cả A, B, C đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-2-co-dap-an-cong-so-do-thoi-gian",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Tính: 35 phút + 49 phút",
+      "raw_choices": [
+        "A. 84 phút",
+        "B. 1 giờ 24 phút",
+        "C. 1,4 giờ",
+        "D. Cả A, B, C đều đúng."
+      ],
+      "raw_explanation": "Ta có: 35 phút + 49 phút = 84 phút = 1 giờ 24 phút = 1,4 giờ. Vậy cả A, B, C đều đúng. Đáp án D"
+    },
+    {
+      "split": "test",
+      "sample_id": "3260c1119ea701b2bac606e0",
+      "question": "Phép cộng các số tự nhiên, phân số, số thập phân đều có các tính chất nào dưới đây?",
+      "choices": [
+        "Tính chất giao hoán",
+        "Tính chất kết hợp",
+        "Cộng với 0",
+        "Cả A, B, C đều đúng"
+      ],
+      "stored_answer": "D",
+      "training_shift": 2,
+      "shift1_choices": [
+        "Tính chất kết hợp",
+        "Cộng với 0",
+        "Cả A, B, C đều đúng",
+        "Tính chất giao hoán"
+      ],
+      "shift1_target": "C",
+      "stored_explanation": "Phép cộng các số tự nhiên, phân số, số thập phân đều có các tính chất sau: - Tính chất giao hoán: $ a+b=b+a$ - Tính chất kết hợp: $ (a+b)+c=a+(b+c)$ - Cộng với 0: $ a+0=0+a=a$ Vậy cả A, B, C đều đúng",
+      "diagnosis": "UNSAFE_META_OR_POSITIONAL_OPTION_REFERENCE_NOT_REWRITTEN_BY_ROTATED_FUNCTION",
+      "notes": "Flagged transformation risk; not every letter is an answer reference. C/r in geometry formulas are excluded. References to all preceding options must not be rotated without rewriting semantics.",
+      "source_page": "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-7-co-dap-an-on-ve-phep-cong",
+      "source_index": 1,
+      "raw_question": "Câu 2: \n \n Phép cộng các số tự nhiên, phân số, số thập phân đều có các tính chất nào dưới đây?",
+      "raw_choices": [
+        "A. Tính chất giao hoán",
+        "B. Tính chất kết hợp",
+        "C. Cộng với 0",
+        "D. Cả A, B, C đều đúng"
+      ],
+      "raw_explanation": "Phép cộng các số tự nhiên, phân số, số thập phân đều có các tính chất sau: - Tính chất giao hoán: $ a+b=b+a$ - Tính chất kết hợp: $ (a+b)+c=a+(b+c)$ - Cộng với 0: $ a+0=0+a=a$ Vậy cả A, B, C đều đúng. Đáp án D"
+    }
+  ],
+  "residual_single_letter_rationale_counts_not_all_errors": {
+    "train": 16,
+    "val": 3,
+    "test": 3
+  },
+  "frozen_sha256": {
+    "data\\real_math_v1\\raw\\vietjack.json": "d56ec440f585579044676df1a399a0e5a6d8a8aaa4e7fb50f2cb3b76eb0a96b4",
+    "data\\real_math_v1\\clean\\train.jsonl": "8f1035729d63fb490188deedb8221e98352c6d283becebc82ff41964b01f537b",
+    "data\\real_math_v1\\clean\\val.jsonl": "985cfc6234eccede2463f92fb30de61e3f8eba8c955fae0708ab612b7030696a",
+    "data\\real_math_v1\\clean\\test.jsonl": "dab57b613816f8e2fedec4aa774fc3f48987207f5eb8f5c83143faf01e77fd19",
+    "real_math_data.py": "397a944c6c4a9ce67233b41212925850399c0a0515aef8994e3ba9a0242ac1a2",
+    "real_math_training.py": "49666667e6d7842aee8feee78e73d5c843e63b08b47627809221f8480425a8ef",
+    "train_real_math.py": "28d8107f4e7ca1a8bf557a8f32a6feb0751e7031234daabd48fd933b5e246a74",
+    "mcq_final_answer.py": "6abf486ef5f5c25a07e4e00ed8f3904e26b26719dc7aec175abf4b05d6e48150"
+  },
+  "frozen_sources_unchanged": true,
+  "limitations": [
+    "This deterministic audit is a targeted lower bound, not a full certification of963rows.",
+    "The three source-final conflicts show actual extraction corruption; all remaining labels may still have semantic issues.",
+    "Meta-option candidates identify unsafe rotation semantics; existing old run logs/predictions must stay frozen.",
+    "Old base-vs-adapter validation ordering remains observation against imperfect source keys, not certified mathematical accuracy.",
+    "Whole-dataset choice-rotation accuracy/consistency is contaminated by two invalid transformed test questions.",
+    "No GPU process or training was run; no frozen files were edited."
+  ],
+  "recommended_action": [
+    "Exclude all meta/positional option references from future transformed MCQ datasets, or rewrite and reverify every reference.",
+    "For next dataset, train free-response plans/answers with exact arithmetic and provenance instead of one-letter options.",
+    "Use independently parsed explicit answer declarations, fail closed on ambiguity, and never globally delete answer-looking substrings from rationale.",
+    "Keep old evidence historical and mark label-audit caveats in the canonical context."
+  ]
+}

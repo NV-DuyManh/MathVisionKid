@@ -200,6 +200,27 @@ public class MathTutorService {
         } catch (RestClientException ex) {throw unavailable();}
     }
 
+    public byte[] speech(SpeechRequest request) {
+        if (baseUrl.isBlank() || internalKey == null || internalKey.isBlank()) throw unavailable();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.parseMediaType("audio/mpeg")));
+        headers.set("X-Internal-API-Key", internalKey);
+        try {
+            var response = http.postForEntity(baseUrl + "/internal/v1/tutor/speech",
+                    new HttpEntity<>(request, headers), byte[].class);
+            byte[] bytes = response.getBody();
+            MediaType type = response.getHeaders().getContentType();
+            if (type == null || !type.isCompatibleWith(MediaType.parseMediaType("audio/mpeg"))
+                    || bytes == null || bytes.length < 128 || bytes.length > 2 * 1024 * 1024
+                    || !((bytes[0] == 'I' && bytes[1] == 'D' && bytes[2] == '3')
+                        || ((bytes[0] & 0xff) == 0xff && (bytes[1] & 0xe0) == 0xe0))) throw unavailable();
+            return bytes;
+        } catch (RestClientException ex) {
+            throw unavailable();
+        }
+    }
+
     public Transcript transcribe(MultipartFile file, boolean consent, String owner) {
         if (!consent) throw invalid("AUDIO_CONSENT_REQUIRED", "Em đồng ý gửi câu hỏi ghi âm trước nhé.");
         if (file == null || file.isEmpty() || file.getSize() > 3L * 1024 * 1024)

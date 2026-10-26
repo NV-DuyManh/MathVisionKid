@@ -1,0 +1,55 @@
+{
+  "canonical_context_sha256": "08fbf392925cf6da703a875d9e83d4468dab46f4bf3684021b61a62a4b0c1563",
+  "receipt": {
+    "branch": "quality_recovery_20261024",
+    "branch_observation_sha256": "7557378b84a7d9bd1b881bfdf6239b16dabdf4851c0aedabd09ecbdcd805d0ae",
+    "legacy_top_level_flags_preserved": true,
+    "metadata_control_transaction_only": true,
+    "order": [
+      "progress",
+      "chat",
+      "context",
+      "state"
+    ],
+    "prepared_hashes": {
+      "chat": "24209defe2cf7a5229285335c56d9231757cb66469d3a35c376f5118e368903c",
+      "context": "08fbf392925cf6da703a875d9e83d4468dab46f4bf3684021b61a62a4b0c1563",
+      "progress": "e6c0816b68039c075870b19a577f3423d6c52b016d17a499b1d93310150c575d",
+      "state": "b91ce7e441df4441a39199a56b4a29c6aae99a5dad1ae8da5844aca490e9ce0b"
+    },
+    "transaction": "four_existing_controls",
+    "verified_writes": [
+      {
+        "bytes": 19386219,
+        "fresh_raw_readback_verified": true,
+        "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+        "kind": "progress",
+        "sha256": "e6c0816b68039c075870b19a577f3423d6c52b016d17a499b1d93310150c575d"
+      },
+      {
+        "bytes": 763530,
+        "fresh_raw_readback_verified": true,
+        "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+        "kind": "chat",
+        "sha256": "24209defe2cf7a5229285335c56d9231757cb66469d3a35c376f5118e368903c"
+      },
+      {
+        "bytes": 844406,
+        "fresh_raw_readback_verified": true,
+        "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+        "kind": "context",
+        "sha256": "08fbf392925cf6da703a875d9e83d4468dab46f4bf3684021b61a62a4b0c1563"
+      },
+      {
+        "bytes": 1066487,
+        "fresh_raw_readback_verified": true,
+        "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+        "kind": "state",
+        "sha256": "b91ce7e441df4441a39199a56b4a29c6aae99a5dad1ae8da5844aca490e9ce0b"
+      }
+    ]
+  },
+  "run_metadata_sha256": "91c17241b3e9ff03a3d6628aa9fbf353c3f0729e64561b6ea5880d0cf7f02137",
+  "state": "COMPLETE_RAW_VERIFIED",
+  "work": "/content/mathvisionkid_quality_recovery_20261024/four_controls_publication/20261024T102700748424Z"
+}

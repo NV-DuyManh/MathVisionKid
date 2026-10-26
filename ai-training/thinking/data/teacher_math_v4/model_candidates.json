@@ -1,0 +1,881 @@
+{
+  "schema_version": 1,
+  "observed_date_client": "2026-10-13",
+  "timezone": "Asia/Bangkok",
+  "research_status": "PRIMARY_SOURCE_METADATA_REVIEW_ONLY_NO_MODEL_WEIGHTS_NO_GPU_EXECUTION",
+  "skills_applied": [],
+  "models": [
+    {
+      "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "last_modified_utc": "2025-09-17T06:56:53.000Z",
+      "primary_card_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507",
+      "pinned_card_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/blob/cdbee75f17c01a7cc42f958dc650907174af0554/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/Qwen/Qwen3-4B-Instruct-2507?blobs=true",
+      "metadata_api_sha256": "04479cd44a552ccad72cba7bdc9598244d2e03635c7ad4a92023dfcfc6088fba",
+      "license": "apache-2.0",
+      "gated": false,
+      "documented_language_metadata": null,
+      "architecture": [
+        "Qwen3ForCausalLM"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 4022468096
+        },
+        "total": 4022468096
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model-00001-of-00003.safetensors",
+          "size": 3957900840,
+          "blobId": "764efb4175828b8bd28f879958c49b1ac23ad1f9",
+          "lfs": {
+            "sha256": "75311d91bb08cf0b882913da464a1e722a31fb44db35208663487efb7a3d8ed6",
+            "size": 3957900840,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00002-of-00003.safetensors",
+          "size": 3987450520,
+          "blobId": "3a3ba0f35dfed0f3500d80564496a11a1d19de18",
+          "lfs": {
+            "sha256": "0b48adbb1f60e901153d91907ba11ce63bd4b8b584482e730f48808d055dfba1",
+            "size": 3987450520,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00003-of-00003.safetensors",
+          "size": 99630640,
+          "blobId": "a1d2a67eb5cb179e09df3e9cd5d0690e57434fc3",
+          "lfs": {
+            "sha256": "7dd39ccca5e4de123c74c14af44c9bf2eb75df33b4614382af0134528e060d5d",
+            "size": 99630640,
+            "pointerSize": 133
+          }
+        }
+      ],
+      "small_files": {
+        "README.md": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/resolve/cdbee75f17c01a7cc42f958dc650907174af0554/README.md",
+          "bytes": 8168,
+          "sha256": "8e3dd0c3b5b11897cc71092ccfe517bb7a9783479baa3665aad73c8d1a2041cd"
+        },
+        "config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/resolve/cdbee75f17c01a7cc42f958dc650907174af0554/config.json",
+          "bytes": 727,
+          "sha256": "5beea1a4a34c62782bfb2f911c606741a3bab8f92d80a118fa053c28af12e8ba"
+        },
+        "tokenizer_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/resolve/cdbee75f17c01a7cc42f958dc650907174af0554/tokenizer_config.json",
+          "bytes": 9377,
+          "sha256": "a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3"
+        },
+        "chat_template.jinja": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/resolve/cdbee75f17c01a7cc42f958dc650907174af0554/chat_template.jinja",
+          "retrieval_error": "HTTP Error 404: Not Found"
+        },
+        "generation_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/resolve/cdbee75f17c01a7cc42f958dc650907174af0554/generation_config.json",
+          "bytes": 238,
+          "sha256": "835fffe355c9438e7a25be099b3fccaa98350b83451f9fd2d99512e74f1ade48",
+          "content": {
+            "bos_token_id": 151643,
+            "do_sample": true,
+            "eos_token_id": [
+              151645,
+              151643
+            ],
+            "pad_token_id": 151643,
+            "temperature": 0.7,
+            "top_k": 20,
+            "top_p": 0.8,
+            "transformers_version": "4.51.0"
+          }
+        }
+      },
+      "text_configuration": {
+        "model_type": "qwen3",
+        "hidden_size": 2560,
+        "num_hidden_layers": 36,
+        "num_attention_heads": 32,
+        "num_key_value_heads": 8,
+        "head_dim": 128,
+        "intermediate_size": 9728,
+        "vocab_size": 151936,
+        "max_position_embeddings": 262144,
+        "tie_word_embeddings": true,
+        "eos_token_id": 151645,
+        "layer_types": null
+      },
+      "observed_template_render_not_model_generation": {
+        "test_environment": "Local transformers Jinja chat template compiler; metadata only, no tokenizer vocab or weights loaded",
+        "generation_suffix_by_enable_thinking": {
+          "default": "<|im_start|>assistant\n",
+          "False": "<|im_start|>assistant\n",
+          "True": "<|im_start|>assistant\n"
+        },
+        "visible_only_assistant_training_prefix": "<|im_start|>assistant\n",
+        "causal_label_warning": "Use exact pinned template. For Qwen3.5 and Thinking2507, full assistant render introduces an empty think block for a visible-only target. Completion masking must include the intended closing block or begin after an identical no-thinking prefix. Do not blindly reuse Qwen3.1.7 prefix lengths."
+      },
+      "assessment": {
+        "priority": 1,
+        "decision": "RECOMMENDED_FIRST_LOCAL_COLAB_PILOT_BEFORE_BASE_SELECTION",
+        "reason": "Straightforward standard Qwen3 decoder and visible-only instruction mode match concise Vietnamese worked steps and one nonleaking hint training; ungated Apache2.0. Larger capacity is a hypothesis, not measured curriculum mastery.",
+        "think_control": "Fixed nonthinking; enable_thinking=False or True has no effect on observed template; final step-by-step explanation remains possible.",
+        "vietnamese_evidence": "Official Qwen3 family launch lists Vietnamese; 2507 card reports multilingual improvements, no Vietnamese elementary benchmark.",
+        "generation_pilot": {
+          "mode": "nonthinking_visible",
+          "max_new_tokens_worked": 1024,
+          "max_new_tokens_hint_guard": 256,
+          "sampling": "Primary deterministic greedy pilot for reproducibility; optional separately recorded official suggested sampling0.7/top_p0.8/top_k20. Greedy is a project comparison protocol, not claim of official optimal quality."
+        },
+        "inference_dtype": "fp16 on T4; NF4 QLoRA training preferred; same quantization must be used baseline and adapter and recorded."
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-4B",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "last_modified_utc": "2026-03-02T00:52:52.000Z",
+      "primary_card_url": "https://huggingface.co/Qwen/Qwen3.5-4B",
+      "pinned_card_url": "https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/Qwen/Qwen3.5-4B?blobs=true",
+      "metadata_api_sha256": "57ade25fffea485f57ec53bc85a1971ca144aa1c6ffbee6dbb90f1367f5e623a",
+      "license": "apache-2.0",
+      "gated": false,
+      "documented_language_metadata": null,
+      "architecture": [
+        "Qwen3_5ForConditionalGeneration"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 4659861248,
+          "F32": 3840
+        },
+        "total": 4659865088
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model.safetensors-00001-of-00002.safetensors",
+          "size": 5329398688,
+          "blobId": "d2e1801a99c9c1618c526812e779d9543df84891",
+          "lfs": {
+            "sha256": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+            "size": 5329398688,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model.safetensors-00002-of-00002.safetensors",
+          "size": 3990429408,
+          "blobId": "8fbeeec18827d3b20e3df1dc0abf94f7e85bcef1",
+          "lfs": {
+            "sha256": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188",
+            "size": 3990429408,
+            "pointerSize": 135
+          }
+        }
+      ],
+      "small_files": {
+        "README.md": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/README.md",
+          "bytes": 77661,
+          "sha256": "1406be1b6b8fd8a6545870da516912804756593628a1d0fb0a7965211e82a7bb"
+        },
+        "config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/config.json",
+          "bytes": 3161,
+          "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670"
+        },
+        "tokenizer_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/tokenizer_config.json",
+          "bytes": 16710,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "chat_template.jinja": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/chat_template.jinja",
+          "bytes": 7756,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "generation_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/generation_config.json",
+          "retrieval_error": "HTTP Error 404: Not Found"
+        }
+      },
+      "text_configuration": {
+        "model_type": "qwen3_5_text",
+        "hidden_size": 2560,
+        "num_hidden_layers": 32,
+        "num_attention_heads": 16,
+        "num_key_value_heads": 4,
+        "head_dim": 256,
+        "intermediate_size": 9216,
+        "vocab_size": 248320,
+        "max_position_embeddings": 262144,
+        "tie_word_embeddings": true,
+        "eos_token_id": 248044,
+        "layer_types": [
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention"
+        ]
+      },
+      "observed_template_render_not_model_generation": {
+        "test_environment": "Local transformers Jinja chat template compiler; metadata only, no tokenizer vocab or weights loaded",
+        "generation_suffix_by_enable_thinking": {
+          "default": "<|im_start|>assistant\n<think>\n",
+          "False": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+          "True": "<|im_start|>assistant\n<think>\n"
+        },
+        "visible_only_assistant_training_prefix": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+        "causal_label_warning": "Use exact pinned template. For Qwen3.5 and Thinking2507, full assistant render introduces an empty think block for a visible-only target. Completion masking must include the intended closing block or begin after an identical no-thinking prefix. Do not blindly reuse Qwen3.1.7 prefix lengths."
+      },
+      "assessment": {
+        "priority": 2,
+        "decision": "RECOMMENDED_SECOND_PILOT_ONLY_AFTER_TEXT_ONLY_SMOKE_MEMORY_THROUGHPUT_PASS",
+        "reason": "Latest official small posttrained model among reviewed Qwen models; offers stronger publisher math/multilingual aggregate scores but none establish Vietnamese primary pedagogy. New hybrid architecture creates a real training/runtime tradeoff on T4.",
+        "text_only_loader": "Official Transformers Qwen3_5ForCausalLM with Qwen3_5TextConfig/text_config; full checkpoint is Qwen3_5ForConditionalGeneration. Validate exact text-only load of nested checkpoint names and missing/unexpected keys; do not discard random weights without checking.",
+        "think_control": "Observed 4B template defaults to open think; false creates empty think and direct visible response. Pin explicit false for visible-only SFT; evaluate true separately if desired.",
+        "kernel_risk": "Official Transformers docs warn DeltaNet fast kernels need optional causal_conv1d/fla; fallback PyTorch is slower and more memory hungry. No T4 kernel performance tested by this research.",
+        "vietnamese_evidence": "Publisher family reports201 languages/dialects; no model-specific Vietnamese elementary score found. Actual Vietnamese pilot required.",
+        "generation_pilot": {
+          "mode": "explicit enable_thinking=False visible-only",
+          "max_new_tokens_worked": 1024,
+          "max_new_tokens_hint_guard": 256,
+          "separate_thinking_probe_if_needed": "Explicit true, cap2048 and same predeclared seed; report token budget/truncation and visible content separately, no hidden reasoning in student reports."
+        }
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-4B-Thinking-2507",
+      "revision": "768f209d9ea81521153ed38c47d515654e938aea",
+      "last_modified_utc": "2025-08-06T11:08:25.000Z",
+      "primary_card_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507",
+      "pinned_card_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/blob/768f209d9ea81521153ed38c47d515654e938aea/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/Qwen/Qwen3-4B-Thinking-2507?blobs=true",
+      "metadata_api_sha256": "5ff4dac7168603812920e8062e2dfec033bf18fda8e5abf82800b7ae7ed43a7c",
+      "license": "apache-2.0",
+      "gated": false,
+      "documented_language_metadata": null,
+      "architecture": [
+        "Qwen3ForCausalLM"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 4022468096
+        },
+        "total": 4022468096
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model-00001-of-00003.safetensors",
+          "size": 3957900840,
+          "blobId": "9283db5ecbec606c21c3948b577df8b845934f3d",
+          "lfs": {
+            "sha256": "98178c1cddbca8ad76102afdbf76e4df79b64b82377ad4dca34c755cac00571a",
+            "size": 3957900840,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00002-of-00003.safetensors",
+          "size": 3987450520,
+          "blobId": "a789e04cb3865d37334314d148e02bf18ffff780",
+          "lfs": {
+            "sha256": "57b5bd1f667d420350f169342a90b50e5ffc2aa202ba1819da1af3367ff2261f",
+            "size": 3987450520,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00003-of-00003.safetensors",
+          "size": 99630640,
+          "blobId": "32a2211a0a75b157ca6a0dec8f1f3da16c5b0788",
+          "lfs": {
+            "sha256": "e3cccb84e8926f3f18c334465639939a68af310b0729938fccc2de66a9a31953",
+            "size": 99630640,
+            "pointerSize": 133
+          }
+        }
+      ],
+      "small_files": {
+        "README.md": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/resolve/768f209d9ea81521153ed38c47d515654e938aea/README.md",
+          "bytes": 10063,
+          "sha256": "6a608c737decd22569edf9609499d142021a65e942999890704a880bc804d163"
+        },
+        "config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/resolve/768f209d9ea81521153ed38c47d515654e938aea/config.json",
+          "bytes": 727,
+          "sha256": "5beea1a4a34c62782bfb2f911c606741a3bab8f92d80a118fa053c28af12e8ba"
+        },
+        "tokenizer_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/resolve/768f209d9ea81521153ed38c47d515654e938aea/tokenizer_config.json",
+          "bytes": 10834,
+          "sha256": "60adcfc35f5f251e19a196ec977b4ca0fcfb534852911b3196d68d5e3b146aa0"
+        },
+        "chat_template.jinja": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/resolve/768f209d9ea81521153ed38c47d515654e938aea/chat_template.jinja",
+          "retrieval_error": "HTTP Error 404: Not Found"
+        },
+        "generation_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507/resolve/768f209d9ea81521153ed38c47d515654e938aea/generation_config.json",
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+          "content": {
+            "bos_token_id": 151643,
+            "do_sample": true,
+            "eos_token_id": [
+              151645,
+              151643
+            ],
+            "pad_token_id": 151643,
+            "temperature": 0.6,
+            "top_k": 20,
+            "top_p": 0.95,
+            "transformers_version": "4.51.0"
+          }
+        }
+      },
+      "text_configuration": {
+        "model_type": "qwen3",
+        "hidden_size": 2560,
+        "num_hidden_layers": 36,
+        "num_attention_heads": 32,
+        "num_key_value_heads": 8,
+        "head_dim": 128,
+        "intermediate_size": 9728,
+        "vocab_size": 151936,
+        "max_position_embeddings": 262144,
+        "tie_word_embeddings": true,
+        "eos_token_id": 151645,
+        "layer_types": null
+      },
+      "observed_template_render_not_model_generation": {
+        "test_environment": "Local transformers Jinja chat template compiler; metadata only, no tokenizer vocab or weights loaded",
+        "generation_suffix_by_enable_thinking": {
+          "default": "<|im_start|>assistant\n<think>\n",
+          "False": "<|im_start|>assistant\n<think>\n",
+          "True": "<|im_start|>assistant\n<think>\n"
+        },
+        "visible_only_assistant_training_prefix": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+        "causal_label_warning": "Use exact pinned template. For Qwen3.5 and Thinking2507, full assistant render introduces an empty think block for a visible-only target. Completion masking must include the intended closing block or begin after an identical no-thinking prefix. Do not blindly reuse Qwen3.1.7 prefix lengths."
+      },
+      "assessment": {
+        "decision": "DEFER_AS_SFT_BASE_FOR_VISIBLE_ONLY_DATA",
+        "reason": "Hard thinking-only template remains open think even when false. A visible-only SFT target renders empty reasoning, risking training away reasoning ability; not selected for current concise-hint task without specific mode-compatible training plan. Useful independent math teacher/baseline only after actual pilot, no claim always better.",
+        "recommended_publisher_sampling": {
+          "temperature": 0.6,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "budget_limit": "Card expects much larger answer budgets for demanding reasoning. Capped2k T4 pilot is constrained project test, not reproduction of publisher benchmark."
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-2B",
+      "revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "last_modified_utc": "2026-03-02T11:26:29.000Z",
+      "primary_card_url": "https://huggingface.co/Qwen/Qwen3.5-2B",
+      "pinned_card_url": "https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/Qwen/Qwen3.5-2B?blobs=true",
+      "metadata_api_sha256": "7c57b9380ac89d49bb419f77a433ae25caee20e456bae24a88983fe1b63423e8",
+      "license": "apache-2.0",
+      "gated": false,
+      "documented_language_metadata": null,
+      "architecture": [
+        "Qwen3_5ForConditionalGeneration"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "F32": 2592,
+          "BF16": 2274067232
+        },
+        "total": 2274069824
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model.safetensors-00001-of-00001.safetensors",
+          "size": 4548221488,
+          "blobId": "3868ead7f1658210f24643fa927afa7d9717083c",
+          "lfs": {
+            "sha256": "aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1",
+            "size": 4548221488,
+            "pointerSize": 135
+          }
+        }
+      ],
+      "small_files": {
+        "README.md": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/README.md",
+          "bytes": 62814,
+          "sha256": "c0e83a849c776e6fa843d011f023132d942a0f0140d903205bf1c363adad2275"
+        },
+        "config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/config.json",
+          "bytes": 2908,
+          "sha256": "ed1c1723241f23f7f4e23430759cbd7dcfb4103cbdfe052bfe7626b57c2615b4"
+        },
+        "tokenizer_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/tokenizer_config.json",
+          "bytes": 16709,
+          "sha256": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c"
+        },
+        "chat_template.jinja": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/chat_template.jinja",
+          "bytes": 7755,
+          "sha256": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80"
+        },
+        "generation_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/generation_config.json",
+          "retrieval_error": "HTTP Error 404: Not Found"
+        }
+      },
+      "text_configuration": {
+        "model_type": "qwen3_5_text",
+        "hidden_size": 2048,
+        "num_hidden_layers": 24,
+        "num_attention_heads": 8,
+        "num_key_value_heads": 2,
+        "head_dim": 256,
+        "intermediate_size": 6144,
+        "vocab_size": 248320,
+        "max_position_embeddings": 262144,
+        "tie_word_embeddings": true,
+        "eos_token_id": 248044,
+        "layer_types": [
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention"
+        ]
+      },
+      "observed_template_render_not_model_generation": {
+        "test_environment": "Local transformers Jinja chat template compiler; metadata only, no tokenizer vocab or weights loaded",
+        "generation_suffix_by_enable_thinking": {
+          "default": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+          "False": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+          "True": "<|im_start|>assistant\n<think>\n"
+        },
+        "visible_only_assistant_training_prefix": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+        "causal_label_warning": "Use exact pinned template. For Qwen3.5 and Thinking2507, full assistant render introduces an empty think block for a visible-only target. Completion masking must include the intended closing block or begin after an identical no-thinking prefix. Do not blindly reuse Qwen3.1.7 prefix lengths."
+      },
+      "assessment": {
+        "decision": "LIGHTER_FALLBACK_IF_4B_RUNTIME_INFEASIBLE",
+        "reason": "Lighter latest-generation option; same hybrid text-loader/kernel checks; no actual curriculum score measured.",
+        "think_control": "Pinned observed template defaults to empty think/no-thinking, unlike4B; explicit true required for thinking. Do not infer default from family prose."
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-4B",
+      "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+      "last_modified_utc": "2025-07-26T03:46:39.000Z",
+      "primary_card_url": "https://huggingface.co/Qwen/Qwen3-4B",
+      "pinned_card_url": "https://huggingface.co/Qwen/Qwen3-4B/blob/1cfa9a7208912126459214e8b04321603b3df60c/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/Qwen/Qwen3-4B?blobs=true",
+      "metadata_api_sha256": "6f2453b3e2e11c5b00f3d57e340b026010b3749eee27daba695fc274df7eb811",
+      "license": "apache-2.0",
+      "gated": false,
+      "documented_language_metadata": null,
+      "architecture": [
+        "Qwen3ForCausalLM"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 4022468096
+        },
+        "total": 4022468096
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model-00001-of-00003.safetensors",
+          "size": 3957900840,
+          "blobId": "546625baab99f4de2b975842100c119fec83919f",
+          "lfs": {
+            "sha256": "328a91d3122359d5547f9d79521205bc0a46e1f79a792dfe650e99fc2d651223",
+            "size": 3957900840,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00002-of-00003.safetensors",
+          "size": 3987450520,
+          "blobId": "3e4d29aad0be87c083e078b50765cd056e793c51",
+          "lfs": {
+            "sha256": "6cd087b316306a68c562436b5492edbcf6e16c6dba3a1308279caa5a58e21ca5",
+            "size": 3987450520,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00003-of-00003.safetensors",
+          "size": 99630640,
+          "blobId": "79fb0e18fca00d3a2ab04e5b732a2a740539b913",
+          "lfs": {
+            "sha256": "e4bf436957184f4eeb86a80e9db394503f1f56446b2e6b7edeac5b81470f4ca1",
+            "size": 99630640,
+            "pointerSize": 133
+          }
+        }
+      ],
+      "small_files": {
+        "README.md": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B/resolve/1cfa9a7208912126459214e8b04321603b3df60c/README.md",
+          "bytes": 16857,
+          "sha256": "71add1cd091c309b1cb1a6b943f2476eb2b004124b3bd1d32dcd0b24cc1abc47"
+        },
+        "config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B/resolve/1cfa9a7208912126459214e8b04321603b3df60c/config.json",
+          "bytes": 726,
+          "sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+        },
+        "tokenizer_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B/resolve/1cfa9a7208912126459214e8b04321603b3df60c/tokenizer_config.json",
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "chat_template.jinja": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B/resolve/1cfa9a7208912126459214e8b04321603b3df60c/chat_template.jinja",
+          "retrieval_error": "HTTP Error 404: Not Found"
+        },
+        "generation_config.json": {
+          "pinned_url": "https://huggingface.co/Qwen/Qwen3-4B/resolve/1cfa9a7208912126459214e8b04321603b3df60c/generation_config.json",
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+          "content": {
+            "bos_token_id": 151643,
+            "do_sample": true,
+            "eos_token_id": [
+              151645,
+              151643
+            ],
+            "pad_token_id": 151643,
+            "temperature": 0.6,
+            "top_k": 20,
+            "top_p": 0.95,
+            "transformers_version": "4.51.0"
+          }
+        }
+      },
+      "text_configuration": {
+        "model_type": "qwen3",
+        "hidden_size": 2560,
+        "num_hidden_layers": 36,
+        "num_attention_heads": 32,
+        "num_key_value_heads": 8,
+        "head_dim": 128,
+        "intermediate_size": 9728,
+        "vocab_size": 151936,
+        "max_position_embeddings": 40960,
+        "tie_word_embeddings": true,
+        "eos_token_id": 151645,
+        "layer_types": null
+      },
+      "observed_template_render_not_model_generation": {
+        "test_environment": "Local transformers Jinja chat template compiler; metadata only, no tokenizer vocab or weights loaded",
+        "generation_suffix_by_enable_thinking": {
+          "default": "<|im_start|>assistant\n",
+          "False": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+          "True": "<|im_start|>assistant\n"
+        },
+        "visible_only_assistant_training_prefix": "<|im_start|>assistant\n<think>\n\n</think>\n\n",
+        "causal_label_warning": "Use exact pinned template. For Qwen3.5 and Thinking2507, full assistant render introduces an empty think block for a visible-only target. Completion masking must include the intended closing block or begin after an identical no-thinking prefix. Do not blindly reuse Qwen3.1.7 prefix lengths."
+      },
+      "assessment": {
+        "decision": "FALLBACK_STANDARD_DECODER_HYBRID_MODE",
+        "reason": "Supports explicit enable_thinking boolean in observed template. Older than2507 split update. Lower integration risk than3.5, but unmeasured in this project."
+      }
+    },
+    {
+      "model_id": "google/gemma-3-4b-it",
+      "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+      "last_modified_utc": "2025-03-21T20:20:53.000Z",
+      "primary_card_url": "https://huggingface.co/google/gemma-3-4b-it",
+      "pinned_card_url": "https://huggingface.co/google/gemma-3-4b-it/blob/093f9f388b31de276ce2de164bdc2081324b9767/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/google/gemma-3-4b-it?blobs=true",
+      "metadata_api_sha256": "5d0fe20cc0c79939b7a10174105bea99e685a8371a9636373be3fbc0126125cd",
+      "license": "gemma",
+      "gated": "manual",
+      "documented_language_metadata": null,
+      "architecture": [
+        "Gemma3ForConditionalGeneration"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 4300079472
+        },
+        "total": 4300079472
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model-00001-of-00002.safetensors",
+          "size": 4961251752,
+          "blobId": "325ea0681653014ec8f154acf3cb45e55d7d92ae",
+          "lfs": {
+            "sha256": "eb5fd5e97ddd07b56778733e9653c07312529cb00980a318fc3e1c4e3b5a8f1f",
+            "size": 4961251752,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00002-of-00002.safetensors",
+          "size": 3639026128,
+          "blobId": "300ab0def99dbee79aa6c1de1f3c76c98852f992",
+          "lfs": {
+            "sha256": "fdde0e5aa5ced0fa203b3d50f4ab78168b7e3a3e08c6349f5cc9326666e1bb13",
+            "size": 3639026128,
+            "pointerSize": 135
+          }
+        }
+      ],
+      "small_files": {},
+      "assessment": {
+        "decision": "NOT_FIRST_PILOT",
+        "reason": "HF manual-gated and Gemma license. Existing account gate not verified; avoids adding login/access dependency. Multimodal architecture not current text-only standard trainer."
+      }
+    },
+    {
+      "model_id": "microsoft/Phi-4-mini-instruct",
+      "revision": "cfbefacb99257ffa30c83adab238a50856ac3083",
+      "last_modified_utc": "2025-12-10T20:24:40.000Z",
+      "primary_card_url": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+      "pinned_card_url": "https://huggingface.co/microsoft/Phi-4-mini-instruct/blob/cfbefacb99257ffa30c83adab238a50856ac3083/README.md",
+      "metadata_api_url": "https://huggingface.co/api/models/microsoft/Phi-4-mini-instruct?blobs=true",
+      "metadata_api_sha256": "6dee316f3b7efc60ba36af3b064e619d09f41be2c8f80e7364eac6ebd73a3e8e",
+      "license": "mit",
+      "gated": false,
+      "documented_language_metadata": [
+        "multilingual",
+        "ar",
+        "zh",
+        "cs",
+        "da",
+        "nl",
+        "en",
+        "fi",
+        "fr",
+        "de",
+        "he",
+        "hu",
+        "it",
+        "ja",
+        "ko",
+        "no",
+        "pl",
+        "pt",
+        "ru",
+        "es",
+        "sv",
+        "th",
+        "tr",
+        "uk"
+      ],
+      "architecture": [
+        "Phi3ForCausalLM"
+      ],
+      "safetensors_parameter_metadata": {
+        "parameters": {
+          "BF16": 3836021760
+        },
+        "total": 3836021760
+      },
+      "weight_files_declared_not_download_verified": [
+        {
+          "rfilename": "model-00001-of-00002.safetensors",
+          "size": 4903637712,
+          "blobId": "9d6db2779a8baf5e59d7cd2666aaa1367cd8060b",
+          "lfs": {
+            "sha256": "bc703090b63eda16f639fa4de7ac54635c23105ab1da2f6ec4d3403151d38ee6",
+            "size": 4903637712,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "model-00002-of-00002.safetensors",
+          "size": 2768428504,
+          "blobId": "2ac7bf9c62addb7df0a338ddf7e0f3a60c826bc1",
+          "lfs": {
+            "sha256": "7ff79b9d2d31076bac2663393451f6530f4fc8ca49b09002116c92c373dba983",
+            "size": 2768428504,
+            "pointerSize": 135
+          }
+        }
+      ],
+      "small_files": {},
+      "assessment": {
+        "decision": "NOT_FIRST_PILOT",
+        "reason": "MIT ungated3.836B, but official24 language metadata does not list Vietnamese; requires separate evidence and actual Vietnamese pilot. No reason to prefer over two Qwen candidates for this exact task."
+      }
+    }
+  ],
+  "primary_sources": [
+    {
+      "url": "https://qwenlm.github.io/blog/qwen3/",
+      "supports": "Qwen3 family includes Vietnamese;119 languages; Apache2.0 original dense releases."
+    },
+    {
+      "url": "https://huggingface.co/docs/transformers/v5.13.0/en/model_doc/qwen3_5",
+      "supports": "Text-only causal class and hybrid3:1 decoder already documented in stable5.13; target5.18 still needs actual runtime import/load/backward."
+    },
+    {
+      "url": "https://huggingface.co/docs/transformers/main/en/model_doc/qwen3_5",
+      "supports": "Optional causal_conv1d/fla fastkernels and slower more memory hungry fallback. Main docs are moving; no claim exact5.18 behavior measured."
+    },
+    {
+      "url": "https://huggingface.co/docs/bitsandbytes/main/en/installation",
+      "supports": "NF4 Pascal or newer, T4sm75 supported LinuxCUDA13 wheel targets."
+    },
+    {
+      "url": "https://huggingface.co/docs/transformers/en/quantization/bitsandbytes",
+      "supports": "NF4 and doublequant integration;4/8bit training onlyextra parameters."
+    },
+    {
+      "url": "https://huggingface.co/docs/peft/main/en/developer_guides/quantization",
+      "supports": "Prepare model for kbit training, add LoRA; quantized base remainsfrozen, samequant baseline/adapter."
+    },
+    {
+      "url": "https://github.com/Dao-AILab/flash-attention",
+      "supports": "CUDA FlashAttention2 supports Ampere/Ada/Hopper; TuringT4 is not defaultFA2 supported hardware."
+    }
+  ],
+  "t4_qlora_proposal_not_executed": {
+    "runtime_observed_by_parent": "T4sm75~14.56GiB, Python3.13.15 torch2.11+cu130 transformers5.18 peft0.21.1",
+    "bitsandbytes_candidate_version": "0.50.2",
+    "requires_python": ">=3.10",
+    "official_pypi_url": "https://pypi.org/project/bitsandbytes/0.50.2/",
+    "linux_x86_64_wheels_declared_not_download_verified": [
+      {
+        "filename": "bitsandbytes-0.50.2-py3-none-manylinux_2_24_x86_64.whl",
+        "sha256": "55348a9a4a21bfd99cf8c7b32fe67b4030ae5c2a05738e03c1747f65fa6ec283",
+        "upload_time_utc": "2026-08-27T00:10:54.751879Z"
+      }
+    ],
+    "quantization_config": {
+      "load_in_4bit": true,
+      "bnb_4bit_quant_type": "nf4",
+      "bnb_4bit_use_double_quant": true,
+      "bnb_4bit_compute_dtype": "torch.float16"
+    },
+    "attention_implementation": "sdpa first; explicit verified memory-efficient backend; do not assume FlashAttention2 on T4",
+    "training_start_proposal": {
+      "r": 16,
+      "lora_alpha": 32,
+      "lora_dropout": 0.05,
+      "learning_rate": 2e-05,
+      "micro_batch": 1,
+      "gradient_accumulation_steps": 4,
+      "gradient_checkpointing": true,
+      "use_cache": false,
+      "max_length": "derive from actual newdatasettokeninspection, start1024 if sufficient",
+      "epochs": 1,
+      "bf16": false,
+      "fp16": true,
+      "target_modules_qwen3": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ],
+      "safety": "AMP overflow/finite loss and gradients checked, resumable committedupdates only; longestsequence forward+backward with0 optimizerstep before launch. Preserve originalbase/model/dataversions."
+    }
+  },
+  "memory_estimate_not_actual": {
+    "qwen3_4b_fp16_weights_only_gib": 7.492,
+    "qwen3_4b_nf4_linear_payload_lower_bound_gib": 1.692,
+    "qwen3_4b_tied_embedding_fp16_gib": 0.724,
+    "qwen3_4b_embedding_fp32_if_prepare_kbit_casts_gib": 1.449,
+    "qwen3_4b_lora_r16_7linear_params_derived": 33030144,
+    "qwen3_4b_lora_fp32_weights_grad_2adamstates_gib": 0.492,
+    "qwen3_4b_kv_cache_fp16_batch1_2048_tokens_gib": 0.281,
+    "qlora_training_peak_gib_estimated_range": [
+      6,
+      10
+    ],
+    "estimate_assumptions": "Qwen3standard decoder, microbatch1, context<=1024, checkpointing, SDPA, frozenNF4 linear, unquantizedembedding/norms, FP32LoRA+Adam. Excludes measured activations/kernel workspace/allocator peaks; not a guarantee. FullNF4model is not just2GB; PEFTcasts unquantizedparams and activations matter.3.5hybrid estimate not asserted."
+  },
+  "latest_family_exclusion": {
+    "official_api_review": "https://huggingface.co/api/models?search=Qwen/Qwen3.8&author=Qwen&limit=50&full=true",
+    "observed_smallest_official_new_family": "Qwen/Qwen3.8-27B,1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "reason": "No official<=4B Qwen3.8 listed at researchtime.27B4bit weights/embeddings plus backward too tight for15GiBT4. Community3.8-4BDistill not reliedupon."
+  },
+  "pilot_before_selection": {
+    "recommendation": [
+      "Qwen/Qwen3-4B-Instruct-2507",
+      "Qwen/Qwen3.5-4B"
+    ],
+    "fallback_if_kernel_or_budget_fails": "Qwen/Qwen3-4B-Instruct-2507 only, compare existingQwen3-1.7B developmentevidence but do not mark paired sameprotocol unless rerunactualsamepilot",
+    "proposed_original_pilot_cases": {
+      "worked": 15,
+      "one_hint_no_answer": 10,
+      "missing_data_guard": 5,
+      "balance": "3worked+2hint+1guard/grade1–5; includescolumncarry/cascadingborrow/studentwrongresult/units/fractions/decimal/textintent; all newlywritten not copiedval/challenge."
+    },
+    "mandatory_outputs": "Freeze exactIDs/prompts/modelrevision/tokenizer/template/quant/package/device/generationseedbefore inference; store generatedIDs/visibleanswer/truncation/duration/actualpeak; no teacheranswer in input. AI review all30 visibleoutputs and mathsteps. Separate raw numeric from deterministic oracle and nohiddenreasoning in studentreport.",
+    "decision_priority": [
+      "mathsemanticcorrectness and instructionfollowing incl noanswerleak",
+      "rawnumeric/unit gradebygrade retention",
+      "useful visible steps and one accessible hint",
+      "measured T4trainfeasibility/latency"
+    ],
+    "forbidden_overclaims": [
+      "publishercompetitionbenchmark proves Vietnamesegrade1–5",
+      "nearassistant intelligence transferred",
+      "100%arbitraryOCR/wordproblem accuracy",
+      "production approval from30pilot or lexicalmatch"
+    ]
+  }
+}

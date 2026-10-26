@@ -1,0 +1,79 @@
+[
+  {
+    "source": "hllj/vi_math_problem_crawl",
+    "grade": 1,
+    "bytes": 205510,
+    "sha256": "9a707cfa29b2d494da74febff2b3b392f4a641a29591a2ecd4ab69ab3c3f7c84",
+    "rows": 154,
+    "schema": [
+      "id",
+      "url",
+      "title",
+      "contents"
+    ]
+  },
+  {
+    "source": "hllj/vi_math_problem_crawl",
+    "grade": 2,
+    "bytes": 816006,
+    "sha256": "478bbbeadc420ade1ae4a1c19c251dd5b470d8a79ae5eccbfb8c89def7025708",
+    "rows": 512,
+    "schema": [
+      "id",
+      "url",
+      "title",
+      "contents"
+    ]
+  },
+  {
+    "source": "hllj/vi_math_problem_crawl",
+    "grade": 3,
+    "bytes": 3788687,
+    "sha256": "e7060909ad95c388ae8ef9855441c51046ae618f1cf2988818ac3c3ec91d137b",
+    "rows": 3859,
+    "schema": [
+      "id",
+      "url",
+      "title",
+      "contents"
+    ]
+  },
+  {
+    "source": "hllj/vi_math_problem_crawl",
+    "grade": 4,
+    "bytes": 3223810,
+    "sha256": "87f565bfe2b05e4c4c2b3ad3f78480af2bacf9094c4506a0fa9576b55c11c973",
+    "rows": 2515,
+    "schema": [
+      "id",
+      "url",
+      "title",
+      "contents"
+    ]
+  },
+  {
+    "source": "hllj/vi_math_problem_crawl",
+    "grade": 5,
+    "bytes": 3654743,
+    "sha256": "dc62cb5a3b96506cb8f0eb2a014f5fb635041e56dee72ca4d608830f93ea05ad",
+    "rows": 3206,
+    "schema": [
+      "id",
+      "url",
+      "title",
+      "contents"
+    ]
+  },
+  {
+    "source": "vinhnq29__vietnamese-elementary-math__data__vimathqa_train_v1-00000-of-00001.parquet",
+    "rows": 7107,
+    "schema": "question: string\nanswer: string\nright_choice: string\nchoices: list<element: string>\n  child 0, element: string\ninstruction: string\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"question\": {\"dtype\": \"string\", \"_ty' + 258",
+    "sha256": "d46d8b1b8823ec1fe430d2cd95e4a93e8ca684dcd3e4271afd79fc57a7e002ac"
+  },
+  {
+    "source": "thanhdath__vietnamese-mathcoder__data__train-00000-of-00001.parquet",
+    "rows": 22825,
+    "schema": "input: string\noutput: string\n-- schema metadata --\nhuggingface: '{\"info\": {\"features\": {\"input\": {\"dtype\": \"string\", \"_type\"' + 62",
+    "sha256": "96efd7c99e8262103f6456590e33e5bfec457bdf9390f87001130d2981db6978"
+  }
+]

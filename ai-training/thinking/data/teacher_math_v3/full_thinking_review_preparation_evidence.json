@@ -1,0 +1,20 @@
+{
+  "status": "PREPARED_PENDING_FULL_EVALUATION",
+  "tests": {
+    "command": "python -X utf8 thinking/test_prepare_thinking_semantic_review_v3.py -v",
+    "passed": 14,
+    "failed": 0
+  },
+  "files": {
+    "prepare_thinking_semantic_review_v3.py": "4f6b4c231c3c054957375e0a8ca2a29d119d0867eb4d192a39cefb32035e0296",
+    "test_prepare_thinking_semantic_review_v3.py": "4ac2b8876be96d93c4bb08fcdba9ec486781d4c6a622cb2e5290f3d10ca98917"
+  },
+  "plan_sha256": "1b492c4ed71f001aa854409592c934728bd109b49e0a012c980c34ffa3beab4b",
+  "usage": "python -X utf8 thinking/prepare_thinking_semantic_review_v3.py --validation thinking/data/teacher_math_v3/generated/val.jsonl --evaluation-dir PATH_TO_COMPLETE_FULL_THINKING_READBACK --output-dir EMPTY_NEW_REVIEW_OUTPUT_DIR",
+  "actual_outputs_reviewed": 0,
+  "source_data_frozen_files_modified": false,
+  "colab_drive_gpu_called": false,
+  "hidden_thinking_in_packets": false,
+  "semantic_review_completed": false,
+  "human_verified": false
+}

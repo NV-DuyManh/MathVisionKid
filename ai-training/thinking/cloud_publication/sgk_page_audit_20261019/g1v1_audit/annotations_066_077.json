@@ -1,0 +1,162 @@
+{
+  "66": {
+    "exercise_types": [
+      "constant_sum_table",
+      "unknown_addend",
+      "three_term_addition_left_to_right"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_foundations_0002_mental_within10",
+      "primary_20261018_finite099_g1_words_unknown_category",
+      "primary_20261016_g1_operations_0003_left_add_add"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "67": {
+    "exercise_types": [
+      "filter_expressions_by_target_value",
+      "recursive_sum_pyramid"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "sgk_g12_20261019_sum_pyramid_01"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "68": {
+    "exercise_types": [
+      "subtraction_as_removal",
+      "crossed_out_counter_representation"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "69": {
+    "exercise_types": [
+      "subtraction_from_before_after_scene",
+      "crossed_out_counter_subtraction"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "70": {
+    "exercise_types": [
+      "unknown_category_part_from_whole",
+      "subtraction_part_whole_diagram"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "71": {
+    "exercise_types": [
+      "two_related_subtractions_from_part_whole",
+      "subtraction_from_departing_birds_scene"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category",
+      "primary_20261016_g1_operations_0003_word_leave"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "72": {
+    "exercise_types": [
+      "fixed_minuend_subtractions",
+      "select_expressions_equal_target"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_expression_target_classification_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "73": {
+    "exercise_types": [
+      "subtraction_operation_table",
+      "match_scene_to_subtraction_equation"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "74": {
+    "exercise_types": [
+      "subtract_all_zero_result",
+      "subtract_zero_identity"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_ZERO_SUBTRACTION_EXPLICIT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Explicit grade-1 zero-subtraction reasoning needs source review; broad subtraction analogue alone is not proof."
+  },
+  "75": {
+    "exercise_types": [
+      "zero_add_subtract",
+      "pair_equal_expression_values",
+      "unknown_removed_part"
+    ],
+    "covered_source_ids": [
+      "sgk_g12_20261019_expression_target_classification_02",
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_ZERO_SUBTRACTION_EXPLICIT"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Explicit grade-1 zero-subtraction reasoning needs source review; broad subtraction analogue alone is not proof."
+  },
+  "76": {
+    "exercise_types": [
+      "subtraction_table",
+      "filter_expressions_by_strict_threshold"
+    ],
+    "covered_source_ids": [
+      "primary_20261016_g1_operations_0003_choose_subtract",
+      "sgk_g12_20261019_constrained_arithmetic_path_02"
+    ],
+    "new_gap_candidate_ids": [],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Text mathematical analogue identified. Diagram, cancellation marks and scene interpretation remain unverified image assets."
+  },
+  "77": {
+    "exercise_types": [
+      "trace_crossing_curved_connections_then_count_category",
+      "unknown_subtrahend",
+      "write_subtraction_for_scene_partition"
+    ],
+    "covered_source_ids": [
+      "primary_20261018_finite099_g1_words_unknown_category"
+    ],
+    "new_gap_candidate_ids": [
+      "G1V1_CURVED_CONNECTION_TRACING_ASSET"
+    ],
+    "source_comparison_status": "NEAREST_ACTUAL_PROBLEM_READ_FULL_SOURCE_ADJUDICATION_PENDING",
+    "uncertainty": "Curved connection tracking is a visual-asset requirement distinct from numeric category counting."
+  }
+}

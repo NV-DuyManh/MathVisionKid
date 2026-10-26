@@ -1,0 +1,17 @@
+{
+  "training/run_complete.json": "a1d71a43b94ef08e9aeff7a9bc7d570d6373cb533ddd25c56996a8e3ed4fe370",
+  "training/progress.json": "522591293306d70bd655d14b93f2e997dcbfe34784f039dc4016561647770b01",
+  "training/best.json": "61bcbad3ee60251ecb08489a6abcf85318865d480b4e1ce4c804895ca51909ec",
+  "publication/publication_status.json": "ca55995d5648ee8a781adcadc0b5206972c8e7b036d07570b430db619da42831",
+  "active_code_raw_verified.json": "2f23db895e41d72641299f80ab8e68634850ae552844e5cd6a1837fa2c6d6dec",
+  "fewshot_code_publication_status.json": "ab1f40a9b7994e01d849f28681ecab0e21b5062c4c547bd7d1467129f5ee3d22",
+  "completion_evidence_publication_status.json": "84857f0ec472207973efb42a26b1aaed8a35b73217e01c6d73aeb68dae34bbdf",
+  "native_evidence_publication_status.json": "b9ef54a5aeae4ca0632d78a6a8df39cd7f560583d1ed9124b31616f0110b6f06",
+  "four_controls_publication_status.json": "6ffd6f1d1db878b06200bf71a5b7be732c898f5d17976321d14664d9250afd7d",
+  "four_controls_verified_manifest.json": "d7f4f7f756cea2c10112dbccc4bde98a2c7d41e082580314cd2760c370b11a3f",
+  "owner_scope_binding_v2.json": "4eee56eaac8d2f8333a45ba1eb22587a916a6398550adec15781eb1826ba5b0d",
+  "drive_write_coordination.json": "2d4c7cb7e1eca419edf6ad099638f7387270ea261d5b82d98373628c62e33a40",
+  "native_probe_gate.json": "3e471332c32c3b127f7601764356b70af2f47d9026f3ddfabca5a84c3a693bc9",
+  "native_probe/dev/complete.json": "83c8593b866de3b10f0acf85ace2c8e7fcf99b334be4636b0e0d7fd08a15ced8",
+  "final_release_publication.json": "2f711fc22efafda905f85933f9de74a0d074b282a59aaeb8d5730403ed008f50"
+}

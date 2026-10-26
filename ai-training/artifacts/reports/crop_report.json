@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "total_crops": 6,
+  "accepted_count": 6,
+  "rejected_count": 0,
+  "pass_rate_percent": 100.0,
+  "accepted_samples": [
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_01_line_01.png",
+      "filename": "sample_01_line_01.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 501,
+        "height": 52,
+        "aspect_ratio": 9.635,
+        "ink_pixels": 2731,
+        "ink_ratio": 0.10483,
+        "white_ratio": 0.89517,
+        "connected_components": 181
+      }
+    },
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_03_line_01.png",
+      "filename": "sample_03_line_01.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 605,
+        "height": 71,
+        "aspect_ratio": 8.521,
+        "ink_pixels": 2929,
+        "ink_ratio": 0.06819,
+        "white_ratio": 0.93181,
+        "connected_components": 78
+      }
+    },
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_03_line_02.png",
+      "filename": "sample_03_line_02.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 1106,
+        "height": 76,
+        "aspect_ratio": 14.553,
+        "ink_pixels": 8738,
+        "ink_ratio": 0.10395,
+        "white_ratio": 0.89605,
+        "connected_components": 83
+      }
+    },
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_04_line_01.png",
+      "filename": "sample_04_line_01.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 1035,
+        "height": 180,
+        "aspect_ratio": 5.75,
+        "ink_pixels": 29786,
+        "ink_ratio": 0.15988,
+        "white_ratio": 0.84012,
+        "connected_components": 299
+      }
+    },
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_08_line_01.png",
+      "filename": "sample_08_line_01.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 869,
+        "height": 69,
+        "aspect_ratio": 12.594,
+        "ink_pixels": 7384,
+        "ink_ratio": 0.12315,
+        "white_ratio": 0.87685,
+        "connected_components": 82
+      }
+    },
+    {
+      "crop_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\data\\crops\\sample_09_line_01.png",
+      "filename": "sample_09_line_01.png",
+      "status": "ACCEPTED",
+      "reason": "ACCEPTED",
+      "metrics": {
+        "width": 401,
+        "height": 42,
+        "aspect_ratio": 9.548,
+        "ink_pixels": 2166,
+        "ink_ratio": 0.12861,
+        "white_ratio": 0.87139,
+        "connected_components": 68
+      }
+    }
+  ],
+  "rejected_samples": []
+}

@@ -1,0 +1,658 @@
+{
+  "schema_version": "mathvisionkid.teacher_case_curriculum_mapping.v1",
+  "reviewer": "independent_curriculum_coverage_agent",
+  "created_utc": "2026-10-16T15:14:26.689474+00:00",
+  "source_file_hashes": {
+    "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8",
+    "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl": "d224d2030be3feb3458c5917f832542d84b7e8291f00637728ad91cd448ff7b7"
+  },
+  "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+  "record_count": 31,
+  "status": "MAPPING_PROPOSALS_CONTENT_ACCEPTANCE_SEPARATE",
+  "mapping_proposals": [
+    {
+      "sample_id": "original_tutor25_g1_01",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "6b59f6862babbec308bfd6d0eca1935ee69b6ead9626d5d0536862c74d712edc",
+      "grade": 1,
+      "topic": "add_no_carry_within_100",
+      "curriculum_assignment": {
+        "node_id": "current_g1_addition_subtraction_no_carry",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "83+6 is no carry and placevalue-rule application.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g1_02",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "704ef11a3fbb17a42d8f902020f8b08c405f26de0c6b3cd089fef4488f12d88b",
+      "grade": 1,
+      "topic": "subtract_known_part",
+      "curriculum_assignment": {
+        "node_id": "current_g1_addition_subtraction_no_carry",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "17-6 is no borrow; whole-part contrast with addition. Prefer simple placevalue/countback method over compensation for grade1.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g1_03",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "9fdfd77b068f9f4602d0b525e32838038aa8fe6c379c940b2f4eda74edccce75",
+      "grade": 1,
+      "topic": "compare_difference",
+      "curriculum_assignment": {
+        "node_id": "current_g1_word_add_sub",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "18-5 no borrow; choosing subtraction from comparison role is a bounded illustration of choosing an operation, not a new claim that every comparison form is mandatory grade1.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g1_04",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "7f8f0856b0d632a4e8cad50aaa5d37794cc54a00542aba9a53fbef94c623ab13",
+      "grade": 1,
+      "topic": "add_whole_tens_to_two_digit",
+      "curriculum_assignment": {
+        "node_id": "current_g1_addition_subtraction_no_carry",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Explicit synthetic wrongfinal27 with evidenceonlyfeedback; count supplementary not core.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g1_05",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "2c8143df9a5169a040168e415bbae0473b5ff7ef9ce465e25384a81c899cfe50",
+      "grade": 1,
+      "topic": "compose_tens_and_ones",
+      "curriculum_assignment": {
+        "node_id": "current_g1_natural_numbers_100",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "30 as threebundledtens and6looseunits contrasts two representations; target no teacheronlymultiplication.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g2_01",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "c7ee081cbbdabb0d812893b6d28fea2945134f417aa3d0fcd674675f96e4b3fa",
+      "grade": 2,
+      "topic": "two_digit_add_with_carry",
+      "curriculum_assignment": {
+        "node_id": "current_g2_addition_subtraction_carry_once",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "38+27 has exactly one carry; one-step wordcase.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g2_02",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "09e6d2519f716eb707a21c698480bd9b5bfd86067775dbca5ea6c6759e3641e9",
+      "grade": 2,
+      "topic": "two_digit_subtract_with_borrow",
+      "curriculum_assignment": {
+        "node_id": "current_g2_addition_subtraction_carry_once",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "45-18 has one borrow; wrongfinal33 is observed in synthetic work; do not infer exact pupilprocedure.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g2_03",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "57d3ab1658554276b5bb1a74ca4c3dbbd7738e0db83d18808789d5835c805561",
+      "grade": 2,
+      "topic": "equal_groups_table_five",
+      "curriculum_assignment": {
+        "node_id": "current_g2_multiplication_division_tables_2_5",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "5*4 is table5 and repeated-addition/counting representation; single step.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g2_04",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "987521b8f4da025499efabaa1d2ef3d3e9dfc120a508a07831080f7060dca7d2",
+      "grade": 2,
+      "topic": "whole_known_part",
+      "curriculum_assignment": {
+        "node_id": "current_g2_word_one_step",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "63-22 finds unknownpart in one operation.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g2_05",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "98da7bfe4ab147abd783f3c2aec34bd8190a50d8a64a4e021191df82e5f8c452",
+      "grade": 2,
+      "topic": "compose_hundreds_tens_ones",
+      "curriculum_assignment": {
+        "node_id": "current_g2_natural_numbers_1000",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Placevalue346 via300+40+6; no untaught3digitmultiplication required.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "11a1fdbbde4785a75d736e16cb61ca779de7ea93e477fb86ebdaccbf280be895",
+      "grade": 3,
+      "topic": "euclidean_division_remainder",
+      "curriculum_assignment": {
+        "node_id": "current_g3_multiply_divide_one_digit",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "supplementary"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Remainder wordcase fits source but remains //capabilitypending; reserve core_03 for stronger fullyexpanded proceduralremediation below.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g3_02",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "4e80dcfcd4f6b925b1fe51680fb54d5c2d573b9b4340e5203180eb3d259a0628",
+      "grade": 3,
+      "topic": "three_digit_single_borrow",
+      "curriculum_assignment": {
+        "node_id": "current_g3_addition_subtraction_5digits",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "364-128 requires only one borrow and has explicit wrongwork; within ≤5digits but still supplementary.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g3_03",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "c73099a39fd8a75753cc564337c2f428584d4f77c8a06b91fd47893cb5fe099a",
+      "grade": 3,
+      "topic": "multiply_then_subtract",
+      "curriculum_assignment": null,
+      "mapping_status": "PENDING_BOUND_REVISION",
+      "reason": "PENDING_CONSERVATIVE_MULTIPLICATION_BOUND:27*4 carries fromunits and finaltens produces10tens. Prefer4*23=92then92-36=56 if no consecutivecarry interpretation. No corecredit until resolved.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "6cd369d03dee9e67dd453bd5e01514f336a70ea4b0e82ecd5d54d0d119e09c0d",
+      "grade": 3,
+      "topic": "duration_convert_minutes",
+      "curriculum_assignment": {
+        "node_id": "current_g3_convert_measurements",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "92minutes tohours/minutes is explicit durationconversion; no claim of written2digitdivision capability. //gate remains pending.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g3_05",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "e974a2825c6bd1b1e667433e9339d6ede04d1b70a928e1d1ff13ce9fd340c583",
+      "grade": 3,
+      "topic": "rectangle_perimeter_and_area",
+      "curriculum_assignment": {
+        "node_id": "current_g3_area_rectangle_square",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "18*7 uses one-digit multiplier; explicittextdimensions sufficient. Secondarynode current_g3_perimeter is related only, not a secondcorecredit.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g4_01",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "bdbbe5585621da576daf1b8ec0e4eed1f9b5780853da36bbffb6ea279486376b",
+      "grade": 4,
+      "topic": "sum_difference",
+      "curriculum_assignment": {
+        "node_id": "current_g4_word_two_three_steps",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Matches explicitsumdifference focus; equalparts diagram and inversechecks support contrastmethod.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g4_02",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "6fd9a66d01399cf848a952e298b76596f861c96746035bac65eed85b626f9f15",
+      "grade": 4,
+      "topic": "subtract_divisible_denominator_fractions",
+      "curriculum_assignment": {
+        "node_id": "current_g4_fraction_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "3/4-1/8 has divisibledenominators and sameunit; currentgrade4 bound satisfied.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g4_03",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "fa987b9cc55316b7e87add93ad1fbdb3868b1e0e248f12d6e883523c5abfa7e3",
+      "grade": 4,
+      "topic": "divide_exact_fractions",
+      "curriculum_assignment": {
+        "node_id": "current_g4_fraction_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Fractiondivision explained through2/3*x=3/4 and equalparts, an alternate teachingrepresentation; inversecheck present.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g4_04",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "3a29e8fe7f71f79f073bc1fef41f44a3d16c476752f1d64269b820457eed9649",
+      "grade": 4,
+      "topic": "whole_from_fraction",
+      "curriculum_assignment": {
+        "node_id": "current_g4_word_two_three_steps",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Two-step rútvềđơnvị:3parts36=>1part12=>4parts48 with inversecheck. Source supports broadunitarywordcases; do not assert namedinversefractionmandatoryoutcome.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g4_05",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "215783c046821f08db9d4510cefe41313ad65d762a3b4be95ccfa5f4fad78db5",
+      "grade": 4,
+      "topic": "mean_equal_share",
+      "curriculum_assignment": {
+        "node_id": "current_g4_average",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Average=sum/count; explicitly distinguishes middleobservedvalue.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g5_01",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "4262aa70cb17c25597037edaf28869650e6af24ad03c9861a57fbb4a246a7e81",
+      "grade": 5,
+      "topic": "decimal_add_subtract",
+      "curriculum_assignment": {
+        "node_id": "current_g5_decimal_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Decimaladdition/subtraction with alignedplaces; internalfractionimplementation note removed.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g5_02",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "4908628212444aaa607374a445bd572ed13cef001194df6b29df11c3dec21e60",
+      "grade": 5,
+      "topic": "percentage_part_and_remainder",
+      "curriculum_assignment": {
+        "node_id": "current_g5_ratio_percent",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Find percentpart of250 thencomplement; distinguish countunit frompercent. Does not replace divisioncore.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g5_03",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "bca5cb69eea6febec28b02afcbebe5af729c1d38b06e4a392774f75dfbd06981",
+      "grade": 5,
+      "topic": "sum_ratio",
+      "curriculum_assignment": {
+        "node_id": "current_g5_sum_difference_ratio",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Totalratio3:5; correctroleassignment and bothsum/ratiochecks. One case despite twoanswers.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g5_04",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "761f254ee904f46378e287a9824741bdc15f7042b5167a8ed7343f52f70014ea",
+      "grade": 5,
+      "topic": "motion_distance_remaining",
+      "curriculum_assignment": {
+        "node_id": "current_g5_uniform_motion",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Uniformmotion distance thenremainingjourney; distinguishes same numeric54 with differentunits.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "original_tutor25_g5_05",
+      "source_file": "thinking/data/primary_math_teacher_20261016/tutoring_seed25.jsonl",
+      "source_row_sha256": "937a0d7b62b3b7aab3b138ebfebe6be406fca2527b6ced6a089059584a1842e3",
+      "grade": 5,
+      "topic": "trapezoid_area",
+      "curriculum_assignment": {
+        "node_id": "current_g5_triangle_trapezoid_area",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Two-copygeometric derivation and height-vssidecontrast; matches secondrepresentation intent. Explicitdimensions, no observedimageclaim.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_1d28a9fea2261b62a8120c24",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "f19e8d0c95deab13cb7d3e0cfc972834da58e88c289a808d4216e100b27f1eed",
+      "grade": 3,
+      "topic": "division_remainder",
+      "curriculum_assignment": {
+        "node_id": "current_g3_multiply_divide_one_digit",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "Longdivision remainder2674÷8, preservedposition, q334/r2 andinversecheck; one eligible remaindercoreslot.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_82cc0adb049a71220dec4373",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "124e6197e2ca685529fbad979751acdc5ef575b4c8039e22511f5909dbc8b823",
+      "grade": 3,
+      "topic": "division_remainder",
+      "curriculum_assignment": {
+        "node_id": "current_g3_multiply_divide_one_digit",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "supplementary"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "4819÷7 is sameproceduralremainderteachingfocus/method as previous; usefulvariation but not differentcore slot.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_fa057b69f46687fe9b054f10",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "75dd747d0f279366834062b6fbcf570689322361ff90116fbcce92beeab1af17",
+      "grade": 3,
+      "topic": "division_remainder",
+      "curriculum_assignment": {
+        "node_id": "current_g3_multiply_divide_one_digit",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "supplementary"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "7356÷9 varies digits/divisor and context but sameproceduralremainderfocus; supplementary only.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_6613bfe7cb5317df54bf9f88",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "dd1896d775b591dd7d1cc9f6f9e4ba07b70fc257f79f82295d628a18367db11f",
+      "grade": 5,
+      "topic": "decimal_divide",
+      "curriculum_assignment": {
+        "node_id": "current_g5_decimal_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "12.48÷0.24 applied to bottlecount; equal100scaling, partialquotientmethod, explicitinversecheck. Divisionfocus matchescore3.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_95828b32a3168b33ca4cc24d",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "25315990aabeebe5ea2b2403b3dec2a038f7d35ac390c74d7ddc39dac92a9eb1",
+      "grade": 5,
+      "topic": "decimal_divide",
+      "curriculum_assignment": {
+        "node_id": "current_g5_decimal_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "supplementary"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "36.225÷1.5 same decimaldivisionfocus; numericalvariation alone doesnot fill multiplicationcore2.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    },
+    {
+      "sample_id": "remediate_b4b7e3b17531b1cb61c6638f",
+      "source_file": "thinking/evidence/primary_math_teacher_20261016/remediation_cases.jsonl",
+      "source_row_sha256": "1c441c56453f2e23d841cc5f24601b9d0d886aa19834c2b8fdf26cc66bf0c4ef",
+      "grade": 5,
+      "topic": "decimal_divide",
+      "curriculum_assignment": {
+        "node_id": "current_g5_decimal_operations",
+        "curriculum_scope": "CURRENT_2018_OUTCOME_REFERENCE",
+        "case_kind": "supplementary"
+      },
+      "mapping_status": "PROPOSED_MAPPING_REQUIRES_CONTENT_REVIEW",
+      "reason": "8.736÷0.28 ratewordcase is usefuldivisionvariation but samecore3focus, not missingmultiplicationcore2.",
+      "core_credit_awarded": false,
+      "semantic_acceptance_granted": false,
+      "source_legal_currency_certified": false,
+      "human_verified": false
+    }
+  ],
+  "policy": [
+    "Assignment tags must be added to a new assignedvariant with source_row_sha256 provenance; recompute rowhash before contentreview.",
+    "Do not count or export rows until actualcontentreview/hashmatch/mechanical/protectedexclusion/mapping gates pass.",
+    "supplementary casekind requires explicit pipeline allowance and always zero corecredit.",
+    "Each node/core_slot can receive atmostonecorecredit; different numericvalues or objects alone do not prove methoddiversity.",
+    "Guard/misconception nevercountcore; missingimages/physicalobservations remainpending."
+  ],
+  "pending_issues": [
+    {
+      "sample_id": "original_tutor25_g3_03",
+      "issue": "Conservative check of 27×4 finalcarry boundary; choose safer revisedvalues or explicitly justify with source."
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "issue": "// arithmetic capability remains pending."
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "issue": "// arithmetic capability remains pending."
+    }
+  ],
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false
+}

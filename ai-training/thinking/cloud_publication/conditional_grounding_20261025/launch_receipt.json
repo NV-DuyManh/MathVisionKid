@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "PqiCrjrZAMus"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"training_worker_launched\": true, \"pid\": 1966, \"model_backend\": \"native Transformers/PEFT/bitsandbytes\", \"optimizer_started_confirmed\": false, \"previous_adapter_loaded\": false, \"max_updates\": 500, \"one_derived_pass_maximum\": true, \"gate_steps\": [100, 300, 500], \"hard_deadline_utc\": \"2026-10-25T05:17:40Z\", \"folder_id\": \"1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya\"}\n"
+        ]
+      }
+    ]
+  }
+}

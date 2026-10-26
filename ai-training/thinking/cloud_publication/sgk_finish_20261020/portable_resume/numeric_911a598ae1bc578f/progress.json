@@ -1,0 +1,125 @@
+{
+  "events": [
+    {
+      "role": "candidate_source",
+      "consume": {
+        "already_complete": false,
+        "rows": 900,
+        "complete": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 256,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 512,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 768,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 1024,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 1280,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 1536,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 1792,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 2048,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 2304,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 2560,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 2816,
+        "bounded_pause": true
+      }
+    },
+    {
+      "role": "candidate_chat",
+      "consume": {
+        "already_complete": false,
+        "rows": 2844,
+        "complete": true
+      }
+    }
+  ],
+  "audit": {
+    "schema": "MathVisionKid.archive_audit_progress.v1",
+    "rows_processed": 2844,
+    "members_complete": 2,
+    "max_sequence_tokens": 527,
+    "max_completion_tokens": 424,
+    "missing_source_signatures_rows": 0,
+    "untokenized_rows": 0,
+    "source_linkage_unverified_rows": 0,
+    "source_raw_row_hash_unverified_rows": 2844,
+    "incomplete_four_mode_cases": 0,
+    "issues": {},
+    "full_archive_token_split_audit_complete": false,
+    "scope_note": "Progress only. Full catalog coverage and frozen metadata comparison are separate final gates.",
+    "training_started": false,
+    "gpu_used": false
+  }
+}

@@ -1,0 +1,609 @@
+{
+  "review_kind": "AI_SEMANTIC_RESEARCH_REVIEW",
+  "human_verified": false,
+  "teacher_certified": false,
+  "selection_changed": false,
+  "status": "COMPLETED_VISIBLE_HINT_GUARD_REVIEW",
+  "packets_reviewed": 178,
+  "expected_packets": 178,
+  "input_packet_sha256": {
+    "baseline_hint_review_packets.jsonl": "daf0e1891e022b7e163616dc1f6640ca68154dc50b3f57f02097477c9a00d6ba",
+    "candidate_hint_review_packets.jsonl": "4aacb5b867130ef6a11ed54a46fc82a1590b89f0ea734220e8c8bb980a424649",
+    "baseline_guard_review_packets.jsonl": "a920844146906a89d339d2807923656e6a3705e182bff65b8113aa1d964525c5",
+    "candidate_guard_review_packets.jsonl": "ec571431639efe675141c85bd2a67725cdc6f19ac1f1f1c2f99408a5b45992ff"
+  },
+  "decisions_file": "hint_guard_semantic_decisions.jsonl",
+  "decisions_sha256": "93950f658741aae8d238ac4661ba8251d629c725d1134164f35101d98875dc7a",
+  "definition_notes": [
+    "semantic_correct evaluates truth/grounding of visible claims separately from instruction compliance; a numerically correct leaked full solution still fails its hint role.",
+    "instruction_followed evaluates declared status/JSON answer suppression and one-question hint requirement; lexical-match and automatic hint_safe scores are not semantic decisions.",
+    "grade_appropriate concerns response language/teaching method for the supplied grade, not certification of the engineered problem's official curriculum assignment.",
+    "answer_leakage includes computed final answers even when wrong; absent visible responses fail and remain in the denominator.",
+    "invented_data_or_image concerns asserted extra context, direction, values, or visual evidence; mild paraphrase drift is explained without equating it with hallucinated numbers.",
+    "guard complete distinguishes all missing ambiguities from a useful first clarification question; not every useful first question must ask all missing facts at once.",
+    "severe_error is a wrong numerical/procedural assertion, fabricated decisive input/direction, absent visible response, or active redirect into out-of-scope programming; hint answer leakage is counted separately and always fails acceptance.",
+    "This is one AI reviewer research assessment of a development seed, not human verification or a hidden teacher benchmark. No hidden thinking text was reviewed or exported."
+  ],
+  "models": {
+    "baseline": {
+      "hint": {
+        "samples": 59,
+        "counts": {
+          "semantic_correct": 49,
+          "instruction_followed": 0,
+          "grade_appropriate": 51,
+          "invented_data_or_image": 0,
+          "severe_error": 9,
+          "acceptable_for_intended_role": 0,
+          "answer_leakage": 58
+        },
+        "hint_usefulness": {
+          "related_but_weak": 23,
+          "useful": 20,
+          "answer_disclosure": 5,
+          "absent": 11
+        },
+        "per_grade": {
+          "1": {
+            "samples": 5,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 0,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 0,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 0,
+              "answer_leakage": 5
+            }
+          },
+          "2": {
+            "samples": 5,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 0,
+              "grade_appropriate": 4,
+              "invented_data_or_image": 0,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 0,
+              "answer_leakage": 5
+            }
+          },
+          "3": {
+            "samples": 14,
+            "counts": {
+              "semantic_correct": 10,
+              "instruction_followed": 0,
+              "grade_appropriate": 11,
+              "invented_data_or_image": 0,
+              "severe_error": 3,
+              "acceptable_for_intended_role": 0,
+              "answer_leakage": 13
+            }
+          },
+          "4": {
+            "samples": 12,
+            "counts": {
+              "semantic_correct": 11,
+              "instruction_followed": 0,
+              "grade_appropriate": 9,
+              "invented_data_or_image": 0,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 0,
+              "answer_leakage": 12
+            }
+          },
+          "5": {
+            "samples": 23,
+            "counts": {
+              "semantic_correct": 19,
+              "instruction_followed": 0,
+              "grade_appropriate": 22,
+              "invented_data_or_image": 0,
+              "severe_error": 4,
+              "acceptable_for_intended_role": 0,
+              "answer_leakage": 23
+            }
+          }
+        }
+      },
+      "guard": {
+        "samples": 30,
+        "counts": {
+          "semantic_correct": 21,
+          "instruction_followed": 0,
+          "grade_appropriate": 28,
+          "invented_data_or_image": 7,
+          "severe_error": 5,
+          "acceptable_for_intended_role": 0,
+          "guard_reason_valid": 24,
+          "clarification_specific_and_useful": 15,
+          "clarification_complete": 7,
+          "guard_route_correct": 21
+        },
+        "per_grade": {
+          "1": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 3,
+              "instruction_followed": 0,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 2,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 0,
+              "guard_reason_valid": 5,
+              "clarification_specific_and_useful": 2,
+              "clarification_complete": 1,
+              "guard_route_correct": 5
+            }
+          },
+          "2": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 0,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 1,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 0,
+              "guard_reason_valid": 4,
+              "clarification_specific_and_useful": 3,
+              "clarification_complete": 1,
+              "guard_route_correct": 4
+            }
+          },
+          "3": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 0,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 2,
+              "severe_error": 2,
+              "acceptable_for_intended_role": 0,
+              "guard_reason_valid": 4,
+              "clarification_specific_and_useful": 3,
+              "clarification_complete": 1,
+              "guard_route_correct": 3
+            }
+          },
+          "4": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 0,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 1,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 0,
+              "guard_reason_valid": 5,
+              "clarification_specific_and_useful": 3,
+              "clarification_complete": 1,
+              "guard_route_correct": 4
+            }
+          },
+          "5": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 0,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 1,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 0,
+              "guard_reason_valid": 6,
+              "clarification_specific_and_useful": 4,
+              "clarification_complete": 3,
+              "guard_route_correct": 5
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "hint": {
+        "samples": 59,
+        "counts": {
+          "semantic_correct": 52,
+          "instruction_followed": 24,
+          "grade_appropriate": 50,
+          "invented_data_or_image": 3,
+          "severe_error": 6,
+          "acceptable_for_intended_role": 15,
+          "answer_leakage": 30
+        },
+        "hint_usefulness": {
+          "useful": 34,
+          "related_but_weak": 11,
+          "absent": 8,
+          "misleading": 4,
+          "full_solution_plan": 2
+        },
+        "per_grade": {
+          "1": {
+            "samples": 5,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 1,
+              "grade_appropriate": 4,
+              "invented_data_or_image": 0,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 1,
+              "answer_leakage": 3
+            }
+          },
+          "2": {
+            "samples": 5,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 2,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 1,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 1,
+              "answer_leakage": 3
+            }
+          },
+          "3": {
+            "samples": 14,
+            "counts": {
+              "semantic_correct": 13,
+              "instruction_followed": 6,
+              "grade_appropriate": 11,
+              "invented_data_or_image": 0,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 4,
+              "answer_leakage": 7
+            }
+          },
+          "4": {
+            "samples": 12,
+            "counts": {
+              "semantic_correct": 11,
+              "instruction_followed": 5,
+              "grade_appropriate": 11,
+              "invented_data_or_image": 2,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 2,
+              "answer_leakage": 7
+            }
+          },
+          "5": {
+            "samples": 23,
+            "counts": {
+              "semantic_correct": 19,
+              "instruction_followed": 10,
+              "grade_appropriate": 19,
+              "invented_data_or_image": 0,
+              "severe_error": 3,
+              "acceptable_for_intended_role": 7,
+              "answer_leakage": 10
+            }
+          }
+        }
+      },
+      "guard": {
+        "samples": 30,
+        "counts": {
+          "semantic_correct": 24,
+          "instruction_followed": 25,
+          "grade_appropriate": 28,
+          "invented_data_or_image": 2,
+          "severe_error": 3,
+          "acceptable_for_intended_role": 20,
+          "guard_reason_valid": 27,
+          "clarification_specific_and_useful": 24,
+          "clarification_complete": 19,
+          "guard_route_correct": 27
+        },
+        "per_grade": {
+          "1": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 6,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 1,
+              "severe_error": 1,
+              "acceptable_for_intended_role": 4,
+              "guard_reason_valid": 6,
+              "clarification_specific_and_useful": 4,
+              "clarification_complete": 4,
+              "guard_route_correct": 6
+            }
+          },
+          "2": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 6,
+              "instruction_followed": 5,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 0,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 4,
+              "guard_reason_valid": 6,
+              "clarification_specific_and_useful": 6,
+              "clarification_complete": 4,
+              "guard_route_correct": 6
+            }
+          },
+          "3": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 5,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 0,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 5,
+              "guard_reason_valid": 5,
+              "clarification_specific_and_useful": 5,
+              "clarification_complete": 4,
+              "guard_route_correct": 5
+            }
+          },
+          "4": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 5,
+              "instruction_followed": 4,
+              "grade_appropriate": 5,
+              "invented_data_or_image": 0,
+              "severe_error": 0,
+              "acceptable_for_intended_role": 3,
+              "guard_reason_valid": 5,
+              "clarification_specific_and_useful": 5,
+              "clarification_complete": 4,
+              "guard_route_correct": 5
+            }
+          },
+          "5": {
+            "samples": 6,
+            "counts": {
+              "semantic_correct": 4,
+              "instruction_followed": 5,
+              "grade_appropriate": 6,
+              "invented_data_or_image": 1,
+              "severe_error": 2,
+              "acceptable_for_intended_role": 4,
+              "guard_reason_valid": 5,
+              "clarification_specific_and_useful": 4,
+              "clarification_complete": 3,
+              "guard_route_correct": 5
+            }
+          }
+        }
+      }
+    }
+  },
+  "severe_examples": [
+    {
+      "model": "baseline",
+      "sample_id": "c3415187b90178b891e8bdd4",
+      "grade": 2,
+      "topic": "missing_factor",
+      "kind": "hint",
+      "reason": "Bước đầu ghi 2×x=12 nhưng result=x=12, sai; cuối x=6 đúng vẫn lộ đáp số và dùng chia hai vế thay cách lớp 2."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "900a40e8bae9c8970b870a58",
+      "grade": 3,
+      "topic": "division_remainder",
+      "kind": "hint",
+      "reason": "Kết quả dư 2 đúng nhưng bước số hộp ghi 57.2857... hộp dù phải là 57 hộp đủ; số thập phân chia dư chưa phù hợp lớp 3."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "bcc7daa49c2d889616e53245",
+      "grade": 3,
+      "topic": "rectangle_perimeter",
+      "kind": "hint",
+      "reason": "Bước expression=2*(80+84) nhưng result=164 sai; cuối328 đúng không chữa được bước sai này."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "bdfbd2d33e44f9ecca041666",
+      "grade": 4,
+      "topic": "fraction_subtract",
+      "kind": "hint",
+      "reason": "3/2=12/8 nhưng result=12;17/8-12/8 ghi result=5 thay5/8. Final5/8 đúng song hai bước sai."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "fff9d78efb4a1995493eac9f",
+      "grade": 5,
+      "topic": "decimal_add",
+      "kind": "hint",
+      "reason": "Bước đầu57.25+29.86 lại result57.25 sai; cuối87.11 đúng nhưng xuất bước sai và đáp số."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "e1c0c2054c1427080b3551e1",
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "kind": "hint",
+      "reason": "Expression(73*7609)/1000=result555457 sai ở bước đầu; cuối555.457 đúng, hint nói thẳng kết quả."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "19019a4b8c0c46f12e9afaeb",
+      "grade": 5,
+      "topic": "decimal_divide",
+      "kind": "hint",
+      "reason": "Expression50.32*10÷1.7*10 thiếu ngoặc không bảo toàn thương và không bằng result503.2; cuối29.6 đúng."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "10fa1448c8fd6b3ce9a53c4c",
+      "grade": 5,
+      "topic": "proportional_direct",
+      "kind": "hint",
+      "reason": "266000/19 phải14000 nhưng ghi140000, khiến28 món=3920000 sai gấp10; hint không phát hiện lỗi."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "771fe98b53c35629bdd6e698",
+      "grade": 3,
+      "topic": "vertical_subtract",
+      "kind": "hint",
+      "reason": "Không có visible_output: không có câu hỏi gợi ý hay xử lý bài làm33073; không loại mẫu này khỏi đánh giá."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "6f9595bbb9cb4749408bd60a",
+      "grade": 1,
+      "topic": "tens_place_value",
+      "kind": "hint",
+      "reason": "Trả answer10 với unit=chục gây hiểu10 chục thay giá trị10; dùng Digit không phù hợp tiếng Việt lớp1; lộ đáp số."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "dfa636312791a62d3c399962",
+      "grade": 3,
+      "topic": "order_operations",
+      "kind": "hint",
+      "reason": "Hint coi tổng đã biết và yêu cầu tìm số hạng, trái đề cần tổng94+2*7; answer108 đúng nhưng lộ đáp số."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "f6bd4e1c13e2dd2d0f04b391",
+      "grade": 5,
+      "topic": "ratio_share",
+      "kind": "hint",
+      "reason": "Hint tìm tổng phần rồi chia cho tổng đồ vật đảo chiều phép chia; đúng phải324÷9; answer36 vẫn lộ."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "48382340a961634f378977ee",
+      "grade": 5,
+      "topic": "area_unit_conversion",
+      "kind": "hint",
+      "reason": "Đề đã cho diện tíchm²; hỏi đổi độ dài trước tính diện tích chuyển sang nhiệm vụ khác và dễ dùng sai hệ số100 thay10000."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "2f6517a4a1d60dd910489e85",
+      "grade": 5,
+      "topic": "proportional_inverse",
+      "kind": "hint",
+      "reason": "Không có visible_output, không thể coi là gợi ý đúng; mẫu vẫn nằm trong59."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "7a4ea673192135143b664132",
+      "grade": 4,
+      "topic": "vertical_add",
+      "kind": "hint",
+      "reason": "Giữ answer963638 sai như học sinh; hàng chục0+3 ghi viết6 nhớ1, hàng nghìn5+7 ghi12 rồi viết3, và bịa nhiều cột/dấu nhớ không có bằng chứng; đúng tổng963637."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "719bdd1d4302ad6a23ec6309",
+      "grade": 1,
+      "topic": "missing_divisor",
+      "kind": "guard",
+      "reason": "Đổi tổng3698 quyển thành mỗi nhóm3698 quyển không có trong đề; bịa đáp số/giải bằng tiếng Anh dù thiếu số nhóm."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "6075ec2c7ab6dec071eabe70",
+      "grade": 2,
+      "topic": "missing_divisor",
+      "kind": "guard",
+      "reason": "Hiểu sai tổng84887 là mỗi nhóm84887, khẳng định đề đã cho số mỗi nhóm; thiếu số nhóm nên phảiclarify."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "8f63dad135f1006e26caa86f",
+      "grade": 3,
+      "topic": "missing_divisor",
+      "kind": "guard",
+      "reason": "Hiểu sai tổng33436 thành mỗi nhóm33436 và trả đáp số bịa; không hỏi số nhóm."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "3e89ba9333c88110295f21c7",
+      "grade": 3,
+      "topic": "non_math",
+      "kind": "guard",
+      "reason": "Bịa không thể lập trình58094 nhân vật vì số lớn; giới hạn kỹ thuật không có bằng chứng, answer khácnull."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "0681fcb1a73eee6d2c609580",
+      "grade": 4,
+      "topic": "non_math",
+      "kind": "guard",
+      "reason": "Statusunsupported nhưng hint xin mục tiêu/quy tắc trò chơi để lập trình, tiếp tục nhiệm vụ ngoài toán thay chuyển hướng."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "11843e28b8e8af89decf716d",
+      "grade": 1,
+      "topic": "ambiguous_referent",
+      "kind": "guard",
+      "reason": "Tự chọn đồ vật đưa vào nhóm từ nhóm khác dù chiều chuyển chưa biết; hỏi lượng không sửa giả định về hướng."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "712e6deb6fe51e0c0da382f3",
+      "grade": 5,
+      "topic": "ambiguous_referent",
+      "kind": "guard",
+      "reason": "Tự giả định chuyển từ nhóm2 sang nhóm1; đề chưa chỉ hướng, nên có thể ép học sinh dùng phép cộng sai."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "8f5e86767d3a451acb6a7cf4",
+      "grade": 5,
+      "topic": "non_math",
+      "kind": "guard",
+      "reason": "Clarify và xin ngôn ngữ lập trình/chức năng trò chơi, chấp nhận phát triển việc ngoài trợ giảng toán."
+    }
+  ],
+  "recommendations_for_future_unfrozen_teacher_data": [
+    "Strengthen one-step hint examples and answer suppression; thinking full solutions often leak the answer even when arithmetic is correct.",
+    "Include contrastive guards for unknown division group count: say explicitly tổng cộng X quyển vở được chia đều, instead of the less clear nhóm nhận đều X phrasing; do not rewrite this frozen evaluation.",
+    "Ask who transfers to whom before fixing addition/subtraction in ambiguous transfer problems, and avoid inferring carry/borrow marks from only the student's final answer.",
+    "Redirect coding requests to elementary math consistently; do not ask for programming language/game features in the tutoring guard.",
+    "Keep solve accuracy, explanation correctness, hint usefulness, answer leakage, and guard meaning as separate measures; this review does not change selection or authorize new training."
+  ],
+  "observed_student_error_cases": [
+    {
+      "model": "baseline",
+      "sample_id": "7a4ea673192135143b664132",
+      "topic": "vertical_add",
+      "observed_student_error_handled_correctly": true,
+      "answer_leakage": true,
+      "instruction_followed": false,
+      "reason": "Tính lại ra963637 và chỉ đúng hàng đơn vị cần kiểm; không gán động cơ lỗi học sinh, nhưng giải/lộ hết đáp số."
+    },
+    {
+      "model": "baseline",
+      "sample_id": "771fe98b53c35629bdd6e698",
+      "topic": "vertical_subtract",
+      "observed_student_error_handled_correctly": false,
+      "answer_leakage": false,
+      "instruction_followed": false,
+      "reason": "Không có visible_output: không có câu hỏi gợi ý hay xử lý bài làm33073; không loại mẫu này khỏi đánh giá."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "7a4ea673192135143b664132",
+      "topic": "vertical_add",
+      "observed_student_error_handled_correctly": false,
+      "answer_leakage": true,
+      "instruction_followed": false,
+      "reason": "Giữ answer963638 sai như học sinh; hàng chục0+3 ghi viết6 nhớ1, hàng nghìn5+7 ghi12 rồi viết3, và bịa nhiều cột/dấu nhớ không có bằng chứng; đúng tổng963637."
+    },
+    {
+      "model": "candidate",
+      "sample_id": "771fe98b53c35629bdd6e698",
+      "topic": "vertical_subtract",
+      "observed_student_error_handled_correctly": true,
+      "answer_leakage": false,
+      "instruction_followed": false,
+      "reason": "Chỉ đúng hàng đơn vị sai vì10-8=2 khác chữ số3 học sinh; không bịa nguyên nhân/dấu mượn, nhưng câu là mệnh lệnh chấm hết thay câu hỏi."
+    }
+  ]
+}

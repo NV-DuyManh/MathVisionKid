@@ -1,0 +1,15 @@
+{
+  "is_error": false,
+  "data": true,
+  "structured_content": {
+    "result": true
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "true",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

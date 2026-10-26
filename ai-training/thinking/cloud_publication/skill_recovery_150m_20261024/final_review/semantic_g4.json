@@ -1,0 +1,51 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "1ae68dd3713e251458296dcced831ae99a807f633b66b80146914063be4c1e61",
+  "decisions": [
+    {
+      "fixture_id": "skill150_locked_g4_1",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Changes second fraction into1/4of already-read1/3and invents full-book-read premise, concluding no book instead of7/12. Exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g4_2",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Rounds wrong place, misidentifies decision digit7instead of6and produces43,770,000instead of43,800,000. Exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g4_3",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Baseline reveals10/11. Selected withholds it but merely asks to identify given numerators, omitting actionable add-numerators/keep-denominator rule explicitly required by rubric."
+    },
+    {
+      "fixture_id": "skill150_locked_g4_4",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct3/5but false check says3not divisible by3and5not divisible by5; invalid explanation of irreducibility, so full task fails. Exact baseline reuse."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"config\": [[\"f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863\", 40960]], \"member_count\": 225, \"declared\": 251, \"complete\": 224, \"cursor_hash\": \"7b164f0f65c91c220d91509b4db819b98e25aca523a1ca21094c696832d4f3fc\", \"member_role_counts\": [[\"candidate_chat\", 6, 5], [\"candidate_source\", 219, 219]], \"samples\": 4427328, \"occurrences\": 4427328, \"sources\": 1629906, \"issues\": [[\"79765b8281ff64675b4e3826c07b003237875a98d67e898f22f2a4c1f687b0d1\", 1, \"SOURCE_SPLIT_MISSING_OR_UNKNOWN\", \"exhaustive_v1_div_1563_43\"]], \"query_indexes\": [\"mvk_report_source_label_id_hash\", \"mvk_report_sample_link_split_case_hash\", \"mvk_report_sample_hash_origin\"], \"all_actual_members_declared\": true, \"training_started\": false}\n"
+      ]
+    }
+  ]
+}

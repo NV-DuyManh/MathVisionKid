@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "QiyL9hLBug16"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"QUEUED_FOR_NEXT_OPTIMIZER_BOUNDARY\", \"physical_microbatch\": 1, \"effective_optimizer_group\": 16, \"extra_optimizer_updates\": 0, \"training_rows_added_or_removed\": 0, \"source_or_target_bytes_changed\": 0, \"truncation_allowed\": false, \"version\": 2, \"gradient_checkpointing\": true, \"selected_supervised_logits\": false, \"length_grouping_within_optimizer_step\": false, \"code_sha256\": \"290331181b29bdd38417611b6fe05d0b92527e9795665618c8afcaec76b2822d\"}\n"
+        ]
+      }
+    ]
+  }
+}

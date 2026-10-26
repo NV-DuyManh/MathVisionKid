@@ -1,0 +1,2238 @@
+{
+  "source_file_sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+  "train_only": true,
+  "protected_eval_pilot_not_used": true,
+  "reviewed_rows": [
+    {
+      "sample_id": "primary_20261016_g1_time_0007_mini_calendar_lookup",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 316,
+      "source_row_sha256": "6e12b98b9e9f79a65fc5ad8156156abc5e0e270c8da108884d76d29f5d7b2b00",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Dùng đúng mẩu lịch giả định sau, không cần đoán tháng hay năm thật: ngày 11 — Thứ Hai; 12 — Thứ Ba; 13 — Thứ Tư; 14 — Thứ Năm; 15 — Thứ Sáu; 16 — Thứ Bảy; 17 — Chủ nhật. Lớp sinh hoạt vào Thứ Năm của tuần này. Buổi sinh hoạt là ngày mấy? Ngày 16 là thứ mấy? Hãy kiểm trên mẩu lịch.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Mẩu lịch giả định: 11 Thứ Hai, 12 Thứ Ba, 13 Thứ Tư, 14 Thứ Năm, 15 Thứ Sáu, 16 Thứ Bảy, 17 Chủ nhật.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          },
+          {
+            "id": "g1",
+            "text": "Sinh hoạt vào Thứ Năm của chính tuần được cho.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          }
+        ],
+        "requested_quantity": "Ngày trong tháng của buổi sinh hoạt; Thứ của ngày 16",
+        "student_work": null,
+        "initial_guidance": [
+          "Mẩu lịch đã ghép mỗi số ngày với một tên thứ.",
+          "Hai câu hỏi yêu cầu đọc cặp theo hai chiều khác nhau."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Phân biệt tên thứ với số ngày trong tháng.",
+            "question": "Câu hỏi về buổi sinh hoạt cho sẵn tên thứ hay số ngày?"
+          },
+          {
+            "level": 2,
+            "hint": "Tìm đúng mục có dữ kiện cần tra rồi đọc thông tin đi cùng trong cùng mục.",
+            "question": "Em có giữ số ngày và tên thứ thuộc cùng một cặp khi đọc không?"
+          },
+          {
+            "level": 3,
+            "hint": "Đối chiếu lại từng cặp đã chọn với mẩu lịch, không dùng lịch của tháng khác.",
+            "question": "Cả hai câu trả lời của em có đúng với chính mẩu lịch đã cho chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Tìm ngày của buổi sinh hoạt",
+            "reason": "Buổi sinh hoạt được cho bằng tên thứ, nên tìm tên thứ đó trong mẩu lịch rồi đọc số ngày đi cùng.",
+            "expression": "14",
+            "result": "14",
+            "unit": "ngày trong tháng",
+            "explanation": "Mẩu lịch ghép Thứ Năm với ngày 14. Vì vậy buổi sinh hoạt là ngày 14, không phải ngày mang số giống tên thứ."
+          },
+          {
+            "step_id": "s1",
+            "title": "Đọc thứ từ số ngày và kiểm hai chiều",
+            "reason": "Câu hỏi tiếp theo cho số ngày, nên tìm ngày đó rồi đọc tên thứ đi cùng.",
+            "expression": null,
+            "result": "Thứ Bảy",
+            "unit": "",
+            "explanation": "Ngày 16 đi cùng Thứ Bảy. Kiểm lại hai cặp: ngày 14 — Thứ Năm, ngày 16 — Thứ Bảy, đều có đúng trong mẩu lịch. Không cần biết tháng hoặc năm ngoài mẩu lịch này."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ngày trong tháng của buổi sinh hoạt",
+            "result": "14",
+            "unit": "ngày trong tháng"
+          },
+          {
+            "quantity": "Thứ của ngày 16",
+            "result": "Thứ Bảy",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_read_morning_hour",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 319,
+      "source_row_sha256": "f4f81c167e360c4947aafc4a4bbc83fade09ff47fd24cc6b2fad125776241e1e",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Một đồng hồ kim được mô tả bằng chữ: kim dài là kim phút, đang chỉ đúng số 12; kim ngắn là kim giờ, đang chỉ đúng số 7. Đây là lúc buổi sáng. Đồng hồ chỉ mấy giờ sáng? Giải thích vai trò hai kim.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Kim phút dài chỉ 12; kim giờ ngắn chỉ 7.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          },
+          {
+            "id": "g1",
+            "text": "Bối cảnh buổi sáng.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          }
+        ],
+        "requested_quantity": "Giờ đồng hồ chỉ",
+        "student_work": null,
+        "initial_guidance": [
+          "Đề đã cho biết kim nào là kim phút và kim nào là kim giờ.",
+          "Đọc vai trò từng kim trước khi đọc số giờ."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Hai kim có vai trò khác nhau dù cùng trỏ vào các số trên mặt đồng hồ.",
+            "question": "Kim nào trong mô tả dùng để đọc số giờ?"
+          },
+          {
+            "level": 2,
+            "hint": "Dùng kim phút để xác định đây có phải giờ đúng, rồi xét kim còn lại.",
+            "question": "Vị trí kim phút trong đề giúp em nhận ra điều gì về cách đọc giờ?"
+          },
+          {
+            "level": 3,
+            "hint": "Ghép giờ em đọc với buổi đã được nêu và kiểm lại từng kim.",
+            "question": "Câu trả lời của em đã phù hợp với cả vai trò hai kim và buổi trong đề chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Nhận ra giờ đúng",
+            "reason": "Kim phút chỉ đúng số 12 là dấu hiệu đang ở giờ đúng.",
+            "expression": null,
+            "result": "giờ đúng",
+            "unit": "",
+            "explanation": "Kim dài cho biết phần phút; ở đây nó chỉ số 12 nên đọc giờ đúng, không lấy số 12 làm số giờ."
+          },
+          {
+            "step_id": "s1",
+            "title": "Đọc kim giờ và thêm buổi",
+            "reason": "Trong giờ đúng, kim ngắn chỉ số nào thì đọc số giờ đó; buổi đã được đề nêu.",
+            "expression": "7",
+            "result": "7",
+            "unit": "giờ sáng",
+            "explanation": "Kim giờ ngắn chỉ số 7 nên đồng hồ chỉ 7 giờ sáng. Kiểm: kim phút ở 12, kim giờ ở 7, và đề nói buổi sáng; cả ba dữ kiện phù hợp."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Giờ đồng hồ chỉ",
+            "result": "7",
+            "unit": "giờ sáng"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_time_0007_match_schedule",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 321,
+      "source_row_sha256": "2e1ce2ed1dc314beec7353d7d83c3f5ac018869aae938f2be9f91a786b3517d9",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Lịch hoạt động giả định ghi: “Bắt đầu đọc truyện lúc 9 giờ sáng”. Có hai mô hình đồng hồ: A có kim phút dài chỉ 12, kim giờ ngắn chỉ 9; B có kim phút dài chỉ 12, kim giờ ngắn chỉ 10. Mô hình nào phù hợp lúc bắt đầu đọc truyện? Hãy đọc từng mô hình rồi đối chiếu với lịch.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Bắt đầu đọc truyện lúc 9 giờ sáng.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          },
+          {
+            "id": "g1",
+            "text": "A: kim phút 12, kim giờ 9.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          },
+          {
+            "id": "g2",
+            "text": "B: kim phút 12, kim giờ 10.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          }
+        ],
+        "requested_quantity": "Mô hình phù hợp giờ bắt đầu",
+        "student_work": null,
+        "initial_guidance": [
+          "Lịch ghi thời điểm cần tìm, còn mô hình cho vị trí hai kim.",
+          "Đọc mỗi mô hình rồi mới so với lịch."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Cần chọn bằng thời điểm trong lịch thay vì bằng tên mô hình.",
+            "question": "Lịch hoạt động yêu cầu em tìm thời điểm của việc gì?"
+          },
+          {
+            "level": 2,
+            "hint": "Hai kim phút giống nhau nên hãy chú ý phần thông tin giúp phân biệt hai mô hình.",
+            "question": "Kim nào ở hai mô hình đang chỉ vào hai số khác nhau?"
+          },
+          {
+            "level": 3,
+            "hint": "Đối chiếu số giờ đọc từ từng mô hình với số giờ trong lịch, rồi kiểm lại lựa chọn.",
+            "question": "Lý do em chọn có nêu được sự phù hợp với lịch hoạt động không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đọc giờ của từng mô hình",
+            "reason": "Cả hai kim phút đều ở 12 nên đều là giờ đúng; cần dùng kim giờ để phân biệt.",
+            "expression": null,
+            "result": "A chỉ 9 giờ; B chỉ 10 giờ",
+            "unit": "",
+            "explanation": "Kim giờ của A chỉ 9 nên A chỉ 9 giờ; kim giờ của B chỉ 10 nên B chỉ 10 giờ. Đọc số giờ theo kim ngắn, không theo tên mô hình."
+          },
+          {
+            "step_id": "s1",
+            "title": "Đối chiếu với lịch và kiểm lựa chọn",
+            "reason": "Mô hình đúng phải có số giờ trùng giờ bắt đầu trong lịch hoạt động.",
+            "expression": null,
+            "result": "mô hình A",
+            "unit": "",
+            "explanation": "Chọn mô hình A vì lịch ghi bắt đầu lúc 9 giờ sáng. B chỉ 10 giờ nên không phù hợp. Mặt đồng hồ không tự cho biết buổi sáng; buổi sáng đến từ lịch hoạt động đã cho."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Mô hình phù hợp giờ bắt đầu",
+            "result": "mô hình A",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_calendar_clock_activity",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 261,
+      "source_row_sha256": "3b382f0e3961de083739bfbe5ef1c7cb56c04af2699def9a03f5c8d4f9c0bc27",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Trong lịch hoạt động giả định: Thứ Năm lúc 8 giờ sáng tô hình; Thứ Sáu lúc 8 giờ sáng đo cạnh bàn. Hôm nay trong câu chuyện là Thứ Sáu, buổi sáng; đồng hồ có kim phút dài chỉ 12 và kim giờ ngắn chỉ 8. Theo lịch, hoạt động nào đến lúc bắt đầu? Hãy đối chiếu đủ ngày và giờ.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Thứ Năm 8 giờ sáng: tô hình.",
+            "value": null,
+            "unit": "",
+            "role": "first_schedule_entry"
+          },
+          {
+            "id": "g1",
+            "text": "Thứ Sáu 8 giờ sáng: đo cạnh bàn.",
+            "value": null,
+            "unit": "",
+            "role": "second_schedule_entry"
+          },
+          {
+            "id": "g2",
+            "text": "Hôm nay Thứ Sáu buổi sáng; kim phút 12, kim giờ 8.",
+            "value": null,
+            "unit": "",
+            "role": "supplied_day_and_clock"
+          }
+        ],
+        "requested_quantity": "Hoạt động theo lịch đã đến giờ",
+        "student_work": null,
+        "initial_guidance": [
+          "Lịch có hai mục cùng giờ nhưng khác ngày.",
+          "Dùng ngày trong câu chuyện và giờ từ hai kim, không lấy ngày thật của máy."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đọc thông tin hôm nay trong câu chuyện trước khi so lịch.",
+            "question": "Các mục trong lịch khác nhau ở thông tin nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Kiểm vai trò hai kim rồi ghép giờ đọc với buổi được cho.",
+            "question": "Em đã xác định giờ bằng kim nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Chỉ giữ mục khớp cả ngày lẫn giờ và đối chiếu lại mục còn lại.",
+            "question": "Nếu chỉ kiểm giờ mà bỏ qua ngày, lựa chọn có đủ căn cứ không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đọc giờ theo vai trò hai kim",
+            "reason": "Kim phút ở 12 cho biết giờ đúng, còn số giờ đọc bằng kim giờ.",
+            "expression": null,
+            "result": "8 giờ sáng",
+            "unit": "",
+            "explanation": "Kim giờ chỉ 8 nên là 8 giờ sáng theo buổi đã cho trong câu chuyện."
+          },
+          {
+            "step_id": "s1",
+            "title": "Đối chiếu đồng thời ngày và giờ",
+            "reason": "Một hoạt động chỉ phù hợp khi cả thứ và giờ trong lịch đều khớp.",
+            "expression": null,
+            "result": "đo cạnh bàn",
+            "unit": "",
+            "explanation": "Hôm nay là Thứ Sáu và đồng hồ chỉ 8 giờ sáng, khớp mục đo cạnh bàn. Mục tô hình cùng giờ nhưng thuộc Thứ Năm nên không chọn. Kiểm đủ cả hai dữ kiện, không chỉ xem giờ."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Hoạt động theo lịch đã đến giờ",
+            "result": "đo cạnh bàn",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_compare_same_unit",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 286,
+      "source_row_sha256": "8b3387daef33bd8c45ac9b330f893fb47f39c21ba644a1c3bd8141d66f019b6e",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Giả sử hai dải giấy đã được đo đúng: dải đỏ dài 42 cm, dải xanh dài 36 cm. Hỏi dải nào dài hơn? Giải thích cách so sánh mà không cần biết các dải đang được đặt ở đâu.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Dải đỏ dài 42 cm",
+            "value": "42",
+            "unit": "cm",
+            "role": "red_length"
+          },
+          {
+            "id": "g1",
+            "text": "Dải xanh dài 36 cm",
+            "value": "36",
+            "unit": "cm",
+            "role": "blue_length"
+          }
+        ],
+        "requested_quantity": "Dải dài hơn",
+        "student_work": null,
+        "initial_guidance": [
+          "Đọc số đo và đơn vị đi cùng từng dải.",
+          "Dùng độ dài đã đo thay cho việc đoán qua vị trí đặt."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Trước khi so số, đối chiếu các tên đơn vị.",
+            "question": "Hai số đo có cùng đơn vị không?"
+          },
+          {
+            "level": 2,
+            "hint": "Có thể so sánh hai số có hàng chục khác nhau bằng hàng chục trước.",
+            "question": "Hàng chục của mỗi số đo là gì?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi so sánh, nối số đo với đúng màu dải giấy.",
+            "question": "Dải em chọn có thực sự mang số đo lớn hơn không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Kiểm đơn vị so sánh",
+            "reason": "Chỉ so sánh trực tiếp hai số đo khi chúng cùng đơn vị.",
+            "expression": null,
+            "result": "cùng đơn vị cm",
+            "unit": "",
+            "explanation": "Cả hai độ dài đều dùng cm, nên có thể so sánh 42 với 36.",
+            "step_id": "s0"
+          },
+          {
+            "title": "So sánh hàng chục",
+            "reason": "Số có nhiều chục hơn thì lớn hơn khi hai số có hàng chục khác nhau.",
+            "expression": null,
+            "result": "42 lớn hơn 36",
+            "unit": "",
+            "explanation": "42 có 4 chục, 36 có 3 chục; 4 chục nhiều hơn 3 chục, nên 42 lớn hơn 36.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Trả lời theo đúng dải giấy",
+            "reason": "Gắn số đo lớn hơn với dải có số đo ấy.",
+            "expression": null,
+            "result": "dải đỏ",
+            "unit": "",
+            "explanation": "Dải đỏ dài hơn vì 42 cm lớn hơn 36 cm. Vị trí đặt không làm thay đổi độ dài đã đo.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Dải dài hơn",
+            "result": "dải đỏ",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_cm_read_write",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 285,
+      "source_row_sha256": "14b04b2a7d0e542a23e8ba745459d92b3e113320d3e51ac38b518bb19b6367b3",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Trong tình huống giả định, một dải giấy được đặt thẳng sát thước có các vạch cách nhau một xăng-ti-mét. Đầu trái dải giấy trùng vạch 0 cm, đầu phải trùng vạch 7 cm. Hãy viết độ dài dải giấy bằng số kèm đơn vị và đọc độ dài đó. Đây là mô tả bằng chữ, không phải yêu cầu nhìn ảnh.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Đầu trái trùng vạch 0 cm",
+            "value": "0",
+            "unit": "cm",
+            "role": "start_mark"
+          },
+          {
+            "id": "g1",
+            "text": "Đầu phải trùng vạch 7 cm",
+            "value": "7",
+            "unit": "cm",
+            "role": "end_mark"
+          },
+          {
+            "id": "g2",
+            "text": "Các vạch liên tiếp cách nhau một xăng-ti-mét",
+            "value": "1",
+            "unit": "cm",
+            "role": "ruler_interval"
+          }
+        ],
+        "requested_quantity": "Độ dài dải giấy; Cách đọc độ dài",
+        "student_work": null,
+        "initial_guidance": [
+          "Tìm vị trí của cả hai đầu dải giấy trên thước.",
+          "Phân biệt khoảng giữa các vạch với số lượng vạch."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Chú ý vạch nằm dưới mỗi đầu dải giấy.",
+            "question": "Đầu dải giấy bắt đầu ở đâu trên thước?"
+          },
+          {
+            "level": 2,
+            "hint": "Độ dài được tạo bởi các khoảng bằng nhau giữa hai đầu.",
+            "question": "Em cần đếm các khoảng hay đếm tất cả các vạch?"
+          },
+          {
+            "level": 3,
+            "hint": "Viết kết quả kèm đúng tên đơn vị của thước rồi đọc lại.",
+            "question": "Đơn vị em ghi có phù hợp với các khoảng trên thước không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Xác định phần dải giấy chiếm trên thước",
+            "reason": "Độ dài ứng với khoảng từ vạch đầu đến vạch cuối, không đếm bản thân các vạch.",
+            "expression": null,
+            "result": "khoảng từ vạch đầu đến vạch cuối",
+            "unit": "",
+            "explanation": "Vì đầu dải giấy ở vạch không, số chỉ ở đầu kia cho biết số khoảng xăng-ti-mét.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Viết độ dài có đơn vị",
+            "reason": "Lấy số khoảng xăng-ti-mét từ đầu đến cuối dải giấy.",
+            "expression": "7-0",
+            "result": "7",
+            "unit": "cm",
+            "explanation": "Từ vạch 0 cm đến vạch 7 cm có 7 khoảng, mỗi khoảng dài 1 cm. Vậy dải giấy dài 7 cm.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đọc cách viết",
+            "reason": "Tên đơn vị cho biết số đang biểu thị độ dài.",
+            "expression": null,
+            "result": "bảy xăng-ti-mét",
+            "unit": "",
+            "explanation": "Viết 7 cm, đọc bảy xăng-ti-mét; không đọc là bảy vạch.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Độ dài dải giấy",
+            "result": "7",
+            "unit": "cm"
+          },
+          {
+            "quantity": "Cách đọc độ dài",
+            "result": "bảy xăng-ti-mét",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_measurement_0006_guard_unknown_reference",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 294,
+      "source_row_sha256": "fd461b198f17596638b2c2f61673ad3ef52e52c7b1f0b0c101500e0fe825092a",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Em hỏi: “Hãy ước lượng bàn học của em dài mấy gang tay của em.” Em chưa gửi ảnh, chưa mô tả bàn hoặc cho số đo bàn, cũng chưa cho độ rộng gang tay của mình hay vật mốc để so. Hãy giúp em bắt đầu nhưng không bịa một số gang cho chiếc bàn chưa thấy.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chưa có mô tả bàn, gang tay hoặc vật mốc",
+            "value": null,
+            "unit": "",
+            "role": "missing_reference_and_object_measurement"
+          }
+        ],
+        "requested_quantity": "Thông tin đo còn thiếu để trả lời",
+        "student_work": null,
+        "initial_guidance": [
+          "Mình chưa có thông tin về bàn và gang tay của em nên chưa đưa ra một số ước lượng có cơ sở.",
+          "Em có thể so trước bằng gang tay của mình rồi kiểm bằng cách đặt các gang đều, sát nhau, không hở/chồng dọc cạnh cần đo; nếu còn phần thừa, nói rõ phần đó thay vì bỏ đi."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Cần biết rõ cạnh bàn nào được hỏi và đơn vị của chính em.",
+            "question": "Em định đo cạnh nào của bàn bằng gang tay của mình?"
+          },
+          {
+            "level": 2,
+            "hint": "Một ước lượng cần có vật mốc hoặc thông tin so sánh phù hợp.",
+            "question": "Em có thể mô tả cạnh bàn cùng một vật mốc đã biết không?"
+          },
+          {
+            "level": 3,
+            "hint": "Khi tự đo để kiểm, ghi cả những gang đủ và phần còn thừa nếu có.",
+            "question": "Em có thể kể cách đặt gang và kết quả em thực sự đo được không?"
+          }
+        ],
+        "worked_steps": [],
+        "expected_answer": []
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 298,
+      "source_row_sha256": "a837a795682fe4c495c6261f33272d503901d96b234b38a0b197d08c5077e6f2",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Một khay có 31 hạt. Đặt thêm 7 hạt rồi lấy ra 5 hạt. Tính theo biểu thức 31 + 7 − 5 và kiểm tra từng lượng trung gian.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "có 31 hạt",
+            "value": "31",
+            "unit": "hạt",
+            "role": "start"
+          },
+          {
+            "id": "g1",
+            "text": "thêm 7 hạt",
+            "value": "7",
+            "unit": "hạt",
+            "role": "first_change"
+          },
+          {
+            "id": "g2",
+            "text": "lấy ra 5 hạt",
+            "value": "5",
+            "unit": "hạt",
+            "role": "second_change"
+          }
+        ],
+        "requested_quantity": "Số hạt còn trong khay",
+        "student_work": null,
+        "initial_guidance": [
+          "Tình huống có hai thay đổi nối tiếp theo thứ tự đã nêu.",
+          "Sau mỗi lần, ghi lại lượng đang có trước khi sang lần tiếp."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Theo dõi lần đặt thêm trước lần lấy ra.",
+            "question": "Thay đổi nào xảy ra đầu tiên?"
+          },
+          {
+            "level": 2,
+            "hint": "Kết quả của lần thêm là điểm bắt đầu của lần lấy ra.",
+            "question": "Số hạt cần bớt được lấy từ lượng nào đang có?"
+          },
+          {
+            "level": 3,
+            "hint": "Dùng thao tác ngược để kiểm từng lượng trung gian rồi lượng đầu.",
+            "question": "Nếu hoàn lại phần đã lấy ra, em cần quay về mốc nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tính lượng sau khi thêm",
+            "reason": "Thêm vào trước nên cộng vào số hạt ban đầu.",
+            "expression": "31+7",
+            "result": "38",
+            "unit": "hạt",
+            "explanation": "31 + 7 = 38. Sau lần thêm có 38 hạt.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Tính lượng sau khi lấy ra",
+            "reason": "Lấy ra từ lượng đang có sau lần thêm, không lấy riêng từ phần thêm.",
+            "expression": "{s0}-5",
+            "result": "33",
+            "unit": "hạt",
+            "explanation": "38 − 5 = 33. Khay còn 33 hạt.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Khôi phục lượng trước lần lấy ra",
+            "reason": "Đặt lại số hạt vừa lấy phải trở về lượng sau lần thêm.",
+            "expression": "{s1}+5",
+            "result": "38",
+            "unit": "hạt",
+            "explanation": "33 + 5 = 38, đúng lượng trung gian.",
+            "step_id": "s2"
+          },
+          {
+            "title": "Khôi phục lượng ban đầu",
+            "reason": "Bỏ phần đã thêm khỏi lượng trung gian phải trở lại lúc đầu.",
+            "expression": "{s2}-7",
+            "result": "31",
+            "unit": "hạt",
+            "explanation": "38 − 7 = 31, đúng lượng ban đầu. Cả hai bước thay đổi đều khớp; đáp số là 33 hạt.",
+            "step_id": "s3"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số hạt còn trong khay",
+            "result": "33",
+            "unit": "hạt"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 779,
+      "source_row_sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Có 6 bó que, mỗi bó đúng một chục que, và 3 que rời. Các bó và que rời không trùng nhau. Hãy tìm số que trong các bó, rồi tìm tất cả số que; viết và đọc số chỉ tất cả số que, nêu vai trò hai chữ số và kiểm lại bằng bó chục, que rời.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Số bó chục",
+            "value": "6",
+            "unit": "bó",
+            "role": "tens_bundle_count"
+          },
+          {
+            "id": "g1",
+            "text": "Mỗi bó là một chục que",
+            "value": "10",
+            "unit": "que",
+            "role": "sticks_per_tens_bundle"
+          },
+          {
+            "id": "g2",
+            "text": "Que rời",
+            "value": "3",
+            "unit": "que",
+            "role": "loose_unit_sticks"
+          }
+        ],
+        "requested_quantity": "Tìm số que trong các bó và tất cả số que; viết, đọc số tất cả, nêu vai trò chữ số và kiểm bó chục/que rời",
+        "student_work": null,
+        "initial_guidance": [
+          "Mỗi bó là một chục; que rời thuộc phần đơn vị.",
+          "Đếm phần bó chục rồi ghép phần que rời để viết số."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Cần giữ riêng số bó chục và số que rời khi đếm.",
+            "question": "Em đếm phần các bó theo chục như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Một chục là mười que; các bó không trùng nên gộp đủ các chục.",
+            "question": "Em tìm số que trong các bó rồi ghép que rời ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Chữ số bên trái ghi số chục, bên phải ghi phần đơn vị còn rời.",
+            "question": "Em viết, đọc số rồi tách lại thành bó chục và que rời để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Đếm số que trong các bó",
+            "reason": "Mỗi bó có một chục que; gộp đủ sáu bó riêng.",
+            "result": "60",
+            "explanation": "Đếm 10, 20, 30, 40, 50, 60 que. Sáu chục là 60 que; không chỉ đếm thành sáu que.",
+            "expression": "10+10+10+10+10+10",
+            "unit": "que",
+            "step_id": "s0"
+          },
+          {
+            "title": "Ghép que rời và ghi số",
+            "reason": "Số que tất cả gồm que trong bó và ba que rời.",
+            "result": "63",
+            "explanation": "60 que và 3 que rời là 63 que. Viết 63, đọc sáu mươi ba. Chữ số 6 chỉ 6 chục, chữ số 3 chỉ 3 đơn vị. Kiểm tách 63 que thành 6 bó chục và 3 que rời, đúng đề.",
+            "expression": "{s0}+3",
+            "unit": "que",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số que trong các bó",
+            "result": "60",
+            "unit": "que"
+          },
+          {
+            "quantity": "Tất cả số que",
+            "result": "63",
+            "unit": "que"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261018_old_g1_numbers_100_0096_forward_number_line_cross_tens_blank",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 781,
+      "source_row_sha256": "5dd4816241111b1ffc69dc46d2d3802650a303144686a48861b76c5673e319c7",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Một đoạn dãy số đếm thêm một được ghi theo chiều từ trái sang phải: 77, 78, ô trống, 80, 81. Các ô là những số liên tiếp. Hãy điền số còn thiếu, đọc số đó và giải thích vì sao sau số đó đến 80; kiểm với cả hai số ở hai phía ô trống.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Số ngay bên trái ô trống",
+            "value": "78",
+            "unit": "",
+            "role": "left_adjacent_number"
+          },
+          {
+            "id": "g1",
+            "text": "Số ngay bên phải ô trống",
+            "value": "80",
+            "unit": "",
+            "role": "right_adjacent_number"
+          },
+          {
+            "id": "g2",
+            "text": "Dãy từ trái sang phải: 77,78,trống,80,81; mỗi bước thêm một",
+            "value": null,
+            "unit": "",
+            "role": "forward_consecutive_sequence"
+          }
+        ],
+        "requested_quantity": "Điền, đọc số ở ô trống; giải thích bước sang chục mới và kiểm với cả hai phía",
+        "student_work": null,
+        "initial_guidance": [
+          "Mỗi bước theo chiều đã nêu là thêm một, nên số điền phải nối được cả hai phía.",
+          "Khi phần đơn vị đủ một chục thì gộp thành chục mới."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Số ở ô trống đứng ngay sau số bên trái theo chiều đếm đã cho.",
+            "question": "Em đếm thêm một từ số bên trái để tìm số cần điền thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Sau khi điền, bước sang ô bên phải vẫn phải thêm đúng một.",
+            "question": "Em dùng số ở bên phải để kiểm số đã chọn ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Mười đơn vị gộp được thành một chục, giúp giải thích lúc qua chục mới.",
+            "question": "Em đọc số điền rồi dùng chục và đơn vị để giải thích bước tiếp theo thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Điền số sau số bên trái",
+            "reason": "Từ trái sang phải mỗi bước thêm một, ô trống ngay sau 78.",
+            "result": "79",
+            "explanation": "78 thêm 1 là 79. Điền 79, đọc bảy mươi chín; số đó có 7 chục và 9 đơn vị.",
+            "expression": "78+1",
+            "unit": "",
+            "step_id": "s0"
+          },
+          {
+            "title": "Kiểm qua chục mới với ô bên phải",
+            "reason": "Sau 79 thêm một đơn vị, phần đơn vị có mười đơn vị nên gộp thành một chục.",
+            "result": "80",
+            "explanation": "79 thêm 1 là 80: 7 chục và 10 đơn vị gộp thành 8 chục, không còn đơn vị rời. Khớp ô bên phải; đếm tiếp 81 cũng đúng dãy. Kiểm ngược từ 80 bớt một về 79.",
+            "expression": "{s0}+1",
+            "unit": "",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số còn thiếu",
+            "result": "79",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 271,
+      "source_row_sha256": "e96187651026ae39f95836498f2722ed281d1f4af35cbc968cca1e1d106b1960",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Xếp bốn số 58, 25, 52, 8 theo thứ tự từ bé đến lớn. Hãy kiểm tra từng cặp đứng cạnh nhau.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "58",
+            "value": "58",
+            "unit": "",
+            "role": "number_to_order"
+          },
+          {
+            "id": "g1",
+            "text": "25",
+            "value": "25",
+            "unit": "",
+            "role": "number_to_order"
+          },
+          {
+            "id": "g2",
+            "text": "52",
+            "value": "52",
+            "unit": "",
+            "role": "number_to_order"
+          },
+          {
+            "id": "g3",
+            "text": "8",
+            "value": "8",
+            "unit": "",
+            "role": "number_to_order"
+          }
+        ],
+        "requested_quantity": "Dãy số từ bé đến lớn",
+        "student_work": null,
+        "initial_guidance": [
+          "Có đúng bốn số cần xếp; mỗi số chỉ xuất hiện một lần trong đáp án.",
+          "Chiều yêu cầu là từ bé đến lớn, nên xét số bé nhất trước."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Phân biệt số có một chữ số với số có hai chữ số.",
+            "question": "Số nào thuộc nhóm một chữ số trong danh sách?"
+          },
+          {
+            "level": 2,
+            "hint": "Trong nhóm hai chữ số, so hàng chục rồi mới so hàng đơn vị nếu cần.",
+            "question": "Khi hai số có cùng số chục, em sẽ dùng hàng nào để xếp chúng?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi xếp, đọc từng cặp liền nhau và giữ nguyên đủ bốn số của đề.",
+            "question": "Có cặp nào đứng trước lại lớn hơn số đứng sau không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tìm số bé nhất",
+            "reason": "Số một chữ số bé hơn các số hai chữ số trong danh sách.",
+            "expression": "8",
+            "result": "8",
+            "unit": "",
+            "explanation": "Số 8 có một chữ số; các số còn lại đều lớn hơn một chục. Đặt 8 trước.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Xếp các số hai chữ số",
+            "reason": "So hàng chục; nếu bằng nhau thì so hàng đơn vị.",
+            "expression": null,
+            "result": "25 < 52 < 58",
+            "unit": "",
+            "explanation": "25 có 2 chục, đứng trước hai số có 5 chục. Giữa 52 và 58, cùng 5 chục nhưng 2 đơn vị ít hơn 8 đơn vị, nên 52 đứng trước 58.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Viết thứ tự và kiểm lại",
+            "reason": "Đọc lại các cặp liền nhau để chắc rằng mỗi số đứng trước đều bé hơn số sau.",
+            "expression": null,
+            "result": "8, 25, 52, 58",
+            "unit": "",
+            "explanation": "Thứ tự là 8, 25, 52, 58. Kiểm tra: 8 < 25, 25 < 52 và 52 < 58.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Dãy số từ bé đến lớn",
+            "result": "8, 25, 52, 58",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 960,
+      "source_row_sha256": "39839a3f33dff3062949f8709ead4757977e282c01440b45a0718bb94791bac2",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Điền chữ số hàng chục trong □4 − 12 = 32. Số □4 có hai chữ số, không thêm dấu hoặc di chuyển số. Kiểm cả hàng chục và đơn vị.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "□ ở hàng chục; số hai chữ số; phép trừ không nhớ",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Chữ số hàng chục",
+        "student_work": null,
+        "initial_guidance": [
+          "Số chưa biết là một chữ số chục, không phải cả số."
+        ],
+        "hints": [
+          {
+            "hint": "Số chưa biết là một chữ số chục, không phải cả số.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Dùng quan hệ giữa hiệu và số trừ để tìm hàng còn thiếu.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Kiểm lại từng hàng sau khi ghép số.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Ba chục kết quả cộng một chục đã bớt cho bốn chục ban đầu.",
+            "expression": "3+1",
+            "reason": "Hàng đơn vị bốn bớt hai cho hai, còn hàng chục cần tìm.",
+            "result": "4",
+            "step_id": "s0",
+            "title": "Đối chiếu các hàng",
+            "unit": ""
+          },
+          {
+            "explanation": "Bốn mươi bốn trừ mười hai được ba mươi hai.",
+            "expression": "44-12",
+            "reason": "Ghép chữ số vào đúng hàng.",
+            "result": "32",
+            "step_id": "s1",
+            "title": "Kiểm phép trừ",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Chữ số hàng chục",
+            "result": "4",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 962,
+      "source_row_sha256": "5817f2f8f0ed40fb60294dac0f9de76705bbc46f620d580fa8e38dbac9b328f4",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Hai ô khác nhau A, B là chữ số hàng chục trong A2 + B3 = 75; cả hai số đều có hai chữ số. Đề yêu cầu tìm duy nhất A, B nhưng không cho thêm điều kiện. Có đủ dữ kiện để chỉ một cặp không?",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A, B từ 1 đến 9; đơn vị 2 và 3; tổng 75",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Kết luận về tính duy nhất",
+        "student_work": null,
+        "initial_guidance": [
+          "Hai ô có được nêu là cùng một chữ số không?"
+        ],
+        "hints": [
+          {
+            "hint": "Hai ô có được nêu là cùng một chữ số không?",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Thử tìm hơn một cặp thỏa tất cả điều kiện.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Nếu nhiều cặp đều đúng, hỏi điều kiện chọn riêng một cặp.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Mười hai cộng sáu mươi ba là một cặp phù hợp.",
+            "expression": "12+63",
+            "reason": "Cùng tổng có thể nhận từ các số hàng chục khác nhau.",
+            "result": "75",
+            "step_id": "s0",
+            "title": "Đối chiếu nhiều cách",
+            "unit": ""
+          },
+          {
+            "explanation": "Hai mươi hai cộng năm mươi ba cũng phù hợp; cần điều kiện thêm để chọn riêng một cặp.",
+            "expression": "22+53",
+            "reason": "Hai nghiệm khác nhau bác bỏ yêu cầu duy nhất.",
+            "result": "75",
+            "step_id": "s1",
+            "title": "Kiểm một cặp khác",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết luận về tính duy nhất",
+            "result": "Chưa duy nhất; cần điều kiện bổ sung cho A, B",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 967,
+      "source_row_sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Bản đồ bằng chữ có đúng các mũi tên S → A, S → B, A → T, B → C, C → T. Ô A ghi 20 + 30; B ghi 20 + 40; C ghi 80 − 20. Từ S đến T chỉ đi theo mũi tên và qua ô có kết quả bằng 60. Hãy chỉ đường hợp lệ.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Đủ 5 mũi tên; A, B, C có phép tính; mốc 60",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Đường đi",
+        "student_work": null,
+        "initial_guidance": [
+          "Cần thỏa điều kiện giá trị và điều kiện nối đường."
+        ],
+        "hints": [
+          {
+            "hint": "Cần thỏa điều kiện giá trị và điều kiện nối đường.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Tính các ô tại chỗ rẽ trước khi chọn nhánh.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Rà lại từng mũi tên của đường em chọn.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "B đạt mốc, C cũng đạt; A chỉ bằng năm mươi.",
+            "expression": "20+40",
+            "reason": "Tính giá trị của các ô trước khi chọn nhánh.",
+            "result": "60",
+            "step_id": "s0",
+            "title": "Kiểm ô có thể đi",
+            "unit": ""
+          },
+          {
+            "explanation": "Chuỗi có đủ các mũi tên; S → A → T bị loại bởi A không đạt mốc.",
+            "expression": "80-20",
+            "reason": "Ô đạt mốc vẫn phải có liên kết theo hướng đề cho.",
+            "result": "60",
+            "step_id": "s1",
+            "title": "Kiểm nhánh đúng theo mũi tên",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Đường đi",
+            "result": "S → B → C → T",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 963,
+      "source_row_sha256": "2ec7bd562b26054324ebd211364749fb881f38f0b76f2178c61e0badd55ad932",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Dãy thẻ viết 43 − 21 = 62. Chỉ được đổi chỗ đúng hai thẻ chữ số, giữ nguyên dấu − , dấu = và cấu trúc số gồm hai chữ số ở mỗi vị trí; không dùng số có 0 ở đầu. Hãy tìm phép đúng sau đổi và chỉ rõ hai thẻ đổi.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chỉ đổi hai thẻ chữ số; dấu giữ nguyên",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Cách đổi và phép đúng",
+        "student_work": null,
+        "initial_guidance": [
+          "Giữ dấu và số lượng từng thẻ khi thử đổi."
+        ],
+        "hints": [
+          {
+            "hint": "Giữ dấu và số lượng từng thẻ khi thử đổi.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Kiểm hàng chục cùng hàng đơn vị của phép sau đổi.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Đếm đúng hai vị trí đã đổi rồi tính lại để kiểm.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Được sáu mươi ba trừ hai mươi mốt bằng bốn mươi hai.",
+            "expression": null,
+            "reason": "Mỗi lần thử chỉ hoán đổi hai chữ số và giữ các thẻ khác.",
+            "result": "Đổi 4 ở đầu với 6 ở kết quả",
+            "step_id": "s0",
+            "title": "Thử sửa theo hàng",
+            "unit": ""
+          },
+          {
+            "explanation": "Hàng đơn vị ba bớt một, hàng chục sáu bớt hai; mọi thẻ còn đúng số lượng.",
+            "expression": "63-21",
+            "reason": "Tính cả phép sau đổi để đối chiếu kết quả.",
+            "result": "42",
+            "step_id": "s1",
+            "title": "Kiểm phép đã đổi",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Cách đổi và phép đúng",
+            "result": "63 − 21 = 42; đổi 4 đầu với 6 ở kết quả",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 956,
+      "source_row_sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Có các thẻ P: 1 + 2; Q: 8 − 3; R: 6 − 3; S: 2 + 3. Xếp mỗi thẻ vào hộp ghi 3 hoặc hộp ghi 5 theo giá trị. Ghi mã trong từng hộp và kiểm không thẻ nào bỏ sót.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "P, Q, R, S; hai hộp mốc 3/5",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Hai nhóm mã",
+        "student_work": null,
+        "initial_guidance": [
+          "Hộp được chọn theo kết quả, không theo dấu tính."
+        ],
+        "hints": [
+          {
+            "hint": "Hộp được chọn theo kết quả, không theo dấu tính.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Các phép khác nhau có thể cùng một kết quả.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Rà từng mã xem đã xếp đúng một lần chưa.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "P và R có cùng giá trị dù cách viết khác.",
+            "expression": "1+2",
+            "reason": "Tính phép trên thẻ trước khi chọn hộp.",
+            "result": "3",
+            "step_id": "s0",
+            "title": "Nhóm mốc thứ nhất",
+            "unit": ""
+          },
+          {
+            "explanation": "Q và S cùng đạt mốc năm; cả bốn mã dùng một lần.",
+            "expression": "8-3",
+            "reason": "Xét đủ từng mã chưa xếp.",
+            "result": "5",
+            "step_id": "s1",
+            "title": "Nhóm mốc còn lại",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Hai nhóm mã",
+            "result": "Hộp 3: P, R; hộp 5: Q, S",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 280,
+      "source_row_sha256": "51b22e51c073743cf0a6a55c252c3752b01e60a494fd1a88946018afca6d8600",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Bốn thẻ được mô tả như sau: A có đường bao tròn như miệng cốc; B có ba cạnh thẳng nối kín; C có bốn cạnh bằng nhau, các góc như góc tờ giấy; D có bốn góc như góc tờ giấy, hai cạnh dài bằng nhau và hai cạnh ngắn bằng nhau. Ghép mỗi thẻ một lần với các tên quen thuộc: hình tròn, hình tam giác, hình vuông, hình chữ nhật có hai cạnh dài và hai cạnh ngắn.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A: đường bao tròn như miệng cốc.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          },
+          {
+            "id": "g1",
+            "text": "B: ba cạnh thẳng nối kín.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          },
+          {
+            "id": "g2",
+            "text": "C: bốn cạnh bằng nhau, các góc như góc tờ giấy.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          },
+          {
+            "id": "g3",
+            "text": "D: bốn góc như góc tờ giấy, hai cạnh dài bằng nhau và hai cạnh ngắn bằng nhau.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          }
+        ],
+        "requested_quantity": "Các cặp ghép",
+        "student_work": null,
+        "initial_guidance": [
+          "Xét đường bao và đặc điểm cạnh, góc được nêu rõ bằng lời.",
+          "Danh sách yêu cầu mỗi thẻ và mỗi tên được dùng một lần."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Tách các mô tả theo đường bao cong và đường bao gồm cạnh thẳng.",
+            "question": "Em có thể phân biệt những nhóm đường bao nào trước?"
+          },
+          {
+            "level": 2,
+            "hint": "Trong nhóm cạnh thẳng, xét số cạnh rồi so đặc điểm các cạnh ở những thẻ còn lại.",
+            "question": "Hai thẻ bốn cạnh được mô tả khác nhau ở điểm nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Đọc ngược từ mỗi tên đã ghép về mô tả để kiểm đủ và đúng.",
+            "question": "Có thẻ nào bị lặp hoặc chưa được ghép không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Ghép đường bao tròn và ba cạnh",
+            "reason": "Hai mô tả này tách được theo đường bao cong hoặc ba cạnh nối kín.",
+            "expression": null,
+            "result": "A: hình tròn; B: hình tam giác",
+            "unit": "",
+            "explanation": "A có đường bao tròn nên ghép hình tròn. B có ba cạnh thẳng nối kín nên ghép hình tam giác."
+          },
+          {
+            "step_id": "s1",
+            "title": "Đối chiếu hai thẻ bốn cạnh",
+            "reason": "Trong hai thẻ còn lại, xem bốn cạnh đều bằng nhau hay có hai cạnh dài, hai cạnh ngắn.",
+            "expression": null,
+            "result": "C: hình vuông; D: hình chữ nhật có hai cạnh dài và hai cạnh ngắn",
+            "unit": "",
+            "explanation": "C có bốn cạnh bằng nhau và các góc như góc tờ giấy nên ghép hình vuông. D có hai cạnh dài, hai cạnh ngắn và bốn góc như góc tờ giấy nên ghép tên hình chữ nhật được yêu cầu."
+          },
+          {
+            "step_id": "s2",
+            "title": "Kiểm các cặp ghép",
+            "reason": "Mỗi thẻ phải được dùng đúng một lần và khớp mô tả của tên đã chọn.",
+            "expression": null,
+            "result": "A–tròn; B–tam giác; C–vuông; D–chữ nhật",
+            "unit": "",
+            "explanation": "Đọc lại đủ A, B, C, D và đối chiếu từng đường bao. Không có thẻ nào bị bỏ sót hoặc dùng hai lần."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các cặp ghép",
+            "result": "A–tròn; B–tam giác; C–vuông; D–chữ nhật",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_count14",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 267,
+      "source_row_sha256": "2831042bce1fac019eb47791b6da7520b7dde5f3cafba3460ce5227a52a00dee",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Mỗi ký hiệu ● sau đây là một chấm: ● ● ● ● ● ● ● ● ● ● ● ● ● ●. Hãy đếm, viết số chấm bằng chữ số rồi đọc số đó.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "● ● ● ● ● ● ● ● ● ● ● ● ● ●",
+            "value": null,
+            "unit": "chấm",
+            "role": "complete_explicit_symbol_list"
+          }
+        ],
+        "requested_quantity": "Số chấm; Cách đọc số",
+        "student_work": null,
+        "initial_guidance": [
+          "Đề cho toàn bộ các chấm bằng ký hiệu, không cần đoán phần ngoài dòng.",
+          "Đánh dấu chấm đã đếm để tránh bỏ sót hoặc đếm lại."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Bắt đầu ở một đầu dòng và dịch từng chấm.",
+            "question": "Làm thế nào để biết chấm nào em đã đếm?"
+          },
+          {
+            "level": 2,
+            "hint": "Mỗi khi chuyển sang chấm chưa đếm, đọc số tiếp theo.",
+            "question": "Tên số cuối cùng khi đếm cho em biết điều gì?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi đếm xong, viết lượng đó bằng chữ số và đọc lại.",
+            "question": "Nếu đếm lại theo chiều ngược, em cần giữ quy tắc nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Đếm mỗi chấm đúng một lần",
+            "reason": "Gắn lần lượt một tên số với một chấm; số cuối cùng cho biết tổng số chấm.",
+            "expression": "14",
+            "result": "14",
+            "unit": "chấm",
+            "explanation": "Đánh dấu từ trái sang phải: một, hai, ba, bốn, năm, sáu, bảy, tám, chín, mười, mười một, mười hai, mười ba, mười bốn. Có 14 chấm.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Viết và đọc số",
+            "reason": "Sau khi đếm, viết chữ số biểu thị lượng vừa đếm và đọc tên số.",
+            "expression": null,
+            "result": "mười bốn",
+            "unit": "",
+            "explanation": "Viết 14 và đọc là mười bốn. Đếm lại từ phải sang trái vẫn được 14 nếu mỗi chấm chỉ được tính một lần.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số chấm",
+            "result": "14",
+            "unit": "chấm"
+          },
+          {
+            "quantity": "Cách đọc số",
+            "result": "mười bốn",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 308,
+      "source_row_sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Giả sử một hình vuông được cắt đúng theo đoạn nối hai góc đối diện, tạo hai miếng tam giác. Còn đủ cả hai miếng, không làm rách hay cắt thêm. Muốn ghép lại hình vuông ban đầu, em đặt hai miếng như thế nào? Nêu cách kiểm mép ngoài.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Hình vuông bị cắt theo đoạn nối hai góc đối diện.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          },
+          {
+            "id": "g1",
+            "text": "Còn đủ hai miếng tam giác, không thay đổi miếng.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_hypothetical_description"
+          }
+        ],
+        "requested_quantity": "Cách ghép; Hình khôi phục",
+        "student_work": null,
+        "initial_guidance": [
+          "Đề cho biết hai miếng xuất phát từ cùng một hình vuông.",
+          "Cần tìm hai mép cùng được tạo ra khi cắt."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Chú ý nguồn gốc của từng cạnh miếng.",
+            "question": "Cạnh nào của hai miếng cùng sinh ra từ một đường cắt?"
+          },
+          {
+            "level": 2,
+            "hint": "Thử đưa hai mép cùng nguồn gốc lại gần nhau và so độ dài trước khi đặt hẳn.",
+            "question": "Để khớp trọn mép, hai đầu của mỗi mép cần thẳng hàng thế nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau một lần thử, kiểm xem giấy có che lên nhau hoặc để hở; nếu có, xoay một miếng và thử lại.",
+            "question": "Lần thử của em có khớp mép ngoài ban đầu mà không che hoặc hở giấy không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Tìm cạnh vừa cắt",
+            "reason": "Hai miếng có hai cạnh sinh ra từ cùng một đường cắt nên có thể ghép khớp.",
+            "expression": null,
+            "result": "ghép hai cạnh vừa cắt",
+            "unit": "",
+            "explanation": "Đưa hai cạnh vừa cắt sát trọn nhau. Đặt phần giấy của hai miếng về hai phía của cạnh chung, không chồng một miếng lên miếng kia."
+          },
+          {
+            "step_id": "s1",
+            "title": "Kiểm phần được khôi phục",
+            "reason": "Đường cắt nằm bên trong; các cạnh cũ của hình vuông tạo lại đường bao ngoài.",
+            "expression": null,
+            "result": "hình vuông ban đầu",
+            "unit": "",
+            "explanation": "Ghép như vậy khôi phục hình vuông ban đầu. Kiểm bốn cạnh ngoài bằng nhau, các góc như trước, không có khe hở hay chồng giấy."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Cách ghép",
+            "result": "ghép hai cạnh vừa cắt, hai miếng nằm hai phía cạnh chung",
+            "unit": ""
+          },
+          {
+            "quantity": "Hình khôi phục",
+            "result": "hình vuông ban đầu",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+      "grade": 2,
+      "split": "train",
+      "source_line_number": 370,
+      "source_row_sha256": "a179c51b814c49edb7a256a800c80c8bd00a2366965dd258e0dfd3944a45cc0c",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Trong tình huống giả định, cân hai đĩa đã cân bằng khi hai đĩa trống. Đặt một túi gạo lên đĩa trái, ba quả cân lên đĩa phải: 5 kg, 5 kg, 2 kg. Cân lại thăng bằng và không có vật nào khác trên hai đĩa. Túi gạo nặng bao nhiêu ki-lô-gam? Viết số đo, đọc số đo và giải thích vì sao cộng các quả cân.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Quả cân thứ nhất 5 kg",
+            "value": "5",
+            "unit": "kg",
+            "role": "first_weight"
+          },
+          {
+            "id": "g1",
+            "text": "Quả cân thứ hai 5 kg",
+            "value": "5",
+            "unit": "kg",
+            "role": "second_weight"
+          },
+          {
+            "id": "g2",
+            "text": "Quả cân thứ ba 2 kg",
+            "value": "2",
+            "unit": "kg",
+            "role": "third_weight"
+          },
+          {
+            "id": "g3",
+            "text": "Cân được cân bằng lúc trống và thăng bằng theo mô tả; chỉ có túi và các quả cân",
+            "value": null,
+            "unit": "",
+            "role": "explicit_balance_conditions"
+          }
+        ],
+        "requested_quantity": "Cân nặng túi gạo; Cách đọc số đo",
+        "student_work": null,
+        "initial_guidance": [
+          "Dùng đúng tình trạng cân thăng bằng được đề cho, không nhận là mình đã cân thật.",
+          "Các quả cân cùng đơn vị và cùng nằm ở một đĩa, cần xét cả nhóm."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Hai đĩa thăng bằng diễn tả quan hệ giữa hai bên.",
+            "question": "Túi cần được đối chiếu với một quả cân hay toàn bộ các quả cân bên kia?"
+          },
+          {
+            "level": 2,
+            "hint": "Giữ đơn vị khi gộp các số đo cùng loại.",
+            "question": "Phép tính nào cho số đo của cả nhóm quả cân?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi tính, đọc lại số đo và đối chiếu đủ mọi vật đã nêu.",
+            "question": "Em đã tính mỗi quả cân đúng một lần và ghi đơn vị chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Gộp số đo các quả cân",
+            "reason": "Ba quả cân cùng đơn vị kg và đều có trên đĩa phải nên cộng cả ba.",
+            "expression": "5+5+2",
+            "result": "12",
+            "unit": "kg",
+            "explanation": "Gộp hai quả 5 kg: 5 + 5 = 10 kg. Thêm quả 2 kg: 10 + 2 = 12 kg. Vậy cả nhóm là 12 kg; mỗi quả cân được tính một lần.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Đối chiếu cân thăng bằng",
+            "reason": "Trong tình huống được cho, túi có cân nặng bằng cả nhóm đối trọng.",
+            "expression": null,
+            "result": "12 kg, đọc mười hai ki-lô-gam",
+            "unit": "",
+            "explanation": "Túi nặng 12 kg, đọc mười hai ki-lô-gam. Kiểm lại đĩa trái chỉ có túi, đĩa phải có đủ ba quả cân; đây là kết quả theo mô tả giả định.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Cân nặng túi gạo",
+            "result": "12",
+            "unit": "kg"
+          },
+          {
+            "quantity": "Cách đọc số đo",
+            "result": "mười hai ki-lô-gam",
+            "unit": ""
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_filter_threshold_then_descending_labels",
+      "grade": 4,
+      "split": "train",
+      "source_line_number": 565,
+      "source_row_sha256": "f2bd42a7ed448e607a30e5c9e29558e3bd6e4c860df5f784ca334b64f6e8d3f1",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Bảng giả định ghi chiều cao năm chậu cây theo thứ tự: A 24 cm, B 31 cm, C 28 cm, D 31 cm, E 19 cm. Chỉ chọn các chậu cao từ 28 cm trở lên, kể cả đúng 28 cm, rồi sắp chậu đã chọn từ cao đến thấp. Nếu bằng chiều cao thì giữ thứ tự tên như xuất hiện trong bảng ban đầu. Hãy ghi tên kèm chiều cao và số chậu được chọn.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A",
+            "value": "24",
+            "unit": "cm",
+            "role": "A_height"
+          },
+          {
+            "id": "g1",
+            "text": "B",
+            "value": "31",
+            "unit": "cm",
+            "role": "B_height"
+          },
+          {
+            "id": "g2",
+            "text": "C",
+            "value": "28",
+            "unit": "cm",
+            "role": "C_height"
+          },
+          {
+            "id": "g3",
+            "text": "D",
+            "value": "31",
+            "unit": "cm",
+            "role": "D_height"
+          },
+          {
+            "id": "g4",
+            "text": "E",
+            "value": "19",
+            "unit": "cm",
+            "role": "E_height"
+          },
+          {
+            "id": "g5",
+            "text": "Mức chọn gồm cả bằng",
+            "value": "28",
+            "unit": "cm",
+            "role": "inclusive_height_threshold"
+          },
+          {
+            "id": "g6",
+            "text": "Bằng nhau giữ thứ tự xuất hiện ban đầu",
+            "value": null,
+            "unit": "",
+            "role": "stable_tie_policy"
+          }
+        ],
+        "requested_quantity": "Dãy chậu được chọn; Số chậu được chọn",
+        "student_work": null,
+        "initial_guidance": [
+          "Lọc theo điều kiện chọn trước, rồi mới xếp theo chiều cao trong nhóm còn lại.",
+          "Giữ nhãn chậu đi cùng số đo và áp dụng đúng quy tắc khi bằng nhau."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Từ một mức trở lên có tính cả trường hợp đúng mức ấy.",
+            "question": "Em cần đối chiếu từng số đo với điều kiện chọn như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Lọc và sắp là hai việc khác nhau; không đưa lại phần đã bị loại vào dãy.",
+            "question": "Những chậu còn lại cần được xếp theo chiều nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Khi bằng chiều cao, đề đã cho cách giữ thứ tự.",
+            "question": "Dãy cuối và số chậu đã giữ đúng nhãn, điều kiện chọn và quy tắc bằng nhau chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Lọc đúng điều kiện",
+            "reason": "Từ 28 cm trở lên gồm cả đúng 28, không chỉ lớn hơn 28.",
+            "result": "Giữ B 31 cm, C 28 cm, D 31 cm",
+            "explanation": "A 24 cm và E 19 cm dưới mức nên loại. B, C, D đạt, C đúng 28 cm vẫn được chọn.",
+            "expression": null,
+            "unit": "",
+            "step_id": "s0"
+          },
+          {
+            "title": "Sắp giảm dần và giữ nhãn",
+            "reason": "Số cm lớn hơn đứng trước, bằng nhau theo thứ tự ban đầu.",
+            "result": "B 31 cm; D 31 cm; C 28 cm",
+            "explanation": "B và D cùng 31 cm; B xuất hiện trước D trong bảng nên giữ B trước D. C 28 cm đứng sau. Không đổi số đo cho chậu khác.",
+            "expression": null,
+            "unit": "",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đếm và kiểm đủ điều kiện",
+            "reason": "Mỗi chậu được chọn được tính một lần, không gộp hai chậu có cùng số đo.",
+            "result": "3",
+            "explanation": "1 + 1 + 1 = 3 chậu. Kiểm cả ba đều ít nhất 28 cm, thứ tự 31; 31; 28 từ cao đến thấp, mỗi nhãn có mặt đúng một lần.",
+            "expression": "1+1+1",
+            "unit": "chậu",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Dãy chậu được chọn",
+            "result": "B 31 cm; D 31 cm; C 28 cm",
+            "unit": ""
+          },
+          {
+            "quantity": "Số chậu được chọn",
+            "result": "3",
+            "unit": "chậu"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_calendar_elapsed_same_day",
+      "grade": 3,
+      "split": "train",
+      "source_line_number": 8,
+      "source_row_sha256": "4ecc9b8a4c64c9d2b65c57b9673c9fcf8e5106f2054046b20e86daa4b4195027",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Một hoạt động giả định bắt đầu 14 giờ 15 phút và kết thúc 15 giờ 05 phút cùng ngày, diễn ra liên tục. Hỏi kéo dài bao nhiêu phút.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Bắt đầu giờ",
+            "value": "14",
+            "unit": "giờ",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "Bắt đầu phút",
+            "value": "15",
+            "unit": "phút",
+            "role": "explicit_given_1"
+          },
+          {
+            "id": "g2",
+            "text": "Kết thúc giờ",
+            "value": "15",
+            "unit": "giờ",
+            "role": "explicit_given_2"
+          },
+          {
+            "id": "g3",
+            "text": "Kết thúc phút",
+            "value": "5",
+            "unit": "phút",
+            "role": "explicit_given_3"
+          }
+        ],
+        "requested_quantity": "Tìm số phút hoạt động cùng ngày.",
+        "student_work": null,
+        "initial_guidance": [
+          "Xác định đang đọc lịch, đọc vị trí kim hay tìm khoảng thời gian cùng ngày."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Xác định đang đọc lịch, đọc vị trí kim hay tìm khoảng thời gian cùng ngày.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Đếm theo ngày của tháng hoặc theo mỗi khoảng năm phút trên mặt đồng hồ; giữ quan hệ giờ và phút.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Đếm ngược hoặc dựng lại mốc kết thúc để kiểm, chỉ dùng bản mô tả đã cho.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Tìm khoảng thời gian",
+            "reason": "Đổi hai mốc về phút từ đầu cùng ngày rồi lấy hiệu.",
+            "result": "50",
+            "explanation": "Từ 14:15 đến 15:00 là 45 phút, thêm 5 phút được 50; cộng 50 phút vào mốc đầu đến đúng 15:05.",
+            "expression": "(15*60+5)-(14*60+15)",
+            "unit": "phút"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Thời gian",
+            "result": "50",
+            "unit": "phút"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_lengthunits_hm_sum_route",
+      "grade": 3,
+      "split": "train",
+      "source_line_number": 21,
+      "source_row_sha256": "1743f773e0751b37b35e408487fd10ef8126cf4770c0d071d3658c242b98efba",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Một lộ trình gồm ba chặng nối tiếp, không chồng lên nhau: 3 hm, 7 dam và 20 m. Biết 1 hm=100 m,1 dam=10 m. Tính tổng lộ trình theo mét.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chặng 1",
+            "value": "3",
+            "unit": "hm",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "Chặng 2",
+            "value": "7",
+            "unit": "dam",
+            "role": "explicit_given_1"
+          },
+          {
+            "id": "g2",
+            "text": "Chặng 3",
+            "value": "20",
+            "unit": "m",
+            "role": "explicit_given_2"
+          },
+          {
+            "id": "g3",
+            "text": "Một hm",
+            "value": "100",
+            "unit": "m",
+            "role": "explicit_given_3"
+          },
+          {
+            "id": "g4",
+            "text": "Một dam",
+            "value": "10",
+            "unit": "m",
+            "role": "explicit_given_4"
+          }
+        ],
+        "requested_quantity": "Tìm tổng chiều dài lộ trình theo mét.",
+        "student_work": null,
+        "initial_guidance": [
+          "Đọc đơn vị từng số đo trước khi so sánh hoặc gộp."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đọc đơn vị từng số đo trước khi so sánh hoặc gộp.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Dựa vào các đơn vị độ dài liên tiếp để đổi về cùng một đơn vị.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Đổi ngược hoặc tách thành các đoạn bằng nhau để kiểm; giữ tên đơn vị ở đáp số.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đổi và cộng",
+            "reason": "Các chặng nối tiếp nên cộng chiều dài sau khi cùng đơn vị.",
+            "result": "390",
+            "explanation": "300 m+70 m+20 m=390 m; nhóm thành 39 đoạn 10 m để kiểm.",
+            "expression": "3*100+7*10+20",
+            "unit": "m"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Tổng lộ trình",
+            "result": "390",
+            "unit": "m"
+          }
+        ]
+      }
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "grade": 1,
+      "split": "train",
+      "source_line_number": 277,
+      "source_row_sha256": "6a5da390cce07a548e36930322e960e0b6598051d6040090f310172483517f41",
+      "semantic_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "initial_guidance",
+        "hints",
+        "worked_steps",
+        "expected_answer"
+      ],
+      "semantic_field_values": {
+        "problem": "Ba bạn xếp hàng, cùng quay mặt về cửa. Từ gần cửa nhất đến xa cửa nhất là An, Bình, Chi. Không ai đổi chỗ. Ai ở giữa hàng? Ai đứng ngay trước Bình và ai đứng ngay sau Bình?",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Tất cả cùng quay mặt về cửa.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          },
+          {
+            "id": "g1",
+            "text": "Từ gần cửa đến xa cửa: An, Bình, Chi.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_description"
+          }
+        ],
+        "requested_quantity": "Bạn ở giữa hàng; Bạn ngay trước Bình; Bạn ngay sau Bình",
+        "student_work": null,
+        "initial_guidance": [
+          "Hướng nhìn chung về cửa quyết định phía trước của hàng.",
+          "Theo dõi thứ tự đã cho; không tự cho các bạn quay mặt hay đổi chỗ."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Xác định đầu hàng gần cửa rồi đọc lần lượt về phía xa cửa.",
+            "question": "Bạn ở giữa khác bạn đầu hàng và cuối hàng ở điểm nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Xét hai người đứng liền cạnh bạn được hỏi, theo hướng cả hàng đang quay.",
+            "question": "Phía trước của hàng là phía gần hay xa cửa?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm lại ba quan hệ giữa, trước và sau trên cùng một thứ tự.",
+            "question": "Nếu đọc từ cửa ra xa, thứ tự em dùng có giữ đúng mô tả không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Xác định hai đầu và bạn ở giữa",
+            "reason": "Bạn ở giữa có một bạn ở phía gần cửa hơn và một bạn ở phía xa cửa hơn.",
+            "expression": null,
+            "result": "Bình",
+            "unit": "",
+            "explanation": "Thứ tự từ cửa là An, Bình, Chi. Bình có An ở một phía và Chi ở phía còn lại, nên Bình ở giữa."
+          },
+          {
+            "step_id": "s1",
+            "title": "Xét phía trước Bình",
+            "reason": "Các bạn đều hướng về cửa, nên người liền trước Bình ở phía gần cửa hơn.",
+            "expression": null,
+            "result": "An",
+            "unit": "",
+            "explanation": "An đứng liền trước Bình theo hướng về cửa."
+          },
+          {
+            "step_id": "s2",
+            "title": "Xét phía sau rồi kiểm lại",
+            "reason": "Người liền sau Bình ở phía xa cửa hơn.",
+            "expression": null,
+            "result": "Chi",
+            "unit": "",
+            "explanation": "Chi đứng liền sau Bình. Đọc lại cửa → An → Bình → Chi: Bình ở giữa, An trước Bình, Chi sau Bình."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Bạn ở giữa hàng",
+            "result": "Bình",
+            "unit": ""
+          },
+          {
+            "quantity": "Bạn ngay trước Bình",
+            "result": "An",
+            "unit": ""
+          },
+          {
+            "quantity": "Bạn ngay sau Bình",
+            "result": "Chi",
+            "unit": ""
+          }
+        ]
+      }
+    }
+  ]
+}

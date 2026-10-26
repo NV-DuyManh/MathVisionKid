@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "I44DC9Hdc2R4"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"owner_authorized_optimization\": true, \"state\": \"OLD_WORKER_EXITED_CHECKPOINT_CANDIDATE\", \"requested_unix\": 1792804090.3422654, \"old_pid\": 6209, \"last_regular_checkpoint\": {\"generation\": \"generation_step_000250_rows_00004000\", \"manifest_sha256\": \"b75d444c3d3d61b2ba3a454242d9036a71c1c777f4c9c872783a20441e664266\", \"rows_done\": 4000, \"step\": 250}, \"code_hashes\": {\"corrective_worker_optimized_v2.py\": \"07f30dedd6b330218283ec7771e72c84d5ae008cf3c27885a1a8de8c0b169761\", \"pair_weighted_batching_v2.py\": \"6c737d6ea42a92800b3df469ab9dac2909cef21c52701777fee8da97c5f0b6fb\", \"test_optimized_v2.py\": \"dd81d2892c7f5a717f7f4317e255652ea9ccda70f74d80e8864323fbe48c012c\", \"owner_budget_revision_config.json\": \"e3e5b960b65e618909329e18bbf2656e4d80435a445b60e3102a176f254aab00\"}, \"preserve_all_data\": true, \"exact_optimizer_boundary_claimed\": false, \"resume_candidate_requires_coherence_checks\": true, \"old_exit\": 1, \"latest_after_stop\": {\"generation\": \"generation_step_000270_rows_00004320\", \"manifest_sha256\": \"b1a8e984af5e14edd71fcf987357752c0dd18f19758c15c6d4b37cf39ae9076b\", \"rows_done\": 4320, \"step\": 270}}\n",
+          "{\"old_error_type\": \"KeyboardInterrupt\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/content/mathvisionkid_corrective_5h_20261024/corrective_worker.py\\\", line 596, in main\\n    scaler.scale(loss).backward()\\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\\n  File \\\"/usr/local/lib/python3.13/dist-packages/torch/_tensor.py\\\", line 631, in backward\\n    torch.autograd.backward(\\n    ~~~~~~~~~~~~~~~~~~~~~~~^\\n        self, gradient, retain_graph, create_graph, inputs=inputs\\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n    )\\n    ^\\n  File \\\"/usr/local/lib/python3.13/dist-packages/torch/autograd/__init__.py\\\", line 381, in backward\\n    _engine_run_backward(\\n    ~~~~~~~~~~~~~~~~~~~~^\\n        tensors,\\n        ^^^^^^^^\\n    ...<5 lines>...\\n        accumulate_grad=True,\\n        ^^^^^^^^^^^^^^^^^^^^^\\n    )\\n    ^\\n  File \\\"/usr/local/lib/python3.13/dist-packages/torch/autograd/graph.py\\\", line 869, in _engine_run_backward\\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n        t_outputs, *args, **kwargs\\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\\n    )  # Calls into the C++ engine to run the backward pass\\n    ^\\nKeyboardInterrupt\\n\"}\n"
+        ]
+      }
+    ]
+  }
+}

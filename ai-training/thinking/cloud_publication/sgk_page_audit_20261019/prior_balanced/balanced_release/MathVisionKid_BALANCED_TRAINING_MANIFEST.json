@@ -1,0 +1,46 @@
+{
+  "schema": "MathVisionKid.balanced_training_manifest.v1",
+  "release_scope": "BALANCED_SELECTED_VIEW",
+  "full_corpus_changed": false,
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "shards": [
+    {
+      "kind": "selected_chat",
+      "file_name": "train.jsonl.gz",
+      "split": "train",
+      "bytes": 1257806,
+      "sha256": "2f3ccd6cde5c0db09d7870fc4d2dc5d86c2f273ebbdef64a120711f9ab60f7bc",
+      "chat_rows": 4944
+    },
+    {
+      "kind": "selected_chat",
+      "file_name": "validation.jsonl.gz",
+      "split": "validation",
+      "bytes": 14477,
+      "sha256": "b3372853c2d6dff79d99427d52b79ead59e6d46a0c0293692bee7d8cf09e6625",
+      "chat_rows": 40
+    },
+    {
+      "kind": "selected_chat",
+      "file_name": "test.jsonl.gz",
+      "split": "test",
+      "bytes": 14887,
+      "sha256": "9d4248fad946ed693fac42ca37c8c39a6353ca5592729488d9212d8e937755c0",
+      "chat_rows": 40
+    }
+  ],
+  "all_four_modes": [
+    "worked_solution",
+    "hint_level_1",
+    "hint_level_2",
+    "hint_level_3"
+  ],
+  "source_cases": 1256,
+  "chat_rows": 5024,
+  "TRAINING_DATASET_READY": true,
+  "arithmetic_input_missing": false,
+  "no_training_invoked": true,
+  "archived_six_million_chat_fully_token_audited": false,
+  "token_audit_sha256": "470c9882fe67180c70b6c3b5579d6edbdafbfa05a71b4080b6ddbcb6b301a49a"
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS_SELF_QA_ROOT_REVIEW_PENDING",
+  "original29_retained": true,
+  "derived_cases": 38,
+  "new_cases": 9,
+  "exact_numeric_steps_checked": 35,
+  "independent_oracles": 40,
+  "meaningful_mutations": 40,
+  "repaired_cases_sha256": "5b7367ece4bda0347db53af57e19051ada0f64dd39a45140ae6713fd0ebd9e41",
+  "qa7_sha256": "738f772b3888114c1e38e67a64023a981b56be70cf850349303a316b8ce7b103",
+  "code_sha256": "a30800c222995c252b4fe5f26c50578a688bc70d250b8ab0467c7f80da5dc683",
+  "protected_eval_or_pilot_read": false,
+  "human_review_claimed": false,
+  "train_or_model_weights_loaded": false
+}

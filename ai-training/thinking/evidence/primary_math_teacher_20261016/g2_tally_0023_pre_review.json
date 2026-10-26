@@ -1,0 +1,205 @@
+{
+  "batch_sha256": "2e3a4ac4fdfd0aa9dbed146daff15c6697fa3d280de7fc046de5793311996965",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_classify_pencils",
+      "row_sha256": "adbc7ad56e74aa6ed538340349f841a70425c6332048323e194e670e1f3332ce",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3",
+          "4",
+          "1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_tally_bundle_and_zero",
+      "row_sha256": "e5b68bf5fbbdd76297b17386981eef57615e775007099565b1c914260a8838d7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "5+2",
+          "3",
+          "0"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_survey_one_choice_per_child",
+      "row_sha256": "b444b7f65561903d10c700f2c0bb87bcba5e9c83401e16dcc8eff32867f3536c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "2",
+          "5",
+          "1"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_misconception_duplicate_respondent",
+      "row_sha256": "d4a0f994c0318a9abb344e33aee105a9ac29f744390f39c2405c4e2e6d2dfdec",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3",
+          "3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_guard_incomplete_survey",
+      "row_sha256": "186e268334b72e6efa606262b50dc00c2bf0ea863111dc555c5289d89f1af89a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "pencil_identity_map": {
+      "A": "đỏ",
+      "B": "xanh",
+      "C": "xanh",
+      "D": "vàng",
+      "E": "đỏ",
+      "F": "xanh",
+      "G": "đỏ",
+      "H": "xanh"
+    },
+    "pencil_counts": {
+      "đỏ": 3,
+      "xanh": 4,
+      "vàng": 1
+    },
+    "tally_triangle_unique_ids": [
+      "T0",
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+    ],
+    "survey_response_map": {
+      "A": "đá cầu",
+      "B": "nhảy dây",
+      "C": "đá cầu",
+      "D": "đuổi bắt",
+      "E": "đá cầu",
+      "F": "đá cầu",
+      "G": "nhảy dây",
+      "H": "đá cầu"
+    },
+    "survey_counts": {
+      "đá cầu": 5,
+      "nhảy dây": 2,
+      "đuổi bắt": 1
+    },
+    "duplicate_record_rows": [
+      [
+        "A",
+        "đỏ"
+      ],
+      [
+        "B",
+        "xanh"
+      ],
+      [
+        "C",
+        "đỏ"
+      ],
+      [
+        "D",
+        "xanh"
+      ],
+      [
+        "E",
+        "đỏ"
+      ],
+      [
+        "F",
+        "xanh"
+      ],
+      [
+        "B",
+        "xanh"
+      ]
+    ],
+    "deduplicated_counts": {
+      "đỏ": 3,
+      "xanh": 3
+    },
+    "missing_response_countermodels": [
+      {
+        "D": "đỏ",
+        "E": "đỏ",
+        "counts": {
+          "đỏ": 4,
+          "xanh": 1
+        }
+      },
+      {
+        "D": "xanh",
+        "E": "xanh",
+        "counts": {
+          "đỏ": 2,
+          "xanh": 3
+        }
+      }
+    ]
+  },
+  "numeric_count_literals_are_not_cardinality_proof": true,
+  "task007_manifest_packet_unchanged": true,
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "author_self_content_check": "Read every problem, identity criterion, tally convention, response rule, counted sets, guidance, synthetic work and all fifteen hints. Actual sets are checked separately; count-literal parser passes do not prove counting or pedagogy. New cases remain pending independent review.",
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Explicit hypothetical text only; no observed collection/interview or image capability. Confirmed zero differs from missing data, and only a confirmed duplicate person is deduplicated. Neutral schema is not live PlanDraft."
+}

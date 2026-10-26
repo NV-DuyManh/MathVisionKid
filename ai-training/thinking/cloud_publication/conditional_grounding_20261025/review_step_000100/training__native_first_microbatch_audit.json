@@ -1,0 +1,7 @@
+{
+  "absolute_difference": 4.76837158203125e-07,
+  "model_backend": "native Transformers/PEFT",
+  "prompt_tokens_excluded_by_source_mask": true,
+  "shifted_CE_matches_forward": true,
+  "supervised_tokens": 84
+}

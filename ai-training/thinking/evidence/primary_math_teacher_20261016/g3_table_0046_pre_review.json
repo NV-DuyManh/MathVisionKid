@@ -1,0 +1,172 @@
+{
+  "authored_utc": "2026-10-18T02:36:06.030384+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T02:32:05.823Z",
+  "batch_sha256": "343f124f92fb3f57a57430b8cf072a9df9afe1f186f94cfafb18822a5cf51437",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g3_table_0046_classify_records_build_table",
+      "row_sha256": "06928033991ad2dba70bdd0fcef82315876ad405f8647e72f61d1c12a4c4f52c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3+2+3",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_table_0046_read_cross_table_zero_is_data",
+      "row_sha256": "86802a54729fec3cc0e9db7ddbe1ee6aacbad4e7264e8d2284b864133860af20",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "0",
+          "9+6+7",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_table_0046_merge_disjoint_group_tables",
+      "row_sha256": "459777dc08c572ddb3b2be56e7720f7f3760b118e18bf0c38ef44808bb0a6f7c",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "18+14",
+          "7+9",
+          "(18+14)-(7+9)",
+          "(18+14)+(7+9)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_table_0046_misconception_wrong_column_same_row",
+      "row_sha256": "5dd23eb1ceb756af01a287234f2420c54d3c131235c6371e7ddfbd8f7120dcd3",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_table_0046_guard_blank_cell_not_zero",
+      "row_sha256": "684d96233373c6e59ff24b1864c7307bc6e3504e5792cc881f3f93a181001a20",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "classification_by_record_Counter": {
+      "thiên nhiên": 3,
+      "cổ tích": 2,
+      "thơ": 3
+    },
+    "record_ids_unique": true,
+    "bean_token_enumeration": 22,
+    "card_color_counts": {
+      "xanh": 32,
+      "vàng": 16
+    },
+    "disjoint_card_total": 48,
+    "column_lookup": {
+      "Hạc": 17,
+      "Thuyền": 6
+    },
+    "missing_cell_countermodels": [
+      {
+        "Tuesday": 0,
+        "total": 19
+      },
+      {
+        "Tuesday": 4,
+        "total": 23
+      }
+    ]
+  },
+  "oracle_method": "Independent record classification, finite token enumeration and set difference, keyed row/column lookup, missing-cell countermodels; all arithmetic uses exact integers/Fraction via curator. No real collection/image claim.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_previous_accepted290_sources_unchanged": true,
+  "independent_external_reviewer": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "limits": "Text hypothetical examples; finite oracle is not universal semantic proof. Curriculum quota is not exhaustive legal or practical coverage.",
+  "pre_self_QA_polish": {
+    "previous_unreviewed_batch_sha256": "119999312bc92ebc509cdf74590fb53be509c58e1994b7d350cd169bd95f4378",
+    "changes": [
+      "Remove explicit zero mention from initial guidance for zero-cell question; preserve answer for worked solution only.",
+      "Make missing-data requested quantity specific to absent Tuesday cell."
+    ],
+    "frozen_or_official_review_modified": false
+  },
+  "actual_full_readback_self_QA": {
+    "reviewed_utc": "2026-10-18T02:36:51.231494+00:00",
+    "cases": 5,
+    "hints": 15,
+    "all_actual_content_fields_read": true,
+    "same_author_not_independent": true,
+    "case_notes": {
+      "primary_20261018_g3_table_0046_classify_records_build_table": "Read all eight distinct book IDs: nature M1/M4/M7=3, tales M2/M6=2, poetry M3/M5/M8=3, exhaustive disjoint total8. Both tied maxima retained, no population inference. Exact sum and Counter oracle agree. All three hints support criterion/once-only count/tie handling without naming final groups or counts.",
+      "primary_20261018_g3_table_0046_read_cross_table_zero_is_data": "Read exact row and column labels: B corn0 is confirmed observed-in-hypothetical data, not missing; beans9+6+7=22, A9 is unique maximum. Literal0 anchored to keyed cell and token oracle corroborates22. Removed zero wording from initial to avoid cueing queried cell. Hints identify row/column and comparison but do not state zero,22 or A.",
+      "primary_20261018_g3_table_0046_merge_disjoint_group_tables": "Distinct team cards have exhaustive exclusive colors; merge by color yields blue32 yellow16; blue excess16, total48. Row totals25/23 independently agree with column totals; finite cards enumeration and set difference corroborate. All units cards and operations age appropriate. All hints support grouping/difference/check without blue label or final numbers.",
+      "primary_20261018_g3_table_0046_misconception_wrong_column_same_row": "Synthetic quote17 is rowB Hac, while requested rowB Thuyen6. Feedback preserves correctly located row and points only to explicit column mismatch, no inferred mental process/addition error. Literal6 tied to cell, lookup oracle agrees. Initial and all hints omit answer6 and final column correction.",
+      "primary_20261018_g3_table_0046_guard_blank_cell_not_zero": "Tuesday blank explicitly unrecorded, cannot read as zero. Missing Tuesday value specifically requested, no total or invented steps. Countermodels Tuesday0 total19 and Tuesday4 total23 show non-uniqueness; not included as answers/hints. All three hints request missing input without choosing a total."
+    },
+    "official_review_sha256": "c397b7b072bf83656e21b595256ea8253667022dc4a70559878e12afe16e17ab"
+  }
+}

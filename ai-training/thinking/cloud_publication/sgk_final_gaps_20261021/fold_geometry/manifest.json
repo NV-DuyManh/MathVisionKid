@@ -1,0 +1,117 @@
+{
+  "status": "23_DRAFTS_SELF_QA_PASSED_ROOT_CROSS_QA_PENDING",
+  "case_count": 23,
+  "chat_count": 92,
+  "master_counts": {
+    "disk_sector_limit_area_argument": 2,
+    "fold_coincidence_fraction_perpendicular": 4,
+    "fold_cut_unfold_boundary": 2,
+    "midpoint_tangram_piece_area": 2,
+    "nested_circle_center_construction": 2,
+    "prescribed_grid_angle_construction": 2,
+    "repeated_fold_visible_area": 2,
+    "rotated_trapezoid_completion": 2,
+    "specified_area_preserving_dissection": 3,
+    "wheel_turns_distance": 2
+  },
+  "grade_counts": {
+    "5": 13,
+    "3": 2,
+    "4": 8
+  },
+  "numeric_steps": 27,
+  "independent_oracles": 23,
+  "adversarial_rejections": 23,
+  "nearest_actual_rows": 29,
+  "input_queue_sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+  "helper_sha256": "3c03ae6dde4a9466bb7d93764f44863f1b60e0d1a30a948b3701732dfb0bacc1",
+  "source_files": [
+    {
+      "file": "adversarial_mutations.jsonl",
+      "bytes": 5386,
+      "sha256": "9b48a94add8cd42f6c131037cff73f9493ccc09c7c87defa957fb1cd80cf0c32"
+    },
+    {
+      "file": "author_before_numeric_metadata_normalization.jsonl",
+      "bytes": 155779,
+      "sha256": "6d43d02c13234f50dc573d5912521c61ffaed22011296782684723f1c8d43f90"
+    },
+    {
+      "file": "author_data.py",
+      "bytes": 33460,
+      "sha256": "2ba520e3ead8609c9f66fd8239d2446acdcaa01e76244eb6a2b716d8c0370808"
+    },
+    {
+      "file": "candidate_task_snapshot.json",
+      "bytes": 40161,
+      "sha256": "8ed56d63d21183a55220e74627ba91ec1f89eb25b7c91eda84409d80a7598769"
+    },
+    {
+      "file": "cases.jsonl",
+      "bytes": 155759,
+      "sha256": "7cbea5b9c7b09fc8e72f4b12155ddea8d4a98e6e6b0a3c15008a2646b070ceb1"
+    },
+    {
+      "file": "chat.jsonl",
+      "bytes": 201539,
+      "sha256": "5bf8807b8a881a8fa4e98e7806eab8bef36821cd8749dd845cb20bf4da1580a5"
+    },
+    {
+      "file": "coverage_grade_residual_matrix.jsonl",
+      "bytes": 42755,
+      "sha256": "57c018a5fa09a0ce0b8b82b52187f7745625d49a6e658d1bebec3fc8803a6d63"
+    },
+    {
+      "file": "finalize.py",
+      "bytes": 12812,
+      "sha256": "5a2fc80db05a5bd5a2a80f6a847b5f0aa211a33b8bf4835d12ac47040ddcfda4"
+    },
+    {
+      "file": "independent_oracle.py",
+      "bytes": 8867,
+      "sha256": "811e623847bc6927e3781b291d5557a18980930f38948034b70ee365ee8f0f6c"
+    },
+    {
+      "file": "independent_oracles.jsonl",
+      "bytes": 11240,
+      "sha256": "7261bf174a1de5134cc45f60c284b58bb9e179aa596acc838d64f49bf6b288e5"
+    },
+    {
+      "file": "nearest_actual_fullfields.jsonl",
+      "bytes": 86697,
+      "sha256": "38fa66d1e748a3d3e800254280232952e94096adf4bf854197d3c0dd0f53af9f"
+    },
+    {
+      "file": "numeric_fraction_decimal.jsonl",
+      "bytes": 6840,
+      "sha256": "f075872fc99d0d5f25630490211c11a37dd81207976c9994c7c4cefa019cb625"
+    },
+    {
+      "file": "numeric_metadata_normalization.json",
+      "bytes": 1558,
+      "sha256": "d57217ae1a238e8349f8d7d2d06c69b5a563e2ac126c9ee2e67befff640ddf22"
+    },
+    {
+      "file": "selfqa7.jsonl",
+      "bytes": 104512,
+      "sha256": "444b028d0b307dcda41d85a6baae1849eedb4012fb1c9cbe92c9f2c122ced6d7"
+    }
+  ],
+  "frozen_prior_hashes": {
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019\\current_sources.jsonl": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_page_audit_20261019\\release\\accepted_cases.jsonl": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_finish_20261020\\release\\accepted_cases.jsonl": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\release\\accepted_cases.jsonl": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_final_forms_20261020\\release\\accepted_cases.jsonl": "8d80ff7f2cf5a00adb2c657a58121e19e9cf05b25d294355e19f5c00897da318",
+    "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_completion_20261021\\release\\accepted_cases.jsonl": "1e9b81a0178c8ca93e9759359629c94d789e953902e4e28feb114342d6944f9a"
+  },
+  "prior_unchanged": true,
+  "training_started": false,
+  "drive_mutated": false,
+  "all_sgk_forms_covered": false,
+  "scope_limitations": [
+    "Finite explicit text geometry; original publisher image and physical-execution coverage not certified.",
+    "Disk formula derivation uses supplied refinement relation and distinguishes finite arrangement from approximation.",
+    "Only exact grade/candidate branches in matrix proposed; no global master closed solely by shared ID."
+  ]
+}

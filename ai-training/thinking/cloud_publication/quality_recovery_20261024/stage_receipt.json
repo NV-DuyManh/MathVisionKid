@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "whYnqNVoZ-Fi"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"preflight\": \"PASS_SOURCE_HASH_PLAN_SPLIT_SCREEN_ONLY\", \"derived_view_rows\": 6625, \"mode_counts\": {\"worked_solution\": 4000, \"hint_level_2\": 875, \"hint_level_1\": 875, \"hint_level_3\": 875}, \"source_plan_sha256\": \"f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad\", \"dev_screen\": {\"fixtures\": 30, \"training_rows_screened\": 16000, \"collisions\": [], \"scope\": \"exact and number-masked text against actual16kview only; no full-corpus or semantic independence claim\"}, \"locked_screen_counts_only\": {\"train_collisions\": 0, \"dev_collisions\": 0}, \"source_labels_changed\": false, \"training_started\": false}\n",
+          "{\"publisher_started\": true, \"folder_name\": \"MathVisionKid_QUALITY_RECOVERY_20261024\", \"training_started_by_publisher\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "final_thinking_review.json",
+    "id": "11NUDecwbtP8An8F3ZHetNETBcKCsgpwD",
+    "bytes": 20003,
+    "sha256": "8cb8d7aa502c3eba58d5dd8302ef975804fd108ee17a9789e6b730b9cbe37422",
+    "raw_equal": true
+  },
+  {
+    "name": "MathVisionKid_Full_Thinking_Review_20261013.zip",
+    "id": "1Jcom-Whz31z4lpeFDvqygXVFTOPgFpcl",
+    "bytes": 351255,
+    "sha256": "134481cc011e88f09f95933f5e7dc38b92b628fe4cf61bf954225067ad460f5b",
+    "raw_equal": true
+  },
+  {
+    "name": "OCR_WITH_TEACHER_MATH_V3.ipynb",
+    "id": "17aUDHsE5hyYeDCFb3Z-iG8hRnGwvfcZM",
+    "bytes": 3469519,
+    "sha256": "9a653d13322bb5184ad247d3eee099569f100923415464a4631f9f63453ef775",
+    "raw_equal": true
+  }
+]

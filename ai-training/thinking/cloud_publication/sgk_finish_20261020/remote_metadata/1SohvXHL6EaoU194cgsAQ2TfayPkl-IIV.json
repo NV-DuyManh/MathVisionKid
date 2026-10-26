@@ -1,0 +1,318 @@
+{
+  "file_id": "1SohvXHL6EaoU194cgsAQ2TfayPkl-IIV",
+  "file_name": "MathVisionKid_BALANCED_COLAB_BUNDLE.zip",
+  "expected_archive_sha256": "e14c49b1fa9d2c676f0b6495bfc25788a05a1f12509ba3e52699b724cfd9ddbe",
+  "total_bytes": 2431367,
+  "central_directory_offset": 2428265,
+  "central_directory_bytes": 3080,
+  "entries": [
+    {
+      "name": "audit/boundary_cases.jsonl",
+      "method": 8,
+      "crc32": 2477957259,
+      "compressed_bytes": 55034,
+      "bytes": 543418,
+      "local_header_offset": 0
+    },
+    {
+      "name": "audit/boundary_chat.jsonl",
+      "method": 8,
+      "crc32": 313637993,
+      "compressed_bytes": 18974,
+      "bytes": 501027,
+      "local_header_offset": 55090
+    },
+    {
+      "name": "audit/boundary_qa.json",
+      "method": 8,
+      "crc32": 4117892737,
+      "compressed_bytes": 969,
+      "bytes": 3166,
+      "local_header_offset": 74119
+    },
+    {
+      "name": "audit/boundary_qa_before_semantic_review2.json",
+      "method": 8,
+      "crc32": 3382823201,
+      "compressed_bytes": 487,
+      "bytes": 1648,
+      "local_header_offset": 75140
+    },
+    {
+      "name": "audit/boundary_semantic_review2.json",
+      "method": 8,
+      "crc32": 613293037,
+      "compressed_bytes": 4856,
+      "bytes": 47182,
+      "local_header_offset": 75703
+    },
+    {
+      "name": "audit/holdout_arithmetic_cases.jsonl",
+      "method": 8,
+      "crc32": 1456639786,
+      "compressed_bytes": 14292,
+      "bytes": 78049,
+      "local_header_offset": 80625
+    },
+    {
+      "name": "audit/holdout_arithmetic_cases_v2.jsonl",
+      "method": 8,
+      "crc32": 2140287517,
+      "compressed_bytes": 13827,
+      "bytes": 79837,
+      "local_header_offset": 94983
+    },
+    {
+      "name": "audit/holdout_arithmetic_chat.jsonl",
+      "method": 8,
+      "crc32": 3739057363,
+      "compressed_bytes": 6218,
+      "bytes": 84399,
+      "local_header_offset": 108879
+    },
+    {
+      "name": "audit/holdout_arithmetic_chat_v2.jsonl",
+      "method": 8,
+      "crc32": 1599996308,
+      "compressed_bytes": 5758,
+      "bytes": 86960,
+      "local_header_offset": 115162
+    },
+    {
+      "name": "audit/holdout_arithmetic_qa.json",
+      "method": 8,
+      "crc32": 2071479603,
+      "compressed_bytes": 1688,
+      "bytes": 7660,
+      "local_header_offset": 120988
+    },
+    {
+      "name": "audit/holdout_arithmetic_qa_v2.json",
+      "method": 8,
+      "crc32": 3222139656,
+      "compressed_bytes": 1642,
+      "bytes": 7578,
+      "local_header_offset": 122738
+    },
+    {
+      "name": "audit/holdout_arithmetic_reservations.json",
+      "method": 8,
+      "crc32": 1950787281,
+      "compressed_bytes": 6673,
+      "bytes": 23462,
+      "local_header_offset": 124445
+    },
+    {
+      "name": "audit/holdout_arithmetic_reservations_v2.json",
+      "method": 8,
+      "crc32": 3778415520,
+      "compressed_bytes": 7427,
+      "bytes": 24766,
+      "local_header_offset": 131190
+    },
+    {
+      "name": "audit/holdout_signatures.json",
+      "method": 8,
+      "crc32": 2529514728,
+      "compressed_bytes": 7370,
+      "bytes": 13607,
+      "local_header_offset": 138692
+    },
+    {
+      "name": "audit/holdout_signatures_v1.json",
+      "method": 8,
+      "crc32": 2489039563,
+      "compressed_bytes": 1138,
+      "bytes": 2030,
+      "local_header_offset": 146121
+    },
+    {
+      "name": "audit/loader_tests_receipt.json",
+      "method": 8,
+      "crc32": 1028604678,
+      "compressed_bytes": 466,
+      "bytes": 934,
+      "local_header_offset": 147321
+    },
+    {
+      "name": "audit/multidigit_semantic_review2.json",
+      "method": 8,
+      "crc32": 2757792545,
+      "compressed_bytes": 1918,
+      "bytes": 10087,
+      "local_header_offset": 147848
+    },
+    {
+      "name": "audit/original_payload_recheck.json",
+      "method": 8,
+      "crc32": 3074592333,
+      "compressed_bytes": 2375,
+      "bytes": 16461,
+      "local_header_offset": 149834
+    },
+    {
+      "name": "audit/pedagogy_cases.jsonl",
+      "method": 8,
+      "crc32": 2841412413,
+      "compressed_bytes": 27264,
+      "bytes": 181204,
+      "local_header_offset": 152274
+    },
+    {
+      "name": "audit/pedagogy_cases_v2.jsonl",
+      "method": 8,
+      "crc32": 1553985895,
+      "compressed_bytes": 34330,
+      "bytes": 248955,
+      "local_header_offset": 179594
+    },
+    {
+      "name": "audit/pedagogy_cases_v3.jsonl",
+      "method": 8,
+      "crc32": 2647857793,
+      "compressed_bytes": 38772,
+      "bytes": 287677,
+      "local_header_offset": 213983
+    },
+    {
+      "name": "audit/pedagogy_chat.jsonl",
+      "method": 8,
+      "crc32": 1843788660,
+      "compressed_bytes": 23602,
+      "bytes": 391972,
+      "local_header_offset": 252814
+    },
+    {
+      "name": "audit/pedagogy_chat_v2.jsonl",
+      "method": 8,
+      "crc32": 1676068849,
+      "compressed_bytes": 30044,
+      "bytes": 466090,
+      "local_header_offset": 276471
+    },
+    {
+      "name": "audit/pedagogy_chat_v3.jsonl",
+      "method": 8,
+      "crc32": 1116174581,
+      "compressed_bytes": 33525,
+      "bytes": 491072,
+      "local_header_offset": 306573
+    },
+    {
+      "name": "audit/pedagogy_qa.json",
+      "method": 8,
+      "crc32": 3895877978,
+      "compressed_bytes": 575,
+      "bytes": 1010,
+      "local_header_offset": 340156
+    },
+    {
+      "name": "audit/pedagogy_semantic_review2.json",
+      "method": 8,
+      "crc32": 736230744,
+      "compressed_bytes": 7333,
+      "bytes": 52315,
+      "local_header_offset": 340783
+    },
+    {
+      "name": "audit/pedagogy_semantic_review3.json",
+      "method": 8,
+      "crc32": 4258719004,
+      "compressed_bytes": 6429,
+      "bytes": 41179,
+      "local_header_offset": 348182
+    },
+    {
+      "name": "audit/pedagogy_split_reservations.json",
+      "method": 8,
+      "crc32": 3728312939,
+      "compressed_bytes": 6153,
+      "bytes": 13448,
+      "local_header_offset": 354677
+    },
+    {
+      "name": "audit/pedagogy_split_reservations_v3.json",
+      "method": 8,
+      "crc32": 887651537,
+      "compressed_bytes": 6160,
+      "bytes": 13557,
+      "local_header_offset": 360898
+    },
+    {
+      "name": "balanced_release/MathVisionKid_BALANCED_TRAINING_MANIFEST.json",
+      "method": 8,
+      "crc32": 3317155361,
+      "compressed_bytes": 659,
+      "bytes": 1408,
+      "local_header_offset": 367129
+    },
+    {
+      "name": "balanced_release/data_smoke_receipt.json",
+      "method": 8,
+      "crc32": 1899275825,
+      "compressed_bytes": 267,
+      "bytes": 521,
+      "local_header_offset": 367880
+    },
+    {
+      "name": "balanced_release/exhaustive_colab_loader.py",
+      "method": 8,
+      "crc32": 1956668522,
+      "compressed_bytes": 7637,
+      "bytes": 24727,
+      "local_header_offset": 368217
+    },
+    {
+      "name": "balanced_release/qwen_full_selected_token_audit.json",
+      "method": 8,
+      "crc32": 4068121828,
+      "compressed_bytes": 13051,
+      "bytes": 50344,
+      "local_header_offset": 375927
+    },
+    {
+      "name": "balanced_release/selected_sources.jsonl",
+      "method": 8,
+      "crc32": 3667558006,
+      "compressed_bytes": 722495,
+      "bytes": 6273436,
+      "local_header_offset": 389060
+    },
+    {
+      "name": "balanced_release/selection_receipt.json",
+      "method": 8,
+      "crc32": 860973658,
+      "compressed_bytes": 35829,
+      "bytes": 180147,
+      "local_header_offset": 1111624
+    },
+    {
+      "name": "balanced_release/test.jsonl.gz",
+      "method": 8,
+      "crc32": 1252801803,
+      "compressed_bytes": 14848,
+      "bytes": 14887,
+      "local_header_offset": 1147522
+    },
+    {
+      "name": "balanced_release/train.jsonl.gz",
+      "method": 8,
+      "crc32": 3844052944,
+      "compressed_bytes": 1251271,
+      "bytes": 1257806,
+      "local_header_offset": 1162430
+    },
+    {
+      "name": "balanced_release/validation.jsonl.gz",
+      "method": 8,
+      "crc32": 1104251069,
+      "compressed_bytes": 14437,
+      "bytes": 14477,
+      "local_header_offset": 2413762
+    }
+  ],
+  "metadata_documents": [],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:49.917Z"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "ngquocvinh/vi_math_school_full",
+  "sha": "ca6f9adac2fc2ae9ca6f7634538d8b03f043942f",
+  "gated": false,
+  "cardData": {
+    "task_categories": [
+      "text-generation"
+    ],
+    "pretty_name": "Vietnamese School Math Dataset",
+    "size_categories": [
+      "1K<n<10K"
+    ]
+  },
+  "files": [
+    ".gitattributes",
+    "README.md",
+    "archive/qace.json.original",
+    "data/train.jsonl",
+    "qace.json"
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "summary": {
+    "solution_samples": 8,
+    "answer_extracted": 7,
+    "numeric_correct": 7,
+    "answer_unit_correct": 4,
+    "strict_schema_valid": 7,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 1,
+        "numeric_correct": 1,
+        "answer_unit_correct": 1
+      },
+      "2": {
+        "samples": 1,
+        "numeric_correct": 1,
+        "answer_unit_correct": 1
+      },
+      "3": {
+        "samples": 2,
+        "numeric_correct": 2,
+        "answer_unit_correct": 1
+      },
+      "4": {
+        "samples": 2,
+        "numeric_correct": 1,
+        "answer_unit_correct": 0
+      },
+      "5": {
+        "samples": 2,
+        "numeric_correct": 2,
+        "answer_unit_correct": 1
+      }
+    },
+    "truncated": 0
+  },
+  "records": [
+    {
+      "sample_id": "87aa6f6bf02be67b4a1dcf5c",
+      "grade": 1,
+      "topic": "missing_addend",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": true,
+      "strict_schema_valid": true,
+      "generated_answer": "20",
+      "generated_unit": "quyển"
+    },
+    {
+      "sample_id": "0c7f89d7dbf27123d5fc80ab",
+      "grade": 2,
+      "topic": "equal_groups",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": true,
+      "strict_schema_valid": true,
+      "generated_answer": "20",
+      "generated_unit": "quyển"
+    },
+    {
+      "sample_id": "a4378f2359889186debf627e",
+      "grade": 3,
+      "topic": "rectangle_perimeter",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": true,
+      "strict_schema_valid": true,
+      "generated_answer": "328",
+      "generated_unit": "cm"
+    },
+    {
+      "sample_id": "e5a2152a88e1de9477571dd1",
+      "grade": 4,
+      "topic": "fraction_add",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": false,
+      "strict_schema_valid": true,
+      "generated_answer": "7",
+      "generated_unit": "unitless"
+    },
+    {
+      "sample_id": "fb80b0ec679d8d1b9ac806c4",
+      "grade": 5,
+      "topic": "decimal_multiply",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": false,
+      "strict_schema_valid": true,
+      "generated_answer": "555457/1000",
+      "generated_unit": "unitless"
+    },
+    {
+      "sample_id": "3d9d46beabd461b1efdfe61e",
+      "grade": 3,
+      "topic": "division_remainder",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": false,
+      "strict_schema_valid": true,
+      "generated_answer": "2",
+      "generated_unit": "bánh"
+    },
+    {
+      "sample_id": "3f01e1702c17e7c8f8d8cb7c",
+      "grade": 4,
+      "topic": "sum_difference_large",
+      "answer_extracted": false,
+      "numeric_correct": false,
+      "answer_unit_correct": false,
+      "strict_schema_valid": false
+    },
+    {
+      "sample_id": "6ef4e5ba503d9c0bf6beb876",
+      "grade": 5,
+      "topic": "triangle_area",
+      "answer_extracted": true,
+      "numeric_correct": true,
+      "answer_unit_correct": true,
+      "strict_schema_valid": true,
+      "generated_answer": "1239",
+      "generated_unit": "cm²"
+    }
+  ]
+}

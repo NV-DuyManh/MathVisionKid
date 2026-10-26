@@ -1,0 +1,102 @@
+{
+  "schema": "MathVisionKid.AntigravityOriginalIntake.v1",
+  "observed_utc": "2026-10-22T12:08:57.347793+00:00",
+  "role": "ORIGINAL_AI_HANDOFF_AUDIT_ONLY_PENDING_ROOT_REPAIRS",
+  "batches": [
+    {
+      "batch": 1,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH1_20261022_605fc396b9a1f4ea.zip",
+      "bytes": 19975,
+      "sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+      "cases": 6,
+      "chats": 24,
+      "original_manifest_id": "drive_item_605fc396b9a1f4ea",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 2,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH2_20261022_d257397c8b68cca7.zip",
+      "bytes": 21334,
+      "sha256": "d257397c8b68cca7196a3e3d2c30965bfb12354699bdf05670766fbb69caccda",
+      "cases": 6,
+      "chats": 24,
+      "original_manifest_id": "drive_item_d257397c8b68cca7",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 3,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH3_20261022_2be0e9201b283ca9.zip",
+      "bytes": 18511,
+      "sha256": "2be0e9201b283ca94c35309fd5eab4eb90e4b0b117c934b250e561be8638233b",
+      "cases": 6,
+      "chats": 24,
+      "original_manifest_id": "drive_item_2be0e9201b283ca9",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 4,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH4_20261022_373c8e52f58b4f4a.zip",
+      "bytes": 18985,
+      "sha256": "373c8e52f58b4f4a702fb1e657c724e917437e09f512652a87a8caef9e0d20d6",
+      "cases": 6,
+      "chats": 24,
+      "original_manifest_id": "drive_item_373c8e52f58b4f4a",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 5,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH5_20261022_a54bb733ba350593.zip",
+      "bytes": 21308,
+      "sha256": "a54bb733ba35059341f57e94662f4599d4c9b888f535bb139acf290b3b4236cd",
+      "cases": 7,
+      "chats": 28,
+      "original_manifest_id": "drive_item_a54bb733ba350593",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 6,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH6_20261022_4f9fc393990f0e8f.zip",
+      "bytes": 16870,
+      "sha256": "4f9fc393990f0e8f906f2847ba4635b66b89b6da90f49f64a9c770b2829b4b06",
+      "cases": 5,
+      "chats": 20,
+      "original_manifest_id": "drive_item_4f9fc393990f0e8f",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 7,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH7_20261022_9716365106024ec0.zip",
+      "bytes": 24760,
+      "sha256": "9716365106024ec071afef772c042c4b761453cc34f7f1bac161aaf6fc84dc65",
+      "cases": 8,
+      "chats": 32,
+      "original_manifest_id": "drive_item_9716365106024ec0",
+      "original_id_is_cloud_verified": false
+    },
+    {
+      "batch": 8,
+      "zip": "MathVisionKid_G2_FINITE_APPEND_BATCH8_20261022_fbf9d89d411def9c.zip",
+      "bytes": 28791,
+      "sha256": "fbf9d89d411def9c55822869171cf1d71aa8ef3407b3d8ecee2852c549e7bd2d",
+      "cases": 9,
+      "chats": 36,
+      "original_manifest_id": "drive_item_fbf9d89d411def9c",
+      "original_id_is_cloud_verified": false
+    }
+  ],
+  "original_cases": 53,
+  "original_chats": 212,
+  "handoff_manifest_sha256": "6848d7a7a73be7f6a91944bc2997e3c01783b88973d0c4284c884fc59e365423",
+  "all_whole_zip_hashes_match": true,
+  "root_accepted_new_cases": 0,
+  "train_eligible": false,
+  "core_cases_unchanged": 495,
+  "core_nodes_unchanged": 165,
+  "cloud_claim": "Original DriveFS reads are local mount evidence; placeholder drive_item IDs are not remote server receipts.",
+  "report_token_max_claim": 782,
+  "manifest_token_max_claim": 909,
+  "preserve_all_originals": true,
+  "original_owner299_signoffs_unchanged": true,
+  "training_started": false,
+  "source_content_qa": "IN_PROGRESS_DERIVED_REPAIRS_REQUIRED"
+}

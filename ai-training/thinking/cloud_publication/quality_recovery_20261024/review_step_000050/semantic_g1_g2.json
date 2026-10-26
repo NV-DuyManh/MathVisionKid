@@ -1,0 +1,151 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "1da689ecf6a45c8e140b85483485b56225e177b44d06064b297962d3cfc91449",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_v1_g1_place_value",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Writes47 from40+7 and explicitly explains the digit4 has value40 units at the tens place. The final answer40 refers to the second question;47 is also clearly supplied.",
+      "adapter_reason": "Correctly supplies47 and40 units, with4*10 and40+7 explanations. The initial prompt echo is unnecessary but followed by a complete correct solution; JSON style itself is not penalized."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_order_cards",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Final ordering45,50,54 is correct, but the full explanation falsely asserts4<5<5 and then0>4 and50>54. Contradictory mathematical reasoning makes this a strict failure.",
+      "adapter_reason": "Only reproduces the original problem and metadata. It never gives45,50,54 or a comparison explanation. This is missing work, not a new false mathematical assertion."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_inverse_facts",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": true,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Provides both required true subtraction facts9-6=3 and9-3=6, using only the supplied numbers and explaining removal.",
+      "adapter_reason": "Provides both required true subtraction facts9-6=3 and9-3=6. Also repeating6+3=9 is harmless; the task did not require additional prose."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_compare_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Computes8, explicitly states8<9 and fills the forbidden symbol<, violating the no-conclusion hint request.",
+      "adapter_reason": "Withholds the sign and comparison conclusion, but repeats vague addend-comparison text across eleven hint fields. It does not clearly direct finding the left-hand sum and comparing that value with9, and is not a short useful hint. Repetition is evaluated for usefulness rather than JSON schema."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_student_place_error",
+      "grade": 1,
+      "mode": "student_error",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Rejects the comparison and mentions61>16, but gives contradictory instruction that one does not compare tens and must compare tens. Its prescribed repair merely swaps the digit references while leaving16>61 and does not provide a coherent corrected sentence explaining16<61.",
+      "adapter_reason": "Returns a generic cannot-resolve/try-later error. It supplies neither a comparison verdict, tens-place explanation nor16<61. No hidden student thinking is inferred."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g1_hidden_card_missing",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly lists possible values1..5 and refuses a unique answer, but falsely presents being odd as sufficient extra information for exact determination;1,3,5 would still remain.",
+      "adapter_reason": "Correctly lists1..5 and explains nonuniqueness, without selecting a fabricated value. However, it omits the explicitly requested additional information that would distinguish one unique card, so the full task is incomplete."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_inclusive_ids",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Explicitly counts both endpoints using64-46+1=19 and connects that count to the issued cards.",
+      "adapter_reason": "Only repeats the problem until the1024-token limit and ends mid-sentence. ended_eos=false and possibly_truncated=true; no count19 or completed solution is delivered. Baseline-pass regression is recorded separately from new false math."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_door_gap",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly converts2m to200cm, subtracts185cm, and concludes the cupboard is15cm below the top of the door.",
+      "adapter_reason": "Repeats the problem four times without converting or subtracting and supplies no15cm answer. Although it ends at EOS, the semantic task is unanswered."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_repeating_tile",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Preserves the four-shape pattern, computes14=3*4+2 with one-based positions, and correctly identifies the second shape as square.",
+      "adapter_reason": "Incorrectly states the14th shape is a triangle. It is the second position after three full groups and therefore a square. This is a new substantive mathematical error relative to the correct base output."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_table_leg_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": true,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Correctly computes the two products but then explicitly discloses20+6=26 despite the no-final-total request. Its later reminder not to reveal the answer does not undo the leak.",
+      "adapter_reason": "The nonleaking suggestion to find table/chair legs separately then add is a valid partial decomposition. It does not give the requested two multiplication/group-counting hints for5 groups of4 and2 groups of3, leaving the essential way to find each subtotal unspecified. Under the complete rubric this is partial usefulness, not a full task pass."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_student_group_error",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": true,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": false,
+      "base_reason": "Clearly identifies adding3 and2 as the wrong representation of two packs containing three candies each, explains2 packs means two lots of3, and corrects to3*2=6 candies. One middle wording about2 candies is awkwardly phrased as the submitted unit-mixing error, but the subsequent explicit pack count and repeated correct solution resolve it; no unseen action is alleged.",
+      "adapter_reason": "Says the work is wrong and asks to check it, but never explains why3+2 does not represent two groups of3, gives neither3+3 nor2*3, and supplies no6-candy correction. Feedback is substantively incomplete."
+    },
+    {
+      "fixture_id": "qrec20261024_v1_g2_calendar_conflict",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "adapter_pass": false,
+      "base_hint_leak": false,
+      "adapter_hint_leak": false,
+      "critical_new_error": true,
+      "base_reason": "Identifies the consecutive-day contradiction and uses the correct Wednesday-to-Thursday succession. However, it unconditionally asserts day18 is Thursday and directs checking only day18, instead of making Thursday conditional on the day17 entry and acknowledging either original entry may need correction.",
+      "adapter_reason": "Falsely says the day after Wednesday is Tuesday. This is a new substantive calendar error relative to the base correct weekday progression. The response also ends by repeating the question rather than giving a clear, appropriately conditional contradiction verdict."
+    }
+  ]
+}

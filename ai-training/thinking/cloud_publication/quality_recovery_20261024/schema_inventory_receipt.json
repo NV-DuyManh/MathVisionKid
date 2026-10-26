@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "SOWtAEnSpS5p"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"step\": {\"explanation,expression,reason,result,step_id,title,unit\": 9465, \"display_expression,display_result,exact_result_rational,explanation,expression,reason,result,step_id,title,unit\": 116, \"display_expression,display_result,explanation,expression,reason,result,step_id,title,unit\": 25, \"display_result,explanation,expression,reason,relation_type,result,step_id,title,unit\": 12}, \"answer\": {\"quantity,result,unit\": 5165, \"display_result,exact_result_rational,quantity,result,unit\": 44, \"display_result,quantity,result,unit\": 5}, \"given\": {\"id,role,text,unit,value\": 420}, \"student_work\": {\"str\": 884, \"observations,text\": 60, \"origin,text\": 40}, \"observation\": {\"claim_scope,excerpt,nature\": 44, \"claim_scope,excerpt\": 16}}\n"
+        ]
+      }
+    ]
+  }
+}

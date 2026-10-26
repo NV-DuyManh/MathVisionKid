@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'observed_utc': '2026-10-22T11:35:39.647619+00:00', 'sample_id': 'exhaustive_v1_div_1563_43', 'source_versions_metadata': [('1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', '1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', 'regression_only')], 'chat_links_by_split_so_far': [], 'completed_members_by_role': [('candidate_source', 218)], 'zero_links_is_final_proof': False, 'source_content_read': False, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{'observed_utc': '2026-10-22T11:35:39.647619+00:00', 'sample_id': 'exhaustive_v1_div_1563_43', 'source_versions_metadata': [('1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', '1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', 'regression_only')], 'chat_links_by_split_so_far': [], 'completed_members_by_role': [('candidate_source', 218)], 'zero_links_is_final_proof': False, 'source_content_read': False, 'training_started': False}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{'observed_utc': '2026-10-22T11:35:39.647619+00:00', 'sample_id': 'exhaustive_v1_div_1563_43', 'source_versions_metadata': [('1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', '1729ed713dfedcc0205b130c6573313dcc5784c7eaf5618d0cf32fdc728cf26b', 'regression_only')], 'chat_links_by_split_so_far': [], 'completed_members_by_role': [('candidate_source', 218)], 'zero_links_is_final_proof': False, 'source_content_read': False, 'training_started': False}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

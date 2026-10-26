@@ -1,0 +1,186 @@
+{
+  "created_utc": "2026-10-16T15:33:49.727162+00:00",
+  "batch_sha256": "26bba1cf1c03b32cb7bd506353e6bcb30330aa69fe97587a79f80a91be0e0ea2",
+  "review_sha256": "251feeba564c3e2feeee8bb970a806a9c7154b38334236699be599ab99761132",
+  "checks": [
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_count14",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "14",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "count_actual_source_symbols",
+        "count": 14,
+        "reading": "mười bốn"
+      },
+      "protected_collision": false,
+      "row_sha256": "e3205821a9f19e393225b928705b52ea5a5bd3b569ad323ac59a4129c9501d5a"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_five_tens",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "5",
+          "10+10+10+10+10"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "flatten_five_explicit_ten_item_bundles",
+        "tens": 5,
+        "units": 50
+      },
+      "protected_collision": false,
+      "row_sha256": "c63eeb0cbc90fc6a00dec6d5b8e97348714178fd3d7f72fac1036af19100369e"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_different_tens",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "73"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_integer_order_and_place_value_tuple",
+        "larger": 73,
+        "tuple_order_agrees": true
+      },
+      "protected_collision": false,
+      "row_sha256": "7c3c1d91264f5c7aaddb376196223725f36c05af3e41198a894ba9e3970c938b"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_same_tens",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "68"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_integer_order_and_place_value_tuple",
+        "larger": 68,
+        "tuple_order_agrees": true
+      },
+      "protected_collision": false,
+      "row_sha256": "735bf8f7f31136e1e2fa65a655ea40794d9e9db10510e5ae9ed8cde95e2625e9"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "8",
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_sort_and_adjacent_inequalities",
+        "ordered": [
+          8,
+          25,
+          52,
+          58
+        ],
+        "strictly_increasing": true
+      },
+      "protected_collision": false,
+      "row_sha256": "7120663583fe4dda3f7c3ce027fe925c8eeb52c78055204fcdb15a6bbb5b97bd"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_mental_within10",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "6+3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "extend_concrete_six_item_list_by_three_items",
+        "count": 9
+      },
+      "protected_collision": false,
+      "row_sha256": "0b76af9a8bc7a15e9ecc6f981a2ced18c81a43707fb88aad2be447ff7b1053a2"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_add",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "20+40"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_operations_on_tens_then_reconstruction",
+        "tens_result": 6,
+        "unit_result": 60
+      },
+      "protected_collision": false,
+      "row_sha256": "9fb7e8d7b2f4f773487a8c55bfc7f421683eebd03e25e58c49618b0798a7e617"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_subtract",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "90-30"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "oracle": {
+        "method": "independent_operations_on_tens_then_reconstruction",
+        "tens_result": 6,
+        "unit_result": 60
+      },
+      "protected_collision": false,
+      "row_sha256": "872cff2254d08d77a71839ec67c4b679a921ac186aeff7095ebb628ac6175b12"
+    }
+  ],
+  "no_external_AI_reviewer_claim": true,
+  "training_started": false,
+  "teacher_certified": false,
+  "result": {
+    "accepted_cases": 39,
+    "chat_train_rows": 156,
+    "remaining_core_cases": 464,
+    "core_nodes_complete": 3,
+    "decisions": {
+      "ACCEPTED_AI_RESEARCH": 39
+    }
+  }
+}

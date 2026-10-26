@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "progress",
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 16077326,
+    "sha256": "8d8405ae61a65a43fff3593fb78e6c72198f98596a47b6384c1205f3cd726699",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T04:00:12.718Z"
+  },
+  {
+    "kind": "chat",
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 93166,
+    "sha256": "0197fcc33f6cc1cd1d347ca672b66417268739992e54941cbe22994dcb7c87aa",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T04:00:12.854Z"
+  },
+  {
+    "kind": "context",
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 809073,
+    "sha256": "ca0cdf45025875c61d1278ab984124d5db644ec84f27618099be9d9f468349b1",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T04:00:12.991Z"
+  }
+]

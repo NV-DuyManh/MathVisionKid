@@ -1,0 +1,5 @@
+{
+  "resume_checkpoint_required": true,
+  "state": "RUNTIME_OR_STATUS_MISSING",
+  "training_started": false
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "MathVisionKid.portable_resume_final_status.v1",
+  "metadata_directories": 22,
+  "catalog_members": 1928,
+  "payload_artifacts": 31,
+  "source_cases_indexed": 1240,
+  "tokenized_chat_rows": 4036,
+  "candidate_train_chat_rows": 3988,
+  "pedagogy_current_eval_chat_rows_kept_separate": 48,
+  "finite_tasks": 271,
+  "complete_tasks": 32,
+  "pending_tasks": 239,
+  "historical_chat_missing_raw_source_hash_field": 3356,
+  "field_linkage_issues": 0,
+  "source_signature_missing_rows": 0,
+  "token_or_mode_issues": 0,
+  "tests_passed": 17,
+  "training_started": false,
+  "full_archive_token_split_audit_complete": false,
+  "sealed_pilot_payload_read": false,
+  "no_drive_calls_by_this_agent": true
+}

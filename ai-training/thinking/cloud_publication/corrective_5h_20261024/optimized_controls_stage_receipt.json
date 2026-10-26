@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "FvFHDu-ogItc"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"ded391576bca59e44701463c1f36c10040d6b685643e102ef60e75ee943494bf\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

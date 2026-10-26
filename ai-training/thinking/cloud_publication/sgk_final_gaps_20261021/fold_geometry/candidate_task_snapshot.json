@@ -1,0 +1,902 @@
+{
+  "input_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_residual_20261021\\reconciliation\\next_uncovered_tasks.json",
+  "input_sha256": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+  "tasks": [
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_disk_derivation"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "derive disk area by finer sectors approximating rectangle",
+            "radius-squared area formula"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_112-1790914085867.png",
+          "printed_page": 110,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "7e8af4bc454a56fbed8bc6a10cf4df03da17054bcba9ab1fab52950c1470305f",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "disk_sector_limit_area_argument",
+      "nearest_refs": [
+        {
+          "line": 157,
+          "sample_id": "primary_20261018_finish_g5_circle_area_radius_area_explicit_pi",
+          "sha256": "865dfc2484d6564212ff98cdb05495f8e84716e46ec087bb00e25e4e165c7d52",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 147,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+          "sha256": "9bae313cbc03ad67cd9e6648526882141770c74f81109f9bd34f7c1a2e001dd4",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 148,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+          "sha256": "9b1943347a283359f331f505206a91f3e71991d59de1a130580802381bb687cb",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 149,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+          "sha256": "f0dee1cbd35ae424690e342af72d8b9519ebe53dc6d2ab4603c2c713cba231eb",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_disk_derivation": [
+          "22b9b220308e35ec3a0006be"
+        ]
+      },
+      "original_master_reasons": [
+        "Using radius-square formula is present, not the sector rearrangement/approximation argument relating limiting rectangle sides and area. Must distinguish finite approximation from exact disk."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_disk_derivation",
+          "constraints": [
+            "Using radius-square formula is present, not the sector rearrangement/approximation argument relating limiting rectangle sides and area. Must distinguish finite approximation from exact disk."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g3_fold_midpoint",
+        "paper_fold_perpendicular_construction",
+        "folding_fraction_without_ruler",
+        "g5_candidate_fold_fraction"
+      ],
+      "exact_page_receipts": [
+        {
+          "book_id": "g3v1",
+          "image_sha256": "b26d19b27c579b9e6d57087a95a6fe1f601924612c7cdc83d754a0e1425c53fb",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-52-1775743954616.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 51
+        },
+        {
+          "book_id": "g3v1",
+          "image_sha256": "f8e32df2cd00412911a045f3c35c6bbf99e2f4c62585f85ccdec3f039b442b70",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-62-1775743957470.png",
+          "page_receipt_origin": "own actual-image reading",
+          "printed_page": 61
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Choose pipe assembly satisfying two perpendicular relations; construct perpendicular fold without set square; select radial spoke perpendicular to given spoke"
+          ],
+          "image_sha256": "054e6c976f0bdeb843806341af59684ecbfb5a4b0cc4d310bfbd38c1c5596463",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_95-1791255474497.png",
+          "printed_page": 93
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v2",
+          "exercise_types_read": [
+            "Multiple common denominators; fractions of subsegments; fold known unit cord to quarter without ruler"
+          ],
+          "image_sha256": "851d59b5a39cf37daac67361510c91d21922cc4774b26055f8547f8807eb23a0",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_73-1791255630977.png",
+          "printed_page": 71
+        },
+        {
+          "exercise_types": [
+            "fraction-of-known count then combine",
+            "distributive common fraction factor",
+            "construct fractional length by folding without ruler"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_21-1790914075410.png",
+          "printed_page": 19,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "1d80a494cd356f985756000eb71133c4b72e517655e2e97e1b61a83adf1aace6",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 5,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "fold_coincidence_fraction_perpendicular",
+      "nearest_refs": [
+        {
+          "line": 219,
+          "sample_id": "primary_20261018_finite100_g1_segments_zero_origin_plan",
+          "sha256": "f46b4280e861e114cee6c289b22be1169768acf119b7040b1b53ca09de2fa604",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 3,
+          "sample_id": "primary_20261018_finish_g3_angle_midpoint_midpoint_construction_plan",
+          "sha256": "3637f9c6acf61feb812341d3a5f58f85a8eb7b1ec628eadbcd958aa256e31660",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 609,
+          "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_tool_plan_through_external_point",
+          "sha256": "f1a7eb1eef1428001c4f3827f90da5f49aedf04a197f3a77112acb1d3917debf",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 680,
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_unlike_denominator_mix_then_use",
+          "sha256": "075893479112bbe81b58798196b8038e87c9bd00ee61d819c2e2820d6b816a3a",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 681,
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_fraction_of_volume_then_equal_portions",
+          "sha256": "d282600a762be8077295dc193aeff196491dcd1c8cf8d6590bb96c0d3440582c",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 682,
+          "sample_id": "primary_20261018_g5_fraction_operations_0071_mixed_length_fraction_of_original_then_cut",
+          "sha256": "224065a644227e0c37e8524e3941d8e5a331d0b3923a0c3895e440f7572ce668",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "folding_fraction_without_ruler": [
+          "19ae00d705c5b98b1b38d3ac"
+        ],
+        "g3_fold_midpoint": [
+          "0ce0f5532a7874ac05ef7fad"
+        ],
+        "g5_candidate_fold_fraction": [
+          "7561d00bb385c06727922f16"
+        ],
+        "paper_fold_perpendicular_construction": [
+          "e344f1ceb052f1ed43bf4597",
+          "c4b2b0497dba6d107092db41"
+        ]
+      },
+      "original_master_reasons": [
+        "Ruler marking and restoring cut pieces do not construct equal subdivisions/perpendiculars by coincidence/symmetry folds. Need explicit folding protocol and reasoning; physical execution is separate."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g3_fold_midpoint",
+          "constraints": [
+            "Ruler marking and restoring cut pieces do not construct equal subdivisions/perpendiculars by coincidence/symmetry folds. Need explicit folding protocol and reasoning; physical execution is separate."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "paper_fold_perpendicular_construction",
+          "constraints": [
+            "Ruler marking and restoring cut pieces do not construct equal subdivisions/perpendiculars by coincidence/symmetry folds. Need explicit folding protocol and reasoning; physical execution is separate."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "folding_fraction_without_ruler",
+          "constraints": [
+            "Ruler marking and restoring cut pieces do not construct equal subdivisions/perpendiculars by coincidence/symmetry folds. Need explicit folding protocol and reasoning; physical execution is separate."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "g5_candidate_fold_fraction",
+          "constraints": [
+            "Ruler marking and restoring cut pieces do not construct equal subdivisions/perpendiculars by coincidence/symmetry folds. Need explicit folding protocol and reasoning; physical execution is separate."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "paper_fold_cut_symmetry"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Assemble quadrilaterals from four congruent triangles; real rhombus examples; fold and cut symmetric rhombus"
+          ],
+          "image_sha256": "f25f948f865efe3e8902279194310f6e03e4edaacf0bf579734d756431608301",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_111-1791255477164.png",
+          "printed_page": 109
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "fold_cut_unfold_boundary",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 13,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 14,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 15,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 279,
+          "sample_id": "primary_20261016_g1_geometry_0004_square_rotated",
+          "sha256": "ba3169a6db757154f0f04e094490332862759a27e53619481b825a584ec948cb",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 3,
+          "sample_id": "primary_20261018_finish_g3_angle_midpoint_midpoint_construction_plan",
+          "sha256": "3637f9c6acf61feb812341d3a5f58f85a8eb7b1ec628eadbcd958aa256e31660",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "paper_fold_cut_symmetry": [
+          "048c80c332ddc25a2eb672aa",
+          "7aa47c02192c34e1599f27a6"
+        ]
+      },
+      "original_master_reasons": [
+        "Restoring known pieces does not propagate a cut through folds to determine unfolded boundary/symmetry."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "paper_fold_cut_symmetry",
+          "constraints": [
+            "Restoring known pieces does not propagate a cut through folds to determine unfolded boundary/symmetry."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_tangram_area"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "mixed-unit triangle area",
+            "draw altitude acute/obtuse/right grids",
+            "tangram-piece area from square midpoints",
+            "area of composite triangles and trunk on grid"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_99-1790914084503.png",
+          "printed_page": 97,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "ded918b75b2c7da856658ef20eff42cac33d2bc8d0628ef1b4c498d249a24a21",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "midpoint_tangram_piece_area",
+      "nearest_refs": [
+        {
+          "line": 727,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_triangle_area_imagined_pair_and_height",
+          "sha256": "3ccaf59b245945f4b0c88b81a53bc4f34e2830b23159635bf71f3074e6de44da",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 147,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+          "sha256": "9bae313cbc03ad67cd9e6648526882141770c74f81109f9bd34f7c1a2e001dd4",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 148,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+          "sha256": "9b1943347a283359f331f505206a91f3e71991d59de1a130580802381bb687cb",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 149,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+          "sha256": "f0dee1cbd35ae424690e342af72d8b9519ebe53dc6d2ab4603c2c713cba231eb",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_tangram_area": [
+          "cec8415c91cbee9ee8f72b57"
+        ]
+      },
+      "original_master_reasons": [
+        "Generic fraction/triangle area does not derive tangram piece areas from square midpoint dissection and equal-area relations."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_tangram_area",
+          "constraints": [
+            "Generic fraction/triangle area does not derive tangram piece areas from square midpoint dissection and equal-area relations."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_circle_center_chain"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "multiple circle compass construction with nested centers and mixed units",
+            "decorate orbit model"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_108-1790914085429.png",
+          "printed_page": 106,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "0bdf7e74f568de9ea3001471cb5b17f1c52c309a6ac90c9e35b466fde1612dcc",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "nested_circle_center_construction",
+      "nearest_refs": [
+        {
+          "line": 149,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+          "sha256": "f0dee1cbd35ae424690e342af72d8b9519ebe53dc6d2ab4603c2c713cba231eb",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 147,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+          "sha256": "9bae313cbc03ad67cd9e6648526882141770c74f81109f9bd34f7c1a2e001dd4",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 148,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+          "sha256": "9b1943347a283359f331f505206a91f3e71991d59de1a130580802381bb687cb",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_circle_center_chain": [
+          "0cfb4d1bc4318f83676bb2db"
+        ]
+      },
+      "original_master_reasons": [
+        "One compass circle plan does not locate subsequent centers on previous circles and construct nested/mixed-unit circle chains under their constraints."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_circle_center_chain",
+          "constraints": [
+            "One compass circle plan does not locate subsequent centers on previous circles and construct nested/mixed-unit circle chains under their constraints."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "gridangleconstruction",
+        "grid_angle_construction"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Vẽ góctù trênôlưới; nhận gócvuônghìnhngười; đo gócđỉnh có4tia; tồntại cácloạigóc tronghìnhtrangtrí"
+          ],
+          "image_sha256": "1dcfb1678314ec3848e3bcb8fc040fa6a3e01aa504b77da1aefafb715281346e",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_34-1791255465738.png",
+          "printed_page": 32
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Parallelogram and combined side-relation recognition; propagate side lengths; acute and obtuse grid drawing"
+          ],
+          "image_sha256": "5f482ff5daf1c42ffdd8772cb4361229cfe2ba080c73c8a605e7f8bb715f0f29",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_125-1791255480302.png",
+          "printed_page": 123
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 2,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "prescribed_grid_angle_construction",
+      "nearest_refs": [
+        {
+          "line": 541,
+          "sample_id": "primary_20261018_g4_angles_0059_given_angle_measure_and_vertex",
+          "sha256": "0cb9c3332880eae319e7b935b6e9e7736e8147885c571374812a87ffafecc711",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 567,
+          "sample_id": "primary_20261018_g4_degree_protractor_0065_read_scale_starting_on_right",
+          "sha256": "b1b07a6b10f30ebf5e3c9c3aa41d92c1e046d4ae93647bb089005505dbf5f46e",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 444,
+          "sample_id": "primary_20261017_g3_drawing_tools_0039_eke_vertex_and_rotated_ray",
+          "sha256": "b14bea0c5ce673e87de89afe02fa940322c2818ad2a9ae6d40b9efbf29d9b65d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 445,
+          "sample_id": "primary_20261017_g3_drawing_tools_0039_grid_rectangle_closure:polish_v1",
+          "sha256": "1c155d2b47db52efb965b87a4698a68e7eb4be8731a2e8aab3303c4528a9c81f",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 609,
+          "sample_id": "primary_20261018_g4_parallel_perpendicular_0060_tool_plan_through_external_point",
+          "sha256": "f1a7eb1eef1428001c4f3827f90da5f49aedf04a197f3a77112acb1d3917debf",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 543,
+          "sample_id": "primary_20261018_g4_angles_0059_adjacent_angles_on_opposite_rays",
+          "sha256": "93e3550c60e472ac7d342cf845ce1e4eea474a7647065ded004546f88b5d5647",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "grid_angle_construction": [
+          "927e29ecf4efa424fdd4cc23"
+        ],
+        "gridangleconstruction": [
+          "fe5c3276af4da996a5ef2431"
+        ]
+      },
+      "original_master_reasons": [
+        "Existing right-angle and generic ruler/protractor plans do not specify a particular nonright grid ray or verify its prescribed angle. Original G4 locators resolve the prior missing locator."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "gridangleconstruction",
+          "constraints": [
+            "Existing right-angle and generic ruler/protractor plans do not specify a particular nonright grid ray or verify its prescribed angle. Original G4 locators resolve the prior missing locator."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "grid_angle_construction",
+          "constraints": [
+            "Existing right-angle and generic ruler/protractor plans do not specify a particular nonright grid ray or verify its prescribed angle. Original G4 locators resolve the prior missing locator."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_folded_visible_area"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "decimal bracket expressions",
+            "common-factor convenience",
+            "map folded repeatedly and visible rectangle area",
+            "sum-difference decimal story"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_91-1790914083583.png",
+          "printed_page": 89,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "c4c1c3e5a90a20bc640c7776c732e890d038941ffee229ee4fe304f9282b3883",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "repeated_fold_visible_area",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 182,
+          "sample_id": "primary_20261018_finish_g5_decimal_operations_combine_then_remove",
+          "sha256": "6d4b80f02766591533dc6689cd3894bce0272f3358d1d8e42b30c073c921439c",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 183,
+          "sample_id": "primary_20261018_finish_g5_decimal_operations_decimal_divisor_equal_scale",
+          "sha256": "f65b12fe74113e700c9378d4c51f8b764d73d2672055b79cec037a3e043c80ba",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 184,
+          "sample_id": "primary_20261018_finish_g5_decimal_operations_find_unit_price_then_purchase",
+          "sha256": "1ec9f4d8e48696ea9ba4a7f2d1d4a5d6dd6613f03e8ae0c43497ce8d01d1b625",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_folded_visible_area": [
+          "fc0eb418f1a6b37545803ae6"
+        ]
+      },
+      "original_master_reasons": [
+        "An area formula does not count folded layers or distinguish original from visible footprint after repeated folds. Need orientation/fold positions."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_folded_visible_area",
+          "constraints": [
+            "An area formula does not count folded layers or distinguish original from visible footprint after repeated folds. Need orientation/fold positions."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_rotated_trapezoid"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "verify two trapezoid completions with different orientations",
+            "draw composite art and bridge on grid"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_103-1790914084902.png",
+          "printed_page": 101,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "4dc8cde9d1aa661d9de55e828d2d1689e4167a8884fe5569828fe8c39ce38171",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "rotated_trapezoid_completion",
+      "nearest_refs": [
+        {
+          "line": 938,
+          "sample_id": "exhaustive_structure_g5_grid_trapezoid_plan",
+          "sha256": "f27d306707000610aab59c2a110946db51b82ba85cf264196c28b47464766ab9",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 708,
+          "sample_id": "primary_20261018_g5_shape_types_0079_trapezoid_parallel_bases_roles",
+          "sha256": "224f6ef95d3ad3be0aff99199d36085f6748d70c77734600c50e8306c0d4759d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 727,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_triangle_area_imagined_pair_and_height",
+          "sha256": "3ccaf59b245945f4b0c88b81a53bc4f34e2830b23159635bf71f3074e6de44da",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 728,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+          "sha256": "373d02c1e1132407eb47e6724214ebfd4b56775d6ff35ffae0070b5d2c1c010b",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_rotated_trapezoid": [
+          "74c038b73ae4dcb8e139124e"
+        ]
+      },
+      "original_master_reasons": [
+        "Grid plan/classification has known vertices; selecting alternative completions in rotated orientations requires applying parallel-base constraints to incomplete figures."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_rotated_trapezoid",
+          "constraints": [
+            "Grid plan/classification has known vertices; selecting alternative completions in rotated orientations requires applying parallel-base constraints to incomplete figures."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "area_preserving_cut_rearrangement",
+        "g5_candidate_trapezoid_derivation"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Verify optical length illusion using ruler; cut-rearrange parallelogram into rectangle; move three sticks to rhombi; clock perpendicular hands"
+          ],
+          "image_sha256": "b3f74ef56acd307de628aa4e29d76e3954fe8f5eb547b4c0ab8e4ee63a57f007",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_114-1791255478094.png",
+          "printed_page": 112
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v1",
+          "exercise_types_read": [
+            "Parallel-line optical illusion verification; two-dimensional independent-feature pattern matrix; square-diagonal dissection and reassembly"
+          ],
+          "image_sha256": "2e9ee30b0063fc86be7a1ffb6fc2dce8526fad285f91fce275677cc4d7565e62",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_115-1791255478354.png",
+          "printed_page": 113
+        },
+        {
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "book_id": "g3v2",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-28-1776051211020.png",
+          "printed_page": 27,
+          "source_image_sha256": "a9bcf9e25b2966c53a921a9df0113664a771ba1c4bb62303785fc274f1eb431f"
+        },
+        {
+          "exercise_types": [
+            "derive trapezoid area by midpoint cut and triangle rearrangement"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_104-1790914085005.png",
+          "printed_page": 102,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "0afc4fcae899101736a8c85086c8fc489f1577d39de6876e9929f4d45374262b",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 4,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "specified_area_preserving_dissection",
+      "nearest_refs": [
+        {
+          "line": 308,
+          "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+          "sha256": "18845b74cbd79a2f21f8183a643a0e5f37104f193ae2adcbd71ccd8ff8ddb97d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 13,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_01",
+          "sha256": "d36108424c996e8b57d60e567c4d0e761a88b67a484ad0ca7e07d509dd5d3cda",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 14,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_02",
+          "sha256": "c65a2989895d092dfb126ca937d82c32eca8a38c2ed483aa8198bebbfae2b222",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 15,
+          "sample_id": "sgk_page_g1_20261019_periodic_attribute_pattern_03",
+          "sha256": "2c79cfa39d9b100bb593e1014c56e2f057602d47386f1d671f2ba315a3a4c0d9",
+          "source_file": "release/accepted_cases.jsonl"
+        },
+        {
+          "line": 120,
+          "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+          "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 728,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_reverse_trapezoid_height_then_remove_corner",
+          "sha256": "373d02c1e1132407eb47e6724214ebfd4b56775d6ff35ffae0070b5d2c1c010b",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 708,
+          "sample_id": "primary_20261018_g5_shape_types_0079_trapezoid_parallel_bases_roles",
+          "sha256": "224f6ef95d3ad3be0aff99199d36085f6748d70c77734600c50e8306c0d4759d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 727,
+          "sample_id": "primary_20261018_g5_triangle_trapezoid_finish_0084_triangle_area_imagined_pair_and_height",
+          "sha256": "3ccaf59b245945f4b0c88b81a53bc4f34e2830b23159635bf71f3074e6de44da",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "area_preserving_cut_rearrangement": [
+          "ab319994bba7d6f19b80180e",
+          "2987efd66161ae9a9abc740a",
+          "1507cb13aa6e5a283a2ddb13"
+        ],
+        "g5_candidate_trapezoid_derivation": [
+          "73e03d80a24557530b2b0233"
+        ]
+      },
+      "original_master_reasons": [
+        "Citing cut-to-rectangle in a formula reason is not a fully specified partition/translation with no-overlap/no-gap and area-versus-perimeter distinction.",
+        "Worked trapezoid formula/reverse height does not provide the specific midpoint cut/rearrangement derivation with no-gap/no-overlap."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "area_preserving_cut_rearrangement",
+          "constraints": [
+            "Citing cut-to-rectangle in a formula reason is not a fully specified partition/translation with no-overlap/no-gap and area-versus-perimeter distinction."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "g5_candidate_trapezoid_derivation",
+          "constraints": [
+            "Worked trapezoid formula/reverse height does not provide the specific midpoint cut/rearrangement derivation with no-gap/no-overlap."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_wheel_rotations"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "circle perimeter/area contrast",
+            "wheel rotations to traveled distance",
+            "diameter to disk area",
+            "disk minus rectangle"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_133-1790914088105.png",
+          "printed_page": 131,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "cbbacef111c4b8b1390c4c99db181e58a1ea6f39f5bc614c7b8203354d63942a",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [
+        {
+          "branch": "wheel_full_turns_distance",
+          "evidence_id": "c340674f09c27dee2db6c0c8",
+          "grade": 5,
+          "reference": {
+            "line": 17,
+            "sample_id": "sgk_remaining_geom_20261020_wheel_full_turns_distance",
+            "sha256": "fa4bb162658d0fc0273be7b53812827ce8ebc0c433eab779d8bc00ce2dbba82e",
+            "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+          }
+        },
+        {
+          "branch": "wheel_partial_turns_not_rounded",
+          "evidence_id": "fcad6ca0e1691a132c0be3ed",
+          "grade": 5,
+          "reference": {
+            "line": 18,
+            "sample_id": "sgk_remaining_geom_20261020_wheel_partial_turns_not_rounded",
+            "sha256": "1737fd1657c200c3ac1e6f7b046e3751af9e3332b14d5b99012793d8d71001d2",
+            "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+          }
+        }
+      ],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "wheel_turns_distance",
+      "nearest_refs": [
+        {
+          "line": 649,
+          "sample_id": "primary_20261018_g5_circle_measures_0085_diameter_edge_vs_disc_surface",
+          "sha256": "80ac935fd69fc432e53a6eaac73761acbf507b5f0d8c1f2dde1641a8cc92687d",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 147,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_acute_altitude_plan",
+          "sha256": "9bae313cbc03ad67cd9e6648526882141770c74f81109f9bd34f7c1a2e001dd4",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 148,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_obtuse_external_foot",
+          "sha256": "9b1943347a283359f331f505206a91f3e71991d59de1a130580802381bb687cb",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 149,
+          "sample_id": "primary_20261018_finish_g5_altitude_circle_drawing_circle_compass_plan",
+          "sha256": "f0dee1cbd35ae424690e342af72d8b9519ebe53dc6d2ab4603c2c713cba231eb",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_wheel_rotations": [
+          "12806fea5a4d36179dff95e4"
+        ]
+      },
+      "original_master_reasons": [
+        "Circumference formula does not explicitly relate rolling turns to travelled distance under no-slip assumption and unit conversion."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_wheel_rotations",
+          "constraints": [
+            "No-slip turns times circumference and fractional turns are demonstrated. The explicit mixed-unit conversion requested in the master reason is absent from these matching-unit examples."
+          ],
+          "status": "UNIT_CONVERSION_BRANCH_PENDING"
+        }
+      ],
+      "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+    }
+  ]
+}

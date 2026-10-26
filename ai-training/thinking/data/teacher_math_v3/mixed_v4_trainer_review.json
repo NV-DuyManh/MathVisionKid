@@ -1,0 +1,123 @@
+{
+  "review_kind": "INDEPENDENT_CPU_TRAINER_INTEGRITY_REVIEW",
+  "reviewer": "/root/mixed_v4_trainer_review",
+  "reviewed_at_utc": "2026-10-13T04:00:33.370567+00:00",
+  "source_path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\teacher_multitask_v4.py",
+  "source_sha256_at_report": "fcd5463382df9a6c2c0397ae641b72acd03bd643e439c42b3db3b6a0cf84d8d1",
+  "source_status": "REVIEWED_REVISED_LOCAL_SOURCE_RECHECK_IF_HASH_CHANGES",
+  "status": "PASSED_STATIC_AND_CPU_INTEGRITY_REVIEW_RUNTIME_GATES_PENDING",
+  "launch_ready": false,
+  "no_colab_or_gpu_mutations": true,
+  "skills_applied": [],
+  "checks": [
+    {
+      "area": "completion_only_loss",
+      "result": "STATIC_PASS_AND_18_ORIGINAL_CPU_TESTS_PASS",
+      "details": "Both task kinds use only system/user as prefix, -100 prefix labels, independent assistant completion, true tokenizer EOS, explicit no-truncation failure."
+    },
+    {
+      "area": "AMP_and_resume",
+      "result": "AUDITED_V3_AMP_HELPER_REUSED_WITH_RNG_RETRY",
+      "details": "Frozen v3 AMP retry helper reused; resume step bounds and exact committed epoch step/order/replay coverage now validated before training_complete."
+    },
+    {
+      "area": "fresh_base_and_reload",
+      "result": "STATIC_AND_CPU_INTEGRITY_PASS",
+      "details": "Fresh pinned base only; current safetensors file SHA is checked before reload and PEFT tensor identities are checked afterwards."
+    },
+    {
+      "area": "source_and_data_pinning",
+      "result": "STATIC_PASS",
+      "details": "Expanded run config hashes numeric/data/mixed source and data bytes; changed fingerprints reject reuse of run ID. References are hash bound."
+    },
+    {
+      "area": "challenge_separation",
+      "result": "STATIC_PASS",
+      "details": "Prepare hashes but does not parse challenge rows. Evaluate reads challenge only after validation-only selection is saved. The parent is adding actual concept semantic review before that selection."
+    },
+    {
+      "area": "actual_parent_prediction_integrity",
+      "result": "CPU_PASS",
+      "details": "Parent retention file is hash bound in expanded config. Auditor reconstructs actual token IDs/text, re-scores predictions, recomputes aggregate; forged aggregate or token/text mismatch rejected."
+    },
+    {
+      "area": "semantic_review_gate",
+      "result": "CPU_PASS",
+      "details": "All 60 baseline/candidate responses must receive hash-bound AI review, same reference hash, correct grade, explicit booleans/reasons, human_verified=false. Missing/duplicate/changed-output/human-claim evidence rejects. Overall gain with per-grade regression rejects."
+    },
+    {
+      "area": "candidate_stage_pause",
+      "result": "CPU_CONTROL_FLOW_PASS_WITH_FAKE_INFERENCE",
+      "details": "Executed real candidate branch while inference was replaced by CPU fixture outputs. Poison challenge files never parsed; select and semantic_review not called; no selection/completed artifact written; phase semantic_review_required."
+    }
+  ],
+  "findings": [
+    {
+      "id": "V4-I01",
+      "priority": "P1",
+      "area": "retention_protocol",
+      "status": "FIXED_AND_CPU_TESTED",
+      "issue": "V3 retention metadata.batch_size was not checked, while v4 default eval batch size 2 differs from frozen v3 batch size 4.",
+      "required_fix": "Set launch numeric eval batch size to 4 and enforce reference batch-size equality; also preserve pinned model, same IDs/input/max token/no-thinking protocol."
+    },
+    {
+      "id": "V4-I02",
+      "priority": "P1",
+      "area": "mandatory_retention",
+      "status": "FIXED_AND_CPU_TESTED",
+      "issue": "Default require_v3_audit could pass with no numeric retention summary/metadata/config, and selection previously approved while retaining no parent reference.",
+      "required_fix": "Audited mode must require all retention files before launch. Raw numerical/unit retention must be independently checked overall and per grade, plus actual AI concept semantic review."
+    },
+    {
+      "id": "V4-I03",
+      "priority": "P1",
+      "area": "resume_and_completion",
+      "status": "FIXED_AND_CPU_TESTED",
+      "issue": "Resume step lacked range validation; a missing/incomplete committed training log could still lead to training_complete claiming len(groups).",
+      "required_fix": "Validate 0 <= resume step <= total steps; audit exact log step range, fixed-seed group order, and every unique replay instance exactly once before writing training_complete."
+    },
+    {
+      "id": "V4-I04",
+      "priority": "P2",
+      "area": "adapter_identity",
+      "status": "FIXED_AND_CPU_TESTED",
+      "issue": "Evaluate used stored adapter_sha256 without recomputing current safetensors file hash. Tensor identity check alone does not certify the file identity recorded in evidence/cache key.",
+      "required_fix": "Verify current adapter_model.safetensors SHA against training_complete before PEFT load and use the verified identity."
+    }
+  ],
+  "tests": {
+    "combined_suite": "43 passed in 0.90s: test_teacher_multitask_v4.py + test_teacher_multitask_v4_integrity.py",
+    "independent_suite": "22 meaningful CPU cases in test_teacher_multitask_v4_integrity.py",
+    "gpu_training_or_inference_in_this_review": false,
+    "evidence_limits": "Fixture-based control-flow tests do not certify actual GPU masking, memory, training, generation, semantic quality, or retention scores."
+  },
+  "required_before_launch": [
+    "Freeze this reviewed source and all dependency/data/reference hashes after remaining parent edits; recheck if source SHA changes.",
+    "Finish active V3 GPU evaluation/posthoc controllers before any V4 GPU stage.",
+    "Verify actual mixed-data token lengths/completion-only masking on Colab and perform successful longest-sequence GPU memory preflight for the final config.",
+    "Bind retention to the actual V3 recommended-model role and matching 262 validation IDs, no-thinking/greedy/batch4/max512 protocol.",
+    "Verify concept train330 corrected records and concept validation30 hashes are the intended bytes; preserve frozen numeric V3."
+  ],
+  "requires_recheck_if_source_sha_changes": true,
+  "launch_configuration_review": {
+    "numeric_eval_batch_size": 4,
+    "numeric_max_new_tokens": 512,
+    "fresh_pinned_base": "Qwen/Qwen3-1.7B",
+    "learning_rate": 2e-05,
+    "concept_repeat": 4,
+    "instances_expected": 5490,
+    "numeric_v3_frozen_source_data_preserved": true,
+    "notes": "One mixed epoch is research only. Concept repetition is explicit in unique training instance IDs; every source concept remains identifiable."
+  },
+  "remaining_notes": [
+    "Run controller must use baseline -> train -> candidate, pause for actual review, then evaluate. Default all without review correctly raises pending-review; do not mislabel that expected pause as train failure.",
+    "numeric_retention_metadata must be the metadata associated with actual reference prediction JSONL; actual V3 naming convention satisfies this. Optional defensive equality check for configured versus derived metadata is advisable.",
+    "Final source/config/data hashes and actual runtime gates are still the parent controller responsibility; this review has not launched training or touched Colab."
+  ],
+  "required_before_final_selection": [
+    "Review all 60 actual baseline/candidate concept outputs by AI and write hash-bound concept_semantic_review.json; no human certification claim.",
+    "Require strict numeric and direct numeric/unit retention overall/per grade versus fresh base and V3 recommended model, with improvement in strict numeric or reviewed concept scores.",
+    "Recompute actual mixed epoch ledger/masks/generated-token scores/frozen hashes, plus fresh reload identities. Challenge remains unread until validation-only decision.",
+    "Keep production_approved=false and report real measured outcomes and limits, not universal grade1-5 mastery."
+  ]
+}

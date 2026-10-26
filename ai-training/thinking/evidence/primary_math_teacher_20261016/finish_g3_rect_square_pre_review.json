@@ -1,0 +1,178 @@
+{
+  "batch": "finish_g3_rect_square",
+  "utc": "2026-10-18T14:18:23.758579+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+      "row_sha256": "ee8c6233be56c400210fb57d04a6f6ebb9d2fd9d8a2a38697c863d7d9251b237",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(13+6)*2",
+          "13*6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "row_sha256": "8811ed7e209b3d5111039f4c613090dab4c7190b3f9cf067e0f08b9ef3338147",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "(12+4)*2",
+          "8*4",
+          "12*4",
+          "8*8",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "row_sha256": "9cd2de13d16f01dedf0424591618c72a35a18912b20ec6275c995396d2304777",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "34/2",
+          "(34/2)-10",
+          "10*((34/2)-10)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+      "row_sha256": "472afdfaa31dbfd38e50458e6aef86906db7eafe05b81dfd38dd0a6ceaf4d64b",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "6*6",
+          "6*4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_guard_missing_rectangle_width",
+      "row_sha256": "9040a5381f6f24c73026d85bfbf2165eb327f0556d950ed2cb8853a3316a5112",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+      "step_id": "s0",
+      "expression": "(13+6)*2",
+      "fraction": "38",
+      "decimal": "38",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+      "step_id": "s1",
+      "expression": "13*6",
+      "fraction": "78",
+      "decimal": "78",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "step_id": "s0",
+      "expression": "(12+4)*2",
+      "fraction": "32",
+      "decimal": "32",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "step_id": "s1",
+      "expression": "8*4",
+      "fraction": "32",
+      "decimal": "32",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "step_id": "s2",
+      "expression": "12*4",
+      "fraction": "48",
+      "decimal": "48",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+      "step_id": "s3",
+      "expression": "8*8",
+      "fraction": "64",
+      "decimal": "64",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "step_id": "s0",
+      "expression": "34/2",
+      "fraction": "17",
+      "decimal": "17",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "step_id": "s1",
+      "expression": "(34/2)-10",
+      "fraction": "7",
+      "decimal": "7",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+      "step_id": "s2",
+      "expression": "10*((34/2)-10)",
+      "fraction": "70",
+      "decimal": "70",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+      "step_id": "s0",
+      "expression": "6*6",
+      "fraction": "36",
+      "decimal": "36",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+      "step_id": "s1",
+      "expression": "6*4",
+      "fraction": "24",
+      "decimal": "24",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "pre_review_revision": "Prose spacing/squared-unit notation and explicit disjoint-group or bag-mass roles, numeric expressions/results unchanged.",
+  "official_review_sha256": "9e0e196c4c7e060effef351e05ca776a5fb1bb99e03f317c2c7abae7780bec2f",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

@@ -1,0 +1,105 @@
+{
+  "authored_utc": "2026-10-18T03:45:42.181491+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:44:36.936Z",
+  "batch_sha256": "aa8c5eacce1bdb160270e88b1f034a2077b55250d6b58b54f1f62ea63e343b1c",
+  "authored_cases": 3,
+  "core_cases": 1,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_fraction_operations_0058_fraction_of_remaining_stock",
+      "row_sha256": "4a0f88efa60c70ec99c3b82046dce6d4eb3bd57a8f68305b070370f2b697cebf",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "144/8*3",
+          "144-(144/8*3)",
+          "(144-(144/8*3))/3*2"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_operations_0058_misconception_add_denominators",
+      "row_sha256": "221eab147d1488c1720dcbfdd89348c876fce2220e3a2db8f4506721f32b879d",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(1*2)/(6*2)",
+          "5/12+((1*2)/(6*2))",
+          "(5/12+((1*2)/(6*2)))-5/12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_operations_0058_guard_fraction_without_total_count",
+      "row_sha256": "3e3336b592a99cf5e7d81f33ca3adf90092041dee3d684691e40dca973f516ab",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "stock_unique_id_partition": {
+      "initial": 144,
+      "morning": 54,
+      "remainder": 90,
+      "afternoon": 60,
+      "end": 30,
+      "disjoint_union_preserved": true
+    },
+    "pour_twelfth_litre_unit_cells": [
+      5,
+      2,
+      7
+    ],
+    "guard_different_wholes_same_fraction_models": [
+      {
+        "whole_books": 20,
+        "chosen_books": 8
+      },
+      {
+        "whole_books": 35,
+        "chosen_books": 14
+      }
+    ]
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "bounds": {
+    "max_worked_steps3": true,
+    "add_sub_denominators6_divides12_or_same": true,
+    "fraction_of_remainder_not_fraction_of_initial_twice": true
+  },
+  "exact_slots_authored": [
+    "core_03"
+  ],
+  "existing_core01_core02_not_reauthored": true,
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous335_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false
+}

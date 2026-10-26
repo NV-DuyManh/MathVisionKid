@@ -1,0 +1,12 @@
+{
+  "owner_scope_binding_v2.json": "4eee56eaac8d2f8333a45ba1eb22587a916a6398550adec15781eb1826ba5b0d",
+  "training/run_complete.json": "a1d71a43b94ef08e9aeff7a9bc7d570d6373cb533ddd25c56996a8e3ed4fe370",
+  "training/run_config.json": "0e4ce2b0b4d0cc806d2778fa3eebf5d4da95e766f62e80adc29c758c5185dea6",
+  "training/input_audit.json": "5191f19f44323b44058aabb49ccb28716be4e238bff10594db9feecd75ac504f",
+  "training/best.json": "61bcbad3ee60251ecb08489a6abcf85318865d480b4e1ce4c804895ca51909ec",
+  "training/progress.json": "522591293306d70bd655d14b93f2e997dcbfe34784f039dc4016561647770b01",
+  "publication/publication_status.json": "977d0535e7f19e7da5b7b6accf03e58c3c6686fd3dba79ff1ab3ff95fc10dc3b",
+  "four_controls_verified_manifest.json": "d7f4f7f756cea2c10112dbccc4bde98a2c7d41e082580314cd2760c370b11a3f",
+  "four_controls_publication_status.json": "6ffd6f1d1db878b06200bf71a5b7be732c898f5d17976321d14664d9250afd7d",
+  "active_code_raw_verified.json": "2f23db895e41d72641299f80ab8e68634850ae552844e5cd6a1837fa2c6d6dec"
+}

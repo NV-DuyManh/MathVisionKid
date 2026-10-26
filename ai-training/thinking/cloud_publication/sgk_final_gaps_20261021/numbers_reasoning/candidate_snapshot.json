@@ -1,0 +1,1265 @@
+{
+  "angle_ray_pair_enumeration": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "angle_count_ray_pairs"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Kiểm lỗi tầnsuất loạigóc từbộhình; đếm cảgóc ghép; luậtgameparity/rollback"
+        ],
+        "image_sha256": "5bfe55a10eef64124f9012bd18d6eabf6a19c0040a066feb69663ceb8f0b069e",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_31-1791255465383.png",
+        "printed_page": 29
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Clock angle class; name polygon angles; protractor measurement; count all angles including compound ray pairs"
+        ],
+        "image_sha256": "15614e6ed1f05605bcc20c1755bf54a8d509779f11a1feb397912d442c672a79",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_123-1791255480020.png",
+        "printed_page": 121
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "Name subangles by vertex and ray pairs; mass conversions; physical protractor measurement; fraction of mass; count hidden cubes by layers"
+        ],
+        "image_sha256": "18e76cbac04e7b6ebe029f9ee1619be60790549cfbc78e3f91b87387febeb3e0",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_114-1791255636506.png",
+        "printed_page": 112
+      },
+      {
+        "book_id": "g3v1",
+        "image_sha256": "03a767ff0fe7155126ca49daf689252839c350873cf21172296591014257b769",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-119-1775743974934.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 118
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "all_ray_pairs_compound",
+        "evidence_id": "663b7f905004b057de565557",
+        "grade": 4,
+        "reference": {
+          "line": 31,
+          "sample_id": "sgk_remaining_structure_20261020_all_ray_pairs_compound",
+          "sha256": "eecfa0f0f26b5d3f4b03d59c8e4a474d1605f019695a8071425f162d1da21fb4",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "ray_pairs_exclude_straight_error",
+        "evidence_id": "2b6752a212ec85107893aca5",
+        "grade": 4,
+        "reference": {
+          "line": 32,
+          "sample_id": "sgk_remaining_structure_20261020_ray_pairs_exclude_straight_error",
+          "sha256": "0fbcf2d4efd54a0e0b451432c31fb165369983855c739be63a9a37f43dd8aafd",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 4,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "angle_ray_pair_enumeration",
+    "nearest_refs": [
+      {
+        "line": 541,
+        "sample_id": "primary_20261018_g4_angles_0059_given_angle_measure_and_vertex",
+        "sha256": "0cb9c3332880eae319e7b935b6e9e7736e8147885c571374812a87ffafecc711",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 458,
+        "sample_id": "primary_20261017_g3_midpoint_angles_0036_rotated_right_angle_with_set_square:polish_v1",
+        "sha256": "b2f38312355bb13757bfe340fa89e36ae7db19665ee3ad5e245f9c81e54cfaac",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 973,
+        "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+        "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "angle_count_ray_pairs": [
+        "0b1f5a5fb5d42425c69b2179",
+        "05ad57f2d8b80abdea68c2c0"
+      ]
+    },
+    "original_master_reasons": [
+      "Classifying a single given angle does not enumerate unordered ray pairs and compound/straight-angle conventions."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "angle_count_ray_pairs",
+        "constraints": [
+          "G4 unordered-pair/compound/straight-convention text is demonstrated; the G3 p118 occurrence needs degree-free grade-appropriate presentation review."
+        ],
+        "status": "MIXED_GRADE_OCCURRENCE_PARTIAL"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "balance_order_substitution_chain": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "g3_balance_relation_chain",
+      "balance_orientation_order",
+      "g5_candidate_balance_consistency"
+    ],
+    "exact_page_receipts": [
+      {
+        "book_id": "g3v1",
+        "image_sha256": "d7f692fa407106e807b933bdd0256454333a0d0c3657b9dda2c5ed3250fc1552",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-96-1775743968183.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 95
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "Same-numerator comparison; minimum actual water amount; infer ordered masses from balance orientation"
+        ],
+        "image_sha256": "3d09f8fa26d294b2c5c99e4bed9c1771082c06a40854171d3a15f850b3ba0e2e",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_70-1791255630519.png",
+        "printed_page": 68
+      },
+      {
+        "exercise_types": [
+          "decimal comparison and sorting",
+          "check balance-pan orientation against decimal mass labels"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_41-1790914077615.png",
+        "printed_page": 39,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "18578d8aa7ff386ee5cd9a889bfe8ce536f1c7129f5e15879c9a40dd2bb064e8",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "balance_transitive_substitution",
+        "evidence_id": "2713c4be0b77a2f51f52d761",
+        "grade": 3,
+        "reference": {
+          "line": 69,
+          "sample_id": "sgk_finish_basic_20261020_balance_transitive_substitution",
+          "sha256": "6c44fd017ec663615b867ad6d2a245039755509a9bd66c0076f98fb85998d868",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "balance_common_object_cancellation",
+        "evidence_id": "4cce4d11007c49c7975a48f2",
+        "grade": 3,
+        "reference": {
+          "line": 70,
+          "sample_id": "sgk_finish_basic_20261020_balance_common_object_cancellation",
+          "sha256": "0192242386719b3949a416f839cef0666d5a7468688d7840e385c48fddaf836d",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "balance_order_substitution_chain",
+    "nearest_refs": [
+      {
+        "line": 370,
+        "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+        "sha256": "a179c51b814c49edb7a256a800c80c8bd00a2366965dd258e0dfd3944a45cc0c",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 498,
+        "sample_id": "primary_20261018_g3_practice_experience_0093_misconception_tray_total_as_food_mass",
+        "sha256": "eb81a55548a081bd0b9d5fee91bf4d4d01ce9235e2f2a3af7960d5c88a8a6fd0",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 187,
+        "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+        "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 188,
+        "sample_id": "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+        "sha256": "f533ba0b3c3717b84bd2e911ff37355dc7b7dc9d381ee973c315ee09f9565e58",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 189,
+        "sample_id": "primary_20261018_finish_g5_decimal_read_compare_open_interval_records",
+        "sha256": "29f04600ce9d65d302602347380c59df518833d477d6ce22c623c15ec5fd6100",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "balance_orientation_order": [
+        "305af5b871d0a6430324dfea"
+      ],
+      "g3_balance_relation_chain": [
+        "49480e0a02f9d0e18a3e35fb"
+      ],
+      "g5_candidate_balance_consistency": [
+        "3910529a805147b8432c9a1f"
+      ]
+    },
+    "original_master_reasons": [
+      "Single balance equality is not pan-direction inequality, transitive ordering and repeated-object substitution. Text must fix pan convention and stable object identities."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "balance_orientation_order",
+        "constraints": [
+          "Pan-direction/transitivity is demonstrated in G3 text, but the G4 page-grade presentation and actual image binding remain pending; do not author a number-only duplicate."
+        ],
+        "status": "GRADE_BRANCH_PENDING"
+      },
+      {
+        "candidate_id": "g5_candidate_balance_consistency",
+        "constraints": [
+          "G5 requires checking numeric decimal mass labels against pan orientation. The new G3 symbolic substitution tasks do not jointly test that decimal consistency."
+        ],
+        "status": "UNWORKED_CONSTRAINT_BRANCH"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "bill_of_materials_area_cost": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "g5_candidate_materials_budget"
+    ],
+    "exact_page_receipts": [
+      {
+        "exercise_types": [
+          "bill of materials area from counts/dimensions",
+          "price per square meter",
+          "open-ended bookshelf design and budget"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_63-1790914080311.png",
+        "printed_page": 61,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "75556c9f50b7aebdd9f65729573566887ab05f5464199d8a457edc28f2f9bc27",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "bundle_id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "bundle_member": "data/release/accepted_cases.jsonl",
+        "line": 1,
+        "sample_id": "sgk_completion_measure_20261021_board_cutlist_area_price",
+        "sha256": "8401d5a28391e6fdaf678d77bc2bbad732789248796e933d29ee8181a7369701",
+        "source_file": "sgk_completion_20261021/release/accepted_cases.jsonl"
+      },
+      {
+        "bundle_id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "bundle_member": "data/release/accepted_cases.jsonl",
+        "line": 2,
+        "sample_id": "sgk_completion_measure_20261021_shelf_design_finite_budget",
+        "sha256": "0155c0dbdb54ad35810631c4d9a98245b2aa61046f632a6dab02ba25c45c911b",
+        "source_file": "sgk_completion_20261021/release/accepted_cases.jsonl"
+      }
+    ],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "bill_of_materials_area_cost",
+    "nearest_refs": [
+      {
+        "line": 162,
+        "sample_id": "primary_20261018_finish_g5_cuboid_cube_surface_lateral_and_closed_surface",
+        "sha256": "e5a4c171b6d87b7658c852a9de2b674efa432998e6c5b26f796af02bada78e58",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 157,
+        "sample_id": "primary_20261018_finish_g5_circle_area_radius_area_explicit_pi",
+        "sha256": "865dfc2484d6564212ff98cdb05495f8e84716e46ec087bb00e25e4e165c7d52",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 158,
+        "sample_id": "primary_20261018_finish_g5_circle_area_circumference_to_area",
+        "sha256": "d267e8e9e421c253f09e3804a56264ed9483263ae9875871227ab10d618a9d1c",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 159,
+        "sample_id": "primary_20261018_finish_g5_circle_area_annular_border",
+        "sha256": "04b5cc14fdd5688db7b32498d03e8c726b59b52c6ef6b894acbd79274dd9f6e4",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "g5_candidate_materials_budget": [
+        "5c7a5c58a9514f90157e5d6a"
+      ]
+    },
+    "original_master_reasons": [
+      "Simple rectangle/circle area is present; area of multiple counted boards plus per-area price and open design/budget constraints is not worked."
+    ],
+    "prior_task": {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "g5_candidate_materials_budget"
+      ],
+      "exact_page_receipts": [
+        {
+          "exercise_types": [
+            "bill of materials area from counts/dimensions",
+            "price per square meter",
+            "open-ended bookshelf design and budget"
+          ],
+          "grade": 5,
+          "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_63-1790914080311.png",
+          "printed_page": 61,
+          "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+          "sha256": "75556c9f50b7aebdd9f65729573566887ab05f5464199d8a457edc28f2f9bc27",
+          "volume": 1
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 1,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "bill_of_materials_area_cost",
+      "nearest_refs": [
+        {
+          "line": 162,
+          "sample_id": "primary_20261018_finish_g5_cuboid_cube_surface_lateral_and_closed_surface",
+          "sha256": "e5a4c171b6d87b7658c852a9de2b674efa432998e6c5b26f796af02bada78e58",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 157,
+          "sample_id": "primary_20261018_finish_g5_circle_area_radius_area_explicit_pi",
+          "sha256": "865dfc2484d6564212ff98cdb05495f8e84716e46ec087bb00e25e4e165c7d52",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 158,
+          "sample_id": "primary_20261018_finish_g5_circle_area_circumference_to_area",
+          "sha256": "d267e8e9e421c253f09e3804a56264ed9483263ae9875871227ab10d618a9d1c",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 159,
+          "sample_id": "primary_20261018_finish_g5_circle_area_annular_border",
+          "sha256": "04b5cc14fdd5688db7b32498d03e8c726b59b52c6ef6b894acbd79274dd9f6e4",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "g5_candidate_materials_budget": [
+          "5c7a5c58a9514f90157e5d6a"
+        ]
+      },
+      "original_master_reasons": [
+        "Simple rectangle/circle area is present; area of multiple counted boards plus per-area price and open design/budget constraints is not worked."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "g5_candidate_materials_budget",
+          "constraints": [
+            "Simple rectangle/circle area is present; area of multiple counted boards plus per-area price and open design/budget constraints is not worked."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    "required_constraints": [
+      {
+        "candidate_id": "g5_candidate_materials_budget",
+        "constraints": [
+          "Only the finite design menu n in {2,3,4} is worked. The inherited p61 receipt also names open-ended bookshelf design; accepting a constrained original design with a declared design domain, or explicitly narrowing that requirement, remains an owner/root scope decision.",
+          "No stock-sheet packing, physical construction, safety/structural validation or unrestricted design optimum is claimed."
+        ],
+        "status": "PARTIAL_OR_RELATED_GRADE_BRANCH_PENDING"
+      }
+    ],
+    "run5_accepted_semantic_scope": "Only exact finite text branch; retained grade, open-design, image/physical constraints remain.",
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "bounded_color_multiset_without_replacement": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "two_draw_color_multisets",
+      "g5_candidate_multidraw_outcomes",
+      "two_draw_multiset_without_replacement"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "Dice frequency tallies; enumerate possible color multisets from two simultaneous draws without replacement; record repeated trial frequencies"
+        ],
+        "image_sha256": "c1ce32d4bab07bbf0c6ade8eaa3e0952d694438fc36c82704962066929fefbd2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_47-1791255626071.png",
+        "printed_page": 45
+      },
+      {
+        "exercise_types": [
+          "two dice possible certain impossible sums",
+          "enumerate unordered colour multisets constrained supply"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_128-1790908250598.png",
+        "printed_page": 126,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "97404d8e61d90757bc3f5b19de6a1bd7ad185df037ab91c22f83553167f16ad9",
+        "volume": 2
+      },
+      {
+        "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+        "book_id": "g3v2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-60-1776051220816.png",
+        "printed_page": 59,
+        "source_image_sha256": "bb864a25219ef9ede89db1002cd242c6851eadc6b801a132dda570495e4a659d"
+      },
+      {
+        "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+        "book_id": "g3v2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-110-1776051238881.png",
+        "printed_page": 109,
+        "source_image_sha256": "fd8f367f9f7ad8175b26af38536fee4fe98e8f06aae7600abc37d8ea83450ef8"
+      },
+      {
+        "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+        "book_id": "g3v2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-125-1776051243810.png",
+        "printed_page": 124,
+        "source_image_sha256": "5d0174c03ce2f520868bbf67ee19056d48f0380803af856e4327c567d76b6d7e"
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "colors_unordered_limited",
+        "evidence_id": "771aa228b2a9be40d0e0373e",
+        "grade": 4,
+        "reference": {
+          "line": 85,
+          "sample_id": "sgk_finish_network_20261020_colors_unordered_limited",
+          "sha256": "5f270223f8aef2625b13cc1117bba567cb9c97711f49302fe8231770a435c567",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "colors_order_vs_multiset",
+        "evidence_id": "47585bb981afbba615fd743c",
+        "grade": 4,
+        "reference": {
+          "line": 86,
+          "sample_id": "sgk_finish_network_20261020_colors_order_vs_multiset",
+          "sha256": "0f237d3ca0081a02821b7cdc0ac2bdfb9e32bc152cf51d0a17a617c8931ce243",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 5,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "bounded_color_multiset_without_replacement",
+    "nearest_refs": [
+      {
+        "line": 483,
+        "sample_id": "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls",
+        "sha256": "386be6c00a612844b70a468fa0a36a5f57b1dd11a4a871394ddad4fccac92879",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 677,
+        "sample_id": "primary_20261018_g5_empirical_frequency_0091_observed_frequency_not_fixed_next_block",
+        "sha256": "eecc6b99eec95a880d5162259780b40b4a25de12ff8a1df2e3dead1706a538fd",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 675,
+        "sample_id": "primary_20261018_g5_empirical_frequency_0091_raw_trial_log_count_and_observed_ratio",
+        "sha256": "ed43dc93a63716bd1243b3a332304f4897e715fff19c347809cdffa6de284928",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 676,
+        "sample_id": "primary_20261018_g5_empirical_frequency_0091_combine_unequal_trial_blocks_ratio",
+        "sha256": "9e2071f9f12c7ede2e56aa8a4b291c5b8c7096fbb4d10bf344c6ad70504baea2",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 679,
+        "sample_id": "primary_20261018_g5_empirical_frequency_0091_guard_unread_outcomes_in_full_trial_scope",
+        "sha256": "26fca3b4b7d88cd2d99a41870e1ffd71038445c8e39fd1df54a20bfa3dea8651",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "g5_candidate_multidraw_outcomes": [
+        "b275ee03fd1ad7507267a3f8"
+      ],
+      "two_draw_color_multisets": [
+        "d02a4ba3495e7a948fe97cbc"
+      ],
+      "two_draw_multiset_without_replacement": [
+        "7d9e07e7871f460594ff9517"
+      ]
+    },
+    "original_master_reasons": [
+      "One draw does not enumerate unordered pairs constrained by available multiplicities; ordered draws must not be counted twice.",
+      "Singledraw outcome/frequency examples do not enumerate unordered color multisets with bounded supply; same missing G2/G3/G4 master.",
+      "Finite unordered outcomes require multiplicity bounds and no double-counting."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "g5_candidate_multidraw_outcomes",
+        "constraints": [
+          "Bounded unordered two-draw multisets are demonstrated, but the G5 receipt does not fix its draw count in the preserved description. Verify that count and G5 branch before closure; no blanket multidraw coverage."
+        ],
+        "status": "DRAW_COUNT_AND_GRADE_PENDING"
+      },
+      {
+        "candidate_id": "two_draw_multiset_without_replacement",
+        "constraints": [
+          "The exact two-draw bounded-multiset relation is demonstrated by G4 text. Retain G3 page-grade/presentation review separately; no new numerical variant is automatically required."
+        ],
+        "status": "GRADE_BRANCH_PENDING"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "collinear_triple_complete_enumeration": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "g3_collinear_enumeration",
+      "collinear_enumeration_and_segment_pairs"
+    ],
+    "exact_page_receipts": [
+      {
+        "book_id": "g3v1",
+        "image_sha256": "ea5b75cb31a13d9304e63764e21de0a7269047b66ec640b38160ddce0dec2419",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-22-1775743944587.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 21
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "collinear_four_on_line",
+        "evidence_id": "a171dc16b77d96c19e7cad32",
+        "grade": 3,
+        "reference": {
+          "line": 33,
+          "sample_id": "sgk_remaining_structure_20261020_collinear_four_on_line",
+          "sha256": "e7d9a8d13dd547ad0aa4cc61ec7f1840efc52436aef811d2e0b5315e4e65a411",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "collinear_diagonal_missing",
+        "evidence_id": "2f57c46bfbb776a4b6a27c50",
+        "grade": 3,
+        "reference": {
+          "line": 34,
+          "sample_id": "sgk_remaining_structure_20261020_collinear_diagonal_missing",
+          "sha256": "4b0ab417364e7dea36155855f9249350474af997d685ce9d51a7f8d3abaf3587",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "collinear_triple_complete_enumeration",
+    "nearest_refs": [
+      {
+        "line": 348,
+        "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+        "sha256": "47a710be011c03aa8f60d65b77ae538ed775abfb760ee67b7ae8a4b31caa1b0c",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "collinear_enumeration_and_segment_pairs": [
+        "d2fc28d51c333f8faceec277"
+      ],
+      "g3_collinear_enumeration": [
+        "cf70150fffe33fb40c67ccce"
+      ]
+    },
+    "original_master_reasons": [
+      "Actual old source verifies two supplied triples; it does not list every eligible triple across a multi-line arrangement. A finite explicit incidence list can establish the math; actual image reading remains separate.",
+      "Exact old row verifies given triples, not all triples/segments from a finite incidence structure."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "collinear_enumeration_and_segment_pairs",
+        "constraints": [
+          "Complete collinear triples are demonstrated, but complete segment/endpoint-pair inventory and its incidence convention are not; the original alias also has no page locator."
+        ],
+        "status": "UNWORKED_CONSTRAINT_BRANCH"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "finite_inventory_collection_game": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "finite_inventory_collection_state",
+      "finite_inventory_collection_game"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "Dice circuit and equivalent-fraction flower collection; illustration shows nine flowers while termination text says five: eligibility needs clarification before deterministic adaptation"
+        ],
+        "image_sha256": "c30cfc08ba79a97572c6898c460fae92700c1476b583fc65c046c551dcc441f3",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_72-1791255630836.png",
+        "printed_page": 70
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v2",
+        "exercise_types_read": [
+          "Recover length from given multiple; reciprocal-card memory game with removal and win threshold"
+        ],
+        "image_sha256": "1b2b7c3139ee3b2b1f50d2327d31a90bb38314e2d90196aabe7db2b3f3002de8",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_96-1791255634204.png",
+        "printed_page": 94
+      },
+      {
+        "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+        "book_id": "g3v2",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-70-1776051223750.png",
+        "printed_page": 69,
+        "source_image_sha256": "64cb71521227db410708d807501fc93d88cd043407c24ddac31c327f180cb6a5"
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "bundle_id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "bundle_member": "data/release/accepted_cases.jsonl",
+        "line": 19,
+        "sample_id": "sgk_completion_edges_20261021_collection_equal_tokens_removed_once",
+        "sha256": "2f456166b08fb3a8e518a11fc25363b36ffc5806af1e8c471576ea359a2cc407",
+        "source_file": "sgk_completion_20261021/release/accepted_cases.jsonl"
+      },
+      {
+        "bundle_id": "1yFKMT2AzRNZKr6IW9Gp2zTaBC_iMdj31",
+        "bundle_member": "data/release/accepted_cases.jsonl",
+        "line": 20,
+        "sample_id": "sgk_completion_edges_20261021_collection_token_count_not_score_error",
+        "sha256": "b925cb50812c09ee193b1f237defbf583a26df78fbf861c4ba9cecb2e142d64c",
+        "source_file": "sgk_completion_20261021/release/accepted_cases.jsonl"
+      }
+    ],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "finite_inventory_collection_game",
+    "nearest_refs": [
+      {
+        "line": 973,
+        "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+        "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 974,
+        "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+        "sha256": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "finite_inventory_collection_game": [
+        "336aa3d5fda9436981ae527f"
+      ],
+      "finite_inventory_collection_state": [
+        "dab9524da6ac1e881a62ce10"
+      ]
+    },
+    "original_master_reasons": [
+      "Position updates do not remove/own inventory, preserve token identity versus equal value, and apply win thresholds.",
+      "Collection ownership/removal/win threshold is not established by basic board position updates."
+    ],
+    "prior_task": {
+      "avoid_number_only_duplicate": true,
+      "candidate_ids": [
+        "finite_inventory_collection_state",
+        "finite_inventory_collection_game"
+      ],
+      "exact_page_receipts": [
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v2",
+          "exercise_types_read": [
+            "Dice circuit and equivalent-fraction flower collection; illustration shows nine flowers while termination text says five: eligibility needs clarification before deterministic adaptation"
+          ],
+          "image_sha256": "c30cfc08ba79a97572c6898c460fae92700c1476b583fc65c046c551dcc441f3",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_72-1791255630836.png",
+          "printed_page": 70
+        },
+        {
+          "actual_visual_page_read": true,
+          "book_id": "g4v2",
+          "exercise_types_read": [
+            "Recover length from given multiple; reciprocal-card memory game with removal and win threshold"
+          ],
+          "image_sha256": "1b2b7c3139ee3b2b1f50d2327d31a90bb38314e2d90196aabe7db2b3f3002de8",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4698870230_page_96-1791255634204.png",
+          "printed_page": 94
+        },
+        {
+          "basis": "PARENT_OR_PRIOR_AGENT_ACTUAL_IMAGE_RECEIPT; not independently re-viewed by replacement agent",
+          "book_id": "g3v2",
+          "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4714081721-page-70-1776051223750.png",
+          "printed_page": 69,
+          "source_image_sha256": "64cb71521227db410708d807501fc93d88cd043407c24ddac31c327f180cb6a5"
+        }
+      ],
+      "existing_relation_examples": [],
+      "finite_occurrence_count": 3,
+      "image_or_physical_result_still_separate": true,
+      "master_id": "finite_inventory_collection_game",
+      "nearest_refs": [
+        {
+          "line": 973,
+          "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+          "sha256": "9b9cd59ba4a763a247a6b9761868e8349b0649077e64b7f3882b03ba77e05ce0",
+          "source_file": "current_sources.jsonl"
+        },
+        {
+          "line": 974,
+          "sample_id": "sgk_g12_20261019_conditional_board_game_04",
+          "sha256": "7c1a8c0f14f5a975a024f11e4b6986b9caa56f8a922e15edd1b0157c4fca1b2e",
+          "source_file": "current_sources.jsonl"
+        }
+      ],
+      "original_description_evidence_ids": {
+        "finite_inventory_collection_game": [
+          "336aa3d5fda9436981ae527f"
+        ],
+        "finite_inventory_collection_state": [
+          "dab9524da6ac1e881a62ce10"
+        ]
+      },
+      "original_master_reasons": [
+        "Position updates do not remove/own inventory, preserve token identity versus equal value, and apply win thresholds.",
+        "Collection ownership/removal/win threshold is not established by basic board position updates."
+      ],
+      "required_constraints": [
+        {
+          "candidate_id": "finite_inventory_collection_state",
+          "constraints": [
+            "Position updates do not remove/own inventory, preserve token identity versus equal value, and apply win thresholds."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        },
+        {
+          "candidate_id": "finite_inventory_collection_game",
+          "constraints": [
+            "Collection ownership/removal/win threshold is not established by basic board position updates."
+          ],
+          "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+        }
+      ],
+      "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+    },
+    "required_constraints": [
+      {
+        "candidate_id": "finite_inventory_collection_state",
+        "constraints": [
+          "G4 p70 equivalent-fraction eligibility and the nine-flowers/five termination ambiguity require an explicit clarified rule; scalar G3 token values do not resolve it.",
+          "G4 p94 reciprocal-card memory matching, face state, removal and win threshold are not implemented by these G3 circuit cases.",
+          "Same-master G3 evidence does not certify G4 presentation or original image/physical execution."
+        ],
+        "status": "PARTIAL_OR_RELATED_GRADE_BRANCH_PENDING"
+      }
+    ],
+    "run5_accepted_semantic_scope": "Only exact finite text branch; retained grade, open-design, image/physical constraints remain.",
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "gregorian_leap_year_convention": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "g5_source_caveat_leap_year"
+    ],
+    "exact_page_receipts": [
+      {
+        "exercise_types": [
+          "time unit relations",
+          "month lengths and leap years"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_66-1790908246064.png",
+        "printed_page": 64,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "a6278611507558f99f11b54d15e0e28517a54913a467dc6ca67e30b2d932b887",
+        "volume": 2
+      }
+    ],
+    "existing_relation_examples": [],
+    "finite_occurrence_count": 1,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "gregorian_leap_year_convention",
+    "nearest_refs": [
+      {
+        "line": 425,
+        "sample_id": "primary_20261017_g2_time_calendar_0018_february_calendar_boundary",
+        "sha256": "027f33761e22e9053c618121037e69148c93891a5ab4ad48b7008917453dcbf1",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 210,
+        "sample_id": "primary_20261018_finish_g5_uniform_motion_equal_time_contrast",
+        "sha256": "fba80db5f73c150d3ebdc08d482f5d3098b7acbace65d410b6dbe0cbc18eb92e",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 213,
+        "sample_id": "primary_20261018_finish_g5_uniform_motion_unknown_time_distance",
+        "sha256": "84099ca17f64098f724c58f4af65e7883742de2bef9322a49b8dcc4bdd27b7bb",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 722,
+        "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+        "sha256": "0a69962ddd78f386ce06e4e2b6c236362b5950215665ede251869902d71c5000",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "g5_source_caveat_leap_year": [
+        "02f0930a4ecdfcc7598d2274"
+      ]
+    },
+    "original_master_reasons": [
+      "Actual source describes a supplied February ending on29; it does not teach the Gregorian divisible-by4, century, divisible-by400 rule. The book simplification must be scoped; do not extend every4years through non400centuries."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "g5_source_caveat_leap_year",
+        "constraints": [
+          "Actual source describes a supplied February ending on29; it does not teach the Gregorian divisible-by4, century, divisible-by400 rule. The book simplification must be scoped; do not extend every4years through non400centuries."
+        ],
+        "status": "FINITE_TASK_STILL_UNWORKED_IN_INSPECTED_APPEND"
+      }
+    ],
+    "task_kind": "AUTHOR_FINITE_ORIGINAL_TEXT_OR_EXPLICIT_GEOMETRY_MODEL"
+  },
+  "partial_product_column_reconstruction": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "g3_missing_digit_column",
+      "g5_candidate_multicolumn_constraint"
+    ],
+    "exact_page_receipts": [
+      {
+        "book_id": "g3v1",
+        "image_sha256": "c33d185f6bb018a5f9563faf22f2d23c3b639b52b04a83a2d87b6039ebc3467a",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-115-1775743973751.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 114
+      },
+      {
+        "book_id": "g3v1",
+        "image_sha256": "eda85f87a8af92cf80e079ba789584eee7c8eeafd44c44258d0168388f01620e",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-116-1775743974040.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 115
+      },
+      {
+        "exercise_types": [
+          "order of operations",
+          "missing digits in subtraction and partial-product multiplication",
+          "factor regrouping",
+          "mean price",
+          "equal bags and revenue"
+        ],
+        "grade": 5,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4699756373_page_12-1790914074411.png",
+        "printed_page": 10,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "sha256": "cb9f8bf157ba07636937d7d41fd89f4a324dca50ee02673aef2651daec6827aa",
+        "volume": 1
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "partial_products_digit_reconstruct",
+        "evidence_id": "4551cd1b2997ad73320085e8",
+        "grade": 5,
+        "reference": {
+          "line": 27,
+          "sample_id": "sgk_remaining_structure_20261020_partial_products_digit_reconstruct",
+          "sha256": "5f37709e9f476259a049589ee8802725de6c6620af7dcfb88a257a65f7a4b0d3",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "partial_factor_and_shift_error",
+        "evidence_id": "37892a852e008a45cf840507",
+        "grade": 5,
+        "reference": {
+          "line": 28,
+          "sample_id": "sgk_remaining_structure_20261020_partial_factor_and_shift_error",
+          "sha256": "513e3c392a9ca823561b4ed9307de8a954dfb2ea266fcc827dd3d9ab67181b4a",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "partial_product_column_reconstruction",
+    "nearest_refs": [
+      {
+        "line": 37,
+        "sample_id": "sgk_page_20261019_g4_column_multi_blank_carry",
+        "sha256": "93b0d468e17c8972e31dfb5212b9be3ea16fd235f6459c9b671745564f55307c",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 38,
+        "sample_id": "sgk_page_20261019_g4_column_multi_blank_exchange",
+        "sha256": "71875d036a5d1ad846ade757fcc7f1ec54568321d7bddf388b1ea1de7cc6cfd4",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 39,
+        "sample_id": "sgk_page_20261019_g4_column_multi_blank_coupled",
+        "sha256": "40e67afcf0015fe4f55fc491c5a625523043ebf64f6338d29e96c43d66a811f9",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 601,
+        "sample_id": "primary_20261018_g4_muldiv_0052_misconception_tens_partial_unscaled",
+        "sha256": "dc4c0e81bbb6109f10372dd188928a2ba0298a2f7ea1514a0d7a8595aadf85d4",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 37,
+        "sample_id": "primary_20261018_finish_g3_mul2_mis_dropped_carry",
+        "sha256": "db3bf66381896d7331690fb1f3332d0a73bd16998d54562125b8616175d41480",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 966,
+        "sample_id": "sgk_g12_20261019_one_digit_swap_repair_04",
+        "sha256": "5907c79f0e2fd187036c123161f0551f65a2c6de73db9b1276af389324423128",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 689,
+        "sample_id": "primary_20261018_g5_natural_multistep_0070_boxed_and_loose_stock_reserve_equal_share",
+        "sha256": "87c9f2609d8c669f5e4b67aeef212ce91301018cc1ebe44be6eca496d9c3090f",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 690,
+        "sample_id": "primary_20261018_g5_natural_multistep_0070_common_factor_reasonable_compute_and_round",
+        "sha256": "6d08359b058f33c8586515e679929658da5923ca9337a9a6ba5bf3765665ad6a",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 691,
+        "sample_id": "primary_20261018_g5_natural_multistep_0070_unitary_boxes_then_reserve_and_share",
+        "sha256": "d11bc48b47aa278bd23835dbd5b231f0527a41dc5984262edda89f97fee24d09",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "g3_missing_digit_column": [
+        "ebd7c12c485792e11fc3d924"
+      ],
+      "g5_candidate_multicolumn_constraint": [
+        "0323559a487087f7ea8ea0ca"
+      ]
+    },
+    "original_master_reasons": [
+      "Accepted multi-blank addition/subtraction works carry/exchange but does not reconstruct missing digits across multiplication partial products and their shifted total.",
+      "Published coupled blanks cover addition/subtraction; missing shifted partial products in multiplication are not worked."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "g3_missing_digit_column",
+        "constraints": [
+          "G5 shifted two-digit-multiplier examples do not certify a G3-appropriate column-reconstruction branch. Retain the actual G3 task operation/range before adapting."
+        ],
+        "status": "GRADE_BRANCH_PENDING"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "placeclass_torn_strip_constraints": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "tornplaceclass_strip_assembly",
+      "placeclass_strip_assembly"
+    ],
+    "exact_page_receipts": [
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Read and compose nine-place numerals; assemble torn three-digit place-class strips using edge connectors; translate number representations into a letter lookup"
+        ],
+        "image_sha256": "c6d7b75fa828ad627277bcc7eb28a4e20a4ac252d905cf321c323a8076503667",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_45-1791255467124.png",
+        "printed_page": 43
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Read nine-column abacus and digit class; select numeral satisfying two digit-class constraints; connect place-class puzzle strips"
+        ],
+        "image_sha256": "199a5e5f49353b2e53c1f930db40088a7ef90a92db82b45c7347f97dd1f817b6",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_46-1791255467338.png",
+        "printed_page": 44
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "strips_connector_chain",
+        "evidence_id": "61bff174a5d11e6299a417eb",
+        "grade": 4,
+        "reference": {
+          "line": 25,
+          "sample_id": "sgk_remaining_structure_20261020_strips_connector_chain",
+          "sha256": "d3e5111d718b249baf689dfe973db2c8861b8f300dfe3ef3bd3de5b621c342a5",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "strips_decoy_pin",
+        "evidence_id": "2a43efe8c0bd7d1eb863db54",
+        "grade": 4,
+        "reference": {
+          "line": 26,
+          "sample_id": "sgk_remaining_structure_20261020_strips_decoy_pin",
+          "sha256": "250041de95234f091291e1e52e9b713753ad246c1110f7398edb5cf566fc40cd",
+          "source_file": "sgk_remaining_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 2,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "placeclass_torn_strip_constraints",
+    "nearest_refs": [
+      {
+        "line": 187,
+        "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+        "sha256": "fd3964b2294dbe07ac458a43ca1bb3dd1e543f58386e25b5d73aa4fb3ff2ce05",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 604,
+        "sample_id": "primary_20261018_g4_numbers_0049_contrast_zero_positions_in_thousands",
+        "sha256": "b0820299a424782b51b975ab896a11c1420974c37191e4aa115664b569e927c5",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 950,
+        "sample_id": "sgk_g12_20261019_hundred_grid_patch_04",
+        "sha256": "ec95c8a884ae554deb81097311686f7620804d065bee4b5f7bb423586d9832f2",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 779,
+        "sample_id": "primary_20261018_old_g1_numbers_100_0096_bundled_sticks_tens_units_write_read",
+        "sha256": "6243e1ac62e6b612b7177b01d8c198e2898345848ba77436a46e2d9ba2fdde1a",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 603,
+        "sample_id": "primary_20261018_g4_numbers_0049_read_write_three_place_classes",
+        "sha256": "8324ec27b5699ada59d00a561c4ff17c265c18523d0f782438dc91e0f7e44d2f",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "placeclass_strip_assembly": [
+        "2d02157e15addf7d1af955fa"
+      ],
+      "tornplaceclass_strip_assembly": [
+        "18c495809a7d304eb0cc1b2d"
+      ]
+    },
+    "original_master_reasons": [
+      "Place-value reading does not order torn strips using matching connectors. G4pp43-44 provide locators; need exact strip boundaries/labels and legal adjacency."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "tornplaceclass_strip_assembly",
+        "constraints": [
+          "The original G3-origin alias has no exact page locator; G4 pp43-44 establish the strip relation but cannot supply the missing original locator or G3 adaptation."
+        ],
+        "status": "LOCATOR_AND_GRADE_PENDING"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  },
+  "repeated_value_identity_assignment": {
+    "avoid_number_only_duplicate": true,
+    "candidate_ids": [
+      "G1V2_DUPLICATE_SCORE_ASSIGNMENT",
+      "g3_two_digit_reasoning_rank",
+      "equal_area_elimination"
+    ],
+    "exact_page_receipts": [
+      {
+        "evidence_level": "ACTUAL_PUBLIC_PUBLISHER_IMAGE_VIEWED",
+        "exercise_types": [
+          "transfer_between_two_groups",
+          "temporal_stage_order",
+          "duplicate_score_assignment"
+        ],
+        "grade": 1,
+        "printed_page": 89,
+        "publisher_page_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/0413/4712748878-page-90-1776045488342.png",
+        "source_image_sha256": "c49b1c8ca622aa693673d90eb70253f079722822e38f01cadae5104104fa5d15",
+        "volume": 2
+      },
+      {
+        "book_id": "g3v1",
+        "image_sha256": "32180d87ee30b68aecf143e61de11b6b259e64af309fcdd2a3691e86f3903431",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/4698702815-page-9-1775743940662.png",
+        "page_receipt_origin": "own actual-image reading",
+        "printed_page": 8
+      },
+      {
+        "actual_visual_page_read": true,
+        "book_id": "g4v1",
+        "exercise_types_read": [
+          "Join congruent squares and convert area; infer unique different room from equality of other two areas; exact rectangular floor tiling count"
+        ],
+        "image_sha256": "493e471ae3e7bf452e2bf57f7d0717523da4f3baea3c3c0d2edeea99d1e33c0e",
+        "image_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1006/4714093295_page_66-1791255470187.png",
+        "printed_page": 64
+      }
+    ],
+    "existing_relation_examples": [
+      {
+        "branch": "identity_equal_and_lower",
+        "evidence_id": "a99409a023a3b36766b83ac1",
+        "grade": 1,
+        "reference": {
+          "line": 37,
+          "sample_id": "sgk_finish_g1_20261020_identity_equal_and_lower",
+          "sha256": "1bbecbef6eafa7e74b81421a3f1ba5f06da7870d7debfcd299d6d30181e075f9",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      },
+      {
+        "branch": "identity_not_unique",
+        "evidence_id": "40c2a5c5f5ded2846c8dd07e",
+        "grade": 1,
+        "reference": {
+          "line": 38,
+          "sample_id": "sgk_finish_g1_20261020_identity_not_unique",
+          "sha256": "c1724b6fb69d6ad8332d73aa6edba7f6295e41099b01b6bf2c4c05adff2c2e4e",
+          "source_file": "sgk_finish_20261020/release/accepted_cases.jsonl"
+        }
+      }
+    ],
+    "finite_occurrence_count": 3,
+    "image_or_physical_result_still_separate": true,
+    "master_id": "repeated_value_identity_assignment",
+    "nearest_refs": [
+      {
+        "line": 16,
+        "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_01",
+        "sha256": "72168d50e30ecb66ea1127020e18d51a6fbcef29a50b186b029445486fbb8402",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 17,
+        "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_02",
+        "sha256": "1e67c31847dab0d7dbccb73fc793c617f155dd5d1ce86c1c285b6c9644654ab1",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 18,
+        "sample_id": "sgk_page_g1_20261019_resource_assignment_inequality_03",
+        "sha256": "596abb5001635ddd30fad3a7a0c4087a25d8407452e567acd31344c6da1f20ef",
+        "source_file": "release/accepted_cases.jsonl"
+      },
+      {
+        "line": 188,
+        "sample_id": "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+        "sha256": "f533ba0b3c3717b84bd2e911ff37355dc7b7dc9d381ee973c315ee09f9565e58",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 271,
+        "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+        "sha256": "e96187651026ae39f95836498f2722ed281d1f4af35cbc968cca1e1d106b1960",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 480,
+        "sample_id": "primary_20261017_g3_order_0028_sort_four_cards_with_equal_values",
+        "sha256": "d1b0f131112d350e44c4280e1feed999b47b95a04d2d46b5ef8a2d522e4875aa",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 120,
+        "sample_id": "primary_20261018_finish_g4_parallelogram_area_base_height_perimeter",
+        "sha256": "19a251707cc4fed2927c5a6463fc3d854ad5ccb8dcaf88e0a1ee29951113e660",
+        "source_file": "current_sources.jsonl"
+      },
+      {
+        "line": 536,
+        "sample_id": "primary_20261017_g3_unit_fraction_0035_guard_unknown_equal_areas:polish_v1",
+        "sha256": "f02c4fed6d80784cfb64596451cd4e442617f48ac27c2004dc477805d2beb613",
+        "source_file": "current_sources.jsonl"
+      }
+    ],
+    "original_description_evidence_ids": {
+      "G1V2_DUPLICATE_SCORE_ASSIGNMENT": [
+        "25b2610110c8b4c45bea3fac"
+      ],
+      "equal_area_elimination": [
+        "6e0920293f304bf9a53301df"
+      ],
+      "g3_two_digit_reasoning_rank": [
+        "35d6c2e69bdf8c86b6ec39e6"
+      ]
+    },
+    "original_master_reasons": [
+      "Distinct-card sorting or one-use resource matching does not assign a repeated-value multiset to identities under equality/strict-order constraints. The G4 equal-area identity task shares this master.",
+      "Sorting labelled quantities is not assignment of quantities to identities from order constraints. Share finite identity-assignment master with G1/G4 and retain distinct/repeated inventories."
+    ],
+    "required_constraints": [
+      {
+        "candidate_id": "g3_two_digit_reasoning_rank",
+        "constraints": [
+          "G3 identity ranking with the distinct-inventory branch is not demonstrated by the repeated-score G1 tasks; retain exact rank/inventory constraints before adapting."
+        ],
+        "status": "GRADE_BRANCH_PENDING"
+      },
+      {
+        "candidate_id": "equal_area_elimination",
+        "constraints": [
+          "G4 equal-area room identity/elimination still needs its explicit area-derived equality premises; G1 score equality is a shared relation only."
+        ],
+        "status": "GRADE_BRANCH_PENDING"
+      }
+    ],
+    "task_kind": "REVIEW_OR_AUTHOR_ONLY_UNWORKED_BRANCH"
+  }
+}

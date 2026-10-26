@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "Z8OEys-HQOV6"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"native_evidence_archive_started\": true, \"optimizer_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

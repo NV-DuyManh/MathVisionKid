@@ -1,0 +1,17 @@
+{
+  "status": "WAITING_FOR_DRIVE",
+  "environment": "local",
+  "drive_root": "\\content\\drive\\MyDrive\\C1SE.01",
+  "root_exists": false,
+  "total_images_found": 0,
+  "existing_paths": [],
+  "missing_paths": [
+    "\\content\\drive\\MyDrive\\C1SE.01\\Chữ Viết Tay Về Toán\\Lớp 4",
+    "\\content\\drive\\MyDrive\\C1SE.01\\Chữ Viết Tay Về Toán\\Lớp 5",
+    "\\content\\drive\\MyDrive\\C1SE.01\\Chữ Viết Tay Về Toán\\NEW\\IMG",
+    "\\content\\drive\\MyDrive\\C1SE.01\\Chữ Viết Tay Về Toán\\Sưu tập Tùm Lum",
+    "\\content\\drive\\MyDrive\\C1SE.01\\Ảnh"
+  ],
+  "folders": {},
+  "message": "Drive root not mounted or missing. Use Colab or provide a valid local path for fixture mode."
+}

@@ -1,0 +1,163 @@
+{
+  "authored_utc": "2026-10-18T10:04:19.475764+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T10:01:45.343Z",
+  "batch_sha256": "69850c1a1765b5104f09eda5fd43910d9fd2162f2c11557b3db45a9e738df9f1",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "grade": 5,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g5_box_cube_measures_0086_closed_cuboid_lateral_and_total_surface",
+      "row_sha256": "ef88ac4d8b817309fce433dd7d6d7b90b1394f50491387656b7aef2fc5fb20cd",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "(8.4+5.5)*2",
+          "((8.4+5.5)*2)*3.2",
+          "8.4*5.5",
+          "(((8.4+5.5)*2)*3.2)+2*(8.4*5.5)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_box_cube_measures_0086_cube_one_face_total_surface_vs_solid_volume",
+      "row_sha256": "52df9585f158a085241d8f0f96ab1389f4dcda13bb5e314e6d08bfdc8fb2c861",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "2.6*2.6",
+          "(2.6*2.6)*6",
+          "(2.6*2.6)*2.6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_box_cube_measures_0086_inverse_box_height_and_open_top_material",
+      "row_sha256": "a7dad80233792e02f439b02a31229e9399fe06f5bc2363101d4ec37400718acb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "0.75*10",
+          "16*(0.75*10)",
+          "1440/(16*(0.75*10))",
+          "(16+(0.75*10))*2*(1440/(16*(0.75*10)))",
+          "((16+(0.75*10))*2*(1440/(16*(0.75*10))))+(16*(0.75*10))"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_box_cube_measures_0086_misconception_base_area_labelled_volume",
+      "row_sha256": "cdaff714058b16157cedd045c1d423925838f74459d4e9d1367f7c490b4e3fe5",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "9*4*6",
+          "(9*4*6)/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g5_box_cube_measures_0086_guard_missing_height_for_total_surface_and_volume",
+      "row_sha256": "b9b63cf2e2d388d3d1275b0a8b2464271b900e540c99e80c92f792fb162bbc11",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "closed_box_labelled_face_tenths_grid": {
+      "base": 4620,
+      "front": 2688,
+      "side": 1760,
+      "lateral": 8896,
+      "total": 18136,
+      "area_cell_cm2": "1/100"
+    },
+    "cube_tenths_dm_grids": {
+      "one_face_cells": 676,
+      "total_face_cells": 4056,
+      "volume_cells": 17576,
+      "face_cell_dm2": "1/100",
+      "volume_cell_dm3": "1/1000"
+    },
+    "inverse_height_tenths_search_cm": [
+      "12"
+    ],
+    "open_box_face_grid_hundredth_cm2": {
+      "base": 12000,
+      "front": 19200,
+      "side": 9000,
+      "lateral": 56400,
+      "open_total": 68400
+    },
+    "mis_cubic_cell_count": 216,
+    "missing_height_countermodels_QA_only": [
+      {
+        "height_cm": 3,
+        "total_surface_cm2": 282,
+        "volume_cm3": 252
+      },
+      {
+        "height_cm": 5,
+        "total_surface_cm2": 358,
+        "volume_cm3": 420
+      }
+    ]
+  },
+  "Fraction_Decimal_exact_crosschecks": true,
+  "lateral_closed_open_face_scopes_distinguished": true,
+  "square_and_cubic_units_and_inverse_height_checked": true,
+  "visual_outcome_pending": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous463_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_semantic_content_read": true,
+  "all_hint_count_read": 15,
+  "face_scope_and_area_volume_semantic_read": true,
+  "official_QA_utc": "2026-10-18T10:07:27.140831+00:00",
+  "official_QA_method": "Same-author actual full read of5problems/givens/request/studentquote/observations/initial/everyworkedtitle/reason/explanation/expression/result/unit/answer and15hints. Grade5semanticQA of face scopes and dimensional roles, square/cubic units, inverse volume to height, open-top five-face material, grounded synthetic feedback and missing-height clarification. Fraction/Decimal with separate integer coordinate/tile enumeration and bounded height search; parser pass not semantic proof. No actual image/physical evidence, independent external reviewer or new human attestation.",
+  "official_review_sha256": "0d30101ed6baf03e6b13d0d9374ec0171b87d45bbeae57eec6a11a3addfc4151"
+}

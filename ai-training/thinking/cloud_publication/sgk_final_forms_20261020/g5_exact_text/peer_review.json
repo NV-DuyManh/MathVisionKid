@@ -1,0 +1,35 @@
+{
+  "status": "PASS_INDEPENDENT_PEER",
+  "cases": 12,
+  "chats": 48,
+  "full_field_reviews": 12,
+  "numeric_steps": 8,
+  "independent_models": 12,
+  "adversarial_mutations_detected": 85,
+  "actual_unique_nearest_rows_hash_validated": 16,
+  "source_hashes": {
+    "cases.jsonl": "b52c14e9a5c3020a7147201ee8a9dd14ca81c9131ff1b7a0a1dab6766a41da5a",
+    "chat.jsonl": "e4491f20adcc4cafb48667a479b934e3f6a1e714ea413f3dbc72fabe8b176f13",
+    "selfqa7.jsonl": "49055f3d56324037f320c9124a14d9d4b048b81b732eb0e3639b972b374333c7",
+    "independent_oracles.jsonl": "854c3dcf0f3ac5d69a813efd2a9c55dca4aadd420909a22494f8572d0e4fc888",
+    "numeric_fraction_decimal.jsonl": "6f54a425bfde87f0a59eea67e4ed6c0c4d7f5dc4bd0d67e498e7809364ae99d8",
+    "nearest_actual_fullfields.jsonl": "3b5bebefbb59066f7139a1360d0bf115e20f83d4a22fb065db0fd7eb62a2bf55",
+    "actual_page_receipts_readback.jsonl": "e3c8b7d9ee7c6744e95a41131c6cf33b2f720e5b38839394a85d0e058acf0632",
+    "manifest.json": "34006eda023411141ec04401ab681404e88c675275faebad968c22afe4e07dc1"
+  },
+  "source_files_unchanged": true,
+  "fixes_required": [],
+  "substantive_limitations": [
+    "Finite grade5 text enrichment only; no physical/image outcome evidence.",
+    "No model accuracy or human review attestation assigned.",
+    "Manifest inherited wording about age models is irrelevant to this batch; it does not alter source mathematical content."
+  ],
+  "artifact_hashes": {
+    "peer_fullfield_reviews.jsonl": "e2ec25c6b2cf30b38b696f0f7c563f4a7541d33033feb873c378819c621fe194",
+    "peer_independent_oracles.jsonl": "5da12c84bda8216fbc6b634a0e4fed2b7eeada528ec941161304e51c7d4d85d6",
+    "peer_numeric_checks.jsonl": "dbcdd173b8a1147f3502689c44122374945e126f3aede2137a6f66cd3af0e3c6",
+    "peer_adversarial_mutations.jsonl": "148346572d53654823f70a8781d13f6c035030d790cbcbc839c8455c3f97c97b",
+    "peer_nearest_hash_evidence.jsonl": "e9698834e90f47a9ac48ad377fd26e605eab8b4ae1bace711c2fc18059959c24",
+    "peer_review_helper.py": "4ec1601917dee160b20a4b907700bddb4d86272b2e8edb3211c55270fe5ff6ba"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "parent_recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+  "parent_audit_identity": "f0332df91020ace0fc48d88491fe97364d08826458d08c71ba4ec60524e25863",
+  "old_member_key": "a707937c3fa962493d5ec4765d31da22f03a44875bd0b840cb38f610da122641",
+  "new_member_key": "80c1427ad23a68358021dc462bcec37705a9711ccccdb4a26ba079ac6fd8e1a9",
+  "changed_chat_rows": 60,
+  "changed_case_ids": 15,
+  "changed_fields": [
+    "case_group_id",
+    "source_row_sha256"
+  ],
+  "messages_answers_hints_unchanged": true,
+  "raw_parent_artifact_retained": true,
+  "repair_receipt_sha256": "bfd1969ed8f006ba92f18ffab107a0e98c8a5bc52d11ca8c42ab81a70f6ec7c8",
+  "derived_artifact_raw_verified": {
+    "name": "MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz",
+    "bytes": 20463369,
+    "sha256": "c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0",
+    "rows": 511420,
+    "file_id": "1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ",
+    "fresh_raw_readback_verified": true,
+    "observed_utc": "2026-10-23T03:47:31.780305+00:00",
+    "transport": "AUTHORIZED_DATA_ONLY_COLAB_MCP_DRIVE_API_NO_PC_CORPUS_TRANSFER"
+  }
+}

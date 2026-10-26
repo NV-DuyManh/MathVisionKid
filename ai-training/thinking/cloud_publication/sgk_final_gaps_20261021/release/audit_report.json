@@ -1,0 +1,238 @@
+{
+  "all_sgk_forms_covered": false,
+  "by_grade": {
+    "1": 12,
+    "2": 1,
+    "3": 14,
+    "4": 22,
+    "5": 22
+  },
+  "by_topic": {
+    "broken_line_not_imagined_segment": 1,
+    "cube_marked_faces_fixed_view": 1,
+    "decimal_labels_pan_consistency": 1,
+    "decimal_mass_label_swap_diagnosis": 1,
+    "diagonal_base_exclusive_trapezoid": 1,
+    "diagonal_half_cells_regroup_without_doublecount": 1,
+    "digit_cards_column_constraint": 1,
+    "distinct_cards_person_rank": 1,
+    "double_fold_central_connected_hole": 1,
+    "down_pan_transitive_order": 1,
+    "duplicate_point_same_arm": 1,
+    "equal_area_nonfit_thin_rectangle": 1,
+    "face_direction_wrong_label_not_shape_name": 1,
+    "flower_rule_ambiguity_guard": 1,
+    "fold_outer_edge_two_notches": 1,
+    "four_triangles_rotated_diamond_placement": 1,
+    "fraction_flowers_clarified_threshold": 1,
+    "g3_coincidence_midpoint": 1,
+    "g3_rectangle_single_cut_to_square": 1,
+    "g4_acute_diagonal_grid_ray": 1,
+    "g4_cord_quarter_without_ruler": 1,
+    "g4_obtuse_diagonal_opposite_scale": 1,
+    "g4_parallelogram_cut_translate": 1,
+    "g4_perpendicular_coincidence_fold": 1,
+    "g4_square_diagonal_pair_reassembly": 1,
+    "g5_three_eighths_nonunit_strip": 1,
+    "gregorian_century_exception": 1,
+    "gregorian_interval_year_days": 1,
+    "irregular_staircase_full_unit_cells": 1,
+    "memory_reciprocal_face_removal": 1,
+    "mixed_unit_center_on_previous_circle": 1,
+    "notched_piece_exact_complement": 1,
+    "notched_piece_rotation_without_reflection": 1,
+    "offcenter_then_half_nonuniform_layers": 1,
+    "one_digit_multiplier_carry_blank": 1,
+    "open_shelf_any_valid_spec": 1,
+    "open_shelf_repair_within_domain": 1,
+    "orthogonal_half_folds_uniform_layers": 1,
+    "rank_partial_order_two_assignments": 1,
+    "relocate_three_sticks_complete_rhombi": 1,
+    "remove_internal_stick_recount_all_triangles": 1,
+    "room_area_identity_elimination": 1,
+    "same_compass_opening_radius_diameter": 1,
+    "sector_limit_not_exact_rectangle": 1,
+    "sector_rectangle_substitution_error": 1,
+    "segments_incidence_all_endpoints": 1,
+    "seven_piece_tangram_exact_square_inventory": 1,
+    "seven_segment_digit_count_change_two_moves": 1,
+    "seven_segment_exact_four_stick_build": 1,
+    "seven_segment_fixed_slots_global_minimum": 1,
+    "seven_segment_one_move_equation_unique": 1,
+    "six_piece_midpoint_complete_dissection": 1,
+    "six_piece_wrong_midpoint_equal_area_error": 1,
+    "square_two_triangles_house_silhouette": 1,
+    "strip_wrong_direction_no_solution": 1,
+    "tangram_group_equal_area_different_count": 1,
+    "tangram_midpoint_seven_piece_inventory": 1,
+    "three_arms_inside_right_corner": 1,
+    "three_digit_strip_connectors": 1,
+    "three_direction_rhombi_complete": 1,
+    "three_direction_rhombi_missing_outer": 1,
+    "three_draw_exhaustive_supply": 1,
+    "three_draw_stock_bound": 1,
+    "tilted_square_complete_inventory": 1,
+    "tilted_square_missing_side": 1,
+    "top_faces_occlusion_selection": 1,
+    "triangle_pair_selection_fixed_target": 1,
+    "two_draw_singleton_color": 1,
+    "vertical_base_two_completions": 1,
+    "wheel_cm_to_m_fractional_turns": 1,
+    "wheel_inverse_km_dm_radius": 1
+  },
+  "cases": 71,
+  "chat_rows": 284,
+  "core_unchanged": 495,
+  "full_archive_audit_complete": false,
+  "hash_numeric_exception_cases": 11,
+  "input_reviews": [
+    {
+      "cases": 24,
+      "directory": "numbers_reasoning",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "c159713ee141bf27892d306fd84a6cb829dbcd9e445e5649fae74292ed11e4ce"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "ffb1ec7427ca200febc99834cb1840a8d9d504128ac684c052bd4cb00d5998de"
+        },
+        {
+          "file": "peer_mutations.jsonl",
+          "sha256": "5fc0bc61d491234a181b3b1767c1d6d4cdeb13286ee54040a34382f948c04695"
+        },
+        {
+          "file": "peer_numeric_fraction_decimal.jsonl",
+          "sha256": "c3c9128f73b0e2f77f9e7c6f717a53b5529f2c943ef53845df5f57556f9f74b2"
+        },
+        {
+          "file": "peer_chat_linkage.jsonl",
+          "sha256": "6d71981e1da9a40eff9ce6c51c119bb10e8b6942cc5cbc38d3b75ed9832a7c07"
+        },
+        {
+          "file": "peer_qa7.jsonl",
+          "sha256": "172d0a340f629b05dfe1e84827c3eb03e425692ba190587471e9a52ceddb88fe"
+        },
+        {
+          "file": "peer_independent_review.py",
+          "sha256": "146493e4df11a37b153d722c45ba2bd2ad2b057af6edf15ef290f240c21bad11"
+        }
+      ],
+      "source_sha256": "68955882a4b3427effb790ee6a6a971acaefce477c4bf0ec69637107e732b781"
+    },
+    {
+      "cases": 24,
+      "directory": "geometry_inventory/g1_turn_wording_corrected",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "6e98b132c8b9ee936e269588af49f97cca01349c38075ef0109b053f056c8c4f"
+        },
+        {
+          "file": "peer_assets.jsonl",
+          "sha256": "d4a110c7ca182f2a83364e8fcec24565abfa87f859492f80cf6dcf436c16746d"
+        },
+        {
+          "file": "peer_chat_linkage.jsonl",
+          "sha256": "f3849c6d533dad25e65f7052ca56aadfc7aab19943bd9f5f0ab2b7b322f379c8"
+        },
+        {
+          "file": "peer_complete_review.py",
+          "sha256": "a1e6f2ed3579f12b78f429ae20cc0d543823a4a7b9897ffc148fa841b1bdae6e"
+        },
+        {
+          "file": "peer_numbers_numeric.jsonl",
+          "sha256": "d61c1eb314cffe3ee0f17dcd23a0cf38ef4ae55510df4127a29977885c440e96"
+        },
+        {
+          "file": "peer_numbers_oracle.py",
+          "sha256": "1e43d1e4fd0186f659640c2f742c2993154bef5c5dc167919c88aaedd1c128dd"
+        },
+        {
+          "file": "peer_numbers_oracles.jsonl",
+          "sha256": "f7d604f76bc1971b350139993f925f7f31a8f6cd4602116df4be608e2ecab933"
+        },
+        {
+          "file": "peer_semantic_qa7.jsonl",
+          "sha256": "24a0dba11d5d9fe16f8c4b255b1e9dfa711febddc7136f34e5acd6c6501ae5bb"
+        },
+        {
+          "file": "peer_wrong_model_mutations.jsonl",
+          "sha256": "7e062d1db73de6b9426a5667aadc41219090e5b4ff128d6a4f2d712064c11daf"
+        }
+      ],
+      "source_sha256": "4cd60aa892caf7bd1fa8e95cecebfdc87e46913b31d9fc10516f8d923569d0b1"
+    },
+    {
+      "cases": 23,
+      "directory": "fold_geometry/standard_tangram_corrected",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "643fc3aef604baf59548751c5715f0e14f64f98661ca5948c619ac29596b1834"
+        },
+        {
+          "file": "peer_finite_oracles.json",
+          "sha256": "689447945c3cbee41d079b896bb3b7db93f2af04e62fea83067ff7c3263f092b"
+        },
+        {
+          "file": "peer_wrong_model_mutations.json",
+          "sha256": "2d0d1e7d5333424f59be5e4c163e022cbb0778f0fb921c590c057432f84718b8"
+        },
+        {
+          "file": "peer_fraction_decimal.json",
+          "sha256": "344233aa7f07944f433d3ee5acb038887b8e500e219c54af4833b24ba82c7c94"
+        },
+        {
+          "file": "peer_chat_linkage.json",
+          "sha256": "4a92213049f167113f002b7306851bc039c3c8a4960aafa01a7fdb40913df463"
+        },
+        {
+          "file": "peer_qa7.json",
+          "sha256": "74b8a107714dc07c3c0d2a012923a116d1fc84b908d9e976fdf75628e6447daf"
+        },
+        {
+          "file": "peer_independent_review.py",
+          "sha256": "39d29051f6dc28a2f3b1a24882651ceda8197472d5c16e25cde3173d55ad4a0a"
+        }
+      ],
+      "source_sha256": "ee0ced14c50bb5a45a611b42e22e21c2629a729abdaa589ee193c2358582258a"
+    }
+  ],
+  "master_counts": {
+    "angle_ray_pair_enumeration": 2,
+    "balance_order_substitution_chain": 3,
+    "bill_of_materials_area_cost": 2,
+    "bounded_color_multiset_without_replacement": 3,
+    "collinear_triple_complete_enumeration": 2,
+    "complementary_irregular_boundary_match": 2,
+    "composite_shape_square_nonaligned_inventory": 2,
+    "disk_sector_limit_area_argument": 2,
+    "finite_inventory_collection_game": 3,
+    "fixed_piece_assembly_feasibility": 2,
+    "fixed_piece_silhouette_placement": 3,
+    "fold_coincidence_fraction_perpendicular": 4,
+    "fold_cut_unfold_boundary": 2,
+    "geometric_edge_removal_relocation": 2,
+    "gregorian_leap_year_convention": 2,
+    "irregular_region_unit_area_count": 2,
+    "midpoint_grid_multi_piece_dissection": 2,
+    "midpoint_tangram_piece_area": 2,
+    "nested_circle_center_construction": 2,
+    "nonaxis_composite_quadrilateral_enumeration": 2,
+    "partial_product_column_reconstruction": 2,
+    "placeclass_torn_strip_constraints": 2,
+    "prescribed_grid_angle_construction": 2,
+    "repeated_fold_visible_area": 2,
+    "repeated_value_identity_assignment": 3,
+    "rotated_trapezoid_completion": 2,
+    "seven_segment_glyph_inventory_relocation": 4,
+    "solid_visible_face_direction_binding": 3,
+    "specified_area_preserving_dissection": 3,
+    "wheel_turns_distance": 2
+  },
+  "numeric_steps": 59,
+  "old_sources_unchanged": true,
+  "training_started": false
+}

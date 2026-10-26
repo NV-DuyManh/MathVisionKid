@@ -1,0 +1,2376 @@
+{
+  "file_id": "1glUJCoMPx3dp_PiDfZZd17I2tKCbS4fJ",
+  "file_name": "MathVisionKid_FULL_CORPUS_part_05_of_07.zip",
+  "expected_archive_sha256": "748d6eff9d8614e369c1645e074fde3f8cfdf93068d4a219195d34f4e5248d50",
+  "total_bytes": 76862596,
+  "central_directory_offset": 76824766,
+  "central_directory_bytes": 37808,
+  "entries": [
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000875_000899.jsonl.gz",
+      "method": 0,
+      "crc32": 2954781545,
+      "compressed_bytes": 7573932,
+      "bytes": 7573932,
+      "local_header_offset": 0
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 700274468,
+      "compressed_bytes": 606,
+      "bytes": 1071,
+      "local_header_offset": 7574070
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000900_000924.jsonl.gz",
+      "method": 0,
+      "crc32": 397891145,
+      "compressed_bytes": 7084577,
+      "bytes": 7084577,
+      "local_header_offset": 7574825
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 339477867,
+      "compressed_bytes": 609,
+      "bytes": 1072,
+      "local_header_offset": 14659540
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000925_000949.jsonl.gz",
+      "method": 0,
+      "crc32": 728192021,
+      "compressed_bytes": 7296334,
+      "bytes": 7296334,
+      "local_header_offset": 14660298
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3033282618,
+      "compressed_bytes": 606,
+      "bytes": 1070,
+      "local_header_offset": 21956770
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000950_000974.jsonl.gz",
+      "method": 0,
+      "crc32": 782277274,
+      "compressed_bytes": 7365121,
+      "bytes": 7365121,
+      "local_header_offset": 21957525
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3677379872,
+      "compressed_bytes": 603,
+      "bytes": 1070,
+      "local_header_offset": 29322784
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000975_000999.jsonl.gz",
+      "method": 0,
+      "crc32": 3457149708,
+      "compressed_bytes": 7534990,
+      "bytes": 7534990,
+      "local_header_offset": 29323536
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 259912353,
+      "compressed_bytes": 602,
+      "bytes": 1070,
+      "local_header_offset": 36858664
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_001000_001000.jsonl.gz",
+      "method": 0,
+      "crc32": 151939591,
+      "compressed_bytes": 256894,
+      "bytes": 256894,
+      "local_header_offset": 36859415
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2309581860,
+      "compressed_bytes": 578,
+      "bytes": 1016,
+      "local_header_offset": 37116447
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_11_20/a_000000_000020.jsonl.gz",
+      "method": 0,
+      "crc32": 961755363,
+      "compressed_bytes": 88271,
+      "bytes": 88271,
+      "local_header_offset": 37117174
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_11_20/a_000000_000020.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3479288696,
+      "compressed_bytes": 584,
+      "bytes": 1032,
+      "local_header_offset": 37205580
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 2643722388,
+      "compressed_bytes": 579002,
+      "bytes": 579002,
+      "local_header_offset": 37206310
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 156252610,
+      "compressed_bytes": 596,
+      "bytes": 1055,
+      "local_header_offset": 37785448
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 2828999199,
+      "compressed_bytes": 734413,
+      "bytes": 734413,
+      "local_header_offset": 37786191
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 760597213,
+      "compressed_bytes": 599,
+      "bytes": 1054,
+      "local_header_offset": 38520740
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 3816340640,
+      "compressed_bytes": 769765,
+      "bytes": 769765,
+      "local_header_offset": 38521486
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3502177769,
+      "compressed_bytes": 600,
+      "bytes": 1056,
+      "local_header_offset": 39291387
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 1423789091,
+      "compressed_bytes": 820264,
+      "bytes": 820264,
+      "local_header_offset": 39292134
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1034167334,
+      "compressed_bytes": 596,
+      "bytes": 1058,
+      "local_header_offset": 40112534
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000100_000100.jsonl.gz",
+      "method": 0,
+      "crc32": 2926865638,
+      "compressed_bytes": 31777,
+      "bytes": 31777,
+      "local_header_offset": 40113277
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000100_000100.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 229352200,
+      "compressed_bytes": 574,
+      "bytes": 1003,
+      "local_header_offset": 40145190
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_0_10/a_000000_000010.jsonl.gz",
+      "method": 0,
+      "crc32": 55669892,
+      "compressed_bytes": 34414,
+      "bytes": 34414,
+      "local_header_offset": 40145911
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_0_10/a_000000_000010.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2192483697,
+      "compressed_bytes": 585,
+      "bytes": 1020,
+      "local_header_offset": 40180466
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 40181203
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 241015049,
+      "compressed_bytes": 553,
+      "bytes": 948,
+      "local_header_offset": 40181373
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 40182082
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 533802868,
+      "compressed_bytes": 555,
+      "bytes": 949,
+      "local_header_offset": 40182252
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 40182963
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1064170117,
+      "compressed_bytes": 557,
+      "bytes": 949,
+      "local_header_offset": 40183133
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 40183846
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3991481445,
+      "compressed_bytes": 556,
+      "bytes": 950,
+      "local_header_offset": 40184016
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000100_000124.jsonl.gz",
+      "method": 0,
+      "crc32": 601239768,
+      "compressed_bytes": 71732,
+      "bytes": 71732,
+      "local_header_offset": 40184728
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1966494188,
+      "compressed_bytes": 587,
+      "bytes": 1038,
+      "local_header_offset": 40256605
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000125_000149.jsonl.gz",
+      "method": 0,
+      "crc32": 17154415,
+      "compressed_bytes": 70928,
+      "bytes": 70928,
+      "local_header_offset": 40257348
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2565975706,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 40328421
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000150_000174.jsonl.gz",
+      "method": 0,
+      "crc32": 2267105638,
+      "compressed_bytes": 75309,
+      "bytes": 75309,
+      "local_header_offset": 40329166
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4086488699,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 40404620
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000175_000199.jsonl.gz",
+      "method": 0,
+      "crc32": 1588726059,
+      "compressed_bytes": 75236,
+      "bytes": 75236,
+      "local_header_offset": 40405365
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2618067008,
+      "compressed_bytes": 588,
+      "bytes": 1038,
+      "local_header_offset": 40480746
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000200_000224.jsonl.gz",
+      "method": 0,
+      "crc32": 247953624,
+      "compressed_bytes": 76983,
+      "bytes": 76983,
+      "local_header_offset": 40481490
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2237689237,
+      "compressed_bytes": 585,
+      "bytes": 1038,
+      "local_header_offset": 40558618
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000225_000249.jsonl.gz",
+      "method": 0,
+      "crc32": 2233345998,
+      "compressed_bytes": 71741,
+      "bytes": 71741,
+      "local_header_offset": 40559359
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3105789942,
+      "compressed_bytes": 588,
+      "bytes": 1038,
+      "local_header_offset": 40631245
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000250_000274.jsonl.gz",
+      "method": 0,
+      "crc32": 3183790191,
+      "compressed_bytes": 71157,
+      "bytes": 71157,
+      "local_header_offset": 40631989
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2842440195,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 40703291
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000275_000299.jsonl.gz",
+      "method": 0,
+      "crc32": 220868163,
+      "compressed_bytes": 71830,
+      "bytes": 71830,
+      "local_header_offset": 40704037
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2285027238,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 40776012
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000300_000324.jsonl.gz",
+      "method": 0,
+      "crc32": 2807879729,
+      "compressed_bytes": 72745,
+      "bytes": 72745,
+      "local_header_offset": 40776758
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2321994084,
+      "compressed_bytes": 592,
+      "bytes": 1038,
+      "local_header_offset": 40849648
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000325_000349.jsonl.gz",
+      "method": 0,
+      "crc32": 69627834,
+      "compressed_bytes": 74216,
+      "bytes": 74216,
+      "local_header_offset": 40850396
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4201797794,
+      "compressed_bytes": 588,
+      "bytes": 1038,
+      "local_header_offset": 40924757
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000350_000374.jsonl.gz",
+      "method": 0,
+      "crc32": 3483669970,
+      "compressed_bytes": 72189,
+      "bytes": 72189,
+      "local_header_offset": 40925501
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2719638404,
+      "compressed_bytes": 591,
+      "bytes": 1038,
+      "local_header_offset": 40997835
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000375_000399.jsonl.gz",
+      "method": 0,
+      "crc32": 4090355852,
+      "compressed_bytes": 72965,
+      "bytes": 72965,
+      "local_header_offset": 40998582
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1823841978,
+      "compressed_bytes": 591,
+      "bytes": 1037,
+      "local_header_offset": 41071692
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000400_000424.jsonl.gz",
+      "method": 0,
+      "crc32": 570558434,
+      "compressed_bytes": 70178,
+      "bytes": 70178,
+      "local_header_offset": 41072439
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4020691705,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 41142762
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000425_000449.jsonl.gz",
+      "method": 0,
+      "crc32": 3761147568,
+      "compressed_bytes": 73093,
+      "bytes": 73093,
+      "local_header_offset": 41143507
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3494394052,
+      "compressed_bytes": 593,
+      "bytes": 1038,
+      "local_header_offset": 41216745
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000450_000474.jsonl.gz",
+      "method": 0,
+      "crc32": 2370964106,
+      "compressed_bytes": 76339,
+      "bytes": 76339,
+      "local_header_offset": 41217494
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2331943370,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 41293978
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000475_000499.jsonl.gz",
+      "method": 0,
+      "crc32": 3289813185,
+      "compressed_bytes": 72202,
+      "bytes": 72202,
+      "local_header_offset": 41294723
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000475_000499.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3235360199,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 41367070
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000500_000524.jsonl.gz",
+      "method": 0,
+      "crc32": 2032182506,
+      "compressed_bytes": 73644,
+      "bytes": 73644,
+      "local_header_offset": 41367815
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000500_000524.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2863408507,
+      "compressed_bytes": 587,
+      "bytes": 1038,
+      "local_header_offset": 41441604
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000525_000549.jsonl.gz",
+      "method": 0,
+      "crc32": 3271208185,
+      "compressed_bytes": 72393,
+      "bytes": 72393,
+      "local_header_offset": 41442347
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000525_000549.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1098446060,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 41514885
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000550_000574.jsonl.gz",
+      "method": 0,
+      "crc32": 3843978232,
+      "compressed_bytes": 76208,
+      "bytes": 76208,
+      "local_header_offset": 41515630
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000550_000574.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3645453686,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 41591983
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000575_000599.jsonl.gz",
+      "method": 0,
+      "crc32": 2458092860,
+      "compressed_bytes": 71642,
+      "bytes": 71642,
+      "local_header_offset": 41592729
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000575_000599.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3472611049,
+      "compressed_bytes": 590,
+      "bytes": 1037,
+      "local_header_offset": 41664516
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000600_000624.jsonl.gz",
+      "method": 0,
+      "crc32": 2277162966,
+      "compressed_bytes": 77995,
+      "bytes": 77995,
+      "local_header_offset": 41665262
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000600_000624.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 681294378,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 41743402
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000625_000649.jsonl.gz",
+      "method": 0,
+      "crc32": 3454407507,
+      "compressed_bytes": 74735,
+      "bytes": 74735,
+      "local_header_offset": 41744147
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000625_000649.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2352218873,
+      "compressed_bytes": 591,
+      "bytes": 1038,
+      "local_header_offset": 41819027
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000650_000674.jsonl.gz",
+      "method": 0,
+      "crc32": 1627336546,
+      "compressed_bytes": 76796,
+      "bytes": 76796,
+      "local_header_offset": 41819774
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000650_000674.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3012430640,
+      "compressed_bytes": 591,
+      "bytes": 1038,
+      "local_header_offset": 41896715
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000675_000699.jsonl.gz",
+      "method": 0,
+      "crc32": 4181278874,
+      "compressed_bytes": 72867,
+      "bytes": 72867,
+      "local_header_offset": 41897462
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000675_000699.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2176730671,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 41970474
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000700_000724.jsonl.gz",
+      "method": 0,
+      "crc32": 1022234593,
+      "compressed_bytes": 71829,
+      "bytes": 71829,
+      "local_header_offset": 41971220
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000700_000724.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4087590376,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 42043194
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000725_000749.jsonl.gz",
+      "method": 0,
+      "crc32": 2021186133,
+      "compressed_bytes": 73433,
+      "bytes": 73433,
+      "local_header_offset": 42043939
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000725_000749.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2753446694,
+      "compressed_bytes": 587,
+      "bytes": 1038,
+      "local_header_offset": 42117517
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000750_000774.jsonl.gz",
+      "method": 0,
+      "crc32": 201984937,
+      "compressed_bytes": 73348,
+      "bytes": 73348,
+      "local_header_offset": 42118260
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000750_000774.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 25417604,
+      "compressed_bytes": 592,
+      "bytes": 1038,
+      "local_header_offset": 42191753
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000775_000799.jsonl.gz",
+      "method": 0,
+      "crc32": 1501524970,
+      "compressed_bytes": 72376,
+      "bytes": 72376,
+      "local_header_offset": 42192501
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000775_000799.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2203228569,
+      "compressed_bytes": 590,
+      "bytes": 1037,
+      "local_header_offset": 42265022
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000800_000824.jsonl.gz",
+      "method": 0,
+      "crc32": 3055248590,
+      "compressed_bytes": 75887,
+      "bytes": 75887,
+      "local_header_offset": 42265768
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000800_000824.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 646884029,
+      "compressed_bytes": 587,
+      "bytes": 1038,
+      "local_header_offset": 42341800
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000825_000849.jsonl.gz",
+      "method": 0,
+      "crc32": 1874928688,
+      "compressed_bytes": 73892,
+      "bytes": 73892,
+      "local_header_offset": 42342543
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000825_000849.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1813688816,
+      "compressed_bytes": 589,
+      "bytes": 1038,
+      "local_header_offset": 42416580
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000850_000874.jsonl.gz",
+      "method": 0,
+      "crc32": 880435037,
+      "compressed_bytes": 72598,
+      "bytes": 72598,
+      "local_header_offset": 42417325
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000850_000874.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3452188699,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 42490068
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000875_000899.jsonl.gz",
+      "method": 0,
+      "crc32": 1774281221,
+      "compressed_bytes": 76468,
+      "bytes": 76468,
+      "local_header_offset": 42490814
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 748113705,
+      "compressed_bytes": 591,
+      "bytes": 1038,
+      "local_header_offset": 42567427
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000900_000924.jsonl.gz",
+      "method": 0,
+      "crc32": 371994815,
+      "compressed_bytes": 76103,
+      "bytes": 76103,
+      "local_header_offset": 42568174
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2961416898,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 42644422
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000925_000949.jsonl.gz",
+      "method": 0,
+      "crc32": 1967790930,
+      "compressed_bytes": 72719,
+      "bytes": 72719,
+      "local_header_offset": 42645168
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 351886339,
+      "compressed_bytes": 591,
+      "bytes": 1038,
+      "local_header_offset": 42718032
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000950_000974.jsonl.gz",
+      "method": 0,
+      "crc32": 867625639,
+      "compressed_bytes": 74971,
+      "bytes": 74971,
+      "local_header_offset": 42718779
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2115355821,
+      "compressed_bytes": 590,
+      "bytes": 1038,
+      "local_header_offset": 42793895
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000975_000999.jsonl.gz",
+      "method": 0,
+      "crc32": 4259404291,
+      "compressed_bytes": 73762,
+      "bytes": 73762,
+      "local_header_offset": 42794641
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2921766830,
+      "compressed_bytes": 586,
+      "bytes": 1039,
+      "local_header_offset": 42868548
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_001000_001000.jsonl.gz",
+      "method": 0,
+      "crc32": 1105184213,
+      "compressed_bytes": 4553,
+      "bytes": 4553,
+      "local_header_offset": 42869290
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1469683080,
+      "compressed_bytes": 583,
+      "bytes": 1030,
+      "local_header_offset": 42873988
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_11_20/a_000000_000020.jsonl.gz",
+      "method": 0,
+      "crc32": 2356901225,
+      "compressed_bytes": 28383,
+      "bytes": 28383,
+      "local_header_offset": 42874727
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_11_20/a_000000_000020.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1078739524,
+      "compressed_bytes": 582,
+      "bytes": 1022,
+      "local_header_offset": 42903252
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 2074158798,
+      "compressed_bytes": 12278,
+      "bytes": 12278,
+      "local_header_offset": 42903987
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1180241224,
+      "compressed_bytes": 586,
+      "bytes": 1025,
+      "local_header_offset": 42916408
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 1378146283,
+      "compressed_bytes": 66252,
+      "bytes": 66252,
+      "local_header_offset": 42917148
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2147784825,
+      "compressed_bytes": 586,
+      "bytes": 1030,
+      "local_header_offset": 42983543
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 3756278129,
+      "compressed_bytes": 67434,
+      "bytes": 67434,
+      "local_header_offset": 42984283
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 82467722,
+      "compressed_bytes": 590,
+      "bytes": 1030,
+      "local_header_offset": 43051860
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 3288605646,
+      "compressed_bytes": 70968,
+      "bytes": 70968,
+      "local_header_offset": 43052604
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 483920806,
+      "compressed_bytes": 588,
+      "bytes": 1031,
+      "local_header_offset": 43123715
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000100_000100.jsonl.gz",
+      "method": 0,
+      "crc32": 2193822236,
+      "compressed_bytes": 4445,
+      "bytes": 4445,
+      "local_header_offset": 43124457
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000100_000100.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3572700655,
+      "compressed_bytes": 583,
+      "bytes": 1022,
+      "local_header_offset": 43129045
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_0_10/a_000000_000010.jsonl.gz",
+      "method": 0,
+      "crc32": 3395492138,
+      "compressed_bytes": 3129,
+      "bytes": 3129,
+      "local_header_offset": 43129782
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_0_10/a_000000_000010.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 850319543,
+      "compressed_bytes": 580,
+      "bytes": 1018,
+      "local_header_offset": 43133053
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43133786
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 344782910,
+      "compressed_bytes": 559,
+      "bytes": 965,
+      "local_header_offset": 43133957
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43134673
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1143053507,
+      "compressed_bytes": 561,
+      "bytes": 966,
+      "local_header_offset": 43134844
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43135562
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 487065096,
+      "compressed_bytes": 563,
+      "bytes": 966,
+      "local_header_offset": 43135733
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43136453
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2964208706,
+      "compressed_bytes": 562,
+      "bytes": 967,
+      "local_header_offset": 43136624
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000100_000124.jsonl.gz",
+      "method": 0,
+      "crc32": 1198330836,
+      "compressed_bytes": 4363,
+      "bytes": 4363,
+      "local_header_offset": 43137343
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3683817820,
+      "compressed_bytes": 583,
+      "bytes": 1033,
+      "local_header_offset": 43141852
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000125_000149.jsonl.gz",
+      "method": 0,
+      "crc32": 1942756581,
+      "compressed_bytes": 4441,
+      "bytes": 4441,
+      "local_header_offset": 43142592
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1108823243,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43147179
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000150_000174.jsonl.gz",
+      "method": 0,
+      "crc32": 2925329497,
+      "compressed_bytes": 4433,
+      "bytes": 4433,
+      "local_header_offset": 43147922
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1741423677,
+      "compressed_bytes": 587,
+      "bytes": 1033,
+      "local_header_offset": 43152501
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000175_000199.jsonl.gz",
+      "method": 0,
+      "crc32": 3547787834,
+      "compressed_bytes": 4454,
+      "bytes": 4454,
+      "local_header_offset": 43153245
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2623464238,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43157845
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000200_000224.jsonl.gz",
+      "method": 0,
+      "crc32": 2374332390,
+      "compressed_bytes": 4458,
+      "bytes": 4458,
+      "local_header_offset": 43158588
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1755405673,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43163192
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000225_000249.jsonl.gz",
+      "method": 0,
+      "crc32": 3323461432,
+      "compressed_bytes": 4492,
+      "bytes": 4492,
+      "local_header_offset": 43163935
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3561413692,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43168573
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000250_000274.jsonl.gz",
+      "method": 0,
+      "crc32": 171298821,
+      "compressed_bytes": 4466,
+      "bytes": 4466,
+      "local_header_offset": 43169315
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3631163668,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43173927
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000275_000299.jsonl.gz",
+      "method": 0,
+      "crc32": 270284995,
+      "compressed_bytes": 4459,
+      "bytes": 4459,
+      "local_header_offset": 43174669
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2545624506,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43179274
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000300_000324.jsonl.gz",
+      "method": 0,
+      "crc32": 1119563686,
+      "compressed_bytes": 4439,
+      "bytes": 4439,
+      "local_header_offset": 43180016
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1156970798,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43184601
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000325_000349.jsonl.gz",
+      "method": 0,
+      "crc32": 2308272538,
+      "compressed_bytes": 4477,
+      "bytes": 4477,
+      "local_header_offset": 43185342
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2272310707,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43189965
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000350_000374.jsonl.gz",
+      "method": 0,
+      "crc32": 2958086491,
+      "compressed_bytes": 4518,
+      "bytes": 4518,
+      "local_header_offset": 43190706
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 876373961,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43195370
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000375_000399.jsonl.gz",
+      "method": 0,
+      "crc32": 3159346118,
+      "compressed_bytes": 4476,
+      "bytes": 4476,
+      "local_header_offset": 43196113
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3980532407,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43200735
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000400_000424.jsonl.gz",
+      "method": 0,
+      "crc32": 2117448615,
+      "compressed_bytes": 4407,
+      "bytes": 4407,
+      "local_header_offset": 43201478
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 994746395,
+      "compressed_bytes": 583,
+      "bytes": 1033,
+      "local_header_offset": 43206031
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000425_000449.jsonl.gz",
+      "method": 0,
+      "crc32": 3133669908,
+      "compressed_bytes": 4477,
+      "bytes": 4477,
+      "local_header_offset": 43206771
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 403207501,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43211394
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000450_000474.jsonl.gz",
+      "method": 0,
+      "crc32": 20389801,
+      "compressed_bytes": 4459,
+      "bytes": 4459,
+      "local_header_offset": 43212136
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2919858265,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43216741
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000475_000499.jsonl.gz",
+      "method": 0,
+      "crc32": 1147461306,
+      "compressed_bytes": 4539,
+      "bytes": 4539,
+      "local_header_offset": 43217484
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000475_000499.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3364501503,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43222169
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000500_000524.jsonl.gz",
+      "method": 0,
+      "crc32": 2476081067,
+      "compressed_bytes": 4430,
+      "bytes": 4430,
+      "local_header_offset": 43222910
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000500_000524.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 68903118,
+      "compressed_bytes": 584,
+      "bytes": 1032,
+      "local_header_offset": 43227486
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000525_000549.jsonl.gz",
+      "method": 0,
+      "crc32": 2660630453,
+      "compressed_bytes": 4653,
+      "bytes": 4653,
+      "local_header_offset": 43228227
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000525_000549.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2250281928,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43233026
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000550_000574.jsonl.gz",
+      "method": 0,
+      "crc32": 934081778,
+      "compressed_bytes": 4558,
+      "bytes": 4558,
+      "local_header_offset": 43233767
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000550_000574.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3273995774,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43238471
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000575_000599.jsonl.gz",
+      "method": 0,
+      "crc32": 129608951,
+      "compressed_bytes": 4468,
+      "bytes": 4468,
+      "local_header_offset": 43239212
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000575_000599.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3500440122,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43243826
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000600_000624.jsonl.gz",
+      "method": 0,
+      "crc32": 2518758841,
+      "compressed_bytes": 4444,
+      "bytes": 4444,
+      "local_header_offset": 43244569
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000600_000624.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3065316244,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43249159
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000625_000649.jsonl.gz",
+      "method": 0,
+      "crc32": 2299250329,
+      "compressed_bytes": 4452,
+      "bytes": 4452,
+      "local_header_offset": 43249902
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000625_000649.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4285658605,
+      "compressed_bytes": 587,
+      "bytes": 1033,
+      "local_header_offset": 43254500
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000650_000674.jsonl.gz",
+      "method": 0,
+      "crc32": 2132095192,
+      "compressed_bytes": 4539,
+      "bytes": 4539,
+      "local_header_offset": 43255244
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000650_000674.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3262565325,
+      "compressed_bytes": 587,
+      "bytes": 1033,
+      "local_header_offset": 43259929
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000675_000699.jsonl.gz",
+      "method": 0,
+      "crc32": 1073615761,
+      "compressed_bytes": 4472,
+      "bytes": 4472,
+      "local_header_offset": 43260673
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000675_000699.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3630194877,
+      "compressed_bytes": 587,
+      "bytes": 1032,
+      "local_header_offset": 43265291
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000700_000724.jsonl.gz",
+      "method": 0,
+      "crc32": 2472458557,
+      "compressed_bytes": 4457,
+      "bytes": 4457,
+      "local_header_offset": 43266035
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000700_000724.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 165380294,
+      "compressed_bytes": 583,
+      "bytes": 1033,
+      "local_header_offset": 43270638
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000725_000749.jsonl.gz",
+      "method": 0,
+      "crc32": 4191442456,
+      "compressed_bytes": 4467,
+      "bytes": 4467,
+      "local_header_offset": 43271378
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000725_000749.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1962466761,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43275991
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000750_000774.jsonl.gz",
+      "method": 0,
+      "crc32": 2881453787,
+      "compressed_bytes": 4533,
+      "bytes": 4533,
+      "local_header_offset": 43276733
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000750_000774.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2056541427,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43281412
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000775_000799.jsonl.gz",
+      "method": 0,
+      "crc32": 537488188,
+      "compressed_bytes": 4463,
+      "bytes": 4463,
+      "local_header_offset": 43282155
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000775_000799.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3359866362,
+      "compressed_bytes": 586,
+      "bytes": 1033,
+      "local_header_offset": 43286764
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000800_000824.jsonl.gz",
+      "method": 0,
+      "crc32": 781146932,
+      "compressed_bytes": 4526,
+      "bytes": 4526,
+      "local_header_offset": 43287507
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000800_000824.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 728301109,
+      "compressed_bytes": 583,
+      "bytes": 1033,
+      "local_header_offset": 43292179
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000825_000849.jsonl.gz",
+      "method": 0,
+      "crc32": 2061348612,
+      "compressed_bytes": 4473,
+      "bytes": 4473,
+      "local_header_offset": 43292919
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000825_000849.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3376266083,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43297538
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000850_000874.jsonl.gz",
+      "method": 0,
+      "crc32": 3187829503,
+      "compressed_bytes": 4434,
+      "bytes": 4434,
+      "local_header_offset": 43298280
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000850_000874.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3859617643,
+      "compressed_bytes": 587,
+      "bytes": 1033,
+      "local_header_offset": 43302860
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000875_000899.jsonl.gz",
+      "method": 0,
+      "crc32": 918682468,
+      "compressed_bytes": 4474,
+      "bytes": 4474,
+      "local_header_offset": 43303604
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2224813308,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43308224
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000900_000924.jsonl.gz",
+      "method": 0,
+      "crc32": 2306848512,
+      "compressed_bytes": 4446,
+      "bytes": 4446,
+      "local_header_offset": 43308966
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2110866975,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43313558
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000925_000949.jsonl.gz",
+      "method": 0,
+      "crc32": 1603063553,
+      "compressed_bytes": 4559,
+      "bytes": 4559,
+      "local_header_offset": 43314299
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1810712968,
+      "compressed_bytes": 584,
+      "bytes": 1033,
+      "local_header_offset": 43319004
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000950_000974.jsonl.gz",
+      "method": 0,
+      "crc32": 3088812749,
+      "compressed_bytes": 4421,
+      "bytes": 4421,
+      "local_header_offset": 43319745
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2947934296,
+      "compressed_bytes": 585,
+      "bytes": 1033,
+      "local_header_offset": 43324312
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000975_000999.jsonl.gz",
+      "method": 0,
+      "crc32": 2133011865,
+      "compressed_bytes": 4459,
+      "bytes": 4459,
+      "local_header_offset": 43325054
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4142002675,
+      "compressed_bytes": 583,
+      "bytes": 1034,
+      "local_header_offset": 43329659
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_001000_001000.jsonl.gz",
+      "method": 0,
+      "crc32": 492076575,
+      "compressed_bytes": 1970,
+      "bytes": 1970,
+      "local_header_offset": 43330399
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 586570733,
+      "compressed_bytes": 582,
+      "bytes": 1031,
+      "local_header_offset": 43332515
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_11_20/a_000000_000020.jsonl.gz",
+      "method": 0,
+      "crc32": 2291762858,
+      "compressed_bytes": 3033,
+      "bytes": 3033,
+      "local_header_offset": 43333254
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_11_20/a_000000_000020.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 4040466623,
+      "compressed_bytes": 578,
+      "bytes": 1021,
+      "local_header_offset": 43336430
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 1650085721,
+      "compressed_bytes": 2387,
+      "bytes": 2387,
+      "local_header_offset": 43337162
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2234377264,
+      "compressed_bytes": 582,
+      "bytes": 1020,
+      "local_header_offset": 43339693
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 1105010543,
+      "compressed_bytes": 4469,
+      "bytes": 4469,
+      "local_header_offset": 43340430
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3093343645,
+      "compressed_bytes": 584,
+      "bytes": 1025,
+      "local_header_offset": 43345043
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 2418203958,
+      "compressed_bytes": 4545,
+      "bytes": 4545,
+      "local_header_offset": 43345782
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1917683106,
+      "compressed_bytes": 583,
+      "bytes": 1025,
+      "local_header_offset": 43350471
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 4012587011,
+      "compressed_bytes": 4551,
+      "bytes": 4551,
+      "local_header_offset": 43351209
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3865631504,
+      "compressed_bytes": 581,
+      "bytes": 1025,
+      "local_header_offset": 43355904
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000100_000100.jsonl.gz",
+      "method": 0,
+      "crc32": 1924369137,
+      "compressed_bytes": 1969,
+      "bytes": 1969,
+      "local_header_offset": 43356640
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000100_000100.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3098188985,
+      "compressed_bytes": 581,
+      "bytes": 1023,
+      "local_header_offset": 43358753
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/multiplication_shell_0_10/a_000000_000010.jsonl.gz",
+      "method": 0,
+      "crc32": 2877219183,
+      "compressed_bytes": 30415,
+      "bytes": 30415,
+      "local_header_offset": 43359489
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/multiplication_shell_0_10/a_000000_000010.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2404870585,
+      "compressed_bytes": 585,
+      "bytes": 1023,
+      "local_header_offset": 43390044
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_0_10/a_000000_000010.jsonl.gz",
+      "method": 0,
+      "crc32": 161358882,
+      "compressed_bytes": 16322,
+      "bytes": 16322,
+      "local_header_offset": 43390780
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_0_10/a_000000_000010.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 599621907,
+      "compressed_bytes": 588,
+      "bytes": 1036,
+      "local_header_offset": 43407239
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000000_000024.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43407975
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 477801250,
+      "compressed_bytes": 549,
+      "bytes": 939,
+      "local_header_offset": 43408141
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000025_000049.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43408842
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 332166218,
+      "compressed_bytes": 552,
+      "bytes": 941,
+      "local_header_offset": 43409008
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000050_000074.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43409712
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2676755000,
+      "compressed_bytes": 554,
+      "bytes": 941,
+      "local_header_offset": 43409878
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000075_000099.jsonl.gz",
+      "method": 0,
+      "crc32": 771498736,
+      "compressed_bytes": 25,
+      "bytes": 25,
+      "local_header_offset": 43410584
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 563391178,
+      "compressed_bytes": 552,
+      "bytes": 942,
+      "local_header_offset": 43410750
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000100_000124.jsonl.gz",
+      "method": 0,
+      "crc32": 2266730696,
+      "compressed_bytes": 812893,
+      "bytes": 812893,
+      "local_header_offset": 43411454
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1773059014,
+      "compressed_bytes": 602,
+      "bytes": 1064,
+      "local_header_offset": 44224488
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000125_000149.jsonl.gz",
+      "method": 0,
+      "crc32": 2894793423,
+      "compressed_bytes": 981191,
+      "bytes": 981191,
+      "local_header_offset": 44225242
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 961164940,
+      "compressed_bytes": 602,
+      "bytes": 1064,
+      "local_header_offset": 45206574
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000150_000174.jsonl.gz",
+      "method": 0,
+      "crc32": 3676711315,
+      "compressed_bytes": 1105635,
+      "bytes": 1105635,
+      "local_header_offset": 45207328
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2996025301,
+      "compressed_bytes": 599,
+      "bytes": 1065,
+      "local_header_offset": 46313104
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000175_000199.jsonl.gz",
+      "method": 0,
+      "crc32": 1574222229,
+      "compressed_bytes": 1202556,
+      "bytes": 1202556,
+      "local_header_offset": 46313855
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2403260041,
+      "compressed_bytes": 602,
+      "bytes": 1064,
+      "local_header_offset": 47516552
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000200_000224.jsonl.gz",
+      "method": 0,
+      "crc32": 2040770983,
+      "compressed_bytes": 1587399,
+      "bytes": 1587399,
+      "local_header_offset": 47517306
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2336377973,
+      "compressed_bytes": 600,
+      "bytes": 1065,
+      "local_header_offset": 49104846
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000225_000249.jsonl.gz",
+      "method": 0,
+      "crc32": 406527880,
+      "compressed_bytes": 1693997,
+      "bytes": 1693997,
+      "local_header_offset": 49105598
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 904390029,
+      "compressed_bytes": 603,
+      "bytes": 1066,
+      "local_header_offset": 50799736
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000250_000274.jsonl.gz",
+      "method": 0,
+      "crc32": 2668253728,
+      "compressed_bytes": 1791951,
+      "bytes": 1791951,
+      "local_header_offset": 50800491
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 587001254,
+      "compressed_bytes": 602,
+      "bytes": 1066,
+      "local_header_offset": 52592583
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000275_000299.jsonl.gz",
+      "method": 0,
+      "crc32": 2604410349,
+      "compressed_bytes": 1847011,
+      "bytes": 1847011,
+      "local_header_offset": 52593337
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2423957625,
+      "compressed_bytes": 602,
+      "bytes": 1065,
+      "local_header_offset": 54440489
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000300_000324.jsonl.gz",
+      "method": 0,
+      "crc32": 3333759541,
+      "compressed_bytes": 2341498,
+      "bytes": 2341498,
+      "local_header_offset": 54441243
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1378438791,
+      "compressed_bytes": 601,
+      "bytes": 1065,
+      "local_header_offset": 56782882
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000325_000349.jsonl.gz",
+      "method": 0,
+      "crc32": 2546134981,
+      "compressed_bytes": 2410997,
+      "bytes": 2410997,
+      "local_header_offset": 56783635
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2893984352,
+      "compressed_bytes": 603,
+      "bytes": 1066,
+      "local_header_offset": 59194773
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000350_000374.jsonl.gz",
+      "method": 0,
+      "crc32": 2160119194,
+      "compressed_bytes": 2478185,
+      "bytes": 2478185,
+      "local_header_offset": 59195528
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1864263001,
+      "compressed_bytes": 603,
+      "bytes": 1066,
+      "local_header_offset": 61673854
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000375_000399.jsonl.gz",
+      "method": 0,
+      "crc32": 1256217433,
+      "compressed_bytes": 2516985,
+      "bytes": 2516985,
+      "local_header_offset": 61674609
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1866043713,
+      "compressed_bytes": 602,
+      "bytes": 1065,
+      "local_header_offset": 64191735
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000400_000424.jsonl.gz",
+      "method": 0,
+      "crc32": 262393707,
+      "compressed_bytes": 3100273,
+      "bytes": 3100273,
+      "local_header_offset": 64192489
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 2172168468,
+      "compressed_bytes": 601,
+      "bytes": 1068,
+      "local_header_offset": 67292903
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000425_000449.jsonl.gz",
+      "method": 0,
+      "crc32": 2457853565,
+      "compressed_bytes": 3149522,
+      "bytes": 3149522,
+      "local_header_offset": 67293656
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 3046757737,
+      "compressed_bytes": 605,
+      "bytes": 1068,
+      "local_header_offset": 70443319
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000450_000474.jsonl.gz",
+      "method": 0,
+      "crc32": 1453848231,
+      "compressed_bytes": 3177648,
+      "bytes": 3177648,
+      "local_header_offset": 70444076
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1043274570,
+      "compressed_bytes": 604,
+      "bytes": 1068,
+      "local_header_offset": 73621865
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000475_000499.jsonl.gz",
+      "method": 0,
+      "crc32": 1216675438,
+      "compressed_bytes": 3174461,
+      "bytes": 3174461,
+      "local_header_offset": 73622621
+    },
+    {
+      "name": "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000475_000499.jsonl.manifest.json",
+      "method": 8,
+      "crc32": 1241768216,
+      "compressed_bytes": 603,
+      "bytes": 1068,
+      "local_header_offset": 76797223
+    },
+    {
+      "name": "CLOUD_PART_MANIFEST.json",
+      "method": 0,
+      "crc32": 1294895055,
+      "compressed_bytes": 26734,
+      "bytes": 26734,
+      "local_header_offset": 76797978
+    }
+  ],
+  "metadata_documents": [
+    {
+      "name": "CLOUD_PART_MANIFEST.json",
+      "bytes": 26734,
+      "sha256": "2c962189ecd9ab27f36a6006c3e3a23e488028ab13baab59baf566efbdfe2d4a",
+      "document": {
+        "part": 5,
+        "parts": 7,
+        "storage": "EXTRACT_ALL_CORPUS_PARTS_TOGETHER",
+        "source_complete_package_sha256": "e13b428e8e9231e0c33446c8bbf57145894aaf63c9d7274e191b0b635a9ae816",
+        "files": [
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000875_000899.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000900_000924.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000925_000949.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000950_000974.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000975_000999.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_001000_001000.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_11_20/a_000000_000020.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_11_20/a_000000_000020.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000100_000100.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/addition_shell_21_100/a_000100_000100.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_0_10/a_000000_000010.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_0_10/a_000000_000010.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000100_000124.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000125_000149.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000150_000174.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000175_000199.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000200_000224.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000225_000249.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000250_000274.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000275_000299.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000300_000324.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000325_000349.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000350_000374.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000375_000399.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000400_000424.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000425_000449.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000450_000474.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000475_000499.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000475_000499.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000500_000524.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000500_000524.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000525_000549.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000525_000549.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000550_000574.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000550_000574.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000575_000599.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000575_000599.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000600_000624.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000600_000624.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000625_000649.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000625_000649.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000650_000674.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000650_000674.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000675_000699.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000675_000699.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000700_000724.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000700_000724.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000725_000749.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000725_000749.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000750_000774.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000750_000774.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000775_000799.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000775_000799.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000800_000824.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000800_000824.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000825_000849.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000825_000849.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000850_000874.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000850_000874.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000875_000899.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000900_000924.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000925_000949.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000950_000974.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000975_000999.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_001000_001000.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_11_20/a_000000_000020.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_11_20/a_000000_000020.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000100_000100.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_1_9_shell_21_100/a_000100_000100.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_0_10/a_000000_000010.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_0_10/a_000000_000010.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000100_000124.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000125_000149.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000150_000174.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000175_000199.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000200_000224.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000225_000249.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000250_000274.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000275_000299.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000300_000324.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000325_000349.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000350_000374.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000375_000399.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000400_000424.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000425_000449.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000450_000474.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000475_000499.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000475_000499.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000500_000524.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000500_000524.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000525_000549.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000525_000549.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000550_000574.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000550_000574.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000575_000599.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000575_000599.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000600_000624.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000600_000624.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000625_000649.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000625_000649.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000650_000674.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000650_000674.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000675_000699.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000675_000699.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000700_000724.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000700_000724.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000725_000749.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000725_000749.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000750_000774.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000750_000774.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000775_000799.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000775_000799.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000800_000824.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000800_000824.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000825_000849.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000825_000849.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000850_000874.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000850_000874.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000875_000899.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000875_000899.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000900_000924.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000900_000924.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000925_000949.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000925_000949.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000950_000974.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000950_000974.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000975_000999.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_000975_000999.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_001000_001000.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_101_1000/a_001000_001000.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_11_20/a_000000_000020.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_11_20/a_000000_000020.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000100_000100.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/division_by_zero_shell_21_100/a_000100_000100.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/multiplication_shell_0_10/a_000000_000010.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/multiplication_shell_0_10/a_000000_000010.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_0_10/a_000000_000010.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_0_10/a_000000_000010.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000000_000024.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000000_000024.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000025_000049.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000025_000049.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000050_000074.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000050_000074.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000075_000099.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000075_000099.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000100_000124.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000100_000124.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000125_000149.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000125_000149.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000150_000174.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000150_000174.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000175_000199.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000175_000199.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000200_000224.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000200_000224.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000225_000249.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000225_000249.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000250_000274.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000250_000274.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000275_000299.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000275_000299.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000300_000324.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000300_000324.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000325_000349.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000325_000349.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000350_000374.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000350_000374.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000375_000399.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000375_000399.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000400_000424.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000400_000424.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000425_000449.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000425_000449.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000450_000474.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000450_000474.jsonl.manifest.json",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000475_000499.jsonl.gz",
+          "thinking/data/exhaustive_math_v1/corpus/subtraction_shell_101_1000/a_000475_000499.jsonl.manifest.json"
+        ]
+      }
+    }
+  ],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:47.816Z"
+}

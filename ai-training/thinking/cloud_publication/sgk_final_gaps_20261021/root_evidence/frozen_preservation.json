@@ -1,0 +1,30 @@
+{
+  "owner_acceptance_policy.json": {
+    "sha256": "086c5588c47cc90ec079678857b24dbb65601246cca6b208a700212c7dea6c6e",
+    "unchanged": true
+  },
+  "owner_human_attestations.json": {
+    "sha256": "e0d59a9a5ee6e428bfe2c2bcc3cee9fa7b8b52f507140ca09491a39f269cf4ea",
+    "unchanged": true
+  },
+  "owner_human_signoffs.jsonl": {
+    "sha256": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+    "unchanged": true
+  },
+  "data_build_state.json": {
+    "sha256": "fd3e6a7f7a95c1f0614e53cbb651632e3377c52fc82e9dcaf97efab1d3ea4966",
+    "unchanged": true
+  },
+  "authoring_queue.json": {
+    "sha256": "3fd00093e8c2cb476a3bccc1793a6046cad1299b4bf584aa731b9e524dce0102",
+    "unchanged": true
+  },
+  "supplementary_queue.json": {
+    "sha256": "177a3a7bc33ae71a7220866b39e91da12c086559ffc85602eb290f6713629712",
+    "unchanged": true
+  },
+  "coverage_adjudication_queue.json": {
+    "sha256": "b922a78c662232c8327037268c9a80a203a7ccbe7b48bd774f827f8a2ccfdb3b",
+    "unchanged": true
+  }
+}

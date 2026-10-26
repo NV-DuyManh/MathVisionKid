@@ -1,0 +1,80 @@
+{
+  "reviewer": "teacher_data_v3 independent peer reviewer",
+  "review_role": "Static trainer/auditor review and local scoring reproductions; no GPU execution claimed",
+  "status": "NO_PRELAUNCH_BLOCKERS_AFTER_CORRECTIVE_DATA_AND_METRIC_FIXES",
+  "trainer_sha256_reviewed": "a19223c1b63ce331e4f9663a7eb494ecd8f93af12f7bacba199d4ae26e6f665e",
+  "data_fingerprints_reviewed": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "static_checks": {
+    "input_is_question_grade_mode_only": true,
+    "completion_only_loss_and_real_eos": true,
+    "silent_truncation_rejected": true,
+    "gradient_accumulation_divides_actual_group_length": true,
+    "amp_retry_keeps_same_examples_and_restores_torch_rng": true,
+    "optimizer_scheduler_step_only_after_finite_gradients": true,
+    "model_base_frozen_by_peft_lora": true,
+    "memory_probe_covers_largest_sequence_before_training": true,
+    "adapter_and_optimizer_state_resume_with_fixed_epoch_order": true,
+    "fresh_base_reload_and_adapter_tensor_hash_check": true,
+    "baseline_candidate_share_frozen_validation_inputs": true,
+    "selection_checks_global_and_per_grade_non_regression": true,
+    "thinking_probe_uses_open_prefix_evidence_and_sampling": true,
+    "generated_tokens_redecoded_and_scores_recomputed_by_auditor": true,
+    "answer_is_generated_by_model_not_replaced_by_calculator": true
+  },
+  "resolved_findings": [
+    {
+      "issue": "groups_after_sale held-out wording could imply boxes collectively contained b objects",
+      "resolution": "Explicitly states each box initially contains b; data regenerated and all fingerprints updated"
+    },
+    {
+      "issue": "decimal multiplication second factor exceeded documented current grade-5 forms",
+      "resolution": "Second factor now from (1..99)/10 or (1..99)/100; official appendix page-42 constraint confirmed by curriculum reviewer"
+    },
+    {
+      "issue": "percent_part wording asks object count but target unit was empty",
+      "resolution": "Variant-specific object-count unit added with regression assertion"
+    },
+    {
+      "issue": "guard metric accepted null clarification hint",
+      "resolution": "Current trainer requires a nonempty bounded hint; local repro now guard_correct=false"
+    },
+    {
+      "issue": "candidate selection could improve hint-format safety while losing teacher-reference hints",
+      "resolution": "Current selection includes hint_reference_match non-regression globally and per grade"
+    }
+  ],
+  "remaining_metric_limits": [
+    {
+      "issue": "Incorrect explanatory prose can accompany correct expressions/results",
+      "local_repro": "Replacing a purpose explanation with 'Subtract because more were received.' still yields solution_verified=true",
+      "impact": "Arithmetic/reference-path verification is not explanatory or pedagogical certification",
+      "mitigation": "Root runtime uses independently authored verified-purpose rendering; generated prose must not be released as certified"
+    },
+    {
+      "issue": "A mathematically irrelevant one-question hint can pass format/number-leak checks",
+      "local_repro": "'Em thich mau nao?' yields hint_safe=true but hint_reference_match=false",
+      "impact": "hint_safe describes structural safety, not useful mathematical guidance",
+      "mitigation": "Separate reference-match metric and conservative selection; teacher evaluation still required"
+    },
+    {
+      "issue": "Unit metric rejects semantically valid classifier/noun variants",
+      "local_repro": "Final unit 'quyển' versus target 'quyển vở' is rejected despite the same book-count unit",
+      "impact": "Answer-and-unit accuracy is conservative under exact normalized unit strings"
+    },
+    {
+      "issue": "Reference-path matching rejects some mathematically valid alternate solution methods",
+      "impact": "Report raw numerical answer, answer+unit, arithmetic, and strict reference-path counts separately"
+    },
+    {
+      "issue": "Memory probe is one actual longest-sequence backward plus estimated AdamW moments",
+      "impact": "It does not independently prove full-run VRAM or overflow stability; actual GPU memory and step logs remain required"
+    }
+  ],
+  "production_approved": false,
+  "teacher_pedagogy_verified": false,
+  "curriculum_mastery_verified": false
+}

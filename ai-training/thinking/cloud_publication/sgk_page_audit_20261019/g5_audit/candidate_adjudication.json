@@ -1,0 +1,972 @@
+{
+  "source_sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387",
+  "source_rows": 5784,
+  "comparison_scope": "Targeted actual nearest valid training source semantic comparison. Retrieval/keyword absence alone not semantic proof; no sealed evaluation content used.",
+  "adjudications": [
+    {
+      "candidate_id": "g5_candidate_tiered_tariff",
+      "status": "CONFIRMED_MISSING_SUBFORM_IN_INSPECTED_NEAREST_SOURCES",
+      "volume": 2,
+      "printed_page": 37,
+      "actual_page_receipt": {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 37,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_39-1790908244170.png",
+        "sha256": "491c4dbb5fa6b03c7698efa4348dbec593200fb02388af7d0db0254fda554721",
+        "bytes": 638774,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "exercise_types": [
+          "plausible cubic unit scale",
+          "volume arithmetic",
+          "tiered increasing-block water bill"
+        ],
+        "nearest_family_source_refs": [
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+            "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+            "topic": "layers_unit_cubes",
+            "problem": "Hộp chữ nhật có kích thước trong lòng dài 7 dm, rộng 4 dm, cao 3 dm. Xếp kín bằng khối lập phương cạnh 1 dm, không khe hở. Có bao nhiêu khối và thể tích bao nhiêu?"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_same_surface_dimensions_volume",
+            "source_row_sha256": "2a380e8a025d9a29c1d20e7e4593cc45f34cc0e6dda9da36260d3a7adbda2c69",
+            "topic": "same_surface_dimensions_volume",
+            "problem": "Khối A lập phương cạnh 4 cm; khối B hộp chữ nhật dài 8 cm, rộng 4 cm, cao 2 cm. Tính và so sánh thể tích; không kết luận chỉ từ một chiều dài."
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow",
+            "source_row_sha256": "10d1b9a2a3f927e54cd5f1649137e8144f19439a16839424701c5e1100e70061",
+            "topic": "water_level_rise_no_overflow",
+            "problem": "Bể chữ nhật đáy trong 30 cm × 20 cm chứa nước. Sau khi thêm 1,8 l nước, mực nước tăng đều, không tràn hoặc mất nước. Tính độ tăng mực nước; dùng 1 l = 1000 cm³."
+          }
+        ],
+        "covered_ids": [],
+        "coverage_status": "PAGE_READ_MAPPING_PENDING_TARGETED_CONTENT_COMPARISON",
+        "gap_ids": [
+          "g5_candidate_tiered_tariff"
+        ],
+        "uncertainty": "Tiered tariff distinct from flat rate. Book given tariffs not asserted current real prices.",
+        "source_lesson": 47,
+        "modality_limit": "Image/physical task coverage evaluated separately from mathematical type; text-described analogues do not certify visual/physical competence."
+      },
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_finish_g3_money_receipt_change",
+          "grade": 3,
+          "topic": "receipt_change",
+          "split": "train",
+          "problem": "Trong cửa hàng giả định, mỗi vở giá 4000 đồng. Mua 3 vở cùng giá, không giảm giá hoặc phí khác, đưa 20000 đồng. Hỏi tiền hàng và tiền được trả lại.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Giá một vở",
+              "value": "4000",
+              "unit": "đồng",
+              "role": "explicit_given_0"
+            },
+            {
+              "id": "g1",
+              "text": "Số vở",
+              "value": "3",
+              "unit": "quyển",
+              "role": "explicit_given_1"
+            },
+            {
+              "id": "g2",
+              "text": "Tiền đưa",
+              "value": "20000",
+              "unit": "đồng",
+              "role": "explicit_given_2"
+            }
+          ],
+          "requested_quantity": "Tìm tiền hàng và tiền thừa.",
+          "student_work": null,
+          "initial_guidance": [
+            "Đọc mệnh giá, số tờ và vai trò tiền mua hàng hay tiền đưa trả."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Đọc mệnh giá, số tờ và vai trò tiền mua hàng hay tiền đưa trả.",
+              "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Nhân mệnh giá với số tờ rồi cộng; nếu tìm tiền thừa thì bớt tiền hàng khỏi tiền đưa.",
+              "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+            },
+            {
+              "level": 3,
+              "hint": "Kiểm bằng cách ghép lại các mệnh giá hoặc cộng tiền hàng với tiền thừa; đây là số liệu giá giả định.",
+              "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Tính tiền hàng",
+              "reason": "Các quyển cùng giá nên nhân đơn giá với số quyển.",
+              "result": "12000",
+              "explanation": "4000+4000+4000=12000 đồng.",
+              "expression": "4000*3",
+              "unit": "đồng"
+            },
+            {
+              "step_id": "s1",
+              "title": "Tính tiền thừa",
+              "reason": "Tiền thừa là phần tiền đưa còn lại sau trả tiền hàng.",
+              "result": "8000",
+              "explanation": "12000+8000=20000 đồng; tổng hoàn lại với giá hàng bằng tiền đưa.",
+              "expression": "20000-{s0}",
+              "unit": "đồng"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Tiền hàng",
+              "result": "12000",
+              "unit": "đồng"
+            },
+            {
+              "quantity": "Tiền thừa",
+              "result": "8000",
+              "unit": "đồng"
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "af37a919eff1385a551bb9e41bcc6178c8b00722209b6cdb5493b0166367c551",
+          "original_registry_source_row_sha256": "af37a919eff1385a551bb9e41bcc6178c8b00722209b6cdb5493b0166367c551",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        },
+        {
+          "sample_id": "primary_20261018_finish_g3_unitary_same_price_pens",
+          "grade": 3,
+          "topic": "same_price_pens",
+          "split": "train",
+          "problem": "Mua 5 chiếc bút cùng loại, cùng đơn giá hết 35000 đồng, không phí hay giảm giá. Hỏi 3 chiếc cùng loại và cùng đơn giá đó hết bao nhiêu đồng.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Số bút đã mua",
+              "value": "5",
+              "unit": "chiếc",
+              "role": "explicit_given_0"
+            },
+            {
+              "id": "g1",
+              "text": "Tiền đã trả",
+              "value": "35000",
+              "unit": "đồng",
+              "role": "explicit_given_1"
+            },
+            {
+              "id": "g2",
+              "text": "Số bút cần mua",
+              "value": "3",
+              "unit": "chiếc",
+              "role": "explicit_given_2"
+            }
+          ],
+          "requested_quantity": "Tìm tiền mua số bút cần mua qua đơn giá.",
+          "student_work": null,
+          "initial_guidance": [
+            "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Xác định các phần có thật sự bằng nhau hoặc cùng đơn giá không.",
+              "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Tìm lượng ứng với một phần trước, rồi nhân số phần cần tìm hoặc chia tổng cần xếp.",
+              "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+            },
+            {
+              "level": 3,
+              "hint": "Kiểm bằng cách tái tạo lượng được cho; không áp dụng cùng đơn vị nếu đề chưa bảo đảm các phần bằng nhau.",
+              "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Tìm tiền một bút",
+              "reason": "Các bút cùng đơn giá nên chia tổng tiền cho số bút.",
+              "result": "7000",
+              "explanation": "7000*5=35000 tái tạo hóa đơn.",
+              "expression": "35000/5",
+              "unit": "đồng"
+            },
+            {
+              "step_id": "s1",
+              "title": "Tìm tiền cần trả",
+              "reason": "Mỗi bút vẫn cùng đơn giá nên nhân với số bút cần.",
+              "result": "21000",
+              "explanation": "21000:3=7000; không dùng tổng tiền ban đầu làm giá một bút.",
+              "expression": "{s0}*3",
+              "unit": "đồng"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Tiền mua bút",
+              "result": "21000",
+              "unit": "đồng"
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "02277b64b5afca97b4d054819531cf5cc4521ae3cc95e3a1962ceb47dbcb42f9",
+          "original_registry_source_row_sha256": "02277b64b5afca97b4d054819531cf5cc4521ae3cc95e3a1962ceb47dbcb42f9",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        }
+      ],
+      "semantic_reason": "Fixed single unit price and receipt change are covered; assigning different marginal prices to disjoint usage blocks, exact boundary and reverse bill are not demonstrated in these actual nearest cases.",
+      "new_draft_ids": [
+        "sgk_page_g5_20261019_tiered_tariff_two_parts",
+        "sgk_page_g5_20261019_tiered_tariff_boundary",
+        "sgk_page_g5_20261019_tiered_tariff_reverse_bill"
+      ],
+      "modality": "Original typed analogue only; visual and physical results not certified"
+    },
+    {
+      "candidate_id": "g5_candidate_net_repair",
+      "status": "CONFIRMED_MISSING_SUBFORM_IN_INSPECTED_NEAREST_SOURCES",
+      "volume": 2,
+      "printed_page": 43,
+      "actual_page_receipt": {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 43,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_45-1790908244556.png",
+        "sha256": "8ce68e4593feb5678fb799adbefa378635e2cd7f407b8dd259df8724c171d6a2",
+        "bytes": 855170,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "exercise_types": [
+          "cube net validity",
+          "remove extra face to repair cuboid net"
+        ],
+        "nearest_family_source_refs": [
+          {
+            "sample_id": "primary_20261018_g5_solid_nets_0080_cube_cross_net_opposite_faces",
+            "source_row_sha256": "9a955309f2a93e9dc5ed75e02e871cb3780a5adc39f62142cbdffcba113f9338",
+            "topic": "cube_cross_net_opposite_faces",
+            "problem": "Một hình khai triển giả định gồm sáu hình vuông cạnh 2 cm trên lưới phẳng. Bốn ô A, B, C, D liền cạnh thành một hàng theo thứ tự từ trái sang phải; ô E gắn trọn cạnh phía trên B và ô F gắn trọn cạnh phía dưới B. Không có ô nào khác, không có phần giấy dán. Hãy giải thích vì sao có thể gấp theo các cạnh chung thành hình lập phương kín, không chồng mặt, rồi nêu ba cặp mặt đối diện. Chỉ lập luận từ mô tả, chưa có ảnh hoặc thao tác gấp thật."
+          },
+          {
+            "sample_id": "primary_20261018_g5_solid_nets_0080_cuboid_strip_and_matching_caps",
+            "source_row_sha256": "22894981e9bf402ede5550ccd675e42fd6a66e7a667ed11e135ff4f8e0b9001d",
+            "topic": "cuboid_strip_and_matching_caps",
+            "problem": "Có hai bản mô tả giấy X và Y để gấp một hộp chữ nhật kín kích thước dài 5 cm, rộng 3 cm, cao 2 cm, không thêm giấy, không kéo giãn hoặc chồng mặt. Mỗi bản có dải bốn hình chữ nhật liền nhau thành hàng, cùng chiều cao 2 cm, bề ngang lần lượt 5 cm, 3 cm, 5 cm, 3 cm; các nếp giữa dải dài 2 cm. Ở X, phía trên và phía dưới hình 5 cm × 2 cm đầu tiên đều gắn một hình 5 cm × 3 cm dọc cạnh 5 cm. Ở Y, hai mảnh gắn tại đúng hai vị trí đó đều là hình 5 cm × 2 cm dọc cạnh 5 cm. Các mảnh hướng ra ngoài dải, không có phần giấy dán. Bản nào gấp đúng hộp đã yêu cầu? Giải thích bằng vai trò các mặt và kiểm các kích thước phải khớp. Không có ảnh hoặc gấp thật."
+          },
+          {
+            "sample_id": "primary_20261018_g5_solid_nets_0080_cylinder_wrap_edges_and_rim_check",
+            "source_row_sha256": "9ef52d5befe2fe53cbdde81ed75fc2055f25a577538e4a01bf3520239aa2abde",
+            "topic": "cylinder_wrap_edges_and_rim_check",
+            "problem": "Một bộ phần giấy khai triển giả định để ghép hình trụ kín gồm hình chữ nhật dài 15,7 cm, rộng 6 cm và hai hình tròn bằng nhau. Chu vi mỗi hình tròn đã được cho là 15,7 cm; không cho bán kính. Không có phần giấy dán; khi ghép, các mép chỉ gặp nhau, không chồng hoặc kéo giãn giấy. Hãy chỉ rõ ghép cặp cạnh nào của hình chữ nhật để tạo mặt xung quanh, giải thích hai cạnh còn lại khớp hai đáy ra sao và nêu chiều cao hình trụ. Chỉ cần dùng chu vi đã cho, không cần tìm bán kính. Chưa có ảnh hay thao tác ghép thật."
+          }
+        ],
+        "covered_ids": [],
+        "coverage_status": "PAGE_READ_MAPPING_PENDING_TARGETED_CONTENT_COMPARISON",
+        "gap_ids": [
+          "g5_candidate_net_repair"
+        ],
+        "uncertainty": "Repair net candidate differs recognise fixed net.",
+        "source_lesson": 49,
+        "modality_limit": "Image/physical task coverage evaluated separately from mathematical type; text-described analogues do not certify visual/physical competence."
+      },
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_g5_solid_nets_0080_cube_cross_net_opposite_faces",
+          "grade": 5,
+          "topic": "cube_cross_net_opposite_faces",
+          "split": "train",
+          "problem": "Một hình khai triển giả định gồm sáu hình vuông cạnh 2 cm trên lưới phẳng. Bốn ô A, B, C, D liền cạnh thành một hàng theo thứ tự từ trái sang phải; ô E gắn trọn cạnh phía trên B và ô F gắn trọn cạnh phía dưới B. Không có ô nào khác, không có phần giấy dán. Hãy giải thích vì sao có thể gấp theo các cạnh chung thành hình lập phương kín, không chồng mặt, rồi nêu ba cặp mặt đối diện. Chỉ lập luận từ mô tả, chưa có ảnh hoặc thao tác gấp thật.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Mỗi ô vuông có cạnh",
+              "value": "2",
+              "unit": "cm",
+              "role": "equal_square_side"
+            },
+            {
+              "id": "g1",
+              "text": "A B C D liền cạnh trên một hàng, E ngay trên B, F ngay dưới B",
+              "value": null,
+              "unit": "",
+              "role": "explicit_six_cell_adjacency"
+            }
+          ],
+          "requested_quantity": "Khả năng khép hình; Các cặp mặt đối diện",
+          "student_work": null,
+          "initial_guidance": [
+            "Dùng một ô làm mặt tham chiếu và theo dõi từng ô khi gấp theo cạnh chung.",
+            "Hai mặt đối diện không chung cạnh sau khi khép hình; vị trí trên tờ giấy chưa phải vị trí trong khối."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Các ô chung cạnh trên bản phẳng sẽ nối nhau theo nếp gấp, còn mặt tham chiếu giúp giữ đúng nhãn.",
+              "question": "Em chọn một ô và theo dõi các ô gắn quanh nó như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Ô ở cuối dải có thể khép phần còn mở sau khi các ô kề mặt tham chiếu dựng lên.",
+              "question": "Em cần kiểm những ô nào để bảo đảm không có hai ô chiếm cùng một mặt?"
+            },
+            {
+              "level": 3,
+              "hint": "Sau khi hình khép kín, mỗi mặt cần được ghép với mặt nằm phía bên kia khối.",
+              "question": "Các cặp em nêu có bao quát mọi nhãn mà không lặp mặt nào không?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "title": "Chọn mặt tham chiếu và dựng các mặt kề",
+              "reason": "B có các ô A,C,E,F gắn ở bốn cạnh khác nhau nên có thể dùng B làm đáy để theo dõi.",
+              "result": "B làm đáy; A,C,E,F làm bốn mặt quanh đáy",
+              "explanation": "Theo mô tả, dựng A,C,E,F vuông góc với B theo các nếp chung. Chúng lần lượt ở bốn phía của đáy, không phải bốn lớp đặt lên đáy; các cạnh cùng dài 2 cm nên khớp nhau. Đây là mô phỏng bằng lời, chưa gấp giấy thật.",
+              "expression": null,
+              "unit": "",
+              "step_id": "s0"
+            },
+            {
+              "title": "Khép mặt còn mở",
+              "reason": "D nối ở cạnh ngoài của C nên khi C dựng lên, D có thể gấp qua để đậy phần trên.",
+              "result": "D khép mặt đối diện B; tạo hình lập phương kín",
+              "explanation": "D trở thành mặt trên đối diện đáy B. Bốn mặt quanh đáy và mặt D khép đủ sáu phía, không hai ô nào chiếm cùng phía. Vì cả sáu mặt là các hình vuông bằng nhau nên khối được mô tả là hình lập phương.",
+              "expression": null,
+              "unit": "",
+              "step_id": "s1"
+            },
+            {
+              "title": "Kiểm các cặp đối diện",
+              "reason": "Mặt ở hai phía đối nhau của khối là hai mặt đối diện, khác với hai mặt kề chung cạnh.",
+              "result": "Các cặp đối diện: A với C; E với F; B với D",
+              "explanation": "A,C ở hai phía trái phải; E,F ở hai phía còn lại quanh đáy; B,D ở dưới trên. Kiểm sáu nhãn đều xuất hiện đúng một lần trong ba cặp, các mặt kề B không bị ghép đối diện với B.",
+              "expression": null,
+              "unit": "",
+              "step_id": "s2"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Khả năng khép hình",
+              "result": "Gấp được thành hình lập phương kín theo mô tả",
+              "unit": ""
+            },
+            {
+              "quantity": "Các cặp mặt đối diện",
+              "result": "A với C; E với F; B với D",
+              "unit": ""
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "9a955309f2a93e9dc5ed75e02e871cb3780a5adc39f62142cbdffcba113f9338",
+          "original_registry_source_row_sha256": "9a955309f2a93e9dc5ed75e02e871cb3780a5adc39f62142cbdffcba113f9338",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        },
+        {
+          "sample_id": "primary_20261018_g5_solid_nets_0080_misconception_six_squares_in_straight_strip",
+          "grade": 5,
+          "topic": "misconception_six_squares_in_straight_strip",
+          "split": "train",
+          "problem": "Một bản giấy giả định chỉ có sáu ô vuông cạnh 3 cm liền cạnh thành một hàng thẳng từ trái sang phải là A, B, C, D, E, F. Mọi nếp nối đều là các đoạn thẳng song song; không có ô gắn phía trên hoặc phía dưới dải. Chỉ được gấp theo cạnh chung giữa hai ô, không cắt thêm, không chồng mặt. Bài viết tổng hợp giả định ghi: Dải có đủ sáu hình vuông bằng nhau nên chắc chắn là hình khai triển của hình lập phương. Hãy nhận xét lập luận đó và giải thích dải này có khép được hình lập phương kín hay không, dùng cách sắp xếp mặt khi gấp. Không có hình ảnh hoặc thao tác gấp thật.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Cạnh chung của sáu ô bằng nhau",
+              "value": "3",
+              "unit": "cm",
+              "role": "square_side"
+            },
+            {
+              "id": "g1",
+              "text": "Dải thẳng A B C D E F; không ô trên dưới; nếp gấp song song",
+              "value": null,
+              "unit": "",
+              "role": "explicit_linear_six_square_layout"
+            },
+            {
+              "id": "g2",
+              "text": "Chỉ gấp tại cạnh chung, không cắt thêm hay chồng mặt",
+              "value": null,
+              "unit": "",
+              "role": "folding_constraints"
+            }
+          ],
+          "requested_quantity": "Kết luận về dải thẳng",
+          "student_work": {
+            "text": "Dải có đủ sáu hình vuông bằng nhau nên chắc chắn là hình khai triển của hình lập phương.",
+            "observations": [
+              {
+                "excerpt": "Dải có đủ sáu hình vuông bằng nhau nên chắc chắn là hình khai triển của hình lập phương.",
+                "claim_scope": "Explicit synthetic claim that six equal squares suffice; critique arrangement only, no hidden mental or observed folding claim."
+              }
+            ]
+          },
+          "initial_guidance": [
+            "Số ô và độ bằng nhau của các ô là điều cần kiểm nhưng chưa quyết định cách khép khối.",
+            "Dùng vị trí các ô trong dải và hướng các nếp gấp để xét còn thiếu phía nào khi khép."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Câu viết đã chuyển từ đếm số ô sang khẳng định gấp kín mà chưa xét bố trí.",
+              "question": "Ngoài số ô bằng nhau, em còn cần kiểm điều gì về cách các ô nối nhau?"
+            },
+            {
+              "level": 2,
+              "hint": "Các nếp gấp song song của một dải thẳng dẫn các ô vòng quanh cùng một hướng.",
+              "question": "Khi các ô vòng quanh, phần mở ở hai đầu có được ô nào gắn ra ngoài dải để che không?"
+            },
+            {
+              "level": 3,
+              "hint": "Một hình lập phương kín cần mọi phía được che, mỗi mặt chỉ nằm ở một phía.",
+              "question": "Em có thể kiểm cả chỗ còn mở và khả năng trùng vị trí trước khi kết luận không?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "title": "Đánh giá đúng phạm vi câu viết",
+              "reason": "Đủ sáu hình vuông bằng nhau chưa bảo đảm chúng được nối theo một hình khai triển phù hợp.",
+              "result": "Kết luận chắc chắn từ số ô là thiếu căn cứ",
+              "explanation": "Số sáu ô và các cạnh bằng 3 cm là đúng theo đề, nhưng câu viết chưa xét vị trí nối. Chỉ nhận xét lập luận đã được trích, không suy em đã gấp ra sao hoặc đã nhìn thấy hình nào.",
+              "expression": null,
+              "unit": "",
+              "step_id": "s0"
+            },
+            {
+              "title": "Xét bố trí dải thẳng",
+              "reason": "Các ô nối thành một hàng, không có ô rẽ ra để khép hai đầu của vòng mặt bên.",
+              "result": "Dải thẳng này không khép được hình lập phương kín",
+              "explanation": "Nếu gấp các ô vuông lần lượt để vòng quanh bốn mặt bên của lập phương, sau bốn ô vòng đã khép; ô tiếp theo sẽ trùng một phía đã có, trong khi hai đầu vẫn mở. Vì chỉ có các nếp song song của dải thẳng, không có ô nào rẽ ra làm nắp hai đầu. Kiểm lại yêu cầu không cắt thêm, không chồng mặt: dải này không đạt dù đủ sáu ô bằng nhau.",
+              "expression": null,
+              "unit": "",
+              "step_id": "s1"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Kết luận về dải thẳng",
+              "result": "Không khép được hình lập phương kín theo các ràng buộc đã cho",
+              "unit": ""
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "d899137ca10f7d7ec6ceee44843c2e08fbc2c826bd64cd60c3cdf94d38b8794e",
+          "original_registry_source_row_sha256": "d899137ca10f7d7ec6ceee44843c2e08fbc2c826bd64cd60c3cdf94d38b8794e",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        }
+      ],
+      "semantic_reason": "A valid given six-square cross and rejection of a straight six-strip are covered. Removing one of seven squares while preserving connectivity and six different folded faces is a different task. New cases include all-removals completeness and explicit wrong-count-only claim.",
+      "new_draft_ids": [
+        "sgk_page_g5_20261019_net_repair_cut_one_labels_AH",
+        "sgk_page_g5_20261019_net_repair_cut_one_labels_PW",
+        "sgk_page_g5_20261019_net_repair_cut_one_labels_JZ"
+      ],
+      "modality": "Original typed analogue only; visual and physical results not certified"
+    },
+    {
+      "candidate_id": "g5_candidate_rotated_water",
+      "status": "CONFIRMED_MISSING_SUBFORM_IN_INSPECTED_NEAREST_SOURCES",
+      "volume": 2,
+      "printed_page": 63,
+      "actual_page_receipt": {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 63,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_65-1790908245956.png",
+        "sha256": "624a85a8a514b6cacc886b2bbdf83d7de2d1b57d98eb98c1b97449ee2bcd492d",
+        "bytes": 642091,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "exercise_types": [
+          "cube surface",
+          "removed solid volume",
+          "rotated partially filled cuboid water-height conservation"
+        ],
+        "nearest_family_source_refs": [
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+            "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+            "topic": "layers_unit_cubes",
+            "problem": "Hộp chữ nhật có kích thước trong lòng dài 7 dm, rộng 4 dm, cao 3 dm. Xếp kín bằng khối lập phương cạnh 1 dm, không khe hở. Có bao nhiêu khối và thể tích bao nhiêu?"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_same_surface_dimensions_volume",
+            "source_row_sha256": "2a380e8a025d9a29c1d20e7e4593cc45f34cc0e6dda9da36260d3a7adbda2c69",
+            "topic": "same_surface_dimensions_volume",
+            "problem": "Khối A lập phương cạnh 4 cm; khối B hộp chữ nhật dài 8 cm, rộng 4 cm, cao 2 cm. Tính và so sánh thể tích; không kết luận chỉ từ một chiều dài."
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow",
+            "source_row_sha256": "10d1b9a2a3f927e54cd5f1649137e8144f19439a16839424701c5e1100e70061",
+            "topic": "water_level_rise_no_overflow",
+            "problem": "Bể chữ nhật đáy trong 30 cm × 20 cm chứa nước. Sau khi thêm 1,8 l nước, mực nước tăng đều, không tràn hoặc mất nước. Tính độ tăng mực nước; dùng 1 l = 1000 cm³."
+          }
+        ],
+        "covered_ids": [],
+        "coverage_status": "PAGE_READ_MAPPING_PENDING_TARGETED_CONTENT_COMPARISON",
+        "gap_ids": [
+          "g5_candidate_rotated_water"
+        ],
+        "uncertainty": "Rotation volume invariant candidate.",
+        "source_lesson": 55,
+        "modality_limit": "Image/physical task coverage evaluated separately from mathematical type; text-described analogues do not certify visual/physical competence."
+      },
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow",
+          "grade": 5,
+          "topic": "water_level_rise_no_overflow",
+          "split": "train",
+          "problem": "Bể chữ nhật đáy trong 30 cm × 20 cm chứa nước. Sau khi thêm 1,8 l nước, mực nước tăng đều, không tràn hoặc mất nước. Tính độ tăng mực nước; dùng 1 l = 1000 cm³.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Dài đáy",
+              "value": "30",
+              "unit": "cm",
+              "role": "explicit_given_0"
+            },
+            {
+              "id": "g1",
+              "text": "Rộng đáy",
+              "value": "20",
+              "unit": "cm",
+              "role": "explicit_given_1"
+            },
+            {
+              "id": "g2",
+              "text": "Nước thêm",
+              "value": "1.8",
+              "unit": "l",
+              "role": "explicit_given_2"
+            },
+            {
+              "id": "g3",
+              "text": "Hệ số",
+              "value": "1000",
+              "unit": "cm³/l",
+              "role": "explicit_given_3"
+            }
+          ],
+          "requested_quantity": "Tìm mức tăng chiều cao nước.",
+          "student_work": null,
+          "initial_guidance": [
+            "Xác định ba kích thước trong lòng hoặc số lớp khối đơn vị."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Xác định ba kích thước trong lòng hoặc số lớp khối đơn vị.",
+              "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Dùng diện tích đáy nhân chiều cao cho thể tích; khi tìm chiều cao dùng quan hệ ngược.",
+              "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+            },
+            {
+              "level": 3,
+              "hint": "Kiểm theo lớp khối và đơn vị khối, phân biệt thể tích với diện tích đáy.",
+              "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "step_id": "s0",
+              "title": "Đổi thể tích",
+              "reason": "Cần cùng đơn vị với kích thước đáy.",
+              "result": "1800",
+              "explanation": "Nước thêm tạo một lớp hộp chữ nhật trên đáy bể.",
+              "expression": "1.8*1000",
+              "unit": "cm³"
+            },
+            {
+              "step_id": "s1",
+              "title": "Tìm độ cao lớp thêm",
+              "reason": "Thể tích lớp bằng diện tích đáy nhân chiều cao.",
+              "result": "3",
+              "explanation": "Đáy 600 cm²; nhân độ tăng với diện tích đáy trả về lượng nước thêm.",
+              "expression": "{s0}/(30*20)",
+              "unit": "cm"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Độ tăng",
+              "result": "3",
+              "unit": "cm"
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "10d1b9a2a3f927e54cd5f1649137e8144f19439a16839424701c5e1100e70061",
+          "original_registry_source_row_sha256": "10d1b9a2a3f927e54cd5f1649137e8144f19439a16839424701c5e1100e70061",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        }
+      ],
+      "semantic_reason": "Existing task adds a known water volume to a fixed base. Rotation changes which physical face is the base while retaining total water, so new height requires applying conservation across two bases.",
+      "new_draft_ids": [
+        "sgk_page_g5_20261019_rotated_water_stand_to_side",
+        "sgk_page_g5_20261019_rotated_water_slim_to_flat",
+        "sgk_page_g5_20261019_rotated_water_reject_same_height"
+      ],
+      "modality": "Original typed analogue only; visual and physical results not certified"
+    },
+    {
+      "candidate_id": "g5_candidate_timezone_rollover",
+      "status": "CONFIRMED_MISSING_SUBFORM_IN_INSPECTED_NEAREST_SOURCES",
+      "volume": 2,
+      "printed_page": 70,
+      "actual_page_receipt": {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 70,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_72-1790908246472.png",
+        "sha256": "7dc97654eb05fffab76163b9e67214e1d89b2a624b81a3f3366ab18aa3619e83",
+        "bytes": 855559,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "exercise_types": [
+          "simultaneous city time table",
+          "date rollover with given offsets",
+          "analogue time matching"
+        ],
+        "nearest_family_source_refs": [
+          {
+            "sample_id": "primary_20261018_finish_g5_uniform_motion_equal_time_contrast",
+            "source_row_sha256": "fba80db5f73c150d3ebdc08d482f5d3098b7acbace65d410b6dbe0cbc18eb92e",
+            "topic": "equal_time_contrast",
+            "problem": "A và B đều đi xe liên tục 35 phút. A đi đều 12 km/giờ, B đi đều 15 km/giờ. Tính quãng đường mỗi người và phần B đi hơn A."
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_uniform_motion_unknown_time_distance",
+            "source_row_sha256": "84099ca17f64098f724c58f4af65e7883742de2bef9322a49b8dcc4bdd27b7bb",
+            "topic": "unknown_time_distance",
+            "problem": "Một người chuyển động đều với vận tốc 6 km/giờ. Không cho thời gian đi hay mốc xuất phát và kết thúc. Hỏi quãng đường."
+          },
+          {
+            "sample_id": "primary_20261018_g5_time_arithmetic_0087_activity_durations_sum_and_budget_remainder",
+            "source_row_sha256": "0a69962ddd78f386ce06e4e2b6c236362b5950215665ede251869902d71c5000",
+            "topic": "activity_durations_sum_and_budget_remainder",
+            "problem": "Một buổi làm mô hình giả định dành 2 giờ 48 phút cho phần đầu và 1 giờ 37 phút cho phần sau. Hai phần thực hiện nối tiếp nhau, không chồng nhau, không có thời gian nghỉ hay công việc khác nằm trong hai khoảng đã nêu. Tổng quỹ thời gian là 6 giờ 10 phút. Hãy tính tổng thời gian hai phần và thời gian còn lại trong quỹ; trình bày cả theo phút và theo giờ, phút, giải thích cách đổi đơn vị rồi kiểm bằng cộng ngược."
+          }
+        ],
+        "covered_ids": [],
+        "coverage_status": "PAGE_READ_MAPPING_PENDING_TARGETED_CONTENT_COMPARISON",
+        "gap_ids": [
+          "g5_candidate_timezone_rollover"
+        ],
+        "uncertainty": "Use given offsets not current timezone law.",
+        "source_lesson": 57,
+        "modality_limit": "Image/physical task coverage evaluated separately from mathematical type; text-described analogues do not certify visual/physical competence."
+      },
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_g5_time_arithmetic_0087_overnight_trip_elapsed_vs_active_time",
+          "grade": 5,
+          "topic": "overnight_trip_elapsed_vs_active_time",
+          "split": "train",
+          "problem": "Một chuyến đi giả định khởi hành lúc 22 giờ 45 phút ngày 18/10 và đến lúc 1 giờ 20 phút ngày 19/10 kế tiếp. Trong khoảng từ khởi hành đến lúc đến có đúng một lần dừng nghỉ 25 phút, còn lại đều di chuyển; không có lần dừng khác. Các mốc dùng cùng giờ địa phương và mỗi ngày trong mô hình có 24 giờ liên tục. Hãy tính tổng thời gian từ lúc đi đến lúc đến và thời gian thực sự di chuyển, theo phút và giờ, phút; giải thích việc có hoặc không tính thời gian nghỉ rồi kiểm.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Giờ khởi hành ngày đầu",
+              "value": "22",
+              "unit": "giờ",
+              "role": "departure_hour_day18"
+            },
+            {
+              "id": "g1",
+              "text": "Phút của mốc khởi hành",
+              "value": "45",
+              "unit": "phút",
+              "role": "departure_minute_day18"
+            },
+            {
+              "id": "g2",
+              "text": "Giờ đến ngày kế tiếp",
+              "value": "1",
+              "unit": "giờ",
+              "role": "arrival_hour_day19"
+            },
+            {
+              "id": "g3",
+              "text": "Phút của mốc đến",
+              "value": "20",
+              "unit": "phút",
+              "role": "arrival_minute_day19"
+            },
+            {
+              "id": "g4",
+              "text": "Một lần nghỉ nằm trong khoảng đi đến",
+              "value": "25",
+              "unit": "phút",
+              "role": "included_rest_duration"
+            },
+            {
+              "id": "g5",
+              "text": "Ngày đến là ngày kế tiếp, mỗi ngày 24 giờ liên tục",
+              "value": "24",
+              "unit": "giờ",
+              "role": "continuous_day_length"
+            }
+          ],
+          "requested_quantity": "Tổng thời gian từ lúc khởi hành đến lúc đến; Thời gian thực sự di chuyển",
+          "student_work": null,
+          "initial_guidance": [
+            "Mốc đến thuộc ngày kế tiếp nên cần giữ quan hệ ngày khi tính khoảng thời gian.",
+            "Tổng khoảng đi đến có chứa lần nghỉ, còn thời gian thực sự di chuyển loại phần nghỉ đã cho."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Có thể tách khoảng đi đến tại nửa đêm giữa hai ngày liên tiếp.",
+              "question": "Em xác định hai khoảng nằm hai phía nửa đêm như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Lần nghỉ nằm trong khoảng từ khởi hành đến lúc đến và không chồng với thời gian di chuyển.",
+              "question": "Em cần cộng hay trừ phần nghỉ khi chuyển từ tổng thời gian sang thời gian di chuyển?"
+            },
+            {
+              "level": 3,
+              "hint": "Ghép thời gian di chuyển và nghỉ phải trả lại toàn khoảng, rồi khớp hai mốc khác ngày.",
+              "question": "Em kiểm bằng ghép các khoảng theo đúng thứ tự ngày ra sao?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "title": "Tính từ khởi hành đến nửa đêm",
+              "reason": "Nửa đêm kết thúc ngày đầu tương ứng 24 giờ, nên trừ mốc khởi hành trong cùng ngày.",
+              "result": "75",
+              "explanation": "Từ 22 giờ 45 phút đến 24 giờ là 24 x 60 - (22 x 60 + 45) = 75 phút, tức 1 giờ 15 phút. Không lấy giờ đến nhỏ trừ trực tiếp giờ đi mà bỏ qua ngày.",
+              "expression": "24*60-(22*60+45)",
+              "unit": "phút",
+              "step_id": "s0"
+            },
+            {
+              "title": "Tính từ đầu ngày kế tiếp đến lúc đến",
+              "reason": "Mốc 1 giờ 20 phút tính từ nửa đêm của ngày đến.",
+              "result": "80",
+              "explanation": "Từ 0 giờ ngày 19/10 đến 1 giờ 20 phút cùng ngày là 1 x 60 + 20 = 80 phút.",
+              "expression": "1*60+20",
+              "unit": "phút",
+              "step_id": "s1"
+            },
+            {
+              "title": "Ghép toàn bộ khoảng đi đến",
+              "reason": "Hai khoảng nối tại nửa đêm, không trùng và không hở, nên cộng chúng.",
+              "result": "155",
+              "explanation": "Toàn khoảng = 75 + 80 = 155 phút = 2 giờ 35 phút. Khoảng này bao gồm lần nghỉ vì cả lúc nghỉ vẫn nằm giữa hai mốc. Kiểm 22 giờ 45 phút cộng 1 giờ 15 phút đến nửa đêm, thêm 1 giờ 20 phút đến đúng mốc ngày kế tiếp.",
+              "expression": "{s0}+{s1}",
+              "unit": "phút",
+              "step_id": "s2"
+            },
+            {
+              "title": "Tính thời gian thực sự di chuyển",
+              "reason": "Theo đề chỉ có một lần nghỉ trong toàn khoảng, nên lấy toàn khoảng trừ thời lượng nghỉ.",
+              "result": "130",
+              "explanation": "Thời gian di chuyển = 155 - 25 = 130 phút = 2 giờ 10 phút. Kiểm 130 + 25 = 155 phút, ghép lại đúng toàn khoảng; không cộng nghỉ thêm lần nữa.",
+              "expression": "{s2}-25",
+              "unit": "phút",
+              "step_id": "s3"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Tổng thời gian từ lúc khởi hành đến lúc đến",
+              "result": "155",
+              "unit": "phút"
+            },
+            {
+              "quantity": "Thời gian thực sự di chuyển",
+              "result": "130",
+              "unit": "phút"
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "4dbecea4a1dcd35773295ea0832923b0465c585b5cacf2a4da2fe14c5e01b32a",
+          "original_registry_source_row_sha256": "4dbecea4a1dcd35773295ea0832923b0465c585b5cacf2a4da2fe14c5e01b32a",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        }
+      ],
+      "semantic_reason": "Existing overnight trip uses one local clock and subtracts rest. Simultaneous two-place table with date difference and stable offset, then translating a new instant across local midnight/year boundary, is not demonstrated in that nearest full case. No actual civil-time rule inferred.",
+      "new_draft_ids": [
+        "sgk_page_g5_20261019_timezone_given_table_next_day",
+        "sgk_page_g5_20261019_timezone_given_table_previous_year",
+        "sgk_page_g5_20261019_timezone_given_table_wrong_date"
+      ],
+      "modality": "Original typed analogue only; visual and physical results not certified"
+    },
+    {
+      "candidate_id": "g5_candidate_displacement",
+      "status": "COVERED",
+      "volume": 2,
+      "printed_page": 53,
+      "actual_page_receipt": {
+        "grade": 5,
+        "volume": 2,
+        "printed_page": 53,
+        "official_url": "https://taphuan.nxbgd.vn/storage/upload/taphuan/2026/1002/4714103431_page_55-1790908245324.png",
+        "sha256": "8f18cde9f86302bc59d3013ff71af8e47cc2481245dcafe46bc9ab9fead48eb0",
+        "bytes": 447073,
+        "review": "ACTUAL_FULL_PAGE_IMAGE_VIEWED",
+        "exercise_types": [
+          "cuboid packing",
+          "L prism decomposition",
+          "submerged object displacement"
+        ],
+        "nearest_family_source_refs": [
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+            "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+            "topic": "layers_unit_cubes",
+            "problem": "Hộp chữ nhật có kích thước trong lòng dài 7 dm, rộng 4 dm, cao 3 dm. Xếp kín bằng khối lập phương cạnh 1 dm, không khe hở. Có bao nhiêu khối và thể tích bao nhiêu?"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_same_surface_dimensions_volume",
+            "source_row_sha256": "2a380e8a025d9a29c1d20e7e4593cc45f34cc0e6dda9da36260d3a7adbda2c69",
+            "topic": "same_surface_dimensions_volume",
+            "problem": "Khối A lập phương cạnh 4 cm; khối B hộp chữ nhật dài 8 cm, rộng 4 cm, cao 2 cm. Tính và so sánh thể tích; không kết luận chỉ từ một chiều dài."
+          },
+          {
+            "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_water_level_rise_no_overflow",
+            "source_row_sha256": "10d1b9a2a3f927e54cd5f1649137e8144f19439a16839424701c5e1100e70061",
+            "topic": "water_level_rise_no_overflow",
+            "problem": "Bể chữ nhật đáy trong 30 cm × 20 cm chứa nước. Sau khi thêm 1,8 l nước, mực nước tăng đều, không tràn hoặc mất nước. Tính độ tăng mực nước; dùng 1 l = 1000 cm³."
+          }
+        ],
+        "covered_ids": [],
+        "coverage_status": "PAGE_READ_MAPPING_PENDING_TARGETED_CONTENT_COMPARISON",
+        "gap_ids": [
+          "g5_candidate_displacement"
+        ],
+        "uncertainty": "Displacement assumes fully submerged no spill.",
+        "source_lesson": 52,
+        "modality_limit": "Image/physical task coverage evaluated separately from mathematical type; text-described analogues do not certify visual/physical competence."
+      },
+      "nearest_actual_training_sources": [
+        {
+          "sample_id": "primary_20261018_g5_practice_experience_0095_water_displacement_volume_estimate_record",
+          "grade": 5,
+          "topic": "water_displacement_volume_estimate_record",
+          "split": "train",
+          "problem": "Bản ghi thực hành giả định dùng bình chia độ đủ lớn: trước khi thả vật, nước ở vạch1,35l; sau khi vật chìm hoàn toàn, nước ở vạch1,82l. Vật không tan, không hút nước, không có bọt khí bám và không làm tràn nước; các vạch được đọc đúng. Nhóm đã ước lượng thể tích vật500cm³. Hãy giải thích vì sao dùng độ tăng mực nước, tính thể tích vật theo cm³, so với ước lượng và nêu cách kiểm bản ghi. Chưa có ảnh bình hay thao tác thật.",
+          "givens": [
+            {
+              "id": "g0",
+              "text": "Nước ban đầu",
+              "value": "1.35",
+              "unit": "l",
+              "role": "initial_water_volume"
+            },
+            {
+              "id": "g1",
+              "text": "Nước khi vật chìm hoàn toàn",
+              "value": "1.82",
+              "unit": "l",
+              "role": "final_displaced_reading"
+            },
+            {
+              "id": "g2",
+              "text": "Ước lượng thể tích vật",
+              "value": "500",
+              "unit": "cm³",
+              "role": "prior_volume_estimate"
+            },
+            {
+              "id": "g3",
+              "text": "Không tan/hút nước/bọt khí/tràn; đọc đúng vạch",
+              "value": null,
+              "unit": "",
+              "role": "displacement_assumptions_explicit"
+            }
+          ],
+          "requested_quantity": "Giải thích quan hệ phần nước tăng với thể tích vật; tính thể tích theo cm³; so với ước lượng và kiểm bản ghi",
+          "student_work": null,
+          "initial_guidance": [
+            "Mỗi vạch ghi thể tích đến mực nước, nên số đọc cuối gồm nước ban đầu và phần vật chiếm chỗ.",
+            "Cần tìm phần tăng rồi đổi về cùng đơn vị với ước lượng trước khi so."
+          ],
+          "hints": [
+            {
+              "level": 1,
+              "hint": "Vật chìm hoàn toàn và các điều kiện không mất nước giúp liên hệ phần tăng với thể tích vật.",
+              "question": "Em dùng hai số đọc để tách phần vật chiếm chỗ như thế nào?"
+            },
+            {
+              "level": 2,
+              "hint": "Đơn vị của vạch bình khác đơn vị của ước lượng, nên phải dùng quan hệ giữa lít và xăng-ti-mét khối.",
+              "question": "Em đổi phần tăng sang đơn vị đang hỏi ra sao?"
+            },
+            {
+              "level": 3,
+              "hint": "Thể tích vật cộng vào nước ban đầu cần khôi phục số đọc cuối; độ lệch phải ghép lại được hai số so.",
+              "question": "Em kiểm hai quan hệ đó với các đơn vị đã thống nhất như thế nào?"
+            }
+          ],
+          "worked_steps": [
+            {
+              "title": "Tách thể tích vật bằng phần tăng",
+              "reason": "Vật chìm hết và không làm mất nước nên phần tăng chính là thể tích vật chiếm chỗ.",
+              "result": "0.47",
+              "explanation": "Lấy1,82-1,35=0,47l. Không lấy1,82llàm thể tích riêng của vật vì số đọc cuối còn gồm nước ban đầu.",
+              "expression": "1.82-1.35",
+              "unit": "l",
+              "step_id": "s0"
+            },
+            {
+              "title": "Đổi sang đơn vị cần báo cáo",
+              "reason": "1l=1000cm³, nên nhân thể tích theo lít với1000.",
+              "result": "470",
+              "explanation": "0,47l=470cm³. Kiểm đổi ngược470:1000=0,47l, cộng1,35lđược1,82l.",
+              "expression": "{s0}*1000",
+              "unit": "cm³",
+              "step_id": "s1"
+            },
+            {
+              "title": "So với ước lượng",
+              "reason": "Ước lượng500cm³lớn hơn470cm³, hai số cùng đơn vị nên lấy hiệu.",
+              "result": "30",
+              "explanation": "Ước lượng cao hơn30cm³. Kiểm470+30=500cm³. Đây là kiểm bản ghi giả định, chưa xác nhận đọc vạch hay thả vật thật.",
+              "expression": "500-{s1}",
+              "unit": "cm³",
+              "step_id": "s2"
+            }
+          ],
+          "expected_answer": [
+            {
+              "quantity": "Thể tích vật theo cm³",
+              "result": "470",
+              "unit": "cm³"
+            },
+            {
+              "quantity": "Độ lệch ước lượng",
+              "result": "30",
+              "unit": "cm³"
+            }
+          ],
+          "can_solve": true,
+          "source_line_sha256": "f5b9f61715227216f695de58ec526674ee26b60ef4e10c5be4bd0d8bb9f97819",
+          "original_registry_source_row_sha256": "f5b9f61715227216f695de58ec526674ee26b60ef4e10c5be4bd0d8bb9f97819",
+          "hash_basis": "actual current_sources UTF8 line excluding newline; registry source hash separately preserved",
+          "review": "ACTUAL_ALL_TASK_FIELDS_READ_SEMANTICALLY"
+        }
+      ],
+      "semantic_reason": "Existing exact hypothetical displacement task explicitly gives initial/final levels, full submersion/no overflow assumptions, volume difference, litre-to-cubic-centimetre conversion, estimate comparison and reconstruction check. No duplicate authored.",
+      "new_draft_ids": [],
+      "modality": "Original typed analogue only; visual and physical results not certified"
+    }
+  ],
+  "remaining_candidates": "All other G5 candidate IDs remain pending targeted comparison; no all-forms-complete claim."
+}

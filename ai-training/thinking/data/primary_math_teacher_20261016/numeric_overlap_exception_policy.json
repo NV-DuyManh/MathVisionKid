@@ -1,0 +1,12 @@
+{
+  "schema_version": "primary_math.numeric_overlap_exception_policy.v1",
+  "owner_authorized": true,
+  "authorization_origin": "DIRECT_HUMAN_USER_REPLY",
+  "authorization_text": "Cho phép ngoại lệ theo hash sau QA",
+  "authorized_scope": "Original authored rows that pass current hash-bound self-QA and have numeric-expression overlap only; exact normalized protected questions remain excluded. No source answers changed to pass a gate.",
+  "human_review_of_content_claimed": false,
+  "frozen_tests_and_sources_unchanged": true,
+  "numeric_test_independence_claimed": false,
+  "training_authorized": false,
+  "utc": "2026-10-18T13:59:07.837490+00:00"
+}

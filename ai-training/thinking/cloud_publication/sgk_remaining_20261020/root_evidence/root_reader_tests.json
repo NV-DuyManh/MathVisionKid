@@ -1,0 +1,7 @@
+{
+  "tests": 14,
+  "status": "PASS",
+  "scope": "Meaningful unit/adversarial candidate reader checks plus bounded replay only; full archive pending",
+  "main_code_sha256": "fa765959154ce453462e9c41ebf3695e88452aaa14acbcf17f5e1c6fd2f7e310",
+  "training_started": false
+}

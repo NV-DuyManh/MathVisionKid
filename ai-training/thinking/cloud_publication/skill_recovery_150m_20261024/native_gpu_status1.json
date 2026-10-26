@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "uPU0ZCI8Qdyg"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_unix\": 1792851177.8301985, \"gpu\": \"Tesla T4, 32 %, 1721 MiB, 15360 MiB\", \"native_worker_alive\": true, \"output_bytes\": {\"native_thinking_final.partial.jsonl\": 4170}}\n"
+        ]
+      }
+    ]
+  }
+}

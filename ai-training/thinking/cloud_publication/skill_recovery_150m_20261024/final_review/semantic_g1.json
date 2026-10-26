@@ -1,0 +1,51 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "input_pair_sha256": "981ffb10c3c1ca596940e30149c1676b111b59342b8dbc2f9411ebd186827050",
+  "decisions": [
+    {
+      "fixture_id": "skill150_locked_g1_1",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Both83and80are correct and place value is consistently explained; selected row is the exact baseline."
+    },
+    {
+      "fixture_id": "skill150_locked_g1_2",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Correct6+3=9notebook labels with adding-gifts reason; exact baseline reuse."
+    },
+    {
+      "fixture_id": "skill150_locked_g1_3",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": true,
+      "base_hint_leak": true,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Baseline reveals7cars; selected hints to count existing cars and add2without giving7, appropriate actionable grade1hint."
+    },
+    {
+      "fixture_id": "skill150_locked_g1_4",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "critical_new_error": false,
+      "reason": "Both recognize7+2=9contradicts8and discuss conditional source errors, but do not request checking either age/difference as the explicit question requires. Exact baseline reuse."
+    }
+  ]
+}

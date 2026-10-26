@@ -1,0 +1,30 @@
+{
+  "status": "GROUNDED_PLANNER_RESEARCH_ONLY_STANDALONE_SOLVER_REJECTED",
+  "run_id": "qwen3_06b_verified_math_v2_stable_epoch1_seed20261012",
+  "planner_selected": "adapter",
+  "standalone_math_solver_approved": false,
+  "use_as_general_math_training_base": false,
+  "production_approved": false,
+  "raw_answer_validation_base": 43,
+  "raw_answer_validation_adapter": 35,
+  "raw_answer_validation_solvable_samples": 145,
+  "raw_protocol": "posthoc greedy/no-thinking answer-only; not full reasoning capability benchmark",
+  "guarded_runtime": {
+    "samples": 160,
+    "solvable_samples": 145,
+    "numeric_answers_accepted": 119,
+    "wrong_numeric_answers_accepted": 0,
+    "solvable_coverage": 0.8206896551724138,
+    "guards_correct": 15,
+    "guard_samples": 15,
+    "protocol_changed_posthoc": true,
+    "not_used_for_checkpoint_selection": true,
+    "semantic_scope": "published full-match raw question contracts only",
+    "equivalence_scope": "symbolic formula identity without substituting fact values; actual domain checked first",
+    "not_all_questions_answered": true,
+    "production_approved": false
+  },
+  "tutoring": "one Socratic hint by default; explicit full worked solution only; deterministic checked steps",
+  "pedagogy_teacher_reviewed": false,
+  "original_planner_selection_retained": true
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "MathVisionKid.DriveVerification.v1",
+  "batch": "batch1",
+  "filename": "MathVisionKid_G2_FINITE_APPEND_BATCH1_20261022_605fc396b9a1f4ea.zip",
+  "manifest_filename": "MANIFEST_BATCH1_20261022_605fc396b9a1f4ea.json",
+  "file_id": "local-71260 (DriveFS client queue stable_id 71260; cloud server ID pending sync completion)",
+  "manifest_file_id": "local-71262 (DriveFS client queue stable_id 71262)",
+  "parent_folder_id": "19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "parent_folder_name": "primary_math_teacher_20261016",
+  "drive_url": "https://drive.google.com/drive/folders/19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n",
+  "expected_sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+  "actual_sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+  "bytes": 19975,
+  "manifest_expected_sha256": "5fd9e5b22b1ce0c6d7fa0ec277b0682229ad1ef2beaa6bdf8a1ea5336e1fb2aa",
+  "manifest_actual_sha256": "5fd9e5b22b1ce0c6d7fa0ec277b0682229ad1ef2beaa6bdf8a1ea5336e1fb2aa",
+  "manifest_bytes": 1324,
+  "verified_utc": "2026-10-22T11:25:30.000000+00:00",
+  "raw_readback_verified": true,
+  "manifest_verified": true,
+  "drivefs_account_id": "103000002357306706048",
+  "drivefs_queue_operations": [
+    5022,
+    5023,
+    5024,
+    5025
+  ],
+  "drivefs_sync_status": "LOCAL_VIRTUAL_FS_PRESENT_CLOUD_UPSYNC_QUEUED",
+  "diagnostics": {
+    "local_filesystem_path": "G:\\.shortcut-targets-by-id\\19ZxkfKVIggdcbSfsAdCtG1ibfJ0CRN3n\\primary_math_teacher_20261016\\MathVisionKid_G2_FINITE_APPEND_BATCH1_20261022_605fc396b9a1f4ea.zip",
+    "root_cause_for_external_invisibility": "Google DriveFS client queued upsync operations 5022-5025 in local metadata_sqlite_db. Structured logs indicate temporary network transport reset (curl code 56: Recv failure: Connection was reset), causing pending background push to cloud server. Files exist byte-for-byte in the local DriveFS mount."
+  },
+  "recovery_action": "Preserved original authored and audited draft cases in scratch/cohort_batch1; verified exact hash and byte equality on local DriveFS mount; documented DriveFS queue state; retained exact provenance and test evidence without arbitrary regeneration.",
+  "tasks_demonstrated": [
+    "g2_pending_04_role_specific_equation_pools",
+    "g2_pending_05_exact_one_pair_sort_repair",
+    "g2_pending_06_vertex_sum_rule"
+  ],
+  "candidate_constraints_demonstrated": [
+    "g2v1:role_specific_equation_matching",
+    "g2v1:single_pair_sort_repair",
+    "g2v1:rule_inference_ambiguity"
+  ],
+  "cases_count": 6,
+  "chat_count": 24,
+  "qa7_passed": true,
+  "tokenizer_qwen_audited": true,
+  "core_cases_unchanged": 495,
+  "core_nodes_unchanged": 165
+}

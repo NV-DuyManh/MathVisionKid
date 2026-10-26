@@ -1,0 +1,11 @@
+{
+  "all_new_chat_token_audit_rows": 404,
+  "command_note": "Two initial unittest module imports failed from project root; rerun direct scripts from thinking passed all21 tests. No data gate bypass.",
+  "g12_actual_finite_enumeration_cases": 32,
+  "g34_unittest_checks": 15,
+  "g5_unittest_checks": 6,
+  "old_full_archive_token_audited": false,
+  "root_exact_numeric_steps": 152,
+  "status": "PASS",
+  "training_started": false
+}

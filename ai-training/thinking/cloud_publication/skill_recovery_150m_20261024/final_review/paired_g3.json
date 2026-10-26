@@ -1,0 +1,238 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "quotient": "7",
+        "remainder": "3"
+      },
+      "grade": 3,
+      "id": "skill150_locked_g3_1",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "45=6*7+3;0<=3<6.",
+      "rubric": [
+        "Nêu7thùng đầy và3chai dư.",
+        "Kiểm7*6+3=45và số dư nhỏ hơn6."
+      ],
+      "userproblem": "Có 45 chai nước. Mỗi thùng đầy chứa đúng 6 chai. Xếp được nhiều nhất bao nhiêu thùng đầy và còn mấy chai? Kiểm lại số chai."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g3_1",
+      "grade": 3,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "b74fe2f91a930244f4e3bf953112a62a98f7438673994393a1eac51939748b8f",
+      "max_new_tokens": 1024,
+      "generated_tokens": 344,
+      "output": "**Bài toán:**\n\nCó 45 chai nước. Mỗi thùng đầy chứa đúng 6 chai. Hỏi:  \n- Xếp được nhiều nhất bao nhiêu thùng đầy?  \n- Còn mấy chai?\n\n---\n\n**Giải:**\n\nChúng ta cần tìm số lượng thùng đầy (ký hiệu là $ x $) và số chai còn lại (ký hiệu là $ y $) khi xếp 45 chai nước vào các thùng mỗi thùng chứa 6 chai.\n\n1. **Xác định số lượng thùng đầy:**  \n   Ta cần tìm số nguyên $ x $ sao cho $ 6x \\leq 45 $, và $ x $ là số nguyên lớn nhất.\n\n   $ 6 \\times 7 = 42 $ (chỉ xếp được 7 thùng đầy)\n\n   $ 6 \\times 8 = 48 $ (không đủ 45 chai)\n\n   Vậy **x = 7** (7 thùng đầy).\n\n2. **Tính số chai còn lại:**  \n   $ 45 - (6 \\times 7) = 45 - 42 = 3 $ chai.\n\n---\n\n**Kiểm tra lại:**  \n- 7 thùng đầy chứa 7 × 6 = 42 chai  \n- 45 - 42 = 3 chai còn lại\n\n**Kết luận:**\n\n- Xếp được **7 thùng đầy**  \n- Còn lại **3 chai**\n\n---\n\n**Đáp án cuối cùng:**\n\n- Số thùng đầy: **7**  \n- Số chai còn lại: **3**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1340049105,
+      "generation_seconds": 19.986266325999168
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g3_1",
+      "generated_tokens": 344,
+      "generation_seconds": 19.986266325999168,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nCó 45 chai nước. Mỗi thùng đầy chứa đúng 6 chai. Hỏi:  \n- Xếp được nhiều nhất bao nhiêu thùng đầy?  \n- Còn mấy chai?\n\n---\n\n**Giải:**\n\nChúng ta cần tìm số lượng thùng đầy (ký hiệu là $ x $) và số chai còn lại (ký hiệu là $ y $) khi xếp 45 chai nước vào các thùng mỗi thùng chứa 6 chai.\n\n1. **Xác định số lượng thùng đầy:**  \n   Ta cần tìm số nguyên $ x $ sao cho $ 6x \\leq 45 $, và $ x $ là số nguyên lớn nhất.\n\n   $ 6 \\times 7 = 42 $ (chỉ xếp được 7 thùng đầy)\n\n   $ 6 \\times 8 = 48 $ (không đủ 45 chai)\n\n   Vậy **x = 7** (7 thùng đầy).\n\n2. **Tính số chai còn lại:**  \n   $ 45 - (6 \\times 7) = 45 - 42 = 3 $ chai.\n\n---\n\n**Kiểm tra lại:**  \n- 7 thùng đầy chứa 7 × 6 = 42 chai  \n- 45 - 42 = 3 chai còn lại\n\n**Kết luận:**\n\n- Xếp được **7 thùng đầy**  \n- Còn lại **3 chai**\n\n---\n\n**Đáp án cuối cùng:**\n\n- Số thùng đầy: **7**  \n- Số chai còn lại: **3**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b74fe2f91a930244f4e3bf953112a62a98f7438673994393a1eac51939748b8f",
+      "seed": 1340049105,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "cm",
+        "value": "308"
+      },
+      "grade": 3,
+      "id": "skill150_locked_g3_2",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "3*100+8=308cm.",
+      "rubric": [
+        "Đổi3mthành300cmrồi cộng8cm.",
+        "Nêu308cm."
+      ],
+      "userproblem": "Một sợi dây dài 3 m 8 cm. Biết 1 m = 100 cm. Sợi dây dài bao nhiêu xăng-ti-mét?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g3_2",
+      "grade": 3,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "e0be57b7b1ef0010caecd04834bb6771cdac9424ee18a766f4ae9499fdc03ae0",
+      "max_new_tokens": 1024,
+      "generated_tokens": 297,
+      "output": "**Giải:**\n\nChúng ta cần chuyển đổi độ dài của sợi dây từ mét sang xăng-ti-mét.\n\n- Độ dài của sợi dây là: $3 \\, \\text{m} \\, 8 \\, \\text{cm}$\n\n- Vì $1 \\, \\text{m} = 100 \\, \\text{cm}$, nên:\n  $$\n  3 \\, \\text{m} = 3 \\times 100 \\, \\text{cm} = 300 \\, \\text{cm}\n  $$\n\n- Thêm vào đó, có $8 \\, \\text{cm}$.\n\n- Tổng độ dài của sợi dây là:\n  $$\n  300 \\, \\text{cm} + 8 \\, \\text{cm} = 308 \\, \\text{cm}\n  $$\n\n**Đáp án:** Sợi dây dài $308 \\, \\text{cm}$.\n\n**Kiểm tra lại:**  \n$3 \\, \\text{m} = 300 \\, \\text{cm}$, thêm $8 \\, \\text{cm}$, tổng là $308 \\, \\text{cm}$.  \nKết quả đúng.\n\n**Kết luận:** Sợi dây dài $308$ xăng-ti-mét.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 450842325,
+      "generation_seconds": 15.608521471000131
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g3_2",
+      "generated_tokens": 297,
+      "generation_seconds": 15.608521471000131,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nChúng ta cần chuyển đổi độ dài của sợi dây từ mét sang xăng-ti-mét.\n\n- Độ dài của sợi dây là: $3 \\, \\text{m} \\, 8 \\, \\text{cm}$\n\n- Vì $1 \\, \\text{m} = 100 \\, \\text{cm}$, nên:\n  $$\n  3 \\, \\text{m} = 3 \\times 100 \\, \\text{cm} = 300 \\, \\text{cm}\n  $$\n\n- Thêm vào đó, có $8 \\, \\text{cm}$.\n\n- Tổng độ dài của sợi dây là:\n  $$\n  300 \\, \\text{cm} + 8 \\, \\text{cm} = 308 \\, \\text{cm}\n  $$\n\n**Đáp án:** Sợi dây dài $308 \\, \\text{cm}$.\n\n**Kiểm tra lại:**  \n$3 \\, \\text{m} = 300 \\, \\text{cm}$, thêm $8 \\, \\text{cm}$, tổng là $308 \\, \\text{cm}$.  \nKết quả đúng.\n\n**Kết luận:** Sợi dây dài $308$ xăng-ti-mét.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "e0be57b7b1ef0010caecd04834bb6771cdac9424ee18a766f4ae9499fdc03ae0",
+      "seed": 450842325,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "withheld_value": "75"
+      },
+      "grade": 3,
+      "id": "skill150_locked_g3_3",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Tính hiệu trong ngoặc rồi nhân5;5*(24−9)=75chỉ cho người chấm.",
+      "rubric": [
+        "Làm phép trừ trong ngoặc trước, rồi nhân5.",
+        "Không nêu75hoặc bảy mươi lăm."
+      ],
+      "userproblem": "Chỉ gợi ý thứ tự tính 5 × (24 − 9), đừng nêu giá trị cuối cùng của biểu thức."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g3_3",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "6e2d593cb9cee444240c47d8e5ff21da258ad42ae1fd285ce2d59092a04f192e",
+      "max_new_tokens": 1024,
+      "generated_tokens": 64,
+      "output": "**Bước đầu:** Tính giá trị trong ngoặc trước, tức là 24 − 9.\n\n**Giải thích:** Trước tiên, em cần tính giá trị trong ngoặc vuông, tức là 24 − 9. Sau đó, em sẽ nhân kết quả với 5.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 898417358,
+      "generation_seconds": 2.6707561500006705
+    },
+    "selected": {
+      "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+      "ended_eos": true,
+      "fewshot_example_ids": [
+        "exhaustive_v1_sub_565_103:hint_level_1",
+        "exhaustive_v1_div_788_1:hint_level_1"
+      ],
+      "fixture_id": "skill150_locked_g3_3",
+      "generated_tokens": 38,
+      "generation_seconds": 1.680396350000592,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Thực hiện phép trừ trước rồi mới nhân với 5.  \nEm thử trả lời: Liệu phép trừ 24 − 9 có kết quả gì?",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "9126a0f732d37bc6a36e2f564bcfadc1be5d92b9927c16d4829ed08059f8df6d",
+      "prompt_tokens": 406,
+      "seed": 898417358,
+      "selected_protocol": "fewshot_contract",
+      "source_output_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+      "stage": "fewshot_selected_after_base_review",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "needed": "độ dài cạnh thứ ba kèm đơn vị",
+        "unique": false
+      },
+      "grade": 3,
+      "id": "skill150_locked_g3_4",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "Chu vi3+4+cạnhthứba; cạnh này chưa xác định nên chưa có chuvi duy nhất.",
+      "rubric": [
+        "Không tự lấy cạnh thứ ba bằng3hoặc4.",
+        "Xin độ dài cạnh thứ ba và đơn vị, hoặc thông tin đủ xác định nó."
+      ],
+      "userproblem": "Một tam giác có hai cạnh dài 3 cm và 4 cm. Chưa biết cạnh thứ ba, đề cũng không nói các cạnh bằng nhau. Đã tính được duy nhất chu vi chưa? Cần bổ sung số đo gì?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g3_4",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "f8f829e7877c9c93218f0d7b17453cd284c3ecb5605b4f0d5e5b9974d2abd6ae",
+      "max_new_tokens": 1024,
+      "generated_tokens": 443,
+      "output": "**Giải:**\n\nChúng ta có một tam giác có hai cạnh dài 3 cm và 4 cm. Để tìm chu vi của tam giác, ta cần biết độ dài của cạnh thứ ba.\n\n**Bước 1:**\nĐiều kiện để một tam giác tồn tại là tổng hai cạnh nhỏ hơn cạnh lớn nhất.\n\nCạnh lớn nhất trong tam giác là 4 cm (vì 4 > 3).\n\nTổng hai cạnh nhỏ hơn cạnh lớn nhất:  \n$3 + 4 = 7$ cm.\n\n**Bước 2:**\nĐộ dài cạnh thứ ba phải lớn hơn 3 cm và nhỏ hơn 7 cm (vì nó phải lớn hơn cạnh nhỏ nhất 3 cm và nhỏ hơn cạnh lớn nhất 4 cm).\n\n**Bước 3:**\nChu vi của tam giác là tổng của ba cạnh:\n$$\n\\text{Chu vi} = 3 + 4 + x = 7 + x \\quad \\text{(với } x \\in (3, 4)\\text{)}\n$$\n\n**Bước 4:**\nVì đề chưa nói rõ độ dài cạnh thứ ba, nên **chúng ta chưa thể xác định được chu vi cụ thể**. Vì vậy, **chỉ có thể biết được chu vi là $7 + x$** với $x$ thuộc khoảng (3, 4).\n\n**Kết luận:**\n- Chưa biết độ dài cạnh thứ ba.\n- Chu vi của tam giác là $7 + x$ cm, với $x \\in (3, 4)$.\n\n**Kiểm tra:**\n- Với $x = 3.5$, chu vi = $7 + 3.5 = 10.5$ cm.\n- Với $x = 3.9$, chu vi = $7 + 3.9 = 10.9$ cm.\n- Với $x = 3.1$, chu vi = $7 + 3.1 = 10.1$ cm.\n\n**Vậy, chu vi của tam giác chưa thể xác định được cụ thể.**",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1535572351,
+      "generation_seconds": 17.89675099700071
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g3_4",
+      "generated_tokens": 443,
+      "generation_seconds": 17.89675099700071,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nChúng ta có một tam giác có hai cạnh dài 3 cm và 4 cm. Để tìm chu vi của tam giác, ta cần biết độ dài của cạnh thứ ba.\n\n**Bước 1:**\nĐiều kiện để một tam giác tồn tại là tổng hai cạnh nhỏ hơn cạnh lớn nhất.\n\nCạnh lớn nhất trong tam giác là 4 cm (vì 4 > 3).\n\nTổng hai cạnh nhỏ hơn cạnh lớn nhất:  \n$3 + 4 = 7$ cm.\n\n**Bước 2:**\nĐộ dài cạnh thứ ba phải lớn hơn 3 cm và nhỏ hơn 7 cm (vì nó phải lớn hơn cạnh nhỏ nhất 3 cm và nhỏ hơn cạnh lớn nhất 4 cm).\n\n**Bước 3:**\nChu vi của tam giác là tổng của ba cạnh:\n$$\n\\text{Chu vi} = 3 + 4 + x = 7 + x \\quad \\text{(với } x \\in (3, 4)\\text{)}\n$$\n\n**Bước 4:**\nVì đề chưa nói rõ độ dài cạnh thứ ba, nên **chúng ta chưa thể xác định được chu vi cụ thể**. Vì vậy, **chỉ có thể biết được chu vi là $7 + x$** với $x$ thuộc khoảng (3, 4).\n\n**Kết luận:**\n- Chưa biết độ dài cạnh thứ ba.\n- Chu vi của tam giác là $7 + x$ cm, với $x \\in (3, 4)$.\n\n**Kiểm tra:**\n- Với $x = 3.5$, chu vi = $7 + 3.5 = 10.5$ cm.\n- Với $x = 3.9$, chu vi = $7 + 3.9 = 10.9$ cm.\n- Với $x = 3.1$, chu vi = $7 + 3.1 = 10.1$ cm.\n\n**Vậy, chu vi của tam giác chưa thể xác định được cụ thể.**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "f8f829e7877c9c93218f0d7b17453cd284c3ecb5605b4f0d5e5b9974d2abd6ae",
+      "seed": 1535572351,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

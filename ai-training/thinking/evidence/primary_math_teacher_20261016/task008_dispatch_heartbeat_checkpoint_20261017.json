@@ -1,0 +1,25 @@
+{
+  "heartbeat_utc": "2026-10-17T13:25:01.677Z",
+  "task_id": "008_independent_primary67_20261017",
+  "reported_status": "queued",
+  "reports_count": 0,
+  "source_rows": 67,
+  "actual_source_hashes_validated": 67,
+  "checked_expressions": 113,
+  "hint_count_for_independent_review": 201,
+  "pending_core": 43,
+  "pending_misconceptions": 15,
+  "pending_guards": 8,
+  "pending_supplementary": 1,
+  "unassigned_pending": 0,
+  "review_completed": false,
+  "worker_autolaunched": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "next_authoring_nodes": [
+    "current_g3_midpoint_angles",
+    "current_g3_shape_elements"
+  ],
+  "drive_sync_status": "PENDING_CONNECTOR_UNAVAILABLE_REPORTED_PREVIOUSLY"
+}

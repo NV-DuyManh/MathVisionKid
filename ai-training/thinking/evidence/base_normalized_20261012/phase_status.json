@@ -1,0 +1,21 @@
+{
+  "status": "BASE_RETAINED_SFT_REJECTED_RESEARCH_ONLY",
+  "run_id": "base_normalized_mcq_posthoc_seed20261012",
+  "pid": 26011,
+  "pid_historical": true,
+  "stage_training_performed": false,
+  "preceding_sft_rejected": true,
+  "production_approved": false,
+  "local_tests": 56,
+  "colab_pipeline_tests": 12,
+  "colab_normalizer_tests": 3,
+  "audit_passed": true,
+  "base_validation_correct": 90,
+  "validation_samples": 118,
+  "base_development_test_correct": 72,
+  "development_test_samples": 100,
+  "base_development_answered": 81,
+  "base_rotated_development_test_correct": 63,
+  "base_choice_rotation_consistency": 0.64,
+  "run_url": "https://drive.google.com/drive/folders/16GFVa5EmHmYPkU2BGeHhmoQfHgR76ODx"
+}

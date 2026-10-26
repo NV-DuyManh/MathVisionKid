@@ -1,0 +1,37 @@
+{
+  "status": "PASS_INDEPENDENT_PEER",
+  "cases": 12,
+  "chats": 48,
+  "full_field_reviews": 12,
+  "numeric_steps": 6,
+  "independent_models": 12,
+  "adversarial_mutations_detected": 57,
+  "source_hashes": {
+    "cases.jsonl": "c89b4f06a1c2f717294249e3ea09a7d24d80e5ef152c124c17fdd9341cb7ae44",
+    "chat.jsonl": "9d6778b5972d25b86067e7da183d9b7cafd56a58a318eb5e075973377bb15847",
+    "selfqa7.jsonl": "29680f0363db8b8a6dadc7be2db4e41fca80bbcbe52406318e53cb1a6c7b9990",
+    "independent_oracles.jsonl": "20e18f29f6268d3e4656b9f1208c69623047c0fd31a1cd78e67e345f7d955655",
+    "numeric_fraction_decimal.jsonl": "bc097957ebf8376af64b075f0e365ccf3137e1ec28f09be171e196123f8d2ace",
+    "manifest.json": "87ba2fb7bd51168ecf2513faa7d018cd803a8a8bdaff3c043a44a406c9a03651",
+    "nearest_actual_fullfields.jsonl": "cccc0f4b18d0ad2d2053aefffc56ba79f0f2bde11ca1f25fa47b87d51a329d8f",
+    "candidate_snapshot.json": "90a571165d98562b51fe2d1e812cadf89b100f38dd27d48627b3672c9089f671",
+    "assignment_snapshot.json": "6da54a57cfbf9ea548a2fd2ca25f2a37befb43dfaf1df1735989f67538cf70f5",
+    "independent_finite_oracle.py": "6b6cc50825fcab989e3938561f4654360c2d29aa13cea9807d55eaed342e43f8",
+    "author_oracle_adversarial_checks.jsonl": "8ff94137e6af527018f5c59855f2652e889c77e536fa142c6a2e367788611779",
+    "validation_receipt.json": "167a86684edd8c53e073734bd9e455a9697d53eb0c61a1d3fa047dadcaf5c319"
+  },
+  "source_files_unchanged": true,
+  "fixes_required": [],
+  "artifact_hashes": {
+    "peer_inventory_qa.py": "4c426f1bc001eb26aafac4db21b4f9741fc306c8f58112482d6f36d976d170b6",
+    "peer_fullfield_reviews.jsonl": "ff022831743c5fa364fbe011c0654e76351d011c97f2cb9510090075e7306bd4",
+    "peer_independent_oracles.jsonl": "6db276cfe54696aa0b0bdc0e5d615ac91cda4b66d0d775e6cc1a3410c643f9f9",
+    "peer_numeric_checks.jsonl": "da58aa8d7320d16e4f062c9faa8712fd85c792648d32316ec0e7c87294c335c8",
+    "peer_adversarial_mutations.jsonl": "6ae590c66e0edbe4ede0fddfcf08946824b4a2cac02dc5656a81e9cab5f3f39e",
+    "peer_chat_links.jsonl": "178302af5a13dc3602c2c5ac7b4a419857fea9a6902a42b7dfc2eaeeaa607273"
+  },
+  "limitations": [
+    "Finite explicit text models only; no actual publisher image or physical action performance certified.",
+    "No human content review or model-accuracy claim assigned."
+  ]
+}

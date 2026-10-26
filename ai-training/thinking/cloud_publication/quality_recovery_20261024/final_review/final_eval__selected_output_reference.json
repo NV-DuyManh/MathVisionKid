@@ -1,0 +1,8 @@
+{
+  "duplicate_selected_generation_performed": false,
+  "file": "base_generations.jsonl",
+  "output_rows": 20,
+  "reuses_exact_fresh_base_outputs": true,
+  "selected_kind": "untrained_base",
+  "sha256": "dec9137aec52728720a1fefc140b1397323efe8bda6d6b348ea8c2249d0c7e43"
+}

@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "MLgWLjrgZY-Z"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T10:12:18.156070+00:00\", \"root_exists\": true, \"worker_alive\": false, \"worker_exit\": null, \"install_status.json\": {\"state\": \"INSTALLED_NOT_TRAINING\", \"started_unix\": 1792835357.4128327, \"gpu_allocated_by_installer\": false, \"base\": {\"torch\": \"2.11.0+cu130\", \"cuda\": \"13.0\"}, \"versions\": {\"python\": \"3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]\", \"packages\": {\"torch\": \"2.11.0+cu130\", \"transformers\": \"5.16.1\", \"unsloth\": \"2026.10.7\", \"unsloth_zoo\": \"2026.10.7\", \"peft\": \"0.21.2\", \"bitsandbytes\": \"0.50.2\", \"accelerate\": \"1.15.0\", \"triton\": \"3.6.0\"}}, \"elapsed_seconds\": 56.86590790748596}, \"gpu\": \"Tesla T4, 15360 MiB, 0 MiB, 0 %\"}\n"
+        ]
+      }
+    ]
+  }
+}

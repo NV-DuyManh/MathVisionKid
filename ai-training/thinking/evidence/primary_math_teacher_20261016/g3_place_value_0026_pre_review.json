@@ -1,0 +1,142 @@
+{
+  "batch_sha256": "08423679b145e40d263fa219f43d14dd87e35b66753c207ac72da84562927afa",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "guard_not_required_by_blueprint": true,
+  "checks": [
+    {
+      "sample_id": "primary_20261017_g3_place_value_0026_compose_with_internal_zeros",
+      "row_sha256": "6fbdc287b64a2e42b5ac6e0fc846a15db5949a882d691785af6bfbb165126340",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "60000+800+5",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_place_value_0026_same_digit_different_place",
+      "row_sha256": "69732874fd83c78a402a7a0185376f932c515d405675edf39bdde2a234c3fb40",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "7*10000",
+          "7*1000",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_place_value_0026_thousand_steps_to_upper_boundary",
+      "row_sha256": "091abb55f4ce3dd7e822a91110a73783a37a5392e1bef6dc87a79cfa14223a44",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "97000+1000",
+          "(97000+1000)+1000",
+          "((97000+1000)+1000)+1000",
+          "(((97000+1000)+1000)+1000)-1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261017_g3_place_value_0026_misconception_digit_value_ignores_position",
+      "row_sha256": "d0fd194cd51a0d4b09c4c4349c10115b257c7b61bb0cf97284bad93b119aef1a",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "200",
+          "40000+(200)+6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "60805_digit_position_map": {
+      "1": 5,
+      "10": 0,
+      "100": 8,
+      "1000": 0,
+      "10000": 6
+    },
+    "70000_digit_position_map": {
+      "1": 0,
+      "10": 0,
+      "100": 0,
+      "1000": 0,
+      "10000": 7
+    },
+    "7000_digit_position_map": {
+      "1": 0,
+      "10": 0,
+      "100": 0,
+      "1000": 7
+    },
+    "bounded_thousand_step_sequence": [
+      97000,
+      98000,
+      99000,
+      100000
+    ],
+    "40206_digit_position_map": {
+      "1": 6,
+      "10": 0,
+      "100": 2,
+      "1000": 0,
+      "10000": 4
+    },
+    "wrong_digit_correct_value": 200
+  },
+  "oracle_method": "Base10 position maps from string indexing/reconstruction and independently iterated bounded sequence; exact step AST/Fraction gate separately checked.",
+  "author_self_content_check": "Read five/six-position boundaries, internal-zero placeholders, reading variants linh/le, overlapping round-thousand categories, all intermediate steps and twelve hints. Same-author checks are not independent semantic review.",
+  "frozen_inputs_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "task007_manifest_packet_unchanged": true,
+  "independent_semantic_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "sealed_concept_challenge_read": false,
+  "limits": "Original text-only concept examples within100000; not evidence of model learning. School reading variants should remain valid. Neutral schema is not live PlanDraft."
+}

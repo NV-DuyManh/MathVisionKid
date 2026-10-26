@@ -1,0 +1,449 @@
+{
+  "schema": "MathVisionKid.independent_peer_review.v1",
+  "source_file_sha256": "d1086bda245961d6f8cbf71a6899af0e7e26b109dc5af040af952be434b7aabe",
+  "chat_file_sha256": "5e1e6376f5139df26e9be4cde79c4e4c974a0345b773468231af0177c45017b3",
+  "rows_read": 6,
+  "chat_rows_checked": 24,
+  "seven_criteria_pass_count": 6,
+  "status": "PASS",
+  "independent_author_oracle_imported": false,
+  "author_gap_oracle_used_as_premise": false,
+  "reviewer": "independent_peer_agent",
+  "reviews": [
+    {
+      "sample_id": "sgk_finish_20261020_g3_product_pyramid_01",
+      "source_row_sha256": "3645dc325c7d48676d8e065e0f3988362075e0c780588a791cfae5c0618938e1",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "bottom": [
+            2,
+            3,
+            4
+          ],
+          "middle": [
+            6,
+            12
+          ],
+          "top": 72,
+          "local_edges_checked": 3
+        },
+        "numeric": [
+          {
+            "expression": "2*3",
+            "exact": "6"
+          },
+          {
+            "expression": "3*4",
+            "exact": "12"
+          },
+          {
+            "expression": "6*12",
+            "exact": "72"
+          }
+        ]
+      },
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_finish_20261020_g3_product_pyramid_02",
+      "source_row_sha256": "731d61e904a0070c0467f87114e5655d1a3cad95244f63857239bbf0145fe6b5",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "bottom_middle_candidates": [
+            3
+          ],
+          "middle_right": 6,
+          "top": 54,
+          "student_first_two_cells_correct": true,
+          "student_wrong_rule_at_top": true
+        },
+        "numeric": [
+          {
+            "expression": "9/3",
+            "exact": "3"
+          },
+          {
+            "expression": "3*2",
+            "exact": "6"
+          },
+          {
+            "expression": "9*6",
+            "exact": "54"
+          }
+        ]
+      },
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_finish_20261020_g3_two_jug_transfer_01",
+      "source_row_sha256": "e8e8190369f3e11f69abf9ffb663f5275b884711d3de1c69a8eac7b353ca5c02",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "capacities": [
+            5,
+            3
+          ],
+          "reachable_states": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ]
+          ],
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "all_six_transitions_legal": true,
+          "target_in_A": true,
+          "optimality_claimed": false
+        },
+        "numeric": [
+          {
+            "expression": "0+5",
+            "exact": "5"
+          },
+          {
+            "expression": "5-3",
+            "exact": "2"
+          },
+          {
+            "expression": "2+0",
+            "exact": "2"
+          },
+          {
+            "expression": "3-2",
+            "exact": "1"
+          },
+          {
+            "expression": "5-1",
+            "exact": "4"
+          }
+        ]
+      },
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_finish_20261020_g3_two_jug_transfer_02",
+      "source_row_sha256": "f8bd4a0ee28e4f702e9ece61516c2e95b6b8f6f174a48e0b241154066f0c67cc",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "capacities": [
+            4,
+            2
+          ],
+          "reachable_states": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              2
+            ]
+          ],
+          "target_reachable": false,
+          "state_set_closed_under_all_allowed_actions": true
+        },
+        "numeric": []
+      },
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_finish_20261020_g3_operator_synthesis_01",
+      "source_row_sha256": "555aa87a711f0a1917998a2365d9d75a9fb8c8c8887af71c4b3bb8fa3fb84a15",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "numbers": [
+            6,
+            3,
+            2
+          ],
+          "all_expressions_and_values": {
+            "6+3+2": "11",
+            "6+3*2": "12",
+            "6*3+2": "20",
+            "6*3*2": "36"
+          },
+          "solutions": [
+            "6+3*2"
+          ],
+          "exhaustive_allowed_operator_assignments": true
+        },
+        "numeric": [
+          {
+            "expression": "6+3*2",
+            "exact": "12"
+          }
+        ]
+      },
+      "human_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_finish_20261020_g3_operator_synthesis_02",
+      "source_row_sha256": "3330f31d03d50b446665e8c4fd6bb612ec6cf6a214f389f0311eb172f8c64aca",
+      "status": "PASS",
+      "criteria": {
+        "math_correctness_or_explicit_guard": "PASS: independent local constraints, complete finite jug graph and all operator assignments; every numeric expression checked by separate precedence parser.",
+        "givens_request_consistency": "PASS: all amounts, local multiplication rules, operator multiplicities and stopping endpoints are explicit; impossible jug request is answered as impossibility, not unreadability.",
+        "grade_and_scope": "PASS: grade3 bounded reasoning enrichment, within stated integer arithmetic; claims limited to text plans and no physical/vision completion.",
+        "steps_reasons_units_check": "PASS: all actual steps/reasons/explanations read; jug units/capacities and each pour stop correct; combined narrative steps show all intermediate states.",
+        "initial_and_all_hints_no_answer_leak": "PASS: initial guidance and all three hint texts/questions read; strategies remain qualitative and disclose no final numbers, operator pair, path or impossibility conclusion.",
+        "student_work_grounding": "PASS: comments address only the two explicitly supplied synthetic student excerpts; correct portions preserved and wrong operator/precedence statements identified.",
+        "schema_provenance_preservation": "PASS: all four chat modes reproduce actual current source target/hints; false human certification flags preserved; author source bytes left unchanged."
+      },
+      "actual_fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work.text_and_observations",
+        "worked_steps",
+        "reasons",
+        "explanations",
+        "expected_answer",
+        "initial_guidance",
+        "all_three_hints_and_questions"
+      ],
+      "independent_oracle": {
+        "structural": {
+          "numbers": [
+            8,
+            4,
+            2
+          ],
+          "all_expressions_and_values": {
+            "8/4-2": "0",
+            "8-4/2": "6"
+          },
+          "solutions": [
+            "8/4-2"
+          ],
+          "exhaustive_allowed_operator_assignments": true
+        },
+        "numeric": [
+          {
+            "expression": "8/4-2",
+            "exact": "0"
+          },
+          {
+            "expression": "8-4/2",
+            "exact": "6"
+          }
+        ]
+      },
+      "human_review_claimed": false
+    }
+  ],
+  "training_started": false
+}

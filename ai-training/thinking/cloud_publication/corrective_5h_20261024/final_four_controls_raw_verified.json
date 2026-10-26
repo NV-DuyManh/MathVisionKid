@@ -1,0 +1,59 @@
+{
+  "observed_utc": "2026-10-24T05:39:38.738185+00:00",
+  "controls": {
+    "state": "COMPLETE_RAW_VERIFIED",
+    "work": "/content/mathvisionkid_corrective_5h_20261024/four_controls_publication/20261024T053113387866Z",
+    "receipt": {
+      "branch": "corrective_5h_20261024",
+      "branch_observation_sha256": "804040964b71f3a7c87c0568e941f19cc0abf6743a223f73471476028d1628ba",
+      "legacy_top_level_flags_preserved": true,
+      "metadata_control_transaction_only": true,
+      "order": [
+        "progress",
+        "chat",
+        "context",
+        "state"
+      ],
+      "prepared_hashes": {
+        "chat": "54a37a5783b6634dcdae57e8a9aff9f1c1f80d0c1da6b233f8818cc464ce5d4f",
+        "context": "32a03f4100d246c1896cddc7c6f1c4b9d01e853c2dde776a883d3824ac5aef1c",
+        "progress": "e069419abb2a1f3df6a74ff079bd2122100fdb6b94d2c0faea1f189d9229bcd0",
+        "state": "3abdb11258dd589dbcb479254296b272ea7cc2832840ad94b56969668432e74f"
+      },
+      "transaction": "four_existing_controls",
+      "verified_writes": [
+        {
+          "bytes": 19045839,
+          "fresh_raw_readback_verified": true,
+          "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+          "kind": "progress",
+          "sha256": "e069419abb2a1f3df6a74ff079bd2122100fdb6b94d2c0faea1f189d9229bcd0"
+        },
+        {
+          "bytes": 694513,
+          "fresh_raw_readback_verified": true,
+          "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+          "kind": "chat",
+          "sha256": "54a37a5783b6634dcdae57e8a9aff9f1c1f80d0c1da6b233f8818cc464ce5d4f"
+        },
+        {
+          "bytes": 839883,
+          "fresh_raw_readback_verified": true,
+          "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+          "kind": "context",
+          "sha256": "32a03f4100d246c1896cddc7c6f1c4b9d01e853c2dde776a883d3824ac5aef1c"
+        },
+        {
+          "bytes": 997470,
+          "fresh_raw_readback_verified": true,
+          "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+          "kind": "state",
+          "sha256": "3abdb11258dd589dbcb479254296b272ea7cc2832840ad94b56969668432e74f"
+        }
+      ]
+    },
+    "canonical_context_sha256": "32a03f4100d246c1896cddc7c6f1c4b9d01e853c2dde776a883d3824ac5aef1c"
+  },
+  "control_thread_alive": false,
+  "worker_exit": 0
+}

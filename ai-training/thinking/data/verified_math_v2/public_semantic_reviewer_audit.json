@@ -1,0 +1,1697 @@
+{
+  "reviewer_kind": "AI",
+  "human_verified": false,
+  "semantic_correctness_verified": false,
+  "reviewed_count": 205,
+  "input_sha256": "17e333b84e3b68087c517ce49a3513bb315bdbf48763724bbcc4e8a587f2863b",
+  "review_protocol": "Đọc hết từng câu hỏi, toàn bộ facts, biểu thức target, đáp số và đơn vị theo các batch 0–54, 55–109, 110–164, 165–204. Kiểm cách hiểu đề, vai trò dữ kiện, đơn vị, thiếu dữ kiện và nhiều yêu cầu; không chỉ kiểm số học của trace. Không sửa corpus/code. Loại bảo thủ trường hợp còn giả định, numeric collision hoặc nguồn chưa tách câu hỏi sạch.",
+  "exclude_ids": [
+    "public_758685f2f4d360a63041",
+    "public_03089981db2cbe27abd7",
+    "public_7a2b1cc6b8d4aacb56ab",
+    "public_59f31d4413223e760659",
+    "public_146f521842fcf4c1cd94",
+    "public_aee48861bf23079d5de9",
+    "public_c8f4ac6d7ec973815733",
+    "public_13f1dd82cac866e037be",
+    "public_34c9e83177b07633afe5",
+    "public_fd0b5ba29c809a7d49ba",
+    "public_10e63d3f8700b83a729d",
+    "public_9481bc04fc5ba7662874",
+    "public_a0b42c94861f7edfb942",
+    "public_ed3203841072ed80f0ae",
+    "public_2a6479126ecb9a1bde25",
+    "public_3efcdce70caf77657ff3",
+    "public_4cd7d08464da77503072",
+    "public_350c9f54b28e7f9567f1",
+    "public_8b7b418b06569501cb0c",
+    "public_1849e0e50c791b0bb530",
+    "public_ef6b7e02dfc049cb5976",
+    "public_e7691e4940fd2722c2bc",
+    "public_041614ebcc776f7ff18a",
+    "public_ab78ef5b569b5a25a00a",
+    "public_b42799a7c3cf3e889b88",
+    "public_27b6e4432256fd592511",
+    "public_a454c03fd0cecc89e28e",
+    "public_c9d6c693231de6aa09d8"
+  ],
+  "exclude_count": 28,
+  "no_issue_detected_count": 177,
+  "status_counts": {
+    "AI_REVIEW_NO_ISSUE_DETECTED": 177,
+    "ambiguous": 10,
+    "wrong_grounded_reference": 7,
+    "incomplete_request": 3,
+    "incomplete_or_contaminated": 7,
+    "wrong_answer": 1
+  },
+  "all_rows": [
+    {
+      "index": 0,
+      "sample_id": "public_ce737455cba19d1737db",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 1,
+      "sample_id": "public_5327c8a518700626aaec",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 2,
+      "sample_id": "public_215f8351698692f7d48b",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 3,
+      "sample_id": "public_689d0e447f6b9d7ee64a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 4,
+      "sample_id": "public_454c48d58e388d7b387a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 5,
+      "sample_id": "public_cf5108a470b5d162870d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 6,
+      "sample_id": "public_ee6566b96aec5555b478",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 7,
+      "sample_id": "public_6f8b0297c76714c74fcc",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 8,
+      "sample_id": "public_758685f2f4d360a63041",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "MISSING_INITIAL_WATER_VOLUME",
+      "notes": "Đề chỉ cho dung tích tối đa 5000 lít, không nói bể ban đầu đầy. Target bắt đầu từ 5000, nên tự thêm dữ kiện."
+    },
+    {
+      "index": 9,
+      "sample_id": "public_f82445952f4be73e23f9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 10,
+      "sample_id": "public_c11d0138906b117e7c75",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 11,
+      "sample_id": "public_e38fc7becffccbe8b3c6",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 12,
+      "sample_id": "public_0193a58f23b0868e9b25",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 13,
+      "sample_id": "public_2a176335bf5fe691622f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 14,
+      "sample_id": "public_03089981db2cbe27abd7",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "ESTIMATE_NOT_ACTUAL_TIME",
+      "notes": "Phần A chỉ ước tính 8 giờ nhưng hỏi thời gian thực tế đã dành. Target lấy ước tính làm thời gian thực tế rồi suy ra B là 20 giờ. Cần làm rõ dữ kiện thời gian."
+    },
+    {
+      "index": 15,
+      "sample_id": "public_ad0f2e20d1ab9a3c2bef",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 16,
+      "sample_id": "public_eb720a5cee65fdc169da",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 17,
+      "sample_id": "public_7a2b1cc6b8d4aacb56ab",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "REFILL_POLICY_OR_TERMINAL_FUEL_UNSPECIFIED",
+      "notes": "6,5 lít đúng nếu mua mức tối thiểu và kết thúc bình rỗng. Đề nói đổ đầy ban đầu rồi tiếp tục đổ xăng, nhưng không nói mức cuối hoặc khối lượng các lần tiếp. Loại bảo thủ để tránh giả định ngầm."
+    },
+    {
+      "index": 18,
+      "sample_id": "public_36b53ec0f6e6ac92afde",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 19,
+      "sample_id": "public_c1be19e65f0c3455a393",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 20,
+      "sample_id": "public_bcb9049f0c5129672598",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 21,
+      "sample_id": "public_735610c66ffa68fb81c1",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 22,
+      "sample_id": "public_46cabbdd897a6e7ad70b",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 23,
+      "sample_id": "public_41a6bcf624eec735625a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 24,
+      "sample_id": "public_8804060a79d160221385",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 25,
+      "sample_id": "public_167ba9a181f4f36b4623",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 26,
+      "sample_id": "public_766a71408984b6093b84",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 27,
+      "sample_id": "public_30167656e87f734564cf",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 28,
+      "sample_id": "public_beb300630dd2cac2d395",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 29,
+      "sample_id": "public_f3ea4f081d1e75d92a6f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 30,
+      "sample_id": "public_59f31d4413223e760659",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "DAG_COLLAPSED_BY_MATCHING_NUMERIC_SOURCE_FACT",
+      "notes": "Đáp số 1800 trang đúng. Tuy nhiên, nửa của 2 cuốn × 240 trang bị importer rút về f3=240 bằng trùng giá trị số, mất dependency của số cuốn và phép lấy nửa. Cần chứng minh phép rút gọn trước khi nhận là whole-DAG label."
+    },
+    {
+      "index": 31,
+      "sample_id": "public_77940c1199f094c6c725",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 32,
+      "sample_id": "public_a3adaef27df53ebeeace",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 33,
+      "sample_id": "public_929689445801dbff817e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 34,
+      "sample_id": "public_146f521842fcf4c1cd94",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "PLANNED_FUTURE_WORK_SUBTRACTED_AS_COMPLETED",
+      "notes": "Đề nói đội cuối tuần sẽ cần làm thêm 19 giờ, không nói đã làm. Target trừ 19 giờ như đã hoàn thành. 123 giờ chỉ đúng sau kế hoạch đó; trước khi thực hiện còn 142 giờ."
+    },
+    {
+      "index": 35,
+      "sample_id": "public_c043e4213dd65b09938a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 36,
+      "sample_id": "public_a003d8d0e25105dea527",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 37,
+      "sample_id": "public_9fa6fbc4949acc536ae8",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 38,
+      "sample_id": "public_aee48861bf23079d5de9",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "wrong_grounded_reference",
+      "reason_code": "YIELD_USED_AS_FRACTION_DENOMINATOR",
+      "notes": "f3=5 là năng suất 5 kg/m² của ruộng thứ hai, nhưng target dùng 1/f3 làm phần lúa còn lại. Đúng phải dùng 1-f6, với f6=4/5 là tỉ lệ bán. Số 50 ngày trùng nhưng fact referent sai."
+    },
+    {
+      "index": 39,
+      "sample_id": "public_1299c22bfe81b2c34736",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 40,
+      "sample_id": "public_546a3eab8f0aa4d5d12a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 41,
+      "sample_id": "public_f83df44d5b007e7b2bb7",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 42,
+      "sample_id": "public_748a0938971e8005e838",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 43,
+      "sample_id": "public_c8f4ac6d7ec973815733",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "DAG_COLLAPSED_BY_MATCHING_NUMERIC_SOURCE_FACT",
+      "notes": "Đáp số 540 kg đúng. Source 1/3 × (3 chuyến × 120 kg) = 120 kg bị target trừ trực tiếp f4=120, chỉ lượng của một chuyến, mất dependency f3/f5. Chỉ chấp nhận nếu có chứng minh rút gọn, không dùng trùng giá trị số làm whole-DAG."
+    },
+    {
+      "index": 44,
+      "sample_id": "public_5d2e4652216c8e1f48a4",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 45,
+      "sample_id": "public_9aab96fc2b186917b84c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 46,
+      "sample_id": "public_1d0fb5a7c4aff59fe85e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 47,
+      "sample_id": "public_8e7dc60ad2e50f9de6b7",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 48,
+      "sample_id": "public_53f9c1e9edce2eff171a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 49,
+      "sample_id": "public_0ec53b74beec87d038aa",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 50,
+      "sample_id": "public_8b86987b8b6fe3d7981f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 51,
+      "sample_id": "public_13f1dd82cac866e037be",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "ambiguous",
+      "reason_code": "WORK_HOURS_AND_PERCENT_PROGRESS_UNCALIBRATED",
+      "notes": "Ba ngày × 4 người × 7 giờ = 84 giờ thực tế, nhưng 55% × 320 giờ = 176 giờ ước tính. Target dùng 176 giờ rồi trừ 36 giờ thực tế thứ Năm mà không nêu năng suất hoặc quan hệ giữa giờ thực tế và giờ ước tính. Chưa xác nhận 108 giờ là đáp số duy nhất."
+    },
+    {
+      "index": 52,
+      "sample_id": "public_b0ee38813dfcaf454ddb",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 53,
+      "sample_id": "public_b0a65fe4373710374fcd",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 54,
+      "sample_id": "public_34c9e83177b07633afe5",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "ambiguous",
+      "reason_code": "MORE_THAN_N_TIMES_AMBIGUOUS",
+      "notes": "Cụm chứa được nhiều hơn 3 lần không rõ như gấp 3 lần. Target giả định gấp 3, nhưng cũng có thể hiểu chênh lệch bằng 3 lần bể thứ nhất. Cần sửa câu chữ cho đơn nghĩa."
+    },
+    {
+      "index": 55,
+      "sample_id": "public_7fe8d8a5e2ed741b8976",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 56,
+      "sample_id": "public_1856b81556cf924a82ea",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 57,
+      "sample_id": "public_4699da505c85d6793935",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 58,
+      "sample_id": "public_8bb275ef1e46de865280",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 59,
+      "sample_id": "public_fd0b5ba29c809a7d49ba",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "wrong_grounded_reference",
+      "reason_code": "ORDINAL_ROUND_NUMBER_USED_AS_DOUBLING_FACTOR",
+      "notes": "f3=2 trích từ đợt 2, được dùng làm hệ số gấp đôi sách. Đợt 2 là nhãn thứ tự, không phải dữ kiện tỉ lệ. Hệ số 2 cần là hằng gấp đôi có ghi lý do; không tự sửa nhãn trong review."
+    },
+    {
+      "index": 60,
+      "sample_id": "public_8c65218dc916b84364e2",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 61,
+      "sample_id": "public_6ada0f7ca06b48e07653",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 62,
+      "sample_id": "public_10e63d3f8700b83a729d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "ambiguous",
+      "reason_code": "SEATS_NOT_OCCUPANCY",
+      "notes": "Ba hàng × 13 ghế suy ra 39 ghế, không suy ra 39 người đang ngồi. Đề không nói các ghế đã ngồi kín."
+    },
+    {
+      "index": 63,
+      "sample_id": "public_3147ddc19f4b2a2d4ad9",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 64,
+      "sample_id": "public_3d9c09623f352d6291f4",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 65,
+      "sample_id": "public_aa2a98cdacffea2ff649",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 66,
+      "sample_id": "public_e56190f0c3d8bfabb47f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 67,
+      "sample_id": "public_bac4ea716d926a074d06",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 68,
+      "sample_id": "public_e6a60f8fb5c7c269293a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 69,
+      "sample_id": "public_fa2853155176a4fc2b4c",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 70,
+      "sample_id": "public_fb0c1fcf06eb27b8f343",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 71,
+      "sample_id": "public_76a515abebbaf489e650",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 72,
+      "sample_id": "public_9481bc04fc5ba7662874",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_request",
+      "reason_code": "MULTIPART_CREATIVE_TASK_OMITTED",
+      "notes": "Target 24 cây chỉ trả lời phần a. Phần b yêu cầu kể một tình huống dùng bảng nhân 6 không được schema hoặc target trả lời."
+    },
+    {
+      "index": 73,
+      "sample_id": "public_3a55b9cf570cca76c780",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 74,
+      "sample_id": "public_a0b42c94861f7edfb942",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "STEP_ORDERING_TASK_AND_SOURCE_HEADER",
+      "notes": "Đề gộp yêu cầu nối thứ tự các bước tính và source header 02 Bài giải. Target 185 kg chỉ giải phần số; nội dung các bước cần nối không đầy đủ trong input."
+    },
+    {
+      "index": 75,
+      "sample_id": "public_d2495584e57519e12190",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 76,
+      "sample_id": "public_a4b9e935233c2fe013de",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 77,
+      "sample_id": "public_cce13d750acfd9994b53",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 78,
+      "sample_id": "public_5addbff1f2e7a4e60c86",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 79,
+      "sample_id": "public_01d1196aaa31399a9ea1",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 80,
+      "sample_id": "public_b382f921efe4cf601839",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 81,
+      "sample_id": "public_436d75757b75988faee1",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 82,
+      "sample_id": "public_cfdd870eea0ac530131c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 83,
+      "sample_id": "public_16ff1753ef02783bdc41",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 84,
+      "sample_id": "public_ed3203841072ed80f0ae",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "wrong_grounded_reference",
+      "reason_code": "EXTRA_MINUTES_USED_AS_NET_LITRES_PER_MINUTE",
+      "notes": "f4=15 là thời gian vòi thứ nhất chảy thêm 15 phút, nhưng target cũng dùng f4 thay lưu lượng ròng f1-f2=25-10. Phải dùng f0+(f1-f2)*f3+f1*f4. Số 855 lít trùng do 15=25-10."
+    },
+    {
+      "index": 85,
+      "sample_id": "public_845ce52e830045efd39c",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 86,
+      "sample_id": "public_b94260d1cc716a22be0a",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 87,
+      "sample_id": "public_d4de6ec2d941457f5eff",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 88,
+      "sample_id": "public_1448b353ef12c5bc7c91",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 89,
+      "sample_id": "public_d86d022fb54052a5ee5f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 90,
+      "sample_id": "public_6377d762d14cf7057012",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 91,
+      "sample_id": "public_5b3e23f32af1e866dabc",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 92,
+      "sample_id": "public_0a362cc2a184808f8750",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 93,
+      "sample_id": "public_9f7c8648baa710fc5897",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 94,
+      "sample_id": "public_65bb68e7f3ccaadd8c60",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 95,
+      "sample_id": "public_6ed490dc3d6150c4f678",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 96,
+      "sample_id": "public_2a6479126ecb9a1bde25",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_request",
+      "reason_code": "WHICH_ROUTE_REQUEST_OMITTED",
+      "notes": "Đề hỏi cả quãng đường nào dài hơn và chênh lệch. Target 154 km chỉ đáp vế số, không biểu diễn tên quãng đường dài hơn."
+    },
+    {
+      "index": 97,
+      "sample_id": "public_485f5bf467f0b9190c2e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 98,
+      "sample_id": "public_2d1cbc6042d6b5d461ea",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 99,
+      "sample_id": "public_3efcdce70caf77657ff3",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "WHOLE_PAGE_METHOD_TEXT_IN_QUESTION",
+      "notes": "Input gộp nội dung bài, phương pháp giải, 5 bước và ví dụ. Target 85 lít chỉ giải ví dụ. Nhiều facts là số thứ tự từ phần hướng dẫn, chưa phải nguồn question-only sạch."
+    },
+    {
+      "index": 100,
+      "sample_id": "public_3caa0a5a987fea73da56",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 101,
+      "sample_id": "public_e0e5974bfd512339f749",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 102,
+      "sample_id": "public_46154de2e1481e12e383",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 103,
+      "sample_id": "public_9fa5cd77c577408af836",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 104,
+      "sample_id": "public_5852eb5767c87c339f53",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 105,
+      "sample_id": "public_12b8642fa0d0c2384d64",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 106,
+      "sample_id": "public_824e7911217b284d7170",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 107,
+      "sample_id": "public_8c87a2f60d9b298287e9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 108,
+      "sample_id": "public_e18a0d79f1e652943a87",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 109,
+      "sample_id": "public_5b725e8167d3b86e5a2d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 110,
+      "sample_id": "public_4cd7d08464da77503072",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "wrong_answer",
+      "reason_code": "SOURCE_TRACE_SOLVES_WRONG_PROBLEM",
+      "notes": "Gỗ 60 cm chia thành 6 đoạn bằng nhau: đáp số đúng 10 cm. Target f1*f1=6*6=36 cm sai đề dù phép tính nguồn 6*6=36 đúng số học."
+    },
+    {
+      "index": 111,
+      "sample_id": "public_b83045292b26b3ea86c2",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 112,
+      "sample_id": "public_895d37a31f82b70dafc7",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 113,
+      "sample_id": "public_c7cb0581e2125853246f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 114,
+      "sample_id": "public_02f50521525382300b49",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 115,
+      "sample_id": "public_d53057c7b62f3b9c85f3",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 116,
+      "sample_id": "public_c4e2146fc97ff2b389d9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 117,
+      "sample_id": "public_e0be5e27c0390feec814",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 118,
+      "sample_id": "public_6fac468a518b16983b55",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 119,
+      "sample_id": "public_c4b370706247d9075fbc",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 120,
+      "sample_id": "public_6dc2958882e2ee8782bd",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 121,
+      "sample_id": "public_350c9f54b28e7f9567f1",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "wrong_grounded_reference",
+      "reason_code": "EXTRA_HOUR_USED_AS_COMPLEMENT_IDENTITY",
+      "notes": "f4=1 là 1 giờ làm thêm mỗi ngày, nhưng target dùng f4-f2 để tính 1-1/3 phần số ngày. Hằng đơn vị 1 của tỉ lệ không phải thời gian 1 giờ. Đáp 117 giờ đúng nhưng referent và đơn vị logic sai."
+    },
+    {
+      "index": 122,
+      "sample_id": "public_e69763cc0c190dc8b299",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 123,
+      "sample_id": "public_157fd8891d9c8bac864e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 124,
+      "sample_id": "public_8ca52fa1f66ce997e99a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 125,
+      "sample_id": "public_8b7b418b06569501cb0c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "wrong_grounded_reference",
+      "reason_code": "EDITORIAL_02_USED_AS_BAG_KG_WEIGHT",
+      "notes": "Question có hình trang 85 và 02 Bài giải. Số 2kg không được tách vì kg liền số. f1=2 trích từ 02 Bài giải, target 50*f1 lấy số editorial làm khối lượng mỗi gói."
+    },
+    {
+      "index": 126,
+      "sample_id": "public_63349acd7ffb61473dc0",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 127,
+      "sample_id": "public_7b9d6ef467d28ded376f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 128,
+      "sample_id": "public_0ccc14d2e875a205a207",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 129,
+      "sample_id": "public_602249131e5239712634",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 130,
+      "sample_id": "public_d5bacfbc0ca135ebc256",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 131,
+      "sample_id": "public_e5925b2e0ca98f8830b0",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 132,
+      "sample_id": "public_3f91c8c8110e166f566c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 133,
+      "sample_id": "public_a4f63d30e42102058eba",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 134,
+      "sample_id": "public_0d3a82ff942796535f10",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 135,
+      "sample_id": "public_ba9ede325cf00a32d028",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 136,
+      "sample_id": "public_58b0e50c8c938c77c10d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 137,
+      "sample_id": "public_cf4962b7fa662f4cfbb7",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 138,
+      "sample_id": "public_86d4799625b246bebeae",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 139,
+      "sample_id": "public_d623eaa379d88e14f2d4",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 140,
+      "sample_id": "public_1849e0e50c791b0bb530",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_request",
+      "reason_code": "MULTIPART_CREATIVE_TASK_OMITTED",
+      "notes": "Target 90 quả dâu chỉ trả lời phần a. Phần b yêu cầu kể tình huống sử dụng bảng nhân 9 bị bỏ."
+    },
+    {
+      "index": 141,
+      "sample_id": "public_b387071129ac0ff9b3b3",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 142,
+      "sample_id": "public_359e12a3217b6f85d938",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 143,
+      "sample_id": "public_04c19d07656f0f901310",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 144,
+      "sample_id": "public_73c7b2fbf9d5ff53b349",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 145,
+      "sample_id": "public_f6fa6d958db13f72fcd9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 146,
+      "sample_id": "public_2fa6321a9d2bfb7f3f58",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 147,
+      "sample_id": "public_54b191f154d32b30730f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 148,
+      "sample_id": "public_63bb4a5a56061a76b3a2",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 149,
+      "sample_id": "public_83d6b5275a24bd527e3b",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 150,
+      "sample_id": "public_b687d0744be87131ddc8",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 151,
+      "sample_id": "public_e831b86057aa21ea21c1",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 152,
+      "sample_id": "public_6fcb144bde3c84766920",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 153,
+      "sample_id": "public_0b33107be979100088f4",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 154,
+      "sample_id": "public_c75eb52e369caa9fb083",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 155,
+      "sample_id": "public_0070a823ce3f54976135",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 156,
+      "sample_id": "public_31717c4296870ad09836",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 157,
+      "sample_id": "public_ef6b7e02dfc049cb5976",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "wrong_grounded_reference",
+      "reason_code": "REDUCTION_FACTOR_RETURNED_AS_ANSWER_BY_NUMERIC_COLLISION",
+      "notes": "81 kg giảm 9 lần: đáp 9 kg đúng. Target f1 lấy số lần giảm 9, không có đơn vị khối lượng, làm đáp số. Cần f0/f1; importer gặp trùng giá trị 81/9=9 rồi collapse sai."
+    },
+    {
+      "index": 158,
+      "sample_id": "public_be23c635c52105eaf6ae",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 159,
+      "sample_id": "public_55653d9073e9f4e51ee9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 160,
+      "sample_id": "public_5a6e3161548fdade984d",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 161,
+      "sample_id": "public_e7691e4940fd2722c2bc",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "wrong_grounded_reference",
+      "reason_code": "BOOKS_PER_PUPIL_USED_AS_HALF_DENOMINATOR",
+      "notes": "f2=2 là 2 quyển mỗi học sinh, lại được dùng làm mẫu số chia 2 để lấy nửa số sách cho lớp B. Hệ số lấy nửa phải là hằng 2, không phải lượng sách mỗi học sinh. Đáp 45 quyển trùng nhưng referent sai."
+    },
+    {
+      "index": 162,
+      "sample_id": "public_76a01e23f538470cb9aa",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 163,
+      "sample_id": "public_46d58cfc72ae7ef5c645",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 164,
+      "sample_id": "public_9b99968a4405616bfea7",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 165,
+      "sample_id": "public_30e2a7014c68aa14a63a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 166,
+      "sample_id": "public_7ad73b53e5429494db65",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 167,
+      "sample_id": "public_b3ced9327e6ebfdd8d86",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 168,
+      "sample_id": "public_cbd64ea583055c4c710b",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 169,
+      "sample_id": "public_041614ebcc776f7ff18a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "ambiguous",
+      "reason_code": "MISSING_RELATION_BETWEEN_WORKSHOP_OUTPUTS",
+      "notes": "Cụm phân xưởng B dệt được số áo của phân xưởng A thiếu tỉ lệ hoặc từ bằng. Có thể đã mất phân số khi crawl. Target giả định bằng toàn bộ, chưa xác nhận được từ text."
+    },
+    {
+      "index": 170,
+      "sample_id": "public_10ba18b4a2216d739fcd",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 171,
+      "sample_id": "public_ab78ef5b569b5a25a00a",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "ASK_TO_CREATE_QUESTION_WITH_EXAMPLE_ONLY",
+      "notes": "Input yêu cầu tự đặt bài toán và kèm ví dụ mẫu. Target 16 quyển chỉ giải mẫu, không thực hiện yêu cầu tạo bài."
+    },
+    {
+      "index": 172,
+      "sample_id": "public_b42799a7c3cf3e889b88",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "MULTIPART_MCQ_CHOICES_PLUS_ANOTHER_PROBLEM",
+      "notes": "Input có phần a trắc nghiệm với phép tính 32/72 và phần b đóng hộp sữa. Target 40 thùng chỉ trả lời b. Cần tách câu hỏi trước khi train."
+    },
+    {
+      "index": 173,
+      "sample_id": "public_9855ff96de38d317d59f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 174,
+      "sample_id": "public_dce81f7abc54ed86dea0",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 175,
+      "sample_id": "public_d9d6135ffee642714612",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 176,
+      "sample_id": "public_1144c0a3ebb8b2580d1d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 177,
+      "sample_id": "public_bba37b1fd8ea81883ec9",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 178,
+      "sample_id": "public_e1b986d17d997df5ee68",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 179,
+      "sample_id": "public_c41ecd2174689e53a15f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 180,
+      "sample_id": "public_0da011ac628c325e3aca",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 181,
+      "sample_id": "public_27b6e4432256fd592511",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "EDITORIAL_ANSWER_SECTION_IN_INPUT",
+      "notes": "Question gộp 01 Đề bài, metadata Giải bài 8 trang 107 và 02 Bài giải. Đáp 12 túi đúng nhưng input chưa question-only; loại bảo thủ đến khi tách sạch."
+    },
+    {
+      "index": 182,
+      "sample_id": "public_3e58756d871e7e701963",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 183,
+      "sample_id": "public_74da07588b42f01e1d79",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 184,
+      "sample_id": "public_8b747159159da520a0c3",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 185,
+      "sample_id": "public_79e42621c58324155c30",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 186,
+      "sample_id": "public_7e90214e1164794cf2c6",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 187,
+      "sample_id": "public_21385b0041641f0967a4",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 188,
+      "sample_id": "public_2e353026b0ec1c90c717",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 189,
+      "sample_id": "public_4c8ca2e8d5cb60f39221",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 190,
+      "sample_id": "public_5e033a45f1e511b45eb5",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 191,
+      "sample_id": "public_25b0063369eb3b4c277f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 192,
+      "sample_id": "public_a454c03fd0cecc89e28e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "EDITORIAL_ANSWER_SECTION_IN_INPUT",
+      "notes": "Question có 02 Bài giải, là dấu phần trả lời của source trong user input. Đáp 600 học sinh đúng nhưng cần tách câu hỏi sạch khỏi reply section."
+    },
+    {
+      "index": 193,
+      "sample_id": "public_c9d6c693231de6aa09d8",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "incomplete_or_contaminated",
+      "reason_code": "ANSWER_SECTION_AND_DERIVED_SUMMARY_IN_INPUT",
+      "notes": "Question gộp 02 Bài giải và Tóm tắt. f2=0.5/f3=120 trích từ phần tóm tắt sau marker, thay vì dữ kiện 0,5l/120l liền đơn vị trong đề gốc. Đáp 240 giờ đúng nhưng source parse bị lẫn phần giải."
+    },
+    {
+      "index": 194,
+      "sample_id": "public_cab2fc9dba109e569ff0",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 195,
+      "sample_id": "public_56098f1fa5bf10b28ad1",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 196,
+      "sample_id": "public_ac227548fe557e19471c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 197,
+      "sample_id": "public_dfdc3d8b0b502f22aa0e",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 198,
+      "sample_id": "public_a6d3133197f62413b2f8",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 199,
+      "sample_id": "public_2ff40ad7692e4621952d",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 200,
+      "sample_id": "public_f57c0b58675718dd700c",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 201,
+      "sample_id": "public_8fb59b976f14b66da53f",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 202,
+      "sample_id": "public_f11d755b227207521bc3",
+      "source_dataset": "vuongtsc/vi-gsm8k-agentic",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 203,
+      "sample_id": "public_2f1b479d1e2603af1bd1",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    },
+    {
+      "index": 204,
+      "sample_id": "public_dc6d50ea64dc9d8d5482",
+      "source_dataset": "hllj/vi_math_problem_crawl",
+      "status": "AI_REVIEW_NO_ISSUE_DETECTED",
+      "reason_code": null,
+      "notes": "Đã đọc câu hỏi, đối chiếu biểu thức, dữ kiện và đơn vị. Không phát hiện lỗi trong lượt AI review này; không coi là chứng nhận của người hoặc benchmark gold."
+    }
+  ],
+  "limitations": [
+    "AI review có thể sai; không khẳng định độ đúng 100% hoặc human verification.",
+    "Đáp số hiện tại đúng vẫn có thể dùng sai vai trò dữ kiện; các mẫu đó bị loại.",
+    "Một số mẫu bị loại vì mơ hồ hoặc chất lượng nguồn, không được nhận là sai toán đã chứng minh.",
+    "Không tự sửa target; giữ nguồn để root đối chiếu.",
+    "Không dùng public rows cho validation/test hoặc benchmark đã được giáo viên chứng nhận."
+  ]
+}

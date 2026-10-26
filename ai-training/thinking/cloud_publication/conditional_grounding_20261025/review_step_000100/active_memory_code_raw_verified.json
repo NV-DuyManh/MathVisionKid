@@ -1,0 +1,52 @@
+{
+  "files": {
+    "native_backend_v3.py": {
+      "id": "1M2NvCSil04sIlIx0NLpeTJ2AnTaQQiOn",
+      "sha256": "fd4b342388b97004fc5e947abcab4084a4e41e3042856dd0061b20e92489daff",
+      "bytes": 3569,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-25T03:18:40.887399+00:00",
+      "folder_id": "1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya",
+      "name": "native_backend_v3.py",
+      "immutable": true
+    },
+    "recovery_worker_v5.py": {
+      "id": "18iBze0CucTaBSARf9jtUj8lKbNTdhswy",
+      "sha256": "8905c8f5feb9ba3df1905d3a2fdb304f5d905b7867adb358abb46825cf1362b0",
+      "bytes": 33652,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-25T03:18:46.014286+00:00",
+      "folder_id": "1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya",
+      "name": "recovery_worker_v5.py",
+      "immutable": true
+    },
+    "memory_resume_migration.json": {
+      "id": "1WDn4FLDL2off6ZWzHgzErxqaSFgZBxkU",
+      "sha256": "930a1475212f4cafd7970e02996cbfd465b374480ab42b5eb8fbec935212c469",
+      "bytes": 1665,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-25T03:18:50.949023+00:00",
+      "folder_id": "1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya",
+      "name": "memory_resume_migration.json",
+      "immutable": true
+    },
+    "baseline_semantic_review_frozen.json": {
+      "id": "1gAs_fmIwC4DnJSGxJypy8TKaf7qAvwIk",
+      "sha256": "f8c5840d99f950c261db0839234a6c30830cd9758bb55e056e171394376527ff",
+      "bytes": 19317,
+      "fresh_raw_readback_verified": true,
+      "raw_verified_utc": "2026-10-25T03:18:55.944997+00:00",
+      "folder_id": "1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya",
+      "name": "baseline_semantic_review_frozen.json",
+      "immutable": true
+    }
+  },
+  "parent_checkpoint": {
+    "id": "1NOkLIubccEzcDNt5cm72FlBBPEe9Ll7K",
+    "sha256": "5254bdff7ccd5f85ff44967082515b9b6f50d5004378b95b25af65674ea94551",
+    "bytes": 31150368,
+    "fresh_raw_readback_verified": true,
+    "raw_verified_utc": "2026-10-25T03:18:36.839055+00:00",
+    "folder_id": "1iP691P_pYTf-Pt_RdGpTZMnDtwjKR4ya"
+  }
+}

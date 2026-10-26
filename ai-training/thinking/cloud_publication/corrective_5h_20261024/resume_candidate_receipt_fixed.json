@@ -1,0 +1,18 @@
+{
+  "add": {
+    "newCellId": "eaSeLBwQdXhf"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"coherent\": true, \"generation\": {\"generation\": \"generation_step_000270_rows_00004320\", \"manifest_sha256\": \"b1a8e984af5e14edd71fcf987357752c0dd18f19758c15c6d4b37cf39ae9076b\", \"rows_done\": 4320, \"step\": 270}, \"source_path\": \"/content/mathvisionkid_corrective_5h_20261024/training/generation_step_000270_rows_00004320\", \"optimizer\": {\"parameter_states\": 392, \"all_parameter_steps\": 270, \"coherent\": true}, \"step\": 270, \"rows_done\": 4320, \"supervised_tokens\": 488085, \"training_wall_seconds\": 994.172680252, \"successful_log_prefix_bytes\": 364617, \"successful_log_prefix_sha256\": \"c6bbf41aea2374135092c2678d9c93ffaf5d6bc8805817efa1ff2cd6693fa0c0\", \"interruption_location\": \"pre-update backward\", \"exact_rng_rewind_claimed\": false, \"all_source_files_rawhash_verified\": true, \"full_row_order_and_token_recheck_required_by_resume_worker\": true}\n",
+          "\n"
+        ]
+      }
+    ]
+  }
+}

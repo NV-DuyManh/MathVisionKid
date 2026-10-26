@@ -1,0 +1,85 @@
+{
+  "folder_id": "1Q3ySNgWRRYySwhiFzFhVURrJXgy7HfO7",
+  "files": [
+    {
+      "name": "state.json",
+      "bytes": 164,
+      "id": "1MyMJUfSzBIRZ0LvacptrTfiZlfajRq7p"
+    },
+    {
+      "name": "evaluation_review.json",
+      "bytes": 3310,
+      "id": "1ZNf-Ol5NIXCyOiESL5VL1JZkeeAtCSvV"
+    },
+    {
+      "name": "runner.log",
+      "bytes": 8488,
+      "id": "1-pXu04AC71timrOTfwI0THB5lcBOcyBe"
+    },
+    {
+      "name": "candidate_direct_numeric.json",
+      "bytes": 54227,
+      "id": "1IjZBpBZ1F15InmzmTZx9MqT_3rHeub1B"
+    },
+    {
+      "name": "candidate.summary.json",
+      "bytes": 53739,
+      "id": "1l0VmOrNiHlFw1kUjYYzmKl7Cz8YaFBec"
+    },
+    {
+      "name": "candidate.jsonl",
+      "bytes": 1214580,
+      "id": "1EWsTKZLNPrn1-ymttIB9AkxZbLZiK9ik"
+    },
+    {
+      "name": "baseline.summary.json",
+      "bytes": 53531,
+      "id": "14d490NsTVLLEGE4-FQfJhjFneq-KuUTr"
+    },
+    {
+      "name": "baseline.metadata.json",
+      "bytes": 8760,
+      "id": "1qcxDL3GQkG6mfY467BXvKvkqaTGoEqKk"
+    },
+    {
+      "name": "candidate.metadata.json",
+      "bytes": 8771,
+      "id": "12fGQHhmA12KgEBaxkn-ar2Dapd8bps3s"
+    },
+    {
+      "name": "environment_sessions.jsonl",
+      "bytes": 281,
+      "id": "1LF1G8cLf3kZBVmILJ7FhoCYYR0WgW-WH"
+    },
+    {
+      "name": "environment.json",
+      "bytes": 245,
+      "id": "1FiAhQrgheNMjEd2akKjoyFssEmvMJT6w"
+    },
+    {
+      "name": "baseline_direct_numeric.json",
+      "bytes": 54720,
+      "id": "1QnUpL7VyOE5jGXEDHUxliA4FgF4myHCJ"
+    },
+    {
+      "name": "process.json",
+      "bytes": 311,
+      "id": "1RWZR97dbRo5ZeVcdPVwtKhQKFVICGvWn"
+    },
+    {
+      "name": "protocol.json",
+      "bytes": 1809,
+      "id": "1UvTCCJS0jsXasgwUF161fixnzBkQOylJ"
+    },
+    {
+      "name": "baseline.jsonl",
+      "bytes": 1445465,
+      "id": "1lLZ2hgE_Z7mWbu6CwHZpLV4KyQR22DSj"
+    },
+    {
+      "name": "reload_verification.json",
+      "bytes": 166,
+      "id": "1uTgv4CmiqhKVvMfUBVJBT6Owe93mKnep"
+    }
+  ]
+}

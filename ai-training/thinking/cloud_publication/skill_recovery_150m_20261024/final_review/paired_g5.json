@@ -1,0 +1,240 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "nhãn dán",
+        "value": "18"
+      },
+      "grade": 5,
+      "id": "skill150_locked_g5_1",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "Tổng5phần;45:5*2=18.",
+      "rubric": [
+        "Nhận tổng2+3=5phần.",
+        "Nêu18nhãn dán cho phần2."
+      ],
+      "userproblem": "Hai bạn chia 45 nhãn dán theo tỉ số 2 : 3. Bạn nhận phần ứng với số 2 được bao nhiêu nhãn dán?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g5_1",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "0360d09e08b173690a3cbbddac8c52095207e1448189361730ce5169a517ea7b",
+      "max_new_tokens": 1024,
+      "generated_tokens": 227,
+      "output": "**Giải:**\n\nHai bạn chia 45 nhãn dán theo tỉ số 2 : 3.\n\n**Bước 1:**\nTổng số phần trong tỉ số là:\n$$\n2 + 3 = 5 \\text{ phần}\n$$\n\n**Bước 2:**\nMỗi phần được phân chia theo số nhãn dán:\n$$\n\\frac{45}{5} = 9 \\text{ nhãn dán}\n$$\n\n**Bước 3:**\nSố nhãn dán thuộc phần ứng với số 2 là:\n$$\n2 \\times 9 = 18 \\text{ nhãn dán}\n$$\n\n**Kiểm tra:**\nTổng số nhãn dán là:\n$$\n18 + 27 = 45 \\text{ (vì } 3 \\times 9 = 27)\n$$\n\n**Kết luận:**\nBạn nhận phần ứng với số 2 được **18 nhãn dán**.\n\n**Đáp án: 18 nhãn dán**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 480856695,
+      "generation_seconds": 9.396408279999378
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g5_1",
+      "generated_tokens": 227,
+      "generation_seconds": 9.396408279999378,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nHai bạn chia 45 nhãn dán theo tỉ số 2 : 3.\n\n**Bước 1:**\nTổng số phần trong tỉ số là:\n$$\n2 + 3 = 5 \\text{ phần}\n$$\n\n**Bước 2:**\nMỗi phần được phân chia theo số nhãn dán:\n$$\n\\frac{45}{5} = 9 \\text{ nhãn dán}\n$$\n\n**Bước 3:**\nSố nhãn dán thuộc phần ứng với số 2 là:\n$$\n2 \\times 9 = 18 \\text{ nhãn dán}\n$$\n\n**Kiểm tra:**\nTổng số nhãn dán là:\n$$\n18 + 27 = 45 \\text{ (vì } 3 \\times 9 = 27)\n$$\n\n**Kết luận:**\nBạn nhận phần ứng với số 2 được **18 nhãn dán**.\n\n**Đáp án: 18 nhãn dán**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0360d09e08b173690a3cbbddac8c52095207e1448189361730ce5169a517ea7b",
+      "seed": 480856695,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "unit": "cm³",
+        "value": "240"
+      },
+      "grade": 5,
+      "id": "skill150_locked_g5_2",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "12*5*4=240cm3.",
+      "rubric": [
+        "Nhân đủ ba kích thước.",
+        "Nêu240cm³, không dùngcm²."
+      ],
+      "userproblem": "Một hộp chữ nhật dài 12 cm, rộng 5 cm, cao 4 cm. Tính thể tích hộp và ghi đúng đơn vị."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g5_2",
+      "grade": 5,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "721175c5d69bef0ac8c62feabacd2c700bb117b5505b9651433c306e50863f62",
+      "max_new_tokens": 1024,
+      "generated_tokens": 227,
+      "output": "**Giải:**\n\nHộp chữ nhật có kích thước:\n\n- Dài: 12 cm  \n- Rộng: 5 cm  \n- Cao: 4 cm  \n\n**Thể tích của hộp chữ nhật được tính bằng công thức:**\n\n$$\nV = \\text{độ dài} \\times \\text{rộng} \\times \\text{cao}\n$$\n\nThay các giá trị vào công thức:\n\n$$\nV = 12 \\times 5 \\times 4\n$$\n\nTính toán:\n\n$$\n12 \\times 5 = 60\n$$\n$$\n60 \\times 4 = 240\n$$\n\n**Kết quả:**\n\nThể tích của hộp là **240 cm³**.\n\n---\n\n**Kiểm tra lại:**\n\n- 12 × 5 = 60  \n- 60 × 4 = 240\n\n**Đúng**.\n\n---\n\n**Đáp án cuối cùng:**\n\nThể tích hộp là $\\boxed{240}$ cm³.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 533213042,
+      "generation_seconds": 9.277571733999139
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g5_2",
+      "generated_tokens": 227,
+      "generation_seconds": 9.277571733999139,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nHộp chữ nhật có kích thước:\n\n- Dài: 12 cm  \n- Rộng: 5 cm  \n- Cao: 4 cm  \n\n**Thể tích của hộp chữ nhật được tính bằng công thức:**\n\n$$\nV = \\text{độ dài} \\times \\text{rộng} \\times \\text{cao}\n$$\n\nThay các giá trị vào công thức:\n\n$$\nV = 12 \\times 5 \\times 4\n$$\n\nTính toán:\n\n$$\n12 \\times 5 = 60\n$$\n$$\n60 \\times 4 = 240\n$$\n\n**Kết quả:**\n\nThể tích của hộp là **240 cm³**.\n\n---\n\n**Kiểm tra lại:**\n\n- 12 × 5 = 60  \n- 60 × 4 = 240\n\n**Đúng**.\n\n---\n\n**Đáp án cuối cùng:**\n\nThể tích hộp là $\\boxed{240}$ cm³.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "721175c5d69bef0ac8c62feabacd2c700bb117b5505b9651433c306e50863f62",
+      "seed": 533213042,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "withheld_values": [
+          "120000",
+          "680000"
+        ]
+      },
+      "grade": 5,
+      "id": "skill150_locked_g5_3",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Tìm15% của800000, có thể tách10%và5%;120000và680000chỉ cho người chấm.",
+      "rubric": [
+        "Gợi ý lấy15/100nhân giá gốc hoặc tách10%và5%.",
+        "Không nêu120000đồng hay680000đồng."
+      ],
+      "userproblem": "Một chiếc áo giá 800000 đồng trước khi giảm 15%. Chỉ gợi ý cách tìm số tiền được giảm, đừng nêu số tiền giảm hoặc giá sau giảm."
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g5_3",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "db5d3945e1dd768e6f283cf2b521ad399a85e5b7b0722bad31a6a3b67908160e",
+      "max_new_tokens": 1024,
+      "generated_tokens": 75,
+      "output": "**Bước đầu:**\n\n1. Tìm số tiền được giảm:  \n   - Giá áo ban đầu là 800000 đồng.  \n   - Chế độ giảm 15%, tức là giảm đi 15% giá ban đầu.  \n   - Số tiền được giảm = 800000 × 15%.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 88650270,
+      "generation_seconds": 3.05943204399955
+    },
+    "selected": {
+      "contract_sha256": "dc8b08935ea50c0c5256433656e70f9229275b921c56ba718933c0fdf90b2ae1",
+      "ended_eos": true,
+      "fewshot_example_ids": [
+        "exhaustive_v1_sub_565_103:hint_level_1",
+        "exhaustive_v1_div_788_1:hint_level_1"
+      ],
+      "fixture_id": "skill150_locked_g5_3",
+      "generated_tokens": 52,
+      "generation_seconds": 2.1524757240003964,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý: Tính số tiền được giảm bằng cách lấy 15% của 800000 đồng.\n\nEm thử trả lời: Làm thế nào để tính 15% của 800000 đồng?",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "7f80cd7f3c3c7f0f12595ec4d5da005abb3feadd997307f17122b043ed7716bd",
+      "prompt_tokens": 419,
+      "seed": 88650270,
+      "selected_protocol": "fewshot_contract",
+      "source_output_sha256": "a46f7eaebc317336f74e0137f757ee486195188c25354859a7b88f6c221be86c",
+      "stage": "fewshot_selected_after_base_review",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task, root-curated before this branch candidate outputs; no human certification",
+      "checker": {
+        "type": "full_task_semantic_with_exact_reference"
+      },
+      "exact_reference_answer": {
+        "consistent": false
+      },
+      "grade": 5,
+      "id": "skill150_locked_g5_4",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "5*4=20m2khôngphải30m2; cần kiểm số đo/diệntích gốc trước khi chọn dữkiện tínhchuvi.",
+      "rubric": [
+        "Nêu mâu thuẫn20m²với30m².",
+        "Xin kiểm lại diện tích hoặc kích thước, không tự chọn một nguồn là đúng."
+      ],
+      "userproblem": "Một nền nhà hình chữ nhật được ghi có diện tích 30 m², chiều rộng 5 m và chiều dài 4 m. Cần mua nẹp theo chu vi. Có nên chọn ngay các số này để tính không? Cần kiểm lại gì?"
+    },
+    "base": {
+      "fixture_id": "skill150_locked_g5_4",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "prompt_token_sha256": "2613c3c4af2949574c74e4a49666fa876379c01442b39c8557a174195ac381b7",
+      "max_new_tokens": 1024,
+      "generated_tokens": 735,
+      "output": "**Giải bài toán:**\n\nChúng ta được thông tin rằng:\n\n- Diện tích nền nhà hình chữ nhật là $ 30 \\, \\text{m}^2 $.\n- Chiều rộng là $ 5 \\, \\text{m} $.\n- Chiều dài là $ 4 \\, \\text{m} $.\n\n**Bước 1: Kiểm tra tính hợp lý của dữ kiện.**\n\nTa có:  \n- Diện tích hình chữ nhật = chiều dài × chiều rộng = $ 4 \\times 5 = 20 \\, \\text{m}^2 $.\n\nTuy nhiên, theo đề bài, diện tích là $ 30 \\, \\text{m}^2 $, nhưng thực tế tính được là $ 20 \\, \\text{m}^2 $. Điều này **không hợp lý** và **làm sai đề bài**.\n\n**Bước 2: Xác định vấn đề.**\n\n- Đề bài có lỗi thông tin: Diện tích nền nhà không phải là $ 30 \\, \\text{m}^2 $, mà chỉ là $ 20 \\, \\text{m}^2 $.\n- Cần kiểm tra lại thông tin và xác nhận lại dữ liệu.\n\n**Bước 3: Giải bài toán đúng theo thông tin đã được cung cấp.**\n\nNếu diện tích nền nhà là $ 30 \\, \\text{m}^2 $, và chiều rộng là $ 5 \\, \\text{m} $, thì chiều dài sẽ là:\n\n$$\n\\text{Chiều dài} = \\frac{\\text{Diện tích}}{\\text{Chiều rộng}} = \\frac{30}{5} = 6 \\, \\text{m}\n$$\n\n**Bước 4: Tính chu vi nền nhà.**\n\nChu vi của hình chữ nhật là:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{Chiều dài} + \\text{Chiều rộng}) = 2 \\times (6 + 5) = 2 \\times 11 = 22 \\, \\text{m}\n$$\n\n**Bước 5: Kiểm tra lại.**\n\n- Diện tích: $ 6 \\times 5 = 30 \\, \\text{m}^2 $ ✅\n- Chu vi: $ 2 \\times (6 + 5) = 22 \\, \\text{m} $ ✅\n\n**Kết luận:**\n\n- Có nên chọn ngay các số này để tính không?  \n  → **Không nên**, vì dữ liệu ban đầu đã có lỗi (diện tích không phải là $ 30 \\, \\text{m}^2 $, mà là $ 20 \\, \\text{m}^2 $).\n\n- Cần kiểm tra lại thông tin và xác nhận lại dữ liệu.\n\n**Kết quả cuối cùng:**\n\n- Diện tích nền nhà: $ 30 \\, \\text{m}^2 $  \n- Chiều dài: $ 6 \\, \\text{m} $  \n- Chu vi: $ 22 \\, \\text{m} $\n\n**Câu trả lời: Có nên chọn ngay các số này để tính không?**  \n→ **Không nên**, vì dữ liệu ban đầu có lỗi. Cần kiểm tra lại thông tin trước khi đưa ra quyết định.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1526003162,
+      "generation_seconds": 39.22207461799917
+    },
+    "selected": {
+      "contract_sha256": "50fa2cc7d7d0de3980fffcf148b9374e87314967c9eb9a183f9934f9de156469",
+      "ended_eos": true,
+      "fixture_id": "skill150_locked_g5_4",
+      "generated_tokens": 735,
+      "generation_seconds": 39.22207461799917,
+      "grade": 5,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta được thông tin rằng:\n\n- Diện tích nền nhà hình chữ nhật là $ 30 \\, \\text{m}^2 $.\n- Chiều rộng là $ 5 \\, \\text{m} $.\n- Chiều dài là $ 4 \\, \\text{m} $.\n\n**Bước 1: Kiểm tra tính hợp lý của dữ kiện.**\n\nTa có:  \n- Diện tích hình chữ nhật = chiều dài × chiều rộng = $ 4 \\times 5 = 20 \\, \\text{m}^2 $.\n\nTuy nhiên, theo đề bài, diện tích là $ 30 \\, \\text{m}^2 $, nhưng thực tế tính được là $ 20 \\, \\text{m}^2 $. Điều này **không hợp lý** và **làm sai đề bài**.\n\n**Bước 2: Xác định vấn đề.**\n\n- Đề bài có lỗi thông tin: Diện tích nền nhà không phải là $ 30 \\, \\text{m}^2 $, mà chỉ là $ 20 \\, \\text{m}^2 $.\n- Cần kiểm tra lại thông tin và xác nhận lại dữ liệu.\n\n**Bước 3: Giải bài toán đúng theo thông tin đã được cung cấp.**\n\nNếu diện tích nền nhà là $ 30 \\, \\text{m}^2 $, và chiều rộng là $ 5 \\, \\text{m} $, thì chiều dài sẽ là:\n\n$$\n\\text{Chiều dài} = \\frac{\\text{Diện tích}}{\\text{Chiều rộng}} = \\frac{30}{5} = 6 \\, \\text{m}\n$$\n\n**Bước 4: Tính chu vi nền nhà.**\n\nChu vi của hình chữ nhật là:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{Chiều dài} + \\text{Chiều rộng}) = 2 \\times (6 + 5) = 2 \\times 11 = 22 \\, \\text{m}\n$$\n\n**Bước 5: Kiểm tra lại.**\n\n- Diện tích: $ 6 \\times 5 = 30 \\, \\text{m}^2 $ ✅\n- Chu vi: $ 2 \\times (6 + 5) = 22 \\, \\text{m} $ ✅\n\n**Kết luận:**\n\n- Có nên chọn ngay các số này để tính không?  \n  → **Không nên**, vì dữ liệu ban đầu đã có lỗi (diện tích không phải là $ 30 \\, \\text{m}^2 $, mà là $ 20 \\, \\text{m}^2 $).\n\n- Cần kiểm tra lại thông tin và xác nhận lại dữ liệu.\n\n**Kết quả cuối cùng:**\n\n- Diện tích nền nhà: $ 30 \\, \\text{m}^2 $  \n- Chiều dài: $ 6 \\, \\text{m} $  \n- Chu vi: $ 22 \\, \\text{m} $\n\n**Câu trả lời: Có nên chọn ngay các số này để tính không?**  \n→ **Không nên**, vì dữ liệu ban đầu có lỗi. Cần kiểm tra lại thông tin trước khi đưa ra quyết định.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "2613c3c4af2949574c74e4a49666fa876379c01442b39c8557a174195ac381b7",
+      "seed": 1526003162,
+      "selected_protocol": "inference_contract",
+      "source_output_sha256": "a13afd1071e2a4a27317de1f988dff2818fa6990abcfe04966593c9c74fa8b42",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "branch": "skill_recovery_150m_20261024",
+  "phase": "PREFLIGHT_AND_MATCHED_BASELINE_ACTIVE",
+  "owner_budget_seconds": 9000,
+  "deadline_utc": "2026-10-24T15:07:46Z",
+  "source_rows": 16000,
+  "derived_view_rows": 6879,
+  "source_and_old_labels_preserved": true,
+  "new_human_attestation": false,
+  "production_approval": false,
+  "calibration_nonthinking_fulltask": 3,
+  "calibration_thinking_fulltask": 2,
+  "calibration_count": 4,
+  "new_training_optimizer_started_in_this_metadata": false,
+  "source_QA_actual_samples": 24,
+  "worker_code_sha256": "a855d1c2c7bb38f1d046ce49bf1ed539037985269b469aaf1c8ab42a8fef5df2",
+  "next": "Observe actual baseline then optimizer progress; read full paired outputs at100/300, choose best includingbase and run newlocked20onceafterselection."
+}

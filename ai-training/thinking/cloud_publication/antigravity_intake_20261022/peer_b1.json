@@ -1,0 +1,309 @@
+{
+  "schema": "MathVisionKid.IndependentAIContentReview.B1.v1",
+  "reviewed_utc": "2026-10-22T12:13:48.131917+00:00",
+  "status": "PASS_EXACT_REPAIRED_SIX_CASES",
+  "reviewer": "Sibling Codex agent independent of root repair author; AI review, not human attestation",
+  "skills_applied": [],
+  "reviewed_files": {
+    "thinking\\cloud_publication\\antigravity_intake_20261022\\repaired_b1_cases.jsonl": "981678d9142c66b3eb8ce18208b4e740b8d83ce58c96f17b70f277fc7e4839c2",
+    "thinking\\cloud_publication\\antigravity_intake_20261022\\qa7_b1.jsonl": "87c16af5c5e55cee288ef0a896bfe3d91cf6c220b86e4bca31974e01d9db138a",
+    "thinking\\cloud_publication\\antigravity_intake_20261022\\repair_validation_b1.json": "80124ab9cea80c45aebb2c776cc77907d6025bfe23de27cd9c2ea2b92dc09b0d",
+    "thinking\\repair_antigravity_batch1.py": "d1ff409dc9fe4e0a6faf61802c2dae51b465348e642c568e18ffdedef7a17759"
+  },
+  "original_zip_sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+  "per_case": [
+    {
+      "sample_id": "g2_roles_20261022_role_pool_addition_triples",
+      "source_row_sha256": "312089ac40bf22987feec765ae9b50996ecdbb76cf17c868236eacd4f07ea3c9",
+      "parent_source_row_sha256": "479d8ee6f5f5562ddf342229dea8fa09d40e835dd76a79578ca6871f4bfdb60a",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Separate operand/result role pools; all9 pairs accounted by inverse-sum membership;3 valid equations; hints describe search rather than final list/count.",
+      "numeric_scalar_checks": [
+        {
+          "step_id": "s0",
+          "expression": "14 + 12",
+          "Fraction": "26",
+          "Decimal": "26",
+          "result_matches": true
+        },
+        {
+          "step_id": "s2",
+          "expression": "38 + 12",
+          "Fraction": "50",
+          "Decimal": "50",
+          "result_matches": true
+        },
+        {
+          "step_id": "s3",
+          "expression": "1 + 2",
+          "Fraction": "3",
+          "Decimal": "3",
+          "result_matches": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "sample_id": "g2_roles_20261022_role_pool_cross_role_error",
+      "source_row_sha256": "b42bd200a6cb2b57eeae092a395a8da57db2bc2caff4420770cda0c657cb3404",
+      "parent_source_row_sha256": "0b8b3b3194f244b3644be01e08335179df2923fa9af6e2d3a46387fa0c61c9a0",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Given20+6 arithmetic true but first operand outside first pool; explicit quoted student_work only; no hint verdict.",
+      "numeric_scalar_checks": [
+        {
+          "step_id": "s0",
+          "expression": "20 + 6",
+          "Fraction": "26",
+          "Decimal": "26",
+          "result_matches": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "sample_id": "g2_sort_20261022_single_pair_swap_ascending_repair",
+      "source_row_sha256": "59ca0fb5dfcc94e95ab9e8897d31997ec75fa33fa569b344346a2b3b8656c7e9",
+      "parent_source_row_sha256": "156fd473c9e0ac1183a915454d98ca2fcd6235e48fa626559f507d3ab79cf8e3",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Compare sorted target positions: only indices2,5 differ, so unique swap is determined; all10 finite position pairs listed without // formula.",
+      "numeric_scalar_checks": [],
+      "findings": []
+    },
+    {
+      "sample_id": "g2_sort_20261022_single_pair_swap_incorrect_repair",
+      "source_row_sha256": "3c777f5dd1d914ebba309d43e416c0d30455158ec576e69c39393e611b426344",
+      "parent_source_row_sha256": "0487366e29a7fb3e08854b9d240413252c971da142b65a5beb307ad515282008",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Actual proposed swap yields18,35,54,42,27; adjacent descents54>42 and42>27;18 is smallest,27 is not; hints do not supply transformed sequence or verdict.",
+      "numeric_scalar_checks": [],
+      "findings": []
+    },
+    {
+      "sample_id": "g2_vertex_20261022_vertex_sum_triangle_rule_apply",
+      "source_row_sha256": "e52cf098ed834dab0942ff50c079cf0939ebbeb4fa7fc02d584a5c2c665853b2",
+      "parent_source_row_sha256": "4277bbd22c3cdde25b9ea167dd66fd7ae9d9fadf08a0c91cca8d077f8741eac4",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Problem now asks one simple consistent fitted rule, not unique inference. Sum fits30,43,37 and yields39,55,46; initial/hints do not name sum or fill output numbers.",
+      "numeric_scalar_checks": [
+        {
+          "step_id": "s1",
+          "expression": "15 + 24",
+          "Fraction": "39",
+          "Decimal": "39",
+          "result_matches": true
+        },
+        {
+          "step_id": "s2",
+          "expression": "24 + 31",
+          "Fraction": "55",
+          "Decimal": "55",
+          "result_matches": true
+        },
+        {
+          "step_id": "s3",
+          "expression": "31 + 15",
+          "Fraction": "46",
+          "Decimal": "46",
+          "result_matches": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "sample_id": "g2_vertex_20261022_vertex_sum_prefix_ambiguity_guard",
+      "source_row_sha256": "7a3a7dbff177efe5ef14b137c7860916f106541abb2585af7d8c9bc84c567afd",
+      "parent_source_row_sha256": "4a37957644495b57e9d2fe13f60988322ab9d5b44f79091a0a22b6b207a4dc2c",
+      "all_actual_fields_read": true,
+      "fields_read": [
+        "problem",
+        "givens",
+        "requested_quantity",
+        "student_work",
+        "worked_steps.expression",
+        "worked_steps.result",
+        "worked_steps.reason",
+        "worked_steps.explanation",
+        "expected_answer",
+        "initial_guidance",
+        "hints.all3.hint",
+        "hints.all3.question"
+      ],
+      "qa7": {
+        "semantic_correct": true,
+        "steps_complete": true,
+        "grade_appropriate": true,
+        "unit_consistent": true,
+        "hints_non_leaking": true,
+        "grounded_student_feedback": true,
+        "curriculum_mapping_correct": true
+      },
+      "manual_semantic_basis": "Two explicitly different rules both give30 atAB; max+12 gives37 atBC, not43. Correctly avoids claim finite3examples exclude every other rule; hints ask comparative testing without final verdict.",
+      "numeric_scalar_checks": [],
+      "findings": []
+    }
+  ],
+  "independent_oracles": {
+    "method_roles": "Inverse sum: for each allowed result and left operand derive required right operand and test membership",
+    "role_triples": [
+      [
+        14,
+        12,
+        26
+      ],
+      [
+        38,
+        12,
+        50
+      ],
+      [
+        38,
+        20,
+        58
+      ]
+    ],
+    "method_sort": "Compare current permutation with sorted target; exactly2mismatch positions force unique transposition",
+    "sort_mismatch_positions": [
+      2,
+      5
+    ],
+    "wrong_swap_descents": [
+      [
+        54,
+        42
+      ],
+      [
+        42,
+        27
+      ]
+    ],
+    "smallest": 18,
+    "corrected_false_arithmetic": 24,
+    "alternative_rule_counterexample_BC": 37
+  },
+  "scalar_numeric_checks": 7,
+  "root_mutation_report_read": true,
+  "root_mutations_semantically_meaningful": true,
+  "unresolved_findings": [],
+  "scope_limits": [
+    "Original ZIP kept audit-only; root must regenerate final chats and audit those actual212 rows separately.",
+    "Review binds exact derived hashes; later content changes require review or precise verification delta.",
+    "No publisher-image, actual physical observation, whole-curriculum or human-content review claim."
+  ],
+  "source_data_changed_by_reviewer": false,
+  "training_started": false
+}

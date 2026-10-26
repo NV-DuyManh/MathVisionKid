@@ -1,0 +1,301 @@
+{
+  "scope": "Fresh Drive model trainer/config/selection vs latest326case source and1304chat byte-verified",
+  "executed_utc": "2026-10-18T03:33:04.435010+00:00",
+  "dataset": {
+    "accepted_cases": 326,
+    "chat_rows": 1304,
+    "pending_cases": 0,
+    "grade_cases": {
+      "1": 70,
+      "2": 105,
+      "3": 111,
+      "4": 32,
+      "5": 8
+    },
+    "case_kind": {
+      "core": 206,
+      "misconception": 67,
+      "guard": 44,
+      "supplementary": 9
+    },
+    "modes": {
+      "worked_solution": 326,
+      "hint_level_1": 326,
+      "hint_level_2": 326,
+      "hint_level_3": 326
+    },
+    "all_train_split": true,
+    "unique_case_groups": 311,
+    "case_group_row_size_distribution": {
+      "4": 300,
+      "8": 8,
+      "12": 2,
+      "16": 1
+    },
+    "roles_valid": 1304,
+    "json_parse_valid": true,
+    "unique_sample_ids": 1304,
+    "core_cases": 206,
+    "core_nodes_complete": 66,
+    "blueprint_nodes": 165,
+    "remaining_core": 289,
+    "chat_sha256": "2038b75ec295fcf2f80e5d2b108d6255972ea4447720a9882eec6c60524cb7c0",
+    "state_sha256": "1e4b0a73140dbe3d998c1cff0003a7639d77617e18954a1464678b7fad70f4b4",
+    "app_plan_draft_compatible_count": 0
+  },
+  "legacy_compatibility": {
+    "directly_compatible_rows": 0,
+    "actual_serialize_failures": {
+      "KeyError:'problem'": 1304
+    },
+    "mismatches": {
+      "missing_problem": 1304,
+      "missing_target": 1304,
+      "assistant_output_wrong_legacy_schema": 1304,
+      "assistant_answer_list": 326,
+      "worked_step_reference_expression": 98,
+      "step_has_nonlegacy_keys": 282,
+      "mode_not_legacy_enum": 978,
+      "worked_step_null_expression": 189,
+      "input_extra_student_work": 268
+    },
+    "worked_rows_with_nonnumeric_expected_answer": 138,
+    "student_work_cases": 67
+  },
+  "tokenizer_preflight": {
+    "actual_tokenizer_audited": true,
+    "model_id": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "class": "Qwen2Tokenizer",
+    "local_files_only": true,
+    "weights_loaded": false,
+    "tokenizer_files_sha256": {
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "chat_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+    "enable_thinking": false,
+    "pad_token": "<|endoftext|>",
+    "pad_token_id": 151643,
+    "assistant_end_token": "<|im_end|>",
+    "assistant_end_token_id": 151645,
+    "serialization_audited": "Actual neutral system/user messages rendered with official generation prefix and enable_thinking=False, then original assistant JSON plus one tokenizer EOS; all prompt labels would be ignored. This is audit serialization only, no new trainer or inference contract implemented.",
+    "full_generation_prefix_plus_assistant_lengths": {
+      "min": 176,
+      "median": 256.0,
+      "p90": 595,
+      "p95": 681,
+      "p99": 877,
+      "max": 1377
+    },
+    "assistant_completion_lengths": {
+      "min": 28,
+      "median": 46.0,
+      "p90": 386,
+      "p95": 461,
+      "p99": 645,
+      "max": 1213
+    },
+    "full_messages_template_lengths": {
+      "min": 177,
+      "median": 257.0,
+      "p90": 596,
+      "p95": 682,
+      "p99": 878,
+      "max": 1378
+    },
+    "over768_rows": 32,
+    "over768_by_mode": {
+      "worked_solution": 32
+    },
+    "assistant_over512_rows": 45,
+    "threshold_exceed_counts": {
+      "768": 32,
+      "1024": 4,
+      "1536": 0,
+      "2048": 0
+    },
+    "full_template_prefix_match_rows": 1304,
+    "full_template_prefix_match_limit": "Generation-prefix+assistant-EOT convention and full completed-message template are measured separately. Exact threshold counts in over768_rows use former; full completed-message counts use full_messages_template_over768_rows. No new loader implemented, no silent truncation.",
+    "length_record_file": "model_compatibility_326_20261018_token_lengths.jsonl",
+    "transformers_version": "5.16.1",
+    "tokenizers_version": "0.23.1",
+    "full_messages_template_over768_rows": 32,
+    "rendering_boundary_example": {
+      "prefix_last_tokens": [
+        788,
+        330,
+        70114,
+        50274,
+        9207,
+        151645,
+        198,
+        151644,
+        77091,
+        198,
+        151667,
+        271,
+        151668,
+        271
+      ],
+      "full_start_assistant_text": " lại hai nhóm.\", \"mode\": \"worked_solution\"}<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n{\"can_solve\": true, \"initial_guidance\": [\"Phân biệt số thẻ của từng nhóm",
+      "generation_prefix_tail": " bằng việc tách lại hai nhóm.\", \"mode\": \"worked_solution\"}<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "full_token_tail": [
+        339,
+        124516,
+        9207,
+        13989,
+        151645,
+        198
+      ]
+    },
+    "full_template_return_normalization": "Explicit return_dict=False plus type assertion for list[int]. Preliminary len(BatchEncoding) field-count diagnostic was replaced before final audit."
+  },
+  "model": {
+    "config": {
+      "model_id": "Qwen/Qwen3-1.7B",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "seed": 20261013,
+      "epochs": 1,
+      "batch_size": 2,
+      "accumulation": 2,
+      "lr": 0.0001,
+      "max_length": 768,
+      "max_new_tokens": 512,
+      "eval_batch_size": 4,
+      "val_limit": 0,
+      "thinking_probe_limit": 0,
+      "thinking_max_new_tokens": 2048,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "lora_dropout": 0.05,
+      "checkpoint_interval": 50,
+      "train_limit": 0,
+      "data_module": "teacher_math_data_v3",
+      "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+      "dataset_fingerprints": {
+        "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+        "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+        "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+      },
+      "source_hashes": {
+        "train_teacher_math_v3.py": "a19223c1b63ce331e4f9663a7eb494ecd8f93af12f7bacba199d4ae26e6f665e",
+        "teacher_math_data_v3.py": "5fe1fc40b0155654e31802a19587dffad68a40767b71f23f2b1e54e4db511336"
+      },
+      "enable_thinking_training": false,
+      "target_kind": "observable worked steps or one hint; hidden reasoning is not supervised"
+    },
+    "selection": {
+      "selected": "base",
+      "candidate_improved": false,
+      "metric_non_regression": true,
+      "per_grade_non_regression": false,
+      "test_or_challenge_used_for_selection": false,
+      "production_approved": false,
+      "criterion": "strictly more raw final-answer+unit+reference-checked solutions, with no answer/hint-safety/hint-reference/guard/per-grade regression on the identical frozen validation subset"
+    },
+    "role_review_status": "ADAPTER_REJECTED_BY_RAW_RETENTION_OR_STRICT_VALIDATION"
+  },
+  "limits": [
+    "This checks byte provenance, formats and token lengths, not new pedagogical certification or model accuracy.",
+    "No independent validation/test split has been created; current rows remain all train.",
+    "Do not reinterpret EOS/padding or silently truncate; new loader/output contract still required.",
+    "The finite495core scope remains incomplete,47pre-SFTpolish cases remain queued.",
+    "Human/teacher certification remains hash-bound owner attestation for299existing cases; no new human attestation inferred."
+  ],
+  "no_training_performed": true,
+  "source_files_unchanged": true,
+  "old_eval_or_sealed_challenge_read": false,
+  "required_actions": [
+    "Keep selected base as reference; old rejected LoRA is not assumed improved.",
+    "Implement a chat SFT loader and matching output/inference contract preserving student_work, can_solve, initial_guidance, categorical/multiple answers and three hint levels. The loader must use Qwen3 template, prompt-masked assistant-only labels and im_end151645, not pad151643.",
+    "Resolve {sN} references with an explicit bounded verifier; preserve conceptual null-expression steps. Do not force every answer into one legacy numeric string.",
+    "Split by case_group_id before training and independently validate held-out outcomes; no row-level random split across the4modes. Current311groups are bounded pipeline grouping, not a proof of all semantic equivalence.",
+    "Run explicit no-truncation length and hardware preflight for proposed loader. Current serialization has32rows>768,4rows>1024,none>1536; full-template maximum1378. This does not authorize silently raising length or claiming GPU capacity.",
+    "Review generation max_new_tokens512:45assistant completions exceed512 in this audit, maximum1213.",
+    "Complete remaining289core slots,167supplementary tasks and47pre-SFTpolish items for the finite package, then final semantic/provenance/export audits.",
+    "No model training, inference deployment, production code changes or frozen source modifications performed."
+  ],
+  "source_files_unchanged_checks": {
+    "all_authored_inputs": {
+      "authored_batches\\g1_activities_0008.jsonl": true,
+      "authored_batches\\g1_foundations_0002.jsonl": true,
+      "authored_batches\\g1_geometry_0004.jsonl": true,
+      "authored_batches\\g1_measurement_0006.jsonl": true,
+      "authored_batches\\g1_operations_0003.jsonl": true,
+      "authored_batches\\g1_solids_assembly_0005.jsonl": true,
+      "authored_batches\\g1_time_0007.jsonl": true,
+      "authored_batches\\g2_clock_0019.jsonl": true,
+      "authored_batches\\g2_compare_estimate_0010.jsonl": true,
+      "authored_batches\\g2_drawing_assembly_0015.jsonl": true,
+      "authored_batches\\g2_events_0025.jsonl": true,
+      "authored_batches\\g2_geometry_0013.jsonl": true,
+      "authored_batches\\g2_groups_words_0012.jsonl": true,
+      "authored_batches\\g2_length_units_0017.jsonl": true,
+      "authored_batches\\g2_mass_capacity_0016.jsonl": true,
+      "authored_batches\\g2_measurement_0021.jsonl": true,
+      "authored_batches\\g2_money_0020.jsonl": true,
+      "authored_batches\\g2_numbers_ray_0009.jsonl": true,
+      "authored_batches\\g2_pictogram_0024.jsonl": true,
+      "authored_batches\\g2_polyline_0022.jsonl": true,
+      "authored_batches\\g2_regroup_mental_0011.jsonl": true,
+      "authored_batches\\g2_solids_0014.jsonl": true,
+      "authored_batches\\g2_tally_0023.jsonl": true,
+      "authored_batches\\g2_time_calendar_0018.jsonl": true,
+      "authored_batches\\g3_area_0045.jsonl": true,
+      "authored_batches\\g3_clock_calendar_0041.jsonl": true,
+      "authored_batches\\g3_columns_0030.jsonl": true,
+      "authored_batches\\g3_drawing_tools_0039.jsonl": true,
+      "authored_batches\\g3_expressions_0033.jsonl": true,
+      "authored_batches\\g3_measure_convert_0043.jsonl": true,
+      "authored_batches\\g3_midpoint_angles_0036.jsonl": true,
+      "authored_batches\\g3_money_0042.jsonl": true,
+      "authored_batches\\g3_muldiv_0031.jsonl": true,
+      "authored_batches\\g3_new_units_0040.jsonl": true,
+      "authored_batches\\g3_order_0028.jsonl": true,
+      "authored_batches\\g3_outcomes_0047.jsonl": true,
+      "authored_batches\\g3_perimeter_0044.jsonl": true,
+      "authored_batches\\g3_place_value_0026.jsonl": true,
+      "authored_batches\\g3_properties_0032.jsonl": true,
+      "authored_batches\\g3_roman_0027.jsonl": true,
+      "authored_batches\\g3_rounding_0029.jsonl": true,
+      "authored_batches\\g3_shape_elements_0037.jsonl": true,
+      "authored_batches\\g3_solid_elements_0038.jsonl": true,
+      "authored_batches\\g3_table_0046.jsonl": true,
+      "authored_batches\\g3_two_step_0034.jsonl": true,
+      "authored_batches\\g3_unit_fraction_0035.jsonl": true,
+      "authored_batches\\g4_addsub_0051.jsonl": true,
+      "authored_batches\\g4_average_0053.jsonl": true,
+      "authored_batches\\g4_compare_round_0050.jsonl": true,
+      "authored_batches\\g4_letters_properties_0054.jsonl": true,
+      "authored_batches\\g4_muldiv_0052.jsonl": true,
+      "authored_batches\\g4_numbers_0049.jsonl": true,
+      "authored_batches\\g4_word_multistep_0055.jsonl": true,
+      "authored_batches\\initial31_normalized.jsonl": true
+    },
+    "eight_frozen_V3_V4_inputs": {
+      "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+      "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+      "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+      "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+      "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+      "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+      "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+      "thinking/data/teacher_math_v4/generated/val.jsonl": true
+    },
+    "owner299_signoff_bytes": true,
+    "current_chat_and_state_bytes": true,
+    "trainer_source_Drive_equals_local": true
+  },
+  "official_references": [
+    "https://huggingface.co/Qwen/Qwen3-1.7B",
+    "https://huggingface.co/docs/transformers/chat_templating"
+  ],
+  "package_layout": {
+    "report_file": "model_compatibility_326_20261018.json",
+    "token_lengths_file": "model_compatibility_326_20261018_token_lengths.jsonl",
+    "source_readback_inventory_file": "model_compatibility_326_20261018_drive_sources.json",
+    "raw_snapshots_local_directory": "model_compatibility_326_20261018",
+    "raw_snapshot_files_not_bundled_in_progress_zip": true
+  }
+}

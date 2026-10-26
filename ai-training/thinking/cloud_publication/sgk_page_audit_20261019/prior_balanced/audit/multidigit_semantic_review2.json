@@ -1,0 +1,200 @@
+{
+  "schema": "mathvisionkid.multidigit.semantic_review2.v1",
+  "status": "PASSED",
+  "reviewer": "verify_pedagogy_AI_agent",
+  "human_manual_review_claimed": false,
+  "independent_external_review": false,
+  "module_sha256": "7a27fa97922b59ea0fca13751cfa7d621dc05dc775fbbf70bb163c22be52cfb2",
+  "template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2",
+  "original_sample_file_sha256": "4b7d106323d8d9bd6c5345c3d36d4c997d0ba58e36847e76c49ff0d3bac3420d",
+  "selected_actual_samples_path": "thinking\\cloud_publication\\resume_20261018\\multidigit_template_actual_samples_review2.json",
+  "selected_actual_samples_sha256": "d7cc6333cb6172a8c32d3d34fdb1e4abf700f67febde11ec2cb9c0f9f1126325",
+  "actual_samples": 12,
+  "criteria": {
+    "correct_math_and_actual_column_or_group_relations": "PASS",
+    "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+    "units_and_source_bound_grade_scope": "PASS",
+    "step_reasons_trace_and_inverse_check": "PASS",
+    "initial_and_all_three_hints_no_final_answer": "PASS",
+    "no_student_work_or_image_hallucination": "PASS",
+    "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+  },
+  "scope": "Full original12 actual questions/givens/requests/student_work/initial/all hints/steps/titles/reasons/explanations/answers/units and metadata read. Current division guidance separately read and all12 current rows validated with source evidence paths configured.",
+  "fixed_regression_1563_div43": {
+    "quotient": 36,
+    "remainder": 15,
+    "train_eligible": false,
+    "eval_eligible": false
+  },
+  "tests": {
+    "command": "python -X utf8 thinking/test_exhaustive_multidigit_math.py",
+    "test_count": 16,
+    "result": "PASS",
+    "test_source_sha256": "c49e6d251072c7ee43f59a5d7e4423be3b642d8baba28568ea383f23ed240545"
+  },
+  "rows": [
+    {
+      "sample_id": "exhaustive_v1_mul_89_7",
+      "source_row_sha256": "be8fe2d7b39557c10149e055ddfa711f7606463fd4258ffb029fe2cac40a2e37",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_mul_208_304",
+      "source_row_sha256": "b7bbfbfb9506f634892fa1b445a1afdb860d232f1356d4cd1dd4a9da49670967",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_mul_709_1000",
+      "source_row_sha256": "484f3c37d11f721a5351f06509b5749d634b860a498137d0b81a1b62e17caac9",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_mul_0_999",
+      "source_row_sha256": "5cd9843d7b05e7f9aa590b3e2246847f770244b27a96e1988f28dbe16c3cd3cd",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_1563_43",
+      "source_row_sha256": "43ad4bcffb2469845d6828e78a4d4f512cd386922eb73cc73feb39ef6af250b9",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_12012_12",
+      "source_row_sha256": "d55eeef40271a3457d8f81bd7276014d42280d8cd9d685543a0d44c5e354b1c3",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_0_999",
+      "source_row_sha256": "62be521dc00dd324d86b41b684adf55fd5d46f6d45b0c5d754aba88f41e1e4b3",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_17_43",
+      "source_row_sha256": "116dc5e209c4e07f3eeaa90b7a038a14e58218eab10e5e2a877cf0998a235b0e",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_div_997002_999",
+      "source_row_sha256": "38c0b8a1e870eb06aefb299111240b13ec35191388eb321355a262c10b7da448",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_divzero_0_0",
+      "source_row_sha256": "ca6ae711d105464fca12f4e0c2bcda31cb1c8401a2ed34cd01355810d4771a28",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_add_999_1",
+      "source_row_sha256": "5698cb1cd666121df2c3fe900baf93799caea0fd7fe6d8f6b6bb0531fbd9a2b0",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_10000_1",
+      "source_row_sha256": "ce31386d73dfcddf89fb4917dff8192e67f7cb6ac3d72ed8f0b6c5c93c5b5f43",
+      "criteria": {
+        "correct_math_and_actual_column_or_group_relations": "PASS",
+        "complete_consistent_input_or_explicit_invalid_operation": "PASS",
+        "units_and_source_bound_grade_scope": "PASS",
+        "step_reasons_trace_and_inverse_check": "PASS",
+        "initial_and_all_three_hints_no_final_answer": "PASS",
+        "no_student_work_or_image_hallucination": "PASS",
+        "schema_provenance_canonical_group_and_regression_exclusions": "PASS"
+      }
+    }
+  ],
+  "limits": [
+    "Template and actual bounded samples checked; not a claim to have manually read every future exhaustive row.",
+    "Three-digit divisor/multiplier and repeated carry/borrow excess retain explicit enrichment labels.",
+    "Current numeric reference is a numeric-placement mapping, not whole-curriculum legal certification."
+  ],
+  "skills_matched": "none",
+  "skills_applied": "none"
+}

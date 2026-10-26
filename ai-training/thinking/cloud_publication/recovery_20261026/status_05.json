@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:11:52.150849+00:00\", \"worker_exit\": null, \"pid\": 4050, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0, \"training_started\": false}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"last_error\": {\"observed_unix\": 1793005481.9686217, \"type\": \"IntegrityError\", \"error\": \"Fresh Drive raw readback bytes/SHA mismatch\", \"retryable\": false}, \"artifacts\": 29, \"checkpoints\": 0}, \"core_code_raw_verified\": {\"recovery_worker_20261026.py\": true, \"native_backend_20261026.py\": true, \"recovery_policy_20261026.py\": true, \"conditional_behavior_renderer.py\": true, \"inference_contract.py\": true, \"derived_sampling_plan.json\": true, \"source_qa_binding.json\": true, \"owner_run_scope.json\": true}, \"eval_counts\": {\"training/eval_step_000000/base_generations.partial.jsonl\": 23}, \"log_tail\": \"t/s]\\nLoading weights:  68%|██████▊   | 213/311 [00:08<00:03, 29.49it/s]\\nLoading weights:  69%|██████▉   | 216/311 [00:08<00:03, 25.11it/s]\\nLoading weights:  72%|███████▏  | 224/311 [00:08<00:02, 30.00it/s]\\nLoading weights:  73%|███████▎  | 228/311 [00:08<00:03, 27.25it/s]\\nLoading weights:  76%|███████▌  | 236/311 [00:09<00:02, 35.41it/s]\\nLoading weights:  80%|███████▉  | 248/311 [00:09<00:01, 50.87it/s]\\nLoading weights:  85%|████████▍ | 263/311 [00:09<00:00, 71.76it/s]\\nLoading weights:  89%|████████▉ | 277/311 [00:09<00:00, 87.50it/s]\\nLoading weights:  93%|█████████▎| 290/311 [00:09<00:00, 94.23it/s]\\nLoading weights:  97%|█████████▋| 302/311 [00:09<00:00, 97.51it/s]\\nLoading weights: 100%|██████████| 311/311 [00:09<00:00, 32.39it/s]\\n[transformers] Passing `generation_config` together with generation-related arguments=({'max_time'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.\\n\", \"optimizer_approved\": true}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-26T09:11:52.150849+00:00\", \"worker_exit\": null, \"pid\": 4050, \"training/progress.json\": {\"state\": \"BASE_DEV_EVALUATION\", \"step\": 0, \"training_started\": false}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"10drqDBNTGy60JBIUqanc9fFHFopCUivq\", \"last_error\": {\"observed_unix\": 1793005481.9686217, \"type\": \"IntegrityError\", \"error\": \"Fresh Drive raw readback bytes/SHA mismatch\", \"retryable\": false}, \"artifacts\": 29, \"checkpoints\": 0}, \"core_code_raw_verified\": {\"recovery_worker_20261026.py\": true, \"native_backend_20261026.py\": true, \"recovery_policy_20261026.py\": true, \"conditional_behavior_renderer.py\": true, \"inference_contract.py\": true, \"derived_sampling_plan.json\": true, \"source_qa_binding.json\": true, \"owner_run_scope.json\": true}, \"eval_counts\": {\"training/eval_step_000000/base_generations.partial.jsonl\": 23}, \"log_tail\": \"t/s]\\nLoading weights:  68%|██████▊   | 213/311 [00:08<00:03, 29.49it/s]\\nLoading weights:  69%|██████▉   | 216/311 [00:08<00:03, 25.11it/s]\\nLoading weights:  72%|███████▏  | 224/311 [00:08<00:02, 30.00it/s]\\nLoading weights:  73%|███████▎  | 228/311 [00:08<00:03, 27.25it/s]\\nLoading weights:  76%|███████▌  | 236/311 [00:09<00:02, 35.41it/s]\\nLoading weights:  80%|███████▉  | 248/311 [00:09<00:01, 50.87it/s]\\nLoading weights:  85%|████████▍ | 263/311 [00:09<00:00, 71.76it/s]\\nLoading weights:  89%|████████▉ | 277/311 [00:09<00:00, 87.50it/s]\\nLoading weights:  93%|█████████▎| 290/311 [00:09<00:00, 94.23it/s]\\nLoading weights:  97%|█████████▋| 302/311 [00:09<00:00, 97.51it/s]\\nLoading weights: 100%|██████████| 311/311 [00:09<00:00, 32.39it/s]\\n[transformers] Passing `generation_config` together with generation-related arguments=({'max_time'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.\\n\", \"optimizer_approved\": true}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"observed_utc\\\": \\\"2026-10-26T09:11:52.150849+00:00\\\", \\\"worker_exit\\\": null, \\\"pid\\\": 4050, \\\"training/progress.json\\\": {\\\"state\\\": \\\"BASE_DEV_EVALUATION\\\", \\\"step\\\": 0, \\\"training_started\\\": false}, \\\"publication\\\": {\\\"state\\\": \\\"RUNNING\\\", \\\"folder_id\\\": \\\"10drqDBNTGy60JBIUqanc9fFHFopCUivq\\\", \\\"last_error\\\": {\\\"observed_unix\\\": 1793005481.9686217, \\\"type\\\": \\\"IntegrityError\\\", \\\"error\\\": \\\"Fresh Drive raw readback bytes/SHA mismatch\\\", \\\"retryable\\\": false}, \\\"artifacts\\\": 29, \\\"checkpoints\\\": 0}, \\\"core_code_raw_verified\\\": {\\\"recovery_worker_20261026.py\\\": true, \\\"native_backend_20261026.py\\\": true, \\\"recovery_policy_20261026.py\\\": true, \\\"conditional_behavior_renderer.py\\\": true, \\\"inference_contract.py\\\": true, \\\"derived_sampling_plan.json\\\": true, \\\"source_qa_binding.json\\\": true, \\\"owner_run_scope.json\\\": true}, \\\"eval_counts\\\": {\\\"training/eval_step_000000/base_generations.partial.jsonl\\\": 23}, \\\"log_tail\\\": \\\"t/s]\\\\nLoading weights:  68%|██████▊   | 213/311 [00:08<00:03, 29.49it/s]\\\\nLoading weights:  69%|██████▉   | 216/311 [00:08<00:03, 25.11it/s]\\\\nLoading weights:  72%|███████▏  | 224/311 [00:08<00:02, 30.00it/s]\\\\nLoading weights:  73%|███████▎  | 228/311 [00:08<00:03, 27.25it/s]\\\\nLoading weights:  76%|███████▌  | 236/311 [00:09<00:02, 35.41it/s]\\\\nLoading weights:  80%|███████▉  | 248/311 [00:09<00:01, 50.87it/s]\\\\nLoading weights:  85%|████████▍ | 263/311 [00:09<00:00, 71.76it/s]\\\\nLoading weights:  89%|████████▉ | 277/311 [00:09<00:00, 87.50it/s]\\\\nLoading weights:  93%|█████████▎| 290/311 [00:09<00:00, 94.23it/s]\\\\nLoading weights:  97%|█████████▋| 302/311 [00:09<00:00, 97.51it/s]\\\\nLoading weights: 100%|██████████| 311/311 [00:09<00:00, 32.39it/s]\\\\n[transformers] Passing `generation_config` together with generation-related arguments=({'max_time'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.\\\\n\\\", \\\"optimizer_approved\\\": true}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

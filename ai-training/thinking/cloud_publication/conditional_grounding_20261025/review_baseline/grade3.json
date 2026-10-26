@@ -1,0 +1,182 @@
+[
+  {
+    "fixture": {
+      "id": "dev25_g3_answer_01",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Có 123 nhãn vở chia đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?",
+      "expected_answer": "Mỗi túi 24 nhãn, thừa 3 nhãn. Kiểm: 5 × 24 + 3 = 123 và 0 ≤ 3 < 5.",
+      "rubric": [
+        "Add division-with-remainder and reconstruct/check constraints.",
+        "Respect actual quantities/units; do not invent student steps. For worked solutions explain the relation and verify. For hints give a useful next step without the final answer."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_answer_01",
+      "grade": 3,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "cac10ba8ea4f0a98e7109912c45384825cc08672fe21dd1a1e5604fadca10b99",
+      "max_new_tokens": 1024,
+      "generated_tokens": 446,
+      "output": "**Đề bài:**\nChia 123 nhãn vở đều vào 5 túi, sao cho mỗi túi nhận nhiều nhãn nhất và còn thừa ít hơn 5 nhãn. Hỏi mỗi túi có bao nhiêu nhãn và còn thừa bao nhiêu nhãn?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n- Số nhãn vở: 123\n- Số túi: 5\n- Điều kiện: Mỗi túi nhận nhiều nhãn nhất, còn thừa ít hơn 5 nhãn\n\n**Bước 2: Giải bài toán.**\n\nTa cần chia 123 nhãn vở vào 5 túi, sao cho mỗi túi nhận số nhãn **nhiều nhất** và còn **thừa ít hơn 5 nhãn**.\n\n**Bước 3: Tính số nhãn mỗi túi.**\n\nChia 123 nhãn vở cho 5 túi:\n\n$$\n123 \\div 5 = 24 \\text{ dư } 3\n$$\n\nTức là:\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở.\n\n**Kiểm tra:**\n- 24 nhãn vở x 5 túi = 120 nhãn vở\n- 123 - 120 = 3 (thừa ít hơn 5 nhãn)\n\n**Bước 4: Kiểm lại kết quả.**\n- Mỗi túi nhận 24 nhãn vở.\n- Còn thừa 3 nhãn vở (thừa ít hơn 5 nhãn).\n\n**Kết luận:**\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n---\n\n**Lời giải đầy đủ:**\n- Số nhãn mỗi túi: $ 123 \\div 5 = 24 $ dư $ 3 $\n- Mỗi túi có **24 nhãn vở**.\n- Còn thừa **3 nhãn vở**.\n\n**Đáp án:**\n- Mỗi túi có $\\boxed{24}$ nhãn vở.\n- Còn thừa $\\boxed{3}$ nhãn vở.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 433604062,
+      "generation_seconds": 31.12482680500011
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_answer_02",
+      "grade": 3,
+      "mode": "answer",
+      "userproblem": "Một cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?",
+      "expected_answer": "325 cm",
+      "rubric": [
+        "convert units before subtraction",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_answer_02",
+      "grade": 3,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "03249a58f71e4eb0b9e0672d017bf05213230cb915a277eedeb555822496477a",
+      "max_new_tokens": 1024,
+      "generated_tokens": 350,
+      "output": "**Đề bài:**\n\nMột cuộn ruy băng dài 5 m. Người ta dùng 175 cm. Hỏi cuộn ruy băng còn dài bao nhiêu xăng-ti-mét?\n\n---\n\n**Bước 1: Kiểm tra dữ kiện và yêu cầu của đề.**\n\n- Dữ kiện: Cuộn ruy băng dài 5 m, người ta dùng 175 cm.\n- Yêu cầu: Tính độ dài còn lại của cuộn ruy băng theo đơn vị xăng-ti-mét.\n\n**Bước 2: Đơn vị chuyển đổi.**\n\n- 5 m = 500 cm (vì 1 m = 100 cm).\n\n**Bước 3: Tính độ dài còn lại.**\n\n- Độ dài còn lại = Độ dài ban đầu - Độ dài đã dùng\n- Độ dài còn lại = 500 cm - 175 cm = 325 cm\n\n**Bước 4: Kiểm tra lại.**\n\n- 5 m = 500 cm ✔️\n- 500 cm - 175 cm = 325 cm ✔️\n\n**Lời giải:**\n\nCuộn ruy băng còn dài **325 cm**.\n\n---\n\n**Lời làm của học sinh (nếu có):**  \n(Được cung cấp theo yêu cầu, không tự chọn số liệu)\n\n---\n\n**Kết luận:**\n\n- Dữ kiện đủ và nhất quán.\n- Lời giải đúng, kiểm tra lại đúng.\n- Đáp án: **325 cm**.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1746446617,
+      "generation_seconds": 20.86756989100013
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_hint_no_answer_01",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Một đội xếp 9 hàng ghế, mỗi hàng có 14 ghế. Hãy tìm tổng số ghế.",
+      "expected_answer": "Gợi ý: Số hàng là số nhóm, số ghế trong mỗi hàng là số phần tử mỗi nhóm. Chọn phép tính biểu diễn các nhóm bằng nhau.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_hint_no_answer_01",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "d19440d385cfe5227ffa9b0205a8d6c533db1d2ab558bed587517a3944873a05",
+      "max_new_tokens": 1024,
+      "generated_tokens": 112,
+      "output": "**Bước 1:** Tìm số ghế trong một hàng.  \nMỗi hàng có 14 ghế.\n\n**Bước 2:** Tìm tổng số ghế trong tất cả các hàng.  \nTổng số ghế = số ghế trong một hàng × số hàng.\n\n**Lời giải:**  \nTổng số ghế = 14 × 9 = 126.\n\n**Kiểm tra lại:**  \n14 × 9 = 126. Đúng.\n\n**Đáp số:** 126 ghế.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1843426708,
+      "generation_seconds": 8.506091539999943
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_hint_no_answer_02",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "userproblem": "Một bình có 2 l nước. Rót ra 650 ml. Hỏi trong bình còn bao nhiêu ml?",
+      "expected_answer": "Gợi ý: Đổi 2 lít sang mililít trước, rồi trừ lượng đã rót. Đơn vị đáp số cần là ml.",
+      "rubric": [
+        "hint does not state result",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_hint_no_answer_02",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "59c39205709ae722ec26029fae9f494a392181fa68c20ad74bf1448592f9a9ea",
+      "max_new_tokens": 1024,
+      "generated_tokens": 104,
+      "output": "**Bước đầu:**  \n- Bình có 2 l nước → 2 lít = 2000 ml  \n- Rót ra 650 ml → còn lại = 2000 ml - 650 ml\n\n**Lời giải:**  \n- 2 lít = 2000 ml  \n- 2000 ml - 650 ml = 1350 ml\n\n**Đáp án:** 1350 ml",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 1145344002,
+      "generation_seconds": 9.363572063999982
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_missing_or_contradictory_info_01",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "userproblem": "Một hình chữ nhật có chiều dài 9 cm. Hỏi chu vi hình chữ nhật là bao nhiêu?",
+      "expected_answer": "Chưa đủ dữ kiện: cần biết chiều rộng hoặc một dữ kiện tương đương để tính chu vi.",
+      "rubric": [
+        "width absent",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_missing_or_contradictory_info_01",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "4c52b9019e7bf7cd07b9f025dd613095407b41211c640c1c1fb0b8452c331970",
+      "max_new_tokens": 1024,
+      "generated_tokens": 201,
+      "output": "**Dữ kiện:**  \n- Một hình chữ nhật có chiều dài 9 cm.\n\n**Yêu cầu:**  \n- Tính chu vi của hình chữ nhật.\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \n- Dữ kiện đủ và nhất quán.  \n- Yêu cầu là tính chu vi của hình chữ nhật, nhưng thiếu thông tin về chiều rộng.  \n- Chu vi hình chữ nhật cần biết cả chiều dài và chiều rộng.\n\n**Lời giải:**  \n- Vì thiếu thông tin về chiều rộng, không thể tính được chu vi.\n\n**Lời giải đầy đủ:**  \n- Dữ kiện thiếu thông tin về chiều rộng của hình chữ nhật.  \n- Không thể tính chu vi vì thiếu dữ liệu.\n\n**Lời giải cần bổ sung:**  \n- Cần biết chiều rộng của hình chữ nhật để tính chu vi.\n\n---\n\n**Kết luận:**  \n- Đề thiếu dữ kiện.  \n- Lời giải cần bổ sung thông tin về chiều rộng.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 2079649917,
+      "generation_seconds": 12.104929648000052
+    }
+  },
+  {
+    "fixture": {
+      "id": "dev25_g3_student_error_01",
+      "grade": 3,
+      "mode": "student_error",
+      "userproblem": "Có 6 túi, mỗi túi có 15 viên kẹo. Huy viết: “6 × 15 = 90 viên kẹo.” Hãy nhận xét đúng dòng Huy đã viết.",
+      "expected_answer": "Dòng của Huy đúng: 6 × 15 = 90 viên kẹo.",
+      "rubric": [
+        "accept fully correct provided line",
+        "Respect stated quantities and units; do not invent missing facts or unprovided student work."
+      ]
+    },
+    "base": {
+      "fixture_id": "dev25_g3_student_error_01",
+      "grade": 3,
+      "mode": "student_error",
+      "model_mode": "worked_solution",
+      "stage": "base_before_training",
+      "contract_sha256": "07d483d462c167e9403941d7efd1f5f866c6896c3e337a5deda4fdfa87ec8a86",
+      "prompt_token_sha256": "3c8445b7734c7d497816e9d580e64b7782b866fba5cc23037eae3ba460b54717",
+      "max_new_tokens": 1024,
+      "generated_tokens": 369,
+      "output": "**Dữ kiện:**  \n- Có 6 túi, mỗi túi có 15 viên kẹo.  \n- Huy viết: “6 × 15 = 90 viên kẹo.”\n\n---\n\n**Kiểm tra dữ kiện và yêu cầu:**  \nDữ kiện đủ và nhất quán. Đề hỏi nhận xét về dòng Huy đã viết, yêu cầu kiểm tra tính đúng đắn của phép tính và kết quả.\n\n---\n\n**Giải thích từng bước:**\n\n1. **Kiểm tra ý nghĩa và đơn vị:**  \n   - Số 6: số lượng túi.  \n   - Số 15: số viên kẹo trong mỗi túi.  \n   - Đơn vị: viên kẹo (viên).  \n   → Đơn vị và ý nghĩa đều đúng.\n\n2. **Kiểm tra phép tính:**  \n   - Phép tính: $6 \\times 15 = 90$  \n   - Tính toán: $6 \\times 15 = 90$ (đúng, vì $6 \\times 10 = 60$, $6 \\times 5 = 30$, tổng là $60 + 30 = 90$).\n\n3. **Kiểm tra kết quả:**  \n   - Tổng số viên kẹo: $6 \\times 15 = 90$ → đúng.  \n   - Đơn vị: viên kẹo → đúng.\n\n4. **Nhận xét:**  \n   - Dòng Huy đã viết đúng về ý nghĩa, đơn vị, phép tính và kết quả.  \n   - Không có sai sót.\n\n---\n\n**Kết luận:**  \nDòng Huy đã viết đúng.  \n**Đáp án:** Đúng.",
+      "ended_eos": true,
+      "possibly_truncated": false,
+      "timed_out": false,
+      "seed": 173647885,
+      "generation_seconds": 23.72551413799988
+    }
+  }
+]

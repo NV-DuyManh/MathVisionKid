@@ -1,0 +1,97 @@
+{
+  "divisor_candidate_enumeration": [
+    {
+      "dividend": 56,
+      "quotient": 7,
+      "unique_positive_divisor": [
+        8
+      ]
+    },
+    {
+      "dividend": 48,
+      "quotient": 6,
+      "unique_positive_divisor": [
+        8
+      ]
+    },
+    {
+      "dividend": 63,
+      "quotient": 9,
+      "unique_positive_divisor": [
+        7
+      ]
+    },
+    {
+      "dividend": 54,
+      "quotient": 6,
+      "unique_positive_divisor": [
+        9
+      ]
+    }
+  ],
+  "disjoint_object_models": {
+    "scale_up7x4": 28,
+    "A8x3": 24,
+    "B8plus3": 11,
+    "48into6": [
+      0,
+      6,
+      12,
+      18,
+      24,
+      30,
+      36,
+      42
+    ],
+    "35into5": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30
+    ]
+  },
+  "two_step_event_models": {
+    "shelves": 39,
+    "remaining_citrus_count": 36,
+    "six_basket_sizes": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "ribbon_excess_cm": 24,
+    "pen_boxes": 31
+  },
+  "fraction_partition_models": [
+    {
+      "little": 8,
+      "big": 32,
+      "equal_parts": 4,
+      "little_of_big": "1/4"
+    },
+    {
+      "little": 7,
+      "big": 21,
+      "equal_parts": 3,
+      "little_of_big": "1/3"
+    },
+    {
+      "little": 6,
+      "big": 24,
+      "equal_parts": 4,
+      "little_of_big": "1/4"
+    },
+    {
+      "little": 5,
+      "big": 30,
+      "equal_parts": 6,
+      "little_of_big": "1/6"
+    }
+  ],
+  "decimal_limitation": "Fraction1/3 exact; Decimal trace is28digit arithmetic checked to helper tolerance, not an exact finite decimal equality."
+}

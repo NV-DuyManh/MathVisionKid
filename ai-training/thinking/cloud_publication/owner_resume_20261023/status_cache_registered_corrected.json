@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"STATUS_ONLY_REPORT_CACHE_INSTALLED\", \"observed_utc\": \"2026-10-23T03:07:01.037142+00:00\", \"source_sha256\": \"d3c9fe50483c8d7ec1e6367209e49479d58f9be7179c43feab65a7b465f45c1a\", \"exact_worker_code_and_status_line_only\": true, \"status_refresh_physical_rows\": 200000, \"checkpoint_final_error_reports_always_original_fresh\": true, \"source_chat_mutated\": false, \"frozen_auditor_adapter_changed\": false, \"training_started\": false, \"worker_status_line\": 90, \"synthetic_helper_tests\": 8}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"STATUS_ONLY_REPORT_CACHE_INSTALLED\", \"observed_utc\": \"2026-10-23T03:07:01.037142+00:00\", \"source_sha256\": \"d3c9fe50483c8d7ec1e6367209e49479d58f9be7179c43feab65a7b465f45c1a\", \"exact_worker_code_and_status_line_only\": true, \"status_refresh_physical_rows\": 200000, \"checkpoint_final_error_reports_always_original_fresh\": true, \"source_chat_mutated\": false, \"frozen_auditor_adapter_changed\": false, \"training_started\": false, \"worker_status_line\": 90, \"synthetic_helper_tests\": 8}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"state\\\": \\\"STATUS_ONLY_REPORT_CACHE_INSTALLED\\\", \\\"observed_utc\\\": \\\"2026-10-23T03:07:01.037142+00:00\\\", \\\"source_sha256\\\": \\\"d3c9fe50483c8d7ec1e6367209e49479d58f9be7179c43feab65a7b465f45c1a\\\", \\\"exact_worker_code_and_status_line_only\\\": true, \\\"status_refresh_physical_rows\\\": 200000, \\\"checkpoint_final_error_reports_always_original_fresh\\\": true, \\\"source_chat_mutated\\\": false, \\\"frozen_auditor_adapter_changed\\\": false, \\\"training_started\\\": false, \\\"worker_status_line\\\": 90, \\\"synthetic_helper_tests\\\": 8}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

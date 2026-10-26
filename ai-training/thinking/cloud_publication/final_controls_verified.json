@@ -1,0 +1,24 @@
+{
+  "verified_utc": "2026-10-18T15:13:55.861Z",
+  "all_final_controls_verified": true,
+  "artifacts": [
+    {
+      "key": "state",
+      "file_id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 11279,
+      "sha256": "86b5a27095a6cea8b0da377432874af98ed446c50dc16d8a75ddd7074525566e",
+      "all_bytes_equal": true
+    },
+    {
+      "key": "context",
+      "file_id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 719533,
+      "sha256": "107cd0a5a4fedac4ebead7beb7f50fe30199ed3497268a266afd5a11d8ee6cff",
+      "all_bytes_equal": true
+    }
+  ],
+  "all14payloads_previously_byte_hash_verified": true,
+  "local_new_payload_roots_removed": true,
+  "temporary_control_zip_removed_bytes": 5638748,
+  "local_storage": "Only small context/reference/verification metadata and generator code retained from the expansion; pre-existing original data preserved."
+}

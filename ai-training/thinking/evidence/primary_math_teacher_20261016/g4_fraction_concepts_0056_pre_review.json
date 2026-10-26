@@ -1,0 +1,139 @@
+{
+  "authored_utc": "2026-10-18T03:39:55.762333+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T03:38:36.821Z",
+  "batch_sha256": "f99e0f693ab9a59df63533120dc1e3b9823937ab4f20e0c47cffb1db70bcd71d",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_fraction_concepts_0056_fraction_equal_partition_terms",
+      "row_sha256": "7a298952e02dcc1dec2a242534107e67ba54ed1c4663a18cc9287b3b24095fee",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "7/12",
+          "12-7"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_concepts_0056_equivalent_partition_eighths_twelfths",
+      "row_sha256": "8fecb90d230bde3de8a5c944ff37717c42556b883dd1418a8e0b5b07313bb0bb",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "6/8",
+          "9/12"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_concepts_0056_reduce_fraction_ribbon_length",
+      "row_sha256": "adc2e63a56da1ff8ded9b77b646cb5df37818c244cb219a1c5ddf74847a73604",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "42/70",
+          "(42/14)/(70/14)",
+          "70/5*3"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_concepts_0056_misconception_add_same_to_terms",
+      "row_sha256": "8b09cf8a12e27c1f65fea1ac56e928cca9d9bfa113233250db5c902468975374",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "(4*2)/(9*2)",
+          "(8/2)/(18/2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_fraction_concepts_0056_guard_missing_partition_image",
+      "row_sha256": "24f2c160c6bd4dee7a4a27eb11d17743f6b1a0a70c3a5428d882ef34b62374b7",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "partition12_shaded7_unshaded5_total12": true,
+    "common24cell_partition_counts_A_B": [
+      18,
+      18
+    ],
+    "whole_sizes_equal_required": true,
+    "ribbon_14cm_group_count_whole5_marked3": true,
+    "gcd42_70": 14,
+    "gcd3_5": 1,
+    "wrong_addition_equivalence_common99counts": [
+      44,
+      54
+    ],
+    "proper_expansion4_9_to8_18": true
+  },
+  "exact_Fraction_and_Decimal_crosschecks": true,
+  "nonterminating_Decimal_check_uses_60digit_precision_exact_Fraction_is_authority": true,
+  "text_description_only_actual_image_not_claimed": true,
+  "visual_modality_outcome_still_pending": true,
+  "guard_missing_image_no_invented_counts": true,
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous326_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "readability_repair_before_QA": "Rút gọn42/70 now shows accessible divide2 then divide7 before shortcut divide14; exact source fraction preserved."
+}

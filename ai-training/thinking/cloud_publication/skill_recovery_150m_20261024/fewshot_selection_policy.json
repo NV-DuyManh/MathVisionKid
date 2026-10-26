@@ -1,0 +1,45 @@
+{
+  "schema": "MathVisionKid.mode_context_selection_policy.v1",
+  "frozen_before_fewshot_outputs": true,
+  "purpose": "Compare source-only inference context on unchanged base weights; not more weight training.",
+  "development_fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "baseline_output_sha256": "c97a1d277b7f7eed85e27c1375855fb88a7a5ef1ba7392b7eb35b49b97e97173",
+  "source_bank_sha256": "65d76d6dc90588915c0d0b628aaece600d7dcb078e205e9eaa0cfb13c00ffc0e",
+  "baseline_review_sha256": "d6376e22d3d67021256d61c339585a084b4037ff5ab7fbebd77e4f5a472d5e16",
+  "selection_groups": {
+    "worked_solution": [
+      "answer",
+      "student_error",
+      "missing_or_contradictory_info"
+    ],
+    "hint_level_1": [
+      "hint_no_answer"
+    ]
+  },
+  "unvalidated_modes_keep_baseline": [
+    "hint_level_2",
+    "hint_level_3"
+  ],
+  "eligibility_per_entire_group": {
+    "minimum_full_task_gain": 1,
+    "maximum_baseline_pass_regressions": 0,
+    "maximum_new_critical_errors": 0,
+    "maximum_new_hint_leaks": 0,
+    "retain_all_baseline_answer_passes": true
+  },
+  "allowed_routing_inputs": [
+    "explicit requested model mode"
+  ],
+  "forbidden_routing_inputs": [
+    "fixture ID",
+    "grade",
+    "expected answer",
+    "oracle",
+    "ground-truth guard/student-error category",
+    "individual fixture score"
+  ],
+  "final_test_use": "Once after this development selection; never change weights, context, or selection from final outputs.",
+  "corpus_or_model_download_to_pc": false,
+  "new_human_review_claimed": false,
+  "paid_resources": false
+}

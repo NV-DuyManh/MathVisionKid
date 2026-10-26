@@ -1,0 +1,1248 @@
+{
+  "val": [
+    {
+      "sample_id": "0d067e4ef37a26864cb7",
+      "topic": "sum_difference",
+      "problem": "Tổng số sách của An và Bình là 120 quyển; An hơn Bình 26 quyển. Tính số sách của An.",
+      "expected": {
+        "answer": "73",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng tổng và hiệu được hai lần số sách của người có nhiều hơn.",
+            "expression": "120+26",
+            "result": "146",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "Chia cho hai để tìm số lớn.",
+            "expression": "146/2",
+            "result": "73",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "sum_difference",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "94",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng sách nên dùng phép cộng.",
+            "expression": "120+26",
+            "result": "146",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "Tìm hiệu hai lượng sách nên dùng phép cộng.",
+            "expression": "146-26",
+            "result": "120",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_sub",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "135387913012b717090d",
+      "topic": "fraction_add",
+      "problem": "Một tấm bìa được cắt hai phần không chồng nhau, lần lượt 6/9 và 2/9 tấm. Tổng hai phần là bao nhiêu?",
+      "expected": {
+        "answer": "8/9",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Hai phần không chồng nhau nên cộng hai phân số cùng mẫu.",
+            "expression": "6/9+2/9",
+            "result": "8/9",
+            "unit": "phần"
+          }
+        ],
+        "topic": "fraction_add",
+        "unit": "phần"
+      },
+      "predicted": {
+        "answer": "8/9",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng hai phân số bằng cách cộng số chung.",
+            "expression": "6/9+2/9",
+            "result": "8/9",
+            "unit": "phần"
+          }
+        ],
+        "topic": "fraction_sum",
+        "unit": "phần"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "1470107feed221a65289",
+      "topic": "add_books",
+      "problem": "Có 13 quyển sách Toán và 22 quyển sách Tiếng Việt. Hỏi có tất cả bao nhiêu quyển?",
+      "expected": {
+        "answer": "35",
+        "grade": 2,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng hai nhóm sách bằng phép cộng.",
+            "expression": "13+22",
+            "result": "35",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_books",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "35",
+        "grade": 2,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng hai nhóm sách bằng phép cộng.",
+            "expression": "13+22",
+            "result": "35",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_books",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "16130a0de5fdd6378f38",
+      "topic": "equal_groups",
+      "problem": "Nhà trường chuẩn bị 4 túi, mỗi túi đựng 4 bút. Tổng số bút là bao nhiêu?",
+      "expected": {
+        "answer": "16",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Các nhóm có cùng số bút, lấy số nhóm nhân số bút mỗi nhóm.",
+            "expression": "4*4",
+            "result": "16",
+            "unit": "bút"
+          }
+        ],
+        "topic": "equal_groups",
+        "unit": "bút"
+      },
+      "predicted": {
+        "answer": "16",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng số bút bằng phép cộng, đặt số hàng cho hàng tổng.",
+            "expression": "4*4",
+            "result": "16",
+            "unit": "bút"
+          }
+        ],
+        "topic": "sum_product",
+        "unit": "bút"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "179e3850467307b96fe4",
+      "topic": "sub_remaining",
+      "problem": "Mai có 10 quả táo, đã ăn 1 quả. Hỏi số táo còn lại?",
+      "expected": {
+        "answer": "9",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã cho khỏi lượng ban đầu nên dùng phép trừ.",
+            "expression": "10-1",
+            "result": "9",
+            "unit": "quả"
+          }
+        ],
+        "topic": "sub_remaining",
+        "unit": "quả"
+      },
+      "predicted": {
+        "answer": "9",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng táo nên trừ số đã ăn.",
+            "expression": "10-1",
+            "result": "9",
+            "unit": "quả"
+          }
+        ],
+        "topic": "sub_sub",
+        "unit": "quả"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "1afa77441421988943e7",
+      "topic": "rectangle_area",
+      "problem": "Một hình chữ nhật có hai kích thước 17 cm và 14 cm. Tìm diện tích hình đó.",
+      "expected": {
+        "answer": "238",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "17*14",
+            "result": "238",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "cm²"
+      },
+      "predicted": {
+        "answer": "238",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "17*14",
+            "result": "238",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "cm²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "1bd84c722a38a4db4fe0",
+      "topic": "share_equal",
+      "problem": "Có 72 bút được phân đều cho 8 học sinh. Hỏi số bút mỗi em nhận?",
+      "expected": {
+        "answer": "9",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Chia đều tổng số bút cho số nhóm bằng phép chia.",
+            "expression": "72/8",
+            "result": "9",
+            "unit": "bút"
+          }
+        ],
+        "topic": "share_equal",
+        "unit": "bút"
+      },
+      "predicted": {
+        "answer": "9",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Chia tổng số bút cho số học sinh.",
+            "expression": "72/8",
+            "result": "9",
+            "unit": "bút"
+          }
+        ],
+        "topic": "divide_total",
+        "unit": "bút"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "2979468fa8eb26ca81e5",
+      "topic": "trapezoid_area",
+      "problem": "Tấm bìa hình thang có các đáy dài 8 cm, 3 cm; chiều cao 11 cm. Tìm diện tích tấm bìa.",
+      "expected": {
+        "answer": "121/2",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng hai độ dài đáy.",
+            "expression": "8+3",
+            "result": "11",
+            "unit": "cm"
+          },
+          {
+            "explanation": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia hai.",
+            "expression": "11*11/2",
+            "result": "121/2",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "trapezoid_area",
+        "unit": "cm²"
+      },
+      "predicted": {
+        "answer": "121",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình thang bằng tổng hai đáy trừ hiệu hai độ dài.",
+            "expression": "8+3",
+            "result": "11",
+            "unit": "cm"
+          },
+          {
+            "explanation": "11*11",
+            "expression": "11",
+            "result": "121",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "trapezoid_area",
+        "unit": "cm²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "2d412b7035cb295d1521",
+      "topic": "decimal_sub",
+      "problem": "Mai mua 3,1 kg gạo và đã nấu 0,7 kg. Mai còn bao nhiêu kg?",
+      "expected": {
+        "answer": "2.4",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã dùng nên trừ số thập phân, đặt đúng hàng.",
+            "expression": "3.1-0.7",
+            "result": "2.4",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_sub",
+        "unit": "kg"
+      },
+      "predicted": {
+        "answer": "3.8",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng hàng nên cộng số thập phân.",
+            "expression": "3.1+0.7",
+            "result": "3.8",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_add",
+        "unit": "kg"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "3b56cfd9ea4ac9fd6f99",
+      "topic": "decimal_add",
+      "problem": "Mai mua 1,21 kg gạo rồi mua thêm 0,49 kg. Mai mua bao nhiêu kg gạo?",
+      "expected": {
+        "answer": "1.7",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai khối lượng nên cộng số thập phân, đặt đúng hàng.",
+            "expression": "1.21+0.49",
+            "result": "1.7",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_add",
+        "unit": "kg"
+      },
+      "predicted": {
+        "answer": "1.7",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai khối lượng nên cộng số thập phân.",
+            "expression": "1.21+0.49",
+            "result": "1.7",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_add",
+        "unit": "kg"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "57c2c79877edd1240df0",
+      "topic": "add_join",
+      "problem": "Mai có 8 quả táo và nhận thêm 7 quả nữa. Mai có bao nhiêu quả?",
+      "expected": {
+        "answer": "15",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng táo nên dùng phép cộng.",
+            "expression": "8+7",
+            "result": "15",
+            "unit": "quả"
+          }
+        ],
+        "topic": "add_join",
+        "unit": "quả"
+      },
+      "predicted": {
+        "answer": "15",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng táo nên dùng phép cộng.",
+            "expression": "8+7",
+            "result": "15",
+            "unit": "quả"
+          }
+        ],
+        "topic": "add_join",
+        "unit": "quả"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "597d5f670ea18f667700",
+      "topic": "gain_then_loss",
+      "problem": "Tủ sách ban đầu có 37 quyển. Nhập 23 quyển và chuyển đi 4 quyển. Tính số sách còn trong tủ.",
+      "expected": {
+        "answer": "56",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng số sách nhận thêm để tìm số sách trước khi cho mượn.",
+            "expression": "37+23",
+            "result": "60",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "Trừ số sách đã chuyển đi để tìm số còn lại.",
+            "expression": "60-4",
+            "result": "56",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "gain_then_loss",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "18",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp số sau trừ trước.",
+            "expression": "37-23+4",
+            "result": "18",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_sub",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "clarification:79a909533672ce21",
+      "topic": "clarification",
+      "problem": "Một hình chữ nhật rộng 7 cm. Tìm diện tích.",
+      "expected": {
+        "grade": 4,
+        "question": "Chiều dài hình chữ nhật là bao nhiêu?",
+        "status": "need_clarification"
+      },
+      "predicted": {
+        "answer": "49",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "7*7",
+            "result": "49",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "cm²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": false,
+        "answer_correct": false,
+        "unit_correct": false,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "scope:1aad0b549c86c9f7",
+      "topic": "scope",
+      "problem": "Hãy viết mã JavaScript cho một trang web.",
+      "expected": {
+        "message": "Mình chỉ hỗ trợ toán tiểu học lớp 1–5.",
+        "status": "out_of_scope"
+      },
+      "predicted": {
+        "answer": "<script>document.write('<div id=\"main\"></div>');</script>",
+        "grade": 0,
+        "status": "solved",
+        "topic": "join_parts",
+        "unit": "div"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": false,
+        "answer_correct": false,
+        "unit_correct": false,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    }
+  ],
+  "test": [
+    {
+      "sample_id": "001a6e80f9d83f490771",
+      "topic": "trapezoid_area",
+      "problem": "Tính diện tích hình thang biết hai đáy là 22 cm và 3 cm, khoảng cách vuông góc giữa hai đáy 3 cm.",
+      "expected": {
+        "answer": "75/2",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng hai độ dài đáy.",
+            "expression": "22+3",
+            "result": "25",
+            "unit": "cm"
+          },
+          {
+            "explanation": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia hai.",
+            "expression": "25*3/2",
+            "result": "75/2",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "trapezoid_area",
+        "unit": "cm²"
+      },
+      "predicted": {
+        "answer": "75",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia hai.",
+            "expression": "22+3*3",
+            "result": "75",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "trapezoid_area",
+        "unit": "cm²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "04fb7a3d6d467cbf88a0",
+      "topic": "share_equal",
+      "problem": "9 túi đựng đều nhau tổng cộng 27 bút. Tính số bút trong một túi.",
+      "expected": {
+        "answer": "3",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Chia đều tổng số bút cho số nhóm bằng phép chia.",
+            "expression": "27/9",
+            "result": "3",
+            "unit": "bút"
+          }
+        ],
+        "topic": "share_equal",
+        "unit": "bút"
+      },
+      "predicted": {
+        "answer": "9",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng số bút trong một nhóm bằng tổng tổng nhóm chia cho số nhóm.",
+            "expression": "27/3",
+            "result": "9",
+            "unit": "bút"
+          }
+        ],
+        "topic": "average_group",
+        "unit": "bút"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "0945b88d4511b1d2e7c4",
+      "topic": "equal_groups",
+      "problem": "9 hộp bút giống nhau, mỗi hộp 4 bút. Hãy tìm số bút trong các hộp.",
+      "expected": {
+        "answer": "36",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Các nhóm có cùng số bút, lấy số nhóm nhân số bút mỗi nhóm.",
+            "expression": "9*4",
+            "result": "36",
+            "unit": "bút"
+          }
+        ],
+        "topic": "equal_groups",
+        "unit": "bút"
+      },
+      "predicted": {
+        "answer": "36",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng số bút bằng phép nhân.",
+            "expression": "9*4",
+            "result": "36",
+            "unit": "bút"
+          }
+        ],
+        "topic": "product_sum",
+        "unit": "bút"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "09e3ab57ba1375bb2b26",
+      "topic": "fraction_add",
+      "problem": "Mai dùng 8/10 tấm bìa rồi dùng thêm 1/10 tấm bìa từ phần còn lại. Tính phần bìa Mai đã dùng.",
+      "expected": {
+        "answer": "9/10",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Hai phần không chồng nhau nên cộng hai phân số cùng mẫu.",
+            "expression": "8/10+1/10",
+            "result": "9/10",
+            "unit": "phần"
+          }
+        ],
+        "topic": "fraction_add",
+        "unit": "phần"
+      },
+      "predicted": {
+        "answer": "2/3",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai phần bằng tổng số hai phần, đặt số hai lên số ba rồi chia cho tổng hai.",
+            "expression": "2/3",
+            "result": "2/3",
+            "unit": "phần"
+          }
+        ],
+        "topic": "fraction_add",
+        "unit": "phần"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "0d83269829ccb5fe42a8",
+      "topic": "rectangle_area",
+      "problem": "Tính diện tích mảnh giấy hình chữ nhật dài 10 cm, rộng 13 cm.",
+      "expected": {
+        "answer": "130",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "10*13",
+            "result": "130",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "cm²"
+      },
+      "predicted": {
+        "answer": "130",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "10*13",
+            "result": "130",
+            "unit": "cm²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "cm²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "0f352dc198328a86ce89",
+      "topic": "decimal_sub",
+      "problem": "Bớt 0,7 kg gạo khỏi 1,97 kg gạo. Tính khối lượng gạo còn lại.",
+      "expected": {
+        "answer": "1.27",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã dùng nên trừ số thập phân, đặt đúng hàng.",
+            "expression": "1.97-0.7",
+            "result": "1.27",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_sub",
+        "unit": "kg"
+      },
+      "predicted": {
+        "answer": "1.27",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã cho nên dùng phép trừ.",
+            "expression": "1.97-0.7",
+            "result": "1.27",
+            "unit": "kg"
+          }
+        ],
+        "topic": "sub_remaining",
+        "unit": "kg"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "1350ea652c981a109a16",
+      "topic": "decimal_add",
+      "problem": "Gộp 7,01 kg gạo với 0,54 kg gạo. Tính khối lượng sau khi gộp.",
+      "expected": {
+        "answer": "7.55",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai khối lượng nên cộng số thập phân, đặt đúng hàng.",
+            "expression": "7.01+0.54",
+            "result": "7.55",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_add",
+        "unit": "kg"
+      },
+      "predicted": {
+        "answer": "7.55",
+        "grade": 5,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng cùng đơn vị nên cộng số thập phân.",
+            "expression": "7.01+0.54",
+            "result": "7.55",
+            "unit": "kg"
+          }
+        ],
+        "topic": "decimal_add",
+        "unit": "kg"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "1fde9af008325df256fd",
+      "topic": "add_join",
+      "problem": "Một đĩa đựng 4 quả táo, đĩa kia có 6 quả. Hai đĩa có tổng cộng bao nhiêu quả?",
+      "expected": {
+        "answer": "10",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng táo nên dùng phép cộng.",
+            "expression": "4+6",
+            "result": "10",
+            "unit": "quả"
+          }
+        ],
+        "topic": "add_join",
+        "unit": "quả"
+      },
+      "predicted": {
+        "answer": "8",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp tổng hai khối lượng nên cộng hai lần số lượng của một khối.",
+            "expression": "4+4",
+            "result": "8",
+            "unit": "quả"
+          }
+        ],
+        "topic": "add_multiple",
+        "unit": "quả"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "2451c1a50fcd5a81a288",
+      "topic": "gain_then_loss",
+      "problem": "Một lớp có 47 quyển sách, bổ sung 13 quyển, đem cho lớp khác 1 quyển. Lớp ấy còn mấy quyển?",
+      "expected": {
+        "answer": "59",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng số sách nhận thêm để tìm số sách trước khi cho mượn.",
+            "expression": "47+13",
+            "result": "60",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "Trừ số sách đã chuyển đi để tìm số còn lại.",
+            "expression": "60-1",
+            "result": "59",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "gain_then_loss",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "59",
+        "grade": 3,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã cho khỏi lượng tổng, trừ được số sách sau khi thêm.",
+            "expression": "47+13-1",
+            "result": "59",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "sum_remaining",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "363ad9b8b92694fc8492",
+      "topic": "add_books",
+      "problem": "Thư viện nhận 17 quyển sách buổi sáng, nhận 10 quyển buổi chiều. Cả ngày nhận bao nhiêu quyển?",
+      "expected": {
+        "answer": "27",
+        "grade": 2,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Tìm tổng hai nhóm sách bằng phép cộng.",
+            "expression": "17+10",
+            "result": "27",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_books",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "27",
+        "grade": 2,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng sách nên cộng số lượng buổi sáng và buổi chiều.",
+            "expression": "17+10",
+            "result": "27",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "add_books",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "3ff470a49eb3a919c4b2",
+      "topic": "sub_remaining",
+      "problem": "Một đĩa có 11 quả táo. Sau khi bớt 7 quả, đĩa còn bao nhiêu quả?",
+      "expected": {
+        "answer": "4",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt lượng đã cho khỏi lượng ban đầu nên dùng phép trừ.",
+            "expression": "11-7",
+            "result": "4",
+            "unit": "quả"
+          }
+        ],
+        "topic": "sub_remaining",
+        "unit": "quả"
+      },
+      "predicted": {
+        "answer": "4",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Bớt số đã cho nên dùng phép trừ.",
+            "expression": "11-7",
+            "result": "4",
+            "unit": "quả"
+          }
+        ],
+        "topic": "sub_remaining",
+        "unit": "quả"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": true,
+        "unit_correct": true,
+        "steps_arithmetic_correct": true,
+        "reference_plan_match": true,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "5f002f043b795b158524",
+      "topic": "sum_difference",
+      "problem": "Có 136 quyển sách trong hai ngăn. Ngăn trên hơn ngăn dưới 8 quyển. Hỏi số sách ngăn trên?",
+      "expected": {
+        "answer": "72",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Cộng tổng và hiệu được hai lần số sách của người có nhiều hơn.",
+            "expression": "136+8",
+            "result": "144",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "Chia cho hai để tìm số lớn.",
+            "expression": "144/2",
+            "result": "72",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "sum_difference",
+        "unit": "quyển"
+      },
+      "predicted": {
+        "answer": "60",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp hai lượng sách nên chia cho số ngăn, lấy số lớn trừ số nhỏ.",
+            "expression": "136/2=68",
+            "result": "68",
+            "unit": "quyển"
+          },
+          {
+            "explanation": "68-8 = 60",
+            "expression": "68-8",
+            "result": "60",
+            "unit": "quyển"
+          }
+        ],
+        "topic": "split_remain",
+        "unit": "quyển"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": true,
+        "answer_correct": false,
+        "unit_correct": true,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "clarification:55a8d1646fbcbd9f",
+      "topic": "clarification",
+      "problem": "Mảnh đất hình chữ nhật dài 20 m. Diện tích là bao nhiêu?",
+      "expected": {
+        "grade": 4,
+        "question": "Chiều rộng hình chữ nhật là bao nhiêu?",
+        "status": "need_clarification"
+      },
+      "predicted": {
+        "answer": "400",
+        "grade": 4,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+            "expression": "20*20",
+            "result": "400",
+            "unit": "m²"
+          }
+        ],
+        "topic": "rectangle_area",
+        "unit": "m²"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": false,
+        "answer_correct": false,
+        "unit_correct": false,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    },
+    {
+      "sample_id": "scope:7dfa106936424a17",
+      "topic": "scope",
+      "problem": "Giải phương trình vi phân y' = y.",
+      "expected": {
+        "message": "Mình chỉ hỗ trợ toán tiểu học lớp 1–5.",
+        "status": "out_of_scope"
+      },
+      "predicted": {
+        "answer": "YequalsCepi",
+        "grade": 1,
+        "status": "solved",
+        "steps": [
+          {
+            "explanation": "Gộp các biến, đặt dạng đạo hàm bằng phương trình đã cho.",
+            "expression": "y'=y",
+            "result": "C*e^x",
+            "unit": "exponential"
+          },
+          {
+            "explanation": "Giải phương trình bậc nhất bằng công thức nghiệm.",
+            "expression": "YequalsCepi",
+            "result": "C*e^x",
+            "unit": "exponential"
+          }
+        ],
+        "topic": "separation",
+        "unit": "exponential"
+      },
+      "scores": {
+        "json_valid": true,
+        "status_correct": false,
+        "answer_correct": false,
+        "unit_correct": false,
+        "steps_arithmetic_correct": false,
+        "reference_plan_match": false,
+        "clarification_specific": false
+      }
+    }
+  ]
+}

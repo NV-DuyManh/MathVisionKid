@@ -1,0 +1,472 @@
+{
+  "repo": "quangvinh2110/vietnamese-math-reasoning",
+  "revision": "f024b3d620e57a455478304a97d980475f37e9fa",
+  "license": null,
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 25,
+      "sha": "babf8f93c75924fc6a23901777e93753d184ed16"
+    },
+    {
+      "path": "README.md",
+      "size": 0,
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "config/metamath-mistral-7b-lora-2024-04-23-08-29-47.yml",
+      "size": 1403,
+      "sha": "7fdfeedf17b8179ddc3d8af0669bc170d18c1a12"
+    },
+    {
+      "path": "config/metamath-mistral-7b-qlora-2024-04-09-03-30-47.yml",
+      "size": 1500,
+      "sha": "5ed79d4f077bf9dcc627455449be8bd6c3d81301"
+    },
+    {
+      "path": "config/qwen1-5-7b-chat-lora-2024-04-23-01-42-42.yml",
+      "size": 1391,
+      "sha": "a7fe21d937fe33a89cd0fae8f6e8563dcf6965f4"
+    },
+    {
+      "path": "config/qwen1-5-7b-chat-qlora-2024-04-09-04-12-55.yml",
+      "size": 1384,
+      "sha": "0eac11ba6a5921222744f52d5315c3605fd21f1d"
+    },
+    {
+      "path": "convert.ipynb",
+      "size": 25374,
+      "sha": "cde16d9f4eaa10295dbc9d9649b777566a34f696"
+    },
+    {
+      "path": "convert_3.ipynb",
+      "size": 40170,
+      "sha": "957ac132fadb8308cbb2bebaf67ffa335c0613eb"
+    },
+    {
+      "path": "convert_data.ipynb",
+      "size": 275433,
+      "sha": "83599514f7abb229f3d40d09f51dbe1616c8bf51"
+    },
+    {
+      "path": "download_model.py",
+      "size": 1230,
+      "sha": "9831ee0e3d9121d1c24b59fad162cbb982bfccd9"
+    },
+    {
+      "path": "get_answer.py",
+      "size": 7019,
+      "sha": "0e601103efb2179f78a5d9e6c0ee0583463e444a"
+    },
+    {
+      "path": "get_right_choice.py",
+      "size": 4830,
+      "sha": "8810e31a60e20f48bc540fdf2709699b9eab3049"
+    },
+    {
+      "path": "google_translator_api.ipynb",
+      "size": 4827,
+      "sha": "0c0a3b2c4c76016070e4be12a17baf645cd67f2e"
+    },
+    {
+      "path": "logs/crawl_hamchoi.log",
+      "size": 748,
+      "sha": "7f8cd9885575c3f3c2a7020c45e192981442ece2"
+    },
+    {
+      "path": "logs/crawl_tailieumoi.log",
+      "size": 766,
+      "sha": "dfb51048cf9248ef3a80af9a02b39f41f5f0a11c"
+    },
+    {
+      "path": "logs/crawl_vietjack.log",
+      "size": 755,
+      "sha": "3496230554e22d618bebf3efdc0aa0c0f12b583f"
+    },
+    {
+      "path": "logs/crawl_vimathqa_cot_answer.log",
+      "size": 507381,
+      "sha": "9714c4208da6a4203ba36eaea9ac67f13ae5f44a"
+    },
+    {
+      "path": "predict.sh",
+      "size": 0,
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "predict_notebook.ipynb",
+      "size": 0,
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "process_data.ipynb",
+      "size": 64495,
+      "sha": "fc55d5914f4fc76c1d468db7a52bca0dc61fa90a"
+    },
+    {
+      "path": "process_tailieumoi.ipynb",
+      "size": 15559,
+      "sha": "904d92c78624d2ccd349e0dd10822790d31e5e0c"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 421,
+      "sha": "c2cc7727ee4793c9df50fb78b4ce943567c87761"
+    },
+    {
+      "path": "results/test_v1-final_instructcode_models_test-pred_choice.jsonl",
+      "size": 4643937,
+      "sha": "22109877028f75f5dd8dad74e5a205625975531a"
+    },
+    {
+      "path": "results/tmp",
+      "size": 1,
+      "sha": "8b137891791fe96927ad78e64b0aad7bded08bdc"
+    },
+    {
+      "path": "scripts/axolotl_lora_finetune.sh",
+      "size": 2611,
+      "sha": "ef0bed955230e968a75d056203dc64d16b61e986"
+    },
+    {
+      "path": "scripts/axolotl_qlora_finetune.sh",
+      "size": 2385,
+      "sha": "369fc0e834f74776feaa8f5247134a180305f166"
+    },
+    {
+      "path": "scripts/crawl.sh",
+      "size": 291,
+      "sha": "487e633be66bf0bbb815037733ccdd541d46bf69"
+    },
+    {
+      "path": "scripts/crawl_hamchoi.sh",
+      "size": 247,
+      "sha": "02b9e68a3a1a38a0de9d73b48479b68781a278e1"
+    },
+    {
+      "path": "scripts/crawl_tailieumoi.sh",
+      "size": 717,
+      "sha": "925d021410ba78cc3757b1bafe9eeeb584486426"
+    },
+    {
+      "path": "scripts/crawl_vietjack.sh",
+      "size": 249,
+      "sha": "ee47c5e00e221b1978ce57349fdecaa4a4ef0b53"
+    },
+    {
+      "path": "scripts/download_model.sh",
+      "size": 2379,
+      "sha": "10f979fc8192f3cdb3d3250857e48882c7ad0dc9"
+    },
+    {
+      "path": "scripts/extract_hamchoiQA.sh",
+      "size": 267,
+      "sha": "04f150d8029986bc6fe9ed7d1f260c57cfb4dcb4"
+    },
+    {
+      "path": "scripts/extract_tailieumoiQA.sh",
+      "size": 279,
+      "sha": "af1770b1ff89c6a480196dcd5d4eb22345640420"
+    },
+    {
+      "path": "scripts/extract_vietjackQA.sh",
+      "size": 271,
+      "sha": "502fc623b6876dcf39aad3c9e4ed0db2466cd0d5"
+    },
+    {
+      "path": "scripts/format_input_output_data.sh",
+      "size": 727,
+      "sha": "fe1360e9efcca2dabcd2b0d721d8736f34f7df90"
+    },
+    {
+      "path": "scripts/infer_gpu2.sh",
+      "size": 1818,
+      "sha": "039725351e85fc11789515546d6423ae4b3df73f"
+    },
+    {
+      "path": "scripts/run_tora_nvidia.sh",
+      "size": 1365,
+      "sha": "0e0584fbb6d3b1d0a67d24ff8ac3f95a2cbfc5e5"
+    },
+    {
+      "path": "scripts/train.sh",
+      "size": 2370,
+      "sha": "a862edca1d9f56a8926bb82fa44394b849aa4f20"
+    },
+    {
+      "path": "scripts/translate_gms8k.sh",
+      "size": 323,
+      "sha": "b0578656e636e1e043675fb67a32cbdf83e29c13"
+    },
+    {
+      "path": "src/crawl_data/PAL_sys_prompt.txt",
+      "size": 7405,
+      "sha": "cd3a1d9dc6c8c3328243914505ca4100e575e6a2"
+    },
+    {
+      "path": "src/crawl_data/__pycache__/prompts.cpython-310.pyc",
+      "size": 7389,
+      "sha": "ff57e6b2597ec216179210de728b53b33e966828"
+    },
+    {
+      "path": "src/crawl_data/api_keys.jsonl",
+      "size": 122,
+      "sha": "e7f92b8bdc21a2ff4d29f6c9939e1fdb6fa05061"
+    },
+    {
+      "path": "src/crawl_data/crawl_GSM8K_instructcode.py",
+      "size": 5367,
+      "sha": "968113ddee80026651ddb14a245737dd0a3f2c6f"
+    },
+    {
+      "path": "src/crawl_data/crawl_MathQA.py",
+      "size": 2139,
+      "sha": "e5c939f40d09378e1d4f893b23f5e61c1524314e"
+    },
+    {
+      "path": "src/crawl_data/crawl_ViMathQA_instruct.py",
+      "size": 3686,
+      "sha": "189344bc41e4cef26c0d6c184cb24d28b95a6957"
+    },
+    {
+      "path": "src/crawl_data/crawl_ViMathQA_instructcode.py",
+      "size": 4699,
+      "sha": "770278a682a40923ff4fb5d76648ede1091f2e11"
+    },
+    {
+      "path": "src/crawl_data/crawl_ViMathQA_instructcode_v2.py",
+      "size": 2546,
+      "sha": "b05f780fcb1e4559882837f22b3cdb006e15867c"
+    },
+    {
+      "path": "src/crawl_data/crawl_ViMathQA_reasoning.py",
+      "size": 5920,
+      "sha": "55f9e189989f736b9407f8bac8f632fa0db0f776"
+    },
+    {
+      "path": "src/crawl_data/crawl_gms8k_instruct.py",
+      "size": 2177,
+      "sha": "7fb8cf8d81bf454d6ecf64bd8c9ae1ee246385d5"
+    },
+    {
+      "path": "src/crawl_data/crawl_gsm8k_code.py",
+      "size": 2274,
+      "sha": "25b24b50cf695bf29491a9ce6bad9a9f9a003776"
+    },
+    {
+      "path": "src/crawl_data/crawl_math_code.py",
+      "size": 2269,
+      "sha": "6248049993e6402bf95a92e330c71124f83ad942"
+    },
+    {
+      "path": "src/crawl_data/crawl_vimathqa_cot_answer.py",
+      "size": 3656,
+      "sha": "dd3eb0e72afb12f023f0f7ea82531dfce477532c"
+    },
+    {
+      "path": "src/crawl_data/crawl_zalo_instruct.py",
+      "size": 2020,
+      "sha": "1daa6c5b776409444dacb8e41fa16ada79a53b9e"
+    },
+    {
+      "path": "src/crawl_data/extract_hamchoiQA.py",
+      "size": 1639,
+      "sha": "e5c23f8a7416c76979275740bbbdd7fa2e9a5c66"
+    },
+    {
+      "path": "src/crawl_data/extract_tailieumoiQA.py",
+      "size": 1641,
+      "sha": "844caa6da3e848221bfb6abecfd4c87f776db7d8"
+    },
+    {
+      "path": "src/crawl_data/extract_vietjackQA.py",
+      "size": 1888,
+      "sha": "9d8cd0f7ca803a87206e711aee2a86f66338f7b7"
+    },
+    {
+      "path": "src/crawl_data/prompts.py",
+      "size": 7866,
+      "sha": "1de9478f1383e40ee276fbfabbb7f2e1fc1252ce"
+    },
+    {
+      "path": "src/crawl_data/test.ipynb",
+      "size": 310303,
+      "sha": "2046f946ad35501bb7460af57e4235cb5df5aaf5"
+    },
+    {
+      "path": "src/crawl_data/test.py",
+      "size": 1197,
+      "sha": "7292d5f3a0ff45e3c942205b430593079fd6db88"
+    },
+    {
+      "path": "src/crawl_data/test_api.ipynb",
+      "size": 44149,
+      "sha": "dca781d29c04b79799a745b3ceac9b957a38a621"
+    },
+    {
+      "path": "src/crawl_data/tgi_crawler.py",
+      "size": 3874,
+      "sha": "5229dffe75372004b61da1145b33dbadf1dfd487"
+    },
+    {
+      "path": "src/crawl_data/tmp.txt",
+      "size": 6794,
+      "sha": "f6e4875b208e0745c21678037f644f8bd34b16de"
+    },
+    {
+      "path": "src/crawl_data/translate_gms8k.py",
+      "size": 2580,
+      "sha": "556cf4a03ceab047f489a26f86b63559c3e209a0"
+    },
+    {
+      "path": "src/crawl_data/utils.ipynb",
+      "size": 16491,
+      "sha": "71158f0f996b89e678cd2c2170f85296f2afd38a"
+    },
+    {
+      "path": "src/crawl_data/vllm_crawler.py",
+      "size": 3681,
+      "sha": "16722038b038a824dcd2aab22214b6f1c16cb7c6"
+    },
+    {
+      "path": "src/infer/base_pipeline.py",
+      "size": 7662,
+      "sha": "cf0b2b68e5ef65dd3bea9f790b04cac0ebf1aeb2"
+    },
+    {
+      "path": "src/infer/code_pipeline.py",
+      "size": 4996,
+      "sha": "8c7cca3a069e5ab0888d50b6d946100ceca7de85"
+    },
+    {
+      "path": "src/infer/old_code_pipeline_v1.py",
+      "size": 5489,
+      "sha": "caf668bf4c5f2a688232e0ef3ea31a3e4f954d58"
+    },
+    {
+      "path": "src/infer/old_code_pipeline_v2.py",
+      "size": 3735,
+      "sha": "385f2aaeef766a6b3ccd338e0629caeb408486f4"
+    },
+    {
+      "path": "src/infer/rule_based_infer.py",
+      "size": 18097,
+      "sha": "c4d9cf3b23c87c70db284300b3285a0a894ead80"
+    },
+    {
+      "path": "src/infer/tgi_pipeline.py",
+      "size": 2489,
+      "sha": "865bbf86793c89986c1bbad7620405e4641f8fdf"
+    },
+    {
+      "path": "src/tmp.py",
+      "size": 963,
+      "sha": "08c603736fa62d5adaad0c78a8a04f71aa6471d8"
+    },
+    {
+      "path": "src/train/finetune.py",
+      "size": 45193,
+      "sha": "2fd553864138855263900d7d511037708a53bed1"
+    },
+    {
+      "path": "src/train/finetune_original.py",
+      "size": 27263,
+      "sha": "e42eb62153c11634ab3477a977d1bd61ca624921"
+    },
+    {
+      "path": "src/train/llama2_flash_attn_monkey_patch.py",
+      "size": 9152,
+      "sha": "af8ed3592f9c832467957da0fbca91e7ab5c1551"
+    },
+    {
+      "path": "src/train/run_clm_lora_gaudi.py",
+      "size": 32492,
+      "sha": "b471cae6c1cef9c7deed97d7b286e9034a01987d"
+    },
+    {
+      "path": "src/train/run_clm_lora_nvidia.py",
+      "size": 31936,
+      "sha": "6d096d92be71144cdf84a4df6e7ed1c6b39de8f9"
+    },
+    {
+      "path": "src/utils/__pycache__/constants.cpython-310.pyc",
+      "size": 2353,
+      "sha": "6f862d4b46b39560f733afb72412442cd5fd48cd"
+    },
+    {
+      "path": "src/utils/__pycache__/preprocess.cpython-310.pyc",
+      "size": 1139,
+      "sha": "86005221682300c1963a05681d1c42384fe31ea3"
+    },
+    {
+      "path": "src/utils/__pycache__/python_executor.cpython-310.pyc",
+      "size": 5874,
+      "sha": "1ba1dec57f5923b945ab07a4d90debca2cb39bfd"
+    },
+    {
+      "path": "src/utils/__pycache__/utils.cpython-310.pyc",
+      "size": 8945,
+      "sha": "5089ed7a9f0bbb1b01714a0c9eb82874230598e8"
+    },
+    {
+      "path": "src/utils/constants.py",
+      "size": 2784,
+      "sha": "31f01c0392c1db8c9e2e6e4d387a9d1e98b5ecd9"
+    },
+    {
+      "path": "src/utils/download_model.py",
+      "size": 568,
+      "sha": "c22a91a14a562788c58252ae8e48de455d9c7ba0"
+    },
+    {
+      "path": "src/utils/format_input_output_instruct.py",
+      "size": 4298,
+      "sha": "b8cedc135c3bf3a08572f6862fe5a912195652e6"
+    },
+    {
+      "path": "src/utils/format_input_output_instructcode.py",
+      "size": 8931,
+      "sha": "aaf8f2eee08111f0de442b07b93f37e140058581"
+    },
+    {
+      "path": "src/utils/merge_model.py",
+      "size": 1658,
+      "sha": "7e0eab2835ea4090e82a9cafd4d4229114e4d705"
+    },
+    {
+      "path": "src/utils/old_python_executor.py",
+      "size": 5829,
+      "sha": "6160e4fb90b477645537d8765f75fbf6c9ed7caf"
+    },
+    {
+      "path": "src/utils/preprocess.py",
+      "size": 1105,
+      "sha": "4dfabeffec1c06eb96636178cc2e2c13ea2fdfe2"
+    },
+    {
+      "path": "src/utils/python_executor.py",
+      "size": 2181,
+      "sha": "a641e01ee6b3d85a8f39e23eb3113ec6eaedf1ef"
+    },
+    {
+      "path": "src/utils/stopping_criteria.py",
+      "size": 774,
+      "sha": "7ba73a20bd567c0cbd41048994000d2aa4694937"
+    },
+    {
+      "path": "src/utils/test.py",
+      "size": 2744,
+      "sha": "cb473979101993f4e41d193bea401e6c8fac367b"
+    },
+    {
+      "path": "src/utils/utils.py",
+      "size": 4345,
+      "sha": "7bcb7f6b76d8a09a372dc85308b519efbded03eb"
+    },
+    {
+      "path": "system_examples.md",
+      "size": 1413,
+      "sha": "d5795ffab61a2d407e85dd5b779121e016337685"
+    }
+  ]
+}

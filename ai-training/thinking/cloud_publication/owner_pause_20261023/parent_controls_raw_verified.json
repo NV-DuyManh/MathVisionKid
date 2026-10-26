@@ -1,0 +1,26 @@
+{
+  "progress": {
+    "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+    "bytes": 15355263,
+    "sha256": "a3de9f2c391dd9e1282aed7175a6f3717736fd49e8174594e3c380446cb1ae44",
+    "fresh_raw_byte_equal": true
+  },
+  "chat": {
+    "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+    "bytes": 47148,
+    "sha256": "3aa52f82843527d4cb1a6205159093a08b0ae3fe07893a1cd3f894bc4113d512",
+    "fresh_raw_byte_equal": true
+  },
+  "context": {
+    "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+    "bytes": 797449,
+    "sha256": "ff22b64cdd297ccc0f8fcac075022c68427fa3bbcb4f431356c81400af3801f6",
+    "fresh_raw_byte_equal": true
+  },
+  "state": {
+    "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+    "bytes": 343871,
+    "sha256": "29d5de2f9792a3ae4c5c58324eb73c56b97cdd6e67b7dc0ed45c1649e7bcbf07",
+    "fresh_raw_byte_equal": true
+  }
+}

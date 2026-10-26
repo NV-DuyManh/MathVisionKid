@@ -1,0 +1,12 @@
+{
+  "derived_view_fraction": 0.24150943396226415,
+  "last_gradient_norm": 2.314725875854492,
+  "last_loss": 3.134763613343239,
+  "last_lr": 3e-06,
+  "loss_sum": 347.27475391328335,
+  "rows_done": 1600,
+  "step": 100,
+  "supervised_tokens": 338187,
+  "training_seconds": 827.6139354119975,
+  "unique_examples": 1600
+}

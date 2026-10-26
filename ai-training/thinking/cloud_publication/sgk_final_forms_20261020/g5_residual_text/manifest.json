@@ -1,0 +1,57 @@
+{
+  "status": "6_DRAFTS_AUTHOR_QA_PASSED_ROOT_REVIEW_PENDING",
+  "cases": 6,
+  "chat_rows": 24,
+  "numeric_steps": 12,
+  "master_branches": [
+    "g5_fraction_plus_minus_only",
+    "g5_graph_shortest_roundtrip_time_cost",
+    "g5_lateral_only_orientation_optimization"
+  ],
+  "source_members_no_shared_mutation": true,
+  "training_started": false,
+  "drive_mutated": false,
+  "all_sgk_forms_covered": false,
+  "files": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "a28c0806e59669bbddff5da43591c5da5d78b317972496e7a6dd28f6da7e1002",
+      "bytes": 40345
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "cab230016ad010e15e267ddf098bf8480e0b32c052e47f62adc3383f97703a99",
+      "bytes": 59683
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "dc61528af5d4ecfc241551ed1fc5e68fa98eb1d887b40cebcdea3288adc44273",
+      "bytes": 3226
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "de9b2f9724af41efa44439e6f1fcb6c6f028b02cfb98d35e559a7e6830d42443",
+      "bytes": 2782
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "f69d8919cc37e814d9bb2ec791d94c00336a82a66ca89bf50328719b757cec68",
+      "bytes": 2049
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "c20dbeee814b81f8bf65f5652154747860243602881203ce638f59ed9650498d",
+      "bytes": 130751
+    },
+    {
+      "path": "candidate_snapshot.json",
+      "sha256": "9f3e73352cd50b7c850a25e43b5cee0b5053275656457e789008d4a04b16a836",
+      "bytes": 15390
+    },
+    {
+      "path": "finite_oracle.py",
+      "sha256": "61962a7b6b2d00706a8a62e2e2c742cccb28b62041f02769cae53a1f685a1225",
+      "bytes": 3203
+    }
+  ]
+}

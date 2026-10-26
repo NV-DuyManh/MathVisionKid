@@ -1,0 +1,157 @@
+{
+  "schema": "MathVisionKid.source_fewshot_example_bank.v1",
+  "purpose": "Optional inference-time demonstrations only; not new weight training or evidence of improved model behavior.",
+  "selection_policy": "Fixed order; selector reads requested mode only; no behavior/oracle flag is included in entries.",
+  "source_files": {
+    "projection_preflight.json": {
+      "sha256": "880b5c5fd4be98f296d0a9c5e4f3828e86cff8c0bf77cdb09f97b648f1857022",
+      "sample_count": 14
+    },
+    "source_behavior_samples.json": {
+      "sha256": "b2194ad27400b985fa96e45c4ef9c25cacd444d01863a4f34e38a14737ecac18",
+      "sample_count": 10
+    },
+    "combined_approved_samples": 24
+  },
+  "entries": [
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:worked_solution",
+      "mode": "worked_solution",
+      "source_raw_row_sha256": "d5687151d3835f463b417ac0584275ba62a0173708890cb10b266b2a23f913b9",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Giải đầy đủ\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nBước 1\nNội dung: Trừ theo từng hàng\nVì sao: Tìm phần còn lại khi bớt số trừ khỏi số bị trừ; giữ giá trị số bị trừ khi đổi nhóm.\nPhép tính hoặc quan hệ: 565-103\nKết quả bước này: 462\nGiải thích: Hàng đơn vị; 5 − 3 = 2, ghi 2. Hàng chục; 6 − 0 = 6, ghi 6. Hàng trăm; 5 − 1 = 4, ghi 4. Vậy 565 − 103 = 462.\nBước 2\nNội dung: Kiểm bằng phép cộng\nVì sao: Hiệu cộng số trừ phải bằng số bị trừ.\nPhép tính hoặc quan hệ: 462+103\nKết quả bước này: 565\nGiải thích: 462 + 103 = 565, đúng số bị trừ.\nĐại lượng cần tìm: Hiệu\nĐáp số: 462",
+      "prompt_sha256": "7760ad5427fb0ff14ce2dd38bf0917cb0e1713da0951df5122a5f9dd38ee295e",
+      "target_sha256": "917ed2dfab37b89f34192f3cfd22664fe56a2af2a2e64365d1ca27af52fed8d1",
+      "prompt_chars": 165,
+      "target_chars": 598,
+      "combined_example_chars": 763
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger:worked_solution",
+      "mode": "worked_solution",
+      "source_raw_row_sha256": "482c0ef4862b7ed8fd8ff63e0104d36874d004d03d71accfe81ece9bfb7678f6",
+      "actual_prompt": "Toán lớp 5.\n\nChế độ: Giải đầy đủ\n\nEm viết: \"4,09 > 4,9 vì 09 có hai chữ số còn 9 có một chữ số\". Nhận xét và sửa quan hệ.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Hướng dẫn: Căn các hàng theo dấu phẩy và xác định vị trí từng chữ số.\nBước 1\nNội dung: So cùng hàng\nVì sao: Phần nguyên bằng nhau; so hàng phần mười trước.\nKết quả bước này: 4,09 < 4,9\nGiải thích: 4,9 = 4,90; chín phần trăm nhỏ hơn chín mươi phần trăm. Số chữ số không quyết định thứ tự.\nĐại lượng cần tìm: Quan hệ đúng\nĐáp số: 4,09 < 4,9",
+      "prompt_sha256": "8c79601a2dfdc222c1c2e9d3c514e2b8c8d6ce501efa6445c26476059ebf4ed2",
+      "target_sha256": "823809716e9e673ed7af1cba082a704f2e7866d95c9190c2caa1338692791241",
+      "prompt_chars": 186,
+      "target_chars": 338,
+      "combined_example_chars": 524
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g4_data_reconstruction_guard:worked_solution",
+      "mode": "worked_solution",
+      "source_raw_row_sha256": "9303cc8487b906e4524364415d5047e22577934cdab3a53706b2c1f45607427d",
+      "actual_prompt": "Toán lớp 4.\n\nChế độ: Giải đầy đủ\n\nBa buổi có số vé theo thứ tự [ôA]; [ôB]; 10. Chỉ biết tổng ba buổi là 40 vé; không có quan hệ giữa hai ô trống. Hỏi riêng từng ô.\n\nYêu cầu:\n\nGiải đầy đủ, giải thích cách làm và kiểm tra kết quả.",
+      "actual_target": "Chưa thể đưa ra lời giải xác định theo dữ kiện hiện có.\nHướng dẫn: Một tổng của hai ô trống chưa xác định riêng từng ô.\nBước 1\nNội dung: Biết tổng hai ô\nVì sao: Hai ô đầu cộng lại 30 vé.\nPhép tính hoặc quan hệ: 40-10\nKết quả bước này: 30\nĐơn vị: vé\nGiải thích: Hai ô đầu cộng lại 30 vé.\nBước 2\nNội dung: Chưa tách duy nhất\nVì sao: Nhiều cặp như 14 và 16 hoặc 12 và 18 cùng tổng 30 nên chưa biết riêng từng ô.\nKết quả bước này: Cần thêm một ô hoặc quan hệ giữaA, B.\nGiải thích: Nhiều cặp như 14 và 16 hoặc 12 và 18 cùng tổng 30 nên chưa biết riêng từng ô.",
+      "prompt_sha256": "d63d6c2e89abfb727c7284f78f6f1f2638cd58badf4174a5fb3fb4c3e02f2904",
+      "target_sha256": "326e15aba9bc3ec40cfca8cb6c30858504f1468cac21d686bbfd04276417c735",
+      "prompt_chars": 228,
+      "target_chars": 554,
+      "combined_example_chars": 782
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_1",
+      "mode": "hint_level_1",
+      "source_raw_row_sha256": "cdd2eb55d803b061844c26738dfea76f940b9cdcf2e2c6fb7d986a8fd2b1fdaa",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý bước đầu\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị trừ, số trừ và đặt các chữ số cùng hàng thẳng cột.\nEm thử trả lời: Em nên bắt đầu bớt từ hàng nào?",
+      "prompt_sha256": "29b18301ed8a46afdb0dae3e6c68bc679add7a9de84e668153908dc03e368116",
+      "target_sha256": "791f26d7c844ff3d8297d51e75e9c1ab460d40b25af2905b2b88ae15756f3497",
+      "prompt_chars": 191,
+      "target_chars": 120,
+      "combined_example_chars": 311
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_1",
+      "mode": "hint_level_1",
+      "source_raw_row_sha256": "a45238224fd19516bdeb4533caa1e26d6a404d6d6c7e3e834233285b862aa5bc",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý bước đầu\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý bước đầu để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Xác định số bị chia và số chia trước khi lập các nhóm đủ.\nEm thử trả lời: Số chia có khác không để phép chia có nghĩa không?",
+      "prompt_sha256": "efa26b081889a96c3f530b418e5217fe7ecdfed58ec7cc25df5bccac4fcda971",
+      "target_sha256": "2f1fb0887a8306c8c0c3d1374bb9701329a1aad9a2efa95e63e82ce43205091f",
+      "prompt_chars": 222,
+      "target_chars": 131,
+      "combined_example_chars": 353
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_2",
+      "mode": "hint_level_2",
+      "source_raw_row_sha256": "765fb1ef8af7a8dcab713ce4eaa4815f48a90851f63f9e1f6392758d4a118b47",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý thêm một bước\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý thêm một bước để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nếu một hàng chưa đủ bớt, đổi nhóm từ hàng cao hơn và cập nhật hàng cho đi.\nEm thử trả lời: Số lượng ở hàng đang xét có đủ để bớt số đã cho không?",
+      "prompt_sha256": "1b44e59f3c8ef1274b6486059fdd5c3985eddfdbb8175ab5ac7bcfa830976be2",
+      "target_sha256": "285df5fa4b3ddc4bcf8f7bfeb7f8d1ab21aec4d48d39b138889b24d963c41022",
+      "prompt_chars": 201,
+      "target_chars": 153,
+      "combined_example_chars": 354
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_2",
+      "mode": "hint_level_2",
+      "source_raw_row_sha256": "71ebb189480910461d0612d4fdd22f8c1143c3575f25abb354c3841abbc4a58e",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý thêm một bước\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý thêm một bước để em tự làm; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Tìm số nhóm đủ; phần còn lại cần nhỏ hơn lượng trong một nhóm.\nEm thử trả lời: Nếu còn lập thêm được một nhóm đủ, thương đã là thương cuối chưa?",
+      "prompt_sha256": "c9a25df0e4ad2ae02512a13d96d4946174c170861e9be429221165df98cd14c6",
+      "target_sha256": "1abd9e58b800d2a8fa5dbcbe4e1e7470f1e1589375f5a62312e26b5e3382744c",
+      "prompt_chars": 232,
+      "target_chars": 151,
+      "combined_example_chars": 383
+    },
+    {
+      "sample_id": "exhaustive_v1_sub_565_103:hint_level_3",
+      "mode": "hint_level_3",
+      "source_raw_row_sha256": "3ed3f7e5da7c2bd4474913274716a7f8bf00f028bf1b526fd58fdfee75e21537",
+      "actual_prompt": "Toán lớp 2.\n\nChế độ: Gợi ý cách kiểm tra và hoàn thiện\n\nTính 565 − 103. Giải thích cách bớt theo hàng và kiểm lại kết quả.\n\nYêu cầu:\n\nGợi ý cách kiểm tra và hoàn thiện; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Sau khi tính, cộng hiệu với số trừ để kiểm số bị trừ.\nEm thử trả lời: Phép kiểm của em có khôi phục số ban đầu không?",
+      "prompt_sha256": "4cef3d13cd2e12182b166027f7d5aa94e1a65d03bd8243e52002f544b360bf39",
+      "target_sha256": "19ee0ff69be0251bf6fd7ec312b0c10d0c2765c49f8b7c388e97522c7ec5c57c",
+      "prompt_chars": 216,
+      "target_chars": 124,
+      "combined_example_chars": 340
+    },
+    {
+      "sample_id": "exhaustive_v1_div_788_1:hint_level_3",
+      "mode": "hint_level_3",
+      "source_raw_row_sha256": "14eaf123b360116afe54bd54f51d7e90a97940693ea6d85f22b5cb9f0208e0ea",
+      "actual_prompt": "Toán lớp 3.\n\nChế độ: Gợi ý cách kiểm tra và hoàn thiện\n\nChia 788 cho 1. Tìm thương và số dư, giải thích vì sao không lập thêm được nhóm đủ, rồi kiểm lại.\n\nYêu cầu:\n\nGợi ý cách kiểm tra và hoàn thiện; không nêu đáp số cuối hoặc chọn đáp án thay em.",
+      "actual_target": "Gợi ý: Nhân thương với số chia rồi cộng phần dư để kiểm.\nEm thử trả lời: Phép kiểm có khôi phục số bị chia và phần dư có nhỏ hơn số chia không?",
+      "prompt_sha256": "3c2fa45755364369c4d38cf68612568e23271b55550bb218e99eeb3959255221",
+      "target_sha256": "ae29b8531372bc60e166f7778b9079b53d8b200f7286f9cf57dbb005ec5fbd5f",
+      "prompt_chars": 247,
+      "target_chars": 143,
+      "combined_example_chars": 390
+    }
+  ],
+  "mode_counts": {
+    "worked_solution": 3,
+    "hint_level_1": 2,
+    "hint_level_2": 2,
+    "hint_level_3": 2
+  },
+  "size_summary_chars": {
+    "worked_solution": {
+      "prompt_chars": 579,
+      "target_chars": 1490,
+      "combined_example_chars": 2069
+    },
+    "hint_level_1": {
+      "prompt_chars": 413,
+      "target_chars": 251,
+      "combined_example_chars": 664
+    },
+    "hint_level_2": {
+      "prompt_chars": 433,
+      "target_chars": 304,
+      "combined_example_chars": 737
+    },
+    "hint_level_3": {
+      "prompt_chars": 463,
+      "target_chars": 267,
+      "combined_example_chars": 730
+    }
+  },
+  "token_count": null,
+  "token_count_note": "No tokenizer was used; character counts are not token estimates.",
+  "human_or_teacher_attestation": null
+}

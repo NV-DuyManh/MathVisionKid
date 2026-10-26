@@ -1,0 +1,197 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "litres": "5",
+        "millilitres": "5000"
+      },
+      "grade": 3,
+      "id": "verbal20261024_locked_g3_liquid_units",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "4l125ml=4125ml;4125+875=5000ml=5l.",
+      "rubric": [
+        "Đổi đúng đơn vị và cộng.",
+        "Nêu đủ5000mlvà5lít."
+      ],
+      "userproblem": "Một can có 4 lít 125 ml nước. Rót thêm 875 ml. Biết 1 lít = 1000 ml. Trong can có tất cả bao nhiêu mi-li-lít và bao nhiêu lít?"
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_liquid_units",
+      "generated_tokens": 488,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\n**Bài toán:**\n\nMột can có 4 lít 125 ml nước. Rót thêm 875 ml. Hỏi trong can có tất cả bao nhiêu mililit và bao nhiêu lít?\n\n---\n\n**Bước 1: Chuyển đổi các đơn vị sang mililit**\n\n- 4 lít 125 ml = $4 \\times 1000 + 125 = 4000 + 125 = 4125$ ml\n\n- 875 ml vẫn giữ nguyên.\n\n**Bước 2: Tính tổng số mililit trong can**\n\nTổng số mililit = 4125 ml + 875 ml = $4125 + 875 = 4999$ ml\n\n---\n\n**Bước 3: Chuyển đổi số mililit sang lít**\n\n- 1 lít = 1000 ml\n\n- 4999 ml = $4999 \\div 1000 = 4$ lít 999 ml\n\n---\n\n**Kết luận:**\n\nTrong can có **4999 ml** và **4 lít 999 ml**.\n\n---\n\n**Kiểm tra lại:**\n\n- 4 lít 999 ml = $4 \\times 1000 + 999 = 4000 + 999 = 4999$ ml ✅\n\n- 4999 ml = $4$ lít $999$ ml ✅\n\n---\n\n**Đáp án cuối cùng:**\n\n- Tổng số mililit: **4999 ml**\n\n- Tổng số lít: **4 lít 999 ml**\n\n---\n\n**Lời giải đầy đủ:**\n\n- 4 lít 125 ml = 4125 ml  \n- Rót thêm 875 ml → Tổng = 4125 + 875 = 4999 ml  \n- 4999 ml = 4 lít 999 ml\n\n**Trong can có 4999 ml và 4 lít 999 ml.**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "71a969c01bef213bd8ecec30f87efbbe62351632bdb8d869524d2dbb2b0da591",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_liquid_units",
+      "generated_tokens": 488,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\n**Bài toán:**\n\nMột can có 4 lít 125 ml nước. Rót thêm 875 ml. Hỏi trong can có tất cả bao nhiêu mililit và bao nhiêu lít?\n\n---\n\n**Bước 1: Chuyển đổi các đơn vị sang mililit**\n\n- 4 lít 125 ml = $4 \\times 1000 + 125 = 4000 + 125 = 4125$ ml\n\n- 875 ml vẫn giữ nguyên.\n\n**Bước 2: Tính tổng số mililit trong can**\n\nTổng số mililit = 4125 ml + 875 ml = $4125 + 875 = 4999$ ml\n\n---\n\n**Bước 3: Chuyển đổi số mililit sang lít**\n\n- 1 lít = 1000 ml\n\n- 4999 ml = $4999 \\div 1000 = 4$ lít 999 ml\n\n---\n\n**Kết luận:**\n\nTrong can có **4999 ml** và **4 lít 999 ml**.\n\n---\n\n**Kiểm tra lại:**\n\n- 4 lít 999 ml = $4 \\times 1000 + 999 = 4000 + 999 = 4999$ ml ✅\n\n- 4999 ml = $4$ lít $999$ ml ✅\n\n---\n\n**Đáp án cuối cùng:**\n\n- Tổng số mililit: **4999 ml**\n\n- Tổng số lít: **4 lít 999 ml**\n\n---\n\n**Lời giải đầy đủ:**\n\n- 4 lít 125 ml = 4125 ml  \n- Rót thêm 875 ml → Tổng = 4125 + 875 = 4999 ml  \n- 4999 ml = 4 lít 999 ml\n\n**Trong can có 4999 ml và 4 lít 999 ml.**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "71a969c01bef213bd8ecec30f87efbbe62351632bdb8d869524d2dbb2b0da591",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "cm",
+        "value": "8"
+      },
+      "grade": 3,
+      "id": "verbal20261024_locked_g3_rectangle_missing_side",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "46:2=23;23−15=8;2×(15+8)=46cm.",
+      "rubric": [
+        "Lấy nửa chu vi trước rồi bớt chiều dài.",
+        "Nêu8cmvàkiểm46cm."
+      ],
+      "userproblem": "Một hình chữ nhật có chu vi 46 cm và chiều dài 15 cm. Chiều rộng bao nhiêu xăng-ti-mét? Hãy kiểm chu vi của hình theo kết quả tìm được."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_rectangle_missing_side",
+      "generated_tokens": 477,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có một hình chữ nhật có:\n\n- Chu vi: $ 46 \\, \\text{cm} $\n- Chiều dài: $ 15 \\, \\text{cm} $\n\nTa cần tìm chiều rộng của hình chữ nhật.\n\n**Bước 1:**\nTa biết chu vi của hình chữ nhật được tính theo công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nĐặt $ a = 15 \\, \\text{cm} $ (chiều dài), $ b $ (chiều rộng) là chiều cần tìm.\n\nThay vào công thức:\n\n$$\n46 = 2 \\times (15 + b)\n$$\n\n**Bước 2:**\nChia cả hai vế của phương trình cho 2:\n\n$$\n\\frac{46}{2} = 15 + b\n$$\n\n$$\n23 = 15 + b\n$$\n\n**Bước 3:**\nTrừ 15 từ cả hai vế:\n\n$$\nb = 23 - 15 = 8\n$$\n\n**Kết luận:**\nChiều rộng của hình chữ nhật là $ 8 \\, \\text{cm} $.\n\n---\n\n**Kiểm tra lại:**\n\n- Chu vi: $ 2 \\times (15 + 8) = 2 \\times 23 = 46 \\, \\text{cm} $ ✅\n\n**Kết luận:**\n\n- Chiều rộng: $ 8 \\, \\text{cm} $\n- Chu vi: $ 46 \\, \\text{cm} $ ✅\n\n**Lời giải đầy đủ:**\n\n- Chiều dài: $ 15 \\, \\text{cm} $\n- Chiều rộng: $ 8 \\, \\text{cm} $\n- Chu vi: $ 2 \\times (15 + 8) = 46 \\, \\text{cm} $\n\n**Kết quả:** Chiều rộng là $ 8 \\, \\text{cm} $, chu vi là $ 46 \\, \\text{cm} $.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b95accdc8bbead014489c9ffba311f1599004439efd64f058b582ac493e2a763",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_rectangle_missing_side",
+      "generated_tokens": 477,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Giải bài toán:**\n\nChúng ta có một hình chữ nhật có:\n\n- Chu vi: $ 46 \\, \\text{cm} $\n- Chiều dài: $ 15 \\, \\text{cm} $\n\nTa cần tìm chiều rộng của hình chữ nhật.\n\n**Bước 1:**\nTa biết chu vi của hình chữ nhật được tính theo công thức:\n\n$$\n\\text{Chu vi} = 2 \\times (\\text{chiều dài} + \\text{chiều rộng})\n$$\n\nĐặt $ a = 15 \\, \\text{cm} $ (chiều dài), $ b $ (chiều rộng) là chiều cần tìm.\n\nThay vào công thức:\n\n$$\n46 = 2 \\times (15 + b)\n$$\n\n**Bước 2:**\nChia cả hai vế của phương trình cho 2:\n\n$$\n\\frac{46}{2} = 15 + b\n$$\n\n$$\n23 = 15 + b\n$$\n\n**Bước 3:**\nTrừ 15 từ cả hai vế:\n\n$$\nb = 23 - 15 = 8\n$$\n\n**Kết luận:**\nChiều rộng của hình chữ nhật là $ 8 \\, \\text{cm} $.\n\n---\n\n**Kiểm tra lại:**\n\n- Chu vi: $ 2 \\times (15 + 8) = 2 \\times 23 = 46 \\, \\text{cm} $ ✅\n\n**Kết luận:**\n\n- Chiều rộng: $ 8 \\, \\text{cm} $\n- Chu vi: $ 46 \\, \\text{cm} $ ✅\n\n**Lời giải đầy đủ:**\n\n- Chiều dài: $ 15 \\, \\text{cm} $\n- Chiều rộng: $ 8 \\, \\text{cm} $\n- Chu vi: $ 2 \\times (15 + 8) = 46 \\, \\text{cm} $\n\n**Kết quả:** Chiều rộng là $ 8 \\, \\text{cm} $, chu vi là $ 46 \\, \\text{cm} $.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "b95accdc8bbead014489c9ffba311f1599004439efd64f058b582ac493e2a763",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "withheld_value": "9"
+      },
+      "grade": 3,
+      "id": "verbal20261024_locked_g3_quarter_set_hint",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "Chia36thẻthành4nhómbằngnhau rồi lấy1nhóm;36:4=9.",
+      "rubric": [
+        "Chia đều4nhóm, lấy1nhóm.",
+        "Không nêu9 hoặc chín thẻ."
+      ],
+      "userproblem": "Có 36 tấm thẻ. Em cần lấy một phần tư số thẻ. Chỉ gợi ý cách chia nhóm và lấy thẻ, không nêu số thẻ cuối cùng."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_quarter_set_hint",
+      "generated_tokens": 80,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Em có 36 tấm thẻ.\n- Em cần lấy một phần tư số thẻ, tức là lấy 36 ÷ 4.\n\nVậy, em có thể chia nhóm 9 tấm thẻ một nhóm (vì 36 ÷ 4 = 9). Sau đó, em lấy 9 tấm thẻ.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8815e5ec29bf9aa57256114822c18de36291686e882016fb898e2b7a19f5d23f",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_quarter_set_hint",
+      "generated_tokens": 80,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n- Em có 36 tấm thẻ.\n- Em cần lấy một phần tư số thẻ, tức là lấy 36 ÷ 4.\n\nVậy, em có thể chia nhóm 9 tấm thẻ một nhóm (vì 36 ÷ 4 = 9). Sau đó, em lấy 9 tấm thẻ.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "8815e5ec29bf9aa57256114822c18de36291686e882016fb898e2b7a19f5d23f",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "need": "Số quả bán thêm so với hôm qua hoặc số bán hôm nay.",
+        "unique": false
+      },
+      "grade": 3,
+      "id": "verbal20261024_locked_g3_unknown_sales_increase",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "19,20,... đều có thể nhiều hơn18; cần mức tăng chính xác.",
+      "rubric": [
+        "Không tự lấy19làm chắc chắn.",
+        "Xin lượng nhiều hơn hoặc thông tin tương đương."
+      ],
+      "userproblem": "Hôm qua quầy bán được 18 quả cam. Hôm nay bán nhiều hơn hôm qua, nhưng chưa biết nhiều hơn bao nhiêu quả. Có thể biết duy nhất số quả bán hôm nay chưa? Cần thêm dữ kiện gì?"
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_unknown_sales_increase",
+      "generated_tokens": 507,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nChúng ta có thông tin sau:\n\n- Hôm qua quầy bán được **18 quả cam**.\n- Hôm nay bán **nhiều hơn hôm qua**, nhưng **chưa biết nhiều hơn bao nhiêu**.\n\nTa cần tìm **số quả bán hôm nay**.\n\n**Từ thông tin đã cho, ta có:**\n\n- Số quả bán hôm qua: **18**.\n- Số quả bán hôm nay: **> 18** (vì hôm nay bán nhiều hơn hôm qua).\n\nTuy nhiên, ta **không thể xác định** số quả bán hôm nay vì **không có thông tin cụ thể** về số lượng bán hôm nay. Có thể là **19**, **20**, **25**, **30**, v.v.\n\n**Vậy, để tìm số quả bán hôm nay, ta cần thêm dữ kiện:**\n\n- **Số quả bán hôm nay là bao nhiêu?** (ví dụ: 20, 25, 30, v.v.)\n\n**Kiểm tra lại:**\n\n- Nếu số quả hôm nay là **20**, thì số quả hôm nay là **20**.\n- Nếu số quả hôm nay là **25**, thì số quả hôm nay là **25**.\n- Nếu số quả hôm nay là **30**, thì số quả hôm nay là **30**.\n\nTuy nhiên, **không thể xác định** số quả bán hôm nay từ thông tin đã cho.\n\n**Kết luận:**\n\n- **Không thể biết duy nhất số quả bán hôm nay**.\n- **Cần thêm dữ kiện** là **số quả bán hôm nay**.\n\n**Lời giải đầy đủ:**\n\n- **Thông tin đã cho:** Hôm qua bán 18 quả, hôm nay bán nhiều hơn hôm qua nhưng chưa biết nhiều hơn bao nhiêu.\n- **Từ đó, ta có:** Số quả hôm nay > 18, nhưng không xác định giá trị cụ thể.\n- **Không thể xác định duy nhất số quả hôm nay**.\n- **Cần thêm dữ kiện:** Số quả bán hôm nay.\n\n**Kiểm tra lại:** Không có thông tin nào giúp xác định số quả bán hôm nay. Do đó, **không thể biết duy nhất số quả bán hôm nay**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "286b734f7c0a93fd29e2df7c99edda582364d49c44fd34197d2fc8feba62904e",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g3_unknown_sales_increase",
+      "generated_tokens": 507,
+      "grade": 3,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "**Giải:**\n\nChúng ta có thông tin sau:\n\n- Hôm qua quầy bán được **18 quả cam**.\n- Hôm nay bán **nhiều hơn hôm qua**, nhưng **chưa biết nhiều hơn bao nhiêu**.\n\nTa cần tìm **số quả bán hôm nay**.\n\n**Từ thông tin đã cho, ta có:**\n\n- Số quả bán hôm qua: **18**.\n- Số quả bán hôm nay: **> 18** (vì hôm nay bán nhiều hơn hôm qua).\n\nTuy nhiên, ta **không thể xác định** số quả bán hôm nay vì **không có thông tin cụ thể** về số lượng bán hôm nay. Có thể là **19**, **20**, **25**, **30**, v.v.\n\n**Vậy, để tìm số quả bán hôm nay, ta cần thêm dữ kiện:**\n\n- **Số quả bán hôm nay là bao nhiêu?** (ví dụ: 20, 25, 30, v.v.)\n\n**Kiểm tra lại:**\n\n- Nếu số quả hôm nay là **20**, thì số quả hôm nay là **20**.\n- Nếu số quả hôm nay là **25**, thì số quả hôm nay là **25**.\n- Nếu số quả hôm nay là **30**, thì số quả hôm nay là **30**.\n\nTuy nhiên, **không thể xác định** số quả bán hôm nay từ thông tin đã cho.\n\n**Kết luận:**\n\n- **Không thể biết duy nhất số quả bán hôm nay**.\n- **Cần thêm dữ kiện** là **số quả bán hôm nay**.\n\n**Lời giải đầy đủ:**\n\n- **Thông tin đã cho:** Hôm qua bán 18 quả, hôm nay bán nhiều hơn hôm qua nhưng chưa biết nhiều hơn bao nhiêu.\n- **Từ đó, ta có:** Số quả hôm nay > 18, nhưng không xác định giá trị cụ thể.\n- **Không thể xác định duy nhất số quả hôm nay**.\n- **Cần thêm dữ kiện:** Số quả bán hôm nay.\n\n**Kiểm tra lại:** Không có thông tin nào giúp xác định số quả bán hôm nay. Do đó, **không thể biết duy nhất số quả bán hôm nay**.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "286b734f7c0a93fd29e2df7c99edda582364d49c44fd34197d2fc8feba62904e",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"REGISTERED_READONLY_OS_CACHE_WARMUP\", \"started_utc\": \"2026-10-23T04:31:43.559349+00:00\", \"path_role\": \"existing_working_database\", \"content_QA_or_snapshot_proof\": false, \"database_mutated\": false, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"REGISTERED_READONLY_OS_CACHE_WARMUP\", \"started_utc\": \"2026-10-23T04:31:43.559349+00:00\", \"path_role\": \"existing_working_database\", \"content_QA_or_snapshot_proof\": false, \"database_mutated\": false, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"state\\\": \\\"REGISTERED_READONLY_OS_CACHE_WARMUP\\\", \\\"started_utc\\\": \\\"2026-10-23T04:31:43.559349+00:00\\\", \\\"path_role\\\": \\\"existing_working_database\\\", \\\"content_QA_or_snapshot_proof\\\": false, \\\"database_mutated\\\": false, \\\"training_started\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

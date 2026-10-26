@@ -1,0 +1,35 @@
+{
+  "verified_utc": "2026-10-22T10:19:23.589Z",
+  "controls": [
+    {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 14040792,
+      "sha256": "1e89a5d3a33649c8d802a4b6a9e386cebf6d8711984608020403da893ac2be68",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 28560,
+      "sha256": "ba69b1e3f06bf75e0e5cc70f70b8f8571d6d56413641c43c38d5a89308699b55",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 812350,
+      "sha256": "3169a0a07eacd16b8d28ff009b96fda5453d770da45c95f4665ae5ff620643bf",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    },
+    {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 292422,
+      "sha256": "ce56bf542135a1157a14b17b6c4d7a0137af327194a855972f21b8e8639ea0fc",
+      "fresh_raw_verified": true,
+      "all_bytes_equal": true
+    }
+  ],
+  "STATE_written_last": true,
+  "training_started": false
+}

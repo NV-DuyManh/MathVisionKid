@@ -1,0 +1,546 @@
+{
+  "all_6502344_train_rows_preserved": true,
+  "current_run": {
+    "checkpoint_pointer_file_id": "1cADUsyiQm-tRvjj5HYmTzmYX-tkkX59o",
+    "epoch_complete": false,
+    "execution_overlay_member": "full_text_training_release_20261023/execution_adaptive_v3_20261023/",
+    "launcher": {
+      "bytes": 5519,
+      "fresh_raw_readback_verified": true,
+      "id": "1ft_qo_-8QJRFe7k1ZJrrKzrL1By-qyUh",
+      "sha256": "386c1792c777ce7a51774875fc1fff068381ad3267bdf8534051db8e6af27753"
+    },
+    "original_semantic_config_unchanged": true,
+    "progress_file_id": "1tES2KilfuodLlTxpl95_9zsAVmWi8Ow7",
+    "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+    "runtime_observation": {
+      "TEXT_TRAINING_DATASET_READY": true,
+      "config": {
+        "accumulation": 16,
+        "epochs": 1,
+        "expected_rows": 6502344,
+        "lora_alpha": 32,
+        "lora_dropout": 0.05,
+        "lora_r": 16,
+        "lr": 0.0001,
+        "max_sequence_tokens": 2048,
+        "microbatch": 1,
+        "model": "Qwen/Qwen3-1.7B",
+        "recipe_sha256": "1bb69c394c7eaaea7034125c6b3361eebbbe0d77e0715a8454331fbe7cee3ff8",
+        "release_sha256": "14dc5111ab4d0ac691a6f4b0d49f4395f8544145663bdd42df4e6da1fa6a4fdc",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+        "seed": 20261023
+      },
+      "expected_rows": 6502344,
+      "expected_train_rows": 6502344,
+      "gpu": "Tesla T4",
+      "last_update": {
+        "amp_scale": 1024.0,
+        "effective_optimizer_group": 16,
+        "grad_norm": 0.02770841121673584,
+        "gradient_checkpointing": true,
+        "loss": 0.0013164184347260743,
+        "overflow_retries": 0,
+        "padded_token_budget": 3800,
+        "physical_chunk_sizes": [
+          4,
+          4,
+          4,
+          4
+        ],
+        "physical_microbatch": 4,
+        "selected_supervised_logits": true
+      },
+      "last_verified_checkpoint": {
+        "bytes": 209670333,
+        "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+        "epoch_complete": false,
+        "fresh_raw_readback_verified": true,
+        "id": "15fBO3jL1rw-O4OZVByqDoEWTVw-_OKju",
+        "name": "checkpoint_step_0000641_rows_00010256_803d69eb9db18bf9.pt",
+        "rows_done": 10256,
+        "sha256": "803d69eb9db18bf91f97587ae7b2d088bf2997fc813207988ee4421d6ad53f6e",
+        "step": 641
+      },
+      "libraries": {
+        "accelerate": "1.15.0",
+        "bitsandbytes": "0.50.2",
+        "peft": "0.21.2",
+        "tokenizers": "0.23.3",
+        "torch": "2.11.0+cu130",
+        "transformers": "5.16.1"
+      },
+      "max_sequence_tokens": 2048,
+      "observed_utc": "2026-10-23T13:44:23.840796+00:00",
+      "registered_utc": "2026-10-23T12:31:23.231438+00:00",
+      "rows_done": 10480,
+      "run_folder_id": "1Dacm9bRF_Fmyh3vlRpJG_5Ugpup2bPEq",
+      "seconds_this_session": 4280.6,
+      "state": "TRAINING_ALL_TEXT",
+      "step": 655,
+      "subset_limit": null,
+      "t4_batch_optimization": {
+        "actual_train_row_loss_parity": {
+          "abs_difference": 1.3238168321549892e-05,
+          "batched_mean": 0.0025198818184435368,
+          "old_mean": 0.002506643650121987
+        },
+        "adaptive_batching": true,
+        "before_rows": 10256,
+        "before_step": 641,
+        "benchmark_optimizer_updates": 0,
+        "checkpoint_before": {
+          "bytes": 209670333,
+          "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+          "epoch_complete": false,
+          "fresh_raw_readback_verified": true,
+          "id": "15fBO3jL1rw-O4OZVByqDoEWTVw-_OKju",
+          "name": "checkpoint_step_0000641_rows_00010256_803d69eb9db18bf9.pt",
+          "rows_done": 10256,
+          "sha256": "803d69eb9db18bf91f97587ae7b2d088bf2997fc813207988ee4421d6ad53f6e",
+          "step": 641
+        },
+        "code_sha256": "ed5924cc728d367f1f6e35e72abd1d4a5b88c7b7cd8b23a9976b7e8ebf22510d",
+        "drive_evidence": {
+          "bytes": 5205,
+          "fresh_raw_readback_verified": true,
+          "id": "1dqdbSjmvhm-GaO_DzgZN4p4fbsk89eNC",
+          "name": "t4_batch_optimization_v3.json",
+          "sha256": "610673e0f8dfcf87c29df3796399ecf038fc5f315e87681d1d40b0ceaf9a5bd5"
+        },
+        "effective_optimizer_group": 16,
+        "extra_optimizer_updates": 0,
+        "gradient_accumulation_microsteps": "VARIABLE_EXACT_GROUP_WEIGHTING",
+        "gradient_checkpointing": true,
+        "length_grouping_within_optimizer_step": true,
+        "measured_speedup": 1.3689896915591553,
+        "model_weights_unchanged_during_probe": true,
+        "padded_token_budget": 3800,
+        "physical_microbatch": 4,
+        "probes": [
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 5.375643253326416,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 9.187528133392334,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 6.633513480000147,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187528133392334,
+                "requested_rows": 2
+              }
+            ],
+            "microbatch": 2,
+            "padded_token_budget": 2962,
+            "representative_peak_gib": 4.00546407699585,
+            "safe": true,
+            "samples_per_second": 2.41199479706185,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.536101818084717,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.027069568634033,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 5.534383653000077,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187532901763916,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.027069568634033,
+                "requested_rows": 3
+              }
+            ],
+            "microbatch": 3,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 4.646104335784912,
+            "safe": true,
+            "samples_per_second": 2.891017501348452,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.4564361572265625,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.106735229492188,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 4.845554002999961,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.265493392944336,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.106735229492188,
+                "requested_rows": 3
+              },
+              {
+                "padded_length": 950,
+                "peak_gib": 11.106292724609375,
+                "requested_rows": 4
+              }
+            ],
+            "microbatch": 4,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 5.365108013153076,
+            "safe": true,
+            "samples_per_second": 3.301996013271989,
+            "selected_supervised_logits": true
+          },
+          {
+            "gradient_checkpointing": true,
+            "headroom_gib": 3.4777889251708984,
+            "length_grouping_within_optimizer_step": true,
+            "max_length_peak_gib": 11.085382461547852,
+            "max_length_tokens": 1481,
+            "median_group_seconds": 5.342512613000508,
+            "memory_shapes": [
+              {
+                "padded_length": 1481,
+                "peak_gib": 9.187528133392334,
+                "requested_rows": 2
+              },
+              {
+                "padded_length": 1266,
+                "peak_gib": 11.027064800262451,
+                "requested_rows": 3
+              },
+              {
+                "padded_length": 950,
+                "peak_gib": 11.085382461547852,
+                "requested_rows": 4
+              },
+              {
+                "padded_length": 760,
+                "peak_gib": 11.084105491638184,
+                "requested_rows": 5
+              },
+              {
+                "padded_length": 633,
+                "peak_gib": 11.076234340667725,
+                "requested_rows": 6
+              },
+              {
+                "padded_length": 542,
+                "peak_gib": 11.064711570739746,
+                "requested_rows": 7
+              },
+              {
+                "padded_length": 475,
+                "peak_gib": 11.076039791107178,
+                "requested_rows": 8
+              }
+            ],
+            "microbatch": 8,
+            "padded_token_budget": 3800,
+            "representative_peak_gib": 7.846086025238037,
+            "safe": true,
+            "samples_per_second": 2.9948455266283296,
+            "selected_supervised_logits": true
+          }
+        ],
+        "rng_restored_after_probe": true,
+        "selected_supervised_logits": true,
+        "source_or_target_bytes_changed": 0,
+        "state": "APPLIED",
+        "training_rows_added_or_removed": 0,
+        "training_rows_after_probe": 10256,
+        "truncation_allowed": false,
+        "version": 3
+      },
+      "t4_batch_optimization_history": [
+        {
+          "actual_train_row_loss_parity": {
+            "abs_difference": 0.0001137852668762207,
+            "batched_mean": 1.7361440658569336,
+            "old_mean": 1.7362578511238098
+          },
+          "before_rows": 2640,
+          "before_step": 165,
+          "benchmark_optimizer_updates": 0,
+          "checkpoint_before": {
+            "bytes": 209670333,
+            "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+            "epoch_complete": false,
+            "fresh_raw_readback_verified": true,
+            "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+            "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+            "rows_done": 2640,
+            "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+            "step": 165
+          },
+          "code_sha256": "6b54b7c48750ef6e58a15f19120c3cf0ccedce6c1a95f1b05d7eb035bfff0307",
+          "drive_evidence": {
+            "bytes": 3596,
+            "fresh_raw_readback_verified": true,
+            "id": "1qJocNKYmhK4CS6fcf1bMZXvl1ARmFoQQ",
+            "name": "t4_batch_optimization_v2.json",
+            "sha256": "6b5c8a4aaa64843f9c3cca53b9e9f68d23cf471b362fae69f97744fa842860b6"
+          },
+          "effective_optimizer_group": 16,
+          "extra_optimizer_updates": 0,
+          "gradient_accumulation_microsteps": 8,
+          "gradient_checkpointing": true,
+          "length_grouping_within_optimizer_step": true,
+          "measured_speedup": 1.5704239616901972,
+          "model_weights_unchanged_during_probe": true,
+          "physical_microbatch": 2,
+          "probes": [
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 9.08844518661499,
+              "length_grouping_within_optimizer_step": false,
+              "max_length_peak_gib": 5.47472620010376,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 14.797221336999883,
+              "microbatch": 1,
+              "representative_peak_gib": 4.541913986206055,
+              "safe": true,
+              "samples_per_second": 1.0812840894656766,
+              "selected_supervised_logits": false
+            },
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 8.633655548095703,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 5.929515838623047,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 13.727229126999646,
+              "microbatch": 1,
+              "representative_peak_gib": 4.368467330932617,
+              "safe": true,
+              "samples_per_second": 1.1655666159552998,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": true,
+              "headroom_gib": 5.371101379394531,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 9.192070007324219,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 9.422437315000025,
+              "microbatch": 2,
+              "representative_peak_gib": 6.104764938354492,
+              "safe": true,
+              "samples_per_second": 1.6980744434912654,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": true,
+              "microbatch": 4,
+              "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+              "safe": false,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": false,
+              "headroom_gib": 2.041215419769287,
+              "length_grouping_within_optimizer_step": true,
+              "max_length_peak_gib": 12.521955966949463,
+              "max_length_tokens": 1481,
+              "median_group_seconds": 9.568127218999962,
+              "microbatch": 1,
+              "representative_peak_gib": 10.305962562561035,
+              "safe": true,
+              "samples_per_second": 1.672218568355562,
+              "selected_supervised_logits": true
+            },
+            {
+              "gradient_checkpointing": false,
+              "microbatch": 2,
+              "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+              "safe": false,
+              "selected_supervised_logits": true
+            }
+          ],
+          "rng_restored_after_probe": true,
+          "selected_supervised_logits": true,
+          "source_or_target_bytes_changed": 0,
+          "state": "APPLIED",
+          "training_rows_added_or_removed": 0,
+          "training_rows_after_probe": 2640,
+          "truncation_allowed": false,
+          "version": 2
+        }
+      ],
+      "test_rows_reserved": 24,
+      "total_updates": 406397,
+      "training_started": true,
+      "validation_rows_reserved": 24,
+      "worker_alive": true,
+      "worker_stack": [
+        {
+          "file": "full_text_training_run.py",
+          "function": "update_group",
+          "line": 179
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "wrapper",
+          "line": 218
+        },
+        {
+          "file": "train_teacher_math_v3.py",
+          "function": "run_amp_update",
+          "line": 375
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "<lambda>",
+          "line": 217
+        },
+        {
+          "file": "t4_microbatch_optimization_v3.py",
+          "function": "backward",
+          "line": 110
+        },
+        {
+          "file": "_tensor.py",
+          "function": "backward",
+          "line": 631
+        },
+        {
+          "file": "__init__.py",
+          "function": "backward",
+          "line": 381
+        },
+        {
+          "file": "graph.py",
+          "function": "_engine_run_backward",
+          "line": 869
+        }
+      ]
+    },
+    "training_started": true
+  },
+  "model_quality_guarantee": false,
+  "observed_utc": "2026-10-23T13:44:42.405204+00:00",
+  "original_run_scope_unchanged": true,
+  "prior_execution_history": [
+    {
+      "actual_train_row_loss_parity": {
+        "abs_difference": 0.0001137852668762207,
+        "batched_mean": 1.7361440658569336,
+        "old_mean": 1.7362578511238098
+      },
+      "before_rows": 2640,
+      "before_step": 165,
+      "benchmark_optimizer_updates": 0,
+      "checkpoint_before": {
+        "bytes": 209670333,
+        "config_sha256": "d8b0b09755917190b3dfa35250300d64b2b0552e838c6b641e110eb312034ac8",
+        "epoch_complete": false,
+        "fresh_raw_readback_verified": true,
+        "id": "1FGif0tuSB5q8p5_XkkVw6cJTyiG55Rw7",
+        "name": "checkpoint_step_0000165_rows_00002640_bb022b06f798e8c8.pt",
+        "rows_done": 2640,
+        "sha256": "bb022b06f798e8c80de4ce34ce78fb3784b9072d0f079859979b7edd82f7ff5d",
+        "step": 165
+      },
+      "code_sha256": "6b54b7c48750ef6e58a15f19120c3cf0ccedce6c1a95f1b05d7eb035bfff0307",
+      "drive_evidence": {
+        "bytes": 3596,
+        "fresh_raw_readback_verified": true,
+        "id": "1qJocNKYmhK4CS6fcf1bMZXvl1ARmFoQQ",
+        "name": "t4_batch_optimization_v2.json",
+        "sha256": "6b5c8a4aaa64843f9c3cca53b9e9f68d23cf471b362fae69f97744fa842860b6"
+      },
+      "effective_optimizer_group": 16,
+      "extra_optimizer_updates": 0,
+      "gradient_accumulation_microsteps": 8,
+      "gradient_checkpointing": true,
+      "length_grouping_within_optimizer_step": true,
+      "measured_speedup": 1.5704239616901972,
+      "model_weights_unchanged_during_probe": true,
+      "physical_microbatch": 2,
+      "probes": [
+        {
+          "gradient_checkpointing": true,
+          "headroom_gib": 9.08844518661499,
+          "length_grouping_within_optimizer_step": false,
+          "max_length_peak_gib": 5.47472620010376,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 14.797221336999883,
+          "microbatch": 1,
+          "representative_peak_gib": 4.541913986206055,
+          "safe": true,
+          "samples_per_second": 1.0812840894656766,
+          "selected_supervised_logits": false
+        },
+        {
+          "gradient_checkpointing": true,
+          "headroom_gib": 8.633655548095703,
+          "length_grouping_within_optimizer_step": true,
+          "max_length_peak_gib": 5.929515838623047,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 13.727229126999646,
+          "microbatch": 1,
+          "representative_peak_gib": 4.368467330932617,
+          "safe": true,
+          "samples_per_second": 1.1655666159552998,
+          "selected_supervised_logits": true
+        },
+        {
+          "gradient_checkpointing": true,
+          "headroom_gib": 5.371101379394531,
+          "length_grouping_within_optimizer_step": true,
+          "max_length_peak_gib": 9.192070007324219,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 9.422437315000025,
+          "microbatch": 2,
+          "representative_peak_gib": 6.104764938354492,
+          "safe": true,
+          "samples_per_second": 1.6980744434912654,
+          "selected_supervised_logits": true
+        },
+        {
+          "gradient_checkpointing": true,
+          "microbatch": 4,
+          "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+          "safe": false,
+          "selected_supervised_logits": true
+        },
+        {
+          "gradient_checkpointing": false,
+          "headroom_gib": 2.041215419769287,
+          "length_grouping_within_optimizer_step": true,
+          "max_length_peak_gib": 12.521955966949463,
+          "max_length_tokens": 1481,
+          "median_group_seconds": 9.568127218999962,
+          "microbatch": 1,
+          "representative_peak_gib": 10.305962562561035,
+          "safe": true,
+          "samples_per_second": 1.672218568355562,
+          "selected_supervised_logits": true
+        },
+        {
+          "gradient_checkpointing": false,
+          "microbatch": 2,
+          "reason": "FORWARD_BACKWARD_OOM_NO_WEIGHT_UPDATE",
+          "safe": false,
+          "selected_supervised_logits": true
+        }
+      ],
+      "rng_restored_after_probe": true,
+      "selected_supervised_logits": true,
+      "source_or_target_bytes_changed": 0,
+      "state": "APPLIED",
+      "training_rows_added_or_removed": 0,
+      "training_rows_after_probe": 2640,
+      "truncation_allowed": false,
+      "version": 2
+    }
+  ],
+  "probe_limit": "One actual train optimizer group and padded shape stress; not a whole-corpus throughput or quality guarantee",
+  "selection": "Fastest tested safe candidate at >=5% measured group speedup, otherwise previous microbatch2",
+  "tests": "9 CPU tests passed; variable chunks preserve equal-example loss and causal gradient; actual GPU parity/memory probes recorded"
+}

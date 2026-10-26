@@ -1,0 +1,191 @@
+{
+  "authored_utc": "2026-10-18T02:41:10.281275+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T02:39:35.946Z",
+  "batch_sha256": "cc088bde34f5b7df359f2e0d48787e715baa1e6ec1e0f3c396bb6e8c82815de6",
+  "authored_cases": 4,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 0,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_coin_one_valid_toss_faces",
+      "row_sha256": "8eeff19c5c5c59273a035380953dc30e70fe29e3e3569f99d9bc65b535847309",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "2",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls",
+      "row_sha256": "10984026634a417d78dbb81cb5acdd1a2ef35beb1c70f2d813c6ec6d869a7654",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector",
+      "row_sha256": "29a358305b6ea2e69605820e4e747b2c02c9a8cbcafdcb95b8f6d41db93b8d12",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "3",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_outcomes_0047_misconception_previous_result_forces_next",
+      "row_sha256": "dcf9848f28ab19b46a288ec0e446372bcf3090477ebcb57f2c228b8e35c1a86b",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "nonnumeric step requires content review",
+          "categorical answer requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "coin_face_set": [
+      "Mặt Trời",
+      "Trăng"
+    ],
+    "coin_cardinality_exact": "2",
+    "ball_id_to_color": {
+      "X1": "xanh",
+      "X2": "xanh",
+      "Đ1": "đỏ",
+      "V1": "vàng",
+      "V2": "vàng",
+      "V3": "vàng"
+    },
+    "distinct_colors": [
+      "vàng",
+      "xanh",
+      "đỏ"
+    ],
+    "color_cardinality_exact": "3",
+    "sector_id_to_name": {
+      "A": "Ngôi sao",
+      "B": "Ngôi sao",
+      "C": "Trăng",
+      "D": "Mây"
+    },
+    "distinct_names": [
+      "Mây",
+      "Ngôi sao",
+      "Trăng"
+    ],
+    "name_cardinality_exact": "3",
+    "permitted_pairs_under_explicit_rule": [
+      [
+        "Mặt Trời",
+        "Mặt Trời"
+      ],
+      [
+        "Mặt Trời",
+        "Trăng"
+      ],
+      [
+        "Trăng",
+        "Mặt Trời"
+      ],
+      [
+        "Trăng",
+        "Trăng"
+      ]
+    ],
+    "repeat_moon_counterexample_to_forced_alternation": true
+  },
+  "oracle_method": "Independent finite image-set construction from distinct physical IDs and deterministic recording maps; exact Fraction cardinalities corroborate curator; permitted-pair countermodel refutes forced alternation under explicitly supplied possibilities. Does not assign probability measures, fairness or empirical frequencies.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_previous_accepted295_sources_unchanged": true,
+  "independent_external_reviewer": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "limits": "Hypothetical single valid trial. Possibility lists do not certify fair devices, equal probabilities, real tossing, visual recognition or all curriculum variants.",
+  "pre_self_QA_polish": {
+    "previous_unreviewed_batch_sha256": "b087cffdf48fef901b48afaf0af15bcb427ec4857e91c9e18c856dfb2104b9b2",
+    "changes": [
+      "Remove near-final unknown-result cue from third coin hint.",
+      "Clarify fairness is not supplied, rather than relying only on question scope.",
+      "Ask omission and duplication checks separately rather than requiring simultaneous errors."
+    ],
+    "frozen_or_official_review_modified": false
+  },
+  "actual_full_readback_self_QA": {
+    "reviewed_utc": "2026-10-18T02:41:46.043962+00:00",
+    "cases": 4,
+    "hints": 12,
+    "all_actual_content_fields_read": true,
+    "same_author_not_independent": true,
+    "case_notes": {
+      "primary_20261018_g3_outcomes_0047_coin_one_valid_toss_faces": "Actual question defines one valid flat toss, one face upward, both faces individually possible. Face set {Sun,Moon} has exact cardinality2; excludes simultaneous faces without claiming physical execution or predicting next face. Unit possibilities not trials. Replaced hint3 near-unknown cue by neutral evidence question; all hints omit final labels/count/unknown verdict. Fairness explicitly not supplied; no equal-probability inference.",
+      "primary_20261018_g3_outcomes_0047_bag_colors_not_individual_balls": "Actual inventory has six distinct ball IDs and recording only color. Map image is green/red/yellow cardinality3; duplicate physical IDs of same color do not add recorded outcomes. Complete inventory and every-ball possible assumption support exhaustive list, not uniform chances. Initial and all hints omit color list/count; hint2 omission/duplication checks clarified. Enumeration oracle supports category counts, Fraction literal alone not semantic proof.",
+      "primary_20261018_g3_outcomes_0047_spinner_recording_label_vs_sector": "One valid spinner result is an interior sector; boundary discarded by explicit rule. Sector outcomes A/B/C/D mapped to star/star/moon/cloud give three distinct recorded names. Transfer compares recording conventions for same valid trial, no extra draw. Every valid sector checked, no invented vision, fairness, or frequency. Initial and hints ask recording/duplication/completeness without enumerating final outcomes or counts.",
+      "primary_20261018_g3_outcomes_0047_misconception_previous_result_forces_next": "Synthetic quote explicitly asserts forced alternation after Moon. Given next-trial rule still permits both faces, including repeated Moon; countermodel (Moon,Moon) refutes certainty. Own feedback only evaluates visible assertion, preserves prior synthetic report, infers no arithmetic or private reasoning. Current-trial list remains Sun/Moon, no probabilities or actual experiment claim. Hints guide rule/evidence/counterexample without final labels or verdict."
+    },
+    "official_review_sha256": "2b591c9a9d21541422f85ba3729ff481381bf6b524b3ab947e3a9e9ed3e21cbe"
+  }
+}

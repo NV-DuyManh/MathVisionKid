@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "q6clYDRNOhNI"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"BASE_EVALUATED_EXACT_ROW_HASH_GATE_PENDING_VIEW\", \"pid\": 48870, \"prior_optimizer_updates\": 0, \"base_generations_preserved\": 28}\n"
+        ]
+      }
+    ]
+  }
+}

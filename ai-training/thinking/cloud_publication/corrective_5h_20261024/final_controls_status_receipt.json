@@ -1,0 +1,25 @@
+{
+  "add": {
+    "newCellId": "loLYxA05ZbFI"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T05:33:24.824570+00:00\", \"controls\": {\"state\": \"PREPARED\", \"work\": \"/content/mathvisionkid_corrective_5h_20261024/four_controls_publication/20261024T053113387866Z\"}, \"control_thread_alive\": true, \"worker_exit\": 0}\n"
+        ]
+      }
+    ]
+  }
+}

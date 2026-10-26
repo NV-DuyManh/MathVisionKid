@@ -1,0 +1,32 @@
+{
+  "manifestVersion": "1.2.0",
+  "model_name": "MathVision-Kids-Vietnamese-Math-Line-OCR",
+  "model_version": "1.0.0",
+  "status": "production_candidate",
+  "task": "line_level_optical_character_recognition",
+  "supported_domains": [
+    "Vietnamese handwriting (primary school students)",
+    "Accented Vietnamese text (câu lời giải, đáp số)",
+    "Arithmetic operations (+, -, ×, x, :, /, =)",
+    "Decimal numbers (commas, periods)",
+    "Measurement units (m, cm, km, kg, g, giờ, phút, giây, ...)",
+    "Exponents and symbols (%, °, ², ³)"
+  ],
+  "architecture": "CRNN (4-block Conv2d + GroupNorm + BiLSTM(128) + Linear)",
+  "framework": "PyTorch",
+  "input_channels": 3,
+  "input_height": 64,
+  "input_width": 1024,
+  "vocab_size": 326,
+  "blank_index": 0,
+  "artifacts_sha256": {
+    "best_cer.pth": "c590a62c814f431b1cf52f1904b53e9b0a656635f94dde0b827b6a0a6e2aae9c",
+    "config.yaml": "492bcabec6a22bbabe5963ed08b2f94f8de4b45feff254c18e4cf2192767f263",
+    "evaluation_report.json": "0cb5681b3d275f7bb244a8c24472d0e475839fa262cbf5aeb69812249fb46640",
+    "model.py": "ba0f7922fbf63527e863999de257d64c5611f3029cff12f1272023926fed75a4",
+    "predict.py": "3be17105440d827efa448fafb7d1e35f007098bf3647c82b481752080b4ad43c",
+    "requirements.txt": "92b2cff5e74d043abc362a66b8764e9afd1a28e5f008372306c08d767eb3fe65",
+    "vocab.json": "b2b8e1912d1d25e6939272ae0e65a676cbdcefb5fe3b4cc872aacd8483430a2f"
+  },
+  "export_date": "2026-09-21"
+}

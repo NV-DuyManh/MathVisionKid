@@ -1,0 +1,1943 @@
+{
+  "schema": "MathVisionKid.base_generation_semantic_review.v1",
+  "snapshot": "base_generations.jsonl compared against new_eval_candidates.jsonl",
+  "review_type": "LLM semantic review of actual outputs; no human reviewer attestation or independent external validation",
+  "fixture_count": 28,
+  "all_fixture_ids_matched": true,
+  "base_stage": "base_before_training",
+  "base_outputs_all_marked_untruncated": true,
+  "source_sha256": {
+    "base_generations.jsonl": "23f84c00c73b807ac6829e281cdedfee30a7630de6b1fa5855b3c10fef057f24",
+    "new_eval_candidates.jsonl": "81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100"
+  },
+  "overall_aggregation": "No pooled accuracy claim. NA is excluded within each criterion and mode. Use mathematical_behavior_strict_summary for frozen mode-specific results; grade fit is reported separately.",
+  "evaluation_scope_note": "Curriculum fit is reviewed separately from mathematical correctness. Grade 3 fraction addition and decimal-money fixtures may exceed Vietnam grade-3 core; retain as enrichment/evaluation limitation rather than relabeling fixtures after seeing outputs.",
+  "fixtures": [
+    {
+      "fixture_id": "g1_add_objects",
+      "grade": 1,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "11 vỏ sò",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "11 vỏ sò",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "6 + 5 = 11",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "cần tìm tổng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Mina bỏ 6 vỏ sò vào lọ, rồi bỏ thêm 5 vỏ nữa. Bây giờ trong lọ có tất cả bao nhiêu vỏ sò?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Không có yêu cầu gợi ý."
+        }
+      }
+    },
+    {
+      "fixture_id": "g1_subtract_objects",
+      "grade": 1,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Còn lại 8 chiếc thuyền giấy",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Còn lại 8 chiếc thuyền giấy",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "14 - 6 = 8",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "cần tìm số ... còn lại",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trên bàn có 14 chiếc thuyền giấy. Người ta lấy đi 6 chiếc. Còn lại bao nhiêu chiếc?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Bài toán trừ một bước phù hợp lớp 1."
+        }
+      }
+    },
+    {
+      "fixture_id": "g1_add_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "7 + 4 = ?",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "7 + 4 = ?",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Ta sử dụng phép cộng",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "không cho em biết đáp số; không nêu kết quả",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "7 + 4 = ?",
+          "evidence_source": "base_output"
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trong giỏ có 7 quả lê, rồi người ta bỏ thêm 4 quả. Hãy gợi ý một cách làm, đừng cho em biết đáp số.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Gợi ý phép cộng phù hợp lớp 1."
+        }
+      }
+    },
+    {
+      "fixture_id": "g1_student_subtraction_error",
+      "grade": 1,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "12 - 5 = 8",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "12 - 5 = 8",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Em đã thực hiện phép trừ đúng",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Kết quả là đúng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Kết quả là đúng",
+          "evidence_source": "base_output"
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em có 12 khối đồ chơi và cho bạn 5 khối. Em viết 12 - 5 = 8. Em làm đúng không?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Bài kiểm tra phép trừ phù hợp lớp 1."
+        }
+      }
+    },
+    {
+      "fixture_id": "g1_conflicting_count",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "9 - 3 = 6 con",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "9 - 3 = 6 con",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Tờ ghi chú nói còn 7 con",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "thông tin sai lệch",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "thông tin sai lệch",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Có 9 con vịt. 3 con đi khỏi ao. Tờ ghi chú nói còn 7 con. Nếu 3 con đã đi thì đáng lẽ còn bao nhiêu con?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Một bước phép trừ phù hợp lớp 1."
+        }
+      }
+    },
+    {
+      "fixture_id": "g2_add_lengths",
+      "grade": 2,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63 cm",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63 cm",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "35 cm + 28 cm = 63 cm",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "tìm tổng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một dải ruy-băng dài 35 cm, dải kia dài 28 cm. Tổng chiều dài hai dải là bao nhiêu?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Cộng độ dài hai số đo phù hợp lớp 2."
+        }
+      }
+    },
+    {
+      "fixture_id": "g2_two_step_stickers",
+      "grade": 2,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Leo còn 29 nhãn dán",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Leo còn 29 nhãn dán",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "24 + 13 = 37; ... 37 - 8 = 29",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "cộng ... và trừ",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Leo có 24 nhãn dán, được tặng thêm 13 nhãn rồi đưa 8 nhãn cho em họ. Bây giờ Leo còn bao nhiêu nhãn dán?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Hai bước số học phù hợp lớp 2."
+        }
+      }
+    },
+    {
+      "fixture_id": "g2_addition_hint",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Kết quả: 75",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Kết quả: 75",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "8 + 7 = 15 ... Hàng chục ... = 7",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "đừng nói tổng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Kết quả: 75",
+          "evidence_source": "base_output"
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em gợi ý cách tính 48 + 27 nhé, nhưng đừng nói tổng.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Phép cộng phù hợp lớp 2; đáp số bị lộ."
+        }
+      }
+    },
+    {
+      "fixture_id": "g2_student_subtraction_error",
+      "grade": 2,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63 - 28 = 35",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "63 - 28 = 35",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "35 ≠ 45",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Kết quả sai",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Kết quả sai",
+          "evidence_source": "base_output"
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Em tính 63 - 28 và được 45. Em kiểm tra giúp em với nhé?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Kiểm tra phép trừ phù hợp lớp 2."
+        }
+      }
+    },
+    {
+      "fixture_id": "g2_missing_time",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Không đủ thông tin",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Không đủ thông tin",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "không có thông tin cụ thể về thời gian đến",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Cần biết thời gian đến",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Cần biết thời gian đến",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một chiếc xe buýt rời bến lúc 3 giờ 20 phút và đến thư viện sau đó. Chuyến đi kéo dài bao nhiêu phút?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Nhận diện dữ kiện thiếu phù hợp lớp 2."
+        }
+      }
+    },
+    {
+      "fixture_id": "g3_fraction_like_parts",
+      "grade": 3,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "6/9 phần",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "6/9 phần",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "2/9 + 4/9 = 6/9",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "cộng hai phần",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Buổi trưa Noah ăn 2/9 quả dưa, sau giờ học ăn thêm 4/9 quả. Noah đã ăn tất cả bao nhiêu phần của quả dưa?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Phép tính đúng nhưng chưa rút gọn 6/9 thành 2/3; phân số có thể vượt chương trình lõi VN lớp 3."
+        }
+      }
+    },
+    {
+      "fixture_id": "g3_multistep_books",
+      "grade": 3,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "22 quyển vở",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "22 quyển vở",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "5 × 6 = 30; 30 - 8 = 22",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "số còn lại",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Lớp xếp 5 bàn, mỗi bàn có 6 quyển vở. Sau đó 8 quyển được mang sang phòng khác. Còn bao nhiêu quyển vở trên các bàn?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Nhân rồi trừ là bài nhiều bước phù hợp enrichment lớp 3."
+        }
+      }
+    },
+    {
+      "fixture_id": "g3_decimal_money",
+      "grade": 3,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "3,75 đô la",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "3,75 đô la",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "2,35 + 1,40",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "tìm tổng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Một quyển vở giá 2,35 đô la và một cây bút giá 1,40 đô la. Tổng số tiền phải trả là bao nhiêu?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Tính đúng; số thập phân/đô la có thể là enrichment ngoài lõi lớp 3 VN."
+        }
+      }
+    },
+    {
+      "fixture_id": "g3_area_hint",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Diện tích = chiều dài × chiều rộng",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Diện tích = chiều dài × chiều rộng",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "kết quả sẽ được tính bằng m²",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "đừng nói kết quả",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Diện tích = chiều dài × chiều rộng",
+          "evidence_source": "base_output"
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một mảnh vườn hình chữ nhật dài 7 m, rộng 4 m. Hãy gợi ý cách tính diện tích nhưng đừng nói kết quả.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Không làm lộ 28; diện tích hình chữ nhật phù hợp mức enrichment lớp 3."
+        }
+      }
+    },
+    {
+      "fixture_id": "g3_conflicting_shape",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "22 cm",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "22 cm",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "2 × (8 + 3) = 22",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "nhãn ... 18 cm ... sai sót",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "nhãn ... 18 cm ... sai sót",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một hình chữ nhật dài 8 cm, rộng 3 cm. Nhãn trên hình ghi chu vi là 18 cm. Tính chu vi theo chiều dài và chiều rộng đã cho.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Công thức chu vi phù hợp lớp 3."
+        }
+      }
+    },
+    {
+      "fixture_id": "g4_fraction_of_group",
+      "grade": 4,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "12 thành viên",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "12 thành viên",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "3/8 × 32 = 12",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "tìm số thành viên",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một câu lạc bộ có 32 thành viên. Ba phần tám số thành viên mang theo trò chơi bàn. Có bao nhiêu thành viên mang trò chơi?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Tính phân số của nhóm phù hợp lớp 4."
+        }
+      }
+    },
+    {
+      "fixture_id": "g4_division_remainder",
+      "grade": 4,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "8 túi đầy ... 5 ổ",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "8 túi đầy ... 5 ổ",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "53 ÷ 6 = 8 ... còn ... 5",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "chia ... túi đầy",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một người làm bánh xếp 53 ổ bánh mì vào các túi, mỗi túi 6 ổ. Xếp được bao nhiêu túi đầy và còn thừa mấy ổ?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Quotient/remainder đúng; có typo đơn vị “ổ/triết” và câu đơn vị gọi túi là đơn vị."
+        }
+      }
+    },
+    {
+      "fixture_id": "g4_decimal_measure",
+      "grade": 4,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "1,6 m + 0,85 m",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "1,6 m + 0,85 m",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "Cộng hai số đo độ dài",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "tìm tổng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một tấm ván dài 1,6 m, một đoạn ván khác dài 0,85 m. Tổng chiều dài là bao nhiêu?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Bài cộng thập phân phù hợp lớp 4; dừng trước khi tính/ghi 2,45 m."
+        }
+      }
+    },
+    {
+      "fixture_id": "g4_multistep_groups_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "108 - 17 = 91 cốc",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "108 - 17 = 91 cốc",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "9 × 12 = 108; ... 108 - 17 = 91",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "đừng nêu kết quả",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "108 - 17 = 91 cốc",
+          "evidence_source": "base_output"
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Có 9 khay, mỗi khay có 12 chiếc cốc. Người ta dùng 17 chiếc. Hãy gợi ý cách tính số cốc còn lại, đừng nêu kết quả.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Quy trình phù hợp lớp 4 nhưng gợi ý làm lộ 91."
+        }
+      }
+    },
+    {
+      "fixture_id": "g4_student_area_perimeter_mixup",
+      "grade": 4,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "26 cm",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "26 cm",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "(9 + 4) × 2 = 26",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "36 cm ... diện tích ... không phải chu vi",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "36 cm ... diện tích ... không phải chu vi",
+          "evidence_source": "base_output"
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một hình chữ nhật có kích thước 9 cm × 4 cm. Em nói chu vi là 36 cm vì 9 × 4 = 36. Em nói đúng không?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Phân biệt diện tích/chu vi phù hợp lớp 4."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_fraction_subtraction",
+      "grade": 5,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Bể còn lại 3/4",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Bể còn lại 3/4",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "1 - 1/4 = 3/4",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "đang đầy 5/6 ... đã được sử dụng",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một bể nước đang đầy 5/6 dung tích. Gia đình dùng một lượng nước bằng 1/4 dung tích tối đa của bể. Bể còn lại bao nhiêu phần dung tích tối đ",
+          "evidence_source": "prompt",
+          "reviewer_note": "Mô hình đúng là 5/6 - 1/4 = 7/12; lớp 5 phù hợp."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_decimal_rate",
+      "grade": 5,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "8,4 km",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "8,4 km",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "2,4 × 3,5 = 8,4 km",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "tính tổng quãng đường",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một người đi xe đạp đi được 2,4 km mỗi vòng và đạp 3,5 vòng. Người đó đi được bao xa?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Nhân số thập phân phù hợp lớp 5."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_triangle_side",
+      "grade": 5,
+      "mode": "answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "6,5 cm",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "6,5 cm",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "23 - 16,5 = 6,5 cm",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "chu vi ... tổng của ba cạnh",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Hai cạnh của một tam giác dài 7,5 cm và 9 cm. Chu vi tam giác là 23 cm. Cạnh thứ ba dài bao nhiêu?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Phép trừ chu vi phù hợp lớp 5; cạnh thứ ba tạo tam giác hợp lệ."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_ratio_hint",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "(8 × 3) / 2",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "(8 × 3) / 2",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "2 cốc ... tương ứng 3 cốc",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "đừng nói đáp số",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "(8 × 3) / 2",
+          "evidence_source": "base_output"
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Pha sơn theo tỉ lệ cứ 2 cốc sơn xanh thì dùng 3 cốc sơn trắng. Nếu dùng 8 cốc sơn xanh, hãy gợi ý cách tìm lượng sơn trắng, đừng nói đáp số.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Nêu quan hệ tỉ lệ mà không tính/làm lộ 12; phù hợp lớp 5."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_student_percent_error",
+      "grade": 5,
+      "mode": "student_error",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "3/5 ... tương đương 60%",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "3/5 ... tương đương 60%",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "3/5 ÷ 100% = 0.3",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "lời giải ... là sai",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "lời giải ... là sai",
+          "evidence_source": "base_output"
+        },
+        "missing_info": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một bạn nói 3/5 lớp học tương đương 30% vì 3 chia 5 bằng 0,3. Em sẽ kiểm tra lời giải này thế nào?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Kết luận 60% đúng nhưng phép chia ghi đầu tiên sai và tự mâu thuẫn; phù hợp lớp 5."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_contradictory_distance",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "24 km",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "24 km",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "6 cm × 4 km/cm = 24 km",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "không nhắc trực tiếp ghi chú 20 km",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PARTIAL",
+          "evidence_quote": "không nhắc trực tiếp ghi chú 20 km",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Bản đồ có tỉ lệ 1 cm ứng với 4 km. Một tuyến đường dài 6 cm trên bản đồ, nhưng ghi chú nói khoảng cách thật là 20 km. Theo tỉ lệ bản đồ thì ",
+          "evidence_source": "prompt",
+          "reviewer_note": "Đáp số theo tỉ lệ đúng; chưa chỉ rõ 20 km mâu thuẫn."
+        }
+      }
+    },
+    {
+      "fixture_id": "g1_missing_information",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "không thể xác định chính xác",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "không thể xác định chính xác",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "không cung cấp ... số viên bi còn lại",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "cần biết số ... còn lại",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "cần biết số ... còn lại",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Trong hộp có vài viên bi. Bạn Nam lấy ra 2 viên. Hỏi ban đầu trong hộp có bao nhiêu viên bi?",
+          "evidence_source": "prompt",
+          "reviewer_note": "Không bịa dữ kiện; nhận diện thiếu số dư phù hợp lớp 1."
+        }
+      }
+    },
+    {
+      "fixture_id": "g5_missing_information",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "criteria": {
+        "answer": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Chọn a = 2 cm",
+          "evidence_source": "base_output"
+        },
+        "unit": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Chọn a = 2 cm",
+          "evidence_source": "base_output"
+        },
+        "steps": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Ví dụ, chọn a = 2 cm",
+          "evidence_source": "base_output"
+        },
+        "reason": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Dữ kiện đã cho đủ",
+          "evidence_source": "base_output"
+        },
+        "hint_safety": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "student_error": {
+          "applicable": false,
+          "status": "NA",
+          "evidence_quote": null,
+          "evidence_source": null
+        },
+        "missing_info": {
+          "applicable": true,
+          "status": "FAIL",
+          "evidence_quote": "Dữ kiện đã cho đủ",
+          "evidence_source": "base_output"
+        },
+        "gradefit": {
+          "applicable": true,
+          "status": "PASS",
+          "evidence_quote": "Một hình chữ nhật có diện tích 48 cm². Chiều dài lớn hơn chiều rộng. Tính chu vi hình chữ nhật.",
+          "evidence_source": "prompt",
+          "reviewer_note": "Diện tích 48 và dài hơn rộng không xác định duy nhất chu vi; tự dựng 6×8 rồi khẳng định đủ dữ kiện là sai. Phù hợp lớp 5."
+        }
+      }
+    }
+  ],
+  "provenance": {
+    "remote_uploaded_raw_file": {
+      "drive_file_id": "17LJmW1c2qIAZ4ZKEioP47oeWmqeQ-Mpz",
+      "bytes": 24685,
+      "sha256": "7f763c04be976ba5ee188c6aff3f907ca99a6bafc0076464f30005171a568193",
+      "verification_note": "Raw remote-file byte count/SHA256 supplied from the fresh runtime upload record; parsed content is independently bound below through the saved read receipt."
+    },
+    "local_controller_render": {
+      "path": "evaluation/base_generations.jsonl",
+      "bytes": 24713,
+      "sha256": "23f84c00c73b807ac6829e281cdedfee30a7630de6b1fa5855b3c10fef057f24",
+      "note": "Windows/controller JSONL reserialization; its raw-file SHA differs from the uploaded remote raw file."
+    },
+    "saved_read_receipt": {
+      "path": "base_eval_read_receipt.json",
+      "sha256": "ad481442d76b7569ace769c5ebaa948add603c884e21833ea06a3015aa2ec5bf",
+      "parsed_remote_base_rows_equal_local_rows_in_order": true,
+      "row_count": 28,
+      "canonical_rows_serialization": "json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(\",\", \":\")).encode(\"utf-8\")",
+      "canonical_rows_bytes": 24322,
+      "canonical_rows_sha256": "8844f9558ecdd608843152bf8a5574714113eca0594221ec24379ffd19ac3b39"
+    }
+  },
+  "mode_specific_strict_summary": {
+    "answer": {
+      "fixture_count": 13,
+      "strict_all_applicable_criteria_pass": 7,
+      "strict_all_applicable_criteria_denominator": 13,
+      "answer_status_counts": {
+        "PASS": 10,
+        "PARTIAL": 1,
+        "FAIL": 2
+      },
+      "note": "Includes grade fit; see mathematical_behavior_strict_summary for strict math behavior with grade fit excluded. NA is excluded. Hint answer status evaluates withholding, not numeric correctness.",
+      "metric_name": "strict_all_applicable_criteria_pass_including_gradefit"
+    },
+    "hint_no_answer": {
+      "fixture_count": 5,
+      "strict_all_applicable_criteria_pass": 3,
+      "strict_all_applicable_criteria_denominator": 5,
+      "answer_status_counts": {
+        "PASS": 3,
+        "FAIL": 2
+      },
+      "note": "Includes grade fit; see mathematical_behavior_strict_summary for strict math behavior with grade fit excluded. NA is excluded. Hint answer status evaluates withholding, not numeric correctness.",
+      "metric_name": "strict_all_applicable_criteria_pass_including_gradefit"
+    },
+    "missing_or_contradictory_info": {
+      "fixture_count": 6,
+      "strict_all_applicable_criteria_pass": 4,
+      "strict_all_applicable_criteria_denominator": 6,
+      "answer_status_counts": {
+        "PASS": 5,
+        "FAIL": 1
+      },
+      "note": "Includes grade fit; see mathematical_behavior_strict_summary for strict math behavior with grade fit excluded. NA is excluded. Hint answer status evaluates withholding, not numeric correctness.",
+      "metric_name": "strict_all_applicable_criteria_pass_including_gradefit"
+    },
+    "student_error": {
+      "fixture_count": 4,
+      "strict_all_applicable_criteria_pass": 2,
+      "strict_all_applicable_criteria_denominator": 4,
+      "answer_status_counts": {
+        "FAIL": 1,
+        "PASS": 2,
+        "PARTIAL": 1
+      },
+      "note": "Includes grade fit; see mathematical_behavior_strict_summary for strict math behavior with grade fit excluded. NA is excluded. Hint answer status evaluates withholding, not numeric correctness.",
+      "metric_name": "strict_all_applicable_criteria_pass_including_gradefit"
+    }
+  },
+  "criterion_status_counts_by_mode_excluding_NA": {
+    "answer": {
+      "answer": {
+        "applicable_denominator": 13,
+        "status_counts": {
+          "PASS": 10,
+          "PARTIAL": 1,
+          "FAIL": 2
+        }
+      },
+      "unit": {
+        "applicable_denominator": 13,
+        "status_counts": {
+          "PASS": 10,
+          "PARTIAL": 2,
+          "FAIL": 1
+        }
+      },
+      "steps": {
+        "applicable_denominator": 13,
+        "status_counts": {
+          "PASS": 11,
+          "PARTIAL": 1,
+          "FAIL": 1
+        }
+      },
+      "reason": {
+        "applicable_denominator": 13,
+        "status_counts": {
+          "PASS": 10,
+          "PARTIAL": 2,
+          "FAIL": 1
+        }
+      },
+      "hint_safety": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "student_error": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "missing_info": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "gradefit": {
+        "applicable_denominator": 13,
+        "status_counts": {
+          "PASS": 11,
+          "PARTIAL": 2
+        }
+      }
+    },
+    "hint_no_answer": {
+      "answer": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 3,
+          "FAIL": 2
+        }
+      },
+      "unit": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 3,
+          "PARTIAL": 2
+        }
+      },
+      "steps": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 4,
+          "PARTIAL": 1
+        }
+      },
+      "reason": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 3,
+          "FAIL": 2
+        }
+      },
+      "hint_safety": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 3,
+          "FAIL": 2
+        }
+      },
+      "student_error": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "missing_info": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "gradefit": {
+        "applicable_denominator": 5,
+        "status_counts": {
+          "PASS": 5
+        }
+      }
+    },
+    "missing_or_contradictory_info": {
+      "answer": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 5,
+          "FAIL": 1
+        }
+      },
+      "unit": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 5,
+          "FAIL": 1
+        }
+      },
+      "steps": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 5,
+          "FAIL": 1
+        }
+      },
+      "reason": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 4,
+          "PARTIAL": 1,
+          "FAIL": 1
+        }
+      },
+      "hint_safety": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "student_error": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "missing_info": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 4,
+          "PARTIAL": 1,
+          "FAIL": 1
+        }
+      },
+      "gradefit": {
+        "applicable_denominator": 6,
+        "status_counts": {
+          "PASS": 6
+        }
+      }
+    },
+    "student_error": {
+      "answer": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "FAIL": 1,
+          "PASS": 2,
+          "PARTIAL": 1
+        }
+      },
+      "unit": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "PARTIAL": 1,
+          "PASS": 3
+        }
+      },
+      "steps": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "FAIL": 2,
+          "PASS": 2
+        }
+      },
+      "reason": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "FAIL": 1,
+          "PASS": 2,
+          "PARTIAL": 1
+        }
+      },
+      "hint_safety": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "student_error": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "FAIL": 1,
+          "PASS": 2,
+          "PARTIAL": 1
+        }
+      },
+      "missing_info": {
+        "applicable_denominator": 0,
+        "status_counts": {}
+      },
+      "gradefit": {
+        "applicable_denominator": 4,
+        "status_counts": {
+          "PASS": 4
+        }
+      }
+    }
+  },
+  "mathematical_behavior_strict_summary": {
+    "per_mode": {
+      "answer": {
+        "fixture_count": 13,
+        "strict_mathematical_behavior_pass": 8,
+        "denominator": 13,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason"
+        ],
+        "gradefit_excluded": true
+      },
+      "hint_no_answer": {
+        "fixture_count": 5,
+        "strict_mathematical_behavior_pass": 3,
+        "denominator": 5,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "hint_safety"
+        ],
+        "gradefit_excluded": true
+      },
+      "missing_or_contradictory_info": {
+        "fixture_count": 6,
+        "strict_mathematical_behavior_pass": 4,
+        "denominator": 6,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "missing_info"
+        ],
+        "gradefit_excluded": true
+      },
+      "student_error": {
+        "fixture_count": 4,
+        "strict_mathematical_behavior_pass": 2,
+        "denominator": 4,
+        "required_criteria": [
+          "answer",
+          "unit",
+          "steps",
+          "reason",
+          "student_error"
+        ],
+        "gradefit_excluded": true
+      }
+    },
+    "answer_mode_numerical_answer_pass": {
+      "pass": 10,
+      "denominator": 13,
+      "scope": "mode=answer only; no hint/no-answer fixtures pooled in"
+    },
+    "hint_withholding_pass": {
+      "pass": 3,
+      "denominator": 5,
+      "scope": "mode=hint_no_answer; PASS requires no numeric answer leak and hint_safety PASS"
+    },
+    "gradefit_excluded_from_strict_math_behavior": true,
+    "gradefit_reported_separately": {
+      "pass": 26,
+      "partial": 2,
+      "fail": 0,
+      "denominator": 28,
+      "composition_limitation": "Grade-3 fraction-addition and decimal-money items are PARTIAL fit; may exceed Vietnam grade-3 core."
+    },
+    "composition_limitation": "Two grade-fit PARTIALs are the grade-3 fraction-addition and decimal-money fixtures, which may exceed Vietnam grade-3 core. This is a fixed evaluation-composition limitation; the model cannot repair fixture scope, and fixture grades were not changed after seeing outputs."
+  }
+}

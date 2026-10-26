@@ -1,0 +1,8 @@
+[
+  {
+    "seconds": 39.148791050996806,
+    "utc": "2026-10-22T16:30:50.942415+00:00",
+    "index_state_before": "QUERY_INDEXES_COMMITTED",
+    "index_state_after": "QUERY_INDEXES_COMMITTED"
+  }
+]

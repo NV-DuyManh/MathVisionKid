@@ -1,0 +1,39 @@
+{
+  "controls": {
+    "progress": {
+      "id": "1D5RvQ5-V3DtYZfGxmlmvvPlVz9I-SxeX",
+      "bytes": 15736326,
+      "sha256": "d9a12f3204749f86b8038fb816c3deaf668e9df934535de4a9d48515d1dd9855",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-22T17:30:13.132Z"
+    },
+    "chat": {
+      "id": "1tkSQoAlxXXRUg2AwYfvqsFKVEmM_LmR6",
+      "bytes": 50411,
+      "sha256": "3fc35f8aa203292a94953afd4558d054b692c3a7ae46b62449b8b25bcc8397f8",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-22T17:30:18.302Z"
+    },
+    "context": {
+      "id": "13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9",
+      "bytes": 799861,
+      "sha256": "99f5f02b630dd9d6d5622c17bae3fdff114343e00af7987ce892856ea136cf86",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-22T17:30:28.539Z"
+    },
+    "state": {
+      "id": "1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme",
+      "bytes": 354080,
+      "sha256": "c731223ac0a1278fddc2054f05cb7fe1d4d2b5b1bad7049d3348e5f6fd414092",
+      "fresh_raw_readback_verified": true,
+      "all_bytes_equal": true,
+      "verified_utc": "2026-10-22T17:30:34.440Z"
+    }
+  },
+  "state_written_last": true,
+  "owner_requested_pause": true,
+  "training_started": false
+}

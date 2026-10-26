@@ -1,0 +1,10 @@
+{
+  "dev_fixture_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "native_dev_subset_count": 15,
+  "native_final_count": 15,
+  "native_locked15_sha256": "0526ec69b5b1730376835c2961d32c79c187f6d1d0fe3057f2d98358b71674f7",
+  "owner_budget_unchanged": true,
+  "schema": "MathVisionKid.native_probe_scope.v1",
+  "selection_policy_sha256": "5cff9514fb29c6dc8f7f6b39f570000d709ff146df71cc1ffa7ef85c958b96e5",
+  "source_and_old_results_preserved": true
+}

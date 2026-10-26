@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "2GuRT6iD8CW9"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"observed_utc\": \"2026-10-24T12:43:42.046508+00:00\", \"remaining_budget_seconds\": 8643.953322649002, \"skill_benchmark_process\": {\"alive\": true, \"exit\": null, \"pid\": 47969}, \"skill_training_process\": null, \"skill_final_process\": null, \"benchmark/progress.json\": {\"completed\": 1, \"last_configuration\": \"official_nonthinking\", \"last_eos\": true, \"last_fixture\": \"qrec20261024_v1_g5_percent_reversal\", \"total\": 8, \"training_performed\": false}, \"publication\": {\"state\": \"RUNNING\", \"folder_id\": \"1dZE2gMavdnJsK_-VLmdFBdAxBwY10HmA\", \"error\": null, \"last_error\": null, \"final_artifacts\": null, \"artifact_count\": 11, \"checkpoints\": {}}, \"benchmark.log\": \"████████▉| 308/311 [00:05<00:00, 46.04it/s]\\nLoading weights: 100%|██████████| 311/311 [00:05<00:00, 52.21it/s]\\nPassing `generation_config` together with generation-related arguments=({'pad_token_id', 'max_time', 'cache_implementation'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.\\nBoth `max_new_tokens` (=1536) and `max_length`(=40960) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)\\nBoth `max_new_tokens` (=1536) and `max_length`(=40960) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)\\n\", \"gpu\": \"Tesla T4, 1619 MiB, 24 %\"}\n"
+        ]
+      }
+    ]
+  }
+}

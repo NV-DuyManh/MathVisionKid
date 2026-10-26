@@ -1,0 +1,340 @@
+{
+  "status": "COMPLETED_RESEARCH_MCQ_ONLY",
+  "run_id": "qwen3_06b_real_mcq_2epoch_seed20261012",
+  "baseline_validation": {
+    "samples": 118,
+    "correct": 24,
+    "accuracy": 0.2033898305084746,
+    "accuracy_wilson_95": [
+      0.14065893187319645,
+      0.28482464680600666
+    ],
+    "format_valid": 25,
+    "truncations": 20,
+    "arithmetic_checked": 8,
+    "arithmetic_flagged": 0,
+    "arithmetic_audit_is_partial_and_not_semantic_verification": true,
+    "per_grade": {
+      "1": {
+        "samples": 5,
+        "correct": 1,
+        "accuracy": 0.2,
+        "accuracy_wilson_95": [
+          0.03622316096978745,
+          0.6244717358814613
+        ],
+        "format_valid": 2,
+        "truncations": 0,
+        "arithmetic_checked": 0,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "3": {
+        "samples": 8,
+        "correct": 1,
+        "accuracy": 0.125,
+        "accuracy_wilson_95": [
+          0.02241690886329617,
+          0.4708948057698615
+        ],
+        "format_valid": 1,
+        "truncations": 1,
+        "arithmetic_checked": 0,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "4": {
+        "samples": 43,
+        "correct": 8,
+        "accuracy": 0.18604651162790697,
+        "accuracy_wilson_95": [
+          0.0974163558010598,
+          0.3261729323530596
+        ],
+        "format_valid": 8,
+        "truncations": 11,
+        "arithmetic_checked": 3,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "5": {
+        "samples": 62,
+        "correct": 14,
+        "accuracy": 0.22580645161290322,
+        "accuracy_wilson_95": [
+          0.13955057139297955,
+          0.34405857540782725
+        ],
+        "format_valid": 14,
+        "truncations": 8,
+        "arithmetic_checked": 5,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      }
+    },
+    "macro_grade_accuracy": 0.18421324081020254
+  },
+  "selected": "epoch2",
+  "selected_validation": {
+    "samples": 118,
+    "correct": 74,
+    "accuracy": 0.6271186440677966,
+    "accuracy_wilson_95": [
+      0.5371517183693184,
+      0.7090696050538803
+    ],
+    "format_valid": 118,
+    "truncations": 0,
+    "arithmetic_checked": 99,
+    "arithmetic_flagged": 21,
+    "arithmetic_audit_is_partial_and_not_semantic_verification": true,
+    "per_grade": {
+      "1": {
+        "samples": 5,
+        "correct": 3,
+        "accuracy": 0.6,
+        "accuracy_wilson_95": [
+          0.23071993220883708,
+          0.8823817688407467
+        ],
+        "format_valid": 5,
+        "truncations": 0,
+        "arithmetic_checked": 1,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "3": {
+        "samples": 8,
+        "correct": 3,
+        "accuracy": 0.375,
+        "accuracy_wilson_95": [
+          0.13684175946152105,
+          0.6942621454161981
+        ],
+        "format_valid": 8,
+        "truncations": 0,
+        "arithmetic_checked": 10,
+        "arithmetic_flagged": 2,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "4": {
+        "samples": 43,
+        "correct": 25,
+        "accuracy": 0.5813953488372093,
+        "accuracy_wilson_95": [
+          0.43328315755711777,
+          0.7161566566251477
+        ],
+        "format_valid": 43,
+        "truncations": 0,
+        "arithmetic_checked": 30,
+        "arithmetic_flagged": 6,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "5": {
+        "samples": 62,
+        "correct": 43,
+        "accuracy": 0.6935483870967742,
+        "accuracy_wilson_95": [
+          0.5703254906920545,
+          0.7941856998014938
+        ],
+        "format_valid": 62,
+        "truncations": 0,
+        "arithmetic_checked": 58,
+        "arithmetic_flagged": 13,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      }
+    },
+    "macro_grade_accuracy": 0.5624859339834959
+  },
+  "selected_test": {
+    "samples": 100,
+    "correct": 59,
+    "accuracy": 0.59,
+    "accuracy_wilson_95": [
+      0.4920125056109662,
+      0.6813284290433533
+    ],
+    "format_valid": 98,
+    "truncations": 1,
+    "arithmetic_checked": 79,
+    "arithmetic_flagged": 13,
+    "arithmetic_audit_is_partial_and_not_semantic_verification": true,
+    "per_grade": {
+      "1": {
+        "samples": 7,
+        "correct": 7,
+        "accuracy": 1.0,
+        "accuracy_wilson_95": [
+          0.6456611570247934,
+          1.0
+        ],
+        "format_valid": 7,
+        "truncations": 0,
+        "arithmetic_checked": 0,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "2": {
+        "samples": 2,
+        "correct": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson_95": [
+          0.34237195288961925,
+          1.0
+        ],
+        "format_valid": 2,
+        "truncations": 0,
+        "arithmetic_checked": 1,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "3": {
+        "samples": 10,
+        "correct": 5,
+        "accuracy": 0.5,
+        "accuracy_wilson_95": [
+          0.23658959361548731,
+          0.7634104063845126
+        ],
+        "format_valid": 9,
+        "truncations": 0,
+        "arithmetic_checked": 13,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "4": {
+        "samples": 26,
+        "correct": 9,
+        "accuracy": 0.34615384615384615,
+        "accuracy_wilson_95": [
+          0.19412014972852126,
+          0.5377977099036699
+        ],
+        "format_valid": 25,
+        "truncations": 1,
+        "arithmetic_checked": 16,
+        "arithmetic_flagged": 4,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "5": {
+        "samples": 55,
+        "correct": 36,
+        "accuracy": 0.6545454545454545,
+        "accuracy_wilson_95": [
+          0.5225365801066263,
+          0.7663746663584595
+        ],
+        "format_valid": 55,
+        "truncations": 0,
+        "arithmetic_checked": 49,
+        "arithmetic_flagged": 9,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      }
+    },
+    "macro_grade_accuracy": 0.7001398601398601
+  },
+  "rotated_test": {
+    "samples": 100,
+    "correct": 60,
+    "accuracy": 0.6,
+    "accuracy_wilson_95": [
+      0.5020007846184025,
+      0.6906002538863971
+    ],
+    "format_valid": 99,
+    "truncations": 0,
+    "arithmetic_checked": 85,
+    "arithmetic_flagged": 14,
+    "arithmetic_audit_is_partial_and_not_semantic_verification": true,
+    "per_grade": {
+      "1": {
+        "samples": 7,
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "accuracy_wilson_95": [
+          0.35892909014821267,
+          0.9177828342909844
+        ],
+        "format_valid": 7,
+        "truncations": 0,
+        "arithmetic_checked": 2,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "2": {
+        "samples": 2,
+        "correct": 2,
+        "accuracy": 1.0,
+        "accuracy_wilson_95": [
+          0.34237195288961925,
+          1.0
+        ],
+        "format_valid": 2,
+        "truncations": 0,
+        "arithmetic_checked": 2,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "3": {
+        "samples": 10,
+        "correct": 4,
+        "accuracy": 0.4,
+        "accuracy_wilson_95": [
+          0.16817758120350967,
+          0.6873304525498135
+        ],
+        "format_valid": 9,
+        "truncations": 0,
+        "arithmetic_checked": 12,
+        "arithmetic_flagged": 0,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "4": {
+        "samples": 26,
+        "correct": 14,
+        "accuracy": 0.5384615384615384,
+        "accuracy_wilson_95": [
+          0.3545763620443012,
+          0.712444173047651
+        ],
+        "format_valid": 26,
+        "truncations": 0,
+        "arithmetic_checked": 18,
+        "arithmetic_flagged": 3,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      },
+      "5": {
+        "samples": 55,
+        "correct": 35,
+        "accuracy": 0.6363636363636364,
+        "accuracy_wilson_95": [
+          0.5042251814868371,
+          0.7506965065705916
+        ],
+        "format_valid": 55,
+        "truncations": 0,
+        "arithmetic_checked": 51,
+        "arithmetic_flagged": 11,
+        "arithmetic_audit_is_partial_and_not_semantic_verification": true
+      }
+    },
+    "macro_grade_accuracy": 0.6578221778221778
+  },
+  "choice_rotation_consistency": 0.62,
+  "train_samples_per_epoch": 745,
+  "epochs": 2,
+  "steps": 374,
+  "reload_verified": true,
+  "production_approved": false,
+  "selected_adapter_path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/real_math_v1/runs/qwen3_06b_real_mcq_2epoch_seed20261012/adapter_epoch2",
+  "selected_adapter_sha256": "bb466c520bd4baa004b3e33381da0ed12b914075ecd39d9c47cd7fae443582f5",
+  "limitations": [
+    "Source-imported benchmark, not independently teacher-certified gold.",
+    "Public pretraining contamination unknown.",
+    "MCQ choice accuracy is not proof of correct explanation or free-response/OCR quality.",
+    "Few grade 1–3 examples; no grade 2 validation rows.",
+    "Existing grounded planner kept separately; this candidate does not replace safe runtime."
+  ]
+}

@@ -1,0 +1,513 @@
+{
+  "repo": "Reasoning-Lab/Elementary-Math-Solving-Zalo-AI-2023",
+  "revision": "79ed4742d91755b4a00fadd0079279394222928b",
+  "license": {
+    "key": "apache-2.0",
+    "name": "Apache License 2.0",
+    "spdx_id": "Apache-2.0",
+    "url": "https://api.github.com/licenses/apache-2.0",
+    "node_id": "MDc6TGljZW5zZTI="
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 1973,
+      "sha": "e8eb469e8dd244eef48b78118681c6cdcf62201f"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "size": 2530,
+      "sha": "312522e667232a2c154fa15c98de17942421dba3"
+    },
+    {
+      "path": "LICENSE",
+      "size": 11357,
+      "sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "path": "Makefile",
+      "size": 184,
+      "sha": "05e89d9084f5cf92f8b35be1494e3a29a1df7f72"
+    },
+    {
+      "path": "README.md",
+      "size": 14749,
+      "sha": "5b904a35b1112460acc451f0a101cd52588bbacc"
+    },
+    {
+      "path": "config_lora.yaml",
+      "size": 1264,
+      "sha": "7dfcccd21f013540692eef0c0183d187a861c24c"
+    },
+    {
+      "path": "configs/config.yaml",
+      "size": 330,
+      "sha": "511dd341f833a26052425773ef3679a644c4e28f"
+    },
+    {
+      "path": "datasets/filter_explanation_math_train.json",
+      "size": 295429,
+      "sha": "f08a8eb2b324cc18bf32fc5b719610686b5e263e"
+    },
+    {
+      "path": "datasets/finetune/convert_collect_data.json",
+      "size": 82995,
+      "sha": "b0a0f126f8d90d3d7f154890985916722a72e652"
+    },
+    {
+      "path": "datasets/finetune/convert_qualified_data.json",
+      "size": 925417,
+      "sha": "0385ca9797da9a6cdd0ac0688a9cad2dd0c841da"
+    },
+    {
+      "path": "datasets/finetune/grade3_mcq_v2.json",
+      "size": 1468410,
+      "sha": "30ed3d9f63c810e10b9b6a611e92c27b2af1fe19"
+    },
+    {
+      "path": "datasets/finetune/grade4_mcq_v2.json",
+      "size": 1965530,
+      "sha": "2e5093fb7ff6aee55bbff8697c631acd0b9493ff"
+    },
+    {
+      "path": "datasets/finetune/grade5_mcq_v2.json",
+      "size": 2070183,
+      "sha": "60c054ee890750a21783237df502f87ac1e88e63"
+    },
+    {
+      "path": "datasets/finetune/vietjack_finetune.json",
+      "size": 1114896,
+      "sha": "05e5a105fd337d38865647bb0503437270d402b5"
+    },
+    {
+      "path": "datasets/finetune_original/convert_qualified_data.json",
+      "size": 925417,
+      "sha": "0385ca9797da9a6cdd0ac0688a9cad2dd0c841da"
+    },
+    {
+      "path": "datasets/full-explain-4.json",
+      "size": 1084834,
+      "sha": "768ee346a42e2517f86628bfefc04108a5c848d0"
+    },
+    {
+      "path": "datasets/math_test.json",
+      "size": 55816,
+      "sha": "d7134e8670314db4cca67cc566a72683038e6d1c"
+    },
+    {
+      "path": "datasets/math_test_with_hand_label.json",
+      "size": 71622,
+      "sha": "3dc4107c4ddd9f114a86a5741ed822f1f3e2e71a"
+    },
+    {
+      "path": "datasets/math_train.json",
+      "size": 507435,
+      "sha": "e9135a9d5a8fca4719153956820a4ed5ca4e1880"
+    },
+    {
+      "path": "datasets/pretrain/grade1_raw.json",
+      "size": 370567,
+      "sha": "c216ddd5ac9594e7789b6428c53931b75ef81b98"
+    },
+    {
+      "path": "datasets/pretrain/grade2_raw.json",
+      "size": 1492357,
+      "sha": "c605db903e0e57ff26f6e149f931995daa41a731"
+    },
+    {
+      "path": "datasets/pretrain/grade3_raw.json",
+      "size": 6622499,
+      "sha": "9b85efd1b9d3e998100e5b74bc7523a75aa1fe3e"
+    },
+    {
+      "path": "datasets/pretrain/grade4_raw.json",
+      "size": 5816409,
+      "sha": "ba2b36ea045d613dba2bdafd5ae8b0f8d0276bfc"
+    },
+    {
+      "path": "datasets/pretrain/grade5_raw.json",
+      "size": 6487359,
+      "sha": "c83aa54336dd0ce3a47fbd526cdb9e88af2c3cf6"
+    },
+    {
+      "path": "datasets/pretrain/vi_test_raw.json",
+      "size": 1026054,
+      "sha": "59d31a15fb43399be3930034ef02f8bc069d9ece"
+    },
+    {
+      "path": "datasets/pretrain/vi_train_raw.json",
+      "size": 5568869,
+      "sha": "ee775533fcb2b4ddc26ab8d708fdfcfd91a77577"
+    },
+    {
+      "path": "datasets/pretrain/vietjack_pretrain.json",
+      "size": 4557598,
+      "sha": "e178b6c95001df26d6a511cfba136fb6c2123d03"
+    },
+    {
+      "path": "datasets/private_math_test.json",
+      "size": 100042,
+      "sha": "e785ef1c638c4c2d3396b963832f468b6abf2f63"
+    },
+    {
+      "path": "datasets/private_math_test_with_hand_label.json",
+      "size": 111317,
+      "sha": "b49cd060a7c42c087201b1a1ab2ee20a370f723f"
+    },
+    {
+      "path": "datasets/prompt/gen_explain.txt",
+      "size": 474,
+      "sha": "218e60b32dd88dba3d2d2260891bc11af9d344df"
+    },
+    {
+      "path": "datasets/prompt/generate_multiple_questions.txt",
+      "size": 859,
+      "sha": "badc5a8e6dbe5e0db344f38edbab44700bb20068"
+    },
+    {
+      "path": "datasets/qualified_data.json",
+      "size": 1165224,
+      "sha": "8cfdde55f24b1c0de8eb612e39ff479c750bb068"
+    },
+    {
+      "path": "datasets/validation/convert_collect_data.json",
+      "size": 82715,
+      "sha": "7c8be65fb98ba3ad8de2f4f71f223905f825c702"
+    },
+    {
+      "path": "datasets/with-missing-explain-3.5.json",
+      "size": 1372565,
+      "sha": "656c966e0bb473db420fb1b8433136625671ca69"
+    },
+    {
+      "path": "datasets/with-missing-explain-4.json",
+      "size": 1072500,
+      "sha": "b67d774cb87b315d71b5e035bb63269a5e949a15"
+    },
+    {
+      "path": "deepspeed_zero3.yaml",
+      "size": 498,
+      "sha": "b5a1201f8a2ee8706b63f0f80c664a1fc61a7d9d"
+    },
+    {
+      "path": "embeddings_space.py",
+      "size": 3219,
+      "sha": "e485e6149df6083311da430ceb288cbf56f3478e"
+    },
+    {
+      "path": "evaluate.py",
+      "size": 1573,
+      "sha": "8ed9dfc725a5477257c2e40941b76d243f2a7e1f"
+    },
+    {
+      "path": "figures/Inference_ZaloAI_Math_Solving.drawio.png",
+      "size": 34469,
+      "sha": "7162b6189df791e03305f867ec6658440ce12fb7"
+    },
+    {
+      "path": "figures/Training Zalo AI - Math Solving-Overview.drawio.png",
+      "size": 93175,
+      "sha": "cbe99853e224702e1cb12497e28b9713d742993e"
+    },
+    {
+      "path": "figures/Training_ZaloAI_Math_Solving.drawio.png",
+      "size": 27209,
+      "sha": "61f319ea91e56ba5c1c7cbe60de595b059b15025"
+    },
+    {
+      "path": "filter_explanation.py",
+      "size": 495,
+      "sha": "30f56f9bdc54082a3854edd26be3ddd81674cda7"
+    },
+    {
+      "path": "inference.py",
+      "size": 6547,
+      "sha": "07abf2feff172270a99b0ecfa8850a0edf90e181"
+    },
+    {
+      "path": "inference_utils.py",
+      "size": 2035,
+      "sha": "099437143b4066bf9b6a60d225ad456ff0cdad6f"
+    },
+    {
+      "path": "inference_vllm.py",
+      "size": 6405,
+      "sha": "e2e7e956b4f422bc376cf6cff83a509be93b2c66"
+    },
+    {
+      "path": "llama_recipes/configs/__init__.py",
+      "size": 303,
+      "sha": "9b88a9c5d0e65481fe58bd52b34c5e3c5c679782"
+    },
+    {
+      "path": "llama_recipes/configs/datasets.py",
+      "size": 1846,
+      "sha": "79913ca52caecdc5a7420532f9c41bdfdc9cac2b"
+    },
+    {
+      "path": "llama_recipes/configs/fsdp.py",
+      "size": 836,
+      "sha": "09acab950205b25c76e9b2bef128b7f4707c5af2"
+    },
+    {
+      "path": "llama_recipes/configs/peft.py",
+      "size": 759,
+      "sha": "95e1fdb4739f766a3c28de6013d6af7b8b7c6849"
+    },
+    {
+      "path": "llama_recipes/configs/training.py",
+      "size": 1830,
+      "sha": "c087a4a23fa1a49bc47647ac7c11c4c9e0a4b8bd"
+    },
+    {
+      "path": "llama_recipes/data/__init__.py",
+      "size": 165,
+      "sha": "94ea9b74301920ae88a22c816d9741296c514862"
+    },
+    {
+      "path": "llama_recipes/data/concatenator.py",
+      "size": 1169,
+      "sha": "8e4d338a945068929aac675fe01ddad45609e33b"
+    },
+    {
+      "path": "llama_recipes/data/sampler.py",
+      "size": 2253,
+      "sha": "932def506f58b3ec9001b2b0f2839b649de35332"
+    },
+    {
+      "path": "llama_recipes/finetuning.py",
+      "size": 11145,
+      "sha": "4d9ed72c7f63d634708992b0731262f7e3d72efc"
+    },
+    {
+      "path": "llama_recipes/inference.py",
+      "size": 9600,
+      "sha": "645d6bc4c5aea505ecdda64cb5aefdff01d47db3"
+    },
+    {
+      "path": "llama_recipes/inference/__init__.py",
+      "size": 165,
+      "sha": "94ea9b74301920ae88a22c816d9741296c514862"
+    },
+    {
+      "path": "llama_recipes/inference/chat_utils.py",
+      "size": 2182,
+      "sha": "ef239cc9491ab43ce91140b9614c9a4506f8aa84"
+    },
+    {
+      "path": "llama_recipes/inference/checkpoint_converter_fsdp_hf.py",
+      "size": 2633,
+      "sha": "c7a31550772cafaa5f0c826112bfcebb2c61acb7"
+    },
+    {
+      "path": "llama_recipes/inference/model_utils.py",
+      "size": 1179,
+      "sha": "d72adbb0ada767f19691cd95b6904849b04d78ee"
+    },
+    {
+      "path": "llama_recipes/inference/safety_utils.py",
+      "size": 6982,
+      "sha": "63fb7be9a704543be8d21239b7fbb5e453690668"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/__init__.py",
+      "size": 466,
+      "sha": "d749f4b28dd6899f256e0cab7f58ada1196c974b"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/alpaca_dataset.py",
+      "size": 2284,
+      "sha": "c611898f06397f6863b57f75758cfc671510faa0"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/grammar_dataset/__init__.py",
+      "size": 166,
+      "sha": "9e04476ed484196426ea10ecab13ef0a103763a3"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/grammar_dataset/grammar_dataset.py",
+      "size": 2838,
+      "sha": "272ce7cf69f0ed354f786766c592c0647d3d431f"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/grammar_dataset/grammar_dataset_process.ipynb",
+      "size": 11057,
+      "sha": "ce95a22a42478f8803b6f0edad6f5748d3501aec"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/samsum_dataset.py",
+      "size": 1363,
+      "sha": "1eee7175d813f3a9b4f2f7212141ea5c824407de"
+    },
+    {
+      "path": "llama_recipes/instruction_datasets/zalo_math_dataset.py",
+      "size": 2799,
+      "sha": "8a2b02d29e89121a5332508eb9a3cb50c871ce99"
+    },
+    {
+      "path": "llama_recipes/model_checkpointing/__init__.py",
+      "size": 426,
+      "sha": "812dc60a6b8f2f5b21441c021feb91c202c86ec0"
+    },
+    {
+      "path": "llama_recipes/model_checkpointing/checkpoint_handler.py",
+      "size": 7832,
+      "sha": "a8ccf7b0ecd7a3c0063878c0cb4bb355f55c3966"
+    },
+    {
+      "path": "llama_recipes/policies/__init__.py",
+      "size": 354,
+      "sha": "6884d609674a17e483c7b93afe1e4de189a5a0b0"
+    },
+    {
+      "path": "llama_recipes/policies/activation_checkpointing_functions.py",
+      "size": 953,
+      "sha": "2fa98fe68c3a0581d134f4038d2cdde9d0985003"
+    },
+    {
+      "path": "llama_recipes/policies/anyprecision_optimizer.py",
+      "size": 7061,
+      "sha": "e2811f3afcbbbebe40dfcbbe9a4228f65362138b"
+    },
+    {
+      "path": "llama_recipes/policies/mixed_precision.py",
+      "size": 987,
+      "sha": "5175b2ad9690f67571c1ac7ac27d3c2495d3f914"
+    },
+    {
+      "path": "llama_recipes/policies/wrapping.py",
+      "size": 1056,
+      "sha": "2703ebc684936ac79f87b01fee44af2cec7e4c1b"
+    },
+    {
+      "path": "llama_recipes/utils/__init__.py",
+      "size": 311,
+      "sha": "e800e0691fe34d5a62905983b53fe1923f4e4dc3"
+    },
+    {
+      "path": "llama_recipes/utils/config_utils.py",
+      "size": 4118,
+      "sha": "0ba6a56a2e693ddfa25035e537b0590aa07c11cf"
+    },
+    {
+      "path": "llama_recipes/utils/dataset_utils.py",
+      "size": 2852,
+      "sha": "df9b120e21020bbe524cab5dea236010c65949d6"
+    },
+    {
+      "path": "llama_recipes/utils/fsdp_utils.py",
+      "size": 1414,
+      "sha": "5530f311dedb089c9714d3bb077d33b6eee1f98f"
+    },
+    {
+      "path": "llama_recipes/utils/memory_utils.py",
+      "size": 2425,
+      "sha": "97b92b717c79d2bd37124c87f918e0b75819e63f"
+    },
+    {
+      "path": "llama_recipes/utils/train_utils.py",
+      "size": 20241,
+      "sha": "8fde2defa969bb5ddc9cf3a864ae0e2965df2b95"
+    },
+    {
+      "path": "merge_peft_adapter.py",
+      "size": 4293,
+      "sha": "ae6899ad7d9eba814a4c91ba61bc27d4103150f0"
+    },
+    {
+      "path": "multi_gpu.yaml",
+      "size": 321,
+      "sha": "1de2d2fe3ff6f16da2151043704eb2291137a21f"
+    },
+    {
+      "path": "notebooks/combine_data.ipynb",
+      "size": 2621,
+      "sha": "81296b391f405f6255015a8f5685e452f380df2a"
+    },
+    {
+      "path": "notebooks/test.ipynb",
+      "size": 21226,
+      "sha": "09a43d9aa5510873970c42f343c78f518bff5eb8"
+    },
+    {
+      "path": "notebooks/testing.ipynb",
+      "size": 5537,
+      "sha": "4f4d345ec8ed4e67133b8b8028135bfa337436c6"
+    },
+    {
+      "path": "predict.sh",
+      "size": 152,
+      "sha": "61d1c4e660e8c69126e4cf19fc0e9855b93def4c"
+    },
+    {
+      "path": "predict_notebook.ipynb",
+      "size": 23933,
+      "sha": "09692a1d1a621f759ab02bb174c1fdcfa845a459"
+    },
+    {
+      "path": "pretraining.py",
+      "size": 32887,
+      "sha": "3b9e71978c921b03fbd2cde57947648667a1ea7e"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 352,
+      "sha": "095842a10ab473a798a6b808df5c6922c667b176"
+    },
+    {
+      "path": "run_pt.sh",
+      "size": 1148,
+      "sha": "6e685fd600e9536cf7bb44a181061786e9f1362c"
+    },
+    {
+      "path": "sft.py",
+      "size": 30276,
+      "sha": "9c1e8343e296ad066ce361b1b4a9c757a7b1c5c2"
+    },
+    {
+      "path": "sorted_with_missing_explain_4.py",
+      "size": 662,
+      "sha": "9ac065e96f3d4562a65d0baa94ff871406fe954c"
+    },
+    {
+      "path": "src/gen_data_prompt.py",
+      "size": 1750,
+      "sha": "41771dab3daf4cdef05b257ba81915684a523671"
+    },
+    {
+      "path": "src/generate_explain.py",
+      "size": 2734,
+      "sha": "aa841ad0ac8c91583690064ef93a7878ca475f94"
+    },
+    {
+      "path": "src/get_prompt.py",
+      "size": 1783,
+      "sha": "643bfd9f5c44f8312e63e4a1b933f09600b60de8"
+    },
+    {
+      "path": "submissions/submission_llama2.csv",
+      "size": 3703,
+      "sha": "4028aeec456e861c823f126c5bf8f508e5fd5d75"
+    },
+    {
+      "path": "submissions/submission_mistral.csv",
+      "size": 3734,
+      "sha": "f03a4aad791e65828eb5344daa83ba21b456d3a5"
+    },
+    {
+      "path": "submissions/submission_zephyr.csv",
+      "size": 3756,
+      "sha": "af4aeae19338edc32b8bba4ebfec4c8779d2c3b8"
+    },
+    {
+      "path": "test_prompt.txt",
+      "size": 403,
+      "sha": "df241c6f00fa801b5d2103e0a012c09901493dde"
+    },
+    {
+      "path": "train_sft.sh",
+      "size": 1204,
+      "sha": "1284500196228c271e551fc88062b3527e043a8a"
+    }
+  ]
+}

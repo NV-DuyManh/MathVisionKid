@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "U2S_Zzin0J3C"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"controls_thread_started\": true, \"canonical_context_sha256\": \"c9ce11e327a2795d4de1ebefe7e606d60f3eb7f154f97226fea7c9a84a5c4545\", \"run_metadata_sha256\": \"91bd997658e4b6c70fa29a10a8cf685da670554d26d769c35dc08433b4a9674a\", \"data_or_weights_changed\": false}\n"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "authored_utc": "2026-10-18T04:10:43.351569+00:00",
+  "heartbeat_trigger_utc": "2026-10-18T04:09:07.301Z",
+  "batch_sha256": "9186c654960518b8c10b415a62aead137e7e3363b767a51d5bc10a5a29186cc3",
+  "authored_cases": 5,
+  "core_cases": 3,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g4_area_units_0063_unit_square_grid_cm2_to_mm2",
+      "row_sha256": "fa27335ad76d5f47a50d5e20390ee0dd9987edbb62d8566519a8e03df5a445a8",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "10*10",
+          "7*(10*10)",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_area_units_0063_compare_reverse_mm2_and_dm2",
+      "row_sha256": "5b7b2fe9872416a182cf198c5e2a15176aa0e2a53336c8974625794989a877c6",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "37500/100",
+          "4*100",
+          "(4*100)-(37500/100)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_area_units_0063_panel_area_disjoint_removed_part",
+      "row_sha256": "3c0ec3d254d35cb0f74c92d4f0ce24bc944b7a6a95a1d626de539a00190429fc",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "6*10000+45*100",
+          "(6*10000+45*100)-2300",
+          "((6*10000+45*100)-2300)+2300"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_area_units_0063_misconception_length_factor_for_area",
+      "row_sha256": "8c0a7184bc95a6288932c049714ac45bf28e16aeea2c56572909c97ec8766caa",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "100*100",
+          "3*(100*100)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g4_area_units_0063_guard_rectangle_width_missing",
+      "row_sha256": "4049119a2b37351ffd3610ea74f1397fb213ea28c069141d6b32bfea499449fe",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "independent_oracles": {
+    "cm2_mm2_grid_cells": 100,
+    "seven_cm2_mm2_cells": 700,
+    "A_100mm2_groups_cm2": 375,
+    "B_cm2_grid_cells": 400,
+    "difference_cm2": 25,
+    "panel_cm2": 64500,
+    "removed_cm2": 2300,
+    "remaining_cm2": 62200,
+    "area_partition_conservation": true,
+    "one_m2_cm2_grid_cells": 10000,
+    "three_m2_cm2_grid_cells": 30000,
+    "guard_width_countermodels_mm2": {
+      "2 cm width": 2400,
+      "5 cm width": 6000
+    }
+  },
+  "exact_Fraction_Decimal_crosschecks": true,
+  "oracle_limit": "Explicit cell models check abstract area relationships, grouping and disjoint partition, not an image or physical measurement. Parser pass still needs actual semantic QA.",
+  "exact_slots_authored": [
+    "core_01",
+    "core_02",
+    "core_03"
+  ],
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "previous358_sources_unchanged": true,
+  "owner299_signoff_sha256_unchanged": "9475d9fabc1668e04a3e4ce3f5708a8f28e65ebf8c87337c212463017f3a7f1a",
+  "new_human_review_claim": false,
+  "independent_external_reviewer": false,
+  "training_started": false,
+  "actual_content_read_completed_utc": "2026-10-18T04:11:09.900054+00:00",
+  "actual_content_read_includes_all15hints_and_steps": true,
+  "same_author_review_not_independent_human": true
+}

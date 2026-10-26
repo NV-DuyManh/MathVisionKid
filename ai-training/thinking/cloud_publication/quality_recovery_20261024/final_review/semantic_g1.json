@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "d8e985bef77ec5b9ae49b6d4c43d039059d4490e8cdbc0755bb958c8207e9ec8",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_locked_v1_g1_number_line_moves",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly applies20−10 then+3 to13 and explains both directions. Repeated two-step explanation is unnecessary but mathematically consistent.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g1_offset_ruler",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Numerical5cm and7−2 are correct, but requested why-not7 explanation falsely says the right end is not the endpoint of the pencil, contradicting the given endpoints. Full-task explanation fails.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g1_triangle_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Does not choose A or B, but falsely says three closed segments in A cannot identify a triangle and asks unnecessary geometry data. Hint is not conceptually sound or useful.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g1_line_position_conflict",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct final contradiction and1versus4 argument, but also falsely identifies simultaneous first/last as a central position. The full explanation contains a substantive incorrect logical claim.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

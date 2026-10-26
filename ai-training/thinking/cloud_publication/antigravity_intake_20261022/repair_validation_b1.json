@@ -1,0 +1,62 @@
+{
+  "cases": 6,
+  "original_zip_sha256": "605fc396b9a1f4ea1544ad25770a5333f14362817926f62a8b20814eff51c331",
+  "finite_oracles": {
+    "role_triples": [
+      [
+        14,
+        12,
+        26
+      ],
+      [
+        38,
+        12,
+        50
+      ],
+      [
+        38,
+        20,
+        58
+      ]
+    ],
+    "unique_swap": [
+      [
+        2,
+        5
+      ]
+    ],
+    "new_edges": [
+      "39",
+      "55",
+      "46"
+    ]
+  },
+  "meaningful_negative_mutations": [
+    {
+      "name": "cross_role_pool_membership",
+      "rejected": true
+    },
+    {
+      "name": "swap_wrong_pair",
+      "rejected": true
+    },
+    {
+      "name": "false_smallest27",
+      "rejected": true
+    },
+    {
+      "name": "wrong_triangle55_to56",
+      "rejected": true
+    },
+    {
+      "name": "false_alternative_arithmetic30",
+      "rejected": true
+    },
+    {
+      "name": "alternate_rule_both_edges_claim",
+      "rejected": true
+    }
+  ],
+  "all_pass": true,
+  "training_started": false
+}

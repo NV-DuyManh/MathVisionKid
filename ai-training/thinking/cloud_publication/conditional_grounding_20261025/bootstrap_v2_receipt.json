@@ -1,0 +1,26 @@
+{
+  "add": {
+    "newCellId": "4haeTXZp-nUo"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n",
+          "WARNING:google_auth_httplib2:httplib2 transport does not support per-request timeout. Set the timeout when constructing the httplib2.Http instance.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"drive_authenticated\": true, \"user\": {\"displayName\": \"Hoai Nam\", \"emailAddress\": \"hoainam29082005@gmail.com\"}, \"training_source_metadata\": {\"id\": \"1Twd75htZfKKSKvjJ4j4imAu_sca7UJ1c\", \"name\": \"selected_training_view_14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331.jsonl.gz\", \"trashed\": false, \"size\": \"3893404\"}, \"model_loaded\": false, \"training_started\": false}\n",
+          "{\"state\": \"SOURCE_RAW_VERIFIED_INSTALLING\", \"root\": \"/content/mathvisionkid_conditional_grounding_20261025\", \"input_proofs\": {\"training_view.jsonl.gz\": {\"id\": \"1Twd75htZfKKSKvjJ4j4imAu_sca7UJ1c\", \"bytes\": 3893404, \"sha256\": \"319dfddf43e1ad63878e52b1e5f34a5d276a1e557257ea7b4c33dcfe790200e9\", \"fresh_raw_readback_verified\": true}, \"sampling_manifest.json\": {\"id\": \"1kqDGkAEHuhgRtCQqejjfVfvGHzvEeGlr\", \"bytes\": 5010290, \"sha256\": \"444db8845af0c12bb528795b7e441b996571960dd58ab6898eb9394c77031545\", \"fresh_raw_readback_verified\": true}, \"exhaustive_colab_loader.py\": {\"id\": \"1FFq86rhR0bBCSDK3WMKXQvDOPTbCBAUz\", \"bytes\": 24727, \"sha256\": \"9b1287f495e30b85085c6d8c23b2fc273e38fefbf1e730d19b0d95a9d8950a3c\", \"fresh_raw_readback_verified\": true}, \"frozen_training_primitives.py\": {\"id\": \"1xf8CMVbtsSC4mZuMxJ0twzDnR20J0pvG\", \"bytes\": 76258, \"sha256\": \"d5f4f0bc2df2b9ff8b2999d607f7ab0b773a76e2ececd4cf48bada99ffcc787c\", \"fresh_raw_readback_verified\": true}, \"frozen_integrity_store.py\": {\"id\": \"1ZwjnSGMXJ-aAsAMXhNsp0BuAceOxo9Kd\", \"bytes\": 27124, \"sha256\": \"5f8d69f542e63bd7cc17f9a62551710c74e931d7d2c69974b0e13aaac326fb8e\", \"fresh_raw_readback_verified\": true}}, \"install_pid\": 558, \"scope\": {\"schema\": \"MathVisionKid.conditional_grounding_owner_scope.v1\", \"authorization\": \"Owner requested reconnect Hoai and continue free-T4 training to improve accuracy. Reuse most recent 2h30 maximum budget as stated before launch.\", \"budget_start_unix\": 1792896460.0, \"budget_max_wall_seconds\": 9000, \"hard_deadline_unix\": 1792905460.0, \"hard_deadline_utc\": \"2026-10-25T05:17:40+00:00\", \"reserve_seconds\": 1800, \"paid_resources\": false, \"previous_adapters_loaded\": false, \"source_and_old_checkpoints_preserved\": true, \"new_human_attestation\": false, \"production_change\": false, \"corpus_or_model_download_to_pc\": false, \"model\": \"Qwen/Qwen3-1.7B\", \"revision\": \"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e\", \"notebook_id\": \"1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l\"}, \"training_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

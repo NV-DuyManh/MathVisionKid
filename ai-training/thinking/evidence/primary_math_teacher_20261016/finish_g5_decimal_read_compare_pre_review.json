@@ -1,0 +1,95 @@
+{
+  "batch": "finish_g5_decimal_read_compare",
+  "utc": "2026-10-18T14:10:17.341726+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+      "row_sha256": "de66f3ca78fd0a762fadca8c789073031953c98c7ac83e996441629123a61c21",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "4/100",
+          "6+4/100+2/1000"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_trailing_zero_and_sort",
+      "row_sha256": "18ac4f3dd3daf065c8ff13bea0f92a65822219ed6b476c393e49cd8d6a19bccc",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_open_interval_records",
+      "row_sha256": "c698a45ae44b74c632cc61d2cd5247c7bbacfe10776c0e0d817e15f28e8a9ebd",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_more_digits_not_larger",
+      "row_sha256": "2ea0d0366a05a604886c662c90e9df8e6b8eb6597502f7119f366c94d007c03d",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+      "step_id": "s0",
+      "expression": "4/100",
+      "fraction": "1/25",
+      "decimal": "0.04",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g5_decimal_read_compare_place_value_zero",
+      "step_id": "s1",
+      "expression": "6+4/100+2/1000",
+      "fraction": "3021/500",
+      "decimal": "6.042",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "official_review_sha256": "9d4ffd177fca52add5bfb1586585f1d52badb246b856dc0c73cd2b64c25a919e",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

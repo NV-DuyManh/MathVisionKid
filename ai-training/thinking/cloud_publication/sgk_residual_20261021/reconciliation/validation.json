@@ -1,0 +1,28 @@
+{
+  "accepted_cases_bound": 36,
+  "all_sgk_forms_covered": false,
+  "asset_only_masters_separate": 10,
+  "candidate_relations_bound": 20,
+  "external_g2_91_preserved": true,
+  "finite_text_tasks_discharged": 15,
+  "inputs": {
+    "sgk_completion_20261021/bundle_remote_verified.json": "5cafe7258c30f4af44984aae628d667923cae9d1ee7a58faf8d3886e33d2953b",
+    "sgk_completion_20261021/post_acceptance_mapping/projection.json": "9e873fb3d009857496727aa5613b94c27481831837c98b6d090e32924eca6da1",
+    "sgk_completion_20261021/reconciliation/candidate_adjudication.json": "907da42d8a8e4396bd5b36743c3bd5e97d4332eba93ab6311fcf172e77d703cf",
+    "sgk_completion_20261021/reconciliation/next_uncovered_tasks.json": "194214108bb3da81affdbf5a62fb2af0ccf0860605cae077a02cdbfdd014971e",
+    "sgk_completion_20261021/release/accepted_cases.jsonl": "1e9b81a0178c8ca93e9759359629c94d789e953902e4e28feb114342d6944f9a",
+    "sgk_completion_20261021/release/cross_reviews.jsonl": "a87376b48c2a6d1df3b714b6be60cb9c98e7f185df398b61dbdd468dabfc6403"
+  },
+  "never_appended_missing_masters": 19,
+  "occurrences315_preserved": true,
+  "original204_candidate_fields_preserved": true,
+  "outputs": {
+    "candidate_adjudication.json": "eafc2c27ad3ede70701c9a67ac9ba0715a1a5c842496d3c19c39c8f5aa87fe7f",
+    "next_uncovered_tasks.json": "22af80c491f53cd8fffb75c54ed08ef38929e7e59cb46b8aeeec471771a8b051",
+    "run5_accepted_binding.json": "4384dc163e18dcfa0c199fce85566be6ecc78a72d3b802c2ea911b2c39af272e"
+  },
+  "partial_master_tasks": 11,
+  "remaining_global_master_tasks": 30,
+  "status": "PASS",
+  "training_started": false
+}

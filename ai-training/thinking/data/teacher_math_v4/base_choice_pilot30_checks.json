@@ -1,0 +1,514 @@
+{
+  "dataset_version": "mvk_base_choice_pilot30_20261013_v1",
+  "status": "FROZEN_PASSED_AUTHOR_ARITHMETIC_ROLE_GRADE_AND_V3_CONTRACT_CHECKS",
+  "purpose": "Development pilot to choose base before training, not a private benchmark",
+  "sha256": "c60bc616f9f1567f75ed35f4a2a56a7ede0f7f7b1308be14ec8dfb1bed835928",
+  "bytes": 71501,
+  "rows": 30,
+  "worked": 15,
+  "hints": 10,
+  "guards": 5,
+  "per_grade": {
+    "worked": 3,
+    "hints": 2,
+    "guards": 1
+  },
+  "model_generated": false,
+  "generation_already_run": false,
+  "frozen_before_model_generation": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "private_benchmark": false,
+  "old_numeric_source_hashes": {
+    "train": "d5c836206be2dbaf9650ef414a92f8eee8592bab4e3bcec4083cdd226b9effda",
+    "val": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+    "challenge": "0b57eb59ac87d998146985e32a9f5b6be8d6e61f6c6447298bdb731190f35bb2"
+  },
+  "curriculum_registry_sha256": "81bcff6a7282a2c1eb540ca65ec27855e0e79ecaa6d5af226c6dae80973f336a",
+  "source_url": "https://storage-vnportal.vnpt.vn/edu-vtu/4803/2023/Thongtu32/3.-chuong-trinh-mon-toan.pdf",
+  "operation_audit": {
+    "families": 57,
+    "V3_val_challenge_collisions": 0,
+    "old_train_exposure_allowed_and_recorded": true,
+    "old_train_exposure_rows": 0,
+    "scope": "Canonical typed operators and reduced Fraction operands; commutative Add/Mult flattened and sorted across independent whole-topic formulas. Bounded scope, not universal zero semantic leakage. Repeated digit microoperations do not define whole-case identity. Numeric V3 challenge is known development; concept_challenge_v4 never read."
+  },
+  "target_contract_self_scores_correct": 30,
+  "all_facts_source_spans_verified": true,
+  "teacher_metadata_excluded_from_model_input": true,
+  "new_training_exclusion": "Exclude these30questions and25operation_signatures from V4train/freshval. Existing split=val only permits legacy evaluator contract; dataset_purpose explicitly developmentpilot.",
+  "checks": [
+    {
+      "sample_id": "38d844807580bc29524ee454",
+      "grade": 1,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "88",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_word_add_sub",
+      "author_semantic_review": "Two join roles; no carry within100.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "d18f159529f56522b1261d95",
+      "grade": 1,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "62",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_addition_subtraction_no_carry",
+      "author_semantic_review": "No borrow in either column; inverse62+35=97.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "ba2b511f2b53d5c649282dad",
+      "grade": 1,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "45",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_word_add_sub",
+      "author_semantic_review": "Sameunits; no borrow within100.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "ecd7023686a72e8c0165e643",
+      "grade": 1,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "88",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_word_add_sub",
+      "author_semantic_review": "Add role; no answer or computed operation.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "a32ef1b3eac6a1636a391adc",
+      "grade": 1,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "42",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_word_add_sub",
+      "author_semantic_review": "Removal role; no borrow or answer.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "33c0943b34561a4a1304080e",
+      "grade": 2,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "619",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_addition_subtraction_carry_once",
+      "author_semantic_review": "Onecarry at tens only.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "97982ae63b104847ee8d34da",
+      "grade": 2,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "516",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_addition_subtraction_carry_once",
+      "author_semantic_review": "Oneborrow at units only.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "5ebf8e75a37783c09fd5a459",
+      "grade": 2,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "527",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_word_one_step",
+      "author_semantic_review": "Onecarry at tens; one-step join within1000.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "0d7409421cbe6de8aa466bb5",
+      "grade": 2,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "747",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_addition_subtraction_carry_once",
+      "author_semantic_review": "Onecarry at tens; asks startcolumn.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "5f292883207630632854be92",
+      "grade": 2,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "293",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_word_one_step",
+      "author_semantic_review": "Oneborrow at tens; asks role notcomputedanswer.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "2829251f3d61399102951560",
+      "grade": 3,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "64491",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_addition_subtraction_5digits",
+      "author_semantic_review": "Two nonconsecutive carries:units,thousands; within100000.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "8a7c366c1465177c0163171b",
+      "grade": 3,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "3396",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_multiply_divide_one_digit",
+      "author_semantic_review": "Exactdivision byone digit; remainders1,3,2,0; no inventedstudentwork.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "79898d945e9fb6f525641068",
+      "grade": 3,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "181",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_word_two_steps",
+      "author_semantic_review": "18*8 onecarry; extra37 addednotremoved;2wordsteps.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "098bb45cf47caf433a169bdf",
+      "grade": 3,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "168",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_area_rectangle_square",
+      "author_semantic_review": "2digit×1digit; no areaanswerdisclosed.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "0c670d1a7880da11915cfe5c",
+      "grade": 3,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "125",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_expressions_unknown",
+      "author_semantic_review": "2operations; asks priority.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "194395760feb75a3841147f6",
+      "grade": 4,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "541808",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_addition_subtraction_many_digits",
+      "author_semantic_review": "Only observedfinal: wrong tens digit; no diagnosis of unseen pupilborrow.2nonconsecutiveborrows at units,hundreds.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "7fa4122c6ca493430aa1d1a7",
+      "grade": 4,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "13/15",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_fraction_operations",
+      "author_semantic_review": "15multipleof5;2steps;13/15irreducible.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "f53313490379b0f2247b59b5",
+      "grade": 4,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "17954",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_multiply_divide_two_digits",
+      "author_semantic_review": "Multiplier47two digits; cm×cm=cm².",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "90b7ec8eaf8bb62185a0c285",
+      "grade": 4,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "122",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_word_two_three_steps",
+      "author_semantic_review": "Sumdifference; asksmethod notnumericanswer.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "bc020123b1a8a5ae151510e5",
+      "grade": 4,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "4/9",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_fraction_operations",
+      "author_semantic_review": "18multipleof6; no computedvalue.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "3ad91f8fd32db10fd48666cd",
+      "grade": 5,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "4533/100",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_decimal_operations",
+      "author_semantic_review": "Exact45,33m; asks total lengthnooverlap deduction.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "1c8c7ce4c99ee406f145e3d9",
+      "grade": 5,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "25/12",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_fraction_operations_mixed",
+      "author_semantic_review": "Quotient50/24=25/12; inverseproduct5/8; no confusingquotient/remainder.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "2f044c117a66485a489bd4cb",
+      "grade": 5,
+      "mode": "worked_solution",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "527/4",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_triangle_trapezoid_area",
+      "author_semantic_review": "Total31; product263,5; half131,75cm²; every step name matches data role.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "a1a0aced86faefdd5fe354c9",
+      "grade": 5,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "49",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_ratio_percent",
+      "author_semantic_review": "Wholecount49; no49orcomputedoperationinhint.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "13e3749d8d03fa106fb89694",
+      "grade": 5,
+      "mode": "hint",
+      "target_self_score_correct": true,
+      "exact_step_arithmetic_correct": true,
+      "independent_manual_oracle_expected": "115",
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_uniform_motion",
+      "author_semantic_review": "km/h×h yieldskm; no acceleration.",
+      "old_train_operation_exposure": 0,
+      "old_val_challenge_operation_collision": 0
+    },
+    {
+      "sample_id": "63feeab56725b80fe0754209",
+      "grade": 1,
+      "mode": "guard",
+      "target_self_score_correct": true,
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g1_word_add_sub",
+      "missing_fact_author_review": "missing_initial_count"
+    },
+    {
+      "sample_id": "9a1ee3e5d183ec9fe2076887",
+      "grade": 2,
+      "mode": "guard",
+      "target_self_score_correct": true,
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g2_word_one_step",
+      "missing_fact_author_review": "missing_bought_count"
+    },
+    {
+      "sample_id": "7e25b9573db573e10921ff9b",
+      "grade": 3,
+      "mode": "guard",
+      "target_self_score_correct": true,
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g3_perimeter",
+      "missing_fact_author_review": "missing_rectangle_width"
+    },
+    {
+      "sample_id": "6d342e5db815fc60502b15af",
+      "grade": 4,
+      "mode": "guard",
+      "target_self_score_correct": true,
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g4_bar_chart_mean",
+      "missing_fact_author_review": "missing_bar_chart"
+    },
+    {
+      "sample_id": "5e357c088ef58510c1f18497",
+      "grade": 5,
+      "mode": "guard",
+      "target_self_score_correct": true,
+      "fact_spans_correct": true,
+      "source_grade_node": "current_g5_uniform_motion",
+      "missing_fact_author_review": "missing_uniform_speed"
+    }
+  ],
+  "grade_bound_checks": [
+    {
+      "sample_id": "38d844807580bc29524ee454",
+      "grade": 1,
+      "carry_borrow_events": [],
+      "limit": 0,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "d18f159529f56522b1261d95",
+      "grade": 1,
+      "carry_borrow_events": [],
+      "limit": 0,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "ba2b511f2b53d5c649282dad",
+      "grade": 1,
+      "carry_borrow_events": [],
+      "limit": 0,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "ecd7023686a72e8c0165e643",
+      "grade": 1,
+      "carry_borrow_events": [],
+      "limit": 0,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "a32ef1b3eac6a1636a391adc",
+      "grade": 1,
+      "carry_borrow_events": [],
+      "limit": 0,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "33c0943b34561a4a1304080e",
+      "grade": 2,
+      "carry_borrow_events": [
+        1
+      ],
+      "limit": 1,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "97982ae63b104847ee8d34da",
+      "grade": 2,
+      "carry_borrow_events": [
+        0
+      ],
+      "limit": 1,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "5ebf8e75a37783c09fd5a459",
+      "grade": 2,
+      "carry_borrow_events": [
+        1
+      ],
+      "limit": 1,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "0d7409421cbe6de8aa466bb5",
+      "grade": 2,
+      "carry_borrow_events": [
+        1
+      ],
+      "limit": 1,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "5f292883207630632854be92",
+      "grade": 2,
+      "carry_borrow_events": [
+        1
+      ],
+      "limit": 1,
+      "nonconsecutive_checked": false
+    },
+    {
+      "sample_id": "2829251f3d61399102951560",
+      "grade": 3,
+      "carry_borrow_events": [
+        0,
+        3
+      ],
+      "limit": 2,
+      "nonconsecutive_checked": true
+    },
+    {
+      "sample_id": "194395760feb75a3841147f6",
+      "grade": 4,
+      "carry_borrow_events": [
+        0,
+        2
+      ],
+      "limit": 3,
+      "nonconsecutive_checked": true
+    }
+  ]
+}

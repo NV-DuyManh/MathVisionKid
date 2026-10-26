@@ -1,0 +1,17 @@
+{
+  "schema": "MathVisionKid.remote_metadata_reconciliation.v1",
+  "artifacts_directories_observed": 22,
+  "central_directory_members": 1699,
+  "total_catalog_members": 1928,
+  "original_candidate_source_members_pinned": 205,
+  "original_source_cases_reconciled": 1519171,
+  "orphan_test_manifests_not_used_as_current_source": 4,
+  "all_central_directory_discovery_tasks_complete": true,
+  "full_archive_hash_verified_from_ranges": false,
+  "full_archive_token_split_audit_complete": false,
+  "finite_tasks": 271,
+  "completed_tasks": 28,
+  "remaining_tasks": 243,
+  "candidate_chat_member_rows_preserved": 6501044,
+  "training_started": false
+}

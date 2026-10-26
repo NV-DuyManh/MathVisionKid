@@ -1,0 +1,90 @@
+{
+  "source_dataset": "hllj/vi_grade_school_math_mcq",
+  "revision": "2eac2ac592afe35cea1fd8584dd14cf2ee3c9edd",
+  "source_url": "https://huggingface.co/datasets/hllj/vi_grade_school_math_mcq/resolve/2eac2ac592afe35cea1fd8584dd14cf2ee3c9edd/vietjack.json",
+  "license_declared_by_dataset_card": "MIT",
+  "raw_sha256": "d56ec440f585579044676df1a399a0e5a6d8a8aaa4e7fb50f2cb3b76eb0a96b4",
+  "containers": 2733,
+  "source_problems": 13615,
+  "accepted_before_dedup": 1026,
+  "initial_filter_reasons": {
+    "IMAGE_OR_TABLE_DEPENDENCY": 362,
+    "POSSIBLY_MISSING_MATH": 716,
+    "QUESTION_LENGTH": 753,
+    "NOT_FOUR_CHOICES": 5176,
+    "NO_USABLE_EXPLANATION_OR_TOO_LONG": 4752,
+    "ABSENT_OR_CONFLICTING_ANSWER": 484,
+    "MISSING_OR_MISORDERED_CHOICE": 244,
+    "DUPLICATE_CHOICES": 73,
+    "RESIDUAL_HTML": 1,
+    "ARITHMETIC_OR_NOTATION_REVIEW": 26,
+    "MISSING_FRACTION": 2,
+    "CONFLICTING_DUPLICATE": 13
+  },
+  "duplicates_removed": 33,
+  "wording_family_purge": {
+    "val": 1,
+    "train": 16
+  },
+  "split_counts": {
+    "train": 745,
+    "val": 118,
+    "test": 100
+  },
+  "grades": {
+    "train": {
+      "5": 343,
+      "4": 317,
+      "3": 54,
+      "2": 24,
+      "1": 7
+    },
+    "val": {
+      "4": 43,
+      "5": 62,
+      "3": 8,
+      "1": 5
+    },
+    "test": {
+      "5": 55,
+      "1": 7,
+      "4": 26,
+      "3": 10,
+      "2": 2
+    }
+  },
+  "largest_source_components": [
+    [
+      "https://khoahoc.vietjack.com/thi-online/trac-nghiem-chia-mot-so-thap-phan-voi-mot-so-tu-nhien-co-dap-an-thong-hieu",
+      9
+    ],
+    [
+      "https://khoahoc.vietjack.com/thi-online/trac-nghiem-chia-mot-so-thap-phan-cho-mot-so-thap-phan-co-dap-an-van-dung",
+      8
+    ],
+    [
+      "https://khoahoc.vietjack.com/thi-online/trac-nghiem-toan-5-bai-2-co-dap-an-cong-so-do-thoi-gian",
+      7
+    ],
+    [
+      "https://khoahoc.vietjack.com/thi-online/trac-nghiem-giai-toan-ve-ti-so-phan-tram-co-dap-an-nhan-biet-thong-hieu",
+      7
+    ],
+    [
+      "https://khoahoc.vietjack.com/thi-online/trac-nghiem-chia-mot-so-tu-nhien-cho-mot-so-thap-phan-co-dap-an-thong-hieu",
+      7
+    ]
+  ],
+  "fingerprints": {
+    "train": "8f1035729d63fb490188deedb8221e98352c6d283becebc82ff41964b01f537b",
+    "val": "985cfc6234eccede2463f92fb30de61e3f8eba8c955fae0708ab612b7030696a",
+    "test": "dab57b613816f8e2fedec4aa774fc3f48987207f5eb8f5c83143faf01e77fd19"
+  },
+  "limitations": [
+    "Source-imported answers/explanations, not teacher-certified gold.",
+    "Conservative text filters cannot prove every missing diagram/formula was detected.",
+    "Disjoint source pages, exact questions and numeric wording families; semantic paraphrases remain possible.",
+    "Public source may have appeared in base-model pretraining.",
+    "MCQ accuracy does not establish free-response, OCR or verified-planner quality."
+  ]
+}

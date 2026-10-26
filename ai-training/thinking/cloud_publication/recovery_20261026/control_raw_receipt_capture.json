@@ -1,0 +1,21 @@
+{
+  "add": {
+    "newCellId": "0uBZkRpbeMem"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "error",
+        "ename": "AssertionError",
+        "evalue": "Four controls not complete; do not claim sync",
+        "traceback": [
+          "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+          "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+          "\u001b[0;32m/tmp/ipykernel_1225/1453358174.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0mr\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mpathlib\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mPath\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'/content/mathvisionkid_recovery_20261026'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0mstatus\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mjson\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mloads\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mr\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0;34m'four_controls_publication_status.json'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_bytes\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0;32massert\u001b[0m \u001b[0mstatus\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'state'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m==\u001b[0m\u001b[0;34m'COMPLETE_RAW_VERIFIED'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'Four controls not complete; do not claim sync'\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m \u001b[0mnames\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'four_controls_publication_status.json'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'four_controls_verified_manifest.json'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0mfiles\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0mn\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mr\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0mn\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_bytes\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mn\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mnames\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+          "\u001b[0;31mAssertionError\u001b[0m: Four controls not complete; do not claim sync"
+        ]
+      }
+    ]
+  }
+}

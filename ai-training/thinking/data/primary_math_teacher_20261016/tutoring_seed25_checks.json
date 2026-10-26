@@ -1,0 +1,368 @@
+{
+  "dataset": "tutoring_seed25.jsonl",
+  "samples": 25,
+  "grades": {
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "sha256": "f0bd50c58ad82d35028657fac6775e6230208f1d462d92546e7f1a5ae94a28b8",
+  "bytes": 74194,
+  "exact_arithmetic_checks": [
+    {
+      "sample_id": "original_tutor25_g1_01",
+      "step_id": "s0",
+      "expression": "83+6",
+      "declared": "89",
+      "exact_actual": "89",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g1_02",
+      "step_id": "s0",
+      "expression": "17-6",
+      "declared": "11",
+      "exact_actual": "11",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g1_03",
+      "step_id": "s0",
+      "expression": "18-5",
+      "declared": "13",
+      "exact_actual": "13",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g1_04",
+      "step_id": "s0",
+      "expression": "24+30",
+      "declared": "54",
+      "exact_actual": "54",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g1_05",
+      "step_id": "s0",
+      "expression": "30+6",
+      "declared": "36",
+      "exact_actual": "36",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g2_01",
+      "step_id": "s0",
+      "expression": "38+27",
+      "declared": "65",
+      "exact_actual": "65",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g2_02",
+      "step_id": "s0",
+      "expression": "45-18",
+      "declared": "27",
+      "exact_actual": "27",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g2_03",
+      "step_id": "s0",
+      "expression": "5*4",
+      "declared": "20",
+      "exact_actual": "20",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g2_04",
+      "step_id": "s0",
+      "expression": "63-22",
+      "declared": "41",
+      "exact_actual": "41",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g2_05",
+      "step_id": "s0",
+      "expression": "300+40+6",
+      "declared": "346",
+      "exact_actual": "346",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s0",
+      "expression": "52//6",
+      "declared": "8",
+      "exact_actual": "8",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s1",
+      "expression": "(8)*6",
+      "declared": "48",
+      "exact_actual": "48",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_01",
+      "step_id": "s2",
+      "expression": "52-(48)",
+      "declared": "4",
+      "exact_actual": "4",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_02",
+      "step_id": "s0",
+      "expression": "364-128",
+      "declared": "236",
+      "exact_actual": "236",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_03",
+      "step_id": "s0",
+      "expression": "4*27",
+      "declared": "108",
+      "exact_actual": "108",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_03",
+      "step_id": "s1",
+      "expression": "(108)-36",
+      "declared": "72",
+      "exact_actual": "72",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "step_id": "s0",
+      "expression": "92//60",
+      "declared": "1",
+      "exact_actual": "1",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_04",
+      "step_id": "s1",
+      "expression": "92-(1)*60",
+      "declared": "32",
+      "exact_actual": "32",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_05",
+      "step_id": "s0",
+      "expression": "(18+7)*2",
+      "declared": "50",
+      "exact_actual": "50",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g3_05",
+      "step_id": "s1",
+      "expression": "18*7",
+      "declared": "126",
+      "exact_actual": "126",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_01",
+      "step_id": "s0",
+      "expression": "156-28",
+      "declared": "128",
+      "exact_actual": "128",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_01",
+      "step_id": "s1",
+      "expression": "(128)/2",
+      "declared": "64",
+      "exact_actual": "64",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_01",
+      "step_id": "s2",
+      "expression": "(64)+28",
+      "declared": "92",
+      "exact_actual": "92",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_02",
+      "step_id": "s0",
+      "expression": "3/4-1/8",
+      "declared": "5/8",
+      "exact_actual": "5/8",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_03",
+      "step_id": "s0",
+      "expression": "(3/4)/(2/3)",
+      "declared": "9/8",
+      "exact_actual": "9/8",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_04",
+      "step_id": "s0",
+      "expression": "36/3",
+      "declared": "12",
+      "exact_actual": "12",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_04",
+      "step_id": "s1",
+      "expression": "(12)*4",
+      "declared": "48",
+      "exact_actual": "48",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_05",
+      "step_id": "s0",
+      "expression": "58+64+73",
+      "declared": "195",
+      "exact_actual": "195",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g4_05",
+      "step_id": "s1",
+      "expression": "(195)/3",
+      "declared": "65",
+      "exact_actual": "65",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_01",
+      "step_id": "s0",
+      "expression": "4.75+2.8",
+      "declared": "7.55",
+      "exact_actual": "151/20",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_01",
+      "step_id": "s1",
+      "expression": "(151/20)-1.65",
+      "declared": "5.9",
+      "exact_actual": "59/10",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_02",
+      "step_id": "s0",
+      "expression": "250*40/100",
+      "declared": "100",
+      "exact_actual": "100",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_02",
+      "step_id": "s1",
+      "expression": "250-(100)",
+      "declared": "150",
+      "exact_actual": "150",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_03",
+      "step_id": "s0",
+      "expression": "3+5",
+      "declared": "8",
+      "exact_actual": "8",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_03",
+      "step_id": "s1",
+      "expression": "96/(8)",
+      "declared": "12",
+      "exact_actual": "12",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_03",
+      "step_id": "s2",
+      "expression": "(12)*3",
+      "declared": "36",
+      "exact_actual": "36",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_03",
+      "step_id": "s3",
+      "expression": "(12)*5",
+      "declared": "60",
+      "exact_actual": "60",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_04",
+      "step_id": "s0",
+      "expression": "54*1.5",
+      "declared": "81",
+      "exact_actual": "81",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_04",
+      "step_id": "s1",
+      "expression": "135-(81)",
+      "declared": "54",
+      "exact_actual": "54",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_05",
+      "step_id": "s0",
+      "expression": "18+12",
+      "declared": "30",
+      "exact_actual": "30",
+      "passed": true
+    },
+    {
+      "sample_id": "original_tutor25_g5_05",
+      "step_id": "s1",
+      "expression": "(30)*7/2",
+      "declared": "105",
+      "exact_actual": "105",
+      "passed": true
+    }
+  ],
+  "independent_identity_checks": [
+    "divmod_52_6_and_recomposition",
+    "divmod_92_60_and_recomposition",
+    "sum_difference_recomposition",
+    "sum_ratio_recomposition",
+    "fraction_division_inverse",
+    "decimal_reverse_flow"
+  ],
+  "observed_student_work_cases": 3,
+  "distinct_problem_strings": 25,
+  "all_train_only": true,
+  "arithmetic_checks_passed": true,
+  "hint_character_checks_passed": true,
+  "semantic_peer_review_status": "PENDING",
+  "curriculum_mapping_status": "PENDING_PEER_MAPPING",
+  "sealed_validation_overlap_status": "NOT_CHECKED_HERE_ROOT_CURATOR_MUST_DEDUP",
+  "all_primary_curriculum_covered": false,
+  "human_verified": false,
+  "caveats": [
+    "25 original seed cases are not a complete curriculum.",
+    "Exact calculations do not certify semantic faithfulness or pedagogy.",
+    "Current app calculator does not support //; those examples require a new explicit bounded contract.",
+    "Place-value rows need source-role resolution instead of arbitrary operands in current app formulas.",
+    "Canonical neutral rows are not directly valid app PlanDraft JSON."
+  ]
+}

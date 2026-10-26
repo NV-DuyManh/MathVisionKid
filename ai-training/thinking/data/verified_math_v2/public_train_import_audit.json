@@ -1,0 +1,17 @@
+{
+  "status": "PASSED",
+  "rows": 205,
+  "checks": {
+    "all_train": true,
+    "sample_ids_unique": true,
+    "source_semantics_not_certified": true,
+    "fact_spans_exact": true,
+    "independent_target_recompute": true,
+    "no_gold_answer_marker_in_question": true,
+    "known_schema": true,
+    "bounded_source_group": true,
+    "constants_only_whitelist": true
+  },
+  "sha256": "17e333b84e3b68087c517ce49a3513bb315bdbf48763724bbcc4e8a587f2863b",
+  "limits": "Arithmetic/provenance technical audit only, not semantic/pedagogical correctness or model accuracy."
+}

@@ -1,0 +1,115 @@
+{
+  "batch": "finish_g3_scale",
+  "utc": "2026-10-18T14:11:58.501025+00:00",
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_scale_equal_strips",
+      "row_sha256": "fc8ac1aa6b28b42ea2b666ae6acbc8896e1eff5a8e9c0d290ab59894027df48c",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "7*4"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_times_vs_add",
+      "row_sha256": "662f618793e8ec60ccafcee4ee6a19a8bf52a91f50bc088c90bd807676715652",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "8*3",
+          "8+3",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_scale_down_stock",
+      "row_sha256": "1e016d69a94da43a77c6def95fb08f2a37a8e5690f104926d261196b4aa79d8e",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "48/6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_mis_subtract_times",
+      "row_sha256": "eba9ceb584aec76bd65274abd7f6714ddd2d3ac3beb097d6c747bee1267f658c",
+      "parser": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "35/5"
+        ],
+        "arithmetic_is_semantic_proof": false
+      }
+    }
+  ],
+  "exact_fraction_decimal_and_separate_inverse_oracles": [
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_scale_equal_strips",
+      "step_id": "s0",
+      "expression": "7*4",
+      "fraction": "28",
+      "decimal": "28",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_times_vs_add",
+      "step_id": "s0",
+      "expression": "8*3",
+      "fraction": "24",
+      "decimal": "24",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_times_vs_add",
+      "step_id": "s1",
+      "expression": "8+3",
+      "fraction": "11",
+      "decimal": "11",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_scale_down_stock",
+      "step_id": "s0",
+      "expression": "48/6",
+      "fraction": "8",
+      "decimal": "8",
+      "inverse_identity": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_scale_mis_subtract_times",
+      "step_id": "s1",
+      "expression": "35/5",
+      "fraction": "7",
+      "decimal": "7",
+      "inverse_identity": true
+    }
+  ],
+  "actual_semantic_content_read": true,
+  "arithmetic_is_not_semantic_proof": true,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "official_review_sha256": "cf1a71071fb47027516d9fcc32cc167a62a7f69d87cdae031007683026f53e14",
+  "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained."
+}

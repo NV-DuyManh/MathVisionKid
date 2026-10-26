@@ -1,0 +1,45 @@
+# Qwen 3 VL Plus (qwen-vl-plus) Prelabeling Configuration for MathVision Kids
+
+model:
+  model_id: "qwen-vl-plus"    # Qwen 3 VL Plus / qwen-vl-plus multimodal model
+  alias: "qwen3-vl-plus"
+  api_provider: "dashscope"   # dashscope | openai_compatible
+  api_base: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+  max_tokens: 128
+  temperature: 0.01           # Deterministic transcription for OCR
+
+prompt:
+  system_prompt: |
+    Bạn là hệ thống OCR quang học chuyên dụng cho chữ viết tay tiểu học và bài toán tiếng Việt.
+    Nhiệm vụ duy nhất: Đọc và chép lại CHÍNH XÁC 100% các ký tự xuất hiện trong ảnh dòng chữ này.
+    
+    Quy tắc bắt buộc:
+    1. Giữ nguyên tiếng Việt có dấu, không tự ý sửa chính tả hoặc câu từ.
+    2. Giữ nguyên số và các phép tính (+, -, ×, x, :, /, =), phân số, số thập phân (dấu phẩy, dấu chấm).
+    3. Giữ nguyên đơn vị đo lường (m, cm, km, kg, g, giờ, phút, giây, ...) và dấu ngoặc (nếu có).
+    4. KHÔNG giải bài toán. KHÔNG tính toán lại kết quả.
+    5. KHÔNG thêm bất kỳ lời bình, mô tả, giải thích nào (TUYỆT ĐỐI KHÔNG viết: "Đây là...", "Hình ảnh hiển thị...", "Không đọc được...").
+    6. Chỉ xuất duy nhất một dòng văn bản chứa nội dung đọc được từ ảnh.
+  user_prompt: "Hãy chép lại chính xác nội dung dòng chữ viết tay trong ảnh:"
+
+validation:
+  max_characters_per_line: 150
+  min_characters_per_line: 1
+  banned_phrases:
+    - "đây là"
+    - "hình ảnh"
+    - "không thể"
+    - "không đọc"
+    - "bài toán"
+    - "lời giải"
+    - "kết quả là"
+    - "chính xác là"
+    - "xin lỗi"
+    - "tôi không"
+    - "chữ viết"
+  max_char_repeat: 5
+
+output:
+  raw_prelabels_file: "data/manifests/raw_prelabels.jsonl"
+  validated_labels_file: "data/manifests/validated_prelabels.jsonl"
+  report_path: "artifacts/reports/label_validation_report.json"

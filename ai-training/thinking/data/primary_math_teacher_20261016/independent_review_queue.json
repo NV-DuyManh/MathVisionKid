@@ -1,0 +1,237 @@
+{
+  "status": "QUEUED_AWAITING_INDEPENDENT_WORKER",
+  "task_id": "006_independent_primary45_20261017",
+  "cases": [
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_count14",
+      "row_sha256": "e3205821a9f19e393225b928705b52ea5a5bd3b569ad323ac59a4129c9501d5a",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_five_tens",
+      "row_sha256": "c63eeb0cbc90fc6a00dec6d5b8e97348714178fd3d7f72fac1036af19100369e",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_different_tens",
+      "row_sha256": "7c3c1d91264f5c7aaddb376196223725f36c05af3e41198a894ba9e3970c938b",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_same_tens",
+      "row_sha256": "735bf8f7f31136e1e2fa65a655ea40794d9e9db10510e5ae9ed8cde95e2625e9",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_sort_four",
+      "row_sha256": "7120663583fe4dda3f7c3ce027fe925c8eeb52c78055204fcdb15a6bbb5b97bd",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_mental_within10",
+      "row_sha256": "0b76af9a8bc7a15e9ecc6f981a2ced18c81a43707fb88aad2be447ff7b1053a2",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_add",
+      "row_sha256": "9fb7e8d7b2f4f773487a8c55bfc7f421683eebd03e25e58c49618b0798a7e617",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_foundations_0002_round_tens_subtract",
+      "row_sha256": "872cff2254d08d77a71839ec67c4b679a921ac186aeff7095ebb628ac6175b12",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_foundations_0002.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_choose_subtract",
+      "row_sha256": "87dd390a24330c816c001a15ec240ad8d3df27240ed1312548635215d21a193c",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_add",
+      "row_sha256": "fe110dcdeeb6e1155dfe8f4fba3266ef718fc88e13f5c1051c2f50c266f3972f",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_subtract_add",
+      "row_sha256": "1359c809aa908bce739a08e4d6a4394c6e945f1604c4e785a431132dcd31bd47",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_left_add_subtract",
+      "row_sha256": "19451c2924f7fe55d18686a9b1216dc2fb24f82cf17c92600fb416ff1b059ad5",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_leave",
+      "row_sha256": "ac2db506aaec1f2d6bbc6c701c744e992ed1eae04baf49ad313ff204866e0fa0",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_word_part_whole",
+      "row_sha256": "93fd1c745cb354f0fcecb6c4c3cabe3be9b2b22b1b3cdcc5d5e8ad280c4c44f7",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_changed_plus",
+      "row_sha256": "1df3f77f9298efdea0bab82fe6b59c62ae607f4f179f222271b151e243c91666",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_misconception_join_for_remove",
+      "row_sha256": "b5e544f4f4e4d7bd0685afc0da5fa9ef0ea03820a032417429958501dfe4d66e",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_operations_0003_guard_missing_bird_picture",
+      "row_sha256": "47ac9e13645c6d3fbc8a781c2044454f5c0d522e13b55840a128b5f7299a5b39",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_operations_0003.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_left_right_anchor",
+      "row_sha256": "cef0ecb91181d9a454a4ce0cbc9e5671dee4b893b63aa2351886104229449fe5",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_above_below_inverse",
+      "row_sha256": "c1b6953c7aff78507565959e9f50f96863bd413bd8231f61932203aa233b90aa",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_queue_front_middle_back",
+      "row_sha256": "d57b77639df0e4a1dbf8cbed1c22af63d94cc64f0ad7d7db75b3f5033d09c0db",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_triangle_by_boundary",
+      "row_sha256": "03521f8072f823f1039513785ef6bdb8201d3068211e2bffb88770a67a8a139c",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_square_rotated",
+      "row_sha256": "09d7dafa3adcc87f27c1ed807c713e9028bd4d28e14effa780d17ba6e522ed5f",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_four_shape_matching",
+      "row_sha256": "17356a169fc6ea4a9bb1f0229c203a3dfe6ba609ea2257a0a13790f45671593d",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_misconception_changed_anchor",
+      "row_sha256": "604697a133d8b814cf2e61c0fd74cf1a7b43c130df93194358cae2d276d0bc06",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_misconception_curve_vs_edges",
+      "row_sha256": "76fe5fa45bd464aecd1c323c2011e16d980f5d741c15fb83883e0e4fadcd420c",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_guard_no_spatial_frame",
+      "row_sha256": "623212fde614410d9194df581ff21a1eb874329d2806cff93b51fbfaaff61568",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_geometry_0004_guard_only_colour",
+      "row_sha256": "cb07eee53e2be46ad6c8af0bada8bc3187eb55b997ba3b5ee5f8625322c98648",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_geometry_0004.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_all_faces",
+      "row_sha256": "ee51c24bf80c4c21ce449ef839d99225be04fca339c9d1acc63d43ef356cc578",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_cube_elongated_box_contrast",
+      "row_sha256": "9a3d6d3591805c525413266e6c3778f2b5b7b5dbdb2838d0cbfd912b5270f9b7",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_box_reoriented",
+      "row_sha256": "57169c6aef1900b843faf251241705e48da4a05ae20e0da8732f21fe41011cab",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_two_squares_side_join",
+      "row_sha256": "1b4d52637b9398df0030628cc037726ab7ad7eb647045d8b2e5ecfe47b7007a5",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_diagonal_cut_restore",
+      "row_sha256": "23bca710fab03b133b587688803a9c5fe1d11920f654d5c252ad35c818a46b3e",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_fill_four_square_frame",
+      "row_sha256": "88bc1deb408bdd092d0bc2f712388afcaaba975e535375f498d979141f509169",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_misconception_one_face",
+      "row_sha256": "cf25cd189336de643029f169938bd164cada71556b9ed73da21ac32d0dcf7542",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_misconception_overlap",
+      "row_sha256": "29906bb62c1076672fecfba9a137f569fedd676475a3e2b9b26b2b6418e90b6a",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_guard_one_visible_face",
+      "row_sha256": "20806b455455a3469b758b94ab96ea8fcd0b140969710922bcc1cf2448dae6a8",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261016_g1_solids_assembly_0005_guard_unseen_assembly",
+      "row_sha256": "f71ff396be04a88d149c93ea0f7fbe53ba3142c90ec8041cf389d359afec0003",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_solids_assembly_0005.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_count_game_cards",
+      "row_sha256": "d7f64855f5c652fcc1f9d7bc71b0a958343fceecb484fa7b8c0499fa5a9de1c7",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_check_position_game",
+      "row_sha256": "98f9cbfeec964e9475d5b9652bc9daec462569b3dbb85134ec78ff914f0e4885",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_calendar_clock_activity",
+      "row_sha256": "3174ad485a801dfad91428cfaa6311bec09bfdace29ef08484a32851ac4d0a21",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_duplicate_group",
+      "row_sha256": "d38aba1ec9bec667b8b89074063d35d50f9dd20b85fafd5ef659054397c22b05",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_guard_unseen_card_game",
+      "row_sha256": "68523d3d333dbe10398c4758e2424bb1ecaee33a6df576ecb08fff03cf80ba9f",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_units_reversed",
+      "row_sha256": "389575b8b118dde556011d9c5479052583f63453e726076e44ef12000eff41ce",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_compare_ones_only",
+      "row_sha256": "ecf1ff5d42266db5ea03cae823547b240c32e3a461e5bdc6cd8e10a60b479293",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    },
+    {
+      "sample_id": "primary_20261017_g1_activities_0008_misconception_tens_unit_dropped",
+      "row_sha256": "6f9f925e72392cd40d4de450cf31e9f42954ae9b780041a64706c03e51f9b70a",
+      "source": "thinking/data/primary_math_teacher_20261016/authored_batches/g1_activities_0008.jsonl"
+    }
+  ],
+  "new_pending_cases": 8,
+  "prior_self_reviewed_cases_needing_independent_upgrade": 37,
+  "independent_review_completed": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "blocks_final_independent_review_claim": true
+}

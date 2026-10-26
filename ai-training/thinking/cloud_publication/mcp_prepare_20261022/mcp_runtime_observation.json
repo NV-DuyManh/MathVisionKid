@@ -1,0 +1,17 @@
+{
+  "checkpoint_fresh_raw_verified_this_run": false,
+  "checkpoint_id": "16Q9ft9xhcioconk-5zpxmdRv1ZDNxqFI",
+  "checkpoint_last_observed_bytes": 2321960960,
+  "checkpoint_last_observed_modified_utc": "2026-10-22T04:18:03.804Z",
+  "client_ready": true,
+  "cpu_runtime_execution_verified": false,
+  "notebook_id": "1TeCoP57miKmhESZVKWFqD-XqZmQd5u4l",
+  "probe_cell_id": "LHsQvxgpGOCc",
+  "probe_execution_count": null,
+  "probe_outputs": [],
+  "reason": "HOSTED_RUNTIME_CONNECTION_PENDING; MCP notebook edits/readback work but CPU probe did not execute.",
+  "training_started": false,
+  "transport": "OFFICIAL_GOOGLE_COLAB_MCP",
+  "websocket_connected": true,
+  "worker_started_this_run": false
+}

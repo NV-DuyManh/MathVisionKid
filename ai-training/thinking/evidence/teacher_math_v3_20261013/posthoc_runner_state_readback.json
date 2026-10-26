@@ -1,0 +1,54 @@
+{
+  "phase": "completed",
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "anchor_raw": {
+    "solution_samples": 25,
+    "answer_extracted": 25,
+    "numeric_correct": 21,
+    "answer_unit_correct": 17,
+    "strict_schema_valid": 24,
+    "protocol": "bounded JSON answer/unit extraction; explicit noun/unit aliases; generated number never replaced with oracle",
+    "teacher_pedagogy_verified": false,
+    "protocol_is_posthoc": true,
+    "per_grade": {
+      "1": {
+        "samples": 5,
+        "numeric_correct": 5,
+        "answer_unit_correct": 4
+      },
+      "2": {
+        "samples": 5,
+        "numeric_correct": 5,
+        "answer_unit_correct": 5
+      },
+      "3": {
+        "samples": 5,
+        "numeric_correct": 3,
+        "answer_unit_correct": 1
+      },
+      "4": {
+        "samples": 5,
+        "numeric_correct": 4,
+        "answer_unit_correct": 3
+      },
+      "5": {
+        "samples": 5,
+        "numeric_correct": 4,
+        "answer_unit_correct": 4
+      }
+    }
+  },
+  "runtime": {
+    "samples": 262,
+    "solution_samples": 173,
+    "accepted_solutions": 2,
+    "wrong_accepted": 0,
+    "hint_renderer_matches": 59,
+    "guards_correct": 30,
+    "semantic_scope": "exact published templates",
+    "numeric_score_separate": true,
+    "pedagogy_teacher_reviewed": false,
+    "production_approved": false
+  },
+  "production_approved": false
+}

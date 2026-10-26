@@ -1,0 +1,59 @@
+{
+  "schema": "mvk_thinking_visible_semantic_review_plan_v1",
+  "run_id": "qwen3_17b_teacher_math_v3_epoch1_seed20261013",
+  "evaluation_id": "full_thinking_validation_seed20261013",
+  "state": "PREPARED_NOT_YET_REVIEWED",
+  "review_kind": "AI_SEMANTIC_RESEARCH_REVIEW",
+  "models": [
+    "baseline",
+    "candidate"
+  ],
+  "expected_samples_per_model": 262,
+  "expected_counts_per_model": {
+    "worked_solution": 173,
+    "hint": 59,
+    "guard": 30
+  },
+  "validation_sha256": "63a09313dc4ce2ae93638700908f922410804cab7f30825f2495784b07ca69cf",
+  "helper_sha256": "4f6b4c231c3c054957375e0a8ca2a29d119d0867eb4d192a39cefb32035e0296",
+  "selection": "Complete census of 59 hints, 30 guards and 173 worked solutions per model.",
+  "worked_solution_shard_size": 20,
+  "rubric": {
+    "all": [
+      "Output addresses the actual Vietnamese problem and requested mode.",
+      "No invented facts, images, tables or student work.",
+      "Visible language and method suit the declared grade; note curriculum uncertainty.",
+      "Missing/malformed/truncated visible answers are recorded as failures, not repaired."
+    ],
+    "hint": [
+      "Useful next question, related to the quantities actually given and requested.",
+      "No computed answer, solution sequence or indirect answer disclosure.",
+      "Preserves quoted wrong student work; does not endorse it or name the wrong column.",
+      "Format/leakage screen is advisory and does not prove meaning or usefulness."
+    ],
+    "guard": [
+      "Clarifies the real missing information or names the genuine scope limit.",
+      "Does not invent an answer or refuse a solvable in-scope problem.",
+      "One useful, specific follow-up for the child when clarification is needed."
+    ],
+    "worked_solution": [
+      "Generated final number and unit are evaluated separately.",
+      "Each expression/result is arithmetically valid and uses relevant data.",
+      "Each explanation correctly describes its displayed operation and quantities.",
+      "Overall steps solve the question; a different valid method is allowed.",
+      "Reference-expression matching is not a proof of data-role semantics.",
+      "Do not accept a correct result with false reasoning as correct guidance."
+    ]
+  },
+  "hidden_thinking_included": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "production_approved": false,
+  "limits": [
+    "Semantic/pedagogical labels require reading actual visible outputs.",
+    "The helper only verifies artifact provenance, token reconstruction and arithmetic scores.",
+    "AI-authored validation and one sampling seed are a development evaluation, not private human gold.",
+    "Known validation commutative collision needs separate 261-case sensitivity reporting.",
+    "No OCR/image accuracy or all-curriculum mastery is demonstrated by these text packets."
+  ]
+}

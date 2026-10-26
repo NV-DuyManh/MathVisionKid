@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "42f37c5c56642d5dfcea3dce105ec899ea95a20c36f1b45f89b6f8cd9d7653bb",
+  "decisions": [
+    {
+      "fixture_id": "verbal20261024_locked_g1_unknown_addend",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct missing addend5 via12−7 and explicitly checks7+5=12; complete and consistent.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g1_compare_lengths",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly selects extrema14and9 using14>11>9 and computes5cm difference with matching units.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g1_birds_hint",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": true,
+      "selected_hint_leak": true,
+      "reason": "Supplies13−4=9 and final9birds despite explicit hint-only withholding request.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "verbal20261024_locked_g1_color_total_conflict",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correctly identifies that disjoint color counts4+5=9 conflict with total8. Labels the component counts as supplied facts and does not change them or invent multicolored balls; no source-identification request in this task.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

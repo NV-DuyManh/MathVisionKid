@@ -1,0 +1,133 @@
+{
+  "authored_utc": "2026-10-18T02:25:58.489039+00:00",
+  "heartbeat_trigger_utc": "2026-10-17T14:26:32.640Z",
+  "execution_client_date": "2026-10-18",
+  "batch_sha256": "2653b5e03edf639ee7fb8bc7a3580d9812e673ec6cf85f78dc379fe687ad89cc",
+  "authored_cases": 4,
+  "core_cases": 2,
+  "misconception_cases": 1,
+  "guard_cases": 1,
+  "checks": [
+    {
+      "sample_id": "primary_20261018_g3_area_0045_equal_perimeters_do_not_fix_area",
+      "row_sha256": "c6ef894acd0a36b322d7248de35448e2b4f75ecb811556d13b670864a817a015",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review",
+          "categorical answer requires content review"
+        ],
+        "expanded_expressions": [
+          "11*5",
+          "8*8",
+          ""
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_area_0045_square_tiles_cover_rectangle",
+      "row_sha256": "47f88fb44b527f97c66c3ae5eee8504cfd5af2b06cf8ad5423e1d716e297e634",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [
+          "12*8",
+          "2*2",
+          "(12*8)/(2*2)"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_area_0045_misconception_perimeter_formula_for_area",
+      "row_sha256": "7845a297c67269a1f2724aa3eb29636e868948e932b488af7363eb0f70d56d68",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [
+          "nonnumeric step requires content review"
+        ],
+        "expanded_expressions": [
+          "",
+          "13*6"
+        ],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    },
+    {
+      "sample_id": "primary_20261018_g3_area_0045_guard_perimeter_without_dimensions",
+      "row_sha256": "5e91056c22fdbf2d1671ee56fc88fc96167af0b769e7a97a1c8f1dbedb8d97f4",
+      "mechanical": {
+        "passed": true,
+        "errors": [],
+        "warnings": [],
+        "expanded_expressions": [],
+        "arithmetic_is_semantic_proof": false
+      },
+      "mapping_pass": true
+    }
+  ],
+  "oracles": {
+    "P_unit_square_count": 55,
+    "Q_unit_square_count": 64,
+    "shared_perimeter": 32,
+    "whole_unit_squares": 96,
+    "tile_count": 24,
+    "tile_area_each": 4,
+    "tile_partition_exact_and_disjoint": true,
+    "misconception_unit_square_count": 78,
+    "misconception_boundary_length": 38,
+    "missing_dimensions_countermodels": [
+      {
+        "length": 11,
+        "width": 4,
+        "perimeter": 30,
+        "area": 44
+      },
+      {
+        "length": 10,
+        "width": 5,
+        "perimeter": 30,
+        "area": 50
+      }
+    ]
+  },
+  "oracle_method": "Independent finite disjoint unit-square enumeration and boundary edge sums, tiling exact-cover union/cardinality, two equal-perimeter rectangles with different unit-square counts. No image/physical result claimed.",
+  "exact_slots_authored": [
+    "core_02",
+    "core_03"
+  ],
+  "existing_core01_preserved": "original_tutor25_g3_05 rectangle18by7 perimeter/area",
+  "frozen_sources_unchanged": {
+    "thinking/data/teacher_math_v3/curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/legacy_curriculum_sources.json": true,
+    "thinking/data/teacher_math_v3/concept_teacher_instructions.jsonl": true,
+    "thinking/data/teacher_math_v3/knowledge_cards.jsonl": true,
+    "thinking/data/teacher_math_v3/curriculum_training_coverage.json": true,
+    "thinking/data/teacher_math_v4/generated/dataset_report.json": true,
+    "thinking/data/teacher_math_v4/generated/train.jsonl": true,
+    "thinking/data/teacher_math_v4/generated/val.jsonl": true
+  },
+  "all_previous_accepted286_sources_unchanged": true,
+  "independent_external_reviewer": false,
+  "human_verified": false,
+  "teacher_certified": false,
+  "training_started": false,
+  "limits": "Explicit hypothetical figures. Correct finite grids support these examples, not universal semantic/pedagogical proof or real visual competence. Neutral schema needs application adapter.",
+  "self_QA_completed": true,
+  "independent_external_review": false,
+  "official_review_path": "thinking\\data\\primary_math_teacher_20261016\\reviews\\g3_area_0045_owner_preauthorized_self_QA.jsonl",
+  "official_review_sha256": "9adb6681241b087a16841d08e7a70699133ba502778f9651825c50f6454132c8",
+  "author_self_QA_notes": {
+    "equal_perimeters_do_not_fix_area": "P có11×5=55cm²,Q có8×8=64cm²;hai chu vi đều32cmđúng theo cạnh nhưng không quyết định bằng diện tích. Lý do dùng hàng/cột và đơn vịcm²rõ;hint không chọnQhoặc điền55/64.",
+    "square_tiles_cover_rectangle": "Tấm12×8=96cm²,mỗi miếng2×2=4cm²nên24miếng. Oracle partition xác nhận24miếng4ô phủ kín96ô không chồng;kiểm6cột4hàng. Hints không nêu24hoặc chuỗi tính đầy đủ;giả định lát lý tưởng được nói rõ.",
+    "misconception_perimeter_formula_for_area": "(13+6)×2=38tính chu vi,không phải diện tích dù gắncm². Giữ hai kích thước,tính13×6=78cm²;38cm/78cm²phân biệt đủ đại lượng/đơn vị;chỉ phản hồi câu đã viết.",
+    "guard_perimeter_without_dimensions": "Chu vi30cmcho ít nhất hai hình11×4diện tích44và10×5diện tích50. Vì không có kích thước/quan hệ đủ,đúng là hỏi bổ sung,không tự nhận vuông hoặc tính diện tích từ30."
+  }
+}

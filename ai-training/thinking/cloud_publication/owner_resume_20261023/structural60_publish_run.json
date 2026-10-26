@@ -1,0 +1,33 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"DERIVED_SHARD_RAW_VERIFIED_RECIPE_PREPARED_NOT_YET_MERGED\", \"artifact\": {\"name\": \"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\", \"bytes\": 20463369, \"sha256\": \"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\", \"rows\": 511420, \"file_id\": \"1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ\", \"fresh_raw_readback_verified\": true, \"observed_utc\": \"2026-10-23T03:47:31.780305+00:00\", \"transport\": \"AUTHORIZED_DATA_ONLY_COLAB_MCP_DRIVE_API_NO_PC_CORPUS_TRANSFER\"}, \"new_recipe_sha256\": \"5517fe5ffdfd55ea0d660018a8088e190059997e201f63b4c7051c9ca9231d6a\", \"new_identity\": \"bef3ecdf7d60509eda3a755deedaf292348503e9db328d442344d94568804f81\", \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "structured_content": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"state\": \"DERIVED_SHARD_RAW_VERIFIED_RECIPE_PREPARED_NOT_YET_MERGED\", \"artifact\": {\"name\": \"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\", \"bytes\": 20463369, \"sha256\": \"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\", \"rows\": 511420, \"file_id\": \"1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ\", \"fresh_raw_readback_verified\": true, \"observed_utc\": \"2026-10-23T03:47:31.780305+00:00\", \"transport\": \"AUTHORIZED_DATA_ONLY_COLAB_MCP_DRIVE_API_NO_PC_CORPUS_TRANSFER\"}, \"new_recipe_sha256\": \"5517fe5ffdfd55ea0d660018a8088e190059997e201f63b4c7051c9ca9231d6a\", \"new_identity\": \"bef3ecdf7d60509eda3a755deedaf292348503e9db328d442344d94568804f81\", \"training_started\": false}\n"
+        ]
+      }
+    ]
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"state\\\": \\\"DERIVED_SHARD_RAW_VERIFIED_RECIPE_PREPARED_NOT_YET_MERGED\\\", \\\"artifact\\\": {\\\"name\\\": \\\"MathVisionKid_CHAT_part_07_of_07_HASH_GROUP_REPAIR_20261023.jsonl.gz\\\", \\\"bytes\\\": 20463369, \\\"sha256\\\": \\\"c63cd794510f11d57313c05a2d00e2eb6ebd32b0ad54843d3f13d2b0a7df6bd0\\\", \\\"rows\\\": 511420, \\\"file_id\\\": \\\"1DtwpVgFAiyyOIHxgFbQgnlDGWr75m6DQ\\\", \\\"fresh_raw_readback_verified\\\": true, \\\"observed_utc\\\": \\\"2026-10-23T03:47:31.780305+00:00\\\", \\\"transport\\\": \\\"AUTHORIZED_DATA_ONLY_COLAB_MCP_DRIVE_API_NO_PC_CORPUS_TRANSFER\\\"}, \\\"new_recipe_sha256\\\": \\\"5517fe5ffdfd55ea0d660018a8088e190059997e201f63b4c7051c9ca9231d6a\\\", \\\"new_identity\\\": \\\"bef3ecdf7d60509eda3a755deedaf292348503e9db328d442344d94568804f81\\\", \\\"training_started\\\": false}\\n\"]}]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

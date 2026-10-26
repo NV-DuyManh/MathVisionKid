@@ -1,0 +1,369 @@
+{
+  "schema": "MathVisionKid.independent_baseline_review.v1",
+  "development_candidates_sha256": "450a642e328e232dcfaf7c7d289d45c75203ef5e7ee5c5181e305af159fadd85",
+  "baseline_file_sha256": {
+    "grade1.json": "a121bc62fb7cdad99fe2d345b5c611b0677cab2946f0871e1f1955017bdfc47d",
+    "grade2.json": "9bf37e44c6248e37a1f2852802d1494fa9f240e25c708954e8cffd1100c84c52",
+    "grade3.json": "1a20a89f1aa52be84ed67f02a27581addab79e1fa9bb90033a104510069f0dcd",
+    "grade4.json": "31eb79d5c3af26f0426854b4e972b3d983a8275e7a7cf99ed78b5664353f6f22",
+    "grade5.json": "13539a33e43e529f13a4f319119d46645ab6182b2da28e35df2d12ebb5c29989"
+  },
+  "fixture_count": 30,
+  "decision_scope": "Actual fixture/rubric and base_before_training output only; strict requested-mode full-task review. Correct answer without required grounding/check may fail; any final-answer leak fails hints; guards fail on unresolved contradiction, unsupported answer, or self-contradiction.",
+  "candidate_outputs_read": false,
+  "human_review_claimed": false,
+  "summary": {
+    "answer": {
+      "count": 10,
+      "strict_full_task_passes": 9,
+      "hint_leaks": 0
+    },
+    "hint_no_answer": {
+      "count": 10,
+      "strict_full_task_passes": 0,
+      "hint_leaks": 10
+    },
+    "missing_or_contradictory_info": {
+      "count": 5,
+      "strict_full_task_passes": 0,
+      "hint_leaks": 0
+    },
+    "student_error": {
+      "count": 5,
+      "strict_full_task_passes": 4,
+      "hint_leaks": 0
+    }
+  },
+  "decisions": [
+    {
+      "fixture_id": "dev25_g1_answer_01",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct 7+6=13; explains addition, units/count meaning, and checks result.",
+      "baseline_output_sha256": "20f03d63526ccdb8ceb8eeb7da2befc527cd7cc871c8515580e16c5867ce1b97",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g1_answer_02",
+      "grade": 1,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct 18-9=9 quýt; explains subtraction, retains item unit, and checks arithmetic.",
+      "baseline_output_sha256": "b00ea60c6a972506307d738b6ecf085f990df2fe700a06ca57f5df51319470dc",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g1_hint_no_answer_01",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Gives 5+8=13 and states the final total; leaks the requested answer.",
+      "baseline_output_sha256": "5a39441c89979fe9a8ca4f3825feb30d7bee4e404788e534c22f262a7085c938",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g1_hint_no_answer_02",
+      "grade": 1,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes 14-6=8 and states the remaining count; leaks the requested answer.",
+      "baseline_output_sha256": "74e67e597cf1a375a33bda58d4ddd16eedddacaf18fcc12b65dddd193e3361bf",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g1_missing_or_contradictory_info_01",
+      "grade": 1,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Eventually identifies the missing removed-count and refuses a number, but first asserts the problem has sufficient data and later calls it insufficient; internally contradictory guard response.",
+      "baseline_output_sha256": "abdc24c79bce639dfd3390a779ca2890ebebabb0a53344ea8d58cc9cf08970ba",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g1_student_error_01",
+      "grade": 1,
+      "mode": "student_error",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly affirms the provided 8+5=13 line and checks the count/unit; no unprovided student step is inferred.",
+      "baseline_output_sha256": "c524f8a250c2fd74773bb6ac5263fe21a7c667416b934d843b81ac936b41ea32",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_answer_01",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct 5×4=20 equal groups; units and check are sound.",
+      "baseline_output_sha256": "f316338df176ffe02557f31655d7880a84dac6c2986c99bbc0109cb05faadda4",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_answer_02",
+      "grade": 2,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct 42-17=25; explains remaining quantity and checks arithmetic/unit.",
+      "baseline_output_sha256": "3a99945f8ffa10e7b31d8c3b8afd530ffeab13a7f2283655d807bd901263f7b0",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_hint_no_answer_01",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Gives 3×5=15 and the total; leaks the answer.",
+      "baseline_output_sha256": "a6b603f4cee2fd5219d7cf0f7f082d5d231b2d68b73b166d8e0d2d928ffd13c6",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_hint_no_answer_02",
+      "grade": 2,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes 36-14=22 cm and states the answer; leaks the answer.",
+      "baseline_output_sha256": "73ef556aff3e95153d64224176ff7b8f7d6b5b15323deea35c7d9ca2db42847b",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_missing_or_contradictory_info_01",
+      "grade": 2,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Recognizes the conflict between 5 and 6 per box, but chooses 6 and reports 24 as a result despite unresolved contradiction.",
+      "baseline_output_sha256": "cbf459d83091c29773f1de073faaa8b22b1fadb28c0022202befc931009fa122",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g2_student_error_01",
+      "grade": 2,
+      "mode": "student_error",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Accepts 2+7=9 as representing two groups of seven; misses that the correct total is 14, so feedback is mathematically/semantically wrong.",
+      "baseline_output_sha256": "33de084fdf89245387953c4fc576b4776b54c5d9ae2baa610b504c84b06e5d6b",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_answer_01",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct quotient/remainder 24 remainder 3 and verifies 5×24+3=123 with remainder bound.",
+      "baseline_output_sha256": "40b4223a498fd4171541f930d74f5a38d49637a8e21ff696d8912f9e0555feb8",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_answer_02",
+      "grade": 3,
+      "mode": "answer",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Arithmetic and unit conversion are correct, but the response adds an unsupported student-work section and says it was provided even though the prompt contains no student work; fails strict grounding.",
+      "baseline_output_sha256": "6cc318ad0fed4c73417cf3e9f0075c86453be41f5fe733dc96c61031bdb20897",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_hint_no_answer_01",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Gives 14×9=126 and final total; leaks answer.",
+      "baseline_output_sha256": "3f8f55140fb6d1eed552662c5cb84427f537d90d3b43743fe2259343f6a9566a",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_hint_no_answer_02",
+      "grade": 3,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Converts and computes 2000-650=1350 ml; leaks answer.",
+      "baseline_output_sha256": "87f35e861b2fd0530ce01a96b69569ab9dfcd173728ef2055fc03fdf6c3ba7ec",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_missing_or_contradictory_info_01",
+      "grade": 3,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Correctly notes width is missing and cannot compute perimeter, but opens by asserting the data are sufficient; contradictory guard response.",
+      "baseline_output_sha256": "206aa62206b425b83928e360ddbaaf105f0f2cbf6508b13acf46fc40978e7184",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g3_student_error_01",
+      "grade": 3,
+      "mode": "student_error",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly verifies the supplied 6×15=90 line and explains grouping/unit.",
+      "baseline_output_sha256": "dd26faa35696c6e4df0ef92c53a7f530e1dcad80853760e139e27585f04d9091",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_answer_01",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly adds 7/12+1/6=3/4 m, gives common-denominator reasoning and checks unit.",
+      "baseline_output_sha256": "fa1151053260bbfd388fcf79a8f59b11b7edb8476f86ef067f0231fe3fe86b0d",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_answer_02",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correct area 12×7=84 m²; formula, square-unit reasoning and check are correct.",
+      "baseline_output_sha256": "2453f28b70064abdb319b2a063b7b3746dfb3c592085dcfb7e84045c1ace8738",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_hint_no_answer_01",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes 7/8-1/4=5/8 l and states result; leaks answer.",
+      "baseline_output_sha256": "8f517abc0a38a493471acefc6689bb56ab38d8918610bcda8c9331c30a823761",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_hint_no_answer_02",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes perimeter as 2×(16+9)=50 cm; leaks answer.",
+      "baseline_output_sha256": "9ec6c22677d2754f36856dacaa7e8083f8a0ed8aea73b95b35225af5d0b6dddc",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_missing_or_contradictory_info_01",
+      "grade": 4,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Correctly spots conflicting widths, but claims length or width must be supplied although length is known, and does not ask which width is correct.",
+      "baseline_output_sha256": "fcbd013bd31ddb3b63e70087d3f44263a6826f630bcece8ba734114809e1cc40",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g4_student_error_01",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly verifies 3/4=6/8 and subtraction to 5/8 m; unit and provided work are handled.",
+      "baseline_output_sha256": "3a5ee87c8b8b488a986b1c694b7a2a6a1572dca686451fa1b349a700b166c672",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_answer_01",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly finds 24×3/8=9 l and verifies the fraction-of-quantity calculation.",
+      "baseline_output_sha256": "15c4eb43d3221221806097beafcf4ee9e921ca6f46574350f30cbc791ef20d03",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_answer_02",
+      "grade": 5,
+      "mode": "answer",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly finds area 2.4×1.5=3.6 m² and checks decimal arithmetic and squared unit.",
+      "baseline_output_sha256": "d7957cd6fab1a586e700f0eb51c49d4b498eaec874ac9d94251a7df0fd4f4ea6",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_hint_no_answer_01",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes 150000×20/100=30000 đồng and states the discount; leaks answer.",
+      "baseline_output_sha256": "1e0c2f6dfe8608bac343c37fd30cd96b68d216aff3b5681be28b214098ee2c73",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_hint_no_answer_02",
+      "grade": 5,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "base_hint_leak": true,
+      "explanation": "Computes 135×2/5=54 km and states distance; leaks answer.",
+      "baseline_output_sha256": "6b6359baf8a85c9706b2f348c80d825ac7e54c2ccdd77bc1aa5f0ceb2fe488f5",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_missing_or_contradictory_info_01",
+      "grade": 5,
+      "mode": "missing_or_contradictory_info",
+      "base_pass": false,
+      "base_hint_leak": false,
+      "explanation": "Identifies missing height but first declares data sufficient and supplies hypothetical V=40h; fails strict guard instruction to clarify without solving hypothetically.",
+      "baseline_output_sha256": "089d7d4aa7d6b061321d3ef865d515873ff61c65ba9ab007ec29aa44df3ab165",
+      "ended_eos": true,
+      "possibly_truncated": false
+    },
+    {
+      "fixture_id": "dev25_g5_student_error_01",
+      "grade": 5,
+      "mode": "student_error",
+      "base_pass": true,
+      "base_hint_leak": false,
+      "explanation": "Correctly confirms 24 l used, corrects remaining amount to 56 l, and addresses only the provided claim.",
+      "baseline_output_sha256": "ab3ccd66d3694a8fad965fa3c39fc7457131642daf27c7e90b5b7ade942d3210",
+      "ended_eos": true,
+      "possibly_truncated": false
+    }
+  ]
+}

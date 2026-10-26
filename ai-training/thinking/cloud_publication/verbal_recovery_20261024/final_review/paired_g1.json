@@ -1,0 +1,196 @@
+[
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "value": "5"
+      },
+      "grade": 1,
+      "id": "verbal20261024_locked_g1_unknown_addend",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "12−7=5;7+5=12.",
+      "rubric": [
+        "Tìm số hạng còn thiếu bằng quan hệ cộng/trừ.",
+        "Nêu5 và kiểm7+5=12."
+      ],
+      "userproblem": "Điền số vào ô trống trong 7 + □ = 12. Giải thích cách tìm và kiểm lại bằng phép cộng."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_unknown_addend",
+      "generated_tokens": 279,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**  \nĐiền số vào ô trống trong phương trình:  \n**7 + □ = 12**  \nGiải thích cách tìm và kiểm lại bằng phép cộng.\n\n---\n\n**Giải:**\n\n1. **Tìm số cần điền:**  \n   Ta có phương trình:  \n   $$\n   7 + \\square = 12\n   $$  \n   Để tìm giá trị của $\\square$, ta thực hiện phép trừ:  \n   $$\n   \\square = 12 - 7\n   $$  \n   $$\n   \\square = 5\n   $$\n\n2. **Kiểm tra lại bằng phép cộng:**  \n   Thay số vào phương trình:  \n   $$\n   7 + 5 = 12\n   $$  \n   Ta thấy:  \n   $$\n   7 + 5 = 12 \\quad \\text{(đúng)}\n   $$\n\n---\n\n**Kết luận:**  \nSố cần điền là **5**.  \nKết quả kiểm tra bằng phép cộng:  \n$7 + 5 = 12$ → đúng.\n\n---\n\n**Lời giải đầy đủ:**  \n- Số cần điền là **5**.  \n- Kiểm tra bằng phép cộng: $7 + 5 = 12$ → đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "66b9a6291b03827edda4b893c525eaa5bb5a1bc696ba13d70a37f92efbe1f130",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_unknown_addend",
+      "generated_tokens": 279,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**  \nĐiền số vào ô trống trong phương trình:  \n**7 + □ = 12**  \nGiải thích cách tìm và kiểm lại bằng phép cộng.\n\n---\n\n**Giải:**\n\n1. **Tìm số cần điền:**  \n   Ta có phương trình:  \n   $$\n   7 + \\square = 12\n   $$  \n   Để tìm giá trị của $\\square$, ta thực hiện phép trừ:  \n   $$\n   \\square = 12 - 7\n   $$  \n   $$\n   \\square = 5\n   $$\n\n2. **Kiểm tra lại bằng phép cộng:**  \n   Thay số vào phương trình:  \n   $$\n   7 + 5 = 12\n   $$  \n   Ta thấy:  \n   $$\n   7 + 5 = 12 \\quad \\text{(đúng)}\n   $$\n\n---\n\n**Kết luận:**  \nSố cần điền là **5**.  \nKết quả kiểm tra bằng phép cộng:  \n$7 + 5 = 12$ → đúng.\n\n---\n\n**Lời giải đầy đủ:**  \n- Số cần điền là **5**.  \n- Kiểm tra bằng phép cộng: $7 + 5 = 12$ → đúng.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "66b9a6291b03827edda4b893c525eaa5bb5a1bc696ba13d70a37f92efbe1f130",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "unit": "cm",
+        "value": "5"
+      },
+      "grade": 1,
+      "id": "verbal20261024_locked_g1_compare_lengths",
+      "mode": "answer",
+      "not_training_data": true,
+      "oracle": "Dài nhất14cm,ngắn nhất9cm;14−9=5cm.",
+      "rubric": [
+        "Chọn đúng14và9,không lấy hai số đứng cạnh nhau tùy ý.",
+        "Hiệu5cm và giải thích hai cực trị."
+      ],
+      "userproblem": "Ba sợi dây dài 9 cm, 14 cm và 11 cm. Sợi dài nhất dài hơn sợi ngắn nhất bao nhiêu xăng-ti-mét? Giải thích cách chọn hai số đo."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_compare_lengths",
+      "generated_tokens": 338,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nBa sợi dây dài 9 cm, 14 cm và 11 cm. Sợi dài nhất dài hơn sợi ngắn nhất bao nhiêu xăng-ti-mét?\n\n**Giải:**\n\n1. **Bước 1: Xác định các số đo.**\n   - Sợi dây dài nhất: 14 cm  \n   - Sợi dây ngắn nhất: 9 cm  \n   - Sợi dây còn lại: 11 cm\n\n2. **Bước 2: So sánh các số đo.**\n   - 14 cm > 11 cm > 9 cm\n\n3. **Bước 3: Tính hiệu giữa sợi dài nhất và sợi ngắn nhất.**\n   - Hiệu số: $14 - 9 = 5$ cm\n\n**Kết luận:**\nSợi dài nhất dài hơn sợi ngắn nhất **5 xăng-ti-mét**.\n\n---\n\n**Kiểm tra lại:**\n- Sợi dài nhất: 14 cm  \n- Sợi ngắn nhất: 9 cm  \n- Hiệu số: $14 - 9 = 5$ cm ✅\n\n**Lời giải đầy đủ:**\n- Các số đo được cho là: 9 cm, 14 cm, 11 cm  \n- Sợi dài nhất là 14 cm, sợi ngắn nhất là 9 cm  \n- Hiệu số giữa sợi dài nhất và sợi ngắn nhất là $14 - 9 = 5$ cm\n\n**Đáp án: 5 cm**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d2d65656cf4b535a049152a7a180b1558506ae18b6ac46a45168dce605aba62d",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_compare_lengths",
+      "generated_tokens": 338,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "answer",
+      "model_mode": "worked_solution",
+      "output": "**Bài toán:**\n\nBa sợi dây dài 9 cm, 14 cm và 11 cm. Sợi dài nhất dài hơn sợi ngắn nhất bao nhiêu xăng-ti-mét?\n\n**Giải:**\n\n1. **Bước 1: Xác định các số đo.**\n   - Sợi dây dài nhất: 14 cm  \n   - Sợi dây ngắn nhất: 9 cm  \n   - Sợi dây còn lại: 11 cm\n\n2. **Bước 2: So sánh các số đo.**\n   - 14 cm > 11 cm > 9 cm\n\n3. **Bước 3: Tính hiệu giữa sợi dài nhất và sợi ngắn nhất.**\n   - Hiệu số: $14 - 9 = 5$ cm\n\n**Kết luận:**\nSợi dài nhất dài hơn sợi ngắn nhất **5 xăng-ti-mét**.\n\n---\n\n**Kiểm tra lại:**\n- Sợi dài nhất: 14 cm  \n- Sợi ngắn nhất: 9 cm  \n- Hiệu số: $14 - 9 = 5$ cm ✅\n\n**Lời giải đầy đủ:**\n- Các số đo được cho là: 9 cm, 14 cm, 11 cm  \n- Sợi dài nhất là 14 cm, sợi ngắn nhất là 9 cm  \n- Hiệu số giữa sợi dài nhất và sợi ngắn nhất là $14 - 9 = 5$ cm\n\n**Đáp án: 5 cm**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "d2d65656cf4b535a049152a7a180b1558506ae18b6ac46a45168dce605aba62d",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "withheld_value": "9"
+      },
+      "grade": 1,
+      "id": "verbal20261024_locked_g1_birds_hint",
+      "mode": "hint_no_answer",
+      "not_training_data": true,
+      "oracle": "(10+3)−4=9.",
+      "rubric": [
+        "Cộng phần đến trước, trừ phần đi sau.",
+        "Không nêu9 hoặc chín con chim."
+      ],
+      "userproblem": "Trên cành có 10 con chim. Thêm 3 con bay đến, rồi 4 con bay đi. Hãy gợi ý thứ tự tính số chim còn lại, đừng nêu số chim cuối cùng."
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_birds_hint",
+      "generated_tokens": 83,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n1. Ban đầu có 10 con chim.\n2. Thêm 3 con chim bay đến: 10 + 3 = 13 con chim.\n3. Sau đó, 4 con chim bay đi: 13 - 4 = 9 con chim.\n\nLời giải đúng là: 9 con chim còn lại.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0372955531eac7b6402ec79c2a1fef4d33713c65d63478d2b3f64aa7cf3ed875",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_birds_hint",
+      "generated_tokens": 83,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "hint_no_answer",
+      "model_mode": "hint_level_1",
+      "output": "Gợi ý bước đầu để em tự làm:\n\n1. Ban đầu có 10 con chim.\n2. Thêm 3 con chim bay đến: 10 + 3 = 13 con chim.\n3. Sau đó, 4 con chim bay đi: 13 - 4 = 9 con chim.\n\nLời giải đúng là: 9 con chim còn lại.",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "0372955531eac7b6402ec79c2a1fef4d33713c65d63478d2b3f64aa7cf3ed875",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  },
+  {
+    "fixture": {
+      "authorship": "Original evaluation task; not copied from a book; no human certification",
+      "exact_reference_answer": {
+        "consistent": false,
+        "sum": "9"
+      },
+      "grade": 1,
+      "id": "verbal20261024_locked_g1_color_total_conflict",
+      "mode": "missing_or_contradictory_info",
+      "not_training_data": true,
+      "oracle": "4+5=9≠8;hai nhóm rời nhau và bao hết hộp.",
+      "rubric": [
+        "Nhận ra mâu thuẫn tổng.",
+        "Không tự sửa một số hoặc cho bóng có hai màu trái đề."
+      ],
+      "userproblem": "Một hộp chỉ có bóng đỏ và bóng xanh, mỗi bóng chỉ một màu. Bản ghi nói có 4 bóng đỏ, 5 bóng xanh và tổng cộng 8 bóng. Ba điều ghi này có thể cùng đúng không? Vì sao?"
+    },
+    "base": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_color_total_conflict",
+      "generated_tokens": 376,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Chắc chắn, ta sẽ giải bài toán này một cách đầy đủ và rõ ràng.\n\n---\n\n### **Bài toán:**\n\nMột hộp chỉ có bóng đỏ và bóng xanh, mỗi bóng chỉ một màu. Bản ghi nói có 4 bóng đỏ, 5 bóng xanh và tổng cộng 8 bóng. Ba điều ghi này có thể cùng đúng không? Vì sao?\n\n---\n\n### **Giải:**\n\nTa có:\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 8\n\nTa kiểm tra xem ba điều này có thể cùng đúng không:\n\n1. **Số bóng đỏ là 4** → Đúng.\n2. **Số bóng xanh là 5** → Đúng.\n3. **Tổng số bóng là 8** → 4 + 5 = 9 → **Không đúng**.\n\nVì vậy, ba điều này **không thể cùng đúng**.\n\n---\n\n### **Kiểm tra lại:**\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 4 + 5 = 9 → **Không bằng 8**\n\nDo đó, ba điều này **không thể cùng đúng**.\n\n---\n\n### **Kết luận:**\n\nBa điều ghi này **không thể cùng đúng** vì tổng số bóng là 4 + 5 = 9, không bằng 8.\n\n---\n\n### **Lời giải đầy đủ:**\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 4 + 5 = 9\n\nTổng số bóng không bằng 8 → **Ba điều này không thể cùng đúng**.\n\n✅ **Đáp án: Không thể cùng đúng.**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a616f559fbdcef5aa7b0a486f1c20cf5cf33792d4413fe5974cb5d2ef23cadaf",
+      "stage": "base_before_training",
+      "timed_out": false
+    },
+    "adapter": {
+      "contract_sha256": "b03f306b750d1ae2cc11b4d327da7ea5c8afe9a4be0943daa2f27b5cbeadc743",
+      "ended_eos": true,
+      "fixture_id": "verbal20261024_locked_g1_color_total_conflict",
+      "generated_tokens": 376,
+      "grade": 1,
+      "max_new_tokens": 1024,
+      "mode": "missing_or_contradictory_info",
+      "model_mode": "worked_solution",
+      "output": "Chắc chắn, ta sẽ giải bài toán này một cách đầy đủ và rõ ràng.\n\n---\n\n### **Bài toán:**\n\nMột hộp chỉ có bóng đỏ và bóng xanh, mỗi bóng chỉ một màu. Bản ghi nói có 4 bóng đỏ, 5 bóng xanh và tổng cộng 8 bóng. Ba điều ghi này có thể cùng đúng không? Vì sao?\n\n---\n\n### **Giải:**\n\nTa có:\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 8\n\nTa kiểm tra xem ba điều này có thể cùng đúng không:\n\n1. **Số bóng đỏ là 4** → Đúng.\n2. **Số bóng xanh là 5** → Đúng.\n3. **Tổng số bóng là 8** → 4 + 5 = 9 → **Không đúng**.\n\nVì vậy, ba điều này **không thể cùng đúng**.\n\n---\n\n### **Kiểm tra lại:**\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 4 + 5 = 9 → **Không bằng 8**\n\nDo đó, ba điều này **không thể cùng đúng**.\n\n---\n\n### **Kết luận:**\n\nBa điều ghi này **không thể cùng đúng** vì tổng số bóng là 4 + 5 = 9, không bằng 8.\n\n---\n\n### **Lời giải đầy đủ:**\n\n- Số bóng đỏ: 4\n- Số bóng xanh: 5\n- Tổng số bóng: 4 + 5 = 9\n\nTổng số bóng không bằng 8 → **Ba điều này không thể cùng đúng**.\n\n✅ **Đáp án: Không thể cùng đúng.**",
+      "possibly_truncated": false,
+      "prompt_token_sha256": "a616f559fbdcef5aa7b0a486f1c20cf5cf33792d4413fe5974cb5d2ef23cadaf",
+      "stage": "base_before_training",
+      "timed_out": false
+    }
+  }
+]

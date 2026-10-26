@@ -1,0 +1,6 @@
+{
+  "original_scope_sha256": "da653ea173826ab6ef9b9ef32971268859dc016a29eecb3eae520782999ff9f9",
+  "dev_sha256": "75eab78085830aa5bf0cf856eb6f70d2630e2407c8143409816dec94d849aaed",
+  "locked_test_sha256": "03ec549a1ee3704b3eb0d814ccd12fee5fe9ba2f66dee6d8f1aaba7c08013615",
+  "repair_reason": "First launch stopped before loading model due absent dev_sha256 in owner scope; separate fixture binding preserves original owner scope bytes/budget."
+}

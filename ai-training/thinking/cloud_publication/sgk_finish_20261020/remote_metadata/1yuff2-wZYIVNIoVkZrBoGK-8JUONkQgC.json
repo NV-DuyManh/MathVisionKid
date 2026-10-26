@@ -1,0 +1,83 @@
+{
+  "file_id": "1yuff2-wZYIVNIoVkZrBoGK-8JUONkQgC",
+  "file_name": "MVK_multiplication_0_100_three_digits__000000000_000000101_7edba0a6ef712e51.zip",
+  "expected_archive_sha256": "7edba0a6ef712e512567246a3a224efd97b06f1a0ece6a0d5f139493f9d21ab9",
+  "total_bytes": 61506,
+  "central_directory_offset": 61297,
+  "central_directory_bytes": 187,
+  "entries": [
+    {
+      "name": "source.jsonl.gz",
+      "method": 0,
+      "crc32": 2984237311,
+      "compressed_bytes": 43036,
+      "bytes": 43036,
+      "local_header_offset": 0
+    },
+    {
+      "name": "chat.jsonl.gz",
+      "method": 0,
+      "crc32": 2926435566,
+      "compressed_bytes": 16833,
+      "bytes": 16833,
+      "local_header_offset": 43081
+    },
+    {
+      "name": "manifest_payload.json",
+      "method": 0,
+      "crc32": 2597950804,
+      "compressed_bytes": 1289,
+      "bytes": 1289,
+      "local_header_offset": 59957
+    }
+  ],
+  "metadata_documents": [
+    {
+      "name": "manifest_payload.json",
+      "bytes": 1289,
+      "sha256": "039df5dfb538979065543ab1dc8260c75d2ee4035026e7c2487f7bc4594dce7b",
+      "document": {
+        "cases": 101,
+        "chat_rows": 296,
+        "cloud_domain_id": "multiplication_0_100_three_digits",
+        "excluded_cases": {
+          "protected_numeric": 25,
+          "selected_holdout": 2
+        },
+        "grades": {
+          "3": 10,
+          "4": 91
+        },
+        "holdout_index_sha256": "a5c15420a9606f27bdcfadd00f44b5eea0b23a2b528458e73a4a1c48d6304263",
+        "operation": "*",
+        "ordered_pair_sequence_sha256": "cd4f04f56df1d79abd6b39594a068437adbff751a9d7ab9a0584e0837257bd4f",
+        "pair_validation": "Every reopened ordered pair, sourceID, trace and independent oracle checked; no overlap with preexisting ranges by finite domain specification.",
+        "parent_state_sha256": "73e47c418add6e685df1c6e17708783bee5a73b22be5bbb0fc2d50a4250d5604",
+        "protected_index_sha256": "56a5691c1b3b566e373559b9c883d5eacdff353473cca66868f2988ab3e368b8",
+        "schema_version": "exhaustive_cloud_resume.v1",
+        "shard_id": "multiplication_0_100_three_digits__000000000_000000101",
+        "source": {
+          "bytes": 43036,
+          "name": "source.jsonl.gz",
+          "sha256": "e9a0cc5d2304d017f9c4dff871e4e37455978fd28c87d0c9f2c9d66767bb063e"
+        },
+        "start": 0,
+        "status": "PREPARED_NOT_COMMITTED",
+        "stop": 101,
+        "template_sha256": "1c1292fba4bd0ddd23f79476e3b1ea0cee85140f2c204282d833a17ee47bb1c2",
+        "topics": {
+          "multidigit_multiplication": 101
+        },
+        "validated_pairs": 101,
+        "view": {
+          "bytes": 16833,
+          "name": "chat.jsonl.gz",
+          "sha256": "c667fe6bbff719e1ec3d074a55fd4e541343887661cdd7065f5152748dcc1738"
+        }
+      }
+    }
+  ],
+  "full_archive_hash_verified": false,
+  "scope": "RANGE_METADATA_ONLY_NO_DATA_OR_EVALUATION_PAYLOAD_READ",
+  "observed_utc": "2026-10-20T11:10:49.792Z"
+}

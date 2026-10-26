@@ -1,0 +1,9 @@
+{
+  "path": "/content/drive/MyDrive/ MathVisionKidAI/ai-training/thinking/verified_math_v2_stable/exports/qwen3_06b_verified_math_v2_stable_epoch1_seed20261012_RESEARCH_ONLY.zip",
+  "bytes": 40124480,
+  "sha256": "7de42201d909f98d7c76d6d8068e424350b9d425477be28e41e763d8cb83c1cd",
+  "adapter_sha256": "5d78e5528a3ff6cf7c9913c1952c78756b758b3e3b009a101c1ed59bd39eac3a",
+  "selected": "adapter",
+  "role_status": "GROUNDED_PLANNER_RESEARCH_ONLY_STANDALONE_SOLVER_REJECTED",
+  "production_approved": false
+}

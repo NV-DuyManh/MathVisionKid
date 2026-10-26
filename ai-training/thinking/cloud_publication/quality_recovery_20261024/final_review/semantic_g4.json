@@ -1,0 +1,53 @@
+{
+  "all_actual_fields_read": true,
+  "human_review_claimed": false,
+  "root_full_content_review": true,
+  "selected_kind": "untrained_base",
+  "input_pair_sha256": "94b2f31536fee249df8f7989e520fab149208c60e6c6792b8c2f6c621484b9a1",
+  "decisions": [
+    {
+      "fixture_id": "qrec20261024_locked_v1_g4_inverse_fraction_length",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct reconstruction18/3=6 and7*6=42m, but user explicitly requests checking against known3/7part; output never performs or states that check. Full requested task incomplete; numerical answer alone correct.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g4_angle_classification",
+      "grade": 4,
+      "mode": "answer",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Correct70acute,110obtuse,180straight and separately identifies exact90right/exact180straight. General range wording is imprecise about strict endpoints, but actual requested classifications are consistent and correct.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g4_cross_cancel_hint",
+      "grade": 4,
+      "mode": "hint_no_answer",
+      "base_pass": false,
+      "selected_pass": false,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Identifies6and12 reduction but then falsely equates5/12*6/7 with5/12*1/2*6, dropping denominator7. No final5/14 leak, but hint reasoning changes product and is mathematically wrong.",
+      "selected_reuses_exact_base_output": true
+    },
+    {
+      "fixture_id": "qrec20261024_locked_v1_g4_average_divisor_error",
+      "grade": 4,
+      "mode": "student_error",
+      "base_pass": true,
+      "selected_pass": true,
+      "base_hint_leak": false,
+      "selected_hint_leak": false,
+      "reason": "Identifies wrong divisor2 rather than3for three numbers and correct total48then48/3=16. Remarks stay grounded in provided division step and preserve correct sum.",
+      "selected_reuses_exact_base_output": true
+    }
+  ]
+}

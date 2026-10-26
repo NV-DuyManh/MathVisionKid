@@ -1,0 +1,296 @@
+[
+  {
+    "sample_id": "sgk_g12_20261019_complete_decompositions_01",
+    "expression": "5+1",
+    "result": "6",
+    "independent_decimal": "6"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_complete_decompositions_02",
+    "expression": "2+4",
+    "result": "6",
+    "independent_decimal": "6"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_complete_decompositions_03",
+    "expression": "4+1",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "expression": "24+1",
+    "result": "25",
+    "independent_decimal": "25"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "expression": "24+10",
+    "result": "34",
+    "independent_decimal": "34"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+    "expression": "34+1",
+    "result": "35",
+    "independent_decimal": "35"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+    "expression": "41+10",
+    "result": "51",
+    "independent_decimal": "51"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_02",
+    "expression": "51+1",
+    "result": "52",
+    "independent_decimal": "52"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+    "expression": "56+10",
+    "result": "66",
+    "independent_decimal": "66"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_hundred_grid_patch_03",
+    "expression": "66-10",
+    "result": "56",
+    "independent_decimal": "56"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "expression": "1+3",
+    "result": "4",
+    "independent_decimal": "4"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "expression": "3+2",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_01",
+    "expression": "4+5",
+    "result": "9",
+    "independent_decimal": "9"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "expression": "3-1",
+    "result": "2",
+    "independent_decimal": "2"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "expression": "2+0",
+    "result": "2",
+    "independent_decimal": "2"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+    "expression": "3+2",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+    "expression": "2+1",
+    "result": "3",
+    "independent_decimal": "3"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_sum_pyramid_03",
+    "expression": "2+0",
+    "result": "2",
+    "independent_decimal": "2"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "expression": "3+4",
+    "result": "7",
+    "independent_decimal": "7"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "expression": "7+0",
+    "result": "7",
+    "independent_decimal": "7"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_01",
+    "expression": "1+1+1",
+    "result": "3",
+    "independent_decimal": "3"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+    "expression": "1+2",
+    "result": "3",
+    "independent_decimal": "3"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+    "expression": "8-3",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_expression_target_classification_03",
+    "expression": "1+1",
+    "result": "2",
+    "independent_decimal": "2"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+    "expression": "8-3",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_01",
+    "expression": "25+13",
+    "result": "38",
+    "independent_decimal": "38"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+    "expression": "3+1",
+    "result": "4",
+    "independent_decimal": "4"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_02",
+    "expression": "44-12",
+    "result": "32",
+    "independent_decimal": "32"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "expression": "43+2",
+    "result": "45",
+    "independent_decimal": "45"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "expression": "9-2",
+    "result": "7",
+    "independent_decimal": "7"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_03",
+    "expression": "47+2",
+    "result": "49",
+    "independent_decimal": "49"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+    "expression": "12+63",
+    "result": "75",
+    "independent_decimal": "75"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_blank_digit_column_constraints_04",
+    "expression": "22+53",
+    "result": "75",
+    "independent_decimal": "75"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_01",
+    "expression": "63-21",
+    "result": "42",
+    "independent_decimal": "42"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_02",
+    "expression": "25+14",
+    "result": "39",
+    "independent_decimal": "39"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+    "expression": "14+32",
+    "result": "46",
+    "independent_decimal": "46"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_one_digit_swap_repair_03",
+    "expression": "34+12",
+    "result": "46",
+    "independent_decimal": "46"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+    "expression": "20+40",
+    "result": "60",
+    "independent_decimal": "60"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+    "expression": "80-20",
+    "result": "60",
+    "independent_decimal": "60"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "expression": "45-12",
+    "result": "33",
+    "independent_decimal": "33"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "expression": "60-10",
+    "result": "50",
+    "independent_decimal": "50"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_02",
+    "expression": "20+14",
+    "result": "34",
+    "independent_decimal": "34"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_03",
+    "expression": "30+20",
+    "result": "50",
+    "independent_decimal": "50"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+    "expression": "2+3",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+    "expression": "5*4",
+    "result": "20",
+    "independent_decimal": "20"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+    "expression": "1+4",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+    "expression": "18/2",
+    "result": "9",
+    "independent_decimal": "9"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+    "expression": "3+2",
+    "result": "5",
+    "independent_decimal": "5"
+  },
+  {
+    "sample_id": "sgk_g12_20261019_conditional_board_game_03",
+    "expression": "10/2",
+    "result": "5",
+    "independent_decimal": "5"
+  }
+]

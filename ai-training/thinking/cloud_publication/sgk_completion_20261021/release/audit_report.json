@@ -1,0 +1,166 @@
+{
+  "all_sgk_forms_covered": false,
+  "by_grade": {
+    "1": 6,
+    "3": 6,
+    "4": 10,
+    "5": 14
+  },
+  "by_topic": {
+    "board_cutlist_area_price": 1,
+    "boundary_every_label_not_partial": 1,
+    "boundary_repeated_outcome_inventory_error": 1,
+    "collection_equal_tokens_removed_once": 1,
+    "collection_token_count_not_score_error": 1,
+    "common_region_congruent_triangle_cancellation": 1,
+    "edge_game_outer_composite_last": 1,
+    "five_sticks_shared_triangle_plan": 1,
+    "glyph_disjoint_support_lines_error": 1,
+    "glyph_joint_relations_exact_segments": 1,
+    "grid_frame_known_side_cells": 1,
+    "grid_frame_unknown_height_from_border": 1,
+    "gridded_net_dimensions_no_target": 1,
+    "half_third_vs_sixth_inventory": 1,
+    "halves_regroup_three_equal_parts": 1,
+    "layer_cycle_incompatible_claims": 1,
+    "layer_partial_order_all_consistent_orders": 1,
+    "nested_triangles_distinct_apex_heights": 1,
+    "nested_vertical_base_external_altitude_foot": 1,
+    "net_total_strip_not_edge": 1,
+    "one_stick_repairs_two_triangles": 1,
+    "ordered_parallelogram_fourth_vertex": 1,
+    "piece_count_not_area_count": 1,
+    "rhombus_only_terminal_scope_error": 1,
+    "scheme_piece_shortage_even_if_named_share": 1,
+    "shelf_design_finite_budget": 1,
+    "square_missing_inner_edge_error": 1,
+    "square_only_small_and_outer": 1,
+    "tangent_row_inverse_gap_count_error": 1,
+    "tangent_row_rectangle_full_extents": 1,
+    "tiling_mixed_orientation_construction": 1,
+    "tiling_no_rotation_area_not_sufficient": 1,
+    "transfer_overlap_breaks_area_claim": 1,
+    "trapezoid_midcut_halfturn_rectangle": 1,
+    "trapezoid_translate_overlap_counterexample": 1,
+    "unordered_three_vertices_all_completions": 1
+  },
+  "cases": 36,
+  "chat_rows": 144,
+  "core_unchanged": 495,
+  "full_archive_audit_complete": false,
+  "hash_numeric_exception_cases": 6,
+  "input_reviews": [
+    {
+      "cases": 12,
+      "directory": "g5_measurement_models_corrected",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "4e62a50e1bb00ecbd2c585a832f2bd6713a00fe4a1194826fdf4d01d5d9c3769"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "2aa69c6afb7409699fa822927f728db6ab537578213a69cfa5bdb4c14c90e8e1"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "34ae8a32892a2a88010f5438830e2e7d3702f520cfb7e17e692b5889d3885493"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "894850c039f067a253b301c2ca4797915e30b7d45bdb0c76012dd95f85f35dc5"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "c1f83b909ac95644d6a8c95e77c3dc4f388d1bbb28351783e15ff4f90c427250"
+        }
+      ],
+      "source_sha256": "5566927920148c8f35ace48767d97ad46778e9de51adda59cd924fadc9272df2"
+    },
+    {
+      "cases": 12,
+      "directory": "inventory_edges",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "fb971242539b1ae9b52028cd89e793c75f1de5a901023d9351b56fd6c9315545"
+        },
+        {
+          "file": "peer_inventory_qa.py",
+          "sha256": "4c426f1bc001eb26aafac4db21b4f9741fc306c8f58112482d6f36d976d170b6"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "ff022831743c5fa364fbe011c0654e76351d011c97f2cb9510090075e7306bd4"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "6db276cfe54696aa0b0bdc0e5d615ac91cda4b66d0d775e6cc1a3410c643f9f9"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "da58aa8d7320d16e4f062c9faa8712fd85c792648d32316ec0e7c87294c335c8"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "6ae590c66e0edbe4ede0fddfcf08946824b4a2cac02dc5656a81e9cab5f3f39e"
+        },
+        {
+          "file": "peer_chat_links.jsonl",
+          "sha256": "178302af5a13dc3602c2c5ac7b4a419857fea9a6902a42b7dfc2eaeeaa607273"
+        }
+      ],
+      "source_sha256": "c89b4f06a1c2f717294249e3ea09a7d24d80e5ef152c124c17fdd9341cb7ae44"
+    },
+    {
+      "cases": 12,
+      "directory": "geometric_relations",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "a1c8b55a25339a412389dd0f53114da3b4ba35a36c305c6f19916c75304b4786"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "3e29fe679cbc6224c31b79e48318cb7f93bcadce8559708407608f0978a0493b"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "ee66e1c3865d5b816048e24eab47ec40b29d90ee7bbdea84bd82f6d5d49d8dbe"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "f7cbc6d97c6eb626898487f30e745673ed261b09067d633d06c59a7c59c238af"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "ebeffbc4af3799bd19f65f8b703a6c9c9a202d358aecfa7c291d8fc37259086c"
+        }
+      ],
+      "source_sha256": "ebfcb15d3d675e91d8372ea3efad5c98ab65e78248a9e36251a91465b988dc15"
+    }
+  ],
+  "master_counts": {
+    "all_boundary_labels_joint_match": 2,
+    "bill_of_materials_area_cost": 2,
+    "compare_equal_sharing_cut_schemes": 2,
+    "composite_square_only_enumeration": 2,
+    "edge_removal_game_terminal": 2,
+    "equal_area_geometric_regrouping": 2,
+    "equal_area_transfer_cancellation": 2,
+    "finite_inventory_collection_game": 2,
+    "glyph_parallel_perpendicular_filter": 2,
+    "grid_boundary_missing_dimensions": 2,
+    "gridded_net_dimensions_to_volume": 2,
+    "missing_parallelogram_vertex": 2,
+    "mixed_orientation_rectangle_tiling": 2,
+    "nested_triangle_base_altitude_assignment": 2,
+    "occlusion_partial_layer_order": 2,
+    "shared_edge_stick_construction": 2,
+    "specified_area_preserving_dissection": 2,
+    "tangent_circle_alignment_lengths": 2
+  },
+  "numeric_steps": 30,
+  "old_sources_unchanged": true,
+  "training_started": false
+}

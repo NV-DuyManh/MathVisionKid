@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "itsOtDadp-dA"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"new_root_staged\": true, \"rows_in_schedule\": 6625, \"source_and_previous_run_unchanged\": true, \"old_locked20_not_linked_or_read\": true, \"publisher\": {\"publisher_started\": true, \"folder_name\": \"MathVisionKid_VERBAL_RECOVERY_20261024\", \"training_started_by_publisher\": false}, \"optimizer_started\": false}\n"
+        ]
+      }
+    ]
+  }
+}

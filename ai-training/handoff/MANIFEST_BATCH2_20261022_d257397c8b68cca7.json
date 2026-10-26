@@ -1,0 +1,39 @@
+{
+  "schema": "MathVisionKid.SupplementalReleaseManifest.v1",
+  "run_id": "g2_finite_append_batch2_20261022",
+  "total_files": 8,
+  "entries": {
+    "accepted_cases.jsonl": {
+      "bytes": 33946,
+      "sha256": "0bd37315085dfe26545b5fed8d7589021f7ef1cd8fbce96e3006019132a47b42"
+    },
+    "accepted_chat.jsonl": {
+      "bytes": 61624,
+      "sha256": "38c7ca4c64eb966ee59c01f2f6cca5343fa42b09055e48509a7267cf2cea09b2"
+    },
+    "coverage_delta.json": {
+      "bytes": 2861,
+      "sha256": "1b64346269e163df9bca441c1ab400b180bca05da9c039ad04c938460a88af03"
+    },
+    "independent_mutation_checks.json": {
+      "bytes": 1568,
+      "sha256": "2e161700d70f6df564e77aa38253a8872d8ed477ca6cf4298d82989849c44074"
+    },
+    "pending_remaining.json": {
+      "bytes": 805,
+      "sha256": "da1c940b0d9bdce99f0da57c23f3479286f46e7080fec707a42aa4da9022f47c"
+    },
+    "qa7.jsonl": {
+      "bytes": 6891,
+      "sha256": "92992043cc2077c99d4d7321886414bd85212c732299777a64ddda55a0a008df"
+    },
+    "source_draft_export_hashes.json": {
+      "bytes": 2435,
+      "sha256": "ad9b23ceca68823413d6a8ee65807b194960ffe54aba9b90d90784fe87cf18bc"
+    },
+    "token_audit.json": {
+      "bytes": 4685,
+      "sha256": "17e01aeb19af6637baa2f769af903662ab9c0129e1b25ad6e8b7bf17351ccfe9"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "case_count": 9,
+  "chat_count": 36,
+  "form_count": 3,
+  "status": "DRAFT_AWAITING_CONTENT_CROSS_REVIEW",
+  "trained": false,
+  "drive_mutated": false,
+  "files": {
+    "cases.jsonl": {
+      "bytes": 38733,
+      "sha256": "2d3dcc05e88997a0bb74affa2ade385d534a5405cf8e9537bc6aff7366d8f00a"
+    },
+    "chat.jsonl": {
+      "bytes": 76567,
+      "sha256": "12c9e4f652eddb6104a62906edc7b7964e0de9cc8198e76d0a9d49c75276c570"
+    },
+    "oracle_checks.jsonl": {
+      "bytes": 2791,
+      "sha256": "7fcb0aeb98bf03c7e5759e815a34c6eb3a26ed2a148f42a7f7549fba77e860f2"
+    },
+    "self_qa.jsonl": {
+      "bytes": 7014,
+      "sha256": "373ab97b3e243194a6cb57a114d0644d4423230a7f7142b1df14d76d3f2ba307"
+    }
+  }
+}

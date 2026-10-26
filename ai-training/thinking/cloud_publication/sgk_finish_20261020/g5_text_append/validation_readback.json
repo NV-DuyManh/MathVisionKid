@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "source_rows": 12,
+  "chat_rows": 48,
+  "source_row_sha256_links_all_valid": true,
+  "exact_normalized_question_duplicates_against_valid1055": 0,
+  "independent_oracles_negative_regressions_rejected": 12,
+  "case_file_sha256": "68f5b4e59b0f21da62cc17349a66acdc4fa73b07d75b8a41a43da61d5a49b30a",
+  "draft_only": true
+}

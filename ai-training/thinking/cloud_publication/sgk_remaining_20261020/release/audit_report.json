@@ -1,0 +1,157 @@
+{
+  "all_sgk_forms_covered": false,
+  "by_grade": {
+    "3": 2,
+    "4": 7,
+    "5": 27
+  },
+  "by_topic": {
+    "all_ray_pairs_compound": 1,
+    "circle_joined_wire_inverse_diameter": 1,
+    "circle_three_wraps_single_final_join": 1,
+    "collinear_diagonal_missing": 1,
+    "collinear_four_on_line": 1,
+    "fixed_capacity_open_box_surface_two_optima": 1,
+    "fixed_twelve_cubes_closed_surface_minimum": 1,
+    "matrix_row_color_column_shape": 1,
+    "matrix_two_completions": 1,
+    "one_swap_equal_cards_legal_error": 1,
+    "one_swap_largest_odd_all_pairs": 1,
+    "overlap_fixed_axis_union": 1,
+    "overlap_opposite_orientation": 1,
+    "partial_factor_and_shift_error": 1,
+    "partial_products_digit_reconstruct": 1,
+    "piece_pack_equivalent_share_units": 1,
+    "ray_pairs_exclude_straight_error": 1,
+    "rim_capacity_exact_with_join_allowance": 1,
+    "rim_capacity_ignored_join_error": 1,
+    "sealed_pack_indivisible_share_impossible": 1,
+    "semicircle_chain_connector_error": 1,
+    "semicircle_chain_equal_total_diameters": 1,
+    "semidisc_arc_only_error": 1,
+    "semidisc_entire_boundary": 1,
+    "stadium_center_rectangle_area_outer_perimeter": 1,
+    "stadium_overall_length_not_rectangle_error": 1,
+    "strips_connector_chain": 1,
+    "strips_decoy_pin": 1,
+    "tile_boxes_area_spares_purchase": 1,
+    "tile_boxes_pooled_reusable_stock_boundary": 1,
+    "weighted_frequency_with_zero": 1,
+    "weighted_mean_of_categories_error": 1,
+    "wheel_full_turns_distance": 1,
+    "wheel_partial_turns_not_rounded": 1,
+    "whole_decimal_pieces_remainder": 1,
+    "whole_decimal_reserved_stock_round_error": 1
+  },
+  "cases": 36,
+  "chat_rows": 144,
+  "core_unchanged": 495,
+  "full_archive_audit_complete": false,
+  "hash_numeric_exception_cases": 1,
+  "input_reviews": [
+    {
+      "cases": 12,
+      "directory": "g5_applied_text",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "7b43f4e03c203f9a7fa527d5836ee2dd7c191b2b5f1aa73546e4924812e8a96a"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "bb4f8028783a7d14a69aa9f6a47e82728f3f2a23b3ab8a0981999cecd433fe7a"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "5d12b0248855b042767c45bfb10d7424776e6ed388bebae481461f507a3708b4"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "5c9d5f21e333b544a2dc427e47e7598c0c1b61d08dced59402066ab6eaed0127"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "019c07153510984340434519519eef90fe1651c11b6e2268fd253abb688f7144"
+        }
+      ],
+      "source_sha256": "3695e912a3a71b221eaa996af077f513e149c059e6dc1d50facb4b9bf5ed0552"
+    },
+    {
+      "cases": 12,
+      "directory": "g5_geometry_text",
+      "peer_evidence": [
+        {
+          "file": "peer_review.json",
+          "sha256": "d3b756df5e5fb5a3e2adfbcf4b34d7a6358076b5df4a00dd5fbb238c4ef74807"
+        },
+        {
+          "file": "peer_fullfield_reviews.jsonl",
+          "sha256": "57c16a46bf0f0722a66ffb8e524f9502a6a9e0a7b20931d11084bc9219bdf375"
+        },
+        {
+          "file": "peer_independent_oracles.jsonl",
+          "sha256": "7c04fe2cd26b47c1bf490533e4e078c4edea8bc8fb833d17fa75a79074355bd7"
+        },
+        {
+          "file": "peer_numeric_checks.jsonl",
+          "sha256": "93aec6224275cc1593aa09af8d3851f0124577feecb239e4d8aa946725f29c43"
+        },
+        {
+          "file": "peer_adversarial_mutations.jsonl",
+          "sha256": "1e93c557b5d162d8716a55b4b3a1d0f4ec93fa7a64f874c679471fb7903a2b1e"
+        }
+      ],
+      "source_sha256": "d93c98cb08ea23b9393e745febe0c6a2a3becc6be711fc6982c2249190223a06"
+    },
+    {
+      "cases": 12,
+      "directory": "g34_structure_polished",
+      "peer_evidence": [
+        {
+          "file": "peer_finish_mapping_summary.json",
+          "sha256": "25b05142285e9bee52f12cbce8e2b5b28b423c8e4c3fd9e36c27ccf2ba7d25fa"
+        },
+        {
+          "file": "peer_finish_mapping_qa7.jsonl",
+          "sha256": "43431d0102a70def2b01a35d01f5cc7cc7b2941cd979f552de8ba638e64f6a40"
+        },
+        {
+          "file": "peer_finish_mapping_oracles.jsonl",
+          "sha256": "28800693e8d75f5ff63c5487d619a5b629162d1c38236d981316eef47fa9ceba"
+        },
+        {
+          "file": "peer_finish_mapping_numeric.jsonl",
+          "sha256": "51e2e6fef7baf5eff3c4a56283dd079e0f7fec1e22feeeb7485f16527764239f"
+        },
+        {
+          "file": "parent_derivative_delta.jsonl",
+          "sha256": "e0cc4051256e0be9d30b490fac7d340daf014e8af5c0995d3a5c21668e04f926"
+        }
+      ],
+      "source_sha256": "c39c3a80cf5b7a8618768ec7dd710643b04326181705439187301c26429112ec"
+    }
+  ],
+  "master_counts": {
+    "angle_ray_pair_enumeration": 2,
+    "circle_material_overlap_allowance": 2,
+    "circular_rim_capacity_feasibility": 2,
+    "collinear_triple_complete_enumeration": 2,
+    "fixed_volume_surface_arrangement_optimization": 2,
+    "frequency_table_weighted_mean": 2,
+    "one_swap_parity_extremum": 2,
+    "overlap_shared_origin_lengths": 2,
+    "partial_product_column_reconstruction": 2,
+    "piece_pack_unit_role_choice": 2,
+    "placeclass_torn_strip_constraints": 2,
+    "semicircle_arc_plus_diameter_boundary": 2,
+    "semicircle_chain_arc_length": 2,
+    "stadium_composite_area": 2,
+    "two_dimensional_feature_constraints": 2,
+    "wheel_turns_distance": 2,
+    "whole_package_area_procurement": 2,
+    "whole_units_from_decimal_quotient": 2
+  },
+  "numeric_steps": 60,
+  "old_sources_unchanged": true,
+  "training_started": false
+}

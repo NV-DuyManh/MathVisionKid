@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "mvk_grounded_plan_v1",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "status",
+        "problem_type",
+        "operation",
+        "operands",
+        "output_unit"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "mvk_grounded_plan_v1"
+        },
+        "status": {
+          "const": "ready"
+        },
+        "problem_type": {
+          "enum": [
+            "add_join",
+            "sub_remaining",
+            "equal_groups",
+            "share_equal"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "add",
+            "subtract",
+            "multiply",
+            "divide"
+          ]
+        },
+        "operands": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "f0",
+              "f1"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "output_unit": {
+          "enum": [
+            "quả",
+            "bút",
+            "quyển"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "mvk_grounded_plan_v1"
+        },
+        "status": {
+          "enum": [
+            "need_clarification",
+            "out_of_scope",
+            "unsupported_input"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  ]
+}

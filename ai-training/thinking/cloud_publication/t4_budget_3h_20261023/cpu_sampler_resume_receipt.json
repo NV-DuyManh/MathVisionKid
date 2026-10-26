@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "pbd3jKDZNXwK"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"migrated\": [{\"member\": \"MathVisionKid_CHAT_part_01_of_07.jsonl.gz\", \"rows\": 963504, \"member_key\": \"190baf29ac4cd7928f69d167d7256699d84d12088b6058fa19d83fa815b77594\", \"archive_hash_was_verified_before_prior_completed_marker\": true}], \"new_scan\": {\"state\": \"CPU_METADATA_SCAN_RUNNING\", \"worker_sha256\": \"60b81e7ca89b0428e478e6863e4fea3d7a84b52ea7357f88ec34336029cbaaca\", \"eval_fixture_sha256\": \"81ddf4261063b5832b6f55168ca160bf5cec26a5cabd83b7fedaa00ddecec100\", \"eval_fixture_count\": 28, \"protected_question_hash_file_sha256\": \"9fa1cd11b5bbca2b4a8d63268159ab0d498176bb7d601cf8ae3996f3d2e2f7ae\", \"scope\": \"pinned candidate_chat / train rows only\", \"target_cases\": 4000, \"deadline_unix\": 1792775752.4416852, \"worker_time_cap_seconds\": 2400, \"gpu_used\": false, \"model_loaded\": false, \"training_started\": false, \"drive_mutated\": false, \"eval_payload_used_for_training\": false}}\n"
+        ]
+      }
+    ]
+  }
+}

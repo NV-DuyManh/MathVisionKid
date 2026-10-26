@@ -1,0 +1,3539 @@
+{
+  "reviewer": "finish_g2_mapping",
+  "purpose": "Finite candidate semantic mapping only; no training rows authored.",
+  "source_files": [
+    {
+      "path": "current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+    },
+    {
+      "path": "release/accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45"
+    },
+    {
+      "path": "g4_remaining_append/cases.jsonl",
+      "sha256": "a57bea461bfc50ceadb40a0b8dfb35dc686add160fb136931c01fc85dfa3257c"
+    }
+  ],
+  "source_hash_basis": "Exact UTF-8 JSONL line excluding line terminator; original registry hash is not substituted for the actual reviewed row hash.",
+  "fields_read": [
+    "problem",
+    "givens",
+    "requested_quantity",
+    "student_work",
+    "initial_guidance",
+    "hints",
+    "worked_steps",
+    "expected_answer"
+  ],
+  "steps_review_includes": [
+    "every step",
+    "reason",
+    "explanation",
+    "expression",
+    "result",
+    "unit"
+  ],
+  "guidance_review_includes": [
+    "all initial guidance",
+    "all three hint texts and questions"
+  ],
+  "row_count": 39,
+  "rows": [
+    {
+      "sample_id": "primary_20261018_finish_g5_cuboid_cube_volume_layers_unit_cubes",
+      "grade": 5,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 167,
+      "source_row_sha256": "57883a0ba59cafaed16d3256911cca10b05d579d65b2a8a43269eb8260c69ed7",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Hộp chữ nhật có kích thước trong lòng dài 7 dm, rộng 4 dm, cao 3 dm. Xếp kín bằng khối lập phương cạnh 1 dm, không khe hở. Có bao nhiêu khối và thể tích bao nhiêu?",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Dài",
+            "value": "7",
+            "unit": "dm",
+            "role": "explicit_given_0"
+          },
+          {
+            "id": "g1",
+            "text": "Rộng",
+            "value": "4",
+            "unit": "dm",
+            "role": "explicit_given_1"
+          },
+          {
+            "id": "g2",
+            "text": "Cao",
+            "value": "3",
+            "unit": "dm",
+            "role": "explicit_given_2"
+          },
+          {
+            "id": "g3",
+            "text": "Cạnh khối nhỏ",
+            "value": "1",
+            "unit": "dm",
+            "role": "explicit_given_3"
+          }
+        ],
+        "requested_quantity": "Đếm khối đơn vị và tính thể tích.",
+        "student_work": null,
+        "initial_guidance": [
+          "Xác định ba kích thước trong lòng hoặc số lớp khối đơn vị."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Xác định ba kích thước trong lòng hoặc số lớp khối đơn vị.",
+            "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Dùng diện tích đáy nhân chiều cao cho thể tích; khi tìm chiều cao dùng quan hệ ngược.",
+            "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm theo lớp khối và đơn vị khối, phân biệt thể tích với diện tích đáy.",
+            "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đếm một lớp",
+            "reason": "Mỗi lớp có số khối bằng số hàng nhân số khối mỗi hàng.",
+            "result": "28",
+            "explanation": "Bốn hàng, mỗi hàng bảy khối, phủ đủ đáy.",
+            "expression": "7*4",
+            "unit": "khối"
+          },
+          {
+            "step_id": "s1",
+            "title": "Đếm mọi lớp",
+            "reason": "Chiều cao cho ba lớp khối cao một đềximét.",
+            "result": "84",
+            "explanation": "Ba lớp không trùng, mỗi lớp hai mươi tám khối.",
+            "expression": "{s0}*3",
+            "unit": "khối"
+          },
+          {
+            "step_id": "s2",
+            "title": "Gắn đơn vị thể tích",
+            "reason": "Mỗi khối nhỏ chiếm một đềximét khối.",
+            "result": "84",
+            "explanation": "Số khối nhân thể tích mỗi khối cho thể tích hộp; chia ngược cho ba lớp được số khối một lớp.",
+            "expression": "{s1}*1",
+            "unit": "dm³"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số khối",
+            "result": "84",
+            "unit": "khối"
+          },
+          {
+            "quantity": "Thể tích",
+            "result": "84",
+            "unit": "dm³"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_compare_estimate_0010_estimate_from_ten_reference",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 333,
+      "source_row_sha256": "5cb81cb4b727e915bf09b07906b0d9f1c41e887e9f287179dcbb7b7bddde57b7",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong một tình huống giả định, người quan sát đếm đủ 10 hạt làm nhóm mẫu. So với nhóm đó, toàn bộ rổ được mô tả là khoảng bốn nhóm có lượng hạt tương tự; chưa đếm hết từng hạt trong rổ. Hãy nêu một ước lượng theo nhóm mười và nói rõ đó có phải số đếm chính xác không.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Nhóm mẫu đếm đủ 10 hạt",
+            "value": "10",
+            "unit": "hạt/nhóm mẫu",
+            "role": "reference_group"
+          },
+          {
+            "id": "g1",
+            "text": "Cả rổ nhìn cỡ 4 nhóm tương tự",
+            "value": "4",
+            "unit": "nhóm (ước lượng)",
+            "role": "estimated_group_count"
+          }
+        ],
+        "requested_quantity": "Ước lượng số hạt; Kết luận về số đếm chính xác",
+        "student_work": null,
+        "initial_guidance": [
+          "Nhóm mẫu đã biết lượng; mô tả cả rổ chỉ cho số nhóm gần đúng.",
+          "Giữ từ khoảng khi trả lời theo cách ước lượng."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Chọn nhóm đã đếm làm mốc thay vì đoán một số không có căn cứ.",
+            "question": "Nhóm mẫu trong đề cho em mốc lượng nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Gộp các nhóm cỡ mẫu theo số nhóm gần đúng được mô tả.",
+            "question": "Số nhóm của cả rổ đã là số đếm chính xác chưa?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi nêu ước lượng, phân biệt nó với kết quả cần đếm kiểm lại.",
+            "question": "Muốn khẳng định một số chính xác, em cần thêm bước nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Ước theo nhóm mẫu",
+            "reason": "Dùng bốn nhóm cỡ mười làm lượng đại diện, chưa biết số hạt chính xác.",
+            "expression": "10+10+10+10",
+            "result": "40",
+            "unit": "hạt (ước lượng)",
+            "explanation": "Bốn nhóm cỡ mười cho mức ước lượng khoảng 40 hạt."
+          },
+          {
+            "step_id": "s1",
+            "title": "Giữ đúng độ chắc chắn",
+            "reason": "Nhóm tương tự được mô tả bằng khoảng, nên tổng là ước lượng chứ chưa phải đếm chính xác.",
+            "expression": null,
+            "result": "chưa biết số đếm chính xác",
+            "unit": "",
+            "explanation": "Nói khoảng 40 hạt, không khẳng định chắc chắn đúng 40. Muốn biết chính xác, cần đếm tất cả hạt hoặc chia nhóm rồi đếm đủ cả phần thừa."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ước lượng số hạt",
+            "result": "40",
+            "unit": "hạt (ước lượng)"
+          },
+          {
+            "quantity": "Kết luận về số đếm chính xác",
+            "result": "chưa biết số đếm chính xác",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_draw_from_zero",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 338,
+      "source_row_sha256": "40d506a07436dc510eb4ee310303f8b883282d7a393a36742b52041ae977223e",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Em cần vẽ đoạn AB dài 6 cm, có thước thẳng với vạch chia cm và vạch 0 dùng được. Hãy hướng dẫn chấm hai đầu, nối đoạn và kiểm độ dài; chưa có hình em vẽ nên chưa xác nhận em đã làm đúng.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Độ dài yêu cầu 6 cm",
+            "value": "6",
+            "unit": "cm",
+            "role": "target_length"
+          },
+          {
+            "id": "g1",
+            "text": "Có thước thẳng với vạch 0 và vạch cm",
+            "value": null,
+            "unit": "",
+            "role": "available_tool"
+          }
+        ],
+        "requested_quantity": "Độ dài cần vẽ; Cách chấm hai đầu",
+        "student_work": null,
+        "initial_guidance": [
+          "Xác định độ dài yêu cầu và đơn vị trước khi vẽ.",
+          "Phân biệt vạch đo với phần nhựa thừa ở mép thước."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đầu đoạn cần trùng với một mốc đo rõ.",
+            "question": "Dùng mép nhựa hay vạch đo sẽ có mốc rõ hơn?"
+          },
+          {
+            "level": 2,
+            "hint": "Chấm cuối dựa vào khoảng cách từ mốc đã chọn.",
+            "question": "Nếu mốc đầu bằng không, em kiểm số chỉ đầu kia theo đơn vị nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Đo lại cả hai đầu sau khi nối để tự kiểm.",
+            "question": "Nét nối có thẳng và phép đo lại có khớp yêu cầu không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Đặt đầu đoạn theo mốc",
+            "reason": "Vạch 0 xác định mốc, không phụ thuộc phần nhựa thừa.",
+            "expression": null,
+            "result": "A tại vạch 0",
+            "unit": "",
+            "explanation": "Chấm A. Đặt thước theo hướng định vẽ, đưa vạch 0 trùng A và giữ thước khi đánh dấu B.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Chấm đầu kia rồi nối",
+            "reason": "Từ vạch 0 đến vạch 6 là khoảng cách 6 cm.",
+            "expression": "6",
+            "result": "6",
+            "unit": "cm",
+            "explanation": "Chấm B ở vạch 6 cm rồi dùng cạnh thước nối thẳng A với B.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đo lại",
+            "reason": "Chỉ dẫn chưa chứng minh một hình chưa gửi đã vẽ đúng.",
+            "expression": null,
+            "result": "đo lại AB trước khi xác nhận",
+            "unit": "",
+            "explanation": "Đặt lại vạch 0 ở A, kiểm B ở vạch 6 và nét AB thẳng. Đây là cách kiểm, chưa xác nhận thao tác thật của em.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Độ dài cần vẽ",
+            "result": "6",
+            "unit": "cm"
+          },
+          {
+            "quantity": "Cách chấm hai đầu",
+            "result": "A tại vạch 0; B tại vạch 6 cm; nối thẳng AB",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_tile_grid_with_horizontal_piece",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 340,
+      "source_row_sha256": "bde56036964d52673776a14a8e01e6cb555eb3848825ac7dab3a61ae8c2dd75b",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Khung giả định có hai hàng, ba cột ô vuông bằng nhau. Có ba miếng chữ nhật, mỗi miếng phủ đúng hai ô kề nhau; được xoay. Nêu một cách lấp kín khung, dùng đủ ba miếng, không chồng, không ra ngoài và có ít nhất một miếng nằm ngang. Gọi ô theo hàng trên/dưới và cột trái/giữa/phải rồi kiểm đủ từng ô.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Khung hai hàng, ba cột",
+            "value": null,
+            "unit": "",
+            "role": "grid"
+          },
+          {
+            "id": "g1",
+            "text": "Ba miếng, mỗi miếng phủ hai ô kề nhau; được xoay",
+            "value": null,
+            "unit": "",
+            "role": "pieces"
+          },
+          {
+            "id": "g2",
+            "text": "Dùng đủ, kín, không chồng, không ra ngoài, có miếng ngang",
+            "value": null,
+            "unit": "",
+            "role": "constraints"
+          }
+        ],
+        "requested_quantity": "Một cách ghép hợp lệ",
+        "student_work": null,
+        "initial_guidance": [
+          "Theo dõi các ô đã phủ và ô còn trống khi thử.",
+          "Cách đúng cần thỏa mọi điều kiện, không chỉ vừa tổng số ô."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Liệt kê ô và xét những cặp ô kề nhau.",
+            "question": "Em nhận biết miếng ngang hay dọc từ các ô nó phủ thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Sau mỗi lần đặt, kiểm phần còn lại có ghép thành các cặp kề nhau không.",
+            "question": "Có ô nào bị cô lập hoặc bị phủ lặp trong cách thử của em không?"
+          },
+          {
+            "level": 3,
+            "hint": "Đọc lại từng ô và từng miếng để kiểm mọi điều kiện.",
+            "question": "Cách thử có miếng nằm ngang mà vẫn lấp đủ khung không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Đặt một miếng làm mốc",
+            "reason": "Một miếng dọc có thể phủ trọn một cột.",
+            "expression": null,
+            "result": "miếng 1 phủ trên trái và dưới trái",
+            "unit": "",
+            "explanation": "Một cách: đặt miếng 1 dọc cột trái; còn bốn ô chưa phủ.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Lấp phần còn lại",
+            "reason": "Hai cột còn lại trong mỗi hàng tạo cặp ô kề nhau.",
+            "expression": null,
+            "result": "miếng 2 phủ trên giữa–phải; miếng 3 phủ dưới giữa–phải",
+            "unit": "",
+            "explanation": "Đặt miếng 2 ngang ở hai ô giữa, phải của hàng trên; miếng 3 tương tự ở hàng dưới.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Kiểm đủ và chấp nhận cách khác",
+            "reason": "Một nghiệm mẫu đúng không loại trừ các nghiệm khác.",
+            "expression": null,
+            "result": "kín khung, đủ ba miếng, không chồng; có hai miếng ngang",
+            "unit": "",
+            "explanation": "Mỗi ô có đúng một miếng, không miếng nào vượt khung. Hai miếng ngang thỏa điều kiện. Cũng có cách hợp lệ đối xứng: miếng dọc ở cột phải, hai miếng ngang ở hai cột bên trái.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Một cách ghép hợp lệ",
+            "result": "miếng 1 dọc cột trái; miếng 2 ngang ở trên giữa–phải; miếng 3 ngang ở dưới giữa–phải",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_drawing_assembly_0015_guard_unmeasured_drawing",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 342,
+      "source_row_sha256": "dc3b1f07c35c190b42065bce050b51425d74d363116426e5c8dd3137c55976ea",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Em nói đã vẽ đoạn AB theo yêu cầu dài 7 cm rồi hỏi có đúng không. Chưa gửi hình, số đo hai đầu hoặc thước có vạch chia đặt theo đoạn. Hãy xin bằng chứng để kiểm, không xác nhận chỉ vì biết độ dài muốn vẽ.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Yêu cầu dài 7 cm",
+            "value": "7",
+            "unit": "cm",
+            "role": "target_not_observed_length"
+          },
+          {
+            "id": "g1",
+            "text": "Chưa có hình và số đo hai đầu",
+            "value": null,
+            "unit": "",
+            "role": "missing_evidence"
+          }
+        ],
+        "requested_quantity": "Bằng chứng đo còn thiếu",
+        "student_work": null,
+        "initial_guidance": [
+          "Biết mục tiêu khác với biết độ dài đã vẽ được.",
+          "Em gửi hình rõ thước theo AB thấy hai đầu và vạch chia, hoặc cung cấp số chỉ hai đầu cùng đơn vị."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Cần bằng chứng gắn với đoạn thật em đã vẽ.",
+            "question": "Em có thể gửi hình đo rõ thấy A, B và vạch chia thước không?"
+          },
+          {
+            "level": 2,
+            "hint": "Nếu kể bằng lời, cần số chỉ cả hai đầu, không chỉ độ dài muốn đạt.",
+            "question": "A và B trùng những vạch nào khi đặt thước thẳng theo đoạn, cùng đơn vị gì?"
+          },
+          {
+            "level": 3,
+            "hint": "Chỉ đối chiếu với yêu cầu sau khi có số đo thực.",
+            "question": "Thông tin đã cho cách kiểm độ dài thực thay vì chỉ nhắc mục tiêu chưa?"
+          }
+        ],
+        "worked_steps": [],
+        "expected_answer": []
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_segment_line_curve",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 347,
+      "source_row_sha256": "4bf9fa489a9141bec40f7de7cc60e2d27a87e333beb84b647bf6690c5ae0de4f",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Ba nét được mô tả bằng lời: nét A nối thẳng hai điểm M, N và dừng đúng ở hai điểm ấy; nét B đi thẳng, được kéo dài mãi về cả hai phía; nét C uốn cong như một cung, không ghép từ các đoạn thẳng. Ghép A, B, C với đoạn thẳng, đường thẳng, đường cong và nêu dấu hiệu phân biệt.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A thẳng, có hai đầu M và N.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          },
+          {
+            "id": "g1",
+            "text": "B thẳng và kéo dài mãi về cả hai phía.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          },
+          {
+            "id": "g2",
+            "text": "C uốn cong, không ghép từ các đoạn thẳng.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          }
+        ],
+        "requested_quantity": "Ghép tên các nét",
+        "student_work": null,
+        "initial_guidance": [
+          "Đối chiếu từng mô tả, không tự cho rằng mình đã xem một hình vẽ.",
+          "Xét cả dạng nét và việc nét có điểm dừng hay không."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Trước hết xét nét thẳng hay nét uốn.",
+            "question": "Những nét nào có cùng dạng thẳng theo mô tả?"
+          },
+          {
+            "level": 2,
+            "hint": "Trong các nét thẳng, chú ý điều đề nói về hai phía của nét.",
+            "question": "Nét có hai đầu dừng khác nét kéo dài mãi ở điểm nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Đọc ngược từng tên đã ghép để kiểm đủ dấu hiệu và đủ ba nét.",
+            "question": "Mỗi tên em chọn có khớp cả dạng nét và điểm dừng được nêu không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Xét nét có hai đầu",
+            "reason": "Phần thẳng nối hai điểm và dừng tại hai điểm là một đoạn thẳng.",
+            "expression": null,
+            "result": "A: đoạn thẳng MN",
+            "unit": "",
+            "explanation": "A nối M với N và dừng ở M, N nên là đoạn thẳng MN."
+          },
+          {
+            "step_id": "s1",
+            "title": "Phân biệt hai nét còn lại",
+            "reason": "Không chỉ xét thẳng hay cong mà còn xét nét thẳng có bị giới hạn hai đầu không.",
+            "expression": null,
+            "result": "B: đường thẳng; C: đường cong",
+            "unit": "",
+            "explanation": "B kéo dài thẳng mãi về hai phía nên là đường thẳng. C uốn cong nên là đường cong. Kiểm lại A có hai đầu còn B không bị giới hạn như A."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ghép tên các nét",
+            "result": "A: đoạn thẳng MN; B: đường thẳng; C: đường cong",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_collinear_and_offline",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 348,
+      "source_row_sha256": "47a710be011c03aa8f60d65b77ae538ed775abfb760ee67b7ae8a4b31caa1b0c",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trên một đường kẻ thẳng có ba điểm L, M, N theo thứ tự ấy, M nằm giữa L và N. Điểm P nằm ngoài đường kẻ đó. Trong hai bộ L–M–N và L–M–P, bộ nào có ba điểm thẳng hàng? Giải thích vì sao điểm nằm ngoài làm hai bộ khác nhau.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "L, M, N nằm trên cùng một đường thẳng; M ở giữa.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          },
+          {
+            "id": "g1",
+            "text": "P nằm ngoài đường thẳng đi qua L và M.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          }
+        ],
+        "requested_quantity": "Bộ ba điểm thẳng hàng; Bộ ba điểm không thẳng hàng",
+        "student_work": null,
+        "initial_guidance": [
+          "Dùng cùng một đường kẻ làm mốc cho cả hai bộ.",
+          "Có đủ ba tên điểm chưa có nghĩa ba điểm cùng nằm trên một đường thẳng."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Xét từng bộ với cùng đường kẻ đã cho.",
+            "question": "Đề nói những điểm nào nằm trên cùng đường kẻ?"
+          },
+          {
+            "level": 2,
+            "hint": "Chú ý dữ kiện nằm ngoài thay vì chỉ thứ tự đọc tên.",
+            "question": "Một điểm ngoài đường qua hai điểm còn lại có cùng thẳng hàng với chúng không?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm từng điểm trong bộ em chọn và nêu dữ kiện loại bộ kia.",
+            "question": "Lý do của em có kiểm đủ cả ba điểm trong mỗi bộ không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đối chiếu bộ nằm trên đường kẻ",
+            "reason": "Ba điểm cùng nằm trên một đường thẳng là ba điểm thẳng hàng.",
+            "expression": null,
+            "result": "L, M, N thẳng hàng",
+            "unit": "",
+            "explanation": "L, M, N đều nằm trên cùng đường kẻ; M ở giữa không làm chúng hết thẳng hàng."
+          },
+          {
+            "step_id": "s1",
+            "title": "Kiểm bộ có điểm nằm ngoài",
+            "reason": "P không thuộc đường thẳng qua L, M nên bộ này không đáp ứng điều kiện.",
+            "expression": null,
+            "result": "L, M, P không thẳng hàng",
+            "unit": "",
+            "explanation": "L và M xác định đường thẳng đã nói. P ở ngoài đường đó, nên không thể xếp cả L, M, P trên chính một đường thẳng. Chọn bộ L–M–N."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Bộ ba điểm thẳng hàng",
+            "result": "L, M, N",
+            "unit": ""
+          },
+          {
+            "quantity": "Bộ ba điểm không thẳng hàng",
+            "result": "L, M, P",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_geometry_0013_trace_polyline_segments",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 349,
+      "source_row_sha256": "3c62531c4b7d0d0fbfd2434684f43bdcc7a105079228212b2902a1eedbba5ab5",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Một đường đi giả định bắt đầu ở A, đi thẳng đến B, đổi hướng đi thẳng đến C, rồi lại đổi hướng đi thẳng đến D và dừng. Các điểm A, B, C, D khác nhau; chỉ có ba chặng đã kể, không có chặng cong. Hãy gọi dạng đường đi, ghi các đoạn thẳng theo đúng thứ tự và kiểm chỗ nối.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chỉ có các chặng thẳng A đến B, B đến C, C đến D.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          },
+          {
+            "id": "g1",
+            "text": "Có đổi hướng tại B và C; các điểm khác nhau.",
+            "value": null,
+            "unit": "",
+            "role": "explicit_text_description"
+          }
+        ],
+        "requested_quantity": "Dạng đường đi; Các đoạn theo thứ tự",
+        "student_work": null,
+        "initial_guidance": [
+          "Theo dõi điểm kết thúc của mỗi chặng và điểm bắt đầu chặng kế.",
+          "Phân biệt từng chặng thẳng với dạng của cả đường đi có đổi hướng."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Ghép tên mỗi chặng từ hai đầu của chặng ấy.",
+            "question": "Điểm cuối chặng trước có trùng điểm đầu chặng tiếp không?"
+          },
+          {
+            "level": 2,
+            "hint": "Xét các chặng có nối tiếp và có đổi hướng, khác với một nét thẳng duy nhất.",
+            "question": "Tên gọi của cả đường đi cần xét những chỗ đổi hướng nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Đọc lại từ điểm xuất phát tới điểm dừng, không thêm đường nối tắt.",
+            "question": "Danh sách em viết có dùng đúng mọi chặng đã kể theo thứ tự không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Liệt kê đúng các chặng",
+            "reason": "Mỗi chặng thẳng được gọi bằng hai điểm đầu và cuối.",
+            "expression": null,
+            "result": "AB, BC, CD",
+            "unit": "",
+            "explanation": "Đi từ A đến B là đoạn AB, tiếp đến C là BC, rồi đến D là CD. Không có chặng AD nối tắt trong mô tả."
+          },
+          {
+            "step_id": "s1",
+            "title": "Gọi dạng đường và kiểm nối",
+            "reason": "Các đoạn thẳng nối tiếp có đổi hướng tạo thành đường gấp khúc.",
+            "expression": null,
+            "result": "đường gấp khúc ABCD",
+            "unit": "",
+            "explanation": "Đoạn AB nối BC tại B; BC nối CD tại C. Có đổi hướng ở hai chỗ nên cả đường là đường gấp khúc ABCD, dù từng chặng riêng là đoạn thẳng."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Dạng đường đi",
+            "result": "đường gấp khúc ABCD",
+            "unit": ""
+          },
+          {
+            "quantity": "Các đoạn theo thứ tự",
+            "result": "AB, BC, CD",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_balance_equal_weights",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 370,
+      "source_row_sha256": "a179c51b814c49edb7a256a800c80c8bd00a2366965dd258e0dfd3944a45cc0c",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong tình huống giả định, cân hai đĩa đã cân bằng khi hai đĩa trống. Đặt một túi gạo lên đĩa trái, ba quả cân lên đĩa phải: 5 kg, 5 kg, 2 kg. Cân lại thăng bằng và không có vật nào khác trên hai đĩa. Túi gạo nặng bao nhiêu ki-lô-gam? Viết số đo, đọc số đo và giải thích vì sao cộng các quả cân.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Quả cân thứ nhất 5 kg",
+            "value": "5",
+            "unit": "kg",
+            "role": "first_weight"
+          },
+          {
+            "id": "g1",
+            "text": "Quả cân thứ hai 5 kg",
+            "value": "5",
+            "unit": "kg",
+            "role": "second_weight"
+          },
+          {
+            "id": "g2",
+            "text": "Quả cân thứ ba 2 kg",
+            "value": "2",
+            "unit": "kg",
+            "role": "third_weight"
+          },
+          {
+            "id": "g3",
+            "text": "Cân được cân bằng lúc trống và thăng bằng theo mô tả; chỉ có túi và các quả cân",
+            "value": null,
+            "unit": "",
+            "role": "explicit_balance_conditions"
+          }
+        ],
+        "requested_quantity": "Cân nặng túi gạo; Cách đọc số đo",
+        "student_work": null,
+        "initial_guidance": [
+          "Dùng đúng tình trạng cân thăng bằng được đề cho, không nhận là mình đã cân thật.",
+          "Các quả cân cùng đơn vị và cùng nằm ở một đĩa, cần xét cả nhóm."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Hai đĩa thăng bằng diễn tả quan hệ giữa hai bên.",
+            "question": "Túi cần được đối chiếu với một quả cân hay toàn bộ các quả cân bên kia?"
+          },
+          {
+            "level": 2,
+            "hint": "Giữ đơn vị khi gộp các số đo cùng loại.",
+            "question": "Phép tính nào cho số đo của cả nhóm quả cân?"
+          },
+          {
+            "level": 3,
+            "hint": "Sau khi tính, đọc lại số đo và đối chiếu đủ mọi vật đã nêu.",
+            "question": "Em đã tính mỗi quả cân đúng một lần và ghi đơn vị chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Gộp số đo các quả cân",
+            "reason": "Ba quả cân cùng đơn vị kg và đều có trên đĩa phải nên cộng cả ba.",
+            "expression": "5+5+2",
+            "result": "12",
+            "unit": "kg",
+            "explanation": "Gộp hai quả 5 kg: 5 + 5 = 10 kg. Thêm quả 2 kg: 10 + 2 = 12 kg. Vậy cả nhóm là 12 kg; mỗi quả cân được tính một lần.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Đối chiếu cân thăng bằng",
+            "reason": "Trong tình huống được cho, túi có cân nặng bằng cả nhóm đối trọng.",
+            "expression": null,
+            "result": "12 kg, đọc mười hai ki-lô-gam",
+            "unit": "",
+            "explanation": "Túi nặng 12 kg, đọc mười hai ki-lô-gam. Kiểm lại đĩa trái chỉ có túi, đĩa phải có đủ ba quả cân; đây là kết quả theo mô tả giả định.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Cân nặng túi gạo",
+            "result": "12",
+            "unit": "kg"
+          },
+          {
+            "quantity": "Cách đọc số đo",
+            "result": "mười hai ki-lô-gam",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_mass_capacity_0016_pour_to_full_without_loss",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 372,
+      "source_row_sha256": "17445db526fdd314357d4178b2fb12af83aeb4f836ec06549d3ad34b1b284c99",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong tình huống giả định, thùng A đang có 24 l nước; can B đang rỗng và chứa tối đa 9 l. Đổ nước từ A sang B cho B đầy đúng mức, không tràn hay hao hụt và không lấy nước nơi khác. Hỏi A còn bao nhiêu lít? Giải thích số nước đã chuyển và kiểm tổng hai vật.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A có 24 l nước",
+            "value": "24",
+            "unit": "l",
+            "role": "initial_amount_A"
+          },
+          {
+            "id": "g1",
+            "text": "B rỗng và chứa tối đa 9 l",
+            "value": "9",
+            "unit": "l",
+            "role": "empty_receiver_capacity"
+          },
+          {
+            "id": "g2",
+            "text": "Đổ đầy B, không tràn hay hao hụt",
+            "value": null,
+            "unit": "",
+            "role": "transfer_conditions"
+          }
+        ],
+        "requested_quantity": "Lượng nước A còn",
+        "student_work": null,
+        "initial_guidance": [
+          "Xác định lượng thực sự chuyển từ vật này sang vật kia.",
+          "Điều kiện đổ đầy và ban đầu rỗng giúp xác định phần đã rời A."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Theo dõi nguồn và nơi nhận nước.",
+            "question": "Nước vào B được lấy từ lượng nào đã cho?"
+          },
+          {
+            "level": 2,
+            "hint": "B ban đầu rỗng và được đổ đầy đúng mức nên xác định được phần chuyển.",
+            "question": "Muốn tìm A còn lại, em cần gộp thêm hay bớt phần đã chuyển?"
+          },
+          {
+            "level": 3,
+            "hint": "Gộp lượng còn ở nguồn với lượng nhận để kiểm trước sau.",
+            "question": "Phép kiểm có khôi phục đúng tổng nước ban đầu mà không tự thêm nguồn khác không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tìm lượng còn ở nguồn",
+            "reason": "B rỗng và đầy ở mức 9 l nên đã nhận 9 l lấy từ A.",
+            "expression": "24-9",
+            "result": "15",
+            "unit": "l",
+            "explanation": "24 − 9 = 15 l. A còn 15 l; không cộng vì nước rời A sang B.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Kiểm tổng lượng nước",
+            "reason": "Không hao hụt, tổng hai vật sau chuyển phải bằng lượng ban đầu.",
+            "expression": "{s0}+9",
+            "result": "24",
+            "unit": "l",
+            "explanation": "15 + 9 = 24 l, khớp đề. B có 9 l, A còn 15 l. Lượng nước chỉ đổi nơi chứa, không sinh thêm.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Lượng nước A còn",
+            "result": "15",
+            "unit": "l"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_measurement_0021_estimate_with_reference_scale",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 376,
+      "source_row_sha256": "b0053e7dc57e679576c554b1fe80bb31f25dd129b8ec5d76bf02d1dbc15595dc",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong mô tả giả định, chiều dài một miếng bìa xấp xỉ hai gang tay mẫu đặt nối tiếp; mỗi gang tay mẫu ước khoảng 10 cm. Hai bạn đề xuất A: khoảng 20 cm, B: khoảng 2 m. Biết 1 m = 100 cm. Ước lượng nào phù hợp hơn với mốc tham chiếu đã cho? Giải thích và giữ rõ đây là ước lượng, chưa phải phép đo chính xác.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Bìa xấp xỉ hai gang mẫu",
+            "value": "2",
+            "unit": "gang",
+            "role": "approximate_span_count"
+          },
+          {
+            "id": "g1",
+            "text": "Một gang mẫu ước khoảng 10 cm",
+            "value": "10",
+            "unit": "cm/gang (ước lượng)",
+            "role": "approximate_reference"
+          },
+          {
+            "id": "g2",
+            "text": "Phương án A khoảng 20 cm",
+            "value": "20",
+            "unit": "cm (ước lượng)",
+            "role": "proposal_A"
+          },
+          {
+            "id": "g3",
+            "text": "Phương án B khoảng 2 m",
+            "value": "2",
+            "unit": "m (ước lượng)",
+            "role": "proposal_B"
+          },
+          {
+            "id": "g4",
+            "text": "1 m bằng 100 cm",
+            "value": "100",
+            "unit": "cm/m",
+            "role": "unit_relation"
+          }
+        ],
+        "requested_quantity": "Mốc chiều dài ước theo tham chiếu; Đề xuất phù hợp",
+        "student_work": null,
+        "initial_guidance": [
+          "Dùng mốc tham chiếu của đề, không suy đã nhìn hay đo miếng bìa.",
+          "Các từ xấp xỉ và khoảng cần được giữ khi nêu kết luận."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Mỗi gang mẫu cho một nhóm cm gần đúng.",
+            "question": "Đề đang cho phép đo chính xác hay chỉ mốc để ước lượng?"
+          },
+          {
+            "level": 2,
+            "hint": "Đưa hai đề xuất về cùng đơn vị trước khi đối chiếu với mốc.",
+            "question": "Hai đề xuất có chênh nhau nhiều sau khi đổi cùng đơn vị không?"
+          },
+          {
+            "level": 3,
+            "hint": "Chọn đề xuất phù hợp mốc và nêu rõ mức chắc chắn.",
+            "question": "Lời kết luận của em có giữ từ chỉ ước lượng thay vì nhận đã đo đúng tuyệt đối không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Ước theo hai nhóm",
+            "reason": "Mỗi nhóm ước khoảng 10 cm, hai nhóm gộp cho mốc gần đúng.",
+            "expression": "10+10",
+            "result": "20",
+            "unit": "cm (ước lượng)",
+            "explanation": "10 + 10 = 20, nên theo mốc đã cho chiều dài ước khoảng 20 cm; đây là phép tính trên ước lượng.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Đối chiếu hai đơn vị",
+            "reason": "Hai m là hai nhóm 100 cm, xa mốc hai gang mẫu của đề.",
+            "expression": null,
+            "result": "phương án A: khoảng 20 cm",
+            "unit": "",
+            "explanation": "2 m = 200 cm, lớn hơn nhiều so với mốc ước hai gang khoảng 20 cm. A phù hợp hơn; chưa đo thì không nói miếng bìa chính xác 20 cm.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Mốc chiều dài ước theo tham chiếu",
+            "result": "20",
+            "unit": "cm (ước lượng)"
+          },
+          {
+            "quantity": "Đề xuất phù hợp",
+            "result": "phương án A: khoảng 20 cm",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_money_0020_select_exact_payment_cards",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 382,
+      "source_row_sha256": "c323a0ae288755681bfc26e7ef3192068d63daad81b42db1a4e8074494abcb62",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Quầy học tập giả định có một món đồ ghi giá 700 đồng. Ví thẻ của em có đúng một thẻ 500 đồng, một thẻ 200 đồng, một thẻ 100 đồng. Hãy chọn các thẻ để biểu thị trả vừa đủ, không trả thừa và không dùng một thẻ hai lần. Giải thích lựa chọn rồi kiểm tổng.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Giá trong trò chơi là 700 đồng",
+            "value": "700",
+            "unit": "đồng",
+            "role": "target_price"
+          },
+          {
+            "id": "g1",
+            "text": "Một thẻ 500 đồng",
+            "value": "500",
+            "unit": "đồng",
+            "role": "available_card_500"
+          },
+          {
+            "id": "g2",
+            "text": "Một thẻ 200 đồng",
+            "value": "200",
+            "unit": "đồng",
+            "role": "available_card_200"
+          },
+          {
+            "id": "g3",
+            "text": "Một thẻ 100 đồng",
+            "value": "100",
+            "unit": "đồng",
+            "role": "available_card_100"
+          }
+        ],
+        "requested_quantity": "Các thẻ chọn; Tổng giá trị trả",
+        "student_work": null,
+        "initial_guidance": [
+          "Phân biệt giá cần trả với toàn bộ tiền thẻ đang có.",
+          "Chỉ được chọn các thẻ có thật trong danh sách, mỗi thẻ nhiều nhất một lần."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Mục tiêu là một tổng bằng giá, không phải dùng hết ví.",
+            "question": "Em cần đạt điều kiện nào về tổng giá trị các thẻ chọn?"
+          },
+          {
+            "level": 2,
+            "hint": "Có thể thử một thẻ rồi xem phần còn thiếu có trong các thẻ chưa dùng không.",
+            "question": "Thẻ em đang cần thêm có sẵn và chưa bị chọn trước đó không?"
+          },
+          {
+            "level": 3,
+            "hint": "Kiểm lại tổng và số lần dùng từng thẻ.",
+            "question": "Lựa chọn có vừa đủ giá và không lặp thẻ nào không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tìm phần còn thiếu sau một thẻ có sẵn",
+            "reason": "Thử dùng thẻ 500 thì phần thiếu để tới giá 700 là hiệu hai số.",
+            "expression": "700-500",
+            "result": "200",
+            "unit": "đồng",
+            "explanation": "700 − 500 = 200 đồng; ví có đúng một thẻ 200 chưa dùng.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Gộp và kiểm trả vừa đủ",
+            "reason": "Thẻ 500 và 200 đều có sẵn, cộng lại phải bằng giá.",
+            "expression": "500+200",
+            "result": "700",
+            "unit": "đồng",
+            "explanation": "500 + 200 = 700 đồng. Chọn một thẻ 500 và một thẻ 200, giữ lại thẻ 100; không cần dùng hết ví.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Kiểm điều kiện về thẻ",
+            "reason": "Tổng đúng chưa đủ nếu tự dùng thẻ ngoài danh sách hoặc lặp một thẻ.",
+            "expression": null,
+            "result": "một thẻ 500 đồng và một thẻ 200 đồng",
+            "unit": "",
+            "explanation": "Mỗi thẻ được chọn đúng một lần, đều có trong ví và tổng đúng giá trò chơi. Đây là phương án trên thẻ mô phỏng, không phải giá thị trường thực.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các thẻ chọn",
+            "result": "một thẻ 500 đồng và một thẻ 200 đồng",
+            "unit": ""
+          },
+          {
+            "quantity": "Tổng giá trị trả",
+            "result": "700",
+            "unit": "đồng"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_numbers_ray_0009_ray_two_different_scales",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 389,
+      "source_row_sha256": "dafd7622d50c18edb0ab706909c12047506f07983b8dfecd5b38b53ca53011d9",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có hai đoạn tia số giả định đều bắt đầu phần đang xét ở vạch ghi 60 và tăng sang phải. Đoạn A: các vạch liền nhau tăng 1 đơn vị. Đoạn B: các vạch liền nhau tăng 10 đơn vị. Ở mỗi đoạn, tính từ vạch 60 là vạch thứ nhất, hãy tìm số ở vạch thứ ba. Hai vạch thứ ba có ghi cùng số không? Giải thích.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Vạch thứ nhất của hai đoạn ghi 60",
+            "value": "60",
+            "unit": "",
+            "role": "common_first_tick"
+          },
+          {
+            "id": "g1",
+            "text": "A tăng 1 mỗi khoảng",
+            "value": "1",
+            "unit": "",
+            "role": "A_tick_step"
+          },
+          {
+            "id": "g2",
+            "text": "B tăng 10 mỗi khoảng",
+            "value": "10",
+            "unit": "",
+            "role": "B_tick_step"
+          },
+          {
+            "id": "g3",
+            "text": "Từ vạch thứ nhất đến thứ ba có hai khoảng",
+            "value": "2",
+            "unit": "",
+            "role": "interval_count"
+          }
+        ],
+        "requested_quantity": "Vạch thứ ba trên A; Vạch thứ ba trên B; Kết luận so hai số",
+        "student_work": null,
+        "initial_guidance": [
+          "Phân biệt số thứ tự vạch với giá trị số được ghi tại vạch.",
+          "Hai đoạn giống điểm bắt đầu nhưng khác mức tăng của mỗi khoảng."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Từ một vạch đến vạch kế tiếp là một khoảng.",
+            "question": "Từ vạch thứ nhất đến thứ ba có bao nhiêu khoảng?"
+          },
+          {
+            "level": 2,
+            "hint": "Đi cùng số khoảng nhưng dùng riêng mức tăng của mỗi đoạn.",
+            "question": "Em có đang dùng nhầm mức tăng của đoạn này cho đoạn kia không?"
+          },
+          {
+            "level": 3,
+            "hint": "Ghi lại các vạch em đi qua trên từng đoạn rồi đối chiếu hai kết quả.",
+            "question": "Nếu hai mức tăng khác nhau, điều gì cần được kiểm trước khi kết luận hai vị trí cùng số?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đếm khoảng ở đoạn A",
+            "reason": "Từ vạch thứ nhất tới thứ ba là hai khoảng, mỗi khoảng của A tăng một đơn vị.",
+            "expression": "60+1+1",
+            "result": "62",
+            "unit": "",
+            "explanation": "Đoạn A có các vạch 60, 61, 62 nên vạch thứ ba ghi 62."
+          },
+          {
+            "step_id": "s1",
+            "title": "Dùng mức tăng của đoạn B",
+            "reason": "Vẫn hai khoảng nhưng mỗi khoảng B tăng mười đơn vị, không dùng mức tăng của A.",
+            "expression": "60+10+10",
+            "result": "80",
+            "unit": "",
+            "explanation": "Đoạn B có các vạch 60, 70, 80 nên vạch thứ ba ghi 80."
+          },
+          {
+            "step_id": "s2",
+            "title": "Đối chiếu hai cách biểu diễn",
+            "reason": "Cùng thứ tự vạch chưa đủ để có cùng số khi mức tăng khác nhau.",
+            "expression": null,
+            "result": "không cùng số",
+            "unit": "",
+            "explanation": "62 khác 80. Đếm số khoảng và mức tăng của mỗi đoạn mới xác định được số; không mặc định mọi đoạn đều tăng một đơn vị."
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Vạch thứ ba trên A",
+            "result": "62",
+            "unit": ""
+          },
+          {
+            "quantity": "Vạch thứ ba trên B",
+            "result": "80",
+            "unit": ""
+          },
+          {
+            "quantity": "Kết luận so hai số",
+            "result": "không cùng số",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261018_g2_practice_experience_0092_guard_real_bag_weight_missing_scale_evidence",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 407,
+      "source_row_sha256": "dba9ddacaacff7f7b0427c138712df80262b8755230de4498091441d465435be",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Em muốn biết túi A hay túi B nặng hơn trong một hoạt động thực hành. Hiện chưa có số đo khối lượng của hai túi, chưa có bản mô tả kết quả cân và chưa có ảnh cân rõ. Không có thông tin nào khác cho biết túi nào nặng hơn. Hãy hỏi dữ kiện hoặc dụng cụ cần để so sánh rồi mới kết luận; không đoán theo tên túi hay hình dung kích thước chưa thấy.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chưa có số đo, kết quả cân hoặc ảnh rõ của hai túi",
+            "value": null,
+            "unit": "",
+            "role": "missing_weight_comparison_evidence"
+          }
+        ],
+        "requested_quantity": "Hỏi số đo hoặc kết quả cân tương ứng hai túi trước khi so nặng hơn",
+        "student_work": null,
+        "initial_guidance": [
+          "Tên hai túi chưa cho biết khối lượng của chúng.",
+          "Cần kết quả cân để so sánh, có thể là hai số đo cùng đơn vị hoặc kết quả đặt hai túi lên cân so sánh."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Kết luận nặng hơn cần dựa kết quả cân đã được cung cấp.",
+            "question": "Em có số đo khối lượng của cả hai túi với đơn vị hoặc dụng cụ cân để kiểm không?"
+          },
+          {
+            "level": 2,
+            "hint": "Nếu dùng hai số đo thì cần cùng đơn vị, còn cân so sánh cần mô tả rõ hai bên.",
+            "question": "Em có thể ghi kết quả cân từng túi hoặc cho biết mỗi túi đặt bên nào và cân ra sao không?"
+          },
+          {
+            "level": 3,
+            "hint": "Ảnh cân chỉ dùng khi thấy rõ túi tương ứng và phần thể hiện kết quả.",
+            "question": "Em có thể gửi số đo hay bản mô tả, ảnh rõ kết quả cân để xác nhận trước khi chọn túi nặng hơn không?"
+          }
+        ],
+        "worked_steps": [],
+        "expected_answer": []
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_survey_one_choice_per_child",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 421,
+      "source_row_sha256": "f4babbc06b356f337af6bc0555af52cb19298d9b510a93b264826636e5ed8568",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong cuộc hỏi ý kiến giả định, tám bạn mang mã A đến H mỗi bạn chọn đúng một trò muốn chơi: nhảy dây, đá cầu hoặc đuổi bắt. Các câu trả lời đầy đủ là A: đá cầu; B: nhảy dây; C: đá cầu; D: đuổi bắt; E: đá cầu; F: đá cầu; G: nhảy dây; H: đá cầu. Hãy nêu cách thu thập và kiểm đếm công bằng, rồi lập bảng số bạn chọn từng trò. Chỉ mô tả việc làm trong tình huống, không nói đã thực sự phỏng vấn ai.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Tám bạn A đến H chọn một trò mỗi bạn",
+            "value": null,
+            "unit": "",
+            "role": "survey_population_and_rule"
+          },
+          {
+            "id": "g1",
+            "text": "Danh sách câu trả lời đầy đủ ghi trong đề",
+            "value": null,
+            "unit": "",
+            "role": "complete_responses"
+          }
+        ],
+        "requested_quantity": "Chọn nhảy dây; Chọn đá cầu; Chọn đuổi bắt",
+        "student_work": null,
+        "initial_guidance": [
+          "Ghi một lựa chọn cho mỗi người và giữ mã người trả lời.",
+          "Lập nhóm theo tên trò rồi kiểm lại với danh sách người tham gia."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Dùng cùng câu hỏi và cùng các lựa chọn khi ghi ý kiến.",
+            "question": "Cách ghi của em có phân biệt ai đã trả lời và ai chưa trả lời không?"
+          },
+          {
+            "level": 2,
+            "hint": "Sau mỗi câu trả lời, ghi một dấu ở trò đã chọn, gắn với mã của bạn ấy.",
+            "question": "Có bạn nào được tính nhiều lần hoặc chưa có trong bảng không?"
+          },
+          {
+            "level": 3,
+            "hint": "Dùng danh sách mã để kiểm bảng đếm theo cách khác.",
+            "question": "Các mã trong mọi nhóm có phủ đúng danh sách người tham gia mà không trùng nhau không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Thu thập theo cùng một quy tắc",
+            "reason": "Mỗi người được ghi một lựa chọn nên không để một bạn có nhiều lượt.",
+            "expression": null,
+            "result": "ghi mã và một trò cho mỗi bạn",
+            "unit": "",
+            "explanation": "Nếu tổ chức, hỏi từng bạn cùng câu hỏi và cùng ba lựa chọn, ghi mã người trả lời cùng trò đã chọn; không dẫn dắt bạn chọn trò người hỏi thích. Với đề này, dùng đúng danh sách đã cho.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Đếm nhóm nhảy dây",
+            "reason": "Ghép câu trả lời cùng tên trò, mỗi mã một lần.",
+            "expression": "2",
+            "result": "2",
+            "unit": "bạn",
+            "explanation": "B,G chọn nhảy dây nên có 2 bạn.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đếm nhóm đá cầu",
+            "reason": "Màu hay thứ tự mã không liên quan; tiêu chí là trò chọn.",
+            "expression": "5",
+            "result": "5",
+            "unit": "bạn",
+            "explanation": "A,C,E,F,H chọn đá cầu nên có 5 bạn.",
+            "step_id": "s2"
+          },
+          {
+            "title": "Đếm nhóm còn lại và kiểm người tham gia",
+            "reason": "D là mã duy nhất ở nhóm đuổi bắt.",
+            "expression": "1",
+            "result": "1",
+            "unit": "bạn",
+            "explanation": "Đuổi bắt có 1 bạn. Kiểm bằng danh sách: B,G; A,C,E,F,H; D ghép lại đúng A đến H, không thiếu hay lặp. Bảng: nhảy dây 2, đá cầu 5, đuổi bắt 1 bạn.",
+            "step_id": "s3"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Chọn nhảy dây",
+            "result": "2",
+            "unit": "bạn"
+          },
+          {
+            "quantity": "Chọn đá cầu",
+            "result": "5",
+            "unit": "bạn"
+          },
+          {
+            "quantity": "Chọn đuổi bắt",
+            "result": "1",
+            "unit": "bạn"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_tally_0023_guard_incomplete_survey",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 423,
+      "source_row_sha256": "23e6e6038e47496eee18e2c8f15404737a1b8ecfae5debe2ffc88bc88bc59463",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Cuộc hỏi ý kiến giả định có năm bạn, mỗi bạn chọn đúng một trong hai màu đỏ hoặc xanh. Hiện chỉ ghi được ba người khác nhau: A đỏ, B xanh, C đỏ; còn D và E chưa trả lời. Muốn lập số bạn chọn từng màu cho cả năm bạn, có thể chốt ngay không? Hãy xin đúng thông tin còn thiếu, không coi người chưa trả lời là không thích màu nào.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Có năm bạn A đến E, mỗi người chọn một màu",
+            "value": null,
+            "unit": "",
+            "role": "population_and_response_rule"
+          },
+          {
+            "id": "g1",
+            "text": "A đỏ, B xanh, C đỏ đã ghi",
+            "value": null,
+            "unit": "",
+            "role": "partial_observations"
+          },
+          {
+            "id": "g2",
+            "text": "D,E chưa trả lời",
+            "value": null,
+            "unit": "",
+            "role": "missing_responses"
+          }
+        ],
+        "requested_quantity": "Thông tin lựa chọn của hai người chưa trả lời để lập bảng đủ cả nhóm",
+        "student_work": null,
+        "initial_guidance": [
+          "Bảng hiện có mới phản ánh những người đã trả lời.",
+          "Cần lựa chọn của D và E trước khi kết luận cho cả nhóm."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Phân biệt danh sách người tham gia với danh sách đã có ý kiến.",
+            "question": "Những bạn nào chưa có lựa chọn được ghi lại?"
+          },
+          {
+            "level": 2,
+            "hint": "Không lấy lựa chọn của người khác để điền cho người chưa trả lời.",
+            "question": "Em có thể bổ sung câu trả lời của D và E không?"
+          },
+          {
+            "level": 3,
+            "hint": "Chỉ tổng kết cả nhóm khi mỗi người đã có một lựa chọn.",
+            "question": "Thông tin mới có giúp đủ mọi người mà không ghi trùng chưa?"
+          }
+        ],
+        "worked_steps": [],
+        "expected_answer": []
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_february_calendar_boundary",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 425,
+      "source_row_sha256": "027f33761e22e9053c618121037e69148c93891a5ab4ad48b7008917453dcbf1",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Một tờ lịch được mô tả đầy đủ phần cuối tháng Hai: ngày 27 là Thứ Ba, 28 là Thứ Tư, 29 là Thứ Năm, và tháng Hai trên tờ này kết thúc ở ngày 29. Tháng Hai ấy có bao nhiêu ngày? Ngày ngay sau ngày 29 tháng Hai là ngày nào, thứ mấy? Chỉ dựa trên lịch đã cho, không lấy ngày hiện tại của máy.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Cuối tháng Hai: 27 Thứ Ba, 28 Thứ Tư, 29 Thứ Năm",
+            "value": null,
+            "unit": "",
+            "role": "explicit_calendar_rows"
+          },
+          {
+            "id": "g1",
+            "text": "Tháng Hai này kết thúc ở ngày 29",
+            "value": null,
+            "unit": "",
+            "role": "explicit_last_date"
+          }
+        ],
+        "requested_quantity": "Số ngày của tháng Hai được cho; Ngày ngay sau mốc",
+        "student_work": null,
+        "initial_guidance": [
+          "Tìm số ngày cuối của đúng tháng trong đề.",
+          "Theo dõi cả sự chuyển tháng lẫn thứ tiếp theo trong tuần."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Không tự cho mọi tháng cùng số ngày.",
+            "question": "Tờ lịch nói ngày cuối của tháng đang xét là ngày nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Sau ngày cuối tháng, cách ghi ngày chuyển sang tháng kế tiếp.",
+            "question": "Em cần kiểm số ngày trong tháng hay chỉ cộng tiếp mãi trong cùng tháng?"
+          },
+          {
+            "level": 3,
+            "hint": "Đối chiếu thứ trong tuần với ngày đứng ngay sau mốc đã cho.",
+            "question": "Câu trả lời có khớp đồng thời ngày, tháng và thứ kế tiếp không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Đọc số ngày từ lịch",
+            "reason": "Ngày cuối của tháng cho biết tháng đó đếm tới ngày nào.",
+            "expression": null,
+            "result": "tháng Hai này có 29 ngày",
+            "unit": "",
+            "explanation": "Tờ lịch kết thúc ở ngày 29, nên tháng Hai được cho có 29 ngày. Không suy tháng Hai của mọi năm đều như vậy.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Sang tháng mới và kiểm thứ",
+            "reason": "Qua ngày cuối tháng thì sang ngày đầu tháng kế; thứ trong tuần vẫn tiến một ngày.",
+            "expression": null,
+            "result": "ngày 1 tháng Ba, Thứ Sáu",
+            "unit": "",
+            "explanation": "Ngay sau 29 tháng Hai là 1 tháng Ba. Thứ Năm sang Thứ Sáu, nên ngày đó là Thứ Sáu; không ghi ngày 30 tháng Hai.",
+            "step_id": "s1"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số ngày của tháng Hai được cho",
+            "result": "29 ngày",
+            "unit": ""
+          },
+          {
+            "quantity": "Ngày ngay sau mốc",
+            "result": "ngày 1 tháng Ba, Thứ Sáu",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g2_time_calendar_0018_guard_february_year_or_calendar",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 428,
+      "source_row_sha256": "6536f78828a03eae18c33682d304d6021d257e1d44fb6a4edba7d0247055620c",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Em hỏi tháng Hai đang nói đến có 28 hay 29 ngày, nhưng chưa cho năm nào và chưa có tờ lịch hoặc ngày cuối tháng. Hãy hỏi thông tin đủ để kiểm, không đoán theo năm hiện tại của máy.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Chỉ biết tháng Hai, chưa biết năm hay ngày cuối tháng",
+            "value": null,
+            "unit": "",
+            "role": "missing_calendar_year_or_last_date"
+          }
+        ],
+        "requested_quantity": "Bằng chứng đo còn thiếu",
+        "student_work": null,
+        "initial_guidance": [
+          "Tháng Hai không luôn có cùng số ngày trong mọi năm.",
+          "Em cho năm của tháng ấy hoặc gửi tờ lịch rõ để cùng kiểm số ngày cuối."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Cần xác định đúng tháng Hai của năm nào.",
+            "question": "Em đang hỏi tháng Hai năm nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Có thể đối chiếu ngày cuối nếu có lịch đầy đủ của tháng cần hỏi.",
+            "question": "Em có tờ lịch hoặc thông tin ngày cuối tháng ấy không?"
+          },
+          {
+            "level": 3,
+            "hint": "Không lấy năm máy để thay dữ kiện người hỏi chưa cho.",
+            "question": "Thông tin mới đã xác định đúng năm hoặc tờ lịch đang xét chưa?"
+          }
+        ],
+        "worked_steps": [],
+        "expected_answer": []
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261017_g3_new_units_0040_graduated_vessel_equal_intervals",
+      "grade": 3,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 473,
+      "source_row_sha256": "e5e495d8264b50f18e4a01ea8ba9fb2cd0b0991eaf0bd504c0da2d77804b8fe3",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Cốc đong giả định có vạch 200 ml và 300 ml. Khoảng giữa hai vạch ấy được chia thành 5 khoảng bằng nhau. Nhìn ngang với mặt nước, mực nước trùng vạch thứ hai sau vạch 200 ml theo chiều tăng số; không đếm vạch 200 là vạch thứ nhất. Hãy đọc thể tích nước theo ml và kiểm bằng các vạch. Đây là mô tả giả định, không phải ảnh cốc thật.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Vạch dưới",
+            "value": "200",
+            "unit": "ml",
+            "role": "lower_label"
+          },
+          {
+            "id": "g1",
+            "text": "Vạch trên",
+            "value": "300",
+            "unit": "ml",
+            "role": "upper_label"
+          },
+          {
+            "id": "g2",
+            "text": "Số khoảng bằng nhau",
+            "value": "5",
+            "unit": "khoảng",
+            "role": "interval_count"
+          },
+          {
+            "id": "g3",
+            "text": "Vạch mực nước sau vạch dưới",
+            "value": "2",
+            "unit": "khoảng",
+            "role": "offset_count"
+          }
+        ],
+        "requested_quantity": "Thể tích nước",
+        "student_work": null,
+        "initial_guidance": [
+          "Tách số khoảng chia đều khỏi số vạch mực nước đi qua.",
+          "Cần biết lượng ứng với mỗi khoảng rồi mới đọc vị trí mực nước."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Hai số ghi trên thang cho biết lượng tăng qua cả đoạn thang.",
+            "question": "Em tìm lượng giữa hai vạch có số như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Đếm khoảng từ vạch dưới, chưa tính vạch dưới là một bước tăng.",
+            "question": "Các khoảng bằng nhau giúp xác định lượng tăng ở mỗi bước ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Đối chiếu kết quả với hai đầu đoạn và thứ tự các vạch.",
+            "question": "Số đọc của em có nằm giữa hai vạch đã cho và đúng vị trí được mô tả không?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tìm lượng của mỗi khoảng",
+            "reason": "Hiệu hai vạch là lượng chia đều cho các khoảng.",
+            "expression": "(300-200)/5",
+            "result": "20",
+            "unit": "ml",
+            "explanation": "(300 − 200) : 5 = 20 ml. Mỗi lần sang một vạch kế theo chiều tăng thì lượng tăng 20 ml.",
+            "step_id": "s0"
+          },
+          {
+            "title": "Tính phần tăng từ vạch dưới",
+            "reason": "Mực nước ở sau vạch dưới hai khoảng nên lấy lượng mỗi khoảng hai lần.",
+            "expression": "{s0}*2",
+            "result": "40",
+            "unit": "ml",
+            "explanation": "20 × 2 = 40 ml. Đây là phần tăng so với 200 ml, chưa phải toàn bộ lượng nước.",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đọc tổng lượng và kiểm vạch",
+            "reason": "Cộng phần tăng vào số tại vạch dưới.",
+            "expression": "200+{s1}",
+            "result": "240",
+            "unit": "ml",
+            "explanation": "200 + 40 = 240 ml. Các vạch lần lượt là 200, 220, 240, 260, 280, 300 ml; mực nước ở đúng vạch thứ hai sau 200.",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Thể tích nước",
+            "result": "240",
+            "unit": "ml"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261018_g3_practice_experience_0093_capacity_activity_compare_measuring_plans",
+      "grade": 3,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 496,
+      "source_row_sha256": "d7b7af3124378b9a2b93fc5862e88069c20a059d9e2015c33680c6055393f7c4",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trong hoạt động đong giả định có 1 lít 200 mi-li-lít nước. Cần lấy riêng đúng 800 mi-li-lít; dụng cụ đong được mô tả có vạch 200 mi-li-lít và 500 mi-li-lít đọc rõ. Phương án A là đong tới vạch200mi-li-lít bốn lần; phương án B là đong tới vạch500mi-li-lít hai lần. Mỗi lần đều đúng vạch theo mô tả, không đổ mất, các lần nước được chuyển riêng không dùng lặp lại phần đã đong. Hãy tính lượng lấy theo từng phương án, chọn phương án đạt yêu cầu và tính nước còn lại sau phương án đúng; giải thích rồi kiểm. Chưa có ảnh hay thao tác đong thật.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Phần lít nước ban đầu",
+            "value": "1",
+            "unit": "lít",
+            "role": "initial_litre_component"
+          },
+          {
+            "id": "g1",
+            "text": "Phần mi-li-lít thêm",
+            "value": "200",
+            "unit": "ml",
+            "role": "initial_ml_component"
+          },
+          {
+            "id": "g2",
+            "text": "Lượng cần lấy",
+            "value": "800",
+            "unit": "ml",
+            "role": "target_separate_volume"
+          },
+          {
+            "id": "g3",
+            "text": "A mỗi lần",
+            "value": "200",
+            "unit": "ml",
+            "role": "A_fill_volume"
+          },
+          {
+            "id": "g4",
+            "text": "A số lần",
+            "value": "4",
+            "unit": "lần",
+            "role": "A_fill_count"
+          },
+          {
+            "id": "g5",
+            "text": "B mỗi lần",
+            "value": "500",
+            "unit": "ml",
+            "role": "B_fill_volume"
+          },
+          {
+            "id": "g6",
+            "text": "B số lần",
+            "value": "2",
+            "unit": "lần",
+            "role": "B_fill_count"
+          }
+        ],
+        "requested_quantity": "Lượng lấy từng phương án; Chọn phương án đúng mục tiêu; Nước còn lại và kiểm",
+        "student_work": null,
+        "initial_guidance": [
+          "Các lần đong góp thêm lượng nước riêng nên cần tính tổng lượng mỗi phương án rồi đối chiếu mục tiêu.",
+          "Đưa lượng ban đầu về cùng đơn vị với lượng lấy để tìm phần còn lại."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Lượng mỗi lần và số lần là hai dữ kiện khác vai trò.",
+            "question": "Em tính lượng nước lấy riêng của từng phương án bằng cách nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Phương án được chọn phải có tổng đúng lượng cần lấy, không chỉ dùng ít lần hơn.",
+            "question": "Em so từng tổng với yêu cầu rồi đưa nước ban đầu về cùng đơn vị ra sao?"
+          },
+          {
+            "level": 3,
+            "hint": "Nước còn lại cộng nước đã lấy phải khớp nước ban đầu nếu không đổ mất.",
+            "question": "Em dùng quan hệ đó để tìm và kiểm phần còn lại như thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Tính lượng nước phương án A",
+            "reason": "Mỗi lần lấy200mlriêng, bốn lần lấy cùng lượng nên nhân lượng một lần với số lần.",
+            "result": "800",
+            "explanation": "A lấy200x4=800ml. Có thể kiểm bằng cộng200+200+200+200=800ml.",
+            "expression": "200*4",
+            "unit": "ml",
+            "step_id": "s0"
+          },
+          {
+            "title": "Tính lượng nước phương án B và chọn",
+            "reason": "Tính cả lượng lấy, rồi đối chiếu800mlđược yêu cầu.",
+            "result": "1000",
+            "explanation": "B lấy500x2=1000ml, không bằng800ml. Vì A lấy đúng800mlnên chọnA; ít lần đong hơn chưa có nghĩa đạt đúng yêu cầu.",
+            "expression": "500*2",
+            "unit": "ml",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đổi lượng ban đầu về mi-li-lít",
+            "reason": "Một lít có1000ml; cộng phần200mlthêm để đủ lượng ban đầu.",
+            "result": "1200",
+            "explanation": "Ban đầu1lít200ml=1000+200=1200ml.",
+            "expression": "1*1000+200",
+            "unit": "ml",
+            "step_id": "s2"
+          },
+          {
+            "title": "Tính nước còn lại sau A và kiểm",
+            "reason": "Lấy lượng ban đầu bớt phần lấy đúng800ml; nước không mất ra ngoài theo mô tả.",
+            "result": "400",
+            "explanation": "Còn1200-800=400ml. Kiểm400+800=1200ml, đúng ban đầu. Không khẳng định đã đong chính xác ngoài đời khi chưa quan sát dụng cụ/thao tác.",
+            "expression": "{s2}-{s0}",
+            "unit": "ml",
+            "step_id": "s3"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Lượng lấy theo phương án A",
+            "result": "800",
+            "unit": "ml"
+          },
+          {
+            "quantity": "Lượng lấy theo phương án B",
+            "result": "1000",
+            "unit": "ml"
+          },
+          {
+            "quantity": "Nước còn lại sau phương án đạt yêu cầu",
+            "result": "400",
+            "unit": "ml"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "primary_20261018_g4_data_sequences_0067_filter_threshold_then_descending_labels",
+      "grade": 4,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 565,
+      "source_row_sha256": "f2bd42a7ed448e607a30e5c9e29558e3bd6e4c860df5f784ca334b64f6e8d3f1",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Bảng giả định ghi chiều cao năm chậu cây theo thứ tự: A 24 cm, B 31 cm, C 28 cm, D 31 cm, E 19 cm. Chỉ chọn các chậu cao từ 28 cm trở lên, kể cả đúng 28 cm, rồi sắp chậu đã chọn từ cao đến thấp. Nếu bằng chiều cao thì giữ thứ tự tên như xuất hiện trong bảng ban đầu. Hãy ghi tên kèm chiều cao và số chậu được chọn.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "A",
+            "value": "24",
+            "unit": "cm",
+            "role": "A_height"
+          },
+          {
+            "id": "g1",
+            "text": "B",
+            "value": "31",
+            "unit": "cm",
+            "role": "B_height"
+          },
+          {
+            "id": "g2",
+            "text": "C",
+            "value": "28",
+            "unit": "cm",
+            "role": "C_height"
+          },
+          {
+            "id": "g3",
+            "text": "D",
+            "value": "31",
+            "unit": "cm",
+            "role": "D_height"
+          },
+          {
+            "id": "g4",
+            "text": "E",
+            "value": "19",
+            "unit": "cm",
+            "role": "E_height"
+          },
+          {
+            "id": "g5",
+            "text": "Mức chọn gồm cả bằng",
+            "value": "28",
+            "unit": "cm",
+            "role": "inclusive_height_threshold"
+          },
+          {
+            "id": "g6",
+            "text": "Bằng nhau giữ thứ tự xuất hiện ban đầu",
+            "value": null,
+            "unit": "",
+            "role": "stable_tie_policy"
+          }
+        ],
+        "requested_quantity": "Dãy chậu được chọn; Số chậu được chọn",
+        "student_work": null,
+        "initial_guidance": [
+          "Lọc theo điều kiện chọn trước, rồi mới xếp theo chiều cao trong nhóm còn lại.",
+          "Giữ nhãn chậu đi cùng số đo và áp dụng đúng quy tắc khi bằng nhau."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Từ một mức trở lên có tính cả trường hợp đúng mức ấy.",
+            "question": "Em cần đối chiếu từng số đo với điều kiện chọn như thế nào?"
+          },
+          {
+            "level": 2,
+            "hint": "Lọc và sắp là hai việc khác nhau; không đưa lại phần đã bị loại vào dãy.",
+            "question": "Những chậu còn lại cần được xếp theo chiều nào?"
+          },
+          {
+            "level": 3,
+            "hint": "Khi bằng chiều cao, đề đã cho cách giữ thứ tự.",
+            "question": "Dãy cuối và số chậu đã giữ đúng nhãn, điều kiện chọn và quy tắc bằng nhau chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "title": "Lọc đúng điều kiện",
+            "reason": "Từ 28 cm trở lên gồm cả đúng 28, không chỉ lớn hơn 28.",
+            "result": "Giữ B 31 cm, C 28 cm, D 31 cm",
+            "explanation": "A 24 cm và E 19 cm dưới mức nên loại. B, C, D đạt, C đúng 28 cm vẫn được chọn.",
+            "expression": null,
+            "unit": "",
+            "step_id": "s0"
+          },
+          {
+            "title": "Sắp giảm dần và giữ nhãn",
+            "reason": "Số cm lớn hơn đứng trước, bằng nhau theo thứ tự ban đầu.",
+            "result": "B 31 cm; D 31 cm; C 28 cm",
+            "explanation": "B và D cùng 31 cm; B xuất hiện trước D trong bảng nên giữ B trước D. C 28 cm đứng sau. Không đổi số đo cho chậu khác.",
+            "expression": null,
+            "unit": "",
+            "step_id": "s1"
+          },
+          {
+            "title": "Đếm và kiểm đủ điều kiện",
+            "reason": "Mỗi chậu được chọn được tính một lần, không gộp hai chậu có cùng số đo.",
+            "result": "3",
+            "explanation": "1 + 1 + 1 = 3 chậu. Kiểm cả ba đều ít nhất 28 cm, thứ tự 31; 31; 28 từ cao đến thấp, mỗi nhãn có mặt đúng một lần.",
+            "expression": "1+1+1",
+            "unit": "chậu",
+            "step_id": "s2"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Dãy chậu được chọn",
+            "result": "B 31 cm; D 31 cm; C 28 cm",
+            "unit": ""
+          },
+          {
+            "quantity": "Số chậu được chọn",
+            "result": "3",
+            "unit": "chậu"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "cloud_pedagogy_v3_007",
+      "grade": 4,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 789,
+      "source_row_sha256": "e2ffccb4f76f97d72438222fb7ed5e1c09a4337612357585cf5662fc7ba54f6f",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Dãy bắt đầu bằng 3 và mỗi lần thêm 7. Số thứ sáu là bao nhiêu?",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Số đầu3; thêm7 mỗi lần; vị trí6",
+            "value": null,
+            "unit": null
+          }
+        ],
+        "requested_quantity": "Số thứ sáu",
+        "student_work": null,
+        "initial_guidance": [
+          "Đừng nhầm số vị trí với số lần tăng."
+        ],
+        "hints": [
+          {
+            "level": 1,
+            "hint": "Đừng nhầm số vị trí với số lần tăng.",
+            "question": "Em cần xác định đại lượng nào trước?"
+          },
+          {
+            "level": 2,
+            "hint": "Đếm các khoảng từ vị trí đầu tới vị trí được hỏi.",
+            "question": "Các số em dùng có cùng đơn vị và đúng quan hệ của đề chưa?"
+          },
+          {
+            "level": 3,
+            "hint": "Lấy số dự kiến bớt tổng phần tăng để kiểm.",
+            "question": "Em có thể kiểm tra lại bằng một quan hệ khác như thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "step_id": "s0",
+            "title": "Đếm số lần tăng",
+            "reason": "Từ vị trí đầu đến vị trí thứ sáu có ít hơn số vị trí một lần tăng.",
+            "expression": "6-1",
+            "result": "5",
+            "unit": "lần",
+            "explanation": "Từ vị trí đầu đến vị trí thứ sáu có ít hơn số vị trí một lần tăng. Tính (6 − 1) = 5 lần.",
+            "exact_result_rational": "5",
+            "display_result": "5",
+            "display_expression": "(6 − 1)"
+          },
+          {
+            "step_id": "s1",
+            "title": "Tổng phần tăng",
+            "reason": "Mỗi lần tăng bằng nhau nên nhân số lần với bước tăng.",
+            "expression": "5*7",
+            "result": "35",
+            "unit": "",
+            "explanation": "Mỗi lần tăng bằng nhau nên nhân số lần với bước tăng. Tính (5 × 7) = 35.",
+            "exact_result_rational": "35",
+            "display_result": "35",
+            "display_expression": "(5 × 7)"
+          },
+          {
+            "step_id": "s2",
+            "title": "Tìm số ở vị trí",
+            "reason": "Số cần tìm gồm số đầu và tổng phần tăng.",
+            "expression": "3+35",
+            "result": "38",
+            "unit": "",
+            "explanation": "Số cần tìm gồm số đầu và tổng phần tăng. Tính (3 + 35) = 38.",
+            "exact_result_rational": "38",
+            "display_result": "38",
+            "display_expression": "(3 + 35)"
+          },
+          {
+            "step_id": "s3",
+            "title": "Kiểm",
+            "reason": "Bớt toàn bộ phần tăng phải còn số đầu.",
+            "expression": "38-35",
+            "result": "3",
+            "unit": "",
+            "explanation": "Bớt toàn bộ phần tăng phải còn số đầu. Tính (38 − 35) = 3. Quan hệ kiểm tra này khớp dữ kiện của đề.",
+            "exact_result_rational": "3",
+            "display_result": "3",
+            "display_expression": "(38 − 35)"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Số thứ sáu",
+            "result": "38",
+            "unit": "",
+            "display_result": "38",
+            "exact_result_rational": "38"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_hundred_grid_patch_01",
+      "grade": 1,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 947,
+      "source_row_sha256": "47b1d867b0d75699e4f7556f788b0f060728601ac67b69302ec8b860c48fe40f",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Bảng từ 1 đến 100 có mỗi hàng mười ô, đi sang phải tăng một, đi xuống cùng cột tăng một chục. Miếng 2 × 2 có hàng trên: 24, X; hàng dưới: Y, 35. Điền X, Y rồi kiểm theo cả hàng và cột.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Mỗi hàng 10 ô; phải + 1; xuống + 10; bảng 2 × 2",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "X và Y",
+        "student_work": null,
+        "initial_guidance": [
+          "Phân biệt bước ngang với bước dọc."
+        ],
+        "hints": [
+          {
+            "hint": "Phân biệt bước ngang với bước dọc.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Dùng ô đã biết để tìm từng ô kề theo đúng hướng.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Đi tới ô góc còn lại bằng hai đường để kiểm.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Một bước sang phải tăng một.",
+            "expression": "24+1",
+            "reason": "X ngay bên phải ô đầu.",
+            "result": "25",
+            "step_id": "s0",
+            "title": "Đi ngang từ ô đã biết",
+            "unit": ""
+          },
+          {
+            "explanation": "Cùng cột cách một hàng tăng một chục.",
+            "expression": "24+10",
+            "reason": "Y ngay dưới ô đầu.",
+            "result": "34",
+            "step_id": "s1",
+            "title": "Đi xuống từ ô đầu",
+            "unit": ""
+          },
+          {
+            "explanation": "X đi xuống cũng được ba mươi lăm, nên hai chiều cùng đúng.",
+            "expression": "34+1",
+            "reason": "Ô bên phải Y phải khớp góc đã cho.",
+            "result": "35",
+            "step_id": "s2",
+            "title": "Kiểm ô cuối",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "X và Y",
+            "result": "X = 25; Y = 34",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_sum_pyramid_02",
+      "grade": 1,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 952,
+      "source_row_sha256": "9e83e444b9b1b9fc1dc7d1ced309bc193ee70b55e32659354028aa4c48dc9f62",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Tháp số dùng luật ô trên bằng tổng hai ô ngay dưới. Đáy là 1, X, 0. Ô giữa trái ghi 3. Tìm X, ô giữa phải và đỉnh, không được thay dữ kiện.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Đáy 1, X, 0; giữa trái 3; luật cộng kề",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Ba ô cần điền",
+        "student_work": null,
+        "initial_guidance": [
+          "Có một ô trên và một ô dưới đã biết."
+        ],
+        "hints": [
+          {
+            "hint": "Có một ô trên và một ô dưới đã biết.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Tìm phần còn lại trước khi xây tiếp tầng trên.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Thế lại số đáy rồi kiểm cả hai ô giữa.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Lấy tổng đã biết bớt phần đáy đã biết.",
+            "expression": "3-1",
+            "reason": "Một phần cộng phần còn lại bằng ô trên.",
+            "result": "2",
+            "step_id": "s0",
+            "title": "Tìm ô đáy còn thiếu",
+            "unit": ""
+          },
+          {
+            "explanation": "Cộng với không giữ nguyên lượng.",
+            "expression": "2+0",
+            "reason": "Dùng hai ô đáy sát phía phải.",
+            "result": "2",
+            "step_id": "s1",
+            "title": "Ô giữa phải",
+            "unit": ""
+          },
+          {
+            "explanation": "Kiểm một cộng X khớp ô giữa trái rồi mới kết luận đỉnh.",
+            "expression": "3+2",
+            "reason": "Gộp đúng hai ô giữa.",
+            "result": "5",
+            "step_id": "s2",
+            "title": "Đỉnh",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ba ô cần điền",
+            "result": "X = 2; giữa phải 2; đỉnh 5",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_expression_target_classification_02",
+      "grade": 1,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 956,
+      "source_row_sha256": "9dc330c8d6c774413020e454f57f3b2a19d97b27e9a76d3e83524ee0ddc942f7",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có các thẻ P: 1 + 2; Q: 8 − 3; R: 6 − 3; S: 2 + 3. Xếp mỗi thẻ vào hộp ghi 3 hoặc hộp ghi 5 theo giá trị. Ghi mã trong từng hộp và kiểm không thẻ nào bỏ sót.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "P, Q, R, S; hai hộp mốc 3/5",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Hai nhóm mã",
+        "student_work": null,
+        "initial_guidance": [
+          "Hộp được chọn theo kết quả, không theo dấu tính."
+        ],
+        "hints": [
+          {
+            "hint": "Hộp được chọn theo kết quả, không theo dấu tính.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Các phép khác nhau có thể cùng một kết quả.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Rà từng mã xem đã xếp đúng một lần chưa.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "P và R có cùng giá trị dù cách viết khác.",
+            "expression": "1+2",
+            "reason": "Tính phép trên thẻ trước khi chọn hộp.",
+            "result": "3",
+            "step_id": "s0",
+            "title": "Nhóm mốc thứ nhất",
+            "unit": ""
+          },
+          {
+            "explanation": "Q và S cùng đạt mốc năm; cả bốn mã dùng một lần.",
+            "expression": "8-3",
+            "reason": "Xét đủ từng mã chưa xếp.",
+            "result": "5",
+            "step_id": "s1",
+            "title": "Nhóm mốc còn lại",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Hai nhóm mã",
+            "result": "Hộp 3: P, R; hộp 5: Q, S",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_constrained_arithmetic_path_01",
+      "grade": 1,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 967,
+      "source_row_sha256": "7d331ed11c55cf5f47a9c0a2c63dc05dd6880f365ae5162f2dfd8eb3e129a5c9",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Bản đồ bằng chữ có đúng các mũi tên S → A, S → B, A → T, B → C, C → T. Ô A ghi 20 + 30; B ghi 20 + 40; C ghi 80 − 20. Từ S đến T chỉ đi theo mũi tên và qua ô có kết quả bằng 60. Hãy chỉ đường hợp lệ.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Đủ 5 mũi tên; A, B, C có phép tính; mốc 60",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Đường đi",
+        "student_work": null,
+        "initial_guidance": [
+          "Cần thỏa điều kiện giá trị và điều kiện nối đường."
+        ],
+        "hints": [
+          {
+            "hint": "Cần thỏa điều kiện giá trị và điều kiện nối đường.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Tính các ô tại chỗ rẽ trước khi chọn nhánh.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Rà lại từng mũi tên của đường em chọn.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "B đạt mốc, C cũng đạt; A chỉ bằng năm mươi.",
+            "expression": "20+40",
+            "reason": "Tính giá trị của các ô trước khi chọn nhánh.",
+            "result": "60",
+            "step_id": "s0",
+            "title": "Kiểm ô có thể đi",
+            "unit": ""
+          },
+          {
+            "explanation": "Chuỗi có đủ các mũi tên; S → A → T bị loại bởi A không đạt mốc.",
+            "expression": "80-20",
+            "reason": "Ô đạt mốc vẫn phải có liên kết theo hướng đề cho.",
+            "result": "60",
+            "step_id": "s1",
+            "title": "Kiểm nhánh đúng theo mũi tên",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Đường đi",
+            "result": "S → B → C → T",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_01",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 971,
+      "source_row_sha256": "1de56d613a5c75080ffb3ea258a1f4cbc5c0fd4ec02b0dbe398299018070b737",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Trò chơi bằng chữ: quân đang ở ô 2; gieo được 3 chấm thì tiến đúng 3 ô, không tính ô đang đứng. Đến ô 5 phải nhảy theo mũi tên sang ô 9. Ô 9 ghi 5 × 4; trả lời đúng thì ở lại ô 9, sai thì về ô 2. Bạn trả lời 20. Cuối lượt quân ở đâu?",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Ô 2; 3 chấm; ô 5 nhảy sang 9; đúng ở lại; sai quay về",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Ô cuối lượt",
+        "student_work": null,
+        "initial_guidance": [
+          "Theo dõi vị trí qua từng luật theo đúng thứ tự."
+        ],
+        "hints": [
+          {
+            "hint": "Theo dõi vị trí qua từng luật theo đúng thứ tự.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Chỉ nhảy khi đến ô kích hoạt, rồi kiểm phép ở ô được chỉ tới.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Áp dụng điều kiện đúng hoặc sai sau khi đối chiếu câu trả lời.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Các bước tới ô ba, bốn, năm; đến ô có luật nhảy.",
+            "expression": "2+3",
+            "reason": "Ô xuất phát không tính là một bước.",
+            "result": "5",
+            "step_id": "s0",
+            "title": "Đếm các bước tiến",
+            "unit": ""
+          },
+          {
+            "explanation": "Năm nhân bốn bằng hai mươi, khớp câu trả lời nên quân ở lại ô chín.",
+            "expression": "5*4",
+            "reason": "Đi tới ô đích của mũi tên rồi xét phép tính ở đó.",
+            "result": "20",
+            "step_id": "s1",
+            "title": "Áp dụng nhánh và kiểm đáp án",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ô cuối lượt",
+            "result": "Ô 9",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g12_20261019_conditional_board_game_02",
+      "grade": 2,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 972,
+      "source_row_sha256": "07cfec26cbc15e7397b79d00559b7d092ce616208c21354e8216bc7f6bf70161",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Quân ở ô 1, gieo 4 chấm và tiến 4 ô không tính ô 1. Ô 5 nhảy sang ô 8. Ô 8 ghi 18: 2; đúng ở lại ô 8, sai quay về ô 1. Người chơi ghi 8 làm kết quả phép chia. Hỏi vị trí cuối lượt và lý do.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Ô 1; 4 chấm; 5 → 8; ô 8 ghi 18: 2; trả lời 8",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Ô cuối lượt",
+        "student_work": null,
+        "initial_guidance": [
+          "Phân biệt ô đến tạm thời với ô cuối sau kiểm đáp án."
+        ],
+        "hints": [
+          {
+            "hint": "Phân biệt ô đến tạm thời với ô cuối sau kiểm đáp án.",
+            "level": 1,
+            "question": "Em xác định dữ kiện và luật cần dùng thế nào?"
+          },
+          {
+            "hint": "Kiểm phép tính thay vì lấy số ô làm đáp án.",
+            "level": 2,
+            "question": "Em thực hiện theo luật đã cho ra sao?"
+          },
+          {
+            "hint": "Dùng luật quay về đúng ô đầu lượt nếu câu trả lời chưa khớp.",
+            "level": 3,
+            "question": "Em đối chiếu toàn bộ điều kiện để kiểm thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Đến ô năm nên chuyển sang ô tám theo luật.",
+            "expression": "1+4",
+            "reason": "Tiến số ô theo chấm rồi áp dụng ô nhảy.",
+            "result": "5",
+            "step_id": "s0",
+            "title": "Theo lượt di chuyển",
+            "unit": ""
+          },
+          {
+            "explanation": "Mười tám chia hai bằng chín, khác tám nên áp dụng nhánh quay về ô đầu lượt.",
+            "expression": "18/2",
+            "reason": "So số trả lời với giá trị đúng của phép chia.",
+            "result": "9",
+            "step_id": "s1",
+            "title": "Kiểm phép trả lời",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Ô cuối lượt",
+            "result": "Ô 1; vì trả lời sai",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g4_parity_cards_two_digit_zero",
+      "grade": 4,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 995,
+      "source_row_sha256": "5580f5b88bf965d8194a2af484db1898045e13ccb932dedfd97e66d6e4f062f1",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có ba thẻ 0, 3, 8, mỗi thẻ chỉ dùng một lần trong mỗi số. Lập mọi số chẵn có hai chữ số rồi sắp tăng.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+            "text": "Có ba thẻ 0, 3, 8, mỗi thẻ chỉ dùng một lần trong mỗi số. Lập mọi số chẵn có hai chữ số rồi sắp tăng.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Liệt kê hết số thỏa điều kiện",
+        "student_work": null,
+        "initial_guidance": [
+          "Muốn lập số chẵn, chọn chữ số cuối từ những thẻ phù hợp."
+        ],
+        "hints": [
+          {
+            "hint": "Muốn lập số chẵn, chọn chữ số cuối từ những thẻ phù hợp.",
+            "level": 1,
+            "question": "Những thẻ nào có thể ở cuối một số chẵn?"
+          },
+          {
+            "hint": "Với mỗi chữ số cuối, chọn chữ số đầu khác không và không dùng lại thẻ.",
+            "level": 2,
+            "question": "Chữ số đầu có thể là không trong số hai chữ số không?"
+          },
+          {
+            "hint": "Gộp các trường hợp, sắp tăng và kiểm không lặp, không thiếu.",
+            "level": 3,
+            "question": "Đã xét đủ từng cách chọn chữ số cuối chưa?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Số chẵn kết thúc bằng 0 hoặc 8.",
+            "expression": null,
+            "reason": "Số chẵn kết thúc bằng 0 hoặc 8.",
+            "result": "Xét riêng hai trường hợp",
+            "step_id": "s0",
+            "title": "Chọn chữ số cuối",
+            "unit": ""
+          },
+          {
+            "explanation": "Chữ số đầu chọn 3 hoặc 8.",
+            "expression": null,
+            "reason": "Chữ số đầu chọn 3 hoặc 8.",
+            "result": "30, 80",
+            "step_id": "s1",
+            "title": "Cuối 0",
+            "unit": ""
+          },
+          {
+            "explanation": "Chữ số đầu không thể 0 và không lặp 8 nên chọn 3.",
+            "expression": null,
+            "reason": "Chữ số đầu không thể 0 và không lặp 8 nên chọn 3.",
+            "result": "38",
+            "step_id": "s2",
+            "title": "Cuối 8",
+            "unit": ""
+          },
+          {
+            "explanation": "Có 3 số hợp lệ, sắp tăng và không lặp.",
+            "expression": null,
+            "reason": "Có 3 số hợp lệ, sắp tăng và không lặp.",
+            "result": "30, 38, 80",
+            "step_id": "s3",
+            "title": "Kiểm danh sách",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết quả",
+            "result": "30, 38, 80",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_gap_20261019_g4_parity_cards_inclusive_error",
+      "grade": 4,
+      "source_file": "current_sources.jsonl",
+      "source_line_number": 997,
+      "source_row_sha256": "4ddeda4897571a1843aea39b2ec0b8aa742a59957096d515acbee76a2a555761",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Xét mọi số tự nhiên từ 40 đến 50, gồm cả 40 và 50. Bạn viết: Từ 40 đến 50 có 10 số nên có 5 số chẵn. Liệt kê các số chẵn và sửa cách đếm.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+            "text": "Xét mọi số tự nhiên từ 40 đến 50, gồm cả 40 và 50. Bạn viết: Từ 40 đến 50 có 10 số nên có 5 số chẵn. Liệt kê các số chẵn và sửa cách đếm.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Đếm số chẵn có hai đầu chẵn",
+        "student_work": {
+          "origin": "EXPLICIT_HYPOTHETICAL_STUDENT_WORK",
+          "text": "Từ 40 đến 50 có 10 số nên có 5 số chẵn."
+        },
+        "initial_guidance": [
+          "Kiểm xem hai đầu khoảng có được tính và có phải số chẵn không."
+        ],
+        "hints": [
+          {
+            "hint": "Kiểm xem hai đầu khoảng có được tính và có phải số chẵn không.",
+            "level": 1,
+            "question": "Hai đầu của khoảng có được tính không?"
+          },
+          {
+            "hint": "Liệt kê số chẵn bằng cách tăng từng hai đơn vị từ đầu phù hợp.",
+            "level": 2,
+            "question": "Liệt kê các số chẵn trong khoảng theo bước nào?"
+          },
+          {
+            "hint": "Đếm các số đã liệt kê, không nhầm với số khoảng giữa chúng.",
+            "level": 3,
+            "question": "Có bao nhiêu số trong danh sách, khác bao nhiêu khoảng giữa chúng?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Bắt đầu 40, cộng 2 cho đến 50.",
+            "expression": null,
+            "reason": "Bắt đầu 40, cộng 2 cho đến 50.",
+            "result": "40, 42, 44, 46, 48, 50",
+            "step_id": "s0",
+            "title": "Liệt kê theo bước 2",
+            "unit": ""
+          },
+          {
+            "explanation": "40 và 50 đều được tính, danh sách có 6 số.",
+            "expression": null,
+            "reason": "40 và 50 đều được tính, danh sách có 6 số.",
+            "result": "6 số chẵn",
+            "step_id": "s1",
+            "title": "Kiểm hai mốc",
+            "unit": ""
+          },
+          {
+            "explanation": "Toàn khoảng có 11 số; còn 5 số lẻ.",
+            "expression": null,
+            "reason": "Toàn khoảng có 11 số; còn 5 số lẻ.",
+            "result": "Không phải 10 số",
+            "step_id": "s2",
+            "title": "Kiểm tổng",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết quả",
+            "result": "40, 42, 44, 46, 48, 50",
+            "unit": ""
+          },
+          {
+            "quantity": "Kết quả",
+            "result": "6",
+            "unit": "số"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_g1_20261019_construct_equations_from_number_cards_01",
+      "grade": 1,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 4,
+      "source_row_sha256": "ecc0138b207943f7484f7600e3f6a5e5ee8a46b2813130b6a89f7ab216f8efa4",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có ba thẻ số 2, 5, 7. Mỗi phép dùng đủ ba thẻ, mỗi thẻ đúng một lần; chỉ có một dấu cộng hoặc trừ và một dấu bằng, dạng a + b = c hoặc a − b = c. Liệt kê mọi phép đúng.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Ba thẻ số riêng 2, 5, 7",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "text": "Dùng đủ mỗi thẻ một lần trong mỗi phép; chỉ cộng hoặc trừ",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Các phép đúng",
+        "student_work": null,
+        "initial_guidance": [
+          "Mỗi phép cần giữ đúng đủ ba thẻ số."
+        ],
+        "hints": [
+          {
+            "hint": "Mỗi phép cần giữ đúng đủ ba thẻ số.",
+            "level": 1,
+            "question": "Em cần theo dõi những dữ kiện nào?"
+          },
+          {
+            "hint": "Tìm thẻ có thể là toàn bộ rồi xét hai phần.",
+            "level": 2,
+            "question": "Em áp dụng điều kiện đã cho như thế nào?"
+          },
+          {
+            "hint": "Kiểm từng phép và số lần dùng mỗi thẻ.",
+            "level": 3,
+            "question": "Em kiểm đủ từng điều kiện ra sao?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Hai cộng năm bằng bảy, nên năm cộng hai cũng bằng bảy.",
+            "expression": "2+5",
+            "reason": "Phép cộng gộp hai phần thành thẻ còn lại.",
+            "result": "7",
+            "step_id": "s0",
+            "title": "Tìm quan hệ toàn bộ và hai phần",
+            "unit": ""
+          },
+          {
+            "explanation": "Bảy trừ hai bằng năm; bảy trừ năm bằng hai. Hai số nhỏ cộng không cho thẻ khác ngoài bảy; phép trừ phải bắt đầu bằng thẻ lớn nhất.",
+            "expression": "7-2",
+            "reason": "Lấy toàn bộ bớt từng phần được phần kia.",
+            "result": "5",
+            "step_id": "s1",
+            "title": "Viết phép trừ liên quan",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các phép đúng",
+            "result": "2 + 5 = 7; 5 + 2 = 7; 7 − 2 = 5; 7 − 5 = 2",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_g1_20261019_ordinal_from_both_ends_02",
+      "grade": 1,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 11,
+      "source_row_sha256": "56d305620bc302b8f50726cf81632e5d5f8a112dae74b87664f2809b3073e44d",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có 7 bạn xếp một hàng. Từ đầu hàng nhìn về cuối, Huy đứng thứ 3. Không ai đổi chỗ. Huy đứng thứ mấy khi đếm từ cuối hàng? Giải thích bằng số bạn ở hai phía.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Có 7 bạn; Huy thứ 3 từ đầu",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "text": "Một hàng giữ nguyên thứ tự",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Vị trí Huy từ cuối",
+        "student_work": null,
+        "initial_guidance": [
+          "Phân biệt số người trước một bạn với thứ hạng của bạn đó."
+        ],
+        "hints": [
+          {
+            "hint": "Phân biệt số người trước một bạn với thứ hạng của bạn đó.",
+            "level": 1,
+            "question": "Em cần theo dõi những dữ kiện nào?"
+          },
+          {
+            "hint": "Tách cả hàng thành trước, chính bạn, và sau.",
+            "level": 2,
+            "question": "Em áp dụng điều kiện đã cho như thế nào?"
+          },
+          {
+            "hint": "Khi đếm từ cuối, nhớ tính cả người đang được hỏi.",
+            "level": 3,
+            "question": "Em kiểm đủ từng điều kiện ra sao?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Bảy bạn bớt hai người trước và bớt Huy còn bốn người sau.",
+            "expression": "7-2-1",
+            "reason": "Thứ ba gồm hai người trước rồi đến chính Huy.",
+            "result": "4",
+            "step_id": "s0",
+            "title": "Tách người trước và sau Huy",
+            "unit": "bạn"
+          },
+          {
+            "explanation": "Bốn người sau được đếm trước, Huy là người thứ năm từ cuối. Kiểm hai người trước, Huy và bốn người sau đủ bảy.",
+            "expression": "4+1",
+            "reason": "Đi qua những người sau Huy rồi tính thêm chính Huy.",
+            "result": "5",
+            "step_id": "s1",
+            "title": "Đếm từ cuối tới Huy",
+            "unit": "vị trí"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Vị trí Huy từ cuối",
+            "result": "Huy thứ 5 từ cuối",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_g1_20261019_two_sided_strict_bound_selection_01",
+      "grade": 1,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 19,
+      "source_row_sha256": "65953e0e4e3c9a0c9d3638379c479b070db82652da36580681de7d6c06c8c06d",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Có các thẻ 3, 5, 6, 8, 9. Chọn mọi thẻ có số lớn hơn 5 và nhỏ hơn 9 cùng lúc. Giải thích cả hai thẻ ở đúng mốc.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "Các thẻ 3, 5, 6, 8, 9",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "text": "Điều kiện đồng thời: số > 5 và số < 9",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Các thẻ đạt",
+        "student_work": null,
+        "initial_guidance": [
+          "Một thẻ cần vượt qua cả hai điều kiện."
+        ],
+        "hints": [
+          {
+            "hint": "Một thẻ cần vượt qua cả hai điều kiện.",
+            "level": 1,
+            "question": "Em cần theo dõi những dữ kiện nào?"
+          },
+          {
+            "hint": "Các số đúng bằng mốc có thỏa dấu chặt không?",
+            "level": 2,
+            "question": "Em áp dụng điều kiện đã cho như thế nào?"
+          },
+          {
+            "hint": "Kiểm lại từng thẻ chọn với cả cận dưới và cận trên.",
+            "level": 3,
+            "question": "Em kiểm đủ từng điều kiện ra sao?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Ba và năm không vượt năm nên loại; chưa kết luận chín vì còn cận trên.",
+            "expression": null,
+            "reason": "Thẻ phải vượt năm, không chỉ bằng năm.",
+            "result": "Giữ xét 6, 8, 9",
+            "step_id": "s0",
+            "title": "Kiểm cận dưới",
+            "unit": ""
+          },
+          {
+            "explanation": "Chín bằng cận trên nên không được chọn. Sáu và tám đều vượt năm và bé hơn chín; đã kiểm đủ từng thẻ.",
+            "expression": null,
+            "reason": "Các thẻ còn lại phải nhỏ hơn chín.",
+            "result": "Chọn 6 và 8",
+            "step_id": "s1",
+            "title": "Kiểm cận trên",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các thẻ đạt",
+            "result": "Thẻ 6 và 8",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_digit_inequality_strict_low",
+      "grade": 4,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 31,
+      "source_row_sha256": "412e32005110f32b5ab55377bff3f2270ede9cdb10b5958f17ed2284cfbbbec0",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "A là một chữ số từ 0 đến 9. Tìm tất cả A để 4A26 < 4626. Các ký tự ghép thành một số tự nhiên theo hàng, không phải phép nhân. Dấu so sánh là nghiêm ngặt.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+            "text": "A là một chữ số từ 0 đến 9. Tìm tất cả A để 4A26 < 4626. Các ký tự ghép thành một số tự nhiên theo hàng, không phải phép nhân. Dấu so sánh là nghiêm ngặt.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Tất cả chữ số A",
+        "student_work": null,
+        "initial_guidance": [
+          "So hàng cao nhất có thể khác nhau trước; chú ý dấu nghiêm ngặt."
+        ],
+        "hints": [
+          {
+            "hint": "So hàng cao nhất có thể khác nhau trước; chú ý dấu nghiêm ngặt.",
+            "level": 1,
+            "question": "Em cần giữ những điều kiện nào?"
+          },
+          {
+            "hint": "Nếu hàng chứa ô bằng hàng tương ứng, tiếp tục xét các hàng sau.",
+            "level": 2,
+            "question": "Em áp dụng cho từng vị trí hoặc trường hợp ra sao?"
+          },
+          {
+            "hint": "Thử cả chữ số biên để tránh nhận nhầm trường hợp bằng nhau.",
+            "level": 3,
+            "question": "Em kiểm tính đúng và đầy đủ bằng cách nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Đổi A thành từng chữ số và so toàn bộ với 4626; trường hợp bằng nhau không thỏa dấu <.",
+            "expression": null,
+            "reason": "Các hàng trước ô giữ nguyên, nên so chữ số tại ô rồi xét phần đuôi khi bằng.",
+            "result": "[0, 1, 2, 3, 4, 5]",
+            "step_id": "s0",
+            "title": "Xét hàng quyết định",
+            "unit": ""
+          },
+          {
+            "explanation": "Các chữ số ngoài danh sách đều cho quan hệ ngược hoặc bằng, không được bỏ qua việc xét phần đuôi.",
+            "expression": null,
+            "reason": "A chỉ có mười giá trị có thể thử.",
+            "result": "0: 4026; 1: 4126; 2: 4226; 3: 4326; 4: 4426; 5: 4526",
+            "step_id": "s1",
+            "title": "Kiểm đầy đủ",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết quả",
+            "result": "[0, 1, 2, 3, 4, 5]",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_column_multi_blank_exchange",
+      "grade": 4,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 38,
+      "source_row_sha256": "71875d036a5d1ad846ade757fcc7f1ec54568321d7bddf388b1ea1de7cc6cfd4",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Điền các chữ số A, B vào 8A2 − 3B7 = 425. A và B là hai ô độc lập, có thể cùng chữ số; số hàng trăm không được là 0. Giữ mọi chữ số và dấu khác. Tìm tất cả cặp (A,B), giải thích nhớ hoặc đổi theo cột, không tự giả sử nghiệm duy nhất.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+            "text": "Điền các chữ số A, B vào 8A2 − 3B7 = 425. A và B là hai ô độc lập, có thể cùng chữ số; số hàng trăm không được là 0. Giữ mọi chữ số và dấu khác. Tìm tất cả cặp (A,B), giải thích nhớ hoặc đổi theo cột, không tự giả sử nghiệm duy nhất.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Mọi cặp chữ số và cách kiểm",
+        "student_work": null,
+        "initial_guidance": [
+          "Các ô ở các hàng khác nhau phải cùng làm cho một phép tính đúng."
+        ],
+        "hints": [
+          {
+            "hint": "Các ô ở các hàng khác nhau phải cùng làm cho một phép tính đúng.",
+            "level": 1,
+            "question": "Em cần giữ những điều kiện nào?"
+          },
+          {
+            "hint": "Đi từ hàng đơn vị để xác định có nhớ hoặc phải đổi một chục.",
+            "level": 2,
+            "question": "Em áp dụng cho từng vị trí hoặc trường hợp ra sao?"
+          },
+          {
+            "hint": "Thay từng cặp vào cả phép tính, và kiểm còn trường hợp nào khác.",
+            "level": 3,
+            "question": "Em kiểm tính đúng và đầy đủ bằng cách nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "2 không trừ được 7, đổi một chục: 12 − 7 = 5.",
+            "expression": null,
+            "reason": "Cột đơn vị quyết định nhớ hoặc đổi sang cột chục.",
+            "result": "2 không trừ được 7, đổi một chục: 12 − 7 = 5.",
+            "step_id": "s0",
+            "title": "Kiểm cột đơn vị",
+            "unit": ""
+          },
+          {
+            "explanation": "Hàng chục cần đổi tiếp một trăm: A + 10 − 1 − B = 2, tức B = A + 7. Hàng trăm còn 7 rồi 7 − 3 = 4.",
+            "expression": null,
+            "reason": "Mỗi lựa chọn phải đồng thời thỏa cột chục và hàng trăm.",
+            "result": "[[0, 7], [1, 8], [2, 9]]",
+            "step_id": "s1",
+            "title": "Ràng buộc các ô",
+            "unit": ""
+          },
+          {
+            "explanation": "Danh sách bao gồm tất cả cặp hợp lệ; nhiều cặp nếu có đều được giữ.",
+            "expression": null,
+            "reason": "Tính lại bằng giá trị toàn bộ các số.",
+            "result": "802 − 377 = 425; 812 − 387 = 425; 822 − 397 = 425",
+            "step_id": "s2",
+            "title": "Kiểm từng phép hoàn chỉnh",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết quả",
+            "result": "[[0, 7], [1, 8], [2, 9]]",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_20261019_g4_minimum_pair_swaps_cycle",
+      "grade": 4,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 40,
+      "source_row_sha256": "d7e34678a8c5c279d16033d97bb96dd061df0604beabcd258206663c8ca7dcfe",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Dãy thẻ hiện tại là 2, 4, 1, 3. Đích là 1, 2, 3, 4. Mỗi lần được chọn bất kỳ hai vị trí và đổi chỗ hai thẻ đó; không xóa, thêm hay trượt thẻ. Đánh vị trí từ trái qua phải bắt đầu 1. Tìm số lần ít nhất và một chuỗi đổi đạt đích.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "EXPLICIT_TEXT_AS_SUPPLIED",
+            "text": "Dãy thẻ hiện tại là 2, 4, 1, 3. Đích là 1, 2, 3, 4. Mỗi lần được chọn bất kỳ hai vị trí và đổi chỗ hai thẻ đó; không xóa, thêm hay trượt thẻ. Đánh vị trí từ trái qua phải bắt đầu 1. Tìm số lần ít nhất và một chuỗi đổi đạt đích.",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Số lần ít nhất và chuỗi đổi",
+        "student_work": null,
+        "initial_guidance": [
+          "Một lần đổi chỉ tác động hai vị trí đã chọn."
+        ],
+        "hints": [
+          {
+            "hint": "Một lần đổi chỉ tác động hai vị trí đã chọn.",
+            "level": 1,
+            "question": "Em cần giữ những điều kiện nào?"
+          },
+          {
+            "hint": "Theo dõi các thẻ chưa đúng vị trí; viết lại dãy sau mỗi lần.",
+            "level": 2,
+            "question": "Em áp dụng cho từng vị trí hoặc trường hợp ra sao?"
+          },
+          {
+            "hint": "Cần vừa có cách đạt đích vừa có lý do không thể dùng ít lần hơn.",
+            "level": 3,
+            "question": "Em kiểm tính đúng và đầy đủ bằng cách nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Dãy lần lượt: 2413 → 4213 → 1243 → 1234",
+            "expression": null,
+            "reason": "Đưa thẻ cần thiết về vị trí, giữ nguyên kho thẻ.",
+            "result": "[[1, 2], [1, 3], [3, 4]]",
+            "step_id": "s0",
+            "title": "Theo chuỗi đổi hợp lệ",
+            "unit": ""
+          },
+          {
+            "explanation": "Ban đầu cả bốn vị trí sai. Không cặp thẻ nào đổi cho nhau mà cả hai về đúng vị trí. Lần đầu sửa được nhiều nhất một vị trí; thêm một lần chỉ sửa được nhiều nhất hai vị trí nữa. Vì vậy hai lần chưa thể sửa đủ bốn vị trí. Chuỗi đã cho đạt đúng số lần này.",
+            "expression": null,
+            "reason": "Đếm các vị trí sai có thể được sửa trong ít lần đổi hơn.",
+            "result": "3",
+            "step_id": "s1",
+            "title": "Chứng minh ít nhất",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết quả",
+            "result": "3",
+            "unit": "lần"
+          },
+          {
+            "quantity": "Cặp vị trí theo thứ tự",
+            "result": "[[1, 2], [1, 3], [3, 4]]",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_page_spatial_20261019_composite_polygon_enumeration_01",
+      "grade": 3,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 70,
+      "source_row_sha256": "bda47bdbf4ac2124cc6b5e4d294d4f08cac9ba7f89c8abfb42948112ab0ae605",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Tam giác ABC có D nằm giữa B và C. Đã vẽ đủ AB, AC, BC và AD; ngoài các đoạn đó không có đường nào khác. Chỉ xét các tam giác có đỉnh trong A, B, C, D, mỗi cạnh phải được vẽ trọn. Liệt kê tất cả tam giác, kể cả hình ghép; đổi thứ tự tên vẫn là cùng một hình.",
+        "givens": [
+          {
+            "id": "g0",
+            "text": "B, D, C thẳng hàng theo thứ tự; A không nằm trên BC",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "text": "Có các đoạn AB, AC, BC, AD; không có đoạn khác",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Danh sách và số tam giác",
+        "student_work": null,
+        "initial_guidance": [
+          "Xét các bộ đỉnh, cả hình nhỏ và hình ghép."
+        ],
+        "hints": [
+          {
+            "hint": "Xét các bộ đỉnh, cả hình nhỏ và hình ghép.",
+            "level": 1,
+            "question": "Em cần dùng chính xác dữ kiện nào?"
+          },
+          {
+            "hint": "Một bộ điểm chỉ tạo tam giác khi không thẳng hàng và đủ các cạnh.",
+            "level": 2,
+            "question": "Em thực hiện theo các quan hệ đã cho ra sao?"
+          },
+          {
+            "hint": "Đổi thứ tự gọi tên không làm xuất hiện hình mới.",
+            "level": 3,
+            "question": "Em kiểm không bỏ sót và không đếm lặp thế nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "Mọi tam giác phải dùng A. Chọn cặp trong B, D, C được ABD, ADC và ABC; mỗi cặp đều có đủ cạnh đã vẽ.",
+            "expression": null,
+            "reason": "Ba điểm trên cùng một đường không tạo tam giác.",
+            "result": "ABD; ADC; ABC",
+            "step_id": "s0",
+            "title": "Liệt kê theo đỉnh ngoài đường thẳng",
+            "unit": ""
+          },
+          {
+            "explanation": "ABD và ADC là hai hình nhỏ; ABC dùng đường bao ngoài và gồm cả hai vùng. BDC thẳng hàng nên loại. Không tính lại BAD vì trùng ABD.",
+            "expression": "2+1",
+            "reason": "Hai vùng nhỏ không phải là tất cả các tam giác.",
+            "result": "3",
+            "step_id": "s1",
+            "title": "Kiểm hình nhỏ và hình ghép",
+            "unit": "tam giác"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các tam giác",
+            "result": "ABD; ADC; ABC",
+            "unit": ""
+          },
+          {
+            "quantity": "Số tam giác",
+            "result": "3",
+            "unit": "tam giác"
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false
+    },
+    {
+      "sample_id": "sgk_g4extra_20261019_geometric_sequence_local_extension_02",
+      "grade": 4,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 104,
+      "source_row_sha256": "e09e1921e685a61d60aecb1343aa9b263559993e91a924a6de1131e599cf7ee0",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Phiếu chỉ ghi ba số đầu 2, 4, 8 và không nêu quy tắc. Bạn nói: Số thứ tư chắc chắn là 16 vì mỗi lần gấp đôi. Giữ câu đó, kiểm từ chắc chắn. Hãy nêu hai quy tắc rõ ràng cùng khớp ba số đã ghi nhưng cho số tiếp khác nhau; rồi hỏi thông tin còn thiếu.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Chỉ có ba số đầu 2,4,8",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Chưa được cho quy tắc sinh dãy",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Nhận xét tính chắc chắn và thông tin cần bổ sung",
+        "student_work": {
+          "observations": [
+            {
+              "claim_scope": "Only explicitly supplied synthetic written work; no private thinking or unseen image inferred.",
+              "excerpt": "Số thứ tư chắc chắn là 16 vì mỗi lần gấp đôi."
+            }
+          ],
+          "text": "Số thứ tư chắc chắn là 16 vì mỗi lần gấp đôi."
+        },
+        "initial_guidance": [
+          "Phân biệt một quy tắc có thể dùng với quy tắc đã được đề cho."
+        ],
+        "hints": [
+          {
+            "hint": "Phân biệt một quy tắc có thể dùng với quy tắc đã được đề cho.",
+            "level": 1,
+            "question": "Em cần giữ đúng dữ kiện và quy tắc nào?"
+          },
+          {
+            "hint": "Thử một luật rõ ràng khác vẫn giữ nguyên các số đã biết.",
+            "level": 2,
+            "question": "Em thực hiện theo quan hệ đó ra sao?"
+          },
+          {
+            "hint": "Nếu hai luật hợp lệ cho kết quả khác nhau, xem cần hỏi thêm điều gì.",
+            "level": 3,
+            "question": "Em kiểm lại đủ các điều kiện bằng cách nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "2 nhân hai là 4, 4 nhân hai là 8, rồi 8 nhân hai là 16. Đó là kết quả nếu giữ quy tắc gấp đôi.",
+            "expression": "8*2",
+            "reason": "Nhân hai là một quy tắc phù hợp ba số, nhưng cần được đề xác nhận.",
+            "result": "16",
+            "step_id": "s0",
+            "title": "Nêu một cách tiếp tục có điều kiện",
+            "unit": ""
+          },
+          {
+            "explanation": "Lặp nguyên nhóm 2,4,8 cũng cho đúng ba số đầu, nhưng vị trí thứ tư quay lại 2. Không sửa ba số đã cho để tạo ví dụ.",
+            "expression": null,
+            "reason": "Cùng đoạn đầu có thể thuộc một dãy với luật khác.",
+            "result": "Theo nhóm lặp 2,4,8: tiếp theo 2",
+            "step_id": "s1",
+            "title": "Kiểm một quy tắc khác cũng khớp",
+            "unit": ""
+          },
+          {
+            "explanation": "Có thể nói 16 nếu đề xác nhận mỗi lần gấp đôi; khi chưa có luật thì hỏi phiếu dùng quy tắc nào. Không coi một cách đoán hợp lý là đáp số duy nhất.",
+            "expression": null,
+            "reason": "Hai luật cùng khớp mà cho hai kết quả khác nhau bác bỏ tính chắc chắn.",
+            "result": "Cần biết quy tắc của phiếu",
+            "step_id": "s2",
+            "title": "Giới hạn kết luận và hỏi luật",
+            "unit": ""
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Kết luận",
+            "result": "Chưa xác định duy nhất số thứ tư; cần quy tắc",
+            "unit": ""
+          },
+          {
+            "quantity": "Hai ví dụ",
+            "result": "Gấp đôi cho 16; lặp nhóm 2,4,8 cho 2",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false,
+      "other_locations": [
+        {
+          "source_file": "g4_remaining_append/cases.jsonl",
+          "source_line_number": 14,
+          "source_row_sha256": "6cab37c040f671d004871aa1dd877a48375b092707596ea4fe5f06fe403902a3"
+        }
+      ]
+    },
+    {
+      "sample_id": "sgk_g4extra_20261019_closed_operation_cycle_01",
+      "grade": 4,
+      "source_file": "release/accepted_cases.jsonl",
+      "source_line_number": 109,
+      "source_row_sha256": "0cdc6b15733c83cb01e7cb17d5e80ce5c04e46d573d202081535ff8e5ca65ed1",
+      "hash_basis": "Exact UTF-8 JSONL line bytes excluding line terminator",
+      "split": "train",
+      "task_fields": {
+        "problem": "Máy số đo bắt đầu ở 3/4 m. Theo đúng vòng một chiều, lần lượt cộng 1/2 m, gấp đôi số đo đang có, rồi bớt 7/4 m và trở lại ô xuất phát. Không có thao tác nào khác. Tính các số đo trung gian và kiểm sau một vòng có đúng về số đo ban đầu không.",
+        "givens": [
+          {
+            "id": "g0",
+            "role": "explicit_original_given",
+            "text": "Đầu 3/4 m",
+            "unit": "",
+            "value": null
+          },
+          {
+            "id": "g1",
+            "role": "explicit_original_given",
+            "text": "Cộng 1/2 m; nhân2; trừ7/4 m",
+            "unit": "",
+            "value": null
+          }
+        ],
+        "requested_quantity": "Các mốc và kiểm điều kiện khép vòng",
+        "student_work": null,
+        "initial_guidance": [
+          "Dùng kết quả của mỗi mũi tên làm đầu vào cho mũi tên tiếp theo."
+        ],
+        "hints": [
+          {
+            "hint": "Dùng kết quả của mỗi mũi tên làm đầu vào cho mũi tên tiếp theo.",
+            "level": 1,
+            "question": "Em cần giữ đúng dữ kiện và quy tắc nào?"
+          },
+          {
+            "hint": "Giữ đúng thứ tự thao tác và đơn vị của các số đo.",
+            "level": 2,
+            "question": "Em thực hiện theo quan hệ đó ra sao?"
+          },
+          {
+            "hint": "Ngoài tính mốc cuối, cần so nó với số đã ghi ở ô xuất phát.",
+            "level": 3,
+            "question": "Em kiểm lại đủ các điều kiện bằng cách nào?"
+          }
+        ],
+        "worked_steps": [
+          {
+            "explanation": "3/4 + 1/2 = 5/4 m.",
+            "expression": "3/4+1/2",
+            "reason": "Cả hai số đo đều tính bằng mét nên quy đồng rồi cộng.",
+            "result": "5/4",
+            "step_id": "s0",
+            "title": "Cộng phần đầu theo cùng đơn vị",
+            "unit": "m"
+          },
+          {
+            "explanation": "5/4 × 2 = 5/2 m.",
+            "expression": "(5/4)*2",
+            "reason": "Gấp đôi áp dụng cho mốc vừa tính, không chỉ cho số ban đầu.",
+            "result": "5/2",
+            "step_id": "s1",
+            "title": "Nhân số đo hiện có",
+            "unit": "m"
+          },
+          {
+            "explanation": "5/2 − 7/4 = 3/4 m, bằng số ban đầu. Kiểm quy đồng 10/4 − 7/4 = 3/4; vòng này khép đúng.",
+            "expression": "5/2-7/4",
+            "reason": "Vòng chỉ nhất quán nếu số đo sau thao tác cuối bằng số ở ô xuất phát.",
+            "result": "3/4",
+            "step_id": "s2",
+            "title": "Trừ và kiểm trở lại mốc đầu",
+            "unit": "m"
+          }
+        ],
+        "expected_answer": [
+          {
+            "quantity": "Các mốc",
+            "result": "5/4; 5/2; 3/4",
+            "unit": "m"
+          },
+          {
+            "quantity": "Khép vòng",
+            "result": "Có, trở lại 3/4 m",
+            "unit": ""
+          }
+        ]
+      },
+      "review": "ACTUAL_FULL_TASK_FIELDS_READ_SEMANTICALLY",
+      "reviewer": "finish_g2_mapping",
+      "human_review_claimed": false,
+      "external_review_claimed": false,
+      "other_locations": [
+        {
+          "source_file": "g4_remaining_append/cases.jsonl",
+          "source_line_number": 19,
+          "source_row_sha256": "92d5a0dab84711f9a6aa93c1b95a302f5000b4e787f97001488e8c34b0900b7b"
+        }
+      ]
+    }
+  ],
+  "not_read_or_used": [
+    "sealed challenge/evaluation/pilot/holdout/protected content"
+  ],
+  "human_review_claimed": false,
+  "external_review_claimed": false,
+  "training_performed": false,
+  "drive_mutated": false
+}

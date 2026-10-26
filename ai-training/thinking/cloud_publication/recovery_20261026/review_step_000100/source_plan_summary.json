@@ -1,0 +1,19 @@
+{
+  "all_worked_solutions_preserved": true,
+  "hash_note": "canonical_embedded_row_sha256 is not the frozen original raw JSONL row hash; original raw binding remains in sampling_manifest and is independently validated by loader",
+  "hint_duplicate_cap": "one representative per grade/topic/mode/exact assistant-target SHA; other original rows remain in source",
+  "mode_counts": {
+    "hint_level_1": 875,
+    "hint_level_2": 875,
+    "hint_level_3": 875,
+    "worked_solution": 4000
+  },
+  "sampling": "one pass; grade interleave;10worked+6hint while pools available; no ID repetition",
+  "schema": "MathVisionKid.quality_recovery_sampling.v1",
+  "seed": 20261024,
+  "source_rows": 16000,
+  "source_rows_modified_or_deleted": 0,
+  "source_view_sha256": "14929ba64e5c94d812f1fc3804c771ca8e41fa92285aed3a925282c39b1e4331",
+  "view_rows": 6625,
+  "original_plan_raw_sha256": "f81524997fdd0b13b1095911feefa2ba37a2f9675df450a626be5553525a5cad"
+}

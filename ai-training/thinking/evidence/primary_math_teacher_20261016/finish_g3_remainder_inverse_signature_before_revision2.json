@@ -1,0 +1,1646 @@
+{
+  "reason": "Root requires retaining modulo protection equivalence via validated inverse_euclidean_identity branch. Preserve intermediate metadata revision before restoring modulo signature.",
+  "before_source_rows": [
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+      "case_group_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+      "split": "train",
+      "grade": 3,
+      "topic": "exact_equal_boxes",
+      "problem": "Có 72 chai xếp đều vào 8 hộp, không còn chai ngoài hộp. Mỗi hộp có bao nhiêu chai.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng chai",
+          "value": "72",
+          "unit": "chai",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số hộp",
+          "value": "8",
+          "unit": "hộp",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm số chai mỗi hộp.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Chia đều",
+          "reason": "Tìm một phần bằng nhau nên chia tổng cho số hộp.",
+          "result": "9",
+          "explanation": "9*8=72 và không còn chai dư.",
+          "expression": "72/8",
+          "unit": "chai"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Mỗi hộp",
+          "result": "9",
+          "unit": "chai"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "exact_equal_boxes",
+        "operations": [],
+        "numeric_values": [
+          "72",
+          "8"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_division_remainder",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_01",
+        "context_variant": "canonical_explicit_data",
+        "method_variant": "explain_rule_then_apply"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp19; textbookpp29–30",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+      "case_group_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+      "split": "train",
+      "grade": 3,
+      "topic": "full_trays_and_leftovers",
+      "problem": "Có 59 bánh, mỗi khay chứa đúng 6 bánh. Xếp nhiều khay đầy nhất, không bẻ bánh. Có bao nhiêu khay đầy và bao nhiêu bánh còn lại.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng bánh",
+          "value": "59",
+          "unit": "bánh",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Một khay đầy",
+          "value": "6",
+          "unit": "bánh",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Tìm số khay đầy và bánh dư.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Tìm số khay đầy",
+          "reason": "Tìm bội lớn nhất của sức chứa không vượt số bánh.",
+          "result": "9",
+          "explanation": "9*6=54 không vượt 59, còn 10*6=60 vượt 59.",
+          "expression": "(59-5)/6",
+          "unit": "khay"
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm bánh dư",
+          "reason": "Lấy tổng bánh bớt bánh đã xếp đủ khay.",
+          "result": "5",
+          "explanation": "59=9*6+5 và 0<=5<6 nên phần dư hợp lệ.",
+          "expression": "59-9*6",
+          "unit": "bánh"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Khay đầy",
+          "result": "9",
+          "unit": "khay"
+        },
+        {
+          "quantity": "Bánh dư",
+          "result": "5",
+          "unit": "bánh"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "full_trays_and_leftovers",
+        "operations": [
+          "59%6"
+        ],
+        "numeric_values": [
+          "59",
+          "6"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_division_remainder",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_02",
+        "context_variant": "contrast_representation_or_boundary",
+        "method_variant": "contrast_or_second_valid_method_if_age_appropriate"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp19; textbookpp29–30",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "case_group_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "split": "train",
+      "grade": 3,
+      "topic": "reconstruct_dividend",
+      "problem": "Một phép chia cho 7 có thương 8 và dư 3. Tìm số bị chia và kiểm phần dư có hợp lệ không.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số chia",
+          "value": "7",
+          "unit": "",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Thương",
+          "value": "8",
+          "unit": "",
+          "role": "explicit_given_1"
+        },
+        {
+          "id": "g2",
+          "text": "Số dư",
+          "value": "3",
+          "unit": "",
+          "role": "explicit_given_2"
+        }
+      ],
+      "requested_quantity": "Tìm số bị chia và kiểm điều kiện số dư.",
+      "student_work": null,
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Khôi phục số bị chia",
+          "reason": "Các nhóm đầy được tính bằng thương nhân số chia, rồi cộng phần dư.",
+          "result": "59",
+          "explanation": "8*7+3=59; 3 bé hơn 7 nên đây là phần dư hợp lệ.",
+          "expression": "8*7+3",
+          "unit": ""
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Số bị chia",
+          "result": "59",
+          "unit": ""
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "reconstruct_dividend",
+        "operations": [
+          "8*7+3"
+        ],
+        "numeric_values": [
+          "59",
+          "7"
+        ],
+        "numeric_values_origin": [
+          "DERIVED_FROM_EXPLICIT_QUOTIENT8_DIVISOR7_REMAINDER3",
+          "EXPLICIT_DIVISOR_GIVEN"
+        ],
+        "derived_euclidean_identity": {
+          "dividend": "59",
+          "divisor": "7",
+          "quotient": "8",
+          "remainder": "3",
+          "dividend_derivation": "8*7+3",
+          "derived_dividend_divisor": [
+            "59",
+            "7"
+          ],
+          "oracle_expression": "59%7",
+          "oracle_remainder": "3",
+          "direct_given_remainder_problem": false,
+          "oracle_is_metadata_only_not_live_calculator": true
+        }
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_division_remainder",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "core",
+        "case_slot": "core_03",
+        "context_variant": "transfer_withindomain",
+        "method_variant": "apply_then_independently_check"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp19; textbookpp29–30",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+      "case_group_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+      "split": "train",
+      "grade": 3,
+      "topic": "mis_large_remainder",
+      "problem": "Có 47 quả, mỗi túi đầy chứa 5 quả. Học sinh viết \"47 : 5 = 8 dư 7 vì 8 nhân 5 cộng 7 bằng 47.\" Hãy kiểm và sửa cách chia nhiều túi đầy nhất.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Tổng quả",
+          "value": "47",
+          "unit": "quả",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Mỗi túi",
+          "value": "5",
+          "unit": "quả",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Sửa thương và số dư.",
+      "student_work": {
+        "text": "47 : 5 = 8 dư 7 vì 8 nhân 5 cộng 7 bằng 47.",
+        "observations": [
+          {
+            "excerpt": "47 : 5 = 8 dư 7 vì 8 nhân 5 cộng 7 bằng 47.",
+            "claim_scope": "Explicit synthetic written evidence only; no hidden reasoning or unseen image inferred."
+          }
+        ]
+      },
+      "initial_guidance": [
+        "Phân biệt số được chia, số chia và yêu cầu chia đều."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Phân biệt số được chia, số chia và yêu cầu chia đều.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Tìm thương phù hợp; nếu còn dư thì phần dư phải bé hơn số chia.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Nhân thương với số chia rồi cộng phần dư để đối chiếu số ban đầu.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [
+        {
+          "step_id": "s0",
+          "title": "Kiểm điều kiện dư",
+          "reason": "Đẳng thức tái tạo chưa đủ; phần dư phải bé hơn sức chứa.",
+          "result": "Phần dư được viết còn đủ một túi",
+          "explanation": "Bảy quả còn lại chứa được một túi đầy nữa nên chưa xếp nhiều túi đầy nhất.",
+          "expression": null,
+          "unit": ""
+        },
+        {
+          "step_id": "s1",
+          "title": "Tìm túi đầy",
+          "reason": "Lấy bội lớn nhất của năm không vượt tổng.",
+          "result": "9",
+          "explanation": "9*5=45, thêm một túi sẽ cần 50 quả.",
+          "expression": "(47-2)/5",
+          "unit": "túi"
+        },
+        {
+          "step_id": "s2",
+          "title": "Tính phần dư",
+          "reason": "Bớt số quả trong các túi đầy.",
+          "result": "2",
+          "explanation": "47=9*5+2 và 2<5.",
+          "expression": "47-9*5",
+          "unit": "quả"
+        }
+      ],
+      "expected_answer": [
+        {
+          "quantity": "Túi đầy",
+          "result": "9",
+          "unit": "túi"
+        },
+        {
+          "quantity": "Quả dư",
+          "result": "2",
+          "unit": "quả"
+        }
+      ],
+      "can_solve": true,
+      "canonical_case": {
+        "family": "mis_large_remainder",
+        "operations": [
+          "47%5"
+        ],
+        "numeric_values": [
+          "47",
+          "5"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_division_remainder",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "misconception"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp19; textbookpp29–30",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": "EXPLICITLY_SYNTHETIC",
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_guard_missing_divisor",
+      "case_group_id": "primary_20261018_finish_g3_remainder_guard_missing_divisor",
+      "split": "train",
+      "grade": 3,
+      "topic": "guard_missing_divisor",
+      "problem": "Một phép chia có số bị chia 83; đề bỏ trống số chia và yêu cầu thương, số dư. Cần bổ sung gì để giải duy nhất.",
+      "givens": [
+        {
+          "id": "g0",
+          "text": "Số bị chia",
+          "value": "83",
+          "unit": "",
+          "role": "explicit_given_0"
+        },
+        {
+          "id": "g1",
+          "text": "Số chia chưa cho",
+          "value": null,
+          "unit": "",
+          "role": "explicit_given_1"
+        }
+      ],
+      "requested_quantity": "Hỏi số chia còn thiếu.",
+      "student_work": null,
+      "initial_guidance": [
+        "Thương và số dư phụ thuộc số chia."
+      ],
+      "hints": [
+        {
+          "level": 1,
+          "hint": "Thương và số dư phụ thuộc số chia.",
+          "question": "Em nhận ra dữ kiện và quan hệ cần dùng như thế nào?"
+        },
+        {
+          "level": 2,
+          "hint": "Cần xin số chia là số tự nhiên khác không.",
+          "question": "Em thực hiện theo quan hệ đó với đúng đơn vị ra sao?"
+        },
+        {
+          "level": 3,
+          "hint": "Giữ nguyên số bị chia và chờ đủ điều kiện, không tự chọn số chia.",
+          "question": "Em kiểm kết quả và đối chiếu điều được hỏi thế nào?"
+        }
+      ],
+      "worked_steps": [],
+      "expected_answer": [],
+      "can_solve": false,
+      "canonical_case": {
+        "family": "guard_missing_divisor",
+        "operations": [],
+        "numeric_values": [
+          "83"
+        ]
+      },
+      "curriculum_assignment": {
+        "node_id": "old_g3_division_remainder",
+        "curriculum_scope": "LEGACY_OBSERVED_TOPIC_REFERENCE",
+        "case_kind": "guard"
+      },
+      "provenance": {
+        "authoring_method": "original_AI_teacher",
+        "authoring_label": "AI_GENERATED",
+        "authoring_agent": "/root/finite_grade3",
+        "human_verified": false,
+        "teacher_certified": false,
+        "independent_external_reviewer": false,
+        "source_kind": "ORIGINAL_EXPLICIT_HYPOTHETICAL_CASE",
+        "source_evidence": {
+          "registry_path": "thinking/data/teacher_math_v3/legacy_curriculum_sources.json",
+          "registry_sha256": "06301c859cd52daeb6d0c48544e9c46921bc3d9a8e027483599c989beb496061",
+          "source_id": "old_adjustment3969_annex2",
+          "source_url": "https://thcachmangthangtam.hcm.edu.vn/van-ban-bgd/huong-dan-thuc-hien-chuong-trinh-giao-duc-pho-thong-cap-tieu-hoc-nam-hoc-2021-2/vbct/37580/940767",
+          "source_payload_sha256": "0a13b323fd790ffaadb8c0ce047e51762a08377ece9fc5cd7f00af2c7ebba8b4",
+          "source_locator": "PDFp19; textbookpp29–30",
+          "verification_status": "HISTORICAL_GRADE_TOPIC_OR_ADJUSTMENT_READ",
+          "evidence_previously_read_on": "2026-10-13",
+          "refetched_or_legal_recertified_20261016": false,
+          "original_2006_annex_verified": false,
+          "current_2026_legal_currency_certified": false,
+          "status": "HISTORICAL_TOPIC_READ_COMPLETE_2006_ANNEX_PENDING",
+          "limitations": []
+        },
+        "blueprint_sha256": "c0fa09d55b29b86cdaae01d25fad1952f64df7b48c721c382043c6391ca2f8f7",
+        "content_review_status": "AUTHOR_QA_OWNER_PREAUTHORIZED",
+        "acceptance_policy": "owner_acceptance_policy.json",
+        "real_observation_claim": false,
+        "visual_or_physical_outcome_verified": false,
+        "student_work_origin": null,
+        "benchmark_status": "TRAINING_ONLY_NOT_GOLD",
+        "modality_evidence": "ORIGINAL_TEXT_OR_EXPLICIT_HYPOTHETICAL_DESCRIPTION_NO_REAL_ACTIVITY_CLAIM"
+      },
+      "quality_flags": {
+        "app_plan_draft_compatible": false,
+        "app_mapping_status": "NEUTRAL_SCHEMA_REQUIRES_EXPLICIT_ADAPTER_AND_REVIEW",
+        "three_hint_levels_answer_free": true,
+        "full_worked_solution_requires_explicit_request": true,
+        "actual_image_or_physical_asset_present": false,
+        "text_description_only_not_vision_training": true,
+        "historical_topic_only_not_complete_2006_curriculum": true
+      }
+    }
+  ],
+  "before_reviews": [
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+      "row_sha256": "d4f6f37933b3e2f8862a0ca3bd833954f66013e97f50caa5eb87447f755dcf05",
+      "reviewer": "/root/finite_grade3_author_self_QA_under_owner_standing_authorization",
+      "reviewer_runtime": "Codex Desktop current author session",
+      "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+      "notes": "72/8=9 exact grouping, zero leftovers, inverse identity; units chai, guidance no9.",
+      "acceptance_route": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "owner_acceptance_policy": "thinking/data/primary_math_teacher_20261016/owner_acceptance_policy.json",
+      "owner_approved_for_data_preparation": true,
+      "human_verified": false,
+      "teacher_certified": false,
+      "owner_human_reviewed": false,
+      "independent_external_reviewer": false,
+      "new_human_review_claim": false,
+      "production_approved": false,
+      "training_started": false,
+      "semantic_correct": true,
+      "steps_complete": true,
+      "grade_appropriate": true,
+      "unit_consistent": true,
+      "hints_non_leaking": true,
+      "grounded_student_feedback": true,
+      "curriculum_mapping_correct": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+      "row_sha256": "487af8588581d0ada9cba600d496b9777ff1be94a6670883084fe1a8fb68acca",
+      "reviewer": "/root/finite_grade3_author_self_QA_under_owner_standing_authorization",
+      "reviewer_runtime": "Codex Desktop current author session",
+      "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+      "notes": "59cakes capacity6 gives9full5left, grouping oracle, Euclidean identity and0<=5<6. canonical59%6 verified using actual givens, no live calculator change.",
+      "acceptance_route": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "owner_acceptance_policy": "thinking/data/primary_math_teacher_20261016/owner_acceptance_policy.json",
+      "owner_approved_for_data_preparation": true,
+      "human_verified": false,
+      "teacher_certified": false,
+      "owner_human_reviewed": false,
+      "independent_external_reviewer": false,
+      "new_human_review_claim": false,
+      "production_approved": false,
+      "training_started": false,
+      "semantic_correct": true,
+      "steps_complete": true,
+      "grade_appropriate": true,
+      "unit_consistent": true,
+      "hints_non_leaking": true,
+      "grounded_student_feedback": true,
+      "curriculum_mapping_correct": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f",
+      "reviewer": "/root/finite_grade3_author_self_QA_under_owner_standing_authorization",
+      "reviewer_runtime": "Codex Desktop current author session",
+      "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+      "notes": "Inverse dividend problem remains unchanged: explicit divisor7 quotient8 remainder3 reconstruct59. Corrected metadata only: canonical input values59/7 are origin-labelled derived-dividend/explicit-divisor; primary canonical operation8*7+3 produces requested59. Derived Euclidean oracle59%7=3 is separately declared metadata, not a direct-given remainder signature or expected remainder. Original problem/givens/work/answers/all initial/hints actually reread unchanged. Fraction/Decimal/inverse traces unchanged; divmod proves59=8*7+3 and0<=3<7. Before source/review/pre-review/oracle/manifest preserved; no gate answer modification, no protected sources read.",
+      "acceptance_route": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "owner_acceptance_policy": "thinking/data/primary_math_teacher_20261016/owner_acceptance_policy.json",
+      "owner_approved_for_data_preparation": true,
+      "human_verified": false,
+      "teacher_certified": false,
+      "owner_human_reviewed": false,
+      "independent_external_reviewer": false,
+      "new_human_review_claim": false,
+      "production_approved": false,
+      "training_started": false,
+      "semantic_correct": true,
+      "steps_complete": true,
+      "grade_appropriate": true,
+      "unit_consistent": true,
+      "hints_non_leaking": true,
+      "grounded_student_feedback": true,
+      "curriculum_mapping_correct": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+      "row_sha256": "28c6f0214cba3ad06c5f76db775e6b84dc9f97d0e16142c5e8646d344cbb907c",
+      "reviewer": "/root/finite_grade3_author_self_QA_under_owner_standing_authorization",
+      "reviewer_runtime": "Codex Desktop current author session",
+      "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+      "notes": "Quote8rem7 satisfies identity but violates remainder bound;9rem2 proven by maximal-group oracle47%5, no hidden reasoning.",
+      "acceptance_route": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "owner_acceptance_policy": "thinking/data/primary_math_teacher_20261016/owner_acceptance_policy.json",
+      "owner_approved_for_data_preparation": true,
+      "human_verified": false,
+      "teacher_certified": false,
+      "owner_human_reviewed": false,
+      "independent_external_reviewer": false,
+      "new_human_review_claim": false,
+      "production_approved": false,
+      "training_started": false,
+      "semantic_correct": true,
+      "steps_complete": true,
+      "grade_appropriate": true,
+      "unit_consistent": true,
+      "hints_non_leaking": true,
+      "grounded_student_feedback": true,
+      "curriculum_mapping_correct": true
+    },
+    {
+      "sample_id": "primary_20261018_finish_g3_remainder_guard_missing_divisor",
+      "row_sha256": "eec67a08fd551835bcad2dbc8fb1850ffcc4e56d17935a5c08464b9900df4214",
+      "reviewer": "/root/finite_grade3_author_self_QA_under_owner_standing_authorization",
+      "reviewer_runtime": "Codex Desktop current author session",
+      "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+      "notes": "83 alone lacks divisor;2vs3 give different quotients/remainders. Empty solution and actual request for nonzero natural divisor; all hints ask relation without final numbers.",
+      "acceptance_route": "ACCEPTED_OWNER_PREAUTHORIZED",
+      "owner_acceptance_policy": "thinking/data/primary_math_teacher_20261016/owner_acceptance_policy.json",
+      "owner_approved_for_data_preparation": true,
+      "human_verified": false,
+      "teacher_certified": false,
+      "owner_human_reviewed": false,
+      "independent_external_reviewer": false,
+      "new_human_review_claim": false,
+      "production_approved": false,
+      "training_started": false,
+      "semantic_correct": true,
+      "steps_complete": true,
+      "grade_appropriate": true,
+      "unit_consistent": true,
+      "hints_non_leaking": true,
+      "grounded_student_feedback": true,
+      "curriculum_mapping_correct": true
+    }
+  ],
+  "before_pre_review": {
+    "batch": "finish_g3_remainder",
+    "utc": "2026-10-18T14:09:50.990239+00:00",
+    "rows": [
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+        "row_sha256": "d4f6f37933b3e2f8862a0ca3bd833954f66013e97f50caa5eb87447f755dcf05",
+        "parser": {
+          "passed": true,
+          "errors": [],
+          "warnings": [],
+          "expanded_expressions": [
+            "72/8"
+          ],
+          "arithmetic_is_semantic_proof": false
+        }
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+        "row_sha256": "487af8588581d0ada9cba600d496b9777ff1be94a6670883084fe1a8fb68acca",
+        "parser": {
+          "passed": true,
+          "errors": [],
+          "warnings": [],
+          "expanded_expressions": [
+            "(59-5)/6",
+            "59-9*6"
+          ],
+          "arithmetic_is_semantic_proof": false
+        }
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+        "row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f",
+        "parser": {
+          "passed": true,
+          "errors": [],
+          "warnings": [],
+          "expanded_expressions": [
+            "8*7+3"
+          ],
+          "arithmetic_is_semantic_proof": false
+        }
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+        "row_sha256": "28c6f0214cba3ad06c5f76db775e6b84dc9f97d0e16142c5e8646d344cbb907c",
+        "parser": {
+          "passed": true,
+          "errors": [],
+          "warnings": [
+            "nonnumeric step requires content review"
+          ],
+          "expanded_expressions": [
+            "",
+            "(47-2)/5",
+            "47-9*5"
+          ],
+          "arithmetic_is_semantic_proof": false
+        }
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_guard_missing_divisor",
+        "row_sha256": "eec67a08fd551835bcad2dbc8fb1850ffcc4e56d17935a5c08464b9900df4214",
+        "parser": {
+          "passed": true,
+          "errors": [],
+          "warnings": [],
+          "expanded_expressions": [],
+          "arithmetic_is_semantic_proof": false
+        }
+      }
+    ],
+    "exact_fraction_decimal_and_separate_inverse_oracles": [
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+        "step_id": "s0",
+        "expression": "72/8",
+        "fraction": "9",
+        "decimal": "9",
+        "inverse_identity": true
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+        "step_id": "s0",
+        "expression": "(59-5)/6",
+        "fraction": "9",
+        "decimal": "9",
+        "inverse_identity": true
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+        "step_id": "s1",
+        "expression": "59-9*6",
+        "fraction": "5",
+        "decimal": "5",
+        "inverse_identity": true
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+        "step_id": "s0",
+        "expression": "8*7+3",
+        "fraction": "59",
+        "decimal": "59",
+        "inverse_identity": true
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+        "step_id": "s1",
+        "expression": "(47-2)/5",
+        "fraction": "9",
+        "decimal": "9",
+        "inverse_identity": true
+      },
+      {
+        "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+        "step_id": "s2",
+        "expression": "47-9*5",
+        "fraction": "2",
+        "decimal": "2",
+        "inverse_identity": true
+      }
+    ],
+    "actual_semantic_content_read": true,
+    "arithmetic_is_not_semantic_proof": true,
+    "human_verified": false,
+    "teacher_certified": false,
+    "training_started": false,
+    "official_review_sha256": "397c73c34a5530ec3344326158a6a479c69baaada905b38325502606b222eeda",
+    "review_method": "Current named author agent actually read every printed problem/givens/request/student evidence/initial/all steps/reasons/explanations/answers and full actual shared hint dictionary with per-row hash bindings; exact Fraction and Decimal plus separate inverse identities, semantic given-role/unit/grade/operation/hint checks per row. Same-author QA under standing authorization, not human or independent review; historical scope and physical limitations retained.",
+    "canonical_metadata_revision": {
+      "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "new_source_row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f",
+      "before_revision_evidence": "thinking\\evidence\\primary_math_teacher_20261016\\finish_g3_remainder_inverse_metadata_before_revision.json",
+      "content_fields_unchanged": true,
+      "signature_math_validation_passed": true
+    }
+  },
+  "before_independent_oracle": {
+    "four_digit_place_value_digit_traces": [
+      {
+        "multiplicand": 1426,
+        "multiplier": 2,
+        "output_digits_low_first": [
+          2,
+          5,
+          8,
+          2
+        ],
+        "carry_from_positions_low_first": [
+          0
+        ],
+        "reconstructed": 2852
+      },
+      {
+        "multiplicand": 3124,
+        "multiplier": 2,
+        "output_digits_low_first": [
+          8,
+          4,
+          2,
+          6
+        ],
+        "carry_from_positions_low_first": [],
+        "reconstructed": 6248
+      },
+      {
+        "multiplicand": 3634,
+        "multiplier": 2,
+        "output_digits_low_first": [
+          8,
+          6,
+          2,
+          7
+        ],
+        "carry_from_positions_low_first": [
+          2
+        ],
+        "reconstructed": 7268
+      },
+      {
+        "multiplicand": 2627,
+        "multiplier": 2,
+        "output_digits_low_first": [
+          4,
+          5,
+          2,
+          5
+        ],
+        "carry_from_positions_low_first": [
+          0,
+          2
+        ],
+        "reconstructed": 5254
+      },
+      {
+        "multiplicand": 2416,
+        "multiplier": 2,
+        "output_digits_low_first": [
+          2,
+          3,
+          8,
+          4
+        ],
+        "carry_from_positions_low_first": [
+          0
+        ],
+        "reconstructed": 4832
+      }
+    ],
+    "division_disjoint_object_grouping": [
+      {
+        "dividend": 72,
+        "divisor": 8,
+        "full_groups": 9,
+        "leftover": 0,
+        "canonical_modulo_verified": true
+      },
+      {
+        "dividend": 59,
+        "divisor": 6,
+        "full_groups": 9,
+        "leftover": 5,
+        "canonical_modulo_verified": true
+      },
+      {
+        "dividend": 59,
+        "divisor": 7,
+        "full_groups": 8,
+        "leftover": 3,
+        "canonical_modulo_verified": true
+      },
+      {
+        "dividend": 47,
+        "divisor": 5,
+        "full_groups": 9,
+        "leftover": 2,
+        "canonical_modulo_verified": true
+      }
+    ],
+    "mul2_repeated_groups": [
+      {
+        "givens": [
+          24,
+          3
+        ],
+        "repeated_sum": 72
+      },
+      {
+        "givens": [
+          26,
+          2
+        ],
+        "repeated_sum": 52
+      },
+      {
+        "givens": [
+          25,
+          2
+        ],
+        "repeated_sum": 50
+      },
+      {
+        "givens": [
+          18,
+          3
+        ],
+        "repeated_sum": 54
+      },
+      {
+        "givens": [
+          37,
+          2
+        ],
+        "repeated_sum": 74
+      }
+    ],
+    "five_digit_inverse_given_checks": [
+      {
+        "groups": 3,
+        "each": 12345,
+        "repeated_sum": 37035
+      },
+      {
+        "total": 40824,
+        "groups": 4,
+        "each_count": 10206
+      },
+      {
+        "total": 54321,
+        "each": 18107,
+        "groups": 3,
+        "repeated_sum": 54321
+      }
+    ],
+    "guard_countermodels": {
+      "five_digit_groups": [
+        {
+          "groups": 2,
+          "each": 12500
+        },
+        {
+          "groups": 5,
+          "each": 5000
+        }
+      ],
+      "unknown_divisor83": [
+        {
+          "divisor": 2,
+          "q": 41,
+          "r": 1
+        },
+        {
+          "divisor": 3,
+          "q": 27,
+          "r": 2
+        }
+      ]
+    },
+    "inverse_dividend_case_metadata_repair": {
+      "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "source_row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f",
+      "explicit_given_roles": {
+        "divisor": 7,
+        "quotient": 8,
+        "remainder": 3
+      },
+      "derived_dividend": 59,
+      "dividend_divisor": [
+        59,
+        7
+      ],
+      "python_divmod": [
+        8,
+        3
+      ],
+      "invariant_59_equals_8_times7_plus3": true,
+      "remainder_bound": true,
+      "direct_given_modulo_signature_not_declared": true,
+      "metadata_only_no_live_calculator_change": true
+    }
+  },
+  "before_manifest": {
+    "schema_version": "finite_grade3_agent_completion.v1",
+    "authoring_agent": "/root/finite_grade3",
+    "nodes": 16,
+    "cases": 74,
+    "counts": {
+      "core": 48,
+      "misconception": 16,
+      "guard": 10
+    },
+    "batches": [
+      {
+        "batch": "finish_g3_angle_midpoint",
+        "node_id": "old_g3_right_angle_midpoint",
+        "cases": 5,
+        "source_sha256": "ca57b2a66793ecc5e3822a0995747ebfbc86999f56bf3ba79b2ef070416929ed",
+        "review_sha256": "908dee25e24559af209e944a2ae5e9c364f8a6bf26590e80a2c62d4cd9b9368a",
+        "evidence_sha256": "1440f78a0afa6107fa6090543e5bafa96ab2edbfbac0503cb656dbb92f237c34",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_angle_midpoint_square_template_angles",
+            "source_row_sha256": "17dc38e4daabe459261ea9e3f15be00e76c61062987667ebd50a91d4264eb58e"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_angle_midpoint_midpoint_requires_on_segment",
+            "source_row_sha256": "01121c361be8e379852581dba8a9ffe2f027787143b50f00aee70a057f6b8603"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_angle_midpoint_midpoint_construction_plan",
+            "source_row_sha256": "b4a41e6313ba009eb9b9ad895c8e558f15d94b2e2643f1979abf67fc068abfb7"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_angle_midpoint_mis_between_only",
+            "source_row_sha256": "1ee7647cef826256e5159431dc6f2f61831abc67474111550547f15cd2d285fe"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_angle_midpoint_guard_unseen_angle",
+            "source_row_sha256": "565966beba2f4df2ceec42190aac5fab248cdfe57990a369f97a518604abb1d5"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_calendar",
+        "node_id": "old_g3_calendar_clock",
+        "cases": 5,
+        "source_sha256": "b17b84cd8fc25c076ca22d5c4695e11d8ec41409c02f0e65dbf8cdb3137af608",
+        "review_sha256": "30fa126910b8b5fbf13d3894ffba30bb22e887569fe599e78df89ab24ed50d92",
+        "evidence_sha256": "50f901156b6971342d484be121963f5d0bf4d25aa5363627738dcf3184c4dbaa",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_calendar_calendar_month_boundary",
+            "source_row_sha256": "c4409ad6f074c073b0f224cb8a4bccfebaeed42bcdcd135377506fc9634ee089"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_calendar_clock_minute_hand_contrast",
+            "source_row_sha256": "74a3d7199d126084bc7917157cd564501cbee970b783026b1ff54f4c694e300d"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_calendar_elapsed_same_day",
+            "source_row_sha256": "7c48647eaa5e5631785b6a036b4c39fe929ae8d01b8b7626e3847d7a236b7526"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_calendar_mis_clock_number_as_minutes",
+            "source_row_sha256": "0343e28b5f1f70a565bb203817f5f8df09913e79c7281eb1fa463a2846379ab7"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_calendar_guard_minute_hand_missing",
+            "source_row_sha256": "508cef0e88f56b1fc8c0c7323a5ba7ef744fda72856a3b3797cacd6e4d339572"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_comparison",
+        "node_id": "old_g3_multiplicative_comparison",
+        "cases": 4,
+        "source_sha256": "916ce46a5f61ff7d313ba09bb031c0d5daf7ed02f474a722ac34dcd951d9ae36",
+        "review_sha256": "9af6ecf3b9058b05e126ab404a2d7667e155628c5ded3392bc2e7e6bb78da50d",
+        "evidence_sha256": "241d68f548a542357a6aa77429b0635c80a74a09de7ce3322da777af6290ea68",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_comparison_length_factor_and_fraction",
+            "source_row_sha256": "25fc38b065d4d0b201f9397b14f8578bafc870e717df9700a63d029116bde7f9"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_comparison_difference_vs_times",
+            "source_row_sha256": "babff4e2d05bf4511bc34f404bf7c5fc13961481554aca4c44d08a1c9f19b23d"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_comparison_reverse_fraction_count",
+            "source_row_sha256": "8f6321be7dfc758765583e77ffb73b75cbf0c445b53dff0048b3ea6e72a5e585"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_comparison_mis_difference_as_factor",
+            "source_row_sha256": "79c71a2f71b078c7f6b1af8c449026da8624fc5ac586ccaf3843b4a9fb8a634f"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_divisor",
+        "node_id": "old_g3_find_divisor",
+        "cases": 4,
+        "source_sha256": "1f68e35219901d0d3a94f79c6135fd048274791d10b7e5caf7812a30d4a56874",
+        "review_sha256": "1fccac4e7006b5f59c4af250da6bbfc49c26238fe54c61a74eba8806177967dd",
+        "evidence_sha256": "a3bd27946638849bff310d8a06df6e33f556b1d20c0b391c65ab26af4ebfe947",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_divisor_divisor_equation",
+            "source_row_sha256": "1849de54a62c7d7f7b22bf67890d795bdebc8a3db095b49a7e678f127dbf47cc"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_divisor_unknown_role_contrast",
+            "source_row_sha256": "dbc8ffcb80077ab6c0e28ba5f6f89b5fbb36a453e37d8c72f90481f6ea8066bf"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_divisor_groups_as_divisor",
+            "source_row_sha256": "77ce56395a22ccb3b72edb1f16e216ed0d3ab5d96c0f35d7554674f0569dc767"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_divisor_mis_divisor_subtraction",
+            "source_row_sha256": "f1426a51bb2bee327067ccd7733ccb138e90efc3a34d75483c6187f0f6ccc04a"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_lengthunits",
+        "node_id": "old_g3_dam_hm_length_table",
+        "cases": 5,
+        "source_sha256": "d88ca729c3b8bddec170b976625c470e164d069b90133ecbfe2be44f6ed6b38b",
+        "review_sha256": "a4439bf4d291587123ac2dc6dd898978cbd04893cd81ac2f018f5f545f1b7b40",
+        "evidence_sha256": "db19f794437036bb850ecbdb55cc122137da3d547c09df25cd69f0ab361f9914",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_lengthunits_hm_dam_to_metres",
+            "source_row_sha256": "fccb3d54b9fcc63014a9a478cbc0f0af2a4ca1f2daf49b64b758477b774370da"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_lengthunits_contrast_close_units",
+            "source_row_sha256": "bebdb1e5b925c45186dd255d243ddd77a1bf489aef2d0a61ac06a17e334c2ef4"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_lengthunits_hm_sum_route",
+            "source_row_sha256": "229869d5d26a9f607c0cc5176071d8e3c508d0a33b822890d689bfefd3129b5a"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_lengthunits_mis_hm_dam_scale",
+            "source_row_sha256": "bc8a8abf343ade68958afe5e6ebe3827b7e00e1fa3b5c0d5544c1f51b8108f25"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_lengthunits_guard_missing_length_unit",
+            "source_row_sha256": "6a5e0cb2ce61632f207c81305d331137e4ccce8323701f44afd79384c04de171"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_measure",
+        "node_id": "old_g3_measure_length",
+        "cases": 5,
+        "source_sha256": "fd96f60a8173859f4cf9ef611da56a68943089401a125f2cd0faa455ec99afca",
+        "review_sha256": "7bc5d51a427deaa99c200ab337689e6f5f08c48cad0379f3461a9bbf2cd1b061",
+        "evidence_sha256": "cc5b1d7644bcf7e9e4c4e4b775cd01470a753bc25c20258645e9ccfbe909383a",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_measure_ruler_nonzero_record",
+            "source_row_sha256": "790539262be4f91f8f2fa5d53cd71a0bb7e96f6868443a42eea5abaeb05b1821"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_measure_two_ruler_records",
+            "source_row_sha256": "ccd4282acaec6b42fc120944e587c62b8bf0d2a8b6c96447f213f8dc5ebda61f"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_measure_broken_ruler_plan",
+            "source_row_sha256": "6a25969e51d3b32816b1c5674bd1e6d35ff83fc9ceffa8126a3c58e422c1458a"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_measure_mis_end_mark_length",
+            "source_row_sha256": "6de1c5ca3f41b2d8697aa9807ef1d1ba3136c966695d720c3f1eefe3fdf44705"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_measure_guard_no_ruler_reading",
+            "source_row_sha256": "586c6bbeb5b52451bd45585cf4977da30f76e2fb3e84a57078a62f97b69bd45d"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_money",
+        "node_id": "old_g3_vietnam_money",
+        "cases": 5,
+        "source_sha256": "749c47de197c581c5a19f3b24eda9dae2a73b6d2676b353d7c1d9bb7f623a53a",
+        "review_sha256": "979ceab67e7ecc41a01b39f7920afd3f959185e7a56f8621968c99280d7be2a0",
+        "evidence_sha256": "4fb80f564995868cb9771852ec79a30a719f7bc9a4087be524b2ee2d684db480",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_money_denomination_total",
+            "source_row_sha256": "d701f420e05764d23d6c80fd2c210985793d9b62fb95181cd306a239eb353f4f"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_money_payment_options_exact",
+            "source_row_sha256": "53892d11bc8c9b3579ddeeda8e506af519f29e13b31e3502d631355f806d3891"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_money_receipt_change",
+            "source_row_sha256": "3988083bb9bb8013b26fbca90d9979ceac5cfc681945a33f684a971338adb6d5"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_money_mis_banknote_count",
+            "source_row_sha256": "30664fd3c5c53bf66f9341b89e31aa3cdea0e863f18e6ff749466b96d83653ca"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_money_guard_note_unreadable",
+            "source_row_sha256": "007b3186b762b7b330756d262c8751534482a35530370683333406f4859878e5"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_mul2",
+        "node_id": "old_g3_multiply_two_by_one_digits",
+        "cases": 4,
+        "source_sha256": "1ff2e9dd4035a2524a17a330a2f8c1771eddfd87e0e315a8ad0057430db43bfe",
+        "review_sha256": "58ad2bc845d4ae194754c4b4f86a6f70b18adf0427c931dbb8a40406a17b3de4",
+        "evidence_sha256": "6b2d6a8f018d4522b85b63b7aaf7100cd1a4589746d55a4322ea8697d715223e",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_mul2_equal_pack_groups",
+            "source_row_sha256": "1046884ddb612c4f9aec367645833e40142654d42726082912e04c0be0d8b815"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul2_compare_two_products",
+            "source_row_sha256": "6eed25ea5c90f142ae85d75e411402f34cf852a6d8e57f67b2e7bcd52e0892a0"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul2_ribbon_total_then_check",
+            "source_row_sha256": "182f8fbb97ca649a9d5acf432afced55ed2bfe62e00964c3a7ce22d44342df31"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul2_mis_dropped_carry",
+            "source_row_sha256": "87a05ab3d38800d46227a4e77a4c086c6977cce7d5c646328735c64e70b36cd5"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_mul4",
+        "node_id": "old_g3_multiply_four_by_one_digits",
+        "cases": 4,
+        "source_sha256": "29163f989086fc9c51e957f08d2ae9a0399c029766c83a44464fbd33c15468c7",
+        "review_sha256": "bc810a3f9124466d4604af1926338c25b62d5a8a9aff3121a0e16bd5f5f72429",
+        "evidence_sha256": "af324136d47c1d92d5cbff03b0510dafe44d245cbf241efe22bc19daf32af979",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_mul4_isolated_two_carries",
+            "source_row_sha256": "8d44ba7b93dfc9d1c3c1b9e852742c5f34e0d3f0a3a2da32f13de20136921d33"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul4_no_carry_vs_separated",
+            "source_row_sha256": "9369d114115957dcf4881c3d63d959fb1dfd793f35e88f412bd21e9ced4f9896"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul4_two_nonadjacent_carries",
+            "source_row_sha256": "8bdf0657c2262d85f450c6d0b1694d1014a6ef565843afde1feed7495dbc55ba"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_mul4_mis_carry_to_wrong_column",
+            "source_row_sha256": "9fc7aef619e231b74ad61b75a313302c8ad3d97687b8bfc9261622eec7876a0a"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_muldiv5",
+        "node_id": "old_g3_multiply_divide_five_by_one_digits",
+        "cases": 5,
+        "source_sha256": "28032fd377b16754cdf75b0cf0f6058e0103055b2a7b59affa69b99b95f2e0a9",
+        "review_sha256": "a8b60c34c7ed1ffdacd11c27c50243de5c78f4cc28584287c160a1d21e4f5ea2",
+        "evidence_sha256": "29562763e2bc129fb72bcc70fe586df31b1f49e61495ed4bc369fdadefca30ca",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_muldiv5_five_digit_packets",
+            "source_row_sha256": "7c647e066b2240be07c55f012ec0d4c254ecab17add0f88d1325b38d91b45532"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_muldiv5_zero_in_quotient",
+            "source_row_sha256": "20d7c73c77cd2385e915732a337e6ff1c8530493aea02b575434fdf2fff1ba08"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_muldiv5_check_stated_quotient",
+            "source_row_sha256": "18851af8a132026fc8be9ddf6d1d71e1f58e43d8f29bc10dcd4945ce495d5def"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_muldiv5_mis_omitted_zero_quotient",
+            "source_row_sha256": "eaf103f47c4e4c78dc4e504c6f3ff99308a38fa719275f970d7f67e7fa811455"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_muldiv5_guard_missing_equal_groups",
+            "source_row_sha256": "5e4236510d506bd47cc5b580dfcafe97c1ec960fd44e9760c21216725b0ab36c"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_rect_square",
+        "node_id": "old_g3_rectangle_square_perimeter_area",
+        "cases": 5,
+        "source_sha256": "8e184fe88fa0b8ec972112762fa76941d1cafdeed4632d1782d39be4f6c93106",
+        "review_sha256": "9e0e196c4c7e060effef351e05ca776a5fb1bb99e03f317c2c7abae7780bec2f",
+        "evidence_sha256": "0121d47134710c4c609c1cb585e76399fff1759725bb82d3dee0ce91289fa411",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_rect_square_rectangle_boundary_face",
+            "source_row_sha256": "ee8c6233be56c400210fb57d04a6f6ebb9d2fd9d8a2a38697c863d7d9251b237"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_rect_square_same_perimeter_different_area",
+            "source_row_sha256": "8811ed7e209b3d5111039f4c613090dab4c7190b3f9cf067e0f08b9ef3338147"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_rect_square_recover_width_from_perimeter",
+            "source_row_sha256": "9cd2de13d16f01dedf0424591618c72a35a18912b20ec6275c995396d2304777"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_rect_square_mis_swapped_dimension_units",
+            "source_row_sha256": "472afdfaa31dbfd38e50458e6aef86906db7eafe05b81dfd38dd0a6ceaf4d64b"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_rect_square_guard_missing_rectangle_width",
+            "source_row_sha256": "9040a5381f6f24c73026d85bfbf2165eb327f0556d950ed2cb8853a3316a5112"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_remainder",
+        "node_id": "old_g3_division_remainder",
+        "cases": 5,
+        "source_sha256": "77d31cef75238fa0ba8280f09defda35d61c243b8bf78fbd9742c5d76e73f093",
+        "review_sha256": "397c73c34a5530ec3344326158a6a479c69baaada905b38325502606b222eeda",
+        "evidence_sha256": "548ae46b59e3aa45ebef50e754924371d3c7832e4663ee921597a2e0e1c51524",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_remainder_exact_equal_boxes",
+            "source_row_sha256": "d4f6f37933b3e2f8862a0ca3bd833954f66013e97f50caa5eb87447f755dcf05"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_remainder_full_trays_and_leftovers",
+            "source_row_sha256": "487af8588581d0ada9cba600d496b9777ff1be94a6670883084fe1a8fb68acca"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+            "source_row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_remainder_mis_large_remainder",
+            "source_row_sha256": "28c6f0214cba3ad06c5f76db775e6b84dc9f97d0e16142c5e8646d344cbb907c"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_remainder_guard_missing_divisor",
+            "source_row_sha256": "eec67a08fd551835bcad2dbc8fb1850ffcc4e56d17935a5c08464b9900df4214"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_scale",
+        "node_id": "old_g3_scale_up_down",
+        "cases": 4,
+        "source_sha256": "d59933328156f0b90d289cf33b142675b316f3efc447ff9e3720b2835db09b55",
+        "review_sha256": "cf1a71071fb47027516d9fcc32cc167a62a7f69d87cdae031007683026f53e14",
+        "evidence_sha256": "17d86c73ca19f4b31cd2d1af14673d2803953501808cf66677e61256761efa11",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_scale_scale_equal_strips",
+            "source_row_sha256": "fc8ac1aa6b28b42ea2b666ae6acbc8896e1eff5a8e9c0d290ab59894027df48c"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_scale_times_vs_add",
+            "source_row_sha256": "662f618793e8ec60ccafcee4ee6a19a8bf52a91f50bc088c90bd807676715652"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_scale_scale_down_stock",
+            "source_row_sha256": "1e016d69a94da43a77c6def95fb08f2a37a8e5690f104926d261196b4aa79d8e"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_scale_mis_subtract_times",
+            "source_row_sha256": "eba9ceb584aec76bd65274abd7f6714ddd2d3ac3beb097d6c747bee1267f658c"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_statistics",
+        "node_id": "old_g3_statistics",
+        "cases": 5,
+        "source_sha256": "0504482fc9b821a5768fe6eeef800c8c927bf8e2ec2311283b6f862e2581e1df",
+        "review_sha256": "24e4d1794c655e4e90212047e661d8cf2d30faf19eecba64fbbfd0676c2a2d13",
+        "evidence_sha256": "f9a4735d48d1595f9e7f642fb24f0d9c7ba1f7880799eb7abfd270c327c1b90a",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_statistics_class_books_table",
+            "source_row_sha256": "f55141a135aabbd3f73d8493317e48dcd7dec9906fef7cf836daba92cb161953"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_statistics_pictogram_legend_counts",
+            "source_row_sha256": "7af08310a09735f2a277efc7aefc716d0faa8bbc455002ffb8f1ff4cb86ec115"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_statistics_raw_lengths_frequency",
+            "source_row_sha256": "ac67859eca3c57aacccd1821a6dc1a151acf040edd37c7a55c937750fe61697d"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_statistics_mis_distinct_values_vs_records",
+            "source_row_sha256": "7ae397baaeb166f77cdfd4eaa06db04f8352d71765ea02070b26cdbb310580f0"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_statistics_guard_missing_table_cells",
+            "source_row_sha256": "a0a7119387b44db616808dc6de168563f459dd0de8bf0e177d90da1233bd32e7"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_twostep",
+        "node_id": "old_g3_two_step_problems",
+        "cases": 4,
+        "source_sha256": "2dc3b079ac8d98f1aae27bd44a4d863c64bf4870b72285ff4163708794c39b4d",
+        "review_sha256": "f5c05babee2c94647e09762e6a535e67373f7281a19dbb28d21b4dda5986142e",
+        "evidence_sha256": "1354fd8582a2fc8efaa8efdde004d02fdee85a1abc8e1bb65f19ac89a04fbe6c",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_twostep_other_shelf_then_total",
+            "source_row_sha256": "c959b4252285c1ee335bfa681a6fbd580a5c29b8f0eca39654afaf03d3b8e37a"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_twostep_left_then_equal_groups",
+            "source_row_sha256": "72abd142fdc8f7f335b1c6a364994f43cb862669ca0591cfbeb0534502c92f05"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_twostep_ribbon_difference",
+            "source_row_sha256": "170515ea9303d1bc71f03c48a6030ba9db3a21e13f695857013c11750e8087de"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_twostep_mis_stopped_at_intermediate",
+            "source_row_sha256": "43cd1af942ec45d184e84aff79bd936decd986f1c21c3c039027c5635c733f59"
+          }
+        ]
+      },
+      {
+        "batch": "finish_g3_unitary",
+        "node_id": "old_g3_unitary_word_problems",
+        "cases": 5,
+        "source_sha256": "9c157d88cbc232cdff0bb0ba0d39b8f9961ad3ea64e6fca950a0e5013dff3dd3",
+        "review_sha256": "415bc66d543c03f9fe06b040ce8fc4022f5a3db1c7aebe7d6444a6c4cd498427",
+        "evidence_sha256": "0a4d10b407da3b7efe7f62435d0d9a62172a48b65e57133bdf692027f0047e1d",
+        "row_bindings": [
+          {
+            "sample_id": "primary_20261018_finish_g3_unitary_same_price_pens",
+            "source_row_sha256": "4ee9f42fbcbb201536399f45dd83b39bbbf1e1c1f772e0b8798419432c2d065e"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_unitary_compare_unit_package_mass",
+            "source_row_sha256": "76e256e449ccf62552f1384012ccf079cb70324109cd9903f6aa734ef1e49327"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_unitary_unit_mass_inverse_bag_count",
+            "source_row_sha256": "52eccae2ac019044b8cf1223535d1c117f76ef05c1310ab4bd01fb3eabc57013"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_unitary_mis_total_as_unit",
+            "source_row_sha256": "bee23bed5d17c07d1889bf6b115873c46a122731dc61a4307f2fd55379938e3b"
+          },
+          {
+            "sample_id": "primary_20261018_finish_g3_unitary_guard_unequal_boxes",
+            "source_row_sha256": "f2b297575a69b5708c12ead2890989020f7abb95fac861552fe392889f51ec4d"
+          }
+        ]
+      }
+    ],
+    "independent_oracles": [
+      {
+        "path": "thinking\\evidence\\primary_math_teacher_20261016\\finish_g3_part1_independent_oracles.json",
+        "sha256": "c56a6d3be28d94d8c73861d8c12c3af8ac6cb5101e35ef8ff91720efa9bac596"
+      },
+      {
+        "path": "thinking\\evidence\\primary_math_teacher_20261016\\finish_g3_part2_independent_oracles.json",
+        "sha256": "535bd84a4f803848b115ab5bd517c877ba9f188da7337fd92343a6ddd9c0d69e"
+      },
+      {
+        "path": "thinking\\evidence\\primary_math_teacher_20261016\\finish_g3_part3_independent_oracles.json",
+        "sha256": "a2cac3abc6e91cdef4e6a7f621743ab214c2b4f4c1f284c4f10b1d2b49e72463"
+      },
+      {
+        "path": "thinking\\evidence\\primary_math_teacher_20261016\\finish_g3_part4_independent_oracles.json",
+        "sha256": "ec683696e721d7a6078b7767a487a605ae573bba8b81cc0eeee62bfefd82510c"
+      }
+    ],
+    "all_current_source_review_evidence_hashes_match": true,
+    "same_author_semantic_read_and_QA_not_independent_review": true,
+    "protected_source_eval_or_sealed_content_read_or_modified": false,
+    "shared_pipeline_state_context_exports_written": false,
+    "human_attestations_extended": false,
+    "physical_success_verified": false,
+    "current_2026_legal_or_complete_2006_claim": false,
+    "training_started": false,
+    "audit_harness_note": "First final-check attempt mistakenly sent canonical%string to arithmetic step evaluator that intentionally allows only+-*/; rerun uses divmod oracle for metadata only, no source/answer change and no calculator enabling.",
+    "post_integration_metadata_revision": {
+      "sample_id": "primary_20261018_finish_g3_remainder_reconstruct_dividend",
+      "source_row_sha256": "72740cc67941cef22166fca382dee6cac39625177d140d602e013d9f2f1a606f",
+      "before_evidence_sha256": "8881d42e12d9c03bf1d4fbc89b45fbbb6abac5c151653d5af050205916964c59",
+      "canonical_only": true,
+      "signature_math_validation_passed": true
+    }
+  },
+  "source_file_sha256": "77d31cef75238fa0ba8280f09defda35d61c243b8bf78fbd9742c5d76e73f093",
+  "review_file_sha256": "397c73c34a5530ec3344326158a6a479c69baaada905b38325502606b222eeda",
+  "pre_review_sha256": "548ae46b59e3aa45ebef50e754924371d3c7832e4663ee921597a2e0e1c51524",
+  "independent_oracle_sha256": "c56a6d3be28d94d8c73861d8c12c3af8ac6cb5101e35ef8ff91720efa9bac596",
+  "manifest_sha256": "d640b4dde86c8d8f3a3bb658119364ccd524f74e79aa035d56fd1c051444dcd7"
+}

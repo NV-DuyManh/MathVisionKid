@@ -1,0 +1,17 @@
+{
+  "is_error": false,
+  "data": {
+    "outputs": []
+  },
+  "structured_content": {
+    "outputs": []
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"outputs\":[]}",
+      "annotations": null,
+      "meta": null
+    }
+  ]
+}

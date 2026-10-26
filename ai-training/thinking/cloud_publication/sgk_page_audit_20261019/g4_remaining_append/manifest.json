@@ -1,0 +1,31 @@
+{
+  "case_count": 20,
+  "chat_count": 80,
+  "form_count": 10,
+  "status": "DRAFT_AWAITING_CONTENT_CROSS_REVIEW",
+  "new_core_slots": 0,
+  "trained": false,
+  "drive_mutated": false,
+  "files": {
+    "cases.jsonl": {
+      "bytes": 115451,
+      "sha256": "a57bea461bfc50ceadb40a0b8dfb35dc686add160fb136931c01fc85dfa3257c"
+    },
+    "chat.jsonl": {
+      "bytes": 175623,
+      "sha256": "856d638049aa655a9463ab732fddf1e19048cd6ff3eea98b1ef40d8bb6106466"
+    },
+    "self_qa.jsonl": {
+      "bytes": 15134,
+      "sha256": "3b9906d0d5fcbdbcf9228b517e885bfb32258848f0ecee5ea916fb16603e05ef"
+    },
+    "oracle_checks.jsonl": {
+      "bytes": 11812,
+      "sha256": "4862a28b34fb2c11e3fffca8dab5d502af74e8476dc3fdb020a6477a452fd995"
+    },
+    "preauthoring_comparison.json": {
+      "bytes": 1102,
+      "sha256": "2ed7409ce062323e17d685c39d648a1bef2e36fc2b2aaf9131aa4aa737dd48eb"
+    }
+  }
+}

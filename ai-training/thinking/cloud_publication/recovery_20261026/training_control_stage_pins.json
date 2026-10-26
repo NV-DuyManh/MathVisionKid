@@ -1,0 +1,22 @@
+{
+  "path": "D:\\nhom6\\train th\u1eed\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\recovery_20261026\\publish_training_controls_runtime.py",
+  "bytes": 462838,
+  "sha256": "7586ebb982f4f5a4ec58bbe48c9a1ad314f9d35c576784e8a8bba6f77480985b",
+  "canonical_context_sha256": "393a3297592c215a52f5208049288d34ebd73d98088a0117061b8b3c1c11624a",
+  "run_metadata_sha256": "ffa7e1a1c3eb3629f86ddeb849e7002c318e02ad59c4e941a96ae7acd8588ef7",
+  "runtime_root": "/content/mathvisionkid_recovery_20261026",
+  "source_hashes": {
+    "four_controls_transaction.py": "e50d53815215af6902ebe772b3960f0c3023afd010b535d1a3c26eb1d127b37b",
+    "prepare_control_stage.py": "7498845636d7829c389f87b54d6fa8e0747c49677128e3473dd79c22e1b4f07e",
+    "prepare_four_controls_runtime.py": "90f11adb012fd4c42b92c8193452201837d52173496b3520404c42e550b82530",
+    "training100/baseline_content_comparison.json": "b9b03cf22f9968cf7df6ab1089a5b252402604287200482cfe84d4050eee3772",
+    "training100/baseline_semantic_review_frozen.json": "774e6069641d189871e44fb59ee515d530efc794f9e727790581c7dfec5a8344",
+    "training100/independent_preoptimizer_review.json": "920733c740a7dc3b1023279a65ea1192134428e25a65bc57606f41860de57f34",
+    "training100/optimizer_approval_receipt.json": "8d4af724aa129dbb76201e1aae9111e3a55199c2dda7ab88ae8cf9b2ba9a3185",
+    "training100/screening_repair_receipt.json": "640738fc8ed66fa7355ed703a76ef53f5bc8c60fe2caea03d247dfbc570a3062",
+    "training100/status_17.json": "9d51bd31bc6132135e396ca17e0c52edae25d38f7d8b66529911d4f6ddac0c96",
+    "training100/training_run_metadata.json": "7d14272dba721c95b143f470b8f8c4f47fabd62fad5d24d548934402761cac9a"
+  },
+  "stage_executed": false,
+  "drive_calls_made": false
+}

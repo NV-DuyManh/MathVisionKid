@@ -1,0 +1,21 @@
+{
+  "add": {
+    "newCellId": "CnGk3VJJVulv"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "error",
+        "ename": "AssertionError",
+        "evalue": "",
+        "traceback": [
+          "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+          "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+          "\u001b[0;32m/tmp/ipykernel_1413/1122957286.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     16\u001b[0m \u001b[0mmod\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhashlib\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0m_SamplerHashProxy\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     17\u001b[0m \u001b[0msampling_worker_thread\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mjoin\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m10\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 18\u001b[0;31m \u001b[0;32massert\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0msampling_worker_thread\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mis_alive\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     19\u001b[0m \u001b[0mmod\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhashlib\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0moriginal_hashlib\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     20\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mjson\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdumps\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0;34m'state'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'ALL_SCANNED_METADATA_PRESERVED_FOR_FAST_DETERMINISTIC_SELECTION'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'previous_status'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0msampling_worker_status\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'optimizer_updates'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'observed_unix'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0mtime\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+          "\u001b[0;31mAssertionError\u001b[0m: "
+        ]
+      }
+    ]
+  }
+}

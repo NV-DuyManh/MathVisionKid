@@ -1,0 +1,26 @@
+{
+  "status": "SFT_COMPLETED_RESEARCH_ONLY",
+  "run_id": "qwen3_06b_grounded_sft_epoch1_seed20261012",
+  "local_tests": 46,
+  "colab_tests": 31,
+  "steps": 463,
+  "full_train_examples_once": 1852,
+  "reload_verified": true,
+  "reviewer_audit_passed": true,
+  "validation_plan_correct": 133,
+  "validation_samples": 133,
+  "development_test_plan_correct": 131,
+  "development_test_samples": 131,
+  "model_weights_changed": true,
+  "production_approved": false,
+  "original_notebook_saved_cells": 22,
+  "original_ocr_source_and_outputs_preserved": true,
+  "colab_execution_counters_normalized_on_save": true,
+  "adapter_zip_url": "https://drive.google.com/file/d/1Pz-P_xNbO2LqADtttGgMWjKWvsHzUOHz/view?usp=drivesdk",
+  "run_url": "https://drive.google.com/drive/folders/1hfPPUTiWxtTuk4V9GrCb4i1pUwQWFZSh",
+  "context_mirror_url": "https://drive.google.com/file/d/13gdIPQTFKcekoQQtgo0TXc7RgeadzIN9/view?usp=drivesdk",
+  "skills_applied": [
+    "computer-use:computer-use",
+    "google-drive:google-drive"
+  ]
+}

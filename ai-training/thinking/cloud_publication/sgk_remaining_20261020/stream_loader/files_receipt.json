@@ -1,0 +1,63 @@
+{
+  "schema": "MathVisionKid.candidate_stream_files.v1",
+  "tests_passed": 14,
+  "files": [
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\math_data_candidate_stream.py",
+      "sha256": "fa765959154ce453462e9c41ebf3695e88452aaa14acbcf17f5e1c6fd2f7e310",
+      "bytes": 18064
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\test_math_data_candidate_stream.py",
+      "sha256": "9caf9d7dc377883d65cca55738a6849217f3c928b3883f167c50c56ec477f57a",
+      "bytes": 13514
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\bounded_replay.sqlite",
+      "sha256": "3bf916cdf6740505f25fc458fd03865385f0183e9384d8431e98336582311444",
+      "bytes": 1585152
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\bounded_replay_overlay_bound.sqlite",
+      "sha256": "6a2f1c2659bf523bfcf837c466a00d6e6955dd6a371716501085e2f9cd5caf42",
+      "bytes": 1585152
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\bounded_replay_receipt.json",
+      "sha256": "43daee1e86f54a9aa2ffbd6f1574bded962e90bf94163798c85934f96f03ad84",
+      "bytes": 3582
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\bounded_replay_recipe.json",
+      "sha256": "c5710cd3d0b6837d7c4f6b755c62945e31888f4e44cb4976629e60c0df86ddab",
+      "bytes": 6614
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\build_and_check.py",
+      "sha256": "60842387f01896b25a63b47ca2083730d5c2b3f4827785937e94797bb099172d",
+      "bytes": 8222
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\recipe_scope.json",
+      "sha256": "6c4b7604f22397eef67744367929bd028a56e8486626c6944ebe0e873ade53cb",
+      "bytes": 1320
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\tests_output.txt",
+      "sha256": "70a7142b04c72ca001a399ab8f4d1741bebcfc8091e0deed4f961ceb43c81034",
+      "bytes": 2060
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\union_recipe.json",
+      "sha256": "ce5c2e500490c4b1d75cafc6e95eb3c50c2ac2d6761419bafddd99d4e33c699a",
+      "bytes": 792324
+    },
+    {
+      "path": "D:\\nhom6\\train thử\\MathVisionKid\\ai-training\\thinking\\cloud_publication\\sgk_remaining_20261020\\stream_loader\\usage_contract.json",
+      "sha256": "35cae0e3932c1af575c791301031497f5191f9686d228f17e7c27f0faa391238",
+      "bytes": 6251
+    }
+  ],
+  "frozen_run2_modified": false,
+  "training_started": false
+}

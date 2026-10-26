@@ -1,0 +1,47 @@
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_entire_boundary"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_entire_boundary"}
+{"detected":true,"mutation":"expected_arc += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_entire_boundary"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_arc_only_error"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_arc_only_error"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_arc_only_error"}
+{"detected":true,"mutation":"expected_arc += 1","sample_id":"sgk_remaining_geom_20261020_semidisc_arc_only_error"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_equal_total_diameters"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_equal_total_diameters"}
+{"detected":true,"mutation":"expected_chain += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_equal_total_diameters"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_connector_error"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_connector_error"}
+{"detected":true,"mutation":"expected_chain += 1","sample_id":"sgk_remaining_geom_20261020_semicircle_chain_connector_error"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_wheel_full_turns_distance"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_wheel_full_turns_distance"}
+{"detected":true,"mutation":"expected_distance += 1","sample_id":"sgk_remaining_geom_20261020_wheel_full_turns_distance"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_wheel_partial_turns_not_rounded"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_wheel_partial_turns_not_rounded"}
+{"detected":true,"mutation":"expected_full += 1","sample_id":"sgk_remaining_geom_20261020_wheel_partial_turns_not_rounded"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_center_rectangle_area_outer_perimeter"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_center_rectangle_area_outer_perimeter"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_center_rectangle_area_outer_perimeter"}
+{"detected":true,"mutation":"s3.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_center_rectangle_area_outer_perimeter"}
+{"detected":true,"mutation":"expected_area += 1","sample_id":"sgk_remaining_geom_20261020_stadium_center_rectangle_area_outer_perimeter"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_overall_length_not_rectangle_error"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_overall_length_not_rectangle_error"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_geom_20261020_stadium_overall_length_not_rectangle_error"}
+{"detected":true,"mutation":"expected_area += 1","sample_id":"sgk_remaining_geom_20261020_stadium_overall_length_not_rectangle_error"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_circle_three_wraps_single_final_join"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_circle_three_wraps_single_final_join"}
+{"detected":true,"mutation":"s2.result += 1","sample_id":"sgk_remaining_geom_20261020_circle_three_wraps_single_final_join"}
+{"detected":true,"mutation":"expected_geometry += 1","sample_id":"sgk_remaining_geom_20261020_circle_three_wraps_single_final_join"}
+{"detected":true,"mutation":"s0.result += 1","sample_id":"sgk_remaining_geom_20261020_circle_joined_wire_inverse_diameter"}
+{"detected":true,"mutation":"s1.result += 1","sample_id":"sgk_remaining_geom_20261020_circle_joined_wire_inverse_diameter"}
+{"detected":true,"mutation":"expected_diameter += 1","sample_id":"sgk_remaining_geom_20261020_circle_joined_wire_inverse_diameter"}
+{"detected":true,"mutation":"expected_min += 1","sample_id":"sgk_remaining_geom_20261020_fixed_twelve_cubes_closed_surface_minimum"}
+{"detected":true,"mutation":"expected_min += 1","sample_id":"sgk_remaining_geom_20261020_fixed_capacity_open_box_surface_two_optima"}
+{"detected":true,"expected":"257/10","mutation":"omit_semidisc_diameter","wrong":"157/10"}
+{"detected":true,"expected":"187/10","mutation":"count_two_arcs_as_full_sumdiameter_circle","wrong":"172/5"}
+{"detected":true,"expected":"157/5","mutation":"wheel_use_diameter_without_pi","wrong":"10"}
+{"detected":true,"expected":"5/2","mutation":"wheel_round_2_5_to_3","wrong":"3"}
+{"detected":true,"expected":"5613/50","mutation":"stadium_use_overall_rectangle","wrong":"7413/50"}
+{"detected":true,"expected":"1228/25","mutation":"add_internal_stadium_seams","wrong":"1628/25"}
+{"detected":true,"expected":"1959/50","mutation":"add_join_per_wrap","wrong":"2109/50"}
+{"detected":true,"expected":"10","mutation":"inverse_join_add_instead_subtract","wrong":"1870/157"}
+{"detected":true,"expected":"26","mutation":"open_box_count_lid","wrong":"32"}
+{"detected":true,"expected":"2","mutation":"drop_tied_open_optimum","wrong":"1"}

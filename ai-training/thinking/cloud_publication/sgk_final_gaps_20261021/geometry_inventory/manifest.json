@@ -1,0 +1,246 @@
+{
+  "cases": 24,
+  "chats": 96,
+  "masters": 10,
+  "grades": {
+    "1": 12,
+    "3": 1,
+    "4": 9,
+    "5": 1,
+    "2": 1
+  },
+  "numeric_steps": 16,
+  "independent_oracles": 24,
+  "mutation_rejections": 48,
+  "nearest_actual_rows": 28,
+  "prior_rows": 1239,
+  "prior_preservation": [
+    {
+      "file": "cloud_publication\\sgk_page_audit_20261019\\current_sources.jsonl",
+      "sha256": "ee33c60de5daaff692c04fededd9f17473c35ec08dc56af7534262a61c7d7387"
+    },
+    {
+      "file": "cloud_publication\\sgk_completion_20261021\\release\\accepted_cases.jsonl",
+      "sha256": "1e9b81a0178c8ca93e9759359629c94d789e953902e4e28feb114342d6944f9a"
+    },
+    {
+      "file": "cloud_publication\\sgk_final_forms_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "8d80ff7f2cf5a00adb2c657a58121e19e9cf05b25d294355e19f5c00897da318"
+    },
+    {
+      "file": "cloud_publication\\sgk_finish_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "051e41c894effc85f38b60e7c662b2e071b49c9e327f5ef2bd01fc2e22d3c025"
+    },
+    {
+      "file": "cloud_publication\\sgk_page_audit_20261019\\release\\accepted_cases.jsonl",
+      "sha256": "8488a42cc6420c91d1743d60555da800140168e79514851fa840550504448c45"
+    },
+    {
+      "file": "cloud_publication\\sgk_remaining_20261020\\release\\accepted_cases.jsonl",
+      "sha256": "2280ef520e709516064ce3ce667047103477e0479fe2fbc9f1c2e2d2f545c296"
+    }
+  ],
+  "files": [
+    {
+      "path": "cases.jsonl",
+      "sha256": "92d1a0e1bf08f46e7c78eee2a19b3bf5e9aeaa11fa9ff856599367550809ba6c",
+      "bytes": 206081
+    },
+    {
+      "path": "chat.jsonl",
+      "sha256": "ea2411745f9231d0850b503e8dcea286c0a2533dcda1fb19dc5eb224313ac0b9",
+      "bytes": 248067
+    },
+    {
+      "path": "selfqa7.jsonl",
+      "sha256": "ee4171e1a8091ed28aa90ca55a1d846f697a456258c32c6036b230d9bd911e6b",
+      "bytes": 21972
+    },
+    {
+      "path": "independent_oracles.jsonl",
+      "sha256": "b72a843566e7f96b02f376d08cb877e4ee08fbd97191b49390e48e711d29b008",
+      "bytes": 7345
+    },
+    {
+      "path": "numeric_fraction_decimal.jsonl",
+      "sha256": "358f94c32db4ef07e066ef5797825699305f7ab0873a5f1013c758a38c00e201",
+      "bytes": 3872
+    },
+    {
+      "path": "adversarial_mutations.jsonl",
+      "sha256": "7a5dcb0f2ecfc369e8b5d7375a866c906d1dc15b65f39a054f4a064b0957ae9f",
+      "bytes": 11734
+    },
+    {
+      "path": "coverage_matrix.json",
+      "sha256": "f77970687b2b59313ae98752b274b4fe0e9e68b382d4ae372f9b8369770d8167",
+      "bytes": 10400
+    },
+    {
+      "path": "candidate_snapshot.json",
+      "sha256": "e421c39d938f12705de1e0470c183fdcf9677a91124a9bc2d7045ea1ef526aed",
+      "bytes": 43911
+    },
+    {
+      "path": "assignment_snapshot.json",
+      "sha256": "932cbc81c486b9e13bd78cbf357d784910f017eff912e82ee34b267672b72973",
+      "bytes": 742
+    },
+    {
+      "path": "nearest_actual_fullfields.jsonl",
+      "sha256": "070d36834be21e7d8865c20b4ec8a3a90a3c52e4bd1a3af2ebff736066bc3076",
+      "bytes": 142883
+    },
+    {
+      "path": "independent_geometry_oracle.py",
+      "sha256": "29bea087e7dd6e6559bd18e6292a65a1f6ddc86b137147f3425c3d40244fb254",
+      "bytes": 7936
+    },
+    {
+      "path": "original_assets.py",
+      "sha256": "deb6185de01689d6fc945ef30d2a408c8b53cf42f0e811267642ca10264f4735",
+      "bytes": 7872
+    },
+    {
+      "path": "assets/cube_marked_faces_fixed_view.svg",
+      "sha256": "a22dc00e1ef1c11026e875843b9a5b9ff9f54e0f94e94da5222fe65974d0742f",
+      "bytes": 2116
+    },
+    {
+      "path": "assets/diagonal_half_cells_regroup_without_doublecount.svg",
+      "sha256": "f3e3c8649a48f5311f7a3bb0dd78613361269cc3a110fef162e41a6f36576958",
+      "bytes": 2100
+    },
+    {
+      "path": "assets/equal_area_nonfit_thin_rectangle.svg",
+      "sha256": "e64aa317efe0eb35bcd5a5929912b935d57d2103eef4ada5ac0a75b550dff37c",
+      "bytes": 1187
+    },
+    {
+      "path": "assets/face_direction_wrong_label_not_shape_name.svg",
+      "sha256": "a5c6785c5f0bcfd288f6210abc645aa6f68cca5eeb97b5b33b768c6fc679118d",
+      "bytes": 2132
+    },
+    {
+      "path": "assets/four_triangles_rotated_diamond_placement.svg",
+      "sha256": "b168f9432f686a53cc76eeac7a2b432526e3102ae2473b034b2d1c93e51bf5a5",
+      "bytes": 1756
+    },
+    {
+      "path": "assets/irregular_staircase_full_unit_cells.svg",
+      "sha256": "01f2c7bd3e97992d523d7a902ea9d806094b3b5afff95798f6b628cb2272dbe9",
+      "bytes": 1406
+    },
+    {
+      "path": "assets/notched_piece_exact_complement.svg",
+      "sha256": "fbf42ca0c43719e8a1babf0ddbb626d872249499d38d71a53066ea8770e0abbe",
+      "bytes": 7237
+    },
+    {
+      "path": "assets/notched_piece_rotation_without_reflection.svg",
+      "sha256": "9f5b722622b768297e6e6ca84bc125169cac06e8b70be3f57f58c6cbc8a46d11",
+      "bytes": 5619
+    },
+    {
+      "path": "assets/relocate_three_sticks_complete_rhombi.svg",
+      "sha256": "c0153e393c1d360c305141e35740b01eabbbc84f9c37958086926ad83607bef5",
+      "bytes": 2575
+    },
+    {
+      "path": "assets/remove_internal_stick_recount_all_triangles.svg",
+      "sha256": "411d0b21fc7a3cf51d9b7b3e2b1fb15291127f57d13ec983dbac1e8ce6b24120",
+      "bytes": 2188
+    },
+    {
+      "path": "assets/seven_piece_tangram_exact_square_inventory.svg",
+      "sha256": "24ddaf3b795d2fc89da191fe61c8498fcb188a406016495d16c5d3842d1b1377",
+      "bytes": 2411
+    },
+    {
+      "path": "assets/seven_segment_digit_count_change_two_moves.svg",
+      "sha256": "b15b99a6368e6e9273de170376847ad4909f84b9d4ad8e133e2c33b968e63142",
+      "bytes": 4646
+    },
+    {
+      "path": "assets/seven_segment_exact_four_stick_build.svg",
+      "sha256": "b350125b31df07d8bfc79be499b7b200ff9ef16042da9bcaa6f6d9b43b31ca5a",
+      "bytes": 2028
+    },
+    {
+      "path": "assets/seven_segment_fixed_slots_global_minimum.svg",
+      "sha256": "e4dedc7d4c358413c78af97ee7ecc389fefc60047f01d5a43b219a791d740469",
+      "bytes": 3338
+    },
+    {
+      "path": "assets/seven_segment_one_move_equation_unique.svg",
+      "sha256": "013f84a63dc2193b40f7735e0c2deec1364bb0c8cd075fa14019d46259de76fe",
+      "bytes": 4826
+    },
+    {
+      "path": "assets/six_piece_midpoint_complete_dissection.svg",
+      "sha256": "4c5e0b02495f41317471acb800ab89285d8cc50a3cdd8b1ee4e45882fae93c04",
+      "bytes": 2198
+    },
+    {
+      "path": "assets/six_piece_wrong_midpoint_equal_area_error.svg",
+      "sha256": "23b12b58b2f25a58dfa93b46f27fcf301a8135c0bcf89054eb880018ee03a139",
+      "bytes": 2215
+    },
+    {
+      "path": "assets/square_two_triangles_house_silhouette.svg",
+      "sha256": "e5de358c1a1a82e3c242eef0cb0147b2985372482508006571246df6cc457ed7",
+      "bytes": 1577
+    },
+    {
+      "path": "assets/three_direction_rhombi_complete.svg",
+      "sha256": "436ca97a9cef3e41d337aa8cba5f626b755924e865a691ed388288a1e977667b",
+      "bytes": 2537
+    },
+    {
+      "path": "assets/three_direction_rhombi_missing_outer.svg",
+      "sha256": "931b38b4c81a161808577b5fa49fb3b088e822806d604b0628214c36de3a7663",
+      "bytes": 2433
+    },
+    {
+      "path": "assets/tilted_square_complete_inventory.svg",
+      "sha256": "37f75363ae3550c6ba0aacee429eddd91a57d64b83e546bc927f0f4c637e2ba3",
+      "bytes": 2275
+    },
+    {
+      "path": "assets/tilted_square_missing_side.svg",
+      "sha256": "ee89644b7543c2eecfdb63b5641f54e1b8bc825f5754cab53dc4f62055c0fde4",
+      "bytes": 2184
+    },
+    {
+      "path": "assets/top_faces_occlusion_selection.svg",
+      "sha256": "183e0a7e4230ba8265970e7db1e3ed987b40c9a546012d94381dc373acc8d474",
+      "bytes": 3266
+    },
+    {
+      "path": "assets/triangle_pair_selection_fixed_target.svg",
+      "sha256": "6efcc9651b1c7468f2edeca393eafd1d20dea97c27042cfadf12c361da2748b6",
+      "bytes": 1383
+    },
+    {
+      "path": "render_reference.py",
+      "sha256": "515dffa9ff3caa9354baa9318779a79a52a335d2bb1a3fa873381ddd8149148e",
+      "bytes": 2274
+    },
+    {
+      "path": "visual_qa/render_receipt.json",
+      "sha256": "47b63ccaace96b49e3ad2ba4f9c2abdc79053d24ff181f0e6ffd29bce6cb0266",
+      "bytes": 12363
+    }
+  ],
+  "status": "AUTHOR_SELF_QA_PASSED_ROOT_REVIEW_PENDING",
+  "training_started": false,
+  "drive_mutated": false,
+  "visual_qa": {
+    "original_svg_count": 24,
+    "svg_xml_valid": true,
+    "all_four_reference_sheets_visually_inspected": true,
+    "renderer": "Pillow reproduction of basic SVG primitives, not browser render",
+    "render_receipt_sha256": "47b63ccaace96b49e3ad2ba4f9c2abdc79053d24ff181f0e6ffd29bce6cb0266",
+    "limitation": "Original schematic/table asset only, not verified publisher-image understanding. Source piece thumbnails normalized separately, explicitly not to a common scale."
+  }
+}

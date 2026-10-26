@@ -1,0 +1,18 @@
+test_catalog_change_cannot_resume (__main__.ArchiveAuditTests.test_catalog_change_cannot_resume) ... ok
+test_chat_tamper_and_source_hash_mismatch (__main__.ArchiveAuditTests.test_chat_tamper_and_source_hash_mismatch) ... ok
+test_duplicate_and_cross_split_are_evidence_not_silent_pass (__main__.ArchiveAuditTests.test_duplicate_and_cross_split_are_evidence_not_silent_pass) ... ok
+test_hash_tamper_refused_before_rows (__main__.ArchiveAuditTests.test_hash_tamper_refused_before_rows) ... ok
+test_restart_cursor_exactly_once_and_partial_case_status (__main__.ArchiveAuditTests.test_restart_cursor_exactly_once_and_partial_case_status) ... ok
+test_zip_member_hash_required_and_guard (__main__.ArchiveAuditTests.test_zip_member_hash_required_and_guard) ... ok
+test_expired_worker_cannot_finish_after_reclaim (__main__.PortableTests.test_expired_worker_cannot_finish_after_reclaim) ... ok
+test_merge_idempotence_conflict_and_revision (__main__.PortableTests.test_merge_idempotence_conflict_and_revision) ... ok
+test_progress_and_result_survive_account_session (__main__.PortableTests.test_progress_and_result_survive_account_session) ... ok
+test_rebind_read_does_not_imply_update (__main__.PortableTests.test_rebind_read_does_not_imply_update) ... ok
+test_same_content_task_dedup_and_frozen_guard (__main__.PortableTests.test_same_content_task_dedup_and_frozen_guard) ... ok
+test_two_local_connections_cannot_claim_same_live_task (__main__.PortableTests.test_two_local_connections_cannot_claim_same_live_task) ... ok
+test_wrong_profile_id_hash_rejected (__main__.PortableTests.test_wrong_profile_id_hash_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.350s
+
+OK

@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    {
+      "output_type": "stream",
+      "name": "stdout",
+      "text": [
+        "{\"mem\": {\"MemTotal\": \"13286936 kB\", \"MemAvailable\": \"11927388 kB\", \"Cached\": \"11426240 kB\", \"SwapTotal\": \"0 kB\"}, \"root\": \"/content/mathvisionkid_data_only\", \"database\": \"/content/mathvisionkid_data_only/owner_resume_3c7cb05061c00408.sqlite\", \"cgroup_memory_max\": \"max\", \"training_started\": false}\n"
+      ]
+    }
+  ]
+}
