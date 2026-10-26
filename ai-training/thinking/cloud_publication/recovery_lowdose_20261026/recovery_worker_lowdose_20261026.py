@@ -348,7 +348,11 @@ def main():
 
  raw_rows=[json.loads(s) for s in (root/'training_view.jsonl').read_text().splitlines()]
 
- screening=screen_fixtures(fixtures,raw_rows);atomic(root/'dev_train_screening.json',screening)
+ screening=screen_fixtures(fixtures,raw_rows)
+ screening_path=root/'dev_train_screening.json'
+ if screening_path.exists():
+  if json.loads(screening_path.read_bytes())!=screening:raise ValueError('Preserved dev_train_screening bytes contain different screening evidence')
+ else:atomic(screening_path,screening)
 
  if screening['collisions']:raise ValueError('fresh dev overlaps train text; no data edits to force pass')
 
@@ -761,6 +765,7 @@ if __name__=='__main__':
   atomic(root/'training/error.json',{'error':repr(e),'traceback':traceback.format_exc(),'observed_utc':datetime.now(timezone.utc).isoformat(),'source_or_corpus_modified':False})
 
   raise
+
 
 
 

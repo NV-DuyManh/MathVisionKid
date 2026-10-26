@@ -1,0 +1,21 @@
+{
+  "add": {
+    "newCellId": "pqQrf6T3oWH_"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "error",
+        "ename": "AssertionError",
+        "evalue": "refuse changed existing file: build_quality_gate_20261026.py",
+        "traceback": [
+          "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+          "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+          "\u001b[0;32m/tmp/ipykernel_1225/4220281294.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      6\u001b[0m  \u001b[0mraw\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mbase64\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mb64decode\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mencoded\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m;\u001b[0m \u001b[0mpath\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mroot\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      7\u001b[0m  \u001b[0;32mif\u001b[0m \u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mexists\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 8\u001b[0;31m   \u001b[0;32massert\u001b[0m \u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_bytes\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m==\u001b[0m\u001b[0mraw\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'refuse changed existing file: '\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      9\u001b[0m  \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwrite_bytes\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mraw\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     10\u001b[0m \u001b[0mresult\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0msubprocess\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrun\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mroot\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0;34m'venv/bin/python'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mroot\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0;34m'build_quality_gate_20261026.py'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'--root'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mroot\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'--decisions'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mroot\u001b[0m\u001b[0;34m/\u001b[0m\u001b[0;34m'root_paired_decisions_step_000100.json'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'--step'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'100'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mcapture_output\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mtext\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m30\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+          "\u001b[0;31mAssertionError\u001b[0m: refuse changed existing file: build_quality_gate_20261026.py"
+        ]
+      }
+    ]
+  }
+}

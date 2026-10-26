@@ -1,0 +1,17 @@
+{
+  "add": {
+    "newCellId": "AjddYkS_oitb"
+  },
+  "is_error": false,
+  "result": {
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "{\"returncode\": 0, \"stdout\": \"{\\\"gate\\\": \\\"/content/mathvisionkid_recovery_20261026/training/gate_step_000100.json\\\", \\\"summary\\\": \\\"/content/mathvisionkid_recovery_20261026/training/gate_step_000100_summary.json\\\", \\\"decision\\\": \\\"STOP\\\", \\\"candidate_eligible\\\": false}\\n\", \"stderr\": \"\"}\n"
+        ]
+      }
+    ]
+  }
+}
