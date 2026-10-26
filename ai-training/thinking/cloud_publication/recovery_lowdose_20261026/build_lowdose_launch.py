@@ -7,7 +7,7 @@ ROOT_FILES = (
     "owner_run_scope.json", "owner_scope_binding_v2.json",
     "training_view.jsonl", "sampling_manifest.json",
     "new_validation_candidates.jsonl", "derived_sampling_plan.json",
-    "pretrain_qa_approved.json", "exhaustive_colab_loader.py",
+     "exhaustive_colab_loader.py",
     "frozen_training_primitives.py", "conditional_behavior_renderer.py",
     "inference_contract.py", "behavior_renderer.py",
     "verbal_training_renderer_v3.py",
@@ -59,7 +59,7 @@ def bind_cache(source: pathlib.Path, target: pathlib.Path, review_files: list[pa
     provenance = json.loads(provenance_bytes)
     contract_bytes = contract_src.read_bytes()
     if json.loads(contract_bytes) != contract: raise ValueError("contract bytes differ from supplied contract")
-    contract_sha = sha_bytes(contract_bytes); dev_sha = sha(dev_src)
+    contract_sha = sha_bytes(canonical(contract)); dev_sha = sha(dev_src)
     if contract.get("fixture_sha256") != dev_sha or dev_sha != scope["dev_sha256"]:
         raise ValueError("dev fixtures/contract/scope SHA mismatch")
     proof_sha = sha_bytes(canonical(model_proof))
@@ -96,13 +96,13 @@ def bind_cache(source: pathlib.Path, target: pathlib.Path, review_files: list[pa
     for f in review_files: copy_exact(f, target / "frozen_reviews" / f.name)
     binding = {
         "schema":"MathVisionKid.immutable_dev_base_cache.v1",
-        "source_run_id":str(provenance.get("source_run_id") or "recovery_20261026_base"),
+    "source_run_id":str(json.loads((source/"training"/"run_config.json").read_bytes()).get("branch") or "recovery_20261026_base"),
         "model":"Qwen/Qwen3-1.7B",
         "revision":"70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
         "model_artifact_proof":model_proof, "model_artifact_proof_sha256":proof_sha,
         "source_view_sha256":sha(view_src), "source_plan_sha256":sha(plan_src),
         "dev_sha256":dev_sha, "contract_sha256":contract_sha,
-        "inference_contract_sha256":sha(infer_src), "renderer_sha256":sha(renderer_src),
+    "inference_contract_sha256":sha(infer_src), "renderer_sha256":sha(renderer_src),
         "fixture_ids":ids, "prompt_token_sha256":prompt_hashes, "seed_by_fixture":seeds,
         "base_output_sha256":sha_bytes(output), "base_output_bytes":len(output),
         "base_provenance_sha256":sha_bytes(provenance_bytes), "frozen_review_files":reviews,
@@ -151,6 +151,7 @@ def build(source: pathlib.Path, code: pathlib.Path, bundle: pathlib.Path,
             else: copy_exact(src,target/name)
         for name in CODE_FILES:
             copy_exact(code/name,target/name)
+        copy_exact(source/"training"/"pretrain_qa_approved.json",target/"pretrain_qa_approved.json")
         for name in ("recovery_worker_lowdose_20261026.py","preflight_checks_lowdose.py"):
             copy_exact(bundle/name,target/name)
         copy_exact(screening,target/"dev_train_screening.json")
