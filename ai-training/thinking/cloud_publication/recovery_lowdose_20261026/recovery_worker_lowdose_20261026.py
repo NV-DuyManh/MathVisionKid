@@ -265,13 +265,13 @@ def load_scope(root):
   base[key]=binding[key]
  return base
 
-def verify_baseline_cache(cache,fixtures,contract,csha,dev_sha,plan_sha,model_proof,source_view_sha):
+def verify_baseline_cache(cache,fixtures,contract,csha,dev_sha,plan_sha,model_proof,source_view_sha,inference_sha,renderer_sha):
  """Verify and accept only a complete hash-bound current-dev base cache."""
  cache=pathlib.Path(cache)
  binding_path=cache/'baseline_cache_binding.json'
  binding=json.loads(binding_path.read_bytes())
  required={'schema','source_run_id','model','revision','model_artifact_proof','model_artifact_proof_sha256',
-  'source_view_sha256','source_plan_sha256','dev_sha256','contract_sha256','fixture_ids','prompt_token_sha256',
+  'source_view_sha256','source_plan_sha256','dev_sha256','contract_sha256','inference_contract_sha256','renderer_sha256','fixture_ids','prompt_token_sha256',
   'seed_by_fixture','base_output_sha256','base_output_bytes','base_provenance_sha256','frozen_review_files'}
  if set(binding)!=required or binding['schema']!='MathVisionKid.immutable_dev_base_cache.v1' or not isinstance(binding.get('source_run_id'),str) or not binding['source_run_id']:raise ValueError('Baseline cache binding schema/fields differ')
  if contract.get('fixture_sha256')!=dev_sha:raise ValueError('Current development contract does not bind the configured dev SHA')
@@ -280,14 +280,15 @@ def verify_baseline_cache(cache,fixtures,contract,csha,dev_sha,plan_sha,model_pr
  seeds={f['id']:(20261024+int(digest(f['id'].encode())[:8],16))%(2**31) for f in fixtures}
  expected={'model':MODEL,'revision':REV,'model_artifact_proof':model_proof,'model_artifact_proof_sha256':proof_sha,
   'source_view_sha256':source_view_sha,'source_plan_sha256':plan_sha,'dev_sha256':dev_sha,'contract_sha256':csha,
+  'inference_contract_sha256':inference_sha,'renderer_sha256':renderer_sha,
   'fixture_ids':fixture_ids,'prompt_token_sha256':contract['prompt_token_sha256'],'seed_by_fixture':seeds}
  for key,value in expected.items():
   if binding.get(key)!=value:raise ValueError('Baseline cache identity mismatch: '+key)
  output=cache/'base_generations.jsonl';provenance=cache/'base_generation_provenance.json'
  if not output.is_file() or not provenance.is_file():raise ValueError('Baseline cache output/provenance is missing')
- if raw_sha(output)!=binding['base_output_sha256'] or output.stat().st_size!=binding['base_output_bytes']:
+ if sha(output)!=binding['base_output_sha256'] or output.stat().st_size!=binding['base_output_bytes']:
   raise ValueError('Baseline cache output SHA/size mismatch')
- if raw_sha(provenance)!=binding['base_provenance_sha256']:
+ if sha(provenance)!=binding['base_provenance_sha256']:
   raise ValueError('Baseline cache provenance SHA mismatch')
  proof=json.loads(provenance.read_bytes())
  if proof.get('model')!=MODEL or proof.get('revision')!=REV or proof.get('contract_sha256')!=csha or proof.get('fixture_sha256')!=contract['fixture_sha256'] or proof.get('stage')!='base_before_training' or proof.get('outputs_sha256')!=binding['base_output_sha256']:
@@ -307,6 +308,7 @@ def verify_baseline_cache(cache,fixtures,contract,csha,dev_sha,plan_sha,model_pr
   'cache_binding_sha256':sha(binding_path),'base_output_sha256':binding['base_output_sha256'],
   'base_provenance_sha256':binding['base_provenance_sha256'],'frozen_review_files':reviews,
   'model_artifact_proof_sha256':proof_sha,'source_plan_sha256':plan_sha,'dev_sha256':dev_sha,'contract_sha256':csha,
+  'inference_contract_sha256':inference_sha,'renderer_sha256':renderer_sha,
   'fixture_ids':fixture_ids,'prompt_token_sha256':contract['prompt_token_sha256'],'seed_by_fixture':seeds,
   'complete_base_rows':len(rows),'outputs_reused_without_rewriting':True}
 
@@ -381,7 +383,7 @@ def main():
   'validation_scope':'Reused preexisting 30-item development set, already seen in prior development. A fresh pinned base is loaded; its complete base outputs may be reused only through the explicit immutable cache proof. Not an unseen or independent benchmark; sealed/final fixtures are excluded.',
 
   'human_review_or_credentials_added':False,'previous_adapters_loaded':False,'whole_corpus_training_claimed':False,
-  'branch':'recovery_lowdose_20261026','parent_run':'recovery_20261026','fresh_base_required':True,'checkpoint_resume_supported':False,'baseline_cache_requested':args.baseline_cache is not None,'minimum_prelaunch_budget_seconds':3600,'max_dev_generation_seconds':1200,'quality_gate_finalization_buffer_seconds':120}
+  'branch':'recovery_lowdose_20261026','parent_run':'recovery_20261026','fresh_base_required':True,'checkpoint_resume_supported':False,'baseline_cache_requested':args.baseline_cache is not None,'minimum_prelaunch_budget_seconds':3600 if args.baseline_cache is not None else 4800,'max_dev_generation_seconds':1200,'quality_gate_finalization_buffer_seconds':120}
 
  from native_backend_20261026 import NativeBackend as FastLanguageModel
 
@@ -427,20 +429,25 @@ def main():
  atomic(out/'run_config.json',cfg)
 
  base_dir=out/'eval_step_000000';base_dir.mkdir(exist_ok=False)
+ if cutoff-time.time()<cfg['minimum_prelaunch_budget_seconds']:raise TimeoutError('Insufficient time remains before baseline initialization')
  cache_validation=None
  if args.baseline_cache is None:
   cfg['baseline_cache_binding_sha256']=None;cfg['baseline_cache_source_run_id']=None
   atomic(out/'progress.json',{'state':'BASE_DEV_EVALUATION','step':0,'training_started':False})
-  H.generate_fixtures(model,tok,fixtures,base_dir,'base_before_training',contract,csha,min(cfg['max_dev_generation_seconds'],cutoff-time.time()-cfg['quality_gate_finalization_buffer_seconds']),FastLanguageModel)
+  base_timeout=min(cfg['max_dev_generation_seconds'],cutoff-time.time()-cfg['quality_gate_finalization_buffer_seconds'])
+  if base_timeout<=0:raise TimeoutError('No bounded development-base inference window remains')
+  H.generate_fixtures(model,tok,fixtures,base_dir,'base_before_training',contract,csha,base_timeout,FastLanguageModel)
  else:
   atomic(out/'progress.json',{'state':'VALIDATING_IMMUTABLE_BASELINE_CACHE','step':0,'training_started':False})
   if time.time()>=cutoff:raise TimeoutError('No training window remains for cache verification')
-  cache_validation=verify_baseline_cache(args.baseline_cache,fixtures,contract,csha,dev_sha,cfg['source_plan_sha256'],model._mathvisionkid_artifact_proof,H.VIEW_SHA256)
+  cache_validation=verify_baseline_cache(args.baseline_cache,fixtures,contract,csha,dev_sha,cfg['source_plan_sha256'],model._mathvisionkid_artifact_proof,H.VIEW_SHA256,sha(root/'inference_contract.py'),sha(root/'conditional_behavior_renderer.py'))
   cache_root=pathlib.Path(args.baseline_cache)
   for name in ('base_generations.jsonl','base_generation_provenance.json'):
    target=base_dir/name
    if target.exists():raise FileExistsError('Refusing to overwrite a baseline evaluation file')
    atomic_bytes(target,(cache_root/name).read_bytes())
+   expected_sha=cache_validation['base_output_sha256'] if name=='base_generations.jsonl' else cache_validation['base_provenance_sha256']
+   if sha(target)!=expected_sha:raise ValueError('Copied baseline cache bytes differ from validated proof')
   cfg['baseline_cache_binding_sha256']=cache_validation['cache_binding_sha256'];cfg['baseline_cache_source_run_id']=cache_validation['source_run_id']
   atomic(out/'baseline_cache_validation.json',cache_validation)
   atomic(base_dir/'baseline_cache_binding_receipt.json',{'cache_binding_sha256':cache_validation['cache_binding_sha256'],'base_output_sha256':cache_validation['base_output_sha256'],'base_provenance_sha256':cache_validation['base_provenance_sha256'],'model_artifact_proof_sha256':cache_validation['model_artifact_proof_sha256'],'source_plan_sha256':cfg['source_plan_sha256'],'dev_sha256':dev_sha,'contract_sha256':csha,'fixture_ids':[f['id'] for f in fixtures],'outputs_reused_without_rewriting':True})
@@ -751,4 +758,9 @@ if __name__=='__main__':
 
   args=sys.argv;root=pathlib.Path(args[args.index('--root')+1]) if '--root' in args else pathlib.Path('.')
 
-  atomic(root/'training/error.json',{'error':repr(e),'trace
+  atomic(root/'training/error.json',{'error':repr(e),'traceback':traceback.format_exc(),'observed_utc':datetime.now(timezone.utc).isoformat(),'source_or_corpus_modified':False})
+
+  raise
+
+
+

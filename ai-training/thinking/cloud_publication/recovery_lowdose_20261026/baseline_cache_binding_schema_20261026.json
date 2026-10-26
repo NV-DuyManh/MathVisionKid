@@ -1,0 +1,31 @@
+{
+  "bundle_files": [
+    "baseline_cache_binding.json",
+    "base_generations.jsonl",
+    "base_generation_provenance.json",
+    "frozen_reviews/<review-file>.json"
+  ],
+  "required_fields": [
+    "schema",
+    "source_run_id",
+    "model",
+    "revision",
+    "model_artifact_proof",
+    "model_artifact_proof_sha256",
+    "source_view_sha256",
+    "source_plan_sha256",
+    "dev_sha256",
+    "contract_sha256",
+    "inference_contract_sha256",
+    "renderer_sha256",
+    "fixture_ids",
+    "prompt_token_sha256",
+    "seed_by_fixture",
+    "base_output_sha256",
+    "base_output_bytes",
+    "base_provenance_sha256",
+    "frozen_review_files"
+  ],
+  "schema": "MathVisionKid.immutable_dev_base_cache.v1",
+  "validation": "All identity values must match the freshly loaded pinned base, current sampling plan, current dev file and freshly tokenized current contract. Output rows must be complete, ordered, exact-prompt/seed matched, and nontruncated. Each frozen review filename/hash is checked. Any mismatch aborts cache use; it does not fall back to another cached file."
+}

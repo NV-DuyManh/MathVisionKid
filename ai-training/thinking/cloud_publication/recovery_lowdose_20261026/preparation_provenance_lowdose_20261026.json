@@ -1,0 +1,84 @@
+{
+  "baseline_cache_contract": {
+    "checks": [
+      "30 complete base output rows with exact prompt/seed/stage/contract and no timeout/truncation",
+      "freshly loaded model proof exactly equals cache proof",
+      "copied baseline bytes rechecked after copy",
+      "frozen review artifact names and hashes checked"
+    ],
+    "mismatch_behavior": "abort cache use/run; never silently accept another cache or rewrite cached outputs",
+    "optional_cli_flag": "--baseline-cache",
+    "proof_fields": [
+      "pinned model/revision and full loaded artifact proof plus canonical proof SHA",
+      "source view/plan/dev SHA",
+      "contract SHA, inference contract and conditional renderer SHA",
+      "exact fixture ID/order, tokenizer prompt-token SHA per fixture, and per-fixture generation seed",
+      "full base output raw SHA and byte size",
+      "base provenance raw SHA",
+      "at least one frozen review artifact raw SHA under frozen_reviews/"
+    ],
+    "training_use": "The cache is baseline evidence only. A new candidate is trained from a fresh pinned base and the unchanged 30-item paired quality gate still controls continuation/selection."
+  },
+  "budget_guards": {
+    "generation_finalization_buffer_seconds": 120,
+    "max_base_or_candidate_dev_generation_seconds": 1200,
+    "minimum_seconds_before_load_with_valid_cache": 3600,
+    "minimum_seconds_before_load_without_cache": 4800
+  },
+  "created_date": "2026-10-26",
+  "limitations": "This lower LR is a single safety hypothesis based on an early six-fixture partial of the current 2e-5 run and earlier 3e-6/r8 weak adaptation. The partial is not a completed evaluation and does not establish that LR caused the observed critical/regression. No performance guarantee.",
+  "objective": "Prepare one fresh-base lower-dose controlled trial after the current candidate gate resolves; the current active run and its gate are not modified.",
+  "owner_budget": {
+    "authorized_train_cutoff_utc": "2026-10-26T11:04:18Z",
+    "hard_deadline_utc": "2026-10-26T11:14:18Z",
+    "reserve_seconds_read_from_scope": true,
+    "source": "current owner scope; no deadline or reserve value is hardcoded in worker"
+  },
+  "preflight": {
+    "gpu_or_remote_run": "not performed",
+    "py_compile": "pass",
+    "reject_changed_review_hash": "pass",
+    "reject_tampered_output": "pass",
+    "reject_wrong_model_artifact_proof": "pass",
+    "synthetic_cache_acceptance": "pass"
+  },
+  "schema": "MathVisionKid.lowdose_recovery_20261026.provenance.v1",
+  "source_sha256": {
+    "conditional_behavior_renderer.py": "78b4a5c9cfff2e33fc7610461ecab6f57447c079205b62668631f2ca4b665982",
+    "current_20261026_backend.py": "66aa1473bb6835497fb59b16ab0c76e2a609eec0358d9b7cd03f2662e3f3a046",
+    "current_20261026_policy.py": "648a6a8f48ded0bf7cb2615451b895e9b3a7d72bfdd294430ec58ce4029384fd",
+    "current_20261026_worker.py": "b618f2d961dd0d342f006a8b07abe39268962fc0bdcab43622c425ee2bf67d4f",
+    "historical_24_source_qa_diagnosis.json": "15c2eb55279032f27e2575f33bafd48a847533b6cd76351e73b67e545ad38478",
+    "inference_contract.py": "a8398e1c6a414aa0c9d343ebaa737f7e744f6892b8298497c317ea83927a0642",
+    "lowdose_cache_binding_schema.json": "f6d10b0fbf20fd94fe5b5b5f82bd2837006ccb8a53365e1a1eef42202213eb71",
+    "lowdose_cache_preflight.py": "b848121f35836ef138fb6eb135d78f9e6d9a7cf496e003aef0991781061e2997",
+    "lowdose_worker.py": "8b61eb4c72cfd0441ebaf6353ecaae7c031bef8731fb3cac295d35388ef184b0",
+    "target_renderer_v3.py": "6b15233ae253eed7825864413edbdf3f8553ad955ef248e045c05f64e4473057"
+  },
+  "trial_config": {
+    "base": "pinned Qwen/Qwen3-1.7B fresh load; no prior adapter/checkpoint",
+    "derived_view_epochs_cap": 1,
+    "effective_batch": 16,
+    "lora_alpha": 16,
+    "lora_r": 16,
+    "max_successful_updates": 100,
+    "microbatch": 2,
+    "objective": "same explicit equal-row mean of per-row supervised-token assistant CE as recovery_20261026",
+    "peak_learning_rate": 5e-06,
+    "quality_gate_steps": [
+      100
+    ],
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "target_renderer": "unchanged V3 target text; unchanged conditional behavior prompt renderer",
+    "train_data": "same validated source view/sampling policy; no new examples and no source target edits",
+    "warmup_updates": 10
+  }
+}
