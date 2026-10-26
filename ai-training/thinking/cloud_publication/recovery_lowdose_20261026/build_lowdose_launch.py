@@ -149,20 +149,23 @@ def build(source: pathlib.Path, code: pathlib.Path, bundle: pathlib.Path,
             if name in ("training_view.jsonl","sampling_manifest.json"):
                 (target/name).symlink_to(src)
             else: copy_exact(src,target/name)
-        for name in CODE_FILES:
+        for name in CODE_FILES[1:]:
             copy_exact(code/name,target/name)
         copy_exact(source/"training"/"pretrain_qa_approved.json",target/"pretrain_qa_approved.json")
         for name in ("recovery_worker_lowdose_20261026.py","preflight_checks_lowdose.py"):
             copy_exact(bundle/name,target/name)
-        copy_exact(screening,target/"dev_train_screening.json")
-        if (target/"dev_train_screening.json").read_bytes() != screen_bytes:
-            raise IOError("dev screening bytes changed during staging")
+        # Preserve the prior run's evidence under its own name. The new worker
+        # must generate a fresh source-only screening file in its own root.
+        copy_exact(screening,target/"prior_dev_train_screening_preserved.json")
+        if (target/"prior_dev_train_screening_preserved.json").read_bytes() != screen_bytes:
+            raise IOError("prior dev screening evidence changed during staging")
         shutil.move(str(cache_tmp),str(cache_target))
         atomic_json(target/"baseline_cache_stage_receipt.json",{
             "schema":"MathVisionKid.lowdose_stage_receipt.v1",
             "source_run_config_sha256":sha(source/"training"/"run_config.json"),
             "source_model_artifact_proof_sha256":sha_bytes(canonical(model_proof)),
-            "source_dev_train_screening_sha256":sha_bytes(screen_bytes),
+            "prior_dev_train_screening_sha256":sha_bytes(screen_bytes),
+            "new_dev_train_screening":"generated source-only by low-dose worker in new root",
             "cache_binding_sha256":sha(cache_target/"baseline_cache_binding.json"),
             "worker_sha256":sha(target/"recovery_worker_lowdose_20261026.py"),
             "backend_sha256":sha(target/"native_backend_20261026.py"),

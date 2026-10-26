@@ -1,0 +1,29 @@
+{
+  "behavior": [
+    "CPU-only; requires both run_complete.complete=true and progress.state=COMPLETE.",
+    "Uses the existing frozen assessment builder and writes a new final_semantic_assessment.json only when absent; refuses overwrite.",
+    "Finalize mode requires raw readback evidence for both the exact assessment bytes and exact selected artifact bytes before creating a finalize_requested.json marker.",
+    "Publisher finalization is not claimed until the existing publisher consumes the marker and records a fresh raw readback proof.",
+    "No model/GPU, corpus, sealed fixtures, browser, MCP, Drive, or publisher network access on import or execution."
+  ],
+  "checks": [
+    "py_compile PASS",
+    "import smoke PASS without torch or googleapiclient"
+  ],
+  "created_utc": "2026-10-26T09:56:52.570933+00:00",
+  "files": {
+    "assessment_builder": "build_final_assessment_20261026.py",
+    "publisher": "publisher_runtime.py",
+    "utility": "finalize_completed_run_20261026_v2.py"
+  },
+  "limitations": [
+    "Raw readback receipt must be captured by the root-controlled publisher/API path and passed explicitly; utility does not authenticate or fetch remote content.",
+    "Requires run_complete/progress from the completed run; it does not synthesize completion metadata."
+  ],
+  "schema": "MathVisionKid.completed_run_finalization_v2_provenance.v1",
+  "sha256": {
+    "build_final_assessment_20261026.py": "8365c678a9ed256e78c878694a3fd693724eb5129ff751555016c191c42b5661",
+    "finalize_completed_run_20261026_v2.py": "5382d62180f5560acf43bf25dd1e7fef81cb32204bb972d62727667c784b4a01",
+    "publisher_runtime.py": "1bd3b0ee42e16b812024639cf732764abdf1ff8d21adf94b9c3c1ad0fa69cc80"
+  }
+}
