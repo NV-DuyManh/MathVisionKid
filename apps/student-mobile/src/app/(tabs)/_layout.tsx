@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { Tabs } from 'expo-router';
+import { Tabs, Redirect } from 'expo-router';
+import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../../constants/theme';
 import { StudentNavIcon } from '../../components/ui/StudentNavIcon';
@@ -86,6 +87,9 @@ export default function TabLayout() {
   const { width } = useWindowDimensions();
   const [preference, setPreference] = useState<boolean | null>(null);
   const expanded = preference ?? width >= 1200;
+  const auth = React.useContext(AuthContext);
+  if (auth?.isLoading) return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator accessibilityLabel="Đang xác minh tài khoản" /></View>;
+  if (!auth?.isAuthenticated || auth.user?.role !== 'STUDENT' || auth.user?.active !== true) return <Redirect href="/login" />;
   return <Tabs screenOptions={{ headerShown: false, tabBarPosition: width >= 768 ? 'left' : 'bottom' }}
     tabBar={props => <StudentTabBar {...props} viewportWidth={width} expanded={expanded} onToggle={() => setPreference(!expanded)} />}>
     <Tabs.Screen name="index" options={{ title: 'Trang chủ' }} />

@@ -32,6 +32,7 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sessionCheck = useRef<AbortController | null>(null);
+  const submitLock = useRef(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -40,6 +41,10 @@ export const LoginPage: React.FC = () => {
   useEffect(() => {
     const controller = new AbortController();
     sessionCheck.current = controller;
+    if (searchParams.get('connection') === 'failed') {
+      setError('Chưa kết nối được máy chủ. Vui lòng kiểm tra kết nối và đăng nhập lại.');
+      return () => controller.abort();
+    }
     if (searchParams.get('expired') === 'true' || searchParams.get('session') === 'expired') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
@@ -72,11 +77,13 @@ export const LoginPage: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitLock.current) return;
     if (!email.trim() || !password) {
       setError('Vui lòng nhập đầy đủ email và mật khẩu.');
       return;
     }
 
+    submitLock.current = true;
     sessionCheck.current?.abort();
     setLoading(true);
     setError(null);
@@ -100,12 +107,15 @@ export const LoginPage: React.FC = () => {
           break;
         }
         default:
+          submitLock.current = false;
           tokenStore.clearTokens();
           setError('Tài khoản không có quyền truy cập hệ thống.');
           setLoading(false);
           break;
       }
     } catch (err: any) {
+      submitLock.current = false;
+      setPassword('');
       setLoading(false);
       if (err.response?.status === 401 || err.response?.status === 400) {
         setError('Tài khoản hoặc mật khẩu chưa đúng.');
@@ -121,9 +131,9 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const fillCredentials = (demoEmail: string, demoPass: string) => {
+  const fillCredentials = (demoEmail: string) => {
     setEmail(demoEmail);
-    setPassword(demoPass);
+    setPassword('');
     setError(null);
   };
 
@@ -229,7 +239,7 @@ export const LoginPage: React.FC = () => {
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   <Chip
                     label="Học sinh (minh.student)"
-                    onClick={() => fillCredentials('minh.student@mathvision.local', 'Student@123')}
+                    onClick={() => fillCredentials('minh.student@mathvision.local')}
                     size="small"
                     color="primary"
                     variant="outlined"
@@ -237,7 +247,7 @@ export const LoginPage: React.FC = () => {
                   />
                   <Chip
                     label="Giáo viên (lan.teacher)"
-                    onClick={() => fillCredentials('lan.teacher@mathvision.local', 'Teacher@123')}
+                    onClick={() => fillCredentials('lan.teacher@mathvision.local')}
                     size="small"
                     color="success"
                     variant="outlined"
@@ -245,7 +255,7 @@ export const LoginPage: React.FC = () => {
                   />
                   <Chip
                     label="Quản trị (admin)"
-                    onClick={() => fillCredentials('admin@mathvision.local', 'Admin@123')}
+                    onClick={() => fillCredentials('admin.demo@mathvision.local')}
                     size="small"
                     color="secondary"
                     variant="outlined"

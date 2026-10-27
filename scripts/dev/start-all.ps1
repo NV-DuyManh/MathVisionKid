@@ -7,6 +7,7 @@ $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
     (Resolve-Path "$PSScriptRoot\..").Path
 }
 Set-Location $RepoRoot
+. (Join-Path $PSScriptRoot 'local-env.ps1')
 
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Unified Local Launcher" -ForegroundColor Cyan
@@ -466,13 +467,7 @@ function Start-TrackedService {
         Write-Host "  ERROR: $Name exited immediately with exit code $($proc.ExitCode)!" -ForegroundColor Red
         Write-Host "    Stdout: $LogFile" -ForegroundColor Yellow
         Write-Host "    Stderr: $errLog" -ForegroundColor Yellow
-        if (Test-Path $errLog) {
-            $errTail = Get-Content $errLog -Tail 15 -ErrorAction SilentlyContinue
-            if ($errTail) {
-                Write-Host "    Stderr detail:" -ForegroundColor DarkRed
-                $errTail | ForEach-Object { Write-Host "      $_" -ForegroundColor DarkRed }
-            }
-        }
+        # Keep raw service errors in local logs; they can contain configuration secrets.
         exit 1
     }
 
@@ -491,6 +486,15 @@ Write-Host "`n[4/6] Starting application services..." -ForegroundColor Yellow
 $SpringDir = Join-Path $RepoRoot "backend\business-api"
 $SpringPid = Join-Path $PidDir "spring.pid"
 $SpringLog = Join-Path $LogDir "spring.log"
+# Spring Boot does not read dotenv automatically. Scope these values to its child
+# process so root PORT/HOST/keys cannot leak into AI, Vite, or Student processes.
+$springEnvKeys = @(
+    'SPRING_PROFILES_ACTIVE', 'PORT', 'SERVER_ADDRESS', 'DB_URL', 'DB_USERNAME',
+    'DB_PASSWORD', 'JWT_SECRET', 'JWT_EXPIRATION', 'UPLOAD_ROOT', 'CORS_ALLOWED_ORIGINS',
+    'MINIO_ENDPOINT', 'MINIO_ACCESS_KEY', 'MINIO_SECRET_KEY', 'MINIO_BUCKET',
+    'AI_GATEWAY_MODE', 'AI_SERVICE_URL', 'AI_SERVICE_BASE_URL', 'INTERNAL_API_KEY'
+)
+Invoke-WithLocalEnvironment -Files @((Join-Path $RepoRoot '.env'), (Join-Path $SpringDir '.env')) -AllowedKeys $springEnvKeys -Action {
 Start-TrackedService -Name "Spring Boot" `
     -FilePath "cmd.exe" `
     -ArgumentList '/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev"' `
@@ -499,6 +503,7 @@ Start-TrackedService -Name "Spring Boot" `
     -PidFile $SpringPid `
     -PortCheck 8080 `
     -IdentityKind 'spring'
+}
 
 # B. FastAPI
 $AiDir = Join-Path $RepoRoot "ai\runtime"

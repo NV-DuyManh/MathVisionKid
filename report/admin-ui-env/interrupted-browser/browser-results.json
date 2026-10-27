@@ -1,0 +1,153 @@
+{
+  "database": "isolated H2 memory",
+  "realHttp": true,
+  "results": [
+    {
+      "name": "A: Portal ADMIN login completes SSO into Admin Dashboard",
+      "status": "passed"
+    },
+    {
+      "name": "UI creates a Student account and validates detail editing",
+      "status": "passed"
+    },
+    {
+      "name": "UI disables/enables a user; issued access is rejected while disabled",
+      "status": "passed"
+    },
+    {
+      "name": "UI password reset reveals a valid result once and clears it on close",
+      "status": "passed"
+    },
+    {
+      "name": "UI creates a Teacher account without a student grade",
+      "status": "failed",
+      "error": "locator.fill: Timeout 60000ms exceeded."
+    }
+  ],
+  "screenshots": [],
+  "pageState": {
+    "path": "/users",
+    "body": "",
+    "inputs": []
+  },
+  "console": [
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep)"
+    }
+  ],
+  "network": [
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/ticket",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/exchange",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9/disable",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9/enable",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9/reset-password",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b9203dc7-605f-4579-93f7-b46df799b0a9",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    }
+  ]
+}

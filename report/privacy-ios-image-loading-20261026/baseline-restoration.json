@@ -1,0 +1,14 @@
+{
+  "privacy": {
+    "beforeSha256": "7bc021f9951780390ffcfa57407ffe7664bc52938fde060fda5598b21c0bdcd9",
+    "afterSha256": "7bc021f9951780390ffcfa57407ffe7664bc52938fde060fda5598b21c0bdcd9"
+  },
+  "camera": {
+    "beforeSha256": "568ed6d1ad34ef008982bfca8f27adc34a9c9a20d897fc53ed16ffa0f4550864",
+    "afterSha256": "568ed6d1ad34ef008982bfca8f27adc34a9c9a20d897fc53ed16ffa0f4550864"
+  },
+  "gallery": {
+    "beforeSha256": "af6d3ef45876e18e44b8ce15226a83cba5ef17c5c570e5dc024ee6a82739a38d",
+    "afterSha256": "af6d3ef45876e18e44b8ce15226a83cba5ef17c5c570e5dc024ee6a82739a38d"
+  }
+}

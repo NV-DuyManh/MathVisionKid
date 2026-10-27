@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ThemeProvider theme={adminTheme}>
         <CssBaseline />
         <BrowserRouter>
-          <AuthProvider>
+          <AuthProvider onSessionChange={() => { void queryClient.cancelQueries(); queryClient.clear(); }}>
             <App />
           </AuthProvider>
         </BrowserRouter>

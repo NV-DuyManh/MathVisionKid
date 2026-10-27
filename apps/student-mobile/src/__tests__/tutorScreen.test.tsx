@@ -9,6 +9,11 @@ import { StudentWorkReview } from '../features/tutoring/StudentWorkReview';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 
 jest.mock('expo-speech', () => ({ speak: jest.fn(), stop: jest.fn().mockResolvedValue(undefined), getAvailableVoicesAsync: jest.fn().mockResolvedValue([]) }));
+// Native image decoding is outside this React renderer; browser export tests load the actual assets.
+jest.mock('../components/ui/AppIllustration', () => ({
+  AppIllustration: (props: any) => require('react').createElement('Image', props),
+  prepareIllustrations: jest.fn().mockResolvedValue(undefined),
+}));
 jest.mock('expo-audio', () => ({ AudioModule: {}, RecordingPresets: {}, useAudioRecorder: jest.fn(), useAudioRecorderState: jest.fn() }));
 jest.mock('../features/tutoring/LessonVideo', () => ({ LessonVideo: () => null }));
 jest.mock('../features/tutoring/PersonalLessonVideo', () => ({ PersonalLessonVideo: () => null }));

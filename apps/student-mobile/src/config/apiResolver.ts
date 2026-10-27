@@ -27,7 +27,7 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
 
   // 0. Production
   if (!__DEV__) {
-    const prodUrl = getEnv('EXPO_PUBLIC_API_BASE_URL') || 'https://api.mathvisionkids.com/api/v1';
+    const prodUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.trim() || 'https://api.mathvisionkids.com/api/v1';
     return cleanUrl(prodUrl);
   }
 

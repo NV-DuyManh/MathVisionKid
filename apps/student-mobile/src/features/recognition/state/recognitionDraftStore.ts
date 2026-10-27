@@ -43,7 +43,7 @@ export interface ImageDraft {
     };
     problemText?: string;
     imageSessionId?: string;
-    originalImageUri?: string; // IMMUTABLE source of truth from camera/gallery
+    originalImageUri?: string; // Pristine normalized JPEG; rawUri is acquisition provenance only
     originalUri?: string;
     sourceImageUri?: string;
     privacyImageUri?: string;
@@ -86,7 +86,9 @@ function normalizeDraftFileUri(uri?: string): string {
     if (!uri || typeof uri !== 'string')
         return '';
     let clean = uri.trim();
-    if (!clean.startsWith('file://') &&
+    if (!clean.startsWith('ph://') &&
+        !clean.startsWith('assets-library://') &&
+        !clean.startsWith('file://') &&
         !clean.startsWith('content://') &&
         !clean.startsWith('blob:') &&
         !clean.startsWith('data:') &&
@@ -98,6 +100,13 @@ function normalizeDraftFileUri(uri?: string): string {
 }
 class RecognitionDraftStore {
     private currentDraft: ImageDraft | null = null;
+    private listeners = new Set<() => void>();
+    subscribe = (listener: () => void): (() => void) => {
+        this.listeners.add(listener);
+        return () => { this.listeners.delete(listener); };
+    };
+    getSnapshot = (): ImageDraft | null => this.currentDraft;
+    private notify(): void { this.listeners.forEach(listener => listener()); }
     setDraft(draft: Omit<ImageDraft, 'createdAt'>): ImageDraft {
         const isPrivacyArtifact = (u?: string) => !!u && (u.includes('privacy') || u.includes('viewshot') || u.includes('masked') || u.includes('ViewShot'));
         // Resolve true original URI from camera or gallery
@@ -125,6 +134,7 @@ class RecognitionDraftStore {
             cropInputUri: sourceUri,
             activeRecognitionUri: draft.croppedImageUri || sourceUri,
         });
+        this.notify();
         return this.currentDraft;
     }
     getDraft(): ImageDraft | null {
@@ -149,10 +159,12 @@ class RecognitionDraftStore {
             sourceImageUri: safeOriginalImageUri,
             ...({}),
         };
+        this.notify();
         return this.currentDraft;
     }
     clearDraft(): void {
         this.currentDraft = null;
+        this.notify();
     }
 }
 export const recognitionDraftStore = new RecognitionDraftStore();

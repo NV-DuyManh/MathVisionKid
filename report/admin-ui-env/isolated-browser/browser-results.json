@@ -1,0 +1,580 @@
+{
+  "database": "isolated H2 memory",
+  "realHttp": true,
+  "results": [
+    {
+      "name": "A: Portal ADMIN login completes SSO into Admin Dashboard",
+      "status": "passed"
+    },
+    {
+      "name": "UI creates a Student account and validates detail editing",
+      "status": "passed"
+    },
+    {
+      "name": "UI disables/enables a user; issued access is rejected while disabled",
+      "status": "passed"
+    },
+    {
+      "name": "UI password reset reveals a valid result once and clears it on close",
+      "status": "passed"
+    },
+    {
+      "name": "UI creates a Teacher account without a student grade",
+      "status": "passed"
+    },
+    {
+      "name": "UI creates and edits a classroom using an active teacher",
+      "status": "passed"
+    },
+    {
+      "name": "UI reassigns the teacher and adds/removes the student roster",
+      "status": "passed"
+    },
+    {
+      "name": "UI search, role/status filters and pagination use real API data",
+      "status": "passed"
+    },
+    {
+      "name": "UI audit filters and metadata dialog work without secrets",
+      "status": "passed"
+    },
+    {
+      "name": "Recognition empty state and 404 route are honest and usable",
+      "status": "passed"
+    },
+    {
+      "name": "Responsive 390/768/1024/1440 layouts, drawer and collapsed sidebar",
+      "status": "passed"
+    },
+    {
+      "name": "Keyboard navigation and honest network error/retry work",
+      "status": "passed"
+    },
+    {
+      "name": "C/D: Student and Teacher cannot enter Admin UI or Admin API",
+      "status": "passed"
+    },
+    {
+      "name": "F/G: replayed/invalid SSO fails safely and logout clears the session",
+      "status": "passed"
+    },
+    {
+      "name": "E: rejected access/refresh cannot restore a protected session",
+      "status": "passed"
+    },
+    {
+      "name": "B: exported Student Web rejects ADMIN and accepts STUDENT",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "users-1440.png",
+    "audit-1440.png",
+    "recognition-1440.png",
+    "dashboard-1440.png",
+    "dashboard-1024.png",
+    "dashboard-768.png",
+    "navigation-768.png",
+    "dashboard-390.png",
+    "navigation-390.png",
+    "user-create-390.png",
+    "class-detail-1440.png"
+  ],
+  "pageState": null,
+  "console": [
+    {
+      "type": "console",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 401 ()"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 401 ()"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 401 ()"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 401 ()"
+    }
+  ],
+  "network": [
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/ticket",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/exchange",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1/disable",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1/enable",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1/reset-password",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5/teacher",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5/students/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5/students/b53a5cc3-a327-402b-940e-4e7bafdb63d1",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/classes/2efca30d-4535-4e06-8206-f6dba4f871e5",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/users",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/exchange",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/ticket",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/sso/exchange",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/audit",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/admin/dashboard",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/auth/logout",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/auth/refresh",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    }
+  ]
+}

@@ -48,9 +48,10 @@ test('student web session validates the backend, rejects cached authority, and s
   } };
   const placeholder = ({ children }) => React.createElement('div', null, children);
   const { AuthProvider, AuthContext } = load('../AuthContext.web.tsx', {
-    'react-native': { View: placeholder, Text: placeholder, ActivityIndicator: placeholder },
+    'react-native': { View: placeholder, Text: placeholder, ActivityIndicator: placeholder, Pressable: placeholder },
     'expo-router': { useRouter: () => ({ replace() {} }) },
     '../services/auth/tokenStorage': { tokenStorage },
+    '../services/auth/sessionEvents': { sessionEvents: { subscribe: () => () => {} } },
     '../services/api/apiClient': api,
     axios: { post: async (url, body, config) => {
       logoutCalls++;
@@ -99,28 +100,42 @@ test('student web session validates the backend, rejects cached authority, and s
     });
 
     await t.test('a saved profile cannot authenticate when the backend rejects the session', async () => {
-      getProfile = async () => { throw new Error('Session rejected'); };
+      getProfile = async () => { throw Object.assign(new Error('Session rejected'), { response: { status: 401 } }); };
       await mount();
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
-      assert.equal(redirects.at(-1), '/login');
+      assert.equal(redirects.at(-1), '/login?session=expired');
       assert.equal(await tokenStorage.getAccessToken(), null);
       assert.equal(await tokenStorage.getRefreshToken(), null);
       assert.equal(await tokenStorage.getUser(), null);
       await unmount();
     });
 
+    await t.test('offline restore clears cached authority and explains the connection failure', async () => {
+      await tokenStorage.saveTokens('offline-access', 'offline-refresh');
+      await tokenStorage.saveUser(profile);
+      getProfile = async () => { throw new Error('Network Error'); };
+      await mount();
+      assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
+      assert.equal(redirects.at(-1), '/login?connection=failed');
+      assert.equal(await tokenStorage.getAccessToken(), null);
+      assert.equal(await tokenStorage.getUser(), null);
+      await unmount();
+    });
+
     await t.test('nonstudent and inactive profiles never enter the student app', async () => {
-      for (const rejected of [{ ...profile, role: 'TEACHER' }, { ...profile, active: false }]) {
+      for (const rejected of [{ ...profile, role: 'ADMIN' }, { ...profile, role: 'TEACHER' }, { ...profile, active: false }]) {
         await tokenStorage.saveTokens('valid-other-access', 'valid-other-refresh');
         getProfile = async () => ({ data: rejected });
         await mount();
         assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
         assert.equal(redirects.at(-1), '/access-denied');
+        assert.equal(await tokenStorage.getAccessToken(), null);
         await unmount();
       }
     });
 
     await t.test('logout clears the shared portal session, drafts, and returns to the portal root', async () => {
+      await tokenStorage.saveTokens('valid-other-access', 'valid-other-refresh');
       getProfile = async () => ({ data: { ...profile, displayName: profile.email } });
       await mount();
       assert.equal(currentContext.user.name, 'Học sinh');

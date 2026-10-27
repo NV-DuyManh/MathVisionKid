@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { AppButton } from '../components/ui/AppButton';
@@ -14,13 +14,16 @@ export default function LoginScreen() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const auth = useContext(AuthContext);
+    const submitLock = useRef(false);
+    const displayError = errorMessage || auth?.sessionError;
     const handleLogin = async () => {
-        if (!auth)
+        if (!auth || submitLock.current)
             return;
         if (!email.trim() || !password) {
             setErrorMessage('Vui lòng nhập đầy đủ tài khoản và mật khẩu.');
             return;
         }
+        submitLock.current = true;
         setErrorMessage('');
         setLoading(true);
         try {
@@ -28,7 +31,9 @@ export default function LoginScreen() {
         }
         catch (e: any) {
             let message = 'Lỗi kết nối máy chủ. Vui lòng kiểm tra và thử lại.';
-            if (e.response?.status === 401) {
+            if (e.code === 'STUDENT_ACCESS_DENIED' || e.code === 'VALIDATION_ERROR') {
+                message = e.message;
+            } else if (e.response?.status === 401) {
                 message = 'Tài khoản hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.';
             } else if (e.response?.status === 403) {
                 message = 'Tài khoản chưa được phép đăng nhập. Vui lòng liên hệ thầy cô.';
@@ -36,6 +41,8 @@ export default function LoginScreen() {
             setErrorMessage(message);
         }
         finally {
+            submitLock.current = false;
+            setPassword('');
             setLoading(false);
         }
     };
@@ -52,9 +59,9 @@ export default function LoginScreen() {
             {'Cùng giải và kiểm tra bài toán hôm nay nhé!'}
           </Text>
 
-          {errorMessage ? (<View style={styles.errorBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="assertive">
+          {displayError ? (<View style={styles.errorBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="assertive">
               <Ionicons name="alert-circle" size={20} color={COLORS.error}/>
-              <Text style={styles.errorText}>{errorMessage}</Text>
+              <Text style={styles.errorText}>{displayError}</Text>
             </View>) : null}
 
           <View style={styles.form}>
@@ -65,7 +72,8 @@ export default function LoginScreen() {
                 <TextInput style={styles.input} value={email} onChangeText={(text) => {
             setEmail(text);
             if (errorMessage)
-                setErrorMessage('');
+                submitLock.current = true;
+        setErrorMessage('');
         }} placeholder="Nhập tài khoản của em" placeholderTextColor={COLORS.textMuted} autoCapitalize="none" keyboardType="email-address" autoComplete="username" textContentType="username" accessibilityLabel="Tài khoản email hoặc mã học sinh"/>
               </View>
             </View>
@@ -77,7 +85,8 @@ export default function LoginScreen() {
                 <TextInput style={[styles.input, styles.passwordInput]} value={password} onChangeText={(text) => {
             setPassword(text);
             if (errorMessage)
-                setErrorMessage('');
+                submitLock.current = true;
+        setErrorMessage('');
         }} placeholder="Nhập mật khẩu của em" placeholderTextColor={COLORS.textMuted} secureTextEntry={!showPassword} autoCapitalize="none" autoComplete="password" textContentType="password" accessibilityLabel="Mật khẩu"/>
                 <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)} accessibilityRole="button" accessibilityLabel={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
                   <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={22} color={COLORS.textSecondary}/>
