@@ -1,0 +1,42 @@
+{
+  "numeric_aug": {
+    "greedy": [
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+        "text": "22",
+        "parent": "22",
+        "candidate": "21"
+      }
+    ],
+    "beam": [
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+        "text": "22",
+        "parent": "22",
+        "candidate": "21"
+      }
+    ]
+  },
+  "visual_prose": {
+    "greedy": [
+      {
+        "id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88:expanded-expression-21",
+        "text": "9 × 0 = 0",
+        "parent": "9 × 0 = 0",
+        "candidate": "9 × 0 = "
+      },
+      {
+        "id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0:manual-20261012-39",
+        "text": "300 cm² = 3 dm²",
+        "parent": "300 cm² = 3 dm²",
+        "candidate": "30 cm² = 3 dm²"
+      },
+      {
+        "id": "1BAwVo8nUG62Ywh9lZeOQgbY-a0AIQRq5:math-review-20261013-dev-3",
+        "text": "650-150=500",
+        "parent": "650 - 150 =500",
+        "candidate": "650 - 150 =00"
+      }
+    ]
+  }
+}

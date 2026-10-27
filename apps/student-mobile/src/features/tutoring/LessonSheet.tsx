@@ -6,12 +6,12 @@ import { COLORS, FONTS } from '../../constants/theme';
 
 export function LessonSheet({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
   const { width, height } = useWindowDimensions();
-  return <Modal visible animationType="none" transparent onRequestClose={onClose}>
-    <SafeAreaView style={styles.scrim}><KeyboardAvoidingView style={styles.shell} behavior={Platform.OS === 'ios' ? 'padding' : undefined}><View style={[styles.sheet, { minHeight: Math.min(height * (width < 600 ? .66 : .56), 650) }]} accessibilityViewIsModal>
+  return <Modal visible animationType="none" transparent accessibilityLabel={title} onRequestClose={onClose}>
+    <SafeAreaView style={styles.scrim}><KeyboardAvoidingView style={styles.shell} behavior={Platform.OS === 'ios' ? 'padding' : undefined}><View style={[styles.sheet, { minHeight: Math.min(height * .6, 480) }]} accessibilityViewIsModal>
       <View style={styles.header}><Text accessibilityRole="header" style={styles.title}>{title}</Text>
         <Pressable accessibilityRole="button" accessibilityLabel={`Đóng ${title}`} onPress={onClose} style={styles.close}>
           <Ionicons name="close" size={24} color={COLORS.textPrimary} /></Pressable></View>
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>{children}</ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.content, { paddingHorizontal: width < 360 ? 16 : 24 }]}>{children}</ScrollView>
     </View></KeyboardAvoidingView></SafeAreaView>
   </Modal>;
 }

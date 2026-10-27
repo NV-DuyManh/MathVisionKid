@@ -24,7 +24,7 @@ function ProcessingRequest({ params, activeUri }: {
   activeUri: string;
 }) {
   const router = useRouter();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(params.submissionId ? 1 : 0);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [hasSubmission, setHasSubmission] = useState(Boolean(params.submissionId));
@@ -72,10 +72,11 @@ function ProcessingRequest({ params, activeUri }: {
   return <SafeAreaView style={styles.container}>
     {error ? <View style={styles.error}>
       <StatusCard status="warning" title="Chưa có kết quả" subtitle={error} />
-      <AppButton title={hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại'} onPress={() => { setError(null); setStep(0); setAttempt(value => value + 1); }} />
+      <AppButton title={hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại'} onPress={() => { setError(null); setStep(resumeId.current ? 1 : 0); setAttempt(value => value + 1); }} />
       <AppButton title="Về trang chủ" variant="secondary" onPress={() => { controllerRef.current?.abort(); router.replace('/(tabs)'); }} />
-    </View> : <RecognitionProgress title={step === 0 ? 'Đang đọc bài toán' : 'Đang kiểm tra bài làm'}
-      description={step === 0 ? 'Gửi và nhận dạng các chữ số trong ảnh.' : 'MathVision đang kiểm tra phép tính của em.'}
+    </View> : <RecognitionProgress title={step === 0 ? 'Đang gửi bài toán' : 'Đang đọc và kiểm tra bài làm'}
+      description={step === 0 ? 'Gửi ảnh đã chọn để đọc bài.' : 'Mình đang đọc các số và kiểm tra phép tính của em.'}
+      steps={['Gửi ảnh bài làm', 'Đọc và kiểm tra bài', 'Mở kết quả']} activeStep={step}
       imageUri={activeUri || undefined} onCancel={cancel} />}
   </SafeAreaView>;
 }

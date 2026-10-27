@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router';
 import { AuthContext, AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, LogBox, Pressable, Text, View } from 'react-native';
+import { LogBox, Pressable, Text, View } from 'react-native';
+import { TaskProgress } from '../components/ui/TaskProgress';
 import { useContext, useEffect, useState } from 'react';
 import { ENV } from '../config/env';
 import { useFonts } from 'expo-font';
@@ -64,7 +65,7 @@ export default function RootLayout() {
       <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => { setArtError(false); setRetry(value => value + 1); }} style={({ pressed }) => ({ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary, opacity: pressed ? .8 : 1 })}>
         <Text style={{ color: 'white', fontFamily: FONTS.bold }}>Thử lại</Text>
       </Pressable>
-    </> : <><ActivityIndicator color={COLORS.primary} /><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang chuẩn bị bài học cho em…</Text></>}
+    </> : <View style={{ width: '100%', maxWidth: 360 }}><TaskProgress steps={['Chữ đã sẵn sàng', 'Tải hình minh họa', 'Mở ứng dụng']} activeStep={1} /></View>}
   </View>;
 
   return (

@@ -1,0 +1,21 @@
+{
+  "status": "NOT_READY_FOR_PRODUCTION",
+  "reasons": [
+    "Numeric notebook VAL 18/22 exact, CER4/63: below95% exact and above2% CER",
+    "Numeric diagnostic74/86 and manual fraction26/31; partial page labels cannot establish precision",
+    "Old critical number22 becomes21 compared with original full321-parent reduced13",
+    "Prose VAL3/10 exact, CER20/197; fulltext old DEV105->109 errors, including missing zero",
+    "No writer-disjoint/pretraining-disjoint independent attested acceptance corpus",
+    "Integer13 head cannot replace fulltext or 2D whole-page Student route"
+  ],
+  "thresholds": {
+    "exact_min": 0.95,
+    "cer_max": 0.02,
+    "critical_regressions_max": 0,
+    "whole_page_complete_labels_required": true,
+    "independent_attested_test_required": true
+  },
+  "production_promoted": false,
+  "production_model_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "test_pixels_accessed": false
+}

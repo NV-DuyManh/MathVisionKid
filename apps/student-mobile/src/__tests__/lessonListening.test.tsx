@@ -25,7 +25,7 @@ it('offers a check-in after listening and asks only the selected difficulty on t
   expect(TutorService.askLesson).not.toHaveBeenCalled();
   await press('Vì sao phải quy đồng?');
   expect(TutorService.askLesson).not.toHaveBeenCalled();
-  expect(button('Vì sao phải quy đồng?').props.accessibilityState.checked).toBe(true);
+  expect(button('Vì sao phải quy đồng?').props['aria-pressed']).toBe(true);
   await press('Xem giải thích nhé!');
   expect(TutorService.askLesson).toHaveBeenCalledWith({ sessionId: props.sessionId, revision: 0, stepIndex: 0, question: expect.stringContaining('quy đồng') }, expect.anything());
   expect(text()).toContain('Các phần phải cùng kích thước.');

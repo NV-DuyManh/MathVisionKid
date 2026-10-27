@@ -1,0 +1,4116 @@
+{
+  "comparison_completed": true,
+  "all_profile_requests_completed": false,
+  "profiles": {
+    "S": {
+      "summary": {
+        "completed": true,
+        "requested": 167,
+        "inferred": 167,
+        "model": "PP-FormulaNet_plus-S",
+        "model_hashes": {
+          "ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.json": "01238434e33df83588e2627f350559b576e34551d2b2ffea148345032de56c00",
+          "ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.pdiparams": "e464f94412feaa98f8791eacc84684f887b3569e30e80c52b8112e9cf7d4069b",
+          "ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.yml": "96062655d94c21d39274328dbc82c1a487e66addb8425f5a7fd5b7dfb2421ec3"
+        },
+        "cohort_sha256": "b4203f31e7faa6a3438222094ad2ab1c57f84973ae362e2ec97201caa293a121",
+        "scopes": {
+          "TRAIN/components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 16,
+            "corrected": 0,
+            "regressed": 42
+          },
+          "TRAIN/fraction_components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 16,
+            "corrected": 0,
+            "regressed": 42
+          },
+          "TRAIN/fraction_pairs": {
+            "requests": 27,
+            "baseline_exact": 24,
+            "candidate_exact": 3,
+            "corrected": 0,
+            "regressed": 21
+          },
+          "DEV/components": {
+            "requests": 73,
+            "baseline_exact": 53,
+            "candidate_exact": 15,
+            "corrected": 0,
+            "regressed": 38
+          },
+          "DEV/fraction_components": {
+            "requests": 11,
+            "baseline_exact": 7,
+            "candidate_exact": 4,
+            "corrected": 0,
+            "regressed": 3
+          },
+          "DEV/fraction_pairs": {
+            "requests": 5,
+            "baseline_exact": 2,
+            "candidate_exact": 3,
+            "corrected": 3,
+            "regressed": 2
+          }
+        },
+        "failures": [],
+        "source_receipts": [
+          {
+            "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+            "sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054"
+          },
+          {
+            "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+            "sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f"
+          },
+          {
+            "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+            "sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c"
+          },
+          {
+            "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+            "sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61"
+          },
+          {
+            "drive_id": "12O3uQGfmdPKqgk0O5E0pixkuUKcquPXT",
+            "sha256": "39a316181e700849574c5a71329bbd4a4769a1de11c5cc89abfcdf79b5b4958e"
+          },
+          {
+            "drive_id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88",
+            "sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71"
+          },
+          {
+            "drive_id": "1GYhoqvQllJ30vBVRCQQoKavqNvaFa3ek",
+            "sha256": "dab0e2b854161af1cae623a0306b9138f30cb57a5d36d3628163fad8fe813c4d"
+          },
+          {
+            "drive_id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0",
+            "sha256": "53286a87239d25e3224e1ace9923c448ec14f5e4f077eafe0b88e18a28f424fc"
+          },
+          {
+            "drive_id": "1rMk6319r68eJfuO_s0fgUKsKVn3Gv3-3",
+            "sha256": "5332d1e97e70bf4b6a6d6a7d97b25433dd00784f3f410e0fd0f5608fab06ff64"
+          },
+          {
+            "drive_id": "1i3DUtkADAgn89CVSLPIW8J7rMys9fa4v",
+            "sha256": "dd5bcde2fba41e069fcaecec77902533efa56584698071c3a80acd693bba97f5"
+          },
+          {
+            "drive_id": "1SBcQ0KdpCTwVxPzULa6MiKKGJAntnzj8",
+            "sha256": "df06e361ddf85360c1218e40babbb6a6b4f83b8d80b50d123ff778a4d341102e"
+          },
+          {
+            "drive_id": "1HfvBTkQgflk_j65O9PW2s3_xagQZwCyM",
+            "sha256": "af2f0b4539e45c13c73bd663c746f82ea96687aaa882d9cb033a7be33b1e1a27"
+          },
+          {
+            "drive_id": "1yNz-kFvzXFwMghXC2BKiZnsU97E57Ykg",
+            "sha256": "d608469d9fa2b2c475d719746d2bee09ceec84466648345b4c8314ada94b718a"
+          },
+          {
+            "drive_id": "1BAwVo8nUG62Ywh9lZeOQgbY-a0AIQRq5",
+            "sha256": "62e41ddfa2da79996852ef1c1a5466ee8e9c4d23f771d9f8f7311e49d5305b54"
+          },
+          {
+            "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+            "sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea"
+          },
+          {
+            "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+            "sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076"
+          }
+        ],
+        "predictions_sha256": "b186d45e8a8bcf683067ed8d36290aca380edb42ef828924faf69539f415f584",
+        "elapsed_seconds": 137.65599999999904,
+        "source_images_written": 0,
+        "training": false,
+        "production_promoted": false,
+        "limits": [
+          "Repeated development sources, not independent validation",
+          "Component crops and roles supplied by earlier review",
+          "Formula pair geometry requires source visual review",
+          "Only 73 DEV math regions, no claim about all Student OCR"
+        ]
+      },
+      "scopes": {
+        "TRAIN": {
+          "components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_pairs": {
+            "total": 27,
+            "baseline": 24,
+            "standalone": 3,
+            "routed": 24,
+            "suggestions": 0,
+            "regressed": 0
+          }
+        },
+        "DEV": {
+          "components": {
+            "total": 73,
+            "baseline": 53,
+            "routed": 55
+          },
+          "fraction_components": {
+            "total": 11,
+            "baseline": 7,
+            "routed": 9
+          },
+          "fraction_pairs": {
+            "total": 5,
+            "baseline": 2,
+            "standalone": 3,
+            "routed": 4,
+            "suggestions": 2,
+            "regressed": 0
+          }
+        }
+      },
+      "pairs": [
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "21"
+          ],
+          "primary": [
+            "15",
+            "21"
+          ],
+          "formula": "\\frac{sqrt55}221",
+          "draft": {
+            "parts": [
+              "15",
+              "21"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            65,
+            3,
+            215,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "primary": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "formula": "\\frac{1}{2}\\ \\frac{3}{3}",
+          "draft": {
+            "parts": [
+              "15 : 3",
+              "21 : 3"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            196,
+            0,
+            450,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "7"
+          ],
+          "primary": [
+            "5",
+            "7"
+          ],
+          "formula": "\\frac{B}{}",
+          "draft": {
+            "parts": [
+              "5",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            452,
+            0,
+            569,
+            201
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "20",
+            "35"
+          ],
+          "primary": [
+            "20",
+            "35"
+          ],
+          "formula": "\\frac{20}{35}",
+          "draft": {
+            "parts": [
+              "20",
+              "35"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            51,
+            45,
+            202,
+            274
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "primary": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "formula": "\\frac{20-5}{5}",
+          "draft": {
+            "parts": [
+              "20 : 5",
+              "35 : 5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            189,
+            14,
+            494,
+            301
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "7"
+          ],
+          "primary": [
+            "4",
+            "7"
+          ],
+          "formula": "\\frac{G}{T}",
+          "draft": {
+            "parts": [
+              "4",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            508,
+            40,
+            617,
+            270
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "8"
+          ],
+          "primary": [
+            "15",
+            "8"
+          ],
+          "formula": "\\frac{A}{B}",
+          "draft": {
+            "parts": [
+              "15",
+              "8"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            76,
+            0,
+            227,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "6",
+            "5"
+          ],
+          "primary": [
+            "6",
+            "5"
+          ],
+          "formula": "\\frac{overline{\\ {kappa}}}{S}",
+          "draft": {
+            "parts": [
+              "6",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            299,
+            2,
+            390,
+            186
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "9",
+            "4"
+          ],
+          "primary": [
+            "9",
+            "4"
+          ],
+          "formula": "\\frac{a}{4}",
+          "draft": {
+            "parts": [
+              "9",
+              "4"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            445,
+            17,
+            533,
+            187
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "14"
+          ],
+          "primary": [
+            "33",
+            "14"
+          ],
+          "formula": "\\frac{33}{4}",
+          "draft": {
+            "parts": [
+              "33",
+              "14"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            642,
+            4,
+            780,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9",
+          "split": "TRAIN",
+          "reference": [
+            "11",
+            "7"
+          ],
+          "primary": [
+            "11",
+            "7"
+          ],
+          "formula": "\\frac{H}{f}",
+          "draft": {
+            "parts": [
+              "11",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            783,
+            8,
+            896,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "2"
+          ],
+          "primary": [
+            "33",
+            "2"
+          ],
+          "formula": "\\frac{33}{2}",
+          "draft": {
+            "parts": [
+              "33",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            911,
+            7,
+            1027,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "11"
+          ],
+          "primary": [
+            "7",
+            "11"
+          ],
+          "formula": "\\frac{7}{11}",
+          "draft": {
+            "parts": [
+              "7",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            992,
+            24,
+            1089,
+            201
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "11"
+          ],
+          "primary": [
+            "4",
+            "11"
+          ],
+          "formula": "\\frac{sqrt}{1}",
+          "draft": {
+            "parts": [
+              "4",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1113,
+            29,
+            1206,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{y}{y}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1205,
+            33,
+            1282,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{}}{8frac g}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            915,
+            373,
+            1002,
+            548
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+          "split": "DEV",
+          "reference": [
+            "3",
+            "5"
+          ],
+          "primary": [
+            "3",
+            ""
+          ],
+          "formula": "\\frac{3}{5}",
+          "draft": {
+            "parts": [
+              "3",
+              "5"
+            ],
+            "source": "formula_suggestion",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1644,
+            719,
+            1792,
+            1129
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            "7"
+          ],
+          "formula": "\\",
+          "draft": {
+            "parts": [
+              "6",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1890,
+            714,
+            2050,
+            1155
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            ""
+          ],
+          "formula": "\\frac{6}{7}",
+          "draft": {
+            "parts": [
+              "6",
+              "7"
+            ],
+            "source": "formula_suggestion",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            2103,
+            732,
+            2246,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+          "split": "DEV",
+          "reference": [
+            "13",
+            "2"
+          ],
+          "primary": [
+            "3",
+            "2"
+          ],
+          "formula": "\\frac{13}{2}",
+          "draft": {
+            "parts": [
+              "3",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": false,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            488,
+            718,
+            639,
+            1138
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+          "split": "DEV",
+          "reference": [
+            "22",
+            "5"
+          ],
+          "primary": [
+            "22",
+            "5"
+          ],
+          "formula": "\\frac{25}{6}",
+          "draft": {
+            "parts": [
+              "22",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            736,
+            693,
+            989,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:12|expansion-20261017:1:13",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "\\frac{H F}{T g}",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:12",
+            "expansion-20261017:1:13"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            404,
+            605,
+            610,
+            1048
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:14|expansion-20261017:1:15",
+          "split": "TRAIN",
+          "reference": [
+            "2",
+            "5"
+          ],
+          "primary": [
+            "2",
+            "5"
+          ],
+          "formula": "\\frac{2}{b}",
+          "draft": {
+            "parts": [
+              "2",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:14",
+            "expansion-20261017:1:15"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            560,
+            624,
+            739,
+            1038
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:16|expansion-20261017:1:17",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "\\frac{1}{sqrt}cdot",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:16",
+            "expansion-20261017:1:17"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            707,
+            609,
+            903,
+            1035
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:18|expansion-20261017:1:19",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "2"
+          ],
+          "primary": [
+            "5",
+            "2"
+          ],
+          "formula": "\\frac{sqrt33}{2}",
+          "draft": {
+            "parts": [
+              "5",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:18",
+            "expansion-20261017:1:19"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            872,
+            598,
+            1055,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:20|expansion-20261017:1:21",
+          "split": "TRAIN",
+          "reference": [
+            "35",
+            "38"
+          ],
+          "primary": [
+            "3",
+            "38"
+          ],
+          "formula": "3frac{9}{8}",
+          "draft": {
+            "parts": [
+              "3",
+              "38"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:20",
+            "expansion-20261017:1:21"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1063,
+            576,
+            1339,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:22|expansion-20261017:1:23",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "\\frac{3}{}}\\\\ {\\frac{3}{4}}\\\\ \\end{array}",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:22",
+            "expansion-20261017:1:23"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            407,
+            2184,
+            584,
+            2606
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:26|expansion-20261017:1:27",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "=\\frac{2}{3}",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:26",
+            "expansion-20261017:1:27"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            680,
+            2181,
+            852,
+            2609
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:28|expansion-20261017:1:29",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "5"
+          ],
+          "primary": [
+            "3",
+            "5"
+          ],
+          "formula": "\\frac{8}{10}=\\frac{1}{10}=\\frac{1}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{10}=\\frac{1}{10}}\\\\ {\\frac{8}{100}=1001}\\\\ \\end{array}",
+          "draft": {
+            "parts": [
+              "3",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:28",
+            "expansion-20261017:1:29"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            835,
+            2177,
+            1017,
+            2604
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:31|expansion-20261017:1:32",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "7"
+          ],
+          "primary": [
+            "8",
+            "7"
+          ],
+          "formula": "\\cdots\\cdots\\\\",
+          "draft": {
+            "parts": [
+              "8",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:31",
+            "expansion-20261017:1:32"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1421,
+            2176,
+            1597,
+            2614
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:35|expansion-20261017:1:36",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "7"
+          ],
+          "primary": [
+            "9",
+            "7"
+          ],
+          "formula": "\\",
+          "draft": {
+            "parts": [
+              "9",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:35",
+            "expansion-20261017:1:36"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1699,
+            2166,
+            1892,
+            2621
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:39|expansion-20261017:1:40",
+          "split": "TRAIN",
+          "reference": [
+            "32",
+            "21"
+          ],
+          "primary": [
+            "32",
+            "21"
+          ],
+          "formula": "\\",
+          "draft": {
+            "parts": [
+              "32",
+              "21"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:39",
+            "expansion-20261017:1:40"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            2037,
+            2167,
+            2291,
+            2617
+          ]
+        }
+      ]
+    },
+    "M": {
+      "summary": {
+        "completed": false,
+        "requested": 167,
+        "inferred": 164,
+        "model": "PP-FormulaNet_plus-M",
+        "model_hashes": {
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-M_infer\\inference.json": "8333a7f650766a748e273c550d278601dd19dfeee1c4b01038ff632f134d9884",
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-M_infer\\inference.pdiparams": "f16ef9b5c8227da70d3ec969a5195f4d62c1154427b883f4d6cff07633654041",
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-M_infer\\inference.yml": "87b5f3d7f2b2fe553627d77b37f496608ca150ebd0ef62d362591edca47b5538"
+        },
+        "cohort_sha256": "b4203f31e7faa6a3438222094ad2ab1c57f84973ae362e2ec97201caa293a121",
+        "scopes": {
+          "TRAIN/components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 19,
+            "corrected": 0,
+            "regressed": 39
+          },
+          "TRAIN/fraction_components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 19,
+            "corrected": 0,
+            "regressed": 39
+          },
+          "TRAIN/fraction_pairs": {
+            "requests": 24,
+            "baseline_exact": 22,
+            "candidate_exact": 7,
+            "corrected": 0,
+            "regressed": 15
+          },
+          "DEV/components": {
+            "requests": 73,
+            "baseline_exact": 53,
+            "candidate_exact": 29,
+            "corrected": 5,
+            "regressed": 29
+          },
+          "DEV/fraction_components": {
+            "requests": 11,
+            "baseline_exact": 7,
+            "candidate_exact": 4,
+            "corrected": 1,
+            "regressed": 4
+          },
+          "DEV/fraction_pairs": {
+            "requests": 5,
+            "baseline_exact": 2,
+            "candidate_exact": 3,
+            "corrected": 2,
+            "regressed": 1
+          }
+        },
+        "failures": [
+          {
+            "id": "fraction:expansion-20261017:1:31|expansion-20261017:1:32",
+            "error": "Not completed: external controller stopped process after wall-time budget; one in-flight request may be interrupted"
+          },
+          {
+            "id": "fraction:expansion-20261017:1:35|expansion-20261017:1:36",
+            "error": "Not completed: external controller stopped process after wall-time budget; one in-flight request may be interrupted"
+          },
+          {
+            "id": "fraction:expansion-20261017:1:39|expansion-20261017:1:40",
+            "error": "Not completed: external controller stopped process after wall-time budget; one in-flight request may be interrupted"
+          }
+        ],
+        "source_receipts": [
+          {
+            "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+            "sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea"
+          },
+          {
+            "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+            "sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f"
+          },
+          {
+            "drive_id": "12O3uQGfmdPKqgk0O5E0pixkuUKcquPXT",
+            "sha256": "39a316181e700849574c5a71329bbd4a4769a1de11c5cc89abfcdf79b5b4958e"
+          },
+          {
+            "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+            "sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61"
+          },
+          {
+            "drive_id": "1BAwVo8nUG62Ywh9lZeOQgbY-a0AIQRq5",
+            "sha256": "62e41ddfa2da79996852ef1c1a5466ee8e9c4d23f771d9f8f7311e49d5305b54"
+          },
+          {
+            "drive_id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0",
+            "sha256": "53286a87239d25e3224e1ace9923c448ec14f5e4f077eafe0b88e18a28f424fc"
+          },
+          {
+            "drive_id": "1GYhoqvQllJ30vBVRCQQoKavqNvaFa3ek",
+            "sha256": "dab0e2b854161af1cae623a0306b9138f30cb57a5d36d3628163fad8fe813c4d"
+          },
+          {
+            "drive_id": "1HfvBTkQgflk_j65O9PW2s3_xagQZwCyM",
+            "sha256": "af2f0b4539e45c13c73bd663c746f82ea96687aaa882d9cb033a7be33b1e1a27"
+          },
+          {
+            "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+            "sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076"
+          },
+          {
+            "drive_id": "1SBcQ0KdpCTwVxPzULa6MiKKGJAntnzj8",
+            "sha256": "df06e361ddf85360c1218e40babbb6a6b4f83b8d80b50d123ff778a4d341102e"
+          },
+          {
+            "drive_id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88",
+            "sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71"
+          },
+          {
+            "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+            "sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c"
+          },
+          {
+            "drive_id": "1i3DUtkADAgn89CVSLPIW8J7rMys9fa4v",
+            "sha256": "dd5bcde2fba41e069fcaecec77902533efa56584698071c3a80acd693bba97f5"
+          },
+          {
+            "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+            "sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054"
+          },
+          {
+            "drive_id": "1rMk6319r68eJfuO_s0fgUKsKVn3Gv3-3",
+            "sha256": "5332d1e97e70bf4b6a6d6a7d97b25433dd00784f3f410e0fd0f5608fab06ff64"
+          },
+          {
+            "drive_id": "1yNz-kFvzXFwMghXC2BKiZnsU97E57Ykg",
+            "sha256": "d608469d9fa2b2c475d719746d2bee09ceec84466648345b4c8314ada94b718a"
+          }
+        ],
+        "predictions_sha256": "aaa622d093e3f516e27f1bdb357291ed321693042794405aac00c9dc668fb80c",
+        "process_wall_seconds_at_stop": 984,
+        "completed_prediction_seconds": 850.627999999997,
+        "max_completed_prediction_seconds": 177.09300000000076,
+        "all_dev_requests_completed": true,
+        "dev_requested": 78,
+        "source_images_written": 0,
+        "training": false,
+        "production_promoted": false,
+        "limits": [
+          "Repeated development sources, not independent validation",
+          "Component crops and roles supplied by earlier review",
+          "Formula pair geometry requires source visual review",
+          "Only 73 DEV math regions, no claim about all Student OCR",
+          "Partial TRAIN cohort due to repeated lengthy formula generation; compare only complete DEV scope",
+          "This summary reconstructs persisted outputs after process termination; no model rerun"
+        ]
+      },
+      "scopes": {
+        "TRAIN": {
+          "components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_pairs": {
+            "total": 24,
+            "baseline": 22,
+            "standalone": 7,
+            "routed": 22,
+            "suggestions": 0,
+            "regressed": 0
+          }
+        },
+        "DEV": {
+          "components": {
+            "total": 73,
+            "baseline": 53,
+            "routed": 54
+          },
+          "fraction_components": {
+            "total": 11,
+            "baseline": 7,
+            "routed": 8
+          },
+          "fraction_pairs": {
+            "total": 5,
+            "baseline": 2,
+            "standalone": 3,
+            "routed": 3,
+            "suggestions": 1,
+            "regressed": 0
+          }
+        }
+      },
+      "pairs": [
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "21"
+          ],
+          "primary": [
+            "15",
+            "21"
+          ],
+          "formula": "\\frac{15}{21}",
+          "draft": {
+            "parts": [
+              "15",
+              "21"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            65,
+            3,
+            215,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "primary": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "formula": "=\\frac{10.3}{21.3}",
+          "draft": {
+            "parts": [
+              "15 : 3",
+              "21 : 3"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            196,
+            0,
+            450,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "7"
+          ],
+          "primary": [
+            "5",
+            "7"
+          ],
+          "formula": "\\frac{5}{7}",
+          "draft": {
+            "parts": [
+              "5",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            452,
+            0,
+            569,
+            201
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "20",
+            "35"
+          ],
+          "primary": [
+            "20",
+            "35"
+          ],
+          "formula": "\\frac{20}{35}",
+          "draft": {
+            "parts": [
+              "20",
+              "35"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            51,
+            45,
+            202,
+            274
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "primary": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "formula": "\\frac{1}{3}=\\frac{1}{5}",
+          "draft": {
+            "parts": [
+              "20 : 5",
+              "35 : 5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            189,
+            14,
+            494,
+            301
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "7"
+          ],
+          "primary": [
+            "4",
+            "7"
+          ],
+          "formula": "\\frac{9}{7}",
+          "draft": {
+            "parts": [
+              "4",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            508,
+            40,
+            617,
+            270
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "8"
+          ],
+          "primary": [
+            "15",
+            "8"
+          ],
+          "formula": "\\frac{199}{99}",
+          "draft": {
+            "parts": [
+              "15",
+              "8"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            76,
+            0,
+            227,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "6",
+            "5"
+          ],
+          "primary": [
+            "6",
+            "5"
+          ],
+          "formula": "\\frac{6}{5}",
+          "draft": {
+            "parts": [
+              "6",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            299,
+            2,
+            390,
+            186
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "9",
+            "4"
+          ],
+          "primary": [
+            "9",
+            "4"
+          ],
+          "formula": "\\frac{9}{9}",
+          "draft": {
+            "parts": [
+              "9",
+              "4"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            445,
+            17,
+            533,
+            187
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "14"
+          ],
+          "primary": [
+            "33",
+            "14"
+          ],
+          "formula": "\\frac{\\frac{\\vert23\\vert}{\\vert4\\vert}}{\\vert4\\vert}",
+          "draft": {
+            "parts": [
+              "33",
+              "14"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            642,
+            4,
+            780,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9",
+          "split": "TRAIN",
+          "reference": [
+            "11",
+            "7"
+          ],
+          "primary": [
+            "11",
+            "7"
+          ],
+          "formula": "\\frac{11}{11}",
+          "draft": {
+            "parts": [
+              "11",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            783,
+            8,
+            896,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "2"
+          ],
+          "primary": [
+            "33",
+            "2"
+          ],
+          "formula": "\\frac{3}{2}",
+          "draft": {
+            "parts": [
+              "33",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            911,
+            7,
+            1027,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "11"
+          ],
+          "primary": [
+            "7",
+            "11"
+          ],
+          "formula": "\\frac{7}{11}",
+          "draft": {
+            "parts": [
+              "7",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            992,
+            24,
+            1089,
+            201
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "11"
+          ],
+          "primary": [
+            "4",
+            "11"
+          ],
+          "formula": "\\frac{9}{11}",
+          "draft": {
+            "parts": [
+              "4",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1113,
+            29,
+            1206,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{9}{9}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1205,
+            33,
+            1282,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{8}{9}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            915,
+            373,
+            1002,
+            548
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+          "split": "DEV",
+          "reference": [
+            "3",
+            "5"
+          ],
+          "primary": [
+            "3",
+            ""
+          ],
+          "formula": "\\frac{93}{5}",
+          "draft": {
+            "parts": [
+              "3",
+              ""
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1644,
+            719,
+            1792,
+            1129
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            "7"
+          ],
+          "formula": "\\frac{6}{7}",
+          "draft": {
+            "parts": [
+              "6",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1890,
+            714,
+            2050,
+            1155
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            ""
+          ],
+          "formula": "\\frac{6}{7}",
+          "draft": {
+            "parts": [
+              "6",
+              "7"
+            ],
+            "source": "formula_suggestion",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            2103,
+            732,
+            2246,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+          "split": "DEV",
+          "reference": [
+            "13",
+            "2"
+          ],
+          "primary": [
+            "3",
+            "2"
+          ],
+          "formula": "\\frac{13}{2}",
+          "draft": {
+            "parts": [
+              "3",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": false,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            488,
+            718,
+            639,
+            1138
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+          "split": "DEV",
+          "reference": [
+            "22",
+            "5"
+          ],
+          "primary": [
+            "22",
+            "5"
+          ],
+          "formula": "\\frac{27}{6}",
+          "draft": {
+            "parts": [
+              "22",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            736,
+            693,
+            989,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:12|expansion-20261017:1:13",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "\\frac{17}{19}",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:12",
+            "expansion-20261017:1:13"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            404,
+            605,
+            610,
+            1048
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:14|expansion-20261017:1:15",
+          "split": "TRAIN",
+          "reference": [
+            "2",
+            "5"
+          ],
+          "primary": [
+            "2",
+            "5"
+          ],
+          "formula": "\\frac{2}{6}",
+          "draft": {
+            "parts": [
+              "2",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:14",
+            "expansion-20261017:1:15"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            560,
+            624,
+            739,
+            1038
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:16|expansion-20261017:1:17",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "=\\frac{7}{19}",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:16",
+            "expansion-20261017:1:17"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            707,
+            609,
+            903,
+            1035
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:18|expansion-20261017:1:19",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "2"
+          ],
+          "primary": [
+            "5",
+            "2"
+          ],
+          "formula": "\\frac{5}{2}",
+          "draft": {
+            "parts": [
+              "5",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:18",
+            "expansion-20261017:1:19"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            872,
+            598,
+            1055,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:20|expansion-20261017:1:21",
+          "split": "TRAIN",
+          "reference": [
+            "35",
+            "38"
+          ],
+          "primary": [
+            "3",
+            "38"
+          ],
+          "formula": "39",
+          "draft": {
+            "parts": [
+              "3",
+              "38"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:20",
+            "expansion-20261017:1:21"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1063,
+            576,
+            1339,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:22|expansion-20261017:1:23",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "\\frac{53}{7}",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:22",
+            "expansion-20261017:1:23"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            407,
+            2184,
+            584,
+            2606
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:26|expansion-20261017:1:27",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "\\begin{aligned}&\\begin{aligned}\\\\ &\\frac{1}{2}&=\\frac{1}{2}\\\\&\\frac{1}{3}&=\\frac{1}{3}\\\\&\\frac{1}{4}&=\\frac{1}{3}\\\\&\\frac{1}{5}&=\\frac{1}{4}\\\\&\\frac{1}{6}&=\\frac{1}{3}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\end{aligned}\\\\ &\\begin{aligned}\\\\ &\\frac{1}{2}&=\\frac{1}{2}\\\\&\\frac{1}{3}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&=\\frac{1}{7}\\\\&\\frac{1}{7}&\\\\&\\frac{1}{7}&\\end{aligned}\\\\ &\\end{aligned}",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:26",
+            "expansion-20261017:1:27"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            680,
+            2181,
+            852,
+            2609
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:28|expansion-20261017:1:29",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "5"
+          ],
+          "primary": [
+            "3",
+            "5"
+          ],
+          "formula": "\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{1}{2}=\\frac{1}{2}\\times\\frac{ ",
+          "draft": {
+            "parts": [
+              "3",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:28",
+            "expansion-20261017:1:29"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            835,
+            2177,
+            1017,
+            2604
+          ]
+        }
+      ]
+    },
+    "S-ink": {
+      "summary": {
+        "completed": true,
+        "requested": 167,
+        "inferred": 167,
+        "model": "PP-FormulaNet_plus-S",
+        "model_hashes": {
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.json": "01238434e33df83588e2627f350559b576e34551d2b2ffea148345032de56c00",
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.pdiparams": "e464f94412feaa98f8791eacc84684f887b3569e30e80c52b8112e9cf7d4069b",
+          "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\formula_probe_20261022\\PP-FormulaNet_plus-S_infer\\inference.yml": "96062655d94c21d39274328dbc82c1a487e66addb8425f5a7fd5b7dfb2421ec3"
+        },
+        "cohort_sha256": "b4203f31e7faa6a3438222094ad2ab1c57f84973ae362e2ec97201caa293a121",
+        "scopes": {
+          "TRAIN/components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 13,
+            "corrected": 1,
+            "regressed": 46
+          },
+          "TRAIN/fraction_components": {
+            "requests": 62,
+            "baseline_exact": 58,
+            "candidate_exact": 13,
+            "corrected": 1,
+            "regressed": 46
+          },
+          "TRAIN/fraction_pairs": {
+            "requests": 27,
+            "baseline_exact": 24,
+            "candidate_exact": 3,
+            "corrected": 0,
+            "regressed": 21
+          },
+          "DEV/components": {
+            "requests": 73,
+            "baseline_exact": 53,
+            "candidate_exact": 19,
+            "corrected": 3,
+            "regressed": 37
+          },
+          "DEV/fraction_components": {
+            "requests": 11,
+            "baseline_exact": 7,
+            "candidate_exact": 5,
+            "corrected": 1,
+            "regressed": 3
+          },
+          "DEV/fraction_pairs": {
+            "requests": 5,
+            "baseline_exact": 2,
+            "candidate_exact": 2,
+            "corrected": 2,
+            "regressed": 2
+          }
+        },
+        "failures": [],
+        "source_receipts": [
+          {
+            "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+            "sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054"
+          },
+          {
+            "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+            "sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f"
+          },
+          {
+            "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+            "sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c"
+          },
+          {
+            "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+            "sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61"
+          },
+          {
+            "drive_id": "12O3uQGfmdPKqgk0O5E0pixkuUKcquPXT",
+            "sha256": "39a316181e700849574c5a71329bbd4a4769a1de11c5cc89abfcdf79b5b4958e"
+          },
+          {
+            "drive_id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88",
+            "sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71"
+          },
+          {
+            "drive_id": "1GYhoqvQllJ30vBVRCQQoKavqNvaFa3ek",
+            "sha256": "dab0e2b854161af1cae623a0306b9138f30cb57a5d36d3628163fad8fe813c4d"
+          },
+          {
+            "drive_id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0",
+            "sha256": "53286a87239d25e3224e1ace9923c448ec14f5e4f077eafe0b88e18a28f424fc"
+          },
+          {
+            "drive_id": "1rMk6319r68eJfuO_s0fgUKsKVn3Gv3-3",
+            "sha256": "5332d1e97e70bf4b6a6d6a7d97b25433dd00784f3f410e0fd0f5608fab06ff64"
+          },
+          {
+            "drive_id": "1i3DUtkADAgn89CVSLPIW8J7rMys9fa4v",
+            "sha256": "dd5bcde2fba41e069fcaecec77902533efa56584698071c3a80acd693bba97f5"
+          },
+          {
+            "drive_id": "1SBcQ0KdpCTwVxPzULa6MiKKGJAntnzj8",
+            "sha256": "df06e361ddf85360c1218e40babbb6a6b4f83b8d80b50d123ff778a4d341102e"
+          },
+          {
+            "drive_id": "1HfvBTkQgflk_j65O9PW2s3_xagQZwCyM",
+            "sha256": "af2f0b4539e45c13c73bd663c746f82ea96687aaa882d9cb033a7be33b1e1a27"
+          },
+          {
+            "drive_id": "1yNz-kFvzXFwMghXC2BKiZnsU97E57Ykg",
+            "sha256": "d608469d9fa2b2c475d719746d2bee09ceec84466648345b4c8314ada94b718a"
+          },
+          {
+            "drive_id": "1BAwVo8nUG62Ywh9lZeOQgbY-a0AIQRq5",
+            "sha256": "62e41ddfa2da79996852ef1c1a5466ee8e9c4d23f771d9f8f7311e49d5305b54"
+          },
+          {
+            "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+            "sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea"
+          },
+          {
+            "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+            "sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076"
+          }
+        ],
+        "predictions_sha256": "11dd4ba4fbf969302c9a463f6d7b5add1a714ae77f65e1cc2c5b834ee66bee92",
+        "elapsed_seconds": 171.60900000000038,
+        "source_images_written": 0,
+        "training": false,
+        "production_promoted": false,
+        "limits": [
+          "Repeated development sources, not independent validation",
+          "Component crops and roles supplied by earlier review",
+          "Formula pair geometry requires source visual review",
+          "Only 73 DEV math regions, no claim about all Student OCR"
+        ]
+      },
+      "scopes": {
+        "TRAIN": {
+          "components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_components": {
+            "total": 62,
+            "baseline": 58,
+            "routed": 58
+          },
+          "fraction_pairs": {
+            "total": 27,
+            "baseline": 24,
+            "standalone": 3,
+            "routed": 24,
+            "suggestions": 0,
+            "regressed": 0
+          }
+        },
+        "DEV": {
+          "components": {
+            "total": 73,
+            "baseline": 53,
+            "routed": 54
+          },
+          "fraction_components": {
+            "total": 11,
+            "baseline": 7,
+            "routed": 8
+          },
+          "fraction_pairs": {
+            "total": 5,
+            "baseline": 2,
+            "standalone": 2,
+            "routed": 3,
+            "suggestions": 1,
+            "regressed": 0
+          }
+        }
+      },
+      "pairs": [
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "21"
+          ],
+          "primary": [
+            "15",
+            "21"
+          ],
+          "formula": "\\frac{15}{21}",
+          "draft": {
+            "parts": [
+              "15",
+              "21"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:0",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:1"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            65,
+            3,
+            215,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "primary": [
+            "15 : 3",
+            "21 : 3"
+          ],
+          "formula": "=\\frac{\\sqrt{5};3}{21;3}",
+          "draft": {
+            "parts": [
+              "15 : 3",
+              "21 : 3"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:2",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:3"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            196,
+            0,
+            450,
+            203
+          ]
+        },
+        {
+          "id": "fraction:1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4|1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "7"
+          ],
+          "primary": [
+            "5",
+            "7"
+          ],
+          "formula": "\\frac{5}{7}",
+          "draft": {
+            "parts": [
+              "5",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:4",
+            "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw:scope:5"
+          ],
+          "source_sha256": "ffa0fedf1b7ea1657551c413d36b78c7704a431bcf2f5c38cc37fa11af280054",
+          "drive_id": "1qy-gUqx62LDKZHFvy4KM9s5uhHL0UKaw",
+          "box": [
+            452,
+            0,
+            569,
+            201
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1",
+          "split": "TRAIN",
+          "reference": [
+            "20",
+            "35"
+          ],
+          "primary": [
+            "20",
+            "35"
+          ],
+          "formula": "\\frac{20}{3s}",
+          "draft": {
+            "parts": [
+              "20",
+              "35"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:0",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:1"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            51,
+            45,
+            202,
+            274
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3",
+          "split": "TRAIN",
+          "reference": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "primary": [
+            "20 : 5",
+            "35 : 5"
+          ],
+          "formula": "\\frac{2o0+s}{3s+s}=",
+          "draft": {
+            "parts": [
+              "20 : 5",
+              "35 : 5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:2",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:3"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            189,
+            14,
+            494,
+            301
+          ]
+        },
+        {
+          "id": "fraction:10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4|10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "7"
+          ],
+          "primary": [
+            "4",
+            "7"
+          ],
+          "formula": "\\frac{4}{7}",
+          "draft": {
+            "parts": [
+              "4",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:4",
+            "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS:scope:5"
+          ],
+          "source_sha256": "643c87b01e146ecb052beb15621d1907404483c62704f188595b0a93a635e80f",
+          "drive_id": "10khu9MRA7fn0ZWWvshNCLYtaN3YBU3MS",
+          "box": [
+            508,
+            40,
+            617,
+            270
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1",
+          "split": "TRAIN",
+          "reference": [
+            "15",
+            "8"
+          ],
+          "primary": [
+            "15",
+            "8"
+          ],
+          "formula": "t+\\frac{i S}{d}",
+          "draft": {
+            "parts": [
+              "15",
+              "8"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:0",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:1"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            76,
+            0,
+            227,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "6",
+            "5"
+          ],
+          "primary": [
+            "6",
+            "5"
+          ],
+          "formula": "\\frac{s}{s}",
+          "draft": {
+            "parts": [
+              "6",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:2",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:3"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            299,
+            2,
+            390,
+            186
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "9",
+            "4"
+          ],
+          "primary": [
+            "9",
+            "4"
+          ],
+          "formula": "\\frac{q}{}",
+          "draft": {
+            "parts": [
+              "9",
+              "4"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:4",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:5"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            445,
+            17,
+            533,
+            187
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "14"
+          ],
+          "primary": [
+            "33",
+            "14"
+          ],
+          "formula": "\\frac{j^{a}j}{(G)}",
+          "draft": {
+            "parts": [
+              "33",
+              "14"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:6",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:7"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            642,
+            4,
+            780,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9",
+          "split": "TRAIN",
+          "reference": [
+            "11",
+            "7"
+          ],
+          "primary": [
+            "11",
+            "7"
+          ],
+          "formula": "\\frac{14}{7}",
+          "draft": {
+            "parts": [
+              "11",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:8",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:9"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            783,
+            8,
+            896,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10|1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11",
+          "split": "TRAIN",
+          "reference": [
+            "33",
+            "2"
+          ],
+          "primary": [
+            "33",
+            "2"
+          ],
+          "formula": "\\frac{3j^{3}}{}",
+          "draft": {
+            "parts": [
+              "33",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:10",
+            "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB:field:11"
+          ],
+          "source_sha256": "59ca6a99ca362e12329cd29728e75bf67bc750054a4a5b4b0e44b3558597b26c",
+          "drive_id": "1Ys1ANocQZPDOri4LqwwIeFibwXvTG5eB",
+          "box": [
+            911,
+            7,
+            1027,
+            190
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "11"
+          ],
+          "primary": [
+            "7",
+            "11"
+          ],
+          "formula": "\\frac{Y}{\\ 1}",
+          "draft": {
+            "parts": [
+              "7",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:2",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:3"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            992,
+            24,
+            1089,
+            201
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5",
+          "split": "TRAIN",
+          "reference": [
+            "4",
+            "11"
+          ],
+          "primary": [
+            "4",
+            "11"
+          ],
+          "formula": "\\frac{pi}{\\frac{d}{l y x}}",
+          "draft": {
+            "parts": [
+              "4",
+              "11"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:4",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:5"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1113,
+            29,
+            1206,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{j}{i}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:6",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:7"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            1205,
+            33,
+            1282,
+            202
+          ]
+        },
+        {
+          "id": "fraction:1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11|1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "9"
+          ],
+          "primary": [
+            "8",
+            "9"
+          ],
+          "formula": "\\frac{g}{g}",
+          "draft": {
+            "parts": [
+              "8",
+              "9"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:11",
+            "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg:field:12"
+          ],
+          "source_sha256": "6879e8c1351abcb9423be31ba7ac1045f24944815cb082a47dcddf0d0bba6a61",
+          "drive_id": "1AmYV6uut0rQ6GcOpJvYmOY9jexEl_Tzg",
+          "box": [
+            915,
+            373,
+            1002,
+            548
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+          "split": "DEV",
+          "reference": [
+            "3",
+            "5"
+          ],
+          "primary": [
+            "3",
+            ""
+          ],
+          "formula": "\\frac{3}{5}",
+          "draft": {
+            "parts": [
+              "3",
+              "5"
+            ],
+            "source": "formula_suggestion",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1644,
+            719,
+            1792,
+            1129
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            "7"
+          ],
+          "formula": "\\binom{b6}{r}",
+          "draft": {
+            "parts": [
+              "6",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            1890,
+            714,
+            2050,
+            1155
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+          "split": "DEV",
+          "reference": [
+            "6",
+            "7"
+          ],
+          "primary": [
+            "6",
+            ""
+          ],
+          "formula": "\\left lfloor\\{\\begin{array}{c}{6}\\\\ {7}\\\\ \\end{array}}\\right\\rfloor",
+          "draft": {
+            "parts": [
+              "6",
+              ""
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            2103,
+            732,
+            2246,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+          "split": "DEV",
+          "reference": [
+            "13",
+            "2"
+          ],
+          "primary": [
+            "3",
+            "2"
+          ],
+          "formula": "\\frac{13}{2}",
+          "draft": {
+            "parts": [
+              "3",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": true,
+          "routed_exact": false,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            488,
+            718,
+            639,
+            1138
+          ]
+        },
+        {
+          "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+          "split": "DEV",
+          "reference": [
+            "22",
+            "5"
+          ],
+          "primary": [
+            "22",
+            "5"
+          ],
+          "formula": "kfrac{22}{b}",
+          "draft": {
+            "parts": [
+              "22",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4"
+          ],
+          "source_sha256": "d0e4cc9c25855d73c34bbab683a14d20a7c69529ad564044c216c3c3919ad8ea",
+          "drive_id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS",
+          "box": [
+            736,
+            693,
+            989,
+            1152
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:12|expansion-20261017:1:13",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "\\frac{n}}{n}_",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:12",
+            "expansion-20261017:1:13"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            404,
+            605,
+            610,
+            1048
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:14|expansion-20261017:1:15",
+          "split": "TRAIN",
+          "reference": [
+            "2",
+            "5"
+          ],
+          "primary": [
+            "2",
+            "5"
+          ],
+          "formula": "\\frac{2}{b}",
+          "draft": {
+            "parts": [
+              "2",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:14",
+            "expansion-20261017:1:15"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            560,
+            624,
+            739,
+            1038
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:16|expansion-20261017:1:17",
+          "split": "TRAIN",
+          "reference": [
+            "7",
+            "19"
+          ],
+          "primary": [
+            "7",
+            "19"
+          ],
+          "formula": "tfrac{f}{d} ",
+          "draft": {
+            "parts": [
+              "7",
+              "19"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:16",
+            "expansion-20261017:1:17"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            707,
+            609,
+            903,
+            1035
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:18|expansion-20261017:1:19",
+          "split": "TRAIN",
+          "reference": [
+            "5",
+            "2"
+          ],
+          "primary": [
+            "5",
+            "2"
+          ],
+          "formula": "k^{y}j",
+          "draft": {
+            "parts": [
+              "5",
+              "2"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:18",
+            "expansion-20261017:1:19"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            872,
+            598,
+            1055,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:20|expansion-20261017:1:21",
+          "split": "TRAIN",
+          "reference": [
+            "35",
+            "38"
+          ],
+          "primary": [
+            "3",
+            "38"
+          ],
+          "formula": "\\frac{39}{38}",
+          "draft": {
+            "parts": [
+              "3",
+              "38"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:20",
+            "expansion-20261017:1:21"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1063,
+            576,
+            1339,
+            1037
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:22|expansion-20261017:1:23",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "\\frac{3}{}} ",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:22",
+            "expansion-20261017:1:23"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            407,
+            2184,
+            584,
+            2606
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:26|expansion-20261017:1:27",
+          "split": "TRAIN",
+          "reference": [
+            "3",
+            "7"
+          ],
+          "primary": [
+            "3",
+            "7"
+          ],
+          "formula": "F_{i}^{3}",
+          "draft": {
+            "parts": [
+              "3",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:26",
+            "expansion-20261017:1:27"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            680,
+            2181,
+            852,
+            2609
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:28|expansion-20261017:1:29",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "5"
+          ],
+          "primary": [
+            "3",
+            "5"
+          ],
+          "formula": "i_{s}^{8}",
+          "draft": {
+            "parts": [
+              "3",
+              "5"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:28",
+            "expansion-20261017:1:29"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            835,
+            2177,
+            1017,
+            2604
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:31|expansion-20261017:1:32",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "7"
+          ],
+          "primary": [
+            "8",
+            "7"
+          ],
+          "formula": "\\left lfloor\\{\\begin{array}{l}{8}\\\\ {7}\\\\ \\end{array}}\\right\\rfloor",
+          "draft": {
+            "parts": [
+              "8",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:31",
+            "expansion-20261017:1:32"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1421,
+            2176,
+            1597,
+            2614
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:35|expansion-20261017:1:36",
+          "split": "TRAIN",
+          "reference": [
+            "8",
+            "7"
+          ],
+          "primary": [
+            "9",
+            "7"
+          ],
+          "formula": "\\frac{pi^{8}}{7}",
+          "draft": {
+            "parts": [
+              "9",
+              "7"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": false,
+          "candidate_exact": false,
+          "routed_exact": false,
+          "component_ids": [
+            "expansion-20261017:1:35",
+            "expansion-20261017:1:36"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            1699,
+            2166,
+            1892,
+            2621
+          ]
+        },
+        {
+          "id": "fraction:expansion-20261017:1:39|expansion-20261017:1:40",
+          "split": "TRAIN",
+          "reference": [
+            "32",
+            "21"
+          ],
+          "primary": [
+            "32",
+            "21"
+          ],
+          "formula": "=frac{32}{21}",
+          "draft": {
+            "parts": [
+              "32",
+              "21"
+            ],
+            "source": "crnn",
+            "needs_source_review": true,
+            "status": "MODEL_DRAFT",
+            "training_eligible": false
+          },
+          "baseline_exact": true,
+          "candidate_exact": false,
+          "routed_exact": true,
+          "component_ids": [
+            "expansion-20261017:1:39",
+            "expansion-20261017:1:40"
+          ],
+          "source_sha256": "0678766f782d2fdee7d41d33fa571bb26a7aa8e2a5cc05140db2161a108fe076",
+          "drive_id": "1JUBEN2_hFXDH1F9Rsm1gY0QsyjpfIN2N",
+          "box": [
+            2037,
+            2167,
+            2291,
+            2617
+          ]
+        }
+      ]
+    }
+  },
+  "requested_per_profile": 167,
+  "raw_inference_requests": 498,
+  "cohort_sha256": "b4203f31e7faa6a3438222094ad2ab1c57f84973ae362e2ec97201caa293a121",
+  "routing_code_sha256": "4c513e355970a280067de2fb0ed454a064063dea41c31e85cac3ba3265b1fe67",
+  "summarizer_sha256": "52a74dd4874ebe1939479e4fa62a63aace8b7e719d9724ce117f27f7a6bff5c6",
+  "source_images_written": 0,
+  "training": false,
+  "production_promoted": false,
+  "release_ready": false,
+  "limits": [
+    "Routing hypothesis was designed after inspecting development failures, not preregistered validation",
+    "Only 11 DEV fraction tiers and 5 paired fractions on one page",
+    "Reviewed crops/roles supplied; not automatic end-to-end recognition",
+    "Layout crops may contain neighboring ink; strict whole-crop formula metric",
+    "Exact scoring normalizes TeX presentation; no algebraic simplification",
+    "Not a new independent writer/teacher-verified test; no model output is a training label"
+  ]
+}

@@ -1,0 +1,330 @@
+[
+  {
+    "Path": "ai/runtime/app/api/tutor.py",
+    "Hash": "C7FCDD1A79F735A42E4897DF59E2BCB2526EA800E1832055F4F290C216957DD7"
+  },
+  {
+    "Path": "ai/runtime/app/recognition/yolo_adapter.py",
+    "Hash": "1A0B00578690FB92991F009D42A01074184B287E0677323D00E0C8197DEDAA84"
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/conversation.py",
+    "Hash": "1F28803F241CD0A26C8114862A01ED9D9D51A5FA04F2AB5B426E572CEBBE6E3C"
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/lesson.py",
+    "Hash": "7931BF26C7990DD8969CC620354C33B36F0DCE45BDBA2E25FED18CDD0147A25E"
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/narration.py",
+    "Hash": "C9E4E0CE44276F57425CA9BCF5AE69A689240B072DDE6CD1194F479C2C447D86"
+  },
+  {
+    "Path": "ai/runtime/app/tutoring/video_render.py",
+    "Hash": "F667F774DFF899B25A1A34672589089C18112C65233A73DE02E38F302080F02E"
+  },
+  {
+    "Path": "ai/runtime/tests/test_lesson_narration.py",
+    "Hash": "8FD783B02D89B9485542A720807FBC805B5D0A6C0A8710EFF75A59A4608FAAAD"
+  },
+  {
+    "Path": "ai/runtime/tests/test_yolo_adapter.py",
+    "Hash": "76FAA96B1C80BE9605D1EC0C0C3E7D624DEBC7E2656E4D543F33DE2838812311"
+  },
+  {
+    "Path": "apps/admin-web/package.json",
+    "Hash": "62B10FEAE18478D74924A23699A50891D519BB80C6C9F94C59C1852B98A5680A"
+  },
+  {
+    "Path": "apps/portal-web/package.json",
+    "Hash": "62621B96CF0FC203C0DBDFE676414264B1F6590E6406986BC62445E75AA191AC"
+  },
+  {
+    "Path": "apps/student-mobile/app.json",
+    "Hash": "C342BE470628C0441AB70C1B1B38C3DD02C3655B0B8574DBBCC48D5830857C98"
+  },
+  {
+    "Path": "apps/student-mobile/jest.setup.js",
+    "Hash": "BCACB07434BAA8DEC22D942D8502C3B5CD02CB9DE3CA6388879F218B4B968740"
+  },
+  {
+    "Path": "apps/student-mobile/metro.config.js",
+    "Hash": "E7432C6ABFB43371AA407C79B03A611BDAC1805CDADBCA284AB680BA515E1BD2"
+  },
+  {
+    "Path": "apps/student-mobile/package.json",
+    "Hash": "1F51B08AD9D60DB912DC8E9528265D405572B8C653680BA628E31C97432EBF3D"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/cameraRoute.test.ts",
+    "Hash": "AB659A3C51CBA5A3D45D7992E6A0021014BCE52AD6CF7F9F035F7B775C498F4E"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonListening.test.tsx",
+    "Hash": "84958521639B33BE9E60B6B38877C45705D6F470E3DBC8149671F5CF6CF5ADB3"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonMediaFile.test.ts",
+    "Hash": "D50FF5513C9F32F0330348C7E9032E64FD55EB571E1F00FD5E779BC1A3971B7F"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonNarration.test.tsx",
+    "Hash": "3424CB1A5771825727A654DABD983EA70020DA3E8A2F7A12D9BE64FD5921824E"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonQuestion.test.tsx",
+    "Hash": "20802C384F3E3632576CA5B4344367406A13CEDA0494B8D4DDFB450BEB895736"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/lessonVideo.test.tsx",
+    "Hash": "33C574C011F68DD58D9B4C8E4E830BBCA2B2AEDFB6BCD9D1A283B562D96ACBC3"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/mediaSliderWeb.test.tsx",
+    "Hash": "A0786A3FD349F1A39BA0E7DC3A8C451A2EDE67F7FA31D810C4B7C82ED1A7FC8B"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/mediaTimeline.test.tsx",
+    "Hash": "0CD88959AF134A247DB7E6874FD1D918EE07B1076BE5DA87539278D914987F5F"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/narrationApi.test.ts",
+    "Hash": "6F9EBCFBEAF4BE9F095558632D3547ABCB277273321A13D22769245E579D54AF"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/questionRecording.test.tsx",
+    "Hash": "89A38EDDAAD8948E1641D33AB6C6D20E1FC05775D599AB7E4244CFC96C7F9ECC"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/studentHtml.test.tsx",
+    "Hash": "5B1F1001D87814973EA2971A589FE0106A8C3E4706808D06502725A3F87FCC36"
+  },
+  {
+    "Path": "apps/student-mobile/src/__tests__/studentResponsiveNavigation.test.tsx",
+    "Hash": "41FE5EC77654F93A40C7334B2CC64DA5B9B1C5A29BC4EA495BE3764A896A7C5A"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/_layout.tsx",
+    "Hash": "E005DE3F5E234557EF3D3C6DE004D472F26E8ED8AE442F70C550086804105B4F"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/_layout.web.tsx",
+    "Hash": "B617A8EDB79764F7DCC989D2517F7D765B0733F01E403AA802BA92BABD1E1387"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/(tabs)/_layout.tsx",
+    "Hash": "9AAC420DF9F31615EB011F5B152CE1014674555ADB460C16DD6590E190D75601"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/+html.tsx",
+    "Hash": "F5EA6BF556D3C29AB58C638EEA3A7577916BF0B22ED7081F0E8280537FEF9953"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/camera.web.tsx",
+    "Hash": "DFC5CBCBD523CCD261C1622B6C70D13350925022FBAF3E3FD196D03F8A36EC0B"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/gallery.tsx",
+    "Hash": "FB3BF7507B9F399F7E59B1BBA6DD0C366F001FDC9D70364806997E908D37A225"
+  },
+  {
+    "Path": "apps/student-mobile/src/app/learning/math-guide.tsx",
+    "Hash": "56B1B7D202673E4F8B50DC0F985C6232025ECDB8CBAA2B6657703156F951870B"
+  },
+  {
+    "Path": "apps/student-mobile/src/components/home/HomeDashboard.tsx",
+    "Hash": "BC6F94B019A0A3E3D6471269EED746A20FEA3BCCD3B80120CF22ECA61FE8F76D"
+  },
+  {
+    "Path": "apps/student-mobile/src/components/ui/BrandLockup.tsx",
+    "Hash": "8CC03265DA9443327D4051BE45AE389FAABEDF41FDC2023BEBB31703E2ACE2EF"
+  },
+  {
+    "Path": "apps/student-mobile/src/components/ui/WebAlerts.web.tsx",
+    "Hash": "AEC062DB84D51880BA351D4DFBD25205DA47F01578B5C2D467807B63EDD16541"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/calculator/PocketCalculator.tsx",
+    "Hash": "4D94279A7E2D4ED6DFBCF17E0F9CFF00F2ADBC08C673C277D64CAA2BCB61393C"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/AudioPlayback.tsx",
+    "Hash": "0536720C1E82FC941BB4A08FD711EDF6FBC7D66050FBE10A4110B932E674DD57"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/DivisionReview.tsx",
+    "Hash": "770C974440F79AAEADAB67A2A55505D9ADE427A9F907BB2DCE7040DB3A77CF8D"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/FractionExplorer.tsx",
+    "Hash": "7EA371093DDEBDA94AEF9803A017FCBA21E10AA178C9A0C0E2D0472FEC7635D4"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonClip.tsx",
+    "Hash": "C0A8F17AAC5C76AE1D5F49A4AF130C82CEB25080B019599FE923E5F53FC3D3BC"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonListening.tsx",
+    "Hash": "5CCA1AAE9FC01522DB6049901E40D6AFCE593532D9D8600620B32B1F2D05206A"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonNarration.tsx",
+    "Hash": "F7E5E88E46AFB900101765FA7E6E18B9872107297D0174B162B0610890EB8A69"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonQuestion.tsx",
+    "Hash": "502949DB90EF46163A1C781DBAA6E83B907D9CCAFE6844B217ADFE6DD768E4DC"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/LessonSheet.tsx",
+    "Hash": "26DE674D69FE8DEC2237C90DC78E4422E45EFEDD08ACD71C972ADFAF23416C0F"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/lessonVideoFile.ts",
+    "Hash": "0B96D25ADF0D2B96F6B171699681FC6F746E3994F0AE42CA328460C03692442F"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaSlider.tsx",
+    "Hash": "493E2B0F0F5D223F6A7630D832A49C2B69F7DD5750D49BF8188D1DEE55FA177B"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaSlider.web.tsx",
+    "Hash": "4372E94422FE788BFA10477143D1A58B0E5B4053F415AD9448713803635E2F1C"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/MediaTimeline.tsx",
+    "Hash": "F23C4096401C2C3BF841B288CB36A561104ED2B76F27A0EE6D9148162839F37F"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationApi.ts",
+    "Hash": "11F23E0662F6A236DB9D76A1FA365785BC8FFACCA3D9A45D0E2053FD27027F2F"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationFile.ts",
+    "Hash": "F3CC294C98B0DA4F50F35199FE0D332C086ABAE4059364A5EDC39CD0FC9E04A3"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/narrationFile.web.ts",
+    "Hash": "5A42100319079643014C81B094C3E60DAC885D3ABA0BD13629CA60B65832579C"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/PersonalLessonVideo.tsx",
+    "Hash": "05A1DF791B383C73E8A62B69373A39EEB32EC7CDEA173630ABAE2F0436C54DCB"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/playbackSession.ts",
+    "Hash": "B3D68CE5ED78FD4586344AFD091A65AC43D07A147A8B97063FBCE23A5AB6FD9B"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/QuestionRecording.tsx",
+    "Hash": "57C60896CAB19044E8BD2332A5DC05A92EB7700E672EF12637C08791A2B37D4D"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/StudentWorkReview.tsx",
+    "Hash": "5D80EC615B09484AA4A915D471A1D02DAF057ACAC47AB1FE8911288D1F226EB9"
+  },
+  {
+    "Path": "apps/student-mobile/src/features/tutoring/useQuestionRecorder.ts",
+    "Hash": "53A698D3412884FC12FD3B118F81A63423154A08A8806B154A834D8FEE5A869D"
+  },
+  {
+    "Path": "apps/student-mobile/src/utils/__tests__/suggestionDedupe.test.ts",
+    "Hash": "2894E6F4CC1BD958E407AD5AAC37556FFB11E539066DD2BA0260659B94CA4A6E"
+  },
+  {
+    "Path": "apps/teacher-web/package.json",
+    "Hash": "F532E2BCD308B59BFD0761A96FA5FB914A671791B7DAF40ACBA709C9D9D394BD"
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java",
+    "Hash": "EB7DEE19CAA24CA16DF32EA45B73DB6E06F0CA2500A84BCB1F48FD4B47DA78DA"
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java",
+    "Hash": "266E087793C79D2E03751CB9FBA34053423994638B77C81D9345AAB0287A9448"
+  },
+  {
+    "Path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java",
+    "Hash": "2A481488C953527380A072A5DBF68C45DC411643BD4756F5535D35E3777C5A2C"
+  },
+  {
+    "Path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorControllerTest.java",
+    "Hash": "2D97A9980ED33187543D6B6D108EDEFFCD5A0A550E8D635FDAB69E24B640312C"
+  },
+  {
+    "Path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorServiceTest.java",
+    "Hash": "B5F88F7E27C268D6024C5204B003C9C6C222F1D7F7CA790A65626B5568126F6B"
+  },
+  {
+    "Path": "docs/ARCHITECTURE_LOCAL_RUNTIME.md",
+    "Hash": "4D731EFC729F5BEA43364F843BB61457DAF761F6FD30501EBD16F9D75393429F"
+  },
+  {
+    "Path": "docs/HUONG_DAN_CAI_DAT.md",
+    "Hash": "2B256D1D4EFA447101C316875F2767DB6358FE69191E268397C8C6C1A3AD9F2C"
+  },
+  {
+    "Path": "docs/LOCAL_SETUP.md",
+    "Hash": "27C58E969D6FC373C8E4643D9600AB92D8DB515126B3B298D4F00728E985B898"
+  },
+  {
+    "Path": "docs/superpowers/plans/2026-10-22-media-timeline.md",
+    "Hash": "F20AF9DD1C1F0341858982C161C2C1D953B4563673CD2D9039DF51960C08D12E"
+  },
+  {
+    "Path": "docs/TROUBLESHOOTING.md",
+    "Hash": "C088327002A823B2D79090F9C81121D8BB0E1E0420401C82E726F8C675985633"
+  },
+  {
+    "Path": "package-lock.json",
+    "Hash": "94A5343D2C41B6938B4DF795833F8358DA72E4F17E5E69560539B59F0F905286"
+  },
+  {
+    "Path": "README.md",
+    "Hash": "4BACA8FFE44E865A9F345F44E7BD87306B1ABB55FEBE52AF3F939DC61E3F4B29"
+  },
+  {
+    "Path": "scripts/data/compare_specialist_ocr.py",
+    "Hash": "E90D60D11ACE3023DC74C1DFA2A33874DA12BE3249CC19F1CFFB9274D9D0FA1F"
+  },
+  {
+    "Path": "scripts/data/formula_probe.py",
+    "Hash": "9AC5AE81E584F29E1AC60F444073B0588EDB877E565E1ECE68646A828987BD90"
+  },
+  {
+    "Path": "scripts/data/fraction_draft.py",
+    "Hash": "4C513E355970A280067DE2FB0ED454A064063DEA41C31E85CAC3BA3265B1FE67"
+  },
+  {
+    "Path": "scripts/data/inspect_fraction_ocr.py",
+    "Hash": "1A0D371CCC2BD0232279811874A09E0C82DA2B618F6EE9AD0B891D5B8FA40CCF"
+  },
+  {
+    "Path": "scripts/data/test_compare_specialist_ocr.py",
+    "Hash": "420EA801ACEAD89ABAAF678BC6DC52C64623883D52C4272B1E7847E7E9E29594"
+  },
+  {
+    "Path": "scripts/data/test_formula_probe.py",
+    "Hash": "72D8CBB9110BFAAAABD6A9C24D7109A1713738BCC30093D18F423BACA1E65965"
+  },
+  {
+    "Path": "scripts/data/test_fraction_draft.py",
+    "Hash": "89DC35006EF7D807EA8A0983B13E9A36E5CBBDE18808F59B553107B90EFF187E"
+  },
+  {
+    "Path": "scripts/dev/show-student-qr.cjs",
+    "Hash": "2501836C9B4D4439FD935BD3458EC4232987A2385AFF0EF1E6DAAC0C28B0CE89"
+  },
+  {
+    "Path": "scripts/dev/start-all.ps1",
+    "Hash": "A4F3A5A1E71E706758B2A8BF78F9B2ABAF1EAFAB536FA369E7A197D47BD76FC1"
+  },
+  {
+    "Path": "scripts/test/test_student_metro_config.cjs",
+    "Hash": "D4579AD93900A628117A3CE11469527E2F7BACF8813F341FE82DFC665861BBA5"
+  },
+  {
+    "Path": "scripts/test/test_student_qr.cjs",
+    "Hash": "DDED890AD6233C8B69B0AD160B070EF24BD2BAE9080AC7E26F30CCC065BE330A"
+  }
+]

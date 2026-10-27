@@ -1,0 +1,83 @@
+{
+  "kind": "REGRESSION_REVIEW_NOT_TRAINING_LABELS",
+  "training_eligible": false,
+  "records": [
+    {
+      "candidate_name": "original",
+      "id": "1Xw5dpmZKDKrk8wn3pgCZrTFr4fAKnYOR:reviewed-7",
+      "split": "DEV",
+      "reference": "dỗ em khóc vừa cho em uống thuốc. Em",
+      "scoring_eligible": true,
+      "source_sha256": "9c09b9423e830336634d1ef39d0347ec98b72b11489d975176cc4d05eee3b6c4",
+      "role": "prose",
+      "parent": "dỗ em khóc vừa cho em uống thuốc. Em",
+      "candidate": "dỗ em khóc vừa cho em uống thuốc.Em"
+    },
+    {
+      "candidate_name": "original",
+      "id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88:expanded-expression-21",
+      "split": "DEV",
+      "reference": "9 × 0 = 0",
+      "scoring_eligible": true,
+      "source_sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71",
+      "role": "expression",
+      "parent": "9 × 0 = 0",
+      "candidate": "9 × 0 =0"
+    },
+    {
+      "candidate_name": "original",
+      "id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0:manual-20261012-39",
+      "split": "DEV",
+      "reference": "300 cm² = 3 dm²",
+      "scoring_eligible": true,
+      "source_sha256": "53286a87239d25e3224e1ace9923c448ec14f5e4f077eafe0b88e18a28f424fc",
+      "role": "expression",
+      "parent": "300 cm² = 3 dm²",
+      "candidate": "30 cm² = 3d²"
+    },
+    {
+      "candidate_name": "contrast",
+      "id": "1Xw5dpmZKDKrk8wn3pgCZrTFr4fAKnYOR:reviewed-7",
+      "split": "DEV",
+      "reference": "dỗ em khóc vừa cho em uống thuốc. Em",
+      "scoring_eligible": true,
+      "source_sha256": "9c09b9423e830336634d1ef39d0347ec98b72b11489d975176cc4d05eee3b6c4",
+      "role": "prose",
+      "parent": "dỗ em khóc vừa cho em uống thuốc. Em",
+      "candidate": "dỗ em khóc vừa cho em uống thuốc.Em"
+    },
+    {
+      "candidate_name": "contrast",
+      "id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88:expanded-expression-17",
+      "split": "DEV",
+      "reference": "9 × 3 = 27",
+      "scoring_eligible": true,
+      "source_sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71",
+      "role": "expression",
+      "parent": "9 × 3 = 27",
+      "candidate": "9 × 3 = 227"
+    },
+    {
+      "candidate_name": "contrast",
+      "id": "1YLa28tM4cArYRxY_DLw3Zs1ojCfOLr88:expanded-expression-21",
+      "split": "DEV",
+      "reference": "9 × 0 = 0",
+      "scoring_eligible": true,
+      "source_sha256": "aefbdf2d65d6ffd54edaa0d5fddb3e7e632f18cbc0969c55597ea38d2ab39f71",
+      "role": "expression",
+      "parent": "9 × 0 = 0",
+      "candidate": "9 × 0 =0"
+    },
+    {
+      "candidate_name": "contrast",
+      "id": "1BDvw932Rq7-4xjCQhRX_J6050nUtMxO0:manual-20261012-39",
+      "split": "DEV",
+      "reference": "300 cm² = 3 dm²",
+      "scoring_eligible": true,
+      "source_sha256": "53286a87239d25e3224e1ace9923c448ec14f5e4f077eafe0b88e18a28f424fc",
+      "role": "expression",
+      "parent": "300 cm² = 3 dm²",
+      "candidate": "30 cm² = 3d²"
+    }
+  ]
+}

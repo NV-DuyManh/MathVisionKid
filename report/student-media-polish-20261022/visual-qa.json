@@ -1,0 +1,546 @@
+{
+  "evidence": "Actual Student web export; isolated authentication/lesson/transcription replies, real offline narration WAVs and real MP4. Browser fake microphone; no physical-device claim.",
+  "rows": [
+    {
+      "name": "listening",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-seek",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "loading",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-seek",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-finished",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "audio-error",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "audio-recovered",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "difficulty",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "explained",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "large-text",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-seek",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-seek",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "listening-seek",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "video",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    }
+  ],
+  "seeks": [
+    {
+      "kind": "audio",
+      "ratio": 0.42,
+      "selected": 4.6,
+      "time": 4.6,
+      "paused": true,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.72,
+      "selected": 7.9,
+      "time": 8.117957,
+      "paused": false,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.5,
+      "selected": 1.05,
+      "time": 1.05,
+      "paused": true,
+      "duration": 2.1
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.33,
+      "selected": 3.95,
+      "time": 3.95,
+      "paused": true,
+      "duration": 11.954625
+    },
+    {
+      "kind": "video",
+      "ratio": 0.4,
+      "selected": 8.25,
+      "time": 8.25,
+      "paused": true,
+      "duration": 20.649821
+    },
+    {
+      "kind": "video",
+      "ratio": 0.7,
+      "selected": 14.5,
+      "time": 14.64934,
+      "paused": false,
+      "duration": 20.649821
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.42,
+      "selected": 4.6,
+      "time": 4.6,
+      "paused": true,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.72,
+      "selected": 7.9,
+      "time": 8.127975,
+      "paused": false,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.5,
+      "selected": 1.05,
+      "time": 1.05,
+      "paused": true,
+      "duration": 2.1
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.33,
+      "selected": 3.95,
+      "time": 3.95,
+      "paused": true,
+      "duration": 11.954625
+    },
+    {
+      "kind": "video",
+      "ratio": 0.4,
+      "selected": 8.25,
+      "time": 8.25,
+      "paused": true,
+      "duration": 20.649821
+    },
+    {
+      "kind": "video",
+      "ratio": 0.7,
+      "selected": 14.5,
+      "time": 14.635075,
+      "paused": false,
+      "duration": 20.649821
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.42,
+      "selected": 4.6,
+      "time": 4.6,
+      "paused": true,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.72,
+      "selected": 7.9,
+      "time": 8.110534,
+      "paused": false,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.5,
+      "selected": 1.05,
+      "time": 1.05,
+      "paused": true,
+      "duration": 2.1
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.33,
+      "selected": 3.95,
+      "time": 3.95,
+      "paused": true,
+      "duration": 11.954625
+    },
+    {
+      "kind": "video",
+      "ratio": 0.4,
+      "selected": 8.25,
+      "time": 8.25,
+      "paused": true,
+      "duration": 20.649821
+    },
+    {
+      "kind": "video",
+      "ratio": 0.7,
+      "selected": 14.6,
+      "time": 14.629174,
+      "paused": false,
+      "duration": 20.649821
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.42,
+      "selected": 4.6,
+      "time": 4.6,
+      "paused": true,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.72,
+      "selected": 7.9,
+      "time": 8.102602,
+      "paused": false,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.5,
+      "selected": 1.05,
+      "time": 1.05,
+      "paused": true,
+      "duration": 2.1
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.33,
+      "selected": 3.95,
+      "time": 3.95,
+      "paused": true,
+      "duration": 11.954625
+    },
+    {
+      "kind": "video",
+      "ratio": 0.4,
+      "selected": 8.25,
+      "time": 8.25,
+      "paused": true,
+      "duration": 20.649821
+    },
+    {
+      "kind": "video",
+      "ratio": 0.7,
+      "selected": 14.55,
+      "time": 14.636721,
+      "paused": false,
+      "duration": 20.649821
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.42,
+      "selected": 4.6,
+      "time": 4.6,
+      "paused": true,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.72,
+      "selected": 7.9,
+      "time": 8.11213,
+      "paused": false,
+      "duration": 10.951875
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.5,
+      "selected": 1.05,
+      "time": 1.05,
+      "paused": true,
+      "duration": 2.1
+    },
+    {
+      "kind": "audio",
+      "ratio": 0.33,
+      "selected": 3.95,
+      "time": 3.95,
+      "paused": true,
+      "duration": 11.954625
+    },
+    {
+      "kind": "video",
+      "ratio": 0.4,
+      "selected": 8.25,
+      "time": 8.25,
+      "paused": true,
+      "duration": 20.649821
+    },
+    {
+      "kind": "video",
+      "ratio": 0.7,
+      "selected": 14.55,
+      "time": 14.650278,
+      "paused": false,
+      "duration": 20.649821
+    }
+  ],
+  "errors": [],
+  "asks": 6,
+  "audioRequests": 13
+}

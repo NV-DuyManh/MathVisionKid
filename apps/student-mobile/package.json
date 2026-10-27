@@ -6,8 +6,9 @@
     "@expo/ui": "~58.0.22",
     "@expo/vector-icons": "^15.1.1",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/slider": "5.2.1",
     "axios": "^1.20.0",
-    "expo": "^58.0.0",
+    "expo": "~58.0.17",
     "expo-asset": "~58.0.18",
     "expo-audio": "~58.0.10",
     "expo-camera": "~58.0.12",
@@ -63,7 +64,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest --preset jest-expo"
+    "test": "jest --preset jest-expo",
+    "test:contracts": "node --test src/context/__tests__/webAuthSession.test.mjs src/utils/__tests__/privacyGestureMultiMask.test.mjs"
   },
   "private": true
 }

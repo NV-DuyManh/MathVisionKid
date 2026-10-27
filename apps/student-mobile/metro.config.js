@@ -23,4 +23,12 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, 'node_modules'),
 ];
 
+// Local services and dependency rollback copies are never application source.
+// Keep Metro from indexing their generated files during a cold SDK upgrade.
+const defaultBlockList = config.resolver.blockList;
+config.resolver.blockList = [
+  ...(Array.isArray(defaultBlockList) ? defaultBlockList : defaultBlockList ? [defaultBlockList] : []),
+  /[/\\]infra[/\\]local-runtime[/\\]/,
+];
+
 module.exports = config;

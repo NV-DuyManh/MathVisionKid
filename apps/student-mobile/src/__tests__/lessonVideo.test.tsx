@@ -2,13 +2,15 @@ import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { AppState } from 'react-native';
 import { LessonVideo } from '../features/tutoring/LessonVideo';
+import { MediaTimeline } from '../features/tutoring/MediaTimeline';
+jest.mock('@react-native-community/slider', () => 'Slider');
 const mockPlayers: any[] = [];
 let mockBlur: () => void;
 const mockNavigation = { addListener: jest.fn((_event, callback) => { mockBlur = callback; return jest.fn(); }) };
 jest.mock('expo-video', () => ({ useVideoPlayer: (_source: unknown, setup: (player: any) => void) => {
   const React = require('react');
   const [player] = React.useState(() => {
-    const item = { released: false, play: jest.fn(), pause: jest.fn(() => { if(item.released) throw new Error('Native player already released'); }), seekBy: jest.fn(), currentTime: 0, loop: false };
+    const item = { released: false, play: jest.fn(), playing: false, duration: 60, pause: jest.fn(() => { if(item.released) throw new Error('Native player already released'); }), seekBy: jest.fn(), currentTime: 0, loop: false };
     setup(item); mockPlayers.push(item); return item;
   });
   React.useEffect(() => () => { player.released = true; }, [player]);
@@ -20,6 +22,25 @@ let view: TestRenderer.ReactTestRenderer, changeState: (state: string) => void;
 const button = (label: string) => view.root.findAll(n => n.props.accessibilityLabel === label && n.props.onPress)[0];
 beforeEach(() => { jest.clearAllMocks(); mockPlayers.length = 0; jest.spyOn(AppState, 'addEventListener').mockImplementation((_, fn: any) => { changeState = fn; return { remove: jest.fn() }; }); });
 afterEach(() => { if(view) act(() => view.unmount()); jest.restoreAllMocks(); });
+it('seeks the video to any chosen second and keeps its previous playback state', () => {
+  act(() => { view = TestRenderer.create(<LessonVideo reading />); });
+  const controls = () => view.root.findByType(MediaTimeline).props;
+  const player = mockPlayers[0];
+  player.playing = true;
+  act(() => controls().onScrubStart()); player.playing = false;
+  act(() => controls().onSeek(23.75));
+  expect(player.currentTime).toBe(23.75); expect(player.play).toHaveBeenCalledTimes(1);
+});
+it.each(['background', 'blur'])('does not resume an interrupted scrub after %s', reason => {
+  act(() => { view = TestRenderer.create(<LessonVideo reading />); });
+  const controls = () => view.root.findByType(MediaTimeline).props;
+  const player = mockPlayers[0];
+  player.playing = true;
+  act(() => controls().onScrubStart()); player.playing = false;
+  act(() => reason === 'blur' ? mockBlur() : changeState('background'));
+  act(() => controls().onSeek(23.75));
+  expect(player.currentTime).toBe(23.75); expect(player.play).not.toHaveBeenCalled();
+});
 it('loads a local, captioned clip without autoplay and pauses on background', () => {
   act(() => { view = TestRenderer.create(<LessonVideo reading={false} />); });
   const mockPlayer = mockPlayers[0];

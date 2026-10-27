@@ -195,6 +195,7 @@ class Session:
     problem_text: str = ''
     ask_count: int = 0
     conversation: list[dict] = field(default_factory=list)
+    narration_texts: list[str] = field(default_factory=list)
 
 
 _sessions: OrderedDict[str, Session] = OrderedDict()
@@ -696,6 +697,12 @@ def solution_sentence(step: Step) -> str:
     return name[:1].upper() + name[1:] + " là:"
 
 
+def remember_narration(session: Session, paragraphs: list[str]):
+    # Only already published text is eligible for a private seekable narration.
+    texts = [' '.join(text.split()) for text in paragraphs if text.strip()]
+    session.narration_texts = list(dict.fromkeys([*session.narration_texts, *texts]))[-128:]
+
+
 def present(key: str, session: Session, status="READY", feedback="") -> LessonResponse:
     index = len(session.answers)
     step = session.plan.steps[index] if index < len(session.plan.steps) else None
@@ -707,11 +714,19 @@ def present(key: str, session: Session, status="READY", feedback="") -> LessonRe
     if step is None and session.plan.finalAnswerStep is not None:
         final = session.completed[session.plan.finalAnswerStep]
         conclusion = f"Đáp số: {final.answer}" + (f" {final.unit}" if final.unit else "") + "."
-    return LessonResponse(sessionId=key, revision=session.revision, topic=session.plan.topic,
+    response = LessonResponse(sessionId=key, revision=session.revision, topic=session.plan.topic,
         goal=session.plan.goal, outline=[s.title for s in session.plan.steps], stepIndex=index,
         step=public, completed=session.completed, status="COMPLETE" if step is None else status, feedback=feedback, conclusion=conclusion,
         understandingSteps=sum(item.kind == "UNDERSTAND" for item in session.plan.steps),
         summary=session.summary if index >= 2 and session.plan.steps[0].kind == "UNDERSTAND" else None)
+    texts = [feedback]
+    if public:
+        texts += [public.explanation, *public.guidance, public.question]
+    for item in session.completed:
+        texts += [item.solutionSentence or item.title, item.explanation, *item.guidance, *item.calculationDetails]
+        texts.append(f'{item.expression} = {item.answer}' + (f' ({item.unit})' if item.unit else '') if item.expression else item.answer)
+    remember_narration(session, texts)
+    return response
 
 
 def fraction_working(expression: str, solved=False) -> list[str]:

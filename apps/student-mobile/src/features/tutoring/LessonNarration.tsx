@@ -1,194 +1,95 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { AppState, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useFocusEffect } from 'expo-router';
-import type { Voice } from 'expo-speech';
-import { voicePreferences } from './voicePreferences';
-import * as Speech from './speechOutput';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { AppButton } from '../../components/ui/AppButton';
-import { AppIllustration } from '../../components/ui/AppIllustration';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS } from '../../constants/theme';
-import { narrationChunks, vietnameseVoices, voiceLabel } from './narration';
+import { downloadNarration, NarrationSource } from './narrationApi';
+import { saveNarration } from './narrationFile';
+import { AudioPlayback } from './AudioPlayback';
+import { TaskProgress } from '../../components/ui/TaskProgress';
+import { NARRATION_PROGRESS_STEPS } from './narration';
+import { NARRATION_VOICES, NarrationVoice, readNarrationVoice, saveNarrationVoice } from './narrationVoices';
 
-type Props = { scope: string; paragraphs: string[]; disabled?: boolean; compact?: boolean; onFinished?: () => void };
-
-export function LessonNarration({ scope, paragraphs, disabled = false, compact = false, onFinished }: Props) {
-  const [voices, setVoices] = useState<Voice[]>([]);
-  const [voiceId, setVoiceId] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [playing, setPlaying] = useState(false);
-  const [part, setPart] = useState(0);
-  const [finished, setFinished] = useState(false);
-  const [message, setMessage] = useState('');
-  const [expanded, setExpanded] = useState(false);
-  const [settings, setSettings] = useState(false);
-  const [rate, setRate] = useState(.9);
-  const [focused, setFocused] = useState('');
-  const active = useRef(false), speaking = useRef(false), sequence = useRef(0), voiceLoad = useRef(0);
-  const pendingStop = useRef<Promise<void> | null>(null);
-  const mounted = useRef(false);
-  const transcriptId = useId(), settingsId = useId();
-  const textKey = JSON.stringify(paragraphs);
-  const sourceKey = `${scope}:${textKey}`;
-  const currentSource = useRef(sourceKey);
-  const voice = voices.find(item => item.identifier === voiceId) || voices[0];
-
-  const stop = useCallback(() => {
-    sequence.current += 1;
-    if (speaking.current) {
-      const task = Speech.stop().catch(() => {});
-      pendingStop.current = task;
-      void task.then(() => { if (pendingStop.current === task) pendingStop.current = null; });
-      speaking.current = false;
-    }
-    if (active.current) setPlaying(false);
-  }, []);
-  const loadVoices = useCallback(() => {
-    const id = ++voiceLoad.current;
-    return Promise.resolve().then(() => Speech.getAvailableVoicesAsync()).then(available => {
-      if (mounted.current && id === voiceLoad.current) { setVoices(vietnameseVoices(available)); setLoading(false); }
-    }, () => {
-      if (mounted.current && id === voiceLoad.current) { setVoices([]); setLoading(false); }
-    });
+type Props = { scope: string; source: NarrationSource; paragraphs: string[]; disabled?: boolean; compact?: boolean; onFinished?: () => void };
+type VoiceKeyEvent = Parameters<NonNullable<React.ComponentProps<typeof Pressable>['onKeyDown']>>[0];
+export function LessonNarration(props: Props) {
+  return <Narration key={JSON.stringify([props.scope, props.source, props.paragraphs, props.disabled])} {...props} />;
+}
+function Narration({ source, paragraphs, disabled = false, compact = false, onFinished }: Props) {
+  const [uri, setUri] = useState(''), [error, setError] = useState(false), [attempt, setAttempt] = useState(0), [expanded, setExpanded] = useState(false);
+  const [voice, setVoice] = useState<NarrationVoice | null>(null);
+  const voiceButtons = useRef<(React.ElementRef<typeof View> | null)[]>([]);
+  const transcriptId = useId();
+  const playbackFailed = useCallback(() => setError(true), []);
+  const sourceId = source.sessionId, revision = source.revision, text = JSON.stringify(paragraphs);
+  useEffect(() => {
+    let active = true;
+    void readNarrationVoice().then(saved => { if (active) setVoice(saved); });
+    return () => { active = false; };
   }, []);
   useEffect(() => {
-    mounted.current = true; void loadVoices();
-    void voicePreferences.get().then(value => {
-      if (!mounted.current || !value) return;
-      try { const saved = JSON.parse(value); if (typeof saved.voiceId === 'string') setVoiceId(saved.voiceId);
-        if ([.75, .9, 1.05].includes(saved.rate)) setRate(saved.rate); } catch { /* Use the device defaults. */ }
-    }).catch(() => {});
-    // Web voices may arrive after the first empty browser inventory.
-    const synth = Platform.OS === 'web' && typeof window !== 'undefined' ? window.speechSynthesis : null;
-    synth?.addEventListener?.('voiceschanged', loadVoices);
-    return () => { mounted.current = false; voiceLoad.current += 1; synth?.removeEventListener?.('voiceschanged', loadVoices); };
-  }, [loadVoices]);
-  useFocusEffect(useCallback(() => {
-    currentSource.current = sourceKey;
-    active.current = !disabled; setPlaying(false); setFinished(false); setPart(0); setMessage(''); setExpanded(false);
-    const subscription = AppState.addEventListener('change', state => { if (state !== 'active') stop(); });
-    return () => { active.current = false; stop(); subscription.remove(); };
-  }, [sourceKey, disabled, stop]));
-
-  const play = (preview = false) => {
-    if (!active.current || disabled || !voice || speaking.current) return;
-    const chunks = narrationChunks(preview ? ['Chào em. Mình cùng tìm hiểu bài toán, từng bước nhé.'] : paragraphs);
-    if (!chunks.length) return;
-    const id = ++sequence.current;
-    speaking.current = true; setPlaying(true); setFinished(false); setMessage(''); setPart(0);
-    const valid = () => active.current && sequence.current === id && currentSource.current === sourceKey;
-    const fail = () => {
-      if (!valid()) return;
-      stop();
-      setMessage('Chưa phát được lời giảng. Em thử nghe lại hoặc đọc lời giảng bên dưới nhé.');
-    };
-    const speak = (index: number) => {
-      if (!valid()) return;
-      try {
-        Speech.speak(chunks[index], { language: 'vi-VN', voice: voice.identifier, rate, pitch: 1,
-          onDone: () => {
-            if (!valid()) return;
-            if (!preview) setPart(index + 1);
-            if (index + 1 < chunks.length) speak(index + 1);
-            else { speaking.current = false; setPlaying(false); setFinished(!preview); if (!preview) onFinished?.(); }
-          },
-          onStopped: () => { if (valid()) { speaking.current = false; setPlaying(false); } },
-          onError: fail,
-        });
-      } catch { fail(); }
-    };
-    // The browser's speak call stays inside the click gesture, including Safari.
-    // A previous owned utterance was already stopped on scope/setting changes.
-    if (Platform.OS !== 'web' && pendingStop.current) void pendingStop.current.then(() => speak(0));
-    else speak(0);
+    if (disabled || !voice) return;
+    let active = true, asset: ReturnType<typeof saveNarration> | undefined;
+    const controller = new AbortController();
+    const listener = AppState.addEventListener('change', state => { if (state !== 'active' && !asset) { controller.abort(); if (active) setError(true); } });
+    void downloadNarration({ sessionId: sourceId, revision }, JSON.parse(text), controller.signal, voice).then(bytes => {
+      if (!active || controller.signal.aborted) return;
+      asset = saveNarration(bytes); setUri(asset.uri);
+    }).catch(() => { if (active && !controller.signal.aborted) setError(true); });
+    return () => { active = false; controller.abort(); listener.remove(); asset?.dispose(); };
+  }, [sourceId, revision, text, disabled, attempt, voice]);
+  const chooseVoice = (selected: NarrationVoice) => {
+    if (!voice || disabled || voice === selected) return;
+    setUri(''); setError(false); setVoice(selected);
+    void saveNarrationVoice(selected).catch(() => {});
   };
-  const toggle = (label: string, open: boolean, id: string, action: () => void) => <Pressable
-    accessibilityRole="button" accessibilityLabel={label} aria-expanded={open} aria-controls={id}
-    accessibilityState={{ expanded: open }} onPress={action}
-    onFocus={() => setFocused(label)} onBlur={() => setFocused('')}
-    style={[styles.toggle, focused === label && styles.focused]}><Text style={styles.link}>{label}</Text>
-  </Pressable>;
-  if (compact) return <View style={styles.details}>
-    <AppButton title={playing ? 'Dừng nghe giải thích' : 'Nghe giải thích'} variant="secondary"
-      disabled={disabled || loading || !voice || !paragraphs.length} onPress={() => playing ? stop() : play()} />
-    {!loading && !voice ? <Text style={styles.caption}>Thiết bị chưa có giọng Việt. Em đọc phần chữ phía trên nhé.</Text> : null}
-    {message ? <Text style={styles.notice} accessibilityRole="alert">{message}</Text> : null}
-  </View>;
-  const parts = narrationChunks(paragraphs).length;
-  return <View style={styles.card}>
-    <AppIllustration source={require('../../../assets/illustrations/star-listening.png')} style={styles.listeningArt} accessible={false} />
-    <LinearGradient colors={['#6743D1', '#372385']} style={styles.player}>
-      <View style={styles.playerTop}><Ionicons name="musical-notes" size={20} color="#C6B8FF" accessible={false} /><Text style={styles.playerTitle}>Nghe từng ý, hiểu từng bước</Text></View>
-      <View style={styles.playerControls}>
-        <View style={styles.wave} accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>{[7, 12, 20, 11, 26, 16, 9, 21, 30, 13, 23, 12].map((height, index) => <View key={index} style={[styles.waveBar, { height, opacity: playing ? .9 : .45 }]} />)}</View>
-        <Pressable accessibilityRole="button" accessibilityLabel={playing ? 'Dừng nghe' : finished ? 'Nghe lại lời giảng' : 'Nghe giảng kỹ hơn'}
-          disabled={disabled || loading || !voice || !paragraphs.length} accessibilityState={{ disabled: disabled || loading || !voice || !paragraphs.length }}
-          onPress={() => playing ? stop() : play()} style={({ pressed }) => [styles.playButton, pressed && { opacity: .7 }]}>
-          <Ionicons name={playing ? 'stop' : 'play'} size={25} color="#7751D8" accessible={false} />
-        </Pressable>
-        <View style={styles.wave} accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>{[15, 23, 10, 28, 12, 20, 8, 18, 25, 13, 19, 8].map((height, index) => <View key={index} style={[styles.waveBar, { height, opacity: playing ? .9 : .45 }]} />)}</View>
-      </View>
-      <View style={styles.audioProgress} accessible accessibilityRole="progressbar" accessibilityLabel="Các ý đã nghe" accessibilityValue={{ min: 0, max: parts, now: part }}>
-        <View style={[styles.audioProgressFill, { width: (parts ? part / parts * 100 : 0) + '%' as any }]} />
-      </View>
-      <Text style={styles.playerStatus}>{playing ? 'Đang nghe' : finished ? 'Đã nghe xong' : 'Bấm để nghe'} · {part}/{parts} ý</Text>
-    </LinearGradient>
-    <Text style={styles.caption} accessibilityLiveRegion="polite">{playing ? 'Đang đọc lời giảng…' : finished ? 'Đã đọc xong lời giảng.'
-      : loading ? 'Đang tìm giọng tiếng Việt…' : voice ? 'Em có thể nghe lại bất cứ lúc nào.'
-        : 'Chưa tìm thấy giọng tiếng Việt trên thiết bị này. Em vẫn có thể đọc lời giảng chi tiết.'}</Text>
-    {message ? <Text style={styles.notice} accessibilityRole="alert">{message}</Text> : null}
-    {!loading && !voice ? <AppButton title="Tìm lại giọng đọc" variant="secondary" onPress={() => { setLoading(true); void loadVoices(); }} /> : null}
-    <View style={styles.optionToggles}>{toggle('Giọng đọc và tốc độ', settings, settingsId, () => setSettings(value => !value))}
-      {toggle('Đọc lời giảng chi tiết', expanded, transcriptId, () => setExpanded(value => !value))}</View>
-    {settings ? <View nativeID={settingsId} style={styles.details}>
-      <Text style={styles.label}>Giọng tiếng Việt</Text>
-      {voices.map((item, index) => <Pressable key={item.identifier} accessibilityRole="button"
-        accessibilityLabel={`Chọn ${voiceLabel(item, index)}`} aria-pressed={voice?.identifier === item.identifier}
-        accessibilityState={Platform.OS === 'web' ? { disabled } : { selected: voice?.identifier === item.identifier, disabled }} disabled={disabled}
-        onPress={() => { stop(); setVoiceId(item.identifier); void voicePreferences.set(JSON.stringify({ voiceId: item.identifier, rate })).catch(() => {}); }}
-        onFocus={() => setFocused(item.identifier)} onBlur={() => setFocused('')}
-        style={[styles.option, voice?.identifier === item.identifier && styles.selected, focused === item.identifier && styles.focused]}>
-        <Text style={styles.body}>{voiceLabel(item, index)}{voice?.identifier === item.identifier ? ' · Đang chọn' : ''}</Text>
+  return <View style={styles.stack}>
+    <View accessibilityRole="radiogroup" accessibilityLabel="Chọn giọng đọc" style={styles.voices}>
+      {NARRATION_VOICES.map((option, index) => <Pressable key={option.id} ref={node => { voiceButtons.current[index] = node; }} accessibilityRole="radio" accessibilityLabel={`${option.name}, ${option.description.toLowerCase()}`}
+        accessibilityState={{ checked: voice === option.id, disabled: !voice || disabled }} disabled={!voice || disabled}
+        aria-checked={voice === option.id} aria-disabled={!voice || disabled}
+        {...(Platform.OS === 'web' ? { tabIndex: voice === option.id ? 0 : -1, onKeyDown: (event: VoiceKeyEvent) => {
+          const key = event.nativeEvent.key;
+          if (!voice || disabled || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(key)) return;
+          event.preventDefault();
+          const next = key === 'Home' ? 0 : key === 'End' ? NARRATION_VOICES.length - 1 : (index + 1) % NARRATION_VOICES.length;
+          chooseVoice(NARRATION_VOICES[next].id); voiceButtons.current[next]?.focus();
+        } } : {})}
+        style={({ pressed }) => [styles.voice, voice === option.id && styles.voiceSelected, pressed && { opacity: .7 }]}
+        onPress={() => chooseVoice(option.id)}>
+        <Ionicons name={voice === option.id ? 'radio-button-on' : 'radio-button-off'} size={19} color={voice === option.id ? COLORS.primaryDark : '#92829E'} accessible={false} />
+        <View style={styles.voiceWords}><Text style={styles.voiceName}>{option.name}</Text><Text style={styles.voiceDescription}>{option.description}</Text></View>
       </Pressable>)}
-      <Text style={styles.label}>Tốc độ</Text>
-      <View style={styles.controls}>{[[.75, 'Chậm'], [.9, 'Vừa'], [1.05, 'Nhanh']].map(([value, label]) => <Pressable key={label}
-        accessibilityRole="button" accessibilityLabel={`Tốc độ ${label}`} aria-pressed={rate === value}
-        accessibilityState={Platform.OS === 'web' ? { disabled } : { selected: rate === value, disabled }} disabled={disabled}
-        onPress={() => { stop(); setRate(Number(value)); void voicePreferences.set(JSON.stringify({ voiceId: voice?.identifier, rate: Number(value) })).catch(() => {}); }} onFocus={() => setFocused(String(label))} onBlur={() => setFocused('')}
-        style={[styles.option, styles.control, rate === value && styles.selected, focused === label && styles.focused]}>
-        <Text style={styles.body}>{label}</Text></Pressable>)}</View>
-      <AppButton title="Nghe thử giọng" variant="secondary" disabled={disabled || !voice || playing} onPress={() => play(true)} />
-    </View> : null}
-    {expanded ? <View nativeID={transcriptId} style={styles.details}>
-      {paragraphs.map((paragraph, index) => <MathText key={index} style={styles.body}>{paragraph}</MathText>)}
-    </View> : null}
+    </View>
+    {error ? <View style={styles.error} accessibilityLiveRegion="polite">
+      <View style={styles.errorHeading}><Ionicons name="headset-outline" size={24} color="#8C6B3E" accessible={false} /><Text style={styles.errorTitle}>Âm thanh chưa sẵn sàng</Text></View>
+      <Text style={styles.errorText}>Em vẫn có thể đọc lời giảng bên dưới, hoặc thử tải lại nhé.</Text>
+      <AppButton title="Tải lại lời giảng" variant="secondary" onPress={() => { setUri(''); setError(false); setAttempt(value => value + 1); }} />
+    </View> : uri ? <AudioPlayback key={uri} uri={uri} title={compact ? 'Lời giải thích' : 'Nghe giảng'} subtitle="Kéo để chọn đoạn muốn nghe" onFinished={onFinished} onError={playbackFailed} preparationSteps={NARRATION_PROGRESS_STEPS} />
+      : disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : <View style={styles.preparing}>
+        <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>
+        <TaskProgress steps={NARRATION_PROGRESS_STEPS} activeStep={voice ? 1 : 0} />
+      </View>}
+    <Pressable accessibilityRole="button" accessibilityLabel="Đọc lời giảng chi tiết" accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls={expanded ? transcriptId : undefined}
+      style={({ pressed }) => [styles.transcript, pressed && { opacity: .65 }]} onPress={() => setExpanded(value => !value)}>
+      <Ionicons name="reader-outline" size={18} color="#786A89" accessible={false} /><Text style={styles.link}>Xem lời giảng</Text><Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color="#786A89" accessible={false} />
+    </Pressable>
+    {expanded ? <View nativeID={transcriptId} style={styles.words}>{paragraphs.map((part, index) => <MathText key={index} style={styles.body}>{part}</MathText>)}</View> : null}
   </View>;
 }
-
 const styles = StyleSheet.create({
-  card: { gap: 10 },
-  listeningArt: { width: '100%', height: 140, alignSelf: 'center' },
-  player: { borderRadius: 20, padding: 15, gap: 10, boxShadow: '0 5px 14px #6140BE24' },
-  playerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 }, playerTitle: { fontFamily: FONTS.bold, fontSize: 12, lineHeight: 18, color: '#F0E9FF' },
-  playerControls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
-  wave: { flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', height: 34 }, waveBar: { width: 3, borderRadius: 2, backgroundColor: '#BA9BFF' },
-  playButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#FFF', alignItems: 'center', justifyContent: 'center', borderWidth: 4, borderColor: '#E0D1FF' },
-  audioProgress: { height: 3, borderRadius: 2, backgroundColor: '#A58BCD60', overflow: 'hidden' }, audioProgressFill: { height: '100%', backgroundColor: '#E1D4FF' },
-  playerStatus: { fontFamily: FONTS.semiBold, fontSize: 11, color: '#E0D4FA', textAlign: 'center' },
-  heading: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  title: { fontSize: 19, lineHeight: 27, color: COLORS.textPrimary, fontFamily: FONTS.bold },
-  body: { fontSize: 15, lineHeight: 24, color: COLORS.textSecondary, fontFamily: FONTS.regular },
-  label: { fontSize: 15, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.bold },
-  caption: { fontSize: 12, lineHeight: 19, color: '#8A779F', fontFamily: FONTS.regular },
-  controls: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 }, control: { flexGrow: 1, flexBasis: 130 },
-  optionToggles: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-  toggle: { flex: 1, minWidth: 105, minHeight: 44, padding: 7, borderWidth: 2, borderColor: '#EEE7F9', justifyContent: 'center', borderRadius: 12 },
-  link: { fontSize: 13, lineHeight: 20, color: COLORS.primaryDark, fontFamily: FONTS.bold },
-  details: { gap: 12, padding: 12, borderRadius: 14, backgroundColor: COLORS.surface },
-  option: { minHeight: 48, borderWidth: 2, borderColor: COLORS.border, borderRadius: 12, padding: 12, justifyContent: 'center' },
-  selected: { borderColor: COLORS.primaryDark, backgroundColor: '#EEE8FF' },
-  focused: { borderColor: COLORS.textPrimary, borderStyle: 'dashed' },
-  notice: { color: '#874323', fontSize: 14, lineHeight: 23, fontFamily: FONTS.medium },
+  stack: { gap: 10 }, transcript: { minHeight: 44, paddingHorizontal: 6, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  preparing: { padding: 16, gap: 14, borderRadius: 18, backgroundColor: '#FCFAFF', borderWidth: 1, borderColor: '#E8DFF3' },
+  preparingTitle: { fontFamily: FONTS.bold, fontSize: 15, lineHeight: 22, color: COLORS.textPrimary },
+  voices: { flexDirection: 'row', gap: 10 },
+  voice: { flex: 1, minHeight: 52, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 14, borderWidth: 1, borderColor: '#E4DAEE', backgroundColor: '#FFF', flexDirection: 'row', alignItems: 'center', gap: 8 },
+  voiceSelected: { borderColor: '#9773D3', backgroundColor: '#F3ECFC' }, voiceWords: { flex: 1 },
+  voiceName: { fontFamily: FONTS.bold, fontSize: 13, lineHeight: 18, color: COLORS.textPrimary },
+  voiceDescription: { fontFamily: FONTS.regular, fontSize: 11, lineHeight: 16, color: '#786A89' },
+  link: { flex: 1, fontFamily: FONTS.semiBold, fontSize: 13, color: '#786A89' }, words: { backgroundColor: '#FCFAFF', borderRadius: 16, padding: 14, gap: 10 },
+  body: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 22, color: COLORS.textSecondary },
+  error: { gap: 12, padding: 18, borderRadius: 22, borderWidth: 1, borderColor: '#EDDFC9', backgroundColor: '#FFFAF2' },
+  errorHeading: { flexDirection: 'row', alignItems: 'center', gap: 10 }, errorTitle: { flex: 1, fontFamily: FONTS.bold, fontSize: 16, lineHeight: 24, color: '#675047' },
+  errorText: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#675047' },
 });

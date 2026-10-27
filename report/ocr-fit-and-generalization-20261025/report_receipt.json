@@ -1,0 +1,16 @@
+{
+  "report_sha256": "320b925cb5b768d72855fa18742276ea252059727afd15d82a8669a8083d7935",
+  "results_sha256": "bfaebc919047158e827e2c27da3a61f75b8ba4425da32c5be8f0101698afbe54",
+  "figure_sha256": "a3d2cd9f82ee551fbd1e80a34642188072143da57d0e94d4ba268d1f5d8a68dc",
+  "builder_sha256": "42cf6b3ebe94a41e35385b4aa6aa31dcbe96373e191228f8afb1d3e42250bf21",
+  "skills_applied": [
+    {
+      "identifier": "ponytail",
+      "skill_md": ".agents/skills/ponytail/SKILL.md",
+      "why_selected": "Traceable isolated OCR research.",
+      "applied_to": "Results and visual evidence report."
+    }
+  ],
+  "production_promoted": false,
+  "objective_achieved": false
+}

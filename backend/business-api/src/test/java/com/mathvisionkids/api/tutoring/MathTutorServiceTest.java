@@ -27,6 +27,20 @@ class MathTutorServiceTest {
     private MockRestServiceServer server;
     private MathTutorService service;
 
+    @Test void narrationUsesAuthenticatedOwnerAndRejectsWrongBinaryFormat() {
+        byte[] wav=new byte[46]; wav[0]='R';wav[1]='I';wav[2]='F';wav[3]='F';wav[8]='W';wav[9]='A';wav[10]='V';wav[11]='E';
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration"))
+                .andExpect(jsonPath("$.owner").value("pupil-a"))
+                .andExpect(jsonPath("$.paragraphs[0]").value("Em gộp hai nhóm."))
+                .andExpect(jsonPath("$.voice").value("vi-VN-HoaiMyNeural"))
+                .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
+                .andRespond(withSuccess(wav,MediaType.parseMediaType("audio/wav")));
+        assertArrayEquals(wav,service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),"vi-VN-HoaiMyNeural"),"pupil-a"));
+        server.verify(); server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration")).andRespond(withSuccess(new byte[50],MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),null),"pupil-a"));
+    }
+
     @Test void videoUsesOnlySessionAndAuthenticatedOwner() {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/video"))
                 .andExpect(jsonPath("$.owner").value("pupil-a"))

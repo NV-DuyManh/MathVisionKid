@@ -4,6 +4,9 @@ import { trainingAccess, trainingStudentId } from '../features/training-games/id
 import { createTrainingRuntime } from '../features/training-games/runtime';
 import { trainingResults } from '../features/training-games/resultStore';
 
+// Native audio I/O is covered separately in trainingNativeAudio.test.ts.
+jest.mock('../features/training-games/nativeAudioController', () => ({ NativeAudioController: require('@mathvisionkid/training-games').AudioController }));
+
 const A = '66666666-6666-4666-8666-666666666666';
 const mockA = { userId: 'mock_student_a', role: 'STUDENT' };
 const mockB = { userId: 'mock_student_b', role: 'STUDENT' };

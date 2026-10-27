@@ -25,6 +25,15 @@ it.each([
   ['(1)/(3) + (2)/(5) = (11)/(15)', '1 phần 3 cộng 2 phần 5 bằng 11 phần 15'],
   ['1 - 11/15 = 4/15', '1 trừ 11 phần 15 bằng 4 phần 15'],
   ['12 × 2 : 3 = 8 (cm²)', '12 nhân 2 chia 3 bằng 8 xăng ti mét vuông'],
+  ['(12 + 8) × 2 = 40', 'mở ngoặc 12 cộng 8 đóng ngoặc nhân 2 bằng 40'],
+  ['5 × -2 = -10', '5 nhân âm 2 bằng âm 10'],
+  ['5 * -2 = -10', '5 nhân âm 2 bằng âm 10'],
+  ['12 ÷ -3 = -4', '12 chia âm 3 bằng âm 4'],
+  ['5 + -2 = 3', '5 cộng âm 2 bằng 3'],
+  ['3 kg và 15 cm', '3 ki lô gam và 15 xăng ti mét'],
+  ['250 ml và 2 l', '250 mi li lít và 2 lít'],
+  ['Điểm (M) nằm trong hình', 'Điểm mở ngoặc M đóng ngoặc nằm trong hình'],
+  ['gam, làm, lớp và 3kg', 'gam, làm, lớp và 3 ki lô gam'],
   ['5dm² và 3 mm³', '5 đề xi mét vuông và 3 mi li mét khối'],
   ['-3 + 2 = -1', 'âm 3 cộng 2 bằng âm 1'],
   ['Ngày 12/10/2026.', 'Ngày 12/10/2026.'],
@@ -38,7 +47,7 @@ it('keeps compound fraction operands and separates long speech without losing wo
   const text = 'Em đọc kỹ dữ kiện và thử giải thích bằng lời. '.repeat(40).trim();
   const chunks = narrationChunks([text, 'Giữ 3.5 cm.']);
   expect(chunks.every(chunk => chunk.length <= 420)).toBe(true);
-  expect(chunks.join(' ')).toBe(text + ' Giữ 3.5 cm.');
+  expect(chunks.join(' ')).toBe(text + ' Giữ 3.5 xăng ti mét .');
 });
 
 it('selects Vietnamese voices, prefers enhanced quality and never falls back to English', () => {

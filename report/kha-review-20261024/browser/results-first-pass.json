@@ -1,0 +1,122 @@
+{
+  "evidence": "Desktop Chromium at a phone-sized viewport, real static-export game modules, intercepted authentication only. Not an Android/Expo Go test.",
+  "base": "http://127.0.0.1:4178/study/",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "games": [
+    {
+      "gameId": "race-to-finish",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "status": "failed",
+      "phases": [
+        "catalog-play-click",
+        "actual-export-entry-mounted"
+      ],
+      "error": "locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByTestId('race-board') to be visible\u001b[22m\n",
+      "pageText": "ĐUA VỀ ĐÍCH\nGiải toán lớp 5 và đua qua khu rừng diệu kỳ\n1. Chọn Chế Độ Chơi\n🤖\nChơi một mình\n1 Người thật + Máy\n👥\nChơi cùng bạn\nNhiều người 1 máy\n2. Số Lượng Tham Gia\n2 Người chơi\n3 Người chơi\n4 Người chơi\n3. Nhân Vật & Tên Người Chơi\n👤 Người chơi 1\n✓\nĐổi\nĐổi\nĐổi\n🤖 Máy 1\nĐổi\n✓\nĐổi\nĐổi\n🤖 Máy 2\nĐổi\nĐổi\n✓\nĐổi\n🤖 Máy 3\nĐổi\nĐổi\nĐổi\n✓\n📜 LUẬT CHƠI NHANH:\n• Tung xúc xắc, giải toán lớp 5: đúng thì đi đủ số ô xúc xắc (1–6), sai thì đứng yên.\n• Ô Thưởng (+1, +2, Khiên, Sao Giải Trừ) giúp tăng tốc và tự chặn phạt.\n• Ô phạt: lùi 1–2 ô, mất lượt; về xuất phát chỉ có ở 10 ô đầu. Khiên và sao giúp chặn phạt.\n• Dừng đúng cửa vào bằng bước xúc xắc cuối cùng: tự động đi đường tắt. Ai cán đích đầu tiên giành Cúp Vàng.\n‹ Về sảnh\n🏁 XUẤT PHÁT ĐUA NGAY"
+    },
+    {
+      "gameId": "terrain-racing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "phases": [
+        "catalog-play-click",
+        "actual-export-entry-mounted",
+        "game-started-and-exit-clicked",
+        "catalog-restored-and-game-unmounted"
+      ]
+    },
+    {
+      "gameId": "energy-defense",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "phases": [
+        "catalog-play-click",
+        "actual-export-entry-mounted",
+        "game-started-and-exit-clicked",
+        "catalog-restored-and-game-unmounted"
+      ]
+    },
+    {
+      "gameId": "planet-rescue",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "phases": [
+        "catalog-play-click",
+        "actual-export-entry-mounted",
+        "game-started-and-exit-clicked",
+        "catalog-restored-and-game-unmounted"
+      ]
+    },
+    {
+      "gameId": "block-island",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "phases": [
+        "catalog-play-click",
+        "actual-export-entry-mounted",
+        "game-started-and-exit-clicked",
+        "catalog-restored-and-game-unmounted"
+      ]
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "consoleErrors": [
+    {
+      "gameId": "race-to-finish",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "terrain-racing",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "energy-defense",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "planet-rescue",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "planet-rescue",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "block-island",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "block-island",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "block-island",
+      "message": "BackHandler is not supported on web and should not be used."
+    },
+    {
+      "gameId": "block-island",
+      "message": "BackHandler is not supported on web and should not be used."
+    }
+  ],
+  "passed": false
+}

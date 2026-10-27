@@ -1,0 +1,15 @@
+{
+  "completed": false,
+  "status": "BLOCKED_EVALUATION_ERROR",
+  "failures": [
+    {
+      "type": "AssertionError",
+      "message": "Preserve frozen evidence"
+    }
+  ],
+  "policy_sha256": "f046353f65e792be8a3474f4c43d00a879f8d782beaad8a717e8d5fb46244309",
+  "source_images_written": 0,
+  "test_pixels_accessed": false,
+  "holdout_pixels_accessed": false,
+  "production_promoted": false
+}

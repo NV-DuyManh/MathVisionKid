@@ -10,13 +10,13 @@ This guide covers the repository's Windows launcher. It distinguishes starting t
 | :--- | :--- |
 | Windows | PowerShell and Command Prompt available |
 | Git | Installed and available on PATH |
-| Node.js | 22.13 or newer compatible with the locked dependencies; the inspected environment uses Node 22 |
+| Node.js | Node 22.13+, 24.3+, or 26+; use a supported even-numbered release compatible with the lockfile |
 | Python | 3.12; Windows `py -3.12` launcher available |
 | Java | JDK 21; `java` available on PATH |
 | Docker Desktop | Running engine, Linux containers, and Docker Compose |
-| Phone, optional | Compatible Expo Go client; same Wi-Fi as the computer for LAN testing |
+| Phone, optional | Expo Go compatible with SDK 58; same Wi-Fi as the computer for LAN testing |
 
-The Gradle wrapper is included. You do not need global Gradle. Internet access is needed for the first dependency installation, container pulls, detector download, and cloud capabilities. The [versioned Expo SDK 57 reference](https://docs.expo.dev/versions/v57.0.0/) documents its React Native and Node.js compatibility.
+The Gradle wrapper is included. You do not need global Gradle. Internet access is needed for the first dependency installation, container pulls, detector download, and cloud capabilities. Use the [versioned Expo SDK 58 reference](https://docs.expo.dev/versions/v58.0.0/) and its [release notes](https://expo.dev/changelog/sdk-58) for React Native and Node.js compatibility.
 
 ## 2. Clone and install
 
@@ -132,7 +132,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-student-metr
 | Business API documentation | `http://localhost:8080/swagger-ui.html` |
 | AI readiness | `http://localhost:8000/ready` |
 
-For a physical phone, scan the QR using an Expo Go client compatible with **Expo SDK 57**. The phone and computer must share Wi-Fi. The phone uses the computer's LAN address, not localhost. See [phone troubleshooting](TROUBLESHOOTING.md#phone-cannot-open-the-app).
+For a physical phone, scan the current QR using an Expo Go client compatible with **Expo SDK 58**. If a server was started before the SDK upgrade, close that owned student server and restart the launcher so the QR opens the updated project. The phone and computer must share Wi-Fi. The phone uses the computer's LAN address, not localhost. See [phone troubleshooting](TROUBLESHOOTING.md#phone-cannot-open-the-app).
 
 The student API resolver normally derives the development host from the server URL. For an explicit override, use `EXPO_PUBLIC_API_OVERRIDE=http://YOUR_COMPUTER_LAN_IP:8080/api/v1` in `apps/student-mobile/.env.local`, then restart the student server. Keep the `/api/v1` prefix. `EXPO_PUBLIC_API_BASE_URL` is a fallback and does not take priority over a detected development host. Do not put private service keys in `EXPO_PUBLIC_` variables.
 

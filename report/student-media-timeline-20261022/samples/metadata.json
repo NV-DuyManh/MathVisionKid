@@ -1,0 +1,16 @@
+[
+  {
+    "name": "lesson",
+    "bytes": 350538,
+    "seconds": 10.95,
+    "renderSeconds": 1.28,
+    "modelCalls": 0
+  },
+  {
+    "name": "reply",
+    "bytes": 382626,
+    "seconds": 11.95,
+    "renderSeconds": 0.61,
+    "modelCalls": 0
+  }
+]

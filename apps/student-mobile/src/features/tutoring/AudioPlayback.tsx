@@ -1,0 +1,82 @@
+/* eslint-disable react-hooks/immutability -- Expo AudioPlayer exposes imperative native mute/volume setters, not React state. */
+import React, { useEffect, useRef, useState } from 'react';
+import { AppState, Platform, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { MediaTimeline } from './MediaTimeline';
+import { preparePlaybackSession } from './playbackSession';
+import { FONTS } from '../../constants/theme';
+import { TaskProgress } from '../../components/ui/TaskProgress';
+
+export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question = false, onFinished, onError, preparationSteps }: {
+  uri: string; title: string; subtitle?: string; durationHint?: number; question?: boolean; onFinished?: () => void; onError?: () => void; preparationSteps?: readonly string[];
+}) {
+  const player = useAudioPlayer(uri, { updateInterval: 200 });
+  const status = useAudioPlayerStatus(player), navigation = useNavigation();
+  const [notice, setNotice] = useState(''), [rate, setRate] = useState(1);
+  const active = useRef(true), generation = useRef(0), scrubPlaying = useRef<boolean | null>(null);
+  const watchdog = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearWatchdog = () => { if (watchdog.current) clearTimeout(watchdog.current); watchdog.current = null; };
+  const finished = useRef(false), didPlay = useRef(false), complete = useRef(onFinished);
+  const duration = Number.isFinite(status.duration) && status.duration > 0 ? status.duration : durationHint;
+  const current = Math.max(0, Math.min(Number.isFinite(status.currentTime) ? status.currentTime : 0, duration));
+  useEffect(() => { complete.current = onFinished; }, [onFinished]);
+  useEffect(() => { if (status.error) onError?.(); }, [status.error, onError]);
+  useEffect(() => {
+    active.current = true;
+    const invalidate = () => { ++generation.current; clearWatchdog(); };
+    const pause = () => { invalidate(); scrubPlaying.current = null; player.pause(); };
+    const blur = navigation.addListener('blur', pause);
+    const listener = AppState.addEventListener('change', state => { if (state !== 'active') pause(); });
+    return () => { active.current = false; invalidate(); blur(); listener.remove(); };
+  }, [navigation, player]);
+  useEffect(() => {
+    if (status.playing) didPlay.current = true;
+    if (status.didJustFinish && didPlay.current && !finished.current) { finished.current = true; complete.current?.(); }
+  }, [status.playing, status.didJustFinish]);
+  const play = async (id: number) => {
+    if (Platform.OS !== 'web') await preparePlaybackSession();
+    if (!active.current || generation.current !== id) return;
+    player.muted = false;
+    player.volume = 1; // Player gain only; the pupil's system volume stays unchanged.
+    didPlay.current = true;
+    const position = player.currentTime;
+    player.play();
+    clearWatchdog();
+    watchdog.current = setTimeout(() => {
+      watchdog.current = null;
+      if (active.current && generation.current === id && player.currentTime <= position && !player.currentStatus.didJustFinish) {
+        player.pause();
+        setNotice('Chưa phát được âm thanh. Em bấm phát để thử lại nhé.');
+      }
+    }, 6000);
+  };
+  const seek = async (seconds: number, playAfter?: boolean) => {
+    const id = ++generation.current, resume = playAfter ?? scrubPlaying.current ?? player.playing;
+    scrubPlaying.current = null;
+    try {
+      setNotice(''); await player.seekTo(Math.max(0, Math.min(seconds, duration)));
+      if (active.current && generation.current === id && resume) await play(id);
+    } catch { if (active.current && generation.current === id) setNotice('Chưa phát được âm thanh. Em thử lại nhé.'); }
+  };
+  const toggle = async () => {
+    clearWatchdog();
+    if (player.playing) { ++generation.current; player.pause(); }
+    else if (status.didJustFinish || current >= duration) void seek(0, true);
+    else {
+      const id = ++generation.current;
+      setNotice('');
+      try { await play(id); } catch { if (active.current && generation.current === id) setNotice('Chưa phát được âm thanh. Em thử lại nhé.'); }
+    }
+  };
+  return <View style={styles.stack}>
+    {preparationSteps && !status.isLoaded && !status.error ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} /> : null}
+    <MediaTimeline title={title} subtitle={!status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error)} loading={!status.isLoaded && !status.error}
+      playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'} skipSeconds={question ? 5 : 10}
+      onToggle={toggle} onSeek={seconds => { void seek(seconds); }} onRestart={() => { void seek(0, true); }}
+      onScrubStart={() => { scrubPlaying.current = player.playing; ++generation.current; clearWatchdog(); player.pause(); }}
+      rate={rate} onRate={question ? undefined : value => { try { player.setPlaybackRate(value); setRate(value); setNotice(''); } catch { setNotice('Chưa đổi được tốc độ. Em vẫn có thể nghe ở tốc độ hiện tại.'); } }} />
+    {notice || status.error ? <Text accessibilityRole="alert" style={styles.notice}>{notice || 'Chưa phát được âm thanh. Em vẫn có thể đọc phần chữ.'}</Text> : null}
+  </View>;
+}
+const styles = StyleSheet.create({ stack: { gap: 10 }, notice: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#874323' } });

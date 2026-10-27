@@ -130,7 +130,8 @@ export default function OcrResultScreen() {
     return <SafeAreaView style={styles.container}>
       <AppHeader title="Nhận dạng dòng chữ" showBack />
       <View style={styles.progressContainer}>
-        <RecognitionProgress title="Đang đọc dòng chữ" description="Nhận dạng chữ trong ảnh em đã chọn." imageUri={lineCropUri} onCancel={() => router.back()} />
+        <RecognitionProgress title="Đang đọc dòng chữ" description="Nhận dạng chữ trong ảnh em đã chọn." imageUri={lineCropUri} onCancel={() => router.back()}
+          steps={['Ảnh đã chọn', 'Đọc dòng chữ', 'Mở kết quả']} activeStep={1} />
       </View>
     </SafeAreaView>;
   }

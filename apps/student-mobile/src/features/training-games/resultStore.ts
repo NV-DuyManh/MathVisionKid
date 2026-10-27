@@ -12,7 +12,6 @@ export class TrainingResultStore {
   constructor(private readonly storage: Storage = AsyncStorage) {}
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   private notify() { this.listeners.forEach(listener => listener()); }
-  reportStorageError(studentId: string, gameId: TrainingGameId) { this.errors.set(this.key(studentId, gameId), 'storage'); this.notify(); }
   private key(studentId: string, gameId: TrainingGameId) {
     if (!isStudentUuid(studentId) || !isTrainingGameId(gameId)) throw new Error('Invalid training identity');
     return `@mathvisionkid:training:v1:${studentId.toLowerCase()}:${gameId}:host-results`;

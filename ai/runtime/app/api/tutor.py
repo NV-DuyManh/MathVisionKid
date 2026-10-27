@@ -11,7 +11,7 @@ from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, 
 from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
-from app.tutoring import video
+from app.tutoring import video, narration
 
 router = APIRouter()
 
@@ -20,6 +20,21 @@ async def require_internal_key(request: Request):
     provided = request.headers.get("X-Internal-API-Key", "")
     if not provided or not secrets.compare_digest(provided.encode(), settings.internal_api_key.encode()):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
+
+
+@router.post('/lesson/narration', dependencies=[Depends(require_internal_key)])
+def narration_endpoint(request: narration.NarrationRequest):
+    # Synchronous speech/encoder work runs in FastAPI's thread pool, not its event loop.
+    try:
+        return Response(narration.narrate(request), media_type='audio/wav', headers={'Cache-Control':'no-store'})
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from None
+    except ValueError:
+        raise HTTPException(status_code=400, detail='Em mở lại lời giảng của bài đang học nhé.') from None
+    except Exception:
+        raise HTTPException(status_code=503, detail='Chưa chuẩn bị được âm thanh. Em thử lại hoặc đọc phần chữ nhé.') from None
 
 
 def video_call(function, request):

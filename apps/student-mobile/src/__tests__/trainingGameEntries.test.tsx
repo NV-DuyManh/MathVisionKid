@@ -4,6 +4,8 @@ import { usePreventRemove } from 'expo-router';
 import { TrainingGameSession } from '../features/training-games/GamePlayer';
 import { TRAINING_GAME_IDS } from '@mathvisionkid/training-games';
 
+// Native audio I/O is covered separately in trainingNativeAudio.test.ts.
+jest.mock('../features/training-games/nativeAudioController', () => ({ NativeAudioController: require('@mathvisionkid/training-games').AudioController }));
 jest.mock('expo-router', () => ({ usePreventRemove: jest.fn() }));
 jest.mock('react-native-gesture-handler', () => ({ GestureHandlerRootView: require('react-native').View }));
 // This preset runs CommonJS without dynamic-import VM support. Exercise host

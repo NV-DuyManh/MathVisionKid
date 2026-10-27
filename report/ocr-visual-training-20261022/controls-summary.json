@@ -1,0 +1,26 @@
+{
+  "completed": false,
+  "requested": 18,
+  "valid_persisted_predictions": 0,
+  "verified_accuracy": null,
+  "engineering_controls_passed": false,
+  "release_allowed": false,
+  "http_attempt": {
+    "terminated_due_to_slow_original_container_read": true,
+    "logged_unpersisted_inference_count": 2,
+    "used_for_scoring": false,
+    "log_sha256": "7ca0d29770b8d55d53ad7820d5d52a5ce419cf21c451c325e21ec52721d6393f"
+  },
+  "mounted_attempt": {
+    "logged_inference_count": 0,
+    "source_failure_count": 18,
+    "groups_attempted": 12,
+    "log_sha256": "df045f0f31f1ba5481dfaf3c6f72eda8797707fc950ad63587024957bd99a393",
+    "scoring_error": "TypeError comparing None CER after zero readable source rows",
+    "per_source_error_messages_retained": false
+  },
+  "scoring_recipe_fixed": true,
+  "synthetic_scoring_checks_passed": 3,
+  "real_control_rerun_after_fix": false,
+  "limitations": "Do not infer source failure cause or reuse historical accuracy as current evidence"
+}

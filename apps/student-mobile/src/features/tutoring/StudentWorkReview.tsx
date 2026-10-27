@@ -8,6 +8,7 @@ import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { NotebookLine, TutorService, WorkReview, trimWorkReviewLine, workReviewLines } from './api/TutorService';
 import { WorkPhotoEvidence } from './WorkPhotoEvidence';
+import { TaskProgress } from '../../components/ui/TaskProgress';
 
 type Props = { problemText: string; workText: string; imageUri: string; lines: NotebookLine[];
   enabled: boolean; disabled?: boolean; photoCurrent?: boolean; onReviseWork: (work: string) => void; onCaptureWork: () => void; onSessionExpired?: () => void; onReviewReady?: () => void };
@@ -87,7 +88,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     {!enabled ? <Text style={styles.notice}>Em xác nhận đề và bài làm đã đọc đúng ở phía trên trước nhé.</Text> : null}
     {result?.status !== 'CORRECT' ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow || busy} loading={busy} onPress={() => void review()} /> : null}
     {busy ? <View accessibilityLiveRegion="polite" style={styles.panel}>
-      <Text style={styles.body}>Đang đối chiếu từng dòng với đề bài…</Text>
+      <TaskProgress steps={['Bài làm đã xác nhận', 'Đối chiếu từng dòng', 'Mở nhận xét']} activeStep={1} />
       <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
     </View> : null}
     {error ? <Text accessibilityRole="alert" style={styles.error}>{error}</Text> : null}

@@ -200,6 +200,25 @@ public class MathTutorService {
         } catch (RestClientException ex) {throw unavailable();}
     }
 
+    public byte[] narration(NarrationRequest request, String owner) {
+        if (baseUrl.isBlank() || internalKey==null || internalKey.isBlank()) throw unavailable();
+        HttpHeaders headers=new HttpHeaders(); headers.setContentType(MediaType.APPLICATION_JSON);
+        MediaType wav=MediaType.parseMediaType("audio/wav"); headers.setAccept(List.of(wav)); headers.set("X-Internal-API-Key",internalKey);
+        try {
+            var response=http.postForEntity(baseUrl+"/internal/v1/tutor/lesson/narration", new HttpEntity<>(java.util.Map.of(
+                    "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs(),"voice",request.voice()),headers),byte[].class);
+            byte[] bytes=response.getBody();
+            if (bytes==null || bytes.length<=44 || bytes.length>8*1024*1024 || response.getHeaders().getContentType()==null
+                    || !wav.isCompatibleWith(response.getHeaders().getContentType()) || bytes[0]!='R' || bytes[1]!='I' || bytes[2]!='F' || bytes[3]!='F'
+                    || bytes[8]!='W' || bytes[9]!='A' || bytes[10]!='V' || bytes[11]!='E') throw unavailable();
+            return bytes;
+        } catch (HttpStatusCodeException ex) {
+            if (List.of(400,409,410,429).contains(ex.getStatusCode().value())) throw new ApiException("NARRATION_UNAVAILABLE",
+                    "Em mở lại lời giảng từ bài đang học nhé.",HttpStatus.valueOf(ex.getStatusCode().value()));
+            throw unavailable();
+        } catch (RestClientException ex) { throw unavailable(); }
+    }
+
     public Transcript transcribe(MultipartFile file, boolean consent, String owner) {
         if (!consent) throw invalid("AUDIO_CONSENT_REQUIRED", "Em đồng ý gửi câu hỏi ghi âm trước nhé.");
         if (file == null || file.isEmpty() || file.getSize() > 3L * 1024 * 1024)

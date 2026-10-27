@@ -7,6 +7,8 @@ import { trainingResults } from '../features/training-games/resultStore';
 import { trainingScreenOptions } from '../features/training-games/presentation';
 import { createTrainingRuntime } from '../features/training-games/runtime';
 
+// Native audio I/O is covered separately in trainingNativeAudio.test.ts.
+jest.mock('../features/training-games/nativeAudioController', () => ({ NativeAudioController: require('@mathvisionkid/training-games').AudioController }));
 jest.mock('expo-router', () => ({ usePreventRemove: jest.fn() }));
 jest.mock('react-native-gesture-handler', () => ({ GestureHandlerRootView: require('react-native').View }));
 jest.mock('@mathvisionkid/training-games/race-to-finish', () => mockEntry('race-to-finish'));

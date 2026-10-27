@@ -47,9 +47,7 @@ const readText = () => view.root.findAllByType('Text' as any).map(node => String
 const button = (label: string) => view.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
 const input = (label: string) => view.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onChangeText === 'function')[0];
 const editProblem = () => {
-  if (button('Chỉnh đề bài')) { act(() => button('Chỉnh đề bài').props.onPress()); return; }
-  act(() => button('Xem thêm').props.onPress()); act(() => button('Xem lại đề bài').props.onPress());
-  act(() => button('Chỉnh lại đề').props.onPress());
+  act(() => button('Chỉnh đề bài').props.onPress());
 };
 let view: TestRenderer.ReactTestRenderer;
 
@@ -413,20 +411,37 @@ it('keeps a wrong response at the same reasoning step', async () => {
   expect(readText()).toContain('Em tìm gì trước?');
 });
 
-it('opens the original problem in a separate sheet and keeps the current lesson step', async () => {
+it('keeps the original problem open above the working area and toggles it without leaving the lesson', async () => {
   await render();
-  expect(button('Xem lại đề bài')).toBeUndefined();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
-  expect(readText()).not.toContain(PROBLEM);
-  act(() => button('Xem thêm').props.onPress());
-  act(() => button('Xem lại đề bài').props.onPress());
   expect(readText()).toContain(PROBLEM);
-  act(() => button('Đóng Đề bài của em').props.onPress());
-  expect(readText()).not.toContain(PROBLEM);
+  const toggle = button('Thu gọn đề bài');
+  expect(toggle.props.accessibilityState.expanded).toBe(true);
+  expect(view.root.findAllByProps({ nativeID: toggle.props['aria-controls'] }).length).toBeGreaterThan(0);
+  act(() => toggle.props.onPress());
+  expect(view.root.findAllByProps({ testID: 'lesson-problem-content' })).toHaveLength(0);
+  expect(button('Mở đề bài').props.accessibilityState.expanded).toBe(false);
+  act(() => button('Mở đề bài').props.onPress());
+  expect(view.root.findAllByProps({ testID: 'lesson-problem-content' }).length).toBeGreaterThan(0);
   expect(readText()).toContain('Em tìm gì trước?');
   expect(TutorService.startLesson).toHaveBeenCalledTimes(1);
+  expect(TutorService.answerLesson).not.toHaveBeenCalled();
   editProblem();
   expect(input('Nội dung đề bài').props.value).toBe(PROBLEM);
+  expect(view.root.findAllByProps({ testID: 'lesson-problem-reference' })).toHaveLength(0);
+});
+
+it('removes duplicated question and calculator entries from more tools while retaining the header calculator', async () => {
+  await render();
+  await act(async () => button('Bắt đầu từng bước').props.onPress());
+  act(() => button('Xem thêm').props.onPress());
+  expect(button('Xem lại đề bài')).toBeUndefined();
+  expect(button('Máy tính')).toBeUndefined();
+  expect(button('Xem video bài này')).toBeDefined();
+  expect(button('Lưu bài để học tiếp')).toBeDefined();
+  act(() => button('Đóng Em cần gì thêm?').props.onPress());
+  expect(button('Mở máy tính bỏ túi')).toBeDefined();
+  expect(button('Thu gọn đề bài')).toBeDefined();
 });
 
 it('uses a short numeric input and unit only after the server advances', async () => {
@@ -435,9 +450,11 @@ it('uses a short numeric input and unit only after the server advances', async (
     step: { ...LESSON.step, title: 'Tìm chiều cao', question: 'Em tính chiều cao?', choices: [], expression: '90 × 2 ÷ 15', unit: 'cm' } });
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
+  act(() => button('Thu gọn đề bài').props.onPress());
   await act(async () => { await button('Chiều cao').props.onPress(); });
   expect(readText()).not.toContain('Em tính chiều cao?');
   act(() => button('Tiếp tục bước tiếp theo').props.onPress());
+  expect(button('Mở đề bài')).toBeDefined();
   expect(readText()).not.toContain('90 × 2 ÷ 15');
   expect(readText()).not.toContain('138');
   expect(input('Câu trả lời của em').props.keyboardType).toBe('decimal-pad');

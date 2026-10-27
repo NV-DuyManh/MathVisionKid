@@ -81,6 +81,12 @@ public class MathTutorController {
         return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.video(request,authentication.getName()));
     }
 
+    @PostMapping(value="/lesson/narration", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> narration(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav"))
+                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.narration(request, authentication.getName()));
+    }
+
     @PostMapping(value="/lesson/video/status", consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VideoStatus> videoStatus(@Valid @RequestBody VideoLookup request, Authentication authentication) {
         return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoStatus(request,authentication.getName()));

@@ -224,7 +224,7 @@ if (-not $nodeCmd -or -not $npmCmd) {
         $MissingDeps += @{
             Tool   = "Node.js"
             Reason = "node executable not found in PATH"
-            Fix    = "Install Node.js 20+ from https://nodejs.org/"
+            Fix    = "Install supported Node.js 22.13+, 24.3+, or 26+ from https://nodejs.org/ (use an even-numbered release)"
         }
     }
     if (-not $npmCmd) {

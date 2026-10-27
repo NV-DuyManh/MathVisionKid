@@ -100,6 +100,24 @@ def test_spoken_math_preserves_fraction_and_operation_meaning():
     assert 'xăng ti mét vuông' in spoken_math('Diện tích là 32 cm².')
 
 
+@pytest.mark.parametrize('source, expected', [
+    ('5 × -2 = -10', '5 nhân âm 2 bằng âm 10'),
+    ('5 * -2 = -10', '5 nhân âm 2 bằng âm 10'),
+    ('12 ÷ -3 = -4', '12 chia âm 3 bằng âm 4'),
+    ('5 + -2 = 3', '5 cộng âm 2 bằng 3'),
+    ('3 kg và 15 cm', '3 ki lô gam và 15 xăng ti mét'),
+    ('5dm² và 3 mm³', '5 đề xi mét vuông và 3 mi li mét khối'),
+    ('8 (cm²)', '8 xăng ti mét vuông'),
+    ('250 ml và 2 l', '250 mi li lít và 2 lít'),
+    ('(12 + 8) × 2 = 40', 'mở ngoặc 12 cộng 8 đóng ngoặc nhân 2 bằng 40'),
+    ('Điểm (M) nằm trong hình', 'Điểm mở ngoặc M đóng ngoặc nằm trong hình'),
+    ('gam, làm, lớp và 3kg', 'gam, làm, lớp và 3 ki lô gam'),
+])
+def test_nam_pronunciation_selection_preserves_operands_and_word_boundaries(source, expected):
+    from app.tutoring.video_render import spoken_math
+    assert spoken_math(source) == expected
+
+
 def test_system_font_fallback_does_not_assume_deep_repository_path(monkeypatch):
     from pathlib import Path
     from app.tutoring import video_render

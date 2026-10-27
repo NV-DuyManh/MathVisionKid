@@ -39,6 +39,30 @@ def test_bbox_normalization_invalid_dims():
         xyxy_to_normalized_xywh([10, 10, 20, 20], 0, 100)
 
 
+@pytest.mark.parametrize('width,height', [(float('nan'), 100), (100, float('inf'))])
+def test_bbox_rejects_nonfinite_image_dimensions(width, height):
+    with pytest.raises(ValueError, match='Invalid image dimensions'):
+        xyxy_to_normalized_xywh([10, 10, 20, 20], width, height)
+
+
+@pytest.mark.parametrize('box,expected', [
+    ([90, 70, 120, 120], [.9, .7, .1, .3]),
+    ([-10, 10, 30, 40], [0., .1, .3, .3]),
+    ([10, -20, 40, 20], [.1, 0., .3, .2]),
+])
+def test_bbox_clips_endpoints_without_expanding_the_visible_glyph(box, expected):
+    actual = xyxy_to_normalized_xywh(box, 100, 100)
+    assert actual == expected
+    assert actual[0] + actual[2] <= 1.0001
+    assert actual[1] + actual[3] <= 1.0001
+
+
+@pytest.mark.parametrize('box', [[float('nan'), 0, 10, 10], [0, 0, float('inf'), 10]])
+def test_bbox_rejects_nonfinite_coordinates_instead_of_recording_invented_geometry(box):
+    with pytest.raises(ValueError, match='finite'):
+        xyxy_to_normalized_xywh(box, 100, 100)
+
+
 # ── 2. Explicit Label Mapping Tests ──────────────────────────────────────────
 
 def test_label_map_coverage():

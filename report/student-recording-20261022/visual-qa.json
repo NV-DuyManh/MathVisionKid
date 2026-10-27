@@ -1,0 +1,249 @@
+{
+  "evidence": "Actual Student web export; isolated authentication/lesson/transcription replies, real offline narration WAVs and real MP4. Browser fake microphone; no physical-device claim.",
+  "rows": [
+    {
+      "name": "question",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording-live",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "transcribing",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "thinking",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording-live",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "transcribing",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "thinking",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording-live",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "transcribing",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "thinking",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording-live",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "transcribing",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "thinking",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "question",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording-live",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "transcribing",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "recording",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "thinking",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    },
+    {
+      "name": "reply",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "broken": 0,
+      "outside": []
+    }
+  ],
+  "seeks": [],
+  "errors": [],
+  "asks": 5,
+  "audioRequests": 5
+}

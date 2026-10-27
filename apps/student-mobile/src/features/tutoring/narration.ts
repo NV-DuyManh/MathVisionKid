@@ -1,6 +1,8 @@
 import type { CompletedLessonStep, LessonStep } from './api/TutorService';
 import type { Voice } from 'expo-speech';
 
+export const NARRATION_PROGRESS_STEPS = ['Giọng đọc đã chọn', 'Chuẩn bị âm thanh', 'Mở lời giảng'] as const;
+
 /** Only fields already opened by the lesson service; never serialize the step. */
 export function stepNarration(step: LessonStep, hint = ''): string[] {
   return unique([step.explanation, ...(step.guidance || []), hint, step.question]);
@@ -23,14 +25,17 @@ export function spokenMath(text: string): string {
       (_, top, bottom) => /^[-+]?\d+(?:[.,]\d+)?$/.test(top.trim()) && /^[-+]?\d+(?:[.,]\d+)?$/.test(bottom.trim())
         ? ` ${top} phần ${bottom} ` : ` phân số có tử số là ${top}, và mẫu số là ${bottom} `)
     .replace(/(?<![\d/])(\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)(?![\d/])/g, '$1 phần $2')
-    .replace(/(\d|\))\s*[×*x]\s*(?=[(\d])/g, '$1 nhân ')
-    .replace(/(\d|\))\s*[:÷]\s*(?=[(\d])/g, '$1 chia ')
-    .replace(/(^|[=(,:]\s*)[-−]\s*(?=\d)/g, '$1âm ')
+    .replace(/(^|[=(:,+*×÷/\-−]\s*)[-−]\s*(?=\d)/g, '$1âm ')
+    .replace(/[×*]/g, ' nhân ')
+    .replace(/(\d|\))\s*x\s*(?=[(\d])/g, '$1 nhân ')
+    .replace(/(\d|\))\s*[:÷]\s*(?=[(\d]|âm\s+\d)/g, '$1 chia ')
     .replace(/[-−](?=\s*\d)/g, ' trừ ')
     .replace(/\+/g, ' cộng ').replace(/=/g, ' bằng ')
-    .replace(/(?<![a-z])(km|dm|cm|mm|m)([²³])/g, (_, unit: string, power: string) =>
-      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét' } as Record<string, string>)[unit]} ${power === '²' ? 'vuông' : 'khối'}`)
-    .replace(/%/g, ' phần trăm ').replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
+    .replace(/\(\s*((?:km|dm|cm|mm|kg|mg|ml|m|g|l)(?:[²³])?)\s*\)/g, ' $1 ')
+    .replace(/(?<![\p{L}_])(km|dm|cm|mm|kg|mg|ml|m|g|l)([²³])?(?![\p{L}\p{N}_])/gu, (_, unit: string, power?: string) =>
+      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét',
+        kg: 'ki lô gam', mg: 'mi li gam', g: 'gam', ml: 'mi li lít', l: 'lít' } as Record<string, string>)[unit]}${power ? power === '²' ? ' vuông' : ' khối' : ''} `)
+    .replace(/%/g, ' phần trăm ').replace(/\(/g, ' mở ngoặc ').replace(/\)/g, ' đóng ngoặc ').replace(/\s+/g, ' ').trim();
 }
 
 /** Small utterances avoid platform length limits and provide natural pauses. */

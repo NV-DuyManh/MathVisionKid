@@ -85,6 +85,7 @@ Không viết dấu bằng hoặc kết quả tính mới. Chỉ dùng những s
         raise lesson.LessonExpired('Em mở lại bài học nhé.')
     session.conversation = (session.conversation + [{'stepIndex': request.stepIndex, 'question': request.question,
         'answer': result.answer, 'followUp': result.followUp}])[-4:]
+    lesson.remember_narration(session, [result.spokenExplanation, result.followUp])
     return result
 
 

@@ -1,0 +1,56 @@
+{
+  "status": "NOT_READY_FOR_PRODUCTION",
+  "reasons": [
+    "Independent teacher-attested writer/pretraining-disjoint acceptance data absent",
+    "Partial page labels cannot establish detection precision or whole-page reading accuracy",
+    "VAL/DEV/four diagnostic pages are repeatedly seen development evidence",
+    "Numeric13 cannot replace full Vietnamese text or automatic 2D fraction routing",
+    "numeric: no strict-guard-passing VAL gain",
+    "text: does not meet >=95% exact and CER<=2%"
+  ],
+  "thresholds": {
+    "text": {
+      "candidate": "text_accent_low",
+      "scores": {
+        "lines": 10,
+        "character_errors": 20,
+        "reference_chars": 197,
+        "cer": 0.10152284263959391,
+        "exact_lines": 3,
+        "critical_lines": 10,
+        "critical_errors": 6,
+        "critical_chars": 24,
+        "critical_cer": 0.25,
+        "unexpected_critical_lines": 0,
+        "unexpected_critical_errors": 0,
+        "critical_exact_lines": 7
+      },
+      "passed": false
+    }
+  },
+  "frozen_choice": {
+    "numeric_candidate": null,
+    "text_candidate": "text_accent_low",
+    "numeric_stable_order": [
+      "numeric_replay",
+      "original_replay"
+    ],
+    "text_stable_order": [
+      "text_retention2",
+      "text_retention8",
+      "text_accent_low",
+      "text_accent_high"
+    ],
+    "diagnostics_read": false,
+    "selection_by_diagnostics": false,
+    "production_promoted": false
+  },
+  "roundtrips_reproduced": true,
+  "postprocessing_completed_from_saved_raw_result": true,
+  "raw_runner_status": "RAW_INFERENCE_COMPLETE_POSTPROCESSING_EXCLUSIVE_WRITE_FAILED",
+  "raw_failure_preserved": true,
+  "selection_by_diagnostics": false,
+  "source_pixels_read_during_completion": false,
+  "production_promoted": false,
+  "completion_policy_sha256": "78e92e47b0eadce6892790baf6be008073744313526556be2ac5169173a21e17"
+}

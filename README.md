@@ -8,8 +8,8 @@
 
 A Vietnamese math learning companion for primary school students: capture a problem, review what was read, and learn through small, guided steps.
 
-![Expo 57](https://img.shields.io/badge/Expo-57-18164C?style=flat-square&logo=expo&logoColor=white)
-![React Native](https://img.shields.io/badge/React_Native-0.86-7055F6?style=flat-square&logo=react&logoColor=white)
+![Expo 58](https://img.shields.io/badge/Expo-58-18164C?style=flat-square&logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React_Native-0.88-7055F6?style=flat-square&logo=react&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-166534?style=flat-square&logo=springboot&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-0369A1?style=flat-square&logo=python&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
@@ -112,7 +112,7 @@ For phone setup, development accounts, model files, and configuration, follow [E
 
 | Layer | Technologies | Purpose |
 | :--- | :--- | :--- |
-| Student experience | Expo SDK 57, React Native 0.86, React 19, TypeScript, Expo Router | Mobile navigation, camera input, and shared web preview |
+| Student experience | Expo SDK 58, React Native 0.88, React 19, TypeScript, Expo Router | Mobile navigation, camera input, and shared web preview |
 | Image interaction | Expo Camera, Image Picker, Image Manipulator, Gesture Handler, Reanimated | Capture, crop, rotation, and touch feedback |
 | Web workspaces | React, TypeScript, Vite | Portal, teacher, and admin interfaces |
 | Business API | Java 21, Spring Boot 3.3, Spring Security, JWT, JPA, Flyway | Authentication, authorization, records, and orchestration |

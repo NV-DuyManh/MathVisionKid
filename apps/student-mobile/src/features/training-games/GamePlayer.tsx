@@ -44,7 +44,9 @@ export function TrainingGameSession({ studentId, gameId, trial = false, onExit, 
   const runtimeOwner = useRef<ReturnType<typeof createTrainingRuntime> | null>(null);
   const alive = useRef(false), exitRequested = useRef(false), exitDelivered = useRef(false);
   const [statusBar, setStatusBar] = useState<{ owner: ReturnType<typeof createTrainingRuntime>; hidden: boolean } | null>(null);
+  const [settingsError, setSettingsError] = useState<{ owner: ReturnType<typeof createTrainingRuntime>; message: string | null } | null>(null);
   const activeRuntime = runtime?.studentId === studentId && runtime.gameId === gameId && runtime.trial === trial ? runtime : null;
+  const currentSettingsError = settingsError?.owner === activeRuntime ? settingsError.message : null;
   const [leaving, setLeaving] = useState(false);
   const [failed, setFailed] = useState(false);
   const error = useSyncExternalStore(trainingResults.subscribe, () => trial ? null : trainingResults.error(studentId), () => null);
@@ -58,7 +60,9 @@ export function TrainingGameSession({ studentId, gameId, trial = false, onExit, 
     // Each effect setup owns its runtime, including StrictMode's setup/cleanup replay.
     let active = true;
     alive.current = true;
-    const next = createTrainingRuntime(studentId, gameId, trial, hidden => { if (active) setStatusBar({ owner: next, hidden }); });
+    const next = createTrainingRuntime(studentId, gameId, trial,
+      hidden => { if (active) setStatusBar({ owner: next, hidden }); },
+      message => { if (active) setSettingsError({ owner: next, message }); });
     runtimeOwner.current = next;
     void next.ready.then(() => { if (active) setRuntime(next); });
     return () => { active = false; alive.current = false; if (runtimeOwner.current === next) runtimeOwner.current = null; next.dispose(); };
@@ -66,7 +70,7 @@ export function TrainingGameSession({ studentId, gameId, trial = false, onExit, 
   return <GestureHandlerRootView style={styles.root} testID={`training-player-${gameId}`}>
     {activeRuntime && !leaving && !failed && <StatusBar style="dark" hidden={statusBar?.owner === activeRuntime ? statusBar.hidden : trainingStatusBarHidden(gameId)} />}
     {trial && <Text accessibilityRole="alert" style={styles.errorText}>Chơi thử · Không lưu thành tích</Text>}
-    {error && <View accessibilityRole="alert" style={styles.error}><Text style={styles.errorText}>{error}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { void trainingResults.retry(studentId).catch(() => {}); }}><Text style={styles.errorText}>Thử lưu lại</Text></Pressable></View>}
+    {(error || currentSettingsError) && <View accessibilityRole="alert" style={styles.error}><Text style={styles.errorText}>{error ?? currentSettingsError}</Text>{error && <Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { void trainingResults.retry(studentId).catch(() => {}); }}><Text style={styles.errorText}>Thử lưu lại</Text></Pressable>}</View>}
     <GameBoundary onBack={requestExit} onFailure={() => { trainingTrace('game-error', { gameId, mode: trial ? 'trial' : 'student' }); runtime?.dispose(); setFailed(true); }}>
       {activeRuntime ? <TrainingServicesContext.Provider value={activeRuntime.services}>
         <Suspense fallback={<View style={styles.fallback}><ActivityIndicator color={COLORS.primary} /><Text style={styles.message}>Đang mở trò chơi…</Text><Pressable accessibilityRole="button" onPress={requestExit}><Text style={styles.message}>Quay lại</Text></Pressable></View>}>

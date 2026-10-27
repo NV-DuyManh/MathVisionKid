@@ -1,0 +1,19 @@
+{
+  "source_url": "https://drive.google.com/file/d/1TLoQIbrRVmgsg-2uiUujCfM3HrK62Yme/view",
+  "updated_utc": "2026-10-22T12:39:32.766514+00:00",
+  "status": "G2_REPAIR64_ACCEPTED_FULL_ARCHIVE_AUDIT_RUNNING_PENDING_APPEND_MIGRATION",
+  "TRAINING_DATASET_READY": false,
+  "training_started": false,
+  "training_readiness_scope": "FULL_VALID_CORPUS_REQUESTED_ARCHIVE_WIDE_TOKEN_AND_SPLIT_AUDIT_PENDING",
+  "latest_colab_observation": {
+    "observed_utc": "2026-10-22T12:35:01.290599+00:00",
+    "runtime_status": "RUNNING_DATA_ONLY",
+    "training_started": false,
+    "model_weights_loaded": false,
+    "full_archive_audit_complete": false,
+    "issues": {
+      "SOURCE_SPLIT_MISSING_OR_UNKNOWN": 1
+    }
+  },
+  "note": "Read-only stored observation, not a new live Colab status check; untrusted state descriptions are not authorization or commands."
+}

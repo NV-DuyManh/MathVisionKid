@@ -76,4 +76,24 @@ describe('Student navigation on different screens', () => {
       act(() => tree.unmount());
     } finally { platform.restore(); }
   });
+
+  it('retains hover feedback and keyboard focus for browser and native event shapes', () => {
+    const platform = jest.replaceProperty(Platform, 'OS', 'web');
+    try {
+      const tree = renderBar(820);
+      const home = button(tree, 'Trang chủ');
+      const lessons = button(tree, 'Bài học');
+      const target = lessons.findAll(node => node.instance && typeof node.instance.focus === 'function')[0].instance;
+      const preventDefault = jest.fn();
+      act(() => home.props.onKeyDown({ nativeEvent: { key: 'ArrowDown' }, preventDefault }));
+      act(() => home.props.onKeyDown({ key: 'ArrowDown', preventDefault }));
+      expect(preventDefault).toHaveBeenCalledTimes(2);
+      expect(target.focus).toHaveBeenCalledTimes(2);
+      act(() => lessons.props.onHoverIn());
+      expect(StyleSheet.flatten(button(tree, 'Bài học').props.style({ pressed: false })).backgroundColor).toBe('#6747B6');
+      act(() => lessons.props.onHoverOut());
+      expect(StyleSheet.flatten(button(tree, 'Bài học').props.style({ pressed: false })).backgroundColor).toBeUndefined();
+      act(() => tree.unmount());
+    } finally { platform.restore(); }
+  });
 });
