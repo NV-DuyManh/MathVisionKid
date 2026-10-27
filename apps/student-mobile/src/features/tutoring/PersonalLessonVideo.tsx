@@ -7,6 +7,9 @@ import type {LessonResponse} from './api/TutorService';
 import {lessonVideoApi, PersonalVideo} from './lessonVideoApi';
 import {saveLessonMovie} from './lessonVideoFile';
 import {LessonClip} from './LessonClip';
+import {TaskProgress} from '../../components/ui/TaskProgress';
+
+const VIDEO_STEPS=['Dựng hình và lời giảng','Tải video về','Mở trình phát'] as const;
 
 function wait(signal: AbortSignal) {
   return new Promise<void>((resolve,reject)=>{
@@ -21,6 +24,7 @@ export function PersonalLessonVideo({scope,lesson}:{scope:string;lesson:LessonRe
 function Movie({lesson}:{lesson:LessonResponse}) {
   const [attempt,setAttempt]=useState(0), [progress,setProgress]=useState(0), [error,setError]=useState(false);
   const [ready,setReady]=useState<{uri:string;video:PersonalVideo}|null>(null);
+  const [stage,setStage]=useState(0);
   useEffect(()=>{
     let alive=true, complete=false, asset:ReturnType<typeof saveLessonMovie>|undefined;
     const controller=new AbortController();
@@ -39,6 +43,7 @@ function Movie({lesson}:{lesson:LessonResponse}) {
         }
         if(!alive||controller.signal.aborted)return;
         if(video.status!=='READY'||!video.hasAudio)throw new Error('Voiced video unavailable');
+        setStage(1);
         const bytes=await lessonVideoApi.download(video.videoId,controller.signal);
         if(!alive||controller.signal.aborted)return;
         asset=saveLessonMovie(bytes);complete=true;setReady({uri:asset.uri,video});
@@ -48,22 +53,21 @@ function Movie({lesson}:{lesson:LessonResponse}) {
   },[lesson.sessionId,lesson.revision,attempt]);
   if(error)return <View style={styles.panel} accessibilityLiveRegion="polite"><Ionicons name="videocam-outline" size={35} color={COLORS.primaryDark}/>
     <Text style={styles.heading}>Mình chưa mở được video</Text><Text style={styles.body}>Bài học của em vẫn ở đây. Em có thể thử lại hoặc đọc từng bước đang học.</Text>
-    <AppButton title="Thử tạo video lại" onPress={()=>{setError(false);setProgress(0);setAttempt(value=>value+1);}}/></View>;
+    <AppButton title="Thử tạo video lại" onPress={()=>{setError(false);setProgress(0);setStage(0);setAttempt(value=>value+1);}}/></View>;
   if(!ready)return <View style={styles.panel} accessibilityLiveRegion="polite" aria-busy>
-    <Ionicons name="sparkles-outline" size={36} color={COLORS.primaryDark}/><Text style={styles.heading}>Đang dựng video bài của em</Text>
+    <Ionicons name="sparkles-outline" size={36} color={COLORS.primaryDark}/><Text style={styles.heading}>{stage===0?'Đang dựng video bài của em':'Đang mở video bài của em'}</Text>
     <Text style={styles.body}>Mình chuẩn bị hình minh họa và lời giảng tiếng Việt theo các bước của bài này.</Text>
-    <View accessibilityRole="progressbar" accessibilityValue={{min:0,max:100,now:progress}} style={styles.track}><View style={[styles.fill,{width:`${progress}%`}]}/></View>
-    <Text style={styles.small}>Em chờ một chút nhé · {progress}%</Text></View>;
+    <TaskProgress steps={VIDEO_STEPS} activeStep={stage}/>
+    {stage===0&&progress>0?<Text style={styles.small}>Phần dựng video: {progress}%</Text>:null}</View>;
   return <View style={styles.stack}>
     <Text style={styles.eyebrow}>VIDEO BÀI CỦA EM</Text>
     <Text style={styles.heading}>{ready.video.title}</Text>
     <Text style={styles.body}>{lesson.status==='COMPLETE'?'Cùng xem lại cách làm qua từng bước em đã hoàn thành.':'Video giải thích bước đang học. Các bước em chưa làm vẫn để em tự thử nhé.'}</Text>
-    <LessonClip source={ready.uri} narrated/>
+    <LessonClip source={ready.uri} narrated preparationSteps={VIDEO_STEPS}/>
   </View>;
 }
 const styles=StyleSheet.create({
  stack:{gap:12},panel:{padding:21,paddingVertical:28,borderRadius:24,backgroundColor:'#FCFAFF',borderWidth:1,borderColor:'#EAE3F2',gap:17},
  heading:{fontFamily:FONTS.extraBold,fontSize:19,lineHeight:28,color:COLORS.textPrimary},body:{fontFamily:FONTS.regular,fontSize:14,lineHeight:23,color:COLORS.textSecondary},
  small:{fontFamily:FONTS.bold,fontSize:13,color:COLORS.primaryDark},eyebrow:{fontFamily:FONTS.extraBold,fontSize:11,lineHeight:18,letterSpacing:.8,color:'#80629F'},
- track:{height:9,borderRadius:5,overflow:'hidden',backgroundColor:'#E5D9F4'},fill:{height:'100%',borderRadius:5,backgroundColor:'#8E63DC'},
 });

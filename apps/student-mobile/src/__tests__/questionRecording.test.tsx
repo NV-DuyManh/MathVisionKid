@@ -4,6 +4,7 @@ import { AppState, Platform } from 'react-native';
 import { QuestionRecording } from '../features/tutoring/QuestionRecording';
 import { AudioPlayback } from '../features/tutoring/AudioPlayback';
 import { MediaTimeline } from '../features/tutoring/MediaTimeline';
+import { TaskProgress } from '../components/ui/TaskProgress';
 import { setAudioModeAsync, setIsAudioActiveAsync } from 'expo-audio';
 
 let mockNativePlaying: boolean | undefined;
@@ -70,6 +71,19 @@ it('reports decoding errors to the narration owner so the file can be downloaded
   await act(async () => { view = TestRenderer.create(<AudioPlayback uri="file:///speech.wav" title="Nghe giảng" onError={onError} />); });
   expect(onError).toHaveBeenCalledTimes(1);
   expect(view.root.findAllByType('Text' as any).map(n => String(n.props.children)).join(' ')).not.toContain('private decoder details');
+});
+
+it('keeps the final audio stage busy until the decoder is loaded and never autoplays it', async () => {
+  mockStatus.isLoaded = false;
+  const steps = ['Giọng đã chọn', 'Tải âm thanh', 'Mở lời giảng'];
+  await act(async () => { view = TestRenderer.create(<AudioPlayback uri="file:///speech.wav" title="Nghe giảng" preparationSteps={steps} />); });
+  expect(view.root.findByType(TaskProgress).props.activeStep).toBe(2);
+  expect(view.root.find(node => node.props.accessibilityRole === 'progressbar').props['aria-busy']).toBe(true);
+  expect(mockPlayer.play).not.toHaveBeenCalled();
+  mockStatus.isLoaded = true;
+  await act(async () => view.update(<AudioPlayback uri="file:///speech.wav" title="Nghe giảng" preparationSteps={steps} />));
+  expect(view.root.findAllByType(TaskProgress)).toHaveLength(0);
+  expect(mockPlayer.play).not.toHaveBeenCalled();
 });
 
 it('keeps the previous rate and gives a readable notice if the device rejects a speed change', async () => {

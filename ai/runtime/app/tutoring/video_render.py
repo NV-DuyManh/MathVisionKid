@@ -1,5 +1,7 @@
-"""Offline, captioned H.264/AAC movies. No model or network calls."""
+"""Captioned movies and bounded Vietnamese speech synthesis. No model calls."""
+import asyncio
 import json
+import logging
 import math
 import os
 from pathlib import Path
@@ -11,9 +13,15 @@ import wave
 from dataclasses import dataclass
 
 from PIL import Image, ImageDraw, ImageFont
+import edge_tts
+
+from app.tutoring.service import TutorUnavailable
 
 MAX_BYTES = 16 * 1024 * 1024
 MAX_SECONDS = 240
+SPEECH_VOICES = ('vi-VN-NamMinhNeural', 'vi-VN-HoaiMyNeural')
+DEFAULT_VOICE = SPEECH_VOICES[0]
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -26,11 +34,16 @@ class Scene:
 
 
 def spoken_math(text: str) -> str:
-    text = re.sub(r'(^|[=(]\s*)[-−]\s*(?=\d)',r'\1âm ',text)
-    units={'km':'ki lô mét','dm':'đề xi mét','cm':'xăng ti mét','mm':'mi li mét','m':'mét'}
-    text = re.sub(r'(?<![a-z])(km|dm|cm|mm|m)([²³])',lambda m:units[m[1]]+(' vuông' if m[2]=='²' else ' khối'),text)
+    text = re.sub(r'(^|[=(:,+*×÷/\-−]\s*)[-−]\s*(?=\d)',r'\1âm ',text)
+    units={'km':'ki lô mét','dm':'đề xi mét','cm':'xăng ti mét','mm':'mi li mét','m':'mét',
+           'kg':'ki lô gam','mg':'mi li gam','g':'gam','ml':'mi li lít','l':'lít'}
+    unit_names='km|dm|cm|mm|kg|mg|ml|m|g|l'
+    # Unit brackets are labels; preserve all grouping brackets in calculations.
+    text = re.sub(r'\(\s*((?:'+unit_names+r')(?:[²³])?)\s*\)', r' \1 ', text)
+    text = re.sub(r'(?<![^\W\d_])('+unit_names+r')([²³])?(?!\w)',
+                  lambda m:' '+units[m[1]]+({'²':' vuông','³':' khối'}.get(m[2],''))+' ',text)
     text = re.sub(r'(\d+)\s*/\s*(\d+)', r'\1 phần \2', text)
-    text = re.sub(r'(?<=[\d)])\s*:\s*(?=[(\d])',' chia ',text)
+    text = re.sub(r'(?<=[\d)])\s*:\s*(?=[(\d]|âm\s+\d)',' chia ',text)
     for symbol, word in [('+',' cộng '), ('−',' trừ '), ('-',' trừ '), ('×',' nhân '),
                          ('*',' nhân '), ('÷',' chia '), ('/',' chia '), ('=',' bằng '), ('%',' phần trăm ')]:
         text = text.replace(symbol, word)
@@ -46,8 +59,8 @@ def run(args, deadline, **kwargs):
 
 
 def synthesize(text: str, path: Path, deadline: float, max_seconds=65):
+    # Keep the established offline movie renderer independent of online provider outages.
     if os.name == 'nt':
-        # Text and paths are JSON stdin, never interpolated into executable code.
         script = r'''$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue';
         Add-Type -AssemblyName System.Runtime.WindowsRuntime;
         $p=ConvertFrom-Json([Console]::In.ReadToEnd());
@@ -71,6 +84,56 @@ def synthesize(text: str, path: Path, deadline: float, max_seconds=65):
             raise RuntimeError('Vietnamese speech engine unavailable')
         run([engine, '-v','vi','-s','150','-w',str(path),'--stdin'], deadline,
             input=spoken_math(text).encode('utf-8'))
+    with wave.open(str(path), 'rb') as audio:
+        duration = audio.getnframes() / audio.getframerate()
+        if audio.getnframes() == 0 or not .1 < duration < max_seconds:
+            raise ValueError('Invalid narration duration')
+    return duration
+
+
+async def _neural_audio(text: str, voice: str) -> bytes:
+    # Retry transient empty turns within one total deadline; never return partial audio or change the chosen voice.
+    for attempt in range(3):
+        result = bytearray()
+        speech = edge_tts.Communicate(text, voice, rate='+0%', connect_timeout=5, receive_timeout=10)
+        try:
+            async for chunk in speech.stream():
+                if chunk['type'] == 'audio':
+                    result.extend(chunk['data'])
+                    if len(result) > 2 * 1024 * 1024:
+                        raise ValueError('Speech exceeds audio limit')
+        except edge_tts.exceptions.NoAudioReceived:
+            if attempt == 2:
+                raise
+            await asyncio.sleep(.25 * (attempt + 1))
+            continue
+        if len(result) < 128:
+            raise ValueError('Empty speech response')
+        return bytes(result)
+
+
+def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, voice=DEFAULT_VOICE):
+    if voice not in SPEECH_VOICES:
+        raise ValueError('Unsupported narration voice')
+    ffmpeg = shutil.which('ffmpeg')
+    remaining = min(25, deadline - time.monotonic())
+    if not ffmpeg or remaining <= 0:
+        raise TutorUnavailable()
+
+    async def bounded_audio():
+        return await asyncio.wait_for(_neural_audio(spoken_math(text), voice), timeout=remaining)
+
+    source = path.with_suffix('.mp3')
+    try:
+        source.write_bytes(asyncio.run(bounded_audio()))
+        run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(source),
+             '-ar', '16000', '-ac', '1', '-c:a', 'pcm_s16le', '-threads', '1', str(path)], deadline)
+    except Exception as exc:
+        # Provider errors may contain URLs/text. Never log their messages or fall back to an unrelated voice.
+        logger.warning('Vietnamese narration unavailable category=%s', type(exc).__name__)
+        raise TutorUnavailable() from None
+    finally:
+        source.unlink(missing_ok=True)
     with wave.open(str(path), 'rb') as audio:
         duration = audio.getnframes() / audio.getframerate()
         if audio.getnframes() == 0 or not .1 < duration < max_seconds:

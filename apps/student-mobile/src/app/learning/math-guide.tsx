@@ -27,6 +27,7 @@ import { PersonalLessonVideo } from '../../features/tutoring/PersonalLessonVideo
 import { completedNarration, stepNarration } from '../../features/tutoring/narration';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { LessonQuestion } from '../../features/tutoring/LessonQuestion';
+import { LessonProblem } from '../../features/tutoring/LessonProblem';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -92,7 +93,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [reviewedStep, setReviewedStep] = useState<CompletedLessonStep | null>(null);
   const [fractionInput, setFractionInput] = useState(false);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
-  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'problem' | 'work' | 'summary' | 'visual' | 'hint' | 'video' | null>(null);
+  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'visual' | 'hint' | 'video' | null>(null);
   const [visualIndex, setVisualIndex] = useState(0);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [error, setError] = useState('');
@@ -100,7 +101,6 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
   const [showWork, setShowWork] = useState(false);
   const [reviewFocused, setReviewFocused] = useState(false);
-  const [showProblem, setShowProblem] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lessonId] = useState(() => context?.lessonId || (typeof params.lessonId === 'string' ? params.lessonId : `lesson_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`));
@@ -200,7 +200,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true }, signal), result => {
-      setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setShowProblem(false); setSaved(false);
+      setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
     });
@@ -251,6 +251,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       <RecognitionProgress
         title={busy === 'read' ? 'Mình đang đọc bài của em' : 'Chuẩn bị các bước học'}
         description={busy === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
+        steps={busy === 'read' ? ['Ảnh đã chọn', 'Đọc đề và bài làm', 'Mở phần kiểm tra'] : ['Đề đã xác nhận', 'Chuẩn bị các bước học', 'Mở bài học']}
+        activeStep={1}
         imageUri={busy === 'read' ? imageUri : undefined}
         onCancel={cancel} cancelLabel={busy === 'read' ? 'Dừng chờ, giữ ảnh' : 'Dừng chờ'} />
     </View>
@@ -269,10 +271,12 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         <Text style={[styles.outlineText, index === lesson.stepIndex && { color: COLORS.primaryDark }]}>{title}</Text>
       </View>)}
       <AppIllustration source={MASCOT} style={styles.sidebarMascot} accessible={false} /><Text style={styles.sidebarCaption}>Cứ thử từng ý nhỏ. Sao nhỏ luôn ở đây cùng em.</Text>
-      <View style={styles.sidebarProblem}><Text style={styles.sidebarEyebrow}>ĐỀ BÀI ĐANG HỌC</Text><MathText style={styles.sidebarProblemText}>{problem}</MathText></View>
     </ScrollView> : null}
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView ref={scroll} contentContainerStyle={[styles.content, spacious && styles.contentWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      {lesson && !editing && problem ? <View style={[styles.reference, spacious && styles.referenceWide]}>
+        <LessonProblem key={lesson.sessionId} problem={problem} imageUri={problemImage} onEdit={() => { setTool(null); edit('problem'); }} />
+      </View> : null}
+      <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, spacious && styles.contentWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         {reviewFocused && !lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề và bài làm" style={styles.reviewBack} onPress={() => setReviewFocused(false)}>
           <Ionicons name="chevron-back" size={18} color={COLORS.primaryDark} /><Text style={styles.link}>Xem lại đề và bài làm</Text></Pressable> : null}
         {!lesson && !reviewFocused ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
@@ -335,19 +339,14 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
         {!!problem && !editing && !lesson && !reviewFocused ? <View style={styles.card}>
           <View style={styles.problemHeader}>
-            {lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề bài" aria-expanded={showProblem}
-              onPress={() => setShowProblem(v => !v)} style={({ pressed }) => [styles.problemToggle, pressed && styles.problemPressed]}>
-              <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
-              <View style={styles.flex}><Text style={styles.problemTitle}>Đề bài của em</Text><Text style={styles.problemHint}>{showProblem ? 'Thu gọn đề bài' : 'Xem lại dữ kiện'}</Text></View>
-              <View style={styles.problemChevron}><Ionicons name={showProblem ? 'chevron-up' : 'chevron-down'} size={20} color={COLORS.primaryDark} /></View>
-            </Pressable> : <View style={styles.problemToggle}>
+            <View style={styles.problemToggle}>
               <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
               <Text style={[styles.problemTitle, styles.flex]}>Đề bài của em</Text>
-            </View>}
+            </View>
             <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={() => edit('problem')}
               style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /></Pressable>
           </View>
-          {!lesson || showProblem ? <View style={styles.problemContent}><MathText style={styles.body}>{problem}</MathText></View> : null}
+          <View style={styles.problemContent}><MathText style={styles.body}>{problem}</MathText></View>
           {!lesson ? <>
             {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
             <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
@@ -466,7 +465,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {!lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable> : null}
       </ScrollView>
     </KeyboardAvoidingView></View>
-    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', problem: 'Đề bài của em', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý', video: 'Video bài của em' }[tool]} onClose={() => setTool(null)}>
+    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý', video: 'Video bài của em' }[tool]} onClose={() => setTool(null)}>
       {tool === 'video' ? <PersonalLessonVideo scope={owner || ''} lesson={lesson} /> : null}
       {tool === 'hint' && step ? <><MathText style={styles.body}>{hintText}</MathText>
         <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintCount}`} expression={step.expression} reading={step.kind === 'UNDERSTAND'} depth={hintCount}
@@ -477,8 +476,6 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         paragraphs={reviewedStep ? completedNarration([reviewedStep]) : step ? stepNarration(step, hintText) : completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND'))} /> : null}
       {tool === 'ask' ? <LessonQuestion key={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} /> : null}
-      {tool === 'problem' ? <><MathText style={styles.body}>{problem}</MathText>{problemImage ? <Image source={{ uri: problemImage }} style={[styles.photo, { height: 220 }]} resizeMode="contain" accessibilityLabel="Ảnh đề bài đã che thông tin" /> : null}
-        <AppButton title="Chỉnh lại đề" variant="secondary" onPress={() => { setTool(null); edit('problem'); }} /></> : null}
       {tool === 'summary' ? <ProblemSummary lesson={lesson} compact /> : null}
       {tool === 'work' ? <>{workImage ? <Image source={{ uri: workImage }} style={[styles.photo, { height: 220 }]} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /> : null}
         {!workConfirmed ? <Text style={styles.error}>Bài làm chưa được xác nhận; mình đang hướng dẫn từ đề đã kiểm tra. Có chỗ chưa đọc rõ, em đối chiếu lại với ảnh nhé.</Text> : null}
@@ -488,12 +485,10 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {fractionsInProblem(problem)[visualIndex] ? <FractionExplorer key={visualIndex} {...fractionsInProblem(problem)[visualIndex]} label="Phân số trong đề bài của em" /> : null}
         <View style={styles.row}><AppButton title="Hình trước" variant="secondary" disabled={visualIndex === 0} onPress={() => setVisualIndex(value => value - 1)} />
           <AppButton title="Hình tiếp" variant="secondary" disabled={visualIndex >= fractionsInProblem(problem).length - 1} onPress={() => setVisualIndex(value => value + 1)} /></View></> : null}
-      {tool === 'menu' ? <><AppButton title="Xem lại đề bài" variant="secondary" onPress={() => setTool('problem')} />
-        <AppButton title="Xem video bài này" variant="secondary" onPress={() => setTool('video')} />
+      {tool === 'menu' ? <><AppButton title="Xem video bài này" variant="secondary" onPress={() => setTool('video')} />
         {work ? <AppButton title="Xem bài em đã viết" variant="secondary" onPress={() => setTool('work')} /> : null}
         {lesson.understandingSteps === 3 && lesson.stepIndex >= 2 ? <AppButton title="Xem lại tóm tắt đề" variant="secondary" onPress={() => setTool('summary')} /> : null}
         {step?.kind !== 'UNDERSTAND' && fractionsInProblem(problem).length ? <AppButton title="Xem hình phân số" variant="secondary" onPress={() => { setVisualIndex(0); setTool('visual'); }} /> : null}
-        <AppButton title="Máy tính" variant="secondary" onPress={() => { setTool(null); setCalculatorOpen(true); }} />
         <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} />
         <AppButton title="Chụp bài em đã làm để nhận xét" variant="secondary" onPress={() => { setTool(null); capture('ADD_WORK'); }} />
         <AppButton title="Chụp bài khác" variant="ghost" onPress={() => { setTool(null); capture(); }} /></> : null}
@@ -510,20 +505,20 @@ const styles = StyleSheet.create({
   outlineRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 15, paddingHorizontal: 8, borderRadius: 13, marginBottom: 7 }, outlineCurrent: { backgroundColor: '#FFF' },
   outlineNumber: { width: 29, height: 29, borderRadius: 15, backgroundColor: '#E2D7F4', alignItems: 'center', justifyContent: 'center' }, outlineNumberActive: { backgroundColor: '#8A60E9' }, outlineNumberText: { fontFamily: FONTS.extraBold, color: '#8C72B0', fontSize: 13 }, outlineText: { flex: 1, fontFamily: FONTS.bold, fontSize: 13, lineHeight: 20, color: '#8B7B9E' },
   sidebarMascot: { height: 142, width: '100%', marginTop: 24 }, sidebarCaption: { fontFamily: FONTS.regular, color: '#847399', fontSize: 13, lineHeight: 21, textAlign: 'center', marginTop: 15 },
-  sidebarProblem: { marginTop: 26, paddingTop: 22, borderTopWidth: 1, borderTopColor: '#DED2F1', gap: 12 }, sidebarProblemText: { fontFamily: FONTS.regular, color: '#635475', fontSize: 13, lineHeight: 22 },
   screen: { flex: 1, backgroundColor: COLORS.background }, flex: { flex: 1 },
-  content: { flexGrow: 1, padding: 18, paddingBottom: 32, gap: 15, width: '100%', maxWidth: 680, alignSelf: 'center' }, contentWide: { maxWidth: 820, paddingHorizontal: 24 },
+  content: { flexGrow: 1, padding: 16, paddingBottom: 24, gap: 12, width: '100%', maxWidth: 680, alignSelf: 'center' }, contentWide: { maxWidth: 820, paddingHorizontal: 24 },
+  reference: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 4, paddingBottom: 0 }, referenceWide: { maxWidth: 820, paddingHorizontal: 24 },
   tools: { flexDirection: 'row', gap: 8, padding: 6, borderRadius: 20, backgroundColor: '#F1EAFB' },
-  tool: { flex: 1, minHeight: 56, justifyContent: 'center', alignItems: 'center', gap: 5, borderRadius: 14, backgroundColor: '#FFFFFF' },
-  toolLabel: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.primaryDark },
+  tool: { flex: 1, minHeight: 52, justifyContent: 'center', alignItems: 'center', gap: 4, borderRadius: 14, backgroundColor: '#FFFFFF' },
+  toolLabel: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.primaryDark },
   hero: { padding: 22, borderRadius: 26, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#E8DEF7', minHeight: 181 },
   mascot: { width: 94, height: 112 }, eyebrow: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold, fontSize: 11, letterSpacing: 1 },
   title: { fontSize: 23, lineHeight: 29, fontFamily: FONTS.extraBold, color: COLORS.textPrimary, marginVertical: 8 },
-  heading: { fontSize: 20, lineHeight: 28, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
-  stepPrompt: { borderRadius: 16, padding: 16, gap: 7, backgroundColor: '#F1EAFF' }, stepCaption: { fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 20, color: '#937DAE' },
-  body: { fontSize: 15, lineHeight: 23, color: COLORS.textSecondary, fontFamily: FONTS.regular },
-  card: { backgroundColor: COLORS.surface, borderRadius: 23, padding: 18, gap: 15, borderWidth: 1, borderColor: '#EAE2F7', ...SHADOWS.small },
-  activeStep: { gap: 12 }, stepNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, borderRadius: 13, backgroundColor: '#FFF9ED', padding: 11 },
+  heading: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
+  stepPrompt: { borderRadius: 12, padding: 12, gap: 3, backgroundColor: '#F1EAFF' }, stepCaption: { fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary },
+  body: { fontSize: 14, lineHeight: 21, color: COLORS.textSecondary, fontFamily: FONTS.regular },
+  card: { backgroundColor: COLORS.surface, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#EAE2F7', ...SHADOWS.small },
+  activeStep: { gap: 10 }, stepNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, borderRadius: 13, backgroundColor: '#FFF9ED', padding: 10 },
   reviewBack: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 7 },
   stepNoteText: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 20, color: '#79698C' }, stepButton: { minHeight: 48, paddingVertical: 11, borderRadius: 16 },
   errorCard: { backgroundColor: '#FFF3ED', padding: 16, borderRadius: 18, gap: 12 },
@@ -533,8 +528,6 @@ const styles = StyleSheet.create({
   problemToggle: { flex: 1, minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14 },
   problemIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center' },
   problemTitle: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
-  problemHint: { fontSize: 12, lineHeight: 18, color: COLORS.textSecondary, fontFamily: FONTS.medium },
-  problemChevron: { width: 28, height: 28, borderRadius: 14, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center' },
   problemEdit: { width: 48, height: 48, borderRadius: 15, borderWidth: 1, borderColor: '#E8E1F4', alignItems: 'center', justifyContent: 'center' },
   problemPressed: { backgroundColor: COLORS.surfaceSubdued },
   problemContent: { borderTopWidth: 1, borderColor: '#EEE8F7', paddingTop: 14 },
@@ -550,11 +543,11 @@ const styles = StyleSheet.create({
   progressRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 4 }, progressCount: { color: '#9D8EB4', fontFamily: FONTS.bold, fontSize: 13 },
   rail: { flex: 1, flexDirection: 'row', gap: 3, padding: 4, borderRadius: 10, backgroundColor: '#E9F6EF' }, railStep: { flex: 1, height: 7, borderRadius: 4, backgroundColor: '#DCEEE5' },
   railActive: { backgroundColor: '#6CCF99' },
-  question: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 28 },
+  question: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 16, lineHeight: 23 },
   expression: { backgroundColor: '#F1EBFF', borderRadius: 18, padding: 18 },
   expressionText: { fontSize: 24, lineHeight: 34, color: COLORS.primaryDark, fontFamily: FONTS.extraBold },
-  choice: { minHeight: 52, borderRadius: 16, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderColor: '#DDD4F5', backgroundColor: '#FAF8FF' },
-  choiceSelected: { backgroundColor: '#E8DEFF', borderColor: COLORS.primary }, choiceText: { flex: 1, marginRight: 8, color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 24 },
+  choice: { minHeight: 48, borderRadius: 13, padding: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderColor: '#DDD4F5', backgroundColor: '#FAF8FF' },
+  choiceSelected: { backgroundColor: '#E8DEFF', borderColor: COLORS.primary }, choiceText: { flex: 1, marginRight: 8, color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 21 },
   choiceFocused: { borderColor: COLORS.textPrimary, borderStyle: 'dashed', borderWidth: 2 },
   answerRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, alignItems: 'center' }, numberInput: { flex: 1, minWidth: 120, minHeight: 58, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 16, fontFamily: FONTS.bold, fontSize: 18, color: COLORS.textPrimary },
   fractionAnswer: { flex: 1, minWidth: 120, maxWidth: 300, borderWidth: 1.5, borderColor: '#D7CDF2', backgroundColor: '#FAF8FF', borderRadius: 16, padding: 12, gap: 4 },

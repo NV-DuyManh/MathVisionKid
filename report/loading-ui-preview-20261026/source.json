@@ -1,0 +1,7 @@
+{
+  "namCommit": "ec6d633f5491d398fc7f743e9c88f28060094f5d",
+  "sourcePath": "apps/student-mobile/src/features/recognition/components/RecognitionProgress.tsx",
+  "namSourceSha256": "aef4d11940632980bc16b02254884dfb6bdf21f83386633fc62c8b5deac7f6ba",
+  "currentSourceSha256": "4bfd8e028b6e721138c1e182fde2b9c2dace32a8b42e49474c65ca1a8e129210",
+  "adapters": "Only two import paths adjusted for standalone rendering; component styling and behavior unchanged."
+}

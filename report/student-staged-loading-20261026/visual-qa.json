@@ -1,0 +1,91 @@
+{
+  "evidence": "Actual exported Student app with synthetic authentication/lesson API and deferred requests. Real WAV and MP4 fixtures are used to verify browser media decoding; this is not physical Android evidence.",
+  "rows": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": false,
+      "cancelRejectsLateResponse": false,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "overflow": false,
+      "cancelRejectsLateResponse": false,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "cancelRejectsLateResponse": true,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "cancelRejectsLateResponse": false,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "cancelRejectsLateResponse": false,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "cancelRejectsLateResponse": false,
+      "stages": [
+        "lesson-preparation:1",
+        "narration-request:1",
+        "question-request:1",
+        "video-render:0",
+        "video-download:1",
+        "media-ready:hidden"
+      ]
+    }
+  ],
+  "screenshots": 25,
+  "errors": []
+}

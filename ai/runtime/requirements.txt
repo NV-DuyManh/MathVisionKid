@@ -4,6 +4,7 @@ uvicorn==0.52.4
 pydantic==2.13.5
 pydantic-settings==2.15.0
 httpx==0.28.1
+edge-tts==7.3.1
 
 # Task Queue & Broker
 celery==5.6.3

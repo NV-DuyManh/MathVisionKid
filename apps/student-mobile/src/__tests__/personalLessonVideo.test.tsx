@@ -3,6 +3,7 @@ import TestRenderer, {act} from 'react-test-renderer';
 import {PersonalLessonVideo} from '../features/tutoring/PersonalLessonVideo';
 import {lessonVideoApi} from '../features/tutoring/lessonVideoApi';
 import {saveLessonMovie} from '../features/tutoring/lessonVideoFile';
+import {TaskProgress} from '../components/ui/TaskProgress';
 const mockDispose=jest.fn();
 jest.mock('../features/tutoring/LessonClip',()=>({LessonClip:'LessonClip'}));
 jest.mock('../features/tutoring/lessonVideoApi',()=>({lessonVideoApi:{prepare:jest.fn(),status:jest.fn(),download:jest.fn()}}));
@@ -36,4 +37,22 @@ it('offers retry and hides provider details when video preparation fails',async(
  const retry=view.root.findAll(n=>n.props.accessibilityLabel==='Thử tạo video lại'&&n.props.onPress)[0];
  await act(async()=>retry.props.onPress());
  expect(view.root.findByType('LessonClip' as any).props.narrated).toBe(true);
+});
+
+it('advances from real rendering to download and never reports ready while bytes are still pending',async()=>{
+ jest.useFakeTimers();
+ let finish!:(value:Uint8Array)=>void;
+ (lessonVideoApi.prepare as jest.Mock).mockResolvedValueOnce({...ready,status:'RENDERING',progress:45,hasAudio:false,durationSeconds:0});
+ (lessonVideoApi.status as jest.Mock).mockResolvedValueOnce(ready);
+ (lessonVideoApi.download as jest.Mock).mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+ try {
+  await act(async()=>{view=TestRenderer.create(<PersonalLessonVideo scope="pupil-a" lesson={lesson}/>)});
+  expect(view.root.findByType(TaskProgress).props.activeStep).toBe(0);
+  await act(async()=>{jest.advanceTimersByTime(1000);});
+  expect(view.root.findByType(TaskProgress).props.activeStep).toBe(1);
+  expect(view.root.findAllByType('LessonClip' as any)).toHaveLength(0);
+  expect(view.root.findAllByType('Text' as any).map(node=>String(node.props.children)).join(' ')).not.toContain('100%');
+  await act(async()=>finish(new Uint8Array([1])));
+  expect(view.root.findByType('LessonClip' as any).props.preparationSteps).toEqual(['Dựng hình và lời giảng','Tải video về','Mở trình phát']);
+ } finally {jest.useRealTimers();}
 });

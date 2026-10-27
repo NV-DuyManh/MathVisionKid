@@ -2,6 +2,7 @@ import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { AccessibilityInfo, Animated } from 'react-native';
 import { RecognitionProgress } from '../RecognitionProgress';
+import { TaskProgress } from '../../../../components/ui/TaskProgress';
 
 test('long recognition keeps the real image, honest bar and cancellation without a stopwatch', async () => {
   jest.useFakeTimers();
@@ -33,4 +34,16 @@ test('long recognition keeps the real image, honest bar and cancellation without
     jest.useRealTimers();
     jest.restoreAllMocks();
   }
+});
+
+test('uses Nam-style stages without running an elapsed-time animation', async () => {
+  const loop = jest.spyOn(Animated, 'loop');
+  let view!: TestRenderer.ReactTestRenderer;
+  try {
+    await act(async () => { view = TestRenderer.create(<RecognitionProgress title="Chuẩn bị bài học" description="Cùng học từng bước."
+      steps={['Đề đã xác nhận', 'Chuẩn bị bài', 'Mở bài học']} activeStep={1} />); });
+    expect(view.root.findByType(TaskProgress).props.activeStep).toBe(1);
+    expect(loop).not.toHaveBeenCalled();
+    expect(view.root.find(node => node.props.accessibilityRole === 'progressbar').props.accessibilityValue.now).toBe(1);
+  } finally { act(() => view?.unmount()); jest.restoreAllMocks(); }
 });

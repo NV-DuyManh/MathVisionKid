@@ -9,6 +9,7 @@ import { LessonReply, TutorService } from './api/TutorService';
 import { LessonNarration } from './LessonNarration';
 import { useQuestionRecorder } from './useQuestionRecorder';
 import { QuestionRecording } from './QuestionRecording';
+import { TaskProgress } from '../../components/ui/TaskProgress';
 
 type Props = { sessionId: string; revision: number; stepIndex: number; scope: string };
 export function LessonQuestion(props: Props) {
@@ -19,6 +20,7 @@ function QuestionSession({ sessionId, revision, stepIndex, scope }: Props) {
   const [question, setQuestion] = useState(''), [reply, setReply] = useState<LessonReply | null>(null);
   const [phase, setPhase] = useState<'idle' | 'preparing' | 'recording' | 'transcribing' | 'asking' | 'stopping'>('idle');
   const [notice, setNotice] = useState('');
+  const [transcribingStep, setTranscribingStep] = useState(0);
   const [recording, setRecording] = useState<{ uri: string; durationMillis: number } | null>(null);
   const recordingUri = useRef<string | null>(null);
   const recordedDuration = useRef(durationMillis);
@@ -55,12 +57,13 @@ function QuestionSession({ sessionId, revision, stepIndex, scope }: Props) {
   const finish = async () => {
     if (!ownedRecording.current) return;
     const id = generation.current;
-    setPhase('transcribing'); const uri = await endRecording();
+    setTranscribingStep(0); setPhase('transcribing'); const uri = await endRecording();
     if (!active.current || id !== generation.current) { clean(uri); return; }
     const controller = new AbortController(); pending.current = controller;
     try {
       if (!uri) throw new Error('no recording');
       recordingUri.current = uri; setRecording({ uri, durationMillis: recordedDuration.current });
+      setTranscribingStep(1);
       const text = await TutorService.transcribeQuestion(uri, controller.signal);
       if (active.current && id === generation.current) { setQuestion(text); setReply(null); setNotice('Em đọc lại, sửa nếu cần rồi bấm Gửi câu hỏi.'); }
     } catch {
@@ -118,7 +121,11 @@ function QuestionSession({ sessionId, revision, stepIndex, scope }: Props) {
       <TextInput accessibilityLabel="Câu hỏi của em" value={question} onChangeText={setQuestion} maxLength={500} multiline style={styles.input}
         placeholder="Ví dụ: Vì sao phải quy đồng?" placeholderTextColor={COLORS.textSecondary} />
       <AppButton title="Gửi câu hỏi" disabled={question.trim().length < 2} onPress={() => { void ask(); }} />
-    </> : null : <View style={styles.waiting} accessibilityLiveRegion="polite" aria-busy><ActivityIndicator color={COLORS.primaryDark} /><Text style={styles.waitingText}>{phase === 'stopping' ? 'Đang dừng mic…' : phase === 'preparing' ? 'Đang mở mic…' : phase === 'asking' ? 'Mình đang đọc câu hỏi của em…' : 'Đang chuyển lời nói thành chữ…'}</Text></View>}
+    </> : null : phase === 'asking' || phase === 'transcribing' ? <View style={styles.progressPanel}>
+      <Text style={styles.intro}>{phase === 'asking' ? 'Mình cùng tìm hiểu nhé' : 'Mình đang nghe lại câu hỏi'}</Text>
+      <TaskProgress steps={phase === 'asking' ? ['Câu hỏi đã nhập', 'Soạn lời giải thích', 'Mở câu trả lời'] : ['Lưu câu hỏi vừa nói', 'Chuyển lời nói thành chữ', 'Mở phần kiểm tra']}
+        activeStep={phase === 'asking' ? 1 : transcribingStep} />
+    </View> : <View style={styles.waiting} accessibilityLiveRegion="polite" aria-busy><ActivityIndicator color={COLORS.primaryDark} /><Text style={styles.waitingText}>{phase === 'stopping' ? 'Đang dừng mic…' : 'Đang mở mic…'}</Text></View>}
     {phase !== 'idle' && phase !== 'stopping' ? <AppButton title={phase === 'recording' ? 'Hủy ghi âm' : 'Dừng'} variant="ghost" onPress={cancel} /> : null}
     {notice ? <Text accessibilityLiveRegion="polite" style={styles.body}>{notice}</Text> : null}
     {reply ? <View style={styles.reply} accessibilityLiveRegion="polite">
@@ -146,5 +153,6 @@ const styles = StyleSheet.create({
   recordingTrack: { height: 5, backgroundColor: '#ECDDEA', borderRadius: 3, overflow: 'hidden' }, recordingFill: { height: '100%', borderRadius: 3, backgroundColor: '#B64E62' },
   waiting: { padding: 18, gap: 12, borderRadius: 18, backgroundColor: '#F7F3FD', flexDirection: 'row', alignItems: 'center' }, waitingText: { flex: 1, fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 23, color: COLORS.primaryDark },
   waitingLayout: { flexGrow: 1, justifyContent: 'center', paddingVertical: 20 },
+  progressPanel: { padding: 16, gap: 16, borderRadius: 18, backgroundColor: '#F7F3FD' },
   reply: { gap: 14, paddingTop: 8 },
 });

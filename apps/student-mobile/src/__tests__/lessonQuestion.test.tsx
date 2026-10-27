@@ -5,6 +5,7 @@ import { LessonQuestion } from '../features/tutoring/LessonQuestion';
 import { TutorService } from '../features/tutoring/api/TutorService';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { AudioModule, setAudioModeAsync, setIsAudioActiveAsync } from 'expo-audio';
+import { TaskProgress } from '../components/ui/TaskProgress';
 
 const mockRecorder = { uri: 'file:///cache/owned-question.m4a', prepareToRecordAsync: jest.fn(), record: jest.fn(), stop: jest.fn() };
 const mockDelete = jest.fn();
@@ -86,6 +87,22 @@ it('aborts an in-flight question on dismiss and ignores the late response', asyn
   const signal = (TutorService.askLesson as jest.Mock).mock.calls[0][1];
   act(() => view.unmount()); expect(signal.aborted).toBe(true);
   await act(async () => finish({ answer: 'Late reply' }));
+});
+
+it('shows real transcription and answer stages without sending an unconfirmed question', async () => {
+  let transcribe!: (value: string) => void, answer!: (value: any) => void;
+  (TutorService.transcribeQuestion as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { transcribe = resolve; }));
+  (TutorService.askLesson as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { answer = resolve; }));
+  await render(); await press('Ghi âm câu hỏi'); await press('Nói xong');
+  expect(view.root.findByType(TaskProgress).props.steps[1]).toBe('Chuyển lời nói thành chữ');
+  expect(view.root.findByType(TaskProgress).props.activeStep).toBe(1);
+  expect(TutorService.askLesson).not.toHaveBeenCalled();
+  await act(async () => transcribe('Vì sao phải quy đồng?'));
+  expect(view.root.findAllByType(TaskProgress)).toHaveLength(0);
+  await press('Gửi câu hỏi');
+  expect(view.root.findByType(TaskProgress).props.steps[1]).toBe('Soạn lời giải thích');
+  await act(async () => answer({ answer: 'Các phần phải bằng nhau.', spokenExplanation: 'Các phần phải cùng kích thước.', followUp: '' }));
+  expect(view.root.findAllByType(TaskProgress)).toHaveLength(0);
 });
 
 it('stops recording when the app leaves the foreground', async () => {

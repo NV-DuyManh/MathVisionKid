@@ -2,16 +2,16 @@
 from collections import OrderedDict
 import io
 from pathlib import Path
-import shutil
 import tempfile
 import threading
 import time
 import wave
+from typing import Literal
 
 from pydantic import Field, field_validator
 from app.tutoring import lesson
 from app.tutoring.service import TutorModel, TutorUnavailable
-from app.tutoring.video_render import synthesize, run
+from app.tutoring.video_render import DEFAULT_VOICE, synthesize_neural
 
 MAX_BYTES = 8 * 1024 * 1024
 
@@ -21,6 +21,7 @@ class NarrationRequest(TutorModel):
     sessionId: str = Field(min_length=20, max_length=100)
     revision: int = Field(ge=0, strict=True)
     paragraphs: list[str] = Field(min_length=1, max_length=80)
+    voice: Literal['vi-VN-NamMinhNeural', 'vi-VN-HoaiMyNeural'] = DEFAULT_VOICE
 
     @field_validator('paragraphs')
     @classmethod
@@ -32,7 +33,7 @@ class NarrationRequest(TutorModel):
 
 _cache: OrderedDict[tuple, tuple[float, bytes]] = OrderedDict()
 _cache_lock = threading.Lock()
-# One local speech process at a time; use the existing task queue if demand grows.
+# One bounded speech request at a time; use the existing task queue if demand grows.
 _render_slot = threading.Lock()
 
 
@@ -53,26 +54,24 @@ def validate_audio(data):
     with wave.open(io.BytesIO(data), 'rb') as sound:
         if sound.getnchannels() != 1 or sound.getsampwidth() != 2 or sound.getframerate() != 16000 or not .1 < sound.getnframes() / sound.getframerate() < 240:
             raise ValueError('Invalid narration audio')
+        frames = sound.readframes(sound.getnframes())
+        if len(frames) != sound.getnframes() * 2 or not any(frames):
+            raise ValueError('Silent or incomplete narration audio')
 
 
-def render_audio(paragraphs):
-    ffmpeg = shutil.which('ffmpeg')
-    if not ffmpeg:
-        raise TutorUnavailable()
+def render_audio(paragraphs, voice):
     deadline = time.monotonic() + 32
     with tempfile.TemporaryDirectory(prefix='mathvision-narration-') as directory:
-        source = Path(directory) / 'speech.wav'
         output = Path(directory) / 'lesson.wav'
-        synthesize(' '.join(paragraphs), source, deadline, max_seconds=240)
-        run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(source), '-ar', '16000', '-ac', '1', '-c:a', 'pcm_s16le', '-threads', '1', str(output)], deadline)
+        synthesize_neural(' '.join(paragraphs), output, deadline, max_seconds=240, voice=voice)
         if output.stat().st_size > MAX_BYTES:
-            raise ValueError('Narration too large')
+            raise TutorUnavailable()
         return output.read_bytes()
 
 
 def narrate(request: NarrationRequest) -> bytes:
     session = owned(request)
-    key = (request.owner, request.sessionId, request.revision, tuple(request.paragraphs))
+    key = (request.owner, request.sessionId, request.revision, request.voice, tuple(request.paragraphs))
     with _cache_lock:
         now = time.monotonic()
         for old, (expires, _) in list(_cache.items()):
@@ -83,8 +82,11 @@ def narrate(request: NarrationRequest) -> bytes:
     if not _render_slot.acquire(blocking=False):
         raise TutorUnavailable()
     try:
-        data = render_audio(request.paragraphs)
-        validate_audio(data)
+        data = render_audio(request.paragraphs, request.voice)
+        try:
+            validate_audio(data)
+        except (ValueError, wave.Error, EOFError):
+            raise TutorUnavailable() from None
         if owned(request) is not session:
             raise lesson.LessonExpired('Em mở lại bài học nhé.')
         with _cache_lock:

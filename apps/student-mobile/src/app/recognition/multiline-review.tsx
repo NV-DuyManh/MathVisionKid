@@ -335,12 +335,14 @@ server response: status=${err?.response?.status || 'No response'}, error=${err?.
     };
     if (loading) {
         return <SafeAreaView style={styles.centerContainer}>
-          <RecognitionProgress title="Đang tìm các dòng chữ" description="Tìm các dòng trong ảnh để em kiểm tra." imageUri={imageUri} onCancel={handleBack} />
+          <RecognitionProgress title="Đang tìm các dòng chữ" description="Tìm các dòng trong ảnh để em kiểm tra." imageUri={imageUri} onCancel={handleBack}
+            steps={['Ảnh đã chọn', 'Tìm các dòng chữ', 'Mở khung kiểm tra']} activeStep={1} />
         </SafeAreaView>;
     }
     if (requestStatus === 'SUBMITTING') {
         return <SafeAreaView style={styles.centerContainer}>
           <RecognitionProgress title="Đang đọc bài của em" description={`Đọc ${boxes.length} dòng em đã chọn.`} imageUri={imageUri}
+              steps={['Các dòng đã chọn', 'Đọc chữ trong từng dòng', 'Mở kết quả']} activeStep={1}
             cancelLabel="Quay lại kiểm tra" onCancel={() => {
                 operationGenerationRef.current += 1;
                 submittingRef.current = false;

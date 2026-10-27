@@ -32,12 +32,13 @@ class MathTutorServiceTest {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration"))
                 .andExpect(jsonPath("$.owner").value("pupil-a"))
                 .andExpect(jsonPath("$.paragraphs[0]").value("Em gộp hai nhóm."))
+                .andExpect(jsonPath("$.voice").value("vi-VN-HoaiMyNeural"))
                 .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
                 .andRespond(withSuccess(wav,MediaType.parseMediaType("audio/wav")));
-        assertArrayEquals(wav,service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm.")),"pupil-a"));
+        assertArrayEquals(wav,service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),"vi-VN-HoaiMyNeural"),"pupil-a"));
         server.verify(); server.reset();
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration")).andRespond(withSuccess(new byte[50],MediaType.APPLICATION_JSON));
-        assertThrows(ApiException.class,()->service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm.")),"pupil-a"));
+        assertThrows(ApiException.class,()->service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),null),"pupil-a"));
     }
 
     @Test void videoUsesOnlySessionAndAuthenticatedOwner() {

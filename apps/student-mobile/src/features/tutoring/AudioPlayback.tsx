@@ -6,9 +6,10 @@ import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { MediaTimeline } from './MediaTimeline';
 import { preparePlaybackSession } from './playbackSession';
 import { FONTS } from '../../constants/theme';
+import { TaskProgress } from '../../components/ui/TaskProgress';
 
-export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question = false, onFinished, onError }: {
-  uri: string; title: string; subtitle?: string; durationHint?: number; question?: boolean; onFinished?: () => void; onError?: () => void;
+export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question = false, onFinished, onError, preparationSteps }: {
+  uri: string; title: string; subtitle?: string; durationHint?: number; question?: boolean; onFinished?: () => void; onError?: () => void; preparationSteps?: readonly string[];
 }) {
   const player = useAudioPlayer(uri, { updateInterval: 200 });
   const status = useAudioPlayerStatus(player), navigation = useNavigation();
@@ -69,6 +70,7 @@ export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question
     }
   };
   return <View style={styles.stack}>
+    {preparationSteps && !status.isLoaded && !status.error ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} /> : null}
     <MediaTimeline title={title} subtitle={!status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error)} loading={!status.isLoaded && !status.error}
       playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'} skipSeconds={question ? 5 : 10}
       onToggle={toggle} onSeek={seconds => { void seek(seconds); }} onRestart={() => { void seek(0, true); }}

@@ -206,7 +206,7 @@ public class MathTutorService {
         MediaType wav=MediaType.parseMediaType("audio/wav"); headers.setAccept(List.of(wav)); headers.set("X-Internal-API-Key",internalKey);
         try {
             var response=http.postForEntity(baseUrl+"/internal/v1/tutor/lesson/narration", new HttpEntity<>(java.util.Map.of(
-                    "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs()),headers),byte[].class);
+                    "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs(),"voice",request.voice()),headers),byte[].class);
             byte[] bytes=response.getBody();
             if (bytes==null || bytes.length<=44 || bytes.length>8*1024*1024 || response.getHeaders().getContentType()==null
                     || !wav.isCompatibleWith(response.getHeaders().getContentType()) || bytes[0]!='R' || bytes[1]!='I' || bytes[2]!='F' || bytes[3]!='F'

@@ -38,6 +38,29 @@ async function mount(Screen: React.ComponentType) { await act(async () => { rend
 async function advance(ms = 2000) { await act(async () => { jest.advanceTimersByTime(ms); }); }
 const text = () => renderer!.root.findAllByType(Text).map(node => String(node.props.children)).join(' ');
 
+test('upload remains the current stage until the server accepts the image, then waits for checking', async () => {
+  let finish!: (value: typeof pending) => void;
+  mockService.uploadImage.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await mount(ProcessingScreen);
+  expect(renderer!.root.findByType('RecognitionProgress' as any).props.activeStep).toBe(0);
+  await advance(10000);
+  expect(renderer!.root.findByType('RecognitionProgress' as any).props.activeStep).toBe(0);
+  mockService.getSubmission.mockResolvedValue(pending);
+  await act(async () => finish(pending));
+  expect(renderer!.root.findByType('RecognitionProgress' as any).props.activeStep).toBe(1);
+  expect(mockRouter.replace).not.toHaveBeenCalled();
+});
+
+test('resuming a submission starts at checking without pretending to upload again', async () => {
+  mockParams = { submissionId: valid.id };
+  mockService.getSubmission.mockReturnValueOnce(new Promise(() => {}));
+  await mount(ProcessingScreen);
+  expect(renderer!.root.findByType('RecognitionProgress' as any).props.activeStep).toBe(1);
+  expect(mockService.uploadImage).not.toHaveBeenCalled();
+  act(() => renderer!.root.findByType('RecognitionProgress' as any).props.onCancel());
+  expect(mockService.getSubmission.mock.calls[0][2].aborted).toBe(true);
+});
+
 test.each([[invalid, '/results/error-hint'], [{ ...valid, validation: { isValid: false, diagnosisState: 'UNCERTAIN' } }, '/results/review-required']])('immediate FEEDBACK_READY uses actual validation, not unconditional success', async (returned, route) => {
   mockService.uploadImage.mockResolvedValue(returned);
   await mount(ProcessingScreen);

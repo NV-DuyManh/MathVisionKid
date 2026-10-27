@@ -1,0 +1,50 @@
+{
+  "evidence": "Actual Student web export; authentication and lesson replies isolated with fixtures. Browser/CSS size checks only, not physical Android evidence.",
+  "rows": [
+    {
+      "width": 320,
+      "height": 568,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 129.515625
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 154
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 154,
+      "transcriptFont": 14
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 121.8125
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 110
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "recommendationTitleHeight": 18,
+      "recommendationHeight": 76,
+      "referenceHeight": 121.8125
+    }
+  ],
+  "screenshots": 20,
+  "errors": []
+}

@@ -232,7 +232,8 @@ export default function MultilineResultScreen() {
     };
     if (loading) {
         return (<View style={styles.centerContainer}>
-        <RecognitionProgress title="Đang mở kết quả" description="Tải các dòng chữ đã nhận dạng." onCancel={() => router.back()} />
+        <RecognitionProgress title="Đang mở kết quả" description="Tải các dòng chữ đã nhận dạng." onCancel={() => router.back()}
+          steps={['Tải kết quả nhận dạng', 'Hiện các dòng chữ']} />
       </View>);
     }
     if (!trial) {

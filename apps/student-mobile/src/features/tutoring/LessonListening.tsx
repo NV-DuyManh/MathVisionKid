@@ -6,6 +6,7 @@ import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS } from '../../constants/theme';
 import { LessonNarration } from './LessonNarration';
 import { LessonReply, LessonStep, TutorService } from './api/TutorService';
+import { TaskProgress } from '../../components/ui/TaskProgress';
 
 type Props = { scope: string; sessionId: string; revision: number; stepIndex: number;
   step?: Pick<LessonStep, 'kind' | 'title' | 'expression'> | null; paragraphs: string[]; onReturn: () => void };
@@ -52,6 +53,7 @@ function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs
   if (pending) return <View style={styles.waiting} accessibilityLiveRegion="polite">
     <Ionicons name="chatbubble-ellipses-outline" size={34} color={COLORS.primaryDark} />
     <Text style={styles.title}>Mình cùng gỡ chỗ này nhé</Text><Text style={styles.body}>{selected}</Text>
+    <TaskProgress steps={['Chỗ cần hỏi đã chọn', 'Soạn lời giải thích', 'Mở lời giải thích']} activeStep={1} />
     <AppButton title="Dừng chờ" variant="secondary" onPress={() => { ++generation.current; request.current?.abort(); request.current = null; setPending(false); setNotice('Đã dừng. Em có thể chọn lại chỗ còn vướng.'); }} />
   </View>;
   return <View style={styles.stack}>
@@ -78,8 +80,8 @@ function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs
   </View>;
 }
 const styles = StyleSheet.create({
-  stack: { gap: 15 }, title: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 20, lineHeight: 28 },
-  body: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 15, lineHeight: 24 },
+  stack: { gap: 12 }, title: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 18, lineHeight: 24 },
+  body: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 14, lineHeight: 22 },
   eyebrow: { fontFamily: FONTS.extraBold, color: '#8C72AE', fontSize: 11, letterSpacing: 1.1 },
   checkIn: { gap: 10, flexDirection: 'row', flexWrap: 'wrap' }, understood: { flex: 1, minWidth: 104, minHeight: 50, paddingHorizontal: 10, borderRadius: 15, backgroundColor: '#E7F6EE', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
   understoodText: { fontFamily: FONTS.bold, color: '#236747', fontSize: 13 },
@@ -90,6 +92,6 @@ const styles = StyleSheet.create({
   choiceText: { flex: 1, fontFamily: FONTS.bold, color: '#6B5295', fontSize: 14, lineHeight: 22 },
   number: { width: 30, height: 30, borderRadius: 9, backgroundColor: '#F3ECFF', alignItems: 'center', justifyContent: 'center' },
   read: { minHeight: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 9 }, link: { fontFamily: FONTS.bold, color: COLORS.primaryDark, fontSize: 14 },
-  explanation: { backgroundColor: '#F5EFFD', borderRadius: 24, padding: 21, gap: 14 }, followUp: { fontFamily: FONTS.bold, color: COLORS.primaryDark, fontSize: 16, lineHeight: 25 },
+  explanation: { backgroundColor: '#F5EFFD', borderRadius: 18, padding: 16, gap: 12 }, followUp: { fontFamily: FONTS.bold, color: COLORS.primaryDark, fontSize: 14, lineHeight: 22 },
   waiting: { alignItems: 'center', paddingVertical: 48, gap: 23 }, notice: { borderRadius: 18, padding: 17, backgroundColor: '#FFF4E8', gap: 15 },
 });

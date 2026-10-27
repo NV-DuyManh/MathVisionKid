@@ -293,7 +293,8 @@ export default function CustomGalleryScreen() {
 
       {/* Main Content Area */}
       {loading ? (<View style={styles.centerContainer}>
-          <RecognitionProgress title="Mở trang vở của em" description="Chọn ảnh rõ nét, giữ trọn bài toán và các bước em đã viết." />
+          <RecognitionProgress title="Mở trang vở của em" description="Chọn ảnh rõ nét, giữ trọn bài toán và các bước em đã viết."
+            steps={['Mở thư viện ảnh', 'Hiện ảnh để em chọn']} />
         </View>) : isPermissionDenied ? (
         /* Permission Denied or Expo Go Restriction State */
         <View style={styles.permissionCard}>

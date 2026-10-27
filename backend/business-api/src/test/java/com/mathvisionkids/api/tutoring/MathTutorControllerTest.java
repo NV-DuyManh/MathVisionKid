@@ -65,7 +65,23 @@ class MathTutorControllerTest {
         mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"sessionId\":\"narration-session-12345\",\"revision\":0,\"paragraphs\":[\"Em gộp hai nhóm.\"],\"owner\":\"victim\"}"))
                 .andExpect(status().isOk()).andExpect(content().contentType("audio/wav")).andExpect(header().string("Cache-Control","no-store"));
-        verify(service).narration(any(),eq("real-pupil"));
+        verify(service).narration(argThat(request -> request.voice().equals("vi-VN-NamMinhNeural")),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationAcceptsOnlyTheTwoVietnameseVoices() throws Exception {
+        when(service.narration(any(),eq("real-pupil"))).thenReturn(new byte[]{1,2,3});
+        for (String voice : new String[]{"vi-VN-NamMinhNeural", "vi-VN-HoaiMyNeural"}) {
+            mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON)
+                    .content(json.writeValueAsString(Map.of("sessionId","narration-session-12345","revision",0,"paragraphs",java.util.List.of("Em gộp hai nhóm."),"voice",voice))))
+                    .andExpect(status().isOk());
+            verify(service).narration(argThat(request -> request.voice().equals(voice)),eq("real-pupil"));
+        }
+        clearInvocations(service);
+        for (String voice : new String[]{"en-US-EmmaMultilingualNeural", "", "vi-VN-NamMinhNeural-evil"})
+            mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON)
+                    .content(json.writeValueAsString(Map.of("sessionId","narration-session-12345","revision",0,"paragraphs",java.util.List.of("Em gộp hai nhóm."),"voice",voice))))
+                    .andExpect(status().isBadRequest());
+        verifyNoInteractions(service);
     }
 
     @Test @WithMockUser(roles="TEACHER") void teacherCannotDownloadStudentNarration() throws Exception {

@@ -3,17 +3,19 @@ import { AccessibilityInfo, Animated, Easing, Image, Platform, Pressable, Scroll
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../../constants/theme';
+import { TaskProgress, TaskProgressProps } from '../../../components/ui/TaskProgress';
 
-type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string };
+type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string } & Partial<TaskProgressProps>;
 const MASCOT = require('../../../../assets/illustrations/mathvision-star.png');
 
 // This service reports stages, not a completion percentage. Animate activity only.
-export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại' }: Props) {
+export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete }: Props) {
   const [motion] = useState(() => new Animated.Value(0));
   const [width, setWidth] = useState(240);
   const [reduceMotion, setReduceMotion] = useState(true);
   const { height } = useWindowDimensions();
-  const compact = height < 500;
+  const compact = height < 700;
+  const staged = !!steps?.length;
 
   useEffect(() => {
     let active = true;
@@ -24,13 +26,13 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
 
   useEffect(() => {
     motion.setValue(0);
-    if (reduceMotion) return;
+    if (reduceMotion || staged) return;
     const animation = Animated.loop(Animated.timing(motion, {
       toValue: 1, duration: 1500, easing: Easing.inOut(Easing.ease), useNativeDriver: Platform.OS !== 'web',
     }));
     animation.start();
     return () => animation.stop();
-  }, [motion, reduceMotion]);
+  }, [motion, reduceMotion, staged]);
 
   return <ScrollView style={styles.scroll} contentContainerStyle={styles.content} nestedScrollEnabled showsVerticalScrollIndicator={false}>
     <LinearGradient colors={['#F2EEFF', '#E6DEFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.scene, compact && styles.sceneCompact]}>
@@ -46,14 +48,14 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
 
     <Text style={styles.title} accessibilityRole="header">{title}</Text>
     <Text style={styles.description}>{description}</Text>
-    <View style={styles.track} onLayout={event => setWidth(event.nativeEvent.layout.width)}
+    {staged ? <TaskProgress steps={steps!} activeStep={activeStep} complete={complete} /> : <View style={styles.track} onLayout={event => setWidth(event.nativeEvent.layout.width)}
       accessibilityRole="progressbar" accessibilityLabel={title} accessibilityState={{ busy: true }} aria-busy={true}>
       <Animated.View style={[styles.bar, { width: width * 0.34,
         transform: [{ translateX: reduceMotion ? width * 0.33 : motion.interpolate({ inputRange: [0, 1], outputRange: [-width * 0.34, width] }) }],
       }]}>
         <LinearGradient colors={['#B39AFF', '#7754F4']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.barFill} />
       </Animated.View>
-    </View>
+    </View>}
     {onCancel ? <>
       <Text style={styles.hint}>Ảnh của em vẫn được giữ.</Text>
       <Pressable onPress={onCancel} accessibilityRole="button" accessibilityLabel={cancelLabel}
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
   scroll: { width: '100%', maxWidth: 420, maxHeight: '100%', flexGrow: 0, flexShrink: 1, alignSelf: 'center' },
   content: { alignItems: 'center', paddingVertical: 8, paddingHorizontal: 2 },
   scene: { width: '100%', height: 206, borderRadius: 28, overflow: 'hidden', marginBottom: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE7FF' },
-  sceneCompact: { height: 140, marginBottom: 16 },
+  sceneCompact: { height: 124, marginBottom: 16 },
   softCircle: { position: 'absolute', width: 190, height: 190, right: -64, top: -72, borderRadius: 95, backgroundColor: '#DFD3FF' },
   littleCircle: { position: 'absolute', width: 56, height: 56, left: 14, bottom: -28, borderRadius: 28, backgroundColor: '#D9EEE0' },
   paper: { position: 'absolute', left: 18, top: 15, bottom: 15, width: '74%', borderRadius: 17, padding: 8, backgroundColor: '#FFFFFF', transform: [{ rotate: '-3deg' }] },

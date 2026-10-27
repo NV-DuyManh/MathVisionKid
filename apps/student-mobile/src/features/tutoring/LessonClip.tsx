@@ -6,8 +6,9 @@ import {useEvent} from 'expo';
 import {useVideoPlayer, VideoView, type VideoSource} from 'expo-video';
 import {COLORS,FONTS} from '../../constants/theme';
 import {MediaTimeline} from './MediaTimeline';
+import {TaskProgress} from '../../components/ui/TaskProgress';
 
-export function LessonClip({source,narrated=false}:{source:VideoSource;narrated?:boolean}) {
+export function LessonClip({source,narrated=false,preparationSteps}:{source:VideoSource;narrated?:boolean;preparationSteps?:readonly string[]}) {
   const navigation=useNavigation();
   const player=useVideoPlayer(source,item=>{item.loop=false;item.timeUpdateEventInterval=.2;});
   const {isPlaying}=useEvent(player,'playingChange',{isPlaying:player.playing});
@@ -23,6 +24,7 @@ export function LessonClip({source,narrated=false}:{source:VideoSource;narrated?
   return <View style={styles.stack}>
     <VideoView player={player} style={styles.video} contentFit="contain" nativeControls={false} allowsPictureInPicture={false} fullscreenOptions={{enable:false}} accessibilityLabel="Video bài học có chú thích tiếng Việt"/>
     {status==='error'?<Text accessibilityRole="alert" style={styles.body}>Chưa mở được video. Em vẫn có thể đọc từng bước trong bài học.</Text>:<>
+      {preparationSteps&&status!=='readyToPlay'?<TaskProgress steps={preparationSteps} activeStep={preparationSteps.length-1}/>:null}
       <MediaTimeline title="Video bài học" subtitle={narrated?'Có lời giảng tiếng Việt':'Có chú thích trong video'}
         currentTime={progress?.currentTime??player.currentTime} duration={player.duration} playing={isPlaying} disabled={status!=='readyToPlay'} loading={status!=='readyToPlay'}
         playLabel="Phát video minh họa" pauseLabel="Tạm dừng video" restartLabel="Xem lại từ đầu"
