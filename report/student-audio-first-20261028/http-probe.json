@@ -1,0 +1,32 @@
+{
+  "method": "Real local business API, real model and TTS; one synthetic problem; no physical Android timing",
+  "success": true,
+  "openingHttpStatus": 200,
+  "openingMs": 315,
+  "openedReadingBeforeMath": true,
+  "speechStatusBeforeAnyPlayRequest": {
+    "httpStatus": 200,
+    "phase": "decoding",
+    "completedChunks": 1,
+    "totalChunks": 1,
+    "elapsedMs": 1125
+  },
+  "readingAnswers": [
+    {
+      "index": 0,
+      "httpStatus": 200,
+      "elapsedMs": 60
+    },
+    {
+      "index": 1,
+      "httpStatus": 200,
+      "elapsedMs": 37
+    },
+    {
+      "index": 2,
+      "httpStatus": 200,
+      "elapsedMs": 5914
+    }
+  ],
+  "reviewedMathOpened": true
+}

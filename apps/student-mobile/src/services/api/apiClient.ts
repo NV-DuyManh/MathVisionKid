@@ -21,8 +21,11 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 apiClient.interceptors.request.use(async (config) => {
     config.baseURL = ENV.API_BASE_URL;
-    const token = await tokenStorage.getAccessToken();
-    if (token) {
+    const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
+    const token = publicAuth ? null : await tokenStorage.getAccessToken();
+    if (publicAuth) {
+        delete config.headers['Authorization'];
+    } else if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
     }
     // For FormData requests (e.g. image upload), ensure Content-Type is NOT set
@@ -55,8 +58,9 @@ apiClient.interceptors.response.use((response) => {
     return response;
 }, async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && originalRequest && !/\/auth\/(login|refresh|logout)(?:\?|$)/.test(originalRequest.url || '')) {
         if (!originalRequest._retry) {
+            originalRequest._retry = true;
             if (isRefreshing) {
                 return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
@@ -69,16 +73,16 @@ apiClient.interceptors.response.use((response) => {
                     return Promise.reject(err);
                 });
             }
-            originalRequest._retry = true;
             isRefreshing = true;
             const refreshToken = await tokenStorage.getRefreshToken();
             if (!refreshToken) {
+                processQueue(error);
                 isRefreshing = false;
                 // Optionally redirect to login or clear auth context here
                 return Promise.reject(error);
             }
             try {
-                const response = await axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken });
+                const response = await axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken }, { timeout: 8000 });
                 const data = response.data;
                 await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
                 apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
@@ -90,6 +94,7 @@ apiClient.interceptors.response.use((response) => {
             catch (refreshError) {
                 processQueue(refreshError, null);
                 isRefreshing = false;
+                delete apiClient.defaults.headers.common['Authorization'];
                 await tokenStorage.clearTokens();
                 // Redirect to login handled by AuthContext
                 return Promise.reject(refreshError);

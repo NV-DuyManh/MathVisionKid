@@ -1,0 +1,14 @@
+{
+  "environment": "Local Python harness, real Edge voices and ffmpeg, synthetic two-step fraction plan; not a browser or physical Android test",
+  "date": "2026-10-27T19:14:20+0700",
+  "allPreparationMs": 39250.0,
+  "prepared": {
+    "totalSteps": 2,
+    "preparedSteps": 1,
+    "preparedVideos": 1,
+    "preparedCharacters": 684,
+    "failedItems": 1
+  },
+  "success": false,
+  "errorCategory": "AssertionError"
+}

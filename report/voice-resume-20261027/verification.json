@@ -1,0 +1,41 @@
+{
+  "python": "259 passed in 6.13s",
+  "student": {
+    "numPassedTests": 156,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 16,
+    "success": true
+  },
+  "typecheckPassed": true,
+  "lint": "0 errors, 2 existing cropRotation.web.ts warnings",
+  "exportWebAndroid": true,
+  "physicalAndroidVerified": false,
+  "browserVerified": false,
+  "controlledInterruptionInjected": true,
+  "realTtsProviderUsed": true,
+  "sourceSha256": {
+    "ai/runtime/app/tutoring/narration.py": "73271ca2cbf008c90d5868d8c1d9655c6ce3db855d71d8b8dae43d3a0dab2508",
+    "ai/runtime/app/tutoring/video_render.py": "65c5794a088a0f264b9ca094afbd7e711c90e1ad3ca939993f082a148be65f04",
+    "ai/runtime/app/tutoring/media_preparation.py": "c3e531d1fe73a2d423b434677aa10896401aa8ae08bb3dea7f38ca2ba498cdec",
+    "apps/student-mobile/src/features/tutoring/NarrationPreparation.tsx": "2ed01594e10b6f214ed8bd6c1b80ccba79925fc71e529b8decca9f9a331b3aea",
+    "apps/student-mobile/src/features/tutoring/narrationVoices.ts": "e9bb7ccfeb293db788caef2afa94e312f2288231138cefef3f59dd35f7cf1fa7"
+  },
+  "samples": [
+    {
+      "name": "Nam-Minh.wav",
+      "durationSeconds": 51.504,
+      "sampleRate": 16000,
+      "channels": 1,
+      "sampleWidth": 2,
+      "sha256": "98e5897d0a9fe2e260a0e2544f49901856cd715b4db0ced8b4542d312bb5596a"
+    },
+    {
+      "name": "Hoai-My.wav",
+      "durationSeconds": 50.544,
+      "sampleRate": 16000,
+      "channels": 1,
+      "sampleWidth": 2,
+      "sha256": "b241b07efa1ecbcaa0592298315873fda1a48dfb2b3480866da146f70953054c"
+    }
+  ]
+}

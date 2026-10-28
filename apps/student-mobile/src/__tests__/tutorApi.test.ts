@@ -75,6 +75,24 @@ const summaryLesson = { ...publicLesson, revision: 2, understandingSteps: 3, ste
   ], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
 const sourceSummary = { givens: ['Lan có 12 bút', 'thêm 5 bút', 'Hai nhóm cùng màu'], question: 'Hỏi có tất cả bao nhiêu bút?' };
 
+const readingOnly = { ...publicLesson, understandingSteps: 3, preparingMath: true,
+  outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu'], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+it('opens explicit source reading while the reviewed mathematics is still preparing', async () => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: readingOnly });
+  const confirmation = { problemConfirmed: true, workConfirmed: false, guidedUnderstanding: true, startWithReading: true };
+  await expect(TutorService.startLesson(request.problemText, '', confirmation)).resolves.toEqual(readingOnly);
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/lesson', { problemText: request.problemText, workText: '', ...confirmation }, expect.objectContaining({ timeout: 45000 }));
+});
+it.each([
+  { ...readingOnly, preparingMath: false }, { ...readingOnly, preparingMath: 'true' },
+  { ...readingOnly, preparingMath: null }, { ...readingOnly, understandingSteps: 0 },
+  { ...readingOnly, step: { ...readingOnly.step, kind: 'MATH' } },
+  { ...readingOnly, status: 'COMPLETE', step: null },
+])('rejects missing or forged reading-only protocol states', async data => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow();
+});
+
 it.each([undefined, null, sourceSummary,
   { givens: Array(12).fill('a'.repeat(200)), question: 'a'.repeat(100) },
 ])('accepts optional bounded summaries after both source selections', async summary => {

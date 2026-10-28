@@ -23,11 +23,11 @@ import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
 import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
 import { LessonListening } from '../../features/tutoring/LessonListening';
 import { LessonCalculation } from '../../features/tutoring/LessonCalculation';
-import { PersonalLessonVideo } from '../../features/tutoring/PersonalLessonVideo';
 import { completedNarration, stepNarration } from '../../features/tutoring/narration';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { LessonQuestion } from '../../features/tutoring/LessonQuestion';
 import { LessonProblem } from '../../features/tutoring/LessonProblem';
+import { NarrationPreparation, useNarrationPreparation } from '../../features/tutoring/NarrationPreparation';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -57,7 +57,7 @@ export default function MathGuideScreen() {
   const draft = draftSource.owner === owner ? draftSource.draft : null;
   // Remount also aborts pending requests: answers/exploration belong to one source and account.
   const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, draft]);
-  return <MathGuideLesson key={sourceKey} owner={owner} params={params} sourceDraft={draft} />;
+  return <NarrationPreparation key={sourceKey}><MathGuideLesson owner={owner} params={params} sourceDraft={draft} /></NarrationPreparation>;
 }
 
 function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; params: GuideParams; sourceDraft: ImageDraft | null }) {
@@ -93,9 +93,10 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [reviewedStep, setReviewedStep] = useState<CompletedLessonStep | null>(null);
   const [fractionInput, setFractionInput] = useState(false);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
-  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'visual' | 'hint' | 'video' | null>(null);
+  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'visual' | 'hint' | null>(null);
   const [visualIndex, setVisualIndex] = useState(0);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
+  const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
@@ -121,13 +122,16 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const step = lesson?.step;
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
+  const narrationParts = reviewedStep ? completedNarration([reviewedStep]) : step ? stepNarration(step, hintText)
+    : lesson ? completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND')) : [];
+  useNarrationPreparation(owner && lesson ? { sessionId: lesson.sessionId, revision: lesson.revision } : null, narrationParts);
   useEffect(() => {
     if (!lessonSessionId) return;
     const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
     return () => cancelAnimationFrame(frame);
   }, [lessonSessionId, lessonStepIndex]);
   const cancel = () => {
-    requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null);
+    requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null); setFinishing(null);
   };
   const failureMessage = useCallback((failure: any) => {
     if (failure?.response?.status === 401) {
@@ -143,10 +147,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
-    controller.current = abort; running.current = true; setBusy(kind); setError('');
+    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError('');
     try {
       const result = await task(abort.signal);
-      if (active.current && id === requestId.current) apply(result);
+      if (active.current && id === requestId.current) {
+        apply(result);
+        if (kind === 'read') setFinishing({ kind, id });
+      }
     } catch (failure) {
       if (active.current && id === requestId.current && !abort.signal.aborted) failureMessage(failure);
     } finally {
@@ -199,7 +206,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
-      { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true }, signal), result => {
+      { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true, startWithReading: true }, signal), result => {
       setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
@@ -246,15 +253,18 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   // The pupil has explicitly checked these readable symbols; keep the original OCR flags in workLines.
   const evidenceLines = workConfirmed && !work.includes('[?]') ? boundLines.map(line => ({ ...line, uncertain: false })) : boundLines;
 
-  if (busy === 'read' || busy === 'lesson') return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <View style={styles.preparing} testID={busy === 'read' ? 'lesson-reading-screen' : 'lesson-preparation-screen'} accessibilityLiveRegion="polite">
+  const preparing = busy === 'read' || busy === 'lesson' ? busy : finishing?.kind;
+  if (preparing) return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+    <View style={styles.preparing} testID={preparing === 'read' ? 'lesson-reading-screen' : 'lesson-preparation-screen'} accessibilityLiveRegion="polite">
       <RecognitionProgress
-        title={busy === 'read' ? 'Mình đang đọc bài của em' : 'Chuẩn bị các bước học'}
-        description={busy === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
-        steps={busy === 'read' ? ['Ảnh đã chọn', 'Đọc đề và bài làm', 'Mở phần kiểm tra'] : ['Đề đã xác nhận', 'Chuẩn bị các bước học', 'Mở bài học']}
+        title={preparing === 'read' ? 'Mình đang đọc bài của em' : 'Chuẩn bị các bước học'}
+        description={preparing === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
+        steps={preparing === 'read' ? ['Ảnh đã chọn', 'Đọc đề và bài làm', 'Mở phần kiểm tra'] : ['Đề đã xác nhận', 'Chuẩn bị các bước học', 'Mở bài học']}
         activeStep={1}
-        imageUri={busy === 'read' ? imageUri : undefined}
-        onCancel={cancel} cancelLabel={busy === 'read' ? 'Dừng chờ, giữ ảnh' : 'Dừng chờ'} />
+        complete={!!finishing}
+        onComplete={() => setFinishing(previous => previous?.id === finishing?.id ? null : previous)}
+        imageUri={preparing === 'read' ? imageUri : undefined}
+        onCancel={cancel} cancelLabel={preparing === 'read' ? 'Dừng chờ, giữ ảnh' : 'Dừng chờ'} />
     </View>
   </SafeAreaView>;
 
@@ -396,6 +406,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index < lesson.stepIndex && styles.railActive]} />)}
           </View><Text style={styles.progressCount}>{Math.min(lesson.stepIndex + 1, lesson.outline.length)}/{lesson.outline.length}</Text></View>
+          {lesson.preparingMath ? <Text style={styles.caption}>Em đọc đề trước nhé, phần hướng dẫn đang được chuẩn bị.</Text> : null}
           {lesson.status === 'CORRECT' && lesson.feedback && !reviewedStep ? <View style={styles.explanation}>
             <Text style={styles.caption}>BƯỚC TRƯỚC ĐÃ HOÀN THÀNH</Text><Text style={styles.feedback}>{lesson.feedback}</Text>
           </View> : null}
@@ -454,8 +465,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         </> : null}
         {lesson && !editing ? <View style={styles.tools}>
           {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'mic-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const).map(([value, icon, label]) => <Pressable
-            key={value} accessibilityRole="button" accessibilityLabel={label} disabled={!!busy || expired} style={styles.tool} onPress={() => setTool(value)}>
-            <Ionicons name={icon} size={22} color={COLORS.primaryDark} /><Text style={styles.toolLabel}>{label}</Text>
+            key={value} accessibilityRole="button" accessibilityLabel={label} disabled={!!busy || expired} accessibilityState={{ disabled: !!busy || expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, (!!busy || expired) && { opacity: .5 }]} onPress={() => setTool(value)}>
+            <Ionicons name={icon} size={22} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolLabel}>{label}</Text>
           </Pressable>)}
         </View> : null}
         {lesson && !step && !reviewedStep && !editing ? <AppButton title={work ? 'Chụp lại bài làm để nhận xét' : 'Chụp bài em đã làm để nhận xét'} variant="secondary"
@@ -465,16 +476,15 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {!lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable> : null}
       </ScrollView>
     </KeyboardAvoidingView></View>
-    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý', video: 'Video bài của em' }[tool]} onClose={() => setTool(null)}>
-      {tool === 'video' ? <PersonalLessonVideo scope={owner || ''} lesson={lesson} /> : null}
+    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
       {tool === 'hint' && step ? <><MathText style={styles.body}>{hintText}</MathText>
         <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintCount}`} expression={step.expression} reading={step.kind === 'UNDERSTAND'} depth={hintCount}
           onReady={() => { setTool(null); if (step.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} /></> : null}
       {tool === 'audio' ? <LessonListening scope={JSON.stringify([owner, lesson.sessionId, lesson.stepIndex, lesson.revision, hintCount, !!reviewedStep])}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} step={reviewedStep || step}
         onReturn={() => { setTool(null); if (step?.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }}
-        paragraphs={reviewedStep ? completedNarration([reviewedStep]) : step ? stepNarration(step, hintText) : completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND'))} /> : null}
-      {tool === 'ask' ? <LessonQuestion key={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`}
+        paragraphs={narrationParts} /> : null}
+      {tool === 'ask' ? <LessonQuestion onReturn={() => { setTool(null); if (step?.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} key={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} /> : null}
       {tool === 'summary' ? <ProblemSummary lesson={lesson} compact /> : null}
       {tool === 'work' ? <>{workImage ? <Image source={{ uri: workImage }} style={[styles.photo, { height: 220 }]} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /> : null}
@@ -485,7 +495,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {fractionsInProblem(problem)[visualIndex] ? <FractionExplorer key={visualIndex} {...fractionsInProblem(problem)[visualIndex]} label="Phân số trong đề bài của em" /> : null}
         <View style={styles.row}><AppButton title="Hình trước" variant="secondary" disabled={visualIndex === 0} onPress={() => setVisualIndex(value => value - 1)} />
           <AppButton title="Hình tiếp" variant="secondary" disabled={visualIndex >= fractionsInProblem(problem).length - 1} onPress={() => setVisualIndex(value => value + 1)} /></View></> : null}
-      {tool === 'menu' ? <><AppButton title="Xem video bài này" variant="secondary" onPress={() => setTool('video')} />
+      {tool === 'menu' ? <>
         {work ? <AppButton title="Xem bài em đã viết" variant="secondary" onPress={() => setTool('work')} /> : null}
         {lesson.understandingSteps === 3 && lesson.stepIndex >= 2 ? <AppButton title="Xem lại tóm tắt đề" variant="secondary" onPress={() => setTool('summary')} /> : null}
         {step?.kind !== 'UNDERSTAND' && fractionsInProblem(problem).length ? <AppButton title="Xem hình phân số" variant="secondary" onPress={() => { setVisualIndex(0); setTool('visual'); }} /> : null}

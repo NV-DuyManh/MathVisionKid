@@ -6,6 +6,11 @@ import { TutorService } from '../features/tutoring/api/TutorService';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { AudioModule, setAudioModeAsync, setIsAudioActiveAsync } from 'expo-audio';
 import { TaskProgress } from '../components/ui/TaskProgress';
+import { NarrationPreparation } from '../features/tutoring/NarrationPreparation';
+import { downloadNarration } from '../features/tutoring/narrationApi';
+jest.mock('expo-router', () => ({ useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]) }));
+jest.mock('../features/tutoring/narrationApi', () => ({ NARRATION_WAIT_SECONDS: 45, prioritizeNarration: jest.fn().mockResolvedValue(undefined), downloadNarration: jest.fn().mockResolvedValue(new Uint8Array(50)), prepareLessonMedia: jest.fn().mockResolvedValue(undefined) }));
+jest.mock('../features/tutoring/narrationFile', () => ({ saveNarration: jest.fn(() => ({ uri: 'file:///warm-reply.wav', dispose: jest.fn() })) }));
 
 const mockRecorder = { uri: 'file:///cache/owned-question.m4a', prepareToRecordAsync: jest.fn(), record: jest.fn(), stop: jest.fn() };
 const mockDelete = jest.fn();
@@ -61,6 +66,20 @@ it('retains the local recording after a transcription failure and releases it wh
   expect(mockDelete).not.toHaveBeenCalled();
   await act(async () => view.unmount());
   expect(mockDelete).toHaveBeenCalled();
+});
+
+it('retries the same recording after a service failure without recording or deleting it again', async () => {
+  (TutorService.transcribeQuestion as jest.Mock).mockRejectedValueOnce({ response: { status: 503 } }).mockResolvedValueOnce('Vì sao phải quy đồng?');
+  await render(); await press('Ghi âm câu hỏi'); await press('Nói xong');
+  expect(text()).toContain('Bản ghi vẫn được giữ');
+  const stops=mockRecorder.stop.mock.calls.length;
+  await press('Thử lại bản ghi này');
+  expect(TutorService.transcribeQuestion).toHaveBeenLastCalledWith(mockRecorder.uri,expect.any(AbortSignal));
+  expect(mockRecorder.record).toHaveBeenCalledTimes(1);
+  expect(mockRecorder.stop).toHaveBeenCalledTimes(stops);
+  expect(mockDelete).not.toHaveBeenCalled();
+  expect(input().props.value).toBe('Vì sao phải quy đồng?');
+  expect(TutorService.askLesson).not.toHaveBeenCalled();
 });
 
 it('clears the old question and recording when the pupil or opened step changes', async () => {
@@ -125,4 +144,36 @@ it('waits for recorder cleanup before offering another recording after cancellat
   expect(microphone).toHaveLength(0);
   expect(input()).toBeDefined();
   expect(TutorService.transcribeQuestion).not.toHaveBeenCalled();
+});
+
+it('replays the original recording after the answer and releases it before a new question', async () => {
+  await render(); await press('Ghi âm câu hỏi'); await press('Nói xong'); await press('Gửi câu hỏi');
+  const { QuestionRecording } = require('../features/tutoring/QuestionRecording');
+  expect(view.root.findAllByType(QuestionRecording)).toHaveLength(0);
+  await press('Nghe lại câu hỏi đã gửi');
+  expect(view.root.findByType(QuestionRecording).props.uri).toBe(mockRecorder.uri);
+  await press('Nghe lại câu hỏi đã gửi');
+  expect(view.root.findAllByType(QuestionRecording)).toHaveLength(0);
+  await press('Hỏi thêm chỗ này');
+  expect(input().props.value).toBe('');
+  expect(view.root.findAllByType(QuestionRecording)).toHaveLength(0);
+  expect(mockDelete).toHaveBeenCalled();
+});
+
+it('prepares the selected exact voice for the issued reply without competing with future lesson speech', async () => {
+  await act(async () => { view = TestRenderer.create(<NarrationPreparation><LessonQuestion sessionId="conversation-session-123456" revision={3} stepIndex={1} scope="pupil-a:session:3" /></NarrationPreparation>); });
+  expect(downloadNarration).not.toHaveBeenCalled();
+  act(() => input().props.onChangeText('Vì sao quy đồng?')); await press('Gửi câu hỏi');
+  expect(downloadNarration).toHaveBeenCalledTimes(1);
+  expect((downloadNarration as jest.Mock).mock.calls[0][3]).toBe('vi-VN-NamMinhNeural');
+  expect((downloadNarration as jest.Mock).mock.calls[0][1]).toEqual(['Em tưởng tượng chia lại các miếng bánh để chúng cùng kích thước rồi mới gộp.', 'Các phần cần có đặc điểm gì?']);
+  expect(text()).toContain('Các phần phải bằng nhau.');
+});
+
+it('returns to the same lesson when the learner understands the reply', async () => {
+  const onReturn = jest.fn();
+  await act(async () => { view = TestRenderer.create(<LessonQuestion sessionId="conversation-session-123456" revision={3} stepIndex={1} scope="pupil-a" onReturn={onReturn} />); });
+  act(() => input().props.onChangeText('Vì sao quy đồng?')); await press('Gửi câu hỏi'); await press('Em đã hiểu');
+  expect(onReturn).toHaveBeenCalledTimes(1);
+  expect(TutorService.askLesson).toHaveBeenCalledTimes(1);
 });

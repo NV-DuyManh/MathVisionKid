@@ -14,12 +14,13 @@ export function useQuestionRecorder() {
       async prepare() {
         const id = ++generation.current;
         if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') throw new Error('Microphone unavailable');
-        const acquired = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const acquired = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
         if (id !== generation.current) { acquired.getTracks().forEach(track => track.stop()); throw new Error('Recording canceled'); }
         stream.current = acquired;
         const mimeType = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus'].find(type => MediaRecorder.isTypeSupported(type));
         if (!mimeType) { release(); throw new Error('Recording unsupported'); }
-        media.current = new MediaRecorder(acquired, { mimeType, audioBitsPerSecond: 64000 });
+        try { media.current = new MediaRecorder(acquired, { mimeType, audioBitsPerSecond: 64000 }); }
+        catch (error) { release(); throw error; }
         chunks.current = []; url.current = null; setDurationMillis(0);
       },
       start(onFinish: () => void) {

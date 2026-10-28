@@ -1,0 +1,42 @@
+{
+  "python": "261 passed in 8.92s",
+  "student": {
+    "numPassedTests": 157,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 16,
+    "success": true
+  },
+  "java": [
+    {
+      "name": "com.mathvisionkids.api.tutoring.MathTutorControllerTest",
+      "tests": "47",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.mathvisionkids.api.tutoring.MathTutorServiceTest",
+      "tests": "86",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "typecheckPassed": true,
+  "lint": "0 errors, 2 existing warnings",
+  "exportWebAndroid": true,
+  "androidUserConfirmedVoiceAndTranscription": true,
+  "agentPhysicallyOperatedAndroid": false,
+  "sourceSha256": {
+    "ai/runtime/app/tutoring/narration.py": "659a87dede2efc514ef379cb91662899a1855dace9734d2c53b09010d410be88",
+    "apps/student-mobile/src/features/tutoring/narrationApi.ts": "c7d6e5d93004c41c695b634bc36f5f1a2e1fab0da4a71e34d50ab2f3ebc8d2bf",
+    "apps/student-mobile/src/features/tutoring/LessonNarration.tsx": "de7b1b3cb31b23490fc39e5e91ef2c0c1d638c6072065d52b46f8168987ce324",
+    "apps/student-mobile/src/features/tutoring/LessonQuestion.tsx": "f9b548f18d505d560d67160fd7a921d24ee97c110b76ebe524815afc4173e8f1",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/config/GlobalExceptionHandler.java": "1a7cd6061be4de2789a13d27bad5100d18a755e13e3e5e279ad858567e4a4cd8",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java": "d8b5f275db067f6022d532826d2c98d20b5371bf14ef1ae39cbd94fa23a6651b",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "1b5036ed762e590a62b03ff2bc6721aad9ba20fc320f9fe8a36daf6d450dd17b"
+  },
+  "evidenceSha256": {
+    "http-smoke.json": "1d5ffb2d9f11d42b00cb8e6cb1be51e1ff15e0c061f87e29b01f0cdf2eb0067b",
+    "transcription-before.json": "75a614e5ff2fb554cec38e351ff60427274527f8746a157cd86a053ccefdf696",
+    "android-owner-confirmation.json": "67a68dd660039a87c750c2556e90a560531d2581ce4f22374c0f04f966d3f8ac"
+  }
+}

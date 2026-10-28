@@ -11,7 +11,7 @@ export function stepNarration(step: LessonStep, hint = ''): string[] {
 export function completedNarration(steps: CompletedLessonStep[]): string[] {
   return steps.flatMap(step => unique([step.solutionSentence || step.title,
     step.expression ? `${step.expression} = ${step.answer}${step.unit ? ` (${step.unit})` : ''}` : step.answer,
-    step.explanation, ...(step.guidance || []), ...(step.calculationDetails || [])]));
+    step.explanation]));
 }
 
 function unique(parts: string[]): string[] {

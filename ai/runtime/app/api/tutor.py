@@ -1,19 +1,21 @@
 """Internal tutoring boundary; public student authentication remains in business-api."""
 
 import secrets
+import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import Response
+from fastapi.responses import Response, JSONResponse
 
 from app.config import settings
 from app.tutoring.service import MAX_IMAGE_BYTES, GuideRequest, GuideResponse, ReadResponse, TutorUnavailable, guide_student, read_problem
 from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, coach_notebook
-from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson
+from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson, ready_for_answer
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
-from app.tutoring import video, narration
+from app.tutoring import narration, media_preparation
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 async def require_internal_key(request: Request):
@@ -31,36 +33,46 @@ def narration_endpoint(request: narration.NarrationRequest):
         raise HTTPException(status_code=410, detail=str(exc)) from None
     except StaleTurn as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from None
+    except narration.NarrationBusy:
+        raise HTTPException(status_code=429, detail='Đang chuẩn bị lời giảng. Em thử lại sau một chút nhé.', headers={'Retry-After': '1'}) from None
     except ValueError:
         raise HTTPException(status_code=400, detail='Em mở lại lời giảng của bài đang học nhé.') from None
     except Exception:
         raise HTTPException(status_code=503, detail='Chưa chuẩn bị được âm thanh. Em thử lại hoặc đọc phần chữ nhé.') from None
 
 
-def video_call(function, request):
+@router.post('/lesson/narration/status', dependencies=[Depends(require_internal_key)])
+def narration_status_endpoint(request: narration.NarrationRequest):
     try:
-        return function(request)
+        return JSONResponse(narration.narration_status(request), headers={'Cache-Control': 'no-store'})
     except LessonExpired as exc:
         raise HTTPException(status_code=410, detail=str(exc)) from None
     except StaleTurn as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from None
-    except video.VideoBusy as exc:
-        raise HTTPException(status_code=429, detail=str(exc)) from None
+    except ValueError:
+        raise HTTPException(status_code=400, detail='Em mở lại lời giảng nhé.') from None
 
 
-@router.post('/lesson/video', response_model=video.VideoStatus, dependencies=[Depends(require_internal_key)])
-async def create_video_endpoint(request: video.VideoRequest):
-    return video_call(video.create_video, request)
+@router.post('/lesson/narration/prepare', dependencies=[Depends(require_internal_key)])
+def narration_prepare_endpoint(request: narration.NarrationRequest):
+    try:
+        return JSONResponse(narration.prepare_narration(request),headers={'Cache-Control':'no-store'})
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410,detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409,detail=str(exc)) from None
+    except narration.NarrationBusy:
+        raise HTTPException(status_code=429,detail='Đang chuẩn bị lời giảng. Em chờ một chút nhé.',headers={'Retry-After':'1'}) from None
+    except ValueError:
+        raise HTTPException(status_code=400,detail='Em mở lại lời giảng của bài đang học nhé.') from None
 
 
-@router.post('/lesson/video/status', response_model=video.VideoStatus, dependencies=[Depends(require_internal_key)])
-async def video_status_endpoint(request: video.VideoLookup):
-    return video_call(video.video_status, request)
 
 
-@router.post('/lesson/video/content', dependencies=[Depends(require_internal_key)])
-async def video_content_endpoint(request: video.VideoLookup):
-    return Response(video_call(video.video_content, request), media_type='video/mp4', headers={'Cache-Control':'no-store'})
+
+
+
+
 
 
 @router.post("/work-review", response_model=WorkReviewResponse, dependencies=[Depends(require_internal_key)])
@@ -74,21 +86,42 @@ async def work_review_endpoint(request: WorkReviewRequest):
 @router.post("/lesson", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
 async def lesson_endpoint(request: LessonRequest):
     try:
-        return await start_lesson(request)
+        result = await start_lesson(request)
+        try:
+            media_preparation.schedule(media_preparation.PrepareRequest(owner=request.owner,sessionId=result.sessionId,revision=result.revision))
+        except Exception as exc:
+            # Optional preparation must never turn a valid lesson into a failed request.
+            logger.info('Lesson preparation not scheduled category=%s', type(exc).__name__)
+        return result
     except ValueError:
         raise HTTPException(status_code=400, detail="Em kiểm tra lại đề bài nhé.") from None
     except TutorUnavailable:
         raise HTTPException(status_code=503, detail="Chưa tạo được các bước học. Em giữ đề và thử lại nhé.") from None
 
 
+@router.post('/lesson/media/prepare', dependencies=[Depends(require_internal_key)])
+def prepare_media_endpoint(request: media_preparation.PrepareRequest):
+    try:
+        return JSONResponse(media_preparation.schedule(request),headers={'Cache-Control':'no-store'})
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410,detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409,detail=str(exc)) from None
+
+
 @router.post("/lesson/answer", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
 async def lesson_answer_endpoint(request: TurnRequest):
     try:
-        return answer_lesson(request)
+        await ready_for_answer(request)
+        result=answer_lesson(request)
+        narration.cancel_obsolete_prefetch(request.owner,request.sessionId,result.revision)
+        return result
     except LessonExpired as exc:
         raise HTTPException(status_code=410, detail=str(exc)) from None
     except StaleTurn as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from None
+    except TutorUnavailable:
+        raise HTTPException(status_code=503,detail='Chưa chuẩn bị xong phần giải. Em giữ bài và thử lại nhé.') from None
 
 
 @router.post('/lesson/ask', response_model=AskResponse, dependencies=[Depends(require_internal_key)])

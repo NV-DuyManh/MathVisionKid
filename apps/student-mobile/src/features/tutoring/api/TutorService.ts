@@ -66,12 +66,13 @@ export type LessonReply = { answer: string; spokenExplanation: string; followUp:
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
   step: LessonStep | null; completed: CompletedLessonStep[];
-  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3;
+  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
   summary?: LessonSummary | null;
 };
 function lessonResponse(value: any): LessonResponse {
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
   const understanding = value?.understandingSteps === undefined ? 0 : value.understandingSteps;
+  const preparing = value?.preparingMath === true;
   const phaseValid = (s: any, index: number) => s && (s.kind === undefined ? 'MATH' : s.kind) === (index < understanding ? 'UNDERSTAND' : 'MATH')
     && (index >= understanding || (s.expression === '' && s.unit === '' && !s.solutionSentence));
   const guidanceValid = (v: any) => v === undefined || (Array.isArray(v) && v.length <= 6 && v.every((item: any) => bounded(item, 500) && item.trim()));
@@ -87,7 +88,8 @@ function lessonResponse(value: any): LessonResponse {
     && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220)) && guidanceValid(s.guidance);
   if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
-      || !Array.isArray(value.outline) || value.outline.length - understanding < 2 || value.outline.length - understanding > 6 || !value.outline.every((t: any) => bounded(t, 100))
+      || (value.preparingMath !== undefined && typeof value.preparingMath !== 'boolean')
+      || !Array.isArray(value.outline) || (preparing ? understanding !== 3 || value.outline.length !== 3 : value.outline.length - understanding < 2 || value.outline.length - understanding > 6) || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
       || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
         && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))
@@ -95,7 +97,7 @@ function lessonResponse(value: any): LessonResponse {
         && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
       || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
       || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE'].includes(value.status)
-      || (value.step === null) !== (value.status === 'COMPLETE')
+      || (preparing && value.status === 'COMPLETE') || (value.step === null) !== (value.status === 'COMPLETE')
       || (value.step === null ? value.stepIndex !== value.outline.length
         : value.stepIndex >= value.outline.length || !phaseValid(value.step, value.stepIndex) || !stepValid(value.step)
           || (value.stepIndex < understanding && value.step.choices.length < 2))) throw new Error(INVALID_RESPONSE);
@@ -163,9 +165,11 @@ export const TutorService = {
     return data;
   },
   async startLesson(problemText: string, workText: string,
-    confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
+    confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean; startWithReading?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
     if (confirmation?.problemConfirmed !== true || (workText.trim() && confirmation.workConfirmed !== true)
       || (confirmation.guidedUnderstanding !== undefined && typeof confirmation.guidedUnderstanding !== 'boolean')
+      || (confirmation.startWithReading !== undefined && typeof confirmation.startWithReading !== 'boolean')
+      || (confirmation.startWithReading === true && confirmation.guidedUnderstanding !== true)
       || problemText.includes('[?]') || workText.includes('[?]')) throw new Error('Em kiểm tra lại đề và các số với ảnh trước nhé.');
     const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText, ...confirmation }, { timeout: TIMEOUT, signal });
     return lessonResponse(data);

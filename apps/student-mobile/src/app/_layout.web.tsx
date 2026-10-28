@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import Head from 'expo-router/head';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { AuthProvider } from '../context/AuthContext';
 import { prepareIllustrations } from '../components/ui/AppIllustration';
 import { WebAlerts } from '../components/ui/WebAlerts.web';
 import { COLORS, FONTS } from '../constants/theme';
+import { TaskProgress } from '../components/ui/TaskProgress';
 
 export default function StudentWebLayout() {
   const [artReady, setArtReady] = useState(false);
   const [artError, setArtError] = useState(false);
-  const [retry, setRetry] = useState(0);
+  const [startupExpired, setStartupExpired] = useState(false);
   const [fontsLoaded, fontError] = useFonts({
     NunitoRegular: require('../../assets/fonts/Nunito-Regular.ttf'),
     NunitoMedium: require('../../assets/fonts/Nunito-Medium.ttf'),
@@ -25,21 +26,19 @@ export default function StudentWebLayout() {
     prepareIllustrations().then(() => { if (active) setArtReady(true); })
       .catch(() => { if (active) setArtError(true); });
     return () => { active = false; };
-  }, [retry]);
+  }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setStartupExpired(true), 12000);
+    return () => clearTimeout(timer);
+  }, []);
   return <View style={{ flex: 1, backgroundColor: COLORS.background }}>
     <Head><title>MathVisionKid — Cùng em học toán</title></Head>
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
-      {(!fontsLoaded && !fontError) || !artReady
+      {((!fontsLoaded && !fontError) || (!artReady && !artError)) && !startupExpired
         ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
           <Text style={{ fontFamily: fontsLoaded ? FONTS.extraBold : undefined, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>
-          {artError ? <>
-            <Text style={{ textAlign: 'center', color: COLORS.textSecondary }}>Chưa tải đủ hình. Em thử lại để mở bài học nhé.</Text>
-            <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => { setArtError(false); setRetry(value => value + 1); }}
-              style={{ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary }}>
-              <Text style={{ color: 'white' }}>Thử lại</Text>
-            </Pressable>
-          </> : <><ActivityIndicator color={COLORS.primary} /><Text>Đang chuẩn bị bài học cho em…</Text></>}
+          <View style={{ width: '100%', maxWidth: 360 }}><TaskProgress steps={['Tải chữ', 'Tải hình minh họa', 'Mở ứng dụng']} activeStep={fontsLoaded || fontError ? 1 : 0} timeoutSeconds={12} /></View>
         </View>
         : <AuthProvider><Stack screenOptions={{ headerShown: false }} /></AuthProvider>}
     </View>

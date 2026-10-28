@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useState, ReactNode } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import axios from 'axios';
 import { tokenStorage } from '../services/auth/tokenStorage';
 import apiClient from '../services/api/apiClient';
@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
+  const portal = typeof window !== 'undefined' && /^\/(?:study|learn)(?:\/|$)/.test(window.location.pathname);
 
   const setSessionUser = useCallback((profile: any) => {
     RecognitionService.clearCache();
@@ -45,6 +47,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 15000);
     const restoreSession = async () => {
       try {
         const [accessToken, refreshToken] = await Promise.all([
@@ -52,14 +56,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         ]);
         if (!active) return;
         if (!accessToken && !refreshToken) {
-          window.location.replace('/login');
+          if (portal) window.location.replace('/login');
           return;
         }
         // The shared client refreshes expired tokens; cached profiles never grant access.
-        const { data } = await apiClient.get('/me');
+        const { data } = await apiClient.get('/me', { signal: controller.signal, timeout: 15000 });
         if (!active) return;
         if (data.role !== 'STUDENT' || data.active === false) {
-          window.location.replace('/access-denied');
+          await tokenStorage.clearTokens();
+          if (portal) window.location.replace('/access-denied');
           return;
         }
         const profile = studentProfile(data);
@@ -69,23 +74,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!active) return;
         await tokenStorage.clearTokens();
         delete apiClient.defaults.headers.common.Authorization;
-        window.location.replace('/login');
+        if (portal) window.location.replace('/login');
       } finally {
+        clearTimeout(timer);
         if (active) setIsLoading(false);
       }
     };
     void restoreSession();
-    return () => { active = false; };
-  }, [setSessionUser]);
+    return () => { active = false; controller.abort(); clearTimeout(timer); };
+  }, [setSessionUser, portal]);
+
+  useEffect(() => {
+    if (!portal && !isLoading && !user && pathname !== '/login') router.replace('/login');
+  }, [portal, isLoading, user, pathname, router]);
 
   const login = async (credentials: any) => {
     try {
-      const { data } = await apiClient.post('/auth/login', credentials);
+      const { data } = await apiClient.post('/auth/login', credentials, { timeout: 15000 });
       await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
-      const { data: profileData } = await apiClient.get('/me');
+      const { data: profileData } = await apiClient.get('/me', { timeout: 15000 });
       if (profileData.role !== 'STUDENT' || profileData.active === false) {
-        window.location.replace('/access-denied');
-        return;
+        if (portal) window.location.replace('/access-denied');
+        throw Object.assign(new Error('Tài khoản chưa được phép học.'), { response: { status: 403 } });
       }
       const profile = studentProfile(profileData);
       await tokenStorage.saveUser(profile);
@@ -115,13 +125,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       recognitionDraftStore.clearDraft();
       delete apiClient.defaults.headers.common.Authorization;
       setSessionUser(null);
-      window.location.replace('/logout?source=student');
+      if (portal) window.location.replace('/logout?source=student');
+      else router.replace('/login');
     }
   };
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
-      {user ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, backgroundColor: COLORS.background }}>
+      {user || (!portal && !isLoading && pathname === '/login') ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, backgroundColor: COLORS.background }}>
         <ActivityIndicator color={COLORS.primary} />
         <Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang mở bài học cho em…</Text>
       </View>}
