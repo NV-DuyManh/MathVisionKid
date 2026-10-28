@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-27",
+  "passedTests": 112,
+  "failedTests": 0,
+  "passedSuites": 7,
+  "typecheck": "passed",
+  "eslint": "passed",
+  "diffCheck": "passed",
+  "webExport": "passed",
+  "androidHermesExport": "passed",
+  "physicalAndroidTest": false,
+  "browser": "Live Student web, 390x844, real local backend; no API response mocks",
+  "browserChecks": [
+    "Seed account login through UI",
+    "Create lesson from synthetic problem",
+    "New compact loading visible",
+    "Lesson replaces completed loading",
+    "Male voice ready and playback starts",
+    "Female voice ready and playback reaches 0:15/0:15"
+  ],
+  "browserCleanup": "Blocked after verification: local browser use disabled in Work settings; no further browser actions attempted",
+  "sourceHashes": [
+    {
+      "sha256": "F5B345686C4F633F97AEEB00DA8C25457CEA225228DC8125D28787DA30D60BC0",
+      "path": "apps/student-mobile/src/components/ui/TaskProgress.tsx"
+    },
+    {
+      "sha256": "3E1C6CFD211640AED03D44B141DF79F55EFB31DC1FC94FE016882932F7D27F8F",
+      "path": "apps/student-mobile/src/app/learning/math-guide.tsx"
+    },
+    {
+      "sha256": "A6062B99FCCAFBAC957EE3232434198246B262D2803668B2A699AE3C230BE8C3",
+      "path": "apps/student-mobile/src/features/recognition/components/RecognitionProgress.tsx"
+    },
+    {
+      "sha256": "DAA55C9FE4B5A07378A74345C0435E41AF9DD273E6AF583B759CD5920B2E24B3",
+      "path": "apps/student-mobile/src/features/tutoring/AudioPlayback.tsx"
+    },
+    {
+      "sha256": "ABA0F0BE35A58CC2BB3F06CC6CB5C4E64C410939F7EAACC18C2E0FD333402CA3",
+      "path": "apps/student-mobile/src/features/tutoring/LessonNarration.tsx"
+    },
+    {
+      "sha256": "F15AE87AE49AC77F2C33EF565C3B856933C8EAB35C701AC1AA73F0D68D2D19F4",
+      "path": "apps/student-mobile/src/features/tutoring/LessonClip.tsx"
+    },
+    {
+      "sha256": "D20E9F66B846CB275F63B9F580117CC69A896AF42ED75FDA596C8A513C46CC4C",
+      "path": "apps/student-mobile/src/features/tutoring/PersonalLessonVideo.tsx"
+    }
+  ],
+  "reference": "F:/FILM_MANAGEMENT/src/components/client/loadingScreen/LoadingScreen.jsx",
+  "commitOrPush": false
+}

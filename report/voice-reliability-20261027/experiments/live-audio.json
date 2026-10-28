@@ -1,0 +1,90 @@
+[
+  {
+    "voice": "vi-VN-NamMinhNeural",
+    "status": 200,
+    "seconds": 1.359,
+    "events": [
+      {
+        "phase": "waiting",
+        "percent": 0,
+        "elapsedMs": 0,
+        "mode": "online",
+        "completedChunks": 0,
+        "totalChunks": 0
+      },
+      {
+        "phase": "synthesizing",
+        "percent": 10,
+        "mode": "online",
+        "completedChunks": 0,
+        "totalChunks": 0,
+        "elapsedMs": 250
+      },
+      {
+        "phase": "synthesizing",
+        "percent": 45,
+        "mode": "online",
+        "completedChunks": 1,
+        "totalChunks": 2,
+        "elapsedMs": 1045
+      }
+    ],
+    "final": {
+      "phase": "ready",
+      "percent": 100,
+      "mode": "online",
+      "completedChunks": 2,
+      "totalChunks": 2,
+      "elapsedMs": 1264
+    },
+    "durationSeconds": 24.648,
+    "bytes": 788814,
+    "sha256": "3a55f13a5d91cfc3082193910f32e0efa24781c4ce9b3c196626a62ee37aa5c8",
+    "cacheSeconds": 0.0,
+    "sameBytes": true
+  },
+  {
+    "voice": "vi-VN-HoaiMyNeural",
+    "status": 200,
+    "seconds": 1.313,
+    "events": [
+      {
+        "phase": "waiting",
+        "percent": 0,
+        "elapsedMs": 0,
+        "mode": "online",
+        "completedChunks": 0,
+        "totalChunks": 0
+      },
+      {
+        "phase": "synthesizing",
+        "percent": 10,
+        "mode": "online",
+        "completedChunks": 0,
+        "totalChunks": 0,
+        "elapsedMs": 266
+      },
+      {
+        "phase": "synthesizing",
+        "percent": 45,
+        "mode": "online",
+        "completedChunks": 1,
+        "totalChunks": 2,
+        "elapsedMs": 780
+      }
+    ],
+    "final": {
+      "phase": "ready",
+      "percent": 100,
+      "mode": "online",
+      "completedChunks": 2,
+      "totalChunks": 2,
+      "elapsedMs": 1172
+    },
+    "durationSeconds": 25.008,
+    "bytes": 800334,
+    "sha256": "2b0a654ab3e59148feaa426e00e6884343fca5b5b309a8c2f82439e065b5e65a",
+    "cacheSeconds": 0.0,
+    "sameBytes": true
+  }
+]

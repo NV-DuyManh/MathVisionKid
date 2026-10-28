@@ -39,6 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
         return ResponseEntity.status(ex.getStatus())
+                .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                 .body(buildError(ex.getCode(), ex.getMessage(), getRequestId(request), ex.getDetails()));
     }
 
@@ -80,6 +81,14 @@ public class GlobalExceptionHandler {
     }
 
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler({org.springframework.web.servlet.resource.NoResourceFoundException.class,
+            org.springframework.web.servlet.NoHandlerFoundException.class})
+    public ResponseEntity<ApiErrorResponse> handleNotFound(Exception ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                .body(buildError("NOT_FOUND", "Không tìm thấy nội dung này.", getRequestId(request), null));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGeneralException(Exception ex, HttpServletRequest request) {

@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-28",
+  "tests": {
+    "pythonPassed": 336,
+    "azureMockTestsIncluded": 36,
+    "neuralTestsIncluded": 18,
+    "mediaTestsIncluded": 24,
+    "log": "runtime/voice-provider-recovery-python-20261028.log"
+  },
+  "runtime": {
+    "configuredProvider": "edge",
+    "azureActivated": false,
+    "realAzureRequests": 0,
+    "newPhysicalAndroidEvidence": false,
+    "healthHttpStatus": 200,
+    "readyHttpStatus": 200
+  },
+  "sources": {
+    "ai/runtime/app/tutoring/azure_speech.py": "df2e4ae0c44f659c0f0682d6b4da83056ac4b698621e227eb53d2b2a636fcc51",
+    "ai/runtime/app/config.py": "fdf8a310666a9890248413be0311811eeb33e0256455774b9b70fade89bf8e27",
+    "ai/runtime/app/tutoring/video_render.py": "8ce2fcc06c7de8b3bbd23e481645d98c292eb43368e5c6558c65ac60824c8f0c",
+    "ai/runtime/app/tutoring/media_preparation.py": "d7c6ddaa43322650e9d8ad9dcdc587f08b095e649dcd8c4f95829964e7f74344",
+    "ai/runtime/tests/test_azure_speech.py": "f4aad27c0ed27297d480547b108485600e280682c876e08a2c3609ba9f21d0a3",
+    "ai/runtime/tests/test_neural_speech.py": "84e04406b673c7c26e55ea2e44ac3ecd83a28d55e53ec5bcef1aec10053690d0",
+    "ai/runtime/tests/test_media_preparation.py": "867480e965ffb09fc5cc2883403027b5efb98fc396d2d34aa1fcfcbdfdb24364",
+    "ai/runtime/.env.example": "1930ba944eadc4812fd29bfec532905fe35448abf73f940a200c0042803ad2f0",
+    "ai/runtime/README.md": "5778caeb77a1312b199a3e1ece62dcfcb69153a128b49024747a10f9ef858857",
+    "report/VOICE_PROVIDER_RECOVERY_20261028.md": "f4d2891a30d2cba36b5e943fdea9219449e0fe9b677237a5eb8c87cc09fe0c9d"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-28",
+  "python": {
+    "passed": 293,
+    "log": "runtime/voice-priority-python-20261028.log"
+  },
+  "student": {
+    "passed": 209,
+    "suites": 17,
+    "success": true,
+    "log": "runtime/voice-priority-student-20261028.log"
+  },
+  "java": [
+    {
+      "suite": "MathTutorControllerTest",
+      "tests": 50,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "MathTutorServiceTest",
+      "tests": 91,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "totalPassed": 643,
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "exports": {
+    "web": "passed using a non-deployed HTTPS example build configuration",
+    "android": "passed; bundle export, not installed-device evidence"
+  },
+  "timeoutSeconds": 45,
+  "physicalDeviceEvidence": "User explicitly deferred testing; latest changes not validated on Android by owner yet",
+  "liveAcceptance": {
+    "lessonCreated": true,
+    "speechReady": false,
+    "target1to3Seconds": "not achieved consistently"
+  },
+  "sourceSha256": {
+    "ai/runtime/app/api/tutor.py": "f6d53b2905bb8dfa2a4ede77c36b0eab1b898dcdb518c9ebc139b1ed0f271f0d",
+    "ai/runtime/app/tutoring/lesson.py": "c498042020b7a54b17ca861e844e8c0bd7ac573bf8c664414806ad8f3e9b7605",
+    "ai/runtime/app/tutoring/narration.py": "fe55ab073305d30b77710e0e6ab61b6cda5ab8b030a276a2c4378644efddc267",
+    "ai/runtime/app/tutoring/media_preparation.py": "3c513388606b49a973c86030b783b6e1937e3929e93ecc1a35e12efe54673bc8",
+    "apps/student-mobile/src/features/tutoring/narrationApi.ts": "a493e55e4e77b5a2b0ca1451639067519df214bf3ebe39f55e8ed356f8bb4f5c",
+    "apps/student-mobile/src/features/tutoring/narrationCache.ts": "43f4d25e57f2c89090811a0e24a74d3ec5e9e1db52bc4be4fdcc6672da6e89f4",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java": "1ce73977e83ee21e80191ea5280793ee51adbf1a4488f52b26ebacdb3f3bc4be",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "1e6a7ae1b98e57bb608f7011094d88bfbc52e4d27a3b8433e91e2e7daef3a1b4"
+  }
+}

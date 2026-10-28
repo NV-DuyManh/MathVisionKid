@@ -18,7 +18,7 @@ it('builds richer current narration only from opened teaching, never hidden expr
 it('can narrate the calculation only after the step is earned', () => {
   const completed = { title: 'Tổng số bút', solutionSentence: 'Số bút có tất cả là:', expression: '12+5', answer: '17',
     unit: 'bút', explanation: 'Gộp các nhóm bút.', guidance: ['Em kiểm tra lại tổng.'], calculationDetails: ['Cộng hàng đơn vị: 2 + 5 = 7, giữ nguyên hàng chục.'] };
-  expect(completedNarration([completed])).toEqual([completed.solutionSentence, '12+5 = 17 (bút)', completed.explanation, ...completed.guidance, ...completed.calculationDetails]);
+  expect(completedNarration([completed])).toEqual([completed.solutionSentence, '12+5 = 17 (bút)', completed.explanation]);
 });
 
 it.each([

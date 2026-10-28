@@ -1,0 +1,38 @@
+{
+  "environment": "Local authenticated business API, real lesson model and real TTS; synthetic problem; no Android playback measurement",
+  "anonymousStatus": 401,
+  "lessonStatus": 200,
+  "lessonCreationMs": 8166,
+  "mathStepIndex": 3,
+  "automaticGuidanceParagraphs": 3,
+  "automaticNarrationCharacters": 745,
+  "intentionalReadingWindowSeconds": 15,
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "stateAfterReading": {
+        "percent": 10,
+        "mode": "online",
+        "phase": "synthesizing",
+        "totalChunks": 0,
+        "elapsedMs": 5344,
+        "completedChunks": 0
+      },
+      "statusHttpMs": 21.06
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "stateAfterReading": {
+        "percent": 0,
+        "mode": "online",
+        "phase": "waiting",
+        "totalChunks": 0,
+        "elapsedMs": 0,
+        "completedChunks": 0
+      },
+      "statusHttpMs": 13.58
+    }
+  ],
+  "success": true,
+  "logoutStatus": 200
+}

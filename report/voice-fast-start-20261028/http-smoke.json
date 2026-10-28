@@ -1,0 +1,49 @@
+{
+  "environment": "Authenticated local business API and real AI server; synthetic problem; no browser or physical Android playback",
+  "anonymousStatus": 401,
+  "lessonStatus": 200,
+  "lessonCreationMs": 7687,
+  "events": [
+    {
+      "elapsedMs": 32,
+      "counts": {
+        "totalSteps": 5,
+        "preparedSteps": 0,
+        "preparedVideos": 0,
+        "preparedCharacters": 0,
+        "failedItems": 0
+      }
+    },
+    {
+      "elapsedMs": 3078,
+      "counts": {
+        "totalSteps": 5,
+        "preparedSteps": 1,
+        "preparedVideos": 0,
+        "preparedCharacters": 187,
+        "failedItems": 0
+      }
+    },
+    {
+      "elapsedMs": 6141,
+      "counts": {
+        "totalSteps": 5,
+        "preparedSteps": 2,
+        "preparedVideos": 0,
+        "preparedCharacters": 369,
+        "failedItems": 0
+      }
+    }
+  ],
+  "futureRevisionVideoStatus": 409,
+  "asyncPrepareHttpMs": 31.0,
+  "asyncPreparePhase": "ready",
+  "laterStepAudioHttpMs": 32.0,
+  "laterStepAudioStatus": 200,
+  "laterStepAudioBytes": 467022,
+  "laterStepVideoStatusHttpMs": 15.0,
+  "laterStepVideoStatus": "RENDERING",
+  "laterStepVideoHasAudio": false,
+  "success": true,
+  "logoutStatus": 200
+}

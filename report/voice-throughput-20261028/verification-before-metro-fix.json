@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-28",
+  "tests": {
+    "pythonPassed": 345,
+    "studentPassed": 217,
+    "studentSuitesPassed": 17,
+    "studentSuccess": true,
+    "totalPassedThisRound": 562
+  },
+  "checks": {
+    "typecheck": true,
+    "lintErrors": 0,
+    "existingLintWarnings": 2,
+    "webExport": true,
+    "androidBundleExport": true,
+    "physicalAndroidTest": false
+  },
+  "sources": {
+    "ai/runtime/app/tutoring/narration.py": "4c352732352abbfe3a0dd31fe9ff668ed6f16fbf314e21b46a9fc48bb6d83e69",
+    "ai/runtime/app/tutoring/media_preparation.py": "f7ebd347aa7a146b54d3a753655cbc81096d69fea462158ed0f92cb8cff53f8d",
+    "ai/runtime/tests/test_lesson_narration.py": "a92f982de0a8d543b2148ad72c5504bcc0a4d3c9f0aaa73982db90cbed716c0c",
+    "ai/runtime/tests/test_media_preparation.py": "080e5582b7b6d9223a5f1689404275130abebd116bcaa41e43fe0c6a40882658",
+    "apps/student-mobile/src/features/tutoring/narrationApi.ts": "684583461ad2153dae2f093e0e87178533f18a0a738fff7f6f97ff957e92d06b",
+    "apps/student-mobile/src/features/tutoring/narrationCache.ts": "d52d71d755729fb310b3f18066d66a3e099c62e791eca73928b77c969d237a83",
+    "apps/student-mobile/src/features/tutoring/LessonNarration.tsx": "8d020e45b43a878c3a056a10968b6056e681197323a1c91504f7dc7a7d4e6383",
+    "apps/student-mobile/src/__tests__/narrationApi.test.ts": "d676238f9813c528629bc32f81a911be1eb0b7cefa1174e878f9fad01c053b00",
+    "apps/student-mobile/src/__tests__/narrationCache.test.ts": "884df621fc46a7eae49ac143fe24f5230a61a8d41923b872476f8b27312fc607",
+    "apps/student-mobile/src/__tests__/lessonNarration.test.tsx": "3091e005b72748c0fd7bd6bacd3c61d59f5228d04e8e5371eaea3b3daeec9b05",
+    "apps/student-mobile/src/__tests__/narrationPreparation.test.tsx": "42ff20c2b32cbfe397d94076fe711b1928cc1a2848ecb9bc803dd1a6d41e4dfc",
+    "report/VOICE_THROUGHPUT_20261028.md": "f58f2180a157af7d5de6a097cde152eb4a0b35eac3e710e421e23f51d32388e4"
+  },
+  "runtime": {
+    "healthHttpStatus": 200,
+    "readyHttpStatus": 200,
+    "studentDevServerErrorCategory": "ReadTimeout"
+  }
+}

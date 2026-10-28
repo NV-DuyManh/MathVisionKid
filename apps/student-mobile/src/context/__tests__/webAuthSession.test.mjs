@@ -17,7 +17,7 @@ test('student web session validates the backend, rejects cached authority, and s
   const redirects = [];
   const browser = {
     sessionStorage: dom.window.sessionStorage,
-    location: { replace: path => redirects.push(path) },
+    location: { get pathname() { return dom.window.location.pathname; }, replace: path => redirects.push(path) },
     dispatchEvent: event => dom.window.dispatchEvent(event),
   };
   const load = (path, imports = {}, browserWindow = browser) => {
@@ -26,6 +26,7 @@ test('student web session validates the backend, rejects cached authority, and s
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
     vm.runInNewContext(source, { exports, window: browserWindow === 'server' ? undefined : browserWindow, Event: dom.window.Event,
+      AbortController, setTimeout, clearTimeout,
       require: id => imports[id] ?? require(id) });
     return exports;
   };
@@ -47,9 +48,10 @@ test('student web session validates the backend, rejects cached authority, and s
     return { data: { accessToken: 'login-access', refreshToken: 'login-refresh' } };
   } };
   const placeholder = ({ children }) => React.createElement('div', null, children);
+  const router = { replace() {} };
   const { AuthProvider, AuthContext } = load('../AuthContext.web.tsx', {
     'react-native': { View: placeholder, Text: placeholder, ActivityIndicator: placeholder, Pressable: placeholder },
-    'expo-router': { useRouter: () => ({ replace() {} }) },
+    'expo-router': { useRouter: () => router, usePathname: () => dom.window.location.pathname },
     '../services/auth/tokenStorage': { tokenStorage },
     '../services/auth/sessionEvents': { sessionEvents: { subscribe: () => () => {} } },
     '../services/api/apiClient': api,
@@ -66,7 +68,7 @@ test('student web session validates the backend, rejects cached authority, and s
   });
   const Probe = () => {
     currentContext = React.useContext(AuthContext);
-    return React.createElement('div', null, `Protected ${currentContext.user.name}`);
+    return React.createElement('div', null, currentContext.user ? `Protected ${currentContext.user.name}` : 'Login form');
   };
   const { createRoot } = await import('react-dom/client');
   let root;
@@ -169,6 +171,23 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(await tokenStorage.getUser(), null);
       assert.equal(redirects.at(-1), '/logout?source=student');
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
+      await unmount();
+    });
+    await t.test('standalone /login renders without tokens and never reloads itself', async () => {
+      dom.reconfigure({ url: 'https://mathvision.example/login' });
+      redirects.length = 0;
+      await tokenStorage.clearTokens();
+      await mount();
+      assert.equal(currentContext.isLoading, false);
+      assert.equal(dom.window.document.body.textContent, 'Login form');
+      assert.equal(redirects.length, 0);
+      getProfile = async () => ({ data: profile });
+      await act(async () => currentContext.login({ email: 'synthetic-student', password: 'test-only' }));
+      assert.equal(currentContext.user.role, 'STUDENT');
+      assert.equal(dom.window.document.body.textContent, 'Protected Bình Minh');
+      await act(async () => currentContext.logout());
+      assert.equal(dom.window.document.body.textContent, 'Login form');
+      assert.equal(redirects.length, 0);
       await unmount();
     });
   } finally {

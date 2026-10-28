@@ -24,6 +24,7 @@ import static com.mathvisionkids.api.tutoring.MathTutorDtos.*;
 
 @Service
 public class MathTutorService {
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MathTutorService.class);
     static final long MAX_IMAGE_BYTES = 8L * 1024 * 1024;
     private final RestTemplate http;
     private final String baseUrl;
@@ -143,7 +144,8 @@ public class MathTutorService {
         return lessonResponse(call("/internal/v1/tutor/lesson", java.util.Map.of("owner", owner,
                 "problemText", request.problemText(), "workText", request.workText(),
                 "problemConfirmed", true, "workConfirmed", Boolean.TRUE.equals(request.workConfirmed()),
-                "guidedUnderstanding", Boolean.TRUE.equals(request.guidedUnderstanding())), MediaType.APPLICATION_JSON));
+                "guidedUnderstanding", Boolean.TRUE.equals(request.guidedUnderstanding()),
+                "startWithReading", Boolean.TRUE.equals(request.startWithReading())), MediaType.APPLICATION_JSON));
     }
 
     public LessonResponse answer(LessonAnswer request, String owner) {
@@ -159,45 +161,46 @@ public class MathTutorService {
                 text(body, "followUp", 200, true), flag(body, "guarded"));
     }
 
-    public VideoStatus video(VideoRequest request, String owner) {
-        return videoResponse(call("/internal/v1/tutor/lesson/video",java.util.Map.of("owner",owner,
-                "sessionId",request.sessionId(),"revision",request.revision()),MediaType.APPLICATION_JSON));
-    }
 
-    public VideoStatus videoStatus(VideoLookup request, String owner) {
-        VideoStatus result=videoResponse(call("/internal/v1/tutor/lesson/video/status",java.util.Map.of("owner",owner,"videoId",request.videoId()),MediaType.APPLICATION_JSON));
-        if (!result.videoId().equals(request.videoId())) throw unavailable();
+
+    public java.util.Map<String,Object> prepareMedia(MediaPrepareRequest request, String owner) {
+        JsonNode body=call("/internal/v1/tutor/lesson/media/prepare",java.util.Map.of("owner",owner,
+                "sessionId",request.sessionId(),"revision",request.revision(),"voice",request.voice()),MediaType.APPLICATION_JSON);
+        var result=new java.util.LinkedHashMap<String,Object>();
+        for (String field: List.of("totalSteps","preparedSteps","preparedCharacters","failedItems")) {
+            JsonNode value=body.get(field);
+            if(value==null || !value.isIntegralNumber() || !value.canConvertToInt() || value.asInt()<0) throw unavailable();
+            result.put(field,value.asInt());
+        }
+        if(body.path("totalSteps").asInt()<2 || body.path("totalSteps").asInt()>9 || body.path("preparedSteps").asInt()>body.path("totalSteps").asInt()
+                || body.path("preparedCharacters").asInt()>72000) throw unavailable();
         return result;
     }
 
-    private VideoStatus videoResponse(JsonNode body) {
-        String id=text(body,"videoId",64,false), status=text(body,"status",16,false);
-        JsonNode progress=body.get("progress"), duration=body.get("durationSeconds");
-        boolean audio=flag(body,"hasAudio");
-        if (!id.matches("[A-Za-z0-9_-]{24,64}") || !List.of("RENDERING","READY","FAILED").contains(status)
-                || progress==null || !progress.isIntegralNumber() || !progress.canConvertToInt() || progress.asInt()<0 || progress.asInt()>100
-                || duration==null || !duration.isIntegralNumber() || !duration.canConvertToInt() || duration.asInt()<0 || duration.asInt()>242
-                || (status.equals("READY") && (!audio || duration.asInt()==0 || progress.asInt()!=100))) throw unavailable();
-        return new VideoStatus(id,status,progress.asInt(),duration.asInt(),audio,text(body,"title",220,false));
+
+
+
+
+
+
+    public java.util.Map<String,Object> narrationStatus(NarrationRequest request, String owner) {
+        return narrationProgress(request,owner,"status");
     }
 
-    public byte[] videoContent(VideoLookup request, String owner) {
-        if (baseUrl.isBlank() || internalKey==null || internalKey.isBlank()) throw unavailable();
-        HttpHeaders headers=new HttpHeaders();headers.setContentType(MediaType.APPLICATION_JSON);
-        MediaType video=MediaType.parseMediaType("video/mp4");headers.setAccept(List.of(video));headers.set("X-Internal-API-Key",internalKey);
-        try {
-            var response=http.postForEntity(baseUrl+"/internal/v1/tutor/lesson/video/content",
-                    new HttpEntity<>(java.util.Map.of("owner",owner,"videoId",request.videoId()),headers),byte[].class);
-            byte[] bytes=response.getBody();
-            if (bytes==null || bytes.length<12 || bytes.length>16*1024*1024 || response.getHeaders().getContentType()==null
-                    || !video.isCompatibleWith(response.getHeaders().getContentType())
-                    || bytes[4]!='f' || bytes[5]!='t' || bytes[6]!='y' || bytes[7]!='p') throw unavailable();
-            return bytes;
-        } catch (HttpStatusCodeException ex) {
-            if (List.of(409,410,429).contains(ex.getStatusCode().value()))
-                throw new ApiException("VIDEO_UNAVAILABLE","Em mở lại video từ bài đang học nhé.",HttpStatus.valueOf(ex.getStatusCode().value()));
-            throw unavailable();
-        } catch (RestClientException ex) {throw unavailable();}
+    public java.util.Map<String,Object> prepareNarration(NarrationRequest request, String owner) {
+        return narrationProgress(request,owner,"prepare");
+    }
+
+    private java.util.Map<String,Object> narrationProgress(NarrationRequest request,String owner,String action) {
+        JsonNode body=call("/internal/v1/tutor/lesson/narration/"+action, java.util.Map.of(
+                "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs(),"voice",request.voice(),"useFallback",request.useFallback(),"prefetch",request.prefetch()),MediaType.APPLICATION_JSON);
+        String phase=text(body,"phase",20,false), mode=text(body,"mode",10,false);
+        if (!List.of("waiting","synthesizing","fallback","decoding","ready","failed").contains(phase) || !List.of("online","offline").contains(mode)) throw unavailable();
+        for (String field: List.of("percent","elapsedMs","completedChunks","totalChunks"))
+            if (!body.path(field).isIntegralNumber() || !body.path(field).canConvertToInt() || body.path(field).asInt()<0) throw unavailable();
+        if (body.path("percent").asInt()>100 || body.path("completedChunks").asInt()>body.path("totalChunks").asInt()) throw unavailable();
+        return java.util.Map.of("phase",phase,"mode",mode,"percent",body.path("percent").asInt(),"elapsedMs",body.path("elapsedMs").asInt(),
+                "completedChunks",body.path("completedChunks").asInt(),"totalChunks",body.path("totalChunks").asInt());
     }
 
     public byte[] narration(NarrationRequest request, String owner) {
@@ -206,17 +209,21 @@ public class MathTutorService {
         MediaType wav=MediaType.parseMediaType("audio/wav"); headers.setAccept(List.of(wav)); headers.set("X-Internal-API-Key",internalKey);
         try {
             var response=http.postForEntity(baseUrl+"/internal/v1/tutor/lesson/narration", new HttpEntity<>(java.util.Map.of(
-                    "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs(),"voice",request.voice()),headers),byte[].class);
+                    "owner",owner,"sessionId",request.sessionId(),"revision",request.revision(),"paragraphs",request.paragraphs(),"voice",request.voice(),"useFallback",request.useFallback()),headers),byte[].class);
             byte[] bytes=response.getBody();
             if (bytes==null || bytes.length<=44 || bytes.length>8*1024*1024 || response.getHeaders().getContentType()==null
                     || !wav.isCompatibleWith(response.getHeaders().getContentType()) || bytes[0]!='R' || bytes[1]!='I' || bytes[2]!='F' || bytes[3]!='F'
                     || bytes[8]!='W' || bytes[9]!='A' || bytes[10]!='V' || bytes[11]!='E') throw unavailable();
             return bytes;
         } catch (HttpStatusCodeException ex) {
-            if (List.of(400,409,410,429).contains(ex.getStatusCode().value())) throw new ApiException("NARRATION_UNAVAILABLE",
-                    "Em mở lại lời giảng từ bài đang học nhé.",HttpStatus.valueOf(ex.getStatusCode().value()));
-            throw unavailable();
-        } catch (RestClientException ex) { throw unavailable(); }
+            int status=ex.getStatusCode().value();
+            if (status==409 || status==410) throw new ApiException("LESSON_EXPIRED", "Em mở lại bài học để nghe tiếp nhé.",HttpStatus.valueOf(status));
+            if (status==400) throw new ApiException("NARRATION_INPUT_INVALID", "Em mở lại lời giảng của bước đang học nhé.",HttpStatus.BAD_REQUEST);
+            if (status==429) throw new ApiException("NARRATION_BUSY", "Đang chuẩn bị lời giảng. Em chờ một chút nhé.",HttpStatus.TOO_MANY_REQUESTS);
+            throw new ApiException("NARRATION_UNAVAILABLE", "Chưa tạo được giọng đọc lúc này. Em có thể thử lại.",HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (RestClientException ex) {
+            throw new ApiException("NARRATION_UNAVAILABLE", "Chưa tải được giọng đọc lúc này. Em có thể thử lại.",HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 
     public Transcript transcribe(MultipartFile file, boolean consent, String owner) {
@@ -234,8 +241,15 @@ public class MathTutorService {
         boolean ogg = audio[0]=='O' && audio[1]=='g' && audio[2]=='g' && audio[3]=='S';
         if (!mp4 && !webm && !wav && !ogg) throw invalid("AUDIO_INVALID", "Chưa đọc được bản ghi âm. Em thử ghi lại nhé.");
         reserveAudio(owner);
-        return new Transcript(text(call("/internal/v1/tutor/transcribe", audio,
-                MediaType.APPLICATION_OCTET_STREAM), "text", 500, false));
+        logger.info("Question transcription requested bytes={}",audio.length);
+        try {
+            return new Transcript(text(call("/internal/v1/tutor/transcribe", audio,
+                    MediaType.APPLICATION_OCTET_STREAM), "text", 500, false));
+        } catch (ApiException ex) {
+            if (ex.getStatus().value()==400 || ex.getStatus().value()==422) throw new ApiException("AUDIO_NOT_CLEAR", "Chưa nghe rõ tiếng nói trong bản ghi. Em thử lại hoặc ghi rõ hơn nhé.",HttpStatus.BAD_REQUEST);
+            if (ex.getStatus()==HttpStatus.SERVICE_UNAVAILABLE) throw new ApiException("TRANSCRIPTION_UNAVAILABLE", "Chưa chuyển được bản ghi thành chữ lúc này. Em giữ bản ghi và thử lại nhé.",HttpStatus.SERVICE_UNAVAILABLE);
+            throw ex;
+        }
     }
 
     private synchronized void reserveAudio(String owner) {
@@ -287,7 +301,9 @@ public class MathTutorService {
         JsonNode count = body.get("understandingSteps");
         if (count != null && (!count.isIntegralNumber() || !count.canConvertToInt() || (count.asInt() != 0 && count.asInt() != 3))) throw unavailable();
         int understanding = count == null ? 0 : count.asInt();
-        if (outline == null || !outline.isArray() || outline.size() - understanding < 2 || outline.size() - understanding > 6
+        boolean preparing = body.has("preparingMath") && flag(body,"preparingMath");
+        if (outline == null || !outline.isArray()
+                || (preparing ? understanding != 3 || outline.size() != 3 : outline.size() - understanding < 2 || outline.size() - understanding > 6)
                 || completed == null || !completed.isArray() || completed.size() > outline.size()) throw unavailable();
         java.util.ArrayList<String> titles = new java.util.ArrayList<>();
         for (JsonNode title : outline) {
@@ -330,7 +346,7 @@ public class MathTutorService {
                 || index.asInt() != done.size() || index.asInt() > titles.size()) throw unavailable();
         String status = text(body, "status", 20, false);
         if (!List.of("READY", "HINT", "TRY_AGAIN", "CORRECT", "COMPLETE").contains(status)
-                || (current == null) != status.equals("COMPLETE")
+                || (preparing && status.equals("COMPLETE")) || (current == null) != status.equals("COMPLETE")
                 || (current == null ? done.size() != titles.size() : done.size() >= titles.size())) throw unavailable();
         String conclusion = body.has("conclusion") ? text(body, "conclusion", 150, true) : "";
         if (!status.equals("COMPLETE") && !conclusion.isBlank()) throw unavailable();
@@ -348,7 +364,7 @@ public class MathTutorService {
             summary = new LessonSummary(givens, text(quoted, "question", 100, false));
         }
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary);
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing);
     }
 
     private static String stepKind(JsonNode step, boolean understanding) {
@@ -393,6 +409,11 @@ public class MathTutorService {
             if (result == null || !result.isObject()) throw unavailable();
             return result;
         } catch (HttpStatusCodeException ex) {
+            logger.warn("Tutor upstream request failed path={} status={}",path,ex.getStatusCode().value());
+            if (ex.getStatusCode().value() == 429 && List.of("/internal/v1/tutor/lesson/narration/prepare",
+                    "/internal/v1/tutor/lesson/narration/status").contains(path)) {
+                throw new ApiException("NARRATION_BUSY", "Đang chuẩn bị lời giảng. Em chờ một chút nhé.", HttpStatus.TOO_MANY_REQUESTS);
+            }
             if (ex.getStatusCode().value() == 409 || ex.getStatusCode().value() == 410) {
                 throw new ApiException("LESSON_EXPIRED", "Em mở lại bài học để tiếp tục nhé.", HttpStatus.valueOf(ex.getStatusCode().value()));
             }
@@ -405,6 +426,7 @@ public class MathTutorService {
             }
             throw unavailable();
         } catch (RestClientException ex) {
+            logger.warn("Tutor upstream request failed path={} category={}",path,ex.getClass().getSimpleName());
             throw unavailable();
         }
     }

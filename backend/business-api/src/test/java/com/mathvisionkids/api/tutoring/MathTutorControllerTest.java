@@ -33,32 +33,63 @@ class MathTutorControllerTest {
     @Autowired ObjectMapper json;
     @MockBean MathTutorService service;
 
-    @Test void anonymousCannotCreateReadOrDownloadLessonVideos() throws Exception {
-        for (String suffix : new String[]{"", "/status", "/content"})
-            mvc.perform(post("/api/v1/student/tutor/lesson/video"+suffix).contentType(MediaType.APPLICATION_JSON).content("{}"))
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void longNarrationPreparationIsPrivateAndReturnsOnlyProgress() throws Exception {
+        when(service.prepareNarration(any(),eq("real-pupil"))).thenReturn(Map.of("phase","waiting","mode","online","percent",0,"elapsedMs",0,"completedChunks",0,"totalChunks",0));
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration/prepare").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"owned-long-narration-123\",\"revision\":0,\"paragraphs\":[\"Em đọc lại đề.\"],\"owner\":\"other\"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.phase").value("waiting"));
+        verify(service).prepareNarration(argThat(request -> !request.prefetch()),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationPreparationAcceptsBackgroundPriorityWithoutTrustingOwner() throws Exception {
+        when(service.prepareNarration(any(),eq("real-pupil"))).thenReturn(Map.of("phase","waiting","mode","online","percent",0,"elapsedMs",0,"completedChunks",0,"totalChunks",0));
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration/prepare").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"owned-long-narration-123\",\"revision\":0,\"paragraphs\":[\"Em đọc lại đề.\"],\"prefetch\":true,\"owner\":\"other\"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.phase").value("waiting"));
+        verify(service).prepareNarration(argThat(request -> request.prefetch() && !request.useFallback()),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationPreparationCapacityRemainsRetryableForTheAuthenticatedPupil() throws Exception {
+        when(service.prepareNarration(any(),eq("real-pupil"))).thenThrow(new com.mathvisionkids.api.common.ApiException(
+                "NARRATION_BUSY","Đang chuẩn bị lời giảng. Em chờ một chút nhé.",org.springframework.http.HttpStatus.TOO_MANY_REQUESTS));
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration/prepare").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"owned-long-narration-123\",\"revision\":0,\"paragraphs\":[\"Em đọc lại đề.\"],\"owner\":\"other\"}"))
+                .andExpect(status().isTooManyRequests()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error.code").value("NARRATION_BUSY"));
+        verify(service).prepareNarration(any(),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void audioOnlyAcceptStillReceivesTheRealJsonErrorStatus() throws Exception {
+        when(service.narration(any(),eq("real-pupil"))).thenThrow(new com.mathvisionkids.api.common.ApiException("NARRATION_UNAVAILABLE","Chưa tạo được giọng đọc.",org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE));
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON).accept("audio/wav")
+                .content(json.writeValueAsString(Map.of("sessionId","narration-session-12345","revision",0,"paragraphs",java.util.List.of("Em đọc đề.")))))
+                .andExpect(status().isServiceUnavailable()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error.code").value("NARRATION_UNAVAILABLE"));
+    }
+
+    @Test void anonymousCannotPreparePrivateFutureMedia() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/media/prepare").contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isUnauthorized());
         verifyNoInteractions(service);
     }
 
-    @Test @WithMockUser(username="real-pupil", roles="STUDENT") void videoOwnerIsAuthenticatedAndContentIsPrivate() throws Exception {
-        when(service.video(any(),eq("real-pupil"))).thenReturn(new VideoStatus("v".repeat(32),"RENDERING",0,0,false,"Bài của em"));
-        mvc.perform(post("/api/v1/student/tutor/lesson/video").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"sessionId\":\"video-lesson-session-12345\",\"revision\":0,\"owner\":\"victim\"}"))
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void prepareUsesAuthenticatedOwnerAndRejectsUnsupportedVoice() throws Exception {
+        when(service.prepareMedia(any(),eq("real-pupil"))).thenReturn(Map.of("totalSteps",5,"preparedSteps",1,"preparedCharacters",300,"failedItems",0));
+        mvc.perform(post("/api/v1/student/tutor/lesson/media/prepare").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"prepare-session-123456\",\"revision\":0,\"voice\":\"vi-VN-HoaiMyNeural\",\"owner\":\"victim\"}"))
                 .andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
-        verify(service).video(any(),eq("real-pupil"));
-        when(service.videoContent(any(),eq("real-pupil"))).thenReturn(new byte[]{1,2,3});
-        mvc.perform(post("/api/v1/student/tutor/lesson/video/content").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"videoId\":\""+"v".repeat(32)+"\",\"owner\":\"victim\"}"))
-                .andExpect(status().isOk()).andExpect(content().contentType("video/mp4"))
-                .andExpect(header().string("Cache-Control","no-store")).andExpect(content().bytes(new byte[]{1,2,3}));
-        verify(service).videoContent(any(),eq("real-pupil"));
+        verify(service).prepareMedia(any(),eq("real-pupil"));
+        mvc.perform(post("/api/v1/student/tutor/lesson/media/prepare").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"prepare-session-123456\",\"revision\":0,\"voice\":\"unknown\"}"))
+                .andExpect(status().isBadRequest());
+        verifyNoMoreInteractions(service);
     }
 
-    @Test @WithMockUser(roles="TEACHER") void nonStudentCannotDownloadVideo() throws Exception {
-        mvc.perform(post("/api/v1/student/tutor/lesson/video/content").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"videoId\":\""+"v".repeat(32)+"\"}" )).andExpect(status().isForbidden());
-        verifyNoInteractions(service);
-    }
+
+
+
+
+
 
     @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationIsPrivateAndUsesOnlyTheAuthenticatedOwner() throws Exception {
         when(service.narration(any(),eq("real-pupil"))).thenReturn(new byte[]{1,2,3});
@@ -87,6 +118,21 @@ class MathTutorControllerTest {
     @Test @WithMockUser(roles="TEACHER") void teacherCannotDownloadStudentNarration() throws Exception {
         mvc.perform(post("/api/v1/student/tutor/lesson/narration").contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isForbidden()); verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT") void narrationProgressDoesNotTrustOwnerFromBody() throws Exception {
+        when(service.narrationStatus(any(),eq("real-pupil"))).thenReturn(Map.of("phase","fallback","mode","offline","percent",45));
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration/status").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"narration-session-12345\",\"revision\":0,\"paragraphs\":[\"Em gộp hai nhóm.\"],\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store")).andExpect(jsonPath("$.percent").value(45));
+        verify(service).narrationStatus(any(),eq("real-pupil"));
+    }
+
+    @Test @WithMockUser(roles="TEACHER") void teacherCannotReadStudentNarrationProgress() throws Exception {
+        mvc.perform(post("/api/v1/student/tutor/lesson/narration/status").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"narration-session-12345\",\"revision\":0,\"paragraphs\":[\"Em gộp hai nhóm.\"]}"))
+                .andExpect(status().isForbidden());
+        verifyNoInteractions(service);
     }
 
     @Test void anonymousCannotDownloadStudentNarration() throws Exception {
@@ -384,6 +430,14 @@ class MathTutorControllerTest {
                 .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
         mvc.perform(multipart("/api/v1/student/tutor/read").file(image()).param("privacyConfirmed", "banana"))
                 .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+        verifyNoInteractions(service);
+    }
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT")
+    void retiredVideoEndpointsHaveNoHandler() throws Exception {
+        for (String suffix : new String[]{"", "/status", "/content"})
+            mvc.perform(post("/api/v1/student/tutor/lesson/video"+suffix)
+                    .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                    .andExpect(status().isNotFound());
         verifyNoInteractions(service);
     }
 }

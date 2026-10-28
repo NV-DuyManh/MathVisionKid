@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "bytes": 309024,
+  "calls": [
+    {
+      "characters": 219,
+      "voice": "vi-VN-NamMinhNeural",
+      "bytes": 108144,
+      "ms": 1047
+    },
+    {
+      "characters": 217,
+      "voice": "vi-VN-NamMinhNeural",
+      "bytes": 114480,
+      "ms": 1266
+    },
+    {
+      "characters": 187,
+      "voice": "vi-VN-NamMinhNeural",
+      "bytes": 86400,
+      "ms": 8922
+    }
+  ]
+}

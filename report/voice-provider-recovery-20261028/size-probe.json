@@ -1,0 +1,78 @@
+{
+  "method": "Six serial calls in one Python process; three complete public Vietnamese sentences; fresh unmodified edge_tts Communicate each; no application retry; per-call timeout 8 seconds",
+  "edgeTtsVersion": "7.3.1",
+  "results": [
+    {
+      "case": 1,
+      "characters": 34,
+      "utf8Bytes": 49,
+      "voice": "vi-VN-NamMinhNeural",
+      "firstAudioMs": null,
+      "complete": false,
+      "audioBytes": 0,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, NamMinhNeural)",
+      "category": "NoAudioReceived",
+      "elapsedMs": 2832
+    },
+    {
+      "case": 1,
+      "characters": 34,
+      "utf8Bytes": 49,
+      "voice": "vi-VN-HoaiMyNeural",
+      "firstAudioMs": 4245,
+      "complete": true,
+      "audioBytes": 18288,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, HoaiMyNeural)",
+      "category": "success",
+      "elapsedMs": 4834
+    },
+    {
+      "case": 2,
+      "characters": 68,
+      "utf8Bytes": 95,
+      "voice": "vi-VN-NamMinhNeural",
+      "firstAudioMs": 7479,
+      "complete": false,
+      "audioBytes": 12240,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, NamMinhNeural)",
+      "category": "TimeoutError",
+      "elapsedMs": 8009
+    },
+    {
+      "case": 2,
+      "characters": 68,
+      "utf8Bytes": 95,
+      "voice": "vi-VN-HoaiMyNeural",
+      "firstAudioMs": null,
+      "complete": false,
+      "audioBytes": 0,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, HoaiMyNeural)",
+      "category": "NoAudioReceived",
+      "elapsedMs": 2715
+    },
+    {
+      "case": 3,
+      "characters": 96,
+      "utf8Bytes": 131,
+      "voice": "vi-VN-NamMinhNeural",
+      "firstAudioMs": null,
+      "complete": false,
+      "audioBytes": 0,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, NamMinhNeural)",
+      "category": "NoAudioReceived",
+      "elapsedMs": 2932
+    },
+    {
+      "case": 3,
+      "characters": 96,
+      "utf8Bytes": 131,
+      "voice": "vi-VN-HoaiMyNeural",
+      "firstAudioMs": null,
+      "complete": false,
+      "audioBytes": 0,
+      "normalizedVoice": "Microsoft Server Speech Text to Speech Voice (vi-VN, HoaiMyNeural)",
+      "category": "NoAudioReceived",
+      "elapsedMs": 3509
+    }
+  ]
+}

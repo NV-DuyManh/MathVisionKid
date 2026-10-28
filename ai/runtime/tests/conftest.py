@@ -16,3 +16,10 @@ def isolate_arithmetic_broker(monkeypatch):
         raise AssertionError("Mock arithmetic task enqueue explicitly; unit tests cannot write live Redis jobs.")
 
     monkeypatch.setattr(process_submission, "apply_async", refuse_live_enqueue)
+
+
+@pytest.fixture(autouse=True)
+def isolate_media_preparation_worker(monkeypatch):
+    """Unit tests explicitly drive the worker; never synthesize through a live provider by accident."""
+    from app.tutoring import media_preparation
+    monkeypatch.setattr(media_preparation, '_launch', lambda: None)

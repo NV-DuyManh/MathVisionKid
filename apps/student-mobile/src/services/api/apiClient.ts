@@ -15,12 +15,15 @@ async function expire(id: string | null, reason: 'expired' | 'forbidden' = 'expi
 apiClient.interceptors.request.use(async config => {
   config.baseURL = ENV.API_BASE_URL;
   const before = await identity();
-  const token = await tokenStorage.getAccessToken();
+  const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
+  const token = publicAuth ? null : await tokenStorage.getAccessToken();
   const refresh = await tokenStorage.getRefreshToken();
   if (before !== await identity()) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
   const request = config as any;
   request._identity ??= before; request._session ??= refresh;
-  if (!config.url?.startsWith('/auth/')) {
+  if (publicAuth) {
+    delete config.headers.Authorization;
+  } else if (!config.url?.startsWith('/auth/')) {
     if (token && /^(demo|mock)[_-]/i.test(token)) throw new Error('Phiên thử nghiệm không được sử dụng với dữ liệu trực tuyến. Vui lòng đăng nhập lại.');
     if (token) config.headers.Authorization = `Bearer ${token}`; else delete config.headers.Authorization;
   }
@@ -56,7 +59,7 @@ apiClient.interceptors.response.use(async response => {
     request._session = refresh; request.headers.Authorization = `Bearer ${await tokenStorage.getAccessToken()}`; return apiClient(request);
   }
   if (!refreshing || refreshing.token !== refresh) {
-    const promise = axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken: refresh }, { timeout: 15000 })
+    const promise = axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken: refresh }, { timeout: 8000 })
       .then(async ({ data }) => {
         if (await identity() !== id || await tokenStorage.getRefreshToken() !== refresh) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
         if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');

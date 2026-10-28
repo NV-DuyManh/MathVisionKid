@@ -14,7 +14,7 @@ config.cacheStores = ({ FileStore }) => [boundedCacheStore(new FileStore({ root:
 config.fileMapCacheDirectory = path.join(cacheRoot, 'file-map');
 fs.mkdirSync(config.fileMapCacheDirectory, { recursive: true });
 
-// 1. Watch all files within the monorepo
+// Shared packages and hoisted dependencies still live outside the app directory.
 config.watchFolders = [monorepoRoot];
 
 // 2. Let Metro know where to resolve packages and in what order
@@ -23,12 +23,18 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, 'node_modules'),
 ];
 
-// Local services and dependency rollback copies are never application source.
-// Keep Metro from indexing their generated files during a cold SDK upgrade.
+// Keep generated data, models and local services out of Metro's file map.
+// Anchor at this repository so packages/assets with the same names remain valid.
 const defaultBlockList = config.resolver.blockList;
+const separator = '[/\\\\]';
+const escapeRegex = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const rootPattern = monorepoRoot.split(/[/\\]/).map(escapeRegex).join(separator);
+const excludedFolders = ['report', 'reports', 'runtime', 'ai', 'ai-training', 'backend', 'output', 'scratch',
+  'xyz', 'datasets', 'models', '.git', '.venv', 'infra/local-runtime'];
+const excludedPattern = excludedFolders.map(folder => folder.split('/').map(escapeRegex).join(separator)).join('|');
 config.resolver.blockList = [
   ...(Array.isArray(defaultBlockList) ? defaultBlockList : defaultBlockList ? [defaultBlockList] : []),
-  /[/\\]infra[/\\]local-runtime[/\\]/,
+  new RegExp(`^${rootPattern}${separator}(?:${excludedPattern})(?:${separator}|$)`),
 ];
 
 module.exports = config;

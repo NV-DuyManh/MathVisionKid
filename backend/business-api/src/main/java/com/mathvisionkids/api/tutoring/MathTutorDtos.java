@@ -96,12 +96,16 @@ public final class MathTutorDtos {
     public record LessonRequest(@NotBlank @Size(min = 3, max = 4000) String problemText,
                                 @NotNull @Size(max = 6000) String workText,
                                 @NotNull @AssertTrue Boolean problemConfirmed,
-                                @NotNull Boolean workConfirmed, Boolean guidedUnderstanding) {
+                                @NotNull Boolean workConfirmed, Boolean guidedUnderstanding, Boolean startWithReading) {
+        public LessonRequest(String problemText, String workText, Boolean problemConfirmed, Boolean workConfirmed, Boolean guidedUnderstanding) {
+            this(problemText, workText, problemConfirmed, workConfirmed, guidedUnderstanding, false);
+        }
         public LessonRequest(String problemText, String workText, Boolean problemConfirmed, Boolean workConfirmed) {
             this(problemText, workText, problemConfirmed, workConfirmed, false);
         }
         @AssertTrue public boolean isSourceConfirmed() {
             return Boolean.TRUE.equals(problemConfirmed)
+                    && (!Boolean.TRUE.equals(startWithReading) || Boolean.TRUE.equals(guidedUnderstanding))
                     && (workText == null || workText.isBlank() || Boolean.TRUE.equals(workConfirmed))
                     && problemText != null && !problemText.contains("[?]")
                     && (workText == null || !workText.contains("[?]"));
@@ -116,14 +120,21 @@ public final class MathTutorDtos {
     public record LessonReply(String answer, String spokenExplanation, String followUp, boolean guarded) {}
     public record NarrationRequest(@NotBlank @Size(min=20,max=100) String sessionId, @NotNull @Min(0) Integer revision,
                                    @NotNull @Size(min=1,max=80) java.util.List<@NotBlank @Size(max=1600) String> paragraphs,
-                                   @jakarta.validation.constraints.Pattern(regexp="vi-VN-(NamMinh|HoaiMy)Neural") String voice) {
-        public NarrationRequest { if (voice == null) voice = "vi-VN-NamMinhNeural"; }
+                                   @jakarta.validation.constraints.Pattern(regexp="vi-VN-(NamMinh|HoaiMy)Neural") String voice, Boolean useFallback, Boolean prefetch) {
+        public NarrationRequest { if (voice == null) voice = "vi-VN-NamMinhNeural"; if (useFallback == null) useFallback = false; if (prefetch == null) prefetch = false; }
+        public NarrationRequest(String sessionId, Integer revision, java.util.List<String> paragraphs, String voice, Boolean useFallback) {
+            this(sessionId, revision, paragraphs, voice, useFallback, false);
+        }
+        public NarrationRequest(String sessionId, Integer revision, java.util.List<String> paragraphs, String voice) {
+            this(sessionId, revision, paragraphs, voice, false, false);
+        }
         @AssertTrue public boolean isTextBounded() { return paragraphs != null && paragraphs.stream().allMatch(java.util.Objects::nonNull)
                 && paragraphs.stream().mapToInt(String::length).sum() <= 4000; }
     }
-    public record VideoRequest(@NotBlank @Size(min=20,max=100) String sessionId, @NotNull @Min(0) Integer revision) {}
-    public record VideoLookup(@NotBlank @jakarta.validation.constraints.Pattern(regexp="[A-Za-z0-9_-]{24,64}") String videoId) {}
-    public record VideoStatus(String videoId, String status, int progress, int durationSeconds, boolean hasAudio, String title) {}
+    public record MediaPrepareRequest(@NotBlank @Size(min=20,max=100) String sessionId, @NotNull @Min(0) Integer revision,
+                                      @jakarta.validation.constraints.Pattern(regexp="vi-VN-(NamMinh|HoaiMy)Neural") String voice) {
+        public MediaPrepareRequest { if (voice == null) voice = "vi-VN-NamMinhNeural"; }
+    }
     public record Transcript(String text) {}
     public record LessonStep(String title, String explanation, String question, java.util.List<String> choices,
                              String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance, String kind) {}
@@ -132,7 +143,11 @@ public final class MathTutorDtos {
     public record LessonSummary(java.util.List<String> givens, String question) {}
     public record LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
                                  int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps,
-                                 LessonSummary summary) {
+                                 LessonSummary summary, boolean preparingMath) {
+        public LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
+                              int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps, LessonSummary summary) {
+            this(sessionId, revision, topic, goal, outline, stepIndex, step, completed, status, feedback, conclusion, understandingSteps, summary, false);
+        }
         public LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
                               int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps) {
             this(sessionId, revision, topic, goal, outline, stepIndex, step, completed, status, feedback, conclusion, understandingSteps, null);

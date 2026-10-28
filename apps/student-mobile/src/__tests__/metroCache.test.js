@@ -19,6 +19,26 @@ test('a cache error reaches the caller and releases its slot for the next operat
   await expect(bad).rejects.toBe(failure); await expect(good).resolves.toBe('ok');
 });
 
+test('a large replenished queue stays FIFO, bounds active work and drains for reuse', async () => {
+  let active = 0, peak = 0;
+  const started = [], promises = [];
+  const initial = 4096;
+  const store = boundedCacheStore({ get: async key => {
+    active++; peak = Math.max(peak, active); started.push(key);
+    if (key < initial) promises.push(store.get(key + initial));
+    await Promise.resolve();
+    active--; return key;
+  }, set: () => {}, clear: () => {} }, 4);
+  for (let i = 0; i < initial; i++) promises.push(store.get(i));
+  await Promise.all(promises);
+  const values = await Promise.all(promises);
+  const expected = Array.from({ length: initial * 2 }, (_, i) => i);
+  expect(started).toEqual(expected); expect(values).toEqual(expected);
+  expect(peak).toBe(4); expect(active).toBe(0);
+  expect(await store.get(initial * 2)).toBe(initial * 2);
+  expect(active).toBe(0);
+});
+
 test('invalid limits fail immediately instead of silently blocking Metro forever', () => {
   expect(() => boundedCacheStore({}, 0)).toThrow(RangeError);
 });

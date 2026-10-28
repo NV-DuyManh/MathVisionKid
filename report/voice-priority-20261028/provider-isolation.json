@@ -1,0 +1,19 @@
+{
+  "environment": "Serial real-provider requests; same public synthetic Vietnamese text; no Android playback",
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "success": false,
+      "elapsedMs": 12004,
+      "errorCategory": "TimeoutError",
+      "characters": 189
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "success": false,
+      "elapsedMs": 8954,
+      "errorCategory": "NoAudioReceived",
+      "characters": 189
+    }
+  ]
+}
