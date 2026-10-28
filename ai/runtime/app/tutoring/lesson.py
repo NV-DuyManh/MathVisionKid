@@ -28,6 +28,7 @@ class LessonRequest(TutorModel):
     problemConfirmed: StrictBool = False
     workConfirmed: StrictBool = False
     guidedUnderstanding: StrictBool = False
+    startWithReading: StrictBool = False
 
     @model_validator(mode="after")
     def confirmed_source(self):
@@ -35,6 +36,8 @@ class LessonRequest(TutorModel):
             raise ValueError("Confirm the source transcription before starting a lesson")
         if "[?]" in self.problemText or "[?]" in self.workText:
             raise ValueError("Clarify unread source symbols before starting a lesson")
+        if self.startWithReading and not self.guidedUnderstanding:
+            raise ValueError("Reading-first preparation requires comprehension")
         return self
 
 
@@ -60,6 +63,9 @@ class Step(TutorModel):
     fractionNotation: StrictBool = False
     solutionSentence: str = Field(default="", max_length=220)
     guidance: list[str] = Field(default_factory=list, max_length=6)
+    # None keeps legacy Plan-shaped guidance. An explicit list, including [],
+    # preserves the planner's initial/private boundary without serializing it.
+    initialGuidance: list[str] | None = Field(default=None, max_length=3, exclude=True)
 
     @field_validator("guidance", mode="before")
     @classmethod
@@ -82,6 +88,8 @@ class Step(TutorModel):
             raise ValueError("Invalid hints")
         if any(not item.strip() or len(item) > 500 for item in self.guidance):
             raise ValueError("Invalid guidance")
+        if self.initialGuidance is not None and any(not item.strip() or len(item) > 500 for item in self.initialGuidance):
+            raise ValueError("Invalid initial guidance")
         return self
 
 
@@ -101,6 +109,20 @@ class Plan(TutorModel):
                 or any(step.kind != "MATH" for step in self.steps[count:])
                 or any(not step.choices or step.expression for step in self.steps[:count])):
             raise ValueError("Use three opening comprehension choices and two to six math steps")
+        return self
+
+
+class ReadingPlan(TutorModel):
+    """Source-only reading choices; never an unreviewed mathematical plan."""
+    topic: str = 'Cùng hiểu đề'
+    goal: str = 'Tách điều đã biết và điều cần tìm.'
+    steps: list[Step] = Field(min_length=3, max_length=3)
+    finalAnswerStep: None = None
+
+    @model_validator(mode='after')
+    def reading_only(self):
+        if any(step.kind!='UNDERSTAND' or not step.choices or step.expression or step.unit for step in self.steps):
+            raise ValueError('Only source comprehension can open before mathematical review')
         return self
 
 
@@ -167,6 +189,7 @@ class LessonResponse(TutorModel):
     conclusion: str = ""
     understandingSteps: Literal[0, 3] = 0
     summary: LessonSummary | None = None
+    preparingMath: bool = False
 
 
 class LessonExpired(ValueError):
@@ -184,7 +207,7 @@ class UnderstandingUnsupported(ValueError):
 @dataclass
 class Session:
     owner: str
-    plan: Plan
+    plan: Plan | ReadingPlan
     expires: float
     answers: list[str] = field(default_factory=list)
     completed: list[CompletedStep] = field(default_factory=list)
@@ -196,6 +219,8 @@ class Session:
     ask_count: int = 0
     conversation: list[dict] = field(default_factory=list)
     narration_texts: list[str] = field(default_factory=list)
+    preparation_request: LessonRequest | None = field(default=None, repr=False)
+    preparation_task: asyncio.Task | None = field(default=None, repr=False)
 
 
 _sessions: OrderedDict[str, Session] = OrderedDict()
@@ -346,8 +371,11 @@ additionalFormulaConstants và {sN} của bước tính TRƯỚC, N là chỉ s�
 (kể cả bước chọn). Có thể dùng {sN_numerator}, {sN_denominator} để chia theo
 số phần và gộp các phần của một phân số đã tính ở bước trước. Không chữ/biến/
 lũy thừa/hàm. Bước đầu không tham chiếu.
-Không chèn kết quả đã tính vào công thức; dùng tham chiếu bước trước. Lời giảng được dùng
-{sN}, {sN_numerator}, {sN_denominator} để nhắc kết quả bước trước.
+Không chèn kết quả đã tính vào công thức; dùng tham chiếu bước trước.
+Chỉ initialGuidance, guidance và hints được dùng {sN}, {sN_numerator},
+{sN_denominator} để nhắc kết quả bước trước. explanation, title, question,
+solutionSentence, choices, topic và goal không dùng dấu ngoặc nhọn hoặc tham chiếu;
+hãy gọi tên đại lượng hay nói "kết quả bước trước" trong các trường này.
 workExcerpt luôn là "". workLineIndexes chứa chỉ số TỪ 0 của 1-3 dòng LIÊN TIẾP
 trong workLines liên quan đến chính bước này; [] nếu không có. Máy sẽ trích đúng
 chữ từ ảnh đã xác nhận. Không tự chép, chuẩn hóa hay viết lại dòng của học sinh.
@@ -599,6 +627,7 @@ def prepend_understanding(plan: Plan, steps: list[Step]) -> Plan:
     for step in plan.steps:
         math.append(step.model_copy(update={"expression": shift(step.expression),
             "guidance": [shift(item) for item in step.guidance],
+            "initialGuidance": None if step.initialGuidance is None else [shift(item) for item in step.initialGuidance],
             "hints": [shift(item) for item in step.hints]}))
     return Plan(topic=plan.topic, goal=plan.goal, steps=steps + math,
         finalAnswerStep=None if plan.finalAnswerStep is None else plan.finalAnswerStep + count)
@@ -612,7 +641,7 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
     if plan.finalAnswerStep is not None and (plan.finalAnswerStep >= len(plan.steps) or not plan.steps[plan.finalAnswerStep].expression):
         raise ValueError("Invalid final answer step")
     for index, step in enumerate(plan.steps):
-        for item in [*step.guidance, *step.hints]:
+        for item in [*(step.initialGuidance or []), *step.guidance, *step.hints]:
             for reference in _GUIDANCE_REFERENCE.finditer(item):
                 prior = int(reference[1])
                 if prior >= index or not plan.steps[prior].expression:
@@ -674,7 +703,7 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
             raise ValueError(f"Step {index}: a fraction/share is dimensionless; use unit phần or empty, not an item-count unit copied from pupil work")
         if not numeric_values(automatic).issubset(earned) or re.search(r"dap so\s*[:=]|\d\s*=\s*\d", _fold(automatic)):
             raise ValueError("Public computed answer")
-        for item in [*step.guidance, *step.hints]:
+        for item in [*(step.initialGuidance or []), *step.guidance, *step.hints]:
             safe_public(_GUIDANCE_REFERENCE.sub("", item))
             # Worked help is private until explicitly requested for THIS step.
             # Do not let it contain an unearned answer to a later step.
@@ -703,6 +732,14 @@ def remember_narration(session: Session, paragraphs: list[str]):
     session.narration_texts = list(dict.fromkeys([*session.narration_texts, *texts]))[-128:]
 
 
+def completed_step(step: Step, session: Session, answer: str) -> CompletedStep:
+    expression = expression_at(step, session.answers)
+    return CompletedStep(kind=step.kind, title=step.title, expression=display_expression(expression, step.fractionNotation),
+        answer=answer, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
+        calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
+        guidance=guidance_at(step, session.answers))
+
+
 def present(key: str, session: Session, status="READY", feedback="") -> LessonResponse:
     index = len(session.answers)
     step = session.plan.steps[index] if index < len(session.plan.steps) else None
@@ -718,7 +755,8 @@ def present(key: str, session: Session, status="READY", feedback="") -> LessonRe
         goal=session.plan.goal, outline=[s.title for s in session.plan.steps], stepIndex=index,
         step=public, completed=session.completed, status="COMPLETE" if step is None else status, feedback=feedback, conclusion=conclusion,
         understandingSteps=sum(item.kind == "UNDERSTAND" for item in session.plan.steps),
-        summary=session.summary if index >= 2 and session.plan.steps[0].kind == "UNDERSTAND" else None)
+        summary=session.summary if index >= 2 and session.plan.steps[0].kind == "UNDERSTAND" else None,
+        preparingMath=isinstance(session.plan, ReadingPlan))
     texts = [feedback]
     if public:
         texts += [public.explanation, *public.guidance, public.question]
@@ -820,6 +858,10 @@ def guidance_at(step: Step, answers: list[str], givens=None, *, reveal_work=True
         f"Viết câu lời giải: {solution_sentence(step)} Sau câu này, ghi phép tính, kết quả em tự tính và đơn vị {step.unit}. Kiểm tra xem kết quả đã trả lời đúng câu hỏi chưa."
         if step.expression else "Đối chiếu từng lựa chọn với điều đề cho. Chọn cách phù hợp rồi tự nói lại vì sao em chọn cách đó.",
     ]
+    if not reveal_work and step.initialGuidance is not None:
+        # Worked help can contain answers written as Vietnamese words, which the
+        # numeric guard cannot classify. Never infer the explicit boundary from it.
+        items = step.initialGuidance
     resolved = [teaching_at(item, answers) for item in items]
     if not reveal_work:
         allowed = set(givens or ()) | numeric_values(" ".join(answers))
@@ -863,7 +905,7 @@ async def generate_plan(request: LessonRequest) -> Plan:
                     raise ValueError("Recheck whether the original relationships determine the unknown; refuse if genuinely insufficient")
                 parsed_plan = draft.model_dump(exclude={"canSolve"})
                 for item in parsed_plan["steps"]:
-                    initial = item.pop("initialGuidance")
+                    initial = item["initialGuidance"]
                     item["guidance"] = initial + item["guidance"]
                     indexes = item.pop("workLineIndexes")
                     if indexes:
@@ -952,19 +994,8 @@ async def generate_plan(request: LessonRequest) -> Plan:
 
 
 
-async def start_lesson(request: LessonRequest) -> LessonResponse:
-    if "[?]" in request.problemText:
-        raise ValueError("Clarify original question")
-    comprehension = []
-    if request.guidedUnderstanding:
-        try:
-            comprehension = source_understanding(request.problemText)
-        except UnderstandingUnsupported:
-            # Optional reading choices must not restrict reviewed math coverage.
-            # Unsupported source shapes keep the standard lesson, without guesses.
-            pass
-    # No template lookup or offline answer fallback: every lesson is planned
-    # from this confirmed source and reviewed before any session is published.
+async def reviewed_plan(request, comprehension):
+    # Mathematics still requires the unchanged planner, local checks and independent review.
     try:
         plan = await asyncio.wait_for(generate_plan(request), timeout=38.0)
         if comprehension:
@@ -973,17 +1004,73 @@ async def start_lesson(request: LessonRequest) -> LessonResponse:
     except (TimeoutError, ValidationError, ValueError, SyntaxError, ArithmeticError, TypeError) as exc:
         logger.warning("Tutor lesson unavailable category=%s", type(exc).__name__)
         raise TutorUnavailable() from None
+    return plan
+
+
+async def _prepare_session_math(key, session, comprehension):
+    started=time.monotonic()
+    try:
+        plan=await reviewed_plan(session.preparation_request,comprehension)
+        if _sessions.get(key) is not session or session.expires<=time.monotonic():return False
+        session.plan=plan
+        from app.tutoring import media_preparation
+        try:media_preparation.refresh_after_plan(key,session)
+        except Exception as exc:logger.info('Speech refresh skipped category=%s',type(exc).__name__)
+        logger.info('Lesson mathematics ready elapsed_ms=%d',(time.monotonic()-started)*1000)
+        return True
+    except Exception as exc:
+        logger.info('Lesson mathematics preparation stopped category=%s',type(exc).__name__)
+        return False
+
+
+def _owned_turn(request):
+    session=_sessions.get(request.sessionId)
+    if not session or session.owner!=request.owner or session.expires<time.monotonic():
+        raise LessonExpired('Bài học đã hết phiên. Em mở lại bài để tiếp tục nhé.')
+    if session.revision!=request.revision:raise StaleTurn('Bước học đã thay đổi. Em mở lại bài nhé.')
+    return session
+
+
+async def ready_for_answer(request):
+    session=_owned_turn(request)
+    if not isinstance(session.plan,ReadingPlan) or request.hint or len(session.answers)!=2:
+        return
+    if request.answer.strip()!=session.plan.steps[2].correctChoice:return
+    task=session.preparation_task
+    if task is None or task.done() and (task.cancelled() or not task.result()):
+        # Only an explicit retry of the final reading answer can retry a failed plan.
+        task=session.preparation_task=asyncio.create_task(_prepare_session_math(request.sessionId,session,session.plan.steps))
+    ready=await asyncio.shield(task)
+    _owned_turn(request)
+    if not ready:raise TutorUnavailable()
+
+
+async def start_lesson(request: LessonRequest) -> LessonResponse:
+    for old in list(_sessions.values()):
+        if old.owner==request.owner and old.preparation_task and not old.preparation_task.done():
+            old.preparation_task.cancel()
+    comprehension = []
+    if request.guidedUnderstanding:
+        try:comprehension = source_understanding(request.problemText)
+        except UnderstandingUnsupported:pass
+    early=request.startWithReading and bool(comprehension)
+    plan=ReadingPlan(steps=comprehension) if early else await reviewed_plan(request,comprehension)
     now = time.monotonic()
     for key in list(_sessions):
         if _sessions[key].expires < now:
-            del _sessions[key]
+            old=_sessions.pop(key)
+            if old.preparation_task and not old.preparation_task.done():old.preparation_task.cancel()
     while len(_sessions) >= MAX_SESSIONS:
-        _sessions.popitem(last=False)
+        _,old=_sessions.popitem(last=False)
+        if old.preparation_task and not old.preparation_task.done():old.preparation_task.cancel()
     key = secrets.token_urlsafe(32)
     session = Session(request.owner, plan, now + TTL,
         givens=frozenset(numeric_values(request.problemText)) | formula_constants(request.problemText),
         summary=source_summary(request.problemText) if comprehension else None, problem_text=request.problemText)
     _sessions[key] = session
+    if early:
+        session.preparation_request=request
+        session.preparation_task=asyncio.create_task(_prepare_session_math(key,session,comprehension))
     return present(key, session)
 
 
@@ -1030,11 +1117,10 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
             "Em xem lại đại lượng cần tìm và thử chọn lại nhé." if step.choices else
             "Chưa khớp. Với kết quả phân số, em nhập tử số/mẫu số, không làm tròn số thập phân. Chọn gợi ý để xem cách làm nhé." if step.fractionNotation else
             "Chưa khớp phép tính này. Em tính lại; nếu kết quả không viết được chính xác bằng số thập phân, em có thể nhập phân số, không làm tròn nhé.")
-    session.completed.append(CompletedStep(kind=step.kind, title=step.title, expression=display_expression(expression, step.fractionNotation),
-        answer=answer, unit=step.unit, explanation=step.explanation,
-        solutionSentence=solution_sentence(step),
-        calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
-        guidance=guidance_at(step, session.answers)))
+    if isinstance(session.plan,ReadingPlan) and len(session.answers)==2:
+        # Sync callers must never complete the lesson or expose unreviewed mathematics.
+        raise TutorUnavailable()
+    session.completed.append(completed_step(step, session, answer))
     session.answers.append(answer)
     session.revision += 1
     session.hint_count = 0

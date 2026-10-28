@@ -8,12 +8,15 @@ import { preparePlaybackSession } from './playbackSession';
 import { FONTS } from '../../constants/theme';
 import { TaskProgress } from '../../components/ui/TaskProgress';
 
-export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question = false, onFinished, onError, preparationSteps }: {
-  uri: string; title: string; subtitle?: string; durationHint?: number; question?: boolean; onFinished?: () => void; onError?: () => void; preparationSteps?: readonly string[];
+export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question = false, onFinished, onError, onReady, hideUntilReady = false, preparationSteps }: {
+  uri: string; title: string; subtitle?: string; durationHint?: number; question?: boolean; onFinished?: () => void; onError?: () => void; onReady?: () => void; hideUntilReady?: boolean; preparationSteps?: readonly string[];
 }) {
   const player = useAudioPlayer(uri, { updateInterval: 200 });
   const status = useAudioPlayerStatus(player), navigation = useNavigation();
   const [notice, setNotice] = useState(''), [rate, setRate] = useState(1);
+  const [loadExpired, setLoadExpired] = useState(false);
+  const [preparationVisible, setPreparationVisible] = useState(!status.isLoaded);
+  const loadTimedOut = loadExpired && !status.isLoaded;
   const active = useRef(true), generation = useRef(0), scrubPlaying = useRef<boolean | null>(null);
   const watchdog = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearWatchdog = () => { if (watchdog.current) clearTimeout(watchdog.current); watchdog.current = null; };
@@ -22,6 +25,12 @@ export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question
   const current = Math.max(0, Math.min(Number.isFinite(status.currentTime) ? status.currentTime : 0, duration));
   useEffect(() => { complete.current = onFinished; }, [onFinished]);
   useEffect(() => { if (status.error) onError?.(); }, [status.error, onError]);
+  useEffect(() => { if (status.isLoaded && !status.error) onReady?.(); }, [status.isLoaded, status.error, onReady]);
+  useEffect(() => {
+    if (status.isLoaded || status.error) return;
+    const timer = setTimeout(() => { setLoadExpired(true); onError?.(); }, 12000);
+    return () => clearTimeout(timer);
+  }, [status.isLoaded, status.error, onError]);
   useEffect(() => {
     active.current = true;
     const invalidate = () => { ++generation.current; clearWatchdog(); };
@@ -69,14 +78,15 @@ export function AudioPlayback({ uri, title, subtitle, durationHint = 0, question
       try { await play(id); } catch { if (active.current && generation.current === id) setNotice('Chưa phát được âm thanh. Em thử lại nhé.'); }
     }
   };
+  if (hideUntilReady && !status.isLoaded && !status.error && !loadTimedOut) return null;
   return <View style={styles.stack}>
-    {preparationSteps && !status.isLoaded && !status.error ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} /> : null}
-    <MediaTimeline title={title} subtitle={!status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error)} loading={!status.isLoaded && !status.error}
+    {preparationSteps && preparationVisible && !status.error && !loadTimedOut ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} percent={95} complete={status.isLoaded} onComplete={() => setPreparationVisible(false)} timeoutSeconds={12} detail={status.isLoaded ? undefined : 'Đã nhận âm thanh. Đang mở tệp để em có thể phát và tua.'} /> : null}
+    <MediaTimeline title={title} compact={question} subtitle={loadTimedOut ? 'Chưa mở được âm thanh' : !status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error) || loadTimedOut} loading={!status.isLoaded && !status.error && !loadTimedOut}
       playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'} skipSeconds={question ? 5 : 10}
       onToggle={toggle} onSeek={seconds => { void seek(seconds); }} onRestart={() => { void seek(0, true); }}
       onScrubStart={() => { scrubPlaying.current = player.playing; ++generation.current; clearWatchdog(); player.pause(); }}
       rate={rate} onRate={question ? undefined : value => { try { player.setPlaybackRate(value); setRate(value); setNotice(''); } catch { setNotice('Chưa đổi được tốc độ. Em vẫn có thể nghe ở tốc độ hiện tại.'); } }} />
-    {notice || status.error ? <Text accessibilityRole="alert" style={styles.notice}>{notice || 'Chưa phát được âm thanh. Em vẫn có thể đọc phần chữ.'}</Text> : null}
+    {notice || status.error || loadTimedOut ? <Text accessibilityRole="alert" style={styles.notice}>{notice || 'Chưa mở được âm thanh trong thời gian chờ. Em thử tải lại hoặc đọc phần chữ nhé.'}</Text> : null}
   </View>;
 }
 const styles = StyleSheet.create({ stack: { gap: 10 }, notice: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#874323' } });

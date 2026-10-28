@@ -1,0 +1,6 @@
+{
+  "login": 200,
+  "me": 200,
+  "unknownSessionStatus": 410,
+  "logout": 200
+}

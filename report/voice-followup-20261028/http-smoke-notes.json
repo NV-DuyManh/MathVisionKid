@@ -1,0 +1,19 @@
+{
+  "attempts": [
+    {
+      "file": "http-first-attempt.json",
+      "status": 503,
+      "stage": "lesson-generation",
+      "narrationReached": false,
+      "logEvidence": "Independent review rejected premature answers in generated initial guidance."
+    },
+    {
+      "file": "http-smoke.json",
+      "status": 503,
+      "stage": "lesson-generation",
+      "narrationReached": false,
+      "logEvidence": "Model provider 429 was observed, followed by fallback; candidate validation rejected unit/source issues."
+    }
+  ],
+  "scope": "Voice queue, retry and status were changed. Lesson validation and model prompts were not relaxed. No third lesson-generation probe was sent."
+}

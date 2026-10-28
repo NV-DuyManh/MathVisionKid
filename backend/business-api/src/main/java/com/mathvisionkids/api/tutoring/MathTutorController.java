@@ -76,9 +76,11 @@ public class MathTutorController {
         return service.ask(request, authentication.getName());
     }
 
-    @PostMapping(value="/lesson/video", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VideoStatus> video(@Valid @RequestBody VideoRequest request, Authentication authentication) {
-        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.video(request,authentication.getName()));
+
+
+    @PostMapping(value="/lesson/media/prepare", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> prepareMedia(@Valid @RequestBody MediaPrepareRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.prepareMedia(request,authentication.getName()));
     }
 
     @PostMapping(value="/lesson/narration", consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -87,16 +89,20 @@ public class MathTutorController {
                 .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.narration(request, authentication.getName()));
     }
 
-    @PostMapping(value="/lesson/video/status", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VideoStatus> videoStatus(@Valid @RequestBody VideoLookup request, Authentication authentication) {
-        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoStatus(request,authentication.getName()));
+    @PostMapping(value="/lesson/narration/status", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> narrationStatus(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.narrationStatus(request, authentication.getName()));
     }
 
-    @PostMapping(value="/lesson/video/content", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<byte[]> videoContent(@Valid @RequestBody VideoLookup request, Authentication authentication) {
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("video/mp4"))
-                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoContent(request,authentication.getName()));
+    @PostMapping(value="/lesson/narration/prepare", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> prepareNarration(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.prepareNarration(request,authentication.getName()));
     }
+
+
+
+
 
     @PostMapping(value = "/transcribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Transcript transcribe(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -107,7 +113,7 @@ public class MathTutorController {
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
             MethodArgumentNotValidException.class})
     public ResponseEntity<ApiErrorResponse> invalidInput() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiErrorResponse(
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(new ApiErrorResponse(
                 new ApiErrorResponse.ErrorDetail("VALIDATION_ERROR", "Em hãy kiểm tra lại thông tin bài toán.", null, null)));
     }
 }

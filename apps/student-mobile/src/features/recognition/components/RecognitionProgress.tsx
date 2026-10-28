@@ -8,8 +8,7 @@ import { TaskProgress, TaskProgressProps } from '../../../components/ui/TaskProg
 type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string } & Partial<TaskProgressProps>;
 const MASCOT = require('../../../../assets/illustrations/mathvision-star.png');
 
-// This service reports stages, not a completion percentage. Animate activity only.
-export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete }: Props) {
+export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete }: Props) {
   const [motion] = useState(() => new Animated.Value(0));
   const [width, setWidth] = useState(240);
   const [reduceMotion, setReduceMotion] = useState(true);
@@ -48,7 +47,7 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
 
     <Text style={styles.title} accessibilityRole="header">{title}</Text>
     <Text style={styles.description}>{description}</Text>
-    {staged ? <TaskProgress steps={steps!} activeStep={activeStep} complete={complete} /> : <View style={styles.track} onLayout={event => setWidth(event.nativeEvent.layout.width)}
+    {staged ? <TaskProgress key={title} steps={steps!} activeStep={activeStep} complete={complete} percent={percent} detail={detail} timeoutSeconds={timeoutSeconds} onTimeout={onTimeout} onComplete={onComplete} /> : <View style={styles.track} onLayout={event => setWidth(event.nativeEvent.layout.width)}
       accessibilityRole="progressbar" accessibilityLabel={title} accessibilityState={{ busy: true }} aria-busy={true}>
       <Animated.View style={[styles.bar, { width: width * 0.34,
         transform: [{ translateX: reduceMotion ? width * 0.33 : motion.interpolate({ inputRange: [0, 1], outputRange: [-width * 0.34, width] }) }],

@@ -1,7 +1,7 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, AliasChoices, model_validator
-from typing import Optional
+from pydantic import Field, AliasChoices, SecretStr, model_validator
+from typing import Literal, Optional
 
 _SERVICE_DIR = Path(__file__).resolve().parent.parent
 
@@ -98,6 +98,11 @@ class Settings(BaseSettings):
 
     # Cloud Advisor Concurrency (PROD.2G)
     cloud_advisor_max_concurrency: int = 3
+
+    # Azure is opt-in: keep the established provider unless a server operator selects it.
+    speech_provider: Literal["edge", "azure"] = "edge"
+    azure_speech_key: SecretStr = SecretStr("")
+    azure_speech_region: str = ""
 
     # PROD.3F / PROD.3F.1 Always-Review Policy (Handwriting domain-specific)
     hwtext_always_review_enabled: bool = Field(

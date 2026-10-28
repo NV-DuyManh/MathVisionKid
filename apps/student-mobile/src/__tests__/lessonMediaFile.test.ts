@@ -1,5 +1,4 @@
 import { saveNarration } from '../features/tutoring/narrationFile';
-import { saveLessonMovie } from '../features/tutoring/lessonVideoFile';
 
 const mockFiles: any[] = [];
 jest.mock('expo-file-system', () => ({
@@ -21,13 +20,10 @@ jest.mock('expo-file-system', () => ({
 
 beforeEach(() => { mockFiles.length = 0; });
 
-it.each([
-  ['WAV', saveNarration, '.wav'],
-  ['MP4', saveLessonMovie, '.mp4'],
-] as const)('finishes writing private %s bytes before exposing the playback URI', (_name, save, extension) => {
+it('finishes writing private WAV bytes before exposing the playback URI', () => {
   const bytes = new Uint8Array([1, 2, 3]);
-  const asset = save(bytes), file = mockFiles[0];
-  expect(asset.uri).toMatch(new RegExp(`\\${extension}$`));
+  const asset = saveNarration(bytes), file = mockFiles[0];
+  expect(asset.uri).toMatch(/\.wav$/);
   expect(file.create).toHaveBeenCalledTimes(1);
   expect(file.writeSync).toHaveBeenCalledWith(bytes);
   expect(file.write).not.toHaveBeenCalled();

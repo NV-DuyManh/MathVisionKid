@@ -1,0 +1,59 @@
+{
+  "environment": "Local authenticated business API, real lesson model and real TTS; synthetic problem; no Android playback measurement",
+  "anonymousStatus": 401,
+  "lessonStatus": 200,
+  "lessonCreationMs": 7614,
+  "preparationStatuses": [
+    {
+      "stepIndex": 0,
+      "httpStatus": 200
+    },
+    {
+      "stepIndex": 1,
+      "httpStatus": 200
+    },
+    {
+      "stepIndex": 2,
+      "httpStatus": 200
+    }
+  ],
+  "mathStepIndex": 3,
+  "automaticGuidanceParagraphs": 3,
+  "automaticNarrationCharacters": 830,
+  "mathWarmupHttpStatus": 200,
+  "intentionalReadingWindowSeconds": 15,
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "stateAfterReading": {
+        "mode": "online",
+        "phase": "synthesizing",
+        "totalChunks": 0,
+        "elapsedMs": 15030,
+        "completedChunks": 0,
+        "percent": 10
+      },
+      "statusHttpMs": 30.77,
+      "foregroundWaitMs": 39161.29,
+      "finalPhase": "failed"
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "stateAfterReading": {
+        "mode": "online",
+        "phase": "waiting",
+        "totalChunks": 0,
+        "elapsedMs": 0,
+        "completedChunks": 0,
+        "percent": 0
+      },
+      "statusHttpMs": 10.92,
+      "foregroundWaitMs": 34159.28,
+      "finalPhase": "failed"
+    }
+  ],
+  "allVoicesReadyAfterReading": false,
+  "allVoicesUltimatelyReady": false,
+  "success": true,
+  "logoutStatus": 200
+}

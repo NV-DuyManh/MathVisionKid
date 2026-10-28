@@ -1,0 +1,42 @@
+{
+  "environment": "Two serial, unmodified-edge-tts requests; short public greeting; metadata only",
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "frames": {
+        "TEXT": 4,
+        "BINARY": 17
+      },
+      "paths": [
+        "turn.start",
+        "response",
+        "audio.metadata",
+        "turn.end"
+      ],
+      "handshake": true,
+      "closeCode": 1000,
+      "success": true,
+      "bytes": 11520,
+      "elapsedMs": 742
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "frames": {
+        "TEXT": 4,
+        "BINARY": 17
+      },
+      "paths": [
+        "turn.start",
+        "response",
+        "audio.metadata",
+        "turn.end"
+      ],
+      "handshake": true,
+      "closeCode": 1000,
+      "success": true,
+      "bytes": 11232,
+      "elapsedMs": 586
+    }
+  ],
+  "serverClockSkewSeconds": -22
+}

@@ -82,8 +82,23 @@ it('keeps the final audio stage busy until the decoder is loaded and never autop
   expect(mockPlayer.play).not.toHaveBeenCalled();
   mockStatus.isLoaded = true;
   await act(async () => view.update(<AudioPlayback uri="file:///speech.wav" title="Nghe giảng" preparationSteps={steps} />));
+  expect(view.root.findByType(TaskProgress).props.complete).toBe(true);
+  act(() => view.root.findByType(TaskProgress).props.onComplete());
   expect(view.root.findAllByType(TaskProgress)).toHaveLength(0);
   expect(mockPlayer.play).not.toHaveBeenCalled();
+});
+
+it('leaves a stalled decoder after twelve seconds instead of waiting forever', async () => {
+  jest.useFakeTimers(); mockStatus.isLoaded = false;
+  const onError = jest.fn();
+  await act(async () => { view = TestRenderer.create(<AudioPlayback uri="file:///stalled.wav" title="Nghe giảng" onError={onError} />); });
+  act(() => jest.advanceTimersByTime(12000));
+  expect(onError).toHaveBeenCalledTimes(1);
+  expect(controls().loading).toBe(false);
+  expect(controls().disabled).toBe(true);
+  mockStatus.isLoaded = true;
+  await act(async () => view.update(<AudioPlayback uri="file:///stalled.wav" title="Nghe giảng" onError={onError} />));
+  expect(controls().disabled).toBe(false);
 });
 
 it('keeps the previous rate and gives a readable notice if the device rejects a speed change', async () => {

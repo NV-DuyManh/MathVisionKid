@@ -1,0 +1,10 @@
+{
+  "evidenceType": "Human user feedback in this chat after loading the fixes",
+  "platform": "Expo Go on Android",
+  "confirmed": [
+    "Voice playback audible",
+    "Recorded question converted to text"
+  ],
+  "exactReply": "Nghe được và câu hỏi ra chữ",
+  "agentDirectPhysicalPlaybackMeasurement": false
+}

@@ -35,13 +35,6 @@
       ],
       "expo-secure-store",
       [
-        "expo-video",
-        {
-          "supportsBackgroundPlayback": false,
-          "supportsPictureInPicture": false
-        }
-      ],
-      [
         "expo-audio",
         {
           "microphonePermission": "Cho phép MathVisionKid ghi âm câu hỏi khi em nhấn nói.",
