@@ -63,13 +63,23 @@ export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string;
 export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
 export type LessonSummary = { givens: string[]; question: string };
 export type LessonReply = { answer: string; spokenExplanation: string; followUp: string; guarded: boolean };
+export type LearningCheck = {expression:string;question:string;checked:boolean;correct:boolean;feedback:string};
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
   step: LessonStep | null; completed: CompletedLessonStep[];
   status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
   summary?: LessonSummary | null;
+  review?:{question:string;choices:string[];studentAnswer:string}|null;
 };
 function lessonResponse(value: any): LessonResponse {
+  if(value?.review!=null){
+    const review=value.review;
+    if(typeof review.question!=='string'||!review.question.trim()||review.question.length>220||!Array.isArray(review.choices)||review.choices.length>4
+      ||review.choices.some((item:unknown)=>typeof item!=='string'||!item.trim()||item.length>100)
+      ||typeof review.studentAnswer!=='string'||review.studentAnswer.length>100||!value.completed?.length
+      ||value.completed[value.completed.length-1].answer!==review.studentAnswer
+      ||review.choices.length&&!review.choices.includes(review.studentAnswer))throw new Error(INVALID_RESPONSE);
+  }
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
   const understanding = value?.understandingSteps === undefined ? 0 : value.understandingSteps;
   const preparing = value?.preparingMath === true;
@@ -106,6 +116,18 @@ function lessonResponse(value: any): LessonResponse {
 }
 
 export const TutorService = {
+  async resumeLesson(sessionId:string,problemText:string,signal?:AbortSignal):Promise<LessonResponse> {
+    const {data}=await apiClient.post('/student/tutor/lesson/resume',{sessionId,problemText},{timeout:15000,signal});
+    return lessonResponse(data);
+  },
+  async checkUnderstanding(source:{sessionId:string;revision:number},answer='',signal?:AbortSignal):Promise<LearningCheck> {
+    const {data}=await apiClient.post('/student/tutor/lesson/checkpoint',{...source,answer},{timeout:15000,signal});
+    if(!data||typeof data.expression!=='string'||!data.expression.trim()||data.expression.length>300
+      ||typeof data.question!=='string'||!data.question.trim()||data.question.length>200||typeof data.checked!=='boolean'
+      ||typeof data.correct!=='boolean'||typeof data.feedback!=='string'||data.feedback.length>300
+      ||data.correct&&!data.checked||data.checked!==!!answer.trim())throw new Error(INVALID_RESPONSE);
+    return data;
+  },
   async askLesson(request: { sessionId: string; revision: number; stepIndex: number; question: string }, signal?: AbortSignal): Promise<LessonReply> {
     if (!request.question.trim() || request.question.length > 500) throw new Error('Em viết một câu hỏi ngắn nhé.');
     const { data } = await apiClient.post<LessonReply>('/student/tutor/lesson/ask', request, { timeout: TIMEOUT, signal });

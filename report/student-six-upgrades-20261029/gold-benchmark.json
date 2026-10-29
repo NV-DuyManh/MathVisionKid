@@ -1,0 +1,172 @@
+{
+  "corpusVersion": 1,
+  "evidence": "Curated regression oracle; model/OCR scores require supplied predictions; no training and no independent-holdout claim.",
+  "cases": 20,
+  "oraclePassed": 20,
+  "modelAnswersAssessed": 0,
+  "modelAnswerAccuracy": null,
+  "ocrTranscriptsAssessed": 0,
+  "meanCer": null,
+  "results": [
+    {
+      "id": "orchard",
+      "oraclePassed": true,
+      "oracleMs": 0.325,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "floor-two-questions",
+      "oraclePassed": true,
+      "oracleMs": 0.251,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "flower-fraction",
+      "oraclePassed": true,
+      "oracleMs": 0.109,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "tiles-mixed-units",
+      "oraclePassed": true,
+      "oracleMs": 0.144,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "apples",
+      "oraclePassed": true,
+      "oracleMs": 0.063,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "pens",
+      "oraclePassed": true,
+      "oracleMs": 0.058,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "ribbon",
+      "oraclePassed": true,
+      "oracleMs": 0.093,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "length-cm",
+      "oraclePassed": true,
+      "oracleMs": 0.071,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "mass-decimal",
+      "oraclePassed": true,
+      "oracleMs": 0.081,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "money",
+      "oraclePassed": true,
+      "oracleMs": 0.07,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "class-ratio",
+      "oraclePassed": true,
+      "oracleMs": 0.072,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "rectangle",
+      "oraclePassed": true,
+      "oracleMs": 0.125,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "triangle",
+      "oraclePassed": true,
+      "oracleMs": 0.058,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "average",
+      "oraclePassed": true,
+      "oracleMs": 0.066,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "percentage",
+      "oraclePassed": true,
+      "oracleMs": 0.068,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "time",
+      "oraclePassed": true,
+      "oracleMs": 0.064,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "garden-decimals",
+      "oraclePassed": true,
+      "oracleMs": 0.074,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "fraction-add",
+      "oraclePassed": true,
+      "oracleMs": 0.099,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "parentheses",
+      "oraclePassed": true,
+      "oracleMs": 0.067,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    },
+    {
+      "id": "append-digit",
+      "oraclePassed": true,
+      "oracleMs": 0.101,
+      "predictionPresent": false,
+      "answerCorrect": null,
+      "cer": null
+    }
+  ]
+}

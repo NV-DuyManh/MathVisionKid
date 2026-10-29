@@ -7,10 +7,11 @@ import { COLORS, FONTS } from '../../constants/theme';
 /** Stays above the working area; long questions scroll without pushing the task away. */
 export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; imageUri?: string; onEdit: () => void }) {
   const [expanded, setExpanded] = useState(true);
+  const [showImage, setShowImage] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const contentId = useId();
   const { height } = useWindowDimensions();
-  const maxBodyHeight = Math.max(60, Math.min(104, height * .14));
+  const maxBodyHeight = Math.max(64, Math.min(124, height * .17));
   return <View style={styles.card} testID="lesson-problem-reference">
     <View style={styles.header}>
       <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn đề bài' : 'Mở đề bài'}
@@ -23,6 +24,11 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
         <Text style={styles.action}>{expanded ? 'Thu gọn' : 'Mở đề'}</Text>
         <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color={COLORS.primaryDark} accessible={false} />
       </Pressable>
+      {imageUri ? <Pressable accessibilityRole="button" accessibilityLabel={showImage ? 'Ẩn ảnh đề bài' : 'Xem ảnh đề bài'}
+        accessibilityState={{ expanded: showImage }} onPress={() => { setExpanded(true); setShowImage(value => !value); }}
+        style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
+        <Ionicons name="image-outline" size={19} color={COLORS.primaryDark} accessible={false} />
+      </Pressable> : null}
       <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={onEdit}
         style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
         <Ionicons name="create-outline" size={20} color={COLORS.primaryDark} accessible={false} />
@@ -30,9 +36,9 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
     </View>
     {expanded ? <ScrollView nativeID={contentId} testID="lesson-problem-content" nestedScrollEnabled tabIndex={0} accessibilityLabel="Nội dung đề bài"
       onContentSizeChange={(_, value) => setContentHeight(value)}
-      style={[styles.content, { maxHeight: maxBodyHeight }]} contentContainerStyle={styles.words}>
+      style={[styles.content, { maxHeight: maxBodyHeight, ...(contentHeight > 0 ? { height: Math.min(contentHeight, maxBodyHeight) } : {}) }]} contentContainerStyle={styles.words}>
       <MathText style={styles.body}>{problem}</MathText>
-      {imageUri ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" /> : null}
+      {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" /> : null}
     </ScrollView> : null}
   </View>;
 }

@@ -2,14 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AppState, Platform, Text, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { FONTS, COLORS } from '../../constants/theme';
 import { getAvailableVoicesAsync, speak, stop } from './speechOutput';
 import { narrationChunks, vietnameseVoices } from './narration';
 import { preparePlaybackSession } from './playbackSession';
 
 /** Independent of the server's voice provider. Device engines may need a Vietnamese voice installed. */
-export function DeviceNarration({ paragraphs, onFinished }: { paragraphs: string[]; onFinished?: () => void }) {
+export function DeviceNarration({ paragraphs, onFinished, onReturn }: { paragraphs: string[]; onFinished?: () => void; onReturn?: () => void }) {
   const [voice, setVoice] = useState(''), [state, setState] = useState('loading');
+  const [lookup, setLookup] = useState(0);
   const generation = useRef(0), navigation = useNavigation();
   const watchdog = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -24,7 +26,7 @@ export function DeviceNarration({ paragraphs, onFinished }: { paragraphs: string
     const blur = navigation.addListener('blur', cancel);
     const listener = AppState.addEventListener('change', next => { if (next !== 'active') cancel(); });
     return () => { active = false; cancel(); clearTimeout(timer); blur(); listener.remove(); };
-  }, [navigation]);
+  }, [navigation, lookup]);
   const play = async () => {
     const id = ++generation.current;
     clearTimeout(watchdog.current);
@@ -45,11 +47,17 @@ export function DeviceNarration({ paragraphs, onFinished }: { paragraphs: string
     watchdog.current = setTimeout(fail, 8000);
     try { await stop(); if (id !== generation.current) return; if (Platform.OS !== 'web') await preparePlaybackSession(); if (id === generation.current) next(0); } catch { fail(); }
   };
+  if (state === 'unavailable' || state === 'failed') return <RecoveryNotice
+    title={state === 'unavailable' ? 'Chưa có giọng Việt trên thiết bị' : 'Giọng thiết bị chưa phát được'}
+    message="Em vẫn có thể mở lời giảng để đọc."
+    actions={[
+      { label: 'Thử lại', accessibilityLabel: 'Thử lại giọng thiết bị', icon: 'refresh-outline', onPress: () => { if (voice) void play(); else { setVoice(''); setState('loading'); setLookup(value => value + 1); } } },
+      ...(onReturn ? [{ label: 'Giọng chính', accessibilityLabel: 'Quay lại giọng đã chọn', onPress: onReturn }] : []),
+    ]} />;
   return <View style={{ gap: 10, padding: 16, borderRadius: 18, backgroundColor: '#F1EDFC' }}>
     <Text style={{ fontFamily: FONTS.bold, color: COLORS.textPrimary }}>Giọng Việt trên thiết bị</Text>
     <Text accessibilityLiveRegion="polite" style={{ fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary }}>
-      {state === 'loading' ? 'Đang tìm giọng Việt, tối đa 5 giây…' : state === 'unavailable' ? 'Thiết bị chưa có giọng Việt phù hợp. Em có thể đọc lời giảng hoặc thử lại giọng chính.'
-        : state === 'failed' ? 'Giọng thiết bị chưa phát được. Em có thể thử lại hoặc đọc lời giảng.' : 'Giọng có thể khác Nam Minh và Hoài My. Cách đọc này hỗ trợ dừng và nghe lại từ đầu; không có thanh tua.'}
+      {state === 'loading' ? 'Đang tìm giọng Việt, tối đa 5 giây…' : 'Âm sắc tùy thiết bị. Em có thể dừng hoặc nghe lại từ đầu.'}
     </Text>
     {voice ? <AppButton title={state === 'speaking' ? 'Dừng đọc' : 'Nghe từ đầu'} variant="secondary" onPress={() => { void play(); }} /> : null}
   </View>;

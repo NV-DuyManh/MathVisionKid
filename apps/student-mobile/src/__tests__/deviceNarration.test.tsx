@@ -36,3 +36,21 @@ it('reports a device engine that never starts instead of hanging', async () => {
   const words = view.root.findAllByType('Text' as any).map(n => String(n.props.children)).join(' ');
   expect(words).toContain('Giọng thiết bị chưa phát được'); expect(stop).toHaveBeenCalled();
 });
+
+it('can check device voices again without speaking automatically or substituting English', async () => {
+  (getAvailableVoicesAsync as jest.Mock).mockResolvedValueOnce([]);
+  await render();
+  const retry=view.root.findAll(node=>node.props.accessibilityLabel==='Thử lại giọng thiết bị'&&node.props.onPress)[0];
+  await act(async()=>retry.props.onPress());
+  expect(getAvailableVoicesAsync).toHaveBeenCalledTimes(2);
+  expect(speak).not.toHaveBeenCalled();
+  expect(view.root.findByType(AppButton).props.title).toBe('Nghe từ đầu');
+});
+
+it('offers a return to the selected online voice when the device has no Vietnamese voice', async () => {
+  (getAvailableVoicesAsync as jest.Mock).mockResolvedValue([]);
+  const onReturn=jest.fn();
+  await act(async()=>{ view=TestRenderer.create(<DeviceNarration paragraphs={['Em đọc lại đề nhé.']} onReturn={onReturn} />); });
+  act(()=>view.root.findAll(node=>node.props.accessibilityLabel==='Quay lại giọng đã chọn'&&node.props.onPress)[0].props.onPress());
+  expect(onReturn).toHaveBeenCalledTimes(1);expect(speak).not.toHaveBeenCalled();
+});

@@ -8,6 +8,8 @@ const blocked = relative => config.resolver.blockList.some(rule => rule.test(pat
 test('Metro indexes Student source but excludes generated local services and old dependency copies', () => {
   assert.equal(blocked('infra/local-runtime/sdk58-reinstall/root-node_modules.before/react/index.js'), true);
   assert.equal(blocked('infra/local-runtime/logs/service.log'), true);
+  assert.equal(blocked('.local-artifacts/review-builds-20261029/bundle.hbc'), true);
+  assert.equal(blocked('demoUI/assets/local-only.png'), true);
   assert.equal(blocked('apps/student-mobile/src/app/index.tsx'), false);
   assert.equal(blocked('apps/student-mobile/assets/fonts/Nunito-Regular.ttf'), false);
 });

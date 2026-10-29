@@ -1,10 +1,11 @@
 import { downloadNarration, prioritizeNarration, NARRATION_WAIT_SECONDS, type NarrationSource, type NarrationProgress, type NarrationProgressListener } from './narrationApi';
 import type { NarrationVoice } from './narrationVoices';
 import { saveNarration } from './narrationFile';
+import { measureVoice } from './voiceMetrics';
 
 type Entry = { controller: AbortController; promise: Promise<Uint8Array>; users: number; foregroundUsers: number; bytes: number; expires: number; prefetch: boolean; deadline: number;
-  source: NarrationSource; asset?: ReturnType<typeof saveNarration>; evicted?: boolean;
-  progress?: NarrationProgress; listeners: Set<NarrationProgressListener> };
+  source: NarrationSource; text: string; asset?: ReturnType<typeof saveNarration>; evicted?: boolean;
+  progress?: NarrationProgress; failed?: boolean; listeners: Set<NarrationProgressListener> };
 export type NarrationCache = ReturnType<typeof createNarrationCache>;
 const cacheKey = (source: NarrationSource, parts: string[], voice: NarrationVoice) =>
   JSON.stringify([source.sessionId, source.revision, voice, !!source.useFallback, parts.map(part => part.trim().replace(/\s+/g, ' ')).filter(Boolean)]);
@@ -31,8 +32,21 @@ export function createNarrationCache() {
       const parts = paragraphs.map(part => part.trim().replace(/\s+/g, ' ')).filter(Boolean);
       const key = cacheKey(source, parts, voice);
       let entry = entries.get(key);
+      if (!entry) {
+        // A new server-checked turn may issue the same text again. Move only a
+        // completed local file; in-flight work must still use its own revision.
+        for (const [oldKey, ready] of entries) {
+          if (ready.bytes && ready.expires > Date.now() && ready.source.revision < source.revision
+            && oldKey === cacheKey({ ...source, revision: ready.source.revision }, parts, voice)) {
+            entries.delete(oldKey);
+            ready.source = { ...source, prefetch: false }; ready.prefetch = false;
+            entry = ready; break;
+          }
+        }
+      }
       if (__DEV__ && !background) console.info('[narration-latency]', { stage: 'cache', state: entry?.bytes ? 'ready' : entry ? 'pending' : 'miss',
         revision: source.revision, voice, paragraphs: parts.length, characters: parts.join('').length });
+      const measure = measureVoice('prepare',voice,{background,cache:entry?.bytes?'ready':entry?'pending':'miss'});
       if (!background && !entry?.bytes) {
         if (entry?.prefetch && !entry.controller.signal.aborted && entry.deadline > Date.now()) {
           // Promote the same work once. Keep its original download and deadline.
@@ -42,14 +56,16 @@ export function createNarrationCache() {
         }
         // A tap for new content takes priority over speculative work for another voice/step.
         for (const [otherKey, other] of entries) {
-          if (otherKey !== key && !other.bytes && !other.foregroundUsers) { other.controller.abort(); drop(otherKey, other); }
+          const sameScript = other.source.sessionId === source.sessionId && other.source.revision === source.revision
+            && !!other.source.useFallback === !!source.useFallback && other.text === JSON.stringify(parts);
+          if (otherKey !== key && !sameScript && !other.bytes && !other.foregroundUsers) { other.controller.abort(); drop(otherKey, other); }
         }
       }
       if (!entry) {
         const controller = new AbortController();
         const downloadSource = { ...source, prefetch: background };
         const next: Entry = { controller, users: 0, foregroundUsers: 0, bytes: 0, expires: Infinity, prefetch: background,
-          source: downloadSource, deadline: Date.now()+NARRATION_WAIT_SECONDS*1000, promise: Promise.resolve(new Uint8Array()), listeners: new Set() };
+          source: downloadSource, text: JSON.stringify(parts), deadline: Date.now()+NARRATION_WAIT_SECONDS*1000, promise: Promise.resolve(new Uint8Array()), listeners: new Set() };
         next.promise = downloadNarration(downloadSource, parts, controller.signal, voice, progress => {
           if (controller.signal.aborted) return;
           next.progress = progress;
@@ -62,6 +78,7 @@ export function createNarrationCache() {
           prune();
           return bytes;
         }).catch(error => {
+          next.failed = !controller.signal.aborted;
           controller.abort();
           drop(key, next);
           throw error;
@@ -71,6 +88,7 @@ export function createNarrationCache() {
         entries.delete(key); entries.set(key, entry);
       }
       const current = entry;
+      void current.promise.then(()=>measure('ready'),()=>measure(current.failed?'failed':'cancelled'));
       current.users++;
       if (!background) current.foregroundUsers++;
       // Each lease owns its subscription, even if two views pass the same callback.
@@ -79,6 +97,7 @@ export function createNarrationCache() {
       let released = false;
       return { promise: current.promise, get asset() { return current.asset; }, release() {
         if (released) return;
+        if(!current.bytes)measure('cancelled');
         released = true; if (listener) current.listeners.delete(listener);
         current.users--; if (!background) current.foregroundUsers--;
         if (!current.users && !current.bytes) {
@@ -115,7 +134,7 @@ export async function getPreparedNarrationAsset(cache: NarrationCache | null, so
       if (signal.aborted) return;
       const asset = lease.asset;
       if (!asset) { lease.release(); reject(new Error('Chưa mở được tệp âm thanh.')); return; }
-      resolve({ uri: asset.uri, dispose: lease.release });
+      resolve({ uri: asset.uri, cues: asset.cues, dispose: lease.release });
     }, error => { lease.release(); reject(error); }).finally(() => signal.removeEventListener('abort', abort));
     if (signal.aborted) abort();
   });

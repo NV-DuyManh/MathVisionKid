@@ -1,8 +1,9 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import { LogBox, Pressable, Text, View } from 'react-native';
+import { LogBox, Text, View } from 'react-native';
 import { TaskProgress } from '../components/ui/TaskProgress';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { useEffect, useState } from 'react';
 import { ENV } from '../config/env';
 import { useFonts } from 'expo-font';
@@ -60,12 +61,9 @@ export default function RootLayout() {
   if (!fontsLoaded && !fontError) return null;
   if (!artReady) return <View style={{ flex: 1, backgroundColor: COLORS.background, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
     <Text style={{ fontFamily: FONTS.extraBold, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>
-    {artError ? <>
-      <Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary, textAlign: 'center' }}>Chưa tải đủ hình. Em thử lại để mở bài học nhé.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => { setArtError(false); setRetry(value => value + 1); }} style={({ pressed }) => ({ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary, opacity: pressed ? .8 : 1 })}>
-        <Text style={{ color: 'white', fontFamily: FONTS.bold }}>Thử lại</Text>
-      </Pressable>
-    </> : <View style={{ width: '100%', maxWidth: 360 }}><TaskProgress steps={['Chữ đã sẵn sàng', 'Tải hình minh họa', 'Mở ứng dụng']} activeStep={1} /></View>}
+    {artError ? <View style={{ width: '100%', maxWidth: 360 }}><RecoveryNotice title="Chưa tải đủ hình" message="Em thử lại để mở bài học nhé." actions={[
+      { label: 'Thử lại', accessibilityLabel: 'Tải lại hình', icon: 'refresh-outline', onPress: () => { setArtError(false); setRetry(value => value + 1); } },
+    ]} /></View> : <View style={{ width: '100%', maxWidth: 360 }}><TaskProgress steps={['Chữ đã sẵn sàng', 'Tải hình minh họa', 'Mở ứng dụng']} activeStep={1} /></View>}
   </View>;
 
   return (

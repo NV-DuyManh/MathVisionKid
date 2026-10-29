@@ -8,7 +8,7 @@ const step: LessonStep = { title: 'Tìm phần còn lại', explanation: 'Cả v
 
 it('builds richer current narration only from opened teaching, never hidden expression or raw work', () => {
   const paragraphs = stepNarration(step, 'Gợi ý vừa được mở.');
-  expect(paragraphs).toEqual([step.explanation, ...step.guidance!, 'Gợi ý vừa được mở.', step.question]);
+  expect(paragraphs).toEqual([...step.guidance!, 'Gợi ý vừa được mở.', step.question]);
   expect(paragraphs.join(' ')).not.toContain(step.expression);
   expect(paragraphs.join(' ')).not.toContain(step.workExcerpt);
   expect(paragraphs.join(' ')).not.toContain(step.solutionSentence);
@@ -19,9 +19,22 @@ it('can narrate the calculation only after the step is earned', () => {
   const completed = { title: 'Tổng số bút', solutionSentence: 'Số bút có tất cả là:', expression: '12+5', answer: '17',
     unit: 'bút', explanation: 'Gộp các nhóm bút.', guidance: ['Em kiểm tra lại tổng.'], calculationDetails: ['Cộng hàng đơn vị: 2 + 5 = 7, giữ nguyên hàng chục.'] };
   expect(completedNarration([completed])).toEqual([completed.solutionSentence, '12+5 = 17 (bút)', completed.explanation]);
+  expect(completedNarration([completed, { ...completed, answer: '18' }])).toEqual([
+    completed.solutionSentence, '12+5 = 17 (bút)', completed.solutionSentence, '12+5 = 18 (bút)',
+  ]);
 });
 
 it.each([
+  ['Bài 3: (2 điểm), 2 đề-xi-mét', 'Bài 3. 2 đề xi mét'],
+  ['32m2 và 4dm^2 và 2cm^{3}', '32 mét vuông và 4 đề xi mét vuông và 2 xăng ti mét khối'],
+  ['8 x 4 = 32 (m2)', '8 nhân 4 bằng 32 mét vuông'],
+  ['(3,5)/(2,5)', '3,5 phần 2,5'],
+  ['3.5/2.5', '3.5 phần 2.5'],
+  ['x + 3 = 5', 'x cộng 3 bằng 5'],
+  ['Bài 3: (2 điểm). 2 đề-xi-mét', 'Bài 3. 2 đề xi mét'],
+  ['2 đề-xi-mét và 30 xăng-ti-mét', '2 đề xi mét và 30 xăng ti mét'],
+  ['3 ki-lô-gam và 1 mi-li-lít', '3 ki lô gam và 1 mi li lít'],
+  ['2 (đề-xi-mét vuông)', '2 đề xi mét vuông'],
   ['(1)/(3) + (2)/(5) = (11)/(15)', '1 phần 3 cộng 2 phần 5 bằng 11 phần 15'],
   ['1 - 11/15 = 4/15', '1 trừ 11 phần 15 bằng 4 phần 15'],
   ['12 × 2 : 3 = 8 (cm²)', '12 nhân 2 chia 3 bằng 8 xăng ti mét vuông'],
@@ -55,7 +68,7 @@ it('selects Vietnamese voices, prefers enhanced quality and never falls back to 
   const voices = vietnameseVoices([voice('english', 'en-US', 'Enhanced'), voice('a', 'vi_VN'),
     voice('b', 'vi-VN', 'Enhanced', 'Microsoft HoaiMy Natural'), voice('b', 'vi-VN', 'Enhanced')]);
   expect(voices.map(item => item.identifier)).toEqual(['b', 'a']);
-  expect(voiceLabel(voices[0], 0)).toBe('Hoài My');
+  expect(voiceLabel(voices[0], 0)).toBe('Giọng nữ');
   expect(vietnameseVoices([voice('english', 'en-US')])).toEqual([]);
   expect(vietnameseVoices(Array.from({ length: 11 }, (_, i) => voice(`vi-${i}`, 'vi-VN')))).toHaveLength(2);
 });

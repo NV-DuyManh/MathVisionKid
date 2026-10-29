@@ -157,14 +157,14 @@ export const LoginPage: React.FC = () => {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Email hoặc tài khoản"
             name="email"
-            autoComplete="email"
+            autoComplete="username"
             autoFocus
             value={email}
             disabled={loading}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Nhập email của bạn"
+            placeholder="Nhập tài khoản của bạn"
           />
           <TextField
             margin="normal"
@@ -229,7 +229,7 @@ export const LoginPage: React.FC = () => {
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   <Chip
                     label="Học sinh (minh.student)"
-                    onClick={() => fillCredentials('minh.student@mathvision.local', 'Student@123')}
+                    onClick={() => fillCredentials('student', '123')}
                     size="small"
                     color="primary"
                     variant="outlined"
@@ -237,7 +237,7 @@ export const LoginPage: React.FC = () => {
                   />
                   <Chip
                     label="Giáo viên (lan.teacher)"
-                    onClick={() => fillCredentials('lan.teacher@mathvision.local', 'Teacher@123')}
+                    onClick={() => fillCredentials('teacher', '123')}
                     size="small"
                     color="success"
                     variant="outlined"
@@ -245,7 +245,7 @@ export const LoginPage: React.FC = () => {
                   />
                   <Chip
                     label="Quản trị (admin)"
-                    onClick={() => fillCredentials('admin@mathvision.local', 'Admin@123')}
+                    onClick={() => fillCredentials('admin', '123')}
                     size="small"
                     color="secondary"
                     variant="outlined"

@@ -110,8 +110,8 @@ export const LoginPage: React.FC = () => {
   };
 
   const handleDevQuickFill = () => {
-    setEmail('admin.demo@mathvision.local');
-    setPassword('MathVision123!');
+    setEmail('admin');
+    setPassword('123');
     setError(null);
   };
 
@@ -163,8 +163,8 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <TextField
               autoComplete="username"
-              label="Email quản trị viên"
-              type="email"
+              label="Email hoặc tài khoản quản trị"
+              type="text"
               fullWidth
               size="small"
               value={email}

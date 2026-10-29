@@ -7,8 +7,7 @@ import { getSubmissionService } from '../services/api/SubmissionServiceFactory';
 import { recognitionDraftStore, isHandwritingDomain, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri } from '../features/recognition/image/imagePipeline';
 import { RecognitionProgress } from '../features/recognition/components/RecognitionProgress';
-import { StatusCard } from '../components/domain/StatusCard';
-import { AppButton } from '../components/ui/AppButton';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { resolveResultRoute } from '../utils/resultRouting';
 import { pollSubmission } from '../utils/submissionPolling';
 
@@ -71,9 +70,10 @@ function ProcessingRequest({ params, activeUri }: {
   const cancel = () => { controllerRef.current?.abort(); router.back(); };
   return <SafeAreaView style={styles.container}>
     {error ? <View style={styles.error}>
-      <StatusCard status="warning" title="Chưa có kết quả" subtitle={error} />
-      <AppButton title={hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại'} onPress={() => { setError(null); setStep(resumeId.current ? 1 : 0); setAttempt(value => value + 1); }} />
-      <AppButton title="Về trang chủ" variant="secondary" onPress={() => { controllerRef.current?.abort(); router.replace('/(tabs)'); }} />
+      <RecoveryNotice title="Chưa có kết quả" message={error} actions={[
+        { label: hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại', icon: 'refresh-outline', onPress: () => { setError(null); setStep(resumeId.current ? 1 : 0); setAttempt(value => value + 1); } },
+        { label: 'Về trang chủ', onPress: () => { controllerRef.current?.abort(); router.replace('/(tabs)'); } },
+      ]} />
     </View> : <RecognitionProgress title={step === 0 ? 'Đang gửi bài toán' : 'Đang đọc và kiểm tra bài làm'}
       description={step === 0 ? 'Gửi ảnh đã chọn để đọc bài.' : 'Mình đang đọc các số và kiểm tra phép tính của em.'}
       steps={['Gửi ảnh bài làm', 'Đọc và kiểm tra bài', 'Mở kết quả']} activeStep={step}
@@ -83,5 +83,5 @@ function ProcessingRequest({ params, activeUri }: {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  error: { width: '100%', maxWidth: 740, gap: 20, backgroundColor: '#FFF', borderRadius: 27, padding: 24, borderWidth: 1, borderColor: '#E8DFF7' },
+  error: { width: '100%', maxWidth: 520 },
 });

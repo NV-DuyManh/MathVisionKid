@@ -11,6 +11,7 @@ import { buildLearningActivity } from '../../features/home/learningActivity';
 import { loadLessons } from '../../features/tutoring/learningHistory';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { LearningJourney } from './LearningJourney';
+import { ResumeLessonCard } from '../../features/tutoring/ResumeLessonCard';
 
 const ART = {
   mascot: require('../../../assets/illustrations/mathvision-star.png'), saved: require('../../../assets/illustrations/approved/saved.webp'),
@@ -40,10 +41,10 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
     return () => { active = false; };
   }, [userKey]));
   const quickActions = [
-    { title: 'Bài đã lưu', description: 'Xem lại bài làm của em', image: ART.saved, background: '#FFF0F1', onPress: () => router.push('/(tabs)/profile') },
-    { title: 'Luyện tập', description: 'Làm bài theo chủ đề', image: ART.practice, background: '#EAF6FF', onPress: () => router.push('/(tabs)/lessons') },
-    { title: 'Tiến bộ', description: 'Xem hành trình học tập', image: wide ? ART.bars : ART.progress, background: '#ECF8EE', onPress: () => router.push('/(tabs)/achievements') },
-    { title: 'Máy tính', description: 'Số thường, phân số, chia có dư', image: ART.calculator, background: '#F0EBFD', onPress: () => setCalculatorOpen(true) },
+    { title: 'Bài đã lưu', description: 'Xem lại bài làm của em', short:'Xem bài cũ',image: ART.saved, background: '#FFF0F1', onPress: () => router.push('/(tabs)/profile') },
+    { title: 'Luyện tập', description: 'Làm bài theo chủ đề',short:'Theo chủ đề', image: ART.practice, background: '#EAF6FF', onPress: () => router.push('/(tabs)/lessons') },
+    { title: 'Tiến bộ', description: 'Xem hành trình học tập',short:'Hành trình học', image: wide ? ART.bars : ART.progress, background: '#ECF8EE', onPress: () => router.push('/(tabs)/achievements') },
+    { title: 'Máy tính', description: 'Số thường, phân số, chia có dư',short:'Cùng tính nhé', image: ART.calculator, background: '#F0EBFD', onPress: () => setCalculatorOpen(true) },
   ];
   const streak = <View style={[styles.activity, desktop && styles.activityDesktop]}>
     <Image source={ART.crown} style={styles.crown} accessible={false} />
@@ -76,16 +77,17 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
       </LinearGradient>
       {desktop ? streak : null}
     </View>
+    <ResumeLessonCard key={userKey} owner={userKey}/>
     {desktop ? <LearningJourney desktop onPractice={() => onPractice()} onAcquire={onAcquire} /> : null}
     <View style={styles.sectionHeading}><Text style={styles.sectionTitle} accessibilityRole="header">Tiện ích nhanh</Text>
       <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài luyện tập lớp 1 đến lớp 5" onPress={() => router.push('/(tabs)/lessons')} style={styles.sectionLink}><Text style={styles.link}>Xem tất cả</Text><Ionicons name="chevron-forward" size={14} color={COLORS.primaryDark} /></Pressable>
     </View>
-    <View style={[styles.quickGrid, wide && styles.quickGridWide]}>
+    <View style={[styles.quickGrid, wide && styles.quickGridWide,largeText&&{flexDirection:'column'}]}>
       {(wide ? quickActions : quickActions.slice(0, 3)).map(action => <Pressable key={action.title} onPress={action.onPress} accessibilityRole="button"
         accessibilityLabel={action.title === 'Máy tính' ? 'Mở máy tính bỏ túi' : `${action.title}. ${action.description}`}
-        style={({ pressed }) => [styles.quickCard, { backgroundColor: action.background }, wide && styles.quickCardWide, roomy && styles.quickCardRoomy, pressed && styles.pressed]}>
-        <Image source={action.image} style={[styles.quickArt, wide && styles.quickArtWide]} accessible={false} />
-        <View style={styles.quickHeading}><Text style={[styles.quickTitle, wide && styles.quickTitleWide, roomy && { fontSize: 12 }]}>{action.title}</Text>{!roomy ? <View style={styles.quickArrow}><Ionicons name="chevron-forward" size={13} color={COLORS.primaryDark} accessible={false} /></View> : null}</View><Text style={[styles.quickDescription, wide && styles.quickDescriptionWide]}>{action.description}</Text>
+        style={({ pressed }) => [styles.quickCard, { backgroundColor: action.background }, wide && styles.quickCardWide, roomy && styles.quickCardRoomy,largeText&&{flexDirection:'row',alignItems:'center',gap:12,minHeight:96,flex:0}, pressed && styles.pressed]}>
+        <Image source={action.image} style={[styles.quickArt, wide && styles.quickArtWide,largeText&&{width:52,height:58,marginBottom:0}]} accessible={false} />
+        <View style={largeText&&styles.flex}><View style={styles.quickHeading}><Text style={[styles.quickTitle, wide && styles.quickTitleWide, roomy && !largeText&&{ fontSize: 12 }]}>{action.title}</Text>{!roomy ? <View style={styles.quickArrow}><Ionicons name="chevron-forward" size={13} color={COLORS.primaryDark} accessible={false} /></View> : null}</View><Text style={[styles.quickDescription, wide && styles.quickDescriptionWide]}>{availableWidth<350&&!largeText?action.short:action.description}</Text></View>
       </Pressable>)}
     </View>
     {!desktop ? <View style={styles.streakBelow}>{streak}</View> : null}

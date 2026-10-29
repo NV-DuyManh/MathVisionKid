@@ -1,0 +1,54 @@
+{
+  "evidence": "Actual project web UI; deterministic lesson API fixtures; real local authentication and real generated audio files. Not physical Android evidence.",
+  "rows": [
+    {
+      "width": 320,
+      "panelHeight": 174,
+      "bodyHeight": 124,
+      "overflow": false,
+      "manualContinue": true,
+      "femaleVoiceRetained": true,
+      "audioLoadedAndPlayPause": true,
+      "wrongChoiceRetainedAndRetryable": true,
+      "correctChoiceRetainedAndLocked": true,
+      "noDuplicateDownloadForSameRetrySpeech": true
+    },
+    {
+      "width": 390,
+      "panelHeight": 174,
+      "bodyHeight": 124,
+      "overflow": false,
+      "manualContinue": true,
+      "femaleVoiceRetained": true,
+      "audioLoadedAndPlayPause": true,
+      "wrongChoiceRetainedAndRetryable": true,
+      "correctChoiceRetainedAndLocked": true,
+      "noDuplicateDownloadForSameRetrySpeech": true
+    },
+    {
+      "width": 768,
+      "panelHeight": 132,
+      "bodyHeight": 82,
+      "overflow": false,
+      "manualContinue": true,
+      "femaleVoiceRetained": true,
+      "audioLoadedAndPlayPause": true,
+      "wrongChoiceRetainedAndRetryable": true,
+      "correctChoiceRetainedAndLocked": true,
+      "noDuplicateDownloadForSameRetrySpeech": true
+    },
+    {
+      "width": 1440,
+      "panelHeight": 121,
+      "bodyHeight": 71,
+      "overflow": false,
+      "manualContinue": true,
+      "femaleVoiceRetained": true,
+      "audioLoadedAndPlayPause": true,
+      "wrongChoiceRetainedAndRetryable": true,
+      "correctChoiceRetainedAndLocked": true,
+      "noDuplicateDownloadForSameRetrySpeech": true
+    }
+  ],
+  "errors": []
+}

@@ -163,6 +163,18 @@ public class MathTutorService {
                 "sessionId", request.sessionId(), "revision", request.revision(), "answer", request.answer(), "hint", request.hint()), MediaType.APPLICATION_JSON));
     }
 
+    public LessonResponse resume(LessonResume request, String owner) {
+        return lessonResponse(call("/internal/v1/tutor/lesson/resume", java.util.Map.of("owner",owner,
+                "sessionId",request.sessionId(),"problemText",request.problemText()), MediaType.APPLICATION_JSON));
+    }
+
+    public LearningCheck checkpoint(LessonCheckpoint request, String owner) {
+        JsonNode body=call("/internal/v1/tutor/lesson/checkpoint",java.util.Map.of("owner",owner,
+                "sessionId",request.sessionId(),"revision",request.revision(),"answer",request.answer()),MediaType.APPLICATION_JSON);
+        return new LearningCheck(text(body,"expression",300,false),text(body,"question",200,false),
+                flag(body,"checked"),flag(body,"correct"),text(body,"feedback",300,true));
+    }
+
     public LessonReply ask(LessonQuestion request, String owner) {
         JsonNode body = call("/internal/v1/tutor/lesson/ask", java.util.Map.of("owner", owner,
                 "sessionId", request.sessionId(), "revision", request.revision(),
@@ -373,8 +385,19 @@ public class MathTutorService {
             }
             summary = new LessonSummary(givens, text(quoted, "question", 100, false));
         }
+        StepReview review=null;
+        JsonNode reviewed=body.get("review");
+        if(reviewed!=null&&!reviewed.isNull()){
+            JsonNode options=reviewed.get("choices");
+            if(done.isEmpty()||options==null||!options.isArray()||options.size()>4)throw unavailable();
+            java.util.ArrayList<String> choices=new java.util.ArrayList<>();
+            for(JsonNode option:options){if(!option.isTextual()||option.asText().isBlank()||option.asText().length()>100)throw unavailable();choices.add(option.asText());}
+            String selected=text(reviewed,"studentAnswer",100,false);
+            if(!done.get(done.size()-1).answer().equals(selected)||!choices.isEmpty()&&!choices.contains(selected))throw unavailable();
+            review=new StepReview(text(reviewed,"question",220,false),choices,selected);
+        }
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing);
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing,review);
     }
 
     private static String stepKind(JsonNode step, boolean understanding) {

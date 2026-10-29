@@ -15,6 +15,7 @@ import { useRouter } from 'expo-router';
 import { COLORS, FONTS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { Ionicons } from '@expo/vector-icons';
 import { recognitionDraftStore, logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri } from '../../features/recognition/image/imagePipeline';
@@ -31,6 +32,7 @@ export default function OcrResultScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [trialResult, setTrialResult] = useState<OcrTrialResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   // Feedback states
   const [isEditing, setIsEditing] = useState(false);
@@ -72,7 +74,7 @@ export default function OcrResultScreen() {
     return () => {
       active = false;
     };
-  }, [lineCropUri, draft?.source]);
+  }, [lineCropUri, draft?.source, attempt]);
 
   const handleCorrect = async () => {
     if (!trialResult) return;
@@ -155,12 +157,10 @@ export default function OcrResultScreen() {
 
         {/* Recognition Content */}
         {errorMsg ? (
-          <View style={styles.errorBox}>
-            <Ionicons name="alert-circle-outline" size={44} color={COLORS.error} />
-            <Text style={styles.errorTitle}>Lỗi nhận diện</Text>
-            <Text style={styles.errorSub}>{errorMsg}</Text>
-            <AppButton title="Thử lại" onPress={handleRecognizeAnother} variant="primary" />
-          </View>
+          <RecoveryNotice title="Chưa đọc được dòng chữ" message={errorMsg} actions={[
+            ...(lineCropUri ? [{ label: 'Thử lại', onPress: () => setAttempt(value => value + 1) }] : []),
+            { label: 'Về trang chủ', onPress: handleRecognizeAnother },
+          ]} />
         ) : (
           <View style={styles.resultSection}>
             {hasRecognizedText ? (
@@ -365,26 +365,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: COLORS.textMuted,
     marginTop: 4,
-  },
-  errorBox: {
-    padding: SIZES.xlarge,
-    alignItems: 'center',
-    backgroundColor: COLORS.surface,
-    borderRadius: 24,
-  },
-  errorTitle: {
-    fontSize: 18,
-    fontFamily: FONTS.bold,
-    color: COLORS.error,
-    marginTop: 10,
-  },
-  errorSub: {
-    fontFamily: FONTS.regular,
-    fontSize: 14,
-    color: COLORS.textMuted,
-    textAlign: 'center',
-    marginTop: 6,
-    marginBottom: SIZES.large,
   },
   resultSection: {
     marginTop: 4,

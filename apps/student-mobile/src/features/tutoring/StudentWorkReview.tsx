@@ -4,6 +4,7 @@ import type { TextInputInstance } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { NotebookLine, TutorService, WorkReview, trimWorkReviewLine, workReviewLines } from './api/TutorService';
@@ -86,12 +87,14 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     {!result ? <Text style={styles.body}>Cùng xem cách làm, kiểm tra từng dòng và sửa chỗ còn vướng nhé.</Text> : null}
     {!photoCurrent && imageUri ? <Text style={styles.notice}>Em đang sửa bài bằng chữ. Ảnh trước khi sửa vẫn được giữ ở phần bài làm; em chụp lại để xem đánh dấu trên bài mới nhé.</Text> : null}
     {!enabled ? <Text style={styles.notice}>Em xác nhận đề và bài làm đã đọc đúng ở phía trên trước nhé.</Text> : null}
-    {result?.status !== 'CORRECT' ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow || busy} loading={busy} onPress={() => void review()} /> : null}
+    {result?.status !== 'CORRECT' && !error ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow || busy} loading={busy} onPress={() => void review()} /> : null}
     {busy ? <View accessibilityLiveRegion="polite" style={styles.panel}>
       <TaskProgress steps={['Bài làm đã xác nhận', 'Đối chiếu từng dòng', 'Mở nhận xét']} activeStep={1} />
       <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
     </View> : null}
-    {error ? <Text accessibilityRole="alert" style={styles.error}>{error}</Text> : null}
+    {error ? <RecoveryNotice title="Chưa mở được nhận xét" message={error} actions={[
+      { label: 'Thử lại', accessibilityLabel: 'Nhận xét bài em làm', icon: 'refresh-outline', onPress: () => void review(), disabled: disabledNow || busy },
+    ]} /> : null}
     {result && enabled ? <>
       <View style={[styles.panel, result.status === 'CORRECT' ? styles.success : styles.attention]} accessibilityLiveRegion="polite">
         {result.status === 'CORRECT' ? <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.praiseArt} resizeMode="contain" accessible={false} /> : null}

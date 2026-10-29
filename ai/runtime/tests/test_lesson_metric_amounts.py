@@ -96,7 +96,7 @@ def test_grouping_does_not_merge_separate_prior_answers():
 def test_provider_contract_requires_complete_initial_teaching_before_generation():
     contract = lesson.PLANNING_SCHEMA['$defs']['DraftStep']['properties']['initialGuidance']
     assert contract['minItems'] == contract['maxItems'] == 3
-    assert contract['items']['minLength'] == 60 and contract['items']['maxLength'] == 350
+    assert contract['items']['minLength'] == 60 and contract['items']['maxLength'] == 220
     assert lesson.PLANNING_SCHEMA['properties']['goal']['pattern'] == '^[^0-9]*$'
 
 

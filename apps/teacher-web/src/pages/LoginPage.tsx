@@ -153,16 +153,16 @@ export default function LoginPage() {
             <TextField
               fullWidth
               id="email"
-              label="Địa chỉ Email"
+              label="Email hoặc tài khoản"
               variant="outlined"
               margin="normal"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
-              autoComplete="email"
+              autoComplete="username"
               autoFocus
               slotProps={{
-                htmlInput: { 'aria-label': 'Địa chỉ Email giáo viên' },
+                htmlInput: { 'aria-label': 'Email hoặc tài khoản giáo viên' },
               }}
             />
 

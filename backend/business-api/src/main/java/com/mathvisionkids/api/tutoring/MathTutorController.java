@@ -77,6 +77,18 @@ public class MathTutorController {
         return service.answer(request, authentication.getName());
     }
 
+    @PostMapping(value = "/lesson/resume", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LessonResponse> resume(@Valid @RequestBody LessonResume request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.resume(request, authentication.getName()));
+    }
+
+    @PostMapping(value = "/lesson/checkpoint", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LearningCheck> checkpoint(@Valid @RequestBody LessonCheckpoint request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.checkpoint(request, authentication.getName()));
+    }
+
     @PostMapping(value = "/lesson/ask", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonReply ask(@Valid @RequestBody LessonQuestion request, Authentication authentication) {
         return service.ask(request, authentication.getName());

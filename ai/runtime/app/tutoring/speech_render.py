@@ -29,15 +29,27 @@ class SpeechNoAudio(TutorUnavailable):
 
 
 def spoken_math(text: str) -> str:
+    text = re.sub(r'\b((?:Bài|Câu)\s+\d+)\s*[:.)]\s*', r'\1. ', text, flags=re.I)
+    # Spelling hyphens in Vietnamese unit names are not subtraction signs.
+    text = re.sub(r'(?<!\w)(?:đề|đê|xăng|ki|mi)[\s\-‐‑–]+(?:xi|ti|lô|li)[\s\-‐‑–]+(?:mét|gam|lít)(?!\w)',
+                  lambda match: re.sub(r'[-‐‑–]', ' ', match[0]), text, flags=re.I)
+    text = re.sub(r'\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*', ' ', text, flags=re.I)
+    text = re.sub(r'\b((?:Bài|Câu)\s+\d+)\.\s*\.', r'\1.', text, flags=re.I)
+    text = re.sub(r'\(\s*((?:(?:ki lô|đề xi|xăng ti|mi li)\s+)?(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)', r' \1 ', text, flags=re.I)
+    text = re.sub(r'\(\s*([+-]?\d+(?:[.,]\d+)?)\s*\)\s*/\s*\(\s*([+-]?\d+(?:[.,]\d+)?)\s*\)', r'\1/\2', text)
     text = re.sub(r'(^|[=(:,+*×÷/\-−]\s*)[-−]\s*(?=\d)',r'\1âm ',text)
     units={'km':'ki lô mét','dm':'đề xi mét','cm':'xăng ti mét','mm':'mi li mét','m':'mét',
            'kg':'ki lô gam','mg':'mi li gam','g':'gam','ml':'mi li lít','l':'lít'}
     unit_names='km|dm|cm|mm|kg|mg|ml|m|g|l'
+    # Accept common OCR/plain-text exponents without interpreting an expression.
+    text = re.sub(r'(?<![^\W\d_])(km|dm|cm|mm|m)(?:\^\{([23])\}|\^?([23]))(?!\w)',
+                  lambda m: m[1]+{'2':'²','3':'³'}[m[2] or m[3]], text)
     # Unit brackets are labels; preserve all grouping brackets in calculations.
     text = re.sub(r'\(\s*((?:'+unit_names+r')(?:[²³])?)\s*\)', r' \1 ', text)
     text = re.sub(r'(?<![^\W\d_])('+unit_names+r')([²³])?(?!\w)',
                   lambda m:' '+units[m[1]]+({'²':' vuông','³':' khối'}.get(m[2],''))+' ',text)
-    text = re.sub(r'(\d+)\s*/\s*(\d+)', r'\1 phần \2', text)
+    text = re.sub(r'(?<![\d/])(\d+(?:[.,]\d+)?)\s*/\s*(\d+(?:[.,]\d+)?)(?![\d/])', r'\1 phần \2', text)
+    text = re.sub(r'(\d|\))\s*x\s*(?=[(\d])', r'\1 nhân ', text)
     text = re.sub(r'(?<=[\d)])\s*:\s*(?=[(\d]|âm\s+\d)',' chia ',text)
     for symbol, word in [('+',' cộng '), ('−',' trừ '), ('-',' trừ '), ('×',' nhân '),
                          ('*',' nhân '), ('÷',' chia '), ('/',' chia '), ('=',' bằng '), ('%',' phần trăm ')]:
@@ -120,10 +132,12 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
                         attempt + 1, first_audio_ms, (time.monotonic()-started)*1000, len(result), outcome)
 
 
-async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None) -> bytes:
+async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None, paragraphs=None):
     # Long provider turns can stall past our deadline. Keep every word, in order,
     # and synthesize at most two short turns concurrently (four across both render slots).
-    parts = textwrap.wrap(text, width=220, break_long_words=False, break_on_hyphens=False)
+    layout = [(index, part) for index, paragraph in enumerate(paragraphs or [text])
+              for part in textwrap.wrap(paragraph, width=220, break_long_words=False, break_on_hyphens=False)]
+    parts = [part for _,part in layout]
     slots = asyncio.Semaphore(2)
     total = 0
     completed = 0
@@ -145,7 +159,8 @@ async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None
 
     tasks = [asyncio.create_task(render(index, part)) for index, part in enumerate(parts)]
     try:
-        data = b''.join(await asyncio.gather(*tasks))
+        chunks = await asyncio.gather(*tasks)
+        data = b''.join(chunks)
     finally:
         for task in tasks:
             if not task.done():
@@ -153,22 +168,42 @@ async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None
         await asyncio.gather(*tasks, return_exceptions=True)
     if not 128 <= len(data) <= 2 * 1024 * 1024:
         raise ValueError('Invalid complete speech response')
-    return data
+    return (chunks, [index for index,_ in layout]) if paragraphs is not None else data
 
 
-def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, voice=DEFAULT_VOICE, on_progress=None, cancel_event=None, checkpoint=None):
+def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, voice=DEFAULT_VOICE, on_progress=None, cancel_event=None, checkpoint=None, paragraphs=None):
     if voice not in SPEECH_VOICES:
         raise ValueError('Unsupported narration voice')
     official = settings.speech_provider == 'azure'
     ffmpeg = None if official else shutil.which('ffmpeg')
-    remaining = min(25, deadline - time.monotonic())
+    remaining = min(30, deadline - time.monotonic())
     if (not official and not ffmpeg) or remaining <= 0:
         raise TutorUnavailable()
 
     async def bounded_audio():
-        if official:
+        if official and paragraphs is not None:
+            slots = asyncio.Semaphore(2)
+            completed = 0
+            async def render_paragraph(part):
+                nonlocal completed
+                async with slots:
+                    pcm = await azure_pcm(spoken_math(part), voice)
+                    completed += 1
+                    if on_progress: on_progress('synthesizing', 10+int(70*completed/len(paragraphs)), completed, len(paragraphs))
+                    return pcm
+            async def aligned():
+                tasks = [asyncio.create_task(render_paragraph(part)) for part in paragraphs]
+                try: return await asyncio.gather(*tasks), list(range(len(paragraphs)))
+                finally:
+                    for task in tasks:
+                        if not task.done(): task.cancel()
+                    await asyncio.gather(*tasks, return_exceptions=True)
+            work = aligned()
+        elif official:
             # The official route returns complete PCM. Never mix its bytes with Edge MP3 checkpoints.
             work = azure_pcm(spoken_math(text), voice)
+        elif paragraphs is not None:
+            work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint, [spoken_math(part) for part in paragraphs])
         elif checkpoint is not None:
             work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint)
         else:
@@ -195,7 +230,25 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
             on_progress('decoding', 90)
         if time.monotonic() >= deadline:
             raise TimeoutError('Narration deadline')
-        if official:
+        if paragraphs is not None:
+            from app.tutoring.audio_cues import join_pcm
+            chunks, indexes = data
+            if official:
+                pcm = chunks
+            else:
+                # Decode all provider turns in one process. Boundaries use actual
+                # decoded frame counts, including encoder padding; never text length.
+                inputs = []
+                outputs = []
+                for index, chunk in enumerate(chunks):
+                    part = path.with_name(f'part-{index}.mp3'); part.write_bytes(chunk)
+                    inputs += ['-i', str(part)]
+                    target = path.with_name(f'part-{index}.pcm')
+                    outputs += ['-map', f'{index}:a:0', '-ar', '16000', '-ac', '1', '-f', 's16le', '-threads', '1', str(target)]
+                run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', *inputs, *outputs], deadline)
+                pcm = [path.with_name(f'part-{index}.pcm').read_bytes() for index in range(len(chunks))]
+            path.write_bytes(join_pcm(pcm, indexes))
+        elif official:
             with wave.open(str(path), 'wb') as audio:
                 audio.setnchannels(1); audio.setsampwidth(2); audio.setframerate(16000)
                 audio.writeframes(data)

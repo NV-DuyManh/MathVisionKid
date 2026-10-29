@@ -13,6 +13,7 @@ from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, Less
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
 from app.tutoring import narration, media_preparation, plan_preparation
+from app.tutoring.lesson_followup import ResumeRequest, CheckRequest, resume, comprehension_check
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -22,6 +23,21 @@ async def require_internal_key(request: Request):
     provided = request.headers.get("X-Internal-API-Key", "")
     if not provided or not secrets.compare_digest(provided.encode(), settings.internal_api_key.encode()):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
+
+
+@router.post('/lesson/resume', response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
+def resume_lesson_endpoint(request: ResumeRequest):
+    try: return resume(request)
+    except LessonExpired as exc: raise HTTPException(status_code=410, detail=str(exc)) from None
+    except ValueError: raise HTTPException(status_code=400, detail='Đề bài đã thay đổi. Em mở lại bài nhé.') from None
+
+
+@router.post('/lesson/checkpoint', dependencies=[Depends(require_internal_key)])
+def lesson_checkpoint_endpoint(request: CheckRequest):
+    try: return comprehension_check(request)
+    except LessonExpired as exc: raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc: raise HTTPException(status_code=409, detail=str(exc)) from None
+    except (ValueError, ArithmeticError, SyntaxError): raise HTTPException(status_code=400, detail='Bước này chưa có bài thử nhanh phù hợp.') from None
 
 
 @router.post('/lesson/narration', dependencies=[Depends(require_internal_key)])

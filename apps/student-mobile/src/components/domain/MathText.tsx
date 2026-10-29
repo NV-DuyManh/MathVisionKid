@@ -3,11 +3,16 @@ import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native';
 
 /** Slash fractions are presentation only; the source text and answer API stay literal. */
 export function MathText({ children, style }: { children: string; style?: StyleProp<TextStyle> }) {
-  const parts = children.split(/(?<![\w/.,])(\d+\s*\/\s*[1-9]\d*)(?![\w/]|[.,]\d)/g);
+  // OCR may preserve the grouping around each printed numerator/denominator.
+  // Normalize presentation only; keep the original source for confirmation/API use.
+  const displayed = children.replace(/\\(?:d?frac)\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([1-9]\d*)\s*\}/g, '$1/$2')
+    .replace(/\(\s*([+-]?\d+)\s*\)\s*[/⁄]\s*\(\s*([1-9]\d*)\s*\)/g, '$1/$2')
+    .replace(/⁄/g, '/');
+  const parts = displayed.split(/(?<![\w/.,])([+-]?\d+\s*\/\s*[1-9]\d*)(?![\w/]|[.,]\d)/g);
   if (parts.length === 1) return <Text style={style}>{children}</Text>;
   const textStyle = StyleSheet.flatten(style) || {};
   const size = textStyle.fontSize || 16;
-  const spoken = children.replace(/(?<![\w/.,])(\d+)\s*\/\s*([1-9]\d*)(?![\w/]|[.,]\d)/g, '$1 phần $2');
+  const spoken = displayed.replace(/(?<![\w/.,])([+-]?\d+)\s*\/\s*([1-9]\d*)(?![\w/]|[.,]\d)/g, '$1 phần $2');
   return <View style={styles.flow} accessible accessibilityLabel={spoken}>
     {parts.flatMap((part, index) => {
       if (index % 2) {

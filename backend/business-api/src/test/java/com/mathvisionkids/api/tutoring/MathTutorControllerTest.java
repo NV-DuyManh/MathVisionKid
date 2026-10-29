@@ -456,6 +456,30 @@ class MathTutorControllerTest {
         verifyNoInteractions(service);
     }
     @Test @WithMockUser(username="real-pupil",roles="STUDENT")
+    void followupUsesAuthenticatedOwnerAndHasNoPublicCaching() throws Exception {
+        when(service.checkpoint(any(),eq("real-pupil"))).thenReturn(new LearningCheck("13 + 8","Thử tính nhé.",false,false,""));
+        mvc.perform(post("/api/v1/student/tutor/lesson/checkpoint").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"sessionId\":\"owned-followup-session-123\",\"revision\":1,\"answer\":\"\",\"owner\":\"victim\"}"))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"))
+                .andExpect(jsonPath("$.correct").value(false)).andExpect(jsonPath("$.answer").doesNotExist());
+        verify(service).checkpoint(any(),eq("real-pupil"));
+    }
+
+    @Test void anonymousCannotResumeOrCheckUnderstanding() throws Exception {
+        for(String route:new String[]{"resume","checkpoint"})
+            mvc.perform(post("/api/v1/student/tutor/lesson/"+route).contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username="teacher",roles="TEACHER") void teacherCannotResumeOrCheckAStudentLesson() throws Exception {
+        for(String route:new String[]{"resume","checkpoint"})
+            mvc.perform(post("/api/v1/student/tutor/lesson/"+route).contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isForbidden());
+        verifyNoInteractions(service);
+    }
+
+    @Test @WithMockUser(username="real-pupil",roles="STUDENT")
     void retiredVideoEndpointsHaveNoHandler() throws Exception {
         for (String suffix : new String[]{"", "/status", "/content"})
             mvc.perform(post("/api/v1/student/tutor/lesson/video"+suffix)

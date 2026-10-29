@@ -70,18 +70,71 @@ it('forwards the selected female voice and rejects unknown voices before sending
   expect(apiClient.post).not.toHaveBeenCalled();
 });
 
-it('briefly retries busy capacity but never multiplies provider or expired-session failures', async () => {
+it('briefly retries busy capacity but never repeats expired-session failures', async () => {
   jest.useFakeTimers();
   (apiClient.post as jest.Mock).mockRejectedValueOnce({ response: { status: 429 } }).mockImplementation(respond);
   const pending = downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal);
   await jest.advanceTimersByTimeAsync(1000);
   await expect(pending).resolves.toEqual(wav);
   expect((apiClient.post as jest.Mock).mock.calls.filter(call => call[0].endsWith('/prepare'))).toHaveLength(2);
-  for (const status of [409, 410, 503]) {
+  for (const status of [409, 410]) {
     (apiClient.post as jest.Mock).mockReset().mockRejectedValue({ response: { status } });
     await expect(downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal)).rejects.toMatchObject({ response: { status } });
     expect(apiClient.post).toHaveBeenCalledTimes(1);
   }
+});
+
+it.each([{code:'ERR_NETWORK'},{response:{status:502}},{response:{status:503}}])('recovers an interrupted preparation acknowledgement and ready-file transfer: %j', async failure=>{
+  jest.useFakeTimers();const listener=jest.fn();let prepares=0,downloads=0;
+  (apiClient.post as jest.Mock).mockImplementation((url:string)=>{
+    if(url.endsWith('/prepare'))return ++prepares===1?Promise.reject(failure):Promise.resolve({data:ready});
+    if(url.endsWith('/narration'))return ++downloads===1?Promise.reject(failure):Promise.resolve({data:wav.buffer});
+    return Promise.resolve({data:ready});
+  });
+  const pending=downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal,'vi-VN-HoaiMyNeural',listener);
+  await jest.advanceTimersByTimeAsync(2000);await expect(pending).resolves.toEqual(wav);
+  expect(prepares).toBe(2);expect(downloads).toBe(2);
+  expect((apiClient.post as jest.Mock).mock.calls.every(call=>call[1].voice==='vi-VN-HoaiMyNeural'&&call[1].sessionId===source.sessionId&&call[1].revision===source.revision)).toBe(true);
+  expect(listener).toHaveBeenCalledWith(expect.objectContaining({retrying:true}));
+});
+
+it('bounds repeated preparation failures to three attempts and cancels retry delays immediately', async()=>{
+  jest.useFakeTimers();(apiClient.post as jest.Mock).mockRejectedValue({code:'ERR_NETWORK'});
+  const pending=downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal);
+  const failed=expect(pending).rejects.toMatchObject({code:'ERR_NETWORK'});
+  await jest.advanceTimersByTimeAsync(5000);await failed;expect(apiClient.post).toHaveBeenCalledTimes(3);
+  (apiClient.post as jest.Mock).mockClear();const control=new AbortController();
+  const cancelled=downloadNarration(source,['Em đọc lại nhé.'],control.signal);
+  const stopped=expect(cancelled).rejects.toThrow('Đã dừng');
+  await jest.advanceTimersByTimeAsync(0);control.abort();await stopped;
+  await jest.advanceTimersByTimeAsync(5000);expect(apiClient.post).toHaveBeenCalledTimes(1);expect(jest.getTimerCount()).toBe(0);
+});
+
+it('keeps all ready-file retries inside the original sixty-second deadline',async()=>{
+  jest.useFakeTimers();const began=Date.now();
+  (apiClient.post as jest.Mock).mockImplementation((url:string,_body:unknown,options:{timeout:number})=>url.endsWith('/prepare')
+    ?Promise.resolve({data:ready}):new Promise((_resolve,reject)=>setTimeout(()=>reject({code:'ECONNABORTED'}),Math.min(20000,options.timeout))));
+  const pending=downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal);
+  const failure=expect(pending).rejects.toMatchObject({code:'ECONNABORTED'});
+  await jest.advanceTimersByTimeAsync(60000);await failure;
+  expect(Date.now()-began).toBe(60000);
+  const transfers=(apiClient.post as jest.Mock).mock.calls.filter(call=>call[0].endsWith('/narration'));
+  expect(transfers).toHaveLength(3);expect(transfers.map(call=>call[2].timeout)).toEqual([60000,39500,18500]);
+});
+
+it('does not restart synthesis after the server reports a failed job',async()=>{
+  (apiClient.post as jest.Mock).mockImplementation((url:string)=>Promise.resolve({data:url.endsWith('/prepare')?{}:{...ready,phase:'failed'}}));
+  await expect(downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal)).rejects.toThrow('Chưa chuẩn bị');
+  expect(apiClient.post).toHaveBeenCalledTimes(2);
+});
+
+it.each([400,401,403,409,410,422])('does not retry prepare or a ready WAV after terminal HTTP %s',async status=>{
+  (apiClient.post as jest.Mock).mockRejectedValue({response:{status}});
+  await expect(downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal)).rejects.toMatchObject({response:{status}});
+  expect(apiClient.post).toHaveBeenCalledTimes(1);
+  (apiClient.post as jest.Mock).mockReset().mockImplementation((url:string)=>url.endsWith('/prepare')?Promise.resolve({data:ready}):Promise.reject({response:{status}}));
+  await expect(downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal)).rejects.toMatchObject({response:{status}});
+  expect(apiClient.post).toHaveBeenCalledTimes(2);
 });
 
 it('cancels a busy retry immediately when the pupil closes or changes voice', async () => {
@@ -103,9 +156,9 @@ it('bounds capacity retries instead of polling forever', async () => {
   (apiClient.post as jest.Mock).mockRejectedValue({ response: { status: 429 } });
   const pending = downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal);
   const rejected = expect(pending).rejects.toThrow('Đã hết thời gian');
-  await jest.advanceTimersByTimeAsync(45000);
+  await jest.advanceTimersByTimeAsync(60000);
   await rejected;
-  expect((apiClient.post as jest.Mock).mock.calls.length).toBeLessThanOrEqual(46);
+  expect((apiClient.post as jest.Mock).mock.calls.length).toBeLessThanOrEqual(61);
 });
 
 it('validates measured progress without accepting impossible completion or unknown modes', async () => {
@@ -118,14 +171,14 @@ it('validates measured progress without accepting impossible completion or unkno
   }
 });
 
-it('stops an unfinished background narration at 45 seconds using short requests', async () => {
+it('stops an unfinished background narration at 60 seconds using short requests', async () => {
   jest.useFakeTimers();
   (apiClient.post as jest.Mock).mockImplementation((url:string) => Promise.resolve({data:url.endsWith('/status')
     ? {...ready,phase:'synthesizing',percent:75,completedChunks:9,totalChunks:12}
     :url.endsWith('/prepare')?{}:wav.buffer}));
   const pending=downloadNarration(source,['Bài giảng dài đã được xác nhận.'],new AbortController().signal);
   const rejected=expect(pending).rejects.toThrow('Đã hết thời gian');
-  await jest.advanceTimersByTimeAsync(45000);await rejected;
+  await jest.advanceTimersByTimeAsync(60000);await rejected;
   expect((apiClient.post as jest.Mock).mock.calls.filter(call=>call[0].endsWith('/lesson/narration'))).toHaveLength(0);
   expect((apiClient.post as jest.Mock).mock.calls.filter(call=>call[0].endsWith('/prepare'))).toHaveLength(1);
   expect((apiClient.post as jest.Mock).mock.calls.filter(call=>!call[0].endsWith('/lesson/narration')).every(call=>call[2].timeout<=5000)).toBe(true);
@@ -172,7 +225,7 @@ it('restarts idempotent preparation when a completed job has lost its cached WAV
   expect((apiClient.post as jest.Mock).mock.calls.filter(call=>call[0].endsWith('/status'))).toHaveLength(1);
 });
 
-it.each(['waiting','temporary-status-failure'])('retains one 45-second deadline during %s recovery', async mode => {
+it.each(['waiting','temporary-status-failure'])('retains one 60-second deadline during %s recovery', async mode => {
   jest.useFakeTimers();const began=Date.now();
   (apiClient.post as jest.Mock).mockImplementation((url:string) => {
     if (url.endsWith('/prepare')) return Promise.resolve({data:{}});
@@ -180,21 +233,21 @@ it.each(['waiting','temporary-status-failure'])('retains one 45-second deadline 
   });
   const pending=downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal);
   const rejected=expect(pending).rejects.toThrow('Đã hết thời gian');
-  await jest.advanceTimersByTimeAsync(45000);await rejected;
-  expect(Date.now()-began).toBe(45000);
+  await jest.advanceTimersByTimeAsync(60000);await rejected;
+  expect(Date.now()-began).toBe(60000);
   const calls=(apiClient.post as jest.Mock).mock.calls;
-  expect(calls.filter(call=>call[0].endsWith('/prepare'))).toHaveLength(mode==='waiting'?45:1);
+  expect(calls.filter(call=>call[0].endsWith('/prepare'))).toHaveLength(mode==='waiting'?60:1);
   expect(calls.every(call=>call[2].timeout>0 && call[2].timeout<=5000)).toBe(true);
 });
 
 it.each(['prepare','status'])('never disables the %s timeout when the final millisecond expires between checks', async stage => {
-  const now=jest.spyOn(Date,'now').mockReturnValue(46000);
+  const now=jest.spyOn(Date,'now').mockReturnValue(61000);
   (apiClient.post as jest.Mock).mockImplementation((url:string) => {
     if (url.endsWith('/prepare')) return Promise.resolve({data:{}});
     if (url.endsWith('/status')) return Promise.resolve({data:ready});
     return Promise.resolve({data:wav.buffer});
   });
-  const beforeTick=stage==='prepare'?[1000,45999]:[1000,45999,45999,45999];
+  const beforeTick=stage==='prepare'?[1000,60999]:[1000,60999,60999,60999];
   beforeTick.forEach(value=>now.mockReturnValueOnce(value));
   try {
     await expect(downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal)).rejects.toThrow('Đã hết thời gian');

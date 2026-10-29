@@ -341,7 +341,7 @@ def test_promotion_after_worker_cleanup_cannot_leak_a_foreground_hold(audio_sess
     assert key not in narration._foreground_waiters and not old['hold']
 
 
-def test_background_preparation_stops_at_45_seconds_even_when_chunks_make_progress(audio_session,monkeypatch):
+def test_background_preparation_stops_at_60_seconds_even_when_chunks_make_progress(audio_session,monkeypatch):
     from app.tutoring import narration
     from app.tutoring.service import TutorUnavailable
     clock=[time.monotonic()];began=clock[0];calls=[]
@@ -355,7 +355,7 @@ def test_background_preparation_stops_at_45_seconds_even_when_chunks_make_progre
     monkeypatch.setattr(narration,'render_audio',render)
     request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,paragraphs=['Em gộp hai nhóm bút.'])
     with pytest.raises(TutorUnavailable):narration.prepare_private(request,audio_session)
-    assert clock[0]-began==pytest.approx(45) and len(calls)==2
+    assert clock[0]-began==pytest.approx(60) and len(calls)==3
     assert narration.narration_status(request)['phase']=='failed'
     assert narration._checkpoints
 

@@ -9,6 +9,7 @@ import { StudentWorkReview } from '../features/tutoring/StudentWorkReview';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { ProblemSummary } from '../features/tutoring/ProblemSummary';
 import { prepareLessonMedia } from '../features/tutoring/narrationApi';
+import * as progressStore from '../features/tutoring/learningProgress';
 
 jest.mock('expo-speech', () => ({ speak: jest.fn(), stop: jest.fn().mockResolvedValue(undefined), getAvailableVoicesAsync: jest.fn().mockResolvedValue([]) }));
 jest.mock('expo-audio', () => ({ AudioModule: {}, RecordingPresets: {}, useAudioRecorder: jest.fn(), useAudioRecorderState: jest.fn() }));
@@ -28,7 +29,7 @@ jest.mock('expo-router', () => ({
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
 jest.mock('../features/tutoring/api/TutorService', () => ({
   ...jest.requireActual('../features/tutoring/api/TutorService'),
-  TutorService: { prepareLesson: jest.fn().mockResolvedValue(undefined), inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn(), reviewWork: jest.fn() },
+  TutorService: { resumeLesson:jest.fn(),prepareLesson: jest.fn().mockResolvedValue(undefined), inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn(), reviewWork: jest.fn() },
 }));
 jest.mock('../features/recognition/components/RecognitionProgress', () => ({
   RecognitionProgress: ({ title, onCancel, cancelLabel, complete, onComplete }: any) => {
@@ -113,6 +114,20 @@ beforeEach(() => {
   (TutorService.answerLesson as jest.Mock).mockResolvedValue({ ...LESSON, status: 'TRY_AGAIN', feedback: 'Em thử chọn lại nhé.' });
 });
 afterEach(() => { if (view) act(() => view.unmount()); });
+
+it('restores a server-approved review with all choices and waits for Continue, without starting a new lesson',async()=>{
+  const saved={version:1 as const,at:Date.now(),lessonId:'resume-lesson',sessionId:LESSON.sessionId,revision:1,stepIndex:1,problemText:PROBLEM,workText:'',attempt:'Chiều cao',reviewing:true};
+  const load=jest.spyOn(progressStore,'loadLearningProgress').mockResolvedValue(saved),save=jest.spyOn(progressStore,'saveLearningProgress').mockResolvedValue(undefined);
+  (TutorService.resumeLesson as jest.Mock).mockResolvedValue({...LESSON,revision:1,stepIndex:1,completed:[{...LESSON.step,kind:'MATH',answer:'Chiều cao'}],review:{question:LESSON.step.question,choices:LESSON.step.choices,studentAnswer:'Chiều cao'}});
+  try{
+    const auth={user:{id:'pupil-a'},isAuthenticated:true,isLoading:false,login:jest.fn(),logout:jest.fn()};
+    await act(async()=>{view=TestRenderer.create(<AuthContext.Provider value={auth}><MathGuideScreen/></AuthContext.Provider>);});
+    expect(TutorService.resumeLesson).toHaveBeenCalledWith(LESSON.sessionId,PROBLEM,expect.any(AbortSignal));expect(TutorService.startLesson).not.toHaveBeenCalled();
+    expect(view.root.findAll(node=>node.props.accessibilityLabel==='Chiều cao'&&node.props.disabled).length).toBeGreaterThan(0);
+    expect(view.root.findAll(node=>node.props.accessibilityLabel==='Chu vi').length).toBeGreaterThan(0);expect(readText()).toContain('Em đã chọn · Đúng');
+    act(()=>button('Tiếp tục bước tiếp theo').props.onPress());expect(button('Chiều cao').props.disabled).toBe(false);
+  }finally{act(()=>view.unmount());load.mockRestore();save.mockRestore();}
+});
 const render = async (confirmProblem = true) => {
   await act(async () => { view = TestRenderer.create(<MathGuideScreen />); });
   if (confirmProblem && button('Em đã kiểm tra đề bài và các số') && !button('Em đã kiểm tra đề bài và các số').props.disabled)
@@ -192,7 +207,7 @@ it('narrates only the current opened guidance and keeps the learner answer and h
   expect(view.root.findAllByType(LessonNarration)).toHaveLength(0);
   act(() => button('Nghe giảng').props.onPress());
   const narration = view.root.findByType(LessonNarration);
-  expect(narration.props.paragraphs).toEqual([current.step.explanation, ...current.step.guidance, current.step.question]);
+  expect(narration.props.paragraphs).toEqual([...current.step.guidance, current.step.question]);
   expect(narration.props.paragraphs.join(' ')).not.toContain('12+5');
   expect(input('Câu trả lời của em').props.value).toBe('');
   expect(TutorService.answerLesson).not.toHaveBeenCalled();
@@ -507,6 +522,42 @@ it('uses a short numeric input and unit only after the server advances', async (
   expect(input('Câu trả lời của em').props.keyboardType).toBe('decimal-pad');
 });
 
+it('keeps both choices and the pupil selection after wrong and correct answers until manual continue', async () => {
+  const correctChoice = LESSON.step.choices[0], wrongChoice = LESSON.step.choices[1];
+  (TutorService.answerLesson as jest.Mock).mockResolvedValueOnce({ ...LESSON, revision: 1, status: 'TRY_AGAIN', feedback: 'Em chọn lại nhé.' })
+    .mockResolvedValueOnce({ ...LESSON, revision: 2, status: 'CORRECT', stepIndex: 1, feedback: 'Đúng rồi!',
+      completed: [{ ...LESSON.step, answer: correctChoice }], step: { ...LESSON.step, question: 'Câu hỏi tiếp theo?' } });
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  await act(async () => button(wrongChoice).props.onPress());
+  expect(button(wrongChoice).props.accessibilityState.selected).toBe(true);
+  expect(button(wrongChoice).props.disabled).toBe(false);
+  expect(button(correctChoice).props.disabled).toBe(false);
+  expect(readText()).toContain('Chưa đúng');
+  await act(async () => button(correctChoice).props.onPress());
+  expect(readText()).toContain(LESSON.step.question);
+  expect(readText()).not.toContain('Câu hỏi tiếp theo?');
+  expect(view.root.findAll(node => node.props.accessibilityLabel === correctChoice && node.props.accessibilityRole === 'button')[0].props.accessibilityState).toEqual({ selected: true, disabled: true });
+  expect(view.root.findAll(node => node.props.accessibilityLabel === wrongChoice && node.props.accessibilityRole === 'button')[0].props.accessibilityState).toEqual({ selected: false, disabled: true });
+  expect(TutorService.answerLesson).toHaveBeenCalledTimes(2);
+  act(() => button('Tiếp tục bước tiếp theo').props.onPress());
+  expect(readText()).toContain('Câu hỏi tiếp theo?');
+  expect(button(correctChoice).props.accessibilityState.selected).toBe(false);
+});
+
+it('keeps the exact typed answer in the checked step instead of replacing it with the canonical result', async () => {
+  const first = { ...LESSON, step: { ...LESSON.step, choices: [], expression: '12+5', unit: 'bút' } };
+  (TutorService.startLesson as jest.Mock).mockResolvedValue(first);
+  (TutorService.answerLesson as jest.Mock).mockResolvedValue({ ...first, revision: 1, status: 'CORRECT', stepIndex: 1,
+    completed: [{ ...first.step, answer: '17', solutionSentence: 'Số bút là:' }] });
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  act(() => input('Câu trả lời của em').props.onChangeText('17,0'));
+  await act(async () => button('Kiểm tra bước này').props.onPress());
+  expect(readText()).toContain('17,0 bút');
+  expect(view.root.findAllByProps({ testID: 'checked-student-answer' }).length).toBeGreaterThan(0);
+  act(() => button('Tiếp tục bước tiếp theo').props.onPress());
+  expect(input('Câu trả lời của em').props.value).toBe('');
+});
+
 it('reveals the operation only through help and pauses on a checked classroom solution before the next step', async () => {
   const first = { ...LESSON, outline: ['Tìm phần hai nhóm', 'Tìm phần còn lại'], step: { ...LESSON.step,
     title: 'Tìm phần hai nhóm', solutionSentence: 'Phân số chỉ số cây táo và xoài là:',
@@ -561,6 +612,10 @@ it('assembles checked solution sentences and an answer only after all steps are 
   await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
   expect(readText()).not.toContain('Đáp số');
   await act(async () => button('Chiều cao').props.onPress());
+  expect(view.root.findAllByProps({ testID: 'correct-answer-feedback' }).length).toBeGreaterThan(0);
+  expect(readText()).not.toContain('Đáp số: 60 cây.');
+  expect(TutorService.answerLesson).toHaveBeenCalledTimes(1);
+  await act(async () => button('Xem bài giải').props.onPress());
   expect(readText()).toContain('Bài giải');
   expect(readText()).toContain('Số cây trong vườn là:');
   expect(readText()).toContain('Đáp số: 60 cây.');
@@ -794,7 +849,7 @@ it('reviews comprehension as understanding and keeps it out of the written arith
   await render();
   await act(async () => button('Bắt đầu từng bước').props.onPress());
   await act(async () => button('Chiều cao').props.onPress());
-  expect(readText()).toContain('Em đã hiểu điều này');
+  expect(readText()).toContain('Em đã chọn · Đúng');
   expect(readText()).not.toContain('Viết vào bài giải');
   expect(button('Tiếp tục bước tiếp theo')).toBeDefined();
 });
@@ -861,7 +916,7 @@ it('guides summary choices, then shows the grouped source only after both readin
   (TutorService.answerLesson as jest.Mock).mockResolvedValueOnce({ ...first, stepIndex: 1, revision: 1, status: 'CORRECT',
     completed: [checked], step: { ...first.step, question: 'Đề hỏi gì?', choices: [fact, question] } });
   await act(async () => button(fact).props.onPress());
-  expect(readText()).toContain('Em đã hiểu điều này');
+  expect(readText()).toContain('Em đã chọn · Đúng');
   expect(readText()).not.toContain('Bản tóm tắt từ đề');
   act(() => button('Tiếp tục bước tiếp theo').props.onPress());
   (TutorService.answerLesson as jest.Mock).mockResolvedValueOnce({ ...first, stepIndex: 2, revision: 2, status: 'CORRECT',

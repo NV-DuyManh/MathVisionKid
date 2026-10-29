@@ -30,7 +30,7 @@ const separator = '[/\\\\]';
 const escapeRegex = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const rootPattern = monorepoRoot.split(/[/\\]/).map(escapeRegex).join(separator);
 const excludedFolders = ['report', 'reports', 'runtime', 'ai', 'ai-training', 'backend', 'output', 'scratch',
-  'xyz', 'datasets', 'models', '.git', '.venv', 'infra/local-runtime'];
+  'xyz', 'datasets', 'models', '.git', '.venv', '.local-artifacts', 'demoUI', 'infra/local-runtime'];
 const excludedPattern = excludedFolders.map(folder => folder.split('/').map(escapeRegex).join(separator)).join('|');
 config.resolver.blockList = [
   ...(Array.isArray(defaultBlockList) ? defaultBlockList : defaultBlockList ? [defaultBlockList] : []),

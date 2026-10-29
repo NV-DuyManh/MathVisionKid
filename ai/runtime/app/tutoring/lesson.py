@@ -133,10 +133,10 @@ class DraftStep(Step):
     workExcerpt: str = Field(default="", max_length=0)
     workLineIndexes: list[Annotated[int, Field(ge=0, strict=True)]] = Field(default_factory=list, max_length=3)
     initialGuidance: list[str] = Field(default_factory=list, max_length=3,
-        description="Three short child-friendly items before answering: quantities, WHY, HOW to start. Each item 60-350 characters. Only givens/prior references; no current/future computed answers.",
+        description="Three distinct child-friendly items before answering: quantities, WHY, HOW to start. Each item 60-220 characters. Only givens/prior references; no current/future computed answers.",
         # Constrain the provider before generation, instead of spending a repair
         # on paragraphs shorter than the existing initial-teaching requirement.
-        json_schema_extra={"minItems": 3, "items": {"type": "string", "minLength": 60, "maxLength": 350}})
+        json_schema_extra={"minItems": 3, "items": {"type": "string", "minLength": 60, "maxLength": 220}})
 
 
 class PlanDraft(Plan):
@@ -197,6 +197,7 @@ class LessonResponse(TutorModel):
     understandingSteps: Literal[0, 3] = 0
     summary: LessonSummary | None = None
     preparingMath: bool = False
+    review: dict | None = None
 
 
 class LessonExpired(ValueError):
@@ -363,12 +364,14 @@ chữ số hoặc phép tính. Các dữ kiện số nằm trong lời hướng 
 Nói như đang cùng một em nhỏ đọc đề. Mỗi câu một ý, từ quen thuộc, gọi tên đồ
 vật trong đề. Chia thao tác thành việc nhỏ em làm được ngay; không nhồi nhiều
 quy tắc trong một câu. Giữ đủ ý nghĩa, VÌ SAO và CÁCH LÀM, không rút thành khẩu quyết.
-initialGuidance là MẢNG 3 mục ngắn, mỗi mục 60-350 ký tự, theo thứ tự:
+initialGuidance là MẢNG 3 mục ngắn, mỗi mục 60-220 ký tự, theo thứ tự:
 1. Dữ kiện nào liên quan, mỗi lượng nghĩa là gì, cần tìm lượng gì.
 2. Vì sao dùng phép toán này và vì sao tìm lượng này trước lượng khác.
 3. Thao tác BẮT ĐẦU để học sinh tự tính: cách đặt tính/quy đồng/chia thành các
 phần. BA đoạn đầu chỉ dùng số đề cho, hằng số được phép và kết quả bước TRƯỚC;
 không có giá trị vừa tính, mẫu số vừa tìm, thương/dư vừa tính hoặc phép tính mẫu.
+Mỗi mục nói một ý khác nhau, không nhắc lại cùng lý do. Gọi đúng đại lượng,
+số và đơn vị của bài này; không dùng đoạn giảng chung cho mọi bài.
 guidance là MẢNG 1-3 mục trợ giúp sâu RIÊNG TƯ, câu ngắn: dạy từng thao tác tính của CHÍNH bước này, kèm kết quả
 và cách ghi câu lời giải/phép tính/đơn vị. Không kể kết quả của bất kỳ bước SAU
 nào. Đoạn này chỉ được mở khi xin gợi ý sâu hoặc đã làm xong.
@@ -648,17 +651,18 @@ def source_understanding(source: str) -> list[Step]:
     secrets.SystemRandom().shuffle(fact_choices)
     secrets.SystemRandom().shuffle(question_choices)
     quote, truth = secrets.choice(((fact, "Đúng"), (question, "Sai")))
-    teaching = ["Đọc lại nguyên đề. Tách điều đã biết và điều cần tìm trước khi tính.",
-                "Nhìn tên đồ vật, số lượng và đơn vị trong mỗi lựa chọn. Chọn câu khớp với điều đang hỏi."]
-    hints = ["Đối chiếu từng lựa chọn với nguyên đề. Bước này em chỉ cần đọc và chọn, chưa tính.",
-             "Dữ kiện nói điều đã biết. Câu hỏi nói điều em cần tìm. Em tìm lại hai phần đó trong đề nhé."]
+    teaching = [f'Đề cho biết: «{fact}». Em chọn câu đúng với thông tin này.',
+                f'Cuối đề có câu hỏi: «{question}». Em phân biệt điều cần tìm với thông tin đã biết.']
+    hints = [f'Em đối chiếu từng lựa chọn với câu «{fact}» trong đề, chưa cần thực hiện phép tính.',
+             f'Câu «{question}» hỏi điều cần tìm. Em phân biệt câu hỏi này với các dữ kiện đã cho.']
     return [
         Step(kind="UNDERSTAND", title="Nhận biết dữ kiện", explanation=teaching[0],
              question="Câu nào là điều đề đã cho biết?", choices=fact_choices, correctChoice=fact,
-             guidance=teaching, hints=hints),
-        Step(kind="UNDERSTAND", title="Nhận biết câu hỏi", explanation=teaching[0],
+             guidance=teaching[:1], hints=hints),
+        Step(kind="UNDERSTAND", title="Nhận biết câu hỏi", explanation=teaching[1],
              question="Đề yêu cầu em tìm điều gì?", choices=question_choices, correctChoice=question,
-             guidance=teaching, hints=hints),
+             guidance=[f'Em đọc lại: «{question}». Câu này cho biết bài muốn em tìm điều gì.',
+                       'Chọn câu nêu điều cần tìm; chưa tính đáp số ở bước này.'], hints=hints),
         Step(kind="UNDERSTAND", title="Đối chiếu với đề", explanation="Đọc câu trích từ đề rồi kiểm tra điều câu ấy nói.",
              question=f'Đúng hay sai: «{quote}» là điều đề đã cho biết?', choices=["Đúng", "Sai"],
              correctChoice=truth, guidance=[
@@ -701,9 +705,9 @@ def labelled_understanding(source: str) -> list[Step]:
     choices = [questions[1][0], steps[0].correctChoice]
     secrets.SystemRandom().shuffle(choices)
     steps[2] = Step(kind='UNDERSTAND', title='Nhận biết câu hỏi còn lại',
-        explanation='Đề còn một câu hỏi ở ý b. Đọc đúng câu hỏi ấy trước khi tính.',
+        explanation=f'Ở ý b, đề hỏi: «{questions[1][0]}». Em đọc đúng điều cần tìm ở ý này.',
         question='Ý b của đề yêu cầu em tìm điều gì?', choices=choices, correctChoice=questions[1][0],
-        guidance=['Đọc lại ý b của nguyên đề. Tìm câu hỏi nêu điều em cần tìm ở ý này.',
+        guidance=[f'Đọc câu «{questions[1][0]}» ở ý b. Câu này nêu một điều cần tìm khác với ý a.',
                   'Chọn nguyên câu hỏi của ý b; phân biệt điều cần tìm với các dữ kiện đã cho.'],
         hints=['Đọc phần sau dấu b) trong đề và tìm câu hỏi của phần ấy.',
                'Câu hỏi nói điều cần tìm. Dữ kiện nói điều đã biết; em đối chiếu từng lựa chọn nhé.'])

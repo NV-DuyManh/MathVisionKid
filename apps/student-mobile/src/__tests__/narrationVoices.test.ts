@@ -9,6 +9,16 @@ function fresh() {
   return { voicePreferences, ...voices };
 }
 
+it('retains the chosen voice through later sheets without reading stale storage again', async () => {
+  const { voicePreferences, saveNarrationVoice, readNarrationVoice, currentNarrationVoice } = fresh();
+  voicePreferences.get.mockResolvedValue(JSON.stringify({ voiceId: 'vi-VN-NamMinhNeural' }));
+  await readNarrationVoice();
+  await saveNarrationVoice('vi-VN-HoaiMyNeural');
+  await expect(readNarrationVoice()).resolves.toBe('vi-VN-HoaiMyNeural');
+  expect(currentNarrationVoice()).toBe('vi-VN-HoaiMyNeural');
+  expect(voicePreferences.get).toHaveBeenCalledTimes(1);
+});
+
 it('uses the latest chosen voice immediately while storage is still saving', async () => {
   const { voicePreferences, saveNarrationVoice, readNarrationVoice } = fresh();
   let finish!: () => void;

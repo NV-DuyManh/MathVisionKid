@@ -1,0 +1,11 @@
+{
+  "evidence": "Live local public HTTP with real Student/Teacher authentication, source-only reading lesson; not a test of new model mathematics.",
+  "resumeMs": 39,
+  "resumeStatus": 200,
+  "approvedReviewRestored": true,
+  "noFutureAnswerKey": true,
+  "noStore": true,
+  "anonymousStatus": 401,
+  "teacherStatus": 403,
+  "changedSourceStatus": 400
+}

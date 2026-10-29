@@ -62,7 +62,7 @@ def test_all_steps_and_two_voices_are_ready_before_the_future_step_opens(prepare
     assert first['preparedSteps']==0 and first['totalSteps']==2
     job=media._jobs[SESSION]
     media._run()
-    assert len(calls)==8 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1]]*2
+    assert len(calls)==10 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1]]*2
     assert media.schedule(request(voice=speech.SPEECH_VOICES[1]))['preparedSteps']==2
     assert len(job.ready)==10
     future_parts=job.scripts[1]
@@ -71,7 +71,7 @@ def test_all_steps_and_two_voices_are_ready_before_the_future_step_opens(prepare
     lesson.answer_lesson(lesson.TurnRequest(owner='pupil-a',sessionId=SESSION,revision=0,answer='11/15'))
     public=lesson.present(SESSION,session).step
     assert media.script_for_step(public)==future_parts
-    assert narration.narrate(future.model_copy(update={'revision':1}))==pcm() and len(calls)==8
+    assert narration.narrate(future.model_copy(update={'revision':1}))==pcm() and len(calls)==10
     model.assert_not_called()
 
 
@@ -80,7 +80,7 @@ def test_repeated_prepare_requests_do_not_generate_more_speech(prepared):
     media.schedule(request());media._run()
     for _ in range(10):media.schedule(request())
     media._run()
-    assert len(calls)==8
+    assert len(calls)==10
 
 
 @pytest.mark.parametrize('preferred',speech.SPEECH_VOICES)
@@ -105,10 +105,12 @@ def test_checked_step_reviews_and_final_summary_are_prepared_before_they_are_ope
     assert narration.narrate(query.model_copy(update={'revision':1,'paragraphs':review}))==pcm()
     lesson.answer_lesson(lesson.TurnRequest(owner='pupil-a',sessionId=SESSION,revision=1,answer='4/15'))
     assert summary==media.script_for_review(session.completed)
+    # The compact final recap is prepared separately from the richer per-step reviews.
+    before=len(calls)
     joined=narration.narrate(query.model_copy(update={'revision':2}))
     narration.validate_audio(joined)
-    with wave.open(io.BytesIO(joined),'rb') as audio:assert audio.getnframes()==32000
-    assert len(calls)==8
+    with wave.open(io.BytesIO(joined),'rb') as audio:assert audio.getnframes()==16000
+    assert len(calls)==before==10
 
 
 def test_current_review_warms_before_distant_steps_without_delaying_current_and_next(prepared):
@@ -256,7 +258,7 @@ def test_failure_of_other_voice_keeps_all_preferred_future_steps(prepared,monkey
     monkeypatch.setattr(narration,'render_audio',render)
     media.schedule(request());media._run()
     status=media.schedule(request())
-    assert status['preparedSteps']==2 and status['failedItems']==2 and len(calls)==4
+    assert status['preparedSteps']==2 and status['failedItems']==2 and len(calls)==5
 
 
 def test_separated_transient_failures_do_not_disable_the_remaining_voice(prepared,monkeypatch):
@@ -288,7 +290,7 @@ def test_transient_missing_step_retries_once_after_untouched_steps_and_other_voi
         return original(parts,voice,*args,**kwargs)
     monkeypatch.setattr(narration,'render_audio',render)
     media.schedule(request());media._run()
-    assert len(attempts)==9 and attempts[0]==attempts[-1] and len(calls)==8
+    assert len(attempts)==11 and attempts[0]==attempts[-1] and len(calls)==10
     assert media.schedule(request())['preparedSteps']==2
 
 
