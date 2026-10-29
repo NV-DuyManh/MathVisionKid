@@ -138,6 +138,16 @@ public class MathTutorService {
                 text(body, "feedback", 500, true), flag(body, "guarded"));
     }
 
+    public LessonPreparation prepareLesson(LessonDraft request, String owner) {
+        if (request.problemText().contains("[?]") || request.workText().contains("[?]"))
+            throw invalid("TRANSCRIPTION_UNCLEAR", "Em kiểm tra lại chỗ chưa đọc rõ nhé.");
+        JsonNode body = call("/internal/v1/tutor/lesson/prepare", java.util.Map.of("owner", owner,
+                "problemText", request.problemText(), "workText", request.workText()), MediaType.APPLICATION_JSON);
+        String phase = text(body, "phase", 16, false);
+        if (!List.of("preparing", "ready", "busy", "unavailable").contains(phase)) throw unavailable();
+        return new LessonPreparation(phase);
+    }
+
     public LessonResponse lesson(LessonRequest request, String owner) {
         if (!request.isSourceConfirmed())
             throw invalid("TRANSCRIPTION_CONFIRMATION_REQUIRED", "Em kiểm tra lại đề và các số với ảnh trước nhé.");
@@ -424,9 +434,26 @@ public class MathTutorService {
             if (ex.getStatusCode().value() == 413) {
                 throw new ApiException("IMAGE_TOO_LARGE", "Ảnh quá lớn. Em hãy chọn ảnh nhỏ hơn 8 MB.", HttpStatus.PAYLOAD_TOO_LARGE);
             }
+            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)) {
+                String reason = ex.getResponseHeaders() == null ? null : ex.getResponseHeaders().getFirst("X-Tutor-Failure");
+                String code = switch (reason == null ? "" : reason) {
+                    case "rate_limit" -> "TUTOR_RATE_LIMITED";
+                    case "timeout" -> "TUTOR_TIMEOUT";
+                    case "configuration" -> "TUTOR_CONFIGURATION";
+                    case "validation" -> "LESSON_VALIDATION_FAILED";
+                    case "busy" -> "TUTOR_BUSY";
+                    default -> "TUTOR_UNAVAILABLE";
+                };
+                logger.warn("Lesson preparation unavailable code={}", code);
+                throw new ApiException(code, "Chưa chuẩn bị được phần hướng dẫn. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+            }
             throw unavailable();
         } catch (RestClientException ex) {
             logger.warn("Tutor upstream request failed path={} category={}",path,ex.getClass().getSimpleName());
+            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)
+                    && ex.getCause() instanceof java.net.SocketTimeoutException) {
+                throw new ApiException("TUTOR_TIMEOUT", "Phần hướng dẫn chưa kịp chuẩn bị. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+            }
             throw unavailable();
         }
     }

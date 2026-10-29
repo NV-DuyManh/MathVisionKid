@@ -1,0 +1,13 @@
+{
+  "method": "One synthetic orchard problem; real configured providers, local runtime; no phone or speaker evidence",
+  "initialOpenMs": 6.3,
+  "readingOpenedBeforeMath": true,
+  "initialSteps": 3,
+  "timeoutSeconds": 45,
+  "mathReady": true,
+  "totalPreparationMs": 15300.1,
+  "mathSteps": 2,
+  "finalAnswer": "60",
+  "expectedFinalAnswer": "60",
+  "correct": true
+}

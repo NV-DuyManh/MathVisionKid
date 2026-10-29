@@ -61,6 +61,12 @@ public class MathTutorController {
         return service.reviewWork(request);
     }
 
+    @PostMapping(value = "/lesson/prepare", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LessonPreparation> prepareLesson(@Valid @RequestBody LessonDraft request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.prepareLesson(request, authentication.getName()));
+    }
+
     @PostMapping(value = "/lesson", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse lesson(@Valid @RequestBody LessonRequest request, Authentication authentication) {
         return service.lesson(request, authentication.getName());

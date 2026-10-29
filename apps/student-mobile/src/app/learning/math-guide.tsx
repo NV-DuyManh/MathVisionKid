@@ -116,6 +116,15 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const questionPosition = useRef(0);
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
+  const preparationWork = workConfirmed && !work.includes('[?]') ? work : '';
+  useEffect(() => {
+    if (!owner || lesson || editing || busy || invalidPhoto || problem.trim().length < 3 || problem.includes('[?]')) return;
+    const abort = new AbortController();
+    // Private preparation starts while the pupil reviews the transcription.
+    // It returns no lesson; the normal Start action still requires confirmation.
+    void TutorService.prepareLesson(problem.trim(), preparationWork, abort.signal).catch(() => {});
+    return () => abort.abort();
+  }, [owner, problem, preparationWork, editing, invalidPhoto, lesson, busy]);
   const divisionLines = workLines.filter(line => line.division);
   const divisionLine = !invalidPhoto && divisionLines.length === 1 ? divisionLines[0] : null;
   const division = divisionLine?.division;
@@ -140,8 +149,15 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       setLesson(null); setError('Bài học đã hết phiên. Đề và bài làm vẫn ở đây; em bắt đầu lại nhé.');
     } else if ([400, 422].includes(failure?.response?.status)) {
       setError('Đề bài còn thiếu hoặc có chỗ chưa rõ. Em kiểm tra lại lời văn, số và câu hỏi nhé.');
-    } else if (failure?.response?.status === 503) {
-      setError('Mình chưa chuẩn bị được hướng dẫn cho bài này lúc này. Bài của em vẫn ở đây; em kiểm tra đề đầy đủ rồi thử lại nhé.');
+    } else if (failure?.code === 'ECONNABORTED' || failure?.response?.data?.error?.code === 'TUTOR_TIMEOUT') {
+      setError('Phần hướng dẫn chưa kịp chuẩn bị trong thời gian chờ. Đề và bài làm vẫn được giữ; em thử lại nhé.');
+    } else if (failure?.response?.status === 503 || failure?.response?.status === 429) {
+      const code = failure?.response?.data?.error?.code;
+      setError(code === 'TUTOR_RATE_LIMITED' || code === 'TUTOR_BUSY' || failure?.response?.status === 429
+        ? 'Đang có nhiều yêu cầu. Em chờ một chút rồi thử lại; đề và bài làm vẫn được giữ.'
+        : code === 'LESSON_VALIDATION_FAILED'
+          ? 'Bản hướng dẫn vừa tạo chưa đạt kiểm tra nên mình chưa mở cho em. Đề và bài làm vẫn được giữ; em thử lại nhé.'
+          : 'Mình chưa chuẩn bị được hướng dẫn lúc này. Bài của em vẫn ở đây; em thử lại nhé.');
     } else setError('Chưa kết nối được lúc này. Bài của em vẫn ở đây, em thử lại nhé.');
   }, []);
   const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {

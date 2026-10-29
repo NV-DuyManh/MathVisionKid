@@ -111,6 +111,9 @@ public final class MathTutorDtos {
                     && (workText == null || !workText.contains("[?]"));
         }
     }
+    public record LessonDraft(@NotBlank @Size(min = 3, max = 4000) String problemText,
+                              @NotNull @Size(max = 6000) String workText) {}
+    public record LessonPreparation(String phase) {}
     public record LessonAnswer(@NotBlank @Size(min = 20, max = 100) String sessionId,
                                @NotNull @Min(0) Integer revision,
                                @NotNull @Size(max = 500) String answer, @NotNull Boolean hint) {}

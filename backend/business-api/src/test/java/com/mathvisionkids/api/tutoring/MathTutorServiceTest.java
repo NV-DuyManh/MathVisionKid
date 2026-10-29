@@ -27,6 +27,19 @@ class MathTutorServiceTest {
     private MockRestServiceServer server;
     private MathTutorService service;
 
+    @Test void sourcePreparationIsPrivateAndDoesNotForgeTranscriptionConfirmation() {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/prepare"))
+                .andExpect(jsonPath("$.owner").value("real-pupil"))
+                .andExpect(jsonPath("$.problemConfirmed").doesNotExist())
+                .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
+                .andRespond(withSuccess("{\"phase\":\"preparing\",\"answer\":\"private\"}",MediaType.APPLICATION_JSON));
+        assertEquals("preparing",service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil").phase());
+        server.verify();server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/prepare"))
+                .andRespond(withSuccess("{\"phase\":\"unexpected\"}",MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil"));
+    }
+
     @Test void preparationForwardsOnlyAuthenticatedOwnerAndValidatesBoundedCounters() {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
                 .andExpect(jsonPath("$.owner").value("real-pupil"))
@@ -766,6 +779,33 @@ class MathTutorServiceTest {
         error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE, () -> service.guide(request()));
         error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE,
                 () -> new MathTutorService(new RestTemplate(), URL, "").guide(request()));
+        server.verify();
+    }
+
+    @Test
+    void lessonFailureCategoriesArePreservedButRawDetailsAreNotExposed() {
+        for (var item : java.util.Map.of("rate_limit", "TUTOR_RATE_LIMITED", "timeout", "TUTOR_TIMEOUT",
+                "configuration", "TUTOR_CONFIGURATION", "validation", "LESSON_VALIDATION_FAILED", "busy", "TUTOR_BUSY").entrySet()) {
+            server.reset();
+            server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                    .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", item.getKey())
+                            .body("private provider error and credentials"));
+            ApiException failure = assertThrows(ApiException.class,
+                    () -> service.lesson(new LessonRequest("Tính 7+9.", "", true, false), "student-a"));
+            assertEquals(item.getValue(), failure.getCode());
+            assertEquals(HttpStatus.SERVICE_UNAVAILABLE, failure.getStatus());
+            assertFalse(failure.getMessage().contains("private"));
+            server.verify();
+        }
+    }
+
+    @Test
+    void unrecognizedUpstreamLessonCategoryCannotInjectClientErrorCode() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", "raw-private-data"));
+        ApiException failure = assertThrows(ApiException.class,
+                () -> service.lesson(new LessonRequest("Tính 7+9.", "", true, false), "student-a"));
+        assertEquals("TUTOR_UNAVAILABLE", failure.getCode());
         server.verify();
     }
 }

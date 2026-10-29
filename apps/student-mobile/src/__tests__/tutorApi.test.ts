@@ -12,6 +12,16 @@ const guidance = { stage: 'UNDERSTAND', hint: 'Tìm số bi ban đầu và số 
 
 beforeEach(() => jest.clearAllMocks());
 
+it('prepares a private source without claiming confirmation and keeps the normal timeout', async () => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { phase: 'preparing' } });
+  await TutorService.prepareLesson('Có 7 hộp, mỗi hộp 9 bút.', '');
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/lesson/prepare',
+    { problemText: 'Có 7 hộp, mỗi hộp 9 bút.', workText: '' }, { timeout: 45000, signal: undefined });
+  (apiClient.post as jest.Mock).mockClear();
+  await TutorService.prepareLesson('Có [?] bút.', '');
+  expect(apiClient.post).not.toHaveBeenCalled();
+});
+
 it('requires confirmation and validates the long-division check response', async () => {
   const division = { dividend: '49572', divisor: '6', quotient: '8262', rows: ['015', '037', '012', '00'] };
   await expect(TutorService.checkDivision(division, false)).rejects.toThrow();

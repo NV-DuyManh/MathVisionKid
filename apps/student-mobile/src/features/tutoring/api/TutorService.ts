@@ -164,6 +164,12 @@ export const TutorService = {
         || (data.status !== 'TRY_AGAIN' && data.hints.length > 0)))) throw new Error(INVALID_RESPONSE);
     return data;
   },
+  async prepareLesson(problemText: string, workText: string, signal?: AbortSignal): Promise<void> {
+    if (problemText.trim().length < 3 || problemText.length > 4000 || workText.length > 6000
+      || problemText.includes('[?]') || workText.includes('[?]')) return;
+    const { data } = await apiClient.post('/student/tutor/lesson/prepare', { problemText, workText }, { timeout: TIMEOUT, signal });
+    if (!['preparing', 'ready', 'busy', 'unavailable'].includes(data?.phase)) throw new Error(INVALID_RESPONSE);
+  },
   async startLesson(problemText: string, workText: string,
     confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean; startWithReading?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
     if (confirmation?.problemConfirmed !== true || (workText.trim() && confirmation.workConfirmed !== true)

@@ -1,0 +1,22 @@
+{
+  "scope": "isolated process; real ASR and text reply; reading-only session fixture",
+  "humanRecording": false,
+  "physicalPlaybackVerified": false,
+  "providerResponses": [
+    {
+      "operation": "transcription",
+      "status": 200
+    },
+    {
+      "operation": "text_reply",
+      "status": 200
+    }
+  ],
+  "asrMs": 1369.65,
+  "transcript": "Em đọc đề và tìm những điều đã biết trước nhé. Sau đó em chọn câu hỏi cho biết bài toán cần tìm gì. Chưa cần thực hiện phép tính ở bước này.",
+  "normalizedExactMatch": true,
+  "replyMs": 710.28,
+  "guarded": false,
+  "answer": "Em hãy đọc kỹ từng câu trong đề bài. Những câu chứa số đo cụ thể như 8m là điều đã biết. Những câu bắt đầu bằng từ 'Hỏi' là điều cần tìm.",
+  "status": "responded"
+}

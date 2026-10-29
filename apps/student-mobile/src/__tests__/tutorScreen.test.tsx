@@ -7,6 +7,7 @@ import { recognitionDraftStore } from '../features/recognition/state/recognition
 import { AuthContext } from '../context/AuthContext';
 import { StudentWorkReview } from '../features/tutoring/StudentWorkReview';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
+import { ProblemSummary } from '../features/tutoring/ProblemSummary';
 import { prepareLessonMedia } from '../features/tutoring/narrationApi';
 
 jest.mock('expo-speech', () => ({ speak: jest.fn(), stop: jest.fn().mockResolvedValue(undefined), getAvailableVoicesAsync: jest.fn().mockResolvedValue([]) }));
@@ -27,7 +28,7 @@ jest.mock('expo-router', () => ({
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
 jest.mock('../features/tutoring/api/TutorService', () => ({
   ...jest.requireActual('../features/tutoring/api/TutorService'),
-  TutorService: { inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn(), reviewWork: jest.fn() },
+  TutorService: { prepareLesson: jest.fn().mockResolvedValue(undefined), inspect: jest.fn(), coach: jest.fn(), startLesson: jest.fn(), answerLesson: jest.fn(), checkDivision: jest.fn(), reviewWork: jest.fn() },
 }));
 jest.mock('../features/recognition/components/RecognitionProgress', () => ({
   RecognitionProgress: ({ title, onCancel, cancelLabel, complete, onComplete }: any) => {
@@ -60,6 +61,8 @@ it('opens reading immediately and starts speech preparation before the listening
   (TutorService.startLesson as jest.Mock).mockResolvedValue(reading);
   const auth = { user: { id: 'pupil-a' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
   await act(async () => { view = TestRenderer.create(<AuthContext.Provider value={auth}><MathGuideScreen /></AuthContext.Provider>); });
+  expect(TutorService.prepareLesson).toHaveBeenCalledWith(PROBLEM, '', expect.anything());
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
   act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
   await act(async () => button('Bắt đầu từng bước').props.onPress());
   expect(view.root.findAllByProps({ testID: 'lesson-preparation-screen' })).toHaveLength(0);
@@ -102,6 +105,7 @@ it('gives the summary its own transition before showing the first math step', as
 beforeEach(() => {
   jest.clearAllMocks(); recognitionDraftStore.clearDraft();
   Object.values(TutorService).forEach(value => { if (jest.isMockFunction(value)) value.mockReset(); });
+  (TutorService.prepareLesson as jest.Mock).mockResolvedValue(undefined);
   (useLocalSearchParams as jest.Mock).mockReturnValue({ problemText: PROBLEM });
   (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true });
   (TutorService.inspect as jest.Mock).mockResolvedValue(WORK);
@@ -114,6 +118,30 @@ const render = async (confirmProblem = true) => {
   if (confirmProblem && button('Em đã kiểm tra đề bài và các số') && !button('Em đã kiểm tra đề bài và các số').props.disabled)
     act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
 };
+
+it('keeps unconfirmed source usable when optional background preparation fails', async () => {
+  (TutorService.prepareLesson as jest.Mock).mockRejectedValue(new Error('private preparation failure'));
+  const auth = { user: { id: 'pupil-a' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
+  await act(async () => { view = TestRenderer.create(<AuthContext.Provider value={auth}><MathGuideScreen /></AuthContext.Provider>); });
+  expect(TutorService.prepareLesson).toHaveBeenCalledWith(PROBLEM, '', expect.anything());
+  expect(button('Bắt đầu từng bước').props.disabled).toBe(true);
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
+  expect(readText()).not.toContain('private preparation failure');
+  act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
+  await act(async () => button('Bắt đầu từng bước').props.onPress());
+  expect(readText()).toContain(LESSON.step.question);
+});
+
+it('keeps both checked questions in a multi-part reading summary', async () => {
+  const first = 'Hỏi cần mua bao nhiêu viên gạch?';
+  const second = 'Hỏi cần bao nhiêu tiền để lát nền?';
+  const response = { ...LESSON, status: 'READY' as const, understandingSteps: 3 as const, stepIndex: 3, summary: null, completed:
+    ['Nền nhà dài 8m.', first, second].map(answer => ({ kind: 'UNDERSTAND' as const, title: 'Hiểu đề',
+      expression: '', unit: '', explanation: '', answer })) };
+  await act(async () => { view = TestRenderer.create(<ProblemSummary lesson={response} compact />); });
+  expect(readText()).toContain(first);
+  expect(readText()).toContain(second);
+});
 
 it('shows lesson preparation by itself immediately, then replaces it with the ready lesson', async () => {
   let finish!: (value: typeof LESSON) => void;
@@ -905,4 +933,19 @@ it('allows a third distinct hint and clears old help only when the server advanc
   act(() => button('Tiếp tục bước tiếp theo').props.onPress());
   expect(readText()).not.toContain('Viết phép cộng rồi kiểm tra số bút.');
   expect(button('Gợi ý cách làm bước này')).toBeDefined();
+});
+
+it.each([
+  ['TUTOR_RATE_LIMITED', 'Đang có nhiều yêu cầu'],
+  ['TUTOR_TIMEOUT', 'chưa kịp chuẩn bị trong thời gian chờ'],
+  ['LESSON_VALIDATION_FAILED', 'chưa đạt kiểm tra'],
+])('explains %s while preserving source and hiding raw provider errors', async (code, message) => {
+  (TutorService.startLesson as jest.Mock).mockRejectedValue({ response: { status: 503, data: { error: { code, message: 'private provider response' } } } });
+  await render();
+  await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
+  expect(readText()).toContain(message);
+  expect(readText()).toContain(PROBLEM);
+  expect(readText()).not.toContain('private provider response');
+  expect(readText()).not.toContain('kiểm tra đề đầy đủ');
+  expect(button('Bắt đầu lại bài học')).toBeDefined();
 });

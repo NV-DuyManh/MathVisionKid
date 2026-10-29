@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-28T23:39:20.718550+07:00",
+  "projectRoot": "E:\\MathVisionKid",
+  "pythonPassed": 499,
+  "studentPassed": 135,
+  "studentFailed": 0,
+  "java": [
+    {
+      "name": "MathTutorServiceTest",
+      "tests": 95,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "MathTutorControllerTest",
+      "tests": 51,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "totalPassed": 780,
+  "typecheck": true,
+  "androidExport": true,
+  "physicalDeviceVerified": false,
+  "commitPush": false,
+  "services": {
+    "business": {
+      "http": 200,
+      "healthy": true,
+      "cwdMatchesProject": true
+    },
+    "ai": {
+      "http": 200,
+      "healthy": true,
+      "cwdMatchesProject": true
+    },
+    "ready": {
+      "http": 200,
+      "healthy": true
+    },
+    "student": {
+      "http": 200,
+      "healthy": true,
+      "cwdMatchesProject": true
+    }
+  },
+  "sourceSha256": {
+    "ai/runtime/app/api/tutor.py": "555fc969f39ec4db6c1457c01a24aeb5e5664f6373b67dd9678db3939ab3e415",
+    "ai/runtime/app/tutoring/lesson.py": "bc6791ce32d2ddcabb42f0b261fc515223a4b85fe92134fb450813b1c20be6f5",
+    "ai/runtime/app/tutoring/plan_preparation.py": "706916a1b8dd597741dbd93d55b3e9dde5f477768a5fc86c6c6f37be3db835c2",
+    "ai/runtime/tests/test_plan_preparation.py": "8705c6e858a8898a7fc65d9a4c1d9d803a828f55a2d99707974bedd8629817a0",
+    "ai/runtime/tests/test_lesson_metric_amounts.py": "3a8db4182da92a2cac592d5725f76262772914f5369ae9f5802157f307edbb8a",
+    "apps/student-mobile/src/app/learning/math-guide.tsx": "01315fb003023ca5ec9e64f731242f174986993f9cb9c680c2b480e33d28d929",
+    "apps/student-mobile/src/features/tutoring/api/TutorService.ts": "dac12083712c5763bb5693a0fbd09f158d4de463643fa53e887f396f4080c94c",
+    "apps/student-mobile/src/features/tutoring/ProblemSummary.tsx": "39ead3b70b6d3e4d183082634ad5337b75db1fea7bc9fb318e908985fb8b8fb4",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "eb00ab1964aee46a0943b7e9b2c1374f5453746ec1c655c1c42a16987ef231fb",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java": "67d2c0e71b8c1f5cb6bc8ac09cc4eac4dcb3018187c1b49cd2b46feb92388062",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java": "61899dec8e74f0a22ae2cdaead581412e1c8c8734cfc020b308cfc4cbefb213e"
+  },
+  "businessPreparationRouteLoaded": true,
+  "lintErrors": 0,
+  "existingLintWarnings": 2
+}

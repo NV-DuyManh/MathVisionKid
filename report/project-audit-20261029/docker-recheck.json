@@ -1,0 +1,35 @@
+{
+  "ai": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "aiReady": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "business": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "student": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "portal": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "teacher": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "admin": {
+    "status": "unreachable",
+    "category": "URLError"
+  },
+  "minio": {
+    "status": 200,
+    "ms": 1102.6
+  },
+  "checkedAt": "2026-10-29T08:29:54.791852+07:00"
+}
