@@ -18,7 +18,7 @@ $health = Invoke-RestMethod "$ApiOrigin/actuator/health" -TimeoutSec 20
 if ($health.status -ne 'UP') { throw 'The public API is not healthy; no web deployment was started.' }
 if (-not (Get-Command vercel -ErrorAction SilentlyContinue)) { throw 'Install and authenticate the Vercel CLI first.' }
 $previous = @{}
-$keys = @('VITE_API_BASE_URL', 'VITE_PORTAL_URL', 'VITE_TEACHER_URL', 'VITE_ADMIN_URL', 'VITE_USE_MOCK', 'VITE_SHOW_DEV_TOOLS', 'EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_USE_MOCK', 'EXPO_NO_DOTENV', 'MATHVISION_WEB_EXPORT')
+$keys = @('VITE_API_BASE_URL', 'VITE_PORTAL_URL', 'VITE_TEACHER_URL', 'VITE_ADMIN_URL', 'VITE_USE_MOCK', 'VITE_SHOW_DEV_TOOLS', 'EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_USE_MOCK', 'EXPO_PUBLIC_ALLOW_LOCAL_API', 'EXPO_NO_DOTENV', 'MATHVISION_WEB_EXPORT')
 foreach ($key in $keys) { $previous[$key] = [Environment]::GetEnvironmentVariable($key, 'Process') }
 try {
     $env:VITE_PORTAL_URL = 'https://mathvisionkid-portal.vercel.app'
@@ -52,6 +52,7 @@ try {
             if ($LASTEXITCODE -ne 0) { throw 'Student website configuration checks failed.' }
             $env:EXPO_PUBLIC_API_BASE_URL = "$webOrigin/api/v1"
             $env:EXPO_PUBLIC_USE_MOCK = 'false'
+            $env:EXPO_PUBLIC_ALLOW_LOCAL_API = 'false'
             $env:EXPO_NO_DOTENV = '1'
             $env:MATHVISION_WEB_EXPORT = 'true'
             $studentExport = Join-Path $state 'student-web-export'

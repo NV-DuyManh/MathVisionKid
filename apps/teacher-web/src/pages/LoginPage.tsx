@@ -225,7 +225,7 @@ export default function LoginPage() {
               fullWidth
               variant="outlined"
               component="a"
-              href={`${appConfig.portalOrigin}/login`}
+              href={`${appConfig.portalOrigin}/login?role=TEACHER`}
               sx={{
                 py: 1.1,
                 fontWeight: 600,

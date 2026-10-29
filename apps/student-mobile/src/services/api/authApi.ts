@@ -41,6 +41,35 @@ export const getMockStudentUser = (email: string) => {
 };
 
 export const authApi = {
+  register: async (payload: {
+    email: string;
+    displayName: string;
+    password: string;
+    role: 'STUDENT';
+    gender: 'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY';
+    phoneNumber: string;
+    gradeLevel: number;
+  }): Promise<{ message: string }> => {
+    const response = await apiClient.post('/auth/register', payload);
+    return response.data;
+  },
+
+  requestPasswordReset: async (email: string): Promise<{ message: string }> => {
+    const response = await apiClient.post('/auth/password-reset/request', { email });
+    return response.data;
+  },
+
+  confirmPasswordReset: async (email: string, code: string, newPassword: string): Promise<{ message: string }> => {
+    const response = await apiClient.post('/auth/password-reset/confirm', { email, code, newPassword });
+    return response.data;
+  },
+
+  loginWithGoogle: async (credential: string, gradeLevel?: number): Promise<LoginResponse> => {
+    if (ENV.USE_MOCK) throw new Error('Google login is unavailable in mock mode.');
+    const response = await apiClient.post('/auth/google', { credential, role: 'STUDENT', gradeLevel });
+    return response.data;
+  },
+
   login: async (credentials: any): Promise<LoginResponse> => {
     let email = (credentials.email || '').trim();
     if (email.toLowerCase() === 'minh.student@gmail.com') {

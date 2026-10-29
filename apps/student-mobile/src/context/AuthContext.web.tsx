@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import axios from 'axios';
 import { tokenStorage } from '../services/auth/tokenStorage';
 import apiClient from '../services/api/apiClient';
+import { authApi } from '../services/api/authApi';
 import { ENV } from '../config/env';
 import { RecognitionService } from '../features/recognition/api/RecognitionService';
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
@@ -15,6 +16,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: any) => Promise<void>;
+  loginWithGoogle: (credential: string, gradeLevel?: number) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -98,6 +100,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const loginWithGoogle = async (credential: string, gradeLevel?: number) => {
+    try {
+      const data = await authApi.loginWithGoogle(credential, gradeLevel);
+      await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
+      const { data: profileData } = await apiClient.get('/me');
+      if (profileData.role !== 'STUDENT' || profileData.active === false) {
+        await tokenStorage.clearTokens();
+        window.location.replace('/access-denied');
+        return;
+      }
+      const profile = studentProfile(profileData);
+      await tokenStorage.saveUser(profile);
+      setSessionUser(profile);
+      router.replace('/(tabs)' as any);
+    } catch (error) {
+      await tokenStorage.clearTokens();
+      delete apiClient.defaults.headers.common.Authorization;
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       const accessToken = await tokenStorage.getAccessToken();
@@ -120,7 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, loginWithGoogle, logout }}>
       {user ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, backgroundColor: COLORS.background }}>
         <ActivityIndicator color={COLORS.primary} />
         <Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang mở bài học cho em…</Text>

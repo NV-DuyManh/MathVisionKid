@@ -8,6 +8,34 @@ $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
 }
 Set-Location $RepoRoot
 
+# The portal uses the public web OAuth client; the backend also accepts configured
+# native Android/iOS audiences. Keep OAuth secrets out of client code and source control.
+$GoogleClientId = '448080253219-3qhqov76pvqmfmdfni6asbr4c2bhtset.apps.googleusercontent.com'
+$env:VITE_GOOGLE_CLIENT_ID = $GoogleClientId
+
+# Local mail and mobile OAuth settings stay outside source control.
+$BackendLocalEnv = Join-Path $RepoRoot 'backend\business-api\.env.local'
+$BackendLocalKeys = @(
+    'AUTH_EMAIL_ENABLED', 'AUTH_EMAIL_FROM', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD',
+    'MAIL_SMTP_AUTH', 'MAIL_SMTP_STARTTLS', 'GOOGLE_ANDROID_CLIENT_ID', 'GOOGLE_IOS_CLIENT_ID',
+    'FACEBOOK_AUTH_ENABLED', 'FIREBASE_PROJECT_ID', 'GOOGLE_APPLICATION_CREDENTIALS'
+)
+if (Test-Path $BackendLocalEnv) {
+    foreach ($line in Get-Content $BackendLocalEnv) {
+        if ($line -match '^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$' -and $BackendLocalKeys -contains $Matches[1]) {
+            $key = $Matches[1]
+            $value = $Matches[2].Trim()
+            if ($value.Length -ge 2 -and (($value.StartsWith('"') -and $value.EndsWith('"')) -or ($value.StartsWith("'") -and $value.EndsWith("'")))) {
+                $value = $value.Substring(1, $value.Length - 2)
+            }
+            [Environment]::SetEnvironmentVariable($key, $value, 'Process')
+        }
+    }
+}
+$GoogleClientIds = @($GoogleClientId, $env:GOOGLE_ANDROID_CLIENT_ID, $env:GOOGLE_IOS_CLIENT_ID) |
+    Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -Unique
+$GoogleClientIdsArgument = $GoogleClientIds -join ','
+
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Unified Local Launcher" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
@@ -256,18 +284,19 @@ if (Test-Path $PyVenvExe) {
     $pyRes = Invoke-CommandWithTimeout -FilePath $PyVenvExe -ArgumentList @("--version") -TimeoutSeconds 3
     $pyVer = if ($pyRes.Success) { $pyRes.Stdout } else { "Python venv" }
     Write-Host "  [+] Project Runtimes ....... FOUND (Gradle wrapper, $pyVer)" -ForegroundColor Green
-} else {
-    Write-Host "  [NOTICE] Python venv not found at ai/runtime/.venv. Falling back to system python." -ForegroundColor DarkYellow
-    $PyVenvExe = "python"
-    $pySys = Get-Command python -ErrorAction SilentlyContinue
-    if (-not $pySys) {
+    $aiModuleCheck = Invoke-CommandWithTimeout -FilePath $PyVenvExe -ArgumentList @("-c", '"import celery, uvicorn"') -TimeoutSeconds 10
+    if (-not $aiModuleCheck.Success) {
         $MissingDeps += @{
-            Tool   = "Python"
-            Reason = "Neither ai/runtime/.venv nor system python executable found"
-            Fix    = "Set up python virtual environment in ai/runtime/.venv or install Python 3.10+ in PATH."
+            Tool   = "AI runtime Python dependencies"
+            Reason = "The project virtual environment is missing uvicorn or celery."
+            Fix    = "Run: ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt"
         }
-    } else {
-        Write-Host "  [+] Project Runtimes ....... FOUND (Gradle wrapper, system python)" -ForegroundColor Green
+    }
+} else {
+    $MissingDeps += @{
+        Tool   = "AI runtime Python environment"
+        Reason = "The project virtual environment was not found at ai/runtime/.venv."
+        Fix    = "Run: py -3.12 -m venv ai\runtime\.venv; ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt"
     }
 }
 
@@ -493,7 +522,7 @@ $SpringPid = Join-Path $PidDir "spring.pid"
 $SpringLog = Join-Path $LogDir "spring.log"
 Start-TrackedService -Name "Spring Boot" `
     -FilePath "cmd.exe" `
-    -ArgumentList '/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev"' `
+    -ArgumentList (('/c gradlew.bat --no-daemon bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev --app.auth.google.enabled=true --app.auth.google.client-id={0}"' -f $GoogleClientIdsArgument)) `
     -WorkingDirectory $SpringDir `
     -LogFile $SpringLog `
     -PidFile $SpringPid `
@@ -504,11 +533,9 @@ Start-TrackedService -Name "Spring Boot" `
 $AiDir = Join-Path $RepoRoot "ai\runtime"
 $FastApiPid = Join-Path $PidDir "fastapi.pid"
 $FastApiLog = Join-Path $LogDir "fastapi.log"
-$UvicornExe = Join-Path $AiDir ".venv\Scripts\uvicorn.exe"
-if (-not (Test-Path $UvicornExe)) { $UvicornExe = "uvicorn" }
 Start-TrackedService -Name "FastAPI AI Runtime" `
-    -FilePath $UvicornExe `
-    -ArgumentList "app.main:app --host 127.0.0.1 --port 8000" `
+    -FilePath $PyVenvExe `
+    -ArgumentList "-m uvicorn app.main:app --host 127.0.0.1 --port 8000" `
     -WorkingDirectory $AiDir `
     -LogFile $FastApiLog `
     -PidFile $FastApiPid `
@@ -518,8 +545,6 @@ Start-TrackedService -Name "FastAPI AI Runtime" `
 # C. Celery Worker
 $CeleryPid = Join-Path $PidDir "celery.pid"
 $CeleryLog = Join-Path $LogDir "celery.log"
-$CeleryExe = Join-Path $AiDir ".venv\Scripts\celery.exe"
-if (-not (Test-Path $CeleryExe)) { $CeleryExe = "celery" }
 $celeryActive = $false
 $celeryResponding = $false
 Push-Location $AiDir
@@ -542,11 +567,39 @@ if ($celeryActive) {
     Write-Host "  Celery Worker is already active." -ForegroundColor Green
 } else {
     Start-TrackedService -Name "Celery Worker" `
-        -FilePath $CeleryExe `
-        -ArgumentList "-A app.jobs.celery_app worker --loglevel=info --pool=solo --concurrency=1 --hostname=mathvision@%h" `
+        -FilePath $PyVenvExe `
+        -ArgumentList "-m celery -A app.jobs.celery_app worker --loglevel=info --pool=solo --concurrency=1 --hostname=mathvision@%h" `
         -WorkingDirectory $AiDir `
         -LogFile $CeleryLog `
         -PidFile $CeleryPid
+}
+
+# Export the student web app under the same /study path used by the production portal.
+$StudentDir = Join-Path $RepoRoot "apps\student-mobile"
+$StudentWebDir = Join-Path $RepoRoot "apps\portal-web\public\study"
+$studentEnvKeys = @('EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_USE_MOCK', 'EXPO_PUBLIC_ALLOW_LOCAL_API', 'EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID', 'EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID', 'EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID', 'EXPO_NO_DOTENV', 'MATHVISION_WEB_EXPORT')
+$previousStudentEnv = @{}
+foreach ($key in $studentEnvKeys) { $previousStudentEnv[$key] = [Environment]::GetEnvironmentVariable($key, 'Process') }
+try {
+    $env:EXPO_PUBLIC_API_BASE_URL = 'http://localhost:8080/api/v1'
+    $env:EXPO_PUBLIC_USE_MOCK = 'false'
+    $env:EXPO_PUBLIC_ALLOW_LOCAL_API = 'true'
+    $env:EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID = $GoogleClientId
+    $env:EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID = $env:GOOGLE_ANDROID_CLIENT_ID
+    $env:EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID = $env:GOOGLE_IOS_CLIENT_ID
+    $env:EXPO_NO_DOTENV = '1'
+    $env:MATHVISION_WEB_EXPORT = 'true'
+    Write-Host "  Exporting Student Web to /study..." -ForegroundColor Cyan
+    Push-Location $StudentDir
+    try {
+        & npx.cmd expo export --platform web --output-dir ..\portal-web\public\study
+        if ($LASTEXITCODE -ne 0) { throw "Student Web export failed. Check the export output above." }
+    } finally { Pop-Location }
+    if (-not (Test-Path -LiteralPath (Join-Path $StudentWebDir 'index.html'))) {
+        throw "Student Web export did not create $StudentWebDir\index.html."
+    }
+} finally {
+    foreach ($key in $studentEnvKeys) { [Environment]::SetEnvironmentVariable($key, $previousStudentEnv[$key], 'Process') }
 }
 
 # D. Unified Portal Web
@@ -614,6 +667,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
     $springUp = $false
     $fastapiUp = $false
     $portalUp = $false
+    $studentWebUp = $false
     $teacherUp = $false
     $adminUp = $false
     try {
@@ -629,6 +683,10 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         if ($resp.StatusCode -eq 200) { $portalUp = $true }
     } catch {}
     try {
+        $resp = Invoke-WebRequest -Uri "http://localhost:5172/study/" -TimeoutSec 3 -UseBasicParsing -ErrorAction SilentlyContinue
+        if ($resp.StatusCode -eq 200 -and $resp.Content -match 'expo|student|study') { $studentWebUp = $true }
+    } catch {}
+    try {
         $resp = Invoke-WebRequest -Uri "http://localhost:5173" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $teacherUp = $true }
     } catch {}
@@ -637,7 +695,7 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
         if ($resp.StatusCode -eq 200) { $adminUp = $true }
     } catch {}
 
-    if ($springUp -and $fastapiUp -and $portalUp -and $teacherUp -and $adminUp) {
+    if ($springUp -and $fastapiUp -and $portalUp -and $studentWebUp -and $teacherUp -and $adminUp) {
         $allReady = $true
         break
     }

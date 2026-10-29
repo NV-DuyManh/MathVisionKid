@@ -20,7 +20,9 @@ services:
     restart: unless-stopped
 
   minio:
-    image: minio/minio:RELEASE.2024-01-28T22-35-53Z
+    image: mathvision-storage:cloud
+    build:
+      context: ../production/storage
     container_name: mathvision-minio
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -89,5 +91,7 @@ services:
 
 volumes:
   pgdata:
+  # Keep the existing version-3 MinIO volume intact; this server release cannot read it.
   miniodata:
+    name: business-api_miniodata_dev_20261027
   redisdata:

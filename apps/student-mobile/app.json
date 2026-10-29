@@ -8,9 +8,11 @@
     "scheme": "mathvisionkid",
     "userInterfaceStyle": "light",
     "ios": {
+      "bundleIdentifier": "com.mathvisionkids.student",
       "icon": "./assets/images/mathvision-icon-v2.png"
     },
     "android": {
+      "package": "com.mathvisionkids.student",
       "adaptiveIcon": {
         "backgroundColor": "#6040DD",
         "foregroundImage": "./assets/illustrations/mathvision-star.png"
