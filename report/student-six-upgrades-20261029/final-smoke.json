@@ -1,0 +1,8 @@
+{
+  "evidence": "Real local Student login and actual web routes after both exports and development-server restart; no lesson/model/TTS mocks or new synthesis in this smoke test.",
+  "home": true,
+  "sourceConfirmation": true,
+  "webMeasurementsPersist": true,
+  "noHorizontalOverflow": true,
+  "errors": []
+}

@@ -141,6 +141,16 @@ public class MathTutorService {
                 text(body, "feedback", 500, true), flag(body, "guarded"));
     }
 
+    public LessonPreparationStatus prepareLesson(LessonDraft request, String owner) {
+        if (request.problemText().contains("[?]") || request.workText().contains("[?]"))
+            throw invalid("TRANSCRIPTION_UNCLEAR", "Em kiểm tra lại chỗ chưa đọc rõ nhé.");
+        JsonNode body = call("/internal/v1/tutor/lesson/prepare", java.util.Map.of("owner", owner,
+                "problemText", request.problemText(), "workText", request.workText()), MediaType.APPLICATION_JSON);
+        String phase = text(body, "phase", 16, false);
+        if (!List.of("preparing", "ready", "busy", "unavailable").contains(phase)) throw unavailable();
+        return new LessonPreparationStatus(phase);
+    }
+
     public LessonResponse lesson(LessonRequest request, String owner) {
         if (!request.isSourceConfirmed())
             throw invalid("TRANSCRIPTION_CONFIRMATION_REQUIRED", "Em kiểm tra lại đề và các số với ảnh trước nhé.");
@@ -169,6 +179,18 @@ public class MathTutorService {
     public LessonResponse preparation(LessonPreparation request, String owner) {
         return lessonResponse(call("/internal/v1/tutor/lesson/preparation", java.util.Map.of("owner", owner,
                 "sessionId", request.sessionId(), "revision", request.revision(), "retry", request.retry()), MediaType.APPLICATION_JSON));
+    }
+
+    public LessonResponse resume(LessonResume request, String owner) {
+        return lessonResponse(call("/internal/v1/tutor/lesson/resume", java.util.Map.of("owner",owner,
+                "sessionId",request.sessionId(),"problemText",request.problemText()), MediaType.APPLICATION_JSON));
+    }
+
+    public LearningCheck checkpoint(LessonCheckpoint request, String owner) {
+        JsonNode body=call("/internal/v1/tutor/lesson/checkpoint",java.util.Map.of("owner",owner,
+                "sessionId",request.sessionId(),"revision",request.revision(),"answer",request.answer()),MediaType.APPLICATION_JSON);
+        return new LearningCheck(text(body,"expression",300,false),text(body,"question",200,false),
+                flag(body,"checked"),flag(body,"correct"),text(body,"feedback",300,true));
     }
 
     public LessonReply ask(LessonQuestion request, String owner) {
@@ -383,8 +405,19 @@ public class MathTutorService {
             }
             summary = new LessonSummary(givens, text(quoted, "question", 100, false));
         }
+        StepReview review=null;
+        JsonNode reviewed=body.get("review");
+        if(reviewed!=null&&!reviewed.isNull()){
+            JsonNode options=reviewed.get("choices");
+            if(done.isEmpty()||options==null||!options.isArray()||options.size()>4)throw unavailable();
+            java.util.ArrayList<String> choices=new java.util.ArrayList<>();
+            for(JsonNode option:options){if(!option.isTextual()||option.asText().isBlank()||option.asText().length()>100)throw unavailable();choices.add(option.asText());}
+            String selected=text(reviewed,"studentAnswer",100,false);
+            if(!done.get(done.size()-1).answer().equals(selected)||!choices.isEmpty()&&!choices.contains(selected))throw unavailable();
+            review=new StepReview(text(reviewed,"question",220,false),choices,selected);
+        }
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing);
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing,review);
     }
 
     private static String stepKind(JsonNode step, boolean understanding) {
@@ -449,9 +482,26 @@ public class MathTutorService {
             if (ex.getStatusCode().value() == 413) {
                 throw new ApiException("IMAGE_TOO_LARGE", "Ảnh quá lớn. Em hãy chọn ảnh nhỏ hơn 8 MB.", HttpStatus.PAYLOAD_TOO_LARGE);
             }
+            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)) {
+                String reason = ex.getResponseHeaders() == null ? null : ex.getResponseHeaders().getFirst("X-Tutor-Failure");
+                String code = switch (reason == null ? "" : reason) {
+                    case "rate_limit" -> "TUTOR_RATE_LIMITED";
+                    case "timeout" -> "TUTOR_TIMEOUT";
+                    case "configuration" -> "TUTOR_CONFIGURATION";
+                    case "validation" -> "LESSON_VALIDATION_FAILED";
+                    case "busy" -> "TUTOR_BUSY";
+                    default -> "TUTOR_UNAVAILABLE";
+                };
+                logger.warn("Lesson preparation unavailable code={}", code);
+                throw new ApiException(code, "Chưa chuẩn bị được phần hướng dẫn. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+            }
             throw unavailable();
         } catch (RestClientException ex) {
             logger.warn("Tutor upstream request failed path={} category={}",path,ex.getClass().getSimpleName());
+            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)
+                    && ex.getCause() instanceof java.net.SocketTimeoutException) {
+                throw new ApiException("TUTOR_TIMEOUT", "Phần hướng dẫn chưa kịp chuẩn bị. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+            }
             throw unavailable();
         }
     }

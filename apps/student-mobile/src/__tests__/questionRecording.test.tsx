@@ -30,6 +30,13 @@ beforeEach(() => {
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
 
+it('restores a bookmark without autoplay and plays only after an explicit paragraph selection',async()=>{
+  const control=React.createRef<{seekTo:(seconds:number)=>void}>(),ready=jest.fn();
+  await act(async()=>{view=TestRenderer.create(<AudioPlayback uri="file:///aligned.wav" title="Nghe giảng" initialPosition={17} controlRef={control} onReady={ready}/>);});
+  expect(mockPlayer.seekTo).toHaveBeenCalledWith(17);expect(ready).toHaveBeenCalled();expect(mockPlayer.play).not.toHaveBeenCalled();
+  await act(async()=>control.current!.seekTo(32.5));expect(mockPlayer.seekTo).toHaveBeenLastCalledWith(32.5);expect(mockPlayer.play).toHaveBeenCalledTimes(1);
+});
+
 it('does not autoplay and seeks to an arbitrary second without starting paused audio', async () => {
   await render(); expect(mockPlayer.play).not.toHaveBeenCalled();
   await act(async () => controls().onSeek(23.75));
@@ -94,11 +101,22 @@ it('leaves a stalled decoder after twelve seconds instead of waiting forever', a
   await act(async () => { view = TestRenderer.create(<AudioPlayback uri="file:///stalled.wav" title="Nghe giảng" onError={onError} />); });
   act(() => jest.advanceTimersByTime(12000));
   expect(onError).toHaveBeenCalledTimes(1);
-  expect(controls().loading).toBe(false);
-  expect(controls().disabled).toBe(true);
+  expect(view.root.findAllByType(MediaTimeline)).toHaveLength(0);
   mockStatus.isLoaded = true;
   await act(async () => view.update(<AudioPlayback uri="file:///stalled.wav" title="Nghe giảng" onError={onError} />));
   expect(controls().disabled).toBe(false);
+});
+
+it('reopens a failed recording locally from a compact retry notice without autoplay or losing its URI', async () => {
+  mockStatus.error='private native decoder detail';
+  await render();
+  expect(view.root.findAllByType(MediaTimeline)).toHaveLength(0);
+  const retry=view.root.findAll(node=>node.props.accessibilityLabel==='Tải lại bản ghi'&&node.props.onPress)[0];
+  mockStatus.error=null;
+  await act(async()=>retry.props.onPress());
+  expect(view.root.findByType(AudioPlayback).props.uri).toBe('file:///own-question.m4a');
+  expect(controls().disabled).toBe(false);
+  expect(mockPlayer.play).not.toHaveBeenCalled();
 });
 
 it('keeps the previous rate and gives a readable notice if the device rejects a speed change', async () => {

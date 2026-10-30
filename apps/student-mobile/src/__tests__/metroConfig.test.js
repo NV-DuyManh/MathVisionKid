@@ -35,7 +35,7 @@ describe.each([
   it('excludes generated/service roots with either separator and exact directory boundaries', () => {
     const { config } = loadConfig(root, paths);
     for (const folder of ['report', 'reports', 'runtime', 'ai', 'ai-training', 'backend', 'output', 'scratch',
-      'xyz', 'datasets', 'models', '.git', '.venv', 'infra/local-runtime']) {
+      'xyz', 'datasets', 'models', '.git', '.venv', '.local-artifacts', 'demoUI', 'infra/local-runtime']) {
       const file = paths.join(root, ...folder.split('/'), 'generated', 'large-file.bin');
       expect(blocked(config, file)).toBe(true);
       expect(blocked(config, file.replace(/\\/g, '/'))).toBe(true);

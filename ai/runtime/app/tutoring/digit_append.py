@@ -99,12 +99,12 @@ def verified_plan(problem: str) -> dict | None:
     step0_question = f"Khi bớt chữ số {d} ở hàng đơn vị của số mới thì 9 lần số cần tìm bằng bao nhiêu?"
     step0_guidance = [
         f"Khi viết thêm chữ số {d} vào bên phải một số, số mới bằng 10 lần số ban đầu cộng thêm {d} đơn vị. Coi số cần tìm là 1 phần thì số mới gồm 10 phần như thế và thêm {d} đơn vị.",
-        f"Đề bài cho biết số mới hơn số cần tìm {D} đơn vị. Nếu ta bớt đi {d} đơn vị ở số mới thì hiệu giữa số mới và số cần tìm sẽ là 10 - 1 = 9 lần số cần tìm.",
+        f"Đề bài cho biết số mới hơn số cần tìm {D} đơn vị. Nếu ta bớt đi {d} đơn vị ở số mới thì hiệu giữa số mới và số cần tìm sẽ là 10 trừ 1, tức là 9 lần số cần tìm.",
         step0_how,
     ]
     step0_initial = [
         f"Khi viết thêm chữ số {d} vào bên phải một số, số mới bằng 10 lần số ban đầu cộng thêm {d} đơn vị. Coi số cần tìm là 1 phần thì số mới gồm 10 phần như thế và thêm {d} đơn vị.",
-        f"Đề bài cho biết số mới hơn số cần tìm {D} đơn vị. Nếu ta bớt đi {d} đơn vị ở số mới thì hiệu giữa số mới và số cần tìm sẽ là 10 - 1 = 9 lần số cần tìm.",
+        f"Đề bài cho biết số mới hơn số cần tìm {D} đơn vị. Nếu ta bớt đi {d} đơn vị ở số mới thì hiệu giữa số mới và số cần tìm sẽ là 10 trừ 1, tức là 9 lần số cần tìm.",
     ]
     step0_hints = [
         f"Em lấy hiệu {D} trừ đi chữ số {d} viết thêm ở hàng đơn vị.",

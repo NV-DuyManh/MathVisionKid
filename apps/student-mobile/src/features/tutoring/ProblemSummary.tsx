@@ -12,7 +12,10 @@ export function ProblemSummary({ lesson, compact = false }: { lesson: LessonResp
   if (lesson.understandingSteps !== 3) return null;
   const reading = lesson.step?.kind === 'UNDERSTAND';
   const fact = lesson.completed[0]?.kind === 'UNDERSTAND' ? lesson.completed[0].answer : '';
-  const question = lesson.completed[1]?.kind === 'UNDERSTAND' ? lesson.completed[1].answer : '';
+  const firstQuestion = lesson.completed[1]?.kind === 'UNDERSTAND' ? lesson.completed[1].answer : '';
+  const otherQuestion = lesson.completed[2]?.kind === 'UNDERSTAND' && lesson.completed[2].answer.endsWith('?')
+    ? lesson.completed[2].answer : '';
+  const question = [firstQuestion, otherQuestion].filter(Boolean).join('\n');
   const summary = fact && question && lesson.stepIndex >= 2 ? lesson.summary : null;
   const open = reading || expanded;
   if (compact) return <View style={styles.content}>

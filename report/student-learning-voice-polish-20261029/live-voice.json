@@ -1,0 +1,25 @@
+{
+  "evidence": "Actual online TTS with final pronunciation normalization, after bulk tests completed; not physical-phone latency. Earlier measurement retained separately.",
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 111,
+      "spoken": "Bài 3. Chiều rộng bằng một nửa chiều dài 8 mét. Lấy 8 chia 2 bằng 4 mét. Đổi 4 mét bằng 40 đề xi mét.",
+      "seconds": 10.13,
+      "sampleRate": 16000,
+      "rms": 3252,
+      "status": "valid-non-silent-wave",
+      "generationSeconds": 15.595
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 111,
+      "spoken": "Bài 3. Chiều rộng bằng một nửa chiều dài 8 mét. Lấy 8 chia 2 bằng 4 mét. Đổi 4 mét bằng 40 đề xi mét.",
+      "seconds": 10.03,
+      "sampleRate": 16000,
+      "rms": 3576,
+      "status": "valid-non-silent-wave",
+      "generationSeconds": 5.637
+    }
+  ]
+}

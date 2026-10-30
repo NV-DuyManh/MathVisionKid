@@ -1,18 +1,18 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import { AppState } from 'react-native';
+import { AppState, StyleSheet } from 'react-native';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { AudioPlayback } from '../features/tutoring/AudioPlayback';
 import { downloadNarration, readNarrationProgress } from '../features/tutoring/narrationApi';
 import { saveNarration } from '../features/tutoring/narrationFile';
 import { voicePreferences } from '../features/tutoring/voicePreferences';
 import { TaskProgress } from '../components/ui/TaskProgress';
-import { NarrationCacheContext } from '../features/tutoring/NarrationPreparation';
+import { NarrationCacheContext,PlaybackBookmarksContext } from '../features/tutoring/NarrationPreparation';
 import { createNarrationCache } from '../features/tutoring/narrationCache';
 
 jest.mock('../features/tutoring/AudioPlayback', () => ({ AudioPlayback: () => null }));
 jest.mock('../features/tutoring/MediaTimeline', () => ({ MediaTimeline: () => null }));
-jest.mock('../features/tutoring/narrationApi', () => ({ NARRATION_WAIT_SECONDS: 45, prioritizeNarration: jest.fn().mockResolvedValue(undefined), downloadNarration: jest.fn(), readNarrationProgress: jest.fn().mockRejectedValue(new Error('No status')) }));
+jest.mock('../features/tutoring/narrationApi', () => ({ NARRATION_WAIT_SECONDS: 60, prioritizeNarration: jest.fn().mockResolvedValue(undefined), downloadNarration: jest.fn(), readNarrationProgress: jest.fn().mockRejectedValue(new Error('No status')) }));
 jest.mock('../features/tutoring/DeviceNarration', () => ({ DeviceNarration: () => null }));
 jest.mock('../features/tutoring/narrationFile', () => ({ saveNarration: jest.fn() }));
 jest.mock('../features/tutoring/voicePreferences', () => ({ voicePreferences: { get: jest.fn(), set: jest.fn() } }));
@@ -30,6 +30,18 @@ beforeEach(() => {
   (saveNarration as jest.Mock).mockReturnValue({ uri: 'file:///private-speech.wav', dispose });
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
+
+it('highlights and seeks only using validated cue points from the actual file and retains position',async()=>{
+  (saveNarration as jest.Mock).mockReturnValueOnce({uri:'file:///aligned.wav',dispose,cues:[{index:0,start:0,end:12.5},{index:1,start:12.5,end:30}]});
+  const bookmarks={get:jest.fn().mockResolvedValue(7),set:jest.fn(),flush:jest.fn().mockResolvedValue(undefined)};
+  await act(async()=>{view=TestRenderer.create(<PlaybackBookmarksContext.Provider value={bookmarks}><LessonNarration scope="cue" source={source} paragraphs={paragraphs}/></PlaybackBookmarksContext.Provider>);});
+  const audio=view.root.findByType(AudioPlayback),seek=jest.fn();audio.props.controlRef.current={seekTo:seek};
+  expect(audio.props.initialPosition).toBe(7);
+  act(()=>audio.props.onReady());act(()=>button('Đọc lời giảng chi tiết').props.onPress());
+  act(()=>button(`Nghe đoạn 2: ${paragraphs[1]}`).props.onPress());expect(seek).toHaveBeenCalledWith(12.5);
+  act(()=>audio.props.onPosition(15,30));expect(bookmarks.set).toHaveBeenCalledWith(expect.any(String),15,30);
+  expect(button(`Nghe đoạn 2: ${paragraphs[1]}`).props.accessibilityState.selected).toBe(true);
+});
 
 it('loads the owned WAV once and keeps long written narration collapsed until requested', async () => {
   const onFinished = jest.fn(); await render({ onFinished });
@@ -59,7 +71,7 @@ it('keeps the transcript usable and retries a failed audio download without show
   expect(view.root.findByType(AudioPlayback)).toBeDefined(); expect(downloadNarration).toHaveBeenCalledTimes(2);
 });
 
-it('cancels an unfinished download on background and does not autoplay when returning', async () => {
+it('resumes only an interrupted download on return, retaining the same voice and ignoring late old audio', async () => {
   let change!: (state: string) => void;
   jest.spyOn(AppState, 'addEventListener').mockImplementation((_, callback: any) => { change = callback; return { remove: jest.fn() }; });
   let finish!: (value: Uint8Array) => void;
@@ -68,9 +80,47 @@ it('cancels an unfinished download on background and does not autoplay when retu
   expect((downloadNarration as jest.Mock).mock.calls[0][2].aborted).toBe(true);
   await act(async () => finish(new Uint8Array(50))); expect(saveNarration).not.toHaveBeenCalled();
   expect(button('Tải lại lời giảng')).toBeDefined();
+  await act(async()=>change('active'));
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
+  expect(downloadNarration).toHaveBeenLastCalledWith(source,paragraphs,expect.any(AbortSignal),'vi-VN-NamMinhNeural',expect.any(Function));
+  expect(view.root.findByType(AudioPlayback)).toBeDefined();
+  await act(async()=>change('active'));expect(downloadNarration).toHaveBeenCalledTimes(2);
 });
 
 it('does not fetch narration while disabled', async () => { await render({ disabled: true }); expect(downloadNarration).not.toHaveBeenCalled(); });
+
+it('opens a fast ready file without flashing a preparation panel or hiding the player until an animation ends',async()=>{
+  jest.useFakeTimers();await render();
+  expect(StyleSheet.flatten(view.root.findAllByProps({testID:'narration-preparation'})[0].props.style).display).toBe('none');
+  act(()=>view.root.findByType(AudioPlayback).props.onReady());
+  expect(view.root.findAllByProps({testID:'narration-player'})[0].props['aria-hidden']).toBe(false);
+  await act(async()=>jest.advanceTimersByTime(200));
+  const loading=view.root.findAllByProps({testID:'narration-preparation'});
+  expect(loading.every(node=>node.props['aria-hidden']===true)).toBe(true);
+  expect(downloadNarration).toHaveBeenCalledTimes(1);
+});
+
+it('shows progress for a real wait and finishes it before revealing the decoded player',async()=>{
+  jest.useFakeTimers();let finish!:(bytes:Uint8Array)=>void;
+  (downloadNarration as jest.Mock).mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+  await render();await act(async()=>jest.advanceTimersByTime(200));
+  expect(view.root.findAllByProps({testID:'narration-preparation'})[0].props['aria-hidden']).toBe(false);
+  await act(async()=>finish(new Uint8Array(50)));
+  act(()=>view.root.findByType(AudioPlayback).props.onReady());
+  expect(view.root.findByType(TaskProgress).props.complete).toBe(true);
+  expect(view.root.findAllByProps({testID:'narration-player'})[0].props['aria-hidden']).toBe(true);
+  await act(async()=>jest.advanceTimersByTime(250));
+  expect(view.root.findAllByProps({testID:'narration-player'})[0].props['aria-hidden']).toBe(false);
+  expect(view.root.findAllByProps({testID:'narration-preparation'})).toHaveLength(0);
+});
+
+it('keeps a ready file on app return instead of downloading it again',async()=>{
+  let change!:(state:string)=>void;
+  jest.spyOn(AppState,'addEventListener').mockImplementation((_,callback:any)=>{change=callback;return{remove:jest.fn()};});
+  await render();act(()=>change('background'));await act(async()=>change('active'));
+  expect(downloadNarration).toHaveBeenCalledTimes(1);expect(dispose).not.toHaveBeenCalled();
+  expect(view.root.findByType(AudioPlayback).props.uri).toBe('file:///private-speech.wav');
+});
 
 it('keeps one progress bar through synthesis, downloading and actual decoder readiness', async () => {
   let finish!: (value: Uint8Array) => void;
@@ -97,29 +147,29 @@ it('can recover if the downloaded audio fails to decode instead of leaving a bro
   expect(view.root.findByType(AudioPlayback)).toBeDefined();
 });
 
-it('clears the old decoded file and completion state before a manually chosen backup is created', async () => {
+it('clears the old decoded file and completion state before retrying the selected voice', async () => {
   await render();
   act(() => view.root.findByType(AudioPlayback).props.onReady());
   act(() => view.root.findByType(TaskProgress).props.onComplete());
   act(() => view.root.findByType(AudioPlayback).props.onError());
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(() => {}));
-  await act(async () => button('Dùng giọng dự phòng (âm sắc khác)').props.onPress());
+  await act(async () => button('Tải lại lời giảng').props.onPress());
   expect(view.root.findAllByType(AudioPlayback)).toHaveLength(0);
   expect(view.root.findByType(TaskProgress).props.complete).toBe(false);
-  expect(downloadNarration).toHaveBeenLastCalledWith({ ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+  expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
 });
 
 it('offers exactly two named voices and replaces the current file without autoplay on switching', async () => {
   await render();
   expect(view.root.findAll(node => node.props.accessibilityRole === 'radio' && node.props.onPress)).toHaveLength(2);
-  expect(button('Nam Minh, giọng nam').props.accessibilityState.checked).toBe(true);
+  expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
   const firstSignal = (downloadNarration as jest.Mock).mock.calls[0][2];
-  await act(async () => button('Hoài My, giọng nữ').props.onPress());
+  await act(async () => button('Giọng nữ').props.onPress());
   expect(dispose).toHaveBeenCalledTimes(1); expect(firstSignal.aborted).toBe(true);
   expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
   expect(voicePreferences.set).toHaveBeenCalledWith(JSON.stringify({ voiceId: 'vi-VN-HoaiMyNeural' }));
-  expect(button('Hoài My, giọng nữ').props.accessibilityState.checked).toBe(true);
-  await act(async () => button('Hoài My, giọng nữ').props.onPress());
+  expect(button('Giọng nữ').props.accessibilityState.checked).toBe(true);
+  await act(async () => button('Giọng nữ').props.onPress());
   expect(downloadNarration).toHaveBeenCalledTimes(2);
 });
 
@@ -130,10 +180,10 @@ it('loads the saved female voice before downloading and ignores late audio from 
   await render();
   expect(downloadNarration).toHaveBeenCalledTimes(1);
   expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
-  await act(async () => button('Nam Minh, giọng nam').props.onPress());
+  await act(async () => button('Giọng nam').props.onPress());
   await act(async () => finish(new Uint8Array(50)));
   expect(saveNarration).toHaveBeenCalledTimes(1);
-  expect(button('Nam Minh, giọng nam').props.accessibilityState.checked).toBe(true);
+  expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
 });
 
 it.each(['{"voiceId":"en-US-EmmaMultilingualNeural"}', 'broken-json'])('recovers safely from an unsupported saved voice: %s', async saved => {
@@ -142,27 +192,30 @@ it.each(['{"voiceId":"en-US-EmmaMultilingualNeural"}', 'broken-json'])('recovers
   expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
 });
 
-it('uses fallback only after an explicit click and identifies its different voice', async () => {
+it('offers two compact recovery actions and retries the selected voice without changing the lesson', async () => {
   (downloadNarration as jest.Mock).mockRejectedValueOnce(new Error('provider unavailable'));
   await render();
-  expect((downloadNarration as jest.Mock).mock.calls[0][0].useFallback).toBeUndefined();
-  await act(async () => button('Dùng giọng dự phòng (âm sắc khác)').props.onPress());
-  expect((downloadNarration as jest.Mock).mock.calls[1][0].useFallback).toBe(true);
-  expect(text()).toContain('Đang dùng giọng Việt dự phòng');
+  expect(button('Dùng giọng dự phòng (âm sắc khác)')).toBeUndefined();
+  expect(button('Dùng giọng đọc trên thiết bị')).toBeDefined();
+  const notice=view.root.findAllByProps({testID:'recovery-notice'})[0];
+  expect(notice).toBeDefined();
+  await act(async () => button('Tải lại lời giảng').props.onPress());
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
+  expect((downloadNarration as jest.Mock).mock.calls[1][0]).toEqual(source);
+  expect((downloadNarration as jest.Mock).mock.calls[1][3]).toBe('vi-VN-NamMinhNeural');
   expect(view.root.findByType(AudioPlayback)).toBeDefined();
-  await act(async () => button('Nam Minh, giọng nam').props.onPress());
-  expect((downloadNarration as jest.Mock).mock.calls[2][0].useFallback).toBeUndefined();
 });
 
-it('keeps emergency voices out of the normal preparation view and offers them only after an error', async () => {
+it('shows device recovery only after an error, preserving the written explanation', async () => {
   let fail!: (error: Error) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise((_resolve, reject) => { fail = reject; }));
   await render();
   expect(button('Dùng giọng đọc trên thiết bị')).toBeUndefined();
-  expect(button('Dùng giọng dự phòng (âm sắc khác)')).toBeUndefined();
   await act(async () => fail(new Error('Unavailable')));
   expect(button('Dùng giọng đọc trên thiết bị')).toBeDefined();
-  expect(button('Dùng giọng dự phòng (âm sắc khác)')).toBeDefined();
+  expect(button('Dùng giọng dự phòng (âm sắc khác)')).toBeUndefined();
+  act(() => button('Đọc lời giảng chi tiết').props.onPress());
+  expect(text()).toContain(paragraphs[0]);
 });
 
 it('observes the pending warm download without creating another progress polling loop', async () => {

@@ -5,7 +5,7 @@ import { prepareIllustrations } from '../components/ui/AppIllustration';
 
 jest.mock('../components/ui/AppIllustration', () => ({ prepareIllustrations: jest.fn() }));
 jest.mock('expo-router', () => ({ Stack: Object.assign(({ children }: any) => require('react').createElement('Stack', {}, children), { Screen: 'Screen', Protected: ({ guard, children }: any) => guard ? children : null }) }));
-jest.mock('expo-font', () => ({ useFonts: () => [true, null] }));
+jest.mock('expo-font', () => ({ useFonts: () => [true, null], isLoaded: () => true }));
 jest.mock('expo-splash-screen', () => ({ preventAutoHideAsync: jest.fn().mockResolvedValue(null), hideAsync: jest.fn().mockResolvedValue(null) }));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext({ user: { role: 'STUDENT', active: true }, isAuthenticated: true }), AuthProvider: ({ children }: any) => children }));
 

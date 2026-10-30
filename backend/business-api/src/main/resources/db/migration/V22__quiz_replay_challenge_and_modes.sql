@@ -13,4 +13,3 @@ SET original_question_text = question_text,
 WHERE original_question_text IS NULL;
 
 ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS replay_mode VARCHAR(20) NOT NULL DEFAULT 'NONE';
-

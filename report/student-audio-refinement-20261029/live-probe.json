@@ -1,0 +1,28 @@
+{
+  "evidence": "Live local HTTP services and real provider audio; not physical-device latency or human listening evaluation.",
+  "lessonOpenMs": 79,
+  "lessonStatus": 200,
+  "voices": [
+    {
+      "voice": "Giọng nam",
+      "success": true,
+      "prepareMs": 31,
+      "readyMs": 17586,
+      "totalMs": 17613,
+      "bytes": 306510,
+      "cachedReadMs": 14,
+      "sameAudio": true
+    },
+    {
+      "voice": "Giọng nữ",
+      "success": true,
+      "prepareMs": 31,
+      "readyMs": 17262,
+      "totalMs": 17297,
+      "bytes": 313422,
+      "cachedReadMs": 17,
+      "sameAudio": true
+    }
+  ],
+  "scriptCharacters": 113
+}

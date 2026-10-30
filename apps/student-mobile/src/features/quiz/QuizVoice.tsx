@@ -31,7 +31,7 @@ export function QuizVoice({ quizId }: { quizId: string }) {
   };
   return <View style={{ gap: 10 }}>
     <View style={s.groups}>{NARRATION_VOICES.map(option => <AppButton key={option.id} title={`${voice === option.id ? '✓ ' : ''}${option.name}`} variant="secondary" disabled={busy}
-      accessibilityLabel={`${option.name}, ${option.description}${voice === option.id ? ', đang chọn' : ''}`}
+      accessibilityLabel={`${option.name}${voice === option.id ? ', đang chọn' : ''}`}
       onPress={() => { if (option.id !== voice) { setUri(''); asset.current?.dispose(); asset.current = null; setVoice(option.id); setError(''); void saveNarrationVoice(option.id).catch(() => {}); } }} />)}</View>
     {!uri ? <AppButton title={error ? 'Thử tải giọng đọc lại' : 'Nghe cách giải'} disabled={!voice || busy} loading={busy}
       icon={<Ionicons name="volume-high-outline" size={22} color="white" accessible={false} />} onPress={() => void prepare()} />

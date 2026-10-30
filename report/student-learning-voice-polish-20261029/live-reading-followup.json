@@ -1,0 +1,33 @@
+{
+  "evidence": "Live authorized business API. One newly opened reading-first lesson; two original voices; no extra source-prepare request. Not physical phone latency.",
+  "lessonOpenMs": 47,
+  "characters": 139,
+  "paragraphs": 2,
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "prepareHttp": 200,
+      "prepareMs": 10318,
+      "phases": [
+        "synthesizing",
+        "ready"
+      ],
+      "audioHttp": 200,
+      "downloadMs": 14,
+      "audioSeconds": 10.42
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "prepareHttp": 200,
+      "prepareMs": 12905,
+      "phases": [
+        "synthesizing",
+        "decoding",
+        "ready"
+      ],
+      "audioHttp": 200,
+      "downloadMs": 14,
+      "audioSeconds": 10.66
+    }
+  ]
+}

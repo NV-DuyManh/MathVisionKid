@@ -1,0 +1,36 @@
+{
+  "student": {
+    "numTotalTests": 207,
+    "numPassedTests": 207,
+    "numFailedTests": 0
+  },
+  "python": {
+    "tests": 184,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "business": {
+    "tests": 398,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "webContracts": {
+    "passed": 54,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "productionBuilds": [
+    "portal-web",
+    "teacher-web",
+    "admin-web"
+  ],
+  "androidExport": "passed",
+  "physicalAndroid": "not performed for this change",
+  "readyFileReuseAcrossCheckedRevision": "verified by lifecycle and TTL tests, and browser fixtures at four widths"
+}

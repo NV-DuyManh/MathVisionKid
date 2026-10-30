@@ -10,6 +10,15 @@ const text = () => view.root.findAllByType('Text' as any).map(n => String(n.prop
 const render = (activeStep: number, complete = false) => {
   act(() => { view = TestRenderer.create(<TaskProgress steps={steps} activeStep={activeStep} complete={complete} />); });
 };
+
+it('keeps the current stage, elapsed limit and accessible progress in the compact audio layout',async()=>{
+  await act(async()=>{view=TestRenderer.create(<TaskProgress compact steps={steps} activeStep={1} percent={45} timeoutSeconds={60} detail="Đang thử lại, giữ nguyên giọng em đã chọn."/>);});
+  expect(progress().props.accessibilityValue.text).toContain(steps[1]);
+  expect(progress().props.accessibilityValue.now).toBe(45);
+  expect(progress().props['aria-busy']).toBe(true);
+  expect(text().replace(/,/g,'')).toContain('60s');expect(text()).toContain('Đang thử lại');
+  expect(view.root.findAllByProps({accessibilityLabel:'Mở bài học. Sắp tới'})).toHaveLength(0);
+});
 beforeEach(() => { jest.useFakeTimers(); jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockResolvedValue(true); });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
 

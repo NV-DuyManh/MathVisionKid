@@ -48,6 +48,7 @@ def validate_region_provenance(region):
 
 
 def run(folder, provider, model_hashes):
+    device = str(getattr(provider, 'device', 'cpu'))
     selection = json.loads((folder / 'source_selection.json').read_text(encoding='utf-8'))
     output = folder / 'crnn_results'
     output.mkdir(exist_ok=True)
@@ -56,7 +57,7 @@ def run(folder, provider, model_hashes):
         path = output / f"{item['drive_id']}.json"
         record = {**item, **model_hashes, 'labels_verified': False,
                   'reference_label': False, 'training_eligible': False,
-                  'cloud_calls': 0, 'device': 'cpu',
+                  'cloud_calls': 0, 'device': device,
                   'provider': model_hashes.get('provider', 'crnn_vi_handwriting_v1')}
         try:
             raw = read_source_bytes(folder, item)
@@ -68,7 +69,7 @@ def run(folder, provider, model_hashes):
             validate_orientation_geometry(item, region)
             detector_hash = validate_region_provenance(region)
             boxes = region['boxes']
-            signature = {**model_hashes, 'sha256': item['sha256'],
+            signature = {**model_hashes, 'device': device, 'sha256': item['sha256'],
                          'detector_provenance_sha256': detector_hash,
                          'boxes_sha256': hashlib.sha256(json.dumps(boxes).encode()).hexdigest()}
             signature['reviewed_orientation'] = item.get('reviewed_orientation')
@@ -115,7 +116,7 @@ def run(folder, provider, model_hashes):
                'regions_recognized': sum(len(r['lines']) for r in done),
                'nonempty_transcripts': sum(bool(line['text'].strip()) for r in done for line in r['lines']),
                'verified_cer': None, 'verified_accuracy': False,
-               'training_eligible': False, 'cloud_calls': 0, **model_hashes}
+               'training_eligible': False, 'cloud_calls': 0, **model_hashes, 'device': device}
     write_json(folder / 'crnn_summary.json', summary)
     with (folder / 'line_predictions.csv').open('w', encoding='utf-8-sig', newline='') as stream:
         writer = csv.writer(stream)
@@ -130,6 +131,7 @@ def run(folder, provider, model_hashes):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch', required=True)
+    parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
     args = parser.parse_args()
     private = (ROOT / 'ai-training/datasets/drive_math').resolve()
     folder = (private / args.batch).resolve()
@@ -139,7 +141,9 @@ if __name__ == '__main__':
     import torch
     from app.ocr.crnn_provider import CrnnOcrProvider
     torch.set_num_threads(2)
-    provider = CrnnOcrProvider(device='cpu')
+    if args.device == 'cuda' and not torch.cuda.is_available():
+        parser.error('CUDA is unavailable in this Python environment')
+    provider = CrnnOcrProvider(device=args.device)
     if not provider.is_available():
         raise RuntimeError('Existing local CRNN is unavailable')
     hashes = {'model_sha256': digest(provider.weights_path), 'vocab_sha256': digest(provider.vocab_path),

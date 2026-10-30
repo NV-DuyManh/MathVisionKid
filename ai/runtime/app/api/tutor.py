@@ -16,9 +16,10 @@ from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, 
 from app.tutoring.lesson import LessonRequest, TurnRequest, PreparationRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson, ready_for_answer, lesson_preparation
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
-from app.tutoring import narration, media_preparation, quiz_narration
+from app.tutoring import narration, media_preparation, quiz_narration, plan_preparation
 from app.tutoring import lesson as lesson_module
 from app.integrations.gemini.key_pool import get_gemini_pool
+from app.tutoring.lesson_followup import ResumeRequest, CheckRequest, resume, comprehension_check
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -58,6 +59,19 @@ def quiz_narration_endpoint(request: quiz_narration.QuizNarrationRequest):
         raise HTTPException(status_code=429, detail='Giọng đọc đang bận. Em thử lại sau nhé.') from None
     except Exception:
         raise HTTPException(status_code=503, detail='Em vẫn có thể đọc cách giải bằng chữ nhé.') from None
+@router.post('/lesson/resume', response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
+def resume_lesson_endpoint(request: ResumeRequest):
+    try: return resume(request)
+    except LessonExpired as exc: raise HTTPException(status_code=410, detail=str(exc)) from None
+    except ValueError: raise HTTPException(status_code=400, detail='Đề bài đã thay đổi. Em mở lại bài nhé.') from None
+
+
+@router.post('/lesson/checkpoint', dependencies=[Depends(require_internal_key)])
+def lesson_checkpoint_endpoint(request: CheckRequest):
+    try: return comprehension_check(request)
+    except LessonExpired as exc: raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc: raise HTTPException(status_code=409, detail=str(exc)) from None
+    except (ValueError, ArithmeticError, SyntaxError): raise HTTPException(status_code=400, detail='Bước này chưa có bài thử nhanh phù hợp.') from None
 
 
 @router.post('/lesson/narration', dependencies=[Depends(require_internal_key)])
@@ -119,6 +133,11 @@ async def work_review_endpoint(request: WorkReviewRequest):
         raise HTTPException(status_code=503, detail="Chưa kiểm tra được bài lúc này. Em giữ bài đã viết và thử lại nhé.") from None
 
 
+@router.post('/lesson/prepare', dependencies=[Depends(require_internal_key)])
+async def prepare_lesson_endpoint(request: plan_preparation.SourceDraft):
+    return JSONResponse(await plan_preparation.prepare(request), headers={'Cache-Control': 'no-store'})
+
+
 @router.post("/lesson", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
 async def lesson_endpoint(request: LessonRequest, http_request: Request):
     try:
@@ -132,8 +151,9 @@ async def lesson_endpoint(request: LessonRequest, http_request: Request):
         return result
     except ValueError:
         raise HTTPException(status_code=400, detail="Em kiểm tra lại đề bài nhé.") from None
-    except TutorUnavailable:
-        raise HTTPException(status_code=503, detail="Chưa tạo được các bước học. Em giữ đề và thử lại nhé.") from None
+    except TutorUnavailable as exc:
+        raise HTTPException(status_code=503, detail="Chưa tạo được các bước học. Em giữ đề và thử lại nhé.",
+                            headers={"X-Tutor-Failure": exc.reason}) from None
 
 
 @router.post('/lesson/media/prepare', dependencies=[Depends(require_internal_key)])
@@ -158,8 +178,9 @@ async def lesson_answer_endpoint(request: TurnRequest, http_request: Request):
         raise HTTPException(status_code=410, detail=str(exc)) from None
     except StaleTurn as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from None
-    except TutorUnavailable:
-        raise HTTPException(status_code=503,detail='Chưa chuẩn bị xong phần giải. Em giữ bài và thử lại nhé.') from None
+    except TutorUnavailable as exc:
+        raise HTTPException(status_code=503,detail='Chưa chuẩn bị xong phần giải. Em giữ bài và thử lại nhé.',
+                            headers={'X-Tutor-Failure': exc.reason}) from None
 
 
 @router.post('/lesson/preparation', response_model=LessonResponse, dependencies=[Depends(require_internal_key)])

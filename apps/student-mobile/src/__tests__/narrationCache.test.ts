@@ -4,7 +4,7 @@ import { downloadNarration, prioritizeNarration } from '../features/tutoring/nar
 import type { NarrationVoice } from '../features/tutoring/narrationVoices';
 import type { NarrationProgress, NarrationProgressListener } from '../features/tutoring/narrationApi';
 jest.mock('../features/tutoring/narrationFile', () => ({ saveNarration: jest.fn(() => ({ uri: 'file:///warm.wav', dispose: jest.fn() })) }));
-jest.mock('../features/tutoring/narrationApi', () => ({ NARRATION_WAIT_SECONDS: 45, prioritizeNarration: jest.fn().mockResolvedValue(undefined), downloadNarration: jest.fn() }));
+jest.mock('../features/tutoring/narrationApi', () => ({ NARRATION_WAIT_SECONDS: 60, prioritizeNarration: jest.fn().mockResolvedValue(undefined), downloadNarration: jest.fn() }));
 const source = { sessionId: 'owned-narration-prefetch-123', revision: 1 };
 const male: NarrationVoice = 'vi-VN-NamMinhNeural', female: NarrationVoice = 'vi-VN-HoaiMyNeural';
 const bytes = new Uint8Array(50), parts = ['Em gộp hai nhóm.'];
@@ -23,12 +23,52 @@ it('shares a warming request with an early tap and reuses the ready audio when r
   expect(downloadNarration).toHaveBeenCalledTimes(1);
 });
 
-it('isolates content, revision, voice, session and the explicitly selected fallback', async () => {
+it('isolates content, voice, session and fallback while reusing ready identical text on a later checked turn', async () => {
   for (const [next, words, voice] of [[source, parts, male], [source, parts, female], [{ ...source, revision: 2 }, parts, male],
     [{ ...source, sessionId: 'other-owned-session-12345' }, parts, male], [source, ['Lời giảng khác'], male], [{ ...source, useFallback: true }, parts, male]] as const) {
     const lease = cache.acquire(next, [...words], voice); await lease.promise; lease.release();
   }
-  expect(downloadNarration).toHaveBeenCalledTimes(6);
+  expect(downloadNarration).toHaveBeenCalledTimes(5);
+});
+
+it('reuses the same ready local file across a checked revision without another download or write', async () => {
+  const warm = cache.acquire(source, parts, male, true); await warm.promise; warm.release();
+  const current = await getPreparedNarrationAsset(cache, { ...source, revision: 2 }, ['  Em   gộp hai nhóm. '], new AbortController().signal, male);
+  expect(current.uri).toBe('file:///warm.wav');
+  expect(downloadNarration).toHaveBeenCalledTimes(1);
+  expect(saveNarration).toHaveBeenCalledTimes(1);
+  current.dispose();
+});
+
+it('keeps a transferred file alive while either the old player or current player holds it', async () => {
+  const old = cache.acquire(source, parts, male); await old.promise;
+  const current = await getPreparedNarrationAsset(cache, { ...source, revision: 2 }, parts, new AbortController().signal, male);
+  const file = (saveNarration as jest.Mock).mock.results[0].value;
+  cache.forget({ ...source, revision: 2 }, parts, male);
+  expect(file.dispose).not.toHaveBeenCalled();
+  old.release(); expect(file.dispose).not.toHaveBeenCalled();
+  current.dispose(); expect(file.dispose).toHaveBeenCalledTimes(1);
+});
+
+it('does not transfer unfinished work to another revision', async () => {
+  let finish!: (data: Uint8Array) => void;
+  (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish=resolve; }));
+  const old = cache.acquire(source, parts, male, true);
+  const rejected = expect(old.promise).rejects.toThrow('Đã dừng');
+  const current = cache.acquire({ ...source, revision: 2 }, parts, male);
+  await current.promise; finish(bytes); await rejected;
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
+  current.release(); old.release();
+});
+
+it('does not extend file expiry when identical text is issued on a newer turn', async () => {
+  const first=cache.acquire(source,parts,male); await first.promise; first.release();
+  jest.advanceTimersByTime(4*60*1000);
+  const next=cache.acquire({...source,revision:2},parts,male); await next.promise; next.release();
+  expect(downloadNarration).toHaveBeenCalledTimes(1);
+  jest.advanceTimersByTime(60*1000+1);
+  const expired=cache.acquire({...source,revision:3},parts,male); await expired.promise; expired.release();
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
 });
 
 it('closing the sheet does not cancel a request still needed by background preparation', async () => {
@@ -67,14 +107,14 @@ it('expires cached audio after five minutes and drops the least recently used en
   jest.advanceTimersByTime(300001);
   const expired = cache.acquire(source, parts, male); await expired.promise; expired.release();
   expect(downloadNarration).toHaveBeenCalledTimes(2);
-  for (let i = 2; i <= 5; i++) { const lease = cache.acquire({ ...source, revision: i }, parts, male); await lease.promise; lease.release(); }
+  for (let i = 2; i <= 5; i++) { const lease = cache.acquire(source, [`Lời giảng riêng ${i}.`], male); await lease.promise; lease.release(); }
   const evicted = cache.acquire(source, parts, male); await evicted.promise; evicted.release();
   expect(downloadNarration).toHaveBeenCalledTimes(7);
 });
 
 it('bounds retained audio to sixteen MiB', async () => {
   (downloadNarration as jest.Mock).mockResolvedValue(new Uint8Array(6 * 1024 * 1024));
-  for (let i = 1; i <= 3; i++) { const lease = cache.acquire({ ...source, revision: i }, parts, male); await lease.promise; lease.release(); }
+  for (let i = 1; i <= 3; i++) { const lease = cache.acquire(source, i === 1 ? parts : [`Lời giảng riêng ${i}.`], male); await lease.promise; lease.release(); }
   const evicted = cache.acquire(source, parts, male); await evicted.promise; evicted.release();
   expect(downloadNarration).toHaveBeenCalledTimes(4);
 });
@@ -92,6 +132,18 @@ it('does not start work for an already cancelled consumer', async () => {
   const controller = new AbortController(); controller.abort();
   await expect(downloadPreparedNarration(cache, source, parts, controller.signal, male)).rejects.toThrow('Đã dừng');
   expect(downloadNarration).not.toHaveBeenCalled();
+});
+
+it('keeps the other voice for the same script alive when the pupil opens listening', async () => {
+  let finish!: (data: Uint8Array) => void;
+  (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const alternate = cache.acquire(source, parts, female, true);
+  const signal = (downloadNarration as jest.Mock).mock.calls[0][2];
+  await downloadPreparedNarration(cache, source, parts, new AbortController().signal, male);
+  expect(signal.aborted).toBe(false);
+  finish(bytes); await alternate.promise; alternate.release();
+  await downloadPreparedNarration(cache, source, parts, new AbortController().signal, female);
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
 });
 
 it('prioritizes an explicit request over unused speculative synthesis', async () => {
@@ -126,7 +178,7 @@ it('promotes a pending speculative entry once without another download or changi
   const first=cache.acquire({ ...source,prefetch:false },parts,male);
   const second=cache.acquire(source,parts,male);
   expect(prioritizeNarration).toHaveBeenCalledTimes(1);
-  expect(prioritizeNarration).toHaveBeenCalledWith({ ...source,prefetch:false },parts,signal,male,45000);
+  expect(prioritizeNarration).toHaveBeenCalledWith({ ...source,prefetch:false },parts,signal,male,60000);
   expect(downloadNarration).toHaveBeenCalledTimes(1);expect(signal.aborted).toBe(false);
   finish(bytes);await expect(first.promise).resolves.toBe(bytes);await expect(second.promise).resolves.toBe(bytes);
   first.release();second.release();warm.release();
@@ -209,7 +261,7 @@ it('uses the original remaining preparation budget for a late foreground promoti
   let finish!: (data: Uint8Array) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish=resolve; }));
   const warm=cache.acquire(source,parts,male,true);
-  jest.advanceTimersByTime(44000);
+  jest.advanceTimersByTime(59000);
   const listener=cache.acquire(source,parts,male);
   expect(prioritizeNarration).toHaveBeenCalledWith(source,parts,expect.any(AbortSignal),male,1000);
   finish(bytes);await listener.promise;listener.release();warm.release();
@@ -219,7 +271,7 @@ it('does not promote an expired entry and aborts pending promotion when the down
   let fail!: (error: Error) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise((_,reject) => { fail=reject; }));
   const warm=cache.acquire(source,parts,male,true);
-  jest.advanceTimersByTime(45000);
+  jest.advanceTimersByTime(60000);
   const listener=cache.acquire(source,parts,male);
   expect(prioritizeNarration).not.toHaveBeenCalled();
   const rejected=expect(listener.promise).rejects.toThrow('download failed');

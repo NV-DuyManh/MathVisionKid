@@ -167,14 +167,14 @@ export const LoginPage: React.FC = () => {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Email hoặc tài khoản"
             name="email"
-            autoComplete="email"
+            autoComplete="username"
             autoFocus
             value={email}
             disabled={loading}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Nhập email của bạn"
+            placeholder="Nhập tài khoản của bạn"
           />
           <TextField
             margin="normal"

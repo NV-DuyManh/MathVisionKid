@@ -4,11 +4,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, FONTS } from '../../constants/theme';
 
 export type TaskProgressProps = { steps: readonly string[]; activeStep?: number; complete?: boolean; percent?: number;
-  detail?: string; timeoutSeconds?: number; onTimeout?: () => void; onComplete?: () => void };
+  detail?: string; timeoutSeconds?: number; onTimeout?: () => void; onComplete?: () => void; compact?: boolean };
 
 /** MFILM-style visual estimate: creep below 85%, finish only on real readiness.
  * Server milestones are a lower bound. Timeout is never a denominator. */
-export function TaskProgress({ steps, activeStep = 0, complete = false, percent, detail, timeoutSeconds = 45, onTimeout, onComplete }: TaskProgressProps) {
+export function TaskProgress({ steps, activeStep = 0, complete = false, percent, detail, timeoutSeconds = 45, onTimeout, onComplete, compact = false }: TaskProgressProps) {
   const [started] = useState(Date.now);
   const [clock, setClock] = useState({ seconds: 0, percentage: Number.isFinite(percent) ? Math.max(0, Math.min(99, Math.floor(percent!))) : 6 });
   const [width, setWidth] = useState(0), [reduceMotion, setReduceMotion] = useState(true);
@@ -82,7 +82,7 @@ export function TaskProgress({ steps, activeStep = 0, complete = false, percent,
     <View style={styles.timingRow}><Text style={styles.timing}>{complete ? 'Đã hoàn tất' : `Đã chờ ${clock.seconds}s`}</Text>
       {!complete ? <Text style={styles.limit}>Thời gian chờ tối đa {timeoutSeconds}s</Text> : null}</View>
     {expired || detail ? <Text style={[styles.detail, expired && styles.expired]} accessibilityLiveRegion="polite">{expired ? 'Chưa hoàn tất trong thời gian chờ. Em thử lại hoặc dùng cách khác nhé.' : detail}</Text> : null}
-    <View style={styles.list}>
+    {!compact ? <View style={styles.list}>
       {steps.map((step, index) => {
         const done = complete || index < current, working = !complete && index === current;
         const status = done ? 'Đã xong' : working ? 'Đang làm' : 'Sắp tới';
@@ -93,7 +93,7 @@ export function TaskProgress({ steps, activeStep = 0, complete = false, percent,
           <Text style={[styles.name, (done || working) && styles.activeText]}>{step}</Text>
         </View>;
       })}
-    </View>
+    </View> : null}
   </View>;
 }
 

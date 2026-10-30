@@ -1,0 +1,25 @@
+{
+  "evidence": "Actual online TTS synthesis on local server machine; not phone playback latency or listening evaluation",
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 111,
+      "spoken": "Bài 3. . Chiều rộng bằng một nửa chiều dài 8 mét. Lấy 8 chia 2 bằng 4 mét. Đổi 4 mét bằng 40 đề xi mét.",
+      "seconds": 10.13,
+      "sampleRate": 16000,
+      "rms": 3252,
+      "status": "valid-non-silent-wave",
+      "generationSeconds": 11.631
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 111,
+      "spoken": "Bài 3. . Chiều rộng bằng một nửa chiều dài 8 mét. Lấy 8 chia 2 bằng 4 mét. Đổi 4 mét bằng 40 đề xi mét.",
+      "seconds": 10.03,
+      "sampleRate": 16000,
+      "rms": 3576,
+      "status": "valid-non-silent-wave",
+      "generationSeconds": 10.774
+    }
+  ]
+}

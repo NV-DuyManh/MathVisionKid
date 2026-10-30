@@ -45,7 +45,7 @@ async def test_real_async_planner_deadline_is_classified_and_cancels_only_the_pl
     monkeypatch.setattr(asyncio,'wait_for',lambda task,timeout:real_wait(task,min(timeout,.02)))
     request=lesson.LessonRequest(owner='child',problemText='Tính 12 + 5.',problemConfirmed=True)
     with pytest.raises(TutorUnavailable) as error: await lesson.reviewed_plan(request,[])
-    assert error.value.reason=='TIMEOUT' and cancelled.is_set()
+    assert error.value.reason=='timeout' and cancelled.is_set()
 
 
 @pytest.mark.asyncio

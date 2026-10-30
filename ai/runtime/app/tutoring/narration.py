@@ -15,14 +15,15 @@ from pydantic import Field, field_validator
 from app.tutoring import lesson
 from app.tutoring.service import TutorModel, TutorUnavailable
 from app.tutoring.speech_render import DEFAULT_VOICE, SpeechNoAudio, synthesize_neural, synthesize, run
+from app.tutoring.audio_cues import add_cues, read_cues
 
 MAX_BYTES = 8 * 1024 * 1024
 MAX_CACHE_BYTES = 32 * 1024 * 1024
 MAX_CHECKPOINT_BYTES = 8 * 1024 * 1024
-ONLINE_TIMEOUT_SECONDS = 25
-RENDER_TIMEOUT_SECONDS = 32
+ONLINE_TIMEOUT_SECONDS = 30
+RENDER_TIMEOUT_SECONDS = 35
 PUBLIC_TIMEOUT_SECONDS = 39  # Stay below the business API's 40-second upstream read timeout.
-PREPARATION_TIMEOUT_SECONDS = 45
+PREPARATION_TIMEOUT_SECONDS = 60
 logger = logging.getLogger(__name__)
 
 
@@ -83,18 +84,23 @@ def _join_cached(key):
         match=max(((words,data) for words,data in available if parts[offset:offset+len(words)]==words),
                   key=lambda item:len(item[0]),default=None)
         if match is None:return None
-        words,data=match;assets.append(data);offset+=len(words)
+        words,data=match;assets.append((data,len(words)));offset+=len(words)
     if len(assets)<2:return None
     output=io.BytesIO()
     try:
+        points=[];frames=0;aligned=True
         with wave.open(output,'wb') as joined:
             joined.setnchannels(1);joined.setsampwidth(2);joined.setframerate(16000)
-            for data in assets:
+            for data,count in assets:
                 with wave.open(io.BytesIO(data),'rb') as source:
                     if source.getparams()[:3]!=(1,2,16000):return None
+                    cues=read_cues(data)
+                    if len(cues)!=count:aligned=False
+                    points.extend(frames+point for point in cues)
                     joined.writeframes(source.readframes(source.getnframes()))
+                    frames+=source.getnframes()
         data=output.getvalue();validate_audio(data)
-        return data
+        return add_cues(data,points) if aligned else data
     except (ValueError,wave.Error,EOFError):return None
 
 
@@ -277,7 +283,7 @@ def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_
         if not fallback:
             options = {'cancel_event': cancel_event} if cancel_event is not None else {}
             if checkpoint is not None: options['checkpoint'] = checkpoint
-            synthesize_neural(text, output, min(deadline, time.monotonic()+ONLINE_TIMEOUT_SECONDS), max_seconds=240, voice=voice, on_progress=update, **options)
+            synthesize_neural(text, output, min(deadline, time.monotonic()+ONLINE_TIMEOUT_SECONDS), max_seconds=240, voice=voice, on_progress=update, paragraphs=paragraphs, **options)
         else:
             update('fallback', 10, 0, 0, 'offline')
             local = Path(directory) / 'local.wav'

@@ -36,7 +36,7 @@ test('long recognition keeps the real image, honest bar and cancellation without
   }
 });
 
-test('uses Nam-style stages without running an elapsed-time animation', async () => {
+test('shows the active recognition stage without a looping decoration or premature completion', async () => {
   const loop = jest.spyOn(Animated, 'loop');
   let view!: TestRenderer.ReactTestRenderer;
   try {
@@ -46,5 +46,6 @@ test('uses Nam-style stages without running an elapsed-time animation', async ()
     expect(loop).not.toHaveBeenCalled();
     const value = view.root.find(node => node.props.accessibilityRole === 'progressbar').props.accessibilityValue;
     expect(value.max).toBe(100); expect(value.now).toBeGreaterThan(0); expect(value.now).toBeLessThan(85);
+    expect(view.root.find(node => node.props.accessibilityRole === 'progressbar').props['aria-busy']).toBe(true);
   } finally { act(() => view?.unmount()); jest.restoreAllMocks(); }
 });

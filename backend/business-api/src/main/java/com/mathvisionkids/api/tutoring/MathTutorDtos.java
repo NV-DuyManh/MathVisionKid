@@ -111,6 +111,14 @@ public final class MathTutorDtos {
                     && (workText == null || !workText.contains("[?]"));
         }
     }
+    public record LessonDraft(@NotBlank @Size(min = 3, max = 4000) String problemText,
+                              @NotNull @Size(max = 6000) String workText) {}
+    public record LessonPreparationStatus(String phase) {}
+    public record LessonResume(@NotBlank @Size(min=20,max=100) String sessionId,
+                               @NotBlank @Size(min=3,max=4000) String problemText) {}
+    public record LessonCheckpoint(@NotBlank @Size(min=20,max=100) String sessionId,
+                                   @NotNull @Min(0) Integer revision, @NotNull @Size(max=30) String answer) {}
+    public record LearningCheck(String expression, String question, boolean checked, boolean correct, String feedback) {}
     public record LessonAnswer(@NotBlank @Size(min = 20, max = 100) String sessionId,
                                @NotNull @Min(0) Integer revision,
                                @NotNull @Size(max = 500) String answer, @NotNull Boolean hint) {}
@@ -143,9 +151,14 @@ public final class MathTutorDtos {
     public record CompletedStep(String title, String expression, String answer, String unit, String explanation,
                                 String solutionSentence, java.util.List<String> calculationDetails, java.util.List<String> guidance, String kind) {}
     public record LessonSummary(java.util.List<String> givens, String question) {}
+    public record StepReview(String question, java.util.List<String> choices, String studentAnswer) {}
     public record LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
                                  int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps,
-                                 LessonSummary summary, boolean preparingMath) {
+                                 LessonSummary summary, boolean preparingMath, StepReview review) {
+        public LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
+                              int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps, LessonSummary summary, boolean preparingMath) {
+            this(sessionId,revision,topic,goal,outline,stepIndex,step,completed,status,feedback,conclusion,understandingSteps,summary,preparingMath,null);
+        }
         public LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,
                               int stepIndex, LessonStep step, java.util.List<CompletedStep> completed, String status, String feedback, String conclusion, int understandingSteps, LessonSummary summary) {
             this(sessionId, revision, topic, goal, outline, stepIndex, step, completed, status, feedback, conclusion, understandingSteps, summary, false);

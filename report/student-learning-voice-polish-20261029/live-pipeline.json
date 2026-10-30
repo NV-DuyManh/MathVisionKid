@@ -1,0 +1,271 @@
+{
+  "source": "Actual local business API to speech service with student authorization, one lesson and one voice; not physical phone playback.",
+  "lessonHttpStatus": 200,
+  "lessonOpenSeconds": 0.31,
+  "prepareStatus": 200,
+  "preparationSeconds": 21.883,
+  "phases": [
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 10,
+      "chunks": 0,
+      "total": 0
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "synthesizing",
+      "percent": 45,
+      "chunks": 1,
+      "total": 2
+    },
+    {
+      "phase": "ready",
+      "percent": 100,
+      "chunks": 2,
+      "total": 2
+    }
+  ],
+  "audioStatus": 200,
+  "cachedDownloadSeconds": 0.032,
+  "durationSeconds": 21.84,
+  "backgroundPlanPhase": "preparing"
+}

@@ -28,6 +28,7 @@ function harness(path) {
   const globals = { window: { dispatchEvent() {} }, Event: class {}, CustomEvent: class {}, FormData: class {},
     sessionStorage: { getItem: () => null, setItem() {}, removeItem() {} } };
   const imports = {
+    'react-native': { Platform: { OS: 'web' } },
     axios, './tokenStore': { tokenStore: store }, '../auth/tokenStorage': { tokenStorage: store },
     '../auth/sessionEvents': { sessionEvents: { expired() {} } },
     '../../config/runtime': { appConfig: { apiBaseUrl: 'https://api.validation.test/api/v1' } },

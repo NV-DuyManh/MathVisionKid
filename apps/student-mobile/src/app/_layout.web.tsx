@@ -8,8 +8,10 @@ import { prepareIllustrations } from '../components/ui/AppIllustration';
 import { WebAlerts } from '../components/ui/WebAlerts.web';
 import { COLORS, FONTS } from '../constants/theme';
 import { TaskProgress } from '../components/ui/TaskProgress';
+import { observeLearningPerformance } from '../features/tutoring/webPerformance.web';
 
 export default function StudentWebLayout() {
+  useEffect(observeLearningPerformance, []);
   const [artReady, setArtReady] = useState(false);
   const [artError, setArtError] = useState(false);
   const [startupExpired, setStartupExpired] = useState(false);

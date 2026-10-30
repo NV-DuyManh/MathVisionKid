@@ -1,0 +1,26 @@
+{
+  "student": {
+    "passed": 1135,
+    "failed": 0,
+    "suites": 94
+  },
+  "ai": {
+    "passed": 125,
+    "failures": 0
+  },
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "androidExport": true,
+  "physicalDeviceTested": false,
+  "visualWidths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "visualPageErrors": [],
+  "committedOrPushed": false
+}

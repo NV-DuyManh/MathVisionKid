@@ -148,4 +148,3 @@ async def test_written_work_cloud_failure_falls_back_to_exact_digit_append(monke
     assert len(plan.steps) == 2
     assert str(lesson.calculate_exact(plan.steps[0].expression)) == "531"
     assert str(lesson.calculate_exact(lesson.expression_at(plan.steps[1], ["531"]))) == "59"
-

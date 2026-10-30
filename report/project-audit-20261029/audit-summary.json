@@ -1,0 +1,99 @@
+{
+  "checkedAt": "2026-10-29T08:46:30.078095+07:00",
+  "root": "E:\\MathVisionKid",
+  "branch": "codex/student-audio-video-removal-20261028",
+  "commit": "24d72b09d7d0120b46b1e888f7a6382b8d027551",
+  "applicationSourceEdited": false,
+  "configurationFilesEdited": false,
+  "trainingPerformed": false,
+  "commitPushPerformed": false,
+  "applicationServicesStartedOrRestarted": false,
+  "physicalDeviceVerified": false,
+  "finalHttpHealth": {
+    "ai": "unreachable",
+    "business": "unreachable",
+    "student": "unreachable",
+    "portal": "unreachable",
+    "teacher": "unreachable",
+    "admin": "unreachable",
+    "minio": 200
+  },
+  "pythonOffline": {
+    "total": 1954,
+    "passed": 1920,
+    "failed": [
+      "tests.test_gemini_availability::test_gemavail_01_gemini_enabled",
+      "tests.test_groq_production_route::test_model4_05_primary_forced_unavailable_fallback_routing",
+      "tests.test_groq_production_route::test_model4_06_both_unavailable_local_fallback",
+      "tests.test_groq_production_route::test_sec4_02_raw_key_absent_from_logs",
+      "tests.test_live_path_contracts::test_live_04_ai_exact_incoming_bytes_captured",
+      "tests.test_multiline_physical_2a::test_ui_10_cards_layout_responsive_no_clipping",
+      "tests.test_prod2b_trigger::test_trigger8_03_hybrid_trigger_used_in_real_multiline_path",
+      "tests.test_prod3b_suggestion_dedupe::test_prod3b_01_all_10_matrix_cases_pass_in_node",
+      "tests.test_prod3f_ai_suggestions::test_prod3f_03_all_node_matrix_cases_pass"
+    ],
+    "skipped": 25
+  },
+  "pythonConfiguredRecheck": {
+    "total": 4,
+    "passed": 4,
+    "failed": [],
+    "skipped": 0
+  },
+  "studentInitial": {
+    "numTotalTests": 1086,
+    "numPassedTests": 1083,
+    "numFailedTests": 3
+  },
+  "studentRecheck": {
+    "numTotalTests": 63,
+    "numPassedTests": 61,
+    "numFailedTests": 2
+  },
+  "java": {
+    "tests": 390,
+    "failures": 0,
+    "classes": 32
+  },
+  "webContractsSequential": {
+    "tests": 59,
+    "passed": 59
+  },
+  "webProductionSmoke": {
+    "tests": 9,
+    "passed": 9
+  },
+  "static": {
+    "typecheckExit": 0,
+    "seconds": 146.4394299,
+    "lintExit": 0
+  },
+  "webBuild": {
+    "portalExit": 0,
+    "teacherExit": 0,
+    "configuration": "Process-only HTTPS example URLs; not deployable credentials or production deployment",
+    "seconds": 70.4654404,
+    "adminExit": 0
+  },
+  "studentWebExport": {
+    "exitCode": 0,
+    "seconds": 100.6967386,
+    "scope": "Web export only; process-only example HTTPS API address; not deployment"
+  },
+  "sourceIntegrity": {
+    "checkedAt": "2026-10-29T08:40:53.301565+07:00",
+    "baselineFiles": 4466,
+    "preexistingFileChanges": [],
+    "newTestFiles": [
+      "scripts/test/project_performance_audit.py"
+    ],
+    "serviceRestarts": false,
+    "commitPush": false
+  },
+  "performanceEvidence": "performance.json",
+  "voiceDialogueEvidence": [
+    "voice-dialogue.json",
+    "voice-dialogue-recheck.json"
+  ],
+  "verdict": "Not fully verified/stable: one real lesson preparation failed, cold voice exceeds 3s, initial ASR failure, app stack not started; no fixes applied."
+}

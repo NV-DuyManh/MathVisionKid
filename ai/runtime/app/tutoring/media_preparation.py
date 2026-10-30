@@ -82,7 +82,7 @@ def script_for_review(steps):
     for step in steps:
         calculation = f'{step.expression} = {step.answer}' + (f' ({step.unit})' if step.unit else '') if step.expression else step.answer
         parts.extend(' '.join(part.split()) for part in dict.fromkeys(part.strip() for part in
-            [step.solutionSentence or step.title, calculation, step.explanation] if part.strip()))
+            [step.solutionSentence or step.title, calculation, *([step.explanation] if len(steps) == 1 else [])] if part.strip()))
     return parts
 
 
@@ -92,7 +92,7 @@ def script_ids(job):
 
 def script_for_step(public):
     # Match the client helper's trim/dedup first, then the narration boundary's whitespace normalization.
-    issued = dict.fromkeys(part.strip() for part in [public.explanation, *public.guidance, public.question] if part.strip())
+    issued = dict.fromkeys(part.strip() for part in [*(public.guidance or [public.explanation]), public.question] if part.strip())
     parts = [' '.join(part.split()) for part in issued]
     return parts
 

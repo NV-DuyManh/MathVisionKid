@@ -5,13 +5,13 @@ export const NARRATION_PROGRESS_STEPS = ['Giọng đọc đã chọn', 'Chuẩn 
 
 /** Only fields already opened by the lesson service; never serialize the step. */
 export function stepNarration(step: LessonStep, hint = ''): string[] {
-  return unique([step.explanation, ...(step.guidance || []), hint, step.question]);
+  return unique([...(step.guidance?.length ? step.guidance : [step.explanation]), hint, step.question]);
 }
 
 export function completedNarration(steps: CompletedLessonStep[]): string[] {
   return steps.flatMap(step => unique([step.solutionSentence || step.title,
     step.expression ? `${step.expression} = ${step.answer}${step.unit ? ` (${step.unit})` : ''}` : step.answer,
-    step.explanation]));
+    ...(steps.length === 1 ? [step.explanation] : [])]));
 }
 
 function unique(parts: string[]): string[] {
@@ -21,6 +21,14 @@ function unique(parts: string[]): string[] {
 /** Pronunciation only: do not evaluate, simplify, or invent a calculation. */
 export function spokenMath(text: string): string {
   return text
+    .replace(/(?<![\p{L}_])(km|dm|cm|mm|m)(?:\^\{([23])\}|\^?([23]))(?![\p{L}\p{N}_])/gu,
+      (_, unit: string, brace: string, plain: string) => unit + ({ '2': '²', '3': '³' } as Record<string, string>)[brace || plain])
+    .replace(/\b((?:Bài|Câu)\s+\d+)\s*[:.)]\s*/gi, '$1. ')
+    .replace(/(?<![\p{L}])(?:đề|đê|xăng|ki|mi)[\s\-‐‑–]+(?:xi|ti|lô|li)[\s\-‐‑–]+(?:mét|gam|lít)(?![\p{L}])/giu,
+      unit => unit.replace(/[-‐‑–]/g, ' '))
+    .replace(/\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*/gi, ' ')
+    .replace(/\b((?:Bài|Câu)\s+\d+)\.\s*\./gi, '$1.')
+    .replace(/\(\s*((?:ki lô|đề xi|xăng ti|mi li)?\s*(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)/gi, ' $1 ')
     .replace(/\(([\d.,+\-−×*÷:\s]+)\)\s*\/\s*\(([\d.,+\-−×*÷:\s]+)\)/g,
       (_, top, bottom) => /^[-+]?\d+(?:[.,]\d+)?$/.test(top.trim()) && /^[-+]?\d+(?:[.,]\d+)?$/.test(bottom.trim())
         ? ` ${top} phần ${bottom} ` : ` phân số có tử số là ${top}, và mẫu số là ${bottom} `)
@@ -65,5 +73,5 @@ export function vietnameseVoices(voices: Voice[]): Voice[] {
 
 export function voiceLabel(voice: Voice, index: number): string {
   const name = voice.name.normalize('NFD').replace(/[\u0300-\u036f\s]/g, '').toLowerCase();
-  return name.includes('hoaimy') ? 'Hoài My' : name.includes('namminh') ? 'Nam Minh' : `Giọng Việt ${index + 1}`;
+  return name.includes('hoaimy') ? 'Giọng nữ' : name.includes('namminh') ? 'Giọng nam' : `Giọng Việt ${index + 1}`;
 }

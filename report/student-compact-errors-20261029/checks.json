@@ -1,0 +1,26 @@
+{
+  "studentTests": {
+    "passed": 1115,
+    "failed": 0,
+    "suites": 94
+  },
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2,
+    "file": "src/utils/cropRotation.web.ts"
+  },
+  "androidExport": {
+    "passed": true,
+    "physicalDeviceTested": false
+  },
+  "visualWidths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "visualPageErrors": [],
+  "evidence": "Actual Student web components, controlled lesson/error responses, real local authentication and real generated WAV; not physical Android evidence.",
+  "committedOrPushed": false
+}

@@ -23,4 +23,3 @@ ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS stars INTEGER NOT NULL DEFAUL
 
 -- Backfill attempts stars: correct attempt gets quiz stars
 UPDATE quiz_attempts a SET stars = q.stars FROM student_quizzes q WHERE a.quiz_id = q.id AND a.correct = TRUE AND q.stars > 0;
-

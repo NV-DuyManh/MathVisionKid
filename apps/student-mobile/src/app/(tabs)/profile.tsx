@@ -1,11 +1,12 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
 import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
@@ -18,13 +19,17 @@ export default function ProfileScreen() {
   const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   const [lessons, setLessons] = useState<SavedLesson[]>([]), [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0), [loading, setLoading] = useState(true);
   const [menu, setMenu] = useState<SavedLesson | null>(null);
   useFocusEffect(useCallback(() => {
     let active = true;
-    setLessons([]); setError(false); setMenu(null);
-    loadLessons(owner).then(items => { if (active) setLessons(items); }).catch(() => { if (active) setError(true); });
+    setLessons([]); setError(false); setLoading(true); setMenu(null);
+    loadLessons(owner).then(items => { if (active) setLessons(items); }).catch(() => { if (active) setError(true); })
+      .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [owner]));
+  // The retry key intentionally reruns this focused-screen request and cancels the previous one.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [owner, attempt]));
   const capture = () => { recognitionDraftStore.clearDraft(); router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } }); };
   const open = (lesson: SavedLesson) => router.push({ pathname: '/learning/math-guide', params: { problemText: lesson.problemText, workText: lesson.workText, lessonId: lesson.id, reflection: lesson.reflection } });
   const items = lessons.filter(item => tab === 'notes' ? item.reflection.trim() : tab === 'work' ? item.workText.trim() : true);
@@ -45,7 +50,9 @@ export default function ProfileScreen() {
       </Pressable>)}</View>
       <View style={styles.listHeading}><Text style={styles.heading}>{tab === 'saved' ? 'Những bài học của em' : tab === 'work' ? 'Bài em đã viết' : 'Điều em ghi nhớ'}</Text><Text style={styles.count}>{items.length} bài</Text></View>
       {tab === 'work' ? <Text style={styles.caption}>Nội dung em đã lưu bằng chữ. Ảnh riêng tư không lưu trong góc học tập.</Text> : null}
-      {error ? <Text accessibilityRole="alert" style={styles.error}>Chưa mở được bài đã lưu. Em quay lại màn hình này để thử lại nhé.</Text>
+      {error ? <RecoveryNotice title="Chưa mở được bài đã lưu" message="Em thử lại nhé." actions={[
+        { label: 'Thử lại', accessibilityLabel: 'Tải lại bài đã lưu', icon: 'refresh-outline', onPress: () => setAttempt(value => value + 1) },
+      ]} /> : loading ? <ActivityIndicator accessibilityLabel="Đang mở bài đã lưu" color={COLORS.primary} />
         : items.length ? <View style={styles.list}>{items.map((lesson, index) => <View key={lesson.id} style={styles.lesson}>
           <Pressable accessibilityRole="button" accessibilityLabel={'Học tiếp: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
             onPress={() => open(lesson)} style={({ pressed }) => [styles.lessonOpen, pressed && styles.pressed]}>
