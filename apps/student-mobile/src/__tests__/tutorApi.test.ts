@@ -77,6 +77,19 @@ const sourceSummary = { givens: ['Lan có 12 bút', 'thêm 5 bút', 'Hai nhóm c
 
 const readingOnly = { ...publicLesson, understandingSteps: 3, preparingMath: true,
   outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu'], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+it.each(['PREPARING', 'RETRYABLE', 'UNAVAILABLE'])('retains three checked answers while math is %s without accepting fake completion', async status => {
+  const data = { ...readingOnly, status, step: null, stepIndex: 3, revision: 3,
+    completed: [...summaryLesson.completed, { ...summaryLesson.completed[0], answer: 'Đúng' }] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.lessonPreparation(data, true)).resolves.toEqual(data);
+  expect(apiClient.post).toHaveBeenLastCalledWith('/student/tutor/lesson/preparation', {
+    sessionId: data.sessionId, revision: 3, retry: true,
+  }, expect.anything());
+  for (const patch of [{ preparingMath: false }, { status: 'COMPLETE' }, { stepIndex: 2 }, { conclusion: 'Đáp số: 60 cây.' }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, ...patch } });
+    await expect(TutorService.lessonPreparation(data)).rejects.toThrow();
+  }
+});
 it('opens explicit source reading while the reviewed mathematics is still preparing', async () => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: readingOnly });
   const confirmation = { problemConfirmed: true, workConfirmed: false, guidedUnderstanding: true, startWithReading: true };

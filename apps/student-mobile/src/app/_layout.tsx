@@ -86,6 +86,7 @@ function StudentNavigator() {
     <Stack.Protected guard={auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="learning" />
+      <Stack.Screen name="quiz" />
       <Stack.Screen name="recognition" />
       <Stack.Screen name="results" />
       <Stack.Screen name="camera" />

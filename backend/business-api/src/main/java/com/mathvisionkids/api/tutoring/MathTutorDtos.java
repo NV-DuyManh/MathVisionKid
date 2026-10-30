@@ -135,6 +135,8 @@ public final class MathTutorDtos {
                                       @jakarta.validation.constraints.Pattern(regexp="vi-VN-(NamMinh|HoaiMy)Neural") String voice) {
         public MediaPrepareRequest { if (voice == null) voice = "vi-VN-NamMinhNeural"; }
     }
+    public record LessonPreparation(@NotBlank @Size(min=20,max=100) String sessionId,
+                                    @NotNull @Min(0) Integer revision, boolean retry) {}
     public record Transcript(String text) {}
     public record LessonStep(String title, String explanation, String question, java.util.List<String> choices,
                              String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance, String kind) {}

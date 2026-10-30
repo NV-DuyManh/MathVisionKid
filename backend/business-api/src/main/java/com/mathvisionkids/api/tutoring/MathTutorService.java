@@ -29,14 +29,17 @@ public class MathTutorService {
     private final RestTemplate http;
     private final String baseUrl;
     private final String internalKey;
+    private com.mathvisionkids.api.quiz.QuizSources quizSources;
     private final java.util.Map<String, java.util.ArrayDeque<Long>> audioRequests = new java.util.HashMap<>();
 
     @Autowired
     public MathTutorService(RestTemplateBuilder builder,
                             @Value("${ai.service.base-url}") String baseUrl,
-                            @Value("${ai.callback.api-key}") String internalKey) {
+                            @Value("${ai.callback.api-key}") String internalKey,
+                            com.mathvisionkids.api.quiz.QuizSources quizSources) {
         this(builder.setConnectTimeout(Duration.ofSeconds(5)).setReadTimeout(Duration.ofSeconds(40)).build(),
                 baseUrl, internalKey);
+        this.quizSources = quizSources;
     }
 
     MathTutorService(RestTemplate http, String baseUrl, String internalKey) {
@@ -141,16 +144,31 @@ public class MathTutorService {
     public LessonResponse lesson(LessonRequest request, String owner) {
         if (!request.isSourceConfirmed())
             throw invalid("TRANSCRIPTION_CONFIRMATION_REQUIRED", "Em kiểm tra lại đề và các số với ảnh trước nhé.");
-        return lessonResponse(call("/internal/v1/tutor/lesson", java.util.Map.of("owner", owner,
+        var result = lessonResponse(call("/internal/v1/tutor/lesson", java.util.Map.of("owner", owner,
                 "problemText", request.problemText(), "workText", request.workText(),
                 "problemConfirmed", true, "workConfirmed", Boolean.TRUE.equals(request.workConfirmed()),
                 "guidedUnderstanding", Boolean.TRUE.equals(request.guidedUnderstanding()),
                 "startWithReading", Boolean.TRUE.equals(request.startWithReading())), MediaType.APPLICATION_JSON));
+        if (quizSources != null) {
+            try { quizSources.record(owner, "LESSON", result.sessionId(), request.problemText(), result.status().equals("COMPLETE")); }
+            catch (RuntimeException ex) { quizSources.warnUnavailable(); }
+        }
+        return result;
     }
 
     public LessonResponse answer(LessonAnswer request, String owner) {
-        return lessonResponse(call("/internal/v1/tutor/lesson/answer", java.util.Map.of("owner", owner,
+        var result = lessonResponse(call("/internal/v1/tutor/lesson/answer", java.util.Map.of("owner", owner,
                 "sessionId", request.sessionId(), "revision", request.revision(), "answer", request.answer(), "hint", request.hint()), MediaType.APPLICATION_JSON));
+        if (quizSources != null && result.status().equals("COMPLETE")) {
+            try { quizSources.complete(owner, result.sessionId()); }
+            catch (RuntimeException ex) { quizSources.warnUnavailable(); }
+        }
+        return result;
+    }
+
+    public LessonResponse preparation(LessonPreparation request, String owner) {
+        return lessonResponse(call("/internal/v1/tutor/lesson/preparation", java.util.Map.of("owner", owner,
+                "sessionId", request.sessionId(), "revision", request.revision(), "retry", request.retry()), MediaType.APPLICATION_JSON));
     }
 
     public LessonReply ask(LessonQuestion request, String owner) {
@@ -345,8 +363,10 @@ public class MathTutorService {
         if (revision == null || !revision.isIntegralNumber() || revision.asInt() < 0 || index == null || !index.isIntegralNumber()
                 || index.asInt() != done.size() || index.asInt() > titles.size()) throw unavailable();
         String status = text(body, "status", 20, false);
-        if (!List.of("READY", "HINT", "TRY_AGAIN", "CORRECT", "COMPLETE").contains(status)
-                || (preparing && status.equals("COMPLETE")) || (current == null) != status.equals("COMPLETE")
+        boolean waiting = List.of("PREPARING", "RETRYABLE", "UNAVAILABLE").contains(status);
+        if (!List.of("READY", "HINT", "TRY_AGAIN", "CORRECT", "COMPLETE", "PREPARING", "RETRYABLE", "UNAVAILABLE").contains(status)
+                || (waiting && (!preparing || understanding != 3 || done.size() != 3))
+                || (preparing && status.equals("COMPLETE")) || (current == null) != (status.equals("COMPLETE") || waiting)
                 || (current == null ? done.size() != titles.size() : done.size() >= titles.size())) throw unavailable();
         String conclusion = body.has("conclusion") ? text(body, "conclusion", 150, true) : "";
         if (!status.equals("COMPLETE") && !conclusion.isBlank()) throw unavailable();
@@ -404,6 +424,11 @@ public class MathTutorService {
         headers.setContentType(contentType);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.set("X-Internal-API-Key", internalKey);
+        if (org.springframework.web.context.request.RequestContextHolder.getRequestAttributes()
+                instanceof org.springframework.web.context.request.ServletRequestAttributes attributes) {
+            Object trace = attributes.getRequest().getAttribute("X-Request-ID");
+            if (trace instanceof String value && value.matches("[a-zA-Z0-9_-]{1,100}")) headers.set("X-Request-ID", value);
+        }
         try {
             JsonNode result = http.postForObject(baseUrl + path, new HttpEntity<>(payload, headers), JsonNode.class);
             if (result == null || !result.isObject()) throw unavailable();

@@ -9,6 +9,7 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { NotebookLine, TutorService, WorkReview, trimWorkReviewLine, workReviewLines } from './api/TutorService';
 import { WorkPhotoEvidence } from './WorkPhotoEvidence';
 import { TaskProgress } from '../../components/ui/TaskProgress';
+import { QuizInvitation } from '../quiz/QuizInvitation';
 
 type Props = { problemText: string; workText: string; imageUri: string; lines: NotebookLine[];
   enabled: boolean; disabled?: boolean; photoCurrent?: boolean; onReviseWork: (work: string) => void; onCaptureWork: () => void; onSessionExpired?: () => void; onReviewReady?: () => void };
@@ -147,6 +148,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
       </> : null}
       </> : null}
     </> : null}
+    {result && enabled && !disabled && !expired ? <QuizInvitation sourceType="WORK_REVIEW" sourceId={result.sourceId} /> : null}
     <AppButton title="Chụp lại bài em đã sửa" variant="secondary" disabled={disabled || expired}
       onPress={() => { stop(); onCaptureWork(); }} />
   </View>;

@@ -66,13 +66,14 @@ export type LessonReply = { answer: string; spokenExplanation: string; followUp:
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
   step: LessonStep | null; completed: CompletedLessonStep[];
-  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
+  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE' | 'PREPARING' | 'RETRYABLE' | 'UNAVAILABLE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
   summary?: LessonSummary | null;
 };
 function lessonResponse(value: any): LessonResponse {
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
   const understanding = value?.understandingSteps === undefined ? 0 : value.understandingSteps;
   const preparing = value?.preparingMath === true;
+  const waiting = ['PREPARING', 'RETRYABLE', 'UNAVAILABLE'].includes(value?.status);
   const phaseValid = (s: any, index: number) => s && (s.kind === undefined ? 'MATH' : s.kind) === (index < understanding ? 'UNDERSTAND' : 'MATH')
     && (index >= understanding || (s.expression === '' && s.unit === '' && !s.solutionSentence));
   const guidanceValid = (v: any) => v === undefined || (Array.isArray(v) && v.length <= 6 && v.every((item: any) => bounded(item, 500) && item.trim()));
@@ -96,8 +97,9 @@ function lessonResponse(value: any): LessonResponse {
         && guidanceValid(s.guidance)
         && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
       || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
-      || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE'].includes(value.status)
-      || (preparing && value.status === 'COMPLETE') || (value.step === null) !== (value.status === 'COMPLETE')
+      || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE', 'PREPARING', 'RETRYABLE', 'UNAVAILABLE'].includes(value.status)
+      || (waiting && (!preparing || understanding !== 3 || value.stepIndex !== 3))
+      || (preparing && value.status === 'COMPLETE') || (value.step === null) !== (value.status === 'COMPLETE' || waiting)
       || (value.step === null ? value.stepIndex !== value.outline.length
         : value.stepIndex >= value.outline.length || !phaseValid(value.step, value.stepIndex) || !stepValid(value.step)
           || (value.stepIndex < understanding && value.step.choices.length < 2))) throw new Error(INVALID_RESPONSE);
@@ -106,6 +108,12 @@ function lessonResponse(value: any): LessonResponse {
 }
 
 export const TutorService = {
+  async lessonPreparation(lesson: Pick<LessonResponse, 'sessionId' | 'revision'>, retry = false, signal?: AbortSignal): Promise<LessonResponse> {
+    const { data } = await apiClient.post('/student/tutor/lesson/preparation', {
+      sessionId: lesson.sessionId, revision: lesson.revision, retry,
+    }, { timeout: 10000, signal });
+    return lessonResponse(data);
+  },
   async askLesson(request: { sessionId: string; revision: number; stepIndex: number; question: string }, signal?: AbortSignal): Promise<LessonReply> {
     if (!request.question.trim() || request.question.length > 500) throw new Error('Em viết một câu hỏi ngắn nhé.');
     const { data } = await apiClient.post<LessonReply>('/student/tutor/lesson/ask', request, { timeout: TIMEOUT, signal });

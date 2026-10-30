@@ -11,6 +11,7 @@ import { buildLearningActivity } from '../../features/home/learningActivity';
 import { loadLessons } from '../../features/tutoring/learningHistory';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { LearningJourney } from './LearningJourney';
+import { QuizShortcut } from '../../features/quiz/QuizShortcut';
 
 const ART = {
   mascot: require('../../../assets/illustrations/mathvision-star.png'), saved: require('../../../assets/illustrations/approved/saved.webp'),
@@ -76,6 +77,7 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
       </LinearGradient>
       {desktop ? streak : null}
     </View>
+    <QuizShortcut />
     {desktop ? <LearningJourney desktop onPractice={() => onPractice()} onAcquire={onAcquire} /> : null}
     <View style={styles.sectionHeading}><Text style={styles.sectionTitle} accessibilityRole="header">Tiện ích nhanh</Text>
       <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài luyện tập lớp 1 đến lớp 5" onPress={() => router.push('/(tabs)/lessons')} style={styles.sectionLink}><Text style={styles.link}>Xem tất cả</Text><Ionicons name="chevron-forward" size={14} color={COLORS.primaryDark} /></Pressable>

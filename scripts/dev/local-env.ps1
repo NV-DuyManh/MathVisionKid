@@ -1,4 +1,14 @@
 # Literal dotenv loading for a single child-service launch. Never evaluates file contents.
+function Invoke-WithLocalSpeechTools {
+    param([scriptblock]$Action)
+    $speechTools = Join-Path $PSScriptRoot '../../infra/local-runtime/tools/ffmpeg/bin'
+    $previousPath = $env:PATH
+    try {
+        if (Test-Path -LiteralPath (Join-Path $speechTools 'ffmpeg.exe')) { $env:PATH = "$speechTools;$previousPath" }
+        & $Action
+    } finally { $env:PATH = $previousPath }
+}
+
 function Invoke-WithLocalEnvironment {
     param(
         [string[]]$Files,

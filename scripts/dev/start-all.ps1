@@ -97,8 +97,8 @@ function Invoke-CommandWithTimeout {
 function Find-DockerDesktopPath {
     $candidates = @(
         (Join-Path $env:ProgramFiles "Docker\Docker\Docker Desktop.exe"),
-        (if ($env:ProgramFilesX86) { Join-Path $env:ProgramFilesX86 "Docker\Docker\Docker Desktop.exe" }),
-        (if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} "Docker\Docker\Docker Desktop.exe" }),
+        $(if ($env:ProgramFilesX86) { Join-Path $env:ProgramFilesX86 "Docker\Docker\Docker Desktop.exe" }),
+        $(if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} "Docker\Docker\Docker Desktop.exe" }),
         (Join-Path $env:LOCALAPPDATA "Programs\Docker\Docker\Docker Desktop.exe")
     )
     foreach ($p in $candidates) {
@@ -309,9 +309,37 @@ if (Test-Path $PidDir) {
     }
 }
 
+function Assert-LocalMinioImage {
+    param([string]$Image, [string]$Container, [string]$Volume)
+    $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', '--format', '{{.Id}}', $Image) -TimeoutSeconds 10
+    if (-not $cached.Success -or -not $cached.Stdout) {
+        throw "MINIO_LOCAL_IMAGE_MISSING: $Image is not available locally. Load the verified image archive before starting. No replacement image was pulled; storage data was preserved."
+    }
+    $existing = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('container', 'inspect', $Container) -TimeoutSeconds 10
+    if ($existing.Success) {
+        $containerInfo = @($existing.Stdout | ConvertFrom-Json)[0]
+        if ($containerInfo.Image -ne $cached.Stdout.Trim()) {
+            throw 'MINIO_IMAGE_CHANGE_BLOCKED: The configured image differs from the image owning the existing data. Back up and verify recovery before an explicitly approved migration.'
+        }
+        $dataMount = @($containerInfo.Mounts | Where-Object { $_.Destination -eq '/data' })
+        if ($dataMount.Count -ne 1 -or $dataMount[0].Type -ne 'volume' -or $dataMount[0].Name -ne $Volume) {
+            throw 'MINIO_VOLUME_CHANGE_BLOCKED: The existing /data mount differs from the Compose volume. Storage data was preserved; review recovery before proceeding.'
+        }
+    } else {
+        $stored = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('volume', 'inspect', $Volume) -TimeoutSeconds 10
+        if ($stored.Success) {
+            throw 'MINIO_RECOVERY_REVIEW_REQUIRED: A data volume exists without its original container identity. Verify the backup and recovery image before attaching it to a new container.'
+        }
+    }
+}
+
 # 3. Infrastructure (Docker Compose)
 Write-Host "`n[3/6] Starting infrastructure (PostgreSQL, MinIO, Redis)..." -ForegroundColor Yellow
 $ComposeFile = Join-Path $RepoRoot "infra\docker\docker-compose.yml"
+$composeConfig = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('compose', '-f', ('"' + $ComposeFile + '"'), 'config', '--format', 'json') -TimeoutSeconds 10
+if (-not $composeConfig.Success) { throw 'COMPOSE_CONFIG_INVALID: Validate infra/docker/docker-compose.yml before starting services.' }
+$resolvedCompose = $composeConfig.Stdout | ConvertFrom-Json
+Assert-LocalMinioImage -Image $resolvedCompose.services.minio.image -Container $resolvedCompose.services.minio.container_name -Volume $resolvedCompose.volumes.miniodata.name
 & docker compose -f $ComposeFile up -d postgres minio redis
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Failed to start docker-compose infrastructure." -ForegroundColor Red
@@ -443,7 +471,28 @@ function Start-TrackedService {
                     throw "PORT_CONFLICT: Could not verify the runtime on port $PortCheck."
                 }
             }
-            Write-Host "  $Name is already running on port $PortCheck." -ForegroundColor Green
+            if ($IdentityKind -in @('spring','fastapi')) {
+                $sourceDir = if ($IdentityKind -eq 'spring') { Join-Path $WorkingDirectory 'src/main' } else { Join-Path $WorkingDirectory 'app' }
+                $inputs = @(Get-ChildItem -LiteralPath $sourceDir -Recurse -File | Where-Object { $_.Extension -in @('.java','.sql','.yml','.properties','.py') })
+                foreach ($envName in @('.env','.env.local')) {
+                    $envPath = Join-Path $WorkingDirectory $envName
+                    if (Test-Path -LiteralPath $envPath) { $inputs += Get-Item -LiteralPath $envPath }
+                }
+                $newest = ($inputs | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
+                $stale = @($ownerIds | Where-Object { (Get-Process -Id $_).StartTime.ToUniversalTime() -lt $newest })
+                if ($stale.Count -gt 0) {
+                    Write-Host "  $Name has older loaded code/configuration; restarting this verified checkout." -ForegroundColor Yellow
+                    foreach ($ownerId in $ownerIds) { Stop-Process -Id $ownerId -ErrorAction Stop }
+                    for ($attempt=0; $attempt -lt 30; $attempt++) {
+                        if (-not (Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction SilentlyContinue)) { break }
+                        Start-Sleep -Milliseconds 200
+                    }
+                    if (Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction SilentlyContinue) { throw "STALE_RUNTIME: Port $PortCheck was not released" }
+                    Start-TrackedService @PSBoundParameters
+                    return
+                }
+            }
+            Write-Host "  $Name is already running on port $PortCheck with current source timestamps." -ForegroundColor Green
             return
         }
     }
@@ -511,6 +560,7 @@ $FastApiPid = Join-Path $PidDir "fastapi.pid"
 $FastApiLog = Join-Path $LogDir "fastapi.log"
 $UvicornExe = Join-Path $AiDir ".venv\Scripts\uvicorn.exe"
 if (-not (Test-Path $UvicornExe)) { $UvicornExe = "uvicorn" }
+Invoke-WithLocalSpeechTools -Action {
 Start-TrackedService -Name "FastAPI AI Runtime" `
     -FilePath $UvicornExe `
     -ArgumentList "app.main:app --host 127.0.0.1 --port 8000" `
@@ -519,6 +569,7 @@ Start-TrackedService -Name "FastAPI AI Runtime" `
     -PidFile $FastApiPid `
     -PortCheck 8000 `
     -IdentityKind 'fastapi'
+}
 
 # C. Celery Worker
 $CeleryPid = Join-Path $PidDir "celery.pid"

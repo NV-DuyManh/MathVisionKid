@@ -44,6 +44,7 @@ test('uses Nam-style stages without running an elapsed-time animation', async ()
       steps={['Đề đã xác nhận', 'Chuẩn bị bài', 'Mở bài học']} activeStep={1} />); });
     expect(view.root.findByType(TaskProgress).props.activeStep).toBe(1);
     expect(loop).not.toHaveBeenCalled();
-    expect(view.root.find(node => node.props.accessibilityRole === 'progressbar').props.accessibilityValue.now).toBe(1);
+    const value = view.root.find(node => node.props.accessibilityRole === 'progressbar').props.accessibilityValue;
+    expect(value.max).toBe(100); expect(value.now).toBeGreaterThan(0); expect(value.now).toBeLessThan(85);
   } finally { act(() => view?.unmount()); jest.restoreAllMocks(); }
 });

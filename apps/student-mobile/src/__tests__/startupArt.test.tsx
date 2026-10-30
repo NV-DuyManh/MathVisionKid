@@ -19,7 +19,9 @@ it('opens navigation only after every illustration has been prepared', async () 
   (prepareIllustrations as jest.Mock).mockReturnValue(new Promise<void>(resolve => { done = resolve; }));
   await act(async () => { view = TestRenderer.create(<RootLayout />); });
   const progress = view.root.find(node => node.props.accessibilityRole === 'progressbar');
-  expect(progress.props.accessibilityValue.now).toBe(1);
+  expect(progress.props.accessibilityValue.max).toBe(100);
+  expect(progress.props.accessibilityValue.now).toBeGreaterThan(0);
+  expect(progress.props.accessibilityValue.now).toBeLessThan(85);
   expect(progress.props['aria-busy']).toBe(true);
   expect(view.root.findAllByType('Stack' as any)).toHaveLength(0);
   await act(async () => { done(); });

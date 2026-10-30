@@ -63,18 +63,19 @@ async def test_reading_opens_without_waiting_for_model_and_prewarms_without_publ
 
 
 @pytest.mark.asyncio
-async def test_final_reading_answer_waits_for_review_then_enters_math_once(pending_lesson):
+async def test_final_reading_answer_is_retained_before_review_then_enters_math_once(pending_lesson):
     response,session,gate,cloud,_=pending_lesson
     for _ in range(2):lesson.answer_lesson(turn(response,session))
     last=turn(response,session)
-    with pytest.raises(TutorUnavailable):lesson.answer_lesson(last)
-    waiting=asyncio.create_task(lesson.ready_for_answer(last));await asyncio.sleep(0)
-    assert not waiting.done() and session.revision==2 and len(session.completed)==2
-    gate.set();await waiting
+    await lesson.ready_for_answer(last)
+    pending=lesson.answer_lesson(last)
+    assert pending.status=='PREPARING' and pending.step is None
+    assert session.revision==3 and len(session.completed)==3
+    gate.set();assert await session.preparation_task
     assert cloud.await_count==2  # Planner AND independent semantic review, unchanged.
-    result=lesson.answer_lesson(last)
+    result=lesson.lesson_preparation(lesson.PreparationRequest(owner=session.owner,sessionId=response.sessionId,revision=3))
     assert result.stepIndex==3 and result.step.kind=='MATH' and not result.preparingMath
-    assert result.status=='CORRECT' and len(result.outline)==5
+    assert result.status=='READY' and len(result.outline)==5
     with pytest.raises(lesson.StaleTurn):lesson.answer_lesson(last)
 
 
@@ -92,12 +93,22 @@ async def test_wrong_answer_and_hint_do_not_wait_for_math(pending_lesson):
 
 
 @pytest.mark.asyncio
+async def test_retry_during_last_active_attempt_cannot_reset_budget_or_duplicate_task(pending_lesson):
+    response,session,_,_,_=pending_lesson
+    session.preparation_attempts=3
+    task=session.preparation_task
+    request=lesson.PreparationRequest(owner=session.owner,sessionId=response.sessionId,revision=0,retry=True)
+    lesson.lesson_preparation(request)
+    assert session.preparation_attempts==3 and session.preparation_task is task
+
+
+@pytest.mark.asyncio
 async def test_owner_revision_and_cancelled_waiter_cannot_advance_or_cancel_the_shared_plan(pending_lesson):
     response,session,gate,_,_=pending_lesson
     for _ in range(2):lesson.answer_lesson(turn(response,session))
     with pytest.raises(lesson.LessonExpired):await lesson.ready_for_answer(turn(response,session,owner='other'))
     with pytest.raises(lesson.StaleTurn):await lesson.ready_for_answer(turn(response,session,revision=0))
-    waiting=asyncio.create_task(lesson.ready_for_answer(turn(response,session)));await asyncio.sleep(0)
+    waiting=asyncio.create_task(lesson.ready_for_answer(turn(response,session)))
     waiting.cancel()
     with pytest.raises(asyncio.CancelledError):await waiting
     assert not session.preparation_task.cancelled() and session.revision==2
@@ -110,8 +121,10 @@ async def test_failed_review_never_completes_reading_or_publishes_math(pending_l
     cloud.side_effect=TutorUnavailable()
     gate.set();assert await session.preparation_task is False
     for _ in range(2):lesson.answer_lesson(turn(response,session))
-    with pytest.raises(TutorUnavailable):await lesson.ready_for_answer(turn(response,session))
-    assert isinstance(session.plan,lesson.ReadingPlan) and session.revision==2
+    last=turn(response,session)
+    await lesson.ready_for_answer(last)
+    assert lesson.answer_lesson(last).status=='RETRYABLE'
+    assert isinstance(session.plan,lesson.ReadingPlan) and session.revision==3
     assert all(s.kind=='UNDERSTAND' for s in session.plan.steps)
 
 
@@ -153,6 +166,7 @@ async def test_concurrent_final_answers_share_planning_and_only_one_can_advance(
         return lesson.answer_lesson(last)
     one=asyncio.create_task(submit());two=asyncio.create_task(submit());await asyncio.sleep(0)
     gate.set();results=await asyncio.gather(one,two,return_exceptions=True)
+    await session.preparation_task
     assert sum(isinstance(result,lesson.LessonResponse) for result in results)==1
     assert sum(isinstance(result,lesson.StaleTurn) for result in results)==1
     assert session.revision==3 and cloud.await_count==2
@@ -175,12 +189,14 @@ async def test_late_ready_plan_does_not_resurrect_an_abandoned_speech_queue(pend
 
 
 @pytest.mark.asyncio
-async def test_new_lesson_cancels_the_same_pupils_old_pending_plan(pending_lesson):
-    _,session,_,_,request=pending_lesson
+async def test_new_lesson_does_not_cancel_an_active_session(pending_lesson):
+    _,session,gate,_,request=pending_lesson
     newer=await lesson.start_lesson(request.model_copy(update={'problemText':SOURCE.replace('Lan','Mai')}))
-    await asyncio.gather(session.preparation_task,return_exceptions=True)
-    assert session.preparation_task.cancelled()
+    assert not session.preparation_task.cancelled()
     assert not lesson._sessions[newer.sessionId].preparation_task.done()
+    gate.set()
+    await session.preparation_task
+    assert not session.preparation_task.cancelled()
 
 
 @pytest.mark.asyncio
@@ -222,8 +238,9 @@ async def test_answer_api_never_advances_to_unreviewed_math(pending_lesson,monke
         headers={'X-Internal-API-Key':'reading-test-key'}
         denied=await client.post('/lesson/answer',json=turn(response,session,owner='other').model_dump(),headers=headers)
         assert denied.status_code==410
-        waiting=asyncio.create_task(client.post('/lesson/answer',json=turn(response,session).model_dump(),headers=headers))
-        await asyncio.sleep(0);assert not waiting.done() and session.revision==2
-        gate.set();result=await waiting
+        pending=await client.post('/lesson/answer',json=turn(response,session).model_dump(),headers=headers)
+        assert pending.status_code==200 and pending.json()['status']=='PREPARING' and session.revision==3
+        gate.set();assert await session.preparation_task
+        result=await client.post('/lesson/preparation',json={'owner':session.owner,'sessionId':response.sessionId,'revision':3},headers=headers)
         assert result.status_code==200 and result.json()['step']['kind']=='MATH'
         assert result.json()['preparingMath'] is False and result.json()['revision']==3

@@ -27,7 +27,9 @@ _cloud_slots = asyncio.Semaphore(max(1, min(settings.cloud_advisor_max_concurren
 
 
 class TutorUnavailable(Exception):
-    pass
+    def __init__(self, reason='PROVIDER_UNAVAILABLE'):
+        self.reason = reason
+        super().__init__()
 
 
 class TutorModel(BaseModel):
@@ -191,10 +193,10 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
             # Invalid credentials cannot consume quota: disable them and try an
             # untried credential. Every quota/transient failure stops immediately.
             if exc.error_class != "AUTH_ERROR":
-                raise TutorUnavailable() from None
-        except (httpx.HTTPError, KeyError, IndexError, StopIteration, ValueError, TypeError):
+                raise TutorUnavailable(exc.error_class) from None
+        except (httpx.HTTPError, KeyError, IndexError, StopIteration, ValueError, TypeError) as exc:
             pool.mark_failure(entry, "TIMEOUT_OR_MALFORMED_RESPONSE")
-            raise TutorUnavailable() from None
+            raise TutorUnavailable('TIMEOUT' if isinstance(exc, httpx.TimeoutException) else 'VALIDATION_FAILED') from None
     raise TutorUnavailable()
 
 
@@ -207,7 +209,7 @@ async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, 
     for _ in range(3):
         entry = pool.acquire() if pool else None
         if entry is None:
-            raise TutorUnavailable()
+            raise TutorUnavailable('POOL_UNAVAILABLE')
         content = [{"type": "text", "text": user_text}]
         if image_b64:
             content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}})
@@ -238,10 +240,10 @@ async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, 
             logger.info("Math tutor primary unavailable (%s)", exc.error_class)
             pool.report_failure(entry, exc.error_class, exc.retry_after)
             if exc.error_class not in {"AUTH_INVALID", "AUTH_FORBIDDEN"}:
-                raise TutorUnavailable() from None
-        except (httpx.HTTPError, ValueError, TypeError):
+                raise TutorUnavailable(exc.error_class) from None
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
             pool.report_failure(entry, "RESPONSE_VALIDATION_ERROR")
-            raise TutorUnavailable() from None
+            raise TutorUnavailable('TIMEOUT' if isinstance(exc, httpx.TimeoutException) else 'VALIDATION_FAILED') from None
     raise TutorUnavailable()
 
 
@@ -259,14 +261,16 @@ async def _generate(system_prompt: str, user_text: str, image_b64: str | None = 
         # can be disabled and skipped within a small bounded attempt count.
         providers = [(_call_groq, settings.groq_enabled, settings.groq_api_keys),
                      (_call_gemini, settings.gemini_enabled, settings.gemini_api_keys)]
+        failure = TutorUnavailable()
         for provider, enabled, keys in providers:
             if enabled and keys.strip():
                 try:
                     provider_options = {**options, "reasoning": True} if reasoning and provider is _call_groq else options
                     return await provider(system_prompt, user_text, image_b64, **provider_options)
-                except TutorUnavailable:
-                    logger.info("Math tutor provider unavailable; trying configured fallback")
-        raise TutorUnavailable()
+                except TutorUnavailable as exc:
+                    failure = exc
+                    logger.info("Math tutor provider unavailable reason=%s; trying configured fallback", exc.reason)
+        raise failure
 
     acquired = False
     try:
@@ -274,7 +278,7 @@ async def _generate(system_prompt: str, user_text: str, image_b64: str | None = 
         acquired = True
         return await asyncio.wait_for(attempt(), timeout=30.0)
     except TimeoutError:
-        raise TutorUnavailable() from None
+        raise TutorUnavailable('TIMEOUT' if acquired else 'BUSY') from None
     finally:
         if acquired:
             _cloud_slots.release()

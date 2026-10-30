@@ -2,6 +2,7 @@ import axios, { CanceledError } from 'axios';
 import { ENV } from '../../config/env';
 import { tokenStorage } from '../auth/tokenStorage';
 import { sessionEvents } from '../auth/sessionEvents';
+import { Platform } from 'react-native';
 // eslint-disable-next-line import/no-named-as-default-member
 const apiClient = axios.create({ baseURL: ENV.API_BASE_URL, timeout: 60000 });
 let refreshing: { token: string; promise: Promise<string> } | null = null;
@@ -14,6 +15,7 @@ async function expire(id: string | null, reason: 'expired' | 'forbidden' = 'expi
 }
 apiClient.interceptors.request.use(async config => {
   config.baseURL = ENV.API_BASE_URL;
+  if (config.url?.startsWith('/student/quizzes')) config.headers['X-MathVision-Client'] = `confirmed-quiz-v3:${Platform.OS}`;
   const before = await identity();
   const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
   const token = publicAuth ? null : await tokenStorage.getAccessToken();

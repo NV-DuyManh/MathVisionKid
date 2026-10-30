@@ -5,7 +5,7 @@ import { TutorService } from '../features/tutoring/api/TutorService';
 
 let mockBlur: (() => void) | undefined;
 let mockRefocus: (() => void) | undefined;
-jest.mock('expo-router', () => ({ useFocusEffect: (fn: () => (() => void)) => require('react').useEffect(() => {
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn(), replace: jest.fn() }), useFocusEffect: (fn: () => (() => void)) => require('react').useEffect(() => {
   mockRefocus = () => { mockBlur = fn(); };
   mockRefocus();
   return () => mockBlur?.();

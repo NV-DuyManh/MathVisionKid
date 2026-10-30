@@ -6,7 +6,7 @@ import { COLORS, FONTS } from '../../constants/theme';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
 export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; imageUri?: string; onEdit: () => void }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const contentId = useId();
   const { height } = useWindowDimensions();
@@ -17,10 +17,10 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
         accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls={expanded ? contentId : undefined}
         onPress={() => setExpanded(value => !value)} style={({ pressed }) => [styles.toggle, pressed && styles.pressed]}>
         <View style={styles.icon}><Ionicons name="document-text-outline" size={18} color={COLORS.primaryDark} accessible={false} /></View>
-        <View style={styles.heading}><Text style={styles.title}>Đề bài</Text>
+        <View style={styles.heading}><Text style={styles.title}>Đề bài của em · Đã xác nhận</Text>
           {!expanded ? <Text numberOfLines={1} style={styles.preview}>{problem}</Text>
             : contentHeight > maxBodyHeight + 1 ? <Text style={styles.preview}>Cuộn để đọc hết</Text> : null}</View>
-        <Text style={styles.action}>{expanded ? 'Thu gọn' : 'Mở đề'}</Text>
+        <Text style={styles.action}>{expanded ? 'Thu gọn' : 'Xem đầy đủ'}</Text>
         <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color={COLORS.primaryDark} accessible={false} />
       </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={onEdit}
