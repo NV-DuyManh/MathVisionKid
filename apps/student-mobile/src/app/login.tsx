@@ -16,15 +16,10 @@ import { AppButton } from '../components/ui/AppButton';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { BrandLockup } from '../components/ui/BrandLockup';
-import GoogleWebButton from '../components/GoogleWebButton';
 import { authApi } from '../services/api/authApi';
 
 type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY';
-type AuthView = 'login' | 'register' | 'request-reset' | 'confirm-reset' | 'google-student-setup';
-
-const googleWebClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID?.trim() ?? '';
-const googleAndroidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID?.trim() ?? '';
-const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID?.trim() ?? '';
+type AuthView = 'login' | 'register' | 'request-reset' | 'confirm-reset';
 
 const genders: { value: Gender; label: string }[] = [
   { value: 'MALE', label: 'Nam' },
@@ -45,7 +40,6 @@ export default function LoginScreen() {
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [googleSetupCredential, setGoogleSetupCredential] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gender, setGender] = useState<Gender>('PREFER_NOT_TO_SAY');
   const [gradeLevel, setGradeLevel] = useState(1);
@@ -54,10 +48,6 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const auth = useContext(AuthContext);
-  const googleLoginConfigured = Platform.OS === 'web'
-    ? Boolean(googleWebClientId)
-    : Boolean(googleWebClientId && (Platform.OS !== 'android' || googleAndroidClientId) && (Platform.OS !== 'ios' || googleIosClientId));
-
   const clearMessages = () => {
     setErrorMessage('');
     setSuccessMessage('');
@@ -203,70 +193,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handleGoogleCredential = async (credential: string) => {
-    if (!auth) return;
-    clearMessages();
-    setLoading(true);
-    try {
-      await auth.loginWithGoogle(credential);
-    } catch (error: any) {
-      if (error.response?.data?.error?.code === 'GOOGLE_STUDENT_GRADE_REQUIRED') {
-        setGoogleSetupCredential(credential);
-        setAuthView('google-student-setup');
-        setSuccessMessage('Google đã được xác minh. Chọn lớp để hoàn tất tạo tài khoản học sinh.');
-        return;
-      }
-      setErrorMessage(error.response?.status === 403
-        ? 'Tài khoản Google này không có quyền vào ứng dụng học sinh.'
-        : 'Đăng nhập Google chưa thành công. Hãy thử lại.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    if (!googleLoginConfigured) return;
-    clearMessages();
-    setLoading(true);
-    try {
-      const googleSignIn = await import('@react-native-google-signin/google-signin');
-      googleSignIn.GoogleSignin.configure({ webClientId: googleWebClientId });
-      if (Platform.OS === 'android') await googleSignIn.GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-      const response = await googleSignIn.GoogleSignin.signIn();
-      if (!googleSignIn.isSuccessResponse(response)) return;
-      if (!response.data.idToken) throw new Error('Google did not return an ID token.');
-      await handleGoogleCredential(response.data.idToken);
-    } catch (error: any) {
-      if (error.code === 'SIGN_IN_CANCELLED') return;
-      if (/RNGoogleSignin|native module/i.test(error.message ?? '')) {
-        setErrorMessage('Đăng nhập Google cần bản phát triển của ứng dụng; Expo Go chưa hỗ trợ chức năng này.');
-      } else {
-        setErrorMessage('Đăng nhập Google chưa thành công. Hãy thử lại.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleStudentSetup = async () => {
-    if (!googleSetupCredential || !auth) {
-      setGoogleSetupCredential('');
-      openView('login');
-      setErrorMessage('Phiên xác minh Google đã hết. Hãy đăng nhập Google lại.');
-      return;
-    }
-    clearMessages();
-    setLoading(true);
-    try {
-      await auth.loginWithGoogle(googleSetupCredential, gradeLevel);
-      setGoogleSetupCredential('');
-    } catch {
-      setErrorMessage('Chưa tạo được tài khoản học sinh. Hãy đăng nhập Google lại.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const field = (
     label: string,
     value: string,
@@ -314,12 +240,11 @@ export default function LoginScreen() {
         <View style={styles.formColumn}>
           <View style={[styles.card, SHADOWS.small]}>
             <Text style={styles.title} accessibilityRole="header">
-              {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học sinh' : authView === 'google-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+              {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học sinh' : 'Khôi phục mật khẩu'}
             </Text>
             <Text style={styles.subtitle}>
               {authView === 'login' ? 'Cùng giải và kiểm tra bài toán hôm nay nhé!'
                 : authView === 'register' ? 'Điền thông tin để bắt đầu hành trình học toán.'
-                : authView === 'google-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.'
                   : authView === 'request-reset' ? 'Nhận mã xác nhận 6 số qua email đã đăng ký.'
                     : 'Nhập mã trong email và đặt mật khẩu mới.'}
             </Text>
@@ -364,23 +289,6 @@ export default function LoginScreen() {
                   <Text style={styles.switchText}>Quên mật khẩu?</Text>
                 </Pressable>
                 <AppButton title="Đăng nhập" onPress={handleLogin} loading={loading} disabled={loading} variant="primary" />
-                {googleLoginConfigured ? <>
-                  <View style={styles.authSeparator}>
-                    <View style={styles.separatorLine} />
-                    <Text style={styles.separatorText}>hoặc</Text>
-                    <View style={styles.separatorLine} />
-                  </View>
-                  {Platform.OS === 'web'
-                    ? <GoogleWebButton clientId={googleWebClientId} disabled={loading} onCredential={handleGoogleCredential} />
-                    : <AppButton
-                      title="Đăng nhập bằng Google"
-                      onPress={handleGoogleLogin}
-                      loading={loading}
-                      disabled={loading}
-                      variant="outlined"
-                      icon={<Ionicons name="logo-google" size={19} color="#4285F4" />}
-                    />}
-                </> : null}
                 <Pressable style={styles.switchButton} onPress={() => openView('register')} accessibilityRole="button">
                   <Text style={styles.switchText}>Chưa có tài khoản? Đăng ký</Text>
                 </Pressable>
@@ -425,22 +333,6 @@ export default function LoginScreen() {
                 <AppButton title="Tạo tài khoản" onPress={handleRegister} loading={loading} disabled={loading} variant="primary" />
                 <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
                   <Text style={styles.switchText}>Đã có tài khoản? Đăng nhập</Text>
-                </Pressable>
-              </> : authView === 'google-student-setup' ? <>
-                <Text style={styles.helperText}>Tài khoản Google đã xác minh. Chọn một trong 5 khối lớp để tạo hồ sơ học sinh.</Text>
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label} accessibilityRole="text">Khối lớp</Text>
-                  <View style={styles.choiceRow} accessibilityLabel="Chọn khối lớp">
-                    {[1, 2, 3, 4, 5].map((grade) => (
-                      <Pressable key={grade} style={[styles.choice, gradeLevel === grade && styles.choiceSelected]} onPress={() => setGradeLevel(grade)} accessibilityRole="radio" accessibilityLabel={`Lớp ${grade}`} accessibilityState={{ checked: gradeLevel === grade }}>
-                        <Text style={[styles.choiceText, gradeLevel === grade && styles.choiceTextSelected]}>Lớp {grade}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-                <AppButton title="Tiếp tục vào trang học sinh" onPress={handleGoogleStudentSetup} loading={loading} disabled={loading} variant="primary" />
-                <Pressable style={styles.switchButton} onPress={() => { setGoogleSetupCredential(''); openView('login'); }} accessibilityRole="button">
-                  <Text style={styles.switchText}>Quay lại đăng nhập</Text>
                 </Pressable>
               </> : authView === 'request-reset' ? <>
                 <Text style={styles.helperText}>Nhập email dùng để tạo tài khoản. Mã có hiệu lực trong 10 phút.</Text>
@@ -505,9 +397,6 @@ const styles = StyleSheet.create({
   helperText: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary, marginTop: -SIZES.medium, marginBottom: SIZES.large },
   switchButton: { minHeight: 48, alignItems: 'center', justifyContent: 'center', marginTop: SIZES.small },
   forgotButton: { minHeight: 44, alignItems: 'flex-end', justifyContent: 'center', marginBottom: SIZES.small },
-  authSeparator: { flexDirection: 'row', alignItems: 'center', gap: SIZES.medium, marginVertical: SIZES.large },
-  separatorLine: { height: 1, flex: 1, backgroundColor: COLORS.border },
-  separatorText: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 13 },
   switchText: { fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark, textAlign: 'center' },
   footerNote: { marginTop: SIZES.xlarge, alignItems: 'center' },
   footerText: { fontFamily: FONTS.regular, fontSize: 13, color: COLORS.textSecondary, textAlign: 'center' },

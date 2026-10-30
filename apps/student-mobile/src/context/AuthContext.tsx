@@ -12,7 +12,6 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: any) => Promise<void>;
-  loginWithGoogle: (credential: string, gradeLevel?: number) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -99,28 +98,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.replace('/(tabs)' as any);
   };
 
-  const loginWithGoogle = async (credential: string, gradeLevel?: number) => {
-    const data = await authApi.loginWithGoogle(credential, gradeLevel);
-    const token = data.accessToken;
-    await tokenStorage.saveTokens(token, data.refreshToken);
-    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-    try {
-      const userData = data.user ?? await authApi.getMe();
-      if (userData.role?.toUpperCase().replace('ROLE_', '') !== 'STUDENT') {
-        throw new Error('Tài khoản này không thuộc ứng dụng học sinh.');
-      }
-      await tokenStorage.saveUser(userData);
-      setSessionUser(userData);
-      setIsAuthenticated(true);
-      router.replace('/(tabs)' as any);
-    } catch (error) {
-      await tokenStorage.clearTokens();
-      delete apiClient.defaults.headers.common['Authorization'];
-      throw error;
-    }
-  };
-
   const logout = async () => {
     try {
       await authApi.logout();
@@ -137,7 +114,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

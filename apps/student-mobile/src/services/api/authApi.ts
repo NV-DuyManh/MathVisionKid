@@ -64,12 +64,6 @@ export const authApi = {
     return response.data;
   },
 
-  loginWithGoogle: async (credential: string, gradeLevel?: number): Promise<LoginResponse> => {
-    if (ENV.USE_MOCK) throw new Error('Google login is unavailable in mock mode.');
-    const response = await apiClient.post('/auth/google', { credential, role: 'STUDENT', gradeLevel });
-    return response.data;
-  },
-
   login: async (credentials: any): Promise<LoginResponse> => {
     let email = (credentials.email || '').trim();
     if (email.toLowerCase() === 'minh.student@gmail.com') {
