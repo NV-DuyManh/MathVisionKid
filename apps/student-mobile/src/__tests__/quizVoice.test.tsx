@@ -47,3 +47,52 @@ it('speech failure keeps a retry and a readable text fallback without exposing i
   const words = view.root.findAllByType('Text' as any).map(n => String(n.props.children)).join(' ');
   expect(words).toContain('Em vẫn đọc được phần chữ'); expect(words).not.toContain('private speech engine URL');
 });
+
+it('ends an unresponsive request at its overall deadline and allows retry', async () => {
+  jest.useFakeTimers();
+  try {
+    (quizApi.audio as jest.Mock).mockImplementation(() => new Promise(() => {}));
+    await act(async () => { view = TestRenderer.create(<QuizVoice quizId="quiz-one" />); });
+    act(() => button('Nghe cách giải').props.onPress());
+    const signal = (quizApi.audio as jest.Mock).mock.calls[0][2];
+    await act(async () => { jest.advanceTimersByTime(45000); });
+    expect(signal.aborted).toBe(true);
+    expect(button('Thử tải giọng đọc lại')).toBeDefined();
+    (quizApi.audio as jest.Mock).mockResolvedValue(new Uint8Array([1, 2, 3]));
+    await act(async () => button('Thử tải giọng đọc lại').props.onPress());
+    expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(1);
+  } finally { jest.useRealTimers(); }
+});
+
+it('switches voice during generation, rejects old bytes and recovers from player failure', async () => {
+  let first: (bytes: Uint8Array) => void = () => {};
+  (quizApi.audio as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { first = resolve; }))
+    .mockResolvedValue(new Uint8Array([4, 5, 6]));
+  await act(async () => { view = TestRenderer.create(<QuizVoice quizId="quiz-one" />); });
+  act(() => button('Nghe cách giải').props.onPress());
+  const signal = (quizApi.audio as jest.Mock).mock.calls[0][2];
+  await act(async () => button('Giọng nam').props.onPress());
+  expect(signal.aborted).toBe(true);
+  await act(async () => button('Nghe cách giải').props.onPress());
+  expect(quizApi.audio).toHaveBeenLastCalledWith('quiz-one', 'vi-VN-NamMinhNeural', expect.any(AbortSignal));
+  await act(async () => first(new Uint8Array([1, 2, 3])));
+  expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(1);
+  act(() => view.root.findByType('AudioPlayback' as any).props.onError());
+  expect(mockDispose).toHaveBeenCalledTimes(1);
+  expect(button('Thử tải giọng đọc lại')).toBeDefined();
+});
+
+it('changing challenge cancels generation before another challenge can play', async () => {
+  let first: (bytes: Uint8Array) => void = () => {};
+  (quizApi.audio as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { first = resolve; }))
+    .mockResolvedValue(new Uint8Array([4, 5, 6]));
+  await act(async () => { view = TestRenderer.create(<QuizVoice quizId="quiz-one" />); });
+  act(() => button('Nghe cách giải').props.onPress());
+  const signal = (quizApi.audio as jest.Mock).mock.calls[0][2];
+  await act(async () => view.update(<QuizVoice quizId="quiz-two" />));
+  expect(signal.aborted).toBe(true);
+  await act(async () => first(new Uint8Array([1, 2, 3])));
+  expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(0);
+  await act(async () => button('Nghe cách giải').props.onPress());
+  expect(quizApi.audio).toHaveBeenLastCalledWith('quiz-two', expect.any(String), expect.any(AbortSignal));
+});

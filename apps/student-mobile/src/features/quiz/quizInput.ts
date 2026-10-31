@@ -13,6 +13,7 @@ export function validQuizAnswer(value: string, unit: string): boolean {
   return /^[+-]?\d{1,12}(?:\s*\/\s*0*[1-9]\d{0,11}|[.,]\d{1,8})?$/.test(text);
 }
 export function quizTime(milliseconds: number): string {
-  const seconds = Math.max(0, Math.floor(milliseconds / 1000));
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+  const seconds = Number.isFinite(milliseconds) ? Math.max(0, Math.floor(milliseconds / 1000)) : 0;
+  const minutes = Math.floor(seconds / 60), tail = String(seconds % 60).padStart(2, '0');
+  return minutes < 60 ? `${minutes}:${tail}` : `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}:${tail}`;
 }

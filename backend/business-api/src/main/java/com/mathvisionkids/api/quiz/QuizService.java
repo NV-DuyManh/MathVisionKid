@@ -202,7 +202,7 @@ public class QuizService {
         attempts.saveAndFlush(entry); q.lastSubmittedAt=now; q.updatedAt=now;
         return new Graded(view(q,true),attempt(entry));
     }
-    static int stars(long elapsedMillis, boolean viewed) { return viewed ? 0 : elapsedMillis<=30000 ? 3 : elapsedMillis<=60000 ? 2 : 1; }
+    static int stars(long elapsedMillis, boolean viewed) { return viewed ? 1 : elapsedMillis<=30000 ? 3 : elapsedMillis<=60000 ? 2 : 1; }
     @Transactional
     public View reveal(String principal, UUID id) {
         var q=locked(principal,id);

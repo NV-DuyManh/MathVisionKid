@@ -14,4 +14,6 @@ Tác giả mã nguồn và người tích hợp có thể khác nhau. Bảng nà
 
 Không tự gán một người cho từng dòng chưa xác minh. Lịch sử commit và bảng này là bằng chứng xuất xứ; `git blame` vẫn có thể dẫn tới commit tích hợp `d68cce8` ở những phần trước đây được chép vào working tree. Không sửa điều đó bằng cách giả tác giả, viết lại main đã công bố hoặc tạo lại code chỉ để tăng bộ đếm. Khi cần truy nguyên, dùng commit gốc và bản kiểm kê phía trên.
 
+Bổ sung trên nhánh **Kha**, 31/10/2026: sửa vòng đời Voice Quiz, chính sách hoàn thành tối thiểu 1 sao và cách hiển thị timer, dựa trên bản main `ca6629e` và giữ nguyên ghi nhận nguồn ở trên. Phạm vi sửa và kiểm chứng: [báo cáo Voice/sao/timer](report/QUIZ_VOICE_MIN_STARS_TIMER_FIX.md). Các commit main được đồng bộ bằng fast-forward, không chép lại hoặc thay tác giả commit gốc.
+
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.

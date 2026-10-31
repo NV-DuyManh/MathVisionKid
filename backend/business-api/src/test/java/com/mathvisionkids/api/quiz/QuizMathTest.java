@@ -165,7 +165,7 @@ class QuizMathTest {
     @Test void starBoundariesUseMillisecondsAndIndependentCorrectness() {
         assertEquals(3,QuizService.stars(0,false)); assertEquals(3,QuizService.stars(29999,false)); assertEquals(3,QuizService.stars(30000,false));
         assertEquals(2,QuizService.stars(30001,false)); assertEquals(2,QuizService.stars(60000,false)); assertEquals(1,QuizService.stars(60001,false));
-        assertEquals(1,QuizService.stars(100000,false)); assertEquals(1,QuizService.stars(200000,false)); assertEquals(1,QuizService.stars(999999999,false)); assertEquals(0,QuizService.stars(1,true));
+        assertEquals(1,QuizService.stars(100000,false)); assertEquals(1,QuizService.stars(200000,false)); assertEquals(1,QuizService.stars(999999999,false)); assertEquals(1,QuizService.stars(1,true));
     }
     @Test void gradeUsesTheReasoningAndNumberRangeRatherThanJustTheOperator() {
         assertEquals(1,QuizMath.classify("12+8",true).orElseThrow().grade());

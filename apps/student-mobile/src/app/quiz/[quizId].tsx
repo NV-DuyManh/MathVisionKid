@@ -41,7 +41,7 @@ function Challenge({ id }: { id: string }) {
   const baseline = useRef({ elapsed: 0, received: 0 });
   const pending = useRef<{ requestId: string; answer: string } | null>(null);
   const apply = useCallback((next: Quiz) => {
-    setQuiz(next); baseline.current = { elapsed: next.elapsedMillis, received: Date.now() }; setElapsed(next.elapsedMillis);
+    setQuiz(next); baseline.current = { elapsed: next.elapsedMillis, received: performance.now() }; setElapsed(next.elapsedMillis);
   }, []);
   useFocusEffect(useCallback(() => {
     void retry;
@@ -55,7 +55,7 @@ function Challenge({ id }: { id: string }) {
   }, [id, retry, apply]));
   useEffect(() => {
     if (quiz?.status !== 'IN_PROGRESS') return;
-    const timer = setInterval(() => setElapsed(baseline.current.elapsed + Math.max(0, Date.now() - baseline.current.received)), 1000);
+    const timer = setInterval(() => setElapsed(baseline.current.elapsed + Math.max(0, performance.now() - baseline.current.received)), 1000);
     return () => clearInterval(timer);
   }, [quiz?.status]);
   const perform = async (action: (signal: AbortSignal) => Promise<Quiz>) => {
@@ -117,6 +117,7 @@ function Challenge({ id }: { id: string }) {
             ) : null}
             <MathText style={s.question}>{quiz.questionText}</MathText>
             <Text style={s.title}>{done ? 'Thời gian giải' : 'Thời gian đã giải'}: {quizTime(done ? quiz.elapsedMillis : elapsed)}</Text>
+            {quiz.elapsedMillis >= 3600000 ? <Text style={s.small}>Giờ:phút:giây, tính từ lúc bắt đầu lượt này, kể cả khi em rời bài. Thử thách mới có thời gian riêng.</Text> : null}
             {!running && !done ? <><Text style={s.body}>Đúng trong 30 giây: 3 sao · đến 60 giây: 2 sao · sau đó: 1 sao.</Text>
               <Text style={s.small}>Thời gian tính liên tục sau khi bấm Bắt đầu, kể cả khi em rời màn hình. Em cứ giải theo nhịp của mình nhé.</Text>
               <AppButton title="Bắt đầu tính giờ" disabled={busy} loading={busy} onPress={() => void perform(signal => quizApi.start(id, signal))} /></> : null}
@@ -129,22 +130,21 @@ function Challenge({ id }: { id: string }) {
               <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Em có thể nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng, không cần nhập phép tính.'}</Text>
               <AppButton title="Hoàn thành" disabled={busy || !answer.trim()} loading={busy} onPress={submit} />
               {quiz.canRevealSolution && !quiz.solutionViewed ? <AppButton title="Cách giải" variant="secondary" disabled={busy} onPress={() => void perform(signal => quizApi.reveal(id, signal))} /> : null}
-              {quiz.solutionViewed ? <Text style={s.small}>Em đang luyện cùng cách giải. Lượt này được lưu để xem lại và không cộng sao; mình cứ tiếp tục học nhé.</Text> : null}
+              {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em đang ôn lại bài cũ, không chấm điểm và giữ nguyên thành tích.' : 'Em đang luyện cùng cách giải. Hoàn thành lượt này em nhận 1 sao; mình cứ tiếp tục học nhé.'}</Text> : null}
             </> : null}
             {feedback ? <Text accessibilityLiveRegion="polite" style={done ? s.success : s.body}>{feedback}</Text> : null}
           </View>
           {done ? <View style={s.card}>
-            <Reward stars={quiz.stars} />
+            {quiz.replayMode !== 'PRACTICE' ? <Reward stars={earnedStars} /> : null}
             <Text style={s.heading}>{quiz.completedWithSolution ? 'Cùng Sao hiểu thêm một bài!' : 'Em đã hoàn thành bài luyện tập này!'}</Text>
-            <Text style={s.body}>{quiz.completedWithSolution
-              ? 'Hoàn thành với hướng dẫn – Không tính sao. Em có thể làm thử thách mới để tự giải và nhận sao nhé!'
-              : quiz.replayMode === 'PRACTICE' ? 'Ôn lại bài cũ – Không tính sao. Thành tích của em được giữ nguyên.'
+            <Text style={s.body}>{quiz.replayMode === 'PRACTICE' ? 'Ôn lại bài cũ – Không chấm điểm. Thành tích của em được giữ nguyên.'
+              : quiz.completedWithSolution ? `Hoàn thành với hướng dẫn – Lượt này em nhận ${earnedStars} sao. Kỷ lục của em: ${quiz.stars} sao. Em có thể thử thách mới để nâng sao nhé!`
               : `Lượt này em nhận ${earnedStars} sao. Kỷ lục của em: ${quiz.stars} sao.`}</Text>
             <AppButton title="Thử thách nâng sao" disabled={busy} loading={busy} onPress={() => replayQuiz('CHALLENGE')} />
             <AppButton title="Ôn lại bài cũ" variant="secondary" disabled={busy} loading={busy} onPress={() => replayQuiz('PRACTICE')} />
             <AppButton title="Về Quiz của em" variant="ghost" onPress={() => router.replace('/quiz' as never)} />
           </View> : null}
-          {quiz.explanationText ? <View style={s.card}><Text style={s.heading}>Cách giải</Text><QuizVoice key={quiz.quizId} quizId={quiz.quizId} /><MathText style={s.body}>{quiz.explanationText}</MathText></View> : null}
+          {quiz.explanationText ? <View style={s.card}><Text style={s.heading}>Cách giải</Text><QuizVoice key={`${quiz.quizId}:${quiz.startedAt}`} quizId={quiz.quizId} /><MathText style={s.body}>{quiz.explanationText}</MathText></View> : null}
           {quiz.attempts.length ? <View style={s.card}><Text style={s.title}>Những lần em đã thử</Text>
             {quiz.attempts.map(attempt => {
               const isBest = attempt.correct && bestAttemptStars > 0 && (attempt.stars === bestAttemptStars);
