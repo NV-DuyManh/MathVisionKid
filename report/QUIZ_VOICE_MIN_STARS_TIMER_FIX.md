@@ -1,5 +1,9 @@
 # Smart Quiz: Voice, tối thiểu 1 sao và timer
 
+> Báo cáo nguồn do nhánh Kha bàn giao, mô tả phép thử trên checkout của tác giả.
+> Kết quả kiểm tra độc lập, phần được giữ/loại và giới hạn trên máy chủ dự án:
+> [review trước tích hợp](kha-latest-review-20261031/REPORT.md).
+
 Ngày kiểm tra: 31/10/2026. Checkout `C:\MathVisonKid`, branch `main`, HEAD
 `ca6629e`. Không commit, push, merge, deploy, reset hoặc clean Git trong tác vụ này.
 

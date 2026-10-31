@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppState } from 'react-native';
 import TestRenderer, { act } from 'react-test-renderer';
 import { QuizVoice } from '../features/quiz/QuizVoice';
 import { quizApi } from '../features/quiz/quizApi';
@@ -95,4 +96,27 @@ it('changing challenge cancels generation before another challenge can play', as
   expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(0);
   await act(async () => button('Nghe cách giải').props.onPress());
   expect(quizApi.audio).toHaveBeenLastCalledWith('quiz-two', expect.any(String), expect.any(AbortSignal));
+});
+
+it('cancels pending audio in background and rejects late bytes before a fresh retry', async () => {
+  let stateChanged: (state: string) => void = () => {};
+  let finishOld: (bytes: Uint8Array) => void = () => {};
+  const listener = jest.spyOn(AppState, 'addEventListener').mockImplementation((_, callback: any) => {
+    stateChanged = callback; return { remove: jest.fn() };
+  });
+  try {
+    (quizApi.audio as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve; }))
+      .mockResolvedValue(new Uint8Array([4, 5, 6]));
+    await act(async () => { view = TestRenderer.create(<QuizVoice quizId="quiz-one" />); });
+    act(() => button('Nghe cách giải').props.onPress());
+    const signal = (quizApi.audio as jest.Mock).mock.calls[0][2];
+    await act(async () => stateChanged('background'));
+    expect(signal.aborted).toBe(true);
+    await act(async () => finishOld(new Uint8Array([1, 2, 3])));
+    expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(0);
+    act(() => stateChanged('active'));
+    await act(async () => button('Nghe cách giải').props.onPress());
+    expect(quizApi.audio).toHaveBeenCalledTimes(2);
+    expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(1);
+  } finally { listener.mockRestore(); }
 });

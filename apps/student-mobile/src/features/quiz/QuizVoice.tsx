@@ -23,6 +23,8 @@ export function QuizVoice({ quizId }: { quizId: string }) {
     active.current = true;
     const listener = AppState.addEventListener('change', state => { if (state !== 'active') cancel(); });
     return () => { active.current = false; listener.remove(); cancel(); };
+  // A reused component must cancel the previous quiz even while still focused.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizId, cancel]));
   const prepare = async () => {
     if (!voice || controller.current || uri) return;

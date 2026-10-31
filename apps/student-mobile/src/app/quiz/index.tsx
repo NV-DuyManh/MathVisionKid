@@ -59,7 +59,7 @@ function Library() {
   const selectGroup = (next: QuizGroup) => { chooseInitialGroup.current = false; setGroup(next); };
   const statusLabel = (quiz: Quiz) => {
     if (quiz.status === 'COMPLETED') {
-        if (quiz.replayMode === 'PRACTICE') return `Đã ôn lại · Không chấm điểm · Kỷ lục ${quiz.stars} sao`;
+      if (quiz.replayMode === 'PRACTICE') return `Đã ôn lại · Không chấm điểm · Kỷ lục ${quiz.stars} sao`;
       if (quiz.completedWithSolution) {
         return `Hoàn thành cùng hướng dẫn · Kỷ lục ${quiz.stars} sao`;
       }

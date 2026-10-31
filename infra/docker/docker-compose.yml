@@ -20,8 +20,9 @@ services:
     restart: unless-stopped
 
   minio:
-    # Keep the verified local image that owns the existing development data.
-    image: mathvision-minio-local:2024.01.28
+    # The launcher builds this pinned, checksum-verified image on a fresh clone.
+    # Existing installations retain their exact image via a process-only override.
+    image: ${MATHVISION_MINIO_IMAGE:-mathvision-storage:2024.01.28}
     pull_policy: never
     container_name: mathvision-minio
     environment:

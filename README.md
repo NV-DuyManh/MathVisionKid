@@ -87,7 +87,7 @@ cd MathVisionKid
 npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
 .\RUN_EXPO.bat
 ~~~
 

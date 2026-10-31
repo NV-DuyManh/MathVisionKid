@@ -25,10 +25,12 @@ cd MathVisionKid
 npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
 ```
 
 `npm ci` ở thư mục gốc cài cho toàn bộ JavaScript workspaces. Nếu máy không có lệnh `py`, dùng đường dẫn tới Python 3.12 đã cài để tạo môi trường.
+
+Lần khởi động đầu trên máy chưa có dữ liệu, launcher tự build đúng bản MinIO từ Dockerfile đã có trong dự án và kiểm tra SHA-256 của server/client. Không cần image riêng từ máy của người khác. Máy đã có dữ liệu giữ nguyên image và volume; nếu mất container nhưng còn volume, chương trình dừng để kiểm tra phục hồi, không tự gắn dữ liệu sang image khác. Lần tải/build đầu cần mạng và có thể mất vài phút; các lần sau dùng cache.
 
 ## 2. Bật nhận diện thật
 
