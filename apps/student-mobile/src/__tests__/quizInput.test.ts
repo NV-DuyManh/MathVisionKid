@@ -11,5 +11,7 @@ it('creates distinct retry identifiers without sending time or reward authority'
   values.forEach(value => expect(value).toMatch(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/));
 });
 it('shows elapsed time without resetting at an hour', () => {
-  expect(quizTime(30000)).toBe('0:30'); expect(quizTime(60001)).toBe('1:00'); expect(quizTime(3600000)).toBe('60:00');
+  expect(quizTime(30000)).toBe('0:30'); expect(quizTime(60001)).toBe('1:00'); expect(quizTime(3600000)).toBe('1:00:00');
+  expect(quizTime(144472719)).toBe('40:07:52');
+  expect(quizTime(90_061_000)).toBe('25:01:01');
 });

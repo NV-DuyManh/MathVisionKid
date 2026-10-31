@@ -26,10 +26,12 @@ cd MathVisionKid
 npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
 ~~~
 
 The root lockfile installs all JavaScript workspaces. Avoid separate installs in each app. If `py` is unavailable, use a verified Python 3.12 executable to create the virtual environment.
+
+The launcher builds MinIO from the existing [verified storage Dockerfile](../infra/production/storage/Dockerfile) on the first empty installation. It checks the official server/client SHA-256 values; it does not require a teammate's private Docker tag or the retired registry tag. Existing installations retain their image and volume, and their binaries must match the same release. A volume without its original container stops for recovery review. Do not delete volumes to bypass that check. Initial downloads require internet and can take several minutes; normal launches reuse the cached image.
 
 ## 3. Choose your capabilities
 

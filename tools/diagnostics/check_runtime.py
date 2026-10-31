@@ -241,7 +241,9 @@ def check_celery():
             cwd=str(AI_SERVICE_DIR),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=8
+            # Include Windows Python/Celery import and connection setup time;
+            # the worker response itself remains bounded by the 2.5s ping.
+            timeout=20
         )
         if proc.returncode == 0:
             record_result("Celery Worker", "PASS")

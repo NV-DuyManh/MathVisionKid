@@ -112,7 +112,8 @@ it('explains zero stars for practice while preserving the all-time record', asyn
   (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'COMPLETED', replayMode: 'PRACTICE', stars: 3,
     attempts: [{ number: 1, correct: true, stars: 3 }, { number: 2, correct: true, stars: 0, mode: 'PRACTICE' }] });
   await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
-  expect(text()).toContain('Ôn lại bài cũ – Không tính sao');
+  expect(text()).toContain('Ôn lại bài cũ – Không chấm điểm');
+  expect(view.root.findAll(n => n.props.accessibilityLabel === '0 sao')).toHaveLength(0);
   expect(text()).not.toContain('Em nhận được 3 sao');
 });
 it('shows the current two-star result separately from the three-star record', async () => {
@@ -121,10 +122,36 @@ it('shows the current two-star result separately from the three-star record', as
   await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
   expect(text()).toContain('Lượt này em nhận 2 sao. Kỷ lục của em: 3 sao.');
 });
-it('explains assisted zero-star completion even when an earlier record is three stars', async () => {
+it('shows exactly one assisted star even when an earlier record is three stars', async () => {
   (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'COMPLETED', stars: 3, completedWithSolution: true,
-    attempts: [{ number: 1, correct: true, stars: 3 }, { number: 2, correct: true, stars: 0, solutionViewed: true }] });
+    attempts: [{ number: 1, correct: true, stars: 3 }, { number: 2, correct: true, stars: 1, solutionViewed: true }] });
   await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
-  expect(text()).toContain('Hoàn thành với hướng dẫn – Không tính sao');
-  expect(text()).toContain('Đúng (Xem giải)');
+  expect(text()).toContain('Hoàn thành với hướng dẫn – Lượt này em nhận 1 sao. Kỷ lục của em: 3 sao.');
+  expect(view.root.findAll(n => n.props.accessibilityLabel === '1 sao').length).toBeGreaterThan(0);
+});
+
+it('uses a monotonic display clock and does not jump when the phone clock changes', async () => {
+  jest.useFakeTimers();
+  try {
+    (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'IN_PROGRESS', elapsedMillis: 15000 });
+    await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+    act(() => jest.advanceTimersByTime(1000));
+    expect(text()).toContain('0:16');
+    jest.setSystemTime(Date.now() + 48 * 60 * 60 * 1000);
+    act(() => jest.advanceTimersByTime(1000));
+    expect(text()).toContain('0:17');
+    expect(text()).not.toContain('2407:');
+  } finally { jest.useRealTimers(); }
+});
+
+it('keeps the reported long completed duration truthful and frozen with explicit hours', async () => {
+  jest.useFakeTimers();
+  try {
+    (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'COMPLETED', stars: 1, elapsedMillis: 144472719 });
+    await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+    expect(text()).toContain('40:07:52');
+    act(() => jest.advanceTimersByTime(60000));
+    expect(text()).toContain('40:07:52');
+    expect(text()).toContain('Giờ:phút:giây');
+  } finally { jest.useRealTimers(); }
 });

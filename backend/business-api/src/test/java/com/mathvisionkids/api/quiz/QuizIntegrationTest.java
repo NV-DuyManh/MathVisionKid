@@ -241,7 +241,7 @@ class QuizIntegrationTest {
         var revealed=service.reveal(owner,q.quizId()); assertNotNull(revealed.explanationText());
         assertEquals(revealed.explanationText(),service.authorizedSolution(owner,q.quizId()));
         var completed=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId()))).quiz();
-        assertEquals("COMPLETED",completed.status()); assertTrue(completed.completedWithSolution()); assertEquals(0,completed.stars());
+        assertEquals("COMPLETED",completed.status()); assertTrue(completed.completedWithSolution()); assertEquals(1,completed.stars());
     }
     @Test void wrongThenCorrectStillRewardsIndependentWorkAndHistorySurvivesReload() {
         var q=ready(); service.start(owner,q.quizId());
@@ -262,6 +262,24 @@ class QuizIntegrationTest {
         assertEquals(1,attempts.countByQuizId(q.quizId())); assertEquals(3,service.counts(owner).totalStars());
         assertThrows(ApiException.class,() -> service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),request.answer())));
         assertThrows(ApiException.class,() -> service.submit(owner,q.quizId(),new Submission(request.requestId(),"changed")));
+    }
+    @Test void serverTimesScoreAndFreezeEachRunAndBothReplayModesStartFresh() {
+        for (int seconds : List.of(15,45,90)) {
+            owner=account(); var q=ready(); service.start(owner,q.quizId());
+            var entity=quizzes.findById(q.quizId()).orElseThrow();
+            entity.startedAt=Instant.now().minusSeconds(seconds); quizzes.saveAndFlush(entity);
+            var result=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId())));
+            assertEquals(seconds<=30 ? 3 : seconds<=60 ? 2 : 1,result.attempt().stars());
+            assertEquals(result.quiz().elapsedMillis(),service.get(owner,q.quizId()).elapsedMillis());
+            for (String mode : List.of("PRACTICE","CHALLENGE")) {
+                var next=service.replay(owner,q.quizId(),mode);
+                assertNotEquals(result.quiz().startedAt(),next.startedAt());
+                assertTrue(next.elapsedMillis()<10000); assertNull(next.completedAt());
+                var completed=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId())));
+                assertEquals(mode.equals("PRACTICE") ? 0 : 3,completed.attempt().stars());
+                assertEquals(completed.quiz().elapsedMillis(),service.get(owner,q.quizId()).elapsedMillis());
+            }
+        }
     }
     @Test void deferResumeAndStartNeverResetElapsedTimeAndCountsReflectUnfinishedWork() {
         var first=ready(); sources.record(owner,"WORK_REVIEW","review-1","Tính: 12 + 8",true);
@@ -329,13 +347,13 @@ class QuizIntegrationTest {
     }
     @Test void replayAllowsImprovingStarsWithoutInflatingPendingBadgeCount() {
         var q=ready(); service.start(owner,q.quizId());
-        // Attempt 1: wrong, Attempt 2: wrong, reveal solution, then complete with solution -> 0 stars
+        // Two wrong answers, then assisted completion earns exactly one star.
         service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),"999999")); allowNext(q.quizId());
         service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),"999999")); allowNext(q.quizId());
         service.reveal(owner,q.quizId());
         var firstCompletion=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId()))).quiz();
-        assertEquals("COMPLETED",firstCompletion.status()); assertEquals(0,firstCompletion.stars());
-        assertEquals(0,service.counts(owner).totalStars()); assertEquals(0,service.counts(owner).pendingCount());
+        assertEquals("COMPLETED",firstCompletion.status()); assertEquals(1,firstCompletion.stars());
+        assertEquals(1,service.counts(owner).totalStars()); assertEquals(0,service.counts(owner).pendingCount());
 
         // Replay: must hide solution, reset in-progress, but NOT inflate pending badge count
         var replaying=service.replay(owner,q.quizId());
@@ -380,9 +398,9 @@ class QuizIntegrationTest {
         service.reveal(owner,q.quizId());
         String originalAns = answer(q.quizId());
         var firstComp = service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),originalAns)).quiz();
-        assertEquals(0, firstComp.stars());
+        assertEquals(1, firstComp.stars());
         assertTrue(firstComp.completedWithSolution());
-        assertEquals(0, service.counts(owner).totalStars());
+        assertEquals(1, service.counts(owner).totalStars());
 
         // Ôn lại bài cũ (PRACTICE)
         var practiceView = service.replay(owner, q.quizId(), "PRACTICE");
@@ -396,8 +414,8 @@ class QuizIntegrationTest {
         var practiceResult = service.submit(owner, q.quizId(), new Submission(UUID.randomUUID(), originalAns));
         assertTrue(practiceResult.attempt().correct());
         assertEquals(0, practiceResult.attempt().stars()); // NO stars granted for repeating known answer!
-        assertEquals(0, practiceResult.quiz().stars()); // bestStars remains 0
-        assertEquals(0, service.counts(owner).totalStars()); // totalStars not inflated
+        assertEquals(1, practiceResult.quiz().stars()); // Previous assisted award is retained.
+        assertEquals(1, service.counts(owner).totalStars()); // totalStars not inflated
     }
 
     @Test void totalStarsTracksBestStarsAndDoesNotAccumulateAcrossReplays() {
@@ -492,7 +510,7 @@ class QuizIntegrationTest {
         service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),"999999")); allowNext(q.quizId());
         var revealed=service.reveal(owner,q.quizId());
         var done=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId())));
-        assertEquals(0,done.attempt().stars()); assertTrue(done.quiz().completedWithSolution()); assertEquals(3,done.quiz().stars());
+        assertEquals(1,done.attempt().stars()); assertTrue(done.quiz().completedWithSolution()); assertEquals(3,done.quiz().stars());
         assertEquals(first.attempt(),done.quiz().attempts().get(0));
         assertEquals(initial.questionText(),done.quiz().attempts().get(0).questionText());
         assertEquals(revealed.questionText(),done.attempt().questionText()); assertTrue(done.attempt().solutionViewed());

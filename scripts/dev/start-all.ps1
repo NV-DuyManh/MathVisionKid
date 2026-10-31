@@ -309,6 +309,43 @@ if (Test-Path $PidDir) {
     }
 }
 
+function Resolve-LocalMinioImage {
+    param([string]$Image, [string]$Container, [string]$Volume, [string]$BuildContext)
+    $existing = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('container', 'inspect', $Container) -TimeoutSeconds 10
+    if ($existing.Success) {
+        # Preserve the exact image reference already owning this installation.
+        $Image = @($existing.Stdout | ConvertFrom-Json)[0].Config.Image
+    } else {
+        $stored = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('volume', 'inspect', $Volume) -TimeoutSeconds 10
+        if ($stored.Success) { throw 'MINIO_RECOVERY_REVIEW_REQUIRED: Existing data has no original container. No image was built or attached.' }
+    }
+    $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', $Image) -TimeoutSeconds 10
+    if (-not $cached.Success) {
+        if ($existing.Success) { throw 'MINIO_LOCAL_IMAGE_MISSING: The image owning existing data must be restored, never replaced automatically.' }
+        Write-Host '  First setup: building the shared, checksum-verified MinIO release (initial download may take several minutes).' -ForegroundColor Yellow
+        $built = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('build', '-t', $Image, ('"' + $BuildContext + '"')) -TimeoutSeconds 900
+        if (-not $built.Success) { throw 'MINIO_BUILD_FAILED: The verified storage build failed. Existing data was not changed. Check network access and retry.' }
+        $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', $Image) -TimeoutSeconds 10
+    }
+    if (-not $cached.Success) { throw 'MINIO_LOCAL_IMAGE_MISSING: Verified storage image is unavailable.' }
+    $architecture = @($cached.Stdout | ConvertFrom-Json)[0].Architecture
+    $expected = switch ($architecture) {
+        'amd64' { @('b0638a7f484c53c2d22777f9d8d777d600a321aaeff526bf42a8524c89bfec5e', 'fc195c3ad5c19b91d96bbb42d79af94173aa491ebcda9ca372c4f382546135ec') }
+        'arm64' { @('7c22acede0af52d9044f9ac67bde5641d4f9c54930e80c09216634a6603a92d7', '683aebeef6f8e0d18fcfec152e8e8d0f7e7e8fa5859b5ea2bd2414280b7398c6') }
+        default { throw 'MINIO_ARCHITECTURE_UNSUPPORTED: Only the verified AMD64 and ARM64 releases are supported.' }
+    }
+    # Read binary checksums in a temporary container: no data mount, no network.
+    $hashes = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('run', '--rm', '--network', 'none', '--entrypoint', '/usr/bin/sha256sum', $Image, '/usr/local/bin/minio', '/usr/local/bin/mc') -TimeoutSeconds 20
+    if (-not $hashes.Success) {
+        $hashes = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('run', '--rm', '--network', 'none', '--entrypoint', '/usr/bin/sha256sum', $Image, '/usr/bin/minio', '/usr/bin/mc') -TimeoutSeconds 20
+    }
+    $actual = @($hashes.Stdout -split '\r?\n' | Where-Object { $_ -match '^([a-f0-9]{64})\s' } | ForEach-Object { ($_ -split '\s+')[0] })
+    if (-not $hashes.Success -or $actual.Count -ne 2 -or $actual[0] -ne $expected[0] -or $actual[1] -ne $expected[1]) {
+        throw 'MINIO_BINARY_MISMATCH: Storage binaries differ from the shared verified release. No existing data was attached or changed.'
+    }
+    return $Image
+}
+
 function Assert-LocalMinioImage {
     param([string]$Image, [string]$Container, [string]$Volume)
     $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', '--format', '{{.Id}}', $Image) -TimeoutSeconds 10
@@ -339,6 +376,8 @@ $ComposeFile = Join-Path $RepoRoot "infra\docker\docker-compose.yml"
 $composeConfig = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('compose', '-f', ('"' + $ComposeFile + '"'), 'config', '--format', 'json') -TimeoutSeconds 10
 if (-not $composeConfig.Success) { throw 'COMPOSE_CONFIG_INVALID: Validate infra/docker/docker-compose.yml before starting services.' }
 $resolvedCompose = $composeConfig.Stdout | ConvertFrom-Json
+$env:MATHVISION_MINIO_IMAGE = Resolve-LocalMinioImage -Image $resolvedCompose.services.minio.image -Container $resolvedCompose.services.minio.container_name -Volume $resolvedCompose.volumes.miniodata.name -BuildContext (Join-Path $RepoRoot 'infra/production/storage')
+$resolvedCompose.services.minio.image = $env:MATHVISION_MINIO_IMAGE
 Assert-LocalMinioImage -Image $resolvedCompose.services.minio.image -Container $resolvedCompose.services.minio.container_name -Volume $resolvedCompose.volumes.miniodata.name
 & docker compose -f $ComposeFile up -d postgres minio redis
 if ($LASTEXITCODE -ne 0) {
