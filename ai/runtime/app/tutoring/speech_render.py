@@ -24,15 +24,23 @@ logger = logging.getLogger(__name__)
 
 class SpeechNoAudio(TutorUnavailable):
     """The chosen provider returned no audio after its bounded transport retries."""
-
-
+def _spoken_groups(text):
+    # Read labels without bracket names, while retaining arithmetic precedence.
+    previous = None
+    while text != previous and '(' in text:
+        previous = text
+        text = re.sub(r'\(([^()]*)\)', lambda m:
+            f'nhóm {m[1]}, hết nhóm' if re.search(r'\d', m[1]) and re.search(r'[+\-−×*÷/:]|\b(?:cộng|trừ|nhân|chia|phần)\b', m[1])
+                or 'hết nhóm' in m[1] else f' {m[1]} ', text)
+    return re.sub(r'[()]', ' ', text)
 
 
 def spoken_math(text: str) -> str:
     text = re.sub(r'\b((?:Bài|Câu)\s+\d+)\s*[:.)]\s*', r'\1. ', text, flags=re.I)
     # Spelling hyphens in Vietnamese unit names are not subtraction signs.
-    text = re.sub(r'(?<!\w)(?:đề|đê|xăng|ki|mi)[\s\-‐‑–]+(?:xi|ti|lô|li)[\s\-‐‑–]+(?:mét|gam|lít)(?!\w)',
-                  lambda match: re.sub(r'[-‐‑–]', ' ', match[0]), text, flags=re.I)
+    text = re.sub(r'(?<!\w)(?:đề|đê|xăng|xen|ki|mi)[\s\-‐‑‒–—−]+(?:xi|ti|lô|li)[\s\-‐‑‒–—−]+(?:mét|gam|lít)(?:[\s\-‐‑‒–—−]+(?:vuông|khối))?(?!\w)',
+                  lambda match: re.sub(r'[-‐‑‒–—−]', ' ', match[0]), text, flags=re.I)
+    text = re.sub(r'(?:mét|gam|lít)[\-‐‑‒–—−]+(?:vuông|khối)', lambda m: re.sub(r'[-‐‑‒–—−]', ' ', m[0]), text, flags=re.I)
     text = re.sub(r'\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*', ' ', text, flags=re.I)
     text = re.sub(r'\b((?:Bài|Câu)\s+\d+)\.\s*\.', r'\1.', text, flags=re.I)
     text = re.sub(r'\(\s*((?:(?:ki lô|đề xi|xăng ti|mi li)\s+)?(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)', r' \1 ', text, flags=re.I)
@@ -54,7 +62,7 @@ def spoken_math(text: str) -> str:
     for symbol, word in [('+',' cộng '), ('−',' trừ '), ('-',' trừ '), ('×',' nhân '),
                          ('*',' nhân '), ('÷',' chia '), ('/',' chia '), ('=',' bằng '), ('%',' phần trăm ')]:
         text = text.replace(symbol, word)
-    return re.sub(r'\s+', ' ', text.replace('(', ' mở ngoặc ').replace(')', ' đóng ngoặc ')).strip()
+    return re.sub(r'\s+', ' ', _spoken_groups(text)).strip()
 
 
 def run(args, deadline, **kwargs):

@@ -2,6 +2,10 @@
 
 import secrets
 import logging
+import hashlib
+import os
+import re
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import Response, JSONResponse
@@ -9,14 +13,18 @@ from fastapi.responses import Response, JSONResponse
 from app.config import settings
 from app.tutoring.service import MAX_IMAGE_BYTES, GuideRequest, GuideResponse, ReadResponse, TutorUnavailable, guide_student, read_problem
 from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, coach_notebook
-from app.tutoring.lesson import LessonRequest, TurnRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson, ready_for_answer
+from app.tutoring.lesson import LessonRequest, TurnRequest, PreparationRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson, ready_for_answer, lesson_preparation
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
-from app.tutoring import narration, media_preparation, plan_preparation
+from app.tutoring import narration, media_preparation, quiz_narration, plan_preparation
+from app.tutoring import lesson as lesson_module
+from app.integrations.gemini.key_pool import get_gemini_pool
 from app.tutoring.lesson_followup import ResumeRequest, CheckRequest, resume, comprehension_check
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+_LOADED_SOURCE_HASH = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+_LOADED_LESSON_HASH = hashlib.sha256(Path(lesson_module.__file__).read_bytes()).hexdigest()
 
 
 async def require_internal_key(request: Request):
@@ -25,6 +33,32 @@ async def require_internal_key(request: Request):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
 
 
+@router.get('/runtime', dependencies=[Depends(require_internal_key)])
+def runtime_identity():
+    return {
+        'pid': os.getpid(),
+        'tutorSourceHash': _LOADED_SOURCE_HASH,
+        'lessonSourceHash': _LOADED_LESSON_HASH,
+        'workflowVersion': 'retained-reading-v1',
+        'groq': {'enabled': settings.groq_enabled,
+                 'keyCount': len([key for key in settings.groq_api_keys.split(',') if key.strip()]),
+                 'model': settings.groq_primary_vision_model},
+        'gemini': {'enabled': settings.gemini_enabled,
+                   'keyCount': len([key for key in settings.gemini_api_keys.split(',') if key.strip()]),
+                   'model': settings.gemini_model},
+        'geminiPool': {'state': get_gemini_pool().provider_status, 'activeKeys': get_gemini_pool().active_keys,
+                       'uniqueKeys': get_gemini_pool().unique_keys_count} if get_gemini_pool() else None,
+    }
+
+
+@router.post('/quiz/narration', dependencies=[Depends(require_internal_key)])
+def quiz_narration_endpoint(request: quiz_narration.QuizNarrationRequest):
+    try:
+        return Response(quiz_narration.narrate(request), media_type='audio/wav', headers={'Cache-Control': 'no-store'})
+    except quiz_narration.SpeechBusy:
+        raise HTTPException(status_code=429, detail='Giọng đọc đang bận. Em thử lại sau nhé.') from None
+    except Exception:
+        raise HTTPException(status_code=503, detail='Em vẫn có thể đọc cách giải bằng chữ nhé.') from None
 @router.post('/lesson/resume', response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
 def resume_lesson_endpoint(request: ResumeRequest):
     try: return resume(request)
@@ -105,9 +139,10 @@ async def prepare_lesson_endpoint(request: plan_preparation.SourceDraft):
 
 
 @router.post("/lesson", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
-async def lesson_endpoint(request: LessonRequest):
+async def lesson_endpoint(request: LessonRequest, http_request: Request):
     try:
         result = await start_lesson(request)
+        _trace_lesson(http_request, result)
         try:
             media_preparation.schedule(media_preparation.PrepareRequest(owner=request.owner,sessionId=result.sessionId,revision=result.revision))
         except Exception as exc:
@@ -132,10 +167,11 @@ def prepare_media_endpoint(request: media_preparation.PrepareRequest):
 
 
 @router.post("/lesson/answer", response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
-async def lesson_answer_endpoint(request: TurnRequest):
+async def lesson_answer_endpoint(request: TurnRequest, http_request: Request):
     try:
         await ready_for_answer(request)
         result=answer_lesson(request)
+        _trace_lesson(http_request, result)
         narration.cancel_obsolete_prefetch(request.owner,request.sessionId,result.revision)
         return result
     except LessonExpired as exc:
@@ -145,6 +181,24 @@ async def lesson_answer_endpoint(request: TurnRequest):
     except TutorUnavailable as exc:
         raise HTTPException(status_code=503,detail='Chưa chuẩn bị xong phần giải. Em giữ bài và thử lại nhé.',
                             headers={'X-Tutor-Failure': exc.reason}) from None
+
+
+@router.post('/lesson/preparation', response_model=LessonResponse, dependencies=[Depends(require_internal_key)])
+async def lesson_preparation_endpoint(request: PreparationRequest, http_request: Request):
+    try:
+        result = lesson_preparation(request)
+        _trace_lesson(http_request, result)
+        return result
+    except LessonExpired as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from None
+    except StaleTurn as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from None
+
+
+def _trace_lesson(request: Request, result: LessonResponse):
+    trace = re.sub(r'[^a-zA-Z0-9_-]', '', request.headers.get('X-Request-ID', 'none'))[:100]
+    logger.info('Tutor response request=%s session=%s revision=%d step=%d status=%s preparing=%s',
+                trace, result.sessionId[:8], result.revision, result.stepIndex, result.status, result.preparingMath)
 
 
 @router.post('/lesson/ask', response_model=AskResponse, dependencies=[Depends(require_internal_key)])

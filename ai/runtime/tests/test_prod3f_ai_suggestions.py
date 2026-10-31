@@ -16,7 +16,7 @@ HOME_PATH = MOBILE_ROOT / "src" / "app" / "(tabs)" / "index.tsx"
 PRIVACY_PATH = MOBILE_ROOT / "src" / "app" / "privacy.tsx"
 RESULT_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-result.tsx"
 DEDUPE_PATH = MOBILE_ROOT / "src" / "features" / "recognition" / "utils" / "lineReview.ts"
-NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.mjs"
+NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.ts"
 
 
 def _read_file(path: Path) -> str:

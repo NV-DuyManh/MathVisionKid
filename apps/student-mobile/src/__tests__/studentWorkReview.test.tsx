@@ -5,7 +5,7 @@ import { TutorService } from '../features/tutoring/api/TutorService';
 
 let mockBlur: (() => void) | undefined;
 let mockRefocus: (() => void) | undefined;
-jest.mock('expo-router', () => ({ useFocusEffect: (fn: () => (() => void)) => require('react').useEffect(() => {
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn(), replace: jest.fn() }), useFocusEffect: (fn: () => (() => void)) => require('react').useEffect(() => {
   mockRefocus = () => { mockBlur = fn(); };
   mockRefocus();
   return () => mockBlur?.();
@@ -32,6 +32,21 @@ it('requires both confirmations and never starts a review automatically', async 
   expect(button('Nhận xét bài em làm').props.disabled).toBe(true);
   await act(async () => button('Nhận xét bài em làm').props.onPress());
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
+});
+
+it('starts a review once after explicit confirmation, without asking for a second review click', async () => {
+  let resolve: (value: any) => void = () => {};
+  (TutorService.reviewWork as jest.Mock).mockImplementation(() => new Promise(done => { resolve = done; }));
+  await act(async () => { view = TestRenderer.create(<React.StrictMode><StudentWorkReview {...props} autoStart /></React.StrictMode>); });
+  expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
+  const request = (TutorService.reviewWork as jest.Mock).mock.calls[0][0];
+  expect(request).toEqual(expect.objectContaining({ problemConfirmed: true, workConfirmed: true, problemText: props.problemText, workText: props.workText }));
+  expect(button('Nhận xét bài em làm')).toBeUndefined();
+  await act(async () => resolve(makeResult(request.sourceId, 'CORRECT')));
+  expect(button('Hoàn tất nhận xét')).toBeDefined();
+  expect(button('Chụp lại bài em đã sửa')).toBeUndefined();
+  expect(button('Gợi ý sửa dòng này')).toBeUndefined();
+  expect(button('Hoàn tất xem nhận xét')).toBeUndefined();
 });
 
 it('shows progressive correction hints, asks for the pupil rewrite and keeps photo unchanged', async () => {

@@ -113,7 +113,7 @@ public final class MathTutorDtos {
     }
     public record LessonDraft(@NotBlank @Size(min = 3, max = 4000) String problemText,
                               @NotNull @Size(max = 6000) String workText) {}
-    public record LessonPreparation(String phase) {}
+    public record LessonPreparationStatus(String phase) {}
     public record LessonResume(@NotBlank @Size(min=20,max=100) String sessionId,
                                @NotBlank @Size(min=3,max=4000) String problemText) {}
     public record LessonCheckpoint(@NotBlank @Size(min=20,max=100) String sessionId,
@@ -143,6 +143,8 @@ public final class MathTutorDtos {
                                       @jakarta.validation.constraints.Pattern(regexp="vi-VN-(NamMinh|HoaiMy)Neural") String voice) {
         public MediaPrepareRequest { if (voice == null) voice = "vi-VN-NamMinhNeural"; }
     }
+    public record LessonPreparation(@NotBlank @Size(min=20,max=100) String sessionId,
+                                    @NotNull @Min(0) Integer revision, boolean retry) {}
     public record Transcript(String text) {}
     public record LessonStep(String title, String explanation, String question, java.util.List<String> choices,
                              String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance, String kind) {}

@@ -29,6 +29,40 @@ def audio_session(monkeypatch):
     return session
 
 
+def test_explicit_new_audio_yields_full_speculative_jobs_but_keeps_the_other_current_voice(audio_session,monkeypatch):
+    from app.tutoring import narration
+    request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
+        paragraphs=[audio_session.narration_texts[0]])
+    same=narration.request_key(request.model_copy(update={'voice':'vi-VN-HoaiMyNeural'}))
+    old=narration.request_key(request.model_copy(update={'paragraphs':[audio_session.narration_texts[1]]}))
+    same_cancel,old_cancel=threading.Event(),threading.Event()
+    jobs={key:dict(future=Future(),finished=False,prefetch=True,cancel=cancel,expires=audio_session.expires)
+          for key,cancel in [(same,same_cancel),(old,old_cancel)]}
+    monkeypatch.setattr(narration,'_public_jobs',jobs)
+    monkeypatch.setattr(narration,'_prepare_slots',threading.BoundedSemaphore(0))
+    monkeypatch.setattr(narration,'_foreground_waiters',{})
+    monkeypatch.setattr(narration,'_background',{same:same_cancel,old:old_cancel})
+    monkeypatch.setattr(narration,'_background_pause_until',0)
+    with pytest.raises(narration.NarrationBusy):narration.prepare_narration(request)
+    assert old_cancel.is_set() and not same_cancel.is_set()
+    assert narration._background_pause_until>time.monotonic()
+
+
+def test_foreground_render_pressure_keeps_the_other_current_voice_and_yields_only_unrelated_audio(audio_session,monkeypatch):
+    from app.tutoring import narration
+    request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
+        paragraphs=[audio_session.narration_texts[0]])
+    same=narration.request_key(request.model_copy(update={'voice':'vi-VN-HoaiMyNeural'}))
+    old=narration.request_key(request.model_copy(update={'paragraphs':[audio_session.narration_texts[1]]}))
+    same_cancel,old_cancel=threading.Event(),threading.Event()
+    monkeypatch.setattr(narration,'_render_slot',threading.BoundedSemaphore(0))
+    monkeypatch.setattr(narration,'_foreground_waiters',{})
+    monkeypatch.setattr(narration,'_background',{same:same_cancel,old:old_cancel})
+    monkeypatch.setattr(narration,'_background_pause_until',0)
+    with pytest.raises(narration.NarrationBusy):narration.narrate(request)
+    assert old_cancel.is_set() and not same_cancel.is_set()
+
+
 def test_private_narration_renders_once_and_replays_without_model_calls(audio_session, monkeypatch):
     from app.tutoring import narration
     rendered = []

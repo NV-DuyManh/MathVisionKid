@@ -44,9 +44,8 @@ test('shows the active recognition stage without a looping decoration or prematu
       steps={['Đề đã xác nhận', 'Chuẩn bị bài', 'Mở bài học']} activeStep={1} />); });
     expect(view.root.findByType(TaskProgress).props.activeStep).toBe(1);
     expect(loop).not.toHaveBeenCalled();
-    const progress=view.root.find(node => node.props.accessibilityRole === 'progressbar');
-    expect(progress.props.accessibilityValue.now).toBeGreaterThan(0);
-    expect(progress.props.accessibilityValue.now).toBeLessThan(100);
-    expect(progress.props['aria-busy']).toBe(true);
+    const value = view.root.find(node => node.props.accessibilityRole === 'progressbar').props.accessibilityValue;
+    expect(value.max).toBe(100); expect(value.now).toBeGreaterThan(0); expect(value.now).toBeLessThan(85);
+    expect(view.root.find(node => node.props.accessibilityRole === 'progressbar').props['aria-busy']).toBe(true);
   } finally { act(() => view?.unmount()); jest.restoreAllMocks(); }
 });

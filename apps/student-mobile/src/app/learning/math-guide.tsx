@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import type { ScrollViewInstance, TextInputInstance, ViewInstance } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -22,6 +22,7 @@ import { FractionExplorer, fractionsInProblem } from '../../features/tutoring/Fr
 import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
 import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
+import { WorkReviewPreparation } from '../../features/tutoring/WorkReviewPreparation';
 import { LessonListening } from '../../features/tutoring/LessonListening';
 import { LessonCalculation } from '../../features/tutoring/LessonCalculation';
 import { completedNarration, stepNarration } from '../../features/tutoring/narration';
@@ -32,6 +33,9 @@ import { CorrectAnswerFeedback } from '../../features/tutoring/CorrectAnswerFeed
 import { ComprehensionCheck } from '../../features/tutoring/ComprehensionCheck';
 import { loadLearningProgress,saveLearningProgress,sameStoredAnswer,type LearningProgress } from '../../features/tutoring/learningProgress';
 import { NarrationPreparation, useNarrationPreparation } from '../../features/tutoring/NarrationPreparation';
+import { QuizInvitation } from '../../features/quiz/QuizInvitation';
+import { useQuizPreparation } from '../../features/quiz/useQuizPreparation';
+import { submissionId } from '../../features/quiz/quizInput';
 
 const MASCOT = require('../../../assets/illustrations/mathvision-star.png');
 
@@ -86,8 +90,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [problemImage, setProblemImage] = useState(context?.problemImageUri || '');
   const [uncertainWork, setUncertainWork] = useState(context?.uncertainWork || false);
   const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
+  const [problemExpanded, setProblemExpanded] = useState(false);
+  const [quizPreparationKey] = useState(() => context?.quizPreparationKey || submissionId());
+  useQuizPreparation(quizPreparationKey, work ? '' : problem, problemConfirmed && !work);
   const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
+  const [preparationPaused, setPreparationPaused] = useState(false);
+  const [preparationPoll, setPreparationPoll] = useState(0);
   const [attempt, setAttempt] = useState('');
   const [questionDraft,setQuestionDraft]=useState('');
   const [answerEdited, setAnswerEdited] = useState(false);
@@ -103,10 +112,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
+  const [failedTask, setFailedTask] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
-  const [showWork, setShowWork] = useState(false);
   const [reviewFocused, setReviewFocused] = useState(false);
+  const [reviewStarted, setReviewStarted] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [restoring,setRestoring]=useState(true),[progressNotice,setProgressNotice]=useState('');
@@ -123,7 +133,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   useEffect(()=>{
     const control=new AbortController();let live=true;
     void loadLearningProgress(owner).then(async saved=>{
-      if(!live||!saved||saved.problemText!==problem||saved.workText!==work||params.lessonId&&saved.lessonId!==params.lessonId)return;
+      if(!live||work||!saved||saved.problemText!==problem||saved.workText!==work||params.lessonId&&saved.lessonId!==params.lessonId)return;
       setProblemConfirmed(true);setWorkConfirmed(!!work);
       setLessonId(saved.lessonId);
       try{
@@ -160,13 +170,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
   const preparationWork = workConfirmed && !work.includes('[?]') ? work : '';
   useEffect(() => {
-    if (!owner || restoring || lesson || editing || busy || invalidPhoto || problem.trim().length < 3 || problem.includes('[?]')) return;
+    if (!owner || restoring || lesson || editing || busy || invalidPhoto || work || problem.trim().length < 3 || problem.includes('[?]')) return;
     const abort = new AbortController();
     // Private preparation starts while the pupil reviews the transcription.
     // It returns no lesson; the normal Start action still requires confirmation.
     void TutorService.prepareLesson(problem.trim(), preparationWork, abort.signal).catch(() => {});
     return () => abort.abort();
-  }, [owner, restoring, problem, preparationWork, editing, invalidPhoto, lesson, busy]);
+  }, [owner, restoring, problem, preparationWork, work, editing, invalidPhoto, lesson, busy]);
   const divisionLines = workLines.filter(line => line.division);
   const divisionLine = !invalidPhoto && divisionLines.length === 1 ? divisionLines[0] : null;
   const division = divisionLine?.division;
@@ -206,7 +216,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
-    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError('');
+    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null);
     try {
       const result = await task(abort.signal);
       if (active.current && id === requestId.current) {
@@ -214,11 +224,48 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         if (kind === 'read') setFinishing({ kind, id });
       }
     } catch (failure) {
-      if (active.current && id === requestId.current && !abort.signal.aborted) failureMessage(failure);
+      if (active.current && id === requestId.current && !abort.signal.aborted) { setFailedTask(kind); failureMessage(failure); }
     } finally {
       if (active.current && id === requestId.current) { running.current = false; controller.current = null; setBusy(null); }
     }
   }, [expired, failureMessage]);
+  const preparationSession = lesson?.status === 'PREPARING' ? lesson.sessionId : undefined;
+  const preparationRevision = lesson?.revision;
+  useEffect(() => {
+    if (!preparationSession || preparationRevision === undefined) return;
+    const abort = new AbortController();
+    let timer: ReturnType<typeof setTimeout>;
+    let polls = 0;
+    const deadline = Date.now() + 45000;
+    const poll = async () => {
+      if (abort.signal.aborted || !active.current) return;
+      try {
+        const result = await TutorService.lessonPreparation({ sessionId: preparationSession, revision: preparationRevision }, false, abort.signal);
+        if (abort.signal.aborted || !active.current) return;
+        setPreparationPaused(false);
+        setLesson(current => current?.sessionId === preparationSession && current.revision === preparationRevision ? result : current);
+        if (!result.preparingMath) {
+          setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
+          return;
+        }
+        if (result.status !== 'PREPARING') return;
+        if (++polls < 45 && Date.now() < deadline) timer = setTimeout(() => void poll(), 1000);
+        else setPreparationPaused(true);
+      } catch {
+        if (!abort.signal.aborted && active.current) setPreparationPaused(true);
+      }
+    };
+    timer = setTimeout(() => void poll(), 500);
+    return () => { abort.abort(); clearTimeout(timer); };
+  }, [preparationSession, preparationRevision, preparationPoll]);
+  const retryPreparation = () => {
+    if (!lesson) return;
+    void run('answer', signal => TutorService.lessonPreparation(lesson, true, signal), result => {
+      setLesson(result); setReviewedStep(null); setPreparationPaused(false);
+      setPreparationPoll(value => value + 1);
+      setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
+    });
+  };
   const inspectPhoto = useCallback(async () => {
     if (!photoAllowed) return;
     await run('read', signal => TutorService.inspect(imageUri, true, signal), result => {
@@ -254,7 +301,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     if (purpose) {
       const pending: ImageDraft = { rawUri: '', uri: '', width: 0, height: 0, mimeType: 'image/jpeg', filename: 'pending.jpg', mode: 'MATH_TUTOR',
         lessonContext: { purpose, problemText: problem, workText: work, workImageUri: workImage, workImageCurrent, workLines, problemImageUri: problemImage,
-          lessonId, uncertainWork, problemConfirmed, workConfirmed } };
+          lessonId, uncertainWork, problemConfirmed, workConfirmed, quizPreparationKey } };
       recognitionDraftStore.setDraft(pending);
     } else recognitionDraftStore.clearDraft();
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
@@ -264,7 +311,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     setTool(null);
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
-    void run('lesson', signal => TutorService.startLesson(problem.trim(), confirmedWork,
+    void run('lesson', signal => TutorService.startLesson(problem, confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true, startWithReading: true }, signal), result => {
       setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
@@ -286,7 +333,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         setQuestionDraft('');
         setHintCount(0); setHintText(''); setHintExhausted(false); setFocusedChoice(null);
         setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
-        setReviewedStep({ ...result.completed[result.completed.length - 1], question: lesson.step?.question || '',
+        if (result.preparingMath && !result.step) setReviewedStep(null);
+        else setReviewedStep({ ...result.completed[result.completed.length - 1], question: lesson.step?.question || '',
           choices: [...(lesson.step?.choices || [])], studentAnswer: value });
       }
       setSaved(false);
@@ -304,7 +352,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     finally { if (active.current) setSaving(false); }
   };
   const edit = (field: 'problem' | 'work') => {
-    cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); setReviewFocused(false);
+    cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); setReviewFocused(false); setReviewStarted(false);
     if (field === 'problem') setProblemConfirmed(false); else { setWorkConfirmed(false); setWorkLines([]); setWorkImageCurrent(false); }
   };
   const sourceRows = workReviewLines(work);
@@ -313,6 +361,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     ? workLines : sourceRows.map(text => ({ text, box: null, uncertain: text.includes('[?]') }));
   // The pupil has explicitly checked these readable symbols; keep the original OCR flags in workLines.
   const evidenceLines = workConfirmed && !work.includes('[?]') ? boundLines.map(line => ({ ...line, uncertain: false })) : boundLines;
+  const workReviewMode = !!work && !division && !lesson;
 
   const preparing = busy === 'read' || busy === 'lesson' ? busy : finishing?.kind;
   if (preparing) return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
@@ -351,7 +400,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {restoring?<Text accessibilityLiveRegion="polite" style={styles.caption}>Đang kiểm tra bài đang học…</Text>:progressNotice?<Text accessibilityLiveRegion="polite" style={styles.caption}>{progressNotice}</Text>:null}
         {reviewFocused && !lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề và bài làm" style={styles.reviewBack} onPress={() => setReviewFocused(false)}>
           <Ionicons name="chevron-back" size={18} color={COLORS.primaryDark} /><Text style={styles.link}>Xem lại đề và bài làm</Text></Pressable> : null}
-        {!lesson && !reviewFocused ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
+        {!lesson && !reviewFocused && !workReviewMode ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
             <Text style={styles.title}>{division ? 'Cùng kiểm tra phép chia' : !problem && work ? 'Thêm đề, hiểu trọn bài' : work ? 'Cùng nhìn lại bài em làm' : 'Hiểu cách làm, tự tìm lời giải'}</Text>
             <Text style={styles.body}>{division ? 'Đối chiếu với ảnh → kiểm tra → tự sửa chỗ chưa đúng.' : !problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : work ? 'Đọc đúng đề và bài làm → nhận xét từng dòng → em tự sửa và kiểm tra lại.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.'}</Text></View>
@@ -360,7 +409,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
         {error ? <RecoveryNotice title={expired ? 'Em cần đăng nhập lại' : 'Chưa thực hiện được'} message={error} actions={expired
           ? [{ label: 'Đăng nhập lại', onPress: () => router.push('/login' as any) }]
-          : problem && !lesson ? [{ label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học', icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy }]
+          : failedTask === 'read' && imageUri && photoAllowed ? [{ label: 'Đọc lại ảnh', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
+          : problem && !lesson && !workReviewMode ? [{ label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học', icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy }]
           : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
           : []} /> : null}
 
@@ -375,7 +425,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           <Pressable style={styles.linkButton} accessibilityRole="button" onPress={() => edit('problem')}><Text style={styles.link}>Em muốn nhập đề bằng chữ</Text></Pressable>
         </View> : null}
 
-        {!!(workImage || problemImage) && !lesson && !division && !reviewFocused && <View style={styles.photos}>
+        {!!(workImage || problemImage) && !lesson && !division && !reviewFocused && !workReviewMode && <View style={styles.photos}>
           {problemImage ? <View style={styles.photoCard}><Image source={{ uri: problemImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh đề bài đã che thông tin" /><Text style={styles.caption}>Đề bài</Text></View> : null}
           {workImage && workImage !== problemImage ? <View style={styles.photoCard}><Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /><Text style={styles.caption}>{workImageCurrent ? 'Bài em làm' : 'Ảnh trước khi sửa'}</Text></View> : null}
         </View>}
@@ -411,23 +461,42 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           }} />
         </View> : null}
 
-        {!!problem && !editing && !lesson && !reviewFocused ? <View style={styles.card}>
+        {workReviewMode && problem && !editing && !reviewFocused && !invalidPhoto ? <WorkReviewPreparation
+          problem={problem} work={work} problemImage={problemImage} workImage={workImage} photoCurrent={workImageCurrent}
+          disabled={!!busy || expired || restoring} onEdit={edit} onConfirm={() => {
+            if (busy || expired || restoring || problem.includes('[?]') || work.includes('[?]')) return;
+            setProblemConfirmed(true); setWorkConfirmed(true); setReviewStarted(true); setReviewFocused(true); setError('');
+            requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
+          }} /> : null}
+
+        {!!problem && !editing && !lesson && !reviewFocused && !workReviewMode ? <View style={styles.card}>
           <View style={styles.problemHeader}>
             <View style={styles.problemToggle}>
               <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
               <Text style={[styles.problemTitle, styles.flex]}>Đề bài của em</Text>
             </View>
             <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={() => edit('problem')}
-              style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /></Pressable>
+              style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /><Text style={styles.link}>Chỉnh sửa</Text></Pressable>
           </View>
-          <View style={styles.problemContent}><MathText style={styles.body}>{problem}</MathText></View>
+          <View style={styles.problemContent} nativeID="confirmed-problem-body">
+            {!problemConfirmed || problemExpanded ? <MathText style={styles.body}>{problem}</MathText>
+              : <Text style={styles.body} numberOfLines={2}>{problem}</Text>}
+          </View>
+          {problemConfirmed ? <>
+            <Text style={styles.caption} accessibilityLiveRegion="polite">Đã xác nhận</Text>
+            <Pressable accessibilityRole="button" accessibilityLabel={problemExpanded ? 'Thu gọn' : 'Xem đầy đủ'}
+              accessibilityState={{ expanded: problemExpanded }} aria-expanded={problemExpanded} aria-controls="confirmed-problem-body"
+              onPress={() => setProblemExpanded(value => !value)} style={styles.linkButton}>
+              <Text style={styles.link}>{problemExpanded ? 'Thu gọn' : 'Xem đầy đủ'}</Text>
+            </Pressable>
+          </> : null}
           {!lesson ? <>
             {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
             <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
               aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
               disabled={!!busy || problem.includes('[?]')} style={styles.confirm}
-              onPress={() => setProblemConfirmed(value => !value)}>
+              onPress={() => { setProblemExpanded(false); setProblemConfirmed(value => !value); }}>
               <Ionicons name={problemConfirmed ? 'checkbox' : 'square-outline'} size={26} color={COLORS.primaryDark} />
               <Text style={[styles.body, styles.flex]}>Em đã kiểm tra đề bài và các số</Text>
             </Pressable>
@@ -436,45 +505,30 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
         </View> : null}
 
-        {!!work && !editing && !division && !lesson && !reviewFocused ? <View style={styles.workCard}>
-          <Pressable style={[styles.row, styles.workToggle]} accessibilityRole="button" accessibilityLabel="Xem bài em đã viết" aria-expanded={showWork} onPress={() => setShowWork(v => !v)}>
-            <Ionicons name="book-outline" size={21} color={COLORS.primaryDark} /><Text style={[styles.link, styles.flex]}>Bài em đã viết</Text><Ionicons name={showWork ? 'chevron-up' : 'chevron-down'} size={18} color={COLORS.primaryDark} />
-          </Pressable>
-          {uncertainWork && !workConfirmed ? <Text style={styles.body}>Có chỗ trong ảnh chưa đọc rõ. Em đối chiếu từng số và dấu phép tính trước khi dùng bài làm nhé.</Text> : null}
-          {!workConfirmed && !lesson ? <Text style={styles.body}>Bài làm chưa được xác nhận. Mình có thể hướng dẫn từ đề đã kiểm tra; chỉ đối chiếu cách làm sau khi em xác nhận bài viết.</Text> : null}
-          {showWork || (!workConfirmed && !lesson) ? <>
-            {workImage ? <><Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} />
-              {!workImageCurrent ? <Text style={styles.caption}>Ảnh trước khi sửa bằng chữ. Em chụp lại để ảnh khớp bài mới nhé.</Text> : null}</> : null}
-            <MathText style={styles.body}>{work}</MathText>
-            <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh chỗ chưa đọc đúng" style={styles.linkButton} onPress={() => edit('work')}><Text style={styles.link}>Chỉnh chỗ chưa đọc đúng</Text></Pressable>
-            {!lesson ? <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã đối chiếu bài làm với ảnh"
-              aria-checked={workConfirmed} accessibilityState={{ checked: workConfirmed, disabled: !!busy || work.includes('[?]') }}
-              disabled={!!busy || work.includes('[?]')} style={styles.confirm} onPress={() => setWorkConfirmed(value => !value)}>
-              <Ionicons name={workConfirmed ? 'checkbox' : 'square-outline'} size={26} color={COLORS.primaryDark} />
-              <Text style={[styles.body, styles.flex]}>Em đã đối chiếu bài làm với ảnh</Text>
-            </Pressable> : null}
-            {work.includes('[?]') ? <Text style={styles.error}>Em sửa chỗ có dấu [?] trước khi xác nhận bài làm nhé.</Text> : null}
-          </> : null}
-        </View> : null}
-
-        {problem && work && !editing && !division && !invalidPhoto && !lesson ? <StudentWorkReview
+        {problem && work && !editing && !division && !invalidPhoto && !lesson && reviewStarted ? <View style={!reviewFocused ? styles.hidden : undefined}><StudentWorkReview
           problemText={problem} workText={work} imageUri={workImage} photoCurrent={workImageCurrent} lines={evidenceLines}
           enabled={problemConfirmed && workConfirmed && !problem.includes('[?]') && !work.includes('[?]')}
+          autoStart
           disabled={!!busy || expired} onCaptureWork={() => capture('ADD_WORK')}
-          onReviewReady={() => { setReviewFocused(true); requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false })); }}
           onSessionExpired={() => { setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.'); }}
-          onReviseWork={text => { cancel(); setReviewFocused(false); setWork(text); setWorkLines([]); setWorkImageCurrent(false); setWorkConfirmed(false); setUncertainWork(text.includes('[?]')); setShowWork(true); setSaved(false); }} /> : null}
+          onReviseWork={text => { cancel(); setReviewFocused(false); setReviewStarted(false); setWork(text); setWorkLines([]); setWorkImageCurrent(false); setWorkConfirmed(false); setUncertainWork(text.includes('[?]')); setSaved(false); }} /></View> : null}
 
         {lesson && !editing ? <>
           <View style={styles.progressRow}><View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index < lesson.stepIndex && styles.railActive]} />)}
           </View><Text style={styles.progressCount}>{Math.min(visibleStepIndex + 1, lesson.outline.length)}/{lesson.outline.length}</Text></View>
-          {lesson.preparingMath ? <Text style={styles.caption}>Em đọc đề trước nhé, phần hướng dẫn đang được chuẩn bị.</Text> : null}
+          {lesson.preparingMath && step ? <Text style={styles.caption}>Em đọc đề trước nhé, phần hướng dẫn đang được chuẩn bị.</Text> : null}
           {lesson.status === 'CORRECT' && lesson.feedback && !reviewedStep ? <View style={styles.explanation}>
             <Text style={styles.caption}>BƯỚC TRƯỚC ĐÃ HOÀN THÀNH</Text><Text style={styles.feedback}>{lesson.feedback}</Text>
           </View> : null}
-          {reviewedStep ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
+          {lesson.preparingMath && !step ? <View style={styles.card} accessibilityLiveRegion="polite">
+            <Text style={styles.heading}>Em đã hiểu đề</Text>
+            <Text style={styles.body}>{lesson.feedback}</Text>
+            <ProblemSummary lesson={lesson} compact />
+            {lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused ? <AppButton title="Thử chuẩn bị lại" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired} /> : null}
+            {lesson.status === 'PREPARING' && !preparationPaused ? <ActivityIndicator accessibilityLabel="Đang chuẩn bị các bước giải" color={COLORS.primaryDark} /> : null}
+          </View> : reviewedStep ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>{reviewedStep.kind === 'UNDERSTAND' ? 'CÙNG HIỂU ĐỀ' : `ĐÃ KIỂM TRA BƯỚC ${lesson.stepIndex - (lesson.understandingSteps || 0)}`}</Text>
             <Text style={styles.heading}>{reviewedStep.title}</Text>
             <MathText style={styles.question}>{reviewedStep.question}</MathText>
@@ -543,13 +597,14 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             {work ? <Text style={styles.body}>Em đối chiếu những bước vừa học với bài trong ảnh. Các phép tính vừa nhập đã được kiểm tra; nét chữ và hình vẽ vẫn cần nhìn lại.</Text> : null}
           </View>}
         </> : null}
+        {lesson?.status === 'COMPLETE' && !editing ? <QuizInvitation sourceType="LESSON" sourceId={lesson.sessionId} /> : null}
         {lesson && !editing ? <View style={styles.tools}>
           {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'mic-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const).map(([value, icon, label]) => <Pressable
             key={value} accessibilityRole="button" accessibilityLabel={label} disabled={!!busy || expired} accessibilityState={{ disabled: !!busy || expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, (!!busy || expired) && { opacity: .5 }]} onPress={() => setTool(value)}>
             <Ionicons name={icon} size={22} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolLabel}>{label}</Text>
           </Pressable>)}
         </View> : null}
-        {lesson && !step && !reviewedStep && !editing ? <AppButton title={work ? 'Chụp lại bài làm để nhận xét' : 'Chụp bài em đã làm để nhận xét'} variant="secondary"
+        {lesson?.status === 'COMPLETE' && !reviewedStep && !editing ? <AppButton title={work ? 'Chụp lại bài làm để nhận xét' : 'Chụp bài em đã làm để nhận xét'} variant="secondary"
           onPress={() => capture('ADD_WORK')} disabled={expired} /> : null}
         {!!(problem || work) && (!lesson || (!step && !reviewedStep)) && !editing && !busy ? <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" loading={saving} disabled={saved || saving} onPress={() => void archive()} /> : null}
         {!lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable> : null}
@@ -558,6 +613,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
       {tool === 'hint' && step ? <><MathText style={styles.body}>{hintText}</MathText>
         <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintCount}`} expression={step.expression} reading={step.kind === 'UNDERSTAND'} depth={hintCount}
+          hint={hintText} stepTitle={step.title} stepQuestion={step.question} unit={step.unit}
           onReady={() => { setTool(null); if (step.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} /></> : null}
       {tool === 'audio' ? <LessonListening scope={JSON.stringify([owner, lesson.sessionId, lesson.stepIndex, lesson.revision, hintCount, !!reviewedStep])}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} step={reviewedStep || step}
@@ -586,6 +642,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 }
 
 const styles = StyleSheet.create({
+  hidden: { display: 'none' },
   preparing: { flex: 1, justifyContent: 'center', padding: 20 },
   header: { width: '100%', maxWidth: 740, alignSelf: 'center' }, headerWide: { maxWidth: 1180 },
   learningBody: { flex: 1, width: '100%', alignSelf: 'center' }, learningBodyWide: { maxWidth: 1180, flexDirection: 'row', gap: 10, paddingHorizontal: 18 },
@@ -616,7 +673,7 @@ const styles = StyleSheet.create({
   problemToggle: { flex: 1, minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14 },
   problemIcon: { width: 40, height: 40, borderRadius: 13, backgroundColor: COLORS.surfaceSubdued, alignItems: 'center', justifyContent: 'center' },
   problemTitle: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
-  problemEdit: { width: 48, height: 48, borderRadius: 15, borderWidth: 1, borderColor: '#E8E1F4', alignItems: 'center', justifyContent: 'center' },
+  problemEdit: { minHeight: 48, paddingHorizontal: 8, borderRadius: 15, borderWidth: 1, borderColor: '#E8E1F4', flexDirection: 'row', gap: 4, alignItems: 'center', justifyContent: 'center' },
   problemPressed: { backgroundColor: COLORS.surfaceSubdued },
   problemContent: { borderTopWidth: 1, borderColor: '#EEE8F7', paddingTop: 14 },
   photos: { flexDirection: 'row', gap: 12 }, photoCard: { flex: 1, backgroundColor: COLORS.surface, borderRadius: 18, padding: 8, gap: 5 },
@@ -626,7 +683,6 @@ const styles = StyleSheet.create({
   linkButton: { minHeight: 44, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 8 },
   input: { minHeight: 130, borderRadius: 16, padding: 16, backgroundColor: '#F8F5FF', borderWidth: 1, borderColor: '#D7CDF2', fontFamily: FONTS.regular, fontSize: 16, color: COLORS.textPrimary, textAlignVertical: 'top' },
   workCard: { backgroundColor: '#F0EBFC', padding: 16, borderRadius: 18, gap: 10 },
-  workToggle: { minHeight: 48 },
   confirm: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 12 },
   progressRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 4 }, progressCount: { color: '#9D8EB4', fontFamily: FONTS.bold, fontSize: 13 },
   rail: { flex: 1, flexDirection: 'row', gap: 3, padding: 4, borderRadius: 10, backgroundColor: '#E9F6EF' }, railStep: { flex: 1, height: 7, borderRadius: 4, backgroundColor: '#DCEEE5' },

@@ -25,8 +25,8 @@ RUN sed -n -e '/^torch==/p' -e '/^torchvision==/p' requirements.txt > /tmp/torch
 
 RUN groupadd --system mathvision \
     && useradd --system --gid mathvision --create-home mathvision \
-    && mkdir -p /app/models /home/mathvision/.config/Ultralytics \
-    && chown mathvision:mathvision /app/models /home/mathvision/.config /home/mathvision/.config/Ultralytics
+    && mkdir -p /app/models /app/state /home/mathvision/.config/Ultralytics \
+    && chown mathvision:mathvision /app/models /app/state /home/mathvision/.config /home/mathvision/.config/Ultralytics
 
 # Models are supplied through a read-only /app/models volume at deployment time.
 COPY --chown=mathvision:mathvision app ./app

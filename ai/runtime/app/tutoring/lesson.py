@@ -49,6 +49,13 @@ class TurnRequest(TutorModel):
     hint: StrictBool = False
 
 
+class PreparationRequest(TutorModel):
+    owner: str = Field(min_length=1, max_length=200)
+    sessionId: str = Field(min_length=20, max_length=100)
+    revision: int = Field(ge=0, strict=True)
+    retry: StrictBool = False
+
+
 class Step(TutorModel):
     kind: Literal["MATH", "UNDERSTAND"] = "MATH"
     title: str = Field(min_length=1, max_length=100)
@@ -229,7 +236,9 @@ class Session:
     narration_texts: list[str] = field(default_factory=list)
     preparation_request: LessonRequest | None = field(default=None, repr=False)
     preparation_task: asyncio.Task | None = field(default=None, repr=False)
-    preparation_failure: str = field(default='unavailable', repr=False)
+    preparation_attempts: int = 0
+    preparation_failure: str = ''
+    preparation_retry_at: float = 0
 
 
 _sessions: OrderedDict[str, Session] = OrderedDict()
@@ -326,6 +335,8 @@ riêng của bài có lời văn; dạy các thao tác đó bên trong bước t
 nhiều đại lượng vào một bước nếu các đại lượng đó cần lời giải riêng.
 finalAnswerStep là CHỈ SỐ TỪ 0 của bước trả lời câu hỏi, không phải đáp án hoặc
 bước kiểm tra. null chỉ khi đề yêu cầu nhiều kết quả.
+Ví dụ có ba bước tính thì chỉ số lần lượt là 0, 1, 2; nếu bước cuối trả lời
+câu hỏi thì finalAnswerStep=2, không phải 3. Không đếm số bước để ghi chỉ số.
 Các ý a), b) dùng chung dữ kiện là MỘT bài có nhiều yêu cầu, không phải nhiều
 bài độc lập: giải đủ từng ý, finalAnswerStep=null. Không bỏ ý sau để chọn một đáp án.
 Số tiền có dấu cách phân nhóm vẫn là một số nguyên: dùng đúng givenNumbers.
@@ -573,7 +584,7 @@ def formula_constants(problem: str) -> frozenset[str]:
     # operands supplied by the model. The reviewer also checks their actual use.
     text = _fold(problem)
     constants = {"1", "2"}
-    if re.search(r"viet\s+them.*(?:chu\s+)?so|hang\s+(?:don vi|chuc|tram)", text):
+    if re.search(r"(?:viet\s+them|them).*(?:chu\s+)?so|hang\s+(?:don vi|chuc|tram)", text):
         constants.update({"9", "10"})  # Decimal shift: ten parts minus the original part.
     if "%" in text or "phan tram" in text:
         constants.add("100")
@@ -628,6 +639,7 @@ def source_parts(source: str) -> tuple[list[str], str]:
     label = re.compile(r"(?:(?:bài(?:\s+tập)?|câu)\s+(?:số\s+)?\d+[a-z]?\s*[:.)]?"
                        r"(?:\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\))?"
                        r"|(?:toán\s+)?lớp\s+\d+[a-z]?\s*[:.)]?"
+                       r"|(?:đề(?:\s+bài)?|ví\s+dụ(?:\s+\d+)?)\s*[:.)]?"
                        r"|\(?\s*\d+(?:[.,]\d+)?\s*điểm\s*\)?)", re.I)
     return [clause.strip() for clause in clauses if clause.strip() and not label.fullmatch(clause.strip())], question
 
@@ -720,7 +732,7 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
         plan.topic = re.sub(r"\s*lớp\s*\d+\s*[:—-]?", "", plan.topic, flags=re.I).strip()
     answers = []
     if plan.finalAnswerStep is not None and (plan.finalAnswerStep >= len(plan.steps) or not plan.steps[plan.finalAnswerStep].expression):
-        raise ValueError("Invalid final answer step")
+        raise ValueError(f"Invalid final answer step {plan.finalAnswerStep}: use a zero-based calculation index from 0 to {len(plan.steps)-1}")
     for index, step in enumerate(plan.steps):
         for item in [*(step.initialGuidance or []), *step.guidance, *step.hints]:
             for reference in _GUIDANCE_REFERENCE.finditer(item):
@@ -838,12 +850,16 @@ def present(key: str, session: Session, status="READY", feedback="") -> LessonRe
         unit=step.unit, workExcerpt=step.workExcerpt, solutionSentence=solution_sentence(step),
         guidance=guidance_at(step, session.answers, session.givens, reveal_work=session.hint_count >= 2))
     conclusion = ""
+    waiting = isinstance(session.plan, ReadingPlan) and step is None
+    if waiting:
+        status = ('UNAVAILABLE' if session.preparation_attempts >= 3 else 'RETRYABLE') if session.preparation_failure else 'PREPARING'
+        feedback = preparation_feedback(session)
     if step is None and session.plan.finalAnswerStep is not None:
         final = session.completed[session.plan.finalAnswerStep]
         conclusion = f"Đáp số: {final.answer}" + (f" {final.unit}" if final.unit else "") + "."
     response = LessonResponse(sessionId=key, revision=session.revision, topic=session.plan.topic,
         goal=session.plan.goal, outline=[s.title for s in session.plan.steps], stepIndex=index,
-        step=public, completed=session.completed, status="COMPLETE" if step is None else status, feedback=feedback, conclusion=conclusion,
+        step=public, completed=session.completed, status="COMPLETE" if step is None and not waiting else status, feedback=feedback, conclusion=conclusion,
         understandingSteps=sum(item.kind == "UNDERSTAND" for item in session.plan.steps),
         summary=session.summary if index >= 2 and session.plan.steps[0].kind == "UNDERSTAND" else None,
         preparingMath=isinstance(session.plan, ReadingPlan))
@@ -972,6 +988,30 @@ def guidance_at(step: Step, answers: list[str], givens=None, *, reveal_work=True
     return resolved
 
 
+def separate_worked_teaching(plan: Plan, request: LessonRequest, constants):
+    """Move misplaced numeric worked help out of the automatic teaching view.
+
+    Never manufacture replacement teaching or move private material into the
+    public view. All moved text still undergoes the future-answer guard and
+    independent semantic/arithmetic review before the plan is usable.
+    """
+    givens = numeric_values(request.problemText) | constants
+    answers = []
+    for step in plan.steps:
+        if step.initialGuidance:
+            allowed = givens | numeric_values('\n'.join(answers))
+            initial, worked = [], []
+            for paragraph in step.initialGuidance:
+                text = teaching_at(paragraph, answers)
+                target = initial if numeric_values(text).issubset(allowed) and not re.search(
+                    r'dap so\s*[:=]|\d\s*=\s*\d', _fold(text)) else worked
+                target.append(paragraph)
+            if worked and len(initial) >= 2 and len(worked) + len(step.guidance) <= 6:
+                step.initialGuidance = initial
+                step.guidance = [*worked, *step.guidance]
+        answers.append(str(calculate_exact(expression_at(step, answers))) if step.expression else step.correctChoice)
+
+
 async def generate_plan(request: LessonRequest) -> Plan:
     constants = formula_constants(request.problemText)
     source = {"problemText": request.problemText, "workText": request.workText,
@@ -1016,6 +1056,14 @@ async def generate_plan(request: LessonRequest) -> Plan:
             if re.search(r"\d+\s*/\s*\d+", request.problemText):
                 for step in plan.steps:
                     step.fractionNotation = True
+            # Some planners count the last step from one despite the zero-based
+            # schema. This is private metadata only: arithmetic validation and
+            # the independent reviewer must still verify this exact quantity
+            # answers the ORIGINAL question before any step can be published.
+            if plan.finalAnswerStep == len(plan.steps) and plan.steps[-1].expression:
+                plan.finalAnswerStep -= 1
+                logger.info('Tutor lesson normalized final step index count=%d', len(plan.steps))
+            separate_worked_teaching(plan, request, constants)
             validate_plan(plan, request, constants)
             for index, step in enumerate(plan.steps):
                 teaching = [*(step.initialGuidance or []), *step.guidance]
@@ -1090,8 +1138,30 @@ async def generate_plan(request: LessonRequest) -> Plan:
 
 
 async def checked_plan(request):
+    # Both background preparation and confirmed lessons use the same checked
+    # solvers. Work review failures may fall back to math without claiming that
+    # the pupil's written work was reviewed.
+    from app.tutoring import catalog
+    cached=await asyncio.to_thread(catalog.load_plan,request)
+    if cached is not None:return cached
     try:
-        return await asyncio.wait_for(generate_plan(request), timeout=38.0)
+        from app.tutoring.fraction_remainder import verified_plan as fraction_plan
+        from app.tutoring.digit_append import verified_plan as digit_plan
+        exact = fraction_plan(request.problemText) or digit_plan(request.problemText)
+        if exact is not None and not request.workText:
+            plan = Plan.model_validate(exact)
+        else:
+            try:
+                plan = await asyncio.wait_for(generate_plan(request), timeout=38.0)
+                await asyncio.to_thread(catalog.save_plan,request,plan)
+                return plan
+            except (TutorUnavailable, TimeoutError, ValidationError, ValueError, SyntaxError, ArithmeticError, TypeError):
+                if exact is None:
+                    raise
+                plan = Plan.model_validate(exact)
+        validate_plan(plan, request, formula_constants(request.problemText))
+        await asyncio.to_thread(catalog.save_plan,request,plan)
+        return plan
     except (TimeoutError, ValidationError, ValueError, SyntaxError, ArithmeticError, TypeError) as exc:
         logger.warning("Tutor lesson unavailable category=%s", type(exc).__name__)
         raise TutorUnavailable('timeout' if isinstance(exc, TimeoutError) else 'validation') from None
@@ -1104,6 +1174,9 @@ async def reviewed_plan(request, comprehension):
     plan = await prepared_plan(request)
     if plan is None:
         plan = await checked_plan(request)
+    else:
+        from app.tutoring import catalog
+        await asyncio.to_thread(catalog.save_plan,request,plan)
     if comprehension:
         try:
             plan = prepend_understanding(plan, comprehension)
@@ -1122,11 +1195,19 @@ async def _prepare_session_math(key, session, comprehension):
         from app.tutoring import media_preparation
         try:media_preparation.refresh_after_plan(key,session)
         except Exception as exc:logger.info('Speech refresh skipped category=%s',type(exc).__name__)
-        logger.info('Lesson mathematics ready elapsed_ms=%d',(time.monotonic()-started)*1000)
+        session.preparation_failure = ''
+        logger.info('Lesson mathematics ready session=%s revision=%d attempt=%d elapsed_ms=%d',
+                    key[:8], session.revision, session.preparation_attempts, (time.monotonic()-started)*1000)
         return True
+    except asyncio.CancelledError:
+        session.preparation_failure = 'CANCELLED'
+        logger.info('Lesson mathematics preparation stopped session=%s revision=%d reason=CANCELLED', key[:8], session.revision)
+        raise
     except Exception as exc:
-        session.preparation_failure = exc.reason if isinstance(exc, TutorUnavailable) else 'unavailable'
-        logger.info('Lesson mathematics preparation stopped category=%s reason=%s',type(exc).__name__,session.preparation_failure)
+        session.preparation_failure = exc.reason if isinstance(exc, TutorUnavailable) else 'INTERNAL_ERROR'
+        session.preparation_retry_at = time.monotonic() + (60 if session.preparation_attempts >= 3 else 5)
+        logger.info('Lesson mathematics preparation stopped session=%s revision=%d attempt=%d category=%s reason=%s',
+                    key[:8], session.revision, session.preparation_attempts, type(exc).__name__, session.preparation_failure)
         return False
 
 
@@ -1139,23 +1220,46 @@ def _owned_turn(request):
 
 
 async def ready_for_answer(request):
-    session=_owned_turn(request)
-    if not isinstance(session.plan,ReadingPlan) or request.hint or len(session.answers)!=2:
-        return
-    if request.answer.strip()!=session.plan.steps[2].correctChoice:return
-    task=session.preparation_task
-    if task is None or task.done() and (task.cancelled() or not task.result()):
-        # Only an explicit retry of the final reading answer can retry a failed plan.
-        task=session.preparation_task=asyncio.create_task(_prepare_session_math(request.sessionId,session,session.plan.steps))
-    ready=await asyncio.shield(task)
+    # Never await cloud preparation before recording a pupil's correct answer.
     _owned_turn(request)
-    if not ready:raise TutorUnavailable(session.preparation_failure)
+
+
+def _start_preparation(key, session):
+    if session.preparation_task and not session.preparation_task.done():
+        return
+    session.preparation_attempts += 1
+    session.preparation_failure = ''
+    session.preparation_task = asyncio.create_task(_prepare_session_math(key, session, session.plan.steps))
+    logger.info('Lesson mathematics preparing session=%s revision=%d attempt=%d', key[:8], session.revision, session.preparation_attempts)
+
+
+def preparation_feedback(session):
+    if not session.preparation_failure:
+        return 'Em đã hoàn thành phần hiểu đề. Sao đang chuẩn bị các bước giải; câu trả lời đúng của em đã được giữ lại.'
+    reason = session.preparation_failure.upper()
+    message = ('Dịch vụ hướng dẫn đang bận.' if reason in {'RATE_LIMIT', 'RATE_LIMIT_429', 'POOL_UNAVAILABLE', 'BUSY'} else
+               'Chuẩn bị hướng dẫn mất quá nhiều thời gian.' if reason == 'TIMEOUT' else
+               'Hướng dẫn chưa vượt qua kiểm tra tính đúng đắn.' if reason in {'VALIDATION', 'VALIDATION_FAILED'} else
+               'Chuẩn bị hướng dẫn bị gián đoạn.')
+    return message + ' Phần hiểu đề đã được giữ lại.' + (' Em có thể thử chuẩn bị lại.' if session.preparation_attempts < 3 else ' Em chờ một lát rồi thử chuẩn bị lại nhé.')
+
+
+def lesson_preparation(request: PreparationRequest):
+    session = _owned_turn(request)
+    if isinstance(session.plan, ReadingPlan):
+        if session.preparation_task and session.preparation_task.cancelled():
+            session.preparation_failure = 'CANCELLED'
+        if (request.retry and time.monotonic() >= session.preparation_retry_at
+                and (session.preparation_task is None or session.preparation_task.done())):
+            # Bound each retry window, without permanently trapping the same
+            # checked session if its provider recovers later.
+            if session.preparation_attempts >= 3:
+                session.preparation_attempts = 0
+            _start_preparation(request.sessionId, session)
+    return present(request.sessionId, session)
 
 
 async def start_lesson(request: LessonRequest) -> LessonResponse:
-    for old in list(_sessions.values()):
-        if old.owner==request.owner and old.preparation_task and not old.preparation_task.done():
-            old.preparation_task.cancel()
     comprehension = []
     if request.guidedUnderstanding:
         try:comprehension = source_understanding(request.problemText)
@@ -1185,7 +1289,8 @@ async def start_lesson(request: LessonRequest) -> LessonResponse:
     _sessions[key] = session
     if early:
         session.preparation_request=request
-        session.preparation_task=asyncio.create_task(_prepare_session_math(key,session,comprehension))
+        _start_preparation(key, session)
+    logger.info('Tutor lesson started session=%s revision=0 reading=%s', key[:8], early)
     return present(key, session)
 
 
@@ -1232,14 +1337,13 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
             "Em xem lại đại lượng cần tìm và thử chọn lại nhé." if step.choices else
             "Chưa khớp. Với kết quả phân số, em nhập tử số/mẫu số, không làm tròn số thập phân. Chọn gợi ý để xem cách làm nhé." if step.fractionNotation else
             "Chưa khớp phép tính này. Em tính lại; nếu kết quả không viết được chính xác bằng số thập phân, em có thể nhập phân số, không làm tròn nhé.")
-    if isinstance(session.plan,ReadingPlan) and len(session.answers)==2:
-        # Sync callers must never complete the lesson or expose unreviewed mathematics.
-        raise TutorUnavailable()
     session.completed.append(completed_step(step, session, answer))
     session.answers.append(answer)
     session.revision += 1
     session.hint_count = 0
     session.expires = time.monotonic() + TTL
+    logger.info('Tutor answer accepted session=%s revision=%d step=%d phase=%s preparing=%s',
+                request.sessionId[:8], session.revision, len(session.answers), step.kind, isinstance(session.plan, ReadingPlan))
     feedback = ("Em đã hoàn thành các bước! Xem lại cách làm để ghi nhớ nhé."
         if len(session.answers) == len(session.plan.steps) else "Đúng bước này rồi! Mình cùng tiếp tục nhé.")
     if step.workExcerpt and step.expression:

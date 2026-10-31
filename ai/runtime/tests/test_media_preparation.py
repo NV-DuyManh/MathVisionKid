@@ -62,7 +62,7 @@ def test_all_steps_and_two_voices_are_ready_before_the_future_step_opens(prepare
     assert first['preparedSteps']==0 and first['totalSteps']==2
     job=media._jobs[SESSION]
     media._run()
-    assert len(calls)==10 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1]]*2
+    assert len(calls)==10 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1],speech.SPEECH_VOICES[0]]
     assert media.schedule(request(voice=speech.SPEECH_VOICES[1]))['preparedSteps']==2
     assert len(job.ready)==10
     future_parts=job.scripts[1]
@@ -84,13 +84,56 @@ def test_repeated_prepare_requests_do_not_generate_more_speech(prepared):
 
 
 @pytest.mark.parametrize('preferred',speech.SPEECH_VOICES)
-def test_switching_voice_warms_current_alternative_after_current_and_next_preferred(prepared,preferred):
+def test_current_two_voices_are_paired_before_moving_to_the_next_step(prepared,preferred):
     media.schedule(request(voice=preferred));job=media._jobs[SESSION]
     tasks=[]
     for _ in range(3):
         task=media._next(SESSION,job);tasks.append(task);job.attempted.add(task)
     other=next(voice for voice in speech.SPEECH_VOICES if voice!=preferred)
-    assert tasks==[(0,preferred),(1,preferred),(0,other)]
+    assert tasks==[(0,preferred),(0,other),(1,preferred)]
+
+
+def test_two_workers_start_the_current_two_voices_together_without_duplicate_renders(prepared,monkeypatch):
+    session,calls,_=prepared
+    media.schedule(request());job=media._jobs[SESSION]
+    current=job.scripts[0];started=set();lock=threading.Lock()
+    paired=threading.Event();release=threading.Event()
+    original=narration.render_audio
+    def render(parts,voice,*args,**kwargs):
+        if parts==current:
+            with lock:
+                started.add(voice)
+                if len(started)==2:paired.set()
+            assert release.wait(2)
+        return original(parts,voice,*args,**kwargs)
+    monkeypatch.setattr(narration,'render_audio',render)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures=[pool.submit(media._run) for _ in range(2)]
+        try:
+            assert paired.wait(1),'The other current voice must start before the first voice finishes'
+            assert started==set(speech.SPEECH_VOICES)
+        finally:release.set()
+        for future in futures:future.result(timeout=3)
+    assert len(calls)==10 and len({(tuple(parts),voice) for parts,voice in calls})==10
+    assert not job.active_tasks and job.reserved_characters==0
+
+
+def test_parallel_workers_share_one_character_budget(prepared,monkeypatch):
+    _,calls,_=prepared
+    media.schedule(request());job=media._jobs[SESSION]
+    limit=sum(map(len,job.scripts[0]));monkeypatch.setattr(media,'MAX_CHARACTERS',limit)
+    entered=threading.Event();release=threading.Event();original=narration.render_audio
+    def render(*args,**kwargs):
+        entered.set();assert release.wait(2);return original(*args,**kwargs)
+    monkeypatch.setattr(narration,'render_audio',render)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first=pool.submit(media._run)
+        assert entered.wait(1)
+        second=pool.submit(media._run)
+        try:second.result(timeout=1)
+        finally:release.set()
+        first.result(timeout=2)
+    assert len(calls)==1 and job.characters==limit and job.reserved_characters==0
 
 
 def test_checked_step_reviews_and_final_summary_are_prepared_before_they_are_opened(prepared):
@@ -121,12 +164,12 @@ def test_current_review_warms_before_distant_steps_without_delaying_current_and_
     tasks=[]
     for _ in range(4):
         task=media._next(SESSION,job);tasks.append(task);job.attempted.add(task)
-    assert tasks==[(0,speech.DEFAULT_VOICE),(1,speech.DEFAULT_VOICE),
-                   (0,speech.SPEECH_VOICES[1]),(len(job.scripts),speech.DEFAULT_VOICE)]
+    assert tasks==[(0,speech.DEFAULT_VOICE),(0,speech.SPEECH_VOICES[1]),
+                   (1,speech.DEFAULT_VOICE),(1,speech.SPEECH_VOICES[1])]
 
 
 @pytest.mark.parametrize('expired',[False,True])
-def test_missing_nearby_audio_rewarms_only_selected_voice_after_cache_eviction(prepared,expired):
+def test_missing_nearby_audio_rewarms_both_voices_after_cache_eviction(prepared,expired):
     session,calls,_=prepared
     media.schedule(request());media._run();job=media._jobs[SESSION]
     selected=job.voice;other=next(voice for voice in speech.SPEECH_VOICES if voice!=selected)
@@ -135,10 +178,10 @@ def test_missing_nearby_audio_rewarms_only_selected_voice_after_cache_eviction(p
     else:narration._cache.pop(key(0,selected))
     narration._cache.pop(key(1,other));before=len(calls)
     media.schedule(request())
-    assert (0,selected) not in job.ready and (1,other) in job.attempted
+    assert (0,selected) not in job.ready and (1,other) not in job.attempted
     media._run()
-    assert len(calls)==before+1 and calls[-1]==(job.scripts[0],selected)
-    assert key(0,selected) in narration._cache and key(1,other) not in narration._cache
+    assert len(calls)==before+2 and {(tuple(parts),voice) for parts,voice in calls[before:]}=={(tuple(job.scripts[0]),selected),(tuple(job.scripts[1]),other)}
+    assert key(0,selected) in narration._cache and key(1,other) in narration._cache
     assert media.schedule(request())['preparedSteps']==len(job.scripts)
 
 
@@ -188,7 +231,7 @@ def test_understanding_reviews_are_warm_but_private_until_the_correct_answer(pre
 
 def test_advancing_steps_yields_unused_previous_step_audio(prepared,monkeypatch):
     session,_,_=prepared
-    media.schedule(request());job=media._jobs[SESSION];job.active_task=(0,speech.DEFAULT_VOICE)
+    media.schedule(request());job=media._jobs[SESSION];job.active_tasks.add((0,speech.DEFAULT_VOICE))
     yielded=[];monkeypatch.setattr(narration,'cancel_preparation',lambda *args:yielded.append(args))
     lesson.answer_lesson(lesson.TurnRequest(owner=session.owner,sessionId=SESSION,revision=0,answer='11/15'))
     media.schedule(request().model_copy(update={'revision':1}))
@@ -197,7 +240,7 @@ def test_advancing_steps_yields_unused_previous_step_audio(prepared,monkeypatch)
 
 
 @pytest.mark.parametrize('foreground_waiting',[False,True])
-def test_voice_change_yields_unused_old_voice_but_protects_foreground_listener(prepared,foreground_waiting):
+def test_voice_change_keeps_the_other_current_voice_in_flight(prepared,foreground_waiting):
     media.schedule(request())
     parts=media._jobs[SESSION].scripts[0]
     key=narration.request_key(narration.NarrationRequest(owner='pupil-a',sessionId=SESSION,revision=0,paragraphs=parts))
@@ -206,7 +249,7 @@ def test_voice_change_yields_unused_old_voice_but_protects_foreground_listener(p
     if foreground_waiting:narration._foreground_waiters[key]=1
     try:
         media.schedule(request(voice=speech.SPEECH_VOICES[1]))
-        assert cancellation.is_set() is not foreground_waiting
+        assert not cancellation.is_set()
         assert media._next(SESSION,media._jobs[SESSION])==(0,speech.SPEECH_VOICES[1])
     finally:
         narration._background.pop(key,None);narration._foreground_waiters.pop(key,None)
@@ -327,17 +370,17 @@ def test_foreground_pressure_cancels_speculation_and_reserves_a_retry_window(pre
         finally:narration._render_slot.release()
 
 
-def test_worker_warms_the_next_step_while_the_same_pupils_current_step_is_rendering(prepared,monkeypatch):
+def test_worker_warms_the_current_other_voice_while_the_preferred_voice_is_rendering(prepared,monkeypatch):
     session,calls,_=prepared
     media.schedule(request());job=media._jobs[SESSION]
-    current_parts=job.scripts[0];next_parts=job.scripts[1]
+    current_parts=job.scripts[0];other_voice=speech.SPEECH_VOICES[1]
     key=narration.request_key(narration.NarrationRequest(owner=session.owner,sessionId=SESSION,revision=0,paragraphs=current_parts))
     pending=Future();narration._inflight[key]=pending
     assert narration._render_slot.acquire(blocking=False)
     held=True;next_warmed=[];original=narration.render_audio
     def render(parts,voice,*args,**kwargs):
         nonlocal held
-        if parts==next_parts and voice==speech.DEFAULT_VOICE and not next_warmed:
+        if parts==current_parts and voice==other_voice and not next_warmed:
             assert not pending.done()
             next_warmed.append(True)
             with narration._cache_lock:
@@ -346,9 +389,9 @@ def test_worker_warms_the_next_step_while_the_same_pupils_current_step_is_render
         return original(parts,voice,*args,**kwargs)
     monkeypatch.setattr(narration,'render_audio',render)
     try:
-        assert media._next(SESSION,job)==(1,speech.DEFAULT_VOICE)
+        assert media._next(SESSION,job)==(0,other_voice)
         media._run()
-        assert next_warmed and pending.done() and calls[0]==(next_parts,speech.DEFAULT_VOICE)
+        assert next_warmed and pending.done() and calls[0]==(current_parts,other_voice)
         assert (current_parts,speech.DEFAULT_VOICE) not in calls
         assert media.schedule(request())['preparedSteps']==2
     finally:

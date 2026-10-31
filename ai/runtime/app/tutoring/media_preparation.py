@@ -37,13 +37,13 @@ class Work:
     characters: int = 0
     failures: int = 0
     stopped: bool = False
-    working: bool = False
-    active_task: tuple | None = None
+    active_tasks: set = field(default_factory=set)
+    reserved_characters: int = 0
 
 
 _jobs: OrderedDict[str, Work] = OrderedDict()
 _lock = threading.RLock()
-_worker: threading.Thread | None = None
+_workers: set[threading.Thread] = set()
 
 
 def scripts_for(session):
@@ -125,11 +125,10 @@ def schedule(request: PrepareRequest):
             job = Work(session, scripts, request.voice, extra_scripts=reviews,
                 projected_plan=session.plan,characters=previous_characters)
             _jobs[request.sessionId] = job
-        elif job.voice != request.voice:
-            # Yield unused speculation in the old voice; completed chunks remain reusable.
-            narration.cancel_preparation(request.owner, request.sessionId, job.voice)
-        elif job.active_task is not None:
-            index,voice=job.active_task;current=len(session.answers);count=len(job.scripts)
+        # Changing preference changes priority, not the validity of the other
+        # voice. Keep its current render alive so switching back can reuse it.
+        for index,voice in job.active_tasks:
+            current=len(session.answers);count=len(job.scripts)
             if index<count and index<current or count<=index<2*count and index-count<current-1:
                 # Do not finish an unused old step while the pupil is already reading the next.
                 narration.cancel_preparation(request.owner,request.sessionId,voice,request.revision)
@@ -139,13 +138,14 @@ def schedule(request: PrepareRequest):
         current=len(session.answers);count=len(job.scripts)
         nearby={current,current+1,count+current} if current<count else {2*count}
         if 0<current<count:nearby.add(count+current-1)
-        if job.voice_failures.get(request.voice,0)<2:
-            with narration._cache_lock:
+        with narration._cache_lock:
+            for voice in SPEECH_VOICES:
+                if job.voice_failures.get(voice,0)>=2:continue
                 for index in nearby:
-                    task=(index,request.voice)
+                    task=(index,voice)
                     if task not in job.ready:continue
                     parts=job.scripts[index] if index<count else job.extra_scripts[index]
-                    entry=narration._cache.get((session.owner,request.sessionId,request.voice,False,tuple(parts)))
+                    entry=narration._cache.get((session.owner,request.sessionId,voice,False,tuple(parts)))
                     if entry is None or entry[0]<=time.monotonic():
                         job.ready.discard(task);job.attempted.discard(task)
         _launch()
@@ -153,10 +153,11 @@ def schedule(request: PrepareRequest):
 
 
 def _launch():
-    global _worker
-    if _worker is None or not _worker.is_alive():
-        _worker = threading.Thread(target=_run, name='lesson-media-prepare', daemon=True)
-        _worker.start()
+    # Exactly two workers share narration's two render slots. A slow voice can
+    # no longer block the other voice's queue; foreground promotion stays shared.
+    while len(_workers)<2:
+        worker=threading.Thread(target=_run,name='lesson-media-prepare',daemon=True)
+        _workers.add(worker);worker.start()
 
 
 def refresh_after_plan(session_id,session):
@@ -201,13 +202,10 @@ def _next(session_id,job):
     indexes.append(2*count)
     indexes = list(dict.fromkeys(index for index in indexes if index in script_ids(job)))
     voices = [job.voice, *[voice for voice in SPEECH_VOICES if voice != job.voice]]
-    # Protect the current/next selected speech first, then the alternative for
-    # the current content. Switching voice need not wait for the entire lesson.
-    primary=[(index,job.voice) for index in indexes]
-    alternative=[(index,voices[1]) for index in indexes]
-    order=primary[:2]+alternative[:1]+primary[2:]+alternative[1:]
-    eligible=[task for task in order if task not in job.attempted]
-    eligible.extend(task for task in order if task in job.retry and task in job.attempted)
+    # Pair the two voices for each nearby script before moving to the next.
+    order=[(index,voice) for index in indexes for voice in voices]
+    eligible=[task for task in order if task not in job.attempted and task not in job.active_tasks]
+    eligible.extend(task for task in order if task in job.retry and task in job.attempted and task not in job.active_tasks)
     with narration._cache_lock:
         for task in eligible:
             index,voice=task
@@ -220,31 +218,40 @@ def _next(session_id,job):
 
 
 def _run():
-    global _worker
+    try:
+        _work_loop()
+    finally:
+        with _lock:_workers.discard(threading.current_thread())
+
+
+def _work_loop():
     while True:
         with _lock:
             for key, old in list(_jobs.items()):
                 if not _valid(key, old): _jobs.pop(key, None)
             selected = next(((key, job, task) for key, job in _jobs.items() if (task:=_next(key,job)) is not None), None)
             if not selected:
-                _worker = None; return
+                _workers.discard(threading.current_thread());return
             session_id, job, task = selected
             index, voice = task
-            job.working = True
-            job.active_task = task
+            job.active_tasks.add(task)
             _jobs.move_to_end(session_id)
         parts = job.scripts[index] if index<len(job.scripts) else job.extra_scripts[index]
+        reserved=0
         try:
             if not _valid(session_id, job): continue
-            if job.characters + sum(map(len, parts)) > MAX_CHARACTERS:
-                with _lock:
+            with _lock:
+                size=sum(map(len,parts))
+                if job.characters+job.reserved_characters+size>MAX_CHARACTERS:
                     job.attempted.add(task); job.retry.discard(task)
-                continue
+                    continue
+                job.reserved_characters+=size;reserved=size
             request = narration.NarrationRequest(owner=job.session.owner, sessionId=session_id, revision=job.session.revision,
                 paragraphs=parts, voice=voice)
             data = narration.prepare_private(request, job.session)
             with _lock:
                 if not _valid(session_id, job): continue
+                job.reserved_characters-=reserved;reserved=0
                 job.voice_failures[voice] = 0
                 job.attempted.add(task); job.retry.discard(task); job.ready.add(task); job.characters += sum(map(len, parts))
         except (narration.NarrationBusy, lesson.StaleTurn):
@@ -262,4 +269,5 @@ def _run():
                     # Retry this one missing asset only after untouched lesson steps and the other voice.
                     job.retry.add(task)
         finally:
-            with _lock: job.working = False;job.active_task=None
+            with _lock:
+                job.reserved_characters-=reserved;job.active_tasks.discard(task)

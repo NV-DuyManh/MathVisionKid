@@ -1,106 +1,79 @@
-import axios from 'axios';
+import axios, { CanceledError } from 'axios';
 import { ENV } from '../../config/env';
 import { tokenStorage } from '../auth/tokenStorage';
+import { sessionEvents } from '../auth/sessionEvents';
+import { Platform } from 'react-native';
 // eslint-disable-next-line import/no-named-as-default-member
-const apiClient = axios.create({
-    baseURL: ENV.API_BASE_URL,
-    timeout: 60000,
+const apiClient = axios.create({ baseURL: ENV.API_BASE_URL, timeout: 60000 });
+let refreshing: { token: string; promise: Promise<string> } | null = null;
+const identity = async () => tokenStorage.getSessionId?.() ?? tokenStorage.getRefreshToken();
+async function expire(id: string | null, reason: 'expired' | 'forbidden' = 'expired') {
+  if (await identity() !== id) return;
+  await tokenStorage.clearTokens();
+  delete apiClient.defaults.headers.common.Authorization;
+  sessionEvents.expired(reason);
+}
+apiClient.interceptors.request.use(async config => {
+  config.baseURL = ENV.API_BASE_URL;
+  if (config.url?.startsWith('/student/quizzes')) config.headers['X-MathVision-Client'] = `confirmed-quiz-v3:${Platform.OS}`;
+  const before = await identity();
+  const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
+  const token = publicAuth ? null : await tokenStorage.getAccessToken();
+  const refresh = await tokenStorage.getRefreshToken();
+  if (before !== await identity()) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
+  const request = config as any;
+  request._identity ??= before; request._session ??= refresh;
+  if (publicAuth) {
+    delete config.headers.Authorization;
+  } else if (!config.url?.startsWith('/auth/')) {
+    if (token && /^(demo|mock)[_-]/i.test(token)) throw new Error('Phiên thử nghiệm không được sử dụng với dữ liệu trực tuyến. Vui lòng đăng nhập lại.');
+    if (token) config.headers.Authorization = `Bearer ${token}`; else delete config.headers.Authorization;
+  }
+  const form = config.data && (config.data instanceof FormData || typeof config.data.append === 'function' || Boolean(config.data._parts));
+  if (form) { config.headers.delete('Content-Type'); config.headers.delete('content-type'); }
+  if (!config.headers['X-Request-ID']) config.headers['X-Request-ID'] = 'req_' + Math.random().toString(36).slice(2, 10) + '_' + Date.now().toString(36);
+  return config;
 });
-let isRefreshing = false;
-let failedQueue: any[] = [];
-const processQueue = (error: any, token: string | null = null) => {
-    failedQueue.forEach(prom => {
-        if (error) {
-            prom.reject(error);
-        }
-        else {
-            prom.resolve(token);
-        }
-    });
-    failedQueue = [];
-};
-apiClient.interceptors.request.use(async (config) => {
-    config.baseURL = ENV.API_BASE_URL;
-    const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
-    const token = publicAuth ? null : await tokenStorage.getAccessToken();
-    if (publicAuth) {
-        delete config.headers['Authorization'];
-    } else if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    // For FormData requests (e.g. image upload), ensure Content-Type is NOT set
-    // so React Native / OkHttp automatically generates multipart/form-data with boundary!
-    const isFormData = config.data && (config.data instanceof FormData ||
-        typeof config.data.append === 'function' ||
-        Boolean(config.data._parts));
-    if (isFormData && config.headers) {
-        if (typeof config.headers.delete === 'function') {
-            config.headers.delete('Content-Type');
-            config.headers.delete('content-type');
-        }
-        delete config.headers['Content-Type'];
-        delete config.headers['content-type'];
-    }
-    // Generate or preserve X-Request-ID for end-to-end traceability
-    if (!config.headers['X-Request-ID']) {
-        const generatedReqId = 'req_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
-        config.headers['X-Request-ID'] = generatedReqId;
-    }
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
-apiClient.interceptors.response.use((response) => {
-    const resReqId = response.headers?.['x-request-id'] || response.headers?.['X-Request-ID'];
-    if (resReqId && response.data && typeof response.data === 'object' && !response.data.requestId) {
-        response.data.requestId = resReqId;
-    }
-    return response;
-}, async (error) => {
-    const originalRequest = error.config;
-    if (error.response?.status === 401 && originalRequest && !/\/auth\/(login|refresh|logout)(?:\?|$)/.test(originalRequest.url || '')) {
-        if (!originalRequest._retry) {
-            originalRequest._retry = true;
-            if (isRefreshing) {
-                return new Promise(function (resolve, reject) {
-                    failedQueue.push({ resolve, reject });
-                })
-                    .then(token => {
-                    originalRequest.headers['Authorization'] = 'Bearer ' + token;
-                    return apiClient(originalRequest);
-                })
-                    .catch(err => {
-                    return Promise.reject(err);
-                });
-            }
-            isRefreshing = true;
-            const refreshToken = await tokenStorage.getRefreshToken();
-            if (!refreshToken) {
-                processQueue(error);
-                isRefreshing = false;
-                // Optionally redirect to login or clear auth context here
-                return Promise.reject(error);
-            }
-            try {
-                const response = await axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken }, { timeout: 8000 });
-                const data = response.data;
-                await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
-                apiClient.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
-                originalRequest.headers['Authorization'] = `Bearer ${data.accessToken}`;
-                processQueue(null, data.accessToken);
-                isRefreshing = false;
-                return apiClient(originalRequest); // Retry original request once
-            }
-            catch (refreshError) {
-                processQueue(refreshError, null);
-                isRefreshing = false;
-                delete apiClient.defaults.headers.common['Authorization'];
-                await tokenStorage.clearTokens();
-                // Redirect to login handled by AuthContext
-                return Promise.reject(refreshError);
-            }
-        }
-    }
-    return Promise.reject(error);
+apiClient.interceptors.response.use(async response => {
+  const request = response.config as any;
+  if (!request.url?.startsWith('/auth/') && request._identity !== await identity()) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
+  const requestId = response.headers?.['x-request-id'];
+  if (requestId && response.data && typeof response.data === 'object' && !response.data.requestId) response.data.requestId = requestId;
+  return response;
+}, async error => {
+  const request = error.config;
+  if (request && error.response?.status === 403 && !request.url?.startsWith('/auth/') && request._identity === await identity()) {
+    let allowed = false;
+    try {
+      const token = await tokenStorage.getAccessToken();
+      const { data } = await axios.get(`${ENV.API_BASE_URL}/me`, { headers: { Authorization: `Bearer ${token}` }, timeout: 10000 });
+      allowed = data.role === 'STUDENT' && data.active === true;
+    } catch { /* Never use a saved profile as authority after a forbidden response. */ }
+    if (!allowed) await expire(request._identity, 'forbidden');
+  }
+  if (!request || request.url?.startsWith('/auth/') || error.response?.status !== 401 || request.signal?.aborted) throw error;
+  const id = await identity();
+  if (request._identity !== id) throw error;
+  const refresh = await tokenStorage.getRefreshToken();
+  if (request._retry || !refresh || /^(demo|mock)[_-]/i.test(refresh)) { await expire(id); throw error; }
+  request._retry = true;
+  if (request._session !== refresh) {
+    request._session = refresh; request.headers.Authorization = `Bearer ${await tokenStorage.getAccessToken()}`; return apiClient(request);
+  }
+  if (!refreshing || refreshing.token !== refresh) {
+    const promise = axios.post(`${ENV.API_BASE_URL}/auth/refresh`, { refreshToken: refresh }, { timeout: 8000 })
+      .then(async ({ data }) => {
+        if (await identity() !== id || await tokenStorage.getRefreshToken() !== refresh) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
+        if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
+        await tokenStorage.saveTokens(data.accessToken, data.refreshToken, id);
+        if (await identity() !== id) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
+        return data.accessToken as string;
+      }).catch(async cause => { await expire(id); throw cause; })
+      .finally(() => { if (refreshing?.token === refresh) refreshing = null; });
+    refreshing = { token: refresh, promise };
+  }
+  request.headers.Authorization = `Bearer ${await refreshing.promise}`;
+  request._session = await tokenStorage.getRefreshToken();
+  return apiClient(request);
 });
 export default apiClient;

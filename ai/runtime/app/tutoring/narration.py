@@ -164,6 +164,7 @@ def narration_status(request):
 
 def prepare_narration(request):
     """Start a bounded owned job; HTTP callers poll instead of waiting for synthesis."""
+    global _background_pause_until
     session = owned(request)
     key = request_key(request)
     with _cache_lock:
@@ -175,7 +176,17 @@ def prepare_narration(request):
         if running and not request.prefetch:
             _promote(key,existing)
         elif not (cached and cached[0]>now) and not running:
-            if not _prepare_slots.acquire(blocking=False):raise NarrationBusy()
+            if not _prepare_slots.acquire(blocking=False):
+                if not request.prefetch:
+                    # A new explicit reply/step must not queue behind two old
+                    # speculative public jobs. Preserve the other current voice.
+                    _background_pause_until=now+2
+                    for other,waiting in _public_jobs.items():
+                        same_script=other[:2]==key[:2] and other[3:]==key[3:]
+                        if not same_script and waiting.get('prefetch') and not _foreground_waiters.get(other):
+                            waiting['cancel'].set()
+                            if other in _background:_background[other].set()
+                raise NarrationBusy()
             job=dict(started=now,expires=session.expires,prefetch=request.prefetch,revision=request.revision,
                      cancel=threading.Event(),hold=False,finished=False)
             try:
@@ -329,6 +340,19 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
     check()
     key = request_key(request)
     with _cache_lock:
+        cached=_cache.get(key)
+        if cached and cached[0]>time.monotonic():
+            check();_cache.move_to_end(key)
+            return cached[1]
+    # The session/issued-text check above remains mandatory even for a durable hit.
+    from app.tutoring import catalog
+    saved=catalog.load_audio(request)
+    if saved is not None:
+        check()
+        with _cache_lock:_store_audio(key,session,saved)
+        logger.info('Lesson catalog audio hit')
+        return saved
+    with _cache_lock:
         now = time.monotonic()
         for old, (expires, _) in list(_cache.items()):
             if expires <= now:
@@ -362,7 +386,8 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
                 if not background:
                     _background_pause_until = time.monotonic()+2
                     for old, cancellation in _background.items():
-                        if not _foreground_waiters.get(old): cancellation.set()
+                        same_script=old[:2]==key[:2] and old[3:]==key[3:]
+                        if not same_script and not _foreground_waiters.get(old): cancellation.set()
                 raise NarrationBusy()
             pending = _inflight[key] = Future()
             if background: _background[key] = job['cancel'] if job is not None else threading.Event()
@@ -422,6 +447,7 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
             _progress[key].update(phase='ready', percent=100, elapsedMs=int((time.monotonic()-started)*1000))
             if job is not None:job.pop('resume_cancelled',None)
         pending.set_result(data)
+        catalog.save_audio(request,data)
         logger.info('Narration rendered elapsed_ms=%d bytes=%d voice=%s chars=%d parts=%d background=%s',
             (time.monotonic()-started)*1000,len(data),request.voice,sum(map(len,request.paragraphs)),len(request.paragraphs),background)
         return data

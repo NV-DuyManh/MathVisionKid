@@ -49,6 +49,8 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
   const mockPush = jest.fn();
   const mockBack = jest.fn();
   const mockReplace = jest.fn();
+  let renderer: any;
+  afterEach(() => { act(() => renderer?.unmount()); renderer = undefined; });
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -107,7 +109,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       status: 'denied',
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -129,7 +130,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       totalCount: 0,
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -151,7 +151,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       totalCount: 50,
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -173,7 +172,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       totalCount: 2,
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -195,7 +193,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       totalCount: 2,
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -235,7 +232,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       localUri: 'file:///data/photos/local_math1.jpg',
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -274,7 +270,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       totalCount: 2,
     });
 
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);
     });
@@ -288,7 +283,6 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
   });
 
   it('GALLERY-08: Home opens the camera immediately without a source selection sheet', async () => {
-    let renderer: any;
     await act(async () => {
       renderer = TestRenderer.create(<HomeScreen />);
     });

@@ -5,6 +5,8 @@ from app.config import settings
 def default_fixture_mode(monkeypatch):
     """Ensure unit/regression tests run in FIXTURE mode by default unless explicitly overridden by model tests."""
     monkeypatch.setattr(settings, "runtime_mode", "FIXTURE")
+    # Tests explicitly opt into a temporary catalog, never read/write pupil state.
+    monkeypatch.setattr(settings, "lesson_catalog_enabled", False)
 
 
 @pytest.fixture(autouse=True)

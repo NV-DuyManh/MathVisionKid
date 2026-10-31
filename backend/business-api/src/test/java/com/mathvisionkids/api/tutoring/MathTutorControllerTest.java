@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class MathTutorControllerTest {
     @Test @WithMockUser(username="real-pupil",roles="STUDENT") void privateDraftPreparationUsesAuthenticatedOwner() throws Exception {
-        when(service.prepareLesson(any(),eq("real-pupil"))).thenReturn(new LessonPreparation("preparing"));
+        when(service.prepareLesson(any(),eq("real-pupil"))).thenReturn(new LessonPreparationStatus("preparing"));
         mvc.perform(post("/api/v1/student/tutor/lesson/prepare").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"problemText\":\"Có 7 hộp, mỗi hộp 9 bút.\",\"workText\":\"\",\"owner\":\"victim\"}"))
                 .andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"))

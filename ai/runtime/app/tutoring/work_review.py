@@ -132,7 +132,10 @@ alternative <=600, optional and ONLY for fully correct work: a brief conceptual 
 to simplify or check the same task, without writing another solution. Otherwise empty.
 
 Generated summary, praise, feedback, hints, nextAction and alternative must use NO
-digits, spelled-out numerical values, equations, answer labels or computed answers.
+digits, spelled-out numerical values, equations or computed answers. You may refer
+generically to the pupil's existing answer line, for example 'Đáp số khớp với kết
+quả em vừa tính', but NEVER state an answer value. Unit symbols such as m² are
+dimensions, not computed quantities; prefer writing 'mét vuông' in your prose.
 The exact written source is shown separately, so refer to its quantities and actions
 without repeating numerical results. Never dump a full solution, expose a corrected
 answer, provide code, URLs, provider/architecture details or developer instructions.
@@ -153,6 +156,7 @@ Do not assume a correct final numeral proves the intervening method is valid.
 
 _TEACHING_REFERENCES = re.compile(r'\b(?:một phân số|một phần nào đó|hai phân số đã cho|hai tử số)\b', re.I)
 _ANSWER_ACTIONS = re.compile(r'\b(?:viết đáp số|ra đáp số cuối cùng)(?: nhé)?(?=\s*(?:[.!?](?:\s|$)|$))', re.I)
+_ANSWER_REFERENCES = re.compile(r'\bđáp (?:án|số)(?=\s+(?:(?:đều\s+)?chính xác|(?:trùng|khớp)\s+với\s+kết quả)\b)', re.I)
 
 
 def _safe_source(assessment: _Assessment, rows: list[str]):
@@ -175,21 +179,49 @@ def _safe_assessment(assessment: _Assessment, rows: list[str]):
         # Indefinite fraction references and structural operand counts reveal no
         # value. A terminal request to write an answer is not an answer label.
         without_references = _TEACHING_REFERENCES.sub('', without_temporal)
-        without_answer_actions = _ANSWER_ACTIONS.sub('', text)
-        if (any(char.isnumeric() for char in text)
+        without_answer_actions = _ANSWER_REFERENCES.sub('', _ANSWER_ACTIONS.sub('', text))
+        # A dimension's exponent is not an answer value. Keep all standalone
+        # digits/number words guarded, including a value followed by this unit.
+        without_unit_powers = re.sub(r'\b(?:mm|cm|dm|dam|hm|km|m)[²³]\b', 'đơn vị diện tích hoặc thể tích', text, flags=re.I)
+        if (any(char.isnumeric() for char in without_unit_powers)
                 or _NUMBER_VALUES.search(_PEDAGOGIC_COUNTERS.sub('', without_references))
                 or re.search(r'[=≠≈<>]|\n\s*[-*•]|\b(?:dap (?:an|so))\b', _fold(without_answer_actions))):
             raise ValueError('Review teaching exposed an answer or unsafe content')
 
 
-def _fallback(request: WorkReviewRequest, summary='Mình cần đối chiếu thêm trước khi kết luận bài làm. Em giữ nguyên các bước đã viết nhé.') -> WorkReviewResponse:
-    return WorkReviewResponse(sourceId=request.sourceId, status='NEEDS_REVIEW', summary=summary,
-        praise='', alternative='',
-        rows=[ReviewRow(lineIndex=index, sourceText=text, status='UNSURE',
-            feedback='Cần làm rõ bước này trước khi kết luận.',
-            hints=['Em chỉ lại dữ kiện và cách em làm ở bước này nhé.'])
-            for index, text in enumerate(source_rows(request.workText))],
+def _fallback(request: WorkReviewRequest, summary=None) -> WorkReviewResponse:
+    checked = []
+    for index, text in enumerate(source_rows(request.workText)):
+        calculation = checked_written_calculation(text)
+        wrong = calculation is not None and not calculation[0]
+        # The confirmed source itself proves a false equality even if optional
+        # cloud prose is unusable. Never infer method/completeness for other rows.
+        checked.append(ReviewRow(lineIndex=index, sourceText=text, status='FIX' if wrong else 'UNSURE',
+            feedback='Hai vế phép tính em viết chưa bằng nhau. Em kiểm tra lại cách tính nhé.' if wrong else 'Cần làm rõ bước này trước khi kết luận.',
+            hints=['Em thực hiện lại phép tính rồi đối chiếu từng dấu bằng.'] if wrong else ['Em chỉ lại dữ kiện và cách em làm ở bước này nhé.']))
+    revision = any(row.status == 'FIX' for row in checked)
+    return WorkReviewResponse(sourceId=request.sourceId, status='NEEDS_REVISION' if revision else 'NEEDS_REVIEW',
+        summary=summary or ('Có phép tính chưa khớp được kiểm tra trực tiếp từ bài em viết. Các bước còn lại cần được đối chiếu thêm.' if revision else
+                           'Mình cần đối chiếu thêm trước khi kết luận bài làm. Em giữ nguyên các bước đã viết nhé.'),
+        praise='', alternative='', rows=checked,
         nextAction='Em chọn bước chưa rõ để đọc lại đề và giải thích cách em làm nhé.')
+
+
+def _safe_feedback_copy(assessment: _Assessment) -> _Assessment:
+    # Optional prose cannot change independently corroborated mathematical flags.
+    # Replace the WHOLE explanation, never keep fragments containing answer values.
+    for text in [assessment.summary, assessment.praise, assessment.nextAction, assessment.alternative,
+                 *[text for row in assessment.rows for text in [row.feedback, *row.hints]]]:
+        safe_public(text)  # Technical/injection/uncertain content still fails closed.
+    return _Assessment.model_validate({**assessment.model_dump(),
+        'summary': 'Các bước em viết đã trả lời đủ yêu cầu của đề.' if assessment.approved() else 'Em xem nhận xét gắn với từng dòng bài đã viết nhé.',
+        'praise': 'Em đã chọn cách làm phù hợp và giữ đúng đơn vị.' if assessment.approved() and assessment.praise else '',
+        'nextAction': 'Em đọc lại câu trả lời và đối chiếu với câu hỏi của đề nhé.', 'alternative': '',
+        'rows': [{**row.model_dump(),
+            'feedback': 'Dòng này phù hợp với cách làm đã được đối chiếu.' if row.status == 'OK' else
+                        'Dòng này cần đối chiếu lại với yêu cầu của đề.' if row.status == 'FIX' else 'Chưa đủ cơ sở kết luận cho dòng này.',
+            'hints': [] if row.status == 'OK' else ['Em kiểm tra dữ kiện, phép tính và đơn vị ở dòng này với đề gốc.']}
+            for row in assessment.rows]})
 
 
 async def review_work(request: WorkReviewRequest) -> WorkReviewResponse:
@@ -205,10 +237,24 @@ async def review_work(request: WorkReviewRequest) -> WorkReviewResponse:
         # Neither assessment sees the other's conclusions; both get only source.
         # Sequential calls also work when the shared provider concurrency is one.
         async with asyncio.timeout(32.0):
-            replies = [await _generate(prompt, payload, max_output_tokens=7000, timeout_seconds=14.0,
-                reasoning=True, response_schema=REVIEW_SCHEMA) for prompt in (REVIEW_PROMPT, VERIFY_PROMPT)]
-    except TimeoutError:
-        raise TutorUnavailable() from None
+            replies = []
+            for prompt in (REVIEW_PROMPT, VERIFY_PROMPT):
+                for attempt in range(2):
+                    try:
+                        replies.append(await _generate(prompt, payload, max_output_tokens=7000, timeout_seconds=14.0,
+                            reasoning=True, response_schema=REVIEW_SCHEMA))
+                        break
+                    except TutorUnavailable as exc:
+                        if attempt or exc.reason not in {'unavailable', 'busy'}:
+                            raise
+                        await asyncio.sleep(.25)
+    except (TimeoutError, TutorUnavailable) as exc:
+        partial = _fallback(request)
+        if partial.status == 'NEEDS_REVISION':
+            return partial
+        if isinstance(exc, TutorUnavailable):
+            raise
+        raise TutorUnavailable('timeout') from None
     try:
         assessments = [_Assessment.model_validate(reply) for reply in replies]
         for assessment in assessments:
@@ -222,17 +268,27 @@ async def review_work(request: WorkReviewRequest) -> WorkReviewResponse:
             safe.append(assessment)
         except ValueError:
             pass  # Never publish unsafe prose, even when its judgment is corroborated.
+    def judgment(item):
+        return (item.sourceFaithful, item.methodCorrect, item.unitsCorrect,
+            item.mathematicsCorrect, item.complete, tuple(row.status for row in item.rows))
     if not safe:
-        return _fallback(request)
-    if len(safe) == 1:
-        def judgment(item):
-            return (item.sourceFaithful, item.methodCorrect, item.unitsCorrect,
-                item.mathematicsCorrect, item.complete, tuple(row.status for row in item.rows))
+        # Do not call another model merely to format an already agreed judgment.
+        # Source binding, both judgments and the local arithmetic checks still apply.
         if judgment(assessments[0]) != judgment(assessments[1]):
             return _fallback(request)
-        # Both strictly source-bound judgments agree. Use the one FULLY safe
-        # explanation as a whole, never stitch fields or rewrite unsafe content.
-        assessments = [safe[0], next(item for item in assessments if item is not safe[0])]
+        try:
+            candidate = _safe_feedback_copy(assessments[0])
+            _safe_feedback_copy(assessments[1])
+            _safe_assessment(candidate, rows)
+            safe = [candidate]
+        except (ValidationError, TypeError, ValueError):
+            return _fallback(request)
+    if len(safe) == 1:
+        if judgment(assessments[0]) != judgment(assessments[1]):
+            return _fallback(request)
+        # Keep the other independent assessment alongside the safe presentation.
+        other = assessments[0] if safe[0] is assessments[1] else assessments[1]
+        assessments = [safe[0], other]
 
     checked = []
     for index, text in enumerate(rows):

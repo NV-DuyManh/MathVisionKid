@@ -1,0 +1,38 @@
+[
+  {
+    "case": 0,
+    "outcome": "ready",
+    "elapsed_s": 16.062,
+    "steps": 4,
+    "final_index": 3,
+    "answers": [
+      "135/2",
+      "675000",
+      "900",
+      "750"
+    ],
+    "units": [
+      "m²",
+      "cm²",
+      "cm²",
+      "viên"
+    ]
+  },
+  {
+    "case": 1,
+    "outcome": "ready",
+    "elapsed_s": 9.61,
+    "steps": 3,
+    "final_index": 2,
+    "answers": [
+      "320000",
+      "1600",
+      "200"
+    ],
+    "units": [
+      "cm²",
+      "cm²",
+      "viên gạch"
+    ]
+  }
+]

@@ -1,494 +1,69 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Button,
-  Divider,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  CircularProgress,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
-import BlockIcon from '@mui/icons-material/Block';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import LockResetIcon from '@mui/icons-material/LockReset';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import SchoolIcon from '@mui/icons-material/School';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Alert, Avatar, Box, Button, Card, CardContent, Divider, Skeleton, Typography } from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import EditOutlined from '@mui/icons-material/EditOutlined';
+import LockResetOutlined from '@mui/icons-material/LockResetOutlined';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { adminService } from '../services/api/adminService';
+import { useAdminAction } from '../hooks/useAdminAction';
+import { useAuth } from '../context/AuthContext';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
+import { PageContent } from '../components/common/PageContent';
+import { RequestError } from '../components/common/RequestError';
 import { RoleChip } from '../components/common/RoleChip';
 import { StatusChip } from '../components/common/StatusChip';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
-import type { UpdateUserRequest, ResetPasswordResponse } from '../types';
-
-export const UserDetailPage: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  // Dialog states
-  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-  const [editDisplayName, setEditDisplayName] = useState<string>('');
-  const [editGradeLevel, setEditGradeLevel] = useState<number>(3);
-  const [editError, setEditError] = useState<string | null>(null);
-
-  const [isDisableConfirmOpen, setIsDisableConfirmOpen] = useState<boolean>(false);
-  const [isEnableConfirmOpen, setIsEnableConfirmOpen] = useState<boolean>(false);
-
-  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState<boolean>(false);
-  const [resetSuccessData, setResetSuccessData] = useState<ResetPasswordResponse | null>(null);
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
-
-  // Fetch user details
-  const { data: user, isLoading, error } = useQuery({
-    queryKey: ['admin-user', userId],
-    queryFn: () => adminService.getUser(userId!),
-    enabled: !!userId,
-  });
-
-  // Edit mutation
-  const editMutation = useMutation({
-    mutationFn: (payload: UpdateUserRequest) => adminService.updateUser(userId!, payload),
-    onSuccess: (updated) => {
-      queryClient.setQueryData(['admin-user', userId], updated);
-      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-      setIsEditOpen(false);
-      setEditError(null);
-    },
-    onError: (err: unknown) => {
-      const e = err as { response?: { data?: { error?: { message?: string } } }; message?: string };
-      setEditError(e.response?.data?.error?.message || e.message || 'Cập nhật thất bại.');
-    },
-  });
-
-  // Disable mutation
-  const disableMutation = useMutation({
-    mutationFn: () => adminService.disableUser(userId!),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-user', userId] });
-      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-      queryClient.invalidateQueries({ queryKey: ['admin-dashboard'] });
-      setIsDisableConfirmOpen(false);
-    },
-  });
-
-  // Enable mutation
-  const enableMutation = useMutation({
-    mutationFn: () => adminService.enableUser(userId!),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-user', userId] });
-      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-      queryClient.invalidateQueries({ queryKey: ['admin-dashboard'] });
-      setIsEnableConfirmOpen(false);
-    },
-  });
-
-  // Reset password mutation
-  const resetPasswordMutation = useMutation({
-    mutationFn: () => adminService.resetPassword(userId!),
-    onSuccess: (data) => {
-      setResetSuccessData(data);
-      setIsResetConfirmOpen(false);
-    },
-  });
-
-  const handleOpenEdit = () => {
-    if (!user) return;
-    setEditDisplayName(user.displayName);
-    if (user.role === 'STUDENT' && user.gradeLevel) {
-      setEditGradeLevel(user.gradeLevel);
-    }
-    setEditError(null);
-    setIsEditOpen(true);
-  };
-
-  const handleEditSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const payload: UpdateUserRequest = {
-      displayName: editDisplayName.trim(),
-    };
-    if (user?.role === 'STUDENT') {
-      payload.gradeLevel = editGradeLevel;
-    }
-    editMutation.mutate(payload);
-  };
-
-  const handleCopyPassword = () => {
-    if (resetSuccessData?.temporaryPassword) {
-      navigator.clipboard.writeText(resetSuccessData.temporaryPassword);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <Box>
-        <AdminTopbar title="Chi tiết Người dùng" />
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-          <CircularProgress size={36} sx={{ color: '#211844' }} />
-        </Box>
-      </Box>
-    );
-  }
-
-  if (error || !user) {
-    return (
-      <Box>
-        <AdminTopbar title="Chi tiết Người dùng" />
-        <Box sx={{ p: 4 }}>
-          <Alert severity="error" sx={{ mb: 2 }}>
-            Không thể tải thông tin người dùng hoặc người dùng không tồn tại.
-          </Alert>
-          <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/users')}>
-            Quay lại danh sách
-          </Button>
-        </Box>
-      </Box>
-    );
-  }
-
-  return (
-    <Box>
-      <AdminTopbar title="Chi tiết Người dùng" subtitle={`ID: ${user.userId}`} />
-
-      <Box sx={{ p: { xs: 2, md: 4 } }}>
-        {/* Back Link */}
-        <Box sx={{ mb: 2 }}>
-          <Button
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate('/users')}
-            sx={{ color: '#655D76', fontWeight: 600 }}
-          >
-            Danh sách người dùng
-          </Button>
-        </Box>
-
-        {/* Profile Card */}
-        <Card sx={{ mb: 3 }}>
-          <CardContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-              <Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: '#211844' }}>
-                  {user.displayName}
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#655D76', mt: 0.5 }}>
-                  {user.email}
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1, mt: 1.5, alignItems: 'center' }}>
-                  <RoleChip role={user.role} />
-                  <StatusChip active={user.active} />
-                  {user.role === 'STUDENT' && user.gradeLevel && (
-                    <Typography variant="caption" sx={{ bgcolor: '#F4F0FA', px: 1, py: 0.5, borderRadius: 1, fontWeight: 600 }}>
-                      Khối {user.gradeLevel}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-
-              {/* Action Buttons */}
-              <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<EditIcon />}
-                  onClick={handleOpenEdit}
-                  sx={{ borderColor: '#D8CDE7', color: '#211844' }}
-                >
-                  Chỉnh sửa
-                </Button>
-
-                <Button
-                  variant="outlined"
-                  size="small"
-                  color="warning"
-                  startIcon={<LockResetIcon />}
-                  onClick={() => setIsResetConfirmOpen(true)}
-                >
-                  Đặt lại mật khẩu
-                </Button>
-
-                {user.active ? (
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="error"
-                    startIcon={<BlockIcon />}
-                    onClick={() => setIsDisableConfirmOpen(true)}
-                  >
-                    Vô hiệu hóa
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="success"
-                    startIcon={<CheckCircleIcon />}
-                    onClick={() => setIsEnableConfirmOpen(true)}
-                  >
-                    Kích hoạt lại
-                  </Button>
-                )}
-              </Box>
-            </Box>
-
-            <Divider sx={{ my: 2.5 }} />
-
-            {/* Metadata Grid */}
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
-                  Mã người dùng
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#211844', wordBreak: 'break-all', mt: 0.5 }}>
-                  {user.userId}
-                </Typography>
-              </Grid>
-
-              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
-                  Ngày tạo tài khoản
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#211844', mt: 0.5 }}>
-                  {new Date(user.createdAt).toLocaleString('vi-VN')}
-                </Typography>
-              </Grid>
-
-              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
-                  Cập nhật lần cuối
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#211844', mt: 0.5 }}>
-                  {new Date(user.updatedAt).toLocaleString('vi-VN')}
-                </Typography>
-              </Grid>
-
-              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, textTransform: 'uppercase' }}>
-                  Bảo mật vai trò
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#059669', mt: 0.5, fontWeight: 500 }}>
-                  Vai trò cố định bất biến
-                </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-
-        {/* Classes Enrollment/Teaching Section */}
-        <Card>
-          <CardContent sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-              <SchoolIcon sx={{ color: '#7040D5' }} />
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
-                {user.role === 'TEACHER' ? 'Các lớp đang phụ trách giảng dạy' : 'Các lớp đang tham gia'}
-              </Typography>
-            </Box>
-
-            {user.classes && user.classes.length > 0 ? (
-              <Grid container spacing={2}>
-                {user.classes.map((cls) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cls.classId}>
-                    <Card
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                        cursor: 'pointer',
-                        '&:hover': { borderColor: '#7040D5', bgcolor: '#F8F6FD' },
-                      }}
-                      onClick={() => navigate(`/classes/${cls.classId}`)}
-                    >
-                      <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#211844' }}>
-                        {cls.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#655D76' }}>
-                        Khối {cls.gradeLevel} {cls.academicYear ? `• Năm học ${cls.academicYear}` : ''}
-                      </Typography>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography variant="body2" sx={{ py: 2, color: '#736983' }}>
-                {user.role === 'TEACHER'
-                  ? 'Giáo viên này chưa được phân công phụ trách lớp học nào.'
-                  : 'Học sinh này chưa được thêm vào danh sách lớp học nào.'}
-              </Typography>
-            )}
-          </CardContent>
-        </Card>
-      </Box>
-
-      {/* Edit Profile Dialog */}
-      <Dialog open={isEditOpen} onClose={() => setIsEditOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
-          Chỉnh sửa thông tin hồ sơ
-        </DialogTitle>
-        <form onSubmit={handleEditSubmit}>
-          <DialogContent>
-            {editError && (
-              <Alert severity="error" sx={{ mb: 2, fontSize: '0.85rem' }}>
-                {editError}
-              </Alert>
-            )}
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <TextField
-                label="Họ và tên hiển thị"
-                size="small"
-                fullWidth
-                value={editDisplayName}
-                onChange={(e) => setEditDisplayName(e.target.value)}
-                required
-              />
-
-              {user.role === 'STUDENT' && (
-                <FormControl fullWidth size="small">
-                  <InputLabel id="userdetailpage-field-7">Khối lớp</InputLabel>
-                  <Select labelId="userdetailpage-field-7"
-                    value={editGradeLevel}
-                    label="Khối lớp"
-                    onChange={(e) => setEditGradeLevel(Number(e.target.value))}
-                  >
-                    <MenuItem value={1}>Lớp 1</MenuItem>
-                    <MenuItem value={2}>Lớp 2</MenuItem>
-                    <MenuItem value={3}>Lớp 3</MenuItem>
-                    <MenuItem value={4}>Lớp 4</MenuItem>
-                    <MenuItem value={5}>Lớp 5</MenuItem>
-                  </Select>
-                </FormControl>
-              )}
-            </Box>
-          </DialogContent>
-          <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsEditOpen(false)} sx={{ color: '#655D76' }}>
-              Hủy
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={editMutation.isPending}
-              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
-            >
-              {editMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-
-      {/* Disable Confirm Dialog */}
-      <ConfirmDialog
-        open={isDisableConfirmOpen}
-        title="Xác nhận vô hiệu hóa tài khoản"
-        message={`Bạn có chắc chắn muốn vô hiệu hóa tài khoản ${user.email}? Người dùng sẽ bị chấm dứt phiên làm việc và không thể đăng nhập lại cho đến khi được kích hoạt.`}
-        confirmText="Vô hiệu hóa"
-        isDestructive={true}
-        loading={disableMutation.isPending}
-        onConfirm={() => disableMutation.mutate()}
-        onCancel={() => setIsDisableConfirmOpen(false)}
-      />
-
-      {/* Enable Confirm Dialog */}
-      <ConfirmDialog
-        open={isEnableConfirmOpen}
-        title="Kích hoạt lại tài khoản"
-        message={`Bạn có chắc chắn muốn kích hoạt lại tài khoản ${user.email}? Người dùng sẽ có thể đăng nhập bình thường.`}
-        confirmText="Kích hoạt"
-        loading={enableMutation.isPending}
-        onConfirm={() => enableMutation.mutate()}
-        onCancel={() => setIsEnableConfirmOpen(false)}
-      />
-
-      {/* Reset Password Confirm Dialog */}
-      <ConfirmDialog
-        open={isResetConfirmOpen}
-        title="Xác nhận đặt lại mật khẩu"
-        message={`Hệ thống sẽ tạo một mật khẩu tạm thời ngẫu nhiên và hủy toàn bộ phiên đăng nhập hiện có của ${user.email}. Bạn có muốn tiếp tục?`}
-        confirmText="Tạo mật khẩu tạm thời"
-        loading={resetPasswordMutation.isPending}
-        onConfirm={() => resetPasswordMutation.mutate()}
-        onCancel={() => setIsResetConfirmOpen(false)}
-      />
-
-      {/* Reset Password Result Dialog */}
-      <Dialog
-        open={!!resetSuccessData}
-        onClose={() => setResetSuccessData(null)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
-          Mật khẩu tạm thời đã được tạo
-        </DialogTitle>
-        <DialogContent>
-          <Alert severity="warning" sx={{ mb: 2.5, fontSize: '0.85rem' }}>
-            Mật khẩu tạm thời này chỉ hiển thị duy nhất một lần tại đây và không được lưu dưới dạng văn bản thô. Hãy sao chép và bàn giao an toàn cho người dùng.
-          </Alert>
-
-          <Box
-            sx={{
-              p: 2,
-              bgcolor: '#F4F0FA',
-              borderRadius: 2,
-              border: '1px solid #D8CDE7',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Box>
-              <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 600, display: 'block' }}>
-                MẬT KHẨU TẠM THỜI
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 700,
-                  color: '#211844',
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.1em',
-                }}
-              >
-                {resetSuccessData?.temporaryPassword}
-              </Typography>
-            </Box>
-            <Tooltip title={copySuccess ? 'Đã sao chép!' : 'Sao chép mật khẩu'}>
-              <IconButton onClick={handleCopyPassword} color={copySuccess ? 'success' : 'primary'}>
-                <ContentCopyIcon />
-              </IconButton>
-            </Tooltip>
+import { UserFormDialog } from '../components/users/UserFormDialog';
+import { PasswordResetDialog } from '../components/users/PasswordResetDialog';
+export function UserDetailPage() {
+  const { userId = '' } = useParams();
+  return <UserDetail key={userId} userId={userId} />;
+}
+function UserDetail({ userId }: { userId: string }) {
+  const { user: actor } = useAuth();
+  const [editing, setEditing] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const action = useAdminAction();
+  const query = useQuery({ queryKey: ['admin-user', userId], queryFn: () => adminService.getUser(userId) });
+  const user = query.data;
+  return <Box><AdminTopbar title="Chi tiết người dùng" subtitle="Hồ sơ, trạng thái và các lớp học liên quan" /><PageContent>
+    <Button component={Link} to="/users" startIcon={<ArrowBack />} sx={{ mb: 2 }}>Danh sách người dùng</Button>
+    <RequestError error={query.error} retry={() => { void query.refetch(); }} />
+    <RequestError error={action.error} />
+    {action.notice && <Alert severity="success" sx={{ mb: 2 }}>{action.notice}</Alert>}
+    {query.isLoading ? <Skeleton variant="rounded" height={300} role="status" aria-label="Đang tải chi tiết" /> : user && !query.error && <>
+      <Card sx={{ mb: 3 }}><CardContent sx={{ p: { xs: 2.5, sm: 4 } }}>
+        <Box className="page-actions">
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', minWidth: 0 }}><Avatar sx={{ bgcolor: 'primary.light', color: 'primary.dark', width: 56, height: 56, fontWeight: 800 }}>{user.displayName?.slice(0, 1)}</Avatar>
+            <Box sx={{ minWidth: 0 }}><Typography component="h2" variant="h5" sx={{ overflowWrap: 'anywhere' }}>{user.displayName}</Typography><Typography variant="body2" color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{user.email}</Typography></Box>
           </Box>
-
-          <Typography variant="caption" sx={{ color: '#736983', mt: 2, display: 'block' }}>
-            * Lưu ý: Cơ chế bắt buộc đổi mật khẩu ở lần đăng nhập đầu tiên chưa được áp dụng tại phiên bản A1.2.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button
-            variant="contained"
-            onClick={() => setResetSuccessData(null)}
-            sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
-          >
-            Đã lưu & Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
-  );
-};
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}><RoleChip role={user.role} /><StatusChip active={user.active} /></Box>
+        </Box>
+        <Divider sx={{ mb: 3 }} />
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))', lg: 'repeat(3,minmax(0,1fr))' }, gap: 3 }}>
+          {[['Mã người dùng', user.userId], ['Ngày tạo', new Date(user.createdAt).toLocaleString('vi-VN')], ['Cập nhật gần nhất', new Date(user.updatedAt).toLocaleString('vi-VN')], ...(user.gradeLevel ? [['Khối lớp', `Khối ${user.gradeLevel}`]] : [])].map(([label, value]) =>
+            <Box key={label}><Typography variant="caption" color="text.secondary">{label}</Typography><Typography variant="body2" sx={{ mt: .5, overflowWrap: 'anywhere' }}>{value}</Typography></Box>)}
+        </Box>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 4 }}>
+          <Button startIcon={<EditOutlined />} variant="outlined" onClick={() => setEditing(true)} disabled={action.pending}>Chỉnh sửa hồ sơ</Button>
+          <Button startIcon={<LockResetOutlined />} variant="outlined" color="warning" onClick={() => setResetting(true)} disabled={action.pending}>Đặt lại mật khẩu</Button>
+          <Button variant="outlined" color={user.active ? 'error' : 'success'} disabled={action.pending || actor?.userId === user.userId} onClick={() => { action.clear(); setConfirm(true); }}>{user.active ? 'Khóa tài khoản' : 'Mở tài khoản'}</Button>
+        </Box>
+        {actor?.userId === user.userId && <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>Bạn không thể tự khóa tài khoản đang sử dụng.</Typography>}
+      </CardContent></Card>
+      <Card><CardContent sx={{ p: 3 }}>
+        <Typography variant="h6" component="h2" sx={{ mb: 2 }}>{user.role === 'TEACHER' ? 'Lớp đang phụ trách' : user.role === 'STUDENT' ? 'Lớp đang tham gia' : 'Phạm vi quản trị'}</Typography>
+        {user.role === 'ADMIN' ? <Typography color="text.secondary">Quản lý vận hành hệ thống theo quyền quản trị được cấp.</Typography> :
+          user.classes?.length ? <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))' } }}>{user.classes.map(c => <Button key={c.classId} component={Link} to={`/classes/${c.classId}`} variant="outlined" sx={{ display: 'block', textAlign: 'left', p: 2 }}>
+            <Typography sx={{ fontWeight: 800,  }}>{c.name}</Typography><Typography variant="caption" color="text.secondary">Khối {c.gradeLevel} · {c.academicYear || 'Chưa có năm học'}</Typography>
+          </Button>)}</Box> : <Typography color="text.secondary">Chưa có lớp học liên quan.</Typography>}
+      </CardContent></Card>
+      {editing && <UserFormDialog user={user} onClose={() => setEditing(false)} />}
+      {resetting && <PasswordResetDialog user={user} onClose={() => setResetting(false)} />}
+      <ConfirmDialog open={confirm} title={user.active ? 'Khóa tài khoản' : 'Mở lại tài khoản'} message={`Xác nhận ${user.active ? 'khóa' : 'mở lại'} tài khoản ${user.email}?`} confirmText="Xác nhận" isDestructive={user.active} loading={action.pending} error={action.error}
+        onCancel={() => setConfirm(false)} onConfirm={() => { void action.run(() => user.active ? adminService.disableUser(userId) : adminService.enableUser(userId), () => setConfirm(false)); }} />
+    </>}
+  </PageContent></Box>;
+}

@@ -20,6 +20,7 @@ export const LogoutPage: React.FC = () => {
   }
 
   useEffect(() => {
+    let active = true;
     const performUnifiedLogout = async () => {
       try {
         if (tokenStore.hasTokens()) {
@@ -28,12 +29,12 @@ export const LogoutPage: React.FC = () => {
       } catch {
         // Ignore network errors on logout to ensure local cleanup
       } finally {
-        tokenStore.clearTokens();
-        setCleared(true);
+        if (active) setCleared(true);
       }
     };
 
-    performUnifiedLogout();
+    void performUnifiedLogout();
+    return () => { active = false; };
   }, []);
 
   return (

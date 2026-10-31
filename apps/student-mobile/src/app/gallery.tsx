@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Alert, Linking, Platform } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { RecognitionProgress } from '../features/recognition/components/RecognitionProgress';
 import { Image } from 'expo-image';
 import type * as MediaLibraryTypes from 'expo-media-library/legacy';
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FONTS, COLORS, SHADOWS } from '../constants/theme';
@@ -75,6 +75,14 @@ export default function CustomGalleryScreen() {
     const [hasNextPage, setHasNextPage] = useState(false);
     const [selectedAsset, setSelectedAsset] = useState<MediaLibraryTypes.Asset | null>(null);
     const [isConfirming, setIsConfirming] = useState(false);
+    const active = useRef(true);
+    const requestId = useRef(0);
+    const locked = useRef(false);
+    useFocusEffect(useCallback(() => {
+        active.current = true;
+        setIsConfirming(false);
+        return () => { active.current = false; requestId.current += 1; locked.current = false; };
+    }, []));
     // Initial Permission Request and First Page Load
     useEffect(() => {
         let isMounted = true;
@@ -183,12 +191,16 @@ export default function CustomGalleryScreen() {
     }, [hasNextPage, loadingMore, loading, endCursor]);
     // Selection toggle
     const handleSelectAsset = useCallback((asset: MediaLibraryTypes.Asset) => {
+        requestId.current += 1;
+        locked.current = false;
+        setIsConfirming(false);
         setSelectedAsset((prev) => (prev?.id === asset.id ? null : asset));
     }, []);
     // Confirm selection and normalize into submission draft
     const handleConfirmSelection = async () => {
-        if (!selectedAsset)
-            return;
+        if (!selectedAsset || !active.current || locked.current) return;
+        const id = ++requestId.current;
+        locked.current = true;
         setIsConfirming(true);
         try {
             let finalUri = selectedAsset.uri;
@@ -207,6 +219,7 @@ export default function CustomGalleryScreen() {
                     // Keep asset.uri if getAssetInfoAsync fails
                 }
             }
+            if (!active.current || id !== requestId.current) return;
             logStageDiagnostic('ACQUIRE_GALLERY', {
                 uri: finalUri,
                 width: selectedAsset.width,
@@ -214,13 +227,9 @@ export default function CustomGalleryScreen() {
                 source: 'CUSTOM_GALLERY',
             });
             const draft = await normalizeImageDraft(finalUri, selectedAsset.width, selectedAsset.height, 'GALLERY');
+            if (!active.current || id !== requestId.current) return;
             draft.mode = resolveFlowDomain(null, recognitionDraftStore.getDraft()?.mode || 'MATH_TUTOR');
             logFlowDomain('ACQUIRE', draft.mode);
-            draft.originalImageUri = finalUri;
-            draft.originalUri = finalUri;
-            draft.sourceImageUri = finalUri;
-            draft.rawUri = finalUri;
-            draft.uri = finalUri;
             recognitionDraftStore.setDraft(draft);
             const nextTarget = '/privacy';
             router.push({
@@ -229,21 +238,25 @@ export default function CustomGalleryScreen() {
             });
         }
         catch {
-            Alert.alert('Không thể mở ảnh', 'Đã xảy ra lỗi khi xử lý ảnh đã chọn. Em hãy thử chọn lại hoặc chọn ảnh khác nhé.');
+            if (active.current && id === requestId.current) Alert.alert('Không thể mở ảnh', 'Đã xảy ra lỗi khi xử lý ảnh đã chọn. Em hãy thử chọn lại hoặc chọn ảnh khác nhé.');
         }
         finally {
-            setIsConfirming(false);
+            if (active.current && id === requestId.current) { locked.current = false; setIsConfirming(false); }
         }
     };
     // OS System Picker Fallback (FALLBACK ONLY — for permission/edge cases)
     const handleFallbackSystemPicker = async () => {
+        if (!active.current || locked.current) return;
+        const id = ++requestId.current;
+        locked.current = true;
+        setIsConfirming(true);
         try {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ['images'],
                 allowsEditing: false,
                 quality: 1,
             });
-            if (!result.canceled && result.assets && result.assets.length > 0) {
+            if (active.current && id === requestId.current && !result.canceled && result.assets && result.assets.length > 0) {
                 const asset = result.assets[0];
                 logStageDiagnostic('ACQUIRE_GALLERY', {
                     uri: asset.uri,
@@ -253,26 +266,27 @@ export default function CustomGalleryScreen() {
                     source: 'GALLERY_SYSTEM_FALLBACK',
                 });
                 const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, 'GALLERY');
+                if (!active.current || id !== requestId.current) return;
                 draft.mode = resolveFlowDomain(null, recognitionDraftStore.getDraft()?.mode || 'MATH_TUTOR');
                 logFlowDomain('ACQUIRE', draft.mode);
-                draft.originalImageUri = asset.uri;
-                draft.originalUri = asset.uri;
-                draft.sourceImageUri = asset.uri;
-                draft.rawUri = asset.uri;
-                draft.uri = asset.uri;
                 recognitionDraftStore.setDraft(draft);
                 const nextTarget = '/privacy';
                 router.push({
                     pathname: nextTarget as any,
                     params: {
                         uri: draft.uri,
-                        originalImageUri: asset.uri,
+                        originalImageUri: draft.sourceImageUri,
                     },
                 });
             }
         }
         catch (e: any) {
-            console.warn('[CustomGallery] System picker fallback failed:', e?.message);
+            if (active.current && id === requestId.current) {
+                console.warn('[CustomGallery] System picker fallback failed:', e?.message);
+                Alert.alert('Không thể mở ảnh', 'Em hãy thử chọn lại hoặc chọn ảnh khác nhé.');
+            }
+        } finally {
+            if (active.current && id === requestId.current) { locked.current = false; setIsConfirming(false); }
         }
     };
     const isPermissionDenied = isNativeUnavailable || (permissionResponse !== null && !permissionResponse.granted);

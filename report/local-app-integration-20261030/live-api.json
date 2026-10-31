@@ -1,0 +1,50 @@
+[
+  {
+    "check": "Demo alias login",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 203
+  },
+  {
+    "check": "Patched quiz backend v5",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 47
+  },
+  {
+    "check": "Anonymous quiz rejected",
+    "status": 401,
+    "passed": true,
+    "elapsedMs": 31
+  },
+  {
+    "check": "Real lesson opens through Spring and AI",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 359
+  },
+  {
+    "check": "Checked lesson answer 531",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 63
+  },
+  {
+    "check": "Checked lesson answer 59",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 31
+  },
+  {
+    "check": "Quiz invitation from completed lesson",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 78
+  },
+  {
+    "check": "Quiz appears in pending library",
+    "status": 200,
+    "passed": true,
+    "elapsedMs": 32
+  }
+]

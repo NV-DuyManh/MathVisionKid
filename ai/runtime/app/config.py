@@ -104,6 +104,12 @@ class Settings(BaseSettings):
     azure_speech_key: SecretStr = SecretStr("")
     azure_speech_region: str = ""
 
+    lesson_catalog_enabled: bool = True
+    lesson_catalog_path: str = str(_SERVICE_DIR / 'state' / 'lesson-catalog.sqlite3')
+    lesson_catalog_ttl_days: int = Field(default=30,ge=1,le=90)
+    lesson_catalog_max_entries: int = Field(default=500,ge=1,le=5000)
+    lesson_catalog_audio_mb: int = Field(default=128,ge=1,le=512)
+
     # PROD.3F / PROD.3F.1 Always-Review Policy (Handwriting domain-specific)
     hwtext_always_review_enabled: bool = Field(
         default=True,

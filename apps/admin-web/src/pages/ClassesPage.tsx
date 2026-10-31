@@ -1,295 +1,32 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Card,
-  Typography,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Alert,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import SchoolIcon from '@mui/icons-material/School';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Alert, Box, Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import Add from '@mui/icons-material/Add';
+import { useQuery } from '@tanstack/react-query';
+import { Link, useSearchParams } from 'react-router-dom';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
+import { PageContent } from '../components/common/PageContent';
+import { RequestError } from '../components/common/RequestError';
 import { TableSkeleton } from '../components/common/LoadingSkeleton';
 import { EmptyState } from '../components/common/EmptyState';
-import { useNavigate } from 'react-router-dom';
-import type { CreateClassRequest } from '../types';
-
-export const ClassesPage: React.FC = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const [page, setPage] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
-
-  // Create Modal State
-  const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
-  const [className, setClassName] = useState<string>('');
-  const [gradeLevel, setGradeLevel] = useState<number>(3);
-  const [academicYear, setAcademicYear] = useState<string>('2025-2026');
-  const [teacherId, setTeacherId] = useState<string>('');
-  const [createError, setCreateError] = useState<string | null>(null);
-
-  // Fetch classes
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin-classes', page, pageSize],
-    queryFn: () => adminService.getClasses({ page, size: pageSize }),
-  });
-
-  // Fetch active teachers for selection dropdown
-  const { data: teachersData } = useQuery({
-    queryKey: ['admin-active-teachers'],
-    queryFn: () => adminService.getUsers({ role: 'TEACHER', active: true, size: 50 }),
-    enabled: isCreateOpen,
-  });
-
-  // Create class mutation
-  const createMutation = useMutation({
-    mutationFn: (payload: CreateClassRequest) => adminService.createClass(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-classes'] });
-      queryClient.invalidateQueries({ queryKey: ['admin-dashboard'] });
-      setIsCreateOpen(false);
-      resetCreateForm();
-    },
-    onError: (err: unknown) => {
-      const e = err as { response?: { data?: { error?: { message?: string } } }; message?: string };
-      setCreateError(e.response?.data?.error?.message || e.message || 'Lỗi khi tạo lớp học.');
-    },
-  });
-
-  const resetCreateForm = () => {
-    setClassName('');
-    setGradeLevel(3);
-    setAcademicYear('2025-2026');
-    setTeacherId('');
-    setCreateError(null);
-  };
-
-  const handleCreateSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!className.trim() || !teacherId) {
-      setCreateError('Vui lòng nhập tên lớp và chọn giáo viên phụ trách.');
-      return;
-    }
-
-    const payload: CreateClassRequest = {
-      name: className.trim(),
-      gradeLevel,
-      academicYear: academicYear.trim(),
-      teacherId,
-    };
-
-    createMutation.mutate(payload);
-  };
-
-  return (
-    <Box>
-      <AdminTopbar title="Quản lý Lớp học" subtitle="Danh sách lớp học, giáo viên phụ trách và sĩ số học sinh" />
-
-      <Box sx={{ p: { xs: 2, md: 4 } }}>
-        {/* Header Action Row */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SchoolIcon sx={{ color: '#211844' }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
-              Danh sách lớp học
-            </Typography>
-          </Box>
-
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => setIsCreateOpen(true)}
-            sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
-          >
-            Tạo lớp học mới
-          </Button>
-        </Box>
-
-        {/* Classes Table */}
-        <Card>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Tên lớp học</TableCell>
-                  <TableCell>Khối</TableCell>
-                  <TableCell>Năm học</TableCell>
-                  <TableCell>Giáo viên phụ trách</TableCell>
-                  <TableCell>Sĩ số học sinh</TableCell>
-                  <TableCell>Ngày tạo</TableCell>
-                  <TableCell align="right">Thao tác</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {isLoading ? (
-                  <TableSkeleton rows={pageSize} columns={7} />
-                ) : data?.content && data.content.length > 0 ? (
-                  data.content.map((cls) => (
-                    <TableRow key={cls.classId} hover>
-                      <TableCell sx={{ fontWeight: 600, color: '#211844' }}>
-                        {cls.name}
-                      </TableCell>
-                      <TableCell sx={{ color: '#5E566D' }}>Lớp {cls.gradeLevel}</TableCell>
-                      <TableCell sx={{ color: '#655D76' }}>{cls.academicYear || '—'}</TableCell>
-                      <TableCell sx={{ color: '#211844', fontWeight: 500 }}>
-                        {cls.teacher ? `${cls.teacher.displayName} (${cls.teacher.email})` : 'Chưa phân công'}
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: '#7040D5' }}>
-                        {cls.studentCount} học sinh
-                      </TableCell>
-                      <TableCell sx={{ color: '#655D76' }}>
-                        {new Date(cls.createdAt).toLocaleDateString('vi-VN')}
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          size="small"
-                          endIcon={<OpenInNewIcon fontSize="small" />}
-                          onClick={() => navigate(`/classes/${cls.classId}`)}
-                          sx={{ color: '#7040D5', fontWeight: 600 }}
-                        >
-                          Chi tiết & Roster
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={7}>
-                      <EmptyState
-                        title="Chưa có lớp học nào"
-                        description="Bắt đầu tạo lớp học đầu tiên và phân công giáo viên phụ trách."
-                        actionText="Tạo lớp học mới"
-                        onAction={() => setIsCreateOpen(true)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <TablePagination
-            component="div"
-            count={data?.totalElements ?? 0}
-            page={page}
-            onPageChange={(_, newPage) => setPage(newPage)}
-            rowsPerPage={pageSize}
-            onRowsPerPageChange={(e) => {
-              setPageSize(parseInt(e.target.value, 10));
-              setPage(0);
-            }}
-            rowsPerPageOptions={[5, 10, 20]}
-            labelRowsPerPage="Số hàng mỗi trang:"
-            labelDisplayedRows={({ from, to, count }) => `${from}–${to} trên ${count}`}
-          />
-        </Card>
-      </Box>
-
-      {/* Create Class Dialog */}
-      <Dialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, color: '#211844' }}>
-          Tạo lớp học mới
-        </DialogTitle>
-        <form onSubmit={handleCreateSubmit}>
-          <DialogContent>
-            {createError && (
-              <Alert severity="error" sx={{ mb: 2.5, fontSize: '0.85rem' }}>
-                {createError}
-              </Alert>
-            )}
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-              <TextField
-                label="Tên lớp học"
-                size="small"
-                fullWidth
-                value={className}
-                onChange={(e) => setClassName(e.target.value)}
-                required
-                placeholder="VD: Lớp 3A"
-              />
-
-              <FormControl fullWidth size="small">
-                <InputLabel id="classespage-field-5">Khối lớp</InputLabel>
-                <Select labelId="classespage-field-5"
-                  value={gradeLevel}
-                  label="Khối lớp"
-                  onChange={(e) => setGradeLevel(Number(e.target.value))}
-                >
-                  <MenuItem value={1}>Khối 1</MenuItem>
-                  <MenuItem value={2}>Khối 2</MenuItem>
-                  <MenuItem value={3}>Khối 3</MenuItem>
-                  <MenuItem value={4}>Khối 4</MenuItem>
-                  <MenuItem value={5}>Khối 5</MenuItem>
-                </Select>
-              </FormControl>
-
-              <TextField
-                label="Năm học"
-                size="small"
-                fullWidth
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
-                placeholder="VD: 2025-2026"
-              />
-
-              <FormControl fullWidth size="small" required>
-                <InputLabel id="classespage-field-6">Giáo viên phụ trách</InputLabel>
-                <Select labelId="classespage-field-6"
-                  value={teacherId}
-                  label="Giáo viên phụ trách"
-                  onChange={(e) => setTeacherId(e.target.value)}
-                >
-                  {teachersData?.content && teachersData.content.length > 0 ? (
-                    teachersData.content.map((t) => (
-                      <MenuItem key={t.userId} value={t.userId}>
-                        {t.displayName} ({t.email})
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem disabled value="">
-                      Không có giáo viên khả dụng
-                    </MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Box>
-          </DialogContent>
-          <DialogActions sx={{ px: 3, pb: 2.5 }}>
-            <Button onClick={() => setIsCreateOpen(false)} sx={{ color: '#655D76' }}>
-              Hủy
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={createMutation.isPending}
-              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
-            >
-              {createMutation.isPending ? 'Đang tạo...' : 'Tạo lớp học'}
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </Box>
-  );
-};
+import { ClassFormDialog } from '../components/classes/ClassFormDialog';
+export function ClassesPage() {
+  const [params, setParams] = useSearchParams();
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const [creating, setCreating] = useState(params.get('create') === 'true');
+  const [saved, setSaved] = useState(false);
+  const query = useQuery({ queryKey: ['admin-classes', page, size], queryFn: () => adminService.getClasses({ page, size }) });
+  return <Box><AdminTopbar title="Quản lý lớp học" subtitle="Tổ chức lớp học, phân công giáo viên và quản lý sĩ số" /><PageContent>
+    <Box className="page-actions"><Box><Typography component="h2" variant="h5">Danh sách lớp học</Typography><Typography variant="body2" color="text.secondary">{query.data ? `${query.data.totalElements} lớp trong hệ thống` : 'Dữ liệu lớp học từ hệ thống quản lý'}</Typography></Box><Button variant="contained" startIcon={<Add />} onClick={() => { setSaved(false); setCreating(true); }}>Tạo lớp học</Button></Box>
+    {saved && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSaved(false)}>Đã tạo lớp học thành công.</Alert>}
+    <RequestError error={query.error} retry={() => { void query.refetch(); }} />
+    {!query.error && <Card><TableContainer><Table aria-label="Danh sách lớp học" sx={{ minWidth: 700 }}><TableHead><TableRow><TableCell>Lớp học</TableCell><TableCell>Khối</TableCell><TableCell>Năm học</TableCell><TableCell>Giáo viên phụ trách</TableCell><TableCell>Sĩ số</TableCell><TableCell align="right">Thao tác</TableCell></TableRow></TableHead>
+      <TableBody>{query.isLoading ? <TableSkeleton rows={5} columns={6} /> : query.data?.content.length ? query.data.content.map(c => <TableRow key={c.classId} hover>
+        <TableCell><Typography variant="body2" sx={{ fontWeight: 800,  }}>{c.name}</Typography><Typography variant="caption" color="text.secondary">{new Date(c.createdAt).toLocaleDateString('vi-VN')}</Typography></TableCell><TableCell>Khối {c.gradeLevel}</TableCell><TableCell>{c.academicYear || 'Chưa xác định'}</TableCell>
+        <TableCell><Typography variant="body2">{c.teacher?.displayName || 'Chưa phân công'}</Typography><Typography variant="caption" color="text.secondary">{c.teacher?.email}</Typography></TableCell><TableCell>{c.studentCount} học sinh</TableCell><TableCell align="right"><Button component={Link} to={`/classes/${c.classId}`} size="small" aria-label={`Xem chi tiết ${c.name}`}>Chi tiết</Button></TableCell>
+      </TableRow>) : <TableRow><TableCell colSpan={6}><EmptyState title="Chưa có lớp học" description="Tạo lớp và chọn giáo viên để bắt đầu." actionText="Tạo lớp học" onAction={() => setCreating(true)} /></TableCell></TableRow>}</TableBody>
+    </Table></TableContainer><TablePagination component="div" count={query.data?.totalElements || 0} page={page} rowsPerPage={size} rowsPerPageOptions={[10, 20, 50]} onPageChange={(_, p) => setPage(p)} onRowsPerPageChange={e => { setSize(Number(e.target.value)); setPage(0); }} /></Card>}
+    {creating && <ClassFormDialog onSaved={() => setSaved(true)} onClose={() => { setCreating(false); if (params.has('create')) { params.delete('create'); setParams(params, { replace: true }); } }} />}
+  </PageContent></Box>;
+}

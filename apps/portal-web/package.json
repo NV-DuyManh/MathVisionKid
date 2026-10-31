@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "test:config": "node --test tests/environment.test.mjs tests/auth-profile.test.mjs tests/login-session.test.mjs",
+    "test:config": "node --test tests/environment.test.mjs tests/auth-profile.test.mjs tests/login-session.test.mjs tests/auth-session-isolation.test.mjs",
     "test:production": "node --test tests/production-bundle.test.mjs",
     "preview": "vite preview"
   },

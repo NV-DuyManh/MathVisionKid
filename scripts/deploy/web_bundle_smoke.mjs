@@ -123,15 +123,15 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
       };
       dom.window.history.pushState({}, '', checkAdminDetail);
       dom.window.dispatchEvent(new dom.window.PopStateEvent('popstate'));
-      await waitFor(() => pendingDetails.length > 0 && document.querySelector('[role="progressbar"]'));
+      await waitFor(() => pendingDetails.length > 0 && document.querySelector('[role="status"][aria-label="Đang tải chi tiết"]'));
       await openMenu();
       document.querySelector('.MuiBackdrop-root').click();
       await waitFor(() => menuButton()?.getAttribute('aria-expanded') === 'false');
       failDetails = true;
       pendingDetails.splice(0).forEach(fail => fail());
-      await waitFor(() => document.querySelector('[role="alert"]')?.textContent.includes('Không thể tải thông tin'));
+      await waitFor(() => document.querySelector('[role="alert"]')?.textContent.includes('Không tìm thấy dữ liệu'));
       await openMenu();
-      const dashboard = [...document.querySelectorAll('nav[aria-label="Điều hướng quản trị"] [role="button"]')]
+      const dashboard = [...document.querySelectorAll('nav[aria-label="Điều hướng quản trị"] a')]
         .find(button => button.textContent.includes('Tổng quan'));
       assert.ok(dashboard, 'The drawer must expose a working way out of the failed detail page.');
       dashboard.click();

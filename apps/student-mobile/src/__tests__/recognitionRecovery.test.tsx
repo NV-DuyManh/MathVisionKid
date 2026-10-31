@@ -5,9 +5,11 @@ import { RecognitionService } from '../features/recognition/api/RecognitionServi
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 
 const mockRouter={replace:jest.fn()};
+const mockDraft = {uri:'file:///private-cropped-line.jpg',source:'CAMERA'};
+jest.mock('@expo/vector-icons',()=>({Ionicons:'Ionicons'}));
 jest.mock('expo-router',()=>({useRouter:()=>mockRouter}));
 jest.mock('react-native-safe-area-context',()=>({SafeAreaView:require('react-native').View}));
-jest.mock('../features/recognition/state/recognitionDraftStore',()=>({recognitionDraftStore:{getDraft:()=>({uri:'file:///private-cropped-line.jpg',source:'CAMERA'}),clearDraft:jest.fn()},logFlowDomain:jest.fn()}));
+jest.mock('../features/recognition/state/recognitionDraftStore',()=>({recognitionDraftStore:{getDraft:()=>mockDraft,clearDraft:jest.fn()},logFlowDomain:jest.fn()}));
 jest.mock('../features/recognition/api/RecognitionService',()=>({RecognitionService:{createTrial:jest.fn(),submitFeedback:jest.fn()}}));
 
 it('retries recognition with the same cropped image instead of discarding it and returning home', async()=>{

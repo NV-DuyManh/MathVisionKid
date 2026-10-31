@@ -3,7 +3,7 @@ import '../services/api/apiClient';
 import { tokenStorage } from '../services/auth/tokenStorage';
 
 jest.mock('../config/env', () => ({ ENV: { API_BASE_URL: 'http://test-only.invalid' } }));
-jest.mock('../services/auth/tokenStorage', () => ({ tokenStorage: { getAccessToken: jest.fn(), getRefreshToken: jest.fn(), saveTokens: jest.fn(), clearTokens: jest.fn() } }));
+jest.mock('../services/auth/tokenStorage', () => ({ tokenStorage: { getSessionId: jest.fn(async () => 'test-session'), getAccessToken: jest.fn(), getRefreshToken: jest.fn(), saveTokens: jest.fn(), clearTokens: jest.fn() } }));
 jest.mock('axios', () => {
   const client = Object.assign(jest.fn(), { defaults: { headers: { common: {} } }, interceptors: { request: { use: jest.fn() }, response: { use: jest.fn() } } });
   return { __esModule: true, default: { create: () => client, post: jest.fn(), client } };
@@ -11,7 +11,7 @@ jest.mock('axios', () => {
 const client = (axios as any).client;
 const rejected = client.interceptors.response.use.mock.calls[0][1];
 const prepareRequest = client.interceptors.request.use.mock.calls[0][0];
-const failure = (url = '/me') => ({ response: { status: 401 }, config: { url, headers: {} } });
+const failure = (url = '/me') => ({ response: { status: 401 }, config: { url, headers: {}, _identity: 'test-session', _session: 'test-refresh' } });
 beforeEach(() => { (axios.post as jest.Mock).mockReset(); (tokenStorage.getRefreshToken as jest.Mock).mockReset(); client.mockReset(); });
 
 it('does not try refreshing a rejected login or refresh request', async () => {

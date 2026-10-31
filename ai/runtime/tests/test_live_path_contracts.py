@@ -47,27 +47,26 @@ def test_live_03_spring_target_url_verified():
     # Ensure no duplicate path segments
     assert "/internal/v1/jobs" not in resolved
 
-def test_live_04_ai_exact_incoming_bytes_captured():
-    """LIVE-04: Verify AI incoming byte capture and metadata generation in scratch."""
-    test_bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" + b"\x00" * 20
+def test_live_04_ai_exact_incoming_bytes_captured(tmp_path, monkeypatch):
+    """LIVE-04: Explicit development capture preserves bytes in an isolated folder."""
+    import app.api.ocr as ocr
+    monkeypatch.setattr(settings, 'app_env', 'development')
+    monkeypatch.setattr(settings, 'ocr_physical_trace_enabled', True)
+    monkeypatch.setattr(ocr, '__file__', str(tmp_path / 'a' / 'b' / 'c' / 'd' / 'ocr.py'))
+    _, encoded = cv2.imencode('.png', np.full((150, 200, 3), 255, dtype=np.uint8))
+    test_bytes = encoded.tobytes()
     expected_sha = hashlib.sha256(test_bytes).hexdigest()
-    # Mock Pillow to avoid unreadable image error
-    dummy_cv = np.full((150, 200, 3), 255, dtype=np.uint8)
-    with patch("PIL.Image.open") as mock_open:
-        mock_pil = mock_open.return_value
-        mock_pil.getexif.return_value = {}
-        mock_pil.mode = "RGB"
-        with patch("PIL.ImageOps.exif_transpose", return_value=mock_pil):
-            with patch("numpy.array", return_value=dummy_cv):
-                response = client.post("/internal/v1/ocr/detect-lines", content=test_bytes, headers=AUTH_HEADERS)
-                assert response.status_code == 200
+    response = client.post("/internal/v1/ocr/detect-lines", content=test_bytes, headers=AUTH_HEADERS)
+    assert response.status_code == 200
 
-    save_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../scratch/runtime6_live_input"))
+    save_dir = str(tmp_path / 'scratch' / 'runtime6_live_input')
     raw_path = os.path.join(save_dir, "raw_upload_bytes.bin")
     meta_path = os.path.join(save_dir, "metadata.json")
     
     assert os.path.exists(raw_path)
     assert os.path.exists(meta_path)
+    with open(raw_path, 'rb') as capture:
+        assert capture.read() == test_bytes
     with open(meta_path, "r") as f:
         meta = json.load(f)
     assert meta["sha256_upload_bytes"] == expected_sha

@@ -1,7 +1,0 @@
-{
-  "SdkVersion": "58.0.0",
-  "Name": "MathVisionKid",
-  "Slug": "MathVisionKid",
-  "HostUri": "127.0.0.1:8081",
-  "LaunchAsset": "http://127.0.0.1:8081/node_modules/expo-router/entry.bundle?platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=src%2Fapp&transform.reactCompiler=true&unstable_transformProfile=hermes-stable"
-}

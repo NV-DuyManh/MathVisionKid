@@ -330,6 +330,28 @@ class MathTutorServiceTest {
             """;
     }
 
+    @ParameterizedTest @ValueSource(strings = {"PREPARING", "RETRYABLE", "UNAVAILABLE"})
+    void checkedReadingCanWaitForMathWithoutFakeCompletion(String status) throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
+        body.put("preparingMath", true).put("revision", 3).put("stepIndex", 3).put("status", status).putNull("step");
+        body.set("outline", mapper.readTree("[\"Dữ kiện\",\"Câu hỏi\",\"Đối chiếu\"]"));
+        var done = body.putArray("completed");
+        for (int i=0; i<3; i++) done.addObject().put("kind", "UNDERSTAND").put("title", "Đọc đề")
+                .put("expression", "").put("answer", "Đúng").put("unit", "").put("explanation", "Đối chiếu đề.");
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
+                .andExpect(jsonPath("$.owner").value("real-student"))
+                .andExpect(jsonPath("$.revision").value(3)).andExpect(jsonPath("$.retry").value(true))
+                .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
+        var result=service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,true),"real-student");
+        assertEquals(status,result.status()); assertEquals(3,result.completed().size()); assertNull(result.step());
+        server.verify(); server.reset();
+        body.put("status","COMPLETE");
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
+                .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,false),"real-student"));
+    }
+
     private static String summaryResponse(int understanding, int index, String summary) throws Exception {
         var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         var response = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import type { TextInputInstance } from 'react-native';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
@@ -10,16 +10,18 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { NotebookLine, TutorService, WorkReview, trimWorkReviewLine, workReviewLines } from './api/TutorService';
 import { WorkPhotoEvidence } from './WorkPhotoEvidence';
 import { TaskProgress } from '../../components/ui/TaskProgress';
+import { QuizInvitation } from '../quiz/QuizInvitation';
 
 type Props = { problemText: string; workText: string; imageUri: string; lines: NotebookLine[];
-  enabled: boolean; disabled?: boolean; photoCurrent?: boolean; onReviseWork: (work: string) => void; onCaptureWork: () => void; onSessionExpired?: () => void; onReviewReady?: () => void };
+  enabled: boolean; disabled?: boolean; photoCurrent?: boolean; autoStart?: boolean; onReviseWork: (work: string) => void; onCaptureWork: () => void; onSessionExpired?: () => void; onReviewReady?: () => void };
 
 export function StudentWorkReview(props: Props) {
   // A response belongs to exactly one source, including the privacy-approved photo and its physical regions.
   return <ReviewSession key={JSON.stringify([props.problemText, props.workText, props.imageUri, props.lines, props.enabled, props.disabled, props.photoCurrent])} {...props} />;
 }
 
-function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabled = false, photoCurrent = true, onReviseWork, onCaptureWork, onSessionExpired, onReviewReady }: Props) {
+function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabled = false, photoCurrent = true, autoStart = false, onReviseWork, onCaptureWork, onSessionExpired, onReviewReady }: Props) {
+  const router = useRouter();
   const [result, setResult] = useState<WorkReview | null>(null);
   const [busy, setBusy] = useState(false);
   const [expired, setExpired] = useState(false);
@@ -28,11 +30,14 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
   const [hintCount, setHintCount] = useState(0);
   const [showAlternative, setShowAlternative] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showAllLines, setShowAllLines] = useState(false);
+  const [showPractice, setShowPractice] = useState(false);
   const [rewrite, setRewrite] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const controller = useRef<AbortController | null>(null);
   const active = useRef(false);
   const sequence = useRef(0);
+  const autoStarted = useRef(false);
   const rewriteInput = useRef<TextInputInstance>(null);
   const rewriteId = useId();
   const alternativeId = useId();
@@ -49,7 +54,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     const abort = new AbortController(); controller.current = abort;
     const id = ++sequence.current;
     const sourceId = `work_${Date.now()}_${Math.random().toString(36).slice(2, 12)}`;
-    setBusy(true); setError(''); setResult(null); setRewrite(null); setShowAlternative(false); setHintCount(0);
+    setBusy(true); setError(''); setResult(null); setRewrite(null); setShowAlternative(false); setShowAllLines(false); setHintCount(0);
     try {
       const next = await TutorService.reviewWork({ sourceId, problemText, workText, problemConfirmed: true, workConfirmed: true }, abort.signal);
       if (!active.current || abort.signal.aborted || sequence.current !== id) return;
@@ -66,6 +71,17 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
       if (active.current && sequence.current === id) { controller.current = null; setBusy(false); }
     }
   };
+  useEffect(() => {
+    if (!autoStart || disabledNow || autoStarted.current) return;
+    let current = true;
+    // Wait until focus effects have mounted; Strict Mode's discarded effect must not submit.
+    void Promise.resolve().then(() => {
+      if (!current || !active.current || autoStarted.current) return;
+      autoStarted.current = true;
+      void review();
+    });
+    return () => { current = false; };
+  }, [autoStart, disabledNow]);
   const selected = result?.rows.find(row => row.lineIndex === selectedLine);
   const sourceLines = workReviewLines(workText);
   const rewrittenLine = rewrite === null ? '' : trimWorkReviewLine(rewrite);
@@ -77,38 +93,40 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     if (updated.length <= 6000) onReviseWork(updated);
   };
   return <View style={styles.card}>
-    <View style={styles.headingRow}><Ionicons name="sparkles-outline" size={22} color="#A16AFF" accessible={false} />
-      <Text style={styles.title}>Bài làm của em</Text></View>
+    <View style={styles.headingRow}><Ionicons name="checkmark-done-outline" size={22} color={COLORS.primaryDark} accessible={false} />
+      <View style={styles.resultCopy}><Text style={styles.caption}>2 · NHẬN XÉT BÀI LÀM</Text><Text accessibilityRole="header" style={styles.title}>{result ? 'Kết quả bài em làm' : 'Cùng kiểm tra bài em làm'}</Text></View></View>
     {imageUri && photoCurrent && (!result || result.status === 'CORRECT') ? <View style={styles.photoFrame}>
       <Image source={{ uri: imageUri }} style={styles.workPhoto} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" />
       {result?.status === 'CORRECT' ? <View style={styles.photoBadge} accessibilityLabel="Bài đã được kiểm tra đúng"><Ionicons name="ribbon" size={27} color="#B47C14" /></View> : null}
     </View> : null}
-    {imageUri && photoCurrent && result && result.status !== 'CORRECT' ? <WorkPhotoEvidence presentation="photo" imageUri={imageUri} lines={lines} rows={result.rows} selectedLine={selectedLine} onSelectLine={choose} /> : null}
-    {!result ? <Text style={styles.body}>Cùng xem cách làm, kiểm tra từng dòng và sửa chỗ còn vướng nhé.</Text> : null}
+    {imageUri && photoCurrent && result && result.status !== 'CORRECT' ? <WorkPhotoEvidence presentation="photo" issuesOnly imageUri={imageUri} lines={lines} rows={result.rows} selectedLine={selectedLine} onSelectLine={choose} /> : null}
+    {!result && !busy ? <Text style={styles.body}>Mình sẽ đối chiếu cách làm, phép tính và đơn vị. Em không cần làm lại cả bài.</Text> : null}
     {!photoCurrent && imageUri ? <Text style={styles.notice}>Em đang sửa bài bằng chữ. Ảnh trước khi sửa vẫn được giữ ở phần bài làm; em chụp lại để xem đánh dấu trên bài mới nhé.</Text> : null}
     {!enabled ? <Text style={styles.notice}>Em xác nhận đề và bài làm đã đọc đúng ở phía trên trước nhé.</Text> : null}
-    {result?.status !== 'CORRECT' && !error ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow || busy} loading={busy} onPress={() => void review()} /> : null}
+    {!result && !error && !busy ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow} onPress={() => void review()} /> : null}
     {busy ? <View accessibilityLiveRegion="polite" style={styles.panel}>
       <TaskProgress steps={['Bài làm đã xác nhận', 'Đối chiếu từng dòng', 'Mở nhận xét']} activeStep={1} />
       <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
     </View> : null}
     {error ? <RecoveryNotice title="Chưa mở được nhận xét" message={error} actions={[
       { label: 'Thử lại', accessibilityLabel: 'Nhận xét bài em làm', icon: 'refresh-outline', onPress: () => void review(), disabled: disabledNow || busy },
+      ...(!expired ? [{ label: 'Chụp lại', accessibilityLabel: 'Chụp lại bài em đã sửa', icon: 'camera-outline' as const, onPress: () => { stop(); onCaptureWork(); }, disabled }] : []),
     ]} /> : null}
     {result && enabled ? <>
       <View style={[styles.panel, result.status === 'CORRECT' ? styles.success : styles.attention]} accessibilityLiveRegion="polite">
-        {result.status === 'CORRECT' ? <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.praiseArt} resizeMode="contain" accessible={false} /> : null}
+        {result.status === 'CORRECT' ? <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.praiseArt} resizeMode="contain" accessible={false} /> : <Ionicons name={result.status === 'NEEDS_REVISION' ? 'create-outline' : 'help-circle-outline'} size={25} color="#98621F" accessible={false} />}
         <View style={[styles.resultCopy, result.status === 'CORRECT' && { flex: 1 }]}>
         <Text style={styles.label}>{result.status === 'CORRECT' ? 'Em làm tốt rồi!' : result.status === 'NEEDS_REVISION' ? 'Cùng sửa từng chỗ nhé' : 'Cần xem lại trước khi kết luận'}</Text>
         {result.status !== 'CORRECT' ? <Text style={styles.body}>{result.summary}</Text> : null}
         {result.praise ? <Text style={styles.praise}>{result.praise}</Text> : null}
         </View>
       </View>
-      <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant={showDetails ? 'ghost' : 'primary'} onPress={() => setShowDetails(value => !value)} />
+      {result.status === 'CORRECT' ? <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant="ghost" onPress={() => setShowDetails(value => !value)} /> : null}
       {showDetails ? <>
       {result.status === 'CORRECT' ? <Text style={styles.body}>{result.summary}</Text> : null}
-      <Text style={styles.caption}>Chọn một dòng để xem gợi ý. Vùng bôi vàng trên ảnh là chỗ cần sửa.</Text>
-      <WorkPhotoEvidence presentation={photoCurrent && imageUri ? 'lines' : 'full'} imageUri={photoCurrent ? imageUri : ''} lines={lines} rows={result.rows} selectedLine={selectedLine} onSelectLine={choose} />
+      <Text style={styles.caption}>Chọn dòng cần xem lại để đọc nhận xét và cách sửa.</Text>
+      <WorkPhotoEvidence issuesOnly={!showAllLines && result.status !== 'CORRECT'} presentation={photoCurrent && imageUri ? 'lines' : 'full'} imageUri={photoCurrent ? imageUri : ''} lines={lines} rows={result.rows} selectedLine={selectedLine} onSelectLine={choose} />
+      {result.status !== 'CORRECT' && result.rows.some(row => row.status === 'OK') ? <AppButton title={showAllLines ? 'Chỉ xem chỗ cần sửa' : 'Xem tất cả các dòng'} variant="ghost" onPress={() => setShowAllLines(value => !value)} /> : null}
       {selected ? <View style={[styles.panel, styles.detail]} accessibilityLiveRegion="polite">
         <Text style={styles.label}>{`Dòng ${selected.lineIndex + 1} · ${selected.status === 'FIX' ? 'Cần sửa' : selected.status === 'OK' ? 'Phù hợp' : 'Cần xem lại'}`}</Text>
         <MathText style={styles.source}>{selected.sourceText}</MathText>
@@ -150,8 +168,14 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
       </> : null}
       </> : null}
     </> : null}
-    <AppButton title="Chụp lại bài em đã sửa" variant="secondary" disabled={disabled || expired}
+    {result?.status === 'CORRECT' && enabled && !disabled && !expired ? <>
+      <AppButton title="Hoàn tất nhận xét" onPress={() => router.replace('/(tabs)')} />
+      <AppButton title={showPractice ? 'Thu gọn luyện thêm' : 'Thử một câu tương tự'} variant="ghost" onPress={() => setShowPractice(value => !value)} />
+      {showPractice ? <QuizInvitation sourceType="WORK_REVIEW" sourceId={result.sourceId} /> : null}
+    </> : null}
+    {result && result.status !== 'CORRECT' ? <AppButton title="Chụp lại bài em đã sửa" variant="secondary" disabled={disabled || expired}
       onPress={() => { stop(); onCaptureWork(); }} />
+      : null}
   </View>;
 }
 
@@ -161,12 +185,12 @@ const styles = StyleSheet.create({
   workPhoto: { width: '100%', height: 210 }, photoBadge: { position: 'absolute', top: 10, right: 10, borderRadius: 25, width: 48, height: 48, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFE28C', borderWidth: 3, borderColor: '#FFF1C6' },
   praiseArt: { width: 60, height: 67 }, resultCopy: { gap: 8 },
   headingRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  title: { flex: 1, fontSize: 21, lineHeight: 29, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
-  body: { fontSize: 15, lineHeight: 24, color: COLORS.textSecondary, fontFamily: FONTS.regular },
+  title: { flexShrink: 1, fontSize: 18, lineHeight: 26, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
+  body: { fontSize: 14, lineHeight: 23, color: COLORS.textSecondary, fontFamily: FONTS.regular },
   label: { fontSize: 16, lineHeight: 24, color: COLORS.textPrimary, fontFamily: FONTS.bold },
   source: { fontSize: 18, lineHeight: 28, color: COLORS.textPrimary, fontFamily: FONTS.bold },
   panel: { borderRadius: 16, padding: 16, gap: 10, backgroundColor: COLORS.surfaceSubdued },
-  success: { backgroundColor: '#FFF7E7', borderWidth: 1, borderColor: '#F6E8BF', flexDirection: 'row', alignItems: 'center' }, attention: { backgroundColor: '#FFF3E8' },
+  success: { backgroundColor: '#EDF9F1', borderWidth: 1, borderColor: '#D1ECD9', flexDirection: 'row', alignItems: 'center' }, attention: { backgroundColor: '#FFF8E9' },
   detail: { borderWidth: 1, borderColor: COLORS.border },
   hint: { padding: 12, gap: 8, backgroundColor: COLORS.surface, borderRadius: 12, borderWidth: 1, borderColor: COLORS.border },
   praise: { fontSize: 13, lineHeight: 21, color: '#48765F', fontFamily: FONTS.semiBold },

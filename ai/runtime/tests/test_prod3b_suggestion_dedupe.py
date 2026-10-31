@@ -10,7 +10,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 MOBILE_ROOT = REPO_ROOT / "apps" / "student-mobile"
 RESULT_PATH = MOBILE_ROOT / "src" / "app" / "recognition" / "multiline-result.tsx"
 DEDUPE_PATH = MOBILE_ROOT / "src" / "features" / "recognition" / "utils" / "lineReview.ts"
-NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.mjs"
+NODE_TEST_PATH = MOBILE_ROOT / "src" / "utils" / "__tests__" / "suggestionDedupe.test.ts"
 
 
 def _read_result_file() -> str:

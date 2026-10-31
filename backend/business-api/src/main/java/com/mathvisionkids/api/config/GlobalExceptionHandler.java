@@ -38,6 +38,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
+        if(request.getRequestURI().startsWith("/api/v1/student/quizzes"))
+            org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class).info("quiz_error request={} code={} status={}",getRequestId(request).replaceAll("[^a-zA-Z0-9_-]",""),ex.getCode(),ex.getStatus().value());
         return ResponseEntity.status(ex.getStatus())
                 .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                 .body(buildError(ex.getCode(), ex.getMessage(), getRequestId(request), ex.getDetails()));

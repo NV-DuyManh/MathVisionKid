@@ -9,7 +9,7 @@ from app.tutoring import lesson, media_preparation, speech_render, narration
     ('3 ki-lô-gam và 1 mi-li-lít', '3 ki lô gam và 1 mi li lít'),
     ('2 (đề-xi-mét vuông)', '2 đề xi mét vuông'),
     ('2dm và 3cm²', '2 đề xi mét và 3 xăng ti mét vuông'),
-    ('(12 + 8) × 2 = 40', 'mở ngoặc 12 cộng 8 đóng ngoặc nhân 2 bằng 40'),
+    ('(12 + 8) × 2 = 40', 'nhóm 12 cộng 8, hết nhóm nhân 2 bằng 40'),
     ('(3)/(5) + (1)/(5)', '3 phần 5 cộng 1 phần 5'),
     ('5 - 2 = 3', '5 trừ 2 bằng 3'),
     ('32m2 và 4dm^2 và 2cm^{3}', '32 mét vuông và 4 đề xi mét vuông và 2 xăng ti mét khối'),

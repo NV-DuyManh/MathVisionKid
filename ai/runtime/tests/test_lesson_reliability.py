@@ -93,7 +93,8 @@ async def test_background_failure_keeps_reason_and_never_advances_to_unreviewed_
     monkeypatch.setattr(lesson, '_sessions', OrderedDict())
     generate = AsyncMock(side_effect=service.TutorUnavailable('rate_limit'))
     monkeypatch.setattr(lesson, 'generate_plan', generate)
-    response = await lesson.start_lesson(lesson.LessonRequest(owner='regression',problemText=SOURCE,
+    source = 'Lan có 12 bút, được tặng thêm 5 bút. Hỏi Lan có tất cả bao nhiêu bút?'
+    response = await lesson.start_lesson(lesson.LessonRequest(owner='regression',problemText=source,
         problemConfirmed=True,guidedUnderstanding=True,startWithReading=True))
     session = lesson._sessions[response.sessionId]
     assert await session.preparation_task is False
@@ -102,7 +103,10 @@ async def test_background_failure_keeps_reason_and_never_advances_to_unreviewed_
             answer=session.plan.steps[len(session.answers)].correctChoice))
     final = lesson.TurnRequest(owner=session.owner,sessionId=response.sessionId,revision=session.revision,
         answer=session.plan.steps[2].correctChoice)
-    with pytest.raises(service.TutorUnavailable) as failure: await lesson.ready_for_answer(final)
-    assert failure.value.reason == 'rate_limit'
-    assert session.revision == 2 and isinstance(session.plan,lesson.ReadingPlan)
-    assert generate.await_count == 2
+    await lesson.ready_for_answer(final)
+    result = lesson.answer_lesson(final)
+    assert session.preparation_failure == 'rate_limit'
+    assert result.status == 'RETRYABLE' and result.step is None
+    assert session.revision == 3 and len(session.completed) == 3
+    assert isinstance(session.plan, lesson.ReadingPlan)
+    assert generate.await_count == 1

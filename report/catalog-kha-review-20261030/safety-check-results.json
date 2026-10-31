@@ -1,0 +1,28 @@
+{
+  "main": "20d6780f3a77b0ac2db96edc575e62481788ccad",
+  "khaOriginal": "bf29939b4c47be180581f951c1e7483011227b17",
+  "localReviewBranch": "codex/kha-safety-fixes-20261030",
+  "committedOrPushed": false,
+  "student": {
+    "numPassedTests": 1239,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 108,
+    "numFailedTestSuites": 0
+  },
+  "java": {
+    "tests": 463,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "combinedPython": {
+    "passed": 276,
+    "warnings": 2,
+    "seconds": 16.82
+  },
+  "mainCatalogPython": {
+    "passed": 152,
+    "warnings": 0,
+    "seconds": 9.34
+  }
+}

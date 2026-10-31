@@ -12,6 +12,7 @@ export const AdminEntryPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
     const handleEntry = async () => {
       if (!tokenStore.hasTokens()) {
         navigate('/login');
@@ -19,7 +20,8 @@ export const AdminEntryPage: React.FC = () => {
       }
 
       try {
-        const user = await authService.getMe();
+        const user = await authService.getMe(controller.signal);
+        if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
 
         if (role !== 'ADMIN') {
@@ -28,16 +30,19 @@ export const AdminEntryPage: React.FC = () => {
         }
 
         setStatus('Đang khởi tạo phiên làm việc bảo mật...');
-        const ticket = await authService.requestSsoTicket('ADMIN');
+        const ticket = await authService.requestSsoTicket('ADMIN', controller.signal);
+        if (controller.signal.aborted) return;
 
         setStatus('Đang chuyển hướng đến không gian Quản trị viên...');
         window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
       } catch (err: any) {
+        if (controller.signal.aborted) return;
         setError(err.response?.data?.message || err.message || 'Lỗi khi khởi tạo phiên làm việc Quản trị.');
       }
     };
 
-    handleEntry();
+    void handleEntry();
+    return () => controller.abort();
   }, [navigate]);
 
   return (

@@ -1,10 +1,10 @@
 import { Stack } from 'expo-router';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthContext, AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
 import { LogBox, Text, View } from 'react-native';
 import { TaskProgress } from '../components/ui/TaskProgress';
 import { RecoveryNotice } from '../components/ui/RecoveryNotice';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ENV } from '../config/env';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -69,16 +69,32 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <StatusBar style="dark" hidden={false} />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="login" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="preview" />
-        <Stack.Screen name="processing" />
-        <Stack.Screen name="results" />
-        <Stack.Screen name="gallery" />
-        <Stack.Screen name="games/index" options={{ orientation: 'portrait' }} />
-      </Stack>
+      <StudentNavigator />
     </AuthProvider>
   );
+}
+
+
+function StudentNavigator() {
+  const auth = useContext(AuthContext);
+  return <Stack screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="index" />
+    <Stack.Screen name="login" />
+    <Stack.Screen name="privacy" />
+    <Stack.Protected guard={auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="learning" />
+      <Stack.Screen name="quiz" />
+      <Stack.Screen name="recognition" />
+      <Stack.Screen name="results" />
+      <Stack.Screen name="camera" />
+      <Stack.Screen name="crop" />
+      <Stack.Screen name="gallery" />
+      <Stack.Screen name="preview" />
+      <Stack.Screen name="processing" />
+      <Stack.Screen name="dev-demo" />
+      <Stack.Screen name="games/index" options={{ orientation: 'portrait' }} />
+      <Stack.Screen name="games/[gameId]" />
+    </Stack.Protected>
+  </Stack>;
 }

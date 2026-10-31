@@ -28,6 +28,9 @@ _cloud_slots = asyncio.Semaphore(max(1, min(settings.cloud_advisor_max_concurren
 
 class TutorUnavailable(Exception):
     def __init__(self, reason='unavailable'):
+        reason = reason.lower()
+        reason = {'rate_limit_429': 'rate_limit', 'pool_unavailable': 'rate_limit',
+                  'validation_failed': 'validation'}.get(reason, reason)
         self.reason = reason if reason in {'unavailable', 'rate_limit', 'timeout', 'configuration', 'validation', 'busy'} else 'unavailable'
         super().__init__()
 
@@ -212,7 +215,7 @@ async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, 
     for _ in range(3):
         entry = pool.acquire() if pool else None
         if entry is None:
-            raise TutorUnavailable()
+            raise TutorUnavailable('POOL_UNAVAILABLE')
         content = [{"type": "text", "text": user_text}]
         if image_b64:
             content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}})

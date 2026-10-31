@@ -24,9 +24,11 @@ import static com.mathvisionkids.api.tutoring.MathTutorDtos.*;
 @RequestMapping("/api/v1/student/tutor")
 public class MathTutorController {
     private final MathTutorService service;
+    private final com.mathvisionkids.api.quiz.QuizSources quizSources;
 
-    public MathTutorController(MathTutorService service) {
+    public MathTutorController(MathTutorService service, com.mathvisionkids.api.quiz.QuizSources quizSources) {
         this.service = service;
+        this.quizSources = quizSources;
     }
 
     @PostMapping(value = "/read", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -57,12 +59,15 @@ public class MathTutorController {
     }
 
     @PostMapping(value = "/work-review", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public WorkReviewResponse reviewWork(@Valid @RequestBody WorkReviewRequest request) {
-        return service.reviewWork(request);
+    public WorkReviewResponse reviewWork(@Valid @RequestBody WorkReviewRequest request, Authentication authentication) {
+        var result = service.reviewWork(request);
+        try { quizSources.record(authentication.getName(), "WORK_REVIEW", request.sourceId(), request.problemText(), true); }
+        catch (RuntimeException ex) { quizSources.warnUnavailable(); }
+        return result;
     }
 
     @PostMapping(value = "/lesson/prepare", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LessonPreparation> prepareLesson(@Valid @RequestBody LessonDraft request, Authentication authentication) {
+    public ResponseEntity<LessonPreparationStatus> prepareLesson(@Valid @RequestBody LessonDraft request, Authentication authentication) {
         return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
                 .body(service.prepareLesson(request, authentication.getName()));
     }
@@ -75,6 +80,11 @@ public class MathTutorController {
     @PostMapping(value = "/lesson/answer", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonResponse answer(@Valid @RequestBody LessonAnswer request, Authentication authentication) {
         return service.answer(request, authentication.getName());
+    }
+
+    @PostMapping(value = "/lesson/preparation", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public LessonResponse preparation(@Valid @RequestBody LessonPreparation request, Authentication authentication) {
+        return service.preparation(request, authentication.getName());
     }
 
     @PostMapping(value = "/lesson/resume", consumes = MediaType.APPLICATION_JSON_VALUE)

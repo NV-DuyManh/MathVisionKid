@@ -5,7 +5,7 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS } from '../../constants/theme';
 import { NarrationProgress, NarrationSource, NARRATION_WAIT_SECONDS } from './narrationApi';
-import { getPreparedNarrationAsset } from './narrationCache';
+import { getPreparedNarrationAsset, NARRATION_RENDER_POLICY } from './narrationCache';
 import { NarrationCacheContext, PlaybackBookmarksContext } from './NarrationPreparation';
 import { type AudioCue } from './audioCues';
 import { measureVoice } from './voiceMetrics';
@@ -19,7 +19,7 @@ import { DeviceNarration } from './DeviceNarration';
 type Props = { scope: string; source: NarrationSource; paragraphs: string[]; disabled?: boolean; compact?: boolean; onFinished?: () => void };
 type VoiceKeyEvent = Parameters<NonNullable<React.ComponentProps<typeof Pressable>['onKeyDown']>>[0];
 export function LessonNarration(props: Props) {
-  return <Narration key={JSON.stringify([props.scope, props.source, props.paragraphs, props.disabled])} {...props} />;
+  return <Narration key={JSON.stringify([NARRATION_RENDER_POLICY, props.scope, props.source, props.paragraphs, props.disabled])} {...props} />;
 }
 function Narration({ source, paragraphs, disabled = false, compact = false, onFinished }: Props) {
   const { width, fontScale } = useWindowDimensions();

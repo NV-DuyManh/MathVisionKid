@@ -1,0 +1,8 @@
+{
+  "operation": "Local SQLite load + Pydantic parse + existing source/arithmetic validation",
+  "samples": 40,
+  "medianMs": 12.187,
+  "p95Ms": 14.928,
+  "maxMs": 15.276,
+  "fixture": "Synthetic checked plan fixture. No cloud/model/TTS/phone timing measured."
+}

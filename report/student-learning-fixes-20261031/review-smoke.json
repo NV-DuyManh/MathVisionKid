@@ -1,0 +1,76 @@
+[
+  {
+    "case": "correct",
+    "http_status": 200,
+    "elapsed_s": 6.219,
+    "verdict": "CORRECT",
+    "expected": "CORRECT",
+    "rows": [
+      {
+        "index": 0,
+        "status": "OK"
+      },
+      {
+        "index": 1,
+        "status": "OK"
+      },
+      {
+        "index": 2,
+        "status": "OK"
+      },
+      {
+        "index": 3,
+        "status": "OK"
+      },
+      {
+        "index": 4,
+        "status": "OK"
+      },
+      {
+        "index": 5,
+        "status": "OK"
+      },
+      {
+        "index": 6,
+        "status": "OK"
+      }
+    ]
+  },
+  {
+    "case": "wrong",
+    "http_status": 200,
+    "elapsed_s": 7.125,
+    "verdict": "NEEDS_REVISION",
+    "expected": "NEEDS_REVISION",
+    "rows": [
+      {
+        "index": 0,
+        "status": "UNSURE"
+      },
+      {
+        "index": 1,
+        "status": "UNSURE"
+      },
+      {
+        "index": 2,
+        "status": "UNSURE"
+      },
+      {
+        "index": 3,
+        "status": "UNSURE"
+      },
+      {
+        "index": 4,
+        "status": "UNSURE"
+      },
+      {
+        "index": 5,
+        "status": "FIX"
+      },
+      {
+        "index": 6,
+        "status": "UNSURE"
+      }
+    ]
+  }
+]

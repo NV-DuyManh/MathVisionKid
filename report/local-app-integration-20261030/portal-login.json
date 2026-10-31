@@ -1,0 +1,14 @@
+[
+  {
+    "alias": "admin",
+    "loginStatus": 200,
+    "role": "ADMIN",
+    "passed": true
+  },
+  {
+    "alias": "teacher",
+    "loginStatus": 200,
+    "role": "TEACHER",
+    "passed": true
+  }
+]

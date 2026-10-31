@@ -192,4 +192,14 @@ class SsoHandoffServiceTest {
         ssoHandoffService.cleanupExpiredTickets();
         assertEquals(0, ssoHandoffService.getActiveTicketCount());
     }
+
+    @Test
+    void roleChangedAfterTicketCreationCannotExchangeForAdminSession() {
+        when(userRepository.findByEmail(adminUser.getEmail())).thenReturn(Optional.of(adminUser));
+        when(userRepository.findById(adminUser.getId())).thenReturn(Optional.of(adminUser));
+        SsoTicketResponse ticket = ssoHandoffService.createHandoffTicket(adminUser.getEmail(), "ADMIN");
+        adminUser.setRole("STUDENT");
+        assertThrows(ApiException.class, () -> ssoHandoffService.exchangeHandoffTicket(ticket.getCode(), "ADMIN"));
+        org.mockito.Mockito.verifyNoInteractions(jwtUtil, refreshTokenService);
+    }
 }

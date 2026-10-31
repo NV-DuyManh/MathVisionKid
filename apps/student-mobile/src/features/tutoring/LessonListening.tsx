@@ -7,6 +7,7 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { LessonNarration } from './LessonNarration';
 import { LessonReply, LessonStep, TutorService } from './api/TutorService';
 import { TaskProgress } from '../../components/ui/TaskProgress';
+import { useNarrationPreparation } from './NarrationPreparation';
 
 type Props = { scope: string; sessionId: string; revision: number; stepIndex: number;
   step?: Pick<LessonStep, 'kind' | 'title' | 'expression'> | null; paragraphs: string[]; onReturn: () => void };
@@ -19,6 +20,7 @@ export function LessonListening(props: Props) {
 function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs, onReturn }: Props) {
   const [ready, setReady] = useState(false), [choosing, setChoosing] = useState(false);
   const [reply, setReply] = useState<LessonReply | null>(null), [selected, setSelected] = useState('');
+  useNarrationPreparation(reply ? { sessionId, revision } : null, reply ? [reply.spokenExplanation, reply.followUp] : [], { wholeLesson: false });
   const [pending, setPending] = useState(false), [notice, setNotice] = useState('');
   const request = useRef<AbortController | null>(null), mounted = useRef(true), generation = useRef(0);
   useEffect(() => {
@@ -31,8 +33,13 @@ function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs
     });
     return () => { mounted.current = false; request.current?.abort(); listener.remove(); };
   }, []);
-  const fraction = /\d\s*\/\s*\d/.test(step?.expression || '');
-  const addFractions = fraction && /[+−-]/.test(step?.expression || '');
+  const expression = step?.expression || '';
+  const writtenFractions = expression.match(/\d+\s*\/\s*\d+/g) || [];
+  const context = [step?.title, ...paragraphs].join(' ');
+  // A slash is also ordinary division, e.g. floor area / tile area. It does
+  // not imply that the learner needs a numerator/denominator lesson.
+  const addFractions = writtenFractions.length >= 2 && /[+−-]/.test(expression);
+  const fraction = addFractions || /phân số|tử số|mẫu số|quy đồng/i.test(context);
   const choices = step?.kind === 'UNDERSTAND' ? ['Đề bài đã cho biết gì?', 'Đề bài muốn tìm gì?', 'Em chưa hiểu một từ trong đề']
     : [addFractions ? 'Vì sao phải quy đồng?' : 'Vì sao chọn phép tính này?', 'Em chưa biết bắt đầu từ đâu', fraction ? 'Tử số và mẫu số nghĩa là gì?' : 'Đơn vị này nghĩa là gì?'];
   const explain = async (choice: string) => {
