@@ -109,10 +109,16 @@ def schedule(request: PrepareRequest):
             if not _valid(key, old): _jobs.pop(key, None)
         job = _jobs.get(request.sessionId)
         previous_characters=0
+        projection=None
         if job and job.projected_plan is not session.plan:
-            previous_characters=job.characters
+            projection=project_scripts(session)
+            unchanged=frozenset(tuple(parts) for parts in [*projection[0],*projection[1].values()])
+            # Finishing the checked mathematics must not restart identical
+            # reading speech. Account conservatively for still-running turns.
+            previous_characters=job.characters+job.reserved_characters
             job.stopped=True
-            for voice in SPEECH_VOICES:narration.cancel_preparation(request.owner,request.sessionId,voice)
+            for voice in SPEECH_VOICES:
+                narration.cancel_preparation(request.owner,request.sessionId,voice,keep_paragraphs=unchanged)
             _jobs.pop(request.sessionId,None);job=None
         if not job:
             # One active lesson per pupil; discard abandoned speculative queues.
@@ -121,7 +127,7 @@ def schedule(request: PrepareRequest):
                     old.stopped = True; narration.cancel_preparation(request.owner, key); _jobs.pop(key, None)
             while len(_jobs) >= MAX_LESSONS:
                 old_key, old = _jobs.popitem(last=False); old.stopped = True; narration.cancel_preparation(old.session.owner, old_key)
-            scripts, reviews = project_scripts(session)
+            scripts, reviews = projection or project_scripts(session)
             job = Work(session, scripts, request.voice, extra_scripts=reviews,
                 projected_plan=session.plan,characters=previous_characters)
             _jobs[request.sessionId] = job

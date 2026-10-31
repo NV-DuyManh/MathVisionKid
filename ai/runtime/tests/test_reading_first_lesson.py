@@ -129,6 +129,30 @@ async def test_failed_review_never_completes_reading_or_publishes_math(pending_l
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize('reason',['validation','busy','timeout'])
+async def test_background_recovers_once_without_restarting_reading_or_skipping_review(pending_lesson,monkeypatch,reason):
+    response,session,_,_,_=pending_lesson
+    session.preparation_task.cancel()
+    await asyncio.gather(session.preparation_task,return_exceptions=True)
+    checked=lesson.Plan(topic='Bút',goal='Tìm số bút.',steps=[step(expression='12+5',unit='bút'),step(expression='{s0}*1',unit='bút')])
+    review=AsyncMock(side_effect=[TutorUnavailable(reason),checked]);monkeypatch.setattr(lesson,'reviewed_plan',review)
+    assert await lesson._prepare_session_math(response.sessionId,session,session.plan.steps)
+    assert review.await_count==2 and session.plan is checked
+    assert session.revision==0 and session.answers==[] and session.completed==[]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('reason,calls',[('configuration',1),('rate_limit',1),('validation',2)])
+async def test_background_recovery_is_bounded_and_never_retries_credentials_or_quota(pending_lesson,monkeypatch,reason,calls):
+    response,session,_,_,_=pending_lesson
+    session.preparation_task.cancel()
+    await asyncio.gather(session.preparation_task,return_exceptions=True)
+    review=AsyncMock(side_effect=TutorUnavailable(reason));monkeypatch.setattr(lesson,'reviewed_plan',review)
+    assert await lesson._prepare_session_math(response.sessionId,session,session.plan.steps) is False
+    assert review.await_count==calls and isinstance(session.plan,lesson.ReadingPlan)
+
+
+@pytest.mark.asyncio
 async def test_reviewed_plan_refresh_preserves_voice_and_spent_budget(pending_lesson):
     response,session,gate,_,_=pending_lesson
     media.schedule(media.PrepareRequest(owner=session.owner,sessionId=response.sessionId,revision=0,voice='vi-VN-HoaiMyNeural'))
@@ -140,7 +164,7 @@ async def test_reviewed_plan_refresh_preserves_voice_and_spent_budget(pending_le
 
 
 @pytest.mark.asyncio
-async def test_plan_refresh_yields_unused_speech_but_preserves_an_active_listener(pending_lesson):
+async def test_plan_refresh_preserves_both_unchanged_voices_including_an_active_listener(pending_lesson):
     response,session,gate,_,_=pending_lesson
     media.schedule(media.PrepareRequest(owner=session.owner,sessionId=response.sessionId,revision=0))
     parts=media._jobs[response.sessionId].scripts[0]
@@ -150,7 +174,7 @@ async def test_plan_refresh_yields_unused_speech_but_preserves_an_active_listene
     narration._foreground_waiters[keys[0]]=1
     try:
         gate.set();assert await session.preparation_task
-        assert not events[0].is_set() and events[1].is_set()
+        assert not events[0].is_set() and not events[1].is_set()
     finally:
         for key in keys:narration._background.pop(key,None)
         narration._foreground_waiters.pop(keys[0],None)

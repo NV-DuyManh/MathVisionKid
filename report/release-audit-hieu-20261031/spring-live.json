@@ -1,0 +1,69 @@
+[
+  {
+    "check": "demo_auth",
+    "role": "student",
+    "status": 200,
+    "elapsed_ms": 101.21
+  },
+  {
+    "check": "demo_auth",
+    "role": "teacher",
+    "status": 200,
+    "elapsed_ms": 75.18
+  },
+  {
+    "check": "demo_auth",
+    "role": "admin",
+    "status": 200,
+    "elapsed_ms": 74.65
+  },
+  {
+    "check": "student_admin_boundary",
+    "status": 403
+  },
+  {
+    "check": "profile_http",
+    "requests": 20,
+    "concurrency": 4,
+    "median_ms": 5.18,
+    "max_ms": 22.77
+  },
+  {
+    "check": "spring_reading_first",
+    "status": 200,
+    "elapsed_ms": 21.18
+  },
+  {
+    "check": "spring_both_voices_without_play",
+    "ready_after_s": {
+      "vi-VN-NamMinhNeural": 0.016,
+      "vi-VN-HoaiMyNeural": 0.016
+    }
+  },
+  {
+    "check": "spring_audio_bytes",
+    "voice": "vi-VN-NamMinhNeural",
+    "status": 200,
+    "bytes": 324200,
+    "elapsed_ms": 6.59
+  },
+  {
+    "check": "spring_audio_bytes",
+    "voice": "vi-VN-HoaiMyNeural",
+    "status": 200,
+    "bytes": 333416,
+    "elapsed_ms": 6.34
+  },
+  {
+    "check": "spring_unpublished_speech_rejected",
+    "status": 400
+  },
+  {
+    "check": "teacher_student_boundary",
+    "status": 403
+  },
+  {
+    "check": "other_student_ownership",
+    "status": 410
+  }
+]

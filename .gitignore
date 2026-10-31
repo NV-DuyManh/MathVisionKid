@@ -41,6 +41,8 @@ example
 # generated native folders
 /ios
 /android
+/apps/student-mobile/android/
+/apps/student-mobile/ios/
 
 # MathVision Kids local runtime
 runtime/logs/
@@ -48,6 +50,7 @@ runtime/pids/
 /runtime/
 infra/local-runtime/mobile-web-export/
 infra/local-runtime/pids/
+apps/portal-web/public/study/
 
 # Keep AI service source reviewable; exclude local artifacts, datasets and model weights.
 ai/runtime/*

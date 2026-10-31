@@ -35,7 +35,8 @@ def get_auth_headers():
     try:
         r = requests.post(
             f"{SPRING_BASE}/auth/login",
-            json={"email": "minh.student@mathvision.local", "password": "MathVision123!"},
+            json={"email": os.getenv('MATHVISION_TEST_USER', 'student'),
+                  "password": os.getenv('MATHVISION_TEST_PASSWORD', '123')},
             timeout=5
         )
         if r.status_code == 200:

@@ -26,6 +26,9 @@ ai:
 # The local launcher verifies this checkout using diskSpace.details.path.
 # Production inherits the hidden health response from application.yml.
 management:
+  health:
+    mail:
+      enabled: false
   endpoint:
     health:
       show-details: always

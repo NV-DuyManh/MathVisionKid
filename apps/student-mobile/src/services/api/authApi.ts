@@ -32,6 +32,15 @@ export const getMockStudentUser = (email: string) => {
     role: 'STUDENT', active: true, gradeLevel: info.gradeLevel, grade: info.gradeLevel };
 };
 export const authApi = {
+  async register(payload: { email: string; displayName: string; password: string; gender: string; phoneNumber: string; gradeLevel: number; role: 'STUDENT' }) {
+    return (await apiClient.post('/auth/register', payload)).data;
+  },
+  async requestPasswordReset(email: string) {
+    return (await apiClient.post('/auth/password-reset/request', { email })).data;
+  },
+  async confirmPasswordReset(email: string, code: string, newPassword: string) {
+    return (await apiClient.post('/auth/password-reset/confirm', { email, code, newPassword })).data;
+  },
   async login(credentials: any): Promise<LoginResponse> {
     const email = String(credentials.email || '').trim().toLowerCase();
     if (!ENV.USE_MOCK) {

@@ -83,6 +83,27 @@ def test_repeated_prepare_requests_do_not_generate_more_speech(prepared):
     assert len(calls)==10
 
 
+def test_checked_plan_refresh_keeps_both_unchanged_voices_and_cancels_changed_text(prepared,monkeypatch):
+    session,_,_=prepared
+    media.schedule(request()); previous=media._jobs[SESSION]
+    previous.characters=55;previous.reserved_characters=22
+    signals={}
+    for voice in speech.SPEECH_VOICES:
+        for index in (0,1):
+            key=('pupil-a',SESSION,voice,False,tuple(previous.scripts[index]))
+            signals[key]=threading.Event()
+    monkeypatch.setattr(narration,'_background',signals)
+    monkeypatch.setattr(narration,'_public_jobs',{})
+    session.plan=session.plan.model_copy(deep=True)
+    session.plan.steps[1].question='Em tìm phần còn lại bằng cách nào?'
+    media.refresh_after_plan(SESSION,session)
+    assert previous.stopped and media._jobs[SESSION] is not previous
+    assert media._jobs[SESSION].characters==77
+    for voice in speech.SPEECH_VOICES:
+        assert not signals[('pupil-a',SESSION,voice,False,tuple(previous.scripts[0]))].is_set()
+        assert signals[('pupil-a',SESSION,voice,False,tuple(previous.scripts[1]))].is_set()
+
+
 @pytest.mark.parametrize('preferred',speech.SPEECH_VOICES)
 def test_current_two_voices_are_paired_before_moving_to_the_next_step(prepared,preferred):
     media.schedule(request(voice=preferred));job=media._jobs[SESSION]

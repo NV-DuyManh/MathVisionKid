@@ -21,6 +21,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "google_subject", unique = true)
+    private String googleSubject;
+
+    @Column(name = "facebook_subject", unique = true)
+    private String facebookSubject;
+
     @Column(nullable = false)
     private String passwordHash;
 
@@ -29,6 +35,10 @@ public class User {
 
     @Column(nullable = false)
     private String displayName;
+
+    private String gender;
+
+    private String phoneNumber;
 
     private Boolean active = true;
 

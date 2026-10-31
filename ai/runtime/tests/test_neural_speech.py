@@ -31,7 +31,8 @@ def test_empty_and_oversized_streams_are_not_playable(monkeypatch, payload):
     with pytest.raises(ValueError): asyncio.run(speech._neural_audio('Chào em!', speech.DEFAULT_VOICE))
 
 
-@pytest.mark.parametrize('failure', [speech.edge_tts.exceptions.NoAudioReceived, TimeoutError])
+@pytest.mark.parametrize('failure', [speech.edge_tts.exceptions.NoAudioReceived, TimeoutError,
+    speech.aiohttp.ClientConnectionError, speech.aiohttp.ServerDisconnectedError])
 def test_no_audio_retries_and_discards_incomplete_attempt(monkeypatch, failure):
     calls = []
     class Communicate:
@@ -47,18 +48,33 @@ def test_no_audio_retries_and_discards_incomplete_attempt(monkeypatch, failure):
     assert len(calls) == 2
 
 
-def test_persistent_no_audio_is_not_retried_forever(monkeypatch):
+@pytest.mark.parametrize('failure', [speech.edge_tts.exceptions.NoAudioReceived, speech.aiohttp.ClientConnectionError])
+def test_persistent_provider_failure_is_not_retried_forever(monkeypatch, failure):
     calls = []
     class Communicate:
         def __init__(self, *args, **kwargs): calls.append(args)
         async def stream(self):
-            raise speech.edge_tts.exceptions.NoAudioReceived('No audio')
+            raise failure('No audio')
             yield
     monkeypatch.setattr(speech.edge_tts, 'Communicate', Communicate)
     monkeypatch.setattr(speech.asyncio, 'sleep', AsyncMock())
-    with pytest.raises(speech.edge_tts.exceptions.NoAudioReceived):
+    with pytest.raises(failure):
         asyncio.run(speech._neural_audio('Chào em!', speech.DEFAULT_VOICE))
     assert len(calls) == 3
+
+
+@pytest.mark.parametrize('status', [401, 403, 429])
+def test_provider_credentials_and_quota_errors_are_not_retried(monkeypatch, status):
+    calls=[]
+    class Communicate:
+        def __init__(self, *args, **kwargs): calls.append(args)
+        async def stream(self):
+            raise speech.aiohttp.ClientResponseError(None, (), status=status)
+            yield
+    monkeypatch.setattr(speech.edge_tts, 'Communicate', Communicate)
+    with pytest.raises(speech.aiohttp.ClientResponseError):
+        asyncio.run(speech._neural_audio('Chào em!', speech.DEFAULT_VOICE))
+    assert len(calls)==1
 
 
 def test_turn_diagnostics_record_timing_and_failure_without_pupil_text(monkeypatch, caplog):

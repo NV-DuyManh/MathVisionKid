@@ -469,13 +469,15 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
             _render_slot.release()
 
 
-def cancel_preparation(owner, session_id, voice=None,older_than_revision=None):
+def cancel_preparation(owner, session_id, voice=None,older_than_revision=None, *, keep_paragraphs=()):
     with _cache_lock:
         for key,job in _public_jobs.items():
+            if key[-1] in keep_paragraphs: continue
             if (key[:2]==(owner,session_id) and (voice is None or key[2]==voice) and job.get('prefetch')
                     and (older_than_revision is None or job['revision']<older_than_revision)):
                 job['cancel'].set()
         for key, cancellation in _background.items():
+            if key[-1] in keep_paragraphs: continue
             if key[:2] == (owner, session_id) and (voice is None or key[2]==voice and not _foreground_waiters.get(key)):
                 job=_public_jobs.get(key)
                 if older_than_revision is not None and job and job.get('prefetch') and job['revision']>=older_than_revision:continue

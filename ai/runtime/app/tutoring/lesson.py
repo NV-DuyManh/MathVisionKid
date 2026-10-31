@@ -7,6 +7,7 @@ import operator
 import re
 import secrets
 import time
+import unicodedata
 from collections import OrderedDict
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -601,6 +602,9 @@ def ungroup_numbers(text: str) -> str:
 
 
 def numeric_values(text: str) -> set[str]:
+    # Compare the same decimal digits consistently without changing pupil text
+    # or flattening superscript units. Unknown full-width answers stay unknown.
+    text = ''.join(str(unicodedata.decimal(char)) if char.isdecimal() else char for char in text)
     return set(re.findall(r"\d+(?:\.\d+)?", ungroup_numbers(text).replace(",", ".")))
 
 
@@ -618,7 +622,7 @@ def safe_public(text: str):
 def source_parts(source: str) -> tuple[list[str], str]:
     """Keep the original clause text and one explicit question; infer no meaning."""
     safe_public(source)
-    questions = list(re.finditer(r"(?:^|[.!?;\n]\s*)(Hỏi|Tính|Tìm|Đếm)\b", source, re.I))
+    questions = list(re.finditer(r"(?:^|[.!?;\n]\s*)(Hỏi|Tính|Tìm|Đếm|Cần(?=\s+bao\s+nhiêu\b[^?]*\?))\b", source, re.I))
     if not questions:
         # OCR can lose sentence punctuation. An explicit Hỏi boundary is still
         # a source quote; never infer an implicit or multi-question boundary.
@@ -1189,7 +1193,17 @@ async def reviewed_plan(request, comprehension):
 async def _prepare_session_math(key, session, comprehension):
     started=time.monotonic()
     try:
-        plan=await reviewed_plan(session.preparation_request,comprehension)
+        async with asyncio.timeout(60):
+            for attempt in range(2):
+                try:
+                    plan=await reviewed_plan(session.preparation_request,comprehension)
+                    break
+                except TutorUnavailable as error:
+                    # A failed checked draft need not make the pupil restart.
+                    # Preserve every review; never retry credentials or quota errors.
+                    if attempt or error.reason not in {'validation','busy','timeout'}: raise
+                    logger.info('Lesson background preparation recovering category=%s',error.reason)
+                    await asyncio.sleep(.15)
         if _sessions.get(key) is not session or session.expires<=time.monotonic():return False
         session.plan=plan
         from app.tutoring import media_preparation
@@ -1204,7 +1218,7 @@ async def _prepare_session_math(key, session, comprehension):
         logger.info('Lesson mathematics preparation stopped session=%s revision=%d reason=CANCELLED', key[:8], session.revision)
         raise
     except Exception as exc:
-        session.preparation_failure = exc.reason if isinstance(exc, TutorUnavailable) else 'INTERNAL_ERROR'
+        session.preparation_failure = exc.reason if isinstance(exc, TutorUnavailable) else 'timeout' if isinstance(exc, TimeoutError) else 'INTERNAL_ERROR'
         session.preparation_retry_at = time.monotonic() + (60 if session.preparation_attempts >= 3 else 5)
         logger.info('Lesson mathematics preparation stopped session=%s revision=%d attempt=%d category=%s reason=%s',
                     key[:8], session.revision, session.preparation_attempts, type(exc).__name__, session.preparation_failure)

@@ -5,22 +5,44 @@ export interface UserProfile {
 }
 export interface SsoTicketResponse { code: string; expiresIn: number; targetApp: string }
 let attempt = 0;
+export interface RegisterPayload {
+  email: string; displayName: string; password: string; role: 'STUDENT' | 'TEACHER';
+  gender: 'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY'; phoneNumber: string; gradeLevel?: number;
+}
+async function authenticate(path: string, credentials: object): Promise<UserProfile> {
+  const current = ++attempt;
+  tokenStore.clearTokens();
+  try {
+    const { data } = await apiClient.post(path, credentials);
+    if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
+    if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
+    tokenStore.setTokens(data.accessToken, data.refreshToken, true);
+    const profile = await authService.getMe();
+    if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
+    return profile;
+  } catch (error) {
+    if (current === attempt) tokenStore.clearTokens();
+    throw error;
+  }
+}
 export const authService = {
   async login(email: string, password: string): Promise<UserProfile> {
-    const current = ++attempt;
-    tokenStore.clearTokens();
-    try {
-      const { data } = await apiClient.post('/auth/login', { email: email.trim().toLowerCase(), password });
-      if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
-      if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
-      tokenStore.setTokens(data.accessToken, data.refreshToken, true);
-      const profile = await this.getMe();
-      if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
-      return profile;
-    } catch (error) {
-      if (current === attempt) tokenStore.clearTokens();
-      throw error;
-    }
+    return authenticate('/auth/login', { email: email.trim().toLowerCase(), password });
+  },
+  async loginWithGoogle(credential: string, role?: 'STUDENT' | 'TEACHER', gradeLevel?: number) {
+    return authenticate('/auth/google', { credential, role, gradeLevel });
+  },
+  async loginWithFacebook(credential: string, role?: 'STUDENT' | 'TEACHER', gradeLevel?: number) {
+    return authenticate('/auth/facebook', { credential, role, gradeLevel });
+  },
+  async register(payload: RegisterPayload): Promise<{ message: string }> {
+    return (await apiClient.post('/auth/register', payload)).data;
+  },
+  async requestPasswordReset(email: string): Promise<{ message: string }> {
+    return (await apiClient.post('/auth/password-reset/request', { email })).data;
+  },
+  async confirmPasswordReset(email: string, code: string, newPassword: string): Promise<{ message: string }> {
+    return (await apiClient.post('/auth/password-reset/confirm', { email, code, newPassword })).data;
   },
   async getMe(signal?: AbortSignal): Promise<UserProfile> {
     const { data } = await apiClient.get<UserProfile>('/me', { signal });

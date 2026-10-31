@@ -1,0 +1,46 @@
+{
+  "backend_h2": {
+    "total": 479,
+    "passed": 478,
+    "skipped": 1,
+    "skip_reasons": {
+      "not specified": 1
+    }
+  },
+  "backend_postgres_and_minio": {
+    "total": 17,
+    "passed": 17,
+    "skip_reasons": {}
+  },
+  "ai": {
+    "total": 2161,
+    "passed": 2154,
+    "skipped": 7,
+    "skip_reasons": {
+      "Historical live Gemini catalog is absent; no catalog evidence fabricated": 3,
+      "Private image fixture absent: E:\\MathVisionKid\\scratch\\OWNER_GRAPH_HANDWRITING_PHYSICAL_FIXTURE.png; restore it for live source verification": 4
+    }
+  },
+  "scripts": {
+    "total": 178,
+    "passed": 177,
+    "skipped": 1,
+    "skip_reasons": {
+      "Creating symlinks requires a Windows privilege": 1
+    }
+  },
+  "student": {
+    "suites": 110,
+    "passed": 1263,
+    "failed": 0,
+    "pending": 0
+  },
+  "audit": {
+    "info": 0,
+    "low": 1,
+    "moderate": 44,
+    "high": 2,
+    "critical": 1,
+    "total": 48
+  }
+}

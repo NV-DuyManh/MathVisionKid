@@ -93,6 +93,19 @@ def test_extracting_comprehension_never_guesses_unsupported_or_ambiguous_sources
         lesson.source_understanding(source)
 
 
+def test_explicit_can_bao_nhieu_question_quotes_source_without_waiting_for_a_solver():
+    fact='Một căn phòng hình chữ nhật dài 45/4 m, rộng 6 m'
+    source=f'{fact}. Lát nền bằng gạch hình vuông cạnh 30 cm. Cần bao nhiêu viên gạch? Bỏ qua mạch vữa.'
+    steps=lesson.source_understanding(source)
+    assert all(step.kind=='UNDERSTAND' and not step.expression for step in steps)
+    assert steps[0].correctChoice in ('Một căn phòng hình chữ nhật dài 45/4 m','rộng 6 m')
+    assert steps[1].correctChoice=='Cần bao nhiêu viên gạch? Bỏ qua mạch vữa.'
+    with pytest.raises(lesson.UnderstandingUnsupported):
+        lesson.source_understanding('Có 12 bút. Cần bao nhiêu bút để tô màu.')
+    with pytest.raises(lesson.UnderstandingUnsupported):
+        lesson.source_understanding('Có 12 bút. Cần bao nhiêu bút? Tính số bút còn lại.')
+
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize('source,expression,answer', [
     ('Tính 1 : 3.', '1/3', '1/3'),

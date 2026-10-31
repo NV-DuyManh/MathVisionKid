@@ -11,6 +11,7 @@ import textwrap
 import time
 import wave
 
+import aiohttp
 import edge_tts
 
 from app.config import settings
@@ -126,7 +127,7 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
                 raise ValueError('Empty speech response')
             outcome = 'ready'
             return bytes(result)
-        except (edge_tts.exceptions.NoAudioReceived, TimeoutError) as exc:
+        except (edge_tts.exceptions.NoAudioReceived, TimeoutError, aiohttp.ClientConnectionError) as exc:
             outcome = type(exc).__name__
             if attempt == 2:
                 raise

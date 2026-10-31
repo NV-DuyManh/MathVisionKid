@@ -1,0 +1,36 @@
+[
+  {
+    "check": "reading_first_http",
+    "status": 200,
+    "elapsed_s": 0.015
+  },
+  {
+    "check": "both_voices_without_play",
+    "phases": {
+      "vi-VN-NamMinhNeural": "ready",
+      "vi-VN-HoaiMyNeural": "ready"
+    },
+    "ready_after_s": {
+      "vi-VN-NamMinhNeural": 8.766,
+      "vi-VN-HoaiMyNeural": 10.328
+    }
+  },
+  {
+    "check": "cached_voice_burst",
+    "voice": "vi-VN-NamMinhNeural",
+    "requests": 3,
+    "median_ms": 22.63,
+    "max_ms": 23.24
+  },
+  {
+    "check": "cached_voice_burst",
+    "voice": "vi-VN-HoaiMyNeural",
+    "requests": 3,
+    "median_ms": 18.51,
+    "max_ms": 38.05
+  },
+  {
+    "check": "unpublished_speech_rejected",
+    "status": 400
+  }
+]

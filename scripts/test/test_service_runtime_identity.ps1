@@ -28,6 +28,35 @@ foreach ($case in $cases) {
 }
 Write-Host "PASS: $($cases.Count) runtime identity cases; another checkout cannot satisfy the launcher guard."
 
+Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
+$jarPath = Join-Path ([IO.Path]::GetTempPath()) ("mathvision-classpath-" + [guid]::NewGuid().ToString('N') + '.jar')
+$jarCases = @(
+    @{ Classpath='file:/E:/MathVisionKid/backend/business-api/build/classes/java/main/ file:/E:/MathVisionKid/backend/business-api/build/resources/main/'; Expected=$true },
+    @{ Classpath="file:/E:/MathVisionKid/backend/business-api/build/classes/java/`r`n main/ file:/E:/MathVisionKid/backend/business-api/build/resources/main/"; Expected=$true },
+    @{ Classpath='file:/E:/OtherProject/backend/business-api/build/classes/java/main/ file:/E:/OtherProject/backend/business-api/build/resources/main/'; Expected=$false },
+    @{ Classpath='file:/E:/MathVisionKid/backend/business-api-old/build/classes/java/main/ file:/E:/MathVisionKid/backend/business-api-old/build/resources/main/'; Expected=$false },
+    @{ Classpath='file:/E:/MathVisionKid/backend/business-api/build/classes/java/main/'; Expected=$false },
+    @{ Classpath='build/classes/java/main/ build/resources/main/'; Expected=$false }
+)
+try {
+    foreach ($case in $jarCases) {
+        $zip = [IO.Compression.ZipFile]::Open($jarPath, [IO.Compression.ZipArchiveMode]::Create)
+        $writer = [IO.StreamWriter]::new($zip.CreateEntry('META-INF/MANIFEST.MF').Open())
+        $writer.Write("Manifest-Version: 1.0`r`nClass-Path: $($case.Classpath)`r`n`r`n")
+        $writer.Dispose(); $zip.Dispose()
+        $java = [PSCustomObject]@{ CommandLine="java -cp `"$jarPath`" com.mathvisionkids.api.BusinessApiApplication" }
+        $actual = Test-ServiceProcessIdentity -Process $java -WorkingDirectory 'E:\MathVisionKid\backend\business-api' -IdentityKind 'spring'
+        if ($actual -ne $case.Expected) { throw 'Gradle manifest classpath identity assertion failed.' }
+        Remove-Item -LiteralPath $jarPath
+    }
+    if (Test-ServiceProcessIdentity -Process $java -WorkingDirectory 'E:\MathVisionKid\backend\business-api' -IdentityKind 'spring') {
+        throw 'A missing classpath JAR was accepted.'
+    }
+    Write-Host 'PASS: 7 Gradle classpath JAR cases; foreign, prefix-collision, partial, relative and missing paths rejected.'
+} finally {
+    if (Test-Path -LiteralPath $jarPath) { Remove-Item -LiteralPath $jarPath }
+}
+
 $pythonChild = [PSCustomObject]@{
     Name='python.exe'; ExecutablePath='C:\Python\python.exe'; ParentProcessId=123;
     CommandLine='"C:\Python\python.exe" -m uvicorn app.main:app --port 8000';

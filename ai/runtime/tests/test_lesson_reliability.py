@@ -5,6 +5,11 @@ from collections import OrderedDict
 from unittest.mock import AsyncMock
 import httpx
 import pytest
+
+
+def test_source_decimal_digits_are_canonical_but_new_unicode_answers_are_still_unearned():
+    assert lesson.numeric_values('３９/４ m và ٦ m²')=={'39','4','6'}
+    assert lesson.numeric_values('Đáp số: ９３６ viên')-lesson.numeric_values('39/4 m và 6 m')=={'936'}
 from fastapi import FastAPI
 from app.api import tutor
 from app.config import settings

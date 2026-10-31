@@ -419,6 +419,36 @@ function Test-ServiceProcessIdentity {
     if (Test-ServiceCommandIdentity -CommandLine $Process.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind) {
         return $true
     }
+    # Gradle can shorten Windows command lines into a manifest classpath JAR.
+    # Verify its actual main classes/resources; the shared .gradle path alone
+    # cannot identify this checkout or authorize stopping another runtime.
+    if ($IdentityKind -eq 'spring' -and $Process.CommandLine -match '\bcom\.mathvisionkids\.api\.BusinessApiApplication(?:\s|$)' -and
+            $Process.CommandLine -match '(?:^|\s)-(?:cp|classpath)\s+(?:"([^"]+)"|(\S+))') {
+        $classpathJar = if ($Matches[1]) { $Matches[1] } else { $Matches[2] }
+        if ($classpathJar -notmatch '\.jar$' -or -not (Test-Path -LiteralPath $classpathJar -PathType Leaf)) { return $false }
+        $archive = $null; $reader = $null
+        try {
+            Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
+            $archive = [IO.Compression.ZipFile]::OpenRead($classpathJar)
+            $manifest = $archive.GetEntry('META-INF/MANIFEST.MF')
+            if (-not $manifest -or $manifest.Length -gt 65536) { return $false }
+            $reader = [IO.StreamReader]::new($manifest.Open())
+            $text = $reader.ReadToEnd() -replace '\r?\n ', ''
+            if ($text -notmatch '(?m)^Class-Path: ([^\r\n]+)') { return $false }
+            $paths = @($Matches[1].Split(' ') | ForEach-Object {
+                $uri = $null
+                if ([Uri]::TryCreate($_, [UriKind]::Absolute, [ref]$uri) -and $uri.IsFile -and -not $uri.IsUnc) {
+                    $uri.LocalPath.Replace('\','/').TrimEnd('/').ToLowerInvariant()
+                }
+            })
+            $expected = $WorkingDirectory.Replace('\','/').TrimEnd('/').ToLowerInvariant()
+            return $paths -contains "$expected/build/classes/java/main" -and $paths -contains "$expected/build/resources/main"
+        } catch { return $false }
+        finally {
+            if ($reader) { $reader.Dispose() }
+            if ($archive) { $archive.Dispose() }
+        }
+    }
     # Windows venv redirectors keep the project path in the immediate Python parent.
     if ($IdentityKind -notin @('fastapi', 'celery') -or $Process.Name -notmatch '^python(?:w)?\.exe$' -or -not $Process.ExecutablePath) {
         return $false

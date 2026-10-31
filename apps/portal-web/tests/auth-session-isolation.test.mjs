@@ -11,7 +11,7 @@ function harness() {
   const tokens = { getAccessToken: () => access, getRefreshToken: () => refresh, clearTokens: () => { access = refresh = null; }, setTokens: (a, r) => { access = a; refresh = r; } };
   const logout = new Promise(resolve => { finishLogout = resolve; });
   const old = new Promise(resolve => { finishA = resolve; });
-  const apiClient = { post: async (path, body) => path === '/auth/logout' ? logout : body.email === 'a@validation.test' ? old : { data: { accessToken: 'b-access', refreshToken: 'b-refresh' } }, get: async () => ({ data: profile }) };
+  const apiClient = { post: async (path, body) => path === '/auth/logout' ? logout : body.email === 'a@validation.test' || body.credential === 'older-credential' ? old : { data: { accessToken: 'b-access', refreshToken: 'b-refresh' } }, get: async () => ({ data: profile }) };
   const exports = {};
   vm.runInNewContext(transpileModule(readFileSync(new URL('../src/services/authService.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ModuleKind.CommonJS, esModuleInterop: true } }).outputText,
     { exports, require: id => id === './apiClient' ? { apiClient, tokenStore: tokens } : require(id) });
@@ -41,3 +41,14 @@ test('Portal only accepts active known roles from /me', async () => {
     assert.equal(h.tokens.getAccessToken(), null);
   }
 });
+
+for (const method of ['loginWithGoogle','loginWithFacebook']) {
+  test(`late ${method} cannot replace a newer verified password login`, async () => {
+    const h=harness();
+    const older=h.service[method]('older-credential','TEACHER');
+    await h.service.login('b@validation.test','fixture-only');
+    h.finishA({data:{accessToken:'stale-social-access',refreshToken:'stale-social-refresh'}});
+    await assert.rejects(older,/thay đổi/);
+    assert.equal(h.tokens.getAccessToken(),'b-access');
+  });
+}
