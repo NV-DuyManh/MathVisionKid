@@ -1,5 +1,6 @@
 # Báo cáo đang dùng
 
+- [Ghi nhận tác giả và hợp nhất lịch sử PR Kha](contributor-credit-20261031/REPORT.md)
 - [Kiểm tra toàn dự án, giọng nói, chuẩn bị bài và tích hợp Hieu](release-audit-hieu-20261031/REPORT.md)
 - [Sửa bài mới, gợi ý, hai giọng và nhận xét bài làm](student-learning-fixes-20261031/REPORT.md)
 - [Câu đố: lối vào và thư viện gọn hơn](quiz-ui-20261030/REPORT.md)

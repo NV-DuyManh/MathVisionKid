@@ -169,6 +169,8 @@ MathVisionKid/
 
 ## Contributing and license
 
+MathVision Kids includes contributions from **Kha, Nam, Lộc, Hiếu, and Nguyễn Văn Duy Mạnh**. See [contributors and source history](CONTRIBUTORS.md) for the verified scope and original commits.
+
 Focused improvements, reproducible bug reports, and carefully reviewed recognition examples are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep credentials, student photos, datasets, checkpoints, and runtime logs out of Git.
 
 The repository includes an [MIT license](LICENSE). Retain existing copyright notices and third-party licenses, including the bundled [Nunito font license](apps/student-mobile/assets/fonts/OFL.txt).

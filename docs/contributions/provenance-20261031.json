@@ -1,0 +1,1666 @@
+{
+  "main_before": "dd3b324ed1d59c8916db0489f014c55e80bf574f",
+  "kha_head": "bf29939b4c47be180581f951c1e7483011227b17",
+  "merge_base": "20d6780f3a77b0ac2db96edc575e62481788ccad",
+  "tracked_files_examined": 3475,
+  "main_authored_commits_before": {
+    "Nguyen Van Duy Manh <duymanhdnvn20092005@gmail.com>": 67,
+    "AnBaToBun22 <phanquanghieusuper@gmail.com>": 3,
+    "Nguyen Van Duy Manh <154242112+NV-DuyManh@users.noreply.github.com>": 7,
+    "deptraivodich <khatruong2k5@gmail.com>": 4,
+    "Four-L <locdev28082005@gmail.com>": 2,
+    "tranhoainam298 <namnam.trannam@gmail.com>": 4
+  },
+  "kha_authored_commits": [
+    {
+      "sha": "6766fdc1505d793e86dbcb0ed2371d19b44c379f",
+      "author": "deptraivodich <khatruong2k5@gmail.com>",
+      "subject": "feat: refresh admin portal and harden auth and student image privacy"
+    },
+    {
+      "sha": "31e6a2e172b04a7b0df69b05555dd5742b795a94",
+      "author": "deptraivodich <khatruong2k5@gmail.com>",
+      "subject": "Merge main into Kha and preserve student startup and access guards"
+    },
+    {
+      "sha": "651f4bf53aac8f797ef532d0ef278d10e135e748",
+      "author": "deptraivodich <khatruong2k5@gmail.com>",
+      "subject": "Merge origin/main into Kha and preserve session access guards"
+    },
+    {
+      "sha": "3121c1993b5f7f73cfc737b991c54ae41b473eb5",
+      "author": "deptraivodich <khatruong2k5@gmail.com>",
+      "subject": "feat: preserve smart quizzes and tutor runtime fixes on Kha"
+    },
+    {
+      "sha": "bf29939b4c47be180581f951c1e7483011227b17",
+      "author": "deptraivodich <khatruong2k5@gmail.com>",
+      "subject": "Merge origin/main into Kha and integrate quiz and lesson recovery"
+    }
+  ],
+  "nam_coauthor_evidence": {
+    "source_commit": "705faabef535394904407ea99e34cfebdb73feb5",
+    "integration_commit": "3b80e41c6d0cb1139f3786e886debde57c743dee",
+    "trailers": "tranhoainam298 <namnam.trannam@gmail.com>"
+  },
+  "branches": [
+    {
+      "ref": "origin/Hieu",
+      "head": "03bbbef1f6916e15a3366b27f9ff1689dd17a466",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/Kha",
+      "head": "bf29939b4c47be180581f951c1e7483011227b17",
+      "unmerged_commits": 5,
+      "unmerged_authors": {
+        "deptraivodich <khatruong2k5@gmail.com>": 5
+      }
+    },
+    {
+      "ref": "origin/Loc/Web",
+      "head": "0a9e578fc32e02d6169978c15aa8d08f5ae17d77",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/Nam",
+      "head": "ec6d633f5491d398fc7f743e9c88f28060094f5d",
+      "unmerged_commits": 6,
+      "unmerged_authors": {
+        "tranhoainam298 <namnam.trannam@gmail.com>": 6
+      }
+    },
+    {
+      "ref": "origin/Namm",
+      "head": "aa51f43075eeaa51391204bfbf42e259cdaee0c1",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/codex/line-recognition-polish-20261005",
+      "head": "f807551846ecf1ae768dbc249f2b15cb9b5eadc3",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/codex/meeting-actions-20261021",
+      "head": "6ed8ab32d90b2ec292f45733ae2c1f4392c71623",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/codex/repository-showcase-20261005",
+      "head": "8054877a21d26732d308f223f7fe2f9152f15dbe",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/codex/student-audio-video-removal-20261028",
+      "head": "24d72b09d7d0120b46b1e888f7a6382b8d027551",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/codex/student-responsive-approved",
+      "head": "13dd02dc0d5a6b0e8a429091e551db67e3461814",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    },
+    {
+      "ref": "origin/main",
+      "head": "dd3b324ed1d59c8916db0489f014c55e80bf574f",
+      "unmerged_commits": 0,
+      "unmerged_authors": {}
+    }
+  ],
+  "kha_dispositions": {
+    "identical_blob": 176,
+    "adapted_or_preserved_main": 29,
+    "excluded_obsolete_preview_or_qa_artifact": 51
+  },
+  "kha_files": [
+    {
+      "path": "ai/runtime/app/api/tutor.py",
+      "disposition": "identical_blob",
+      "kha_blob": "f136913ee20d7ef6b3b6120ff798e0a5eef9eb80",
+      "main_blob": "f136913ee20d7ef6b3b6120ff798e0a5eef9eb80"
+    },
+    {
+      "path": "ai/runtime/app/tutoring/digit_append.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "be1faab6c05f09963f2367781fa53d769880ffba",
+      "main_blob": "d4ef1e98c0f5c2938b3a80520f6dddf388f04064"
+    },
+    {
+      "path": "ai/runtime/app/tutoring/fraction_remainder.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "a69dc2e531de241259243928467bf4d569ed1828",
+      "main_blob": "f011a615403c935a7ca00ddc7a80e7ed5d1c16ce"
+    },
+    {
+      "path": "ai/runtime/app/tutoring/lesson.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "985253c58b3c341874aafc0a73ab2ecc88ce6cb3",
+      "main_blob": "db107ef8e581ab89b14ce96fc27ed9c6c7484ffb"
+    },
+    {
+      "path": "ai/runtime/app/tutoring/quiz_narration.py",
+      "disposition": "identical_blob",
+      "kha_blob": "101a94a8d51252c1b0a217c46a90e16bb2c07aa8",
+      "main_blob": "101a94a8d51252c1b0a217c46a90e16bb2c07aa8"
+    },
+    {
+      "path": "ai/runtime/app/tutoring/service.py",
+      "disposition": "identical_blob",
+      "kha_blob": "0803d355b78820947fc00cba49d56c23ba659a69",
+      "main_blob": "0803d355b78820947fc00cba49d56c23ba659a69"
+    },
+    {
+      "path": "ai/runtime/scripts/check_quiz_providers.py",
+      "disposition": "identical_blob",
+      "kha_blob": "3f3ea61889d20193f0bc5e0002628f08b72c2644",
+      "main_blob": "3f3ea61889d20193f0bc5e0002628f08b72c2644"
+    },
+    {
+      "path": "ai/runtime/scripts/check_quiz_providers_disabled.py",
+      "disposition": "identical_blob",
+      "kha_blob": "b6ddc53cb19b2c6ab0af3271fbdd7121a2cbf2a4",
+      "main_blob": "b6ddc53cb19b2c6ab0af3271fbdd7121a2cbf2a4"
+    },
+    {
+      "path": "ai/runtime/scripts/check_quiz_runtime.py",
+      "disposition": "identical_blob",
+      "kha_blob": "0e1e2046c4e35eb57ea007cab75fa90186345277",
+      "main_blob": "0e1e2046c4e35eb57ea007cab75fa90186345277"
+    },
+    {
+      "path": "ai/runtime/scripts/start_quiz_providers_disabled.py",
+      "disposition": "identical_blob",
+      "kha_blob": "d16e0aa87fe8a4e08b1e3fc80659429f0554f28f",
+      "main_blob": "d16e0aa87fe8a4e08b1e3fc80659429f0554f28f"
+    },
+    {
+      "path": "ai/runtime/tests/test_digit_append_support.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "cca183f41b6d8a7fb1c46daabd4790ba7ebd8ac2",
+      "main_blob": "f6306b6f51bc5d26259bd8deb67170afc5295b07"
+    },
+    {
+      "path": "ai/runtime/tests/test_fraction_lesson_support.py",
+      "disposition": "identical_blob",
+      "kha_blob": "89e2b114781b90b3a05ed091a5e3739e05cdba3f",
+      "main_blob": "89e2b114781b90b3a05ed091a5e3739e05cdba3f"
+    },
+    {
+      "path": "ai/runtime/tests/test_lesson_reliability.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "393e327f84ea7e90a088db7d0b2508795df9a32a",
+      "main_blob": "4eed62df14dd9eae4ab2d31242116031454c9a64"
+    },
+    {
+      "path": "ai/runtime/tests/test_quiz_narration.py",
+      "disposition": "identical_blob",
+      "kha_blob": "195c18a9da3607723ddf641bb79b22b00759310c",
+      "main_blob": "195c18a9da3607723ddf641bb79b22b00759310c"
+    },
+    {
+      "path": "ai/runtime/tests/test_reading_first_lesson.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "1e25d6667fa1e6221709e3d6dc0f03ab55d84cd1",
+      "main_blob": "e8ff5ffd5d717e23e627c4db539335c5e30f7059"
+    },
+    {
+      "path": "ai/runtime/tests/test_step3_recovery.py",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "5856a133686b674ce77e09fd6a71212e2b2c1e0c",
+      "main_blob": "9d4ef64ecd199698fd85ce939aa5ec85a88fd63e"
+    },
+    {
+      "path": "apps/admin-web/package.json",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "e0af3873dd478ea0bc862ed74b333da70a02e233",
+      "main_blob": "d04df6a2cf4681a06d1a498566fe81a58d1b712e"
+    },
+    {
+      "path": "apps/admin-web/src/App.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "2f620e8903cac17558b83ff5a55d3ec95ec064b5",
+      "main_blob": "2f620e8903cac17558b83ff5a55d3ec95ec064b5"
+    },
+    {
+      "path": "apps/admin-web/src/components/classes/ClassFormDialog.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "e35c56f1073cd91da6264cb9257b3f5db364edc5",
+      "main_blob": "e35c56f1073cd91da6264cb9257b3f5db364edc5"
+    },
+    {
+      "path": "apps/admin-web/src/components/classes/UserPicker.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "63a6b90d2bf7695a4d2356941823d8371927039c",
+      "main_blob": "63a6b90d2bf7695a4d2356941823d8371927039c"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/AuditEventChip.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "d9bcbfc2ed4bc095cdd88a88e0d19e397cedf0f3",
+      "main_blob": "d9bcbfc2ed4bc095cdd88a88e0d19e397cedf0f3"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/AuditMetadata.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "64412d42be2678f18c890bddf537da837430bf8d",
+      "main_blob": "64412d42be2678f18c890bddf537da837430bf8d"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/ConfirmDialog.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "fcc0c7783a344112ade6a546adb2ca794a9f60c9",
+      "main_blob": "fcc0c7783a344112ade6a546adb2ca794a9f60c9"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/PageContent.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "c58c307ec8c6cc0063e8e060ea2e5b5a6b59dac0",
+      "main_blob": "c58c307ec8c6cc0063e8e060ea2e5b5a6b59dac0"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/ProtectedRoute.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "4dec895f2e450c7d58ec7e55f7d2ab617169cd36",
+      "main_blob": "4dec895f2e450c7d58ec7e55f7d2ab617169cd36"
+    },
+    {
+      "path": "apps/admin-web/src/components/common/RequestError.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "4f995802fcaecfcb213580774abfaf821dd58df8",
+      "main_blob": "4f995802fcaecfcb213580774abfaf821dd58df8"
+    },
+    {
+      "path": "apps/admin-web/src/components/layout/AdminLayout.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "266d7d67fb52fd3a6dc026a912ca67b6224c2178",
+      "main_blob": "266d7d67fb52fd3a6dc026a912ca67b6224c2178"
+    },
+    {
+      "path": "apps/admin-web/src/components/layout/AdminSidebar.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "5f72858374e8900e7f6f4bf0f7c074ff6cf24b49",
+      "main_blob": "5f72858374e8900e7f6f4bf0f7c074ff6cf24b49"
+    },
+    {
+      "path": "apps/admin-web/src/components/layout/AdminTopbar.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "3ddba43859023d734aff8411f5ffac577b5b5ef7",
+      "main_blob": "3ddba43859023d734aff8411f5ffac577b5b5ef7"
+    },
+    {
+      "path": "apps/admin-web/src/components/layout/NavigationContext.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "e1c8715f4fcbb5ce3a7fe3ba249b4211775ad0ce",
+      "main_blob": "e1c8715f4fcbb5ce3a7fe3ba249b4211775ad0ce"
+    },
+    {
+      "path": "apps/admin-web/src/components/users/PasswordResetDialog.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "e022a41249ff7932597ea066c5bcebc8b8480bad",
+      "main_blob": "e022a41249ff7932597ea066c5bcebc8b8480bad"
+    },
+    {
+      "path": "apps/admin-web/src/components/users/UserFormDialog.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "fa5986d5b651193bf0fc975e36aad8445a07e1ff",
+      "main_blob": "fa5986d5b651193bf0fc975e36aad8445a07e1ff"
+    },
+    {
+      "path": "apps/admin-web/src/config/runtime.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "359903f71a93105684e9a77853dbde90c96e4602",
+      "main_blob": "359903f71a93105684e9a77853dbde90c96e4602"
+    },
+    {
+      "path": "apps/admin-web/src/context/AuthContext.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "9f251e7f36f10033c28f174190e814550098907f",
+      "main_blob": "9f251e7f36f10033c28f174190e814550098907f"
+    },
+    {
+      "path": "apps/admin-web/src/hooks/useAdminAction.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "38df5a43618038323fdf60f1b875a2dea45809c1",
+      "main_blob": "38df5a43618038323fdf60f1b875a2dea45809c1"
+    },
+    {
+      "path": "apps/admin-web/src/index.css",
+      "disposition": "identical_blob",
+      "kha_blob": "a977aeac046460d63a1d58c3887aa13abe95188c",
+      "main_blob": "a977aeac046460d63a1d58c3887aa13abe95188c"
+    },
+    {
+      "path": "apps/admin-web/src/main.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "7a6100ea7646f6440610ec178d6d7e82eb5b40af",
+      "main_blob": "7a6100ea7646f6440610ec178d6d7e82eb5b40af"
+    },
+    {
+      "path": "apps/admin-web/src/pages/AuditPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "b93045fdce27bacdcb096c2a59904422910e67be",
+      "main_blob": "b93045fdce27bacdcb096c2a59904422910e67be"
+    },
+    {
+      "path": "apps/admin-web/src/pages/ClassDetailPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "5049af13725722088d22b222abe1b49e8177d3af",
+      "main_blob": "5049af13725722088d22b222abe1b49e8177d3af"
+    },
+    {
+      "path": "apps/admin-web/src/pages/ClassesPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "3d7a65b7574866c522768eb93c64b78e904a0bd1",
+      "main_blob": "3d7a65b7574866c522768eb93c64b78e904a0bd1"
+    },
+    {
+      "path": "apps/admin-web/src/pages/DashboardPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "56805e55fab8052a6519a835b1d00ef4bd50c67b",
+      "main_blob": "56805e55fab8052a6519a835b1d00ef4bd50c67b"
+    },
+    {
+      "path": "apps/admin-web/src/pages/LoginPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "868bcf3a7a14e264128fa250159f229dd79f4531",
+      "main_blob": "868bcf3a7a14e264128fa250159f229dd79f4531"
+    },
+    {
+      "path": "apps/admin-web/src/pages/RecognitionAnalyticsPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "ecad434062dd93f9074ec37b6a97e825a03e55d8",
+      "main_blob": "ecad434062dd93f9074ec37b6a97e825a03e55d8"
+    },
+    {
+      "path": "apps/admin-web/src/pages/StatusPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "627db7204bcf2f5451b3c46523ebaad6fdb56064",
+      "main_blob": "627db7204bcf2f5451b3c46523ebaad6fdb56064"
+    },
+    {
+      "path": "apps/admin-web/src/pages/UserDetailPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "16f0706274305dd6547c37bc8f049ace64718cca",
+      "main_blob": "16f0706274305dd6547c37bc8f049ace64718cca"
+    },
+    {
+      "path": "apps/admin-web/src/pages/UsersPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "a9755d547be13c92a0be561a86d3fdd432eef29f",
+      "main_blob": "a9755d547be13c92a0be561a86d3fdd432eef29f"
+    },
+    {
+      "path": "apps/admin-web/src/services/api/adminService.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "aa6b0b6fe82db6c665c45cbce5c962edeb3bc20f",
+      "main_blob": "aa6b0b6fe82db6c665c45cbce5c962edeb3bc20f"
+    },
+    {
+      "path": "apps/admin-web/src/services/api/apiClient.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "e1e3af7cab5817d0ec6db222ab54ab446ac46a6b",
+      "main_blob": "e1e3af7cab5817d0ec6db222ab54ab446ac46a6b"
+    },
+    {
+      "path": "apps/admin-web/src/services/api/authService.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "2e18280c5267e1bf9f1a7ef0b51c8bc85237df0d",
+      "main_blob": "2e18280c5267e1bf9f1a7ef0b51c8bc85237df0d"
+    },
+    {
+      "path": "apps/admin-web/src/services/api/tokenStore.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "6eb1dedb659c7bbcc27521d8dc022e322202a4ed",
+      "main_blob": "6eb1dedb659c7bbcc27521d8dc022e322202a4ed"
+    },
+    {
+      "path": "apps/admin-web/src/theme.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "da0da7f844cba0306e70d19322527c6a7ec1b15c",
+      "main_blob": "da0da7f844cba0306e70d19322527c6a7ec1b15c"
+    },
+    {
+      "path": "apps/admin-web/tests/auth-isolation.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "f0f28753f12e26ca6d813dbc07e41c4a72e21aff",
+      "main_blob": "f0f28753f12e26ca6d813dbc07e41c4a72e21aff"
+    },
+    {
+      "path": "apps/admin-web/tests/environment.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "0602bd778eda9d76199feb69a1034b9e63f5deca",
+      "main_blob": "0602bd778eda9d76199feb69a1034b9e63f5deca"
+    },
+    {
+      "path": "apps/admin-web/tests/session-refresh.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "0fbc25759be3b6eebe069f2396204d151d3bf21b",
+      "main_blob": "0fbc25759be3b6eebe069f2396204d151d3bf21b"
+    },
+    {
+      "path": "apps/admin-web/tests/sso-flow.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "4d418c013d564c4b55667b6dee6393c70f4c7f8d",
+      "main_blob": "4d418c013d564c4b55667b6dee6393c70f4c7f8d"
+    },
+    {
+      "path": "apps/admin-web/vite.config.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "ab265af617d1ac5765c01057a4f3a91642ae1f37",
+      "main_blob": "ab265af617d1ac5765c01057a4f3a91642ae1f37"
+    },
+    {
+      "path": "apps/portal-web/package.json",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "4d41cbb7386023943e102d55145f83b14f86555b",
+      "main_blob": "4f0e8ee717084242ee6b7430a943109c44d575a1"
+    },
+    {
+      "path": "apps/portal-web/src/pages/AdminEntryPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "5c2847d6cc70fdc83d9c191dd510d570d63ae5b2",
+      "main_blob": "5c2847d6cc70fdc83d9c191dd510d570d63ae5b2"
+    },
+    {
+      "path": "apps/portal-web/src/pages/LoginPage.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "8f671a74f1ba05baad793b33c2deff894fea6609",
+      "main_blob": "6a3e740518499899595a34e3c97ef961500fc8ca"
+    },
+    {
+      "path": "apps/portal-web/src/pages/LogoutPage.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "ba6d7c59933794a46b302547550bc9dd09990d41",
+      "main_blob": "ba6d7c59933794a46b302547550bc9dd09990d41"
+    },
+    {
+      "path": "apps/portal-web/src/services/apiClient.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "66afb993cf229bf1df5933ebc7fa8a7d0288b6b4",
+      "main_blob": "66afb993cf229bf1df5933ebc7fa8a7d0288b6b4"
+    },
+    {
+      "path": "apps/portal-web/src/services/authService.ts",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "566d0adf14e16f085c7bb213e7b38afa3f1d0dc3",
+      "main_blob": "33a61d7e25cf5065e2881e5535bc8930ed876276"
+    },
+    {
+      "path": "apps/portal-web/tests/auth-profile.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "6ec214228a992f83255ff8baf2b040516f443f86",
+      "main_blob": "6ec214228a992f83255ff8baf2b040516f443f86"
+    },
+    {
+      "path": "apps/portal-web/tests/auth-session-isolation.test.mjs",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "cdd091693a5fbe46967b11cf581a2b6c6b283afb",
+      "main_blob": "55a4c925a49e2b0ccd961f4f3358e4c251737986"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/apiClientRefresh.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "c961fe2318647ed45e3c72103f0cde561d750611",
+      "main_blob": "c961fe2318647ed45e3c72103f0cde561d750611"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/cameraCompanion.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "8b706c0b84a2c7529883f01b05cd217e8e732e33",
+      "main_blob": "8b706c0b84a2c7529883f01b05cd217e8e732e33"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/galleryImageLifecycle.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "e17a5c71fc234a9c4f71a813ea12607105d2ee5b",
+      "main_blob": "e17a5c71fc234a9c4f71a813ea12607105d2ee5b"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/lessonProblem.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "8712520cb0796845045cc7956c60fa3e8a18682d",
+      "main_blob": "8712520cb0796845045cc7956c60fa3e8a18682d"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/mockAuthIsolation.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "55019a76089ca1511330c453cf2faa927fad36f1",
+      "main_blob": "55019a76089ca1511330c453cf2faa927fad36f1"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/nativeLoginPlatformNotice.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "81f1215081f4620266cc02af012f104b4fa61558",
+      "main_blob": "81f1215081f4620266cc02af012f104b4fa61558"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/privacyScreen.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "31c3c2b14be29fd09991daedce888a587a93159c",
+      "main_blob": "31c3c2b14be29fd09991daedce888a587a93159c"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizGenerationTransport.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "3457da706995ceb28c004a7d3aca74875dd36c04",
+      "main_blob": "3457da706995ceb28c004a7d3aca74875dd36c04"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizInput.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "dda92aa093bb8b6f527f70c6140f8c7057004dbe",
+      "main_blob": "dda92aa093bb8b6f527f70c6140f8c7057004dbe"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizLayout.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "64a1b4cceb74cbb3ee52f9081be7afad881f122d",
+      "main_blob": "64a1b4cceb74cbb3ee52f9081be7afad881f122d"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizPreparation.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "c95785b1c6a8f9c448a883a6077c2d700aeb0e34",
+      "main_blob": "c95785b1c6a8f9c448a883a6077c2d700aeb0e34"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizStudent.test.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "d55b251ac9b0a65fd36dd4d0781256b12a31932d",
+      "main_blob": "11d871f34083448e7d591db3acbc41133d9b9e3a"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/quizVoice.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "9e1943f3aaaa778e9733e4db0ab70fc5ffc6230c",
+      "main_blob": "9e1943f3aaaa778e9733e4db0ab70fc5ffc6230c"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/recognitionRecovery.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "a76df32e93329e8e9e284ae988d7f4a1c6333d95",
+      "main_blob": "a76df32e93329e8e9e284ae988d7f4a1c6333d95"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/startupArt.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "48c57ab8ce47fe4b7f130d532c23fbc199bdbb32",
+      "main_blob": "48c57ab8ce47fe4b7f130d532c23fbc199bdbb32"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/studentWorkReview.test.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "5767fad93d4452e249a97631337960bf5a2ea510",
+      "main_blob": "5cf2bad2e3663614ab17cf24cff364ee24f616eb"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/tutorApi.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "2df20024a78a56058c210c8b53f2326c37c63f5b",
+      "main_blob": "2df20024a78a56058c210c8b53f2326c37c63f5b"
+    },
+    {
+      "path": "apps/student-mobile/src/__tests__/tutorScreen.test.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "0e68f93b7a600f4722c5efc1332973bcb4fdbc7e",
+      "main_blob": "a15878c415a21a40fd4c7d7689ebf59c03c721ee"
+    },
+    {
+      "path": "apps/student-mobile/src/app/(tabs)/_layout.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "94f535685f308c5682915e1bb425d7aa9d9992e5",
+      "main_blob": "94f535685f308c5682915e1bb425d7aa9d9992e5"
+    },
+    {
+      "path": "apps/student-mobile/src/app/_layout.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "c863568e0a700ea5423ce14c263691e865c537da",
+      "main_blob": "c863568e0a700ea5423ce14c263691e865c537da"
+    },
+    {
+      "path": "apps/student-mobile/src/app/camera.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "64301899984a55ed369edbab8442ba2b9bf32184",
+      "main_blob": "64301899984a55ed369edbab8442ba2b9bf32184"
+    },
+    {
+      "path": "apps/student-mobile/src/app/gallery.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "2a5c978275c6e99fb7ce215e656a661fad876835",
+      "main_blob": "2a5c978275c6e99fb7ce215e656a661fad876835"
+    },
+    {
+      "path": "apps/student-mobile/src/app/learning/math-guide.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "bc7f13a8e98085dbd847a407ccf0189b0331c1f5",
+      "main_blob": "d7b5bd560079090a41531fc2db3f7c61070c15d3"
+    },
+    {
+      "path": "apps/student-mobile/src/app/login.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "f97c624237271a809bb2130f223ac512192bf1a1",
+      "main_blob": "e92e023c597758c34e7d185ea487d71339c8f3aa"
+    },
+    {
+      "path": "apps/student-mobile/src/app/privacy.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "da013f4b7f5cade09aca0fd200a0c4be1051dfc9",
+      "main_blob": "da013f4b7f5cade09aca0fd200a0c4be1051dfc9"
+    },
+    {
+      "path": "apps/student-mobile/src/app/quiz/[quizId].tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "5bb39dcebdd5a64006e66061f3888f168098ac25",
+      "main_blob": "5bb39dcebdd5a64006e66061f3888f168098ac25"
+    },
+    {
+      "path": "apps/student-mobile/src/app/quiz/_layout.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "792e1281a45a5fb6f87a51b437fef1539802db3b",
+      "main_blob": "792e1281a45a5fb6f87a51b437fef1539802db3b"
+    },
+    {
+      "path": "apps/student-mobile/src/app/quiz/index.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "7cb2fd6d1f1cb90fcb6fefa32f6d824a3b72f481",
+      "main_blob": "0e52bed5979bb9b447d763c3bcd43a345cbff8a0"
+    },
+    {
+      "path": "apps/student-mobile/src/components/home/HomeDashboard.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "680feb95ad066195d9acd66c5258a38d8267368c",
+      "main_blob": "0376e1c9b8fbd1829cbbe4b5f151fcd200d84453"
+    },
+    {
+      "path": "apps/student-mobile/src/config/apiResolver.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "a5a8b3e005c80d9831c9e1ec1d7d2f349e8a360d",
+      "main_blob": "a5a8b3e005c80d9831c9e1ec1d7d2f349e8a360d"
+    },
+    {
+      "path": "apps/student-mobile/src/config/env.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "dc4006a7b2ae78f8c6e4f246172d3732c3a20564",
+      "main_blob": "dc4006a7b2ae78f8c6e4f246172d3732c3a20564"
+    },
+    {
+      "path": "apps/student-mobile/src/context/AuthContext.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "7f7528bda6150d672ef5192a3cc3de1938120e80",
+      "main_blob": "7f7528bda6150d672ef5192a3cc3de1938120e80"
+    },
+    {
+      "path": "apps/student-mobile/src/context/AuthContext.web.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "1e5f3398928938d30354f46c9b4794ad6e7f06ff",
+      "main_blob": "1e5f3398928938d30354f46c9b4794ad6e7f06ff"
+    },
+    {
+      "path": "apps/student-mobile/src/context/__tests__/nativeAdminIsolation.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "4836d06e28f18099507cee30f264c72609e6ab32",
+      "main_blob": "4836d06e28f18099507cee30f264c72609e6ab32"
+    },
+    {
+      "path": "apps/student-mobile/src/context/__tests__/webAuthSession.test.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "31f1878f1ad0190384afb9c2c6158bd0b30218c4",
+      "main_blob": "31f1878f1ad0190384afb9c2c6158bd0b30218c4"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/QuizInvitation.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "0cfa2598d5c95f22db96a587e6533ee08be05fa5",
+      "main_blob": "0cfa2598d5c95f22db96a587e6533ee08be05fa5"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/QuizShortcut.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "1ce81432069ea299cae62a12317e05dae1857b94",
+      "main_blob": "8080bb37e3798bd7682449009f91d1191a7a2128"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/QuizVoice.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "24c9eeeb0878ac32046cebf80d3b027d61dfbbdf",
+      "main_blob": "24c9eeeb0878ac32046cebf80d3b027d61dfbbdf"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/quizApi.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "ce6e538a275201385400546cb47f85df41bb3afd",
+      "main_blob": "ce6e538a275201385400546cb47f85df41bb3afd"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/quizInput.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "dd4a4f76adc6a96b12bbfd2f3663d1a5c64bfc8c",
+      "main_blob": "dd4a4f76adc6a96b12bbfd2f3663d1a5c64bfc8c"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/quizStyles.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "a0c329b3cb99e03083bec89864eb29bb9b75b875",
+      "main_blob": "a0c329b3cb99e03083bec89864eb29bb9b75b875"
+    },
+    {
+      "path": "apps/student-mobile/src/features/quiz/useQuizPreparation.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "7390e818678058991a1d74b1695d0ec877976299",
+      "main_blob": "7390e818678058991a1d74b1695d0ec877976299"
+    },
+    {
+      "path": "apps/student-mobile/src/features/recognition/components/__tests__/RecognitionProgress.test.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "71675f348f153f511c89a41dfc3c7f289bbc246c",
+      "main_blob": "71675f348f153f511c89a41dfc3c7f289bbc246c"
+    },
+    {
+      "path": "apps/student-mobile/src/features/recognition/image/__tests__/imagePipeline.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "9eb692354029ec7961b9db44f397bf644a934599",
+      "main_blob": "9eb692354029ec7961b9db44f397bf644a934599"
+    },
+    {
+      "path": "apps/student-mobile/src/features/recognition/image/imagePipeline.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "9e0472d34deef4ba8e6a33ff9207cfe6cd53dc0e",
+      "main_blob": "9e0472d34deef4ba8e6a33ff9207cfe6cd53dc0e"
+    },
+    {
+      "path": "apps/student-mobile/src/features/recognition/image/usePrivacyImage.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "fcded535d08d90e46b32325b4e04b7f3cefdee60",
+      "main_blob": "fcded535d08d90e46b32325b4e04b7f3cefdee60"
+    },
+    {
+      "path": "apps/student-mobile/src/features/recognition/state/recognitionDraftStore.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "c05234dad5f60cd6801d3334eff82e619cf27491",
+      "main_blob": "c05234dad5f60cd6801d3334eff82e619cf27491"
+    },
+    {
+      "path": "apps/student-mobile/src/features/tutoring/LessonProblem.tsx",
+      "disposition": "identical_blob",
+      "kha_blob": "6be1970bdccfd7a55c72e5bc1c6872928aed7c01",
+      "main_blob": "6be1970bdccfd7a55c72e5bc1c6872928aed7c01"
+    },
+    {
+      "path": "apps/student-mobile/src/features/tutoring/StudentWorkReview.tsx",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "c287f3e1207d39ba7643b3d324e689e23451be21",
+      "main_blob": "03c72a03bc0349bb76028bb7dede10af84267f2e"
+    },
+    {
+      "path": "apps/student-mobile/src/features/tutoring/api/TutorService.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "3f774e112a8014a1eb069c2b969e6da48966cf11",
+      "main_blob": "3f774e112a8014a1eb069c2b969e6da48966cf11"
+    },
+    {
+      "path": "apps/student-mobile/src/services/api/apiClient.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "68e947154ecc3d4368a6ea15fbe9bc5701e2dc84",
+      "main_blob": "68e947154ecc3d4368a6ea15fbe9bc5701e2dc84"
+    },
+    {
+      "path": "apps/student-mobile/src/services/api/authApi.ts",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "2894bcd5ee4de8e5837ded4bc7087ddd3054f582",
+      "main_blob": "405e6cc76fdcd4d4e6a3a106bdfe510d940c55a9"
+    },
+    {
+      "path": "apps/student-mobile/src/services/auth/__tests__/tokenStorageIsolation.test.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "9c509f381096d7f732958948762b048dfb3f80d0",
+      "main_blob": "9c509f381096d7f732958948762b048dfb3f80d0"
+    },
+    {
+      "path": "apps/student-mobile/src/services/auth/sessionEvents.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "313d0f4ed3e82dea518b4747f290d0267b371e0e",
+      "main_blob": "313d0f4ed3e82dea518b4747f290d0267b371e0e"
+    },
+    {
+      "path": "apps/student-mobile/src/services/auth/studentAccess.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "f8d8be550497086af581895c9d379271a62cde61",
+      "main_blob": "f8d8be550497086af581895c9d379271a62cde61"
+    },
+    {
+      "path": "apps/student-mobile/src/services/auth/tokenStorage.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "e5acc9749b198812bd0e7dee37a850bf386a9143",
+      "main_blob": "e5acc9749b198812bd0e7dee37a850bf386a9143"
+    },
+    {
+      "path": "apps/student-mobile/src/services/auth/tokenStorage.web.ts",
+      "disposition": "identical_blob",
+      "kha_blob": "115209ad42e76cc85d7395c38a7f6ca61bedc898",
+      "main_blob": "115209ad42e76cc85d7395c38a7f6ca61bedc898"
+    },
+    {
+      "path": "backend/business-api/.env.example",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "4d6b680b69b08988147a7cf84e25e13bb1dcda04",
+      "main_blob": "0ea287117feb3220dd1e591e7b2a7eb8f8c81612"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/AuthController.java",
+      "disposition": "identical_blob",
+      "kha_blob": "76f1abc3b00151da09d09a9bb114ef2a930a5e6c",
+      "main_blob": "76f1abc3b00151da09d09a9bb114ef2a930a5e6c"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/JwtAuthenticationFilter.java",
+      "disposition": "identical_blob",
+      "kha_blob": "6907f01d94253a93907c440f79962ed00b7beaf1",
+      "main_blob": "6907f01d94253a93907c440f79962ed00b7beaf1"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/RefreshTokenService.java",
+      "disposition": "identical_blob",
+      "kha_blob": "885fae5a00a7ff3abcd60880a0506c883ac57187",
+      "main_blob": "885fae5a00a7ff3abcd60880a0506c883ac57187"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/sso/SsoHandoffService.java",
+      "disposition": "identical_blob",
+      "kha_blob": "630411a16e9818967e47c0406c29398484967e4c",
+      "main_blob": "630411a16e9818967e47c0406c29398484967e4c"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/GlobalExceptionHandler.java",
+      "disposition": "identical_blob",
+      "kha_blob": "865c933e7c6b541e5154366f0bedfe8d786cc9bf",
+      "main_blob": "865c933e7c6b541e5154366f0bedfe8d786cc9bf"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/RequestIdFilter.java",
+      "disposition": "identical_blob",
+      "kha_blob": "5f09a31a353e38918ce819f866216c89d142fd50",
+      "main_blob": "5f09a31a353e38918ce819f866216c89d142fd50"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/SecurityConfig.java",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "9731d46f464fbe9a144a2ec577d24afd30fd8f50",
+      "main_blob": "e62f5e709cfe063dac8cded8ffecb6d7d2a782d6"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/Quiz.java",
+      "disposition": "identical_blob",
+      "kha_blob": "0fc64c843bbd43c933f71a4df7a01069672bc80e",
+      "main_blob": "0fc64c843bbd43c933f71a4df7a01069672bc80e"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizAttempt.java",
+      "disposition": "identical_blob",
+      "kha_blob": "4e963c844c80b0512582c57f5cf48cacda5907a7",
+      "main_blob": "4e963c844c80b0512582c57f5cf48cacda5907a7"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizController.java",
+      "disposition": "identical_blob",
+      "kha_blob": "815f9ad4660e8b2147528c8e36bfa2635e6f60ed",
+      "main_blob": "815f9ad4660e8b2147528c8e36bfa2635e6f60ed"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizDtos.java",
+      "disposition": "identical_blob",
+      "kha_blob": "1c1f0fc3877cc33dbd633a9b1a7ee8502ecdd91f",
+      "main_blob": "1c1f0fc3877cc33dbd633a9b1a7ee8502ecdd91f"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizGenerationWorker.java",
+      "disposition": "identical_blob",
+      "kha_blob": "985ccdc2e50331c742ee29c6ba0eabee65e35df8",
+      "main_blob": "985ccdc2e50331c742ee29c6ba0eabee65e35df8"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizMath.java",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "59d9dc8c26feca5881a35dc357d3032b73827344",
+      "main_blob": "d32506977ff74a5cd493139624ff9f5784427c7c"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizNarration.java",
+      "disposition": "identical_blob",
+      "kha_blob": "d2851792217e19e6293cb6335d72cf11972ccfe9",
+      "main_blob": "d2851792217e19e6293cb6335d72cf11972ccfe9"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizPreparation.java",
+      "disposition": "identical_blob",
+      "kha_blob": "722f381faaf0653f411348b18512a5723cda239e",
+      "main_blob": "722f381faaf0653f411348b18512a5723cda239e"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizPreparations.java",
+      "disposition": "identical_blob",
+      "kha_blob": "8cafa5b3ad1815474f90a67403a9cb50618bf848",
+      "main_blob": "8cafa5b3ad1815474f90a67403a9cb50618bf848"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizRepository.java",
+      "disposition": "identical_blob",
+      "kha_blob": "a33d46aff29689f12267098ac38201df0e900bdc",
+      "main_blob": "a33d46aff29689f12267098ac38201df0e900bdc"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizRuntimeIdentity.java",
+      "disposition": "identical_blob",
+      "kha_blob": "66184c5fc2c976ec00d5cfce5d3b392823e58a23",
+      "main_blob": "66184c5fc2c976ec00d5cfce5d3b392823e58a23"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizService.java",
+      "disposition": "identical_blob",
+      "kha_blob": "52aa5662099a84943aa171f6a80f3084394dfce2",
+      "main_blob": "52aa5662099a84943aa171f6a80f3084394dfce2"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizSource.java",
+      "disposition": "identical_blob",
+      "kha_blob": "ccfd2731e478e3e5cf1ced4df3e580bd86bb9074",
+      "main_blob": "ccfd2731e478e3e5cf1ced4df3e580bd86bb9074"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizSources.java",
+      "disposition": "identical_blob",
+      "kha_blob": "7df25c6aa3919c2b331d3cabcfbd272553429886",
+      "main_blob": "7df25c6aa3919c2b331d3cabcfbd272553429886"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/Rational.java",
+      "disposition": "identical_blob",
+      "kha_blob": "179898ce78ca78f2ea55cab83432efa2afae7b9d",
+      "main_blob": "179898ce78ca78f2ea55cab83432efa2afae7b9d"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java",
+      "disposition": "identical_blob",
+      "kha_blob": "d4b6d9dffd504953afe830abaacf6bd11bc16757",
+      "main_blob": "d4b6d9dffd504953afe830abaacf6bd11bc16757"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java",
+      "disposition": "identical_blob",
+      "kha_blob": "6fd25a859abac8089e7acbb45d02cdf87e2ec583",
+      "main_blob": "6fd25a859abac8089e7acbb45d02cdf87e2ec583"
+    },
+    {
+      "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java",
+      "disposition": "identical_blob",
+      "kha_blob": "ebafde4c62e6b893ae21db4f8b7100425be77c13",
+      "main_blob": "ebafde4c62e6b893ae21db4f8b7100425be77c13"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V17__smart_student_quiz.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "7eca2ec27e3412fd2b58b86bc96868405dd32291",
+      "main_blob": "7eca2ec27e3412fd2b58b86bc96868405dd32291"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V18__quiz_verification_metadata.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "75b6c0726d8fab7d523ff35fbe7b28e3c1540a98",
+      "main_blob": "75b6c0726d8fab7d523ff35fbe7b28e3c1540a98"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V19__quiz_confirmed_preparation.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "6c882aab8e650e802f963eda56db113de8a60aa9",
+      "main_blob": "6c882aab8e650e802f963eda56db113de8a60aa9"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V20__quiz_confirmed_problem_runtime.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "0cf65e597bf408287d0df96619837f1515d5d58e",
+      "main_blob": "0cf65e597bf408287d0df96619837f1515d5d58e"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V21__quiz_replay_and_scoring.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "741c7b883cb4ab301aef11409414c5eb0135b6df",
+      "main_blob": "741c7b883cb4ab301aef11409414c5eb0135b6df"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V22__quiz_replay_challenge_and_modes.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "47a4b0e6548cb030bf904665369845953ae5cb4d",
+      "main_blob": "47a4b0e6548cb030bf904665369845953ae5cb4d"
+    },
+    {
+      "path": "backend/business-api/src/main/resources/db/migration/V23__quiz_immutable_attempt_history.sql",
+      "disposition": "identical_blob",
+      "kha_blob": "fe9abbec428c4a1f0b22a391b74525529fa7b910",
+      "main_blob": "fe9abbec428c4a1f0b22a391b74525529fa7b910"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/auth/AdminRoleIsolationTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "e5fb55052911a38a13c6c354f6f1d9b673376707",
+      "main_blob": "e5fb55052911a38a13c6c354f6f1d9b673376707"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/auth/sso/SsoHandoffServiceTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "b8778489897df4f1cad56ad5be5a868b6138374c",
+      "main_blob": "b8778489897df4f1cad56ad5be5a868b6138374c"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/quiz/QuizIntegrationTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "08bccbcaa6da552ccdbffbd2e0acbfa0d90d10ca",
+      "main_blob": "08bccbcaa6da552ccdbffbd2e0acbfa0d90d10ca"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/quiz/QuizMathTest.java",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "1005295308bca676329b552c5fd4534bfbd1c7cf",
+      "main_blob": "5dae56917ddf1604712e789280a8727e21b95691"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/storage/MinioLocalStorageIntegrationTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "448d1f2e5a2b77ee6834faa001d5a0468c1fe8d8",
+      "main_blob": "448d1f2e5a2b77ee6834faa001d5a0468c1fe8d8"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorControllerTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "373e98a4e79f5e71e6d8d1ae0908ea3396fd5b2a",
+      "main_blob": "373e98a4e79f5e71e6d8d1ae0908ea3396fd5b2a"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorServiceTest.java",
+      "disposition": "identical_blob",
+      "kha_blob": "4ba83256e119231653bf0e21472c235342551bed",
+      "main_blob": "4ba83256e119231653bf0e21472c235342551bed"
+    },
+    {
+      "path": "backend/business-api/src/test/java/com/mathvisionkids/validation/AdminOverhaulPreview.java",
+      "disposition": "identical_blob",
+      "kha_blob": "5530e13fd70c86a54d38691e6493ebade8dbe482",
+      "main_blob": "5530e13fd70c86a54d38691e6493ebade8dbe482"
+    },
+    {
+      "path": "infra/docker/docker-compose.yml",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "159b54ff68648d7b54bbf23c009b69752d50f6ae",
+      "main_blob": "b272a63ec3715e5380270e62f43511dd4100df46"
+    },
+    {
+      "path": "mathvisionkid_admin_design_preview.html",
+      "disposition": "identical_blob",
+      "kha_blob": "857b941a2f306d5210836c26e64e8db17062e1c8",
+      "main_blob": "857b941a2f306d5210836c26e64e8db17062e1c8"
+    },
+    {
+      "path": "report/ADMIN_PORTAL_OVERHAUL.md",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "1a1439367d7193c2b308b0cb01c843ce14a885bd",
+      "main_blob": null
+    },
+    {
+      "path": "report/ADMIN_UI_ENV_REWORK.md",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "c8f3ff395b790af33e30c49d3c3b13a9ae462c8e",
+      "main_blob": null
+    },
+    {
+      "path": "report/KHA_MAIN_MERGE_20261030.md",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9445d51d1d0f9f22ce92294894ccb5d1bca91d05",
+      "main_blob": null
+    },
+    {
+      "path": "report/PRIVACY_IOS_IMAGE_LOADING_FIX.md",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "298fb5f6b448264ec861ff5a4370a24c7bf4af8b",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/audit-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "6caa91371ef2954447044e5e6e288fcb1ed790b8",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/browser-results.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "8c91351d07661bd14f371ee474c019ecd524008d",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/class-detail-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "59c4153fd534aa44a9fffa874351f2c2d41a0376",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/dashboard-1024.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "e80ea17e26881d0e6872e32d27aaf7312035165d",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/dashboard-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9197a092b6575b8ff2f0e43637de0a68b08c17d8",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/dashboard-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9a00739731ffdce60303610aaa4059260f12df11",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/dashboard-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "acf904d13027e60aa5fc2c1afbda346e5804129b",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/navigation-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "c9fb4759ce897a3cf143913a2f3e3adec96edd70",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/navigation-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "ea7b27a2cc6cac0635881202491b5ee6312b0960",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/recognition-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9b1ed0e2d46bb942acea91c92e5f50d86b28cafa",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/user-create-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "f3b32b74f4711676d843774a484d85be714c0819",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-overhaul/users-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "cf25a6b04d5818766afef69e1aa8e5c627af246a",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/after-dashboard-1024.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "e43ce94969113ecafaa4f41e6dfa6a38c20fb62a",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/after-dashboard-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "f1fea1cafff5e86b6791361af91fb23d84313271",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/after-dashboard-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "b125c378e0b655dc068c1a78747086770086e71c",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/after-dashboard-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "1d8266c51caf49e83da76850ce18ba3bd9871f6d",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/after-live-results.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "4783837c8e1846cdaeb8cfed7921781732b51537",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/before-dashboard-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "8ee748e6c5e250a2a9568051f41d043fee92b595",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/before-dashboard-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "ae447054f99a6fe7b8679c8277776f91bc90d240",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/before-live-results.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "4dfbcde81976fb86c9ca40ba129a3214074dc56d",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/audit-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "6caa91371ef2954447044e5e6e288fcb1ed790b8",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/browser-results.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "5d3bdd6e84cd6a788a84cbe6d939dfeae640dae1",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/class-detail-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "59c4153fd534aa44a9fffa874351f2c2d41a0376",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/dashboard-1024.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "e80ea17e26881d0e6872e32d27aaf7312035165d",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/dashboard-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9197a092b6575b8ff2f0e43637de0a68b08c17d8",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/dashboard-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9a00739731ffdce60303610aaa4059260f12df11",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/dashboard-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "acf904d13027e60aa5fc2c1afbda346e5804129b",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/navigation-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "c9fb4759ce897a3cf143913a2f3e3adec96edd70",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/navigation-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "ea7b27a2cc6cac0635881202491b5ee6312b0960",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/recognition-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "9b1ed0e2d46bb942acea91c92e5f50d86b28cafa",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/user-create-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "f3b32b74f4711676d843774a484d85be714c0819",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/interrupted-browser/users-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "cf25a6b04d5818766afef69e1aa8e5c627af246a",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/audit-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "dd0a90b5fa9bd319091d02b90b0aac95c72360df",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/browser-results.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "38cabc0f55b3365e045ccf684cf12de23b5174bc",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/class-detail-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "a84dac6dcd2b8de6cb750d5f60cd0a50efef556c",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/dashboard-1024.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "474f85d5d5e2f78fcce344c97ce06fb92b3b16e5",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/dashboard-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "08920f7b2987c8a4d9e1098f760d9ec914c29017",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/dashboard-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "be127a9be3fe1443975ff3ec3aa09f2d0d5e34ed",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/dashboard-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "be73c193264893228bcefed270ce28d9b2caa328",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/navigation-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "3151b18228d12f6b105e4e3001fcf9dee835a8aa",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/navigation-768.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "2f62e6873f66ee6b2ddc6ef25c193933037368e6",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/recognition-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "0d77fc6e61aff0e838d42fee709009d810e23e7c",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/user-create-390.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "40e906cfcb93320e01e7c6be3be4fefe13105320",
+      "main_blob": null
+    },
+    {
+      "path": "report/admin-ui-env/isolated-browser/users-1440.png",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "7ec1009731fa92d7ed7eb56f419bc112a513d5f8",
+      "main_blob": null
+    },
+    {
+      "path": "report/privacy-ios-image-loading-20261026/baseline-restoration.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "4a2c1cdcf3f3e888ade51cc93c5fe285944a508b",
+      "main_blob": null
+    },
+    {
+      "path": "report/privacy-ios-image-loading-20261026/baseline-tests.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "013a372c3a15a33e57bba057241ef95366118d8a",
+      "main_blob": null
+    },
+    {
+      "path": "report/privacy-ios-image-loading-20261026/full-tests.json",
+      "disposition": "excluded_obsolete_preview_or_qa_artifact",
+      "kha_blob": "ceae04ee7101aff13b584c4ead9f8bbe3753d7ab",
+      "main_blob": null
+    },
+    {
+      "path": "scripts/deploy/web_bundle_smoke.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "866cca69aa12c76ca8b16e57bd6a2117c3887087",
+      "main_blob": "866cca69aa12c76ca8b16e57bd6a2117c3887087"
+    },
+    {
+      "path": "scripts/dev/install-local-quiz-speech.py",
+      "disposition": "identical_blob",
+      "kha_blob": "371a077b19e181ca71cf3b1fb91a8cb620873ea4",
+      "main_blob": "371a077b19e181ca71cf3b1fb91a8cb620873ea4"
+    },
+    {
+      "path": "scripts/dev/local-env.ps1",
+      "disposition": "identical_blob",
+      "kha_blob": "bedf33e6bc9b100fc5363942b6c2edde9414157c",
+      "main_blob": "bedf33e6bc9b100fc5363942b6c2edde9414157c"
+    },
+    {
+      "path": "scripts/dev/restart-quiz-runtime.ps1",
+      "disposition": "identical_blob",
+      "kha_blob": "789bc8fb5a04cbb2337e319b4afcd53f49ffe852",
+      "main_blob": "789bc8fb5a04cbb2337e319b4afcd53f49ffe852"
+    },
+    {
+      "path": "scripts/dev/start-all.ps1",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "06d3bf4e53cd2038685721e20806a1ea50bcfeb5",
+      "main_blob": "46f49f189dda3f03842f6664783aa4a43bee5dee"
+    },
+    {
+      "path": "scripts/test/admin-overhaul-browser.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "cd1d13f161089c7c1a9603a6d0fe23dc12b77475",
+      "main_blob": "cd1d13f161089c7c1a9603a6d0fe23dc12b77475"
+    },
+    {
+      "path": "scripts/test/admin-overhaul-checks.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "de077f34dfbf543bde244a0bd21518c72eeff3ef",
+      "main_blob": "de077f34dfbf543bde244a0bd21518c72eeff3ef"
+    },
+    {
+      "path": "scripts/test/admin-overhaul-export.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "c37d70bc78becddd6c551f30817486c96a157635",
+      "main_blob": "c37d70bc78becddd6c551f30817486c96a157635"
+    },
+    {
+      "path": "scripts/test/admin-overhaul-reproduce.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "d280a92932d83a6098d9aaa131d8134f1ae2846f",
+      "main_blob": "d280a92932d83a6098d9aaa131d8134f1ae2846f"
+    },
+    {
+      "path": "scripts/test/admin-overhaul.init.gradle",
+      "disposition": "identical_blob",
+      "kha_blob": "8d14313aa0e46e268f87113d399518dd2a26a356",
+      "main_blob": "8d14313aa0e46e268f87113d399518dd2a26a356"
+    },
+    {
+      "path": "scripts/test/admin-ui-env-live.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "033ac0bdb21f9918661e16f21a03a5431a8b0cd8",
+      "main_blob": "033ac0bdb21f9918661e16f21a03a5431a8b0cd8"
+    },
+    {
+      "path": "scripts/test/codex-phone-qr.cjs",
+      "disposition": "identical_blob",
+      "kha_blob": "7d90ae1b6e34c1258faf0c4ea3d465f74dfa8902",
+      "main_blob": "7d90ae1b6e34c1258faf0c4ea3d465f74dfa8902"
+    },
+    {
+      "path": "scripts/test/codex-phone-ready.cjs",
+      "disposition": "identical_blob",
+      "kha_blob": "e3528f3db6907421053ce39f830a8d5f0c41e560",
+      "main_blob": "e3528f3db6907421053ce39f830a8d5f0c41e560"
+    },
+    {
+      "path": "scripts/test/codex-quiz-runtime-verify.py",
+      "disposition": "identical_blob",
+      "kha_blob": "c0a56caf1baf94f0cf8db1458c31be63e5ac1491",
+      "main_blob": "c0a56caf1baf94f0cf8db1458c31be63e5ac1491"
+    },
+    {
+      "path": "scripts/test/codex-smart-quiz-replay-browser.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "6a8b7c02d4884a8d492a2ce3f2d70403579fb791",
+      "main_blob": "6a8b7c02d4884a8d492a2ce3f2d70403579fb791"
+    },
+    {
+      "path": "scripts/test/codex-smart-quiz-review.py",
+      "disposition": "identical_blob",
+      "kha_blob": "322ef37683ef21b51671296ad99f0cdd95b28abd",
+      "main_blob": "322ef37683ef21b51671296ad99f0cdd95b28abd"
+    },
+    {
+      "path": "scripts/test/codex_quiz_db.py",
+      "disposition": "identical_blob",
+      "kha_blob": "d3c7623dd27e03a5cd3ed199e75626c25466c892",
+      "main_blob": "d3c7623dd27e03a5cd3ed199e75626c25466c892"
+    },
+    {
+      "path": "scripts/test/collect-quiz-runtime-evidence.py",
+      "disposition": "identical_blob",
+      "kha_blob": "2e2a405774713e5d9b78b7ccfc30372079b7ef5e",
+      "main_blob": "2e2a405774713e5d9b78b7ccfc30372079b7ef5e"
+    },
+    {
+      "path": "scripts/test/local-env.test.ps1",
+      "disposition": "adapted_or_preserved_main",
+      "kha_blob": "421ee9d933a28a651d3a054b87007871435dd3ca",
+      "main_blob": "bcc8d2354daf884f547df048510add49ca4eff48"
+    },
+    {
+      "path": "scripts/test/smart-quiz-browser.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "c0b1770882aeb5d29a20267af8e56ddcfee1ea39",
+      "main_blob": "c0b1770882aeb5d29a20267af8e56ddcfee1ea39"
+    },
+    {
+      "path": "scripts/test/smart-quiz-cloud-off.py",
+      "disposition": "identical_blob",
+      "kha_blob": "eb8433e3e2e52dc3d94982b458be24a4a271d2b3",
+      "main_blob": "eb8433e3e2e52dc3d94982b458be24a4a271d2b3"
+    },
+    {
+      "path": "scripts/test/smart-quiz-exact-verification.py",
+      "disposition": "identical_blob",
+      "kha_blob": "da458332511fe64d2ef0a41f20ab2ebb4f6bdc8d",
+      "main_blob": "da458332511fe64d2ef0a41f20ab2ebb4f6bdc8d"
+    },
+    {
+      "path": "scripts/test/smart-quiz-generation-live.py",
+      "disposition": "identical_blob",
+      "kha_blob": "9b000c1630938965b83f6b51ac0f414b8ad0b82c",
+      "main_blob": "9b000c1630938965b83f6b51ac0f414b8ad0b82c"
+    },
+    {
+      "path": "scripts/test/smart-quiz-live-api.py",
+      "disposition": "identical_blob",
+      "kha_blob": "5e50af64fb3ccf5148f48e84ac18c872bd948f7e",
+      "main_blob": "5e50af64fb3ccf5148f48e84ac18c872bd948f7e"
+    },
+    {
+      "path": "scripts/test/smart-quiz-real-lesson.py",
+      "disposition": "identical_blob",
+      "kha_blob": "898aac76f72fbb3d2e23c526826f1e783f0a8c85",
+      "main_blob": "898aac76f72fbb3d2e23c526826f1e783f0a8c85"
+    },
+    {
+      "path": "scripts/test/smart-quiz-runtime-audit.py",
+      "disposition": "identical_blob",
+      "kha_blob": "9be4c75c3d74fb749d75d2be5278fb947556d0ca",
+      "main_blob": "9be4c75c3d74fb749d75d2be5278fb947556d0ca"
+    },
+    {
+      "path": "scripts/test/smart-quiz-runtime-browser.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "29014cafd1e29aeda2a439332995da559437f290",
+      "main_blob": "29014cafd1e29aeda2a439332995da559437f290"
+    },
+    {
+      "path": "scripts/test/smart-quiz-runtime-live.py",
+      "disposition": "identical_blob",
+      "kha_blob": "98959df5c08c8e92d9349526dcbe79632c576983",
+      "main_blob": "98959df5c08c8e92d9349526dcbe79632c576983"
+    },
+    {
+      "path": "scripts/test/smart-quiz-runtime-voice.py",
+      "disposition": "identical_blob",
+      "kha_blob": "cdcf4c88b1d595b21cde9519feff07b8f10922ef",
+      "main_blob": "cdcf4c88b1d595b21cde9519feff07b8f10922ef"
+    },
+    {
+      "path": "scripts/test/start-codex-quiz-qa.py",
+      "disposition": "identical_blob",
+      "kha_blob": "724f29127289457999ee6a97f95f06f842358774",
+      "main_blob": "724f29127289457999ee6a97f95f06f842358774"
+    },
+    {
+      "path": "scripts/test/start-quiz-runtime-qa.py",
+      "disposition": "identical_blob",
+      "kha_blob": "2d466b6f7ab30b7651f2fececdfb4c870c845fa0",
+      "main_blob": "2d466b6f7ab30b7651f2fececdfb4c870c845fa0"
+    },
+    {
+      "path": "scripts/test/start-tutor-step3-qa.py",
+      "disposition": "identical_blob",
+      "kha_blob": "ab0b22f7f4b375612fe93642583cb1beed7bd688",
+      "main_blob": "ab0b22f7f4b375612fe93642583cb1beed7bd688"
+    },
+    {
+      "path": "scripts/test/test_minio_launcher_guard.ps1",
+      "disposition": "identical_blob",
+      "kha_blob": "95e769715702ad79b11d26ce58ac8871a4af6f13",
+      "main_blob": "95e769715702ad79b11d26ce58ac8871a4af6f13"
+    },
+    {
+      "path": "scripts/test/test_smart_quiz_live_flow.py",
+      "disposition": "identical_blob",
+      "kha_blob": "5b792835ef5339052dab0a689127e4e0ae91b432",
+      "main_blob": "5b792835ef5339052dab0a689127e4e0ae91b432"
+    },
+    {
+      "path": "scripts/test/test_smart_quiz_replay_and_stars_e2e.py",
+      "disposition": "identical_blob",
+      "kha_blob": "0736fb9424ea7f4c67655abc5b628a82f9bc7562",
+      "main_blob": "0736fb9424ea7f4c67655abc5b628a82f9bc7562"
+    },
+    {
+      "path": "scripts/test/test_video_b_replay.py",
+      "disposition": "identical_blob",
+      "kha_blob": "1b2889b1e58a22b65c53c0c7e37885c642178361",
+      "main_blob": "1b2889b1e58a22b65c53c0c7e37885c642178361"
+    },
+    {
+      "path": "scripts/test/tutor-step3-browser.mjs",
+      "disposition": "identical_blob",
+      "kha_blob": "2358663b0c525114c00e61d27e44da7e85f76962",
+      "main_blob": "2358663b0c525114c00e61d27e44da7e85f76962"
+    },
+    {
+      "path": "scripts/test/tutor-step3-fault-http.py",
+      "disposition": "identical_blob",
+      "kha_blob": "2edb2da1dc699f211b33defd47a126d70dd5fb21",
+      "main_blob": "2edb2da1dc699f211b33defd47a126d70dd5fb21"
+    },
+    {
+      "path": "scripts/test/tutor-step3-http.py",
+      "disposition": "identical_blob",
+      "kha_blob": "d33187add7821517ee26651a195e57d7c6beb6a3",
+      "main_blob": "d33187add7821517ee26651a195e57d7c6beb6a3"
+    },
+    {
+      "path": "scripts/test/tutor-step3-runtime-probe.py",
+      "disposition": "identical_blob",
+      "kha_blob": "51b1f5cb5f9a452ada5224fe4adf9b4fd3f4efb2",
+      "main_blob": "51b1f5cb5f9a452ada5224fe4adf9b4fd3f4efb2"
+    },
+    {
+      "path": "scripts/test/tutor_step3_fault_server.py",
+      "disposition": "identical_blob",
+      "kha_blob": "0fa7865404c14d36b1dcb541307cb4744045760c",
+      "main_blob": "0fa7865404c14d36b1dcb541307cb4744045760c"
+    }
+  ],
+  "limitations": [
+    "Commit metadata records authorship; identical lines do not prove personal authorship.",
+    "No arbitrary per-line ownership assigned to copied, generated or collaboratively edited code.",
+    "Authored commit counts include merges and do not equal GitHub contribution graph totals."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "baseline": "dd3b324ed1d59c8916db0489f014c55e80bf574f",
+  "kha_head": "bf29939b4c47be180581f951c1e7483011227b17",
+  "unchanged_application_tree": "ff220def61c7617aef22f014d051ed7fdc18be05",
+  "kha_original_commits_preserved": 5,
+  "source_files_accounted": 256,
+  "backend_quiz": {
+    "total": 51,
+    "passed": 51
+  },
+  "student_quiz": {
+    "suites": 3,
+    "passed": 17,
+    "failed": 0
+  },
+  "ai_quiz": {
+    "passed": 121,
+    "failed": 0
+  },
+  "nam_existing_coauthor_verified": true,
+  "hieu_loc_namm_already_ancestors": true,
+  "local_document_links_valid": true
+}
