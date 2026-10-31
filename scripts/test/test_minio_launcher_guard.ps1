@@ -7,6 +7,14 @@ if ($errors.Count) { throw $errors[0] }
 $guard = $ast.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Assert-LocalMinioImage' }, $true)
 if (-not $guard) { throw 'Missing MinIO guard.' }
 Invoke-Expression $guard.Extent.Text
+# Catch a Compose regression before it can break the real launcher again.
+$compose = Get-Content (Join-Path $repoRoot 'infra/docker/docker-compose.yml') -Raw
+$minio = [regex]::Match($compose, '(?ms)^  minio:\r?\n(?<service>.*?)(?=^  \S|\z)').Groups['service'].Value
+if ($minio -notmatch '(?m)^    image: mathvision-minio-local:2024\.01\.28\s*$' -or
+    $minio -notmatch '(?m)^    pull_policy: never\s*$') {
+    throw 'MinIO Compose must use the verified local image with pull_policy: never.'
+}
+Write-Host 'PASS: Compose preserves the verified local MinIO image and never pulls a replacement.'
 function Invoke-CommandWithTimeout {
     param($FilePath, $ArgumentList, $TimeoutSeconds)
     $operation = $ArgumentList[0]
