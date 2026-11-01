@@ -1,5 +1,6 @@
 /**
  * MathVision Kids — Shared Brand & Design Tokens
+ * Kid-First Premium Visual Identity & Multi-Role Design System
  */
 
 export interface RoleConfig {
@@ -9,50 +10,72 @@ export interface RoleConfig {
   color: string;
   bgLight: string;
   borderColor: string;
+  accent: string;
   descriptionVi: string;
 }
 
 export const BRAND_NAME = 'MathVision Kids';
-export const BRAND_TAGLINE_EN = 'An AI-Assisted Handwritten Arithmetic Grading and Tutoring Platform';
-export const BRAND_TAGLINE_VI = 'Nền tảng chấm điểm số học và nhận diện chữ viết tay ứng dụng AI';
+export const BRAND_TAGLINE_EN = 'Kid-First AI-Assisted Handwritten Arithmetic Grading & Tutoring Platform';
+export const BRAND_TAGLINE_VI = 'Nền tảng học toán số học ô ly và gia sư thông minh dành cho học sinh Tiểu học';
 
 export const BRAND_COLORS = {
+  // Primary: Learning Blue (Clear, energetic, friendly, trustworthy)
   primary: {
-    main: '#4F46E5', // Indigo 600
-    light: '#818CF8',
-    dark: '#3730A3',
+    main: '#2563EB', // Blue 600
+    light: '#60A5FA', // Blue 400
+    dark: '#1D4ED8', // Blue 700
+    subtle: '#EFF6FF', // Blue 50
     contrastText: '#FFFFFF',
   },
-  secondary: {
-    main: '#0284C7', // Sky 600
-    light: '#38BDF8',
-    dark: '#0369A1',
-    contrastText: '#FFFFFF',
+  // Mascot Star / Sunshine Amber (Delight, curiosity, encouraging rewards)
+  joy: {
+    main: '#F59E0B', // Amber 500
+    light: '#FDE68A', // Amber 200
+    dark: '#D97706', // Amber 600
+    subtle: '#FFFBEB', // Amber 50
+    contrastText: '#0F172A',
   },
+  // Growth / Emerald Mint (Accuracy, teacher workspace, progress)
   success: {
     main: '#10B981', // Emerald 500
-    light: '#34D399',
-    dark: '#059669',
+    light: '#6EE7B7', // Emerald 300
+    dark: '#059669', // Emerald 600
+    subtle: '#ECFDF5', // Emerald 50
     contrastText: '#FFFFFF',
   },
+  // Energy / Warm Coral (Focus, interactive prompts, delight sparks)
+  accent: {
+    main: '#F43F5E', // Rose 500
+    light: '#FDA4AF', // Rose 300
+    dark: '#E11D48', // Rose 600
+    subtle: '#FFF1F2', // Rose 50
+    contrastText: '#FFFFFF',
+  },
+  // Warning / Attention
   warning: {
-    main: '#F59E0B', // Amber 500
+    main: '#F59E0B',
     light: '#FBBF24',
     dark: '#D97706',
+    subtle: '#FFFBEB',
     contrastText: '#FFFFFF',
   },
+  // Error / Needs revision
   error: {
-    main: '#EF4444', // Red 500
-    light: '#F87171',
+    main: '#EF4444',
+    light: '#FCA5A5',
     dark: '#DC2626',
+    subtle: '#FEF2F2',
     contrastText: '#FFFFFF',
   },
+  // High-contrast, clean slate neutrals
   neutral: {
-    background: '#F8FAFC', // Slate 50
+    background: '#F8FAFC',
     surface: '#FFFFFF',
-    border: '#E2E8F0', // Slate 200
-    textPrimary: '#0F172A', // Slate 900
-    textSecondary: '#64748B', // Slate 500
+    border: '#E2E8F0',
+    borderSubtle: '#F1F5F9',
+    textPrimary: '#0F172A',
+    textSecondary: '#475569',
+    textMuted: '#94A3B8',
   },
 };
 
@@ -61,28 +84,55 @@ export const ROLE_CONFIGS: Record<'STUDENT' | 'TEACHER' | 'ADMIN', RoleConfig> =
     role: 'STUDENT',
     labelVi: 'Học sinh',
     labelEn: 'Student',
-    color: '#4F46E5',
-    bgLight: '#EEF2FF',
-    borderColor: '#C7D2FE',
-    descriptionVi: 'Chụp bài viết tay, nhận phản hồi tức thì và rèn luyện kỹ năng số học.',
+    color: '#2563EB',
+    bgLight: '#EFF6FF',
+    borderColor: '#BFDBFE',
+    accent: '#F59E0B',
+    descriptionVi: 'Chụp trang vở ô ly, cùng ngôi sao MathVision khám phá từng bước tính và tự tin tiến bộ mỗi ngày.',
   },
   TEACHER: {
     role: 'TEACHER',
     labelVi: 'Giáo viên',
     labelEn: 'Teacher',
-    color: '#10B981',
+    color: '#059669',
     bgLight: '#ECFDF5',
     borderColor: '#A7F3D0',
-    descriptionVi: 'Quản lý lớp học, bài tập, tải bài hàng loạt và xem lại kết quả chấm điểm.',
+    accent: '#2563EB',
+    descriptionVi: 'Quản lý lớp học, kiểm tra bài làm ô ly học sinh và đánh giá tiến độ sư phạm chuẩn mực.',
   },
   ADMIN: {
     role: 'ADMIN',
     labelVi: 'Quản trị viên',
     labelEn: 'Administrator',
-    color: '#F59E0B',
-    bgLight: '#FFFBEB',
-    borderColor: '#FDE68A',
-    descriptionVi: 'Quản lý tài khoản, lớp học và theo dõi nhật ký hoạt động hệ thống.',
+    color: '#0F172A',
+    bgLight: '#F1F5F9',
+    borderColor: '#CBD5E1',
+    accent: '#2563EB',
+    descriptionVi: 'Vận hành tài khoản, quản lý hệ thống và giám sát nhật ký an toàn bảo mật.',
+  },
+};
+
+export const DESIGN_TOKENS = {
+  radii: {
+    sm: '8px',
+    md: '12px',
+    lg: '16px',
+    xl: '22px',
+    full: '9999px',
+  },
+  typography: {
+    kidsFont: '"Nunito", "Plus Jakarta Sans", sans-serif',
+    systemFont: '"Plus Jakarta Sans", "Inter", sans-serif',
+  },
+  motion: {
+    fast: '160ms cubic-bezier(0.16, 1, 0.3, 1)',
+    normal: '240ms cubic-bezier(0.16, 1, 0.3, 1)',
+    slow: '360ms cubic-bezier(0.16, 1, 0.3, 1)',
+  },
+  shadows: {
+    card: '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -4px rgba(15, 23, 42, 0.04)',
+    elevated: '0 12px 28px -6px rgba(37, 99, 235, 0.09), 0 4px 10px -2px rgba(15, 23, 42, 0.03)',
+    press: '0 1px 2px rgba(15, 23, 42, 0.08)',
   },
 };
 

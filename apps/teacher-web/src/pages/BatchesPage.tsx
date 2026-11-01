@@ -72,7 +72,7 @@ export default function BatchesPage() {
       ) : batches.length === 0 ? (
         <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
           <FactCheck sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
+          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
             Chưa có đợt chấm bài nào
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto', mb: 3 }}>
@@ -110,7 +110,7 @@ export default function BatchesPage() {
                 return (
                   <TableRow key={batchId} hover>
                     <TableCell>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#211844' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                         {batch.className ? `Lớp ${batch.className}` : 'Lớp học'}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">

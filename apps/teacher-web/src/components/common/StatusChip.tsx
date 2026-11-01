@@ -115,11 +115,11 @@ const STATUS_MAP: Record<string, StatusConfig> = {
   },
   TEACHER_OVERRIDDEN: {
     label: 'Giáo viên đã điều chỉnh',
-    color: 'primary',
+    color: 'info',
     icon: <Edit sx={{ fontSize: '14px !important' }} />,
-    bgColor: '#EDE9FE',
-    textColor: '#6D28D9',
-    borderColor: '#DDD6FE',
+    bgColor: '#EFF6FF',
+    textColor: '#1D4ED8',
+    borderColor: '#BFDBFE',
   },
   FAILED: {
     label: 'Lỗi xử lý',

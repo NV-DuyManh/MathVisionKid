@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon, IconButton, ButtonBase } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Logout, Person, Home } from '@mui/icons-material';
+import { Logout, HomeOutlined } from '@mui/icons-material';
 import { useAuth } from './AuthContext';
 import { useState } from 'react';
 import { appConfig } from '../../config/runtime';
@@ -33,14 +33,23 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
       elevation={0}
       sx={{
         backgroundColor: '#FFFFFF',
-        borderBottom: '1px solid #E9E2F2',
+        borderBottom: '1px solid #E2E8F0',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ minHeight: '82px !important', px: { xs: 2, md: 4 }, gap: 2 }}>
-        <IconButton aria-label="Mở điều hướng giáo viên" aria-controls="workspace-navigation" aria-expanded={navigationOpen} onClick={onMenuClick} sx={{ display: { md: 'none' } }}><MenuIcon /></IconButton>
+      <Toolbar sx={{ minHeight: '64px !important', px: { xs: 2, md: 3.5 }, gap: 2 }}>
+        <IconButton
+          aria-label="Mở điều hướng giáo viên"
+          aria-controls="workspace-navigation"
+          aria-expanded={navigationOpen}
+          onClick={onMenuClick}
+          sx={{ display: { md: 'none' }, color: '#475569' }}
+        >
+          <MenuIcon />
+        </IconButton>
+
         <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#655D76' }}>
+          <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569', fontSize: '0.875rem' }}>
             Không gian giáo viên
           </Typography>
         </Box>
@@ -49,13 +58,13 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 1.5,
+            gap: 1.25,
             cursor: 'pointer',
-            px: 1.5,
-            py: 0.75,
-            borderRadius: 2,
-            transition: 'background-color 150ms',
-            '&:hover': { bgcolor: '#F8F6FD' },
+            px: 1.25,
+            py: 0.5,
+            borderRadius: 1.5,
+            transition: 'background-color 140ms',
+            '&:hover': { bgcolor: '#F8FAFC' },
           }}
           onClick={handleMenu}
           aria-label="Tài khoản giáo viên"
@@ -64,16 +73,16 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
           aria-expanded={Boolean(anchorEl)}
         >
           <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-            <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844', lineHeight: 1.2 }}>
+            <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A', lineHeight: 1.2, fontSize: '0.875rem' }}>
               {displayName}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#655D76', fontWeight: 500 }}>
+            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500, fontSize: '0.72rem' }}>
               Giáo viên Toán
             </Typography>
           </Box>
           <Avatar
             sx={{
-              bgcolor: '#7040D5',
+              bgcolor: '#059669',
               width: 34,
               height: 34,
               fontSize: '0.875rem',
@@ -95,33 +104,33 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
             paper: {
               sx: {
                 mt: 1,
-                minWidth: 180,
-                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
-                border: '1px solid #E9E2F2',
+                minWidth: 190,
                 borderRadius: 2,
+                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
+                border: '1px solid #E2E8F0',
+                p: 0.5,
               },
             },
           }}
         >
-          <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #F4F0FA' }}>
-            <Typography variant="body2" sx={{ fontWeight: 700 }}>{displayName}</Typography>
-            <Typography variant="caption" color="text.secondary">{user?.email || '—'}</Typography>
-          </Box>
-          <MenuItem onClick={handleClose} sx={{ py: 1, mt: 0.5, fontSize: '0.875rem' }}>
-            <ListItemIcon><Person fontSize="small" /></ListItemIcon>
-            Hồ sơ cá nhân
-          </MenuItem>
           <MenuItem
             component="a"
             href={appConfig.portalOrigin}
             onClick={handleClose}
-            sx={{ py: 1, fontSize: '0.875rem', color: '#4F46E5' }}
+            sx={{ borderRadius: 1.25, py: 1, fontSize: '0.875rem', fontWeight: 600, color: '#334155' }}
           >
-            <ListItemIcon><Home fontSize="small" sx={{ color: '#4F46E5' }} /></ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 32, color: '#64748B' }}>
+              <HomeOutlined fontSize="small" />
+            </ListItemIcon>
             Về MathVision Kids
           </MenuItem>
-          <MenuItem onClick={handleLogout} sx={{ py: 1, color: '#DC2626', fontSize: '0.875rem' }}>
-            <ListItemIcon><Logout fontSize="small" sx={{ color: '#DC2626' }} /></ListItemIcon>
+          <MenuItem
+            onClick={handleLogout}
+            sx={{ borderRadius: 1.25, py: 1, fontSize: '0.875rem', fontWeight: 600, color: '#DC2626' }}
+          >
+            <ListItemIcon sx={{ minWidth: 32, color: '#DC2626' }}>
+              <Logout fontSize="small" />
+            </ListItemIcon>
             Đăng xuất
           </MenuItem>
         </Menu>

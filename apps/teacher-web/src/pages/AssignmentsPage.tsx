@@ -45,11 +45,11 @@ export default function AssignmentsPage() {
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
       case 'VERTICAL_ADDITION':
-        return { label: 'Phép cộng đặt tính', color: '#7040D5', bg: '#F1EBFC' };
+        return { label: 'Phép cộng đặt tính', color: '#2563EB', bg: '#EFF6FF' };
       case 'VERTICAL_SUBTRACTION':
-        return { label: 'Phép trừ đặt tính', color: '#0D9488', bg: '#CCFBF1' };
+        return { label: 'Phép trừ đặt tính', color: '#059669', bg: '#ECFDF5' };
       default:
-        return { label: type || 'Toán đặt tính', color: '#5E566D', bg: '#F4F0FA' };
+        return { label: type || 'Toán đặt tính', color: '#475569', bg: '#F1F5F9' };
     }
   };
 
@@ -82,7 +82,7 @@ export default function AssignmentsPage() {
       ) : assignments.length === 0 ? (
         <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
           <Assignment sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
+          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
             Chưa có bài tập nào
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto', mb: 3 }}>
@@ -114,7 +114,7 @@ export default function AssignmentsPage() {
                 return (
                   <TableRow key={a.id || a.assignmentId} hover>
                     <TableCell>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#211844' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                         {a.title}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">

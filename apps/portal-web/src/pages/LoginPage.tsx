@@ -424,20 +424,34 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper sx={{ p: { xs: 3.5, sm: 5 }, borderRadius: 4, boxShadow: '0 10px 30px rgba(0, 0, 0, 0.06)' }}>
+    <Box sx={{ py: { xs: 5, md: 8 }, px: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 120px)' }}>
+      <Container maxWidth="sm" disableGutters>
+        <Paper
+          elevation={0}
+          sx={{
+            p: { xs: 3.5, sm: 5 },
+            borderRadius: 4,
+            border: '1px solid #E2E8F0',
+            boxShadow: '0 20px 48px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04)',
+            bgcolor: '#FFFFFF',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
         <Box sx={{ textAlign: 'center', mb: 3.5 }}>
           <Box
             component="img"
-            src="/logo.svg"
-            alt="MathVision Kids"
-            sx={{ width: 60, height: 60, mb: 1.5, borderRadius: 3 }}
+            src="/ui/mathvision-star.png"
+            alt="Ngôi sao MathVision Kids"
+            className="star-companion-float"
+            sx={{ width: 72, height: 72, mb: 1.5, objectFit: 'contain' }}
+            onError={(e: any) => { e.currentTarget.src = '/logo.svg'; }}
           />
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 800, color: '#0F172A', mb: 0.5 }}>
-            {authView === 'login' ? 'Đăng nhập MathVision Kids' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
+            {authView === 'login' ? 'Đăng nhập cùng MathVision' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
           </Typography>
-          <Typography variant="body2" sx={{ color: '#64748B' }}>
-            {authView === 'register' ? 'Điền thông tin để bắt đầu sử dụng MathVision Kids' : authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' : 'Nhập tài khoản của bạn để tiếp tục'}
+          <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
+            {authView === 'register' ? 'Điền thông tin để cùng Ngôi sao MathVision học toán' : authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' : 'Chào mừng em! Đăng nhập để cùng khám phá môn Toán nhé!'}
           </Typography>
         </Box>
 
@@ -662,20 +676,20 @@ export const LoginPage: React.FC = () => {
               mt: 3,
               p: { xs: 2, sm: 2.5 },
               borderRadius: 3.5,
-              borderColor: '#E5E3FF',
-              background: 'linear-gradient(145deg, #F7F6FF 0%, #FFFFFF 78%)',
-              boxShadow: '0 8px 24px rgba(79, 70, 229, 0.06)',
+              borderColor: '#BFDBFE',
+              background: 'linear-gradient(145deg, #EFF6FF 0%, #FFFFFF 78%)',
+              boxShadow: '0 8px 24px rgba(37, 99, 235, 0.06)',
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
-              <Box sx={{ width: 42, height: 42, flexShrink: 0, display: 'grid', placeItems: 'center', borderRadius: 2.5, bgcolor: '#ECEBFF', color: '#5145CD' }}>
+              <Box sx={{ width: 42, height: 42, flexShrink: 0, display: 'grid', placeItems: 'center', borderRadius: 2.5, bgcolor: '#DBEAFE', color: '#2563EB' }}>
                 <AutoAwesomeIcon aria-hidden="true" sx={{ fontSize: 23 }} />
               </Box>
               <Box>
-                <Typography id="social-login-title" variant="subtitle1" sx={{ color: '#171A3A', fontWeight: 800, lineHeight: 1.25 }}>
+                <Typography id="social-login-title" variant="subtitle1" sx={{ color: '#0F172A', fontWeight: 800, lineHeight: 1.25 }}>
                   Vào học nhanh hơn
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#65708A', mt: 0.35 }}>
+                <Typography variant="body2" sx={{ color: '#64748B', mt: 0.35 }}>
                   Chọn tài khoản Google hoặc Facebook của em
                 </Typography>
               </Box>
@@ -721,39 +735,39 @@ export const LoginPage: React.FC = () => {
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <DeveloperModeIcon sx={{ fontSize: 18, color: '#D97706' }} />
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                    Công cụ Developer Demo (Dev Only)
+                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    Kiểm thử nhanh (Dev Demo)
                   </Typography>
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1.5 }}>
-                  Điền nhanh tài khoản kiểm thử cho môi trường phát triển:
+                  Chọn vai trò để điền nhanh thông tin thử nghiệm:
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   <Chip
-                    label="Học sinh (minh.student)"
-                    onClick={() => fillCredentials('minh.student@mathvision.local', 'Student@123')}
+                    label="Tài khoản Học sinh mẫu"
+                    onClick={() => fillCredentials('minh.student@mathvision.local', '123')}
                     size="small"
                     color="primary"
                     variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 600 }}
+                    sx={{ cursor: 'pointer', fontWeight: 700 }}
                   />
                   <Chip
-                    label="Giáo viên (lan.teacher)"
-                    onClick={() => fillCredentials('lan.teacher@mathvision.local', 'Teacher@123')}
+                    label="Tài khoản Giáo viên mẫu"
+                    onClick={() => fillCredentials('lan.teacher@mathvision.local', '123')}
                     size="small"
                     color="success"
                     variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 600 }}
+                    sx={{ cursor: 'pointer', fontWeight: 700 }}
                   />
                   <Chip
-                    label="Quản trị (admin)"
-                    onClick={() => fillCredentials('admin@mathvision.local', 'Admin@123')}
+                    label="Tài khoản Quản trị mẫu"
+                    onClick={() => fillCredentials('admin.demo@mathvision.local', '123')}
                     size="small"
                     color="secondary"
                     variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 600 }}
+                    sx={{ cursor: 'pointer', fontWeight: 700 }}
                   />
                 </Box>
               </AccordionDetails>
@@ -762,6 +776,7 @@ export const LoginPage: React.FC = () => {
         )}
       </Paper>
     </Container>
+    </Box>
   );
 };
 
