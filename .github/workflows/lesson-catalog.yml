@@ -1,4 +1,4 @@
-name: Lesson catalog guard
+name: MathVision Catalog Bot
 on:
   pull_request:
     paths:
@@ -6,6 +6,8 @@ on:
       - 'ai/runtime/scripts/*catalog*'
       - 'ai/runtime/tests/fixtures/student_learning_regression.json'
       - '.github/workflows/lesson-catalog.yml'
+      - 'catalog/**'
+      - 'RUN_CATALOG_BOT.bat'
   push:
     branches: [main]
     paths:
@@ -13,6 +15,8 @@ on:
       - 'ai/runtime/scripts/*catalog*'
       - 'ai/runtime/tests/fixtures/student_learning_regression.json'
       - '.github/workflows/lesson-catalog.yml'
+      - 'catalog/**'
+      - 'RUN_CATALOG_BOT.bat'
   workflow_dispatch:
   schedule:
     - cron: '17 2 * * *'
@@ -23,6 +27,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   audit:
+    name: Catalog · lưu trữ và dùng lại
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -34,5 +39,22 @@ jobs:
           python-version: '3.12'
       - name: Verify durable storage isolation and integrity
         run: python ai/runtime/scripts/test_catalog_store.py -v
-      - name: Audit curated regression inventory
-        run: python ai/runtime/scripts/catalog_audit.py --corpus ai/runtime/tests/fixtures/student_learning_regression.json --summary
+      - name: Verify bot privacy and failure reporting
+        id: bot-tests
+        run: python ai/runtime/scripts/test_catalog_bot.py -v
+      - name: Build visible catalog report
+        if: ${{ !cancelled() }}
+        env:
+          CATALOG_BOT_TEST_STATUS: ${{ steps.bot-tests.outcome }}
+        run: python ai/runtime/scripts/catalog_bot.py --output catalog-bot-report
+      - name: Keep catalog report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mathvision-catalog-bot
+          path: |
+            catalog-bot-report/index.html
+            catalog-bot-report/status.json
+            catalog-bot-report/summary.md
+          if-no-files-found: error
+          retention-days: 14

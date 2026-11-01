@@ -13,6 +13,7 @@ A Vietnamese math learning companion for primary school students: capture a prob
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-166534?style=flat-square&logo=springboot&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-0369A1?style=flat-square&logo=python&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
+[![Catalog Bot](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml/badge.svg)](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml)
 
 [Explore the app](#see-it-in-action) · [Get started](#run-it-locally) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) · [Drive data & recovery](DU_LIEU_GOOGLE_DRIVE.md)
 
@@ -76,6 +77,7 @@ An isolated calculation can be checked arithmetically. Deciding whether an entir
 - **Practice library:** grade-based activities, including topics labeled Kết Nối Tri Thức and Cánh Diều. This is a practice collection, not a claim of full textbook coverage or publisher affiliation.
 - **Teacher workspace:** classes, assignments, submission batches, and review workflows.
 - **Admin workspace:** role-based management through the business API.
+- **Catalog Bot:** reuses checked lessons and valid speech privately, with automated storage checks and a visible [GitHub Actions report](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml). Open `RUN_CATALOG_BOT.bat` for a read-only snapshot of this machine's catalog; see [catalog details and limits](catalog/README.md).
 
 ## Run it locally
 

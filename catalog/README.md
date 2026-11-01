@@ -17,14 +17,34 @@ The application automatically collects **successfully checked, confirmed, source
 
 ## GitHub bot
 
-`.github/workflows/lesson-catalog.yml` runs on relevant pull requests/main pushes, manually, and daily at 02:17 UTC. It tests storage/owner/version isolation and checks the curated regression inventory for malformed or duplicated sources. It needs no API keys, package installation or pupil database, uses a read-only repository token, and publishes a numeric summary in the workflow run.
+[**Open MathVision Catalog Bot → GitHub Actions**](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml)
 
-The application collects private runtime results immediately. The GitHub job audits the public source/inventory; it **does not connect to a developer's local machine, collect student data, automatically approve mathematical correctness, or push student content into the repository**. The workflow becomes executable after these files are pushed to GitHub; a successful cloud run has not been claimed before that happens.
+`.github/workflows/lesson-catalog.yml` runs on relevant pull requests/main pushes, manually via **Run workflow**, and daily at 02:17 UTC (09:17 Vietnam time; scheduled runs can be delayed). It tests storage/owner/version/voice-key isolation, durable reuse, aggregate-report privacy and failure reporting. It also checks the curated regression inventory for malformed or duplicated sources. It needs no API keys, package installation or pupil database, and uses a read-only repository token.
+
+Each run shows a Vietnamese table under **Summary**. The **mathvision-catalog-bot** artifact contains `index.html`, `summary.md` and `status.json`; download it to open the dashboard. Reports are retained for 14 days. Failed checks produce a failed workflow and a report, when checkout/Python and report generation remain available. Cancelled or infrastructure-failed runs may have no artifact.
+
+The application collects private runtime results immediately. The GitHub job audits the public source/inventory; it **does not connect to a developer's local machine, collect student data, automatically approve mathematical correctness, or push student content into the repository**. This is a GitHub Actions bot, not a separate chat user or an app installed into the Student navigation. Updates to this workflow appear on GitHub only after the owner authorizes committing/pushing them.
+
+## See the catalog on this machine
+
+Double-click **`RUN_CATALOG_BOT.bat`** in the project root. It runs offline checks, reads aggregate counts from the local SQLite catalog and opens the generated dashboard. The launcher uses the existing Python virtual environment, falling back to `python` if needed. No service restart or provider token is required.
+
+```powershell
+.\RUN_CATALOG_BOT.bat
+# Or inspect an explicitly selected server database:
+python ai/runtime/scripts/catalog_bot.py --database "path/to/private/lesson-catalog.sqlite3"
+```
+
+The launcher uses `LESSON_CATALOG_PATH` from its process environment if set, otherwise `ai/runtime/state/lesson-catalog.sqlite3`. It does not parse private `.env` files; for a custom path set in such a file, use `--database` explicitly. A Docker named volume or another host needs an audit on that server; local counts do not represent every deployment.
+
+The dashboard is a **timestamped snapshot**, not live polling. Re-run to refresh. It shows retained plan/audio counts and reuse hits on those retained entries, not a lifetime cumulative total. Expired and checksum-damaged counts are visible; inspection never prunes automatically. Missing/unreadable databases are reported as unknown, never as fabricated zeroes. Reports contain only allowlisted aggregate fields, not account hashes, text, images, WAVs or local database paths. Local reports stay in ignored `.local-artifacts/catalog-bot/`; `--database` is forbidden on GitHub Actions.
 
 Local equivalent:
 
 ```powershell
 python ai/runtime/scripts/test_catalog_store.py -v
+python ai/runtime/scripts/test_catalog_bot.py -v
+python ai/runtime/scripts/catalog_bot.py
 python ai/runtime/scripts/catalog_audit.py --corpus ai/runtime/tests/fixtures/student_learning_regression.json
 ```
 
