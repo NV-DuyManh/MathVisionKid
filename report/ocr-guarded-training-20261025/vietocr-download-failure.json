@@ -1,0 +1,9 @@
+{
+  "completed": false,
+  "error_type": "TimeoutError",
+  "error": "The read operation timed out",
+  "downloaded_bytes": 1048576,
+  "source_pixels_read": false,
+  "inference_run": false,
+  "training_run": false
+}

@@ -28,7 +28,8 @@ export default function CorrectScreen() {
 
   return (
     <StudentResultShell title="Kết quả bài làm" success={target?.pathname === '/results/correct'}>
-        {loading ? <RecognitionProgress title="Đang mở kết quả" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()} /> : target?.pathname === '/results/correct' && result ? <>
+        {loading ? <RecognitionProgress title="Đang mở kết quả" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()}
+          steps={['Tải kết quả bài làm', 'Hiện nhận xét']} /> : target?.pathname === '/results/correct' && result ? <>
         <StatusCard
           status="success"
           title={result.studentFeedback?.title || 'Làm tốt lắm! 🎉'}

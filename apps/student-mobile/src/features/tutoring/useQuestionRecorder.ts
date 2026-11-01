@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { AudioModule, RecordingPresets, setAudioModeAsync, useAudioRecorder, useAudioRecorderState } from 'expo-audio';
+import { preparePlaybackSession } from './playbackSession';
 
 /** Expo Go owns the native recorder; stop never leaves a recording audio session. */
 export function useQuestionRecorder() {
@@ -13,7 +14,7 @@ export function useQuestionRecorder() {
       const permission = await AudioModule.requestRecordingPermissionsAsync();
       if (!permission.granted) throw new Error('Microphone permission required');
       if (id !== generation.current) throw new Error('Recording canceled');
-      await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
+      await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true, shouldRouteThroughEarpiece: false, interruptionMode: 'doNotMix' });
       await native.prepareToRecordAsync();
       if (id !== generation.current) { await native.stop().catch(() => {}); throw new Error('Recording canceled'); }
     },
@@ -22,7 +23,8 @@ export function useQuestionRecorder() {
       generation.current++;
       finished.current = null;
       try { await native.stop(); } catch { /* The native time limit may have already stopped it. */ }
-      await setAudioModeAsync({ allowsRecording: false }).catch(() => {});
+      // Playback retries configuration itself if restoring the session fails here.
+      await preparePlaybackSession().catch(() => {});
       try { return native.uri; } catch { return null; }
     },
   }), [native]);

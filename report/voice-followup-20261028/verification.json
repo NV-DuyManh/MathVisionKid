@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-28",
+  "python": {
+    "passed": 277,
+    "log": "runtime/voice-followup-python-20261028.log"
+  },
+  "studentUnchangedThisPhase": {
+    "previousPassed": 179,
+    "suites": 17,
+    "log": "runtime/voice-fast-start-student-20261028.log"
+  },
+  "timeoutSeconds": 45,
+  "physicalDeviceEvidence": "User explicitly deferred testing until later; no new phone acceptance result claimed",
+  "sourceSha256": {
+    "ai/runtime/app/tutoring/media_preparation.py": "c507dc6f47e2cc68c199500b35a73cdfd8591c0471b0c9815a36b16a4bd7bdb1",
+    "ai/runtime/app/tutoring/narration.py": "305f7110fa89ba9f1ba4ecee8b9f5f7ae7696e0ccfeecc15a3419638c2d7c0ac",
+    "ai/runtime/app/tutoring/video_render.py": "5192125778c589df87e9d70673c20a60d41fec7be8181cee946d43ee58ecb91a",
+    "ai/runtime/tests/test_media_preparation.py": "93f30bd3abac4b42dd0c284027d314ffce5931b97ade6cea142031941f193ab1",
+    "ai/runtime/tests/test_lesson_narration.py": "ea643e37c9fb4c10c749fa8c1446996b3145ca272441b3cd9c2044f1191a59cd",
+    "ai/runtime/tests/test_neural_speech.py": "c320c4385f2fb35b9f0533f3848eb9847a55e0a1ef82e72e5a3fa8231e7f9657"
+  },
+  "httpProbe": "Two attempts stopped at lesson generation with HTTP 503; neither reached narration. See http-smoke-notes.json."
+}

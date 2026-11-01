@@ -1,0 +1,122 @@
+{
+  "syntheticTextCharacters": 488,
+  "experimentalOnly": true,
+  "measurements": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "width": 220,
+      "ms": 1500.0,
+      "chunks": [
+        {
+          "index": 0,
+          "characters": 220,
+          "ms": 828.0,
+          "bytes": 82368
+        },
+        {
+          "index": 1,
+          "characters": 220,
+          "ms": 906.0,
+          "bytes": 87408
+        },
+        {
+          "index": 2,
+          "characters": 46,
+          "ms": 672.0,
+          "bytes": 22464
+        }
+      ],
+      "success": true
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "width": 220,
+      "ms": 1578.0,
+      "chunks": [
+        {
+          "index": 0,
+          "characters": 220,
+          "ms": 843.0,
+          "bytes": 82224
+        },
+        {
+          "index": 1,
+          "characters": 220,
+          "ms": 859.0,
+          "bytes": 86400
+        },
+        {
+          "index": 2,
+          "characters": 46,
+          "ms": 735.0,
+          "bytes": 22032
+        }
+      ],
+      "success": true
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "width": 160,
+      "ms": 6312.0,
+      "chunks": [
+        {
+          "index": 0,
+          "characters": 160,
+          "ms": 2859.0,
+          "bytes": 61344
+        },
+        {
+          "index": 1,
+          "characters": 156,
+          "ms": 4406.0,
+          "bytes": 63504
+        },
+        {
+          "index": 2,
+          "characters": 159,
+          "ms": 3453.0,
+          "bytes": 67968
+        },
+        {
+          "index": 3,
+          "characters": 10,
+          "ms": 937.0,
+          "bytes": 11232
+        }
+      ],
+      "success": true
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "width": 160,
+      "ms": 12860.0,
+      "chunks": [
+        {
+          "index": 0,
+          "characters": 160,
+          "ms": 6203.0,
+          "bytes": 60480
+        },
+        {
+          "index": 1,
+          "characters": 156,
+          "ms": 10172.0,
+          "bytes": 64944
+        },
+        {
+          "index": 2,
+          "characters": 159,
+          "ms": 6657.0,
+          "bytes": 68544
+        },
+        {
+          "index": 3,
+          "characters": 10,
+          "ms": 734.0,
+          "bytes": 11232
+        }
+      ],
+      "success": true
+    }
+  ]
+}

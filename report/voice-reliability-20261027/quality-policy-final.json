@@ -1,0 +1,105 @@
+{
+  "online": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "status": 200,
+      "seconds": 1.359,
+      "events": [
+        {
+          "phase": "waiting",
+          "percent": 0,
+          "elapsedMs": 0,
+          "mode": "online",
+          "completedChunks": 0,
+          "totalChunks": 0
+        },
+        {
+          "phase": "synthesizing",
+          "percent": 10,
+          "mode": "online",
+          "completedChunks": 0,
+          "totalChunks": 0,
+          "elapsedMs": 264
+        },
+        {
+          "phase": "synthesizing",
+          "percent": 45,
+          "mode": "online",
+          "completedChunks": 1,
+          "totalChunks": 2,
+          "elapsedMs": 780
+        },
+        {
+          "phase": "decoding",
+          "percent": 90,
+          "mode": "online",
+          "completedChunks": 2,
+          "totalChunks": 2,
+          "elapsedMs": 1045
+        }
+      ],
+      "final": {
+        "phase": "ready",
+        "percent": 100,
+        "mode": "online",
+        "completedChunks": 2,
+        "totalChunks": 2,
+        "elapsedMs": 1092
+      },
+      "durationSeconds": 24.648,
+      "sha256": "2ade47c69643d6daa5d86a879a992fa30235a760d2e74880991c567c4a61b484",
+      "cacheSeconds": 0.0,
+      "sameBytes": true
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "status": 200,
+      "seconds": 1.578,
+      "events": [
+        {
+          "phase": "synthesizing",
+          "percent": 10,
+          "mode": "online",
+          "completedChunks": 0,
+          "totalChunks": 0,
+          "elapsedMs": 0
+        },
+        {
+          "phase": "synthesizing",
+          "percent": 45,
+          "mode": "online",
+          "completedChunks": 1,
+          "totalChunks": 2,
+          "elapsedMs": 1047
+        }
+      ],
+      "final": {
+        "phase": "ready",
+        "percent": 100,
+        "mode": "online",
+        "completedChunks": 2,
+        "totalChunks": 2,
+        "elapsedMs": 1516
+      },
+      "durationSeconds": 25.008,
+      "sha256": "8854959bd1e174e380be9d0211aa117d42df0c3e70f6a8b6d22826bed4dffcd2",
+      "cacheSeconds": 0.0,
+      "sameBytes": true
+    }
+  ],
+  "explicitFallback": {
+    "onlineFailureInjected": true,
+    "primaryStatus": 503,
+    "manualStatus": 200,
+    "manualSeconds": 1.438,
+    "primaryAfterManual": 503,
+    "manualState": {
+      "phase": "ready",
+      "percent": 100,
+      "mode": "offline",
+      "completedChunks": 0,
+      "totalChunks": 0,
+      "elapsedMs": 1438
+    }
+  }
+}

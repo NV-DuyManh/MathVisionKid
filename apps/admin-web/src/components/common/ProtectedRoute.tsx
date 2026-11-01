@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Box, CircularProgress } from '@mui/material';
 
 export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, accessDenied } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -24,7 +24,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to={accessDenied ? "/403" : "/login"} state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

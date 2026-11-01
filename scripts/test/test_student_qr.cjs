@@ -2,8 +2,13 @@ const assert = require('node:assert/strict');
 const { getExpoGoUrl, loadExpoManifest } = require('../dev/show-student-qr.cjs');
 
 const address = '192.168.1.11';
-const manifest = { extra: { expoClient: { slug: 'MathVisionKid', hostUri: `${address}:8081` } } };
+const sdkMajor = require('expo/package.json').version.split('.')[0];
+const manifest = { extra: { expoClient: { slug: 'MathVisionKid', hostUri: `${address}:8081`, sdkVersion: `${sdkMajor}.0.0` } } };
 assert.equal(getExpoGoUrl(manifest, address), `exp://${address}:8081`);
+for (const sdkVersion of [`${Number(sdkMajor) - 1}.0.0`, undefined, '']) {
+  const staleManifest = { extra: { expoClient: { ...manifest.extra.expoClient, sdkVersion } } };
+  assert.throws(() => getExpoGoUrl(staleManifest, address), /running Student server does not use installed Expo SDK/);
+}
 for (const invalidAddress of ['127.0.0.1', '127.0.0.2', '0.0.0.0', 'localhost', '::1', '']) {
   assert.throws(() => getExpoGoUrl(manifest, invalidAddress), /No usable LAN address/);
 }
@@ -16,7 +21,7 @@ for (const client of [
   assert.throws(() => getExpoGoUrl({ extra: { expoClient: client } }, address), /MathVisionKid LAN manifest/);
 }
 assert.throws(() => getExpoGoUrl({}, address), /MathVisionKid LAN manifest/);
-console.log('PASS: Expo Go uses the correct project and LAN address; loopback and mismatched manifests are rejected.');
+console.log('PASS: Expo Go uses the installed SDK, correct project, and LAN address; stale or mismatched manifests are rejected.');
 
 (async () => {
   let calls = 0;

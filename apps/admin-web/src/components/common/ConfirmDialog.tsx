@@ -1,4 +1,5 @@
 import React from 'react';
+import { RequestError } from './RequestError';
 import {
   Dialog,
   DialogTitle,
@@ -18,6 +19,7 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
+  error?: unknown;
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
@@ -30,13 +32,15 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   onConfirm,
   onCancel,
   loading = false,
+  error,
 }) => {
   const titleId = React.useId();
   const descriptionId = React.useId();
   return (
-    <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth aria-labelledby={titleId} aria-describedby={descriptionId}>
+    <Dialog open={open} onClose={loading ? undefined : onCancel} maxWidth="xs" fullWidth aria-labelledby={titleId} aria-describedby={descriptionId}>
       <DialogTitle id={titleId} sx={{ fontWeight: 600, color: '#211844' }}>{title}</DialogTitle>
       <DialogContent>
+        <RequestError error={error} />
         <DialogContentText id={descriptionId} sx={{ color: '#5E566D', fontSize: '0.95rem' }}>
           {message}
         </DialogContentText>

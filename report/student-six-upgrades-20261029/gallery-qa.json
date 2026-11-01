@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "width": 1280,
+      "all35ScreenImagesLoad": true,
+      "modalAndEscape": true,
+      "focusRestored": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 390,
+      "all35ScreenImagesLoad": true,
+      "modalAndEscape": true,
+      "focusRestored": true,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "errors": []
+}

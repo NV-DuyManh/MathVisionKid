@@ -1,0 +1,94 @@
+{
+  "checks": [
+    {
+      "kind": "model",
+      "name": "text",
+      "matches": true
+    },
+    {
+      "kind": "model",
+      "name": "legacy",
+      "matches": true
+    },
+    {
+      "kind": "model",
+      "name": "math",
+      "matches": true
+    },
+    {
+      "kind": "model",
+      "name": "math_symbols",
+      "matches": true
+    },
+    {
+      "kind": "model",
+      "name": "yolo",
+      "matches": true
+    },
+    {
+      "kind": "protected_file",
+      "name": "E:\\MathVisionKid\\apps\\student-mobile\\src\\app\\privacy.tsx",
+      "matches": true
+    },
+    {
+      "kind": "protected_file",
+      "name": "E:\\MathVisionKid\\apps\\student-mobile\\src\\app\\crop.tsx",
+      "matches": true
+    },
+    {
+      "kind": "protected_file",
+      "name": "E:\\MathVisionKid\\apps\\student-mobile\\src\\components\\ui\\AppHeader.tsx",
+      "matches": true
+    },
+    {
+      "kind": "protected_file",
+      "name": "E:\\MathVisionKid\\apps\\student-mobile\\src\\components\\ui\\AppButton.tsx",
+      "matches": true
+    },
+    {
+      "kind": "protected_file",
+      "name": "E:\\MathVisionKid\\apps\\student-mobile\\src\\constants\\theme.ts",
+      "matches": true
+    },
+    {
+      "kind": "script",
+      "name": "compare_specialist_ocr.py",
+      "matches": true
+    },
+    {
+      "kind": "script",
+      "name": "inspect_fraction_ocr.py",
+      "matches": true
+    }
+  ],
+  "all_passed": true,
+  "source_images_written": 0,
+  "holdout_accessed": false,
+  "training_performed": false,
+  "production_model_changed": false,
+  "neural_inference_regions": 598,
+  "yolo_diagnostic_regions": 73,
+  "models_compared": 4,
+  "source_quarantined": 2,
+  "test_runs": [
+    {
+      "group": "adapter/layout/source/symbol",
+      "passed": 106
+    },
+    {
+      "group": "CRNN/segmentation/OCR API",
+      "passed": 119
+    },
+    {
+      "group": "adapter after two additional dimension tests",
+      "passed": 17
+    },
+    {
+      "group": "offline routing/draft safety",
+      "passed": 3
+    }
+  ],
+  "unique_test_cases_passed": 230,
+  "physical_device_claims": false,
+  "commit_or_push": false
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "family": "digit",
+    "case": "base",
+    "offlineMatch": [
+      6,
+      537,
+      59
+    ]
+  },
+  {
+    "family": "digit",
+    "case": "even",
+    "offlineMatch": null
+  },
+  {
+    "family": "digit",
+    "case": "less-than-50",
+    "offlineMatch": null
+  },
+  {
+    "family": "fraction",
+    "case": "base",
+    "offlineAccepted": true
+  },
+  {
+    "family": "fraction",
+    "case": "odd-total-prefix",
+    "offlineAccepted": false
+  },
+  {
+    "family": "fraction",
+    "case": "other-owner-question",
+    "offlineAccepted": false
+  },
+  {
+    "family": "fraction",
+    "case": "other-owner-count",
+    "offlineAccepted": false
+  }
+]

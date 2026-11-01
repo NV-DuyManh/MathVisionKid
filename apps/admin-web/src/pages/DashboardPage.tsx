@@ -1,271 +1,101 @@
-import React from 'react';
-import {
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Chip,
-  Skeleton,
-} from '@mui/material';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import SchoolIcon from '@mui/icons-material/School';
-import ClassIcon from '@mui/icons-material/Class';
-import AddIcon from '@mui/icons-material/Add';
-import HistoryIcon from '@mui/icons-material/History';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Button, Card, CardContent, Chip, LinearProgress, Skeleton, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import PeopleOutline from '@mui/icons-material/PeopleAlt';
+import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
+import MeetingRoomOutlined from '@mui/icons-material/MeetingRoomOutlined';
+import LockOutlined from '@mui/icons-material/LockOutlined';
+import Refresh from '@mui/icons-material/Refresh';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import Add from '@mui/icons-material/Add';
+import { useAuth } from '../context/AuthContext';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
-import { useNavigate } from 'react-router-dom';
-
-export const DashboardPage: React.FC = () => {
-  const navigate = useNavigate();
-
-  const { data: dashboard, isLoading: dashLoading } = useQuery({
-    queryKey: ['admin-dashboard'],
-    queryFn: adminService.getDashboard,
-  });
-
-  const { data: recentAudit, isLoading: auditLoading } = useQuery({
-    queryKey: ['admin-recent-audit'],
-    queryFn: () => adminService.getAudit({ page: 0, size: 6 }),
-  });
-
-  return (
-    <Box>
-      <AdminTopbar title="Tổng quan hệ thống" subtitle="Báo cáo số liệu vận hành tài khoản và lớp học" />
-
-      <Box className="workspace-content" sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-        <Box className="dashboard-welcome" sx={{ mb: 3.5 }}>
-          <Box>
-            <Typography variant="overline" sx={{ fontWeight: 800, color: 'primary.dark', letterSpacing: '.1em' }}>MATHVISION KIDS · QUẢN TRỊ</Typography>
-            <Typography variant="h4" component="h2" sx={{ mt: .5, mb: 1 }}>Kết nối lớp học,<br />đồng hành cùng thầy cô.</Typography>
-            <Typography color="text.secondary" sx={{ maxWidth: 520 }}>Quản lý tài khoản, lớp học và theo dõi hoạt động trong cùng một không gian.</Typography>
-          </Box>
-        </Box>
-        {/* Quick Actions Row */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
-            Chỉ số vận hành
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<AddIcon />}
-              onClick={() => navigate('/users')}
-              sx={{ borderColor: '#D8CDE7', color: '#211844' }}
-            >
-              Thêm người dùng
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              startIcon={<AddIcon />}
-              onClick={() => navigate('/classes')}
-              sx={{ bgcolor: '#211844', '&:hover': { bgcolor: '#1E293B' } }}
-            >
-              Tạo lớp học
-            </Button>
-          </Box>
-        </Box>
-
-        {/* Metric Cards */}
-        <Grid container className="dashboard-metrics" spacing={3} sx={{ mb: 4 }}>
-          {/* Students Card */}
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                  <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
-                      Học sinh
-                    </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
-                      {dashLoading ? <Skeleton width={60} /> : dashboard?.totalStudents ?? 0}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      p: 1.2,
-                      borderRadius: 2,
-                      bgcolor: '#F0FDF4',
-                      color: '#16A34A',
-                    }}
-                  >
-                    <PeopleAltIcon />
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F4F0FA' }}>
-                  <Typography variant="body2" sx={{ color: '#166534' }}>
-                    <strong>{dashboard?.activeStudents ?? 0}</strong> hoạt động
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#991B1B' }}>
-                    <strong>{dashboard?.disabledStudents ?? 0}</strong> vô hiệu hóa
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Teachers Card */}
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                  <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
-                      Giáo viên
-                    </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
-                      {dashLoading ? <Skeleton width={60} /> : dashboard?.totalTeachers ?? 0}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      p: 1.2,
-                      borderRadius: 2,
-                      bgcolor: '#F1EBFC',
-                      color: '#7040D5',
-                    }}
-                  >
-                    <SchoolIcon />
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', gap: 2, pt: 1, borderTop: '1px solid #F4F0FA' }}>
-                  <Typography variant="body2" sx={{ color: '#59349A' }}>
-                    <strong>{dashboard?.activeTeachers ?? 0}</strong> hoạt động
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#991B1B' }}>
-                    <strong>{dashboard?.disabledTeachers ?? 0}</strong> vô hiệu hóa
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Classes Card */}
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                  <Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#655D76', textTransform: 'uppercase' }}>
-                      Lớp học
-                    </Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 700, color: '#211844', mt: 0.5 }}>
-                      {dashLoading ? <Skeleton width={60} /> : dashboard?.totalClasses ?? 0}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      p: 1.2,
-                      borderRadius: 2,
-                      bgcolor: '#FAF5FF',
-                      color: '#9333EA',
-                    }}
-                  >
-                    <ClassIcon />
-                  </Box>
-                </Box>
-                <Box sx={{ pt: 1, borderTop: '1px solid #F4F0FA' }}>
-                  <Typography variant="body2" sx={{ color: '#6B21A8' }}>
-                    Đã gán giáo viên & danh sách học sinh
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Recent Audit Events */}
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <HistoryIcon sx={{ color: '#5E566D' }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#211844' }}>
-              Nhật ký thao tác gần đây
-            </Typography>
-          </Box>
-          <Button
-            size="small"
-            endIcon={<ArrowForwardIcon />}
-            onClick={() => navigate('/audit')}
-            sx={{ color: '#7040D5', fontWeight: 600 }}
-          >
-            Xem tất cả nhật ký
-          </Button>
-        </Box>
-
-        <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2 }}>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Thời gian</TableCell>
-                <TableCell>Người thực hiện</TableCell>
-                <TableCell>Loại sự kiện</TableCell>
-                <TableCell>Mục tiêu / Chi tiết</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {auditLoading ? (
-                Array.from({ length: 4 }).map((_, i) => (
-                  <TableRow key={i}>
-                    <TableCell><Skeleton width={140} /></TableCell>
-                    <TableCell><Skeleton width={160} /></TableCell>
-                    <TableCell><Skeleton width={120} /></TableCell>
-                    <TableCell><Skeleton width={180} /></TableCell>
-                  </TableRow>
-                ))
-              ) : recentAudit?.content && recentAudit.content.length > 0 ? (
-                recentAudit.content.map((event) => (
-                  <TableRow key={event.auditEventId} hover>
-                    <TableCell sx={{ color: '#655D76', whiteSpace: 'nowrap' }}>
-                      {new Date(event.createdAt).toLocaleString('vi-VN')}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 500, color: '#211844' }}>
-                      {event.actorEmail || 'Hệ thống'}
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={event.eventType}
-                        size="small"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: '0.7rem',
-                          bgcolor: '#F4F0FA',
-                          color: '#4E4264',
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ color: '#5E566D', fontSize: '0.85rem' }}>
-                      {event.metadata ? (
-                        JSON.stringify(event.metadata)
-                      ) : (
-                        '—'
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={4} align="center" sx={{ py: 4, color: '#736983' }}>
-                    Chưa có nhật ký hoạt động nào được ghi nhận.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+import { PageContent } from '../components/common/PageContent';
+import { RequestError } from '../components/common/RequestError';
+import { AuditEventChip } from '../components/common/AuditEventChip';
+export function DashboardPage() {
+  const { user } = useAuth();
+  const dashboard = useQuery({ queryKey: ['admin-dashboard'], queryFn: adminService.getDashboard });
+  const audit = useQuery({ queryKey: ['admin-recent-audit'], queryFn: () => adminService.getAudit({ page: 0, size: 5 }) });
+  const data = dashboard.data;
+  const metrics = [
+    { label: 'Học sinh', value: data?.totalStudents, description: 'Tài khoản học sinh toàn hệ thống', icon: PeopleOutline, path: '/users?role=STUDENT', tone: '#EDE9FF', color: '#5637C9' },
+    { label: 'Giáo viên', value: data?.totalTeachers, description: 'Đội ngũ giảng dạy', icon: SchoolOutlined, path: '/users?role=TEACHER', tone: '#EAF5F1', color: '#267757' },
+    { label: 'Lớp học', value: data?.totalClasses, description: 'Lớp đã được tạo', icon: MeetingRoomOutlined, path: '/classes', tone: '#ECF1FC', color: '#4468A9' },
+    { label: 'Tài khoản bị khóa', value: data && data.disabledStudents + data.disabledTeachers, description: 'Học sinh và giáo viên', icon: LockOutlined, path: '/users?active=false', tone: '#FFF3E6', color: '#946329' },
+  ];
+  return <Box>
+    <AdminTopbar title="Tổng quan vận hành" subtitle="Tài khoản, lớp học và hoạt động quản trị" />
+    <PageContent>
+      <Box className="page-actions">
+        <Box><Typography variant="overline" color="primary.dark" sx={{ fontWeight: 800,  letterSpacing: 1.5 }}>KHÔNG GIAN QUẢN TRỊ</Typography>
+          <Typography component="h2" variant="h4" sx={{ mt: .5, mb: 1 }}>Xin chào, {user?.displayName || 'Quản trị viên'}!</Typography>
+          <Typography color="text.secondary">Cùng chăm chút cho từng kết nối học tập hôm nay.</Typography></Box>
+        <Button variant="outlined" startIcon={<Refresh />} disabled={dashboard.isFetching || audit.isFetching} onClick={() => { void dashboard.refetch(); void audit.refetch(); }}>Làm mới</Button>
       </Box>
-    </Box>
-  );
-};
+      <Box component="section" aria-label="Chào mừng đến không gian quản trị" className="dashboard-hero">
+        <Box sx={{ position: 'relative', zIndex: 1, maxWidth: 580 }}>
+          <Typography variant="overline" color="primary.dark" sx={{ fontWeight: 800, letterSpacing: 1.4 }}>MATHVISION KIDS</Typography>
+          <Typography component="h2" variant="h3" sx={{ fontSize: { xs: 26, sm: 32 }, lineHeight: 1.25, mt: 1, mb: 1.5 }}>Quản lý nhẹ nhàng,<br />kết nối học tập vững vàng.</Typography>
+          <Typography color="text.secondary" sx={{ maxWidth: 470, mb: 2.5 }}>Tài khoản, lớp học và hoạt động hệ thống trong một không gian gần gũi, rõ ràng.</Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+            <Button component={Link} to="/users" variant="contained" startIcon={<PeopleOutline />}>Quản lý người dùng</Button>
+            <Button component={Link} to="/classes" variant="outlined" sx={{ bgcolor: '#FFFFFFB3' }}>Xem lớp học</Button>
+          </Box>
+        </Box>
+        <Box className="hero-illustration" aria-hidden="true"><Box component="img" src="/ui/mathvision-star.png" alt="" width={230} height={230} sx={{ width: '100%', height: 'auto', objectFit: 'contain' }} /></Box>
+      </Box>
+      <RequestError error={dashboard.error} retry={() => { void dashboard.refetch(); }} />
+      <Box className="metric-grid" sx={{ mb: 3 }}>
+        {metrics.map(({ label, value, description, icon: Icon, path, tone, color }) => <Card key={label}><CardContent>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 700,  }}>{label}</Typography><Box sx={{ p: 1, borderRadius: 2, bgcolor: tone, color, display: 'flex' }}><Icon fontSize="small" /></Box>
+          </Box>
+          <Typography variant="h4" component="p" sx={{ fontSize: 36, fontVariantNumeric: 'tabular-nums', mb: .5 }}>{dashboard.isLoading ? <Skeleton width={70} /> : value?.toLocaleString('vi-VN') ?? '—'}</Typography>
+          <Typography variant="caption" color="text.secondary">{description}</Typography>
+          <Box sx={{ mt: 2, borderTop: '1px solid', borderColor: 'divider', pt: 1 }}>
+            <Button component={Link} to={path} size="small" endIcon={<ArrowForward fontSize="small" />} sx={{ px: 0 }}>Xem danh sách</Button>
+          </Box>
+        </CardContent></Card>)}
+      </Box>
+      <Box className="dashboard-columns">
+        <Card>
+          <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Box><Typography variant="h6" component="h2">Hoạt động gần đây</Typography><Typography variant="caption" color="text.secondary">Các sự kiện mới nhất được hệ thống ghi nhận</Typography></Box>
+            <Button component={Link} to="/audit" size="small" endIcon={<ArrowForward />}>Tất cả nhật ký</Button>
+          </Box>
+          <Box sx={{ px: 3, pb: 2 }}><RequestError error={audit.error} retry={() => { void audit.refetch(); }} /></Box>
+          {audit.isLoading ? <Box sx={{ px: 3, pb: 3 }}>{[0, 1, 2].map(i => <Skeleton height={64} key={i} />)}</Box> :
+            audit.data?.content.length ? audit.data.content.map(event => <Box key={event.auditEventId} sx={{ px: 3, py: 2, borderTop: '1px solid', borderColor: 'divider', display: 'flex', gap: 2, alignItems: 'start' }}>
+              <Box aria-hidden sx={{ mt: .8, width: 8, height: 8, borderRadius: '50%', flexShrink: 0, bgcolor: 'primary.main' }} />
+              <Box sx={{ flex: 1, minWidth: 0 }}><AuditEventChip type={event.eventType} /><Typography variant="body2" sx={{ mt: .7, overflowWrap: 'anywhere' }}>{event.actorEmail || 'Hệ thống'}</Typography>
+                <Typography variant="caption" color="text.secondary">{new Date(event.createdAt).toLocaleString('vi-VN')}</Typography></Box>
+            </Box>) : !audit.error && <Typography color="text.secondary" sx={{ px: 3, pb: 4 }}>Chưa có hoạt động được ghi nhận.</Typography>}
+        </Card>
+        <Box sx={{ display: 'grid', gap: 3, alignContent: 'start' }}>
+          <Card><CardContent>
+            <Typography variant="h6" component="h2" sx={{ mb: 2 }}>Trạng thái tài khoản</Typography>
+            {dashboard.isLoading ? <Skeleton height={100} /> : data ? [
+              { label: 'Học sinh đang hoạt động', active: data.activeStudents, total: data.totalStudents, disabled: data.disabledStudents },
+              { label: 'Giáo viên đang hoạt động', active: data.activeTeachers, total: data.totalTeachers, disabled: data.disabledTeachers },
+            ].map(item => <Box key={item.label} sx={{ mt: 2.5 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, mb: 1 }}><Typography variant="body2">{item.label}</Typography><Typography variant="body2" sx={{ fontWeight: 800,  }}>{item.active}/{item.total}</Typography></Box>
+              <LinearProgress color={item.label.startsWith('Giáo viên') ? 'success' : 'primary'} variant="determinate" value={item.total ? item.active / item.total * 100 : 0} aria-label={item.label} sx={{ height: 6, borderRadius: 4, bgcolor: '#EEE9F5' }} />
+              <Typography variant="caption" color="text.secondary">{item.disabled} tài khoản bị khóa</Typography>
+            </Box>) : <Typography color="text.secondary">Chưa tải được trạng thái.</Typography>}
+            <Chip label="Theo dữ liệu tài khoản hiện tại" size="small" variant="outlined" sx={{ mt: 3, maxWidth: '100%' }} />
+          </CardContent></Card>
+          <Card sx={{ bgcolor: '#F0EDFF' }}><CardContent>
+            <Typography component="h2" variant="h6" sx={{ mb: 1 }}>Bắt đầu công việc</Typography><Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Tạo tài khoản và tổ chức lớp học trong vài bước.</Typography>
+            <Box sx={{ display: 'grid', gap: 1 }}>
+              <Button component={Link} to="/users?create=true" variant="contained" startIcon={<Add />}>Tạo người dùng</Button>
+              <Button component={Link} to="/classes?create=true" variant="outlined" startIcon={<Add />}>Tạo lớp học</Button>
+            </Box>
+          </CardContent></Card>
+        </Box>
+      </Box>
+      {dashboard.dataUpdatedAt > 0 && <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 3 }}>Dữ liệu được làm mới lúc {new Date(dashboard.dataUpdatedAt).toLocaleTimeString('vi-VN')} · Số liệu lấy từ hệ thống quản lý.</Typography>}
+    </PageContent>
+  </Box>;
+}

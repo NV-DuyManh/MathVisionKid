@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "torch": "2.14.0+cu126",
+    "device": "cuda",
+    "cuda": "12.6",
+    "hardware": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "precision": "float32; TF32 disabled"
+  },
+  "torchvision": "0.29.0+cu126",
+  "cuda_forward_backward_ctc_passed": true,
+  "actual_loss": 4.789109230041504,
+  "environment": "C:/Users/Admin/.cache/MathVisionKid/ocr-cuda-v1",
+  "runtime_modified": false,
+  "packages_index": "https://download.pytorch.org/whl/cu126",
+  "rnn_mode": "train flag for backward, one layer/dropout0",
+  "training": false
+}

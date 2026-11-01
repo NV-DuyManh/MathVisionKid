@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "purpose": "Fixed regression oracle; never feed these cases to training. Not a claimed independent research holdout.",
+  "cases": [
+    {"id":"orchard","problem":"Vườn cây nhà bác Nam có 1/3 số cây là cây táo, 2/5 số cây là cây xoài, còn lại là cây cam. Số cây cam là 16 cây. Hỏi vườn có tất cả bao nhiêu cây?","steps":["1/3+2/5","1-@0","16/@1"],"expected":["11/15","4/15","60"]},
+    {"id":"floor-two-questions","problem":"Nền nhà hình chữ nhật dài 8 m, rộng bằng 1/2 chiều dài. Lát nền bằng gạch vuông cạnh 4 dm. a) Cần bao nhiêu viên gạch? b) 2 m² gạch giá 250000 đồng, cần bao nhiêu tiền?","steps":["8/2","8*@0","4/10","@1/(@2*@2)","@1/2*250000"],"expected":["4","32","2/5","200","4000000"]},
+    {"id":"flower-fraction","problem":"Mảnh đất chữ nhật dài 15 m, rộng bằng 3/5 chiều dài. Dùng 1/6 diện tích trồng hoa. Tính diện tích trồng hoa.","steps":["15*3/5","15*@0","@1/6"],"expected":["9","135","45/2"]},
+    {"id":"tiles-mixed-units","problem":"Phòng dài 45/4 m, rộng 6 m. Lát bằng gạch vuông cạnh 30 cm. Cần bao nhiêu viên gạch, bỏ qua mạch vữa?","steps":["45/4*6","30*30/10000","@0/@1"],"expected":["135/2","9/100","750"]},
+    {"id":"apples","problem":"Có 24 quả táo đỏ và 18 quả táo xanh, chia đều vào 6 túi. Mỗi túi có mấy quả?","steps":["24+18","@0/6"],"expected":["42","7"]},
+    {"id":"pens","problem":"Có 7 hộp bút, mỗi hộp 9 bút. Cho đi 15 bút. Còn mấy bút?","steps":["7*9","@0-15"],"expected":["63","48"]},
+    {"id":"ribbon","problem":"Có 3/4 m dây, cắt đi 1/3 m. Tính phần còn lại và số cm còn lại.","steps":["3/4-1/3","@0*100"],"expected":["5/12","125/3"]},
+    {"id":"length-cm","problem":"Dây dài 2,5 m, cắt thành các đoạn 50 cm. Được mấy đoạn?","steps":["2.5*100","@0/50"],"expected":["250","5"]},
+    {"id":"mass-decimal","problem":"Có 2,4 kg và 1,75 kg gạo, chia đều thành 5 túi. Mỗi túi có bao nhiêu kg?","steps":["2.4+1.75","@0/5"],"expected":["83/20","83/100"]},
+    {"id":"money","problem":"Mua 3,5 kg gạo giá 24000 đồng mỗi kg và rau giá 16000 đồng. Trả tất cả bao nhiêu?","steps":["3.5*24000","@0+16000"],"expected":["84000","100000"]},
+    {"id":"class-ratio","problem":"Lớp có 40 học sinh, nữ chiếm 3/5. Hỏi có bao nhiêu bạn nữ và bao nhiêu bạn nam?","steps":["40*3/5","40-@0"],"expected":["24","16"]},
+    {"id":"rectangle","problem":"Hình chữ nhật dài 18 m, rộng bằng 2/3 chiều dài. Tính diện tích và chu vi.","steps":["18*2/3","18*@0","(18+@0)*2"],"expected":["12","216","60"]},
+    {"id":"triangle","problem":"Tam giác đáy 12 cm, chiều cao 7 cm. Tính tích đáy với cao và diện tích tam giác.","steps":["12*7","@0/2"],"expected":["84","42"]},
+    {"id":"average","problem":"Ba bạn có 15, 18, 21 viên bi. Trung bình mỗi bạn có mấy viên?","steps":["15+18+21","@0/3"],"expected":["54","18"]},
+    {"id":"percentage","problem":"Có 80 quyển vở, đã phát 15%. Hỏi đã phát bao nhiêu và còn bao nhiêu?","steps":["80*15/100","80-@0"],"expected":["12","68"]},
+    {"id":"time","problem":"Làm 3 sản phẩm mất 2 giờ 15 phút. Trung bình mỗi sản phẩm mất mấy phút?","steps":["2*60+15","@0/3"],"expected":["135","45"]},
+    {"id":"garden-decimals","problem":"Vườn dài 3,2 m, rộng 2,5 m. Dùng 3/4 diện tích trồng rau. Tính diện tích vườn và diện tích rau.","steps":["3.2*2.5","@0*3/4"],"expected":["8","6"]},
+    {"id":"fraction-add","problem":"Có 7/3 lít và 5/6 lít nước. Tính tổng rồi chia vào các chai 1/6 lít. Được mấy chai?","steps":["7/3+5/6","@0/(1/6)"],"expected":["19/6","19"]},
+    {"id":"parentheses","problem":"Có 12 bút xanh và 8 bút đỏ mỗi hộp, có 2 hộp. Chia đều cho 5 bạn. Mỗi bạn được mấy bút?","steps":["(12+8)*2","@0/5"],"expected":["40","8"]},
+    {"id":"append-digit","problem":"Viết thêm chữ số 6 vào bên phải một số thì số mới hơn số cũ 537. Tìm số cũ.","steps":["537-6","@0/9","@1*10+6"],"expected":["531","59","596"]}
+  ]
+}

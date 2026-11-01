@@ -1,0 +1,54 @@
+{
+  "method": "HTTP status health only after Metro restart and watcher/cache changes; not bundle or Android timing",
+  "beforeFix": {
+    "statusReadTimeoutSeconds": [
+      4,
+      10
+    ],
+    "observedNodeCpuPercent1Second": 96.9
+  },
+  "afterRestartAttempts": [
+    {
+      "category": "ConnectTimeout",
+      "elapsedMs": 2172
+    },
+    {
+      "category": "ConnectTimeout",
+      "elapsedMs": 2031
+    },
+    {
+      "category": "ConnectTimeout",
+      "elapsedMs": 2031
+    },
+    {
+      "category": "ConnectTimeout",
+      "elapsedMs": 2031
+    },
+    {
+      "httpStatus": 200,
+      "elapsedMs": 1219,
+      "packagerRunning": true
+    }
+  ],
+  "afterRestartProcess": {
+    "rssMiB": 419,
+    "cpuPercent1Second": 6.2
+  },
+  "steadyStatusSamples": [
+    {
+      "httpStatus": 200,
+      "elapsedMs": 15,
+      "packagerRunning": true
+    },
+    {
+      "httpStatus": 200,
+      "elapsedMs": 0,
+      "packagerRunning": true
+    },
+    {
+      "httpStatus": 200,
+      "elapsedMs": 0,
+      "packagerRunning": true
+    }
+  ]
+}

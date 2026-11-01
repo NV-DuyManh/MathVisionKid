@@ -1,0 +1,45 @@
+{
+  "python": {
+    "passed": 265,
+    "log": "runtime/voice-full-prefetch-python-final-20261027.log"
+  },
+  "student": {
+    "passed": 178,
+    "suites": 17,
+    "success": true,
+    "log": "runtime/voice-full-prefetch-student-final-20261027.log"
+  },
+  "java": [
+    {
+      "suite": "MathTutorControllerTest",
+      "tests": 48,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "MathTutorServiceTest",
+      "tests": 86,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "exports": {
+    "web": "passed with a non-deployed HTTPS placeholder configuration",
+    "android": "passed; bundle export, not installed APK"
+  },
+  "sourceSha256": {
+    "ai/runtime/app/api/tutor.py": "c6c0acd5b681c2b3193d47c0f62ef7a0dc77a69b13725ba4c433fdf705924374",
+    "ai/runtime/app/tutoring/narration.py": "c180e99dba4d5c05927a8395816f1c9419eba0456fcac41773ae683b7efa54de",
+    "ai/runtime/app/tutoring/media_preparation.py": "2bcf89f69c3b364e81893b121bd01d13b63d7cef530b23542be5b1b92434f61c",
+    "apps/student-mobile/src/features/tutoring/narration.ts": "4cbe776443812e0063365d2872e947818adf98f108f787e875d726735ca5a541",
+    "apps/student-mobile/src/features/tutoring/narrationApi.ts": "b74475deb3ccfc3c454bd73f102cb8f6a3f1892ef3474dcfaad37f263814ebb8",
+    "apps/student-mobile/src/features/tutoring/LessonNarration.tsx": "c8211f675a9c06104fceb9a3a95ddad5a0aba0af97f5e4b5f4daf9d0a07610b0",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java": "ed8b852d03c0f4c954e1d217ba0dbde94548fe21be46d3f383eaf266ef999636",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "8bdb271a86331d4270d3ce07161d649d2ab49342fa25cab3f89b2aa7caca614a"
+  }
+}

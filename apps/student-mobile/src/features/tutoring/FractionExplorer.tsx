@@ -1,5 +1,6 @@
 import React, { useId, useState } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { KeyDownEvent } from 'react-native';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { FractionShape, FractionShapeKind } from './FractionShape';
@@ -119,12 +120,11 @@ function FractionParts({ numerator, denominator, label }: Props) {
             const index = whole * denominator + part;
             const checked = selected.includes(index);
             // React Native Web handles Enter for Pressable; checkbox Space needs its own handler.
-            const webKeys = Platform.OS === 'web' ? { onKeyDown: (event: {
-              key: string; repeat?: boolean; preventDefault: () => void;
-            }) => {
-              if (event.key === ' ' || event.key === 'Spacebar') {
+            const webKeys = Platform.OS === 'web' ? { onKeyDown: (event: React.KeyboardEvent | KeyDownEvent) => {
+              const keyboard = 'key' in event ? event : event.nativeEvent;
+              if (keyboard.key === ' ' || keyboard.key === 'Spacebar') {
                 event.preventDefault();
-                if (!event.repeat) toggle(index);
+                if (!keyboard.repeat) toggle(index);
               }
             } } : {};
             return <Pressable key={part} {...webKeys} accessibilityRole="checkbox" focusable

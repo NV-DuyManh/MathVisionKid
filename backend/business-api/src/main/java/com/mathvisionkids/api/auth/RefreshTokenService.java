@@ -65,7 +65,7 @@ public class RefreshTokenService {
             throw new ApiException("UNAUTHORIZED", "Compromised token detected. All sessions revoked.", HttpStatus.UNAUTHORIZED);
         }
 
-        if (token.getUser().getActive() != null && !token.getUser().getActive()) {
+        if (!Boolean.TRUE.equals(token.getUser().getActive())) {
             refreshTokenRepository.deleteByUser(token.getUser());
             throw new ApiException("UNAUTHORIZED", "Account is disabled.", HttpStatus.UNAUTHORIZED);
         }

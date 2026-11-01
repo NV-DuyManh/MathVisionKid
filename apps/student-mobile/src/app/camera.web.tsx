@@ -9,6 +9,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
+import type { ViewInstance } from 'react-native';
 
 export default function WebCameraScreen() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function WebCameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const compact = useWindowDimensions().height < 500;
   const camera = useRef<CameraView>(null);
-  const preview = useRef<View>(null);
+  const preview = useRef<ViewInstance>(null);
   const [context] = useState(() => recognitionDraftStore.getDraft()?.lessonContext);
   const mode = resolveFlowDomain(params.mode || 'MATH_TUTOR', null);
   const [focused, setFocused] = useState(true);

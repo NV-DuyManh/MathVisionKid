@@ -63,15 +63,27 @@ export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string;
 export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
 export type LessonSummary = { givens: string[]; question: string };
 export type LessonReply = { answer: string; spokenExplanation: string; followUp: string; guarded: boolean };
+export type LearningCheck = {expression:string;question:string;checked:boolean;correct:boolean;feedback:string};
 export type LessonResponse = {
   sessionId: string; revision: number; topic: string; goal: string; outline: string[]; stepIndex: number;
   step: LessonStep | null; completed: CompletedLessonStep[];
-  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3;
+  status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE' | 'PREPARING' | 'RETRYABLE' | 'UNAVAILABLE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
   summary?: LessonSummary | null;
+  review?:{question:string;choices:string[];studentAnswer:string}|null;
 };
 function lessonResponse(value: any): LessonResponse {
+  if(value?.review!=null){
+    const review=value.review;
+    if(typeof review.question!=='string'||!review.question.trim()||review.question.length>220||!Array.isArray(review.choices)||review.choices.length>4
+      ||review.choices.some((item:unknown)=>typeof item!=='string'||!item.trim()||item.length>100)
+      ||typeof review.studentAnswer!=='string'||review.studentAnswer.length>100||!value.completed?.length
+      ||value.completed[value.completed.length-1].answer!==review.studentAnswer
+      ||review.choices.length&&!review.choices.includes(review.studentAnswer))throw new Error(INVALID_RESPONSE);
+  }
   const bounded = (v: any, max: number) => typeof v === 'string' && v.length <= max;
   const understanding = value?.understandingSteps === undefined ? 0 : value.understandingSteps;
+  const preparing = value?.preparingMath === true;
+  const waiting = ['PREPARING', 'RETRYABLE', 'UNAVAILABLE'].includes(value?.status);
   const phaseValid = (s: any, index: number) => s && (s.kind === undefined ? 'MATH' : s.kind) === (index < understanding ? 'UNDERSTAND' : 'MATH')
     && (index >= understanding || (s.expression === '' && s.unit === '' && !s.solutionSentence));
   const guidanceValid = (v: any) => v === undefined || (Array.isArray(v) && v.length <= 6 && v.every((item: any) => bounded(item, 500) && item.trim()));
@@ -87,15 +99,17 @@ function lessonResponse(value: any): LessonResponse {
     && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220)) && guidanceValid(s.guidance);
   if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
-      || !Array.isArray(value.outline) || value.outline.length - understanding < 2 || value.outline.length - understanding > 6 || !value.outline.every((t: any) => bounded(t, 100))
+      || (value.preparingMath !== undefined && typeof value.preparingMath !== 'boolean')
+      || !Array.isArray(value.outline) || (preparing ? understanding !== 3 || value.outline.length !== 3 : value.outline.length - understanding < 2 || value.outline.length - understanding > 6) || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
       || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
         && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))
         && guidanceValid(s.guidance)
         && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
       || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
-      || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE'].includes(value.status)
-      || (value.step === null) !== (value.status === 'COMPLETE')
+      || value.stepIndex !== value.completed.length || !['READY', 'HINT', 'TRY_AGAIN', 'CORRECT', 'COMPLETE', 'PREPARING', 'RETRYABLE', 'UNAVAILABLE'].includes(value.status)
+      || (waiting && (!preparing || understanding !== 3 || value.stepIndex !== 3))
+      || (preparing && value.status === 'COMPLETE') || (value.step === null) !== (value.status === 'COMPLETE' || waiting)
       || (value.step === null ? value.stepIndex !== value.outline.length
         : value.stepIndex >= value.outline.length || !phaseValid(value.step, value.stepIndex) || !stepValid(value.step)
           || (value.stepIndex < understanding && value.step.choices.length < 2))) throw new Error(INVALID_RESPONSE);
@@ -104,6 +118,24 @@ function lessonResponse(value: any): LessonResponse {
 }
 
 export const TutorService = {
+  async lessonPreparation(lesson: Pick<LessonResponse, 'sessionId' | 'revision'>, retry = false, signal?: AbortSignal): Promise<LessonResponse> {
+    const { data } = await apiClient.post('/student/tutor/lesson/preparation', {
+      sessionId: lesson.sessionId, revision: lesson.revision, retry,
+    }, { timeout: 10000, signal });
+    return lessonResponse(data);
+  },
+  async resumeLesson(sessionId:string,problemText:string,signal?:AbortSignal):Promise<LessonResponse> {
+    const {data}=await apiClient.post('/student/tutor/lesson/resume',{sessionId,problemText},{timeout:15000,signal});
+    return lessonResponse(data);
+  },
+  async checkUnderstanding(source:{sessionId:string;revision:number},answer='',signal?:AbortSignal):Promise<LearningCheck> {
+    const {data}=await apiClient.post('/student/tutor/lesson/checkpoint',{...source,answer},{timeout:15000,signal});
+    if(!data||typeof data.expression!=='string'||!data.expression.trim()||data.expression.length>300
+      ||typeof data.question!=='string'||!data.question.trim()||data.question.length>200||typeof data.checked!=='boolean'
+      ||typeof data.correct!=='boolean'||typeof data.feedback!=='string'||data.feedback.length>300
+      ||data.correct&&!data.checked||data.checked!==!!answer.trim())throw new Error(INVALID_RESPONSE);
+    return data;
+  },
   async askLesson(request: { sessionId: string; revision: number; stepIndex: number; question: string }, signal?: AbortSignal): Promise<LessonReply> {
     if (!request.question.trim() || request.question.length > 500) throw new Error('Em viết một câu hỏi ngắn nhé.');
     const { data } = await apiClient.post<LessonReply>('/student/tutor/lesson/ask', request, { timeout: TIMEOUT, signal });
@@ -162,10 +194,18 @@ export const TutorService = {
         || (data.status !== 'TRY_AGAIN' && data.hints.length > 0)))) throw new Error(INVALID_RESPONSE);
     return data;
   },
+  async prepareLesson(problemText: string, workText: string, signal?: AbortSignal): Promise<void> {
+    if (problemText.trim().length < 3 || problemText.length > 4000 || workText.length > 6000
+      || problemText.includes('[?]') || workText.includes('[?]')) return;
+    const { data } = await apiClient.post('/student/tutor/lesson/prepare', { problemText, workText }, { timeout: TIMEOUT, signal });
+    if (!['preparing', 'ready', 'busy', 'unavailable'].includes(data?.phase)) throw new Error(INVALID_RESPONSE);
+  },
   async startLesson(problemText: string, workText: string,
-    confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
+    confirmation: { problemConfirmed: boolean; workConfirmed: boolean; guidedUnderstanding?: boolean; startWithReading?: boolean }, signal?: AbortSignal): Promise<LessonResponse> {
     if (confirmation?.problemConfirmed !== true || (workText.trim() && confirmation.workConfirmed !== true)
       || (confirmation.guidedUnderstanding !== undefined && typeof confirmation.guidedUnderstanding !== 'boolean')
+      || (confirmation.startWithReading !== undefined && typeof confirmation.startWithReading !== 'boolean')
+      || (confirmation.startWithReading === true && confirmation.guidedUnderstanding !== true)
       || problemText.includes('[?]') || workText.includes('[?]')) throw new Error('Em kiểm tra lại đề và các số với ảnh trước nhé.');
     const { data } = await apiClient.post('/student/tutor/lesson', { problemText, workText, ...confirmation }, { timeout: TIMEOUT, signal });
     return lessonResponse(data);

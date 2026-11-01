@@ -1,0 +1,22 @@
+{
+  "method": "Two serial production renderer calls; public 64-character example; no lesson queue or model request created by this probe; per-render limit25s",
+  "physicalAndroidTest": false,
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 64,
+      "complete": false,
+      "errorCategory": "SpeechNoAudio",
+      "elapsedMs": 9219
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 64,
+      "complete": true,
+      "audioSeconds": 5.664,
+      "wavBytes": 181326,
+      "elapsedMs": 12453
+    }
+  ],
+  "metadataNote": "Corrected descriptive label from61 to64; measured characters and outcomes unchanged; original preserved."
+}

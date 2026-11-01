@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-27",
+  "passedTests": 150,
+  "failedTests": 0,
+  "passedSuites": 14,
+  "typecheck": "passed",
+  "eslint": "passed",
+  "diffCheck": "passed",
+  "webExport": "passed",
+  "androidHermesExport": "passed",
+  "physicalAndroidTest": false,
+  "visualBrowserReview": false,
+  "visualReviewBlock": "Local browser use is disabled in Work settings",
+  "skillsApplied": [
+    "ui-ux-pro-max",
+    "vercel-react-best-practices",
+    "fixing-accessibility"
+  ],
+  "sourceHashes": [
+    {
+      "sha256": "E458FD4E832858CC21A15CDAAB2D03FEF5CDB21B4000FF527902CDE55694F507",
+      "path": "apps/student-mobile/src/features/tutoring/LessonQuestion.tsx"
+    },
+    {
+      "sha256": "0F79B53F883F58C4DC1F905AA03763E02443B33F595CCF5B3921C51471C64AAA",
+      "path": "apps/student-mobile/src/features/tutoring/LessonNarration.tsx"
+    },
+    {
+      "sha256": "073A7B607E3D154ED93679A5DBEF178E0CEFCF262453FC48CFC649A79882800B",
+      "path": "apps/student-mobile/src/features/tutoring/MediaTimeline.tsx"
+    },
+    {
+      "sha256": "2725C5D3129D121ACCBC5391180CCB1F517623421D90A49FD5E4E61323F817BC",
+      "path": "apps/student-mobile/src/features/tutoring/MediaSlider.web.tsx"
+    },
+    {
+      "sha256": "68305D972C954444ADD51E49DA28495D5BB05E90C4CBF4B49146329F40CEA033",
+      "path": "apps/student-mobile/src/features/tutoring/AudioPlayback.tsx"
+    },
+    {
+      "sha256": "1C6A0A7DDF5F4731F3980E39021A6F756611319815A0F376857B9E8F934214AD",
+      "path": "apps/student-mobile/src/features/tutoring/useQuestionRecorder.web.ts"
+    },
+    {
+      "sha256": "F574FBE39F7B890FCC27103191ADE01D413BB21F94C5200F8A1470BA051F9242",
+      "path": "apps/student-mobile/src/app/learning/math-guide.tsx"
+    }
+  ]
+}

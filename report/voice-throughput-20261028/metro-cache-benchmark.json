@@ -1,0 +1,46 @@
+{
+  "scope": "Controlled memory-only scheduler microbenchmark in one Node process; not real disk I/O, bundles or Android performance.",
+  "nodeVersion": "v22.19.0",
+  "concurrency": 32,
+  "requestedTrialsPerImplementation": 3,
+  "complete": true,
+  "results": [
+    {
+      "implementation": "array-shift",
+      "trial": 1,
+      "calls": 50000,
+      "elapsedMs": 4295.22
+    },
+    {
+      "implementation": "head-index",
+      "trial": 1,
+      "calls": 50000,
+      "elapsedMs": 118.89
+    },
+    {
+      "implementation": "array-shift",
+      "trial": 2,
+      "calls": 50000,
+      "elapsedMs": 3323.91
+    },
+    {
+      "implementation": "head-index",
+      "trial": 2,
+      "calls": 50000,
+      "elapsedMs": 82.53
+    },
+    {
+      "implementation": "array-shift",
+      "trial": 3,
+      "calls": 50000,
+      "elapsedMs": 2427.14
+    },
+    {
+      "implementation": "head-index",
+      "trial": 3,
+      "calls": 50000,
+      "elapsedMs": 81.61
+    }
+  ],
+  "reproduce": "node runtime/metro-cache-benchmark-20261028.cjs"
+}

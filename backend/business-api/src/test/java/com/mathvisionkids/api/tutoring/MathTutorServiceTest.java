@@ -27,30 +27,114 @@ class MathTutorServiceTest {
     private MockRestServiceServer server;
     private MathTutorService service;
 
-    @Test void videoUsesOnlySessionAndAuthenticatedOwner() {
-        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/video"))
-                .andExpect(jsonPath("$.owner").value("pupil-a"))
-                .andExpect(jsonPath("$.revision").value(2))
+    @Test void sourcePreparationIsPrivateAndDoesNotForgeTranscriptionConfirmation() {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/prepare"))
+                .andExpect(jsonPath("$.owner").value("real-pupil"))
+                .andExpect(jsonPath("$.problemConfirmed").doesNotExist())
                 .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
-                .andRespond(withSuccess("{\"videoId\":\""+"v".repeat(32)+"\",\"status\":\"READY\",\"progress\":100,\"durationSeconds\":25,\"hasAudio\":true,\"title\":\"Bài của em\"}",MediaType.APPLICATION_JSON));
-        assertTrue(service.video(new VideoRequest("video-lesson-session-12345",2),"pupil-a").hasAudio());
+                .andRespond(withSuccess("{\"phase\":\"preparing\",\"answer\":\"private\"}",MediaType.APPLICATION_JSON));
+        assertEquals("preparing",service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil").phase());
+        server.verify();server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/prepare"))
+                .andRespond(withSuccess("{\"phase\":\"unexpected\"}",MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil"));
+    }
+
+    @Test void preparationForwardsOnlyAuthenticatedOwnerAndValidatesBoundedCounters() {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
+                .andExpect(jsonPath("$.owner").value("real-pupil"))
+                .andExpect(jsonPath("$.voice").value("vi-VN-HoaiMyNeural"))
+                .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
+                .andRespond(withSuccess("{\"totalSteps\":5,\"preparedSteps\":2,\"preparedCharacters\":1200,\"failedItems\":0}",MediaType.APPLICATION_JSON));
+        assertEquals(2,service.prepareMedia(new MediaPrepareRequest("prepare-session-123456",0,"vi-VN-HoaiMyNeural"),"real-pupil").get("preparedSteps"));
+        server.verify();server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
+                .andRespond(withSuccess("{\"totalSteps\":5,\"preparedSteps\":6,\"preparedCharacters\":1200,\"failedItems\":0}",MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.prepareMedia(new MediaPrepareRequest("prepare-session-123456",0,null),"real-pupil"));
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"prepare", "status"})
+    void narrationProgressPreservesRetryableCapacityStatus(String action) {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration/"+action))
+                .andExpect(jsonPath("$.owner").value("real-pupil"))
+                .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
+                .andRespond(withStatus(HttpStatus.TOO_MANY_REQUESTS).body("private upstream details"));
+        var request=new NarrationRequest("narration-session-12345",2,java.util.List.of("Em đọc lại đề."),null);
+        error("NARRATION_BUSY",HttpStatus.TOO_MANY_REQUESTS,()->{
+            if (action.equals("prepare")) service.prepareNarration(request,"real-pupil");
+            else service.narrationStatus(request,"real-pupil");
+        });
         server.verify();
     }
 
-    @Test void readyVideoWithoutSoundIsRejected() {
-        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/video/status"))
-                .andRespond(withSuccess("{\"videoId\":\""+"v".repeat(32)+"\",\"status\":\"READY\",\"progress\":100,\"durationSeconds\":25,\"hasAudio\":false,\"title\":\"Bài của em\"}",MediaType.APPLICATION_JSON));
-        assertThrows(ApiException.class,()->service.videoStatus(new VideoLookup("v".repeat(32)),"pupil-a"));
+    @ParameterizedTest @ValueSource(strings = {"prepare", "status"})
+    void narrationProgressForwardsBackgroundPrioritySeparatelyFromOwner(String action) {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration/"+action))
+                .andExpect(jsonPath("$.owner").value("real-pupil"))
+                .andExpect(jsonPath("$.voice").value("vi-VN-HoaiMyNeural"))
+                .andExpect(jsonPath("$.useFallback").value(false))
+                .andExpect(jsonPath("$.prefetch").value(true))
+                .andRespond(withSuccess("{\"phase\":\"waiting\",\"mode\":\"online\",\"percent\":0,\"elapsedMs\":0,\"completedChunks\":0,\"totalChunks\":0}",MediaType.APPLICATION_JSON));
+        var request=new NarrationRequest("narration-session-12345",2,java.util.List.of("Em đọc lại đề."),"vi-VN-HoaiMyNeural",false,true);
+        var result=action.equals("prepare")?service.prepareNarration(request,"real-pupil"):service.narrationStatus(request,"real-pupil");
+        assertEquals("waiting",result.get("phase"));server.verify();
     }
 
-    @Test void videoDownloadForwardsOwnerAndOnlyAcceptsMp4() {
-        byte[] bytes=new byte[]{0,0,0,24,'f','t','y','p','i','s','o','m',0};
-        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/video/content"))
+    @Test void narrationPriorityDefaultsPreserveExistingConstructors() {
+        var parts=java.util.List.of("Em đọc lại đề.");
+        var oldFour=new NarrationRequest("narration-session-12345",2,parts,null);
+        var oldFive=new NarrationRequest("narration-session-12345",2,parts,null,true);
+        var explicitNull=new NarrationRequest("narration-session-12345",2,parts,null,null,null);
+        assertFalse(oldFour.prefetch());assertFalse(oldFour.useFallback());
+        assertFalse(oldFive.prefetch());assertTrue(oldFive.useFallback());
+        assertFalse(explicitNull.prefetch());assertFalse(explicitNull.useFallback());
+        assertEquals("vi-VN-NamMinhNeural",oldFour.voice());
+    }
+
+    @Test void narrationUsesAuthenticatedOwnerAndRejectsWrongBinaryFormat() {
+        byte[] wav=new byte[46]; wav[0]='R';wav[1]='I';wav[2]='F';wav[3]='F';wav[8]='W';wav[9]='A';wav[10]='V';wav[11]='E';
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration"))
                 .andExpect(jsonPath("$.owner").value("pupil-a"))
-                .andRespond(withSuccess(bytes,MediaType.parseMediaType("video/mp4")));
-        assertArrayEquals(bytes,service.videoContent(new VideoLookup("v".repeat(32)),"pupil-a"));
+                .andExpect(jsonPath("$.paragraphs[0]").value("Em gộp hai nhóm."))
+                .andExpect(jsonPath("$.voice").value("vi-VN-HoaiMyNeural"))
+                .andExpect(jsonPath("$.useFallback").value(false))
+                .andExpect(jsonPath("$.prefetch").doesNotExist())
+                .andExpect(header("X-Internal-API-Key","test-only-internal-key"))
+                .andRespond(withSuccess(wav,MediaType.parseMediaType("audio/wav")));
+        assertArrayEquals(wav,service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),"vi-VN-HoaiMyNeural"),"pupil-a"));
+        server.verify(); server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration")).andRespond(withSuccess(new byte[50],MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.narration(new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),null),"pupil-a"));
+    }
+
+    @Test void narrationPreservesRetryableCapacityStatus() {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration"))
+                .andExpect(jsonPath("$.owner").value("pupil-a"))
+                .andRespond(withStatus(HttpStatus.TOO_MANY_REQUESTS));
+        var error=assertThrows(ApiException.class,()->service.narration(
+                new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),null),"pupil-a"));
+        assertEquals(HttpStatus.TOO_MANY_REQUESTS,error.getStatus());
         server.verify();
     }
+
+    @Test void narrationProgressIsBoundToOwnerAndRejectsInvalidPercent() {
+        var request=new NarrationRequest("narration-session-12345",2,java.util.List.of("Em gộp hai nhóm."),null,true);
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration/status"))
+                .andExpect(jsonPath("$.owner").value("pupil-a"))
+                .andExpect(jsonPath("$.useFallback").value(true))
+                .andRespond(withSuccess("{\"phase\":\"fallback\",\"mode\":\"offline\",\"percent\":45,\"elapsedMs\":12345,\"completedChunks\":1,\"totalChunks\":2}",MediaType.APPLICATION_JSON));
+        assertEquals("offline",service.narrationStatus(request,"pupil-a").get("mode"));
+        server.verify();server.reset();
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/narration/status"))
+                .andRespond(withSuccess("{\"phase\":\"ready\",\"mode\":\"online\",\"percent\":101,\"elapsedMs\":0,\"completedChunks\":0,\"totalChunks\":0}",MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.narrationStatus(request,"pupil-a"));
+    }
+
+
+
+
+
+
 
     @BeforeEach void setUp() {
         RestTemplate http = new RestTemplate();
@@ -246,6 +330,28 @@ class MathTutorServiceTest {
             """;
     }
 
+    @ParameterizedTest @ValueSource(strings = {"PREPARING", "RETRYABLE", "UNAVAILABLE"})
+    void checkedReadingCanWaitForMathWithoutFakeCompletion(String status) throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
+        body.put("preparingMath", true).put("revision", 3).put("stepIndex", 3).put("status", status).putNull("step");
+        body.set("outline", mapper.readTree("[\"Dữ kiện\",\"Câu hỏi\",\"Đối chiếu\"]"));
+        var done = body.putArray("completed");
+        for (int i=0; i<3; i++) done.addObject().put("kind", "UNDERSTAND").put("title", "Đọc đề")
+                .put("expression", "").put("answer", "Đúng").put("unit", "").put("explanation", "Đối chiếu đề.");
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
+                .andExpect(jsonPath("$.owner").value("real-student"))
+                .andExpect(jsonPath("$.revision").value(3)).andExpect(jsonPath("$.retry").value(true))
+                .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
+        var result=service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,true),"real-student");
+        assertEquals(status,result.status()); assertEquals(3,result.completed().size()); assertNull(result.step());
+        server.verify(); server.reset();
+        body.put("status","COMPLETE");
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
+                .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,false),"real-student"));
+    }
+
     private static String summaryResponse(int understanding, int index, String summary) throws Exception {
         var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         var response = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
@@ -312,6 +418,34 @@ class MathTutorServiceTest {
             server.verify();
             server.reset();
         }
+    }
+
+    @Test void readingFirstResponseIsExplicitAndOnlyContainsComprehension() throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
+        body.put("preparingMath", true);
+        body.putArray("outline").add("Dữ kiện").add("Câu hỏi").add("Đối chiếu");
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andExpect(jsonPath("$.owner").value("student-a"))
+                .andExpect(jsonPath("$.startWithReading").value(true))
+                .andRespond(withSuccess(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON));
+        var result = service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút. Hỏi có tất cả bao nhiêu bút?", "", true, false, true, true), "student-a");
+        assertTrue(result.preparingMath());
+        assertEquals(3,result.outline().size());
+        assertEquals("UNDERSTAND",result.step().kind());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"\"true\"", "null", "0"})
+    void invalidReadingPreparationFlagsAreRejected(String flag) throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
+        body.set("preparingMath",mapper.readTree(flag));
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andRespond(withSuccess(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE",HttpStatus.SERVICE_UNAVAILABLE,
+                () -> service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút?", "", true, false, true, true),"student-a"));
+        server.verify();
     }
 
     @Test void comprehensionFlagAndBoundedNineStepOutlineReachThePublicClient() throws Exception {
@@ -667,6 +801,33 @@ class MathTutorServiceTest {
         error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE, () -> service.guide(request()));
         error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE,
                 () -> new MathTutorService(new RestTemplate(), URL, "").guide(request()));
+        server.verify();
+    }
+
+    @Test
+    void lessonFailureCategoriesArePreservedButRawDetailsAreNotExposed() {
+        for (var item : java.util.Map.of("rate_limit", "TUTOR_RATE_LIMITED", "timeout", "TUTOR_TIMEOUT",
+                "configuration", "TUTOR_CONFIGURATION", "validation", "LESSON_VALIDATION_FAILED", "busy", "TUTOR_BUSY").entrySet()) {
+            server.reset();
+            server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                    .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", item.getKey())
+                            .body("private provider error and credentials"));
+            ApiException failure = assertThrows(ApiException.class,
+                    () -> service.lesson(new LessonRequest("Tính 7+9.", "", true, false), "student-a"));
+            assertEquals(item.getValue(), failure.getCode());
+            assertEquals(HttpStatus.SERVICE_UNAVAILABLE, failure.getStatus());
+            assertFalse(failure.getMessage().contains("private"));
+            server.verify();
+        }
+    }
+
+    @Test
+    void unrecognizedUpstreamLessonCategoryCannotInjectClientErrorCode() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", "raw-private-data"));
+        ApiException failure = assertThrows(ApiException.class,
+                () -> service.lesson(new LessonRequest("Tính 7+9.", "", true, false), "student-a"));
+        assertEquals("TUTOR_UNAVAILABLE", failure.getCode());
         server.verify();
     }
 }

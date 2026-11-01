@@ -1,0 +1,874 @@
+[
+  {
+    "path": ".github/workflows/lesson-catalog.yml",
+    "sha256": "00dc1da349e542c0807902655b719de0ac367ad6580d2453568cb8ddfacd3e22"
+  },
+  {
+    "path": "ai/runtime/.dockerignore",
+    "sha256": "93c79b440e28bc01530fdc2fed31296d5e5cf1496ef145ff1df04114eccc8751"
+  },
+  {
+    "path": "ai/runtime/.env.example",
+    "sha256": "e6c34e15606bc572a295d965343bb87b482fca6587fb9bacd8afcd24edd134d0"
+  },
+  {
+    "path": "ai/runtime/Dockerfile",
+    "sha256": "90c4224d7ff914f7182a38049cb5a64d15e87f46c8e89ad5a4af5937a2304f81"
+  },
+  {
+    "path": "ai/runtime/app/api/tutor.py",
+    "sha256": "e494988f77ed032eb720e3f07b4dbc08566f3bbe6f20a707a0c18354093bce24"
+  },
+  {
+    "path": "ai/runtime/app/config.py",
+    "sha256": "3b1b0c373472dc0325a03a04c7720316e06851af37c0c2d0760f4fe156c2fcb5"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/catalog.py",
+    "sha256": "d24e46c57774d6390f858fd123fd98c7d952669fdf92061355e9dd9225b6c578"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/catalog_store.py",
+    "sha256": "9ec21eb740249fac208f0a30f922b6e3841e7b2840d8eab0734d0c958521e268"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/digit_append.py",
+    "sha256": "cf3e3d01c726a88d1b0384561ba0e034c25e9548ffe42d10db8f6db8659ceb91"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/fraction_remainder.py",
+    "sha256": "97dc6ceb1301a896203a2334d978cbe82925c6621deca2d201a10451d188f4a4"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/lesson.py",
+    "sha256": "e787b22dff081ca4c7bd21d1fe8b117499df19f1a96faff79feea4bca8e1e978"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/narration.py",
+    "sha256": "af56d1998d452f391f371d2f8c4b4cf2cf93123c6404539164960a0025c45bc4"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/quiz_narration.py",
+    "sha256": "327cff1579edea192c77d321bd06935ed93b4b956776cec2e1f569c19079bf41"
+  },
+  {
+    "path": "ai/runtime/app/tutoring/service.py",
+    "sha256": "c9c669e4fbbbc6a4b8abbadb5725f014b4effc4c9d0ab42b9f3457e90a38fa47"
+  },
+  {
+    "path": "ai/runtime/scripts/catalog_audit.py",
+    "sha256": "654f79d6884e563d244725874f6c99066d5929f2f298bf5ef22ee299c5933f59"
+  },
+  {
+    "path": "ai/runtime/scripts/check_quiz_providers.py",
+    "sha256": "96fabd01b549dd45ddef6765d81292cbb75726c9a294c0d66605a174c0563da8"
+  },
+  {
+    "path": "ai/runtime/scripts/check_quiz_providers_disabled.py",
+    "sha256": "ee6a26a12ebb79fdb4dd0e0b5f516b640f681fad9423efeda398bd4ded6674e2"
+  },
+  {
+    "path": "ai/runtime/scripts/check_quiz_runtime.py",
+    "sha256": "edc3409fb73ca2555bde1b5a72e6055bd664f3563fc6fc69c84b740c53594552"
+  },
+  {
+    "path": "ai/runtime/scripts/start_quiz_providers_disabled.py",
+    "sha256": "726c5224cc21352cd47524c37e485d7e2fdbafa6c272713c00efb7ef515b4eea"
+  },
+  {
+    "path": "ai/runtime/scripts/test_catalog_store.py",
+    "sha256": "49e83128a85f6319a48324f7c70f56d0812c34811088f2f018c27d65a6be1aa3"
+  },
+  {
+    "path": "ai/runtime/tests/conftest.py",
+    "sha256": "84ab1a969a3c51450b9d244c6bc1f16d8865525dc77c6da219d77cdcdbcb6d17"
+  },
+  {
+    "path": "ai/runtime/tests/test_catalog_solver_integration.py",
+    "sha256": "8bf41c9e74ca4b6646f9b70045832d2e61f8c097e4097531423441c3acde29c1"
+  },
+  {
+    "path": "ai/runtime/tests/test_digit_append_support.py",
+    "sha256": "12b3370a79bf7070a9b8d114ca8ef3e6fecaef41a709f14e0ede382f5ff70ca4"
+  },
+  {
+    "path": "ai/runtime/tests/test_fraction_lesson_support.py",
+    "sha256": "7c093299c91ec5b3b4366e2c72afaa37a29c20cd8dce5a64e8654896344e8a38"
+  },
+  {
+    "path": "ai/runtime/tests/test_lesson_catalog.py",
+    "sha256": "70452de88b63607a102d5edae8e5ac8cb58a320fc7ad907616c0b95321fdc85f"
+  },
+  {
+    "path": "ai/runtime/tests/test_lesson_reliability.py",
+    "sha256": "dd5ec381c5de46631e4d4b7c3137de8e5c135587b5ae8408cebbf9e910532a47"
+  },
+  {
+    "path": "ai/runtime/tests/test_quiz_narration.py",
+    "sha256": "dd7e7c08bb92a4d2103013232658d380af46b9235d8843d9580ca6de191c1f5c"
+  },
+  {
+    "path": "ai/runtime/tests/test_reading_first_lesson.py",
+    "sha256": "28ac61e051d9d550fe94a43c2cfd7c11c4e6ddb2eea4e22e591748d168941f0b"
+  },
+  {
+    "path": "ai/runtime/tests/test_step3_recovery.py",
+    "sha256": "65100a569168c36e36ebc2ed04a49b3f2550150b1555e665ab657121951cd8a1"
+  },
+  {
+    "path": "apps/admin-web/package.json",
+    "sha256": "cb89fceac250337f2ed7c83c0a2dd2c1123e579a1a213c2a170557e3596599af"
+  },
+  {
+    "path": "apps/admin-web/src/App.tsx",
+    "sha256": "626ca725606a2f69529e2ec1ba4c865b294b5a83ac54b3f0acca939aab965139"
+  },
+  {
+    "path": "apps/admin-web/src/components/classes/ClassFormDialog.tsx",
+    "sha256": "09c90abb9136a99a441b8e5023037211f90ae6b56f215c129b13f5b018078aff"
+  },
+  {
+    "path": "apps/admin-web/src/components/classes/UserPicker.tsx",
+    "sha256": "42a005944e439672fd5412cf5048505c7b4d00b834502cfe9087fb00ece35900"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/AuditEventChip.tsx",
+    "sha256": "fba8cc7066ae521a8efc7ae4ce517bf3165b381a150c7197773b111a84f7b490"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/AuditMetadata.tsx",
+    "sha256": "6217d8518d2ca50ed95ed19a59792a10aeab9358a7ca172ffba1773f6139bb5b"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/ConfirmDialog.tsx",
+    "sha256": "b68a16747f7d835adeb30373f99de4f3839d7f2c4ca1fb618ad5dfef12747617"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/PageContent.tsx",
+    "sha256": "a1bf6f7fb2a8500789973c8ab995c4a014fc0b6b8971ead91d561b48f2f7bc46"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/ProtectedRoute.tsx",
+    "sha256": "eddb6f7f86cf4e55ddc5a0e3f208aeb7d0a60f245cf35085569720e46b7ea625"
+  },
+  {
+    "path": "apps/admin-web/src/components/common/RequestError.tsx",
+    "sha256": "c389acd1cefe559efd9f05b975849dd1dca91a64941bcc4bceb9cf7976da85a9"
+  },
+  {
+    "path": "apps/admin-web/src/components/layout/AdminLayout.tsx",
+    "sha256": "7bc5c10eda1e9ad5bb9a68ad4fcd0ba104f7fdcd7615796dfc4ffc5f246ccb46"
+  },
+  {
+    "path": "apps/admin-web/src/components/layout/AdminSidebar.tsx",
+    "sha256": "67e46da649a1a70f94a93216741345272ffe04ed9764ec4f5dfceb1c8fabf11e"
+  },
+  {
+    "path": "apps/admin-web/src/components/layout/AdminTopbar.tsx",
+    "sha256": "bb25a30f274bae1f21e1e45b6859745c52e8ae554f579226d294fe1e61bb2262"
+  },
+  {
+    "path": "apps/admin-web/src/components/layout/NavigationContext.ts",
+    "sha256": "07beea46141ff4b12dc27d36a1d49dfedc3c83a1d850632706eddd36e7c835a4"
+  },
+  {
+    "path": "apps/admin-web/src/components/users/PasswordResetDialog.tsx",
+    "sha256": "56e94f0fa849ca86fdc762135b32687a3463ab54f9d4f10f99e52276ed7d1c10"
+  },
+  {
+    "path": "apps/admin-web/src/components/users/UserFormDialog.tsx",
+    "sha256": "15083103b7e9e729f97172015d0211838d33e532280c67c1828c086e4a082fd9"
+  },
+  {
+    "path": "apps/admin-web/src/config/runtime.ts",
+    "sha256": "807996c1d4796d0514594d1fae50135f884f4bcae284f629bb93782d9cadf9b6"
+  },
+  {
+    "path": "apps/admin-web/src/context/AuthContext.tsx",
+    "sha256": "1178964e78e1148f49f5806ba86e888d132eb26a81e20ece1c006d727857d4a3"
+  },
+  {
+    "path": "apps/admin-web/src/hooks/useAdminAction.ts",
+    "sha256": "2e170773a7e6bd580a4e098ad4555f1235f9d689f11dc8d145df25848ea9259c"
+  },
+  {
+    "path": "apps/admin-web/src/index.css",
+    "sha256": "2e62ed11de918c70869c6fb0edef5a8ac88637fd5870795eca6cbdc6bc88749c"
+  },
+  {
+    "path": "apps/admin-web/src/main.tsx",
+    "sha256": "994357062ae71f84568e8df0f6abd70653a72cff846bd4387ee96e722fb31d9e"
+  },
+  {
+    "path": "apps/admin-web/src/pages/AuditPage.tsx",
+    "sha256": "d2e25a077ff0af8bc6c48bbf5c2fe197d004544be0a27efd27f8411c4ff8b7f5"
+  },
+  {
+    "path": "apps/admin-web/src/pages/ClassDetailPage.tsx",
+    "sha256": "803e6f0abd0f899b61ffcd8b060e9f454a547a14358621d6491e76da23e40e86"
+  },
+  {
+    "path": "apps/admin-web/src/pages/ClassesPage.tsx",
+    "sha256": "168b1ad2362cf92ac4f87243f9607b4c1192d16f48cef55dc31b8fb01d306994"
+  },
+  {
+    "path": "apps/admin-web/src/pages/DashboardPage.tsx",
+    "sha256": "d67be7f8a2c02793b49f50b35edaa67d3ee3e44c7e8353c9d6b7615f883cdc45"
+  },
+  {
+    "path": "apps/admin-web/src/pages/LoginPage.tsx",
+    "sha256": "4b4ed65d0140efbdaff101c0e07d6f70c9de63cd465ec9992065b86b8ac9384d"
+  },
+  {
+    "path": "apps/admin-web/src/pages/RecognitionAnalyticsPage.tsx",
+    "sha256": "df10d3d50cf49a0ca4043d24e7f4a3d0257360cc66a698ec6f99a49c9e676a3c"
+  },
+  {
+    "path": "apps/admin-web/src/pages/StatusPage.tsx",
+    "sha256": "a9421c1b967ea12709842c78d80a595725b7e415f34a6f50f78d097fe06235a3"
+  },
+  {
+    "path": "apps/admin-web/src/pages/UserDetailPage.tsx",
+    "sha256": "b0e1e25e55fa9537c148338baad523a8eae63f2f29261671d37158788d5c78c1"
+  },
+  {
+    "path": "apps/admin-web/src/pages/UsersPage.tsx",
+    "sha256": "1dd82ee77ba01ace5edd914958051817ca9fb4ae07be0b7382748fd0cd78edae"
+  },
+  {
+    "path": "apps/admin-web/src/services/api/adminService.ts",
+    "sha256": "fcbbbc66e834d266fb50f08c0fc8fcc486a0df7481905b698190429ed446f970"
+  },
+  {
+    "path": "apps/admin-web/src/services/api/apiClient.ts",
+    "sha256": "0a4106a7fbffd6bb01af296535a717792c982da4678df1ac52d3eb9d1b38008a"
+  },
+  {
+    "path": "apps/admin-web/src/services/api/authService.ts",
+    "sha256": "e17f168b9a3a43e9c94dfc78e45ea7cfdf37f736888e95fdcdc215874d4f4fc3"
+  },
+  {
+    "path": "apps/admin-web/src/services/api/tokenStore.ts",
+    "sha256": "3516e105dd07ed3f8e61c3c984faa4faa7a738f9c8f87d578d40815d74662a1c"
+  },
+  {
+    "path": "apps/admin-web/src/theme.ts",
+    "sha256": "b2b409b829e2f517068ef8b5ce5d4c9a92a96c21c7863477fe31cb45bc2a84f4"
+  },
+  {
+    "path": "apps/admin-web/tests/auth-isolation.test.mjs",
+    "sha256": "ef0841e95b33bdebe79c579cbdacc3d28df31fc1e59f27298a4b68a0c353de95"
+  },
+  {
+    "path": "apps/admin-web/tests/environment.test.mjs",
+    "sha256": "91a71c8780a18470764339a10017a46e14f824333cd3dd08003f9737c0268b10"
+  },
+  {
+    "path": "apps/admin-web/tests/session-refresh.test.mjs",
+    "sha256": "8d89842a6a7178d089a07d8d19a255919dbce92b5e0e3d2a4c9af34fcf2a1483"
+  },
+  {
+    "path": "apps/admin-web/tests/sso-flow.test.mjs",
+    "sha256": "57537940421d31a4c276bd517b346f9bd3bb685aecdaa20a2abc481d15dcec07"
+  },
+  {
+    "path": "apps/admin-web/vite.config.ts",
+    "sha256": "42c9e3463b73e96e7ddacaee10bd88fdd2ebdd16411c701a8fc6a246963b0d78"
+  },
+  {
+    "path": "apps/portal-web/package.json",
+    "sha256": "7267b7df9463c90987ad9e5a1df280cdc75cb2975bcf17402efb896db4f21892"
+  },
+  {
+    "path": "apps/portal-web/src/pages/AdminEntryPage.tsx",
+    "sha256": "848fe9326cbfe603c8680f7eca7f8664e413a4510a643c159d8ec154044278fc"
+  },
+  {
+    "path": "apps/portal-web/src/pages/LoginPage.tsx",
+    "sha256": "1a4d198d63248fcc3e0589be4da594f18bfeb35327716f49d03a2b009e6fa285"
+  },
+  {
+    "path": "apps/portal-web/src/pages/LogoutPage.tsx",
+    "sha256": "6cfddb4ccf8307b5fa9c518efce1d7ce269b8933f1e499a60e1bca40c5bac241"
+  },
+  {
+    "path": "apps/portal-web/src/services/apiClient.ts",
+    "sha256": "973c712b4374c8cfc603acf94bad8334694d607d34d7b9c035b9242bad23f7b4"
+  },
+  {
+    "path": "apps/portal-web/src/services/authService.ts",
+    "sha256": "bd0fd4c09728369a87e5e3b686443a010f70db3f92521abcee6198f194a51540"
+  },
+  {
+    "path": "apps/portal-web/tests/auth-profile.test.mjs",
+    "sha256": "26a73e3eca183afb169eda5fdf55ddb572b818876e2d947db2f8f04888ca0af6"
+  },
+  {
+    "path": "apps/portal-web/tests/auth-session-isolation.test.mjs",
+    "sha256": "04622196a863ab9b734550d590a920726dfb53123da76a293c6e61a06ff01566"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/apiClientRefresh.test.ts",
+    "sha256": "897ed6962b363c5054fb8d3948f8b837f2bff75eb541a7d942aa812e5447288b"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/cameraCompanion.test.tsx",
+    "sha256": "653e37c036d278c2f07f15609d2b5803abcf24b61d71fb6980e890d0e0d11f22"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/galleryImageLifecycle.test.tsx",
+    "sha256": "b752a84514fd2af6d2b16ab08979f5368e88862574be16e2ce89b7463bf4e99f"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/lessonProblem.test.tsx",
+    "sha256": "41014fc24c977761088a5b9c9967760b39d4c137852650f863641911df4f9cc9"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/mockAuthIsolation.test.ts",
+    "sha256": "4f9e858cf15b728a4b94de1b51e3f57a127b831e65f06a1751bd59c045c3f71d"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/nativeLoginPlatformNotice.test.tsx",
+    "sha256": "82b72cf49edc7cee7832f6ddd0ddfe864bee2e7a2e4ba13c4516e0a250b63f4a"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/privacyScreen.test.tsx",
+    "sha256": "2eb141aaf9f168515ce88773702cbcf6686efb9d2b69b82c62132b320925c4e1"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizGenerationTransport.test.ts",
+    "sha256": "af5b58f084e4a37fdb17e46a13d0404e4fed37cae3d3eb7781c7e6e399dd35ba"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizInput.test.ts",
+    "sha256": "38dee0729df0e5f202c58d159a317379775cb63d5712825bfec5efebb6bb3394"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizLayout.test.tsx",
+    "sha256": "b5426f2234d2e96549d5ebd8f61ec67fc26faf8e4be132533d400d948eb481b1"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizPreparation.test.tsx",
+    "sha256": "89c3f63a34b4e55176fd8bbd80ac494e0f1652ea4b74d1c19435a5362376ba92"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizStudent.test.tsx",
+    "sha256": "8f29c448ca8aa30acf12b27125b322c4835211fd8df081769ab6110ceadbbb12"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/quizVoice.test.tsx",
+    "sha256": "cf7d60f8e4d73622cfd726d222281dc88e99f8549363eae55812e7c9b0bcf5f1"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/recognitionRecovery.test.tsx",
+    "sha256": "383f15ed23172d444a595b000df7563dd3d0dd59b0ec2bbc814bdf39e506665f"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/startupArt.test.tsx",
+    "sha256": "4b783d8f60aa1563f33f3ea9e48637a203c7cdef84bb090f5613e697f731f3cc"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/studentWorkReview.test.tsx",
+    "sha256": "138655ccaa3ba24343c51997e5f9a0703f4eccee13667b782f5b7baaff0d501b"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/tutorApi.test.ts",
+    "sha256": "22b9b9e5f5fd1d96cd42902c767b000a7bfef0803956d3a334f10ed784c3f051"
+  },
+  {
+    "path": "apps/student-mobile/src/__tests__/tutorScreen.test.tsx",
+    "sha256": "24b0e5385609a0871f136f222567dfe7a9620af2d87354cb91509a43ee4fed40"
+  },
+  {
+    "path": "apps/student-mobile/src/app/(tabs)/_layout.tsx",
+    "sha256": "c545c5670c86b5072d32846c4c2e6f31405de8ca309b6824ad11e437fcee9c7f"
+  },
+  {
+    "path": "apps/student-mobile/src/app/_layout.tsx",
+    "sha256": "fb0576b016c24d15d1f5b56364587351050de0c0c5030de545418bf85c35457d"
+  },
+  {
+    "path": "apps/student-mobile/src/app/camera.tsx",
+    "sha256": "568ed6d1ad34ef008982bfca8f27adc34a9c9a20d897fc53ed16ffa0f4550864"
+  },
+  {
+    "path": "apps/student-mobile/src/app/gallery.tsx",
+    "sha256": "e920448fa2de844e0b6d451204075fecaaa2969a8047a697e16f7026333ee2c3"
+  },
+  {
+    "path": "apps/student-mobile/src/app/learning/math-guide.tsx",
+    "sha256": "87a8746728fd3c72c05a076ee2ec2fedad2eced89bfaa6f29f254d72c057d95b"
+  },
+  {
+    "path": "apps/student-mobile/src/app/login.tsx",
+    "sha256": "8b4a1260ac6cf2dfea4c2ca2d12fb4d9a136bc339f44eb8eadda92704adfce52"
+  },
+  {
+    "path": "apps/student-mobile/src/app/privacy.tsx",
+    "sha256": "7bc021f9951780390ffcfa57407ffe7664bc52938fde060fda5598b21c0bdcd9"
+  },
+  {
+    "path": "apps/student-mobile/src/app/quiz/[quizId].tsx",
+    "sha256": "2e49fbd848b1c8bfc9d806e93c965aad96a4c0476d4d5bf5e9910832472f441c"
+  },
+  {
+    "path": "apps/student-mobile/src/app/quiz/_layout.tsx",
+    "sha256": "3accd3cc3cb6658bc60f75864d2d5807959f2f129f107986bc1e31b516fc7623"
+  },
+  {
+    "path": "apps/student-mobile/src/app/quiz/index.tsx",
+    "sha256": "8f604046da2f471db4cf9ca1e3a434e83156aee3a0280898e943ecfde11697ca"
+  },
+  {
+    "path": "apps/student-mobile/src/components/home/HomeDashboard.tsx",
+    "sha256": "a399170d787bea9406d7998181d674adbb178298e6888e7bc70586ccbefc6cc5"
+  },
+  {
+    "path": "apps/student-mobile/src/config/apiResolver.ts",
+    "sha256": "6d33de41584fb26ef7b9fd7dd3c8b9c970b27dde5836f6cb95d339632104c902"
+  },
+  {
+    "path": "apps/student-mobile/src/config/env.ts",
+    "sha256": "694c1098a178dff80bf89c218de7bf5c3f8e457d84a540b1e75da68a7d85052d"
+  },
+  {
+    "path": "apps/student-mobile/src/context/AuthContext.tsx",
+    "sha256": "48a1fa6573924a9aaf60fc0b700921a5a8869f5d180d021836f3811b8811d8b9"
+  },
+  {
+    "path": "apps/student-mobile/src/context/AuthContext.web.tsx",
+    "sha256": "b4eacfd78427682e1e7dd846c31f44c4730c4f2a7ee5d932c625bf439ca2edfb"
+  },
+  {
+    "path": "apps/student-mobile/src/context/__tests__/nativeAdminIsolation.test.tsx",
+    "sha256": "441744c3313bfc2f05d0e04c409e2632f61efbc1cec4707144b0106c4cc62391"
+  },
+  {
+    "path": "apps/student-mobile/src/context/__tests__/webAuthSession.test.mjs",
+    "sha256": "200de4cdcdd64d5706fe2fd2a18e242ed13deb70cc0586dce3ba41959b5d6fb8"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/QuizInvitation.tsx",
+    "sha256": "56e2a6d874ab52686de30dfc0caf58f409f22583bbc55037c8fefbedf4640544"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/QuizShortcut.tsx",
+    "sha256": "bf23bd247164de223e8a8cc3540055b5d4f6eedb1498e3c4ffcaa72a6b818d5f"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/QuizVoice.tsx",
+    "sha256": "f45f5538fefe4b88f28c22ae53665ecd3b70a776565f5f3f595f2dbdc2cc5f66"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/quizApi.ts",
+    "sha256": "22d7320df8160ae8ba90dbfbb7d67476dfd6a6812e23618c5514dcf1382724a0"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/quizInput.ts",
+    "sha256": "898362b5a95ddcd6ac6b7f4b53c0c71061cefae94423831ce6954cb29d584c37"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/quizStyles.ts",
+    "sha256": "eb97e12d3baa97b6dfb3311a9fd07d5be73e58484768202515c4448e3df68052"
+  },
+  {
+    "path": "apps/student-mobile/src/features/quiz/useQuizPreparation.ts",
+    "sha256": "2a6d2a5395709d7a24448869f29299a92c550c278c527b64fb1a80a1b5fa6b1f"
+  },
+  {
+    "path": "apps/student-mobile/src/features/recognition/components/__tests__/RecognitionProgress.test.tsx",
+    "sha256": "ac494889ee3c72204958fe7e858328f9cdc98a9133f8b496f4e285c08c440e70"
+  },
+  {
+    "path": "apps/student-mobile/src/features/recognition/image/__tests__/imagePipeline.test.ts",
+    "sha256": "7725d619ac094bae5da81c7ab06aec03b4388205c6ed62b89a04982201aa4ff6"
+  },
+  {
+    "path": "apps/student-mobile/src/features/recognition/image/imagePipeline.ts",
+    "sha256": "8392f4a277a75cc45a55abf3ab320f3eef220803751e066a401492e8229cdefa"
+  },
+  {
+    "path": "apps/student-mobile/src/features/recognition/image/usePrivacyImage.ts",
+    "sha256": "7a08c2dbd59bc368121ae7aa32272d48c0c73d299cc19fb100d68ddd07220194"
+  },
+  {
+    "path": "apps/student-mobile/src/features/recognition/state/recognitionDraftStore.ts",
+    "sha256": "c228799d8467f9655719cc7d278a974b19265ff1f2766be1b29529eaa890cac1"
+  },
+  {
+    "path": "apps/student-mobile/src/features/tutoring/LessonProblem.tsx",
+    "sha256": "0dfb34ef620f44bced8618555913803a085179b85f4cfc20c4934c7b0c6d5056"
+  },
+  {
+    "path": "apps/student-mobile/src/features/tutoring/StudentWorkReview.tsx",
+    "sha256": "a0f2faaf925a9902a96daf1a54b0a608993d80097fa3cfa24b2fd49c43355a32"
+  },
+  {
+    "path": "apps/student-mobile/src/features/tutoring/api/TutorService.ts",
+    "sha256": "4535051f2a20767e18aa2f00df7837191a47776b978062885a997c0672a77eae"
+  },
+  {
+    "path": "apps/student-mobile/src/services/api/apiClient.ts",
+    "sha256": "f71ab1b265b53cd002e5284901571267c6478c2d6c101ba34bd7df5e3269fff8"
+  },
+  {
+    "path": "apps/student-mobile/src/services/api/authApi.ts",
+    "sha256": "f6334c01be1483ea92abc8a7b063c0b7288b82c66683ab27ac07edfc5fd0d958"
+  },
+  {
+    "path": "apps/student-mobile/src/services/auth/__tests__/tokenStorageIsolation.test.ts",
+    "sha256": "211339ecd75c0c1dae492f5db3997ef760b41287397f48180cb0300171a5d6d8"
+  },
+  {
+    "path": "apps/student-mobile/src/services/auth/sessionEvents.ts",
+    "sha256": "d0538105fcc48120881cb3fb7d997399aef666f46c39b94cc357e05c140e83d6"
+  },
+  {
+    "path": "apps/student-mobile/src/services/auth/studentAccess.ts",
+    "sha256": "d4b5c5806af3fd665106528d9230fabe4625c0e8d8d0c42dc8e379dbcaf269b6"
+  },
+  {
+    "path": "apps/student-mobile/src/services/auth/tokenStorage.ts",
+    "sha256": "1522382433ed7f499c81180f4fc433d9920ddd4c109ec922928bdf61bc6ef16a"
+  },
+  {
+    "path": "apps/student-mobile/src/services/auth/tokenStorage.web.ts",
+    "sha256": "062df80dd71c49e09bad5be51d93aa4f34390bd705f4629403cb6e830324039a"
+  },
+  {
+    "path": "backend/business-api/.env.example",
+    "sha256": "c15d845cfef184cb9cbd4a5b1de23d9a8a5dfeb703a1a3c5567000546ea86134"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/AuthController.java",
+    "sha256": "b022e688f5f45abf4aee8518506ab48712bae6f5cf42a784ac937961a63d06d2"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/JwtAuthenticationFilter.java",
+    "sha256": "40d0f03e86c1295e85ddaf4850a9fc2b5e05bfb2d2d1a3463385aa63b9c0a30e"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/RefreshTokenService.java",
+    "sha256": "c23b1fc1eec420ad834477bb0abae4eb1f363bf93a863e7479ba257e2d3b2fd9"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/auth/sso/SsoHandoffService.java",
+    "sha256": "4821df9c0c867f955de01a120cd3c7b1b75636a01f58e1d56f77774d353fbf1f"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/GlobalExceptionHandler.java",
+    "sha256": "93d2d0d7a09570c4acf93ce50e12b476d4abf04b45f7ff5839096db83633658b"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/RequestIdFilter.java",
+    "sha256": "b6f66502b1815e81e39f4baf5bc2afd6386e29978542ed946bdb39f2605b1c18"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/config/SecurityConfig.java",
+    "sha256": "14f370c62266fa8da7ac6bb55f07430c7b51b4ea7e2d222ccf1dcf74fad9e8f0"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/Quiz.java",
+    "sha256": "98e7bb3da90166a3a313a21ce452302df74ce16467d7b0c09bb9397a8b489778"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizAttempt.java",
+    "sha256": "04abd66519746471ac1404f57c7c0dbe0b12c2107595ccde6af05288677b5f94"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizController.java",
+    "sha256": "574a5e5d8dd50d26ac3f2718da435d2119bc8450a00bce9a1bae931fafb4131e"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizDtos.java",
+    "sha256": "840bd356534e86fb43b26ada653c0acc8077cbd44f6c680cb4064ecacac9a84d"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizGenerationWorker.java",
+    "sha256": "dbeb5e49ced1b2e8ac7cf5ef6e78b95354d02478f6de6cc1e39d83c6a77e7c50"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizMath.java",
+    "sha256": "c4f435bf497d7c51519a99e108c1a2985270e65ae4ec8261f57790838a7432e9"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizNarration.java",
+    "sha256": "284a40f12676c4994d20a7ab72b728359b111eb3a10e0f82d6652d7c39dc28b1"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizPreparation.java",
+    "sha256": "e8e4703f65bd961a71bbcb331a53b939ad863e77c9d4dc477313510a7d6d75c6"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizPreparations.java",
+    "sha256": "e01a9ec332c85cd5e1c23e354d76c81e14f3090f111f5961c49451fa89325e40"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizRepository.java",
+    "sha256": "58e405058eab23fd3038c8bc7cac8578616b084f0be7a1613de6fdcbb5fc1512"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizRuntimeIdentity.java",
+    "sha256": "14dc74b708a82c004f80dc87b9f115dba0e2213e2b503338e09abf9773287c5e"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizService.java",
+    "sha256": "7ed28611c62cb467ee2d58044c1fbad3247e4b22c3b2e7f0bacf6136c8fc51f2"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizSource.java",
+    "sha256": "77b69deb04ed0f519d8115ac71c75d273f7dd0892734f68aca33abc69a492346"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/QuizSources.java",
+    "sha256": "02b9f28c8b5179d4e1efed7be7fc60f18145af6a1661b4b35a39673cf09676cd"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/quiz/Rational.java",
+    "sha256": "d2f3214cd554674abac999aa1203016cf164e1e28b8bb4dbc749810dd6045d1a"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java",
+    "sha256": "e34a4ab980074d3323dfe545b1fda7837e31d79d604d06dc72a3702ffaf0214b"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java",
+    "sha256": "54c94ade852164681dfa6d9eea6ef3cc119fc7517f3013c34d96a31109df12fb"
+  },
+  {
+    "path": "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java",
+    "sha256": "7b82e9d7fdb6d745ec114a8af5b26e10d6e13e145bfb3075e03febda46e79dec"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V17__smart_student_quiz.sql",
+    "sha256": "1c6b8448dba79a5f9f435014208e6764a1667316ea157d4c812ee43298ba686f"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V18__quiz_verification_metadata.sql",
+    "sha256": "b0e737cbc8c506420d9f6d25ddc1323c3484ec004586bbcbf2acef5585a3cc29"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V19__quiz_confirmed_preparation.sql",
+    "sha256": "5df9fb270921d5490ce7caa2fe26b5a317cd70cfde78bb4a70cff25d85fff1e4"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V20__quiz_confirmed_problem_runtime.sql",
+    "sha256": "49578bfd9cab3452786a9750a75e3a72331698c69bcc351ee138a826bbba4dfe"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V21__quiz_replay_and_scoring.sql",
+    "sha256": "623967dbef937bbc5fd7d226ba0d4b24352a050a605d4febfb8c50da8d27ca1a"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V22__quiz_replay_challenge_and_modes.sql",
+    "sha256": "a6f72323c0c0af73ac199e6264ecc449a50e1b94013a43bd52bf5d81a14f8e8d"
+  },
+  {
+    "path": "backend/business-api/src/main/resources/db/migration/V23__quiz_immutable_attempt_history.sql",
+    "sha256": "05dce35f45653e96761788c1535d5451594b5d6ffe99dd82a24591f284bce236"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/auth/AdminRoleIsolationTest.java",
+    "sha256": "566dbd13d2a5db8a3bfdddd69ef10d091b1e58e0b01681a6bcf0436a94f29c75"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/auth/sso/SsoHandoffServiceTest.java",
+    "sha256": "994266edd4071d16648721cb3c187bcc97bad3782edc88aba175390aeb5016d0"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/quiz/QuizIntegrationTest.java",
+    "sha256": "f6b1a7664309f4021221af9a05b86c2d84ef05a5384e70213e21aa5f33c6d110"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/quiz/QuizMathTest.java",
+    "sha256": "3bba6a44029262c7e8d6cf31f6d19f92ec64d1ccd036343c7e486cc8397f3093"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/storage/MinioLocalStorageIntegrationTest.java",
+    "sha256": "9f3f8fa9a99f4d175b603ae1c5fdfa03d5498f1f2341e97dcb2739e5ca047050"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorControllerTest.java",
+    "sha256": "0c44ceb0a5ad0b239789b67b1f5b35cf4d8e24b233bf007a0d76d1ead7e35cbb"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/api/tutoring/MathTutorServiceTest.java",
+    "sha256": "20a2c4c1531cf5a3da4346145a494f492a02359bebb604cc2b3ccdbb1347fc21"
+  },
+  {
+    "path": "backend/business-api/src/test/java/com/mathvisionkids/validation/AdminOverhaulPreview.java",
+    "sha256": "c93414dfca2a782c43d962d456dcab5806865a62ce157ffc665733176ba03225"
+  },
+  {
+    "path": "catalog/README.md",
+    "sha256": "053278af964053342292acd07c01c4b44c0c05f55ffcc527b50f3f957fa9a635"
+  },
+  {
+    "path": "mathvisionkid_admin_design_preview.html",
+    "sha256": "4075b148ce789bdb05b2f69adfac3efb1969e30b1935efeaa826d4f0fbc9e526"
+  },
+  {
+    "path": "scripts/deploy/web_bundle_smoke.mjs",
+    "sha256": "d1cc30448b90604da57ef7ebe97d1aa7f60288ef94becdb242d9f02dfc6b2ef8"
+  },
+  {
+    "path": "scripts/dev/install-local-quiz-speech.py",
+    "sha256": "6fcc3bce61edcf19202a5d5427301ac73c13e449bd78b6ff3ff91898f1137d1d"
+  },
+  {
+    "path": "scripts/dev/local-env.ps1",
+    "sha256": "bc8455bc1c50e47e4abb427b461744225021a3d9c3fd38dc0f5f1de619a2db5a"
+  },
+  {
+    "path": "scripts/dev/restart-quiz-runtime.ps1",
+    "sha256": "4ae093c277ec0920ef9c633a8381854c1f1c9bd402ba67c5876a0b80b6fa80d4"
+  },
+  {
+    "path": "scripts/dev/start-all.ps1",
+    "sha256": "01127a1677a9f95dc5393802d019fa2919cab1bd94de141f61e187b3cf075e20"
+  },
+  {
+    "path": "scripts/test/admin-overhaul-browser.mjs",
+    "sha256": "1f042b10a62f7de24193bb771421e41c9d8bdba00e73d658c8f42063d46fcb08"
+  },
+  {
+    "path": "scripts/test/admin-overhaul-checks.mjs",
+    "sha256": "e91d91c36212259299808cc775e468657a851b5f1199be16acf152849eb66c8d"
+  },
+  {
+    "path": "scripts/test/admin-overhaul-export.mjs",
+    "sha256": "8071d4b021702e1489b2ca8a949bae58e7870c8cb7195afa96a79e69ed8835c7"
+  },
+  {
+    "path": "scripts/test/admin-overhaul-reproduce.mjs",
+    "sha256": "880fdfeb391a7a69156215c9323af93128a479464fb9f699033a98163b90bf75"
+  },
+  {
+    "path": "scripts/test/admin-overhaul.init.gradle",
+    "sha256": "2a474b7ee42b0fafc294cd02c48b19187c4c9fc87a2d377ae5cc608f3b2af809"
+  },
+  {
+    "path": "scripts/test/admin-ui-env-live.mjs",
+    "sha256": "67562751af291260e629d0da6b0a1e23ec48a6b027d6d15d2228ec0beddc8c28"
+  },
+  {
+    "path": "scripts/test/codex-phone-qr.cjs",
+    "sha256": "1b297b21183ec1dc55e14b17a9a4cf3565a52e901b24f5d38230ca9a5ca17972"
+  },
+  {
+    "path": "scripts/test/codex-phone-ready.cjs",
+    "sha256": "c9e9978a472361d21bd41d45e7018814afafc4d3dd0720627171eead73252955"
+  },
+  {
+    "path": "scripts/test/codex-quiz-runtime-verify.py",
+    "sha256": "0e685c912641b78075e59eda71a09a8f2b1c003e9e54e4358df0d413d652018a"
+  },
+  {
+    "path": "scripts/test/codex-smart-quiz-replay-browser.mjs",
+    "sha256": "a315ede943ac7febcb3dd63223a2f4009a3ee3506a38efa00e305b0e0e52cd9f"
+  },
+  {
+    "path": "scripts/test/codex-smart-quiz-review.py",
+    "sha256": "e7a3d7736f8bfe1196b33d3ed1423c96e6c9083647154a8adeca04c8aceb33c2"
+  },
+  {
+    "path": "scripts/test/codex_quiz_db.py",
+    "sha256": "dbb05b1e5b9856008c54215267542a1a832a5b5016e3fd909308f809c1baf4e6"
+  },
+  {
+    "path": "scripts/test/collect-quiz-runtime-evidence.py",
+    "sha256": "184855226189c25e842822f6ff327670102a92ca93d87e05dc3556bd33ad4c89"
+  },
+  {
+    "path": "scripts/test/local-env.test.ps1",
+    "sha256": "bd66498c6b0f5aa23966bf25d2033a4eaf85e39763872124dde31408f5035267"
+  },
+  {
+    "path": "scripts/test/smart-quiz-browser.mjs",
+    "sha256": "9988c6d0a16a0bfbf5229360138f90cfb43965364ef558134e011d7e9a71d9fa"
+  },
+  {
+    "path": "scripts/test/smart-quiz-cloud-off.py",
+    "sha256": "39c53ea5e0d0f3f74482be60915651f601c171d4f7c5650a2e6d02f5cb2d9c9a"
+  },
+  {
+    "path": "scripts/test/smart-quiz-exact-verification.py",
+    "sha256": "6aa60363e88e340299e225ae68ac8b5627d1852b0a4394460f02362143e101f6"
+  },
+  {
+    "path": "scripts/test/smart-quiz-generation-live.py",
+    "sha256": "8ae96761e6b96671602dbbcaec542177b27e12c9f4e228d847799cba77649909"
+  },
+  {
+    "path": "scripts/test/smart-quiz-live-api.py",
+    "sha256": "d3872c0ca0f5e9b6e10bd06dea27c8107634b85639d75d0422cab9170b955245"
+  },
+  {
+    "path": "scripts/test/smart-quiz-real-lesson.py",
+    "sha256": "0627ec34576ce1f99f83787acdefc54e2281cc4484a4b70bcdbaf12cda6758ea"
+  },
+  {
+    "path": "scripts/test/smart-quiz-runtime-audit.py",
+    "sha256": "77ad1687916ed55e38902ecdee0575af8bf85b2b5b5e95768eb693a53e0523bb"
+  },
+  {
+    "path": "scripts/test/smart-quiz-runtime-browser.mjs",
+    "sha256": "4e26b0840b49528e2295b2bc1e1302fe63e0eee8017e76437e14f56609d57440"
+  },
+  {
+    "path": "scripts/test/smart-quiz-runtime-live.py",
+    "sha256": "45541fca6f52769994e03e371378b7c906b301990c8ca687c1e7fffb15c61444"
+  },
+  {
+    "path": "scripts/test/smart-quiz-runtime-voice.py",
+    "sha256": "842c023613b7c5ea36e591426235a9fbaa4c20e4c5298b010597b75be8283d13"
+  },
+  {
+    "path": "scripts/test/start-codex-quiz-qa.py",
+    "sha256": "0bcf922e07486a42ec059ad2619d3ecb73882678852dedb4a6e6cb9612408a53"
+  },
+  {
+    "path": "scripts/test/start-quiz-runtime-qa.py",
+    "sha256": "23e1df43551127bbee07260249371efe6c6b2c5faed6f76c07497128c8d76787"
+  },
+  {
+    "path": "scripts/test/start-tutor-step3-qa.py",
+    "sha256": "3ac465f0a917d6177d95eeebb563eb6e9aa13b24324fc2754620b7958e10ed16"
+  },
+  {
+    "path": "scripts/test/test_minio_launcher_guard.ps1",
+    "sha256": "c66f959b2fb39280135b86a3a095918fbbf9ff5eca3f85afaaab548bd83bc9f2"
+  },
+  {
+    "path": "scripts/test/test_smart_quiz_live_flow.py",
+    "sha256": "e43cead478ded8f8a44fa4f084a454aeb6dcb35bfaad6e58c06572ce7351b8a7"
+  },
+  {
+    "path": "scripts/test/test_smart_quiz_replay_and_stars_e2e.py",
+    "sha256": "0a594d36dab2c62a84f1d1b4e54810f40c723bd3fac57eb8998bf7e6baa9c58e"
+  },
+  {
+    "path": "scripts/test/test_video_b_replay.py",
+    "sha256": "0e3c8b56e2e3498944e3e1d6911e203d5466e5feaa684bc639d6053efaf3ebfe"
+  },
+  {
+    "path": "scripts/test/tutor-step3-browser.mjs",
+    "sha256": "559f9cee07aeca51604f625de3b16b5cfbba0e02863f55abd952f699974604ab"
+  },
+  {
+    "path": "scripts/test/tutor-step3-fault-http.py",
+    "sha256": "0d2c9b768167a9eff4930e50b626031a44500821abe6d1ef80d8bffd21064417"
+  },
+  {
+    "path": "scripts/test/tutor-step3-http.py",
+    "sha256": "bc274798d0b9a3741a872d4d526141fa88b22db822f7cc56020da3ff462ec16b"
+  },
+  {
+    "path": "scripts/test/tutor-step3-runtime-probe.py",
+    "sha256": "5aa8d448a730c09d7477624e6b1d4dc46d99e20d510fb111a685e5f8f2a43530"
+  },
+  {
+    "path": "scripts/test/tutor_step3_fault_server.py",
+    "sha256": "d24e9378e3ca6c0c8e14d7bca49998713fbc02b82551207677390d0ad999d112"
+  }
+]

@@ -16,7 +16,7 @@ function load(path, imports) {
   }).outputText;
   vm.runInNewContext(source, {
     exports, window: globalThis.window, document: globalThis.document,
-    URLSearchParams, require: id => imports[id] ?? require(id),
+    URLSearchParams, require: id => imports[id] ?? (id.startsWith('@mui/icons-material/') ? (() => null) : require(id)),
   });
   return exports;
 }
@@ -56,6 +56,7 @@ for (const strict of [false, true]) test(`admin SSO scrubs once and survives del
     '@mui/icons-material/AdminPanelSettings': placeholder,
     '@mui/icons-material/FlashOn': placeholder,
     '../context/AuthContext': context,
+    '../components/common/RequestError': { errorMessage: () => 'Không thể xác thực.' },
     'react-router-dom': { useNavigate: () => navigate, useLocation: () => location },
     '../config/runtime': { appConfig: { portalOrigin: 'https://portal.mathvision.example' }, showDevTools: false },
   });
@@ -70,7 +71,7 @@ for (const strict of [false, true]) test(`admin SSO scrubs once and survives del
     assert.equal(routes.length, 0, 'dashboard must wait for the backend exchange');
     assert.equal(navigationErrors.length, 0, 'loading must not redirect back to Portal after fragment scrub');
     await act(async () => {
-      completeExchange({ userId: 'owner', role: 'ADMIN' });
+      completeExchange({ userId: 'owner', role: 'ADMIN', active: true });
       await pending;
     });
     assert.deepEqual(exchanges, ['one-use-ticket']);

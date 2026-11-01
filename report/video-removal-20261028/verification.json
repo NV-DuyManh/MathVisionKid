@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-28",
+  "tests": {
+    "pythonPassed": 357,
+    "studentPassed": 259,
+    "studentSuites": 14,
+    "studentSuccess": true,
+    "javaPassed": 140,
+    "javaFailures": 0,
+    "totalPassedThisRound": 756
+  },
+  "checks": {
+    "typecheck": true,
+    "lintErrors": 0,
+    "existingLintWarnings": 2,
+    "webExport": true,
+    "androidBundleExport": true,
+    "physicalAndroidEvidence": false,
+    "videoPackageInstalled": false,
+    "speechRouteRejectsMissingSessionHttpStatus": 410
+  },
+  "runtime": {
+    "aiHealth": 200,
+    "aiReady": 200,
+    "businessHealth": 200,
+    "studentDevServer": 200
+  },
+  "retiredApi": {
+    "create": 404,
+    "/status": 404,
+    "/content": 404
+  },
+  "sourceHashes": {
+    "ai/runtime/app/tutoring/speech_render.py": "2d03c710b8840cc7152c26b940035cfebfcbc9d1951bd2e1c2a7853670f07746",
+    "ai/runtime/app/tutoring/narration.py": "e017d5caedf32b57a26370e6ccdece3856401c04e475dbf452bf2d068200c8da",
+    "ai/runtime/app/tutoring/media_preparation.py": "e52260daa196fb644f6819413b886569b7491c5229c336d9a4dba7aeccbff08a",
+    "ai/runtime/app/api/tutor.py": "7eef6e48410f4d0642bdeca52621c7048599838fa43877b31237eae4034b9487",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "23005907f853f1d86d973d106fa1b50c409ad524fb0c9cb1c352716e9ce12092",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorController.java": "c7a97227129e3f3be855e223fa6f41bdd947892b06e018225075b6a60d1adea8",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorDtos.java": "0d5f89287c12a563f43b7961572ba53ffa29059c6591160f1312a4c3dfb50197",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/config/GlobalExceptionHandler.java": "ca4dd3952ef0cffacebd3ba7e8d2123d5c4a0e1996d3183a442de22d74dfa384",
+    "apps/student-mobile/package.json": "53579e94072d86753146fa88c330f6bb72ceb3f97e8743dbbce602139f0770c9",
+    "apps/student-mobile/app.json": "5f91d1513c167f9db8e68bcd3216a4b9e2bb5db9bc9b8974bda4f43b0db79b28",
+    "package-lock.json": "62f73130f53e3ff597a309de99fd1114ce8c9e0c45510144c4f0d101263870c1",
+    "report/VIDEO_REMOVAL_20261028.md": "667070bd582f2f0852b8c8785cf2abba82d09a5c25c42619852129005a5ece65"
+  }
+}

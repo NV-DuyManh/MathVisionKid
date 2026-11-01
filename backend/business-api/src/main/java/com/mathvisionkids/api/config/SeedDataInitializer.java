@@ -48,6 +48,8 @@ public class SeedDataInitializer {
                 t.setDisplayName("Ms. Lan");
                 return teacherRepository.save(t);
             });
+            updateDemoPassword(teacher, "TEACHER", passwordEncoder);
+            teacherRepository.save(teacher);
 
             // 2. Seed 10 Synthetic Demo Students
             String[][] syntheticStudentsData = {
@@ -77,6 +79,10 @@ public class SeedDataInitializer {
                     newS.setGradeLevel(3);
                     return studentRepository.save(newS);
                 });
+                if (email.equals("minh.student@mathvision.local")) {
+                    updateDemoPassword(s, "STUDENT", passwordEncoder);
+                    studentRepository.save(s);
+                }
                 seededStudents.add(s);
             }
 
@@ -124,7 +130,7 @@ public class SeedDataInitializer {
             }
 
             // 5. Seed Dev Admin
-            userRepository.findByEmail("admin.demo@mathvision.local").orElseGet(() -> {
+            User demoAdmin = userRepository.findByEmail("admin.demo@mathvision.local").orElseGet(() -> {
                 User admin = new User();
                 admin.setEmail("admin.demo@mathvision.local");
                 admin.setPasswordHash(devPassword);
@@ -133,9 +139,16 @@ public class SeedDataInitializer {
                 admin.setActive(true);
                 return userRepository.save(admin);
             });
+            updateDemoPassword(demoAdmin, "ADMIN", passwordEncoder);
+            userRepository.save(demoAdmin);
 
             System.out.println("Dev seed data initialized successfully: 1 Admin, 1 Teacher, " + seededStudents.size() + " Students, 1 Classroom, 2 Assignments.");
             return null;
         });
+    }
+
+    private static void updateDemoPassword(User user, String expectedRole, PasswordEncoder encoder) {
+        if (!expectedRole.equals(user.getRole())) throw new IllegalStateException("Unexpected demo account role");
+        if (!encoder.matches("123", user.getPasswordHash())) user.setPasswordHash(encoder.encode("123"));
     }
 }

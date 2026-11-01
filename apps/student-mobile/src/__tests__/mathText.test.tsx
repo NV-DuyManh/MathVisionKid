@@ -18,3 +18,11 @@ it.each(['Ngày 2/5/2026', 'Ảnh 3/[?]', 'Chia 3/0', '90 × 2 ÷ 15', '1.5/2', 
   expect(view!.root.findAllByType('Text' as any).some(node => node.props.children === source)).toBe(true);
   act(() => view!.unmount());
 });
+
+it.each(['(3)/(5)', '( 3 ) / ( 5 )', '\\frac{3}{5}', '\\dfrac{3}{5}', '3⁄5', '-3/5'])('renders the OCR fraction form %s vertically', source => {
+  let view!: TestRenderer.ReactTestRenderer;
+  act(() => { view = TestRenderer.create(<MathText>{source}</MathText>); });
+  expect(view.root.findAll(node => node.props.testID === 'stacked-fraction' && node.type === 'View')).toHaveLength(1);
+  expect(view.root.findAll(node => node.props.accessibilityLabel === `${source.startsWith('-') ? '-' : ''}3 phần 5`).length).toBeGreaterThan(0);
+  act(() => view.unmount());
+});

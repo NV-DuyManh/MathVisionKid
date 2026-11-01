@@ -76,7 +76,8 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
 
   return <View style={styles.container}>
     <AppHeader title="Xác nhận ký hiệu" showBack />
-    {loading ? <RecognitionProgress title={result ? 'Đang kiểm tra lại bài' : 'Đang mở bài làm'} description={result ? 'Cập nhật ký hiệu em vừa xác nhận.' : 'Tìm các ký hiệu cần em xem lại.'} imageUri={matchingDraft?.uri} onCancel={cancel} />
+    {loading ? <RecognitionProgress title={result ? 'Đang kiểm tra lại bài' : 'Đang mở bài làm'} description={result ? 'Cập nhật ký hiệu em vừa xác nhận.' : 'Tìm các ký hiệu cần em xem lại.'} imageUri={matchingDraft?.uri} onCancel={cancel}
+      steps={result ? ['Ký hiệu đã chọn', 'Kiểm tra lại bài', 'Mở kết quả'] : ['Tải bài làm', 'Hiện ký hiệu cần xem lại']} activeStep={result ? 1 : 0} />
       : <ScrollView contentContainerStyle={styles.content}>
         {selected && result?.jobId ? <>
           {matchingDraft && matchingDraft.width > 0 && matchingDraft.height > 0 && <View style={[styles.photoFrame, { aspectRatio: matchingDraft.width / matchingDraft.height, maxWidth: 320 * matchingDraft.width / matchingDraft.height }]}>

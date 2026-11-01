@@ -1,6 +1,6 @@
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { Platform } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { ImageDraft } from '../state/recognitionDraftStore';
 import { exportCropImage } from '../../../utils/cropRotation';
 
@@ -14,6 +14,8 @@ export function normalizeLocalFileUri(uri: string): string {
   if (!uri || typeof uri !== 'string') return '';
   let clean = uri.trim();
   if (
+    !clean.startsWith('ph://') &&
+    !clean.startsWith('assets-library://') &&
     !clean.startsWith('file://') &&
     !clean.startsWith('content://') &&
     !clean.startsWith('blob:') &&
@@ -148,6 +150,11 @@ export function logStageDiagnostic(
     | 'ACQUIRE_CAMERA'
     | 'ACQUIRE_GALLERY'
     | 'NORMALIZED'
+    | 'IMAGE_READABLE'
+    | 'IMAGE_READ_ERROR'
+    | 'PRIVACY_LOAD_START'
+    | 'PRIVACY_LOAD_SUCCESS'
+    | 'PRIVACY_LOAD_ERROR'
     | 'PRIVACY_INPUT'
     | 'PRIVACY_OUTPUT'
     | 'PREVIEW_INPUT'
@@ -173,85 +180,83 @@ export function logStageDiagnostic(
   );
 }
 
+
+export interface ReadableImage {
+  uri: string;
+  width: number;
+  height: number;
+}
+
+/** Check the actual file and decoder, never trust picker dimensions or an old cache URI. */
+export function inspectReadableImage(inputUri: string): Promise<ReadableImage> {
+  const uri = ensureFileUri(inputUri);
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = (image?: ReadableImage, error?: Error) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      if (image) {
+        logStageDiagnostic('IMAGE_READABLE', image);
+        resolve(image);
+      } else {
+        logStageDiagnostic('IMAGE_READ_ERROR', { uri, extra: error?.message });
+        reject(error);
+      }
+    };
+    // A deadline is a failure, never evidence that an image has loaded.
+    const timer = setTimeout(() => finish(undefined, new Error('IMAGE_READ_TIMEOUT')), 10000);
+    void (async () => {
+      if (!uri) throw new Error('INVALID_IMAGE_URI');
+      if (Platform.OS !== 'web' && uri.startsWith('file://')) {
+        const info = await FileSystem.getInfoAsync(uri);
+        if (!info.exists || info.isDirectory || info.size === 0) throw new Error('IMAGE_FILE_MISSING');
+      }
+      if (settled) return;
+      Image.getSize(uri, (width, height) => {
+        if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) {
+          finish({ uri, width, height });
+        } else {
+          finish(undefined, new Error('IMAGE_INVALID_DIMENSIONS'));
+        }
+      }, () => finish(undefined, new Error('IMAGE_DECODE_FAILED')));
+    })().catch(() => finish(undefined, new Error('IMAGE_FILE_UNREADABLE')));
+  });
+}
+
 export async function normalizeImageDraft(
   inputUri: string,
-  knownWidth?: number,
-  knownHeight?: number,
+  _knownWidth?: number,
+  _knownHeight?: number,
   source?: 'CAMERA' | 'GALLERY'
 ): Promise<ImageDraft> {
   const cleanUri = Array.isArray(inputUri) ? inputUri[0] : inputUri;
-  if (!cleanUri || typeof cleanUri !== 'string') {
-    throw new Error('INVALID_IMAGE_URI: Provided URI is empty or not a valid string.');
-  }
-
-  // Ensure URI has proper scheme before manipulation
+  if (!cleanUri || typeof cleanUri !== 'string') throw new Error('INVALID_IMAGE_URI');
   const preparedUri = ensureFileUri(cleanUri);
-
-  try {
-    // Materialize into a stable, non-transient JPEG file in app cache and normalize EXIF orientation
-    const manipResult = Platform.OS === 'web' ? await exportCropImage(preparedUri, 0, { x: 0, y: 0, w: 1, h: 1 }) : await ImageManipulator.manipulateAsync(
-      preparedUri,
-      [], // no transformations; this acts as a materialize & orientation pass
-      { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
-    );
-
-    const stableUri = ensureFileUri(manipResult.uri);
-    const resolvedWidth = manipResult.width || knownWidth || 0;
-    const resolvedHeight = manipResult.height || knownHeight || 0;
-
-    const filename = `mathvision_${Date.now()}.jpg`;
-    const imageSessionId = `session_${Date.now()}`;
-
-    const draft: ImageDraft = {
-      imageSessionId,
-      sourceImageUri: stableUri,
-      rawUri: cleanUri,
-      uri: stableUri,
-      width: resolvedWidth,
-      height: resolvedHeight,
-      mimeType: 'image/jpeg',
-      filename,
-      source: source || 'CAMERA',
-      isMasked: false,
-    };
-
-    logStageDiagnostic('NORMALIZED', {
-      uri: stableUri,
-      width: resolvedWidth,
-      height: resolvedHeight,
-      mimeType: 'image/jpeg',
-      source: draft.source,
+  // Conversion must succeed. Returning an unverified HEIC/asset URI labelled JPEG is unsafe.
+  const manipResult = Platform.OS === 'web'
+    ? await exportCropImage(preparedUri, 0, { x: 0, y: 0, w: 1, h: 1 })
+    : await ImageManipulator.manipulateAsync(preparedUri, [], {
+      compress: 0.95, format: ImageManipulator.SaveFormat.JPEG,
     });
-
-    return draft;
-  } catch (err) {
-    if (Platform.OS === 'web') throw err;
-    console.warn('[IMAGE_PIPELINE] manipulateAsync fallback used:', err);
-    // If manipulateAsync throws (e.g. on web or unsupported mock), fall back gracefully
-    const stableUri = ensureFileUri(cleanUri);
-    const imageSessionId = `session_${Date.now()}`;
-    const draft: ImageDraft = {
-      imageSessionId,
-      sourceImageUri: stableUri,
-      rawUri: cleanUri,
-      uri: stableUri,
-      width: knownWidth || 0,
-      height: knownHeight || 0,
-      mimeType: 'image/jpeg',
-      filename: `mathvision_${Date.now()}.jpg`,
-      source: source || 'CAMERA',
-      isMasked: false,
-    };
-
-    logStageDiagnostic('NORMALIZED', {
-      uri: stableUri,
-      width: draft.width,
-      height: draft.height,
-      mimeType: 'image/jpeg',
-      source: draft.source,
-      extra: 'fallback',
-    });
-
-    return draft;
-  }
+  const stableUri = ensureFileUri(manipResult.uri);
+  if (Platform.OS !== 'web' && !stableUri.startsWith('file://')) throw new Error('IMAGE_NOT_MATERIALIZED');
+  const image = await inspectReadableImage(stableUri);
+  const draft: ImageDraft = {
+    imageSessionId: `session_${Date.now()}_${Math.random().toString(36).slice(2)}`,
+    originalImageUri: stableUri,
+    originalUri: stableUri,
+    sourceImageUri: stableUri,
+    rawUri: cleanUri,
+    uri: stableUri,
+    width: image.width,
+    height: image.height,
+    mimeType: 'image/jpeg',
+    filename: `mathvision_${Date.now()}.jpg`,
+    source: source || 'CAMERA',
+    isMasked: false,
+    privacyConfirmed: false,
+  };
+  logStageDiagnostic('NORMALIZED', { ...image, mimeType: draft.mimeType, source: draft.source });
+  return draft;
 }

@@ -44,6 +44,104 @@ def cloud(monkeypatch, first, second=None):
 
 
 @pytest.mark.asyncio
+async def test_answer_bearing_prose_is_replaced_without_another_model_or_changing_verified_judgments(monkeypatch):
+    source = request()
+    good = assessment(source)
+    unsafe = deepcopy(good)
+    unsafe['rows'][1]['feedback'] = 'Em đã tính đúng mười bảy bút.'
+    generator = AsyncMock(side_effect=[unsafe, deepcopy(unsafe)])
+    monkeypatch.setattr(review, '_generate', generator)
+    result = await review.review_work(source)
+    assert generator.await_count == 2
+    assert result.status == 'CORRECT'
+    assert unsafe['rows'][1]['feedback'] not in result.model_dump_json()
+    assert result.rows[1].sourceText == review.source_rows(source.workText)[1]
+
+
+@pytest.mark.asyncio
+async def test_safe_presentation_cannot_promote_an_incomplete_judgment(monkeypatch):
+    source = request()
+    unsafe = assessment(source, complete=False, praise='')
+    unsafe['rows'][1]['feedback'] = 'Kết quả là mười bảy bút.'
+    generator = AsyncMock(side_effect=[unsafe, deepcopy(unsafe)])
+    monkeypatch.setattr(review, '_generate', generator)
+    result = await review.review_work(source)
+    assert result.status == 'NEEDS_REVIEW' and not result.praise
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('dispute', ['sourceFaithful', 'methodCorrect', 'unitsCorrect', 'mathematicsCorrect', 'complete'])
+async def test_replacing_both_unsafe_explanations_never_overrides_a_checker_disagreement(monkeypatch, dispute):
+    source = request()
+    first = assessment(source)
+    first['rows'][1]['feedback'] = 'Kết quả là mười bảy bút.'
+    second = deepcopy(first)
+    second[dispute] = False
+    cloud(monkeypatch, first, second)
+    result = await review.review_work(source)
+    assert result.status == 'NEEDS_REVIEW' and not result.praise
+    assert first['rows'][1]['feedback'] not in result.model_dump_json()
+
+
+@pytest.mark.asyncio
+async def test_transient_first_provider_failure_retries_only_the_missing_source_assessment(monkeypatch):
+    source = request()
+    judged = assessment(source)
+    generator = AsyncMock(side_effect=[review.TutorUnavailable('unavailable'), judged, deepcopy(judged)])
+    monkeypatch.setattr(review, '_generate', generator)
+    result = await review.review_work(source)
+    assert result.status == 'CORRECT' and generator.await_count == 3
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('unavailable', [False, True])
+async def test_false_written_equality_is_highlighted_even_when_cloud_review_is_unusable(monkeypatch, unavailable):
+    source = request(problemText='Mảnh đất dài 15 m, rộng 3/5 chiều dài. Dùng 1/6 diện tích trồng hoa. Tính diện tích trồng hoa.',
+        workText='Chiều rộng là:\n15 × 3/5 = 9 (m)\nDiện tích là:\n15 × 9 = 135 (m²)\nDiện tích trồng hoa là:\n135 × 1/6 = 45 (m²)\nĐáp số: 45 m²')
+    if unavailable:
+        monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=review.TutorUnavailable('rate_limit')))
+    else:
+        first = assessment(source, mathematicsCorrect=False, praise='', complete=False)
+        first['rows'][5].update(status='FIX', hints=['Em ghi hai mươi hai phẩy năm.'])
+        second = deepcopy(first)
+        second['complete'] = True
+        cloud(monkeypatch, first, second)
+    result = await review.review_work(source)
+    assert result.status == 'NEEDS_REVISION'
+    assert result.rows[5].status == 'FIX' and result.rows[5].sourceText == '135 × 1/6 = 45 (m²)'
+    assert all(row.status == 'UNSURE' for row in result.rows if row.lineIndex != 5)
+    assert not result.praise and not result.alternative
+    assert 'hai mươi' not in result.model_dump_json()
+
+
+@pytest.mark.asyncio
+async def test_generic_answer_line_reference_and_dimension_exponent_do_not_reject_correct_work(monkeypatch):
+    source = request(problemText='Một mảnh đất hình chữ nhật dài 15 m, rộng bằng 3/5 chiều dài. Dùng 1/6 diện tích trồng hoa. Tính diện tích trồng hoa.',
+        workText='Chiều rộng là:\n15 × 3/5 = 9 (m)\nDiện tích mảnh đất là:\n15 × 9 = 135 (m²)\nDiện tích trồng hoa là:\n135 × 1/6 = 45/2 (m²)\nĐáp số: 45/2 m²')
+    judged = assessment(source, summary='Các phép tính, đơn vị và đáp số đều chính xác.')
+    judged['rows'][3]['feedback'] = 'Em nhân chiều dài với chiều rộng, ghi đơn vị m² phù hợp.'
+    judged['rows'][-1]['feedback'] = 'Đáp số khớp với kết quả em vừa tính, đơn vị đầy đủ.'
+    cloud(monkeypatch, judged)
+    result = await review.review_work(source)
+    assert result.status == 'CORRECT'
+    assert all(row.status == 'OK' for row in result.rows)
+    assert result.rows[-1].feedback == judged['rows'][-1]['feedback']
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('feedback', ['Đáp số là một mảnh đất.', 'Đáp số: màu xanh.', 'Em ghi 17 m².', 'Diện tích là m² và sáu.', 'Em ghi ² làm kết quả.'])
+async def test_generic_answer_reference_does_not_allow_new_values_or_answer_statements(monkeypatch, feedback):
+    source = request()
+    judged = assessment(source)
+    judged['rows'][1]['feedback'] = feedback
+    cloud(monkeypatch, judged)
+    result = await review.review_work(source)
+    assert result.status == 'CORRECT'
+    review._safe_assessment(result, review.source_rows(source.workText))
+    assert feedback not in result.model_dump_json()
+
+
+@pytest.mark.asyncio
 async def test_correct_work_needs_independent_source_reviews_and_preserves_all_rows(monkeypatch):
     source = request(workText='  Số bút Mai có tất cả là: \n\n 12 + 5 = 17 (bút) \n Đáp số: 17 bút. ')
     model = cloud(monkeypatch, assessment(source))
@@ -309,7 +407,8 @@ async def test_pedagogic_references_do_not_allow_actual_answers_or_answer_labels
     judged['rows'][1]['feedback'] = feedback
     cloud(monkeypatch, judged)
     result = await review.review_work(source)
-    assert result.status == 'NEEDS_REVIEW' and all(row.status == 'UNSURE' for row in result.rows)
+    assert result.status == 'CORRECT' and all(row.status == 'OK' for row in result.rows)
+    review._safe_assessment(result, review.source_rows(source.workText))
     assert feedback not in result.model_dump_json()
 
 
@@ -338,7 +437,8 @@ async def test_temporal_allowance_still_rejects_spelled_out_numerical_answers(mo
     judged['rows'][1]['feedback'] = feedback
     cloud(monkeypatch, judged)
     result = await review.review_work(source)
-    assert result.status == 'NEEDS_REVIEW' and not result.praise
+    assert result.status == 'CORRECT'
+    review._safe_assessment(result, review.source_rows(source.workText))
     assert feedback not in result.model_dump_json()
 
 
@@ -357,7 +457,9 @@ async def test_public_teaching_cannot_dump_an_answer_or_developer_instructions(m
     else: judged[field] = text
     cloud(monkeypatch, judged)
     result = await review.review_work(source)
-    assert result.status == 'NEEDS_REVIEW' and not result.praise and not result.alternative
+    assert result.status == ('NEEDS_REVIEW' if field in {'nextAction', 'hints'} else 'CORRECT')
+    assert not result.alternative
+    review._safe_assessment(result, review.source_rows(source.workText))
     assert text not in result.model_dump_json()
 
 

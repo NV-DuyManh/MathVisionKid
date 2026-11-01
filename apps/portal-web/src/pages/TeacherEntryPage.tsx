@@ -14,7 +14,7 @@ export const TeacherEntryPage: React.FC = () => {
   useEffect(() => {
     const handleEntry = async () => {
       if (!tokenStore.hasTokens()) {
-        navigate('/login');
+        navigate('/login?role=TEACHER');
         return;
       }
 

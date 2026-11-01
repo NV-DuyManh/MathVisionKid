@@ -1,0 +1,59 @@
+{
+  "gitHead": "3b80e41c6d0cb1139f3786e886debde57c743dee",
+  "workingTreeChanges": true,
+  "committed": false,
+  "pushed": false,
+  "primaryVoices": [
+    "vi-VN-NamMinhNeural",
+    "vi-VN-HoaiMyNeural"
+  ],
+  "automaticFallback": false,
+  "manualFallback": true,
+  "python": {
+    "passed": 58
+  },
+  "student": {
+    "passed": 112,
+    "failed": 0,
+    "suites": 9
+  },
+  "webSession": {
+    "passed": 8
+  },
+  "java": [
+    {
+      "suite": "TEST-com.mathvisionkids.api.tutoring.MathTutorControllerTest",
+      "tests": 44,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "TEST-com.mathvisionkids.api.tutoring.MathTutorServiceTest",
+      "tests": 85,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "builds": {
+    "web": true,
+    "nativePlatforms": [
+      "android"
+    ]
+  },
+  "localHealth": {
+    "8000": 200,
+    "8080": 200
+  },
+  "evidenceTypes": {
+    "browser": "actual local Student app with synthetic account and problem; no API fixtures",
+    "voiceProbe": "ASGI HTTP boundary with real online provider plus explicitly fault-injected online failure",
+    "android": "Hermes export and mocked player tests; no physical device"
+  },
+  "hashes": {
+    "ai/runtime/app/tutoring/narration.py": "40fc6fdd8bdfbe7ca02c5a2789639554e1afcb31718eda1017ea9a2e4f892c2e",
+    "ai/runtime/app/tutoring/video_render.py": "6dca7afd6a94d9fe4fb08aa61f9320db0ce19bff86d381bba8bd62bc03f9cc5b",
+    "apps/student-mobile/src/features/tutoring/LessonNarration.tsx": "3092afa20a65b9bb7f40e43b8ea94836fe39cd4d47e6aeadb758a43940dadc0f",
+    "apps/student-mobile/src/components/ui/TaskProgress.tsx": "7265ff8012aa1050fde5c1c933b5884e6eec9d7b85f1770640bb16cabcafaddf",
+    "apps/student-mobile/src/context/AuthContext.web.tsx": "ca4298efe0947f1efe07d4cdc14e1f66d90a2fe612562d48a3cc0b9b4c9c5c24"
+  }
+}

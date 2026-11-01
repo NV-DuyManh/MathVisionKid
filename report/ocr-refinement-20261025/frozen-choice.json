@@ -1,0 +1,18 @@
+{
+  "numeric_candidate": "base_balanced_all",
+  "text_candidate": "letter_head",
+  "numeric_status": "SELECTED_ON_VAL_ONLY",
+  "text_status": "SELECTED_ON_VAL_ONLY",
+  "numeric_stable_order": [
+    "base_balanced_all",
+    "base_balanced_correct",
+    "expanded_balanced_correct"
+  ],
+  "text_stable_order": [
+    "joint_text",
+    "letter_head"
+  ],
+  "diagnostics_read": false,
+  "selection_by_diagnostics": false,
+  "production_promoted": false
+}

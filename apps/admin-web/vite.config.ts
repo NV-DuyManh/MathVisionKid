@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       __APP_CONFIG__: JSON.stringify(config),
       'import.meta.env.VITE_SHOW_DEV_TOOLS': JSON.stringify(!production && env.VITE_SHOW_DEV_TOOLS === 'true' ? 'true' : 'false'),
-      'import.meta.env.VITE_USE_MOCK': JSON.stringify(!production && env.VITE_USE_MOCK !== 'false' ? 'true' : 'false'),
+      'import.meta.env.VITE_USE_MOCK': JSON.stringify(!production && env.VITE_USE_MOCK === 'true' ? 'true' : 'false'),
     },
     server: {
       port: 5174,

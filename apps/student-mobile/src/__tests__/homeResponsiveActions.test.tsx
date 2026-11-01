@@ -14,6 +14,7 @@ it('lets a learner choose a grade directly on a spacious screen after a resize',
   act(() => { tree = TestRenderer.create(<HomeDashboard userName="An" onAcquire={() => {}} onArithmetic={() => {}}
     onPractice={onPractice} onTips={() => {}} onPrivacy={() => {}} />); });
   const root = tree!.root.findAll(node => typeof node.props.onLayout === 'function')[0];
+  expect(tree!.root.findAll(node => node.props.accessibilityLabel?.startsWith('Câu đố của em'))).toHaveLength(0);
   act(() => root.props.onLayout({ nativeEvent: { layout: { width: 1100 } } }));
   const choice = tree!.root.findAll(node => node.props.accessibilityLabel === 'Luyện tập lớp 5' && typeof node.props.onPress === 'function')[0];
   expect(choice).toBeDefined();

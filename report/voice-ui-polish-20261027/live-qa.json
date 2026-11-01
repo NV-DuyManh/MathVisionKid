@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-27T11:31:45.815Z",
+  "environment": "Live local backend and real external ASR, tutoring and TTS; artificial input audio, not a human or Android-device recording",
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "ms": 11842.89,
+      "bytes": 1025358,
+      "file": "answer-male.wav"
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "ms": 13892.86,
+      "bytes": 1016910,
+      "file": "answer-female.wav"
+    }
+  ],
+  "lessonMs": 13728.57,
+  "transcribeMs": 855.23,
+  "transcript": "Vì sao em phải chia thành các phần bằng nhau trước khi cộng 2 phân số?",
+  "answerMs": 883.41,
+  "reply": {
+    "answer": "Vì các phần có kích thước khác nhau nên không thể cộng trực tiếp. Chia thành các phần bằng nhau giúp em so sánh và cộng chính xác.",
+    "spokenExplanation": "Em ơi, hãy tưởng tượng em có một cái bánh chia thành 3 miếng và một cái bánh khác chia thành 5 miếng. Miếng bánh từ hai cái bánh đó có kích thước khác nhau, nên em không thể cộng số miếng lại với nhau được. Để cộng được, em phải chia cả hai cái bánh thành những miếng có kích thước giống hệt nhau. Khi đó, em mới biết tổng cộng có bao nhiêu miếng như vậy. Trong toán học, việc chia thành các phần bằng nhau chính là quy đồng mẫu số.",
+    "followUp": "Theo em, mẫu số chung nhỏ nhất của 3 và 5 là bao nhiêu?",
+    "guarded": false
+  },
+  "success": true,
+  "logout": true
+}

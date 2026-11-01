@@ -1,0 +1,10 @@
+{
+  "scope": "isolated process; real ASR and text reply; reading-only session fixture",
+  "humanRecording": false,
+  "physicalPlaybackVerified": false,
+  "asrFailure": "TutorUnavailable",
+  "replyMs": 3846.93,
+  "guarded": false,
+  "answer": "Em hãy đọc chậm từng câu trong đề bài. Những câu chứa số đo cụ thể như 8m là điều đã biết. Những câu bắt đầu bằng từ 'Hỏi' là điều cần tìm.",
+  "status": "partial"
+}

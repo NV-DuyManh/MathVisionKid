@@ -1,0 +1,3 @@
+# Frozen OCR evidence receipts hash the original bytes, including line endings.
+report/OCR_*.md -text whitespace=cr-at-eol
+report/ocr-*/** -text whitespace=-blank-at-eol,cr-at-eol

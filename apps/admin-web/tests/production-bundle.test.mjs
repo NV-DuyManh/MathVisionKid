@@ -20,3 +20,9 @@ test('built application renders React Query and completes admin SSO without dupl
 test('built admin logout clears tokens and opens Portal logout without a login redirect race', async () => {
   await checkWebBundle(new URL('../dist/', import.meta.url), 'admin', { checkLogout: true });
 });
+
+for (const page of ['classes', 'users']) {
+  test(`built mobile admin ${page} detail keeps navigation usable during loading and failure`, async () => {
+    await checkWebBundle(new URL('../dist/', import.meta.url), 'admin', { checkAdminDetail: `/${page}/missing-record` });
+  });
+}

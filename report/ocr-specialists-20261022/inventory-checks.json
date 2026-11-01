@@ -1,0 +1,48 @@
+{
+  "protected": [
+    {
+      "path": "E:\\MathVisionKid\\apps\\student-mobile\\src\\app\\privacy.tsx",
+      "sha256": "80b23a5d04de579c9f98e3668fb0e59b1cd9fd9a28bc1951a0918bfb1eae8e60",
+      "matches": true
+    },
+    {
+      "path": "E:\\MathVisionKid\\apps\\student-mobile\\src\\app\\crop.tsx",
+      "sha256": "9c080e8bc0fa0cbbd654755df99a7dcd542f0d3c594df9ecd53d28c7eeea18c0",
+      "matches": true
+    },
+    {
+      "path": "E:\\MathVisionKid\\apps\\student-mobile\\src\\components\\ui\\AppHeader.tsx",
+      "sha256": "f7fefae8773abec86647a8923daa956e696cdcde022ad7e00c41074cbe35f592",
+      "matches": true
+    },
+    {
+      "path": "E:\\MathVisionKid\\apps\\student-mobile\\src\\components\\ui\\AppButton.tsx",
+      "sha256": "3bd078ea85162afafbe2d79c29a662bd49d19b926f7c9978e1ac3db7cbf9a03d",
+      "matches": true
+    },
+    {
+      "path": "E:\\MathVisionKid\\apps\\student-mobile\\src\\constants\\theme.ts",
+      "sha256": "67e432f37ad5f361b80dfc2fa8c0d409e86530f40a71ded51d02dff7c88f1666",
+      "matches": true
+    }
+  ],
+  "official_drive_model": [
+    {
+      "member": "ocr_engine/best_cer.pth",
+      "drive_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+      "local_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+      "identical": true
+    },
+    {
+      "member": "ocr_engine/vocab.json",
+      "drive_sha256": "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d",
+      "local_sha256": "6af4062e92e22cc91ece5198638e29a6ceec6cb92e3b12bd71deb4b874ac9e0d",
+      "identical": true
+    }
+  ],
+  "arithmetic_dataset": {
+    "entries": 5503,
+    "weight_files": []
+  },
+  "source_images_written": 0
+}

@@ -20,6 +20,15 @@ const screen = (id: string) => <AuthContext.Provider value={{ user: { id }, isLo
 beforeEach(() => { jest.clearAllMocks(); (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn() }); (loadLessons as jest.Mock).mockResolvedValue(saved); });
 afterEach(() => { if (view) act(() => view.unmount()); });
 
+it('retries loading saved lessons for the same owner without deleting any saved work', async () => {
+  (loadLessons as jest.Mock).mockRejectedValueOnce(new Error('storage unavailable'));
+  await act(async()=>{view=TestRenderer.create(screen('pupil-a'));});
+  expect(text()).toContain('Chưa mở được bài đã lưu');
+  await press('Tải lại bài đã lưu');
+  expect(loadLessons).toHaveBeenNthCalledWith(2,'pupil-a');
+  expect(text()).toContain('Bài cộng số bút');
+});
+
 it('filters real saved work and notes, and opens the selected lesson from its menu', async () => {
   await act(async () => { view = TestRenderer.create(screen('pupil-a')); });
   expect(text()).toContain('Bài cộng số bút'); expect(text()).toContain('Bài phân số');

@@ -1,0 +1,17 @@
+{
+  "numeric_candidate": null,
+  "text_candidate": "text_accent_low",
+  "numeric_stable_order": [
+    "numeric_replay",
+    "original_replay"
+  ],
+  "text_stable_order": [
+    "text_retention2",
+    "text_retention8",
+    "text_accent_low",
+    "text_accent_high"
+  ],
+  "diagnostics_read": false,
+  "selection_by_diagnostics": false,
+  "production_promoted": false
+}

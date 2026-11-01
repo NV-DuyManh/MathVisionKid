@@ -1,0 +1,75 @@
+# OCR: kiểm chứng khả năng học và tổng quát hóa — 25/10/2026
+
+**Chưa đủ điều kiện thay model trong app.** Vòng này đã chạy thật 10 thử nghiệm optimizer, tổng cộng335lượt đi hết corpus của từng thử nghiệm; thêm18kiểm thử kỹ thuật đã qua. Không gọi các lượt bị loại hoặc checkpoint epoch0 là model mới đã cải thiện. Không thể suy ra “hoàn hảo” từ việc đọc đúng TRAIN.
+
+![Measured training and source-held curves](ocr-fit-and-generalization-20261025/training-evidence-v2.png)
+
+## Kết quả có tiến bộ và giới hạn
+
+- VietOCR native32, CNN/encoder/decoder cùng học: checkpoint cuối đọc đúng **722/722TRAIN**,0lỗi/5.760ký tự. Tuy nhiên old22 chỉ4/22 và new39 chỉ18/39. Giữ riêng trạng thái cuối để nghiên cứu; checkpoint được chọn vẫn epoch0. Recipe cập nhật BN đạt664/722TRAIN và yếu hơn trên đối chiếu, cũng bị loại.
+- Tách72nguồn TRAIN bằng SHA trước lượt gradient:57nguồn/555vùng FIT,15nguồn/167vùng sourceDEV. Cơ chế Dropout có sẵn được bật trong TRAIN, BN cố định; thử có/không biến đổi ảnh nhẹ. Chọn recipe+epoch chỉ bằng mean(CERprose,CERnonprose), sau đó mới train lại toàn722TRAIN và đo old22/new39 một lần. Không dùng old61 để chọn epoch của hai quy trình source-held.
+- Sau khi thêm19vùng prose từ3nguồn FIT mới:574FIT,167sourceDEV,741TRAIN toàn bộ. Các vùng thêm chỉ là19crop, **không phải19nguồn/người viết độc lập**; một số crop chồng phần dòng.37vùng nháp được nhìn trên ảnh nguồn rồi rà từng crop;18vùng bị loại do cắt/dính chữ hoặc dấu câu mơ hồ. Cùng Codex rà các lượt; không có chứng thực giáo viên hoặc hai người độc lập.
+
+| Bộ đo phát triển giữ nguyên | Native parent | Regularization722 | Thêm19prose |
+|---|---:|---:|---:|
+| sourceDEV167: đúng nguyên vùng |49/167|116/167|118/167|
+| sourceDEV167: CER |62.69%|14.39%|13.54%|
+| sourceDEVprose31: đúng nguyên vùng |15/31|20/31|21/31|
+| sourceDEVprose31: CER |68.80%|7.89%|7.52%|
+
+Đây là các tập **phát triển**: sourceDEV giữ metadata TRAIN lịch sử, đã dùng để chọn recipe/epoch; không chứng minh độc lập người viết hoặc tiền huấn luyện. Đối chứng CRNN đã học các vùng TRAIN lịch sử, nên không dùng đối chứng đó để tuyên bố sourceDEV độc lập với toàn bộ hệ thống.
+
+| Kiểm tra cuối sau khi chọn bằng sourceDEV | Đối chứng CRNN | Lượt722TRAIN | Lượt741TRAIN |
+|---|---|---|---|
+| old22all |14/22; 13/255 lỗi ký tự (5.10%)|7/22; 33/255 lỗi ký tự (12.94%)|6/22; 31/255 lỗi ký tự (12.16%)|
+| new39all |17/39; 42/328 lỗi ký tự (12.80%)|21/39; 38/328 lỗi ký tự (11.59%)|20/39; 41/328 lỗi ký tự (12.50%)|
+| old14prose |10/14; 7/187 lỗi ký tự (3.74%)|2/14; 26/187 lỗi ký tự (13.90%)|1/14; 25/187 lỗi ký tự (13.37%)|
+| new10prose |3/10; 20/197 lỗi ký tự (10.15%)|2/10; 25/197 lỗi ký tự (12.69%)|2/10; 26/197 lỗi ký tự (13.20%)|
+
+Cả hai lượt retrain bị guard loại vì hồi quy literal/critical/unit và điểm nhóm cũ. Việc thêm dữ liệu cải thiện sourceDEV **không chuyển thành một model đủ an toàn để thay CRNN**.
+
+## Số, phân số và cách giải mã
+
+-9phương án trộn weights numeric cũ/mới được chọn trên1.487TRAIN trước: alpha=0; giữ parent. Trộn weights không sửa được vấn đề.
+- CTC prefix beam giữ đầy đủ blank và dấu+/-/0..9, cộng xác suất các đường căn chỉnh, kiểm bằng duyệt toàn bộ đường đi của bài toán nhỏ. Chọn greedy trên TRAIN; beam4/16 không đem lại lợi ích đủ để đổi. Không xóa dấu hoặc khoảng trắng để làm điểm đẹp hơn.
+- Hai optimizer chạy40pass mỗi lượt chỉ chỉnh13offset bias bị chặn, dùng literalCTC và KL từ teacher chỉ khi transcript TRAIN đúng. Cả hai chọn epoch0, giữ parent; trạng thái optimizer cuối vẫn được giữ riêng.
+- Beam attention1/3/5 được chọn bằng sourceDEV của model722TRAIN: chọn3, sourceDEV118/167,144lỗi/1.056ký tự; old22 còn32lỗi và new39 còn39lỗi. Guard loại. Bộ giải mã giữ trạng thái GRU đúng cho từng nhánh; có kiểm thử so với tìm kiếm vét cạn.
+- Fusion CTC+attention:8tỷ trọng chỉ chọn trên TRAIN, alpha=0.05; old65 **58/65; 8/187 lỗi ký tự (4.28%)**, new22 **19/22; 3/63 lỗi ký tự (4.76%)**. Guard passed=False, strict gain=False, quality95/2=False. Đây là thử nghiệm cần hai model; chưa có thay routing tự động trong app.
+- Phân số vẫn giữ kết quả đã xem ở vòng trước:26/31với cặp crop thủ công;22/31đúng toàn cặp từ57đề xuất hình học cố định, phát hiện26/31. **Vòng này không đo lại hoặc cải thiện detector phân số**, không gọi đây là độ chính xác toàn trang hay acceptance mới.
+
+Numeric parent vẫn giữ **58/65; 8/187 lỗi ký tự (4.28%)** trên old65 và **19/22; 3/63 lỗi ký tự (4.76%)** trên new22. Guard cũ bảo vệ hợp các dòng đang đúng của các đối chứng; parent numeric tốt nhất tự nó còn mất một ca original-correct ở old65. Các ngưỡng này không bị hạ để cho ứng viên vượt qua.
+
+## Rà chất lượng nhãn số
+
+Rà trực tiếp65crop VAL đã có trong archive, không tải trang VAL gốc:56ca nhìn rõ khớp nhãn có dấu,9ca cần kiểm lại nguồn vì4/9,5/9,4/7 hoặc mất nét. **Không sửa nhãn VAL, không loại9ca để tính lại điểm, không đưa chúng vào TRAIN.** Một lần đối chiếu nháp so body không dấu với nhãn có dấu tạo19khác biệt; bảnv2 đã sửa cách so và giữ nguyên bằng chứng nháp.19khác biệt đó không phải19nhãn sai. Dấu giống+ ở một crop có thể là gạch ngang của7; chưa có bằng chứng lỗi metadata.
+
+## Model công khai được kiểm thật
+
+Tải pinned [VietOCR handwriting của tác giả](https://huggingface.co/DungHugging/vietocr-handwritten-finetune), commit0827b42e17cb0e1c1bbda5aac11f7cc5c816e0ca,151.811.471byte, SHA256`d5357730c328e40dd1aeae7288994d8ad85979f8334c03c9bfad53c320114fa7`. YAML safe-load, weights-only, strict toàn state, chạy code VietOCR đã cài; không chạy mã remote. Native32greedy thực tế:0/741TRAIN,0/22old,0/39new.8proseTRAIN đối chiếu bộ giải mã gốc và kết quả batch đều khớp. **Không fine-tune, không chọn model này**; điểm tác giả công bố không phải điểm dự án. License/nguồn tiền huấn luyện chỉ ghi theo khai báo uploader, chưa chứng nhận độc lập cho sản phẩm.
+
+## Tính toàn vẹn và kiểm thử
+
+-18kiểm thử mới đã qua: nguồn FIT/sourceDEV không giao nhau theo SHA, augmentation không sửa ảnh đầu vào, BN không đổi lúc eval, resume Adam và RNG có Dropout khớp bước kế, CTC lặp/dấu, beam giữ đúng state, fullprefix transformer, mở rộng dữ liệu không chuyển DEV sang FIT, fusion không sửa literal. Chúng kiểm mã; không chứng nhận độ chính xác OCR.
+-26snapshot full-model+optimizer+CPU/CUDA/PythonRNG của các lượt whole-network, thêm2state bias cuối. Snapshot cuối bị loại được giữ riêng với checkpoint được chọn, có SHA và nạp lại; không còn đánh đồng “epoch0 fallback” với model train thành công.
+- Xác minh hash toàn bộ graph đầu vào và trạng thái mẫu trước đó; năm file UI bảo vệ và33trạng thái file đã sửa/xóa trước nhiệm vụ đều giữ nguyên. Model production vẫn SHA`a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941`.
+-Ảnh nguồn/crop/ZIP/Parquet chỉ xử lý trong RAM; không ghi vào thư mục thí nghiệm mới. Hai file ảnh/SVG trong báo cáo chỉ là biểu đồ từ số đo. Không đọc TEST/HOLDOUT pixels, không commit/push, không đổi runtime/provider/Student, không tạo bằng chứng điện thoại thật.
+- Tổng hợp cùng pha trước:22optimizer runs,451full-corpus passes của các corpus khác nhau và80token-alignment passes. **Không cộng chúng thành sốepoch của một model hoặc bằng chứng độ chính xác độc lập.**
+
+## Những điều chưa đạt
+
+Mục tiêu ≥95%exact,≤2%CER, không mất literal/số/dấu/đơn vị đang đúng **chưa đạt**. Thiếu acceptance theo người viết độc lập, transcript giáo viên và nhãn toàn trang đầy đủ; chưa kiểm chứng recognizer mới ghép detector trong luồng Student. Writer/source tiền huấn luyện chưa xác minh. Các tập đo lặp lại chỉ phục vụ phát triển.
+
+Hướng có căn cứ cho pha tiếp theo là tăng nguồn chữ thật/IDngười viết và kiểm nhãn độc lập, giữ nguồn mới dành riêng trước khi train; đối chiếu độ tin cậy của hai recognizer bằng nhãn TRAIN, rồi kiểm độc lập toàn pipeline. Việc chạy thêm epoch trên các crop đã xem không giải quyết chứng nhận nghiên cứu hoặc tự làm model “hoàn hảo”.
+
+## Bằng chứng
+
+- [Kết quả và SHA đầy đủ](ocr-fit-and-generalization-20261025/results.json)
+- Thí nghiệm/audit dưới`ai-training/datasets/drive_math/math_fit_audit_20261025/`, `math_source_generalization_20261025/`, `math_prose_expansion_20261025/`, `math_numeric_bias_20261025/`, `math_numeric_fusion_20261025/` và các thư mục decoder/model đã liệt kê trongJSON.
+- Nhãn mới:`ai-training/datasets/drive_math/math_prose_sources_20261025/manifest.json`; các vùng bị loại vẫn trong`quarantined*.json`.
+
+## Skills Applied
+
+- `ponytail`
+  - SKILL.md: `.agents/skills/ponytail/SKILL.md`
+  - Why selected: Controlled OCR training, literal data review, reproducibility and regression evaluation using the existing verified Python pipeline.
+  - Applied to: Reused loaders/model APIs; minimal isolated experiments; frozen source-held selection; retained rejected training states and unchanged runtime/UI/Git.

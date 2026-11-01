@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, useWindowDimensions } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,8 +20,8 @@ import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
-import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
-import * as ImageManipulator from 'expo-image-manipulator';
+import { ensureFileUri, logStageDiagnostic, inspectReadableImage } from '../features/recognition/image/imagePipeline';
+import { usePrivacyImage } from '../features/recognition/image/usePrivacyImage';
 import {
   calculateMaskMove,
   calculateMaskResizeBR,
@@ -41,47 +41,33 @@ interface Mask {
 }
 
 export default function PrivacyGateScreen() {
-  const router = useRouter();
-  const window = useWindowDimensions();
-  const landscape = window.width > window.height && window.height < 550;
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
-  const draft = recognitionDraftStore.getDraft();
+  const draft = useSyncExternalStore(recognitionDraftStore.subscribe, recognitionDraftStore.getSnapshot, recognitionDraftStore.getSnapshot);
 
   const rawUri = draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
+  return <PrivacyEditor key={`${draft?.imageSessionId || draft?.createdAt || ''}:${activeUri}`} activeUri={activeUri} draft={draft} retrySubmissionId={retrySubmissionId} />;
+}
+
+function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: string; draft: ReturnType<typeof recognitionDraftStore.getDraft>; retrySubmissionId?: string }) {
+  const router = useRouter();
+  const window = useWindowDimensions();
+  const landscape = window.width > window.height && window.height < 550;
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
   const [movingMaskId, setMovingMaskId] = useState<number | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageLoadError, setImageLoadError] = useState(false);
-  // The web Image loader restarts when its event callbacks change.
-  const handleImageLoadStart = useCallback(() => {
-    setImageLoaded(false);
-    setImageLoadError(false);
-  }, []);
-  const handleImageLoad = useCallback(() => {
-    setImageLoaded(true);
-    setImageLoadError(false);
-  }, []);
-  const handleImageError = useCallback(() => {
-    setImageLoadError(true);
-  }, []);
+  const [confirmedAttempt, setConfirmedAttempt] = useState<string | null>(null);
+  const image = usePrivacyImage(activeUri);
+  const { imageLoaded, imageLoadError, sourceSize } = image;
   const viewShotRef = useRef<any>(null);
+  const savingRef = useRef<string | null>(null);
+  const [savingAttempt, setSavingAttempt] = useState<string | null>(null);
+  const saving = savingAttempt === image.imageKey;
+  const confirmed = confirmedAttempt === image.imageKey && imageLoaded;
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [sourceSize, setSourceSize] = useState<{ uri: string; width: number; height: number } | null>(null);
-
-  useEffect(() => {
-    if (!activeUri) return;
-    let cancelled = false;
-    // Cropping changes draft dimensions, but this screen always displays the source photo.
-    Image.getSize(activeUri, (width, height) => {
-      if (!cancelled && width > 0 && height > 0) setSourceSize({ uri: activeUri, width, height });
-    }, () => { if (!cancelled) setImageLoadError(true); });
-    return () => { cancelled = true; };
-  }, [activeUri]);
+  // Confirmation belongs to one focus/retry attempt; same-photo masks are preserved.
 
   const getFittedStyle = () => {
     if (!containerSize.width || !containerSize.height || sourceSize?.uri !== activeUri) {
@@ -447,13 +433,18 @@ export default function PrivacyGateScreen() {
   };
 
   const handleDone = async () => {
-    if (!confirmed) return;
+    if (!confirmed || !image.isCurrent() || savingRef.current === image.imageKey ||
+      !containerSize.width || !containerSize.height) return;
+    savingRef.current = image.imageKey;
+    setSavingAttempt(image.imageKey);
 
     setSelectedMaskId(null);
     activeOpacity.value = 0;
     activeMaskId.value = null;
 
     try {
+      await inspectReadableImage(activeUri);
+      if (!image.isCurrent()) return;
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
       logFlowDomain('POST_PRIVACY', postPrivacyMode);
 
@@ -479,21 +470,15 @@ export default function PrivacyGateScreen() {
 
       await new Promise(r => setTimeout(r, 120));
 
+      if (!image.isCurrent()) return;
       if (viewShotRef.current && viewShotRef.current.capture) {
         const captured = await viewShotRef.current.capture();
         const finalMaskedUri = ensureFileUri(captured);
 
-        let outputWidth = draft?.width || 0;
-        let outputHeight = draft?.height || 0;
-        try {
-          const manip = await ImageManipulator.manipulateAsync(finalMaskedUri, [], {});
-          if (manip.width > 0 && manip.height > 0) {
-            outputWidth = manip.width;
-            outputHeight = manip.height;
-          }
-        } catch (inspectErr) {
-          console.warn('[PRIVACY] Could not inspect ViewShot dimensions:', inspectErr);
-        }
+        const output = await inspectReadableImage(finalMaskedUri);
+        if (!image.isCurrent()) return;
+        const outputWidth = output.width;
+        const outputHeight = output.height;
 
         recognitionDraftStore.updateDraft({
           privacyImageUri: finalMaskedUri,
@@ -522,7 +507,14 @@ export default function PrivacyGateScreen() {
       }
     } catch (e) {
       console.error('[PRIVACY] Rasterization error:', e);
-      Alert.alert('Lỗi', 'Không thể lưu ảnh đã che.');
+      if (image.isCurrent()) {
+        image.onError();
+        setSavingAttempt(null);
+        Alert.alert('Lỗi', 'Không thể mở hoặc lưu ảnh đã che. Em hãy thử tải lại ảnh.');
+      }
+    } finally {
+      if (savingRef.current === image.imageKey) savingRef.current = null;
+      if (image.isCurrent()) setSavingAttempt(null);
     }
   };
 
@@ -578,15 +570,16 @@ export default function PrivacyGateScreen() {
                 <View
                   style={styles.imageWrapper}
                   collapsable={false} >
-                  <Image
+                  {sourceSize && <Image
+                    key={image.imageKey}
                     source={{ uri: activeUri }}
                     accessibilityLabel="Ảnh gốc để kiểm tra thông tin riêng tư"
                     style={styles.image}
                     resizeMode="contain"
-                    onLoadStart={handleImageLoadStart}
-                    onLoad={handleImageLoad}
-                    onError={handleImageError}
-                  />
+                    onLoadStart={image.onLoadStart}
+                    onLoad={image.onLoad}
+                    onError={image.onError}
+                  />}
 
                   {!imageLoaded && !imageLoadError && (
                     <View style={styles.loadingOverlay} pointerEvents="none">
@@ -599,7 +592,10 @@ export default function PrivacyGateScreen() {
                     <View style={styles.errorOverlay}>
                       <Ionicons name="alert-circle" size={40} color={COLORS.error} />
                       <Text style={styles.errorTitle}>Không thể hiển thị ảnh</Text>
-                      <Text style={styles.errorSub}>Vui lòng chụp lại hoặc chọn ảnh khác từ thư viện.</Text>
+                      <Text style={styles.errorSub}>Em hãy thử tải lại. Nếu ảnh không còn mở được, hãy chụp hoặc chọn lại ảnh nhé.</Text>
+                      <TouchableOpacity style={styles.retryButton} accessibilityRole="button" accessibilityLabel="Thử tải lại ảnh" onPress={image.retry}>
+                        <Text style={styles.retryButtonText}>Thử tải lại ảnh</Text>
+                      </TouchableOpacity>
                       <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
                         <Text style={styles.retryButtonText}>Quay lại chụp ảnh</Text>
                       </TouchableOpacity>
@@ -703,7 +699,8 @@ export default function PrivacyGateScreen() {
         <View style={[styles.footer, SHADOWS.medium, landscape && styles.landscapeFooter]}>
           <TouchableOpacity
             style={styles.checkboxContainer}
-            onPress={() => setConfirmed(!confirmed)}
+            disabled={!imageLoaded || imageLoadError || saving}
+            onPress={() => { if (image.isCurrent()) setConfirmedAttempt(confirmed ? null : image.imageKey); }}
             activeOpacity={0.8}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: confirmed }}
@@ -722,7 +719,7 @@ export default function PrivacyGateScreen() {
           <AppButton
             title="Tiếp tục xem lại"
             onPress={handleDone}
-            disabled={!confirmed || imageLoadError}
+            disabled={!confirmed || !imageLoaded || imageLoadError || saving || !containerSize.width || !containerSize.height}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />

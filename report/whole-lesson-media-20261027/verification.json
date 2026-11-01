@@ -1,0 +1,75 @@
+{
+  "pythonLog": "254 passed in 7.96s",
+  "studentTests": {
+    "numPassedTests": 151,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 15,
+    "success": true
+  },
+  "javaTests": [
+    {
+      "name": "com.mathvisionkids.api.tutoring.MathTutorControllerTest",
+      "tests": "46",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.mathvisionkids.api.tutoring.MathTutorServiceTest",
+      "tests": "86",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "typecheckPassed": true,
+  "lint": "0 errors, 2 pre-existing cropRotation.web.ts warnings",
+  "exportWebAndroid": true,
+  "exportServiceAddress": "Build validation address; no deployment or public-service reachability claim",
+  "videoProbe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 960,
+        "height": 540
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio"
+      }
+    ],
+    "format": {
+      "duration": "14.592000",
+      "size": "254374"
+    }
+  },
+  "sourceSha256": {
+    "ai/runtime/app/api/tutor.py": "93d027f3978554a47accbb09b2685332a8200e7b4c1a2220c383ac9c58a1bb5d",
+    "ai/runtime/app/tutoring/media_preparation.py": "03b21b74afe9a3e37cd2d10600b3da5d15268fb456a780b4fd2e49db7008e5ac",
+    "ai/runtime/app/tutoring/narration.py": "73126d92936c615489fcd03f992b468183416c1d602aaa059a8b00a66385da5f",
+    "ai/runtime/app/tutoring/video.py": "f484c0da6912cad79725f298d1ad2afc768f668095021d4800c07381949aabe1",
+    "ai/runtime/app/tutoring/video_render.py": "5d3019c997155e490a276adb5a2be20a5f6fe910a00ceb5ce619590f2c3b82de",
+    "apps/student-mobile/src/features/tutoring/NarrationPreparation.tsx": "1f2bd51c8c4faccb1c30a631f9a1bbfc17a853b35bd701ed831c46e73b5b12bd",
+    "apps/student-mobile/src/features/tutoring/PersonalLessonVideo.tsx": "fe1aeef13be6ee1a596c95b99b3dad7459ddd011bb111de99531fabeb19b1416",
+    "backend/business-api/src/main/java/com/mathvisionkids/api/tutoring/MathTutorService.java": "03044f5cf03b9a7ba42c75dfdd46365e61e137b072427f3bf4ac43606a46ce1c"
+  },
+  "physicalDeviceVerified": false,
+  "browserVerified": false,
+  "realWholeLessonBenchmark": {
+    "success": true,
+    "allPreparationMs": 45891.0,
+    "preparedAudioAssets": 4,
+    "preparedVideos": 2,
+    "providerRequests": 16,
+    "extraProviderCallsOnOpeningLaterStep": 0
+  },
+  "evidenceSha256": {
+    "http-smoke.json": "7d7e521918458de6efa0fa1cb5ee393139929b465d779b7698cc996168fa8f73",
+    "http-later-step.mp4": "ff058294cec9fe61a324310ebba0303354e3c5fa18c2fac449b4c88281742b2d",
+    "real-media-benchmark.json": "8e86b85b404c32e73928bb365e5fe74dbc9b637ce506bf316f58568e25041c4e",
+    "later-step.mp4": "ee8f4e4a4709e2b35661bbfc6dcf2e190c184eaf5bd8c0600f806343391e9966",
+    "Nam-Minh.wav": "a9665b4527d0b432349ffdd4b7ba00a4548d231b77857f17e73837d296959df5",
+    "Hoai-My.wav": "e9b9206abe8ce0aa4b05e77ea3673f85f90d0a58977885c7ce148c486b696260"
+  }
+}

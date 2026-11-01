@@ -36,6 +36,18 @@ const text = () => view.root.findAllByType('Text' as any).map(node => String(nod
 const load = (width = 1200, height = 2400, uri = URI) => {
   act(() => loads.filter(request => request.uri === uri).at(-1)!.success(width, height));
 };
+
+it('focuses correction regions and rows while never inventing a position for an unlocated error', () => {
+  render({ issuesOnly: true, rows: rows.map((row, index) => index === 1 ? { ...row, status: 'FIX' } : row),
+    lines: lines.map((line, index) => index === 0 ? { ...line, uncertain: false } : line) });
+  load();
+  expect(region(0)).toBeDefined();
+  expect(region(1)).toBeUndefined();
+  expect(text()).toContain('Chưa xác định được vị trí một số dòng cần sửa');
+  update({ issuesOnly: true }); load();
+  expect(byId('work-evidence-line-1')).toBeUndefined();
+  expect(byId('work-evidence-line-0')).toBeDefined();
+});
 beforeEach(() => {
   jest.clearAllMocks(); loads.length = 0;
   jest.spyOn(Image, 'getSize').mockImplementation((uri, success, fail) => {

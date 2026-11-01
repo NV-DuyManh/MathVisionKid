@@ -1,0 +1,9 @@
+{
+  "environment": "Authenticated local business API and real AI server; synthetic problem; no browser or physical Android playback",
+  "anonymousStatus": 401,
+  "lessonStatus": 503,
+  "success": false,
+  "errorCategory": "HTTPStatusError",
+  "failedHttpStatus": 503,
+  "logoutStatus": 200
+}

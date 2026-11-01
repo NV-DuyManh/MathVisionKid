@@ -24,9 +24,11 @@ import static com.mathvisionkids.api.tutoring.MathTutorDtos.*;
 @RequestMapping("/api/v1/student/tutor")
 public class MathTutorController {
     private final MathTutorService service;
+    private final com.mathvisionkids.api.quiz.QuizSources quizSources;
 
-    public MathTutorController(MathTutorService service) {
+    public MathTutorController(MathTutorService service, com.mathvisionkids.api.quiz.QuizSources quizSources) {
         this.service = service;
+        this.quizSources = quizSources;
     }
 
     @PostMapping(value = "/read", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -57,8 +59,17 @@ public class MathTutorController {
     }
 
     @PostMapping(value = "/work-review", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public WorkReviewResponse reviewWork(@Valid @RequestBody WorkReviewRequest request) {
-        return service.reviewWork(request);
+    public WorkReviewResponse reviewWork(@Valid @RequestBody WorkReviewRequest request, Authentication authentication) {
+        var result = service.reviewWork(request);
+        try { quizSources.record(authentication.getName(), "WORK_REVIEW", request.sourceId(), request.problemText(), true); }
+        catch (RuntimeException ex) { quizSources.warnUnavailable(); }
+        return result;
+    }
+
+    @PostMapping(value = "/lesson/prepare", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LessonPreparationStatus> prepareLesson(@Valid @RequestBody LessonDraft request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.prepareLesson(request, authentication.getName()));
     }
 
     @PostMapping(value = "/lesson", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -71,26 +82,55 @@ public class MathTutorController {
         return service.answer(request, authentication.getName());
     }
 
+    @PostMapping(value = "/lesson/preparation", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public LessonResponse preparation(@Valid @RequestBody LessonPreparation request, Authentication authentication) {
+        return service.preparation(request, authentication.getName());
+    }
+
+    @PostMapping(value = "/lesson/resume", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LessonResponse> resume(@Valid @RequestBody LessonResume request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.resume(request, authentication.getName()));
+    }
+
+    @PostMapping(value = "/lesson/checkpoint", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LearningCheck> checkpoint(@Valid @RequestBody LessonCheckpoint request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.checkpoint(request, authentication.getName()));
+    }
+
     @PostMapping(value = "/lesson/ask", consumes = MediaType.APPLICATION_JSON_VALUE)
     public LessonReply ask(@Valid @RequestBody LessonQuestion request, Authentication authentication) {
         return service.ask(request, authentication.getName());
     }
 
-    @PostMapping(value="/lesson/video", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VideoStatus> video(@Valid @RequestBody VideoRequest request, Authentication authentication) {
-        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.video(request,authentication.getName()));
+
+
+    @PostMapping(value="/lesson/media/prepare", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> prepareMedia(@Valid @RequestBody MediaPrepareRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.prepareMedia(request,authentication.getName()));
     }
 
-    @PostMapping(value="/lesson/video/status", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VideoStatus> videoStatus(@Valid @RequestBody VideoLookup request, Authentication authentication) {
-        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoStatus(request,authentication.getName()));
+    @PostMapping(value="/lesson/narration", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> narration(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav"))
+                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.narration(request, authentication.getName()));
     }
 
-    @PostMapping(value="/lesson/video/content", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<byte[]> videoContent(@Valid @RequestBody VideoLookup request, Authentication authentication) {
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("video/mp4"))
-                .cacheControl(org.springframework.http.CacheControl.noStore()).body(service.videoContent(request,authentication.getName()));
+    @PostMapping(value="/lesson/narration/status", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> narrationStatus(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(service.narrationStatus(request, authentication.getName()));
     }
+
+    @PostMapping(value="/lesson/narration/prepare", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<java.util.Map<String,Object>> prepareNarration(@Valid @RequestBody NarrationRequest request, Authentication authentication) {
+        return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(service.prepareNarration(request,authentication.getName()));
+    }
+
+
+
+
 
     @PostMapping(value = "/transcribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Transcript transcribe(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -101,7 +141,7 @@ public class MathTutorController {
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
             MethodArgumentNotValidException.class})
     public ResponseEntity<ApiErrorResponse> invalidInput() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiErrorResponse(
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(new ApiErrorResponse(
                 new ApiErrorResponse.ErrorDetail("VALIDATION_ERROR", "Em hãy kiểm tra lại thông tin bài toán.", null, null)));
     }
 }

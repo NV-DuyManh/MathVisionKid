@@ -75,10 +75,10 @@ test('static builds disable demo controls and mock services even when flags are 
   }
 });
 
-test('local offline demos are preserved unless explicitly disabled', () => {
+test('local mock flag requires explicit development opt-in', () => {
   const previous = process.env.VITE_USE_MOCK;
   try {
-    for (const [value, expected] of [['', '"true"'], ['true', '"true"'], ['false', '"false"']]) {
+    for (const [value, expected] of [['', '"false"'], ['true', '"true"'], ['false', '"false"']]) {
       process.env.VITE_USE_MOCK = value;
       const config = viteConfig({ command: 'serve', mode: 'development' });
       assert.equal(config.define['import.meta.env.VITE_USE_MOCK'], expected);

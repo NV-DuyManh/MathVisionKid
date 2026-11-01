@@ -1,0 +1,53 @@
+{
+  "environment": "Local Python harness, actual two Vietnamese provider voices, synthetic fraction script; the first interruption is injected deliberately, not an observed network outage; no physical-device measurement",
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "totalChunks": 3,
+      "attempts": [
+        {
+          "success": false,
+          "ms": 1290.06,
+          "completedChunksKept": 1,
+          "controlledInterruptionHasOccurred": true
+        },
+        {
+          "success": true,
+          "ms": 1430.73
+        }
+      ],
+      "audioSeconds": 51.504,
+      "sample": "Nam-Minh.wav",
+      "firstSuccessfulChunkRequests": 1,
+      "realProviderRequests": 4,
+      "checkpointReleasedAfterSuccess": true,
+      "cachedReplayMs": 0.07,
+      "extraProviderRequestsOnReplay": 0
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "totalChunks": 3,
+      "attempts": [
+        {
+          "success": false,
+          "ms": 1845.87,
+          "completedChunksKept": 1,
+          "controlledInterruptionHasOccurred": true
+        },
+        {
+          "success": true,
+          "ms": 1269.34
+        }
+      ],
+      "audioSeconds": 50.544,
+      "sample": "Hoai-My.wav",
+      "firstSuccessfulChunkRequests": 1,
+      "realProviderRequests": 4,
+      "checkpointReleasedAfterSuccess": true,
+      "cachedReplayMs": 0.055,
+      "extraProviderRequestsOnReplay": 0
+    }
+  ],
+  "success": true,
+  "totalRealProviderRequests": 8
+}

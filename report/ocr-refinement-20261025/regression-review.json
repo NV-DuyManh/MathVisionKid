@@ -1,0 +1,244 @@
+{
+  "no_model_reselection": true,
+  "selection_by_diagnostics": false,
+  "all_transcript_changes": {
+    "joint_text": {
+      "new_val": [],
+      "old_text_held": [],
+      "old_dev": [],
+      "diagnostic": []
+    },
+    "letter_head": {
+      "new_val": [
+        {
+          "id": "campaign:7:98",
+          "literal": "Chu vi hình chữ nhật là:",
+          "parent": "Chu vi hình ữ nhật là:",
+          "candidate": "Chu vi hình đữ nhật là:"
+        },
+        {
+          "id": "campaign:7:101",
+          "literal": "Toán:",
+          "parent": "Boán:",
+          "candidate": "Toán:"
+        },
+        {
+          "id": "campaign:7:102",
+          "literal": "Bài 48: Luyện tập chung",
+          "parent": "Đài 18: Luyện tập chụung",
+          "candidate": "Đài 18: Luyện tập chụng"
+        },
+        {
+          "id": "campaign:7:103",
+          "literal": "Tính nhẩm.",
+          "parent": "Tinh nhâm.",
+          "candidate": "Tính nhâm."
+        },
+        {
+          "id": "campaign:7:104",
+          "literal": "Đặt tính rồi tính.",
+          "parent": "Bãt tính rồi tính",
+          "candidate": "Đát tính rồi tính"
+        },
+        {
+          "id": "campaign:7:105",
+          "literal": "15 × 3 = 45 (dm)",
+          "parent": "15× 3 = 45(am)",
+          "candidate": "15× 3 = 45(cm)"
+        }
+      ],
+      "old_text_held": [
+        {
+          "id": "1uCwocJBCM9_G_Het2Yt5qqsnSCxJtAY_:punct-validation-15",
+          "literal": "che ô, cá dữ, lá khô.",
+          "parent": "che ô, cá dữ, lá khô.",
+          "candidate": "che ô, cá cữ, lá khô."
+        },
+        {
+          "id": "13xdMo8cFDtwhSYhR5ENAUYXjmX--RwsU:broader-8",
+          "literal": "nhà bé ở thủ đô thủ đô",
+          "parent": "nhà bé c thủ đô thú đô",
+          "candidate": "nhà bé c thủ đô thủ đô"
+        },
+        {
+          "id": "11NyuFzxv6P7PM0gilJvHgWWVbkRjRO7G:all-review-36",
+          "literal": "bé có cỏ",
+          "parent": "bé có có",
+          "candidate": "bé có cỏ"
+        }
+      ],
+      "old_dev": [
+        {
+          "id": "1Xw5dpmZKDKrk8wn3pgCZrTFr4fAKnYOR:reviewed-5",
+          "literal": "em học bài. Hồi nhỏ, có lần em bị ốm, em",
+          "parent": "em học bai. ội nhỏ, có lân em bịm,em",
+          "candidate": "em học bài. ội nhỏ, có lân em bịm,em"
+        },
+        {
+          "id": "1-S0rkjufA88VE11807jo7Im2ThrS6zEm:manual-20261012-28",
+          "literal": "Lời giải bài toán",
+          "parent": "Lời giải bài toăn",
+          "candidate": "Lơi giải bài toăn"
+        },
+        {
+          "id": "1bXYc7GHX8H_62BxBwfIiX1Ss37ZU7KxF:manual-20261012-38",
+          "literal": "mỉm cười dưới nắng.",
+          "parent": "mỉm cưới dưởi nắng.",
+          "candidate": "mỉm cưới dười nắng."
+        }
+      ],
+      "diagnostic": [
+        {
+          "id": "acceptance:0:10",
+          "literal": "Các hình bình hành: AMND, MBCN, ABCD",
+          "parent": "Tác hình binh hành: A0N0: MBCN: ABD",
+          "candidate": "Tác hình bính hành: A0N0: MBCN: ABD"
+        },
+        {
+          "id": "acceptance:1:47",
+          "literal": "nước giặt còn lại là:",
+          "parent": "hước giặt còn lại bố li",
+          "candidate": "hước giặt còn lại số li"
+        },
+        {
+          "id": "acceptance:3:93",
+          "literal": "72",
+          "parent": "t2",
+          "candidate": "T2"
+        }
+      ]
+    }
+  },
+  "previously_exact_fulltext_lines_lost": {
+    "joint_text": {
+      "new_val": [],
+      "old_text_held": [],
+      "old_dev": [],
+      "diagnostic": []
+    },
+    "letter_head": {
+      "new_val": [],
+      "old_text_held": [
+        {
+          "id": "1uCwocJBCM9_G_Het2Yt5qqsnSCxJtAY_:punct-validation-15",
+          "literal": "che ô, cá dữ, lá khô.",
+          "parent": "che ô, cá dữ, lá khô.",
+          "candidate": "che ô, cá cữ, lá khô."
+        }
+      ],
+      "old_dev": [],
+      "diagnostic": []
+    }
+  },
+  "critical_regressions": {
+    "base_balanced_all": {
+      "greedy": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      },
+      "beam": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      }
+    },
+    "base_balanced_correct": {
+      "greedy": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      },
+      "beam": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      }
+    },
+    "expanded_balanced_correct": {
+      "greedy": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      },
+      "beam": {
+        "against_original": [
+          {
+            "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+            "text": "22",
+            "parent": "22",
+            "candidate": "21",
+            "contains_zero": false,
+            "contains_repeated_digit": true
+          }
+        ],
+        "against_warmstart": [],
+        "diagnostic_against_warmstart": [],
+        "new_val22_against_warmstart": []
+      }
+    },
+    "joint_text": {
+      "old_dev95": [],
+      "old_held22": [],
+      "new_val39": [],
+      "diagnostic92": []
+    },
+    "letter_head": {
+      "old_dev95": [],
+      "old_held22": [],
+      "new_val39": [],
+      "diagnostic92": []
+    }
+  },
+  "limitation": "Critical signatures cover numbers/math signs, not all letters, accents or units; aggregate guards can exchange prose errors."
+}

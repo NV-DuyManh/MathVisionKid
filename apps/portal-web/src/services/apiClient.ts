@@ -1,81 +1,79 @@
-/* eslint-disable import/no-named-as-default-member */
-import axios from 'axios';
-import type { InternalAxiosRequestConfig } from 'axios';
+import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { appConfig } from '../config/runtime';
-
-const API_BASE_URL = appConfig.apiBaseUrl;
-
-export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
+const ACCESS = 'portal_access_token', REFRESH = 'portal_refresh_token', SESSION = 'portal_session_id';
+const newId = () => globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36);
 export const tokenStore = {
-  getAccessToken(): string | null {
-    return sessionStorage.getItem('portal_access_token');
+  getAccessToken: () => sessionStorage.getItem(ACCESS),
+  getRefreshToken: () => sessionStorage.getItem(REFRESH),
+  getSessionId(): string | null {
+    let id = sessionStorage.getItem(SESSION);
+    if (!id && this.hasTokens()) { id = newId(); sessionStorage.setItem(SESSION, id); }
+    return id;
   },
-  setTokens(accessToken: string, refreshToken: string, newSession = false) {
-    sessionStorage.setItem('portal_access_token', accessToken);
-    sessionStorage.setItem('portal_refresh_token', refreshToken);
+  setTokens(access: string, refresh: string, newSession = false) {
+    if (newSession || !sessionStorage.getItem(SESSION)) sessionStorage.setItem(SESSION, newId());
+    sessionStorage.setItem(ACCESS, access); sessionStorage.setItem(REFRESH, refresh);
     if (newSession) window.dispatchEvent(new Event('portal_auth_changed'));
   },
-  getRefreshToken(): string | null {
-    return sessionStorage.getItem('portal_refresh_token');
-  },
   clearTokens() {
-    sessionStorage.removeItem('portal_access_token');
-    sessionStorage.removeItem('portal_refresh_token');
+    sessionStorage.removeItem(ACCESS); sessionStorage.removeItem(REFRESH); sessionStorage.removeItem(SESSION);
+    sessionStorage.removeItem('mathvision_student_web_user_v1');
     window.dispatchEvent(new Event('portal_auth_changed'));
   },
-  hasTokens(): boolean {
-    return !!sessionStorage.getItem('portal_access_token');
-  },
+  hasTokens: () => !!(sessionStorage.getItem(ACCESS) || sessionStorage.getItem(REFRESH)),
 };
-
-apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+export const apiClient = axios.create({ baseURL: appConfig.apiBaseUrl, timeout: 20000 });
+type Request = InternalAxiosRequestConfig & { _retry?: boolean; _session?: string | null; _identity?: string | null };
+let refreshing: { token: string; promise: Promise<string> } | null = null;
+const identity = () => tokenStore.getSessionId?.() ?? tokenStore.getRefreshToken();
+apiClient.interceptors.request.use((config: Request) => {
   const token = tokenStore.getAccessToken();
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
+  config._identity ??= identity();
+  config._session ??= tokenStore.getRefreshToken();
+  if (!config.url?.startsWith('/auth/') || config.url === '/auth/sso/ticket') {
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    else delete config.headers.Authorization;
   }
   return config;
 });
-
-apiClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry && !originalRequest.signal?.aborted) {
-      if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/refresh')) {
-        return Promise.reject(error);
-      }
-
-      originalRequest._retry = true;
-      const refreshToken = tokenStore.getRefreshToken();
-      if (!refreshToken) {
-        tokenStore.clearTokens();
-        return Promise.reject(error);
-      }
-
-      try {
-        const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken }, {
-          signal: originalRequest.signal, timeout: 30000,
-        });
-        if (originalRequest.signal?.aborted || tokenStore.getRefreshToken() !== refreshToken) {
-          return Promise.reject(error);
-        }
-        tokenStore.setTokens(data.accessToken, data.refreshToken);
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-        return apiClient(originalRequest);
-      } catch (refreshErr) {
-        if (!originalRequest.signal?.aborted && tokenStore.getRefreshToken() === refreshToken) {
-          tokenStore.clearTokens();
-        }
-        return Promise.reject(refreshErr);
-      }
-    }
-    return Promise.reject(error);
+apiClient.interceptors.response.use(response => {
+  const request = response.config as Request;
+  if (!request.url?.startsWith('/auth/') && request._identity !== identity()) throw new Error('Phiên đăng nhập đã thay đổi.');
+  return response;
+}, async (error: AxiosError) => {
+  const request = error.config as Request | undefined;
+  if (!request || request.url?.startsWith('/auth/') || error.response?.status !== 401 || request.signal?.aborted) throw error;
+  request._identity ??= identity();
+  const refreshToken = tokenStore.getRefreshToken();
+  request._session ??= refreshToken;
+  if (request._identity !== identity()) throw error;
+  if (request._retry || !refreshToken) {
+    tokenStore.clearTokens(); window.dispatchEvent(new Event('portal_auth_changed')); throw error;
   }
-);
+  request._retry = true;
+  // Another request may already have rotated this same session.
+  if (request._session !== refreshToken && tokenStore.getAccessToken()) {
+    request._session = refreshToken;
+    request.headers.Authorization = `Bearer ${tokenStore.getAccessToken()}`;
+    return apiClient(request);
+  }
+  if (!refreshing || refreshing.token !== refreshToken) {
+    const pending = axios.post(`${appConfig.apiBaseUrl}/auth/refresh`, { refreshToken }, { timeout: 15000 })
+      .then(({ data }) => {
+        if (tokenStore.getRefreshToken() !== refreshToken || request._identity !== identity()) throw new Error('Phiên đăng nhập đã thay đổi.');
+        if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
+        tokenStore.setTokens(data.accessToken, data.refreshToken);
+        return data.accessToken as string;
+      }).catch(cause => {
+        if (request._identity === identity() && tokenStore.getRefreshToken() === refreshToken) {
+          tokenStore.clearTokens(); window.dispatchEvent(new Event('portal_auth_changed'));
+        }
+        throw cause;
+      }).finally(() => { if (refreshing?.token === refreshToken) refreshing = null; });
+    refreshing = { token: refreshToken, promise: pending };
+  }
+  const token = await refreshing.promise;
+  if (request._identity !== identity()) throw new Error('Phiên đăng nhập đã thay đổi.');
+  request._session = tokenStore.getRefreshToken(); request.headers.Authorization = `Bearer ${token}`;
+  return apiClient(request);
+});

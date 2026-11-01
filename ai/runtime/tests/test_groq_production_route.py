@@ -58,8 +58,8 @@ def _assert_detection_diagnostics(data):
 def _get_student_token():
     try:
         r = requests.post(f"{SPRING_BASE}/api/v1/auth/login", json={
-            "email": "minh.student@mathvision.local",
-            "password": "MathVision123!"
+            "email": os.getenv('MATHVISION_TEST_USER', 'student'),
+            "password": os.getenv('MATHVISION_TEST_PASSWORD', '123')
         }, timeout=5.0)
         if r.status_code == 200:
             return r.json().get("accessToken")

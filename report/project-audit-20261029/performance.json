@@ -1,0 +1,204 @@
+{
+  "checkedAt": "2026-10-29T08:30:43.594761+07:00",
+  "root": "E:\\MathVisionKid",
+  "serviceRestarts": false,
+  "applicationCodeEdits": false,
+  "physicalDeviceVerified": false,
+  "health": {
+    "ai": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "business": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "student": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "portal": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "teacher": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "admin": {
+      "status": "unreachable",
+      "category": "URLError"
+    },
+    "postgres": {
+      "tcpReachable": true
+    },
+    "redis": {
+      "tcpReachable": true
+    },
+    "minio": {
+      "tcpReachable": true
+    }
+  },
+  "infrastructure": {
+    "redis": {
+      "status": "passed",
+      "operation": "read-only PING over TCP",
+      "timing": {
+        "n": 30,
+        "medianMs": 1.476,
+        "p95Ms": 20.518,
+        "maxMs": 94.726
+      }
+    },
+    "postgres": {
+      "status": "passed",
+      "operation": "read-only SELECT 1 inside container; not application query latency"
+    },
+    "minio": {
+      "status": "passed",
+      "operation": "read-only readiness HTTP; not file upload/download",
+      "timing": {
+        "n": 30,
+        "medianMs": 8.49,
+        "p95Ms": 31.521,
+        "maxMs": 37.179
+      }
+    }
+  },
+  "calculation": {
+    "scope": "in-process; four exact calculations + source number/unit checks per iteration",
+    "timing": {
+      "n": 200,
+      "medianMs": 1.213,
+      "p95Ms": 3.93,
+      "maxMs": 26.137
+    }
+  },
+  "digitModel": {
+    "scope": "local YOLO digit model, repeated synthetic 45+27 fixture; not handwriting accuracy",
+    "modelLoadMs": 9605.75,
+    "device": "cpu",
+    "firstInferenceAndValidationMs": 6717.08,
+    "status": "passed",
+    "warmTiming": {
+      "n": 10,
+      "medianMs": 114.629,
+      "p95Ms": 120.181,
+      "maxMs": 120.181
+    },
+    "torchThreads": 8,
+    "cudaAvailable": false
+  },
+  "lesson": [
+    {
+      "case": "floor",
+      "scope": "isolated process, real model; excludes HTTP/phone",
+      "backgroundRequested": true,
+      "providerMocked": false,
+      "prepareCallMs": 0.06,
+      "readingOpenMs": 6.65,
+      "readingBeforeMath": true,
+      "mathReadySeconds": 18.386,
+      "preparationPhase": "unavailable",
+      "status": "failed"
+    },
+    {
+      "case": "variant",
+      "scope": "isolated process, real model; excludes HTTP/phone",
+      "backgroundRequested": true,
+      "providerMocked": false,
+      "prepareCallMs": 0.1,
+      "readingOpenMs": 7.0,
+      "readingBeforeMath": true,
+      "mathReadySeconds": 12.521,
+      "preparationPhase": "ready",
+      "warmOpenMs": 3.2,
+      "status": "passed",
+      "correctRequestedResults": true,
+      "answerTiming": {
+        "n": 8,
+        "medianMs": 1.017,
+        "p95Ms": 28.985,
+        "maxMs": 28.985
+      }
+    }
+  ],
+  "speech": [
+    {
+      "case": "short",
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 140,
+      "scope": "production narration function; issued-text fixture; real speech provider",
+      "provider": "edge",
+      "providerMocked": false,
+      "physicalPlaybackVerified": false,
+      "coldMs": 3472.21,
+      "audioSeconds": 9.98,
+      "status": "passed",
+      "nonSilentCompleteWav": true,
+      "warmTiming": {
+        "n": 30,
+        "medianMs": 0.014,
+        "p95Ms": 0.026,
+        "maxMs": 0.075
+      }
+    },
+    {
+      "case": "short",
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 140,
+      "scope": "production narration function; issued-text fixture; real speech provider",
+      "provider": "edge",
+      "providerMocked": false,
+      "physicalPlaybackVerified": false,
+      "coldMs": 3977.18,
+      "audioSeconds": 10.13,
+      "status": "passed",
+      "nonSilentCompleteWav": true,
+      "warmTiming": {
+        "n": 30,
+        "medianMs": 0.015,
+        "p95Ms": 0.02,
+        "maxMs": 0.059
+      }
+    },
+    {
+      "case": "long",
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 606,
+      "scope": "production narration function; issued-text fixture; real speech provider",
+      "provider": "edge",
+      "providerMocked": false,
+      "physicalPlaybackVerified": false,
+      "coldMs": 10055.71,
+      "audioSeconds": 42.65,
+      "status": "passed",
+      "nonSilentCompleteWav": true,
+      "warmTiming": {
+        "n": 30,
+        "medianMs": 0.021,
+        "p95Ms": 0.072,
+        "maxMs": 1.167
+      }
+    },
+    {
+      "case": "long",
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 606,
+      "scope": "production narration function; issued-text fixture; real speech provider",
+      "provider": "edge",
+      "providerMocked": false,
+      "physicalPlaybackVerified": false,
+      "coldMs": 13525.67,
+      "audioSeconds": 42.55,
+      "status": "passed",
+      "nonSilentCompleteWav": true,
+      "warmTiming": {
+        "n": 30,
+        "medianMs": 0.021,
+        "p95Ms": 0.072,
+        "maxMs": 0.157
+      }
+    }
+  ]
+}

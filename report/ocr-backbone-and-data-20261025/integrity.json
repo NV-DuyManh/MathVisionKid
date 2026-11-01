@@ -1,0 +1,201 @@
+{
+  "completed": true,
+  "policy_checks": [
+    {
+      "path": "artifact_policy.json",
+      "sha256": "ada8424b46c163e4dea7fff283e3487eb809f293a7bdf9f9b97748398caf5006",
+      "hashes": 37
+    },
+    {
+      "path": "training_policy.json",
+      "sha256": "5a2927419bae0485711ea4c1baf6ca055df8b82e0906e6e1650569ceb10a07a5",
+      "hashes": 132
+    },
+    {
+      "path": "full_visual/policy.json",
+      "sha256": "8a2bba1fb4991e139a78b2eac1394010605706c4fb9736107bc53fe3febada55",
+      "hashes": 138
+    },
+    {
+      "path": "photometric_v2/policy.json",
+      "sha256": "6211ef189ebd3603b0547fe985fc0db6960d2ddc03a09f47706eb7ca3246eaf1",
+      "hashes": 5
+    },
+    {
+      "path": "photometric_validation/policy.json",
+      "sha256": "ffebd7f4c9794ff0f6e2f2933fa55f692571303e65954f6bf5cd81f6252773b4",
+      "hashes": 105
+    },
+    {
+      "path": "photometric_validation_v2/policy.json",
+      "sha256": "c837d7c4626ade59e6c4f27d643c1d7217306f4f153f6282304f46cc3f289adb",
+      "hashes": 106
+    },
+    {
+      "path": "trocr/artifact_policy.json",
+      "sha256": "ff2dc9126308643efc3e920235aa41d0c86ecf6e05cd9deef70674e9a0e82c5d",
+      "hashes": 38
+    },
+    {
+      "path": "trocr_benchmark/policy.json",
+      "sha256": "b6a4bc4a178980ce46cd6831b0328ffd20a70d0a5182e027d135186a2e4cfc5a",
+      "hashes": 130
+    },
+    {
+      "path": "geometry/policy.json",
+      "sha256": "cd7587d73ea1396ffdc212a6ac8fed5769ca111ca2deb7ea2f0230350aa5f821",
+      "hashes": 102
+    },
+    {
+      "path": "text_specialist/policy.json",
+      "sha256": "60146f6e8de8ee83de427bb1fe6a88be4557a217b551174d0425b39a835aadec",
+      "hashes": 94
+    },
+    {
+      "path": "expanded_training/policy.json",
+      "sha256": "051af5b8e88342ae305032defcbd33626fdba062f730821c9613f5189b15df9b",
+      "hashes": 115
+    },
+    {
+      "path": "new_data_v2/source_plan.json",
+      "sha256": "00aec3dd9e7a3db2d9b2f6834f167dc4bcab87b1271be84d0b6e8e260a5bd6e7",
+      "hashes": 10
+    },
+    {
+      "path": "vowel_alignment/policy.json",
+      "sha256": "7bcfa15d3e397e5ca9c4efeb8fe321c770d3d89e09392fc93c3905f73cd222d8",
+      "hashes": 120
+    }
+  ],
+  "unique_frozen_input_hashes": 223,
+  "trials": [
+    {
+      "name": "output_head",
+      "epochs": 8,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "4f12fa55dce2668a663d635ec5905474b6cfae929b2c122b9b6caf68937227fb",
+      "finite_tensors": 134,
+      "roundtrip": "GPU native full forward",
+      "train_rows_per_epoch": 677,
+      "changed_tensors": 0
+    },
+    {
+      "name": "decoder",
+      "epochs": 8,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "4f12fa55dce2668a663d635ec5905474b6cfae929b2c122b9b6caf68937227fb",
+      "finite_tensors": 134,
+      "roundtrip": "GPU native full forward",
+      "train_rows_per_epoch": 677,
+      "changed_tensors": 0
+    },
+    {
+      "name": "full_visual",
+      "epochs": 8,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "4f12fa55dce2668a663d635ec5905474b6cfae929b2c122b9b6caf68937227fb",
+      "finite_tensors": 134,
+      "roundtrip": "GPU native full forward",
+      "train_rows_per_epoch": 677,
+      "changed_tensors": 0
+    },
+    {
+      "name": "text_specialist/text_rnn",
+      "epochs": 16,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "bdea7edbc789d765b8cc4c5d1a2501dca484b736d7a575e9b5efec77a76101a9",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 173,
+      "changed_tensors": 0
+    },
+    {
+      "name": "text_specialist/text_retained",
+      "epochs": 16,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "bdea7edbc789d765b8cc4c5d1a2501dca484b736d7a575e9b5efec77a76101a9",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 173,
+      "changed_tensors": 0
+    },
+    {
+      "name": "expanded_training/text/retention2",
+      "epochs": 12,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "bdea7edbc789d765b8cc4c5d1a2501dca484b736d7a575e9b5efec77a76101a9",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 722,
+      "changed_tensors": 0
+    },
+    {
+      "name": "expanded_training/text/retention8",
+      "epochs": 12,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "bdea7edbc789d765b8cc4c5d1a2501dca484b736d7a575e9b5efec77a76101a9",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 722,
+      "changed_tensors": 0
+    },
+    {
+      "name": "expanded_training/numeric/retention2",
+      "epochs": 12,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "c516eeba58832fc4f5d98efb09428ca11f25b2df1978f7d750b3e03ea258973c",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 1487,
+      "changed_tensors": 0
+    },
+    {
+      "name": "expanded_training/numeric/retention8",
+      "epochs": 12,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "c516eeba58832fc4f5d98efb09428ca11f25b2df1978f7d750b3e03ea258973c",
+      "finite_tensors": 26,
+      "roundtrip": "CPU full CNN/RNN",
+      "train_rows_per_epoch": 1487,
+      "changed_tensors": 0
+    },
+    {
+      "name": "vowel_alignment/vowel_lr1",
+      "epochs": 40,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "eb2d67ec06605721a941658ee7f82215520e52853b7de0b570d8630d7502430e",
+      "finite_tensors": 2,
+      "roundtrip": "CPU paired parent/vowel decoder",
+      "train_rows_per_epoch": null,
+      "changed_tensors": 0
+    },
+    {
+      "name": "vowel_alignment/vowel_lr3",
+      "epochs": 40,
+      "selected_epoch": 0,
+      "checkpoint_sha256": "eb2d67ec06605721a941658ee7f82215520e52853b7de0b570d8630d7502430e",
+      "finite_tensors": 2,
+      "roundtrip": "CPU paired parent/vowel decoder",
+      "train_rows_per_epoch": null,
+      "changed_tensors": 0
+    }
+  ],
+  "real_neural_trials": 11,
+  "full_pass_epochs": 104,
+  "aligned_vowel_token_pass_epochs": 80,
+  "new_train_regions": 45,
+  "new_source_pages": 4,
+  "same_reviewer_visual_passes": true,
+  "teacher_attested": false,
+  "independent_writer_acceptance": false,
+  "protected_ui_files": 5,
+  "preexisting_tracked_file_states_preserved": 33,
+  "production_sha256": "a807eaa763a4471bc057b9545a3521612423214858d50b1ef42b7baf28de0941",
+  "production_promoted": false,
+  "source_images_written": 0,
+  "test_pixels_accessed": false,
+  "holdout_pixels_accessed": false,
+  "git_commit_push_performed": false,
+  "baseline_only_trocr": true,
+  "source_pixels_opened_during_this_audit": false
+}

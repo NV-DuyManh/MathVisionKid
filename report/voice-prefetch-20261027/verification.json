@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-27",
+  "passedTests": 142,
+  "failedTests": 0,
+  "passedSuites": 12,
+  "typecheck": "passed",
+  "eslint": "passed",
+  "webExport": "passed",
+  "androidExport": "passed",
+  "physicalAndroid": false,
+  "browserTimingMeasured": false,
+  "sourceHashes": [
+    {
+      "sha256": "C34089A5B1DB9D735CC7CF172CBA3520E422E73757044A4C72685AA7EE03132D",
+      "path": "apps/student-mobile/src/features/tutoring/narrationCache.ts"
+    },
+    {
+      "sha256": "AE8F7C7D68FFC69E1108FA8DEB588CEC88E7AD727B533452817FF229E712E64B",
+      "path": "apps/student-mobile/src/features/tutoring/NarrationPreparation.tsx"
+    },
+    {
+      "sha256": "EC7EEECE9EAF37A258F54C9B3B75BF0A33D01CF9290D4D7DBCC3A2058D9E2E3A",
+      "path": "apps/student-mobile/src/features/tutoring/LessonNarration.tsx"
+    },
+    {
+      "sha256": "3CA14062699531D55EEB71454DD9DBC6D3433BD1AD7678D2904C08BBBCED9520",
+      "path": "apps/student-mobile/src/app/learning/math-guide.tsx"
+    }
+  ]
+}

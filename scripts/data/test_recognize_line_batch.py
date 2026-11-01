@@ -61,11 +61,18 @@ def test_hash_checked_resume_never_approves_wrong_arithmetic(tmp_path, provenanc
     path.write_text(json.dumps(region))
     run(tmp_path, provider, hashes)
     assert provider.calls == 2
+    # A different execution device cannot silently reuse a CPU prediction.
+    provider.device = 'cuda:0'
+    assert run(tmp_path, provider, hashes)['device'] == 'cuda:0'
+    assert provider.calls == 3
+    assert json.loads((tmp_path / 'crnn_results/a.json').read_text())['device'] == 'cuda:0'
+    run(tmp_path, provider, hashes)
+    assert provider.calls == 3
     source.write_bytes(b'changed source')
     assert run(tmp_path, provider, hashes)['execution_failed'] == 1
     failed = json.loads((tmp_path / 'crnn_results/a.json').read_text())
     assert failed['provider'] == hashes['provider']
-    assert provider.calls == 2 and approved.read_bytes() == before
+    assert provider.calls == 3 and approved.read_bytes() == before
 
 
 @pytest.mark.parametrize('kind', ['missing_hashes', 'missing_dependency', 'changed_detector',

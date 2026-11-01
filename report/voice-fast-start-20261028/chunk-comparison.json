@@ -1,0 +1,33 @@
+{
+  "environment": "Real Edge provider; synthetic Vietnamese text; no Android playback test",
+  "results": [
+    {
+      "width": 220,
+      "voice": "vi-VN-NamMinhNeural",
+      "elapsedMs": 25012,
+      "success": false,
+      "errorCategory": "TimeoutError"
+    },
+    {
+      "width": 720,
+      "voice": "vi-VN-NamMinhNeural",
+      "elapsedMs": 25006,
+      "success": false,
+      "errorCategory": "TimeoutError"
+    },
+    {
+      "width": 220,
+      "voice": "vi-VN-HoaiMyNeural",
+      "elapsedMs": 25013,
+      "success": false,
+      "errorCategory": "TimeoutError"
+    },
+    {
+      "width": 720,
+      "voice": "vi-VN-HoaiMyNeural",
+      "elapsedMs": 25009,
+      "success": false,
+      "errorCategory": "TimeoutError"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+﻿const fs = require('node:fs');
+const path = require('node:path');
+const { createRequire } = require('node:module');
+const root = process.cwd();
+const mobileRoot = path.join(root,'apps/student-mobile');
+const expoRequire = createRequire(require.resolve('expo/package.json',{paths:[mobileRoot]}));
+const cliRequire = createRequire(expoRequire.resolve('@expo/cli/package.json'));
+const {getIpAddressAsync}=cliRequire('./build/src/utils/ip.js');
+const {getExpoGoUrl,loadExpoManifest}=require(path.join(root,'scripts/dev/show-student-qr.cjs'));
+const {toQR}=cliRequire('toqr');
+(async()=>{
+ const address=await getIpAddressAsync();const manifest=await loadExpoManifest(address);const url=getExpoGoUrl(manifest,address);
+ const matrix=toQR(url),n=Math.sqrt(matrix.length);if(!Number.isInteger(n))throw new Error('Invalid QR matrix');
+ const out=path.join(root,'report/codex-antigravity-review-20261029');fs.mkdirSync(out,{recursive:true});
+ const info={address,expoGoUrl:url,metroUrl:`http://${address}:8081`,backendUrl:`http://${address}:8080/api/v1`,portalUrl:`http://${address}:5172`,teacherUrl:`http://${address}:5173`,adminUrl:`http://${address}:5174`,sdkVersion:manifest.extra.expoClient.sdkVersion,launchAsset:manifest.launchAsset.url,verifiedAt:new Date().toISOString()};
+ fs.writeFileSync(path.join(out,'phone-connection.json'),JSON.stringify(info,null,2));
+ fs.writeFileSync(path.join(out,'qr-matrix.json'),JSON.stringify({url,extent:n,cells:Array.from(matrix)}));
+ let cells='';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(matrix[y*n+x])cells+=`<rect x="${x+4}" y="${y+4}" width="1" height="1"/>`;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n+8} ${n+8}" width="462" height="462" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="white"/><g fill="black">${cells}</g></svg>`;
+ fs.writeFileSync(path.join(out,'expo-go-qr.svg'),svg);
+ fs.writeFileSync(path.join(out,'PHONE_TEST.html'),`<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>MathVisionKid – Expo Go</title><body style="font-family:system-ui;text-align:center;margin:32px"><h1>MathVisionKid — Expo Go</h1><p>PC và điện thoại dùng cùng Wi-Fi. Mở Expo Go và quét QR.</p>${svg}<p><a href="${url}">${url}</a></p><p>Backend: <a href="${info.backendUrl}">${info.backendUrl}</a></p><p>QR được tạo từ manifest Metro đã xác minh ${info.verifiedAt}.</p></body></html>`);
+ console.log(JSON.stringify(info,null,2));
+})().catch(e=>{console.error(e.message);process.exitCode=1});

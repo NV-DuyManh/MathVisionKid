@@ -61,13 +61,13 @@ test('portal logout clears the header, rejects late old profiles and updates it 
     showLogout = true;
     await act(async () => root.render(React.createElement(PortalLayout)));
     assert.equal(tokenStore.hasTokens(), false);
-    await act(async () => pendingProfiles[0]({ data: { displayName: 'Old Teacher', role: 'TEACHER' } }));
+    await act(async () => pendingProfiles[0]({ data: { displayName: 'Old Teacher', role: 'TEACHER', active: true } }));
     assert.equal(dom.window.document.body.textContent.includes('Old Teacher'), false);
     showLogout = false;
     await act(async () => root.render(React.createElement(PortalLayout)));
     await act(async () => tokenStore.setTokens('new-access', 'new-refresh', true));
     assert.equal(pendingProfiles.length, 2);
-    await act(async () => pendingProfiles[1]({ data: { displayName: 'New Student', role: 'STUDENT' } }));
+    await act(async () => pendingProfiles[1]({ data: { displayName: 'New Student', role: 'STUDENT', active: true } }));
     assert.ok(dom.window.document.body.textContent.includes('New Student'));
     await act(async () => tokenStore.clearTokens());
     assert.equal(dom.window.document.body.textContent.includes('New Student'), false);

@@ -1,0 +1,927 @@
+{
+  "method": "Windows Recycle Bin",
+  "paths": 153,
+  "files": 16458.0,
+  "logicalBytes": 3639780229.0,
+  "recycled": [
+    {
+      "path": ".local-artifacts\\review-builds-20261029",
+      "bytes": 371708051,
+      "files": 1453,
+      "hasLinks": false
+    },
+    {
+      "path": "output\\student-responsive-final",
+      "bytes": 38989005,
+      "files": 169,
+      "hasLinks": false
+    },
+    {
+      "path": "output\\student-responsive-native",
+      "bytes": 22764327,
+      "files": 76,
+      "hasLinks": false
+    },
+    {
+      "path": "output\\student-responsive-qa",
+      "bytes": 1368070,
+      "files": 9,
+      "hasLinks": false
+    },
+    {
+      "path": "output\\student-responsive-web",
+      "bytes": 19683396,
+      "files": 96,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\ADMIN_TEACHER_UI_REDESIGN_2026-10-22.md",
+      "bytes": 6834,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\EXPO_GO_DOWNLOAD_RECOVERY_20261003.md",
+      "bytes": 4227,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\FOCUSED_TUTORING_VOICE_QA_20261021.md",
+      "bytes": 9234,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\GIT_PUBLISH_20261004.md",
+      "bytes": 2554,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\GIT_READINESS_20261004.md",
+      "bytes": 6961,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\GIT_SYNC_20261003.md",
+      "bytes": 3472,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\GIT_UPLOAD_20261025.md",
+      "bytes": 2806,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\GIT_VERIFICATION_20261004.md",
+      "bytes": 8377,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\KHA_REVIEW_MERGE_20261024.md",
+      "bytes": 8663,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\LAUNCHER_EXPO_QR_KEEP_OPEN_20261003.md",
+      "bytes": 2951,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\LAUNCHER_PYTHON_IDENTITY_FIX_20261003.md",
+      "bytes": 3485,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\LAUNCHER_SPLIT_20261014.md",
+      "bytes": 2133,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\LOC_WEB_REVIEW_MERGE_20261023.md",
+      "bytes": 5426,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\MEETING_ACTIONS_20261021.md",
+      "bytes": 9401,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\MEETING_OCR_20261021.md",
+      "bytes": 4074,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\MEETING_READING_FOLLOWUP_20261021.md",
+      "bytes": 4298,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\MFILM_LOADING_VOICE_LIMITS_20261027.md",
+      "bytes": 9871,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\NAM_SELECTIVE_REVIEW_20261026.md",
+      "bytes": 11534,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\NAM_VOICE_INTEGRATION_20261026.md",
+      "bytes": 9932,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_AUDIO_FIRST_20261028.md",
+      "bytes": 8556,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_COMPACT_LAYOUT_20261025.md",
+      "bytes": 3826,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_EXPO_SDK58_UPGRADE_20261023.md",
+      "bytes": 5896,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_FRACTION_GUIDANCE_AND_STARTUP_20261008.md",
+      "bytes": 6880,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_HOME_COMPACT_20261021.md",
+      "bytes": 5563,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_LAYOUT_DENSITY_FIX_20261020.md",
+      "bytes": 3435,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_LEARNING_RELEASE_20261029.md",
+      "bytes": 6747,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_LESSON_REFERENCE_20261025.md",
+      "bytes": 3865,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_MEDIA_POLISH_20261022.md",
+      "bytes": 7165,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_MEDIA_TIMELINE_20261022.md",
+      "bytes": 7705,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_OCR_CONTINUATION_20261022.md",
+      "bytes": 9993,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_PERSONAL_VIDEO_20261021.md",
+      "bytes": 11105,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_PLAYBACK_FIX_20261023.md",
+      "bytes": 4639,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_REFERENCE_5_PREVIEW_20261021.zip",
+      "bytes": 24204871,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_REFERENCE_5_PREVIEW_V2_20261021.zip",
+      "bytes": 31503075,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_RESPONSIVE_IMPLEMENTATION_20261020.md",
+      "bytes": 6049,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_SELECTED_UI_20261021.md",
+      "bytes": 7948,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_STAGED_LOADING_20261026.md",
+      "bytes": 7098,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_UI_5_BOARDS_20261021.zip",
+      "bytes": 31957130,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_UI_INTEGRATION_20261021.md",
+      "bytes": 6175,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_VOICE_REPLAY_20261022.md",
+      "bytes": 6020,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\STUDENT_VOICE_UI_VIDEO_20261021.md",
+      "bytes": 10680,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\archive",
+      "bytes": 19356720,
+      "files": 85,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\formula-environment-install-20261022.log",
+      "bytes": 3503,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\guided_lesson_20261003",
+      "bytes": 111202,
+      "files": 4,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\kha-review-20261024",
+      "bytes": 5431162,
+      "files": 138,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\lesson-background-reliability-20261028",
+      "bytes": 6135,
+      "files": 3,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\lesson-preparation-fix-20261028",
+      "bytes": 4861,
+      "files": 4,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\loading-ui-preview-20261026",
+      "bytes": 1741222,
+      "files": 12,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\loc-web-integration-20261023",
+      "bytes": 11318,
+      "files": 11,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\mfilm-loading-20261027",
+      "bytes": 100501,
+      "files": 5,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\mvp_math_tutor_20261003",
+      "bytes": 228847,
+      "files": 7,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\nam-selective-review-20261026",
+      "bytes": 3888,
+      "files": 1,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\nam-voice-integration-20261026",
+      "bytes": 1769075,
+      "files": 18,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-audio-first-20261028",
+      "bytes": 3295,
+      "files": 2,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-audio-followup-20261029",
+      "bytes": 6756164,
+      "files": 51,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-audio-refinement-20261029",
+      "bytes": 4915005,
+      "files": 38,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-click-merge-20261023",
+      "bytes": 2197677,
+      "files": 24,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-compact-errors-20261029",
+      "bytes": 4976439,
+      "files": 34,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-compact-layout-20261025",
+      "bytes": 2199547,
+      "files": 23,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-home-compact-20261021",
+      "bytes": 23284061,
+      "files": 45,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-learning-voice-polish-20261029",
+      "bytes": 4295268,
+      "files": 36,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-lesson-reference-20261025",
+      "bytes": 2357532,
+      "files": 20,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-media-polish-20261022",
+      "bytes": 4983870,
+      "files": 49,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-media-timeline-20261022",
+      "bytes": 5056201,
+      "files": 44,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-personal-video-20261021",
+      "bytes": 5184732,
+      "files": 38,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-playback-fix-20261023",
+      "bytes": 215056,
+      "files": 4,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-reading-centered-20261021",
+      "bytes": 2545047,
+      "files": 14,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-recording-20261022",
+      "bytes": 3182577,
+      "files": 40,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-sdk58-upgrade-20261023",
+      "bytes": 1189328,
+      "files": 30,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-selected-ui-20261021",
+      "bytes": 25103149,
+      "files": 100,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-staged-loading-20261026",
+      "bytes": 3677743,
+      "files": 32,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-star-journey-preview-20261021",
+      "bytes": 32553973,
+      "files": 141,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-ui-design-review-20261021",
+      "bytes": 33661089,
+      "files": 320,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-ui-integration-20261021",
+      "bytes": 22185566,
+      "files": 57,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-voice-replay-20261022",
+      "bytes": 3905656,
+      "files": 30,
+      "hasLinks": false
+    },
+    {
+      "path": "report\\student-voice-ui-20261021",
+      "bytes": 43658594,
+      "files": 144,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\audit-student-web-20261029",
+      "bytes": 39251644,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\lesson-background-android-20261028",
+      "bytes": 40003681,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\lesson-preparation-fix-android-20261028",
+      "bytes": 40001583,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\lesson-problem-android",
+      "bytes": 39944330,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\lesson-problem-web",
+      "bytes": 39040651,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\mfilm-loading-export-20261027",
+      "bytes": 79177128,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\mfilm-loading-export-final-20261027",
+      "bytes": 79177954,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\nam-voice-student-android",
+      "bytes": 39962039,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\nam-voice-student-web",
+      "bytes": 39048817,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\reading-first-android-export-20261028",
+      "bytes": 40000733,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\reading-first-web-export-20261028",
+      "bytes": 39250758,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-compact-layout-android",
+      "bytes": 39944051,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-compact-layout-web",
+      "bytes": 39035717,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-home-compact-20261021",
+      "bytes": 49013428,
+      "files": 177,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-media-polish-20261022",
+      "bytes": 46922582,
+      "files": 175,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-media-timeline-20261022",
+      "bytes": 46914837,
+      "files": 175,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-personal-video-20261021",
+      "bytes": 43909494,
+      "files": 173,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-recording-20261022",
+      "bytes": 46929394,
+      "files": 175,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-selected-ui-20261021",
+      "bytes": 49007440,
+      "files": 177,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-staged-loading-android",
+      "bytes": 39968292,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-staged-loading-web",
+      "bytes": 39067346,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-ui-export-20261021",
+      "bytes": 43799397,
+      "files": 173,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-voice-replay-20261022",
+      "bytes": 49081184,
+      "files": 177,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\student-voice-ui-20261021",
+      "bytes": 44273267,
+      "files": 179,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\video-removed-android-export-20261028",
+      "bytes": 40000733,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\video-removed-web-export-20261028",
+      "bytes": 39250025,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-device-export-20261027",
+      "bytes": 79302837,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-fast-start-android-export-20261028",
+      "bytes": 40022916,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-fast-start-web-export-20261028",
+      "bytes": 39280943,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-full-prefetch-android-export-20261027",
+      "bytes": 40020420,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-full-prefetch-web-export-20261027",
+      "bytes": 39280501,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-prefetch-export-20261027",
+      "bytes": 79190541,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-priority-android-export-20261028",
+      "bytes": 40025026,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-priority-web-export-20261028",
+      "bytes": 39281804,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-quality-android-20261027",
+      "bytes": 39991304,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-quality-final-20261027",
+      "bytes": 79166966,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-quality-web-20261027",
+      "bytes": 39171660,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-reliability-android-20261027",
+      "bytes": 39988808,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-reliability-android-final-20261027",
+      "bytes": 39990910,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-reliability-web-20261027",
+      "bytes": 39170500,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-reliability-web-final-20261027",
+      "bytes": 39171478,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-resume-export-20261027",
+      "bytes": 79296938,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-resume-export-final-20261027",
+      "bytes": 79297818,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-stability-android-export-20261028",
+      "bytes": 40023316,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-stability-web-export-20261028",
+      "bytes": 39281957,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-throughput-android-export-20261028",
+      "bytes": 40026763,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-throughput-watchfix-android-export-20261028",
+      "bytes": 40026763,
+      "files": 148,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-throughput-watchfix-corrected-web-export-20261028",
+      "bytes": 39284232,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-throughput-web-export-20261028",
+      "bytes": 39284969,
+      "files": 221,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-ui-export-20261027",
+      "bytes": 79291505,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\voice-ui-export-final-20261027",
+      "bytes": 79293841,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "runtime\\whole-lesson-media-export-final-20261027",
+      "bytes": 79296223,
+      "files": 369,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\focused-lesson-qa",
+      "bytes": 843696,
+      "files": 25,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\focused-lesson-web",
+      "bytes": 16369294,
+      "files": 93,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\fraction-shapes-qa",
+      "bytes": 2268336,
+      "files": 36,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\fraction-shapes-web",
+      "bytes": 39502998,
+      "files": 169,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\guided-lesson-android",
+      "bytes": 0,
+      "files": 0,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\guided-lesson-web",
+      "bytes": 1208680,
+      "files": 32,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\kha-vendor-review",
+      "bytes": 70005428,
+      "files": 450,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\meeting-actions-qa",
+      "bytes": 1238970,
+      "files": 21,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\meeting-actions-web",
+      "bytes": 39062689,
+      "files": 169,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\mobile-native-export-20261002",
+      "bytes": 0,
+      "files": 0,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\owner-garden-review-qa",
+      "bytes": 891337,
+      "files": 17,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\preparation-qa",
+      "bytes": 386012,
+      "files": 9,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\preparation-web",
+      "bytes": 16327287,
+      "files": 93,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\tutoring-polish-qa",
+      "bytes": 2377236,
+      "files": 36,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\tutoring-polish-web",
+      "bytes": 39522572,
+      "files": 169,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\voice-native",
+      "bytes": 23355395,
+      "files": 76,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\voice-qa",
+      "bytes": 467705,
+      "files": 10,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\voice-web",
+      "bytes": 16327790,
+      "files": 93,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\work-review-qa",
+      "bytes": 1291198,
+      "files": 19,
+      "hasLinks": false
+    },
+    {
+      "path": "scratch\\work-review-web",
+      "bytes": 39616656,
+      "files": 169,
+      "hasLinks": false
+    }
+  ],
+  "skipped": []
+}

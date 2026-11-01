@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-28",
+  "python": {
+    "passed": 269,
+    "log": "runtime/voice-fast-start-python-20261028.log"
+  },
+  "student": {
+    "passed": 179,
+    "suites": 17,
+    "success": true,
+    "log": "runtime/voice-fast-start-student-20261028.log"
+  },
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 2
+  },
+  "exports": {
+    "web": "passed using non-deployed example HTTPS build configuration",
+    "android": "passed; JS bundle, not physical installation"
+  },
+  "timeoutsSeconds": {
+    "clientPreparationAndPlayerReady": 45,
+    "serverPreparation": 45
+  },
+  "physicalDeviceEvidence": {
+    "round1": "Owner reported more than 3 seconds or errors; player-ready logs 663/14055/2924 ms",
+    "round2": "Revision-preservation and duplicate-prefetch fixes loaded; no new device retest result yet",
+    "acceptance": "Not confirmed consistently within 1-3 seconds"
+  },
+  "sha256": {
+    "ai/runtime/app/tutoring/narration.py": "c0c52df64732c6acd9d47ec7455a0078bdcb1488736a073436222154665c622f",
+    "ai/runtime/app/tutoring/media_preparation.py": "b7b9ac90f6308d74ff8bd649145c5fa1c4d03171d0169268ee0d9c288d1bd30c",
+    "apps/student-mobile/src/features/tutoring/narrationCache.ts": "0677d78849d14eb1f96df71307e346bdfe26cd2deb622616ab677f3fb4a13657",
+    "apps/student-mobile/src/features/tutoring/narrationApi.ts": "2174579196c2f2e47c1c97d52c0aceeb6a60a6400e6e4ba13849d3e427c4d237",
+    "apps/student-mobile/src/features/tutoring/LessonNarration.tsx": "735b77887c864f9d3d60123b05417d090bbc03c8e78848f4399034061b97df27",
+    "apps/student-mobile/src/features/tutoring/narrationFile.ts": "3a0994c72d83884564b7cde7db4d3978789fcb7e7f8dd0ab0f4e4053417e11d7",
+    "apps/student-mobile/src/features/tutoring/NarrationPreparation.tsx": "f774bfbad4d58a24ad15d640346f21e1f3e9ce256e9f9db61c3920fff5cd832b"
+  }
+}

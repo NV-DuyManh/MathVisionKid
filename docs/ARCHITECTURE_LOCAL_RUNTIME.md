@@ -89,4 +89,4 @@ Runtime readiness checks Redis/worker availability and the selected grading arti
 
 ## Version references
 
-Use the repository's lockfiles and manifests for reproducibility. For mobile framework behavior, consult the exact [Expo SDK 57 reference](https://docs.expo.dev/versions/v57.0.0/). Installation, ports, and development accounts are maintained in [LOCAL_SETUP.md](LOCAL_SETUP.md).
+Use the repository's lockfiles and manifests for reproducibility. The student runtime uses Expo SDK 58 with React Native 0.88. For mobile framework behavior, consult the exact [Expo SDK 58 reference](https://docs.expo.dev/versions/v58.0.0/). Installation, ports, and development accounts are maintained in [LOCAL_SETUP.md](LOCAL_SETUP.md).

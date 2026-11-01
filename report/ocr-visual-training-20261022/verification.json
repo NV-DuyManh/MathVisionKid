@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "neural_training_completed": true,
+  "trained_candidates": 2,
+  "epochs_each": 6,
+  "policy_sha256": "c94e41c84fb9c064f0a1d26be1dffcb569f4ebc791c56248cd864767d78fe698",
+  "result_sha256": "132dc1444ce9454c2762833baaad039a815c1126136ac8ac152c8df70c1a46f9",
+  "audit_sha256": "6385ad27fd4c3c90eaeb8f14a198c64f424dcbaa304dff562842ccaffd67b095",
+  "input_hashes_unchanged": true,
+  "production_hashes_unchanged": true,
+  "protected_ui_hashes_unchanged": true,
+  "labels_and_splits_unchanged": true,
+  "fresh_process_audit_regions": 598,
+  "checkpoint_predictions_reproduced": true,
+  "source_images_written": 0,
+  "holdout_accessed": false,
+  "production_promoted": false,
+  "all_candidates_rejected": true,
+  "additional_real_controls_completed": false,
+  "checks": {
+    "existing_train_orientation_draft_tests": 66,
+    "prefix_freeze_eligibility_self_check": true,
+    "empty_control_scoring_checks": 3
+  },
+  "private_recipe_sha256": "d161caa219f02272881f31f156e4cb5196725648ba2a918d570fe56d1a456b85",
+  "control_recipe_sha256": "742f60a347f1b0b229f5def96c6b725ad303f2191b31053333d2b2ea1bd08047",
+  "no_commit_push_deploy": true
+}

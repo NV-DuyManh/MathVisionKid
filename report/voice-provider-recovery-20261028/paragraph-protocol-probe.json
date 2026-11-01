@@ -1,0 +1,41 @@
+{
+  "environment": "Two serial, unmodified-edge-tts requests; public synthetic paragraph; metadata only",
+  "results": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "frames": {
+        "TEXT": 2
+      },
+      "paths": [
+        "turn.start",
+        "response"
+      ],
+      "handshake": true,
+      "closeCode": 1006,
+      "success": false,
+      "errorCategory": "NoAudioReceived",
+      "httpStatus": null,
+      "elapsedMs": 3121
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "frames": {
+        "TEXT": 4,
+        "BINARY": 77
+      },
+      "paths": [
+        "turn.start",
+        "response",
+        "audio.metadata",
+        "audio.metadata"
+      ],
+      "handshake": true,
+      "closeCode": 1006,
+      "success": false,
+      "errorCategory": "TimeoutError",
+      "httpStatus": null,
+      "elapsedMs": 12014
+    }
+  ],
+  "serverClockSkewSeconds": -22
+}

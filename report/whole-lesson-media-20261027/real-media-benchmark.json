@@ -1,0 +1,57 @@
+{
+  "environment": "Local Python harness, real Edge voices and ffmpeg, synthetic two-step fraction plan; not a browser or physical Android test",
+  "date": "2026-10-27T19:50:16+0700",
+  "allPreparationMs": 45891.0,
+  "prepared": {
+    "totalSteps": 2,
+    "preparedSteps": 2,
+    "preparedVideos": 2,
+    "preparedCharacters": 2584,
+    "failedItems": 0
+  },
+  "futureAudioDenied": true,
+  "futureVideoDenied": true,
+  "laterStepAudio": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "serverReuseMs": 0.0,
+      "bytes": 1648206,
+      "durationSeconds": 51.504,
+      "sample": "Nam-Minh.wav"
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "serverReuseMs": 0.0,
+      "bytes": 1617486,
+      "durationSeconds": 50.544,
+      "sample": "Hoai-My.wav"
+    }
+  ],
+  "laterStepVideoReadyMs": 16.0,
+  "videoProbe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio"
+      }
+    ],
+    "format": {
+      "duration": "51.504000"
+    }
+  },
+  "extraProviderCallsOnOpeningLaterStep": 0,
+  "providerRequests": 16,
+  "providerTextCharacters": 3076,
+  "voicesUsed": [
+    "vi-VN-HoaiMyNeural",
+    "vi-VN-NamMinhNeural"
+  ],
+  "success": true,
+  "measurementNote": "Original in-process reuse measurements used time.monotonic on Windows and may be below clock resolution. They are not zero-latency playback claims. The separate HTTP smoke measured 156 ms audio download and 47 ms video readiness."
+}

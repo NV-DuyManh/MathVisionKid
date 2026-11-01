@@ -128,6 +128,10 @@ public class SsoHandoffService {
             throw new ApiException("ACCOUNT_INACTIVE", "User account is inactive", HttpStatus.FORBIDDEN);
         }
 
+        if (!ticket.targetApp().equals(user.getRole())) {
+            throw new ApiException("FORBIDDEN", "User role changed since ticket creation", HttpStatus.FORBIDDEN);
+        }
+
         String accessToken = jwtUtil.generateToken(user.getEmail(), user.getRole());
         String refreshToken = refreshTokenService.createRefreshToken(user.getId());
 

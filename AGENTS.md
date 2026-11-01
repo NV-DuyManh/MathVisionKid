@@ -20,6 +20,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 - Inspect → implement → test → report → STOP
 - No commit/push unless owner explicitly permits
+- Preserve contributor attribution: keep original author metadata on merge/cherry-pick; use `cherry-pick -x` for selected commits. For adapted code without original commits, record the source SHA and verified `Co-authored-by` identity. Never claim the integrator wrote all contributed code, invent identities, or rewrite published main solely for credit. Update `CONTRIBUTORS.md` for new integration credit and report the actual PR state.
 - No model training unless explicitly authorized
 - Preserve Student Mobile when task scope is web-only
 - Backend remains authority for RBAC/auth

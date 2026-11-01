@@ -46,7 +46,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/sso/exchange", "/internal/v1/ai/jobs/**", "/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**", "/actuator/health", "/swagger-ui.html").permitAll()
+                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/register", "/api/v1/auth/password-reset/**", "/api/v1/auth/google", "/api/v1/auth/facebook", "/api/v1/auth/sso/exchange", "/internal/v1/ai/jobs/**", "/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**", "/actuator/health", "/swagger-ui.html").permitAll()
                 .requestMatchers("/api/v1/student/**").hasRole("STUDENT")
                 .requestMatchers("/api/v1/teacher/**").hasRole("TEACHER")
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
@@ -97,8 +97,8 @@ public class SecurityConfig {
                 .map(String::trim).filter(origin -> !origin.isEmpty()).toList();
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Request-ID", "Accept"));
-        configuration.setExposedHeaders(Arrays.asList("X-Request-ID"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Request-ID", "Accept", "X-MathVision-Client"));
+        configuration.setExposedHeaders(Arrays.asList("X-Request-ID", "X-MathVision-Instance", "X-Quiz-Generator"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

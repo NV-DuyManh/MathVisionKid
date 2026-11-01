@@ -18,6 +18,7 @@ type Props = {
   selectedLine: number | null;
   onSelectLine: (index: number) => void;
   presentation?: 'full' | 'photo' | 'lines';
+  issuesOnly?: boolean;
 };
 const STATUS = {
   OK: { label: 'Đã kiểm tra đúng', color: COLORS.success },
@@ -37,7 +38,7 @@ export function WorkPhotoEvidence(props: Props) {
   return <WorkPhotoSource key={`${props.imageUri}:${reload}`} {...props} onReload={() => setReload(value => value + 1)} />;
 }
 
-function WorkPhotoSource({ imageUri, lines, rows, selectedLine, onSelectLine, onReload, presentation = 'full' }: Props & { onReload: () => void }) {
+function WorkPhotoSource({ imageUri, lines, rows, selectedLine, onSelectLine, onReload, presentation = 'full', issuesOnly = false }: Props & { onReload: () => void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [failed, setFailed] = useState(false);
   const imageFailed = useRef(false);
@@ -79,7 +80,7 @@ function WorkPhotoSource({ imageUri, lines, rows, selectedLine, onSelectLine, on
         accessible accessibilityLabel="Ảnh bài em đã làm, các vùng được đánh số theo dòng bên dưới"
         onError={failImage} />
       {size ? evidence.map(({ line, status }, index) => {
-        if (!validBox(line.box)) return null;
+        if (!validBox(line.box) || (issuesOnly && status === 'OK')) return null;
         const [left, top, right, bottom] = line.box;
         return <View key={index} testID={`work-evidence-region-${index}`} pointerEvents="none" accessible={false}
           focusable={false} aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants"
@@ -101,7 +102,8 @@ function WorkPhotoSource({ imageUri, lines, rows, selectedLine, onSelectLine, on
       </Pressable> : null}
     </View> : null}
     {presentation !== 'lines' && !!imageUri && !failed && !size ? <Text style={styles.body} accessibilityLiveRegion="polite">Đang mở ảnh bài làm…</Text> : null}
-    {presentation !== 'photo' ? evidence.map(({ sourceText, status }, index) => <View key={index} style={styles.lineContent}>
+    {presentation !== 'lines' && rows.some(row => row.status === 'FIX' && !validBox(lines[row.lineIndex]?.box)) ? <Text style={styles.caption}>Chưa xác định được vị trí một số dòng cần sửa trên ảnh. Em xem nội dung dòng bên dưới nhé.</Text> : null}
+    {presentation !== 'photo' ? evidence.map(({ sourceText, status }, index) => issuesOnly && status === 'OK' ? null : <View key={index} style={styles.lineContent}>
       <Pressable testID={`work-evidence-line-${index}`} accessibilityRole="button" focusable
         accessibilityLabel={`Dòng ${index + 1}: ${sourceText}. ${STATUS[status].label}.`}
         accessibilityHint="Chọn để xem nhận xét cho dòng này" aria-pressed={selectedLine === index}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, type AccessibilityState } from 'react-native';
 import { FONTS, COLORS, SIZES } from '../../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -10,6 +10,7 @@ interface AppHeaderProps {
   rightIcon?: keyof typeof Ionicons.glyphMap;
   onRightPress?: () => void;
   rightAccessibilityLabel?: string;
+  rightAccessibilityState?: AccessibilityState;
 }
 
 export const AppHeader: React.FC<AppHeaderProps> = ({
@@ -18,6 +19,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   rightIcon,
   onRightPress,
   rightAccessibilityLabel,
+  rightAccessibilityState,
 }) => {
   const router = useRouter();
 
@@ -51,6 +53,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           onPress={onRightPress}
           accessibilityRole="button"
           accessibilityLabel={rightAccessibilityLabel || 'Tùy chọn'}
+          accessibilityState={rightAccessibilityState}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
           <Ionicons name={rightIcon} size={24} color={COLORS.textPrimary} />

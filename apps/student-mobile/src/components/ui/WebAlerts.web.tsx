@@ -10,7 +10,7 @@ export function WebAlerts() {
   useEffect(() => {
     const original = Alert.alert;
     const show: typeof Alert.alert = (title, message, buttons, options) => {
-      setDialog({ title, message, buttons: buttons?.length ? buttons : [{ text: 'Đã hiểu' }], options });
+      setDialog({ title: title ?? '', message: message ?? undefined, buttons: buttons?.length ? buttons : [{ text: 'Đã hiểu' }], options });
     };
     Alert.alert = show;
     return () => { if (Alert.alert === show) Alert.alert = original; };

@@ -8,11 +8,12 @@
 
 A Vietnamese math learning companion for primary school students: capture a problem, review what was read, and learn through small, guided steps.
 
-![Expo 57](https://img.shields.io/badge/Expo-57-18164C?style=flat-square&logo=expo&logoColor=white)
-![React Native](https://img.shields.io/badge/React_Native-0.86-7055F6?style=flat-square&logo=react&logoColor=white)
+![Expo 58](https://img.shields.io/badge/Expo-58-18164C?style=flat-square&logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React_Native-0.88-7055F6?style=flat-square&logo=react&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-166534?style=flat-square&logo=springboot&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-0369A1?style=flat-square&logo=python&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
+[![Catalog Bot](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml/badge.svg)](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml)
 
 [Explore the app](#see-it-in-action) · [Get started](#run-it-locally) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) · [Drive data & recovery](DU_LIEU_GOOGLE_DRIVE.md)
 
@@ -76,6 +77,7 @@ An isolated calculation can be checked arithmetically. Deciding whether an entir
 - **Practice library:** grade-based activities, including topics labeled Kết Nối Tri Thức and Cánh Diều. This is a practice collection, not a claim of full textbook coverage or publisher affiliation.
 - **Teacher workspace:** classes, assignments, submission batches, and review workflows.
 - **Admin workspace:** role-based management through the business API.
+- **Catalog Bot:** reuses checked lessons and valid speech privately, with automated storage checks and a visible [GitHub Actions report](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml). Open `RUN_CATALOG_BOT.bat` for a read-only snapshot of this machine's catalog; see [catalog details and limits](catalog/README.md).
 
 ## Run it locally
 
@@ -87,7 +89,7 @@ cd MathVisionKid
 npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
 .\RUN_EXPO.bat
 ~~~
 
@@ -112,7 +114,7 @@ For phone setup, development accounts, model files, and configuration, follow [E
 
 | Layer | Technologies | Purpose |
 | :--- | :--- | :--- |
-| Student experience | Expo SDK 57, React Native 0.86, React 19, TypeScript, Expo Router | Mobile navigation, camera input, and shared web preview |
+| Student experience | Expo SDK 58, React Native 0.88, React 19, TypeScript, Expo Router | Mobile navigation, camera input, and shared web preview |
 | Image interaction | Expo Camera, Image Picker, Image Manipulator, Gesture Handler, Reanimated | Capture, crop, rotation, and touch feedback |
 | Web workspaces | React, TypeScript, Vite | Portal, teacher, and admin interfaces |
 | Business API | Java 21, Spring Boot 3.3, Spring Security, JWT, JPA, Flyway | Authentication, authorization, records, and orchestration |
@@ -168,6 +170,8 @@ MathVisionKid/
 | Contribute and run checks | [Contributing](CONTRIBUTING.md) |
 
 ## Contributing and license
+
+MathVision Kids includes contributions from **Kha, Nam, Lộc, Hiếu, and Nguyễn Văn Duy Mạnh**. See [contributors and source history](CONTRIBUTORS.md) for the verified scope and original commits.
 
 Focused improvements, reproducible bug reports, and carefully reviewed recognition examples are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep credentials, student photos, datasets, checkpoints, and runtime logs out of Git.
 

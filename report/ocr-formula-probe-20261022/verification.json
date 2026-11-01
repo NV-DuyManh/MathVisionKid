@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "all_three_dev_scopes_complete": true,
+  "dev_components_each": 73,
+  "dev_fraction_pairs_each": 5,
+  "input_hashes_unchanged": true,
+  "original_models_unchanged": true,
+  "protected_ui_unchanged": true,
+  "raw_requests_completed": 498,
+  "all_profile_requests_completed": false,
+  "interrupted_profile": "M",
+  "interrupted_train_requests": 3,
+  "fresh_crnn_audit": {
+    "passed": true,
+    "regions": 11,
+    "checkpoint_sha256": "a6e8aac96e6f1597a144f6c0c9cc762a01cf11a8194ad2b2061545b047f415dc",
+    "vocabulary_sha256": "dc25d2de8fe00fb680b8a18c0abac8e4df0e4ec54aa71e5dcde1ec253814a9fd",
+    "script_sha256": "576fc7aa2b5ca7a1916ae7d0d27d2f47072b2095e5d3b3ab5d5d0122dad6a17a",
+    "records": [
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0",
+        "prediction": "3",
+        "crop_pixel_sha256": "3504451b2e753d1e319df40d9ef8a498a47dde897f58b5bf6d4ce9b2c7f5555d"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+        "prediction": "",
+        "crop_pixel_sha256": "161087cfd958c79ae822778ff83ed1fa4232cac2b8a43d2e8288212cbea5ebfb"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2",
+        "prediction": "6",
+        "crop_pixel_sha256": "d4c49b873665cd37879f7c9b16357d022465e87dc205f301e684d41f18fc33bc"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+        "prediction": "7",
+        "crop_pixel_sha256": "8b237e5bcb7e6291fa3a817de62a786a2358a3f5d5f5f719e172aa88b010ab78"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4",
+        "prediction": "6",
+        "crop_pixel_sha256": "bfb973fd3b10357f63272b988d4b0755bac13da2d8ac44e133dc657f374a50d2"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+        "prediction": "",
+        "crop_pixel_sha256": "eeb0aa63cf3f63d446ba01f668b5df1949ae5c911a52adad60f194b7cc378090"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-0",
+        "prediction": "3",
+        "crop_pixel_sha256": "00ddca92d8101e11ad25f077312fac449774084f9d20e89f65ea7f449b226b8f"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1",
+        "prediction": "3",
+        "crop_pixel_sha256": "f9b807acbd2c8f69e6e6697aae668911085be053af263d14aaca217c39bc6167"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+        "prediction": "2",
+        "crop_pixel_sha256": "6ec92308eb8f9baf75e216ebdad502462c73d6068f7ff07b4916c6997e318712"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3",
+        "prediction": "22",
+        "crop_pixel_sha256": "0e3f79607610635bdaa02cfc1611c3ad6e68bfa9a466949a6b6172f251f2eab8"
+      },
+      {
+        "id": "1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+        "prediction": "5",
+        "crop_pixel_sha256": "d44b95af376e6705fe28ac225dbf53c1aa08373d2ccd9bc1f44339d0980787a3"
+      }
+    ],
+    "source_images_written": 0
+  },
+  "fresh_formula_audit": {
+    "passed": true,
+    "regions": 5,
+    "records": [
+      {
+        "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-0|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-1",
+        "raw_latex": "\\frac{3}{5}",
+        "crop_pixel_sha256": "f16550369f75eb90263a6b2f5577dda6cc57c1a99f3dbf3b95cb6177c3b8fbd9"
+      },
+      {
+        "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-2|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-3",
+        "raw_latex": "\\",
+        "crop_pixel_sha256": "b8d994275979490b0c8fa72eca9f5da57c94d72eda47c0dd421a8a04fad4bdf9"
+      },
+      {
+        "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-4|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-fraction-dev-5",
+        "raw_latex": "\\frac{6}{7}",
+        "crop_pixel_sha256": "c0eba5e27d07838d6893f703d98ca930575ce8790d53085622bcefbba244e993"
+      },
+      {
+        "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-1|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-2",
+        "raw_latex": "\\frac{13}{2}",
+        "crop_pixel_sha256": "22c8c0c87fa6c938d96e9b82ab0e4bab043faba050cc8993e13e007fcdf5e64a"
+      },
+      {
+        "id": "fraction:1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-3|1-bFkCGeM1qu1TFLPZlhv31AyAy0fsXJS:math-review-20261013-extra-fraction-4",
+        "raw_latex": "\\frac{25}{6}",
+        "crop_pixel_sha256": "351ec2af334069f9161d8585d61f45b772229e476fe2b395582a1d95742eec78"
+      }
+    ],
+    "script_sha256": "00368905302a3a37a7fdbcde0ca716fe84e8e9fd4e97565cdc5a150ecccb3d63",
+    "source_images_written": 0
+  },
+  "software_tests_passed": 62,
+  "source_images_written": 0,
+  "training": false,
+  "production_promoted": false,
+  "new_teacher_verified_labels": 0,
+  "review_pack_records": 41,
+  "comparison_sha256": "4689d32e4f8e1b80d046c8117a5f6a75af6ea341108fca8d8b7d36a28ed8fa8d",
+  "research_review_pack_sha256": "b17fb6fae9ed7f7a5dd0d81ada1bb4c750dbeaaef16409af93398f498ce62aef",
+  "dev_routing_hypothesis_selected_after_development_observation": true,
+  "independent_validation": false,
+  "release_ready": false,
+  "skills": [
+    "ponytail",
+    "superpowers:using-superpowers",
+    "superpowers:test-driven-development",
+    "superpowers:verification-before-completion"
+  ]
+}

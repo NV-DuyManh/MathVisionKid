@@ -1,0 +1,32 @@
+[
+  {
+    "source": "Nếu viết thêm chữ số 6 vào bên phải một số ta được số mới lớn hơn số đó 537 đơn vị. Tìm số đó.",
+    "answers": [
+      "531",
+      "59"
+    ],
+    "expectedConstraint": "none",
+    "actualEven": false,
+    "actualLessThan50": false
+  },
+  {
+    "source": "Nếu viết thêm chữ số 6 vào bên phải một số ta được số mới lớn hơn số đó 537 đơn vị. Tìm số đó. Số đó là số chẵn.",
+    "answers": [
+      "531",
+      "59"
+    ],
+    "expectedConstraint": "even",
+    "actualEven": false,
+    "actualLessThan50": false
+  },
+  {
+    "source": "Nếu viết thêm chữ số 6 vào bên phải một số ta được số mới lớn hơn số đó 537 đơn vị. Tìm số đó. Biết số đó nhỏ hơn 50.",
+    "answers": [
+      "531",
+      "59"
+    ],
+    "expectedConstraint": "less than 50",
+    "actualEven": false,
+    "actualLessThan50": false
+  }
+]

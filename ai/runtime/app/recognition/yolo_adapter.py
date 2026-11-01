@@ -16,6 +16,7 @@ Rules:
 from typing import List, Dict, Any, Optional, Tuple
 import uuid
 import logging
+import math
 from app.schemas.core import Token, ImageRecognitionResult
 
 logger = logging.getLogger(__name__)
@@ -49,14 +50,18 @@ def xyxy_to_normalized_xywh(
     Converts pixel [x1, y1, x2, y2] to canonical normalized [x, y, width, height]
     with top-left origin, clamped to [0.0, 1.0].
     """
-    if img_w <= 0 or img_h <= 0:
+    if not math.isfinite(img_w) or not math.isfinite(img_h) or img_w <= 0 or img_h <= 0:
         raise ValueError(f"Invalid image dimensions: {img_w}x{img_h}")
 
     x1, y1, x2, y2 = xyxy
+    if not all(math.isfinite(value) for value in (x1, y1, x2, y2)):
+        raise ValueError('Bounding box coordinates must be finite')
     x = max(0.0, min(1.0, float(x1) / img_w))
     y = max(0.0, min(1.0, float(y1) / img_h))
-    w = max(0.0, min(1.0, float(x2 - x1) / img_w))
-    h = max(0.0, min(1.0, float(y2 - y1) / img_h))
+    # Clip both endpoints first: clipping only origin and raw width can move a
+    # source glyph's right/bottom edge outside the image or enlarge its crop.
+    w = max(0.0, min(1.0, float(x2) / img_w) - x)
+    h = max(0.0, min(1.0, float(y2) / img_h) - y)
 
     return [round(x, 4), round(y, 4), round(w, 4), round(h, 4)]
 

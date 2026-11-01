@@ -28,7 +28,8 @@ export default function ErrorHintScreen() {
 
   return (
     <StudentResultShell title="Gợi ý bài làm">
-        {loading ? <RecognitionProgress title="Đang mở gợi ý" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()} /> : target?.pathname === '/results/error-hint' && result ? <>
+        {loading ? <RecognitionProgress title="Đang mở gợi ý" description="Lấy lại kết quả bài làm của em." onCancel={() => router.back()}
+          steps={['Tải kết quả bài làm', 'Hiện gợi ý']} /> : target?.pathname === '/results/error-hint' && result ? <>
         <Text style={styles.feedbackTitle}>{result.studentFeedback?.title}</Text>
         <Text style={styles.feedbackSubtitle}>
           MathVision đã phát hiện một bước tính cần em xem lại:

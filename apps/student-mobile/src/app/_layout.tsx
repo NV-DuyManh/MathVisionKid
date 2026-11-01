@@ -1,8 +1,10 @@
 import { Stack } from 'expo-router';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthContext, AuthProvider } from '../context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, LogBox, Pressable, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { LogBox, Text, View } from 'react-native';
+import { TaskProgress } from '../components/ui/TaskProgress';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
+import { useContext, useEffect, useState } from 'react';
 import { ENV } from '../config/env';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -30,7 +32,6 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
   useEffect(() => {
     let active = true;
-    setArtError(false);
     const timeout = setTimeout(() => { if (active) setArtError(true); }, 15000);
     prepareIllustrations().then(() => {
       if (active) { setArtReady(true); setArtError(false); }
@@ -60,26 +61,40 @@ export default function RootLayout() {
   if (!fontsLoaded && !fontError) return null;
   if (!artReady) return <View style={{ flex: 1, backgroundColor: COLORS.background, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
     <Text style={{ fontFamily: FONTS.extraBold, fontSize: 28, color: COLORS.primaryDark }}>MathVisionKid</Text>
-    {artError ? <>
-      <Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary, textAlign: 'center' }}>Chưa tải đủ hình. Em thử lại để mở bài học nhé.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Tải lại hình" onPress={() => setRetry(value => value + 1)} style={({ pressed }) => ({ minHeight: 48, padding: 16, borderRadius: 16, backgroundColor: COLORS.primary, opacity: pressed ? .8 : 1 })}>
-        <Text style={{ color: 'white', fontFamily: FONTS.bold }}>Thử lại</Text>
-      </Pressable>
-    </> : <><ActivityIndicator color={COLORS.primary} /><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang chuẩn bị bài học cho em…</Text></>}
+    {artError ? <View style={{ width: '100%', maxWidth: 360 }}><RecoveryNotice title="Chưa tải đủ hình" message="Em thử lại để mở bài học nhé." actions={[
+      { label: 'Thử lại', accessibilityLabel: 'Tải lại hình', icon: 'refresh-outline', onPress: () => { setArtError(false); setRetry(value => value + 1); } },
+    ]} /></View> : <View style={{ width: '100%', maxWidth: 360 }}><TaskProgress steps={['Chữ đã sẵn sàng', 'Tải hình minh họa', 'Mở ứng dụng']} activeStep={1} /></View>}
   </View>;
 
   return (
     <AuthProvider>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="login" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="preview" />
-        <Stack.Screen name="processing" />
-        <Stack.Screen name="results" />
-        <Stack.Screen name="gallery" />
-      </Stack>
+      <StatusBar style="dark" hidden={false} />
+      <StudentNavigator />
     </AuthProvider>
   );
+}
+
+
+function StudentNavigator() {
+  const auth = useContext(AuthContext);
+  return <Stack screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="index" />
+    <Stack.Screen name="login" />
+    <Stack.Screen name="privacy" />
+    <Stack.Protected guard={auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="learning" />
+      <Stack.Screen name="quiz" />
+      <Stack.Screen name="recognition" />
+      <Stack.Screen name="results" />
+      <Stack.Screen name="camera" />
+      <Stack.Screen name="crop" />
+      <Stack.Screen name="gallery" />
+      <Stack.Screen name="preview" />
+      <Stack.Screen name="processing" />
+      <Stack.Screen name="dev-demo" />
+      <Stack.Screen name="games/index" options={{ orientation: 'portrait' }} />
+      <Stack.Screen name="games/[gameId]" />
+    </Stack.Protected>
+  </Stack>;
 }

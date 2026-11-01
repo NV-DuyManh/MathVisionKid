@@ -8,14 +8,14 @@ Hướng dẫn này dành cho Windows. Thực hiện các lệnh trong PowerShel
 
 | Công cụ | Yêu cầu |
 | :--- | :--- |
-| Node.js | Nhánh 22, từ 22.13 trở lên |
+| Node.js | Nhánh 22 từ 22.13, nhánh 24 từ 24.3, hoặc nhánh 26 trở lên; dùng bản chẵn được hỗ trợ |
 | Python | 3.12 |
 | Java | JDK 21 |
 | Docker Desktop | Đã mở, engine chạy, có Docker Compose |
 | Git | Có thể gọi trong terminal |
-| Điện thoại, nếu test | Expo Go tương thích SDK 57, cùng Wi-Fi với máy tính |
+| Điện thoại, nếu test | Expo Go tương thích SDK 58, cùng Wi-Fi với máy tính |
 
-Không cần cài Gradle riêng. Lần cài đầu cần mạng để tải thư viện và Docker images.
+Không cần cài Gradle riêng. Lần cài đầu cần mạng để tải thư viện và Docker images. Student app dùng Expo SDK 58 và React Native 0.88; tham khảo [tài liệu đúng phiên bản](https://docs.expo.dev/versions/v58.0.0/).
 
 ## 1. Tải code và cài thư viện
 
@@ -25,10 +25,12 @@ cd MathVisionKid
 npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
 ```
 
 `npm ci` ở thư mục gốc cài cho toàn bộ JavaScript workspaces. Nếu máy không có lệnh `py`, dùng đường dẫn tới Python 3.12 đã cài để tạo môi trường.
+
+Lần khởi động đầu trên máy chưa có dữ liệu, launcher tự build đúng bản MinIO từ Dockerfile đã có trong dự án và kiểm tra SHA-256 của server/client. Không cần image riêng từ máy của người khác. Máy đã có dữ liệu giữ nguyên image và volume; nếu mất container nhưng còn volume, chương trình dừng để kiểm tra phục hồi, không tự gắn dữ liệu sang image khác. Lần tải/build đầu cần mạng và có thể mất vài phút; các lần sau dùng cache.
 
 ## 2. Bật nhận diện thật
 
@@ -92,7 +94,7 @@ Tài khoản **chỉ dành cho môi trường dev cục bộ**:
 ## 4. Test trên điện thoại
 
 1. Nối điện thoại và máy tính cùng Wi-Fi.
-2. Mở Expo Go tương thích SDK 57 và quét QR launcher hiện.
+2. Mở Expo Go tương thích SDK 58 và quét QR launcher hiện. Nếu student server đang chạy từ trước khi nâng SDK, đóng server của dự án rồi chạy lại launcher để nhận QR mới.
 3. Đăng nhập bằng tài khoản được cấp hoặc tài khoản dev ở trên.
 4. Chạm **Chụp bài toán**, cấp quyền camera khi hệ điều hành hỏi, rồi thử một ảnh rõ.
 

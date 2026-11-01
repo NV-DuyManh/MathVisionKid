@@ -12,6 +12,16 @@ const guidance = { stage: 'UNDERSTAND', hint: 'Tìm số bi ban đầu và số 
 
 beforeEach(() => jest.clearAllMocks());
 
+it('prepares a private source without claiming confirmation and keeps the normal timeout', async () => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { phase: 'preparing' } });
+  await TutorService.prepareLesson('Có 7 hộp, mỗi hộp 9 bút.', '');
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/lesson/prepare',
+    { problemText: 'Có 7 hộp, mỗi hộp 9 bút.', workText: '' }, { timeout: 45000, signal: undefined });
+  (apiClient.post as jest.Mock).mockClear();
+  await TutorService.prepareLesson('Có [?] bút.', '');
+  expect(apiClient.post).not.toHaveBeenCalled();
+});
+
 it('requires confirmation and validates the long-division check response', async () => {
   const division = { dividend: '49572', divisor: '6', quotient: '8262', rows: ['015', '037', '012', '00'] };
   await expect(TutorService.checkDivision(division, false)).rejects.toThrow();
@@ -74,6 +84,37 @@ const summaryLesson = { ...publicLesson, revision: 2, understandingSteps: 3, ste
     { kind: 'UNDERSTAND', title: 'Câu hỏi', expression: '', answer: 'Hỏi có tất cả bao nhiêu bút?', unit: '', explanation: 'Đọc đề.' },
   ], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
 const sourceSummary = { givens: ['Lan có 12 bút', 'thêm 5 bút', 'Hai nhóm cùng màu'], question: 'Hỏi có tất cả bao nhiêu bút?' };
+
+const readingOnly = { ...publicLesson, understandingSteps: 3, preparingMath: true,
+  outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu'], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+it.each(['PREPARING', 'RETRYABLE', 'UNAVAILABLE'])('retains three checked answers while math is %s without accepting fake completion', async status => {
+  const data = { ...readingOnly, status, step: null, stepIndex: 3, revision: 3,
+    completed: [...summaryLesson.completed, { ...summaryLesson.completed[0], answer: 'Đúng' }] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.lessonPreparation(data, true)).resolves.toEqual(data);
+  expect(apiClient.post).toHaveBeenLastCalledWith('/student/tutor/lesson/preparation', {
+    sessionId: data.sessionId, revision: 3, retry: true,
+  }, expect.anything());
+  for (const patch of [{ preparingMath: false }, { status: 'COMPLETE' }, { stepIndex: 2 }, { conclusion: 'Đáp số: 60 cây.' }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, ...patch } });
+    await expect(TutorService.lessonPreparation(data)).rejects.toThrow();
+  }
+});
+it('opens explicit source reading while the reviewed mathematics is still preparing', async () => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: readingOnly });
+  const confirmation = { problemConfirmed: true, workConfirmed: false, guidedUnderstanding: true, startWithReading: true };
+  await expect(TutorService.startLesson(request.problemText, '', confirmation)).resolves.toEqual(readingOnly);
+  expect(apiClient.post).toHaveBeenCalledWith('/student/tutor/lesson', { problemText: request.problemText, workText: '', ...confirmation }, expect.objectContaining({ timeout: 45000 }));
+});
+it.each([
+  { ...readingOnly, preparingMath: false }, { ...readingOnly, preparingMath: 'true' },
+  { ...readingOnly, preparingMath: null }, { ...readingOnly, understandingSteps: 0 },
+  { ...readingOnly, step: { ...readingOnly.step, kind: 'MATH' } },
+  { ...readingOnly, status: 'COMPLETE', step: null },
+])('rejects missing or forged reading-only protocol states', async data => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow();
+});
 
 it.each([undefined, null, sourceSummary,
   { givens: Array(12).fill('a'.repeat(200)), question: 'a'.repeat(100) },

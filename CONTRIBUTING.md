@@ -12,6 +12,17 @@ For mobile work, use the exact [Expo SDK 57 documentation](https://docs.expo.dev
 
 Create a focused branch, describe the user-facing problem, and show how the behavior changes.
 
+## Preserve contributor credit
+
+- Keep original commits and author metadata when merging a reviewed branch. The merge author is the integrator, not the sole author of the contributed code.
+- For a selected commit, prefer `git cherry-pick -x` so the original author and source SHA remain traceable. Record any adaptations and exclusions.
+- When adapting selected code without its original commits, cite the source commit and use `Co-authored-by` with the contributor's verified Git identity. Do not invent an email, forge authorship, or attribute independently written code to someone else.
+- Check [CONTRIBUTORS.md](CONTRIBUTORS.md) and update it when an integration adds a contribution that is not already documented. Preserve third-party notices.
+- Do not rewrite published main history or create artificial code changes to repair a contribution counter. A history-reconciliation merge is appropriate only after a complete inventory confirms which source is already present, adapted or excluded; document the decision and verify the application tree is unchanged.
+- Report whether a PR was actually merged, closed after selective integration, or is still open. File similarity alone does not prove a branch was merged.
+
+GitHub attribution also depends on the commit email being associated with the contributor's account; profile graphs can update later. See [GitHub's co-author guidance](https://docs.github.com/en/pull-requests/how-tos/commit-changes/creating-a-commit-with-multiple-authors).
+
 ## Useful checks
 
 Run the checks relevant to your change. These commands run from the repository root.

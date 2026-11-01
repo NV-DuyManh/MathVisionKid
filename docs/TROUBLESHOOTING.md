@@ -16,7 +16,7 @@ node --version
 py -3.12 --version
 ~~~
 
-Use JDK 21, Python 3.12, and Node 22.13+ compatible with the lockfile. Install dependencies with the commands in [local setup](LOCAL_SETUP.md#2-clone-and-install). Open a new terminal after changing PATH.
+Use JDK 21, Python 3.12, and a supported Node release: 22.13+, 24.3+, or 26+. Odd-numbered Node releases are not supported by Expo SDK 58. Install dependencies with the commands in [local setup](LOCAL_SETUP.md#2-clone-and-install). Open a new terminal after changing PATH.
 
 ## Port conflict
 
@@ -40,7 +40,7 @@ A common cause is starting the complete Compose stack and the host launcher toge
 2. Keep the launcher and student terminal open. Scan the current QR, not an older screenshot.
 3. On the phone, open `http://COMPUTER_LAN_IP:8081/status` in a browser. `packager-status:running` proves the student server is reachable.
 4. If it is unreachable, review the computer's private-network firewall permission for the student server. Do not disable the firewall globally.
-5. Use an Expo Go client compatible with SDK 57. A client mismatch is separate from a network problem.
+5. Use an Expo Go client compatible with SDK 58. A client mismatch is separate from a network problem. If the error still says the project uses SDK 57 after installing this upgrade, close the owned student server, restart the launcher, and scan its current QR. Do not use the previous server or QR screenshot.
 
 To restart the owned student server workflow, use:
 

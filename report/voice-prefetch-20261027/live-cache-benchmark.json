@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-27T11:14:00.570Z",
+  "environment": "Node harness of actual TypeScript modules; live authenticated local backend; synthetic lesson text; not a browser or physical Android measurement",
+  "requests": 2,
+  "voices": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "backgroundPreparationMs": 1093.37,
+      "preparedTapMs": 0.236,
+      "bytes": 469326,
+      "sameBuffer": true,
+      "extraNetworkRequests": 0
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "backgroundPreparationMs": 1149.65,
+      "preparedTapMs": 0.086,
+      "bytes": 480846,
+      "sameBuffer": true,
+      "extraNetworkRequests": 0
+    }
+  ],
+  "lessonMs": 6504.86,
+  "textCharacters": 187,
+  "success": true,
+  "logout": true
+}

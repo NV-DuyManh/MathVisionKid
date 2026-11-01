@@ -1,0 +1,10 @@
+{
+  "catalogHitsAdded": 2,
+  "freshSessions": true,
+  "emptyProgress": true,
+  "cachedLessonOpenMs": [
+    78,
+    62
+  ],
+  "scope": "Two local HTTP opens of one supported exact problem; not phone or voice latency."
+}

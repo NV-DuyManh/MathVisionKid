@@ -540,13 +540,12 @@ def test_ui_09_top_merged_text_recomputes_after_actions():
     merged_2 = "\n".join(l["finalText"] for l in lines)
     assert merged_2 == "Bài 1:\nDòng 2"
 
-def test_ui_10_cards_layout_responsive_no_clipping():
-    """UI-10: Cards remain readable at normal Android widths; no overlap/clipping/horizontal overflow"""
+def test_ui_10_cards_use_flexible_scroll_layout():
+    """UI-10: Source contract for the flexible scroll layout, not a visual-device claim."""
     result_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../apps/student-mobile/src/app/recognition/multiline-result.tsx"))
     with open(result_path, "r", encoding="utf-8") as f:
         content = f.read()
     assert "flex: 1" in content
-    assert "borderRadius: 14" in content
     assert "contentContainerStyle={styles.content}" in content
 
 

@@ -41,6 +41,8 @@ example
 # generated native folders
 /ios
 /android
+/apps/student-mobile/android/
+/apps/student-mobile/ios/
 
 # MathVision Kids local runtime
 runtime/logs/
@@ -48,6 +50,7 @@ runtime/pids/
 /runtime/
 infra/local-runtime/mobile-web-export/
 infra/local-runtime/pids/
+apps/portal-web/public/study/
 
 # Keep AI service source reviewable; exclude local artifacts, datasets and model weights.
 ai/runtime/*
@@ -143,3 +146,18 @@ infra/local-runtime/
 # Vercel project links and private container verification bundles
 .vercel/
 ai/runtime/.container-smoke-models/
+
+# Owner's local UI playground — keep on this machine only.
+/demoUI/
+/.local-artifacts/
+
+# Reproducible review builds and pre-merge recovery copies stay local.
+/report/**/*-export/
+/report/student-sdk58-upgrade-20261023/export/
+/report/**/wip-source-backup/
+/report/**/*.before.*
+/report/**/tracked-before.patch
+/report/**/source-before.json
+/report/**/git-before.txt
+/report/**/git-after.txt
+/report/**/screenshots/failure.png

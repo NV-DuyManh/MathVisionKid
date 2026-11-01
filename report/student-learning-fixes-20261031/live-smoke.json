@@ -1,0 +1,47 @@
+[
+  {
+    "check": "runtime_updated",
+    "health": 200,
+    "lesson_hash_matches": true
+  },
+  {
+    "check": "student_auth",
+    "login_status": 200,
+    "role": "STUDENT",
+    "anonymous_status": 401
+  },
+  {
+    "check": "fresh_lesson_http",
+    "http_status": 200,
+    "elapsed_s": 8.505
+  },
+  {
+    "check": "fresh_lesson_ready",
+    "visible_steps": 3,
+    "no_published_conclusion": true
+  },
+  {
+    "check": "background_pair_without_play",
+    "waited_s": 23.8,
+    "phases": {
+      "vi-VN-NamMinhNeural": "ready",
+      "vi-VN-HoaiMyNeural": "ready"
+    }
+  },
+  {
+    "check": "fetch_prepared_voice",
+    "voice": "vi-VN-NamMinhNeural",
+    "http_status": 200,
+    "elapsed_ms": 40.19,
+    "bytes": 915608,
+    "duration_s": 28.61
+  },
+  {
+    "check": "fetch_prepared_voice",
+    "voice": "vi-VN-HoaiMyNeural",
+    "http_status": 200,
+    "elapsed_ms": 49.24,
+    "bytes": 884120,
+    "duration_s": 27.62
+  }
+]

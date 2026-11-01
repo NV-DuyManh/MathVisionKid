@@ -3,9 +3,11 @@ import TestRenderer, { act } from 'react-test-renderer';
 import { LessonListening } from '../features/tutoring/LessonListening';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { TutorService } from '../features/tutoring/api/TutorService';
+import { useNarrationPreparation } from '../features/tutoring/NarrationPreparation';
 
 jest.mock('../features/tutoring/LessonNarration', () => ({ LessonNarration: () => null }));
 jest.mock('../features/tutoring/api/TutorService', () => ({ TutorService: { askLesson: jest.fn() } }));
+jest.mock('../features/tutoring/NarrationPreparation', () => ({ useNarrationPreparation: jest.fn() }));
 const step = { kind: 'MATH' as const, title: 'Gộp hai phần cây', explanation: 'Gộp các phần cùng kích thước.', question: 'Em sẽ gộp thế nào?', expression: '1/3 + 2/5', choices: [], unit: '', workExcerpt: '' };
 const props = { scope: 'pupil:session:0', sessionId: 'session-visual-00000001', revision: 0, stepIndex: 0, step, paragraphs: ['Giảng bước đang học.'], onReturn: jest.fn() };
 let view: TestRenderer.ReactTestRenderer;
@@ -25,16 +27,26 @@ it('offers a check-in after listening and asks only the selected difficulty on t
   expect(TutorService.askLesson).not.toHaveBeenCalled();
   await press('Vì sao phải quy đồng?');
   expect(TutorService.askLesson).not.toHaveBeenCalled();
-  expect(button('Vì sao phải quy đồng?').props.accessibilityState.checked).toBe(true);
+  expect(button('Vì sao phải quy đồng?').props['aria-pressed']).toBe(true);
   await press('Xem giải thích nhé!');
   expect(TutorService.askLesson).toHaveBeenCalledWith({ sessionId: props.sessionId, revision: 0, stepIndex: 0, question: expect.stringContaining('quy đồng') }, expect.anything());
   expect(text()).toContain('Các phần phải cùng kích thước.');
   const narration = view.root.findByType(LessonNarration);
   expect(narration.props.paragraphs[0]).toContain('cùng một hình');
+  expect(useNarrationPreparation).toHaveBeenLastCalledWith({ sessionId: props.sessionId, revision: 0 }, narration.props.paragraphs, { wholeLesson: false });
   expect(text()).not.toContain('cùng một hình');
   act(() => narration.props.onFinished());
   await press('Em đã hiểu');
   expect(props.onReturn).toHaveBeenCalledTimes(1);
+});
+
+it('treats integer area division as division rather than a numerator concept', async () => {
+  await render({ step: { ...step, title: 'Số viên gạch cần dùng', expression: '675000/900' }, paragraphs: ['Lấy diện tích nền chia cho diện tích một viên gạch.'] });
+  await press('Em đã đọc lời giảng'); await press('Em chưa hiểu');
+  expect(button('Tử số và mẫu số nghĩa là gì?')).toBeUndefined();
+  expect(button('Vì sao phải quy đồng?')).toBeUndefined();
+  expect(button('Vì sao chọn phép tính này?')).toBeDefined();
+  expect(button('Đơn vị này nghĩa là gì?')).toBeDefined();
 });
 
 it('allows reading first, retains retryable choices on failure and never displays private provider errors', async () => {

@@ -1,0 +1,11 @@
+allprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin('java')) {
+            project.tasks.register('adminOverhaulPreview', JavaExec) {
+                dependsOn project.tasks.named('testClasses')
+                classpath = project.sourceSets.test.runtimeClasspath
+                mainClass = 'com.mathvisionkids.validation.AdminOverhaulPreview'
+            }
+        }
+    }
+}

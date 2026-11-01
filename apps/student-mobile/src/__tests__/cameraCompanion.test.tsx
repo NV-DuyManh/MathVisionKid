@@ -1,6 +1,7 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import * as ImagePicker from 'expo-image-picker';
+import { Alert } from 'react-native';
 import { useCameraPermissions } from 'expo-camera';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import CameraScreen from '../app/camera';
@@ -36,7 +37,7 @@ beforeEach(() => {
     focus = () => { blur = callback(); }; focus(); return () => blur?.();
   }, [callback]));
   mockTakePicture.mockResolvedValue({ uri: 'file:///new-work.jpg', width: 1000, height: 800 });
-  (normalizeImageDraft as jest.Mock).mockResolvedValue({ uri: 'file:///normalized.jpg', width: 1000, height: 800 });
+  (normalizeImageDraft as jest.Mock).mockResolvedValue({ uri: 'file:///normalized.jpg', sourceImageUri: 'file:///normalized.jpg', originalImageUri: 'file:///normalized.jpg', rawUri: 'file:///new-work.jpg', width: 1000, height: 800, privacyConfirmed: false });
 });
 afterEach(() => { if (view) act(() => view.unmount()); });
 const render = async () => { await act(async () => { view = TestRenderer.create(<CameraScreen />); }); };
@@ -84,9 +85,43 @@ it('keeps the gallery available after a preview error and ignores an abandoned p
   act(() => preview().props.onMountError({ message: 'private camera detail' }));
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(true);
   expect(button('Chọn ảnh từ thư viện').props.disabled).toBe(false);
-  act(() => button('Chọn ảnh từ thư viện').props.onPress());
+  act(() => { void button('Chọn ảnh từ thư viện').props.onPress(); });
   act(() => blur());
   await act(async () => finish({ canceled: false, assets: [{ uri: 'file:///late-library.jpg', width: 100, height: 100 }] }));
   expect(recognitionDraftStore.getDraft()).toBeNull();
   expect(push).not.toHaveBeenCalled();
+});
+
+
+it('keeps the normalized JPEG after capture and never routes the original camera cache URI', async () => {
+  await render(); act(() => preview().props.onCameraReady());
+  await act(async () => button('Chụp ảnh bài toán').props.onPress());
+  expect(recognitionDraftStore.getDraft()).toMatchObject({ rawUri: 'file:///new-work.jpg', uri: 'file:///normalized.jpg',
+    sourceImageUri: 'file:///normalized.jpg', originalImageUri: 'file:///normalized.jpg', privacyConfirmed: false });
+  expect(push).toHaveBeenCalledWith({ pathname: '/privacy', params: { uri: 'file:///normalized.jpg' } });
+});
+it('keeps normalized JPEG when choosing the library from camera', async () => {
+  (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'ph://HEIC', width: 4000, height: 3000 }] });
+  await render(); await act(async () => button('Chọn ảnh từ thư viện').props.onPress());
+  expect(normalizeImageDraft).toHaveBeenCalledWith('ph://HEIC', 4000, 3000, 'GALLERY');
+  expect(recognitionDraftStore.getDraft()?.uri).toBe('file:///normalized.jpg');
+});
+it('preserves previous draft on conversion failure and permits retry', async () => {
+  const notice = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  recognitionDraftStore.setDraft({ uri: 'file:///previous.jpg', width: 100, height: 100 });
+  const previous = recognitionDraftStore.getDraft();
+  (normalizeImageDraft as jest.Mock).mockRejectedValueOnce(new Error('IMAGE_DECODE_FAILED'));
+  await render(); act(() => preview().props.onCameraReady());
+  await act(async () => button('Chụp ảnh bài toán').props.onPress());
+  expect(push).not.toHaveBeenCalled(); expect(notice).toHaveBeenCalled(); expect(recognitionDraftStore.getDraft()).toBe(previous);
+  await act(async () => button('Chụp ảnh bài toán').props.onPress()); expect(push).toHaveBeenCalledTimes(1); notice.mockRestore();
+});
+it('ignores normalization completing after camera blur and refocus', async () => {
+  let finish!: (value: unknown) => void;
+  (normalizeImageDraft as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await render(); act(() => preview().props.onCameraReady());
+  await act(async () => { button('Chụp ảnh bài toán').props.onPress(); });
+  act(() => { blur(); focus(); });
+  await act(async () => finish({ uri: 'file:///abandoned-normalized.jpg', width: 100, height: 100 }));
+  expect(push).not.toHaveBeenCalled(); expect(recognitionDraftStore.getDraft()).toBeNull();
 });

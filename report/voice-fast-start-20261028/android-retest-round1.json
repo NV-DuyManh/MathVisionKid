@@ -1,0 +1,11 @@
+{
+  "source": "Owner-operated Android retest plus development player-ready logs, before revision-preservation and duplicate-prefetch fixes",
+  "ownerAnswer": "Vẫn hơn 3 giây hoặc lỗi",
+  "observedPlayerReadyMs": [
+    663,
+    14055,
+    2924
+  ],
+  "acceptance": "failed: target not met consistently",
+  "evidenceLimit": "Player-ready does not prove audible playback. Do not label old tests as the new round."
+}

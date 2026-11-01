@@ -1,0 +1,164 @@
+{
+  "environment": "Local Python harness; real Edge TTS and ffmpeg; synthetic two-step lesson; no physical-device playback",
+  "date": "2026-10-27T23:16:49+0700",
+  "unpublishedSummaryDenied": true,
+  "allPreparationMs": 83406.0,
+  "readyPrivateAudioVariants": 10,
+  "prepared": {
+    "totalSteps": 2,
+    "preparedSteps": 2,
+    "preparedVideos": 2,
+    "preparedCharacters": 3080,
+    "failedItems": 1
+  },
+  "openingAssets": [
+    {
+      "kind": "checked-step",
+      "voice": "vi-VN-NamMinhNeural",
+      "serverReuseMs": 0.097,
+      "bytes": 202062,
+      "durationSeconds": 6.312,
+      "sample": "checked-step-Nam-Minh.wav"
+    },
+    {
+      "kind": "checked-step",
+      "voice": "vi-VN-HoaiMyNeural",
+      "serverReuseMs": 0.104,
+      "bytes": 201294,
+      "durationSeconds": 6.288,
+      "sample": "checked-step-Hoai-My.wav"
+    },
+    {
+      "kind": "final-summary",
+      "voice": "vi-VN-NamMinhNeural",
+      "serverReuseMs": 0.173,
+      "bytes": 418638,
+      "durationSeconds": 13.08,
+      "sample": "final-summary-Nam-Minh.wav"
+    },
+    {
+      "kind": "final-summary",
+      "voice": "vi-VN-HoaiMyNeural",
+      "serverReuseMs": 0.164,
+      "bytes": 407886,
+      "durationSeconds": 12.744,
+      "sample": "final-summary-Hoai-My.wav"
+    }
+  ],
+  "extraProviderCallsOnOpening": 0,
+  "providerRequests": 22,
+  "providerCharacters": 3651,
+  "providerTimeline": [
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 216,
+      "startedMs": 125
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 220,
+      "startedMs": 125
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 218,
+      "startedMs": 1453
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 44,
+      "startedMs": 1453
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 86,
+      "startedMs": 5703
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 219,
+      "startedMs": 13640
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 217,
+      "startedMs": 13640
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 187,
+      "startedMs": 14609
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 96,
+      "startedMs": 17921
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 183,
+      "startedMs": 22343
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 216,
+      "startedMs": 47375
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 220,
+      "startedMs": 47375
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 218,
+      "startedMs": 48187
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 44,
+      "startedMs": 48375
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 86,
+      "startedMs": 49375
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 219,
+      "startedMs": 57312
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 217,
+      "startedMs": 57312
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 187,
+      "startedMs": 58343
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 96,
+      "startedMs": 59484
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 96,
+      "startedMs": 62359
+    },
+    {
+      "voice": "vi-VN-HoaiMyNeural",
+      "characters": 183,
+      "startedMs": 68218
+    },
+    {
+      "voice": "vi-VN-NamMinhNeural",
+      "characters": 183,
+      "startedMs": 75875
+    }
+  ],
+  "success": true
+}

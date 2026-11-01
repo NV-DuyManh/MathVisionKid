@@ -1,36 +1,64 @@
 import type { CompletedLessonStep, LessonStep } from './api/TutorService';
 import type { Voice } from 'expo-speech';
 
+export const NARRATION_PROGRESS_STEPS = ['Giọng đọc đã chọn', 'Chuẩn bị âm thanh', 'Mở lời giảng'] as const;
+
 /** Only fields already opened by the lesson service; never serialize the step. */
 export function stepNarration(step: LessonStep, hint = ''): string[] {
-  return unique([step.explanation, ...(step.guidance || []), hint, step.question]);
+  return unique([...(step.guidance?.length ? step.guidance : [step.explanation]), hint, step.question]);
 }
 
 export function completedNarration(steps: CompletedLessonStep[]): string[] {
   return steps.flatMap(step => unique([step.solutionSentence || step.title,
     step.expression ? `${step.expression} = ${step.answer}${step.unit ? ` (${step.unit})` : ''}` : step.answer,
-    step.explanation, ...(step.guidance || []), ...(step.calculationDetails || [])]));
+    ...(steps.length === 1 ? [step.explanation] : [])]));
 }
 
 function unique(parts: string[]): string[] {
   return [...new Set(parts.map(part => part.trim()).filter(Boolean))];
 }
 
+function spokenGroups(text: string): string {
+  // Prose labels need no bracket names. Calculations still need an audible
+  // group boundary, otherwise (12 + 8) × 2 would sound like 12 + 8 × 2.
+  let previous: string;
+  do {
+    previous = text;
+    text = text.replace(/\(([^()]*)\)/g, (_, part: string) =>
+      /\d/.test(part) && /[+\-−×*÷/:]|(?:^|\s)(?:cộng|trừ|nhân|chia|phần)(?:\s|$)/u.test(part) || part.includes('hết nhóm')
+        ? `nhóm ${part}, hết nhóm` : ` ${part} `);
+  } while (text !== previous && text.includes('('));
+  return text.replace(/[()]/g, ' ');
+}
+
 /** Pronunciation only: do not evaluate, simplify, or invent a calculation. */
 export function spokenMath(text: string): string {
-  return text
+  const spoken = text
+    .replace(/(?<![\p{L}_])(km|dm|cm|mm|m)(?:\^\{([23])\}|\^?([23]))(?![\p{L}\p{N}_])/gu,
+      (_, unit: string, brace: string, plain: string) => unit + ({ '2': '²', '3': '³' } as Record<string, string>)[brace || plain])
+    .replace(/\b((?:Bài|Câu)\s+\d+)\s*[:.)]\s*/gi, '$1. ')
+    .replace(/(?<![\p{L}])(?:đề|đê|xăng|xen|ki|mi)[\s\-‐‑‒–—−]+(?:xi|ti|lô|li)[\s\-‐‑‒–—−]+(?:mét|gam|lít)(?:[\s\-‐‑‒–—−]+(?:vuông|khối))?(?![\p{L}])/giu,
+      unit => unit.replace(/[-‐‑‒–—−]/g, ' '))
+    .replace(/(?:mét|gam|lít)[\-‐‑‒–—−]+(?:vuông|khối)/giu, unit => unit.replace(/[-‐‑‒–—−]/g, ' '))
+    .replace(/\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*/gi, ' ')
+    .replace(/\b((?:Bài|Câu)\s+\d+)\.\s*\./gi, '$1.')
+    .replace(/\(\s*((?:ki lô|đề xi|xăng ti|mi li)?\s*(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)/gi, ' $1 ')
     .replace(/\(([\d.,+\-−×*÷:\s]+)\)\s*\/\s*\(([\d.,+\-−×*÷:\s]+)\)/g,
       (_, top, bottom) => /^[-+]?\d+(?:[.,]\d+)?$/.test(top.trim()) && /^[-+]?\d+(?:[.,]\d+)?$/.test(bottom.trim())
         ? ` ${top} phần ${bottom} ` : ` phân số có tử số là ${top}, và mẫu số là ${bottom} `)
     .replace(/(?<![\d/])(\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)(?![\d/])/g, '$1 phần $2')
-    .replace(/(\d|\))\s*[×*x]\s*(?=[(\d])/g, '$1 nhân ')
-    .replace(/(\d|\))\s*[:÷]\s*(?=[(\d])/g, '$1 chia ')
-    .replace(/(^|[=(,:]\s*)[-−]\s*(?=\d)/g, '$1âm ')
-    .replace(/[-−](?=\s*\d)/g, ' trừ ')
+    .replace(/(^|[=(:,+*×÷/\-−]\s*)[-−]\s*(?=\d)/g, '$1âm ')
+    .replace(/[×*]/g, ' nhân ')
+    .replace(/(\d|\))\s*x\s*(?=[(\d])/g, '$1 nhân ')
+    .replace(/(\d|\))\s*[:÷]\s*(?=[(\d]|âm\s+\d)/g, '$1 chia ')
+    .replace(/[-−](?=\s*[\d(])/g, ' trừ ')
     .replace(/\+/g, ' cộng ').replace(/=/g, ' bằng ')
-    .replace(/(?<![a-z])(km|dm|cm|mm|m)([²³])/g, (_, unit: string, power: string) =>
-      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét' } as Record<string, string>)[unit]} ${power === '²' ? 'vuông' : 'khối'}`)
-    .replace(/%/g, ' phần trăm ').replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
+    .replace(/\(\s*((?:km|dm|cm|mm|kg|mg|ml|m|g|l)(?:[²³])?)\s*\)/g, ' $1 ')
+    .replace(/(?<![\p{L}_])(km|dm|cm|mm|kg|mg|ml|m|g|l)([²³])?(?![\p{L}\p{N}_])/gu, (_, unit: string, power?: string) =>
+      ` ${({ km: 'ki lô mét', dm: 'đề xi mét', cm: 'xăng ti mét', mm: 'mi li mét', m: 'mét',
+        kg: 'ki lô gam', mg: 'mi li gam', g: 'gam', ml: 'mi li lít', l: 'lít' } as Record<string, string>)[unit]}${power ? power === '²' ? ' vuông' : ' khối' : ''} `)
+    .replace(/%/g, ' phần trăm ');
+  return spokenGroups(spoken).replace(/\s+/g, ' ').trim();
 }
 
 /** Small utterances avoid platform length limits and provide natural pauses. */
@@ -60,5 +88,5 @@ export function vietnameseVoices(voices: Voice[]): Voice[] {
 
 export function voiceLabel(voice: Voice, index: number): string {
   const name = voice.name.normalize('NFD').replace(/[\u0300-\u036f\s]/g, '').toLowerCase();
-  return name.includes('hoaimy') ? 'Hoài My' : name.includes('namminh') ? 'Nam Minh' : `Giọng Việt ${index + 1}`;
+  return name.includes('hoaimy') ? 'Giọng nữ' : name.includes('namminh') ? 'Giọng nam' : `Giọng Việt ${index + 1}`;
 }

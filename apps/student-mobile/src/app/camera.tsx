@@ -133,11 +133,6 @@ export default function CameraScreen() {
                     draft.mode = activeMode;
                     draft.lessonContext = activeMode === 'MATH_TUTOR' ? lessonContext : undefined;
                     draft.retrySubmissionId = activeMode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
-                    draft.originalImageUri = photo.uri;
-                    draft.originalUri = photo.uri;
-                    draft.sourceImageUri = photo.uri;
-                    draft.rawUri = photo.uri;
-                    draft.uri = photo.uri;
                     draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
                     recognitionDraftStore.setDraft(draft);
                     setFocused(false); setReady(false);

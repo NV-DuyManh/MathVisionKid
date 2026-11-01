@@ -8,6 +8,14 @@ from app.tutoring.lesson import LessonRequest, TurnRequest, start_lesson, answer
 from app.tutoring.service import TutorUnavailable
 from _lesson_test_data import step, garden_candidate, mock_generation
 
+
+@pytest.fixture(autouse=True)
+def exercise_cloud_planner_not_exact_solver(monkeypatch):
+    # This suite validates generated candidates, independent review and pupil
+    # work excerpts. Exact offline plans have their own step3 recovery suite.
+    from app.tutoring import fraction_remainder
+    monkeypatch.setattr(fraction_remainder, 'verified_plan', lambda _: None)
+
 def garden(a='1', b='3', c='2', d='5', count='16'):
     return (f'Vườn cây nhà bác Nam có {a}/{b} số cây là cây táo, {c}/{d} số cây là cây xoài, còn lại là cây cam. '
             f'Biết rằng số cây cam có trong vườn là {count} cây. Hỏi trong vườn nhà bác Nam có tất cả bao nhiêu cây? (2 điểm)')

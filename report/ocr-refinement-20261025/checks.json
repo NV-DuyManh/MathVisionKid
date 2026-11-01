@@ -1,0 +1,10 @@
+{
+  "unittest_command": "ai/runtime/.venv/Scripts/python.exe -X utf8 -m unittest test_refinement test_joint_text test_letter_head -v",
+  "unittest_workdir": "E:\\MathVisionKid\\ai-training\\datasets\\drive_math\\math_refinement_20261024",
+  "tests": 19,
+  "passed": 19,
+  "evaluator_self_check": "PASS",
+  "integrity": "PASS",
+  "quality_metrics_from": "results.json; evaluation/result.json",
+  "synthetic_tests_are_quality_evidence": false
+}

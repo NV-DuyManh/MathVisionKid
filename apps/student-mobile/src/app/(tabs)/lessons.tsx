@@ -9,6 +9,7 @@ import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 import { recognitionDraftStore, logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
 import { AppButton } from '../../components/ui/AppButton';
+import { QuizShortcut } from '../../features/quiz/QuizShortcut';
 
 export default function LessonsScreen() {
   const insets = useSafeAreaInsets(), router = useRouter();
@@ -25,6 +26,7 @@ export default function LessonsScreen() {
       style={({ pressed }) => [styles.grade, grade === item && styles.gradeSelected, pressed && styles.pressed]}>
       <Text style={[styles.gradeText, grade === item && styles.white]}>Lớp {item}</Text>
     </Pressable>)}</View>
+    <QuizShortcut />
     <View style={styles.headingRow}><Text style={styles.heading}>Hôm nay em học gì?</Text><Text style={styles.count}>{problems.length} bài học</Text></View>
     <View style={styles.list}>{problems.map((problem, index) => <View key={problem.id} style={[styles.topic, { backgroundColor: index % 2 ? '#FFF8E8' : '#F3EFFF' }]}>
       <Pressable accessibilityRole="button" accessibilityLabel={'Mở bài: ' + problem.title} accessibilityState={{ expanded: opened === problem.id }}

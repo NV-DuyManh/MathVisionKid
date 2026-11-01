@@ -1,0 +1,14 @@
+[
+  {
+    "check": "new_problem_reading",
+    "status": 200,
+    "elapsed_s": 0.032
+  },
+  {
+    "check": "checked_mathematics_prepared",
+    "status": 200,
+    "elapsed_s": 26.204,
+    "public_status": "READY",
+    "steps": 8
+  }
+]

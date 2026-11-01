@@ -7,6 +7,7 @@ $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
     (Resolve-Path "$PSScriptRoot\..").Path
 }
 Set-Location $RepoRoot
+. (Join-Path $PSScriptRoot 'local-env.ps1')
 
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Unified Local Launcher" -ForegroundColor Cyan
@@ -96,8 +97,8 @@ function Invoke-CommandWithTimeout {
 function Find-DockerDesktopPath {
     $candidates = @(
         (Join-Path $env:ProgramFiles "Docker\Docker\Docker Desktop.exe"),
-        (if ($env:ProgramFilesX86) { Join-Path $env:ProgramFilesX86 "Docker\Docker\Docker Desktop.exe" }),
-        (if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} "Docker\Docker\Docker Desktop.exe" }),
+        $(if ($env:ProgramFilesX86) { Join-Path $env:ProgramFilesX86 "Docker\Docker\Docker Desktop.exe" }),
+        $(if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} "Docker\Docker\Docker Desktop.exe" }),
         (Join-Path $env:LOCALAPPDATA "Programs\Docker\Docker\Docker Desktop.exe")
     )
     foreach ($p in $candidates) {
@@ -223,7 +224,7 @@ if (-not $nodeCmd -or -not $npmCmd) {
         $MissingDeps += @{
             Tool   = "Node.js"
             Reason = "node executable not found in PATH"
-            Fix    = "Install Node.js 20+ from https://nodejs.org/"
+            Fix    = "Install supported Node.js 22.13+, 24.3+, or 26+ from https://nodejs.org/ (use an even-numbered release)"
         }
     }
     if (-not $npmCmd) {
@@ -308,9 +309,76 @@ if (Test-Path $PidDir) {
     }
 }
 
+function Resolve-LocalMinioImage {
+    param([string]$Image, [string]$Container, [string]$Volume, [string]$BuildContext)
+    $existing = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('container', 'inspect', $Container) -TimeoutSeconds 10
+    if ($existing.Success) {
+        # Preserve the exact image reference already owning this installation.
+        $Image = @($existing.Stdout | ConvertFrom-Json)[0].Config.Image
+    } else {
+        $stored = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('volume', 'inspect', $Volume) -TimeoutSeconds 10
+        if ($stored.Success) { throw 'MINIO_RECOVERY_REVIEW_REQUIRED: Existing data has no original container. No image was built or attached.' }
+    }
+    $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', $Image) -TimeoutSeconds 10
+    if (-not $cached.Success) {
+        if ($existing.Success) { throw 'MINIO_LOCAL_IMAGE_MISSING: The image owning existing data must be restored, never replaced automatically.' }
+        Write-Host '  First setup: building the shared, checksum-verified MinIO release (initial download may take several minutes).' -ForegroundColor Yellow
+        $built = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('build', '-t', $Image, ('"' + $BuildContext + '"')) -TimeoutSeconds 900
+        if (-not $built.Success) { throw 'MINIO_BUILD_FAILED: The verified storage build failed. Existing data was not changed. Check network access and retry.' }
+        $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', $Image) -TimeoutSeconds 10
+    }
+    if (-not $cached.Success) { throw 'MINIO_LOCAL_IMAGE_MISSING: Verified storage image is unavailable.' }
+    $architecture = @($cached.Stdout | ConvertFrom-Json)[0].Architecture
+    $expected = switch ($architecture) {
+        'amd64' { @('b0638a7f484c53c2d22777f9d8d777d600a321aaeff526bf42a8524c89bfec5e', 'fc195c3ad5c19b91d96bbb42d79af94173aa491ebcda9ca372c4f382546135ec') }
+        'arm64' { @('7c22acede0af52d9044f9ac67bde5641d4f9c54930e80c09216634a6603a92d7', '683aebeef6f8e0d18fcfec152e8e8d0f7e7e8fa5859b5ea2bd2414280b7398c6') }
+        default { throw 'MINIO_ARCHITECTURE_UNSUPPORTED: Only the verified AMD64 and ARM64 releases are supported.' }
+    }
+    # Read binary checksums in a temporary container: no data mount, no network.
+    $hashes = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('run', '--rm', '--network', 'none', '--entrypoint', '/usr/bin/sha256sum', $Image, '/usr/local/bin/minio', '/usr/local/bin/mc') -TimeoutSeconds 20
+    if (-not $hashes.Success) {
+        $hashes = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('run', '--rm', '--network', 'none', '--entrypoint', '/usr/bin/sha256sum', $Image, '/usr/bin/minio', '/usr/bin/mc') -TimeoutSeconds 20
+    }
+    $actual = @($hashes.Stdout -split '\r?\n' | Where-Object { $_ -match '^([a-f0-9]{64})\s' } | ForEach-Object { ($_ -split '\s+')[0] })
+    if (-not $hashes.Success -or $actual.Count -ne 2 -or $actual[0] -ne $expected[0] -or $actual[1] -ne $expected[1]) {
+        throw 'MINIO_BINARY_MISMATCH: Storage binaries differ from the shared verified release. No existing data was attached or changed.'
+    }
+    return $Image
+}
+
+function Assert-LocalMinioImage {
+    param([string]$Image, [string]$Container, [string]$Volume)
+    $cached = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('image', 'inspect', '--format', '{{.Id}}', $Image) -TimeoutSeconds 10
+    if (-not $cached.Success -or -not $cached.Stdout) {
+        throw "MINIO_LOCAL_IMAGE_MISSING: $Image is not available locally. Load the verified image archive before starting. No replacement image was pulled; storage data was preserved."
+    }
+    $existing = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('container', 'inspect', $Container) -TimeoutSeconds 10
+    if ($existing.Success) {
+        $containerInfo = @($existing.Stdout | ConvertFrom-Json)[0]
+        if ($containerInfo.Image -ne $cached.Stdout.Trim()) {
+            throw 'MINIO_IMAGE_CHANGE_BLOCKED: The configured image differs from the image owning the existing data. Back up and verify recovery before an explicitly approved migration.'
+        }
+        $dataMount = @($containerInfo.Mounts | Where-Object { $_.Destination -eq '/data' })
+        if ($dataMount.Count -ne 1 -or $dataMount[0].Type -ne 'volume' -or $dataMount[0].Name -ne $Volume) {
+            throw 'MINIO_VOLUME_CHANGE_BLOCKED: The existing /data mount differs from the Compose volume. Storage data was preserved; review recovery before proceeding.'
+        }
+    } else {
+        $stored = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('volume', 'inspect', $Volume) -TimeoutSeconds 10
+        if ($stored.Success) {
+            throw 'MINIO_RECOVERY_REVIEW_REQUIRED: A data volume exists without its original container identity. Verify the backup and recovery image before attaching it to a new container.'
+        }
+    }
+}
+
 # 3. Infrastructure (Docker Compose)
 Write-Host "`n[3/6] Starting infrastructure (PostgreSQL, MinIO, Redis)..." -ForegroundColor Yellow
 $ComposeFile = Join-Path $RepoRoot "infra\docker\docker-compose.yml"
+$composeConfig = Invoke-CommandWithTimeout -FilePath 'docker' -ArgumentList @('compose', '-f', ('"' + $ComposeFile + '"'), 'config', '--format', 'json') -TimeoutSeconds 10
+if (-not $composeConfig.Success) { throw 'COMPOSE_CONFIG_INVALID: Validate infra/docker/docker-compose.yml before starting services.' }
+$resolvedCompose = $composeConfig.Stdout | ConvertFrom-Json
+$env:MATHVISION_MINIO_IMAGE = Resolve-LocalMinioImage -Image $resolvedCompose.services.minio.image -Container $resolvedCompose.services.minio.container_name -Volume $resolvedCompose.volumes.miniodata.name -BuildContext (Join-Path $RepoRoot 'infra/production/storage')
+$resolvedCompose.services.minio.image = $env:MATHVISION_MINIO_IMAGE
+Assert-LocalMinioImage -Image $resolvedCompose.services.minio.image -Container $resolvedCompose.services.minio.container_name -Volume $resolvedCompose.volumes.miniodata.name
 & docker compose -f $ComposeFile up -d postgres minio redis
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Failed to start docker-compose infrastructure." -ForegroundColor Red
@@ -390,6 +458,36 @@ function Test-ServiceProcessIdentity {
     if (Test-ServiceCommandIdentity -CommandLine $Process.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind) {
         return $true
     }
+    # Gradle can shorten Windows command lines into a manifest classpath JAR.
+    # Verify its actual main classes/resources; the shared .gradle path alone
+    # cannot identify this checkout or authorize stopping another runtime.
+    if ($IdentityKind -eq 'spring' -and $Process.CommandLine -match '\bcom\.mathvisionkids\.api\.BusinessApiApplication(?:\s|$)' -and
+            $Process.CommandLine -match '(?:^|\s)-(?:cp|classpath)\s+(?:"([^"]+)"|(\S+))') {
+        $classpathJar = if ($Matches[1]) { $Matches[1] } else { $Matches[2] }
+        if ($classpathJar -notmatch '\.jar$' -or -not (Test-Path -LiteralPath $classpathJar -PathType Leaf)) { return $false }
+        $archive = $null; $reader = $null
+        try {
+            Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
+            $archive = [IO.Compression.ZipFile]::OpenRead($classpathJar)
+            $manifest = $archive.GetEntry('META-INF/MANIFEST.MF')
+            if (-not $manifest -or $manifest.Length -gt 65536) { return $false }
+            $reader = [IO.StreamReader]::new($manifest.Open())
+            $text = $reader.ReadToEnd() -replace '\r?\n ', ''
+            if ($text -notmatch '(?m)^Class-Path: ([^\r\n]+)') { return $false }
+            $paths = @($Matches[1].Split(' ') | ForEach-Object {
+                $uri = $null
+                if ([Uri]::TryCreate($_, [UriKind]::Absolute, [ref]$uri) -and $uri.IsFile -and -not $uri.IsUnc) {
+                    $uri.LocalPath.Replace('\','/').TrimEnd('/').ToLowerInvariant()
+                }
+            })
+            $expected = $WorkingDirectory.Replace('\','/').TrimEnd('/').ToLowerInvariant()
+            return $paths -contains "$expected/build/classes/java/main" -and $paths -contains "$expected/build/resources/main"
+        } catch { return $false }
+        finally {
+            if ($reader) { $reader.Dispose() }
+            if ($archive) { $archive.Dispose() }
+        }
+    }
     # Windows venv redirectors keep the project path in the immediate Python parent.
     if ($IdentityKind -notin @('fastapi', 'celery') -or $Process.Name -notmatch '^python(?:w)?\.exe$' -or -not $Process.ExecutablePath) {
         return $false
@@ -442,7 +540,28 @@ function Start-TrackedService {
                     throw "PORT_CONFLICT: Could not verify the runtime on port $PortCheck."
                 }
             }
-            Write-Host "  $Name is already running on port $PortCheck." -ForegroundColor Green
+            if ($IdentityKind -in @('spring','fastapi')) {
+                $sourceDir = if ($IdentityKind -eq 'spring') { Join-Path $WorkingDirectory 'src/main' } else { Join-Path $WorkingDirectory 'app' }
+                $inputs = @(Get-ChildItem -LiteralPath $sourceDir -Recurse -File | Where-Object { $_.Extension -in @('.java','.sql','.yml','.properties','.py') })
+                foreach ($envName in @('.env','.env.local')) {
+                    $envPath = Join-Path $WorkingDirectory $envName
+                    if (Test-Path -LiteralPath $envPath) { $inputs += Get-Item -LiteralPath $envPath }
+                }
+                $newest = ($inputs | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
+                $stale = @($ownerIds | Where-Object { (Get-Process -Id $_).StartTime.ToUniversalTime() -lt $newest })
+                if ($stale.Count -gt 0) {
+                    Write-Host "  $Name has older loaded code/configuration; restarting this verified checkout." -ForegroundColor Yellow
+                    foreach ($ownerId in $ownerIds) { Stop-Process -Id $ownerId -ErrorAction Stop }
+                    for ($attempt=0; $attempt -lt 30; $attempt++) {
+                        if (-not (Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction SilentlyContinue)) { break }
+                        Start-Sleep -Milliseconds 200
+                    }
+                    if (Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction SilentlyContinue) { throw "STALE_RUNTIME: Port $PortCheck was not released" }
+                    Start-TrackedService @PSBoundParameters
+                    return
+                }
+            }
+            Write-Host "  $Name is already running on port $PortCheck with current source timestamps." -ForegroundColor Green
             return
         }
     }
@@ -466,13 +585,7 @@ function Start-TrackedService {
         Write-Host "  ERROR: $Name exited immediately with exit code $($proc.ExitCode)!" -ForegroundColor Red
         Write-Host "    Stdout: $LogFile" -ForegroundColor Yellow
         Write-Host "    Stderr: $errLog" -ForegroundColor Yellow
-        if (Test-Path $errLog) {
-            $errTail = Get-Content $errLog -Tail 15 -ErrorAction SilentlyContinue
-            if ($errTail) {
-                Write-Host "    Stderr detail:" -ForegroundColor DarkRed
-                $errTail | ForEach-Object { Write-Host "      $_" -ForegroundColor DarkRed }
-            }
-        }
+        # Keep raw service errors in local logs; they can contain configuration secrets.
         exit 1
     }
 
@@ -491,14 +604,25 @@ Write-Host "`n[4/6] Starting application services..." -ForegroundColor Yellow
 $SpringDir = Join-Path $RepoRoot "backend\business-api"
 $SpringPid = Join-Path $PidDir "spring.pid"
 $SpringLog = Join-Path $LogDir "spring.log"
+# Spring Boot does not read dotenv automatically. Scope these values to its child
+# process so keys cannot leak into AI, Vite, or Student processes. Its CLI pins
+# the local API to 8080 because a root-level PORT can belong to the AI runtime.
+$springEnvKeys = @(
+    'SPRING_PROFILES_ACTIVE', 'PORT', 'SERVER_ADDRESS', 'DB_URL', 'DB_USERNAME',
+    'DB_PASSWORD', 'JWT_SECRET', 'JWT_EXPIRATION', 'UPLOAD_ROOT', 'CORS_ALLOWED_ORIGINS',
+    'MINIO_ENDPOINT', 'MINIO_ACCESS_KEY', 'MINIO_SECRET_KEY', 'MINIO_BUCKET',
+    'AI_GATEWAY_MODE', 'AI_SERVICE_URL', 'AI_SERVICE_BASE_URL', 'INTERNAL_API_KEY'
+)
+Invoke-WithLocalEnvironment -Files @((Join-Path $RepoRoot '.env'), (Join-Path $SpringDir '.env')) -AllowedKeys $springEnvKeys -Action {
 Start-TrackedService -Name "Spring Boot" `
     -FilePath "cmd.exe" `
-    -ArgumentList '/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev"' `
+    -ArgumentList '/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev --server.port=8080"' `
     -WorkingDirectory $SpringDir `
     -LogFile $SpringLog `
     -PidFile $SpringPid `
     -PortCheck 8080 `
     -IdentityKind 'spring'
+}
 
 # B. FastAPI
 $AiDir = Join-Path $RepoRoot "ai\runtime"
@@ -506,6 +630,7 @@ $FastApiPid = Join-Path $PidDir "fastapi.pid"
 $FastApiLog = Join-Path $LogDir "fastapi.log"
 $UvicornExe = Join-Path $AiDir ".venv\Scripts\uvicorn.exe"
 if (-not (Test-Path $UvicornExe)) { $UvicornExe = "uvicorn" }
+Invoke-WithLocalSpeechTools -Action {
 Start-TrackedService -Name "FastAPI AI Runtime" `
     -FilePath $UvicornExe `
     -ArgumentList "app.main:app --host 127.0.0.1 --port 8000" `
@@ -514,6 +639,7 @@ Start-TrackedService -Name "FastAPI AI Runtime" `
     -PidFile $FastApiPid `
     -PortCheck 8000 `
     -IdentityKind 'fastapi'
+}
 
 # C. Celery Worker
 $CeleryPid = Join-Path $PidDir "celery.pid"

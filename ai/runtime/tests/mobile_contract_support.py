@@ -31,4 +31,5 @@ def mobile_helper(function: str, *args):
 
 def run_legacy_matrix(path: Path):
     script = path.read_text(encoding="utf-8").replace("../../features/recognition/utils/lineReview.ts", LINE_REVIEW)
-    return run_mobile_node(script)
+    # This matrix uses synchronous node:assert assertions, wrapped for Jest too.
+    return run_mobile_node("globalThis.test = (_name, check) => check();\n" + script)

@@ -1,0 +1,9 @@
+{
+  "seconds": 400.7881784,
+  "excluded": [
+    "test_minio_pipeline.py",
+    "test_groq_live_migration.py",
+    "test_gemini_live.py"
+  ],
+  "exitCode": 1
+}

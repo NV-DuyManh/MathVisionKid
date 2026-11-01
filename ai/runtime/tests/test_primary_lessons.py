@@ -371,7 +371,9 @@ async def test_flat_draft_refusal_and_invalid_ready_shape_never_open_a_session(m
 @pytest.mark.asyncio
 async def test_flat_ready_draft_still_requires_independent_result_review(monkeypatch):
     plan=candidate()
-    draft={**plan,'canSolve':True}
+    draft={**copy.deepcopy(plan),'canSolve':True}
+    for item in draft['steps']:
+        item['initialGuidance']=item['guidance']; item['guidance']=[]
     cloud=AsyncMock(side_effect=[draft,review_for(plan)])
     monkeypatch.setattr(lesson,'_generate',cloud)
     value=await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
@@ -403,6 +405,8 @@ async def test_draft_work_references_preserve_exact_source_rows_and_reject_inval
     source='Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'
     work='Số bút có tất cả là:\n7 × 9 = 62 (bút)'
     plan=candidate(); draft={**copy.deepcopy(plan),'canSolve':True}
+    for item in draft['steps']:
+        item['initialGuidance']=item['guidance']; item['guidance']=[]
     draft['steps'][1]['workLineIndexes']=indexes
     reviewed=copy.deepcopy(plan); reviewed['steps'][1]['workExcerpt']=work
     cloud=AsyncMock(side_effect=[draft,review_for(reviewed)] if indexes==[0,1] else [draft,draft])
@@ -423,6 +427,77 @@ async def test_draft_work_references_preserve_exact_source_rows_and_reject_inval
             await start_lesson(LessonRequest(owner='pupil',problemText=source,problemConfirmed=True,
                 workText=work,workConfirmed=True))
         assert all(call.args[0]!=lesson.REVIEW_PROMPT for call in cloud.await_args_list)
+
+
+@pytest.mark.asyncio
+async def test_flat_private_spoken_answers_and_reciprocal_stay_out_of_initial_teaching(monkeypatch):
+    from _lesson_test_data import garden_candidate
+    plan=garden_candidate();draft={**copy.deepcopy(plan),'canSolve':True}
+    private=[
+        'Sau khi tính, phần cây táo và xoài bằng mười một phần mười lăm của cả vườn.',
+        'Một đơn vị trừ mười một phần mười lăm, được bốn phần mười lăm.',
+        'Tính cả vườn bằng cách lấy 16 nhân với 15/4 rồi ghi số cây tìm được.',
+    ]
+    for index,item in enumerate(draft['steps']):
+        item['initialGuidance']=item['guidance'];item['guidance']=[private[index]]
+    cloud=AsyncMock(side_effect=[draft,review_for(plan)])
+    monkeypatch.setattr(lesson,'_generate',cloud)
+    value=await start_lesson(request('Vườn có 1/3 số cây là táo, 2/5 là xoài, còn lại 16 cây cam. Hỏi có tất cả bao nhiêu cây?'))
+    reviewed=json.loads(cloud.await_args_list[1].args[1])
+    for index,worked in enumerate(private):
+        assert worked not in reviewed['initialTeaching'][index]
+        assert worked in reviewed['workedTeaching'][index]
+        assert 'initialGuidance' not in reviewed['candidate']['steps'][index]
+    assert 'initialGuidance' not in value.model_dump_json()
+    for answer,index in [('11/15',0),('4/15',1)]:
+        assert private[index] not in value.step.guidance
+        value=turn(value,answer)
+        assert private[index] in value.completed[index].guidance
+        assert value.completed[index].guidance.count(private[index])==1
+    assert private[2] not in value.step.guidance
+    value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
+    assert private[2] not in value.step.guidance
+    value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
+    assert private[2] in value.step.guidance
+
+
+@pytest.mark.asyncio
+async def test_explicit_empty_initial_draft_does_not_fall_back_to_private_work(monkeypatch):
+    plan=candidate();draft={**copy.deepcopy(plan),'canSolve':True}
+    for item in draft['steps']:
+        item['initialGuidance']=[]
+    cloud=AsyncMock(return_value=draft);monkeypatch.setattr(lesson,'_generate',cloud)
+    lesson._sessions.clear()
+    with pytest.raises(TutorUnavailable):await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
+    assert not lesson._sessions and cloud.await_count==2
+    assert all(call.args[0]!=lesson.REVIEW_PROMPT for call in cloud.await_args_list)
+
+
+@pytest.mark.asyncio
+async def test_explicit_initial_answer_leak_still_requires_independent_rejection(monkeypatch):
+    plan=candidate();draft={**copy.deepcopy(plan),'canSolve':True}
+    for item in draft['steps']:
+        item['initialGuidance']=item['guidance'];item['guidance']=[]
+    leaked='Bảy nhân chín bằng sáu mươi ba bút; em ghi kết quả đó.'
+    draft['steps'][1]['initialGuidance'].append(leaked)
+    # Keep the planner's three-item boundary; it is still subject to review.
+    draft['steps'][1]['initialGuidance']=draft['steps'][1]['initialGuidance'][-3:]
+    rejected={**review_for(plan),'teachingClear':False,'issues':['Premature answer in initial teaching']}
+    cloud=AsyncMock(side_effect=[draft,rejected,draft,rejected]);monkeypatch.setattr(lesson,'_generate',cloud)
+    with pytest.raises(TutorUnavailable):await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
+    reviews=[json.loads(call.args[1]) for call in cloud.await_args_list if call.args[0]==lesson.REVIEW_PROMPT]
+    assert len(reviews)==2 and all(leaked in review['initialTeaching'][1] for review in reviews)
+
+
+def test_initial_boundary_is_shifted_with_preceding_comprehension_steps():
+    from _lesson_test_data import garden_candidate
+    plan=lesson.Plan.model_validate(garden_candidate())
+    for item in plan.steps:item.initialGuidance=list(item.guidance)
+    prep=lesson.source_understanding('Vườn có 1/3 số cây là táo, 2/5 là xoài, còn lại 16 cây cam. Hỏi có tất cả bao nhiêu cây?')
+    shifted=lesson.prepend_understanding(plan,prep)
+    assert '{s3}' in shifted.steps[4].initialGuidance[0]
+    assert '{s0}' not in shifted.steps[4].initialGuidance[0]
+    assert 'initialGuidance' not in shifted.model_dump_json()
 
 
 @pytest.mark.asyncio

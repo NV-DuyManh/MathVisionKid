@@ -1,0 +1,9 @@
+{
+  "environment": "Local authenticated business API, real lesson model and real TTS; synthetic problem; no Android playback measurement",
+  "anonymousStatus": 401,
+  "lessonStatus": 200,
+  "lessonCreationMs": 7284,
+  "success": false,
+  "errorCategory": "AssertionError",
+  "logoutStatus": 200
+}
