@@ -33,8 +33,8 @@ def test_grouped_source_amount_is_one_number(separator):
 
 @pytest.mark.parametrize('source,expected', [
     (SOURCE, {'10', '100'}),
-    ('Đổi 3 m² sang cm².', {'100', '10000'}),
-    ('Đổi 2 m³ sang dm³.', {'10', '1000'}),
+    ('Đổi 3 m² sang cm².', {'10000'}),
+    ('Đổi 2 m³ sang dm³.', {'1000'}),
 ])
 def test_conversion_constants_follow_explicit_metric_context(source, expected):
     assert expected <= lesson.formula_constants(source)
@@ -67,6 +67,14 @@ def test_conversion_does_not_authorize_arbitrary_operands_or_amounts():
     plan['steps'][4]['expression'] = '{s1}/2*250001'
     with pytest.raises(ValueError, match='Derived literal'):
         lesson.validate_plan(lesson.Plan.model_validate(plan), request, lesson.formula_constants(SOURCE))
+
+
+def test_mixed_tonnes_and_kilograms_authorize_only_the_grounded_conversion():
+    source='Bác An thu hoạch được 2 tấn 35 kg. Tìm khối lượng theo kg.'
+    assert {'fromUnit':'tấn','toUnit':'kg','factor':'1000'} in lesson.unit_conversions(source)
+    assert '1000' in lesson.formula_constants(source)
+    assert '1000' not in lesson.formula_constants('Bác Tân có 35 kg hạt điều.')
+    assert not lesson.unit_conversions('Có 2 tấn thóc trên thửa ruộng dài 35 m.')
 
 
 @pytest.mark.parametrize('length,tile,price,answers', [

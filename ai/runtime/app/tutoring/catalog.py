@@ -16,7 +16,7 @@ logger=logging.getLogger(__name__)
 def policy(kind):
     folder=Path(__file__).resolve().parent
     names=['lesson.py','service.py'] if kind=='plan' else ['speech_render.py','narration.py','audio_cues.py','azure_speech.py']
-    if kind=='plan':names+=['digit_append.py','fraction_remainder.py']
+    if kind=='plan':names+=['digit_append.py','fraction_remainder.py','mass_fraction.py','choice_source.py','math_knowledge.py']
     content=b'catalog-v1'+b''.join((folder/name).read_bytes() for name in names if (folder/name).is_file())
     return sha256(content).hexdigest()
 

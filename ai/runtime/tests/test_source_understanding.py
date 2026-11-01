@@ -13,6 +13,17 @@ def turn(response, answer='', owner='student-a', hint=False):
         revision=response.revision, answer=answer, hint=hint))
 
 
+def test_multiple_choice_colon_question_uses_original_stem_without_distractors():
+    source=('Câu 7. Bác An thu hoạch được 2 tấn 35 kg hạt điều và hạnh nhân. '
+            'Biết rằng số lượng hạnh nhân chiếm 2/5 tổng số hạt điều và hạnh nhân thu hoạch được. '
+            'Vậy, bác An thu hoạch được số ki – lô – gam hạnh nhân là: '
+            'A. 814 kg B. 914 kg C. 1 221 kg D. 1 231 kg')
+    steps=lesson.source_understanding(source)
+    assert len(steps)==3
+    assert steps[1].correctChoice=='Vậy, bác An thu hoạch được số ki – lô – gam hạnh nhân là:'
+    assert all('814' not in str(item.model_dump()) and '914' not in str(item.model_dump()) for item in steps)
+
+
 @pytest.fixture(autouse=True)
 def reset_sessions(monkeypatch):
     lesson._sessions.clear()
@@ -167,7 +178,7 @@ async def test_unsupported_comprehension_still_propagates_failed_math_planning(m
     with pytest.raises(lesson.TutorUnavailable):
         await lesson.start_lesson(lesson.LessonRequest(owner='student-a', problemText='Có 12 bút không?',
             problemConfirmed=True, guidedUnderstanding=True))
-    assert cloud.await_count == 1
+    assert cloud.await_count == 2
 
 
 @pytest.mark.asyncio
