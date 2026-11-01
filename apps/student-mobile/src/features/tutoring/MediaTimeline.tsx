@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Slider from './MediaSlider';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FONTS } from '../../constants/theme';
+import { COLORS, FONTS } from '../../constants/theme';
 
 export const mediaTime = (seconds: number) => `${Math.floor(Math.max(0, seconds) / 60)}:${String(Math.floor(Math.max(0, seconds) % 60)).padStart(2, '0')}`;
 type Props = { title: string; subtitle?: string; currentTime: number; duration: number; playing: boolean; disabled?: boolean; loading?: boolean; compact?: boolean;
@@ -15,6 +15,8 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
   playLabel = 'Phát lời giảng', pauseLabel = 'Tạm dừng lời giảng', restartLabel = 'Nghe lại từ đầu', skipSeconds = 10, rate = 1, onRate }: Props) {
   const [dragging, setDragging] = useState<number | null>(null);
   const [focused, setFocused] = useState('');
+  const { width, fontScale } = useWindowDimensions();
+  const statusBelow = width < 390 || fontScale > 1.2;
   const total = Number.isFinite(duration) && duration > 0 ? duration : 0;
   const position = Math.max(0, Math.min(dragging ?? currentTime, total));
   const blocked = disabled || loading || !total;
@@ -25,16 +27,17 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
     },
     onBlur: () => setFocused(''), onPointerDown: () => setFocused(''),
   });
+  const status = !compact ? <View style={[styles.statePill, playing && styles.statePillPlaying]}><View style={[styles.stateDot, playing && styles.stateDotPlaying]} accessible={false}/><Text accessibilityLiveRegion="polite" style={[styles.stateText, playing && styles.stateTextPlaying]}>{loading ? 'Đang chuẩn bị' : playing ? 'Đang phát' : disabled ? 'Chưa sẵn sàng' : total ? 'Sẵn sàng' : 'Đang đọc thời lượng'}</Text></View> : null;
   return <View testID="media-timeline" style={[styles.card, compact && styles.compactCard]} aria-busy={loading}>
     <View style={styles.heading}><View style={styles.badge}><Ionicons name="headset-outline" size={21} color="#7046DD" accessible={false} /></View>
       <View style={styles.flex}><Text style={styles.title}>{title}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>
+      {!statusBelow ? status : null}
     </View>
-    {!compact ? <View style={styles.stateRow}><View style={[styles.statePill, playing && styles.statePillPlaying]}><View style={[styles.stateDot, playing && styles.stateDotPlaying]} /><Text accessibilityLiveRegion="polite" style={[styles.stateText, playing && styles.stateTextPlaying]}>{loading ? 'Đang chuẩn bị' : playing ? 'Đang phát' : disabled ? 'Chưa sẵn sàng' : total ? 'Sẵn sàng' : 'Đang đọc thời lượng'}</Text></View>
-      </View> : null}
+    {statusBelow && status ? <View style={styles.stateRow}>{status}</View> : null}
     <View style={styles.timeline}>
       <Slider accessibilityLabel={`Tua ${title.toLowerCase()}`} accessibilityValue={{ min: 0, max: total, now: position, text: `${mediaTime(position)} trên ${mediaTime(total)}` }}
         style={styles.slider} minimumValue={0} maximumValue={total || 1} value={position} disabled={blocked} tapToSeek
-        minimumTrackTintColor="#7650E6" maximumTrackTintColor="#E4DDF3" thumbTintColor="#7650E6"
+        minimumTrackTintColor={COLORS.primary} maximumTrackTintColor={COLORS.primaryLight} thumbTintColor={COLORS.primaryDark}
         onSlidingStart={() => { setDragging(position); onScrubStart(); }} onValueChange={setDragging}
         onSlidingComplete={value => { setDragging(null); onSeek(Math.max(0, Math.min(value, total))); }} />
       <View style={styles.times}><Text style={styles.time}>{mediaTime(position)}</Text><Text style={styles.time}>{mediaTime(total)}</Text></View>
@@ -43,7 +46,7 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
       <Pressable {...focus('back')} accessibilityRole="button" accessibilityLabel={`Lùi ${skipSeconds} giây`} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={() => onSeek(Math.max(0, currentTime - skipSeconds))}
         style={({ pressed }) => [styles.skip, focused === 'back' && styles.focused, (blocked || pressed) && styles.dimmed]}><Ionicons name="play-back-outline" size={22} color="#625074" accessible={false} /><Text style={styles.skipText}>−{skipSeconds}s</Text></Pressable>
       <Pressable {...focus('play')} accessibilityRole="button" accessibilityLabel={playing ? pauseLabel : playLabel} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={onToggle}
-        style={({ pressed }) => [styles.play, compact && styles.compactPlay, focused === 'play' && styles.focused, blocked && styles.dimmed, pressed && !blocked && styles.pressed]}><LinearGradient colors={['#9265FF', '#6E42E2']} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.playFill}>{loading ? <ActivityIndicator color="#FFFFFF" accessibilityLabel="Đang tải nội dung" /> : <Ionicons name={playing ? 'pause' : 'play'} size={compact ? 24 : 29} color="#FFFFFF" accessible={false} />}</LinearGradient></Pressable>
+        style={({ pressed }) => [styles.play, compact && styles.compactPlay, focused === 'play' && styles.focused, blocked && styles.dimmed, pressed && !blocked && styles.pressed]}><LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.playFill}>{loading ? <ActivityIndicator color="#FFFFFF" accessibilityLabel="Đang tải nội dung" /> : <Ionicons name={playing ? 'pause' : 'play'} size={compact ? 24 : 29} color="#FFFFFF" accessible={false} />}</LinearGradient></Pressable>
       <Pressable {...focus('forward')} accessibilityRole="button" accessibilityLabel={`Tiến ${skipSeconds} giây`} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={() => onSeek(Math.min(total, currentTime + skipSeconds))}
         style={({ pressed }) => [styles.skip, focused === 'forward' && styles.focused, (blocked || pressed) && styles.dimmed]}><Ionicons name="play-forward-outline" size={22} color="#625074" accessible={false} /><Text style={styles.skipText}>+{skipSeconds}s</Text></Pressable>
     </View>
@@ -56,21 +59,21 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
   </View>;
 }
 const styles = StyleSheet.create({
-  card: { padding: 16, paddingBottom: 12, borderRadius: 24, backgroundColor: '#FCFAFF', borderWidth: 1, borderColor: '#E6DDF6', gap: 4 },
-  compactCard: { padding: 13, paddingBottom: 10, gap: 1 }, compactControls: { paddingVertical: 6 }, compactPlay: { width: 58, height: 58, borderRadius: 29, borderWidth: 3 },
-  heading: { flexDirection: 'row', alignItems: 'center', gap: 10 }, badge: { width: 44, height: 44, borderRadius: 15, backgroundColor: '#EEE5FF', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E3D5FC' },
-  flex: { flex: 1, minWidth: 0 }, title: { fontFamily: FONTS.extraBold, fontSize: 15, lineHeight: 22, color: '#261E45' }, subtitle: { fontFamily: FONTS.regular, fontSize: 11, lineHeight: 17, color: '#6F6080', marginTop: 1 },
-  stateRow: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingTop: 10, flexWrap: 'wrap' }, stateDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#8060BF' }, stateDotPlaying: { backgroundColor: '#27815D' },
-  statePill: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 9, backgroundColor: '#F0EAF9' }, statePillPlaying: { backgroundColor: '#E8F5EE' },
-  stateText: { fontFamily: FONTS.bold, fontSize: 10, lineHeight: 16, color: '#61516F' }, stateTextPlaying: { color: '#23694F' },
-  rate: { minWidth: 72, minHeight: 44, paddingHorizontal: 10, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: '#F1ECF8' }, rateText: { fontFamily: FONTS.bold, fontSize: 13, color: '#6F6080' },
+  card: { padding: 18, paddingBottom: 12, borderRadius: 24, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: '#E4DCEF', gap: 6 },
+  compactCard: { padding: 14, paddingBottom: 10, gap: 2 }, compactControls: { paddingVertical: 6 }, compactPlay: { width: 60, height: 60, borderRadius: 30, borderWidth: 4 },
+  heading: { flexDirection: 'row', alignItems: 'center', gap: 10 }, badge: { width: 40, height: 44, borderRadius: 15, backgroundColor: COLORS.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  flex: { flex: 1, minWidth: 0 }, title: { fontFamily: FONTS.extraBold, fontSize: 16, lineHeight: 23, color: COLORS.textPrimary }, subtitle: { fontFamily: FONTS.regular, fontSize: 11, lineHeight: 17, color: COLORS.textSecondary, marginTop: 2 },
+  stateRow: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingTop: 4, flexWrap: 'wrap' }, stateDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: '#8060BF' }, stateDotPlaying: { backgroundColor: '#27815D' },
+  statePill: { flexDirection: 'row', alignItems: 'center', flexShrink: 1, gap: 5, paddingHorizontal: 8, paddingVertical: 5, borderRadius: 20, backgroundColor: '#F4F0FA' }, statePillPlaying: { backgroundColor: '#E8F5EE' },
+  stateText: { flexShrink: 1, fontFamily: FONTS.bold, fontSize: 10, lineHeight: 16, color: '#61516F' }, stateTextPlaying: { color: '#23694F' },
+  rate: { minWidth: 72, minHeight: 48, paddingHorizontal: 10, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: '#F6F3FB' }, rateText: { fontFamily: FONTS.bold, fontSize: 13, color: '#625074' },
   timeline: { marginTop: 3 }, slider: { width: '100%' as const, height: 48 }, times: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 2, marginTop: -4 },
-  time: { fontFamily: FONTS.semiBold, fontSize: 12, color: '#6F6080', fontVariant: ['tabular-nums'] },
-  controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', paddingVertical: 10 },
-  play: { width: 76, height: 76, borderRadius: 38, borderWidth: 5, borderColor: '#EEE5FD', backgroundColor: '#7950DA' },
+  time: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.textSecondary, fontVariant: ['tabular-nums'] },
+  controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', paddingVertical: 12 },
+  play: { width: 78, height: 78, borderRadius: 39, borderWidth: 5, borderColor: COLORS.primaryLight, backgroundColor: COLORS.primary },
   playFill: { flex: 1, borderRadius: 33, alignItems: 'center', justifyContent: 'center' }, pressed: { opacity: .8 },
-  skip: { minWidth: 48, minHeight: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center', gap: 2 }, skipText: { fontFamily: FONTS.bold, fontSize: 11, color: '#6F6080' },
-  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#EDE6F6', paddingTop: 10, marginTop: 4, gap: 8, flexWrap: 'wrap' },
-  restart: { minHeight: 44, paddingHorizontal: 11, borderRadius: 12, backgroundColor: '#F1ECF8', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 }, restartText: { fontFamily: FONTS.semiBold, fontSize: 12, color: '#6F6080' }, dimmed: { opacity: .45 },
+  skip: { minWidth: 48, minHeight: 52, paddingHorizontal: 6, borderRadius: 16, backgroundColor: '#F6F3FB', alignItems: 'center', justifyContent: 'center', gap: 3 }, skipText: { fontFamily: FONTS.bold, fontSize: 11, color: '#625074' },
+  footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#EEE8F5', paddingTop: 8, marginTop: 4, gap: 8, flexWrap: 'wrap' },
+  restart: { minHeight: 48, paddingHorizontal: 10, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 }, restartText: { fontFamily: FONTS.bold, fontSize: 12, color: '#625074' }, dimmed: { opacity: .45 },
   focused: { outlineStyle: 'solid', outlineColor: '#261E45', outlineWidth: 2, outlineOffset: 3 },
 });

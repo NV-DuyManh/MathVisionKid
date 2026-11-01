@@ -9,11 +9,12 @@ import logging
 import threading
 import time
 from typing import Literal
+from types import SimpleNamespace
 from uuid import UUID
 
 from pydantic import Field
 from app.tutoring.service import TutorModel, TutorUnavailable
-from app.tutoring import narration
+from app.tutoring import narration, catalog
 from app.tutoring.speech_render import SpeechNoAudio
 
 logger = logging.getLogger(__name__)
@@ -68,16 +69,23 @@ def narrate(request: QuizNarrationRequest) -> bytes:
         # render_audio reuses synthesize_neural, spoken_math, deadlines and WAV encoding.
         # Preserve successful provider chunks on a transient empty turn. One retry
         # shares the original deadline and cannot restart an unlimited render.
-        chunks = {}
-        deadline = started + 32
-        for attempt in range(2):
-            try:
-                data = narration.render_audio([request.text], request.voice,
-                    checkpoint=(chunks.get, lambda index, data: chunks.__setitem__(index, data)), deadline=deadline)
-                break
-            except SpeechNoAudio:
-                if attempt or deadline - time.monotonic() < 1:
-                    raise
+        # Spring has already authorized the exact published question/solution.
+        # Reuse the same private, voice/policy-scoped speech catalog as lessons.
+        audio_request = SimpleNamespace(owner=request.owner, voice=request.voice, useFallback=False, paragraphs=[request.text])
+        data = catalog.load_audio(audio_request)
+        if data is None:
+            chunks = {}
+            deadline = started + 32
+            for attempt in range(2):
+                try:
+                    data = narration.render_audio([request.text], request.voice,
+                        checkpoint=(chunks.get, lambda index, data: chunks.__setitem__(index, data)), deadline=deadline)
+                    break
+                except SpeechNoAudio:
+                    if attempt or deadline - time.monotonic() < 1:
+                        raise
+            narration.validate_audio(data)
+            catalog.save_audio(audio_request, data)
         narration.validate_audio(data)
         with _lock:
             # Bound both entry count and total memory, including long explanations.

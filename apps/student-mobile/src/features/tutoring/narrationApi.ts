@@ -33,7 +33,7 @@ function waitForCapacity(milliseconds: number, signal: AbortSignal): Promise<voi
     if (signal.aborted) cancel();
   });
 }
-function retryableProgressError(error: unknown): boolean {
+export function isTransientNarrationError(error: unknown): boolean {
   const failure = error as { code?: string; response?: { status?: number } } | null;
   return [408, 429, 500, 502, 503, 504].includes(failure?.response?.status || 0)
     || !failure?.response && ['ERR_NETWORK', 'ECONNABORTED', 'ETIMEDOUT', 'ECONNRESET'].includes(failure?.code || '');
@@ -77,7 +77,7 @@ export async function downloadNarration(source: NarrationSource, paragraphs: str
       if (signal.aborted) throw error;
       // Preparation is idempotent: a lost acknowledgement must not fail a warm-up
       // that may already be rendering. Never restart failed jobs or stale lessons.
-      if (!busy && !retryableProgressError(error)) throw error;
+      if (!busy && !isTransientNarrationError(error)) throw error;
       if (!busy && !checkingProgress && (started || ++prepareFailures > 2)) throw error;
       retrying();
     }
@@ -96,7 +96,7 @@ export async function downloadNarration(source: NarrationSource, paragraphs: str
     } catch (error) {
       // Fetch the same ready asset again after a transient transfer failure.
       // Keep the original deadline, source and voice; never retry auth/validation.
-      if (signal.aborted || attempt >= 2 || !retryableProgressError(error)) throw error;
+      if (signal.aborted || attempt >= 2 || !isTransientNarrationError(error)) throw error;
       const delay = 500 * (attempt + 1);
       if (Date.now() + delay >= deadline) throw error;
       retrying();

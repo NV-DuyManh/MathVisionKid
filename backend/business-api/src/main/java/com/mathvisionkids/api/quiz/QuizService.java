@@ -87,7 +87,16 @@ public class QuizService {
         var q=locked(principal,id);
         if (!q.status.equals("COMPLETED")) {
             if (q.startedAt==null) q.startedAt=now();
+            q.resume(now());
             q.status="IN_PROGRESS"; q.updatedAt=now();
+        }
+        return view(q,true);
+    }
+    @Transactional
+    public View activity(String principal, UUID id, Activity request) {
+        var q=locked(principal,id);
+        if ("IN_PROGRESS".equals(q.status) && request.startedAt().equals(q.startedAt)) {
+            if (request.active()) q.resume(now()); else q.pause(now());
         }
         return view(q,true);
     }
@@ -150,6 +159,8 @@ public class QuizService {
         q.status = "IN_PROGRESS";
         q.replaying = true;
         q.startedAt = now;
+        q.activeElapsedMillis=0; q.activeSince=null; q.activeUntil=null;
+        // Replay creates the next run paused; entering the Quiz resumes it.
         q.completedAt = null;
         q.solutionViewed = false;
         q.completedWithSolution = false;
@@ -163,8 +174,7 @@ public class QuizService {
     public View defer(String principal, UUID id) {
         var q=locked(principal,id);
         if (!q.status.equals("COMPLETED")) { q.status=q.startedAt==null ? "DEFERRED" : "IN_PROGRESS"; q.updatedAt=now(); }
-        // Time deliberately continues after the first start, including offline/background time.
-        // Pausing cannot be used to solve off-clock and then claim three stars.
+        q.pause(now());
         return view(q,true);
     }
     @Transactional
@@ -190,6 +200,7 @@ public class QuizService {
             int earnedStars = "PRACTICE".equals(q.replayMode) ? 0 : stars(entry.elapsedMillis, q.solutionViewed);
             entry.stars = earnedStars;
             q.stars = Math.max(q.stars, earnedStars);
+            q.pause(now);
             q.status = "COMPLETED";
             q.replaying = false;
             q.completedAt = now;
@@ -211,6 +222,19 @@ public class QuizService {
         if (!q.status.equals("COMPLETED")) q.solutionViewed=true;
         q.updatedAt=now(); return view(q,true);
     }
+    @Transactional
+    public View help(String principal, UUID id) {
+        var q=locked(principal,id);
+        if (!List.of("IN_PROGRESS","COMPLETED").contains(q.status)) throw error("QUIZ_NOT_ACTIVE","Em bắt đầu câu đố trước nhé.",HttpStatus.CONFLICT);
+        if ("IN_PROGRESS".equals(q.status)) q.solutionViewed=true;
+        return view(q,true);
+    }
+    @Transactional(readOnly=true)
+    public String authorizedQuestion(String principal, UUID id) {
+        var q=quizzes.findByIdAndStudentId(id,identities.student(principal)).filter(value -> !"INVALIDATED".equals(value.status)).orElseThrow(QuizService::missing);
+        if (q.startedAt==null) throw error("QUIZ_NOT_ACTIVE","Em bắt đầu câu đố trước nhé.",HttpStatus.CONFLICT);
+        return q.questionText;
+    }
     @Transactional(readOnly=true)
     public String authorizedSolution(String principal, UUID id) {
         var q=quizzes.findByIdAndStudentId(id,identities.student(principal)).filter(value -> !"INVALIDATED".equals(value.status)).orElseThrow(QuizService::missing);
@@ -227,7 +251,8 @@ public class QuizService {
                 q.solutionViewed,q.completedWithSolution,q.wrongAttempts>=2 || (q.status.equals("COMPLETED") && !q.replaying),
                 detail ? attempts.findByQuizIdOrderByAttemptNumber(q.id).stream().map(QuizService::attempt).toList() : List.of(),
                 detail && published ? q.validatedSolution : null,detail && published ? q.answerSpec : null,
-                q.replayMode, q.startedAt == null ? null : q.originalQuestionText != null ? q.originalQuestionText : q.questionText);
+                q.replayMode, q.startedAt == null ? null : q.originalQuestionText != null ? q.originalQuestionText : q.questionText,
+                "IN_PROGRESS".equals(q.status) && q.activeUntil!=null && now().isBefore(q.activeUntil));
     }
     private static Attempt attempt(QuizAttempt a) { return new Attempt(a.attemptNumber,a.answer,a.correct,a.submittedAt,a.elapsedMillis,a.stars,a.replayMode,a.questionText,a.solutionViewed,a.runStartedAt); }
     private static ApiException missing() { return error("QUIZ_NOT_FOUND","Chưa tìm thấy Quiz của em.",HttpStatus.NOT_FOUND); }

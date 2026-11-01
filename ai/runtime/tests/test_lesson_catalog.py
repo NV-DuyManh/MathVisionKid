@@ -119,6 +119,40 @@ def test_audio_reuse_across_sessions_keeps_voice_text_owner_and_permissions(enab
     narration._cache.clear()
 
 
+def test_two_voices_can_initialize_an_empty_catalog_together(tmp_path):
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+
+    for trial in range(12):
+        gate=threading.Barrier(2)
+        path=tmp_path/str(trial)/'new.sqlite3'
+        def access(voice):
+            store=CatalogStore(path)
+            gate.wait(timeout=2)
+            assert store.get('audio','synthetic-owner',voice,'policy') is None
+            data=voice.encode()
+            store.put('audio','synthetic-owner',voice,'policy',data)
+            return store.get('audio','synthetic-owner',voice,'policy')
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            assert list(pool.map(access,['male','female']))==[b'male',b'female']
+
+
+def test_catalog_setup_wait_is_bounded_and_recovers_after_contention(tmp_path,monkeypatch):
+    import threading
+    from app.tutoring import catalog_store
+    lock=threading.Lock()
+    monkeypatch.setattr(catalog_store,'_schema_lock',lock)
+    store=CatalogStore(tmp_path/'private.sqlite3')
+    lock.acquire()
+    try:
+        with pytest.raises(sqlite3.OperationalError,match='initialization busy'):
+            store.get('audio','owner','male','policy')
+    finally:
+        lock.release()
+    store.put('audio','owner','male','policy',b'complete')
+    assert store.get('audio','owner','male','policy')==b'complete'
+
+
 @pytest.mark.asyncio
 async def test_background_draft_collected_only_when_confirmed_session_consumes_it(enabled,monkeypatch):
     from app.tutoring.plan_preparation import SourceDraft

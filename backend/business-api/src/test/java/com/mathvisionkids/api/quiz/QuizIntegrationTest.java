@@ -52,6 +52,34 @@ class QuizIntegrationTest {
     }
     String answer(UUID id) { return quizzes.findById(id).orElseThrow().answerSpec; }
     void allowNext(UUID id) { var q=quizzes.findById(id).orElseThrow(); q.lastSubmittedAt=Instant.now().minusSeconds(2); quizzes.saveAndFlush(q); }
+    @Test void activeTimerIsOwnedRunScopedAndStopsWhenPaused() throws Exception {
+        var q=ready(); var started=service.start(owner,q.quizId());
+        assertTrue(started.timerRunning());
+        var paused=service.activity(owner,q.quizId(),new Activity(false,started.startedAt()));
+        assertFalse(paused.timerRunning());
+        assertEquals(paused.elapsedMillis(),service.get(owner,q.quizId()).elapsedMillis());
+        var stale=service.activity(owner,q.quizId(),new Activity(true,started.startedAt().minusSeconds(1)));
+        assertFalse(stale.timerRunning());
+        assertTrue(service.activity(owner,q.quizId(),new Activity(true,started.startedAt())).timerRunning());
+        mvc.perform(post("/api/v1/student/quizzes/"+q.quizId()+"/activity").with(SecurityMockMvcRequestPostProcessors.user(other).roles("STUDENT"))
+            .contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsString(new Activity(false,started.startedAt())))).andExpect(status().isNotFound());
+        mvc.perform(post("/api/v1/student/quizzes/"+q.quizId()+"/activity").with(SecurityMockMvcRequestPostProcessors.user(owner).roles("STUDENT"))
+            .contentType(MediaType.APPLICATION_JSON).content("{\"active\":true,\"startedAt\":\""+started.startedAt()+"\",\"elapsedMillis\":0}")).andExpect(status().isBadRequest());
+    }
+    @Test void questionAudioDoesNotUnlockTheSolutionButAskingHelpIsAssisted() {
+        var q=ready();
+        assertThrows(ApiException.class,()->service.authorizedQuestion(owner,q.quizId()));
+        assertThrows(ApiException.class,()->service.help(owner,q.quizId()));
+        var started=service.start(owner,q.quizId());
+        assertEquals(started.questionText(),service.authorizedQuestion(owner,q.quizId()));
+        assertThrows(ApiException.class,()->service.authorizedQuestion(other,q.quizId()));
+        assertThrows(ApiException.class,()->service.authorizedSolution(owner,q.quizId()));
+        assertTrue(service.help(owner,q.quizId()).solutionViewed());
+        var result=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId())));
+        assertEquals(1,result.attempt().stars());
+        var frozen=result.quiz().elapsedMillis(); service.activity(owner,q.quizId(),new Activity(true,result.quiz().startedAt()));
+        assertEquals(frozen,service.get(owner,q.quizId()).elapsedMillis());
+    }
     @Test void confirmedTextPreparesPrivatelyBeforeCompletionThenReusesTheSameVerifiedDraft() throws Exception {
         UUID workflow=UUID.randomUUID();
         var draft=prepareAndWait(owner,new Prepare(workflow,1,QuizMathTest.REPORTED_TREE,true));
@@ -267,7 +295,7 @@ class QuizIntegrationTest {
         for (int seconds : List.of(15,45,90)) {
             owner=account(); var q=ready(); service.start(owner,q.quizId());
             var entity=quizzes.findById(q.quizId()).orElseThrow();
-            entity.startedAt=Instant.now().minusSeconds(seconds); quizzes.saveAndFlush(entity);
+            entity.activeElapsedMillis=seconds*1000; entity.activeSince=null; entity.activeUntil=null; quizzes.saveAndFlush(entity);
             var result=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId())));
             assertEquals(seconds<=30 ? 3 : seconds<=60 ? 2 : 1,result.attempt().stars());
             assertEquals(result.quiz().elapsedMillis(),service.get(owner,q.quizId()).elapsedMillis());
@@ -287,7 +315,7 @@ class QuizIntegrationTest {
         assertEquals(2,service.counts(owner).pendingCount()); service.defer(owner,first.quizId());
         assertEquals(2,service.list(owner,"PENDING",0,12).totalElements()); assertEquals(2,service.counts(owner).pendingCount());
         service.start(owner,first.quizId()); var entity=quizzes.findById(first.quizId()).orElseThrow();
-        entity.startedAt=Instant.now().minusSeconds(90); quizzes.saveAndFlush(entity);
+        entity.activeElapsedMillis=90000; entity.activeSince=null; entity.activeUntil=null; quizzes.saveAndFlush(entity);
         service.defer(owner,first.quizId()); var resumed=service.start(owner,first.quizId()); assertTrue(resumed.elapsedMillis()>=90000);
         assertEquals(1,service.submit(owner,first.quizId(),new Submission(UUID.randomUUID(),answer(first.quizId()))).quiz().stars());
         assertEquals(1,service.counts(owner).pendingCount()); assertEquals(1,service.list(owner,"COMPLETED",0,12).totalElements());
@@ -422,7 +450,7 @@ class QuizIntegrationTest {
         var q=ready(); service.start(owner,q.quizId());
         // Initial solve: simulate taking 70s (>60s) -> 1 star
         var quizEntity = quizzes.findById(q.quizId()).orElseThrow();
-        quizEntity.startedAt = Instant.now().minusSeconds(75);
+        quizEntity.activeElapsedMillis = 75000; quizEntity.activeSince=null; quizEntity.activeUntil=null;
         quizzes.saveAndFlush(quizEntity);
 
         var firstResult = service.submit(owner, q.quizId(), new Submission(UUID.randomUUID(), answer(q.quizId()))).quiz();
@@ -446,7 +474,7 @@ class QuizIntegrationTest {
         var challenge2 = service.replay(owner, q.quizId(), "CHALLENGE");
         assertEquals("IN_PROGRESS", challenge2.status());
         var quizEntity2 = quizzes.findById(q.quizId()).orElseThrow();
-        quizEntity2.startedAt = Instant.now().minusSeconds(45);
+        quizEntity2.activeElapsedMillis = 45000; quizEntity2.activeSince=null; quizEntity2.activeUntil=null;
         quizzes.saveAndFlush(quizEntity2);
 
         allowNext(q.quizId());

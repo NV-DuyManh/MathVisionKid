@@ -27,6 +27,7 @@ public class QuizController {
     @GetMapping("/pending-count") public Counts counts(Authentication auth) { return service.counts(auth.getName()); }
     @GetMapping("/{id}") public View get(Authentication auth,@PathVariable UUID id) { return service.get(auth.getName(),id); }
     @PostMapping({"/{id}/start","/{id}/resume"}) public View start(Authentication auth,@PathVariable UUID id) { return service.start(auth.getName(),id); }
+    @PostMapping("/{id}/activity") public View activity(Authentication auth,@PathVariable UUID id,@Valid @RequestBody Activity body) { return service.activity(auth.getName(),id,body); }
     @PostMapping("/{id}/replay") public View replay(Authentication auth,@PathVariable UUID id,
                                                     @RequestParam(value="mode", required=false) String queryMode,
                                                     @RequestBody(required=false) ReplayRequest body) {
@@ -38,8 +39,9 @@ public class QuizController {
     @PostMapping({"/{id}/defer","/{id}/pause"}) public View defer(Authentication auth,@PathVariable UUID id) { return service.defer(auth.getName(),id); }
     @PostMapping("/{id}/submit") public Graded submit(Authentication auth,@PathVariable UUID id,@Valid @RequestBody Submission body) { return service.submit(auth.getName(),id,body); }
     @PostMapping("/{id}/reveal-solution") public View reveal(Authentication auth,@PathVariable UUID id) { return service.reveal(auth.getName(),id); }
+    @PostMapping("/{id}/help") public View help(Authentication auth,@PathVariable UUID id) { return service.help(auth.getName(),id); }
     @PostMapping("/{id}/narration") public ResponseEntity<byte[]> narrate(Authentication auth,@PathVariable UUID id,@Valid @RequestBody Voice body) {
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")).cacheControl(CacheControl.noStore()).body(narration.narrate(auth.getName(),id,body.voice()));
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")).cacheControl(CacheControl.noStore()).body(narration.narrate(auth.getName(),id,body.voice(),body.content()));
     }
     @ModelAttribute public void privateResponses(jakarta.servlet.http.HttpServletResponse response) { response.setHeader("Cache-Control","no-store"); }
     @ExceptionHandler({HttpMessageNotReadableException.class,MethodArgumentTypeMismatchException.class})

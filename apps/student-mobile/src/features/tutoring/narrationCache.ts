@@ -14,7 +14,9 @@ const cacheKey = (source: NarrationSource, parts: string[], voice: NarrationVoic
   JSON.stringify([NARRATION_RENDER_POLICY, source.sessionId, source.revision, voice, !!source.useFallback, parts.map(part => part.trim().replace(/\s+/g, ' ')).filter(Boolean)]);
 
 /** One lesson-screen lifetime, never global or persisted across accounts. */
-export function createNarrationCache() {
+export function createNarrationCache(options: { download?: typeof downloadNarration; prioritize?: typeof prioritizeNarration | null } = {}) {
+  const download = options.download || downloadNarration;
+  const prioritize = options.prioritize === undefined ? prioritizeNarration : options.prioritize;
   const entries = new Map<string, Entry>();
   const drop = (key: string, entry: Entry) => {
     if (entries.get(key) === entry) entries.delete(key);
@@ -55,7 +57,7 @@ export function createNarrationCache() {
           // Promote the same work once. Keep its original download and deadline.
           entry.prefetch = false;
           entry.source.prefetch = false;
-          void prioritizeNarration(source, parts, entry.controller.signal, voice, entry.deadline-Date.now()).catch(() => {});
+          if (prioritize) void prioritize(source, parts, entry.controller.signal, voice, entry.deadline-Date.now()).catch(() => {});
         }
         // A tap for new content takes priority over speculative work for another voice/step.
         for (const [otherKey, other] of entries) {
@@ -69,7 +71,7 @@ export function createNarrationCache() {
         const downloadSource = { ...source, prefetch: background };
         const next: Entry = { controller, users: 0, foregroundUsers: 0, bytes: 0, expires: Infinity, prefetch: background,
           source: downloadSource, text: JSON.stringify(parts), deadline: Date.now()+NARRATION_WAIT_SECONDS*1000, promise: Promise.resolve(new Uint8Array()), listeners: new Set() };
-        next.promise = downloadNarration(downloadSource, parts, controller.signal, voice, progress => {
+        next.promise = download(downloadSource, parts, controller.signal, voice, progress => {
           if (controller.signal.aborted) return;
           next.progress = progress;
           next.listeners.forEach(listener => listener(progress));

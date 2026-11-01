@@ -31,7 +31,6 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
   const [showAlternative, setShowAlternative] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showAllLines, setShowAllLines] = useState(false);
-  const [showPractice, setShowPractice] = useState(false);
   const [rewrite, setRewrite] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const controller = useRef<AbortController | null>(null);
@@ -170,8 +169,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     </> : null}
     {result?.status === 'CORRECT' && enabled && !disabled && !expired ? <>
       <AppButton title="Hoàn tất nhận xét" onPress={() => router.replace('/(tabs)')} />
-      <AppButton title={showPractice ? 'Thu gọn luyện thêm' : 'Thử một câu tương tự'} variant="ghost" onPress={() => setShowPractice(value => !value)} />
-      {showPractice ? <QuizInvitation sourceType="WORK_REVIEW" sourceId={result.sourceId} /> : null}
+      <QuizInvitation sourceType="WORK_REVIEW" sourceId={result.sourceId} />
     </> : null}
     {result && result.status !== 'CORRECT' ? <AppButton title="Chụp lại bài em đã sửa" variant="secondary" disabled={disabled || expired}
       onPress={() => { stop(); onCaptureWork(); }} />

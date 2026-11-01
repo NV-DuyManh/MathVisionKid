@@ -88,6 +88,31 @@ def test_silent_or_invalid_audio_is_not_published(monkeypatch):
     assert not speech._cache
 
 
+def test_private_durable_catalog_survives_memory_eviction_but_isolates_voice_owner_and_text(tmp_path,monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings,'lesson_catalog_enabled',True)
+    monkeypatch.setattr(settings,'lesson_catalog_path',str(tmp_path/'private.sqlite3'))
+    calls=[]
+    monkeypatch.setattr(speech.narration,'render_audio',lambda *args,**kwargs:calls.append(args) or pcm())
+    source=request()
+    expected=speech.narrate(source)
+    speech._cache.clear()
+    assert speech.narrate(source)==expected
+    assert len(calls)==1
+    for change in ({'voice':'vi-VN-HoaiMyNeural'},{'owner':'student-b'},{'text':'Nội dung mới đã được cấp quyền.'}):
+        speech._cache.clear()
+        speech.narrate(source.model_copy(update=change))
+    assert len(calls)==4
+
+
+def test_unavailable_catalog_does_not_break_quiz_speech(tmp_path,monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings,'lesson_catalog_enabled',True)
+    monkeypatch.setattr(settings,'lesson_catalog_path',str(tmp_path))
+    monkeypatch.setattr(speech.narration,'render_audio',lambda *args,**kwargs:pcm())
+    assert speech.narrate(request())==pcm()
+
+
 def test_no_arbitrary_voice_images_or_fake_lesson_sessions():
     with pytest.raises(ValidationError): request(voice='en-US-untrusted')
     with pytest.raises(ValidationError): request(sessionId='fake-session', image='private-image')

@@ -25,6 +25,17 @@ it('uses a Vietnamese device voice only on a click and stops on close', async ()
   act(() => callbacks.onStart()); act(() => callbacks.onDone()); expect(done).toHaveBeenCalledTimes(1);
   act(() => view.unmount()); expect(stop).toHaveBeenCalled();
 });
+it('ignores completion from a stopped reading without cancelling the new watchdog', async () => {
+  jest.useFakeTimers(); await render();
+  await act(async () => view.root.findByType(AppButton).props.onPress());
+  const old=(speak as jest.Mock).mock.calls[0][1];
+  await act(async () => view.root.findByType(AppButton).props.onPress());
+  await act(async () => view.root.findByType(AppButton).props.onPress());
+  act(() => old.onDone());
+  act(() => jest.advanceTimersByTime(8000));
+  const words=view.root.findAllByType('Text' as any).map(n=>String(n.props.children)).join(' ');
+  expect(words).toContain('Giọng thiết bị chưa phát được');
+});
 it('does not substitute English when the device has no Vietnamese voice', async () => {
   (getAvailableVoicesAsync as jest.Mock).mockResolvedValue([{ identifier: 'en', language: 'en-US', name: 'English' }]);
   await render(); expect(view.root.findAllByType(AppButton)).toHaveLength(0); expect(speak).not.toHaveBeenCalled();
@@ -44,7 +55,7 @@ it('can check device voices again without speaking automatically or substituting
   await act(async()=>retry.props.onPress());
   expect(getAvailableVoicesAsync).toHaveBeenCalledTimes(2);
   expect(speak).not.toHaveBeenCalled();
-  expect(view.root.findByType(AppButton).props.title).toBe('Nghe từ đầu');
+  expect(view.root.findByType(AppButton).props.title).toBe('Phát giọng có sẵn');
 });
 
 it('offers a return to the selected online voice when the device has no Vietnamese voice', async () => {

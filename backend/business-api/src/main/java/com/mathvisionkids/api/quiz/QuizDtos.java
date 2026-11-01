@@ -19,10 +19,14 @@ public final class QuizDtos {
     public record Submission(@NotNull UUID requestId, @NotBlank @Size(max=100) String answer) {
         @JsonAnySetter public void unknown(String key, Object value) { throw new IllegalArgumentException("Unknown field"); }
     }
-    public record Voice(@NotBlank @Pattern(regexp="vi-VN-NamMinhNeural|vi-VN-HoaiMyNeural") String voice) {
+    public record Voice(@NotBlank @Pattern(regexp="vi-VN-NamMinhNeural|vi-VN-HoaiMyNeural") String voice,
+                        @Pattern(regexp="QUESTION|SOLUTION") String content) {
         @JsonAnySetter public void unknown(String key, Object value) { throw new IllegalArgumentException("Unknown field"); }
     }
     public record ReplayRequest(String mode) {
+        @JsonAnySetter public void unknown(String key, Object value) { throw new IllegalArgumentException("Unknown field"); }
+    }
+    public record Activity(@NotNull Boolean active, @NotNull Instant startedAt) {
         @JsonAnySetter public void unknown(String key, Object value) { throw new IllegalArgumentException("Unknown field"); }
     }
     public record Attempt(int number, String answer, boolean correct, Instant submittedAt, long elapsedMillis, int stars, String mode, String questionText, Boolean solutionViewed, Instant runStartedAt) {}
@@ -32,7 +36,8 @@ public final class QuizDtos {
                        Instant createdAt, Instant startedAt, Instant completedAt, Instant serverNow,
                        long elapsedMillis, int stars, int wrongAttempts, boolean solutionViewed,
                        boolean completedWithSolution, boolean canRevealSolution, List<Attempt> attempts,
-                       String explanationText, String correctAnswer, String replayMode, String originalQuestionText) {}
+                       String explanationText, String correctAnswer, String replayMode, String originalQuestionText,
+                       boolean timerRunning) {}
     public record Invitation(boolean offered, View quiz) {}
     public record Library(List<View> items, int page, int totalPages, long totalElements) {}
     public record Counts(long pendingCount, long totalStars) {}

@@ -18,7 +18,6 @@ import { saveLesson } from '../../features/tutoring/learningHistory';
 import { MathText } from '../../components/domain/MathText';
 import { AppIllustration } from '../../components/ui/AppIllustration';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
-import { FractionExplorer, fractionsInProblem } from '../../features/tutoring/FractionExplorer';
 import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
 import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
@@ -107,8 +106,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [reviewedStep, setReviewedStep] = useState<(CompletedLessonStep & { question: string; choices: string[]; studentAnswer: string }) | null>(null);
   const [fractionInput, setFractionInput] = useState(false);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
-  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'visual' | 'hint' | null>(null);
-  const [visualIndex, setVisualIndex] = useState(0);
+  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'hint' | null>(null);
   const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
@@ -483,7 +481,6 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               : <Text style={styles.body} numberOfLines={2}>{problem}</Text>}
           </View>
           {problemConfirmed ? <>
-            <Text style={styles.caption} accessibilityLiveRegion="polite">Đã xác nhận</Text>
             <Pressable accessibilityRole="button" accessibilityLabel={problemExpanded ? 'Thu gọn' : 'Xem đầy đủ'}
               accessibilityState={{ expanded: problemExpanded }} aria-expanded={problemExpanded} aria-controls="confirmed-problem-body"
               onPress={() => setProblemExpanded(value => !value)} style={styles.linkButton}>
@@ -598,6 +595,10 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           </View>}
         </> : null}
         {lesson?.status === 'COMPLETE' && !editing ? <QuizInvitation sourceType="LESSON" sourceId={lesson.sessionId} /> : null}
+        {lesson?.status === 'COMPLETE' && !editing ? <View style={styles.row}>
+          <AppButton title="Về trang chủ" style={{ flex: 1, paddingHorizontal: 10 }} onPress={() => router.replace('/(tabs)')} />
+          <AppButton title="Làm bài khác" style={{ flex: 1, paddingHorizontal: 10 }} variant="secondary" onPress={() => capture()} />
+        </View> : null}
         {lesson && !editing ? <View style={styles.tools}>
           {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'mic-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const).map(([value, icon, label]) => <Pressable
             key={value} accessibilityRole="button" accessibilityLabel={label} disabled={!!busy || expired} accessibilityState={{ disabled: !!busy || expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, (!!busy || expired) && { opacity: .5 }]} onPress={() => setTool(value)}>
@@ -610,7 +611,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {!lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable> : null}
       </ScrollView>
     </KeyboardAvoidingView></View>
-    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', visual: 'Cùng nhìn phân số', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
+    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
       {tool === 'hint' && step ? <><MathText style={styles.body}>{hintText}</MathText>
         <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintCount}`} expression={step.expression} reading={step.kind === 'UNDERSTAND'} depth={hintCount}
           hint={hintText} stepTitle={step.title} stepQuestion={step.question} unit={step.unit}
@@ -626,14 +627,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {!workConfirmed ? <Text style={styles.error}>Bài làm chưa được xác nhận; mình đang hướng dẫn từ đề đã kiểm tra. Có chỗ chưa đọc rõ, em đối chiếu lại với ảnh nhé.</Text> : null}
         <MathText style={styles.body}>{work}</MathText>
         <AppButton title="Chỉnh chỗ chưa đọc đúng" variant="secondary" onPress={() => { setTool(null); edit('work'); }} /></> : null}
-      {tool === 'visual' ? <><Text style={styles.caption}>HÌNH {visualIndex + 1} / {fractionsInProblem(problem).length}</Text>
-        {fractionsInProblem(problem)[visualIndex] ? <FractionExplorer key={visualIndex} {...fractionsInProblem(problem)[visualIndex]} label="Phân số trong đề bài của em" /> : null}
-        <View style={styles.row}><AppButton title="Hình trước" variant="secondary" disabled={visualIndex === 0} onPress={() => setVisualIndex(value => value - 1)} />
-          <AppButton title="Hình tiếp" variant="secondary" disabled={visualIndex >= fractionsInProblem(problem).length - 1} onPress={() => setVisualIndex(value => value + 1)} /></View></> : null}
       {tool === 'menu' ? <>
         {work ? <AppButton title="Xem bài em đã viết" variant="secondary" onPress={() => setTool('work')} /> : null}
         {lesson.understandingSteps === 3 && lesson.stepIndex >= 2 ? <AppButton title="Xem lại tóm tắt đề" variant="secondary" onPress={() => setTool('summary')} /> : null}
-        {step?.kind !== 'UNDERSTAND' && fractionsInProblem(problem).length ? <AppButton title="Xem hình phân số" variant="secondary" onPress={() => { setVisualIndex(0); setTool('visual'); }} /> : null}
         <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} />
         <AppButton title="Chụp bài em đã làm để nhận xét" variant="secondary" onPress={() => { setTool(null); capture('ADD_WORK'); }} />
         <AppButton title="Chụp bài khác" variant="ghost" onPress={() => { setTool(null); capture(); }} /></> : null}

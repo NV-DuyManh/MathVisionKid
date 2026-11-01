@@ -101,15 +101,13 @@ it('opens reading immediately and starts speech preparation before the listening
   expect(button('Xem video bài này')).toBeUndefined();
 });
 
-it('opens a single fraction at a time only when requested and preserves the active step', async () => {
+it('keeps the More menu focused without the removed fraction visual', async () => {
   (useLocalSearchParams as jest.Mock).mockReturnValue({ problemText: 'Có 1/3 cây táo, 2/5 cây xoài. Hỏi còn lại bao nhiêu phần?' });
   await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
-  expect(button('Kiểm tra phần em chọn')).toBeUndefined();
-  act(() => button('Xem thêm').props.onPress()); act(() => button('Xem hình phân số').props.onPress());
-  expect(view.root.findAll(node => node.props.accessibilityRole === 'checkbox' && node.props.onPress)).toHaveLength(3);
-  act(() => button('Hình tiếp').props.onPress());
-  expect(view.root.findAll(node => node.props.accessibilityRole === 'checkbox' && node.props.onPress)).toHaveLength(5);
-  act(() => button('Đóng Cùng nhìn phân số').props.onPress());
+  act(() => button('Xem thêm').props.onPress());
+  expect(button('Xem hình phân số')).toBeUndefined(); expect(button('Xem video bài này')).toBeUndefined();
+  expect(button('Lưu bài để học tiếp')).toBeDefined();
+  act(() => button('Đóng Em cần gì thêm?').props.onPress());
   expect(readText()).toContain(LESSON.step.question); expect(TutorService.answerLesson).not.toHaveBeenCalled();
 });
 
@@ -698,6 +696,10 @@ it('assembles checked solution sentences and an answer only after all steps are 
   expect(readText()).toContain('Đáp số: 60 cây.');
   expect(readText()).not.toContain('Nhìn lại cách giải');
   expect(button('Nghe giảng')).toBeDefined();
+  // A missing/unsupported practice suggestion must not remove the completion exits.
+  expect(button('Về trang chủ')).toBeDefined();
+  expect(button('Làm bài khác')).toBeDefined();
+  expect(readText()).not.toContain('Thử sức với một câu tương tự?');
 });
 
 it('never uploads before privacy review', async () => {
