@@ -222,6 +222,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         if (kind === 'read') setFinishing({ kind, id });
       }
     } catch (failure) {
+      if (__DEV__ && !abort.signal.aborted) {
+        console.warn('[MATH_TUTOR_REQUEST_FAILED]', { stage: kind, status: (failure as any)?.response?.status, code: (failure as any)?.code });
+      }
       if (active.current && id === requestId.current && !abort.signal.aborted) { setFailedTask(kind); failureMessage(failure); }
     } finally {
       if (active.current && id === requestId.current) { running.current = false; controller.current = null; setBusy(null); }

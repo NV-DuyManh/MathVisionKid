@@ -1,0 +1,299 @@
+/* MathVision Kids Design System — Kid-First Delightful Scholastic Precision */
+@font-face {
+  font-family: 'Nunito';
+  src: url('/ui/Nunito-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('/ui/Nunito-SemiBold.ttf') format('truetype');
+  font-weight: 500 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('/ui/Nunito-ExtraBold.ttf') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-kids: 'Nunito', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Nunito', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Primary Kid-First Brand Colors */
+  --color-brand: #2563EB;
+  --color-brand-light: #EFF6FF;
+  --color-brand-dark: #1D4ED8;
+  --color-joy: #F59E0B;
+  --color-joy-light: #FFFBEB;
+  --color-joy-dark: #D97706;
+  --color-success: #10B981;
+  --color-success-light: #ECFDF5;
+  --color-accent: #F43F5E;
+  --color-accent-light: #FFF1F2;
+  --color-ink: #0F172A;
+  --color-ink-secondary: #475569;
+  --color-ink-muted: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-border-subtle: #F1F5F9;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F8FAFC;
+  
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-full: 9999px;
+  
+  /* Tactile Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 2px 8px -2px rgba(37, 99, 235, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-hover: 0 12px 28px -6px rgba(37, 99, 235, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+  --shadow-tactile: 0 4px 0 0 #1D4ED8, 0 8px 16px rgba(37, 99, 235, 0.25);
+  --shadow-tactile-joy: 0 4px 0 0 #D97706, 0 8px 16px rgba(245, 158, 11, 0.25);
+
+  font-family: var(--font-kids);
+  color: var(--color-ink);
+  background-color: var(--color-surface-subtle);
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  background-color: var(--color-surface-subtle);
+  scroll-behavior: smooth;
+  font-family: var(--font-kids);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Remove default spinner arrows from number inputs in mathematical arenas */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Accessibility Skip Link for Keyboard Navigation */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--color-brand);
+  color: #FFFFFF;
+  padding: 10px 18px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  z-index: 99999;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: top 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skip-link:focus {
+  top: 16px;
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* Authentic Vietnamese 5x5 Subgrid Ô Ly Paper */
+.oly-grid-paper {
+  background-color: #FFFFFF;
+  background-image: 
+    linear-gradient(to right, rgba(37, 99, 235, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.07) 1px, transparent 1px),
+    linear-gradient(to right, rgba(37, 99, 235, 0.20) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.20) 1px, transparent 1px);
+  background-size: 5px 5px, 5px 5px, 25px 25px, 25px 25px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  position: relative;
+}
+
+.oly-grid-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36px;
+  width: 2px;
+  background-color: rgba(239, 68, 68, 0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient Subtle Mesh Backgrounds */
+.ambient-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, transparent 60%);
+}
+
+.hero-mesh {
+  background-color: #FFFFFF;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(37, 99, 235, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 5% 25%, rgba(245, 158, 11, 0.07), transparent 50%),
+    radial-gradient(ellipse 50% 35% at 95% 15%, rgba(16, 185, 129, 0.06), transparent 50%),
+    radial-gradient(at 50% 100%, rgba(248, 250, 252, 1) 0px, transparent 50%);
+}
+
+.shimmer-text {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 55%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Bento Card and Smooth Interactive Elevate */
+.bento-card {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 2px 8px -2px rgba(37, 99, 235, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  overflow: hidden;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px -6px rgba(37, 99, 235, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+  border-color: #BFDBFE;
+}
+
+.hover-elevate {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease;
+}
+
+.hover-elevate:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: #BFDBFE;
+}
+
+/* Companion Star Animations */
+@keyframes starFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+}
+
+@keyframes starGlow {
+  0%, 100% {
+    filter: drop-shadow(0 4px 14px rgba(245, 158, 11, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 8px 26px rgba(245, 158, 11, 0.45));
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.star-companion-float {
+  animation: starFloat 3.6s ease-in-out infinite, starGlow 3.6s ease-in-out infinite;
+}
+
+/* Speech Bubble for Mascot */
+.speech-bubble {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 12px 18px;
+  border: 1.5px solid #FDE68A;
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.12);
+  display: inline-block;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -9px;
+  transform: translateY(-50%);
+  border-width: 7px 9px 7px 0;
+  border-style: solid;
+  border-color: transparent #FFFFFF transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -11px;
+  transform: translateY(-50%);
+  border-width: 8px 11px 8px 0;
+  border-style: solid;
+  border-color: transparent #FDE68A transparent transparent;
+  display: block;
+  width: 0;
+}
+
+/* Pulsing Status Dot */
+@keyframes pulse-emerald {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.pulse-dot {
+  animation: pulse-emerald 2.4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Kid Touch Target Helper */
+.kid-target {
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

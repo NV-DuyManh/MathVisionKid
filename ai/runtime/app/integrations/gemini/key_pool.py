@@ -197,7 +197,7 @@ class GeminiKeyPool:
             else:
                 # 5xx or transient timeout
                 entry.state = GeminiKeyState.COOLING_DOWN
-                entry.cooldown_until = now + self.cooldown_seconds
+                entry.cooldown_until = now + (retry_after if retry_after is not None else self.cooldown_seconds)
                 logger.warning(f"[GeminiKeyPool] Key {entry.safe_id} transient error {error_type}, cooling down")
 
 

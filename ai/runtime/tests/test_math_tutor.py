@@ -360,6 +360,36 @@ def test_gemini_http_failure_is_classified_without_secrets_or_key_sweep(monkeypa
     assert pool.entries[0].state.value == ("DISABLED_AUTH" if status in (401, 403) else "DEGRADED" if status == 404 else "COOLING_DOWN")
 
 
+@pytest.mark.parametrize("recovers", [True, False])
+def test_gemini_overload_retries_same_key_once_without_five_minute_lockout(monkeypatch, recovers):
+    import json
+    import time
+
+    pool = GeminiKeyPool("mock-one,mock-two", cooldown_seconds=300)
+    monkeypatch.setattr(service, "get_gemini_pool", lambda: pool)
+    monkeypatch.setattr(service.asyncio, "sleep", AsyncMock())
+    original_client = httpx.AsyncClient
+    calls = []
+
+    def handler(req):
+        calls.append(req.headers["x-goog-api-key"])
+        if len(calls) == 1 or not recovers:
+            return httpx.Response(503, json={"error": "private provider message"})
+        return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"text": json.dumps(safe_response())}]}}]})
+
+    monkeypatch.setattr(service.httpx, "AsyncClient", lambda **kwargs: original_client(transport=httpx.MockTransport(handler), **kwargs))
+    if recovers:
+        assert run(service._call_gemini("policy", "data", "photo")) == safe_response()
+        assert pool.entries[0].success_count == 1
+        assert pool.entries[0].failure_count == 0
+    else:
+        with pytest.raises(service.TutorUnavailable):
+            run(service._call_gemini("policy", "data", "photo"))
+        assert 0 < pool.entries[0].cooldown_until - time.time() <= 5
+    assert calls == ["mock-one", "mock-one"]
+    assert pool.entries[1].total_calls == 0
+
+
 def test_gemini_invalid_key_is_disabled_and_untried_valid_key_succeeds(monkeypatch):
     pool = GeminiKeyPool("mock-invalid,mock-valid")
     monkeypatch.setattr(service, "get_gemini_pool", lambda: pool)
@@ -413,10 +443,12 @@ def test_gemini_json_transport_and_malformed_response(monkeypatch):
         return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"thought": True, "text": "private reasoning"}, {"text": json.dumps(safe_response())}]}}]})
 
     monkeypatch.setattr(service.httpx, "AsyncClient", lambda **kwargs: original_client(transport=httpx.MockTransport(handler), **kwargs))
-    assert run(service._call_gemini("trusted policy", "untrusted data", "image")) == safe_response()
+    from app.tutoring.lesson import PLANNING_SCHEMA
+    assert run(service._call_gemini("trusted policy", "untrusted data", "image", response_schema=PLANNING_SCHEMA)) == safe_response()
     assert captured[0]["systemInstruction"]["parts"][0]["text"] == "trusted policy"
     assert captured[0]["contents"][0]["parts"][1]["inlineData"]["mimeType"] == "image/jpeg"
     assert captured[0]["generationConfig"]["responseMimeType"] == "application/json"
+    assert captured[0]["generationConfig"]["responseJsonSchema"] == PLANNING_SCHEMA
 
     monkeypatch.setattr(service.httpx, "AsyncClient", lambda **kwargs: original_client(transport=httpx.MockTransport(lambda req: httpx.Response(200, json={"candidates": []})), **kwargs))
     with pytest.raises(service.TutorUnavailable):

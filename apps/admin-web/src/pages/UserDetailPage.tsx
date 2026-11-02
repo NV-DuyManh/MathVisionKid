@@ -34,17 +34,17 @@ function UserDetail({ userId }: { userId: string }) {
     <RequestError error={action.error} />
     {action.notice && <Alert severity="success" sx={{ mb: 2 }}>{action.notice}</Alert>}
     {query.isLoading ? <Skeleton variant="rounded" height={300} role="status" aria-label="Đang tải chi tiết" /> : user && !query.error && <>
-      <Card sx={{ mb: 3 }}><CardContent sx={{ p: { xs: 2.5, sm: 4 } }}>
+      <Card sx={{ mb: 3, borderRadius: 3.5, border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}><CardContent sx={{ p: { xs: 2.5, sm: 4 } }}>
         <Box className="page-actions">
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', minWidth: 0 }}><Avatar sx={{ bgcolor: 'primary.light', color: 'primary.dark', width: 56, height: 56, fontWeight: 800 }}>{user.displayName?.slice(0, 1)}</Avatar>
-            <Box sx={{ minWidth: 0 }}><Typography component="h2" variant="h5" sx={{ overflowWrap: 'anywhere' }}>{user.displayName}</Typography><Typography variant="body2" color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{user.email}</Typography></Box>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', minWidth: 0 }}><Avatar sx={{ bgcolor: '#EFF6FF', color: 'primary.main', border: '1px solid #BFDBFE', width: 56, height: 56, fontWeight: 800 }}>{user.displayName?.slice(0, 1)}</Avatar>
+            <Box sx={{ minWidth: 0 }}><Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', overflowWrap: 'anywhere' }}>{user.displayName}</Typography><Typography variant="body2" color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{user.email}</Typography></Box>
           </Box>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}><RoleChip role={user.role} /><StatusChip active={user.active} /></Box>
         </Box>
         <Divider sx={{ mb: 3 }} />
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))', lg: 'repeat(3,minmax(0,1fr))' }, gap: 3 }}>
           {[['Mã người dùng', user.userId], ['Ngày tạo', new Date(user.createdAt).toLocaleString('vi-VN')], ['Cập nhật gần nhất', new Date(user.updatedAt).toLocaleString('vi-VN')], ...(user.gradeLevel ? [['Khối lớp', `Khối ${user.gradeLevel}`]] : [])].map(([label, value]) =>
-            <Box key={label}><Typography variant="caption" color="text.secondary">{label}</Typography><Typography variant="body2" sx={{ mt: .5, overflowWrap: 'anywhere' }}>{value}</Typography></Box>)}
+            <Box key={label}><Typography variant="caption" color="text.secondary">{label}</Typography><Typography variant="body2" sx={{ mt: .5, fontWeight: 600, color: '#0F172A', overflowWrap: 'anywhere' }}>{value}</Typography></Box>)}
         </Box>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 4 }}>
           <Button startIcon={<EditOutlined />} variant="outlined" onClick={() => setEditing(true)} disabled={action.pending}>Chỉnh sửa hồ sơ</Button>
@@ -53,7 +53,7 @@ function UserDetail({ userId }: { userId: string }) {
         </Box>
         {actor?.userId === user.userId && <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>Bạn không thể tự khóa tài khoản đang sử dụng.</Typography>}
       </CardContent></Card>
-      <Card><CardContent sx={{ p: 3 }}>
+      <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}><CardContent sx={{ p: 3 }}>
         <Typography variant="h6" component="h2" sx={{ mb: 2 }}>{user.role === 'TEACHER' ? 'Lớp đang phụ trách' : user.role === 'STUDENT' ? 'Lớp đang tham gia' : 'Phạm vi quản trị'}</Typography>
         {user.role === 'ADMIN' ? <Typography color="text.secondary">Quản lý vận hành hệ thống theo quyền quản trị được cấp.</Typography> :
           user.classes?.length ? <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))' } }}>{user.classes.map(c => <Button key={c.classId} component={Link} to={`/classes/${c.classId}`} variant="outlined" sx={{ display: 'block', textAlign: 'left', p: 2 }}>

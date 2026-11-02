@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { CheckCircle, ArrowBack, ArrowForward, AutoAwesome } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
+import { PageHeader } from '../components/common/PageHeader';
 
 export default function ReviewQueuePage() {
   const { id } = useParams<{ id: string }>();
@@ -73,7 +74,7 @@ export default function ReviewQueuePage() {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+    <Box>
       <Button
         variant="text"
         startIcon={<ArrowBack />}
@@ -83,14 +84,10 @@ export default function ReviewQueuePage() {
         Quay lại chi tiết đợt chấm
       </Button>
 
-      <Box sx={{ mb: 3.5 }}>
-        <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
-          Hàng đợi Thẩm định & Duyệt bài
-        </Typography>
-        <Typography variant="body1" sx={{ color: '#B91C1C', fontWeight: 600 }}>
-          Có {queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.
-        </Typography>
-      </Box>
+      <PageHeader
+        title="Hàng đợi Thẩm định & Duyệt bài"
+        subtitle={`Có ${queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.`}
+      />
 
       <Grid container spacing={3}>
         {queue.map((sub, idx) => {
@@ -108,6 +105,7 @@ export default function ReviewQueuePage() {
                   height: '100%',
                   borderRadius: 2.5,
                   border: '1.5px solid #FCA5A5',
+                  boxShadow: '0 1px 3px rgba(15,23,42,0.05)',
                   transition: 'box-shadow 150ms ease, transform 150ms ease',
                   '&:hover': {
                     boxShadow: '0 6px 16px rgba(220, 38, 38, 0.1)',
@@ -118,7 +116,7 @@ export default function ReviewQueuePage() {
                   {/* Top Bar: Student Name + StatusChip */}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <Box>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#211844' }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A' }}>
                         {sub.studentName || `Học sinh #${idx + 1}`}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -147,15 +145,15 @@ export default function ReviewQueuePage() {
                   </Box>
 
                   {/* Advisory Score and Confidence Metrics */}
-                  <Box sx={{ bgcolor: '#F8F6FD', p: 1.75, borderRadius: 2, border: '1px solid #E9E2F2', mb: 2.5, flexGrow: 1 }}>
+                  <Box sx={{ bgcolor: '#F8FAFC', p: 1.75, borderRadius: 2, border: '1px solid #E2E8F0', mb: 2.5, flexGrow: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <AutoAwesome sx={{ fontSize: 16, color: '#7040D5' }} />
+                        <AutoAwesome sx={{ fontSize: 16, color: '#2563EB' }} />
                         <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
                           AI đề xuất (chưa chính thức):
                         </Typography>
                       </Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#7040D5' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#2563EB' }}>
                         {suggested !== undefined ? `${suggested} / 10 điểm` : 'Chưa chấm'}
                       </Typography>
                     </Box>
@@ -167,7 +165,7 @@ export default function ReviewQueuePage() {
                         <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Độ tin cậy nhận diện:
                         </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                           {recConf}
                         </Typography>
                       </Grid>
@@ -175,7 +173,7 @@ export default function ReviewQueuePage() {
                         <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Độ tin cậy chẩn đoán:
                         </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                           {diagConf}
                         </Typography>
                       </Grid>
@@ -190,10 +188,8 @@ export default function ReviewQueuePage() {
                     endIcon={<ArrowForward />}
                     onClick={() => navigate(`/submissions/${subId}`)}
                     sx={{
-                      py: 1,
+                      py: 1.1,
                       fontWeight: 700,
-                      bgcolor: '#7040D5',
-                      '&:hover': { bgcolor: '#5426AF' },
                     }}
                   >
                     Duyệt bài này

@@ -42,19 +42,19 @@ export function LoginPage() {
       else setError(cause?.response?.status === 401 ? 'Email hoặc mật khẩu chưa đúng.' : errorMessage(cause));
     } finally { setPassword(''); setBusy(false); submitLock.current = false; }
   };
-  return <Box sx={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', p: 2, bgcolor: '#F2EFF8' }}>
-    <Card sx={{ width: '100%', maxWidth: 460 }}><CardContent sx={{ p: { xs: 3, sm: 5 } }}>
-      <Box sx={{ color: 'primary.main', mb: 3 }}><AdminPanelSettingsOutlined sx={{ fontSize: 36 }} /></Box>
-      <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 2 }}>MATHVISIONKID / ADMIN</Typography>
-      <Typography component="h1" variant="h4" sx={{ mt: 1, mb: 1 }}>Không gian quản trị</Typography>
-      <Typography color="text.secondary" sx={{ mb: 3 }}>Quản lý vận hành, tài khoản và lớp học.</Typography>
-      {(error || sessionError) && <Alert severity="error" sx={{ mb: 2 }}>{error || sessionError}</Alert>}
+  return <Box sx={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', p: 2, bgcolor: '#F8FAFC' }}>
+    <Card sx={{ width: '100%', maxWidth: 460, borderRadius: 3, border: '1px solid #E2E8F0', boxShadow: '0 4px 20px -2px rgba(15,23,42,0.06)' }}><CardContent sx={{ p: { xs: 3, sm: 5 } }}>
+      <Box sx={{ color: 'primary.main', mb: 2 }}><AdminPanelSettingsOutlined sx={{ fontSize: 36 }} /></Box>
+      <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 2, fontWeight: 700 }}>MATHVISION KIDS / ADMIN</Typography>
+      <Typography component="h1" variant="h5" sx={{ mt: 0.5, mb: 0.5, fontWeight: 800, color: '#0F172A' }}>Không gian quản trị</Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>Quản lý vận hành, tài khoản và giám sát toàn hệ thống.</Typography>
+      {(error || sessionError) && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error || sessionError}</Alert>}
       <Box component="form" onSubmit={submit} sx={{ display: 'grid', gap: 2 }} aria-busy={busy}>
         <TextField label="Email quản trị" type="email" required autoComplete="username" value={email} disabled={busy} onChange={e => setEmail(e.target.value)} fullWidth />
         <TextField label="Mật khẩu" type={visible ? 'text' : 'password'} required autoComplete="current-password" value={password} disabled={busy} onChange={e => setPassword(e.target.value)} fullWidth
           slotProps={{ input: { endAdornment: <InputAdornment position="end"><IconButton aria-label={visible ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} onClick={() => setVisible(!visible)} edge="end">{visible ? <VisibilityOff /> : <Visibility />}</IconButton></InputAdornment> } }} />
-        <Button type="submit" variant="contained" disabled={busy} startIcon={busy ? <CircularProgress size={18} color="inherit" /> : undefined}>{busy ? 'Đang xác thực…' : 'Đăng nhập quản trị'}</Button>
-        <Button component="a" href={`${appConfig.portalOrigin}/admin`} variant="outlined">Tiếp tục qua cổng MathVisionKid</Button>
+        <Button type="submit" variant="contained" disabled={busy} startIcon={busy ? <CircularProgress size={18} color="inherit" /> : undefined} sx={{ py: 1.25, fontWeight: 700 }}>{busy ? 'Đang xác thực…' : 'Đăng nhập quản trị'}</Button>
+        <Button component="a" href={`${appConfig.portalOrigin}/admin`} variant="outlined" sx={{ py: 1.1, fontWeight: 600 }}>Tiếp tục qua cổng MathVision Kids</Button>
       </Box>
     </CardContent></Card>
   </Box>;

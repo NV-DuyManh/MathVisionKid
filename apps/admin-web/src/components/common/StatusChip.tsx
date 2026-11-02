@@ -15,11 +15,15 @@ export const StatusChip: React.FC<StatusChipProps> = ({ active, size = 'small' }
         label="HOẠT ĐỘNG"
         size={size}
         sx={{
-          bgcolor: '#DCFCE7',
-          color: '#15803D',
-          border: '1px solid #BBF7D0',
-          fontWeight: 600,
-          '& .MuiChip-icon': { color: '#15803D' },
+          height: 24,
+          fontSize: '0.72rem',
+          bgcolor: '#ECFDF5',
+          color: '#059669',
+          border: '1px solid #A7F3D0',
+          fontWeight: 800,
+          borderRadius: 1.5,
+          letterSpacing: '0.02em',
+          '& .MuiChip-icon': { color: '#059669' },
         }}
       />
     );
@@ -31,11 +35,15 @@ export const StatusChip: React.FC<StatusChipProps> = ({ active, size = 'small' }
       label="VÔ HIỆU HÓA"
       size={size}
       sx={{
-        bgcolor: '#FEE2E2',
-        color: '#B91C1C',
+        height: 24,
+        fontSize: '0.72rem',
+        bgcolor: '#FEF2F2',
+        color: '#DC2626',
         border: '1px solid #FECACA',
-        fontWeight: 600,
-        '& .MuiChip-icon': { color: '#B91C1C' },
+        fontWeight: 800,
+        borderRadius: 1.5,
+        letterSpacing: '0.02em',
+        '& .MuiChip-icon': { color: '#DC2626' },
       }}
     />
   );

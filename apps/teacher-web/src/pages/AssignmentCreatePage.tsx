@@ -76,7 +76,7 @@ export default function AssignmentCreatePage() {
         Quay lại danh sách bài tập
       </Button>
 
-      <Card sx={{ borderRadius: 2.5, border: '1px solid #E9E2F2' }}>
+      <Card sx={{ borderRadius: 2.5, border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>
         <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
           <Typography variant="h5" component="h1" sx={{ fontWeight: 800, mb: 0.5 }}>
             Tạo bài tập mới
@@ -141,22 +141,22 @@ export default function AssignmentCreatePage() {
             <Box
               sx={{
                 p: 2,
-                bgcolor: '#F1EBFC',
+                bgcolor: '#ECFDF5',
                 borderRadius: 2,
-                border: '1px solid #DDCDF4',
+                border: '1px solid #A7F3D0',
                 mb: 3.5,
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                <CheckCircleOutlined sx={{ fontSize: 18, color: '#7040D5' }} />
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#5426AF' }}>
+                <CheckCircleOutlined sx={{ fontSize: 18, color: '#059669' }} />
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#065F46' }}>
                   Lưu ý khi thu thập bài làm của học sinh
                 </Typography>
               </Box>
-              <Typography variant="caption" sx={{ color: '#59349A', display: 'block' }}>
+              <Typography variant="caption" sx={{ color: '#047857', display: 'block' }}>
                 • Học sinh viết rõ nét, đặt tính thẳng cột dọc (hàng đơn vị, chục, trăm).
               </Typography>
-              <Typography variant="caption" sx={{ color: '#59349A', display: 'block' }}>
+              <Typography variant="caption" sx={{ color: '#047857', display: 'block' }}>
                 • Chụp ảnh đủ sáng, góc chụp thẳng, mỗi ảnh tương ứng một bài làm.
               </Typography>
             </Box>
