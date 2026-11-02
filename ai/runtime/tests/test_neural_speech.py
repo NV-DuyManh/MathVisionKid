@@ -245,3 +245,53 @@ def test_failed_long_speech_resumes_only_missing_chunks_and_keeps_original_order
     assert result==b''.join(part.encode()+b'\0'*128 for part in parts)
     assert [part for part,_ in calls[before:]]==[part for index,part in enumerate(parts) if index not in previously_ready]
     assert progress[-1][2:]==(len(parts),len(parts))
+
+
+def test_provider_connections_are_bounded_across_worker_event_loops(monkeypatch):
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    guard=threading.Lock()
+    active=peak=0
+    async def chunk(part,voice):
+        nonlocal active,peak
+        with guard:
+            active+=1;peak=max(peak,active)
+        try:
+            await asyncio.sleep(.025)
+            return b'x'*128
+        finally:
+            with guard:active-=1
+    monkeypatch.setattr(speech,'_neural_chunk',chunk)
+    def worker(_):
+        return asyncio.run(speech._neural_audio('Em học từng bước. '*40,speech.DEFAULT_VOICE))
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        results=list(pool.map(worker,range(6)))
+    assert all(results) and 2<=peak<=4 and active==0
+
+
+def test_cancelled_capacity_waiter_never_steals_or_leaks_a_provider_slot(monkeypatch):
+    import threading
+    slots=threading.BoundedSemaphore(1)
+    slots.acquire()
+    monkeypatch.setattr(speech,'_provider_slots',slots)
+    called=AsyncMock(return_value=b'complete')
+    async def check():
+        with pytest.raises(TimeoutError):
+            await asyncio.wait_for(speech._with_provider_slot(called),.025)
+        called.assert_not_awaited()
+        slots.release()
+        assert await speech._with_provider_slot(called)==b'complete'
+        assert slots.acquire(blocking=False)
+        slots.release()
+    asyncio.run(check())
+
+
+def test_provider_exception_releases_shared_capacity(monkeypatch):
+    import threading
+    slots=threading.BoundedSemaphore(1)
+    monkeypatch.setattr(speech,'_provider_slots',slots)
+    async def check():
+        with pytest.raises(ValueError):
+            await speech._with_provider_slot(AsyncMock(side_effect=ValueError('provider')))
+        assert await speech._with_provider_slot(AsyncMock(return_value=b'complete'))==b'complete'
+    asyncio.run(check())

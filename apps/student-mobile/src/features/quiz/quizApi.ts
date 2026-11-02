@@ -1,5 +1,6 @@
 import apiClient from '../../services/api/apiClient';
 import type { NarrationVoice } from '../tutoring/narrationVoices';
+import { isTransientNarrationError, NARRATION_WAIT_SECONDS } from '../tutoring/narrationApi';
 
 export type QuizAttempt = { number: number; answer: string; correct: boolean; submittedAt: string; elapsedMillis: number; stars?: number; mode?: string; questionText?: string | null; solutionViewed?: boolean | null; runStartedAt?: string | null };
 export type Quiz = {
@@ -10,6 +11,7 @@ export type Quiz = {
   stars: number; wrongAttempts: number; solutionViewed: boolean; completedWithSolution: boolean; canRevealSolution: boolean;
   attempts: QuizAttempt[]; explanationText: string | null; correctAnswer: string | null;
   replayMode?: 'NONE' | 'PRACTICE' | 'CHALLENGE'; originalQuestionText?: string | null;
+  timerRunning?: boolean;
 };
 export type QuizGroup = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 export type QuizLibrary = { items: Quiz[]; page: number; totalPages: number; totalElements: number };
@@ -47,10 +49,30 @@ export const quizApi = {
   start: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/start`, undefined, signal),
   replay: (id: string, mode: 'PRACTICE' | 'CHALLENGE' = 'CHALLENGE', signal?: AbortSignal) => mutate<Quiz>(`${id}/replay`, { mode }, signal),
   defer: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/defer`, undefined, signal),
+  async activity(id: string, startedAt: string, active: boolean, signal?: AbortSignal): Promise<Quiz> {
+    return (await apiClient.post(`/student/quizzes/${id}/activity`, { active, startedAt }, { signal, timeout: 8000 })).data;
+  },
+  help: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/help`, undefined, signal),
   submit: (id: string, requestId: string, answer: string, signal?: AbortSignal) => mutate<{ quiz: Quiz; attempt: QuizAttempt }>(`${id}/submit`, { requestId, answer }, signal),
   reveal: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/reveal-solution`, undefined, signal),
-  async audio(id: string, voice: NarrationVoice, signal: AbortSignal): Promise<Uint8Array> {
-    const { data } = await apiClient.post(`/student/quizzes/${id}/narration`, { voice }, { responseType: 'arraybuffer', signal, timeout: 45000 });
+  async audio(id: string, voice: NarrationVoice, signal: AbortSignal, content?: 'QUESTION'|'SOLUTION'): Promise<Uint8Array> {
+    const deadline = Date.now() + NARRATION_WAIT_SECONDS * 1000;
+    let data: ArrayBuffer;
+    for (let attempt = 0; ; attempt++) {
+      if (signal.aborted) throw new Error('Đã dừng tải âm thanh.');
+      const remaining = deadline-Date.now();
+      if (remaining <= 0) throw new Error('Đã hết thời gian chờ lời giảng.');
+      try {
+        ({ data } = await apiClient.post(`/student/quizzes/${id}/narration`, { voice, ...(content ? {content} : {}) }, { responseType: 'arraybuffer', signal, timeout: remaining }));
+        break;
+      } catch (error) {
+        const busy = (error as {response?: {status?: number}})?.response?.status === 429;
+        const delay = Math.min(2000,500 * (attempt+1));
+        if (signal.aborted || !busy && attempt >= 2 || !isTransientNarrationError(error) || Date.now()+delay >= deadline) throw error;
+        await quizWait(delay, signal);
+      }
+    }
+    if (signal.aborted) throw new Error('Đã dừng tải âm thanh.');
     const bytes = new Uint8Array(data);
     if (bytes.length <= 44 || bytes.length > 8 * 1024 * 1024 || bytes[0] !== 82 || bytes[1] !== 73 || bytes[2] !== 70 || bytes[3] !== 70
       || bytes[8] !== 87 || bytes[9] !== 65 || bytes[10] !== 86 || bytes[11] !== 69) throw new Error('Invalid audio');

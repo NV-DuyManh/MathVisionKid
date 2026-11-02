@@ -15,11 +15,14 @@ class QuizNarration {
     private final String baseUrl, key;
     QuizNarration(QuizService quizzes, RestTemplateBuilder builder, @Value("${ai.service.base-url}") String baseUrl,
                   @Value("${ai.callback.api-key}") String key) {
-        this.quizzes=quizzes; this.http=builder.setConnectTimeout(Duration.ofSeconds(5)).setReadTimeout(Duration.ofSeconds(40)).build();
+        this.quizzes=quizzes; this.http=builder.setConnectTimeout(Duration.ofSeconds(5)).setReadTimeout(Duration.ofSeconds(55)).build();
         this.baseUrl=baseUrl.replaceAll("/+$", ""); this.key=key;
     }
     byte[] narrate(String principal, UUID id, String voice) {
-        String text=quizzes.authorizedSolution(principal,id); // Always recheck ownership/unlock, even for cached audio.
+        return narrate(principal,id,voice,null);
+    }
+    byte[] narrate(String principal, UUID id, String voice, String content) {
+        String text="QUESTION".equals(content) ? quizzes.authorizedQuestion(principal,id) : quizzes.authorizedSolution(principal,id);
         if (baseUrl.isBlank() || key.isBlank()) throw unavailable();
         var headers=new HttpHeaders(); headers.setContentType(MediaType.APPLICATION_JSON); headers.set("X-Internal-API-Key",key);
         headers.setAccept(List.of(MediaType.parseMediaType("audio/wav")));

@@ -27,6 +27,15 @@ beforeEach(() => {
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); });
 
+it('does not request cloud audio for a saved device choice and resumes warming when switching back', async () => {
+  (readNarrationVoice as jest.Mock).mockResolvedValue('device');
+  await act(async () => { view=TestRenderer.create(screen()); });
+  expect(downloadNarration).not.toHaveBeenCalled(); expect(prepareLessonMedia).not.toHaveBeenCalled();
+  await act(async () => { await saveNarrationVoice('vi-VN-NamMinhNeural'); });
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
+  expect(prepareLessonMedia).toHaveBeenCalledWith(source,'vi-VN-NamMinhNeural',expect.any(AbortSignal));
+});
+
 it('prepares both current voices once and joins the selected download on listening', async () => {
   let finish!: (value: Uint8Array) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
@@ -123,6 +132,16 @@ it('changing voice updates priority without cancelling either current voice', as
   const before = (downloadNarration as jest.Mock).mock.calls.length;
   await act(async () => { finish(bytes); });
   expect(downloadNarration).toHaveBeenCalledTimes(before);
+});
+
+it('keeps the latest chosen voice when an earlier preference read resolves late', async () => {
+  let restore!: (voice: string) => void;
+  (readNarrationVoice as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { restore=resolve; }));
+  await act(async () => { view=TestRenderer.create(screen()); });
+  await act(async () => { await saveNarrationVoice('vi-VN-NamMinhNeural'); });
+  await act(async () => { restore('vi-VN-HoaiMyNeural'); });
+  expect(prepareLessonMedia).toHaveBeenLastCalledWith(source,'vi-VN-NamMinhNeural',expect.any(AbortSignal));
+  expect((downloadNarration as jest.Mock).mock.calls.map(call=>call[3])).toEqual(['vi-VN-NamMinhNeural','vi-VN-HoaiMyNeural']);
 });
 
 it('remembers a voice change while backgrounded and removes its subscription on unmount', async () => {

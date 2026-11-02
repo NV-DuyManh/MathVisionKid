@@ -1,17 +1,18 @@
-import React, { createContext, useCallback, useEffect, useState, useContext } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useContext } from 'react';
 import { AppState } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { createNarrationCache, type NarrationCache } from './narrationCache';
-import { prepareLessonMedia, type NarrationSource } from './narrationApi';
-import { NARRATION_VOICES, readNarrationVoice, subscribeNarrationVoice, type NarrationVoice } from './narrationVoices';
+import { prepareLessonMedia, type NarrationSource, type downloadNarration } from './narrationApi';
+import { NARRATION_VOICES, readNarrationVoice, subscribeNarrationVoice, isNarrationVoice, type NarrationChoice, type NarrationVoice } from './narrationVoices';
 import { createPlaybackBookmarks } from './playbackBookmarks';
 
 export const NarrationCacheContext = createContext<NarrationCache | null>(null);
 export const PlaybackBookmarksContext = createContext<ReturnType<typeof createPlaybackBookmarks> | null>(null);
 
-export function NarrationPreparation({ children, owner }: { children: React.ReactNode; owner?: string }) {
-  const [cache] = useState(createNarrationCache);
-  const [bookmarks] = useState(()=>createPlaybackBookmarks(owner));
+export function NarrationPreparation({ children, owner, download }: { children: React.ReactNode; owner?: string; download?: typeof downloadNarration }) {
+  // Quiz keeps the same cache/player lifecycle, with its own authorized endpoint.
+  const cache = useMemo(() => createNarrationCache(download ? { download, prioritize: null } : undefined), [download, owner]);
+  const bookmarks = useMemo(() => createPlaybackBookmarks(owner), [owner]);
   useEffect(() => () => cache.clear(), [cache]);
   useEffect(()=>{
     const flush=()=>{void bookmarks.flush();};
@@ -30,7 +31,7 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
     if (!cache || !sessionId || revision === undefined || !JSON.parse(text).some((part: string) => part.trim())) return;
     let active = true, generation = 0;
     let foreground = AppState.currentState !== 'background' && AppState.currentState !== 'inactive';
-    let chosen: NarrationVoice | undefined;
+    let chosen: NarrationChoice | undefined;
     const leases = new Set<ReturnType<NarrationCache['acquire']>>();
     const controls = new Set<AbortController>();
     const stop = () => { ++generation; leases.forEach(lease => lease.release()); leases.clear(); controls.forEach(control => control.abort()); controls.clear();void bookmarks?.flush(); };
@@ -43,8 +44,11 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
     };
     const begin = async () => {
       stop(); const id = generation;
-      const selected = chosen || await readNarrationVoice();
+      const saved = chosen || await readNarrationVoice();
       if (!active || generation !== id) return;
+      const selected = chosen || saved;
+      chosen = selected;
+      if (!isNarrationVoice(selected)) return;
       prepareFuture(selected);
       // Warm both versions of the currently issued script. The shared bounded
       // render/cache joins server preparation instead of synthesizing duplicates.
@@ -63,8 +67,11 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
       if (foreground) void begin(); else stop();
     });
     const unsubscribe = subscribeNarrationVoice(voice => {
+      const wasDevice = chosen === 'device';
       chosen = voice;
+      if (!isNarrationVoice(voice)) { stop(); return; }
       if (foreground) {
+        if (wasDevice) { void begin(); return; }
         // Both current assets already have leases. Keep the alternate download
         // alive when preference changes; only change the server's priority.
         prepareFuture(voice);

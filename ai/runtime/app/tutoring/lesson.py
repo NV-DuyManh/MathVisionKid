@@ -18,6 +18,9 @@ from typing import Annotated, Literal
 from pydantic import Field, StrictBool, ValidationError, field_validator, model_validator
 
 from app.tutoring.service import TutorModel, TutorUnavailable, _fold, _generate
+from app.tutoring.choice_source import split_choices
+from app.tutoring import math_knowledge, validation_audit
+from app.tutoring.math_knowledge import unit_conversions, formula_constants
 
 logger = logging.getLogger(__name__)
 
@@ -342,6 +345,10 @@ Các ý a), b) dùng chung dữ kiện là MỘT bài có nhiều yêu cầu, kh
 bài độc lập: giải đủ từng ý, finalAnswerStep=null. Không bỏ ý sau để chọn một đáp án.
 Số tiền có dấu cách phân nhóm vẫn là một số nguyên: dùng đúng givenNumbers.
 unitConversions là quy ước đổi đơn vị do máy chủ cấp, không phải dữ kiện mới.
+mathematicalConventions chứa các quy tắc chỉ được cấp theo ngữ cảnh của đề.
+Dùng đúng điều kiện áp dụng của từng quy tắc; không coi đó là kết quả đã tính.
+Hệ số đã cấp là kiến thức toán hợp lệ dù không in trong đề gốc. Không báo thiếu
+dữ kiện chỉ vì đề không viết lại quy ước đổi đơn vị hoặc công thức tương ứng.
 Độ dài, diện tích phải đổi về cùng đơn vị trước khi so sánh hoặc chia; hệ số
 diện tích là bình phương hệ số độ dài. Dùng factor đã cấp trong expression,
 giải thích vì sao đổi và giữ phép đổi trong bước liên quan, không làm bước giả.
@@ -507,6 +514,13 @@ All givenNumbers from the original problem ARE permitted operands.
 additionalFormulaConstants only adds mathematical conventions; it does NOT
 exclude the source numbers. Reject needless rewriting of source numbers as
 sums of constants and algebraic equations unsuitable for primary pupils.
+unitConversions contains exact server-supplied same-dimension conventions, not
+missing pupil givens. A listed factor may be multiplied in the stated direction
+or divided in the reverse direction. Area, volume, capacity, mass and time must
+keep their own dimensions. mathematicalConventions gives source-scoped rules;
+never reject a valid listed conversion merely because its factor is not printed
+in the original question. These rules do not authorize a computed final answer
+as a new literal operand or justify a different quantity from the one asked.
 Return false checks and an empty results list if the lesson is not acceptable.
 You may add "issues": up to three short concrete reasons (each <=220 characters)
 for rejection. Explain the exact missing teaching action or wrong relationship,
@@ -562,39 +576,6 @@ REVIEW_SCHEMA = generation_schema(PlanReview)
 PLANNING_SCHEMA = generation_schema(PlanDraft)
 
 
-def unit_conversions(problem: str) -> list[dict[str, str]]:
-    """Metric conventions for units actually present, not model-supplied operands."""
-    text = _fold(problem)
-    scale = {'km': 3, 'hm': 2, 'dam': 1, 'm': 0, 'dm': -1, 'cm': -2, 'mm': -3}
-    units = list(dict.fromkeys(re.findall(r'(?<![a-z])(?:km|hm|dam|dm|cm|mm|m)(?![a-z])', text)))
-    units.sort(key=scale.get, reverse=True)
-    powers = [1]
-    for power, suffix, context in [(2, '²', r'dien tich|hinh vuong|hinh chu nhat'),
-                                    (3, '³', r'the tich|hinh lap phuong|hinh hop chu nhat')]:
-        if (re.search(rf'(?<![a-z])(?:km|hm|dam|dm|cm|mm|m)(?:{suffix}|\^?{power})(?![a-z\d])', text)
-                or re.search(context, text)):
-            powers.append(power)
-    return [dict(fromUnit=larger + {1: '', 2: '²', 3: '³'}[power],
-                 toUnit=smaller + {1: '', 2: '²', 3: '³'}[power],
-                 factor=str(10 ** ((scale[larger] - scale[smaller]) * power)))
-            for index, larger in enumerate(units) for smaller in units[index+1:] for power in powers]
-
-
-def formula_constants(problem: str) -> frozenset[str]:
-    # Only mathematical conventions justified by source context, never arbitrary
-    # operands supplied by the model. The reviewer also checks their actual use.
-    text = _fold(problem)
-    constants = {"1", "2"}
-    if re.search(r"(?:viet\s+them|them).*(?:chu\s+)?so|hang\s+(?:don vi|chuc|tram)", text):
-        constants.update({"9", "10"})  # Decimal shift: ten parts minus the original part.
-    if "%" in text or "phan tram" in text:
-        constants.add("100")
-    if re.search(r"\b(?:gio|phut|giay)\b", text):
-        constants.add("60")
-    constants.update(item['factor'] for item in unit_conversions(problem))
-    return frozenset(constants)
-
-
 def ungroup_numbers(text: str) -> str:
     # Spaces within a complete three-digit group; never join separate source rows.
     return re.sub(r'(?<![\d.,/])\d{1,3}(?:[ \u00a0\u202f\u2009]+\d{3})+(?!\d)',
@@ -622,11 +603,17 @@ def safe_public(text: str):
 def source_parts(source: str) -> tuple[list[str], str]:
     """Keep the original clause text and one explicit question; infer no meaning."""
     safe_public(source)
+    multiple=split_choices(source)
+    if multiple:source=multiple[0]
     questions = list(re.finditer(r"(?:^|[.!?;\n]\s*)(Hỏi|Tính|Tìm|Đếm|Cần(?=\s+bao\s+nhiêu\b[^?]*\?))\b", source, re.I))
     if not questions:
         # OCR can lose sentence punctuation. An explicit Hỏi boundary is still
         # a source quote; never infer an implicit or multi-question boundary.
         questions = list(re.finditer(r"(?<!\w)(Hỏi)\b", source, re.I))
+    if not questions and multiple:
+        # A complete A-D suffix makes this colon-ended stem an explicit source
+        # request. Quote it verbatim; never include distractors as given facts.
+        questions=list(re.finditer(r'(?:^|[.!?;\n]\s*)(Vậy\b[^.!?\n]*\blà\s*:)\s*$',source,re.I))
     if len(questions) != 1:
         raise UnderstandingUnsupported("Separate the given facts and one explicit source question")
     boundary = questions[0].start(1)
@@ -732,6 +719,9 @@ def labelled_understanding(source: str) -> list[Step]:
 
 def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozenset({"1", "2"})):
     givens = numeric_values(request.problemText) | formula_constants
+    given_values={}
+    for literal in sorted(givens,key=lambda item:(len(item),item)):given_values.setdefault(Fraction(literal),literal)
+    conversions=unit_conversions(request.problemText)
     if "lop" not in _fold(request.problemText):
         plan.topic = re.sub(r"\s*lớp\s*\d+\s*[:—-]?", "", plan.topic, flags=re.I).strip()
     answers = []
@@ -747,6 +737,8 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
         if step.workExcerpt and step.workExcerpt not in request.workText:
             raise ValueError("Ungrounded work excerpt")
         if step.expression:
+            if not numeric_values(_GUIDANCE_REFERENCE.sub('',step.expression)).issubset(givens):
+                step.expression=math_knowledge.normalize_conversion_factors(step.expression,givens,conversions)
             # A model may spell out an already calculated value. Turn that
             # value into its exact dependency, never accept a new/future operand.
             def dependency(match):
@@ -754,6 +746,7 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
                 if numeric_values(literal).issubset(givens):
                     return literal
                 value = Fraction(re.sub(r"\s", "", literal))
+                if value in given_values:return given_values[value]
                 for prior, answer in enumerate(answers):
                     if plan.steps[prior].expression:
                         checked = Fraction(answer)
@@ -1021,10 +1014,13 @@ async def generate_plan(request: LessonRequest) -> Plan:
     source = {"problemText": request.problemText, "workText": request.workText,
               "givenNumbers": sorted(numeric_values(request.problemText)),
               "additionalFormulaConstants": sorted(constants),
-              "unitConversions": unit_conversions(request.problemText)}
+              "unitConversions": unit_conversions(request.problemText),
+              "knowledgeVersion": math_knowledge.VERSION,
+              "mathematicalConventions": math_knowledge.contextual_facts(request.problemText)}
     work_lines = request.workText.splitlines()
     source["workLines"] = [dict(index=index,text=line) for index,line in enumerate(work_lines)]
     prompt = PLAN_PROMPT
+    preference = None
     for attempt in range(2):
         # One content repair after a SUCCESSFUL generation with invalid output.
         # Provider/quota failures propagate immediately, never trigger this loop.
@@ -1032,10 +1028,16 @@ async def generate_plan(request: LessonRequest) -> Plan:
         # Local validation and independent review remain required after decoding.
         parsed = await _generate(prompt, json.dumps(source, ensure_ascii=False),
                                  max_output_tokens=4500, timeout_seconds=24.0 if attempt == 0 else 12.0,
-                                 reasoning=True, response_schema=PLANNING_SCHEMA)
-        if parsed.get("unavailable") is True:
-            raise ValueError("Problem needs clarification")
+                                 reasoning=True, response_schema=PLANNING_SCHEMA,
+                                 **({'preferred_provider':preference} if preference else {}))
+        # Content refusals/invalid plans should not keep asking the same source.
+        # Alternate the source that actually answered, including transport fallback.
+        preference = {'groq':'gemini','gemini':'groq'}.get(getattr(parsed,'provider',None))
+        checking_provider=getattr(parsed,'provider',None)
+        checking_stage='draft';failed_checks=()
         try:
+            if parsed.get("unavailable") is True:
+                raise ValueError("Recheck the original source; refuse if genuinely insufficient")
             if "lesson" in parsed and parsed["lesson"] is None:
                 raise ValueError("Recheck whether the confirmed source relationships determine the unknown; refuse if genuinely insufficient")
             if "canSolve" in parsed:
@@ -1085,6 +1087,7 @@ async def generate_plan(request: LessonRequest) -> Plan:
                 guidance_at(step, answers[:-1])  # Check resolved size before starting.
             source.pop("rejectedCandidate", None)
             source.pop("validationIssue", None)
+            source.pop("validationIssueCode", None)
             initial_teaching = [guidance_at(step, answers[:index],
                 numeric_values(request.problemText) | constants, reveal_work=False)
                 for index, step in enumerate(plan.steps)]
@@ -1104,7 +1107,7 @@ async def generate_plan(request: LessonRequest) -> Plan:
             if plan.finalAnswerStep is not None:
                 review_schema["properties"]["results"]["maxItems"] = 1
                 review_schema["$defs"]["ReviewedResult"]["properties"]["stepIndex"]["enum"] = [plan.finalAnswerStep]
-            review = PlanReview.model_validate(await _generate(REVIEW_PROMPT, json.dumps(
+            review_result = await _generate(REVIEW_PROMPT, json.dumps(
                 {**{key:value for key,value in source.items() if key not in {"workText", "workLines"}},
                  "candidate": candidate, "computedAnswers": answers,
                  "resultScope": {"finalAnswerStep": plan.finalAnswerStep,
@@ -1112,7 +1115,11 @@ async def generate_plan(request: LessonRequest) -> Plan:
                                      if plan.finalAnswerStep is None else "Independently solve the ORIGINAL question. Return only its final requested quantity at this step, not intermediate results. Reject if the step answers a different question.")},
                  "initialTeaching": initial_teaching, "workedTeaching": worked_teaching}, ensure_ascii=False),
                 max_output_tokens=1800, timeout_seconds=8.0,
-                response_schema=review_schema, reasoning=True))
+                response_schema=review_schema, reasoning=True,
+                **({'preferred_provider':preference} if preference else {}))
+            checking_provider=getattr(review_result,'provider',None);checking_stage='review'
+            review=PlanReview.model_validate(review_result)
+            failed_checks=tuple(name for name in ('sourceFaithful','mathematicsCorrect','answersQuestion','teachingClear') if not getattr(review,name))
             if not all((review.sourceFaithful, review.mathematicsCorrect, review.answersQuestion, review.teachingClear)) or not review.results:
                 raise ValueError("Lesson did not pass independent review: " + "; ".join(review.issues))
             indices = [result.stepIndex for result in review.results]
@@ -1124,6 +1131,7 @@ async def generate_plan(request: LessonRequest) -> Plan:
                         or Fraction(result.answer) != Fraction(answers[result.stepIndex])
                         or result.unit != plan.steps[result.stepIndex].unit):
                     raise ValueError("Independent answer disagrees with candidate")
+            if attempt:validation_audit.record(request.problemText,attempt+1,provider=getattr(parsed,'provider',None),stage='recovered')
             return plan
         except (ValueError, TypeError, SyntaxError, ArithmeticError) as exc:
             if isinstance(exc, ValidationError):
@@ -1131,12 +1139,15 @@ async def generate_plan(request: LessonRequest) -> Plan:
                 issue = ".".join(map(str, error["loc"])) + ": " + error["msg"]
             else:
                 issue = str(exc)
-            logger.warning("Tutor lesson validation rejected attempt=%s category=%s reason=%s",
-                           attempt + 1, type(exc).__name__, issue[:1000].replace("\n", " "))
+            code=validation_audit.reason_code(exc)
+            validation_audit.record(request.problemText,attempt+1,exc,checking_provider,checking_stage,failed_checks)
+            logger.warning("Tutor lesson validation rejected attempt=%s category=%s code=%s",
+                           attempt+1,type(exc).__name__,code)
             if attempt:
                 raise
             prompt = REPAIR_PROMPT
             source["validationIssue"] = issue[:1000]
+            source["validationIssueCode"] = code
             source["rejectedCandidate"] = parsed
 
 
@@ -1151,7 +1162,8 @@ async def checked_plan(request):
     try:
         from app.tutoring.fraction_remainder import verified_plan as fraction_plan
         from app.tutoring.digit_append import verified_plan as digit_plan
-        exact = fraction_plan(request.problemText) or digit_plan(request.problemText)
+        from app.tutoring.mass_fraction import verified_plan as mass_plan
+        exact = fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
         if exact is not None and not request.workText:
             plan = Plan.model_validate(exact)
         else:

@@ -177,15 +177,15 @@ def prepare_narration(request):
             _promote(key,existing)
         elif not (cached and cached[0]>now) and not running:
             if not _prepare_slots.acquire(blocking=False):
-                if not request.prefetch:
-                    # A new explicit reply/step must not queue behind two old
-                    # speculative public jobs. Preserve the other current voice.
-                    _background_pause_until=now+2
-                    for other,waiting in _public_jobs.items():
-                        same_script=other[:2]==key[:2] and other[3:]==key[3:]
-                        if not same_script and waiting.get('prefetch') and not _foreground_waiters.get(other):
-                            waiting['cancel'].set()
-                            if other in _background:_background[other].set()
+                # This endpoint accepts only issued text, including a new Q&A
+                # reply being warmed. It must not wait behind unrelated future
+                # speech; preserve both voices of its script and active listeners.
+                _background_pause_until=now+2
+                for other,waiting in _public_jobs.items():
+                    same_script=other[:2]==key[:2] and other[3:]==key[3:]
+                    if not same_script and waiting.get('prefetch') and not _foreground_waiters.get(other):
+                        waiting['cancel'].set()
+                        if other in _background:_background[other].set()
                 raise NarrationBusy()
             job=dict(started=now,expires=session.expires,prefetch=request.prefetch,revision=request.revision,
                      cancel=threading.Event(),hold=False,finished=False)
@@ -381,9 +381,9 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
             raise NarrationBusy()
         rendering = pending is None
         if rendering:
-            if background and time.monotonic() < _background_pause_until: raise NarrationBusy()
+            if background and job is None and time.monotonic() < _background_pause_until: raise NarrationBusy()
             if not _render_slot.acquire(blocking=False):
-                if not background:
+                if not background or job is not None:
                     _background_pause_until = time.monotonic()+2
                     for old, cancellation in _background.items():
                         same_script=old[:2]==key[:2] and old[3:]==key[3:]

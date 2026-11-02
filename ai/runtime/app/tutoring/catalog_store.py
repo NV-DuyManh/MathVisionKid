@@ -2,9 +2,15 @@
 from contextlib import closing
 from hashlib import sha256
 import sqlite3
+import threading
 import time
 import unicodedata
 from pathlib import Path
+
+# SQLite's first WAL transition can return SQLITE_BUSY without its busy timeout.
+# Serialize only connection setup, never synthesis or the catalog transactions.
+# ponytail: process-local setup lock; multi-host writes need the existing database.
+_schema_lock = threading.Lock()
 
 
 def normalized_source(text):
@@ -19,13 +25,18 @@ class CatalogStore:
         self.path.parent.mkdir(parents=True,exist_ok=True)
         db=sqlite3.connect(self.path,timeout=.15)
         try:
-            db.execute('PRAGMA journal_mode=WAL')
-            db.execute('PRAGMA journal_size_limit=1048576')
-            db.execute('''CREATE TABLE IF NOT EXISTS entries (
-                kind TEXT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, policy TEXT NOT NULL,
-                payload BLOB NOT NULL, digest TEXT NOT NULL, created REAL NOT NULL, used REAL NOT NULL,
-                expires REAL NOT NULL, hits INTEGER NOT NULL DEFAULT 0,
-                PRIMARY KEY(kind,scope,key,policy))''')
+            if not _schema_lock.acquire(timeout=.15):
+                raise sqlite3.OperationalError('Catalog initialization busy')
+            try:
+                db.execute('PRAGMA journal_mode=WAL')
+                db.execute('PRAGMA journal_size_limit=1048576')
+                db.execute('''CREATE TABLE IF NOT EXISTS entries (
+                    kind TEXT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, policy TEXT NOT NULL,
+                    payload BLOB NOT NULL, digest TEXT NOT NULL, created REAL NOT NULL, used REAL NOT NULL,
+                    expires REAL NOT NULL, hits INTEGER NOT NULL DEFAULT 0,
+                    PRIMARY KEY(kind,scope,key,policy))''')
+            finally:
+                _schema_lock.release()
             return db
         except BaseException:
             db.close();raise

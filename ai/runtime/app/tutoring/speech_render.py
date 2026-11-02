@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import textwrap
+import threading
 import time
 import wave
 
@@ -21,6 +22,18 @@ from app.tutoring.service import TutorUnavailable
 SPEECH_VOICES = ('vi-VN-NamMinhNeural', 'vi-VN-HoaiMyNeural')
 DEFAULT_VOICE = SPEECH_VOICES[0]
 logger = logging.getLogger(__name__)
+# Shared across lesson, Q&A and Quiz worker threads; each render may use two turns.
+_provider_slots = threading.BoundedSemaphore(4)
+
+
+async def _with_provider_slot(call):
+    # Do not block an event loop or leave a detached semaphore acquisition on cancellation.
+    while not _provider_slots.acquire(blocking=False):
+        await asyncio.sleep(.02)
+    try:
+        return await call()
+    finally:
+        _provider_slots.release()
 
 
 class SpeechNoAudio(TutorUnavailable):
@@ -156,7 +169,7 @@ async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None
         async with slots:
             data = checkpoint[0](index) if checkpoint else None
             if data is None:
-                data = await _neural_chunk(part, voice)
+                data = await _with_provider_slot(lambda: _neural_chunk(part, voice))
                 if checkpoint: checkpoint[1](index, data)
             total += len(data)
             if total > 2 * 1024 * 1024:
@@ -196,7 +209,7 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
             async def render_paragraph(part):
                 nonlocal completed
                 async with slots:
-                    pcm = await azure_pcm(spoken_math(part), voice)
+                    pcm = await _with_provider_slot(lambda: azure_pcm(spoken_math(part), voice))
                     completed += 1
                     if on_progress: on_progress('synthesizing', 10+int(70*completed/len(paragraphs)), completed, len(paragraphs))
                     return pcm
@@ -210,7 +223,7 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
             work = aligned()
         elif official:
             # The official route returns complete PCM. Never mix its bytes with Edge MP3 checkpoints.
-            work = azure_pcm(spoken_math(text), voice)
+            work = _with_provider_slot(lambda: azure_pcm(spoken_math(text), voice))
         elif paragraphs is not None:
             work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint, [spoken_math(part) for part in paragraphs])
         elif checkpoint is not None:

@@ -29,10 +29,11 @@ def audio_session(monkeypatch):
     return session
 
 
-def test_explicit_new_audio_yields_full_speculative_jobs_but_keeps_the_other_current_voice(audio_session,monkeypatch):
+@pytest.mark.parametrize('prefetch',[False,True])
+def test_issued_audio_yields_full_speculative_jobs_but_keeps_the_other_current_voice(audio_session,monkeypatch,prefetch):
     from app.tutoring import narration
     request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
-        paragraphs=[audio_session.narration_texts[0]])
+        paragraphs=[audio_session.narration_texts[0]],prefetch=prefetch)
     same=narration.request_key(request.model_copy(update={'voice':'vi-VN-HoaiMyNeural'}))
     old=narration.request_key(request.model_copy(update={'paragraphs':[audio_session.narration_texts[1]]}))
     same_cancel,old_cancel=threading.Event(),threading.Event()
@@ -48,10 +49,11 @@ def test_explicit_new_audio_yields_full_speculative_jobs_but_keeps_the_other_cur
     assert narration._background_pause_until>time.monotonic()
 
 
-def test_foreground_render_pressure_keeps_the_other_current_voice_and_yields_only_unrelated_audio(audio_session,monkeypatch):
+@pytest.mark.parametrize('prefetch',[False,True])
+def test_issued_render_pressure_keeps_the_other_current_voice_and_yields_only_unrelated_audio(audio_session,monkeypatch,prefetch):
     from app.tutoring import narration
     request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
-        paragraphs=[audio_session.narration_texts[0]])
+        paragraphs=[audio_session.narration_texts[0]],prefetch=prefetch)
     same=narration.request_key(request.model_copy(update={'voice':'vi-VN-HoaiMyNeural'}))
     old=narration.request_key(request.model_copy(update={'paragraphs':[audio_session.narration_texts[1]]}))
     same_cancel,old_cancel=threading.Event(),threading.Event()
@@ -59,8 +61,42 @@ def test_foreground_render_pressure_keeps_the_other_current_voice_and_yields_onl
     monkeypatch.setattr(narration,'_foreground_waiters',{})
     monkeypatch.setattr(narration,'_background',{same:same_cancel,old:old_cancel})
     monkeypatch.setattr(narration,'_background_pause_until',0)
-    with pytest.raises(narration.NarrationBusy):narration.narrate(request)
+    job={'prefetch':True,'cancel':threading.Event()} if prefetch else None
+    with pytest.raises(narration.NarrationBusy):
+        narration._narrate(request,audio_session,lambda:audio_session,background=prefetch,job=job)
     assert old_cancel.is_set() and not same_cancel.is_set()
+
+
+def test_issued_prefetch_can_use_released_capacity_while_future_lessons_are_paused(audio_session,monkeypatch):
+    from app.tutoring import narration
+    request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
+        paragraphs=[audio_session.narration_texts[0]],prefetch=True)
+    monkeypatch.setattr(narration,'_inflight',{})
+    monkeypatch.setattr(narration,'_background',{})
+    monkeypatch.setattr(narration,'_render_slot',threading.BoundedSemaphore(2))
+    monkeypatch.setattr(narration,'_background_pause_until',time.monotonic()+10)
+    rendered=[]
+    monkeypatch.setattr(narration,'render_audio',lambda *args,**kwargs:rendered.append(args) or pcm())
+    job={'prefetch':True,'cancel':threading.Event()}
+    data=narration._narrate(request,audio_session,lambda:audio_session,background=True,job=job)
+    assert data==pcm() and len(rendered)==1
+    private=request.model_copy(update={'paragraphs':[audio_session.narration_texts[1]]})
+    with pytest.raises(narration.NarrationBusy):
+        narration._narrate(private,audio_session,lambda:audio_session,background=True)
+
+
+@pytest.mark.parametrize('invalid',[
+    {'owner':'another-pupil'}, {'revision':1}, {'paragraphs':['Chưa công bố cho học sinh.']},
+])
+def test_invalid_prefetch_cannot_cancel_or_reprioritize_any_audio(audio_session,monkeypatch,invalid):
+    from app.tutoring import narration
+    cancellation=threading.Event()
+    monkeypatch.setattr(narration,'_public_jobs',{'unrelated':dict(cancel=cancellation)})
+    monkeypatch.setattr(narration,'_background_pause_until',0)
+    request=narration.NarrationRequest(owner='pupil-a',sessionId='narration-session-12345',revision=2,
+        paragraphs=[audio_session.narration_texts[0]],prefetch=True).model_copy(update=invalid)
+    with pytest.raises(ValueError):narration.prepare_narration(request)
+    assert not cancellation.is_set() and narration._background_pause_until==0
 
 
 def test_private_narration_renders_once_and_replays_without_model_calls(audio_session, monkeypatch):

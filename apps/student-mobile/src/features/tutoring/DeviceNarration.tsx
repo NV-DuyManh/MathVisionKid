@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AppState, Platform, Text, View } from 'react-native';
+import { AppState, Platform, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { FONTS, COLORS } from '../../constants/theme';
@@ -41,7 +42,7 @@ export function DeviceNarration({ paragraphs, onFinished, onReturn }: { paragrap
       try {
         speak(chunks[index], { voice, language: 'vi-VN', rate: .9,
           onStart: () => { if (id === generation.current) { clearTimeout(watchdog.current); watchdog.current = setTimeout(fail, 90000); } },
-          onDone: () => { clearTimeout(watchdog.current); next(index + 1); }, onError: fail });
+          onDone: () => { if (id === generation.current) { clearTimeout(watchdog.current); next(index + 1); } }, onError: fail });
       } catch { fail(); }
     };
     watchdog.current = setTimeout(fail, 8000);
@@ -54,11 +55,18 @@ export function DeviceNarration({ paragraphs, onFinished, onReturn }: { paragrap
       { label: 'Thử lại', accessibilityLabel: 'Thử lại giọng thiết bị', icon: 'refresh-outline', onPress: () => { if (voice) void play(); else { setVoice(''); setState('loading'); setLookup(value => value + 1); } } },
       ...(onReturn ? [{ label: 'Giọng chính', accessibilityLabel: 'Quay lại giọng đã chọn', onPress: onReturn }] : []),
     ]} />;
-  return <View style={{ gap: 10, padding: 16, borderRadius: 18, backgroundColor: '#F1EDFC' }}>
-    <Text style={{ fontFamily: FONTS.bold, color: COLORS.textPrimary }}>Giọng Việt trên thiết bị</Text>
-    <Text accessibilityLiveRegion="polite" style={{ fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary }}>
-      {state === 'loading' ? 'Đang tìm giọng Việt, tối đa 5 giây…' : 'Âm sắc tùy thiết bị. Em có thể dừng hoặc nghe lại từ đầu.'}
-    </Text>
-    {voice ? <AppButton title={state === 'speaking' ? 'Dừng đọc' : 'Nghe từ đầu'} variant="secondary" onPress={() => { void play(); }} /> : null}
+  return <View style={styles.player}>
+    <View style={styles.heading}><View style={styles.icon}><Ionicons name="headset-outline" size={24} color={COLORS.primaryDark} accessible={false}/></View>
+      <View style={{flex:1,minWidth:0}}><Text style={styles.title}>Cùng nghe bài nhé</Text><Text style={styles.caption}>Giọng có sẵn · Tiếng Việt</Text></View></View>
+    <View style={styles.status}><Ionicons name={state==='speaking'?'volume-high-outline':'flash-outline'} color="#286B57" size={16} accessible={false}/><Text accessibilityLiveRegion="polite" style={[styles.caption,styles.statusText]}>
+      {state === 'loading' ? 'Đang mở giọng đọc trên máy…' : state === 'speaking' ? 'Đang đọc · Em có thể dừng bất cứ lúc nào' : 'Bấm phát để nghe. Âm sắc tùy thiết bị.'}
+    </Text></View>
+    {voice ? <AppButton title={state === 'speaking' ? 'Dừng đọc' : 'Phát giọng có sẵn'} style={{borderRadius:18}} icon={<Ionicons name={state==='speaking'?'stop':'play'} size={20} color="white" accessible={false}/>} onPress={() => { void play(); }} /> : null}
   </View>;
 }
+const styles=StyleSheet.create({
+  player:{gap:16,padding:18,borderRadius:24,borderWidth:1,borderColor:'#E4DCEF',backgroundColor:COLORS.surface},
+  heading:{flexDirection:'row',alignItems:'center',gap:10},icon:{width:40,height:44,borderRadius:15,alignItems:'center',justifyContent:'center',backgroundColor:COLORS.primaryLight},
+  title:{fontFamily:FONTS.extraBold,fontSize:16,lineHeight:23,color:COLORS.textPrimary},caption:{fontFamily:FONTS.regular,fontSize:12,lineHeight:20,color:COLORS.textSecondary},
+  status:{flexDirection:'row',alignItems:'center',gap:8,padding:12,borderRadius:14,backgroundColor:'#F0F8F3'},statusText:{flex:1,color:'#286B57'},
+});

@@ -41,9 +41,21 @@ class Quiz {
     @Column(length=100) String originalAnswerSpec;
     @Column(columnDefinition="text") String originalValidatedSolution;
     @Column(length=30) String originalUnit;
+    @Column(nullable=false) long activeElapsedMillis;
+    Instant activeSince;
+    Instant activeUntil;
     long elapsedMillis(Instant now) {
-        if (startedAt == null) return 0;
-        var duration = java.time.Duration.between(startedAt, completedAt == null ? now : completedAt);
-        return Math.max(0, duration.toMillis() + (duration.getNano() % 1_000_000 == 0 ? 0 : 1));
+        if (activeSince == null || activeUntil == null || completedAt != null) return activeElapsedMillis;
+        var end = now.isBefore(activeUntil) ? now : activeUntil;
+        return activeElapsedMillis + Math.max(0, java.time.Duration.between(activeSince,end).toMillis());
+    }
+    void pause(Instant now) {
+        activeElapsedMillis=elapsedMillis(now); activeSince=null; activeUntil=null;
+    }
+    void resume(Instant now) {
+        if (activeUntil!=null && !now.isBefore(activeUntil)) pause(now);
+        if (activeSince==null) activeSince=now;
+        // A lost connection/app crash can never keep the clock running indefinitely.
+        activeUntil=now.plusSeconds(12);
     }
 }

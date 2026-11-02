@@ -9,6 +9,15 @@ function fresh() {
   return { voicePreferences, ...voices };
 }
 
+it('restores the local voice across lesson and Quiz sheets without accepting it as a cloud voice', async () => {
+  const { voicePreferences, readNarrationVoice, isNarrationVoice, saveNarrationVoice } = fresh();
+  voicePreferences.get.mockResolvedValue(JSON.stringify({voiceId:'device'}));
+  await expect(readNarrationVoice()).resolves.toBe('device');
+  expect(isNarrationVoice('device')).toBe(false);
+  await saveNarrationVoice('device');
+  expect(voicePreferences.set).toHaveBeenLastCalledWith(JSON.stringify({voiceId:'device'}));
+});
+
 it('retains the chosen voice through later sheets without reading stale storage again', async () => {
   const { voicePreferences, saveNarrationVoice, readNarrationVoice, currentNarrationVoice } = fresh();
   voicePreferences.get.mockResolvedValue(JSON.stringify({ voiceId: 'vi-VN-NamMinhNeural' }));

@@ -23,6 +23,7 @@ from app.integrations.groq.line_analyzer import get_pool, init_pool
 logger = logging.getLogger(__name__)
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_PIXELS = 20_000_000
+PROVIDER_TIMEOUT_SECONDS = 14.0  # Reserve a real fallback window inside the 30-second shared deadline.
 Stage = Literal["UNDERSTAND", "PLAN", "NEXT_STEP", "CHECK_WORK"]
 _cloud_slots = asyncio.Semaphore(max(1, min(settings.cloud_advisor_max_concurrency, 3)))
 
@@ -271,7 +272,14 @@ async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, 
     raise TutorUnavailable('configuration')
 
 
-async def _generate(system_prompt: str, user_text: str, image_b64: str | None = None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False) -> dict:
+class ProviderResult(dict):
+    """Private provenance; JSON and public schemas retain only provider content."""
+    def __init__(self, content, provider):
+        super().__init__(content)
+        self.provider = provider
+
+
+async def _generate(system_prompt: str, user_text: str, image_b64: str | None = None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False, preferred_provider: Literal['groq', 'gemini'] | None = None) -> dict:
     # Detailed lessons need more space than a single hint. Other callers keep
     # their existing budget. Quota failures never trigger key sweeps.
     options = {}
@@ -283,17 +291,23 @@ async def _generate(system_prompt: str, user_text: str, image_b64: str | None = 
     async def attempt():
         # Quota/transient errors never sweep keys; only invalid credentials
         # can be disabled and skipped within a small bounded attempt count.
-        providers = [(_call_groq, settings.groq_enabled, settings.groq_api_keys),
-                     (_call_gemini, settings.gemini_enabled, settings.gemini_api_keys)]
+        providers = [(name, call) for name,call,enabled,keys in
+                     [('groq',_call_groq,settings.groq_enabled,settings.groq_api_keys),
+                      ('gemini',_call_gemini,settings.gemini_enabled,settings.gemini_api_keys)]
+                     if enabled and keys.strip()]
+        if preferred_provider:providers.sort(key=lambda item:item[0] != preferred_provider)
         failures = []
-        for provider, enabled, keys in providers:
-            if enabled and keys.strip():
-                try:
-                    provider_options = {**options, "reasoning": True} if reasoning and provider is _call_groq else options
-                    return await provider(system_prompt, user_text, image_b64, **provider_options)
-                except TutorUnavailable as exc:
-                    failures.append(exc.reason)
-                    logger.info('Math tutor provider unavailable reason=%s; trying configured fallback', exc.reason)
+        for name,provider in providers:
+            try:
+                provider_options = {**options, "reasoning": True} if reasoning and name == 'groq' else options
+                budget = options.get('timeout_seconds',14.0)
+                if len(providers)>1:budget=min(budget,PROVIDER_TIMEOUT_SECONDS)
+                result=await asyncio.wait_for(provider(system_prompt,user_text,image_b64,**provider_options),timeout=budget)
+                return ProviderResult(result,name)
+            except (TutorUnavailable,TimeoutError) as exc:
+                reason=exc.reason if isinstance(exc,TutorUnavailable) else 'timeout'
+                failures.append(reason)
+                logger.info('Math tutor provider unavailable source=%s reason=%s; trying configured fallback',name,reason)
         reason = next((kind for kind in ('rate_limit', 'timeout', 'unavailable', 'configuration') if kind in failures), 'configuration')
         raise TutorUnavailable(reason)
 

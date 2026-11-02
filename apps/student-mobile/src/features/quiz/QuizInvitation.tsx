@@ -5,32 +5,30 @@ import { AppButton } from '../../components/ui/AppButton';
 import { quizApi, Quiz, quizError } from './quizApi';
 import { quizStyles as s } from './quizStyles';
 
-/** Explicit completion CTA. A persisted server offer prevents repeated invitations after navigation/reload. */
+/** Only mounted after completion. A verified server offer is required before showing any invitation. */
 export function QuizInvitation({ sourceType, sourceId }: { sourceType: 'LESSON' | 'WORK_REVIEW'; sourceId: string }) {
   return <Invitation key={`${sourceType}:${sourceId}`} sourceType={sourceType} sourceId={sourceId} />;
 }
 function Invitation({ sourceType, sourceId }: { sourceType: 'LESSON' | 'WORK_REVIEW'; sourceId: string }) {
   const router = useRouter();
   const [quiz, setQuiz] = useState<Quiz | null>(null), [busy, setBusy] = useState(false), [offered, setOffered] = useState(false);
-  const [error, setError] = useState(''), [unsupported, setUnsupported] = useState(false);
+  const [error, setError] = useState('');
   const controller = useRef<AbortController | null>(null), active = useRef(false);
-  const requested = useRef(false);
   const prepare = useCallback(async () => {
     if (controller.current) return;
-    requested.current = true;
     const abort = new AbortController(); controller.current = abort; setBusy(true); setError('');
     try {
       const response = await quizApi.fromLearning(sourceType, sourceId, abort.signal);
       if (active.current && !abort.signal.aborted) { setQuiz(response.quiz); setOffered(response.offered); }
-    } catch (failure: any) {
-      if (active.current && !abort.signal.aborted) { setError(quizError(failure)); setUnsupported(['QUIZ_UNSUPPORTED', 'QUIZ_GRADE_UNSUPPORTED'].includes(failure?.response?.data?.error?.code)); }
+    } catch (failure) {
+      if (active.current && !abort.signal.aborted) setError(quizError(failure));
     } finally { if (active.current && !abort.signal.aborted) { controller.current = null; setBusy(false); } }
   }, [sourceType, sourceId]);
   useFocusEffect(React.useCallback(() => {
     active.current = true;
-    if (sourceType === 'LESSON' || requested.current) { void prepare(); }
+    void prepare();
     return () => { active.current = false; controller.current?.abort(); controller.current = null; setBusy(false); };
-  }, [prepare, sourceType]));
+  }, [prepare]));
   const defer = async () => {
     if (!quiz || controller.current) return;
     const abort = new AbortController(); controller.current = abort; setBusy(true); setError('');
@@ -84,18 +82,17 @@ function Invitation({ sourceType, sourceId }: { sourceType: 'LESSON' | 'WORK_REV
     </>;
   };
 
+  // A failed/unsupported offer must not become a second error screen after a completed lesson.
+  if (!quiz) return null;
   return <View style={s.card}>
     {offered && quiz ? <>
       <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={s.mascot} accessible={false} />
       <Text style={s.heading}>Một thử thách cùng Sao!</Text>
-      <Text style={s.body}>{sourceType === 'WORK_REVIEW' ? 'Em đã xem xong phần nhận xét rồi!' : 'Em đã hoàn thành phần học này rồi!'} Em có muốn làm nhanh một bài Quiz để xem mình hiểu bài chưa?</Text>
+      <Text style={s.body}>Em có thể luyện thêm một câu cùng dạng toán vừa học.</Text>
       <AppButton title="Làm ngay" disabled={busy} onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} />
       <AppButton title="Để khi khác" variant="secondary" disabled={busy} loading={busy} onPress={() => void defer()} />
-    </> : quiz ? renderExistingQuiz()
-      : <><Text style={s.heading}>Thử sức với một câu tương tự?</Text><Text style={s.body}>Sau khi xem xong bài, em có thể cùng Sao luyện thêm một câu đố.</Text>
-        {busy ? <Text accessibilityLiveRegion="polite" style={s.body}>Sao đang chuẩn bị câu đố của em…</Text> : null}
-        {!unsupported ? <AppButton title={error ? 'Thử chuẩn bị Quiz lại' : sourceType === 'WORK_REVIEW' ? 'Hoàn tất xem nhận xét' : 'Hoàn tất bài học'} loading={busy} onPress={() => void prepare()} /> : null}</>}
+    </> : renderExistingQuiz()}
     {error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
-    <AppButton title="Về trang chủ" variant="ghost" onPress={() => router.replace('/(tabs)')} />
+    {sourceType === 'WORK_REVIEW' ? <AppButton title="Về trang chủ" variant="ghost" onPress={() => router.replace('/(tabs)')} /> : null}
   </View>;
 }

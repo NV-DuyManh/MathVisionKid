@@ -154,7 +154,7 @@ async def test_unavailable_or_incomplete_problem_does_not_open_a_session(monkeyp
     cloud=AsyncMock(return_value={'unavailable':True}); monkeypatch.setattr(lesson,'_generate',cloud)
     with pytest.raises(TutorUnavailable):
         await start_lesson(request('Tổng hai số là 70. Tìm hai số.'))
-    assert cloud.await_count == 1
+    assert cloud.await_count == 2
 
 
 def test_formula_constants_depend_on_the_actual_source_context():
