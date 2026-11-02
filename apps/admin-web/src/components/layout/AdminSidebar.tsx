@@ -54,6 +54,7 @@ export function AdminSidebar({ open, onClose, collapsed, onToggle }: Props) {
       variant={desktop ? 'permanent' : 'temporary'}
       open={desktop || open}
       onClose={onClose}
+      slotProps={{ paper: { 'aria-label': 'Điều hướng quản trị' } }}
       sx={{
         width: desktop ? width : 0,
         flexShrink: 0,
@@ -66,6 +67,7 @@ export function AdminSidebar({ open, onClose, collapsed, onToggle }: Props) {
           overflowX: 'hidden',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
+          transition: 'width 200ms cubic-bezier(0.16, 1, 0.3, 1)',
           '&::-webkit-scrollbar': { display: 'none', width: 0, height: 0 },
         },
       }}
@@ -148,18 +150,18 @@ export function AdminSidebar({ open, onClose, collapsed, onToggle }: Props) {
                       justifyContent: compact ? 'center' : 'flex-start',
                       mb: 0.5,
                       borderRadius: 2,
-                      bgcolor: active ? 'rgba(15, 23, 42, 0.08) !important' : 'transparent',
-                      color: active ? '#0F172A' : '#475569',
+                      bgcolor: active ? 'rgba(37, 99, 235, 0.08) !important' : 'transparent',
+                      color: active ? '#2563EB' : '#475569',
                       transition: 'all 140ms ease',
                       '&:hover': {
-                        bgcolor: active ? 'rgba(15, 23, 42, 0.12)' : '#F1F5F9',
+                        bgcolor: active ? 'rgba(37, 99, 235, 0.12)' : '#F1F5F9',
                       },
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: compact ? 0 : 32,
-                        color: active ? '#0F172A' : '#64748B',
+                        color: active ? '#2563EB' : '#64748B',
                         justifyContent: 'center',
                       }}
                     >
@@ -173,7 +175,7 @@ export function AdminSidebar({ open, onClose, collapsed, onToggle }: Props) {
                             sx: {
                               fontWeight: active ? 800 : 600,
                               fontSize: '0.875rem',
-                              color: active ? '#0F172A' : '#334155',
+                              color: active ? '#2563EB' : '#334155',
                             },
                           },
                         }}

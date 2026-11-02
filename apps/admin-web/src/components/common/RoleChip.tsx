@@ -19,11 +19,13 @@ export const RoleChip: React.FC<RoleChipProps> = ({ role, size = 'small' }) => {
           label="GIÁO VIÊN"
           size={size}
           sx={{
-            bgcolor: '#F1EBFC',
-            color: '#5426AF',
-            border: '1px solid #DDCDF4',
-            fontWeight: 600,
-            '& .MuiChip-icon': { color: '#5426AF' },
+            bgcolor: '#ECFDF5',
+            color: '#059669',
+            border: '1px solid #A7F3D0',
+            fontWeight: 800,
+            borderRadius: 1.5,
+            letterSpacing: '0.02em',
+            '& .MuiChip-icon': { color: '#059669' },
           }}
         />
       );
@@ -34,11 +36,13 @@ export const RoleChip: React.FC<RoleChipProps> = ({ role, size = 'small' }) => {
           label="HỌC SINH"
           size={size}
           sx={{
-            bgcolor: '#F0FDF4',
-            color: '#166534',
-            border: '1px solid #BBF7D0',
-            fontWeight: 600,
-            '& .MuiChip-icon': { color: '#166534' },
+            bgcolor: '#EFF6FF',
+            color: '#2563EB',
+            border: '1px solid #BFDBFE',
+            fontWeight: 800,
+            borderRadius: 1.5,
+            letterSpacing: '0.02em',
+            '& .MuiChip-icon': { color: '#2563EB' },
           }}
         />
       );
@@ -49,11 +53,13 @@ export const RoleChip: React.FC<RoleChipProps> = ({ role, size = 'small' }) => {
           label="QUẢN TRỊ VIÊN"
           size={size}
           sx={{
-            bgcolor: '#F5F3FF',
-            color: '#6D28D9',
-            border: '1px solid #DDD6FE',
-            fontWeight: 600,
-            '& .MuiChip-icon': { color: '#6D28D9' },
+            bgcolor: '#F1F5F9',
+            color: '#0F172A',
+            border: '1px solid #CBD5E1',
+            fontWeight: 800,
+            borderRadius: 1.5,
+            letterSpacing: '0.02em',
+            '& .MuiChip-icon': { color: '#0F172A' },
           }}
         />
       );

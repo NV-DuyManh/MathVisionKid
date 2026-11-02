@@ -72,7 +72,7 @@ a:hover {
 
 .workspace-content {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1560px;
   margin: 0 auto;
 }
 
@@ -107,6 +107,18 @@ a:hover {
   border: 1px solid #E2E8F0;
   border-radius: 14px;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dashboard-metrics .MuiCard-root:hover {

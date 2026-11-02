@@ -2,9 +2,11 @@ import { useContext } from 'react';
 import { AppBar, Avatar, Box, Breadcrumbs, Chip, IconButton, Link, Toolbar, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/icons-material/Menu';
 import Logout from '@mui/icons-material/Logout';
+import HomeOutlined from '@mui/icons-material/HomeOutlined';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { AdminNavigation } from './NavigationContext';
+import { appConfig } from '../../config/runtime';
 
 export function AdminTopbar({ title, subtitle }: { title?: string; subtitle?: string }) {
   const { user, logout } = useAuth();
@@ -52,7 +54,7 @@ export function AdminTopbar({ title, subtitle }: { title?: string; subtitle?: st
             <Typography sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 600 }}>{title}</Typography>
           </Breadcrumbs>
           <Typography
-            component="h1"
+            component="div"
             variant="h6"
             sx={{ fontSize: { xs: 16, sm: 18 }, fontWeight: 800, color: '#0F172A', lineHeight: 1.3 }}
           >
@@ -113,13 +115,23 @@ export function AdminTopbar({ title, subtitle }: { title?: string; subtitle?: st
             height: 22,
           }}
         />
+        <Tooltip title="Về trang MathVision Kids">
+          <IconButton
+            component="a"
+            href={appConfig.portalOrigin}
+            aria-label="Về trang MathVision Kids"
+            sx={{ color: '#64748B', '&:hover': { color: '#2563EB', bgcolor: '#EFF6FF' } }}
+          >
+            <HomeOutlined fontSize="small" />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Đăng xuất">
           <IconButton
             aria-label="Đăng xuất"
             onClick={() => {
               void logout();
             }}
-            sx={{ color: '#64748B', '&:hover': { color: '#DC2626' } }}
+            sx={{ color: '#64748B', '&:hover': { color: '#DC2626', bgcolor: '#FEF2F2' } }}
           >
             <Logout fontSize="small" />
           </IconButton>

@@ -196,7 +196,7 @@ export const PortalLayout: React.FC = () => {
                 </Box>
                 <Typography
                   variant="caption"
-                  sx={{ color: '#64748B', display: 'block', fontWeight: 700, fontSize: '0.75rem', letterSpacing: '-0.01em' }}
+                  sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontWeight: 700, fontSize: '0.75rem', letterSpacing: '-0.01em' }}
                 >
                   Trợ lý số học viết tay & gia sư thông minh
                 </Typography>

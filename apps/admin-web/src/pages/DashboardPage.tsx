@@ -13,6 +13,8 @@ import { useAuth } from '../context/AuthContext';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
 import { PageContent } from '../components/common/PageContent';
+import { PageHeader } from '../components/common/PageHeader';
+import { StatCard } from '../components/common/StatCard';
 import { RequestError } from '../components/common/RequestError';
 import { AuditEventChip } from '../components/common/AuditEventChip';
 
@@ -65,28 +67,25 @@ export function DashboardPage() {
     <Box>
       <AdminTopbar title="Tổng quan vận hành" subtitle="Tài khoản, lớp học và hoạt động quản trị" />
       <PageContent>
-        {/* Header Action Bar */}
-        <Box className="page-actions">
-          <Box>
-            <Typography variant="h5" component="h2" sx={{ fontWeight: 800, color: '#0F172A', mb: 0.5 }}>
-              Xin chào, {user?.displayName || 'Quản trị viên'}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#475569' }}>
-              Kiểm soát trạng thái tài khoản, phân bổ lớp học và bảo mật hệ thống.
-            </Typography>
-          </Box>
-          <Button
-            variant="outlined"
-            startIcon={<Refresh />}
-            disabled={dashboard.isFetching || audit.isFetching}
-            onClick={() => {
-              void dashboard.refetch();
-              void audit.refetch();
-            }}
-          >
-            Làm mới dữ liệu
-          </Button>
-        </Box>
+        {/* Header Action Bar with Unified PageHeader */}
+        <PageHeader
+          title={`Xin chào, ${user?.displayName || 'Quản trị viên'}`}
+          description="Kiểm soát trạng thái tài khoản, phân bổ lớp học và bảo mật hệ thống."
+          actions={
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              disabled={dashboard.isFetching || audit.isFetching}
+              onClick={() => {
+                void dashboard.refetch();
+                void audit.refetch();
+              }}
+              sx={{ borderRadius: 2.5, fontWeight: 700 }}
+            >
+              Làm mới dữ liệu
+            </Button>
+          }
+        />
 
         {/* Operational Overview Hero */}
         <Box component="section" aria-label="Tổng quan điều hành" className="dashboard-hero">
@@ -104,20 +103,20 @@ export function DashboardPage() {
                 border: '1px solid #CBD5E1',
               }}
             />
-            <Typography component="h3" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', mb: 1 }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', mb: 1 }}>
               Điều phối tài khoản & Giám sát dữ liệu tập trung
             </Typography>
             <Typography variant="body2" sx={{ color: '#475569', mb: 2.5, lineHeight: 1.6 }}>
               Quản trị viên có toàn quyền cấu hình danh sách học sinh, phân quyền giáo viên theo khối lớp và theo dõi nhật ký kiểm toán hệ thống theo thời gian thực.
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-              <Button component={Link} to="/users" variant="contained" startIcon={<PeopleOutline />}>
+              <Button component={Link} to="/users" variant="contained" startIcon={<PeopleOutline />} sx={{ borderRadius: 2.5, fontWeight: 700 }}>
                 Quản lý người dùng
               </Button>
-              <Button component={Link} to="/classes" variant="outlined">
+              <Button component={Link} to="/classes" variant="outlined" sx={{ borderRadius: 2.5, fontWeight: 700 }}>
                 Danh sách lớp học
               </Button>
-              <Button component={Link} to="/audit" variant="outlined" startIcon={<HistoryOutlined />}>
+              <Button component={Link} to="/audit" variant="outlined" startIcon={<HistoryOutlined />} sx={{ borderRadius: 2.5, fontWeight: 700 }}>
                 Nhật ký hệ thống
               </Button>
             </Box>
@@ -131,48 +130,20 @@ export function DashboardPage() {
           }}
         />
 
-        {/* Top 4 Operational Metrics */}
+        {/* Top 4 Operational Metrics using Unified StatCard */}
         <Box className="metric-grid" sx={{ mb: 3 }}>
           {metrics.map(({ label, value, description, icon: Icon, path, tone, color }) => (
-            <Card key={label}>
-              <CardContent sx={{ p: 2.5 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569' }}>
-                    {label}
-                  </Typography>
-                  <Box sx={{ p: 0.75, borderRadius: 1.5, bgcolor: tone, color, display: 'flex' }}>
-                    <Icon fontSize="small" />
-                  </Box>
-                </Box>
-                <Typography
-                  variant="h4"
-                  component="p"
-                  sx={{
-                    fontSize: '2rem',
-                    fontWeight: 800,
-                    color: '#0F172A',
-                    fontVariantNumeric: 'tabular-nums',
-                    mb: 0.5,
-                  }}
-                >
-                  {dashboard.isLoading ? <Skeleton width={70} /> : value?.toLocaleString('vi-VN') ?? '—'}
-                </Typography>
-                <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1.5 }}>
-                  {description}
-                </Typography>
-                <Box sx={{ borderTop: '1px solid #F1F5F9', pt: 1 }}>
-                  <Button
-                    component={Link}
-                    to={path}
-                    size="small"
-                    endIcon={<ArrowForward fontSize="small" />}
-                    sx={{ px: 0, fontWeight: 700, color: '#0F172A', '&:hover': { color: '#2563EB' } }}
-                  >
-                    Xem chi tiết
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
+            <StatCard
+              key={label}
+              title={label}
+              value={dashboard.isLoading ? null : value}
+              loading={dashboard.isLoading}
+              description={description}
+              icon={<Icon fontSize="small" />}
+              tone={tone}
+              color={color}
+              path={path}
+            />
           ))}
         </Box>
 

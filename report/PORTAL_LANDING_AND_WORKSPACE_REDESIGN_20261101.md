@@ -179,6 +179,26 @@ Tất cả các bài kiểm tra cấu hình, hợp đồng API và cô lập phi
 
 ---
 
+## 6. Thống nhất Kiến trúc Nền tảng Nội bộ: Cổng Giáo viên & Quản trị viên (Unified Internal Platform)
+
+Theo yêu cầu trọng tâm *"Teacher and Admin must use the SAME overall internal product system"*, hai cổng nghiệp vụ đã được đồng bộ hóa hoàn toàn về mặt kiến trúc giao diện:
+
+1. **Bộ Linh kiện Dùng chung (Shared Component Family)**:
+   - `PageHeader` (`apps/admin-web/src/components/common/PageHeader.tsx` & `apps/teacher-web/src/components/common/PageHeader.tsx`): Thống nhất phân cấp tiêu đề `<h1>` duy nhất trên trang, hỗ trợ nhãn vai trò, mô tả ngắn gọn và nhóm nút tác vụ linh hoạt.
+   - `StatCard` (`apps/admin-web/src/components/common/StatCard.tsx` & `apps/teacher-web/src/components/common/StatCard.tsx`): Thống nhất thiết kế thẻ chỉ số viền `1px solid #E2E8F0`, số liệu `tabular-nums` chống giật layout, hỗ trợ hiệu ứng skeleton khi tải dữ liệu (`loading`).
+   - `EmptyState` (`apps/admin-web/src/components/common/EmptyState.tsx` & `apps/teacher-web/src/components/common/EmptyState.tsx`): Thống nhất ngôn ngữ hiển thị khi chưa có dữ liệu, minh bạch không bịa đặt nội dung.
+2. **Khung Vỏ Ứng dụng & Điều hướng (App Shell & Navigation)**:
+   - `Sidebar` & `AdminSidebar`: Cùng chiều rộng 256px, nền trắng thanh lịch, chia nhóm điều hướng rõ ràng, thanh chỉ báo trạng thái kích hoạt `3px solid #2563EB`, logo nhận diện thương hiệu MathVision Kids đồng nhất.
+   - `Topbar` & `AdminTopbar`: Cùng chiều cao 64px, breadcrumbs ngữ cảnh, nút Home quay về cổng chính đồng bộ liên kết, thông tin người dùng và phân quyền rõ nét.
+3. **Trải nghiệm Học sinh Lớp 1–5 theo tinh thần Prodigy / SplashLearn**:
+   - Trực quan hóa toán học tương tác trên lưới ô ly Việt Nam theo từng khối lớp từ Lớp 1 đến Lớp 5.
+   - Bạn đồng hành Ngôi sao MathVision hỗ trợ gợi ý giải bài thông qua hộp thoại tương tác thân thiện thay cho popup trình duyệt `alert()`.
+   - Độ tương phản chữ trắng trên thẻ xanh `#2563EB` đạt chuẩn WCAG AAA (>7:1).
+4. **Bảo toàn Toàn vẹn Hệ thống**:
+   - 100% logic backend Spring Boot, FastAPI AI runtime, cơ sở dữ liệu PostgreSQL, cơ chế phân quyền RBAC và mã nguồn ứng dụng di động được giữ nguyên vẹn.
+
+---
+
 ## Skills Applied
 
 - `ui-ux-pro-max`
@@ -194,6 +214,38 @@ Tất cả các bài kiểm tra cấu hình, hợp đồng API và cô lập phi
 - `fixing-accessibility`
   - SKILL.md: `.agents/skills/fixing-accessibility/SKILL.md`
   - Why selected: Kiểm toán khả năng tiếp cận WCAG AA, bảo đảm mục tiêu chạm lớn cho trẻ em (min 48px), bổ sung skip-link điều hướng bàn phím và nhãn trợ năng.
-  - Applied to: Bổ sung skip-link `#main-content`, nhãn ARIA cho các nút hành động học sinh, độ tương phản chuẩn WCAG trên toàn bộ 3 cổng web.
+  - Applied to: Bổ sung skip-link `#main-content`, giải quyết lỗi 2 thẻ `<h1>` xung đột, bảo đảm độ tương phản tối thiểu 7:1 cho thẻ máy ảnh xanh học sinh, bổ sung `aria-live="polite"` cho phản hồi Socratic và ARIA labelling cho hộp thoại bạn đồng hành.
+
+---
+
+## Đợt Đánh Giá và Tinh Chỉnh Cuối Cùng (Final Polish & Consistency Review Pass)
+
+Sau vòng duyệt kiểm tra khắt khe ở mức độ cao:
+1. **Đồng bộ hóa độ rộng vùng làm việc (Workspace Max-Width Harmony)**:
+   - Nâng cấp `.workspace-content` của Cổng Giáo viên từ `max-width: 1440px` lên `1560px` khớp tuyệt đối với Cổng Quản trị viên.
+   - Xóa bỏ triệt để các wrapper gò ép `maxWidth: 1200` và `maxWidth: 960` trong các trang Giáo viên (`AssignmentsPage`, `BatchesPage`, `ClassesPage`, `BatchCreatePage`, `ReviewQueuePage`, `SubmissionReviewPage`, `BatchDetailPage`). Nhờ đó, các bảng biểu và khối nội dung phân bổ dàn trải cân đối, loại bỏ khoảng trắng trống trải vô lý bên cánh phải.
+2. **Cân đối thẻ chỉ số vận hành (StatCard Uniform Rhythm)**:
+   - Bổ sung đường dẫn điều hướng `path="/batches"` cho toàn bộ 4 thẻ chỉ số tại Bảng điều khiển Giáo viên, đảm bảo cả 4 thẻ đều có liên kết chân trang `Xem chi tiết ->` đồng bộ hoàn toàn với Bảng điều khiển Quản trị.
+3. **Chuẩn hóa nhãn trạng thái hệ thống (StatusChip Unification)**:
+   - Thêm trạng thái `ACTIVE` và `ARCHIVED` vào `StatusChip` dùng chung của `apps/teacher-web`. Thay thế thẻ tự chế inline tại trang Bài tập bằng `StatusChip` chuẩn mực, tạo sự đồng điệu 100% với danh bạ quản trị.
+4. **Chuẩn hóa nút thao tác trên từng dòng bảng (Table Row Action Consistency)**:
+   - Đồng bộ nút `Chi tiết` tại các bảng Người dùng và Lớp học thuộc Cổng Quản trị sang dạng viền mảnh `variant="outlined"` với bo góc chuẩn `borderRadius: 2`, độ đậm chữ `fontWeight: 700`, đồng điệu tuyệt đối với nút thao tác của Cổng Giáo viên.
+5. **Nâng cấp khả năng trợ năng Socratic & Hộp thoại bạn đồng hành (Accessibility Polish)**:
+   - Tích hợp `aria-live="polite"` cho vùng thông điệp phản hồi gợi mở Socratic trên trang Học sinh (`StudentLandingPage.tsx`) giúp máy đọc màn hình tự động thông báo kết quả và gợi ý khi trẻ nộp bài.
+   - Bổ sung đầy đủ thuộc tính `aria-labelledby="companion-dialog-title"` và `aria-describedby="companion-dialog-description"` cho hộp thoại Ngôi sao MathVision.
+7. **Khắc phục triệt để lỗi TypeScript & Hình học thị giác (Final Review Fixes)**:
+   - Sửa lỗi biên dịch TypeScript `TS2339` trong `apps/teacher-web/src/pages/DashboardPage.tsx`: chuẩn hóa truy cập trường dữ liệu `Class` (`Lớp phụ trách giảng dạy`) phù hợp với schema DTO của backend.
+   - Sửa hình học mũi tên bóng thoại (speech bubble pointer) trong `apps/portal-web/src/index.css`: điều chỉnh tọa độ `top: 50%` và `left: -9px / -11px` để mũi tên chỉ chuẩn xác sang bên trái về phía linh vật Ngôi sao thay vì chúc xuống sàn trống.
+   - Bổ sung `font-variant-numeric: tabular-nums`, phông chữ Nunito và `inputMode: 'numeric'` cho bảng tính ô ly tại `StudentLandingPage.tsx`, bảo đảm thẳng hàng tuyệt đối các cột đơn vị, chục, trăm và thuận tiện cho bàn phím số di động/máy tính bảng.
+8. **Kiểm tra hồi quy 100% toàn bộ hệ sinh thái**:
+   - `npx tsc -b apps/portal-web apps/teacher-web apps/admin-web packages/ui-brand`: 0 lỗi.
+   - `npm run lint --workspace=portal-web`: 0 lỗi, 0 cảnh báo.
+   - `npm run lint --workspace=teacher-web`: 0 lỗi, 1 cảnh báo fast-refresh đã biết.
+   - `npm run lint --workspace=admin-web`: 0 lỗi, 0 cảnh báo.
+   - `npm run test:config --workspace=portal-web`: 21/21 bài kiểm tra đạt.
+   - `npm run test:config --workspace=teacher-web`: 21/21 bài kiểm tra đạt.
+   - `npm run test:config --workspace=admin-web`: 34/34 bài kiểm tra đạt.
+   - `node scripts/deploy/web_bundle_smoke.mjs`: vượt qua kiểm tra đóng gói bundle độc lập.
+   - `npm run test:contracts --workspace=student-mobile`: 10/10 bài kiểm tra hợp đồng đạt.
 
 

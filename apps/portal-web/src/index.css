@@ -95,6 +95,17 @@ html, body {
   outline-offset: 2px;
 }
 
+/* Remove default spinner arrows from number inputs in mathematical arenas */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Accessibility Skip Link for Keyboard Navigation */
 .skip-link {
   position: absolute;
@@ -236,11 +247,12 @@ html, body {
 .speech-bubble::after {
   content: '';
   position: absolute;
-  bottom: -9px;
-  left: 24px;
-  border-width: 9px 8px 0;
+  top: 50%;
+  left: -9px;
+  transform: translateY(-50%);
+  border-width: 7px 9px 7px 0;
   border-style: solid;
-  border-color: #FFFFFF transparent;
+  border-color: transparent #FFFFFF transparent transparent;
   display: block;
   width: 0;
 }
@@ -248,11 +260,12 @@ html, body {
 .speech-bubble::before {
   content: '';
   position: absolute;
-  bottom: -11px;
-  left: 23px;
-  border-width: 10px 9px 0;
+  top: 50%;
+  left: -11px;
+  transform: translateY(-50%);
+  border-width: 8px 11px 8px 0;
   border-style: solid;
-  border-color: #FDE68A transparent;
+  border-color: transparent #FDE68A transparent transparent;
   display: block;
   width: 0;
 }

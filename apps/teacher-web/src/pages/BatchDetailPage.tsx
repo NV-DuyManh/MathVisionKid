@@ -75,7 +75,7 @@ export default function BatchDetailPage() {
     (batch.status as any) === 'FAILED';
 
   return (
-    <Box sx={{ maxWidth: 960, mx: 'auto', mt: 2 }}>
+    <Box sx={{ mt: 1 }}>
       <Button
         variant="text"
         startIcon={<ArrowBack />}
@@ -110,7 +110,7 @@ export default function BatchDetailPage() {
 
       {/* In-Progress State */}
       {!isDone ? (
-        <Card sx={{ mb: 4, borderRadius: 2.5, border: '1px solid #DDCDF4', bgcolor: '#F1EBFC' }}>
+        <Card sx={{ mb: 4, borderRadius: 2.5, border: '1px solid #BFDBFE', bgcolor: '#EFF6FF', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -118,14 +118,14 @@ export default function BatchDetailPage() {
                   Đang phân tích và nhận diện bài làm bằng AI...
                 </Typography>
               </Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#5426AF' }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#1D4ED8' }}>
                 {processed} / {totalImgs} bài ({progressPercent}%)
               </Typography>
             </Box>
             <LinearProgress
               variant="determinate"
               value={progressPercent}
-              sx={{ height: 10, borderRadius: 5, bgcolor: '#EEE7FC', '& .MuiLinearProgress-bar': { bgcolor: '#7040D5' } }}
+              sx={{ height: 10, borderRadius: 5, bgcolor: '#DBEAFE', '& .MuiLinearProgress-bar': { bgcolor: '#2563EB' } }}
             />
             <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
               Hệ thống đang đối soát từng cột số và bước đặt tính. Trang sẽ tự động cập nhật khi hoàn tất.

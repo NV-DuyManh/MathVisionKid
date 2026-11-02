@@ -1,6 +1,7 @@
 /**
- * MathVision Kids — Shared Brand & Design Tokens
+ * MathVision Kids — Shared Brand & Design System Tokens
  * Kid-First Premium Visual Identity & Multi-Role Design System
+ * Unified Architecture across Public Portal, Student Experience, Teacher Portal, and Admin Portal.
  */
 
 export interface RoleConfig {
@@ -73,6 +74,7 @@ export const BRAND_COLORS = {
     surface: '#FFFFFF',
     border: '#E2E8F0',
     borderSubtle: '#F1F5F9',
+    borderDark: '#CBD5E1',
     textPrimary: '#0F172A',
     textSecondary: '#475569',
     textMuted: '#94A3B8',
@@ -114,24 +116,38 @@ export const ROLE_CONFIGS: Record<'STUDENT' | 'TEACHER' | 'ADMIN', RoleConfig> =
 
 export const DESIGN_TOKENS = {
   radii: {
+    xs: '4px',
     sm: '8px',
     md: '12px',
     lg: '16px',
     xl: '22px',
     full: '9999px',
   },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+    xxl: '48px',
+  },
   typography: {
-    kidsFont: '"Nunito", "Plus Jakarta Sans", sans-serif',
-    systemFont: '"Plus Jakarta Sans", "Inter", sans-serif',
+    kidsFont: '"Nunito", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    systemFont: '"Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    codeFont: '"JetBrains Mono", "Fira Code", monospace',
   },
   motion: {
+    instant: '100ms cubic-bezier(0.16, 1, 0.3, 1)',
     fast: '160ms cubic-bezier(0.16, 1, 0.3, 1)',
     normal: '240ms cubic-bezier(0.16, 1, 0.3, 1)',
     slow: '360ms cubic-bezier(0.16, 1, 0.3, 1)',
   },
   shadows: {
+    sm: '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
     card: '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 16px -4px rgba(15, 23, 42, 0.04)',
     elevated: '0 12px 28px -6px rgba(37, 99, 235, 0.09), 0 4px 10px -2px rgba(15, 23, 42, 0.03)',
+    dropdown: '0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)',
+    modal: '0 25px 50px -12px rgba(15, 23, 42, 0.25)',
     press: '0 1px 2px rgba(15, 23, 42, 0.08)',
   },
 };

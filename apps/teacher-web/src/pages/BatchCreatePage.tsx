@@ -29,6 +29,7 @@ import {
   Lock,
   FactCheck,
 } from '@mui/icons-material';
+import { PageHeader } from '../components/common/PageHeader';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import PrivacyEditorModal from './PrivacyEditorModal';
@@ -204,7 +205,7 @@ export default function BatchCreatePage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+    <Box>
       <Button
         variant="text"
         startIcon={<ArrowBack />}
@@ -214,14 +215,10 @@ export default function BatchCreatePage() {
         Quay lại danh sách đợt chấm
       </Button>
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
-          Khởi tạo Đợt chấm bài (Batch Upload)
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Tải lên từ 1 đến 30 ảnh bài làm (thông thường 10–30 bài), che thông tin cá nhân thủ công và ghép cặp minh bạch với học sinh.
-        </Typography>
-      </Box>
+      <PageHeader
+        title="Khởi tạo Đợt chấm bài (Batch Upload)"
+        subtitle="Tải lên từ 1 đến 30 ảnh bài làm (thông thường 10–30 bài), che thông tin cá nhân thủ công và ghép cặp minh bạch với học sinh."
+      />
 
       {error && (
         <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
@@ -235,21 +232,21 @@ export default function BatchCreatePage() {
           sx={{
             borderStyle: 'dashed',
             borderWidth: 2,
-            borderColor: '#93C5FD',
-            bgcolor: '#F1EBFC',
+            borderColor: '#CBD5E1',
+            bgcolor: '#F8FAFC',
             borderRadius: 3,
             mb: 4,
           }}
         >
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
-            <CloudUpload sx={{ fontSize: 64, color: '#7040D5', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#5426AF' }}>
+            <CloudUpload sx={{ fontSize: 64, color: '#2563EB', mb: 2 }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#0F172A' }}>
               Tải lên từ 1 đến 30 ảnh bài làm học sinh
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center', maxWidth: 480 }}>
               Hỗ trợ định dạng JPG, PNG (tối đa 30 bài/đợt; đợt chấm hàng loạt thường gồm 10–30 bài). Ảnh chụp vuông góc, rõ nét để AI nhận diện tối ưu.
             </Typography>
-            <Button variant="contained" component="label" size="large" sx={{ px: 4 }}>
+            <Button variant="contained" component="label" size="large" sx={{ px: 4, py: 1.25, fontWeight: 700 }}>
               Chọn ảnh từ máy tính
               <input type="file" hidden multiple accept="image/*" onChange={handleFileSelect} />
             </Button>
@@ -321,8 +318,9 @@ export default function BatchCreatePage() {
                   sx={{
                     px: 3,
                     py: 1.25,
-                    bgcolor: isReadyToSubmit ? '#7040D5' : '#736983',
-                    '&:hover': { bgcolor: isReadyToSubmit ? '#5426AF' : '#736983' },
+                    fontWeight: 700,
+                    bgcolor: isReadyToSubmit ? 'primary.main' : '#94A3B8',
+                    '&:hover': { bgcolor: isReadyToSubmit ? 'primary.dark' : '#94A3B8' },
                   }}
                 >
                   {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
@@ -333,7 +331,7 @@ export default function BatchCreatePage() {
             <Divider sx={{ my: 2 }} />
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Lock sx={{ fontSize: 16, color: '#5E566D' }} />
+              <Lock sx={{ fontSize: 16, color: '#64748B' }} />
               <Typography variant="caption" color="text.secondary">
                 <strong>Cam kết quyền riêng tư:</strong> Toàn bộ họ tên và thông tin trường học được che thủ công trước khi gửi tới máy chủ xử lý OCR.
               </Typography>
@@ -357,10 +355,10 @@ export default function BatchCreatePage() {
                       borderColor: isMissingStudent
                         ? '#F59E0B'
                         : isMissingPrivacy
-                        ? '#736983'
+                        ? '#94A3B8'
                         : isDuplicate
-                        ? '#D8CDE7'
-                        : '#E9E2F2',
+                        ? '#CBD5E1'
+                        : '#E2E8F0',
                       borderWidth: isMissingStudent ? 2 : 1,
                     }}
                   >
@@ -392,7 +390,7 @@ export default function BatchCreatePage() {
                           sx={{
                             bgcolor: 'rgba(255,255,255,0.9)',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                            '&:hover': { bgcolor: '#7040D5', color: 'white' },
+                            '&:hover': { bgcolor: 'primary.main', color: 'white' },
                           }}
                         >
                           <Refresh sx={{ fontSize: 16 }} />

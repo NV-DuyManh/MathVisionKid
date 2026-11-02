@@ -1,26 +1,46 @@
-import { AppBar, Toolbar, Typography, Avatar, Box, Menu, MenuItem, ListItemIcon, IconButton, ButtonBase } from '@mui/material';
+import { AppBar, Toolbar, Typography, Avatar, Box, Breadcrumbs, Link, Chip, IconButton, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Logout, HomeOutlined } from '@mui/icons-material';
+import Logout from '@mui/icons-material/Logout';
+import HomeOutlined from '@mui/icons-material/HomeOutlined';
 import { useAuth } from './AuthContext';
-import { useState } from 'react';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { appConfig } from '../../config/runtime';
 
-export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: () => void; navigationOpen: boolean }) {
+interface RouteMeta {
+  pattern: RegExp;
+  title: string;
+  subtitle: string;
+  parent?: { name: string; path: string };
+}
+
+const ROUTE_META: RouteMeta[] = [
+  { pattern: /^\/dashboard/, title: 'Tổng quan vận hành', subtitle: 'Tổng quan tiến độ chấm bài và các mục cần giáo viên xử lý hôm nay' },
+  { pattern: /^\/classes/, title: 'Quản lý lớp học', subtitle: 'Danh sách các lớp học được phân công và sĩ số học sinh' },
+  { pattern: /^\/assignments\/create/, title: 'Tạo bài tập mới', subtitle: 'Thiết lập phép tính ô ly và hạn nộp cho lớp học', parent: { name: 'Bài tập', path: '/assignments' } },
+  { pattern: /^\/assignments/, title: 'Quản lý bài tập', subtitle: 'Giao bài tập và theo dõi tiến độ nộp bài của học sinh' },
+  { pattern: /^\/batches\/create/, title: 'Tạo đợt chấm mới', subtitle: 'Tải lên hàng loạt ảnh bài làm ô ly để AI phân tích sơ bộ', parent: { name: 'Đợt chấm bài', path: '/batches' } },
+  { pattern: /^\/batches\/[^/]+\/review/, title: 'Hàng đợi rà soát', subtitle: 'Thẩm định các bài thi hoặc bài tập cần giáo viên phê duyệt', parent: { name: 'Đợt chấm bài', path: '/batches' } },
+  { pattern: /^\/batches\/[^/]+/, title: 'Chi tiết đợt chấm', subtitle: 'Danh sách bài làm và trạng thái thẩm định', parent: { name: 'Đợt chấm bài', path: '/batches' } },
+  { pattern: /^\/batches/, title: 'Đợt chấm bài', subtitle: 'Quản lý các đợt tải bài làm ô ly của học sinh theo lớp' },
+  { pattern: /^\/submissions\/[^/]+/, title: 'Đánh giá bài làm', subtitle: 'Chi tiết bài giải ô ly và phản hồi sư phạm cho học sinh', parent: { name: 'Đợt chấm bài', path: '/batches' } },
+  { pattern: /^\/settings/, title: 'Cài đặt tài khoản', subtitle: 'Thông tin cá nhân và cấu hình phiên làm việc' },
+];
+
+export interface TopbarProps {
+  onMenuClick: () => void;
+  navigationOpen: boolean;
+  title?: string;
+  subtitle?: string;
+}
+
+export default function Topbar({ onMenuClick, navigationOpen, title: propTitle, subtitle: propSubtitle }: TopbarProps) {
   const { user, logout } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const location = useLocation();
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    handleClose();
-    logout();
-  };
+  const matchedMeta = ROUTE_META.find((item) => item.pattern.test(location.pathname));
+  const title = propTitle || matchedMeta?.title || 'Không gian giáo viên';
+  const subtitle = propSubtitle || matchedMeta?.subtitle;
+  const parent = matchedMeta?.parent;
 
   const displayName = user?.firstName
     ? `${user.lastName || ''} ${user.firstName}`.trim()
@@ -33,11 +53,12 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
       elevation={0}
       sx={{
         backgroundColor: '#FFFFFF',
+        color: '#0F172A',
         borderBottom: '1px solid #E2E8F0',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ minHeight: '64px !important', px: { xs: 2, md: 3.5 }, gap: 2 }}>
+      <Toolbar sx={{ gap: { xs: 1, sm: 2 }, px: { xs: 2, sm: 3, lg: 3.5 }, minHeight: '64px !important', py: 1 }}>
         <IconButton
           aria-label="Mở điều hướng giáo viên"
           aria-controls="workspace-navigation"
@@ -48,92 +69,113 @@ export default function Topbar({ onMenuClick, navigationOpen }: { onMenuClick: (
           <MenuIcon />
         </IconButton>
 
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569', fontSize: '0.875rem' }}>
-            Không gian giáo viên
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Breadcrumbs
+            aria-label="Đường dẫn trang"
+            sx={{ mb: 0.25, '& .MuiTypography-root, & a': { fontSize: '0.75rem' } }}
+          >
+            <Link component={RouterLink} to="/dashboard" underline="hover" color="text.secondary">
+              Giáo viên
+            </Link>
+            {parent && (
+              <Link component={RouterLink} to={parent.path} underline="hover" color="text.secondary">
+                {parent.name}
+              </Link>
+            )}
+            <Typography sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 600 }}>{title}</Typography>
+          </Breadcrumbs>
+          <Typography
+            component="div"
+            variant="h6"
+            sx={{ fontSize: { xs: 16, sm: 18 }, fontWeight: 800, color: '#0F172A', lineHeight: 1.3 }}
+          >
+            {title}
+          </Typography>
+          {subtitle && (
+            <Typography
+              variant="caption"
+              sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontSize: '0.75rem' }}
+            >
+              {subtitle}
+            </Typography>
+          )}
+        </Box>
+
+        <Typography
+          variant="caption"
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            maxWidth: 80,
+            textAlign: 'right',
+            color: '#64748B',
+            fontSize: '0.72rem',
+          }}
+        >
+          {displayName} · GV
+        </Typography>
+
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, textAlign: 'right', maxWidth: 230 }}>
+          <Typography variant="body2" noWrap sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.875rem' }}>
+            {displayName}
+          </Typography>
+          <Typography variant="caption" sx={{ color: '#64748B', display: { xs: 'none', lg: 'block' }, fontSize: '0.72rem', fontWeight: 600 }}>
+            Giáo viên phụ trách
           </Typography>
         </Box>
 
-        <ButtonBase
+        <Avatar
+          aria-hidden
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.25,
-            cursor: 'pointer',
-            px: 1.25,
-            py: 0.5,
-            borderRadius: 1.5,
-            transition: 'background-color 140ms',
-            '&:hover': { bgcolor: '#F8FAFC' },
+            width: 34,
+            height: 34,
+            bgcolor: '#059669',
+            color: '#FFFFFF',
+            fontWeight: 800,
+            fontSize: '0.875rem',
+            display: { xs: 'none', sm: 'flex' },
           }}
-          onClick={handleMenu}
-          aria-label="Tài khoản giáo viên"
-          aria-controls={anchorEl ? 'teacher-account-menu' : undefined}
-          aria-haspopup="menu"
-          aria-expanded={Boolean(anchorEl)}
         >
-          <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-            <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A', lineHeight: 1.2, fontSize: '0.875rem' }}>
-              {displayName}
-            </Typography>
-            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500, fontSize: '0.72rem' }}>
-              Giáo viên Toán
-            </Typography>
-          </Box>
-          <Avatar
-            sx={{
-              bgcolor: '#059669',
-              width: 34,
-              height: 34,
-              fontSize: '0.875rem',
-              fontWeight: 700,
-            }}
-          >
-            {initial}
-          </Avatar>
-        </ButtonBase>
+          {initial}
+        </Avatar>
 
-        <Menu
-          id="teacher-account-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          slotProps={{
-            paper: {
-              sx: {
-                mt: 1,
-                minWidth: 190,
-                borderRadius: 2,
-                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
-                border: '1px solid #E2E8F0',
-                p: 0.5,
-              },
-            },
+        <Chip
+          label="GIÁO VIÊN"
+          size="small"
+          sx={{
+            bgcolor: '#ECFDF5',
+            color: '#059669',
+            border: '1px solid #A7F3D0',
+            fontSize: '0.68rem',
+            fontWeight: 800,
+            letterSpacing: '0.04em',
+            display: { xs: 'none', sm: 'flex' },
+            borderRadius: 1,
+            height: 22,
           }}
-        >
-          <MenuItem
+        />
+
+        <Tooltip title="Về trang chủ MathVision Kids">
+          <IconButton
             component="a"
             href={appConfig.portalOrigin}
-            onClick={handleClose}
-            sx={{ borderRadius: 1.25, py: 1, fontSize: '0.875rem', fontWeight: 600, color: '#334155' }}
+            aria-label="Về trang chủ"
+            sx={{ color: '#64748B', '&:hover': { color: '#059669', bgcolor: '#ECFDF5' } }}
           >
-            <ListItemIcon sx={{ minWidth: 32, color: '#64748B' }}>
-              <HomeOutlined fontSize="small" />
-            </ListItemIcon>
-            Về MathVision Kids
-          </MenuItem>
-          <MenuItem
-            onClick={handleLogout}
-            sx={{ borderRadius: 1.25, py: 1, fontSize: '0.875rem', fontWeight: 600, color: '#DC2626' }}
+            <HomeOutlined fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Đăng xuất">
+          <IconButton
+            aria-label="Đăng xuất"
+            onClick={() => {
+              void logout();
+            }}
+            sx={{ color: '#64748B', '&:hover': { color: '#DC2626', bgcolor: '#FEF2F2' } }}
           >
-            <ListItemIcon sx={{ minWidth: 32, color: '#DC2626' }}>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Đăng xuất
-          </MenuItem>
-        </Menu>
+            <Logout fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </AppBar>
   );

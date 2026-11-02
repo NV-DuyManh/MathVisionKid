@@ -204,9 +204,10 @@ export const adminTheme = createTheme({
         root: {
           padding: '14px 18px',
           borderColor: '#F1F5F9',
-          fontSize: '0.85rem',
+          fontSize: '0.875rem',
         },
         head: {
+          padding: '12px 18px',
           color: '#475569',
           fontWeight: 700,
           fontSize: '0.8125rem',
@@ -228,7 +229,8 @@ export const adminTheme = createTheme({
     MuiTablePagination: {
       defaultProps: {
         labelRowsPerPage: 'Số dòng:',
-        labelDisplayedRows: ({ from, to, count }) => `${from}–${to} / ${count}`,
+        labelDisplayedRows: ({ from, to, count }) =>
+          `${from}–${to} / ${count === -1 ? `hơn ${to}` : count}`,
       },
     },
     MuiOutlinedInput: {

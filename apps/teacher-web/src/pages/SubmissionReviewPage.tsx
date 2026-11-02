@@ -121,7 +121,7 @@ export default function SubmissionReviewPage() {
   const isPending = approveMutation.isPending || overrideMutation.isPending;
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+    <Box>
       {/* Top Header & Breadcrumb */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, flexWrap: 'wrap', gap: 2 }}>
         <Box>
@@ -204,18 +204,18 @@ export default function SubmissionReviewPage() {
         <Grid size={{ xs: 12, md: 6 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {/* Card 1: AI Evidence Findings */}
-            <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#DDCDF4' }}>
+            <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>
               <CardContent sx={{ p: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <SmartToy sx={{ color: '#7040D5', fontSize: 20 }} />
-                  <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#5426AF', letterSpacing: '0.04em' }}>
+                  <SmartToy sx={{ color: '#2563EB', fontSize: 20 }} />
+                  <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1E40AF', letterSpacing: '0.04em' }}>
                     GHI NHẬN TỪ HỆ THỐNG AI
                   </Typography>
                 </Box>
 
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <Box sx={{ p: 1.75, bgcolor: '#F8F6FD', borderRadius: 2, border: '1px solid #E9E2F2' }}>
+                    <Box sx={{ p: 1.75, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
                       <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                         Dấu hiệu cần xem xét
                       </Typography>
@@ -226,7 +226,7 @@ export default function SubmissionReviewPage() {
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <Box sx={{ p: 1.75, bgcolor: '#F8F6FD', borderRadius: 2, border: '1px solid #E9E2F2' }}>
+                    <Box sx={{ p: 1.75, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
                       <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                         Thuật toán đối soát
                       </Typography>
@@ -255,10 +255,11 @@ export default function SubmissionReviewPage() {
                       sx={{
                         fontFamily: 'monospace',
                         p: 1.5,
-                        bgcolor: '#F4F0FA',
+                        bgcolor: '#F8FAFC',
                         borderRadius: 1.5,
                         mt: 0.5,
-                        color: '#211844',
+                        color: '#0F172A',
+                        border: '1px solid #E2E8F0',
                         whiteSpace: 'pre-wrap',
                       }}
                     >
@@ -270,12 +271,12 @@ export default function SubmissionReviewPage() {
             </Card>
 
             {/* Card 2: Advisory Proposed Grade & Confidence Semantics */}
-            <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#E9E2F2', bgcolor: '#F8F6FD' }}>
+            <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#E2E8F0', bgcolor: '#F8FAFC', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>
               <CardContent sx={{ p: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <AutoAwesome sx={{ color: '#7040D5', fontSize: 20 }} />
-                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#5E566D', letterSpacing: '0.04em' }}>
+                    <AutoAwesome sx={{ color: '#2563EB', fontSize: 20 }} />
+                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#475569', letterSpacing: '0.04em' }}>
                       ĐỀ XUẤT TỪ AI (CHƯA CHÍNH THỨC)
                     </Typography>
                   </Box>
@@ -287,7 +288,7 @@ export default function SubmissionReviewPage() {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, my: 1 }}>
-                  <Typography variant="h3" sx={{ fontWeight: 800, color: '#7040D5' }}>
+                  <Typography variant="h3" sx={{ fontWeight: 800, color: '#2563EB' }}>
                     {suggestedScore !== undefined ? suggestedScore : '--'}
                   </Typography>
                   <Typography variant="h6" color="text.secondary">
@@ -302,7 +303,7 @@ export default function SubmissionReviewPage() {
                     <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                       Độ tin cậy nhận diện:
                     </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                       {sub.recognitionConfidence !== undefined ? `${Math.round(sub.recognitionConfidence)}%` : 'Chưa có'}
                     </Typography>
                   </Grid>
@@ -310,7 +311,7 @@ export default function SubmissionReviewPage() {
                     <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                       Độ tin cậy chẩn đoán:
                     </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
                       {sub.diagnosisConfidence !== undefined ? `${Math.round(sub.diagnosisConfidence)}%` : 'Chưa có'}
                     </Typography>
                   </Grid>
@@ -322,14 +323,14 @@ export default function SubmissionReviewPage() {
             <Card
               sx={{
                 borderRadius: 2.5,
-                border: '2px solid #7040D5',
-                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.12)',
+                border: '2px solid #059669',
+                boxShadow: '0 4px 14px rgba(5, 150, 105, 0.12)',
               }}
             >
               <CardContent sx={{ p: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <Shield sx={{ color: '#7040D5', fontSize: 22 }} />
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#7040D5' }}>
+                  <Shield sx={{ color: '#059669', fontSize: 22 }} />
+                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#059669' }}>
                     QUYẾT ĐỊNH CỦA GIÁO VIÊN
                   </Typography>
                 </Box>

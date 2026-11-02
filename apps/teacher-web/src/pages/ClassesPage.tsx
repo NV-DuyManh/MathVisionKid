@@ -14,6 +14,8 @@ import { School, Groups, AddCircleOutlined, Assignment, ArrowForward } from '@mu
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { Class } from '../types';
+import { PageHeader } from '../components/common/PageHeader';
+import { EmptyState } from '../components/common/EmptyState';
 
 export default function ClassesPage() {
   const [classes, setClasses] = useState<Class[]>([]);
@@ -39,42 +41,37 @@ export default function ClassesPage() {
   }, []);
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
-        <Box>
-          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
-            Danh sách Lớp học
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Các lớp học được phân công giảng dạy và quản lý danh sách học sinh.
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddCircleOutlined />}
-          onClick={() => navigate('/assignments/create')}
-        >
-          Tạo bài tập cho lớp
-        </Button>
-      </Box>
+    <Box>
+      <PageHeader
+        title="Danh sách Lớp học"
+        description="Các lớp học được phân công giảng dạy và quản lý danh sách học sinh."
+        actions={
+          <Button
+            variant="contained"
+            startIcon={<AddCircleOutlined />}
+            onClick={() => navigate('/assignments/create')}
+            sx={{ borderRadius: 2.5, fontWeight: 700 }}
+          >
+            Tạo bài tập cho lớp
+          </Button>
+        }
+      />
 
       {loading ? (
         <Grid container spacing={3}>
           {[1, 2, 3].map((i) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
-              <Skeleton variant="rectangular" height={180} sx={{ borderRadius: 2.5 }} />
+              <Skeleton variant="rectangular" height={190} sx={{ borderRadius: 3.5 }} />
             </Grid>
           ))}
         </Grid>
       ) : classes.length === 0 ? (
-        <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
-          <School sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#211844', mb: 1 }}>
-            Chưa có lớp học nào được phân công
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto' }}>
-            Vui lòng liên hệ quản trị viên nhà trường để được gán quyền phụ trách lớp học trên hệ thống.
-          </Typography>
+        <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
+          <EmptyState
+            title="Chưa có lớp học nào được phân công"
+            description="Vui lòng liên hệ quản trị viên nhà trường để được gán quyền phụ trách lớp học trên hệ thống."
+            icon={<School sx={{ fontSize: 42, color: '#94A3B8' }} />}
+          />
         </Card>
       ) : (
         <Grid container spacing={3}>
@@ -86,9 +83,14 @@ export default function ClassesPage() {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  borderRadius: 2.5,
-                  p: 0.5,
-                  borderTop: '4px solid #7040D5',
+                  borderRadius: 3.5,
+                  border: '1px solid #E2E8F0',
+                  transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 24px -4px rgba(15, 23, 42, 0.08)',
+                    borderColor: '#CBD5E1',
+                  },
                 }}
               >
                 <CardContent sx={{ p: 2.5 }}>
@@ -98,21 +100,21 @@ export default function ClassesPage() {
                         sx={{
                           width: 44,
                           height: 44,
-                          borderRadius: 2,
-                          bgcolor: '#F1EBFC',
+                          borderRadius: 2.5,
+                          bgcolor: '#ECFDF5',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: '#7040D5',
+                          color: '#059669',
                         }}
                       >
-                        <School sx={{ fontSize: 26 }} />
+                        <School sx={{ fontSize: 24 }} />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 800 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.05rem' }}>
                           {c.name.startsWith('Lớp ') ? c.name : `Lớp ${c.name}`}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" sx={{ color: '#64748B' }}>
                           Lớp được phân công giảng dạy
                         </Typography>
                       </Box>
@@ -120,7 +122,7 @@ export default function ClassesPage() {
                     <Chip
                       label="Được phân công"
                       size="small"
-                      sx={{ bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 600, fontSize: '0.75rem' }}
+                      sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, fontSize: '0.72rem', border: '1px solid #A7F3D0' }}
                     />
                   </Box>
 
@@ -130,31 +132,32 @@ export default function ClassesPage() {
                       alignItems: 'center',
                       gap: 1.5,
                       p: 1.5,
-                      bgcolor: '#F8F6FD',
-                      borderRadius: 2,
-                      border: '1px solid #E9E2F2',
-                      mb: 2,
+                      bgcolor: '#F8FAFC',
+                      borderRadius: 2.5,
+                      border: '1px solid #E2E8F0',
+                      mb: 1,
                     }}
                   >
-                    <Groups sx={{ color: '#655D76', fontSize: 22 }} />
+                    <Groups sx={{ color: '#64748B', fontSize: 22 }} />
                     <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 700, color: '#211844' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 800, color: '#0F172A' }}>
                         {c.studentCount} học sinh
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="caption" sx={{ color: '#64748B' }}>
                         Danh sách chính thức trong sổ điểm
                       </Typography>
                     </Box>
                   </Box>
                 </CardContent>
 
-                <Box sx={{ px: 2.5, pb: 2, pt: 0, display: 'flex', gap: 1 }}>
+                <Box sx={{ px: 2.5, pb: 2.5, pt: 0, display: 'flex', gap: 1.25 }}>
                   <Button
                     variant="outlined"
                     size="small"
                     fullWidth
                     startIcon={<Assignment />}
                     onClick={() => navigate('/assignments/create')}
+                    sx={{ borderRadius: 2, fontWeight: 700 }}
                   >
                     Giao bài tập
                   </Button>
@@ -163,7 +166,7 @@ export default function ClassesPage() {
                       variant="contained"
                       size="small"
                       endIcon={<ArrowForward />}
-                      sx={{ minWidth: 108, whiteSpace: 'nowrap' }}
+                      sx={{ minWidth: 108, whiteSpace: 'nowrap', borderRadius: 2, fontWeight: 700 }}
                       onClick={() => navigate('/batches/create')}
                     >
                       Chấm bài

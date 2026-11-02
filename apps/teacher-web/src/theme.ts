@@ -201,6 +201,7 @@ export const theme = createTheme({
     MuiTableContainer: {
       styleOverrides: {
         root: {
+          maxWidth: '100%',
           overflowX: 'auto',
           borderRadius: 14,
           border: '1px solid #E2E8F0',
@@ -217,6 +218,7 @@ export const theme = createTheme({
             fontWeight: 700,
             fontSize: '0.8125rem',
             letterSpacing: '0.02em',
+            whiteSpace: 'nowrap',
             borderBottom: '1px solid #E2E8F0',
           },
         },
@@ -231,6 +233,7 @@ export const theme = createTheme({
         },
         head: {
           padding: '12px 18px',
+          whiteSpace: 'nowrap',
         },
       },
     },

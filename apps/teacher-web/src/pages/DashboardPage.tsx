@@ -27,6 +27,9 @@ import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { DashboardStats, Class } from '../types';
 import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
+import { PageHeader } from '../components/common/PageHeader';
+import { StatCard } from '../components/common/StatCard';
+import { EmptyState } from '../components/common/EmptyState';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -63,17 +66,17 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+      <Box>
         <Skeleton variant="text" width={280} height={36} sx={{ mb: 1 }} />
         <Skeleton variant="text" width={380} height={20} sx={{ mb: 3.5 }} />
         <Grid container spacing={2} sx={{ mb: 3.5 }}>
           {[1, 2, 3, 4].map((i) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
-              <Skeleton variant="rectangular" height={120} sx={{ borderRadius: 2 }} />
+              <Skeleton variant="rectangular" height={130} sx={{ borderRadius: 3.5 }} />
             </Grid>
           ))}
         </Grid>
-        <Skeleton variant="rectangular" height={240} sx={{ borderRadius: 2 }} />
+        <Skeleton variant="rectangular" height={240} sx={{ borderRadius: 3.5 }} />
       </Box>
     );
   }
@@ -83,50 +86,38 @@ export default function DashboardPage() {
   const completedCount = stats?.completed || 0;
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-      {/* Header section */}
-      <Box
-        className="dashboard-welcome"
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3,
-          flexWrap: 'wrap',
-          gap: 2,
-        }}
-      >
-        <Box>
-          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, color: '#0F172A', mb: 0.5 }}>
-            Xin chào, {displayName}
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#475569' }}>
-            Tổng quan tiến độ chấm bài và các mục cần giáo viên xử lý hôm nay.
-          </Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-          <Button
-            variant="outlined"
-            startIcon={<AddCircleOutlined />}
-            onClick={() => navigate('/assignments/create')}
-          >
-            Tạo bài tập
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<AddCircleOutlined />}
-            onClick={() => navigate('/batches/create')}
-          >
-            Tạo đợt chấm mới
-          </Button>
-        </Box>
-      </Box>
+    <Box>
+      {/* Header section with Unified PageHeader */}
+      <PageHeader
+        title={`Xin chào, ${displayName}`}
+        description="Theo dõi lớp học, quản lý bài tập ô ly và phê duyệt kết quả chấm bài của học sinh."
+        actions={
+          <>
+            <Button
+              variant="outlined"
+              startIcon={<AddCircleOutlined />}
+              onClick={() => navigate('/assignments/create')}
+              sx={{ borderRadius: 2.5, fontWeight: 700 }}
+            >
+              Tạo bài tập
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddCircleOutlined />}
+              onClick={() => navigate('/batches/create')}
+              sx={{ borderRadius: 2.5, fontWeight: 700 }}
+            >
+              Tạo đợt chấm mới
+            </Button>
+          </>
+        }
+      />
 
       {!stats && (
         <Paper
           role="alert"
           variant="outlined"
-          sx={{ mb: 3, p: 2, bgcolor: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', borderRadius: 2 }}
+          sx={{ mb: 3, p: 2, bgcolor: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', borderRadius: 2.5 }}
         >
           Chưa tải được thống kê tổng quan. Bạn vẫn có thể mở Lớp học, Bài tập và Đợt chấm từ thanh điều hướng.
         </Paper>
@@ -139,7 +130,7 @@ export default function DashboardPage() {
             mb: 3,
             bgcolor: '#FEF2F2',
             border: '1px solid #FECACA',
-            borderRadius: 2,
+            borderRadius: 3,
           }}
         >
           <CardContent sx={{ py: 2, px: 2.5, '&:last-child': { pb: 2 } }}>
@@ -157,7 +148,7 @@ export default function DashboardPage() {
                   sx={{
                     width: 40,
                     height: 40,
-                    borderRadius: 1.5,
+                    borderRadius: 2,
                     bgcolor: '#FEE2E2',
                     display: 'flex',
                     alignItems: 'center',
@@ -192,6 +183,8 @@ export default function DashboardPage() {
                   bgcolor: '#DC2626',
                   '&:hover': { bgcolor: '#B91C1C' },
                   px: 2,
+                  borderRadius: 2.5,
+                  fontWeight: 700,
                 }}
               >
                 Xử lý ngay
@@ -201,224 +194,228 @@ export default function DashboardPage() {
         </Card>
       )}
 
-      {/* Top 4 Operational Metrics */}
-      <Grid container className="dashboard-metrics" spacing={2} sx={{ mb: 3.5 }}>
+      {/* Top 4 Operational Metrics using Unified StatCard */}
+      <Grid container spacing={2} className="dashboard-metrics" sx={{ mb: 3.5 }}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569' }}>
-                  Lớp học phụ trách
-                </Typography>
-                <Box sx={{ p: 0.75, borderRadius: 1.5, bgcolor: '#ECFDF5', color: '#059669', display: 'flex' }}>
-                  <School fontSize="small" />
-                </Box>
-              </Box>
-              <Typography variant="h4" component="p" sx={{ fontWeight: 800, color: '#0F172A', my: 0.5 }}>
-                {stats ? classes.length : '—'}
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#64748B', display: 'block' }}>
-                {stats
-                  ? `Tổng sĩ số: ${classes.reduce((sum, c) => sum + (c.studentCount || 0), 0)} học sinh`
-                  : 'Chưa tải được dữ liệu'}
-              </Typography>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Lớp học phụ trách"
+            value={stats ? classes.length : null}
+            description={
+              stats
+                ? `Tổng sĩ số: ${classes.reduce((sum, c) => sum + (c.studentCount || 0), 0)} học sinh`
+                : 'Chưa tải được dữ liệu'
+            }
+            icon={<School fontSize="small" />}
+            tone="#ECFDF5"
+            color="#059669"
+            path="/classes"
+          />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569' }}>
-                  Tổng bài hôm nay
-                </Typography>
-                <Box sx={{ p: 0.75, borderRadius: 1.5, bgcolor: '#F1F5F9', color: '#334155', display: 'flex' }}>
-                  <AssignmentTurnedIn fontSize="small" />
-                </Box>
-              </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: '#0F172A', my: 0.5 }}>
-                {stats ? totalCount : '—'}
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#64748B', display: 'block' }}>
-                {stats ? 'Đã nộp trong ngày' : 'Chưa tải được dữ liệu'}
-              </Typography>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Tổng bài hôm nay"
+            value={stats ? totalCount : null}
+            description={stats ? 'Đã nộp trong ngày' : 'Chưa tải được dữ liệu'}
+            icon={<AssignmentTurnedIn fontSize="small" />}
+            tone="#EFF6FF"
+            color="#2563EB"
+            path="/batches"
+          />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569' }}>
-                  Đã có đề xuất điểm
-                </Typography>
-                <Box sx={{ p: 0.75, borderRadius: 1.5, bgcolor: '#ECFDF5', color: '#059669', display: 'flex' }}>
-                  <FactCheck fontSize="small" />
-                </Box>
-              </Box>
-              <Typography variant="h4" sx={{ fontWeight: 800, color: '#059669', my: 0.5 }}>
-                {stats ? completedCount : '—'}
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#64748B', display: 'block' }}>
-                {stats ? 'AI đã xử lý xong và có đề xuất' : 'Chưa tải được dữ liệu'}
-              </Typography>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Đã có đề xuất điểm"
+            value={stats ? completedCount : null}
+            description={stats ? 'AI đã xử lý xong và có đề xuất' : 'Chưa tải được dữ liệu'}
+            icon={<FactCheck fontSize="small" />}
+            tone="#ECFDF5"
+            color="#059669"
+            path="/batches"
+          />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: '#475569' }}>
-                  Cần giáo viên xem
-                </Typography>
-                <Box
-                  sx={{
-                    p: 0.75,
-                    borderRadius: 1.5,
-                    bgcolor: reviewCount > 0 ? '#FEE2E2' : '#F1F5F9',
-                    color: reviewCount > 0 ? '#DC2626' : '#64748B',
-                    display: 'flex',
-                  }}
-                >
-                  <PendingActions fontSize="small" />
-                </Box>
-              </Box>
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: 800,
-                  color: reviewCount > 0 ? '#DC2626' : '#0F172A',
-                  my: 0.5,
-                }}
-              >
-                {stats ? reviewCount : '—'}
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#64748B', display: 'block' }}>
-                {!stats
-                  ? 'Chưa tải được dữ liệu'
-                  : reviewCount > 0
-                  ? 'Đang chờ giáo viên quyết định'
-                  : 'Không có bài cần xem lại'}
-              </Typography>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Cần giáo viên xem"
+            value={stats ? reviewCount : null}
+            description={
+              !stats
+                ? 'Chưa tải được dữ liệu'
+                : reviewCount > 0
+                ? 'Đang chờ giáo viên quyết định'
+                : 'Không có bài cần xem lại'
+            }
+            icon={<PendingActions fontSize="small" />}
+            tone={reviewCount > 0 ? '#FEF2F2' : '#F1F5F9'}
+            color={reviewCount > 0 ? '#DC2626' : '#64748B'}
+            path="/batches"
+          />
         </Grid>
       </Grid>
 
-      {/* Recent Batches List */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A' }}>
-          Đợt chấm bài gần đây
-        </Typography>
-        <Button
-          variant="text"
-          size="small"
-          endIcon={<ChevronRight />}
-          onClick={() => navigate('/batches')}
-          sx={{ fontWeight: 700, color: '#059669' }}
-        >
-          Xem tất cả đợt chấm
-        </Button>
-      </Box>
+      {/* 2-Column Operational Grid matching Admin Dashboard */}
+      <Box className="dashboard-columns">
+        {/* Left Column: Recent Batches List */}
+        <Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+              Đợt chấm bài gần đây
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              endIcon={<ChevronRight />}
+              onClick={() => navigate('/batches')}
+              sx={{ fontWeight: 700, color: '#059669', '&:hover': { bgcolor: '#ECFDF5' } }}
+            >
+              Xem tất cả đợt chấm
+            </Button>
+          </Box>
 
-      <Paper variant="outlined" sx={{ borderRadius: 2.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
-          {!stats?.recentBatches || stats.recentBatches.length === 0 ? (
-            <Box sx={{ py: 6, px: 3, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <Box
-                sx={{
-                  width: 52,
-                  height: 52,
-                  borderRadius: '50%',
-                  bgcolor: '#F1F5F9',
-                  color: '#64748B',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mb: 2,
-                }}
-              >
-                <AssignmentTurnedIn sx={{ fontSize: 28, color: '#94A3B8' }} />
-              </Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1E293B', mb: 0.5 }}>
-                {stats ? 'Chưa có đợt chấm bài nào gần đây' : 'Chưa tải được danh sách đợt chấm'}
-              </Typography>
-              <Typography variant="body2" sx={{ color: '#64748B', maxWidth: 420, mb: 2.5, lineHeight: 1.55 }}>
-                {stats
-                  ? 'Bắt đầu bằng việc tạo đợt chấm bài mới hoặc tải ảnh bài làm của học sinh để hệ thống AI hỗ trợ phân tích.'
-                  : 'Vui lòng kiểm tra lại kết nối mạng hoặc làm mới trang.'}
-              </Typography>
-              {stats && (
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<AddCircleOutlined />}
-                  onClick={() => navigate('/batches/create')}
-                  sx={{ fontWeight: 700 }}
-                >
-                  Tạo đợt chấm mới
-                </Button>
-              )}
-            </Box>
-          ) : (
-            <List sx={{ p: 0 }}>
-              {stats.recentBatches.map((batch, index) => (
-                <ListItem
-                  key={batch.id || batch.batchId || index}
-                  divider={index !== stats.recentBatches.length - 1}
-                  sx={{
-                    py: 1.5,
-                    px: 2.5,
-                    '&:hover': { bgcolor: '#F8FAFC' },
-                    cursor: 'pointer',
-                    transition: 'background-color 140ms',
-                  }}
-                  onClick={() => navigate(`/batches/${batch.id || batch.batchId}`)}
-                >
-                  <ListItemText
-                    primary={
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.25 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0F172A', fontSize: '0.9375rem' }}>
-                          {batch.className ? `Lớp ${batch.className}` : 'Lớp học'} — {batch.assignmentTitle || 'Bài tập Toán'}
+          <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
+            {!stats?.recentBatches || stats.recentBatches.length === 0 ? (
+              <EmptyState
+                title={stats ? 'Chưa có đợt chấm bài nào gần đây' : 'Chưa tải được danh sách đợt chấm'}
+                description={
+                  stats
+                    ? 'Bắt đầu bằng việc tạo đợt chấm bài mới hoặc tải ảnh bài làm của học sinh để hệ thống AI hỗ trợ phân tích.'
+                    : 'Vui lòng kiểm tra lại kết nối mạng hoặc làm mới trang.'
+                }
+                actionText={stats ? 'Tạo đợt chấm mới' : undefined}
+                onAction={stats ? () => navigate('/batches/create') : undefined}
+                icon={<AssignmentTurnedIn sx={{ fontSize: 36, color: '#94A3B8' }} />}
+              />
+            ) : (
+              <List sx={{ p: 0 }}>
+                {stats.recentBatches.map((batch, index) => (
+                  <ListItem
+                    key={batch.id || batch.batchId || index}
+                    divider={index !== stats.recentBatches.length - 1}
+                    sx={{
+                      py: 1.75,
+                      px: 2.5,
+                      '&:hover': { bgcolor: '#F8FAFC' },
+                      cursor: 'pointer',
+                      transition: 'background-color 140ms',
+                    }}
+                    onClick={() => navigate(`/batches/${batch.id || batch.batchId}`)}
+                  >
+                    <ListItemText
+                      primary={
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.25 }}>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.9375rem' }}>
+                            {batch.className ? `Lớp ${batch.className}` : 'Lớp học'} — {batch.assignmentTitle || 'Bài tập Toán'}
+                          </Typography>
+                          <StatusChip status={batch.status} />
+                        </Box>
+                      }
+                      secondary={
+                        <Typography variant="caption" sx={{ color: '#64748B' }}>
+                          {batch.createdAt ? new Date(batch.createdAt).toLocaleDateString('vi-VN') : 'Hôm nay'}
                         </Typography>
-                        <StatusChip status={batch.status} />
-                      </Box>
-                    }
-                    secondary={
-                      <Typography variant="caption" sx={{ color: '#64748B' }}>
-                        {batch.createdAt ? new Date(batch.createdAt).toLocaleDateString('vi-VN') : 'Hôm nay'}
-                      </Typography>
-                    }
-                  />
-                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                    <Chip
-                      label={`${batch.totalImages || batch.totalCount || 0} bài`}
-                      size="small"
-                      variant="outlined"
-                      sx={{ borderColor: '#CBD5E1', color: '#475569' }}
+                      }
                     />
-                    <Chip
-                      label={`${batch.processedCount || 0} đã xử lý`}
-                      size="small"
-                      sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 700 }}
-                    />
-                    {batch.reviewRequiredCount > 0 && (
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                       <Chip
-                        label={`${batch.reviewRequiredCount} cần xem`}
+                        label={`${batch.totalImages || batch.totalCount || 0} bài`}
                         size="small"
-                        sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 700 }}
+                        variant="outlined"
+                        sx={{ borderColor: '#CBD5E1', color: '#475569', fontWeight: 700 }}
                       />
-                    )}
-                    <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
+                      <Chip
+                        label={`${batch.processedCount || 0} đã xử lý`}
+                        size="small"
+                        sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
+                      />
+                      {batch.reviewRequiredCount > 0 && (
+                        <Chip
+                          label={`${batch.reviewRequiredCount} cần xem`}
+                          size="small"
+                          sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
+                        />
+                      )}
+                      <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Card>
+        </Box>
+
+        {/* Right Column: Assigned Classes Overview */}
+        <Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+              Lớp học phụ trách
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              endIcon={<ChevronRight />}
+              onClick={() => navigate('/classes')}
+              sx={{ fontWeight: 700, color: '#059669', '&:hover': { bgcolor: '#ECFDF5' } }}
+            >
+              Xem tất cả
+            </Button>
+          </Box>
+
+          <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0', p: 2 }}>
+            {classes.length === 0 ? (
+              <EmptyState
+                title="Chưa có lớp học phụ trách"
+                description="Bạn chưa được phân công lớp học nào hoặc dữ liệu đang được đồng bộ."
+                icon={<School sx={{ fontSize: 36, color: '#94A3B8' }} />}
+              />
+            ) : (
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                {classes.map((cls) => (
+                  <Box
+                    key={cls.id || cls.classId}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2.5,
+                      bgcolor: '#F8FAFC',
+                      border: '1px solid #E2E8F0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      transition: 'all 160ms ease',
+                      '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' },
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A' }}>
+                        {cls.name}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: '#64748B' }}>
+                        Lớp phụ trách giảng dạy
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Chip
+                        label={`${cls.studentCount || 0} học sinh`}
+                        size="small"
+                        sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
+                      />
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => navigate('/assignments/create')}
+                        sx={{ borderRadius: 2, fontWeight: 700, fontSize: '0.75rem', py: 0.25, px: 1.25 }}
+                      >
+                        Giao bài
+                      </Button>
+                    </Box>
                   </Box>
-                </ListItem>
-              ))}
-            </List>
-          )}
-      </Paper>
+                ))}
+              </Box>
+            )}
+          </Card>
+        </Box>
+      </Box>
     </Box>
   );
 }

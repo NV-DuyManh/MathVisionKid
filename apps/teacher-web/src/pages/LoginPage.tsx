@@ -101,7 +101,7 @@ export default function LoginPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: '#F8F6FD',
+        bgcolor: '#F8FAFC',
         p: 2,
       }}
     >
@@ -110,8 +110,8 @@ export default function LoginPage() {
           maxWidth: 420,
           width: '100%',
           p: { xs: 2, sm: 3 },
-          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)',
-          border: '1px solid #E9E2F2',
+          boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+          border: '1px solid #E2E8F0',
           borderRadius: 3,
         }}
       >
@@ -122,19 +122,19 @@ export default function LoginPage() {
                 width: 56,
                 height: 56,
                 borderRadius: '50%',
-                bgcolor: '#F1EBFC',
+                bgcolor: '#ECFDF5',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1.5px solid #DDCDF4',
+                border: '1.5px solid #A7F3D0',
               }}
             >
-              <School sx={{ fontSize: 32, color: '#7040D5' }} />
+              <School sx={{ fontSize: 32, color: '#059669' }} />
             </Box>
           </Box>
 
-          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, textAlign: 'center', color: '#7040D5', letterSpacing: '-0.02em', mb: 0.5 }}>
-            MathVision<span style={{ color: '#0D9488' }}>Kids</span>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, textAlign: 'center', color: '#0F172A', letterSpacing: '-0.02em', mb: 0.5 }}>
+            MathVision<span style={{ color: '#059669' }}>Kids</span>
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontWeight: 600, mb: 0.5 }}>
             CỔNG GIÁO VIÊN TIỂU HỌC

@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Button,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +17,9 @@ import { AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { Assignment as AssignmentType } from '../types';
+import { PageHeader } from '../components/common/PageHeader';
+import { EmptyState } from '../components/common/EmptyState';
+import { StatusChip } from '../components/common/StatusChip';
 
 export default function AssignmentsPage() {
   const [assignments, setAssignments] = useState<AssignmentType[]>([]);
@@ -45,131 +47,127 @@ export default function AssignmentsPage() {
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
       case 'VERTICAL_ADDITION':
-        return { label: 'Phép cộng đặt tính', color: '#2563EB', bg: '#EFF6FF' };
+        return { label: 'Phép cộng đặt tính', color: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE' };
       case 'VERTICAL_SUBTRACTION':
-        return { label: 'Phép trừ đặt tính', color: '#059669', bg: '#ECFDF5' };
+        return { label: 'Phép trừ đặt tính', color: '#059669', bg: '#ECFDF5', border: '#A7F3D0' };
       default:
-        return { label: type || 'Toán đặt tính', color: '#475569', bg: '#F1F5F9' };
+        return { label: type || 'Toán đặt tính', color: '#475569', bg: '#F1F5F9', border: '#CBD5E1' };
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5, flexWrap: 'wrap', gap: 2 }}>
-        <Box>
-          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
-            Danh sách Bài tập
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Quản lý các đề bài toán đặt tính và khởi tạo các đợt thu thập bài làm.
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddCircleOutlined />}
-          onClick={() => navigate('/assignments/create')}
-        >
-          Tạo bài tập mới
-        </Button>
-      </Box>
-
-      {loading ? (
-        <Paper variant="outlined" sx={{ p: 2 }}>
-          {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} variant="rectangular" height={50} sx={{ mb: 1, borderRadius: 1 }} />
-          ))}
-        </Paper>
-      ) : assignments.length === 0 ? (
-        <Card sx={{ p: 6, textAlign: 'center', bgcolor: '#FFFFFF', borderRadius: 2.5 }}>
-          <Assignment sx={{ fontSize: 56, color: '#736983', mb: 1.5 }} />
-          <Typography variant="h6" sx={{ color: '#0F172A', mb: 1 }}>
-            Chưa có bài tập nào
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 450, mx: 'auto', mb: 3 }}>
-            Hãy tạo bài tập toán đặt tính đầu tiên để bắt đầu thu thập ảnh và chấm bài bằng AI.
-          </Typography>
+    <Box>
+      <PageHeader
+        title="Danh sách Bài tập"
+        description="Quản lý các đề bài toán đặt tính và khởi tạo các đợt thu thập bài làm."
+        actions={
           <Button
             variant="contained"
             startIcon={<AddCircleOutlined />}
             onClick={() => navigate('/assignments/create')}
+            sx={{ borderRadius: 2.5, fontWeight: 700 }}
           >
-            Tạo bài tập đầu tiên
+            Tạo bài tập mới
           </Button>
+        }
+      />
+
+      {loading ? (
+        <Card sx={{ p: 2.5, borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
+          {[1, 2, 3, 4].map((i) => (
+            <Skeleton key={i} variant="rectangular" height={52} sx={{ mb: 1.5, borderRadius: 2 }} />
+          ))}
+        </Card>
+      ) : assignments.length === 0 ? (
+        <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
+          <EmptyState
+            title="Chưa có bài tập nào"
+            description="Hãy tạo bài tập toán đặt tính đầu tiên để bắt đầu thu thập ảnh và chấm bài bằng AI."
+            actionText="Tạo bài tập đầu tiên"
+            onAction={() => navigate('/assignments/create')}
+            icon={<Assignment sx={{ fontSize: 42, color: '#94A3B8' }} />}
+          />
         </Card>
       ) : (
-        <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2.5, overflow: 'hidden' }}>
-          <Table sx={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Tên bài tập</TableCell>
-                <TableCell>Dạng phép tính</TableCell>
-                <TableCell>Ngày tạo</TableCell>
-                <TableCell>Trạng thái</TableCell>
-                <TableCell align="right">Hành động</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {assignments.map((a) => {
-                const mathTypeInfo = getMathTypeLabel(a.mathType);
-                return (
-                  <TableRow key={a.id || a.assignmentId} hover>
-                    <TableCell>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>
-                        {a.title}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Mã bài: {a.assignmentId || a.id}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={mathTypeInfo.label}
-                        size="small"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: '0.75rem',
-                          backgroundColor: mathTypeInfo.bg,
-                          color: mathTypeInfo.color,
-                          border: `1px solid ${mathTypeInfo.color}33`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2" color="text.secondary">
-                        {a.createdAt ? new Date(a.createdAt).toLocaleDateString('vi-VN') : 'Mới tạo'}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={a.status === 'ACTIVE' ? 'Đang hoạt động' : (a.status ? a.status : 'Không rõ')}
-                        size="small"
-                        sx={
-                          a.status === 'ACTIVE'
-                            ? { bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 600 }
-                            : { bgcolor: '#F4F0FA', color: '#5E566D', fontWeight: 600 }
-                        }
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        variant="contained"
-                        size="small"
-                        endIcon={<ArrowForward />}
-                        onClick={() =>
-                          navigate('/batches/create', {
-                            state: { assignmentId: a.assignmentId || a.id },
-                          })
-                        }
-                      >
-                        Tạo đợt chấm
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
+          <TableContainer>
+            <Table sx={{ minWidth: 700 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Tên bài tập</TableCell>
+                  <TableCell>Dạng phép tính</TableCell>
+                  <TableCell>Ngày tạo</TableCell>
+                  <TableCell>Trạng thái</TableCell>
+                  <TableCell align="right">Hành động</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {assignments.map((a) => {
+                  const mathTypeInfo = getMathTypeLabel(a.mathType);
+                  return (
+                    <TableRow key={a.id || a.assignmentId} hover>
+                      <TableCell>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A' }}>
+                          {a.title}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: '#64748B' }}>
+                          Mã bài: {a.assignmentId || a.id}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={mathTypeInfo.label}
+                          size="small"
+                          sx={{
+                            fontWeight: 800,
+                            fontSize: '0.72rem',
+                            backgroundColor: mathTypeInfo.bg,
+                            color: mathTypeInfo.color,
+                            border: `1px solid ${mathTypeInfo.border}`,
+                            borderRadius: 1.5,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body2" sx={{ color: '#475569' }}>
+                          {a.createdAt ? new Date(a.createdAt).toLocaleDateString('vi-VN') : 'Mới tạo'}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <StatusChip status={a.status || 'ACTIVE'} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          endIcon={<ArrowForward />}
+                          onClick={() =>
+                            navigate('/batches/create', {
+                              state: { assignmentId: a.assignmentId || a.id },
+                            })
+                          }
+                          sx={{
+                            borderRadius: 2,
+                            fontWeight: 700,
+                            borderColor: '#CBD5E1',
+                            color: '#0F172A',
+                            '&:hover': {
+                              borderColor: '#059669',
+                              color: '#059669',
+                              bgcolor: '#ECFDF5',
+                            },
+                          }}
+                        >
+                          Tạo đợt chấm
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Card>
       )}
     </Box>
   );
