@@ -6,10 +6,15 @@ import { Quiz, quizApi } from './quizApi';
 /** Server leases bound lost connections; leaving the screen pauses immediately. */
 export function useQuizActivity(quiz: Quiz | null) {
   const [elapsed, setElapsed] = useState(quiz?.elapsedMillis || 0);
+  const [previousQuiz, setPreviousQuiz] = useState(quiz);
+  // Reset before committing a changed question; do not render the previous quiz's timer first.
+  if (previousQuiz !== quiz) {
+    setPreviousQuiz(quiz);
+    setElapsed(quiz?.elapsedMillis || 0);
+  }
   const baseline = useRef({ elapsed: 0, received: 0, running: false });
   useEffect(() => {
     baseline.current = { elapsed: quiz?.elapsedMillis || 0, received: performance.now(), running: baseline.current.running && quiz?.status === 'IN_PROGRESS' };
-    setElapsed(quiz?.elapsedMillis || 0);
   }, [quiz]);
   const id = quiz?.quizId, run = quiz?.startedAt, status = quiz?.status;
   useFocusEffect(useCallback(() => {

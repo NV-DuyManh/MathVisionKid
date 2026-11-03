@@ -107,7 +107,7 @@ class Step(TutorModel):
 class Plan(TutorModel):
     topic: str = Field(min_length=1, max_length=120)
     goal: str = Field(min_length=1, max_length=220)
-    steps: list[Step] = Field(min_length=2, max_length=9)
+    steps: list[Step] = Field(min_length=1, max_length=9)
     finalAnswerStep: int | None = Field(default=None, ge=0, le=8)
 
     @model_validator(mode="after")
@@ -115,11 +115,11 @@ class Plan(TutorModel):
         if getattr(self, "canSolve", True) is False and not self.steps:
             return self
         count = sum(step.kind == "UNDERSTAND" for step in self.steps)
-        if (count not in {0, 3} or not 2 <= len(self.steps) - count <= 6
+        if (count not in {0, 3} or not 1 <= len(self.steps) - count <= 6
                 or any(step.kind != "UNDERSTAND" for step in self.steps[:count])
                 or any(step.kind != "MATH" for step in self.steps[count:])
                 or any(not step.choices or step.expression for step in self.steps[:count])):
-            raise ValueError("Use three opening comprehension choices and two to six math steps")
+            raise ValueError("Use optional three opening comprehension choices and one to six math steps")
         return self
 
 
@@ -332,9 +332,11 @@ Không viết bước giả. Có số chưa biết không đồng nghĩa thiếu
 quan hệ đề đã cho. Không thêm giả thiết để ép bài có đáp án.
 
 JSON duy nhất: {"canSolve":boolean,"topic":string,"goal":string,"steps":[...],
-"finalAnswerStep":integer hoặc null}. canSolve=true thì có 2-6 bước, mỗi bước tính tìm một đại
-lượng và có một dòng lời giải trên lớp. Bài chỉ một phép tính thì thêm bước
-chọn cách hiểu hữu ích trước. Không tách chọn mẫu số/quy đồng thành bước giải
+"finalAnswerStep":integer hoặc null}. canSolve=true thì có 1-6 bước tùy bài.
+Bài một phép tính chỉ cần một bước tính, không thêm câu hỏi đọc hiểu hoặc bước giả.
+Hỗ trợ cả phép tính ngắn, phân số, số thập phân, đổi đơn vị và trắc nghiệm;
+không bắt buộc bài có lời văn. Bài tính thuần túy dùng dòng "Kết quả là:";
+chỉ bài có lời văn mới cần tên đại lượng và câu lời giải. Không tách chọn mẫu số/quy đồng thành bước giải
 riêng của bài có lời văn; dạy các thao tác đó bên trong bước tính. Không gộp
 nhiều đại lượng vào một bước nếu các đại lượng đó cần lời giải riêng.
 finalAnswerStep là CHỈ SỐ TỪ 0 của bước trả lời câu hỏi, không phải đáp án hoặc
@@ -366,6 +368,8 @@ Bước tính: choices=[], correctChoice="", expression là công thức số RI
 question hỏi đại lượng BẰNG BAO NHIÊU. solutionSentence gọi tên đại lượng và
 kết thúc đúng 'là:', không chứa phép tính/đáp án. Bước chọn: expression="",
 solutionSentence="", 2-4 choices bằng chữ; correctChoice khớp một lựa chọn.
+Bài trắc nghiệm có sẵn: giữ nguyên các lựa chọn của đề, kể cả lựa chọn số.
+Một bước chọn đúng đáp án có thể là toàn bộ bài; finalAnswerStep trỏ đến bước đó.
 Bài có nhiều phép tính thì bắt đầu bằng bước tính, không thêm bước chọn phương
 pháp thừa. Với bước chọn, chỉ giải thích ý nghĩa lựa chọn, không tính thử kết quả
 của bước sau. Các lựa chọn không chứa số mới tự tính.
@@ -502,6 +506,9 @@ Return only {"sourceFaithful":boolean,"mathematicsCorrect":boolean,
 the independently derived requested results with their candidate calculation
 indices, NOT all intermediate results. answer is an exact integer, decimal or
 numerator/denominator string, with no equation or unit; unit is separate.
+For a multiple-choice result, answer must instead be the EXACT original choice
+text, including its decimal/fraction notation. Independently solve the question
+before checking that choice; do not accept a proposed key merely because it is supplied.
 If resultScope.finalAnswerStep is an integer, independently check that it
 answers the original single requested quantity and return ONLY that result.
 If it is null, the candidate claims to answer MULTIPLE requested quantities:
@@ -542,7 +549,7 @@ Nếu vẫn không đủ để giải an toàn, trả canSolve=false và steps=[
 
 class ReviewedResult(TutorModel):
     stepIndex: int = Field(ge=0, le=5, strict=True)
-    answer: str = Field(min_length=1, max_length=40)
+    answer: str = Field(min_length=1, max_length=100)
     unit: str = Field(max_length=20)
 
 
@@ -725,8 +732,8 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
     if "lop" not in _fold(request.problemText):
         plan.topic = re.sub(r"\s*lớp\s*\d+\s*[:—-]?", "", plan.topic, flags=re.I).strip()
     answers = []
-    if plan.finalAnswerStep is not None and (plan.finalAnswerStep >= len(plan.steps) or not plan.steps[plan.finalAnswerStep].expression):
-        raise ValueError(f"Invalid final answer step {plan.finalAnswerStep}: use a zero-based calculation index from 0 to {len(plan.steps)-1}")
+    if plan.finalAnswerStep is not None and (plan.finalAnswerStep >= len(plan.steps) or plan.steps[plan.finalAnswerStep].kind != 'MATH'):
+        raise ValueError(f"Invalid final answer step {plan.finalAnswerStep}: use a zero-based math index from 0 to {len(plan.steps)-1}")
     for index, step in enumerate(plan.steps):
         for item in [*(step.initialGuidance or []), *step.guidance, *step.hints]:
             for reference in _GUIDANCE_REFERENCE.finditer(item):
@@ -833,8 +840,24 @@ def remember_narration(session: Session, paragraphs: list[str]):
 
 def completed_step(step: Step, session: Session, answer: str) -> CompletedStep:
     expression = expression_at(step, session.answers)
+    shown = answer
+    if step.expression and not step.fractionNotation and ('.' in expression or (len(session.plan.steps) == 1 and step.unit)):
+        # Keep exact Fractions internally for dependencies/checking. A terminating
+        # decimal exercise should still LOOK like a decimal, never a rounded float.
+        value = Fraction(answer)
+        denominator, places = value.denominator, 0
+        for factor in (2, 5):
+            count = 0
+            while denominator % factor == 0:
+                denominator //= factor
+                count += 1
+            places = max(places, count)
+        if denominator == 1 and places <= 12:
+            scaled = abs(value.numerator) * 10 ** places // value.denominator
+            digits = str(scaled).zfill(places + 1)
+            shown = ('-' if value < 0 else '') + (digits[:-places] + ',' + digits[-places:] if places else digits)
     return CompletedStep(kind=step.kind, title=step.title, expression=display_expression(expression, step.fractionNotation),
-        answer=answer, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
+        answer=shown, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
         calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
         guidance=guidance_at(step, session.answers))
 
@@ -970,7 +993,8 @@ def guidance_at(step: Step, answers: list[str], givens=None, *, reveal_work=True
         allowed = set(givens or ()) | numeric_values("\n".join(answers))
         resolved = [item for item in resolved if numeric_values(item).issubset(allowed)
                     and not re.search(r"dap so\s*[:=]|\d\s*=\s*\d", _fold(item))]
-        if len(resolved) == 2 and step.expression:
+        if len(resolved) == 2 and step.expression and (step.solutionSentence != 'Kết quả là:' or sum(isinstance(node, ast.BinOp)
+                for node in ast.walk(ast.parse(expression_at(step, answers).translate(_SYMBOLS), mode='eval'))) > 1):
             # Keep the model's explanation of quantities/why; supply an exact,
             # answer-free action covering the whole expression, not just the
             # first subtraction. Conversion results stay in private worked help.
@@ -1126,10 +1150,14 @@ async def generate_plan(request: LessonRequest) -> Plan:
             if len(set(indices)) != len(indices) or plan.finalAnswerStep != (indices[0] if len(indices) == 1 else None):
                 raise ValueError("Requested result differs from conclusion")
             for result in review.results:
-                if (result.stepIndex >= len(plan.steps) or not plan.steps[result.stepIndex].expression
-                        or not re.fullmatch(r"-?\d+(?:\.\d+)?(?:/\d+)?", result.answer)
-                        or Fraction(result.answer) != Fraction(answers[result.stepIndex])
-                        or result.unit != plan.steps[result.stepIndex].unit):
+                if result.stepIndex >= len(plan.steps):
+                    raise ValueError("Independent result index outside the plan")
+                reviewed_step = plan.steps[result.stepIndex]
+                if reviewed_step.choices:
+                    agrees = result.answer == reviewed_step.correctChoice
+                else:
+                    agrees = bool(re.fullmatch(r"-?\d+(?:\.\d+)?(?:/\d+)?", result.answer)) and Fraction(result.answer) == Fraction(answers[result.stepIndex])
+                if not agrees or result.unit != reviewed_step.unit:
                     raise ValueError("Independent answer disagrees with candidate")
             if attempt:validation_audit.record(request.problemText,attempt+1,provider=getattr(parsed,'provider',None),stage='recovered')
             return plan
@@ -1163,7 +1191,8 @@ async def checked_plan(request):
         from app.tutoring.fraction_remainder import verified_plan as fraction_plan
         from app.tutoring.digit_append import verified_plan as digit_plan
         from app.tutoring.mass_fraction import verified_plan as mass_plan
-        exact = fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
+        from app.tutoring.short_math import verified_plan as short_plan
+        exact = short_plan(request.problemText) or fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
         if exact is not None and not request.workText:
             plan = Plan.model_validate(exact)
         else:
@@ -1287,7 +1316,11 @@ def lesson_preparation(request: PreparationRequest):
 
 async def start_lesson(request: LessonRequest) -> LessonResponse:
     comprehension = []
-    if request.guidedUnderstanding:
+    from app.tutoring.short_math import verified_plan as short_plan
+    # A standalone calculation/choice is already a complete task. Do not inflate
+    # it into three word-problem comprehension questions before the real work.
+    short = short_plan(request.problemText) is not None
+    if request.guidedUnderstanding and not short:
         try:comprehension = source_understanding(request.problemText)
         except UnderstandingUnsupported:
             try:comprehension = labelled_understanding(request.problemText)

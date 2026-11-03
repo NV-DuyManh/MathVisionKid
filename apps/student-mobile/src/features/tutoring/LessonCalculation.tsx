@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import Svg, { Defs, Pattern, Path, Rect } from 'react-native-svg';
 import { MathText } from '../../components/domain/MathText';
 import { FONTS } from '../../constants/theme';
@@ -8,7 +8,7 @@ import { FONTS } from '../../constants/theme';
 export function LessonCalculation({ expression }: { expression: string }) {
   const column = /^(\d{1,6})\s*([+−-])\s*(\d{1,6})$/.exec(expression.trim());
   return <View style={styles.paper}>
-    <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} accessible={false}>
+    <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} accessible={Platform.OS === 'web' ? undefined : false} aria-hidden>
       <Defs><Pattern id="lesson-paper-grid" width="22" height="22" patternUnits="userSpaceOnUse"><Path d="M22 0H0V22" fill="none" stroke="#E8E0F4" strokeWidth="1" /></Pattern></Defs>
       <Rect width="100%" height="100%" fill="url(#lesson-paper-grid)" />
     </Svg>

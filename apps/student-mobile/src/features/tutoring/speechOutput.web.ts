@@ -3,8 +3,18 @@ import type { SpeechOptions, Voice } from 'expo-speech';
 /** Keep browser speech synchronous with the learner's click and never choose a different language. */
 export async function getAvailableVoicesAsync(): Promise<Voice[]> {
   if (typeof window === 'undefined' || !window.speechSynthesis) return [];
-  return window.speechSynthesis.getVoices().map(voice => ({ identifier: voice.voiceURI,
+  const synth = window.speechSynthesis;
+  const inventory = () => synth.getVoices().map(voice => ({ identifier: voice.voiceURI,
     name: voice.name, language: voice.lang, quality: 'Default' as Voice['quality'] }));
+  const voices = inventory();
+  if (voices.length || !synth.addEventListener) return voices;
+  // Browsers often populate voices just after the first query. Do not report a missing voice prematurely.
+  return new Promise(resolve => {
+    const finish = () => { clearTimeout(timer); synth.removeEventListener('voiceschanged', changed); resolve(inventory()); };
+    const changed = () => { if (inventory().length) finish(); };
+    const timer = setTimeout(finish, 1000);
+    synth.addEventListener('voiceschanged', changed); changed();
+  });
 }
 
 export function speak(text: string, options: SpeechOptions): void {
@@ -15,6 +25,7 @@ export function speak(text: string, options: SpeechOptions): void {
   utterance.voice = voice; utterance.lang = 'vi-VN'; utterance.rate = options.rate || .9; utterance.pitch = options.pitch || 1;
   utterance.onstart = () => { options.onStart?.(); };
   utterance.onend = () => { options.onDone?.(); };
+  utterance.onboundary = event => { options.onBoundary?.call(utterance, event); };
   utterance.onerror = () => { options.onError?.(new Error('Speech playback failed')); };
   window.speechSynthesis.speak(utterance);
 }

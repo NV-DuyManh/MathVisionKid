@@ -5,9 +5,12 @@ import base64
 import io
 import json
 import logging
+import math
 import random
 import re
 import unicodedata
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from typing import Literal
 
 import httpx
@@ -144,6 +147,21 @@ def normalize_image(image_bytes: bytes) -> str:
         raise ValueError("Không đọc được ảnh. Em hãy chọn ảnh khác rõ hơn.") from exc
 
 
+def _retry_after_seconds(response: httpx.Response) -> float | None:
+    value = response.headers.get("retry-after", "").strip()
+    try:
+        delay = float(value)
+        return delay if math.isfinite(delay) and delay >= 0 else None
+    except ValueError:
+        try:
+            when = parsedate_to_datetime(value)
+            if when.tzinfo is None:
+                when = when.replace(tzinfo=timezone.utc)
+            return max(0.0, (when - datetime.now(timezone.utc)).total_seconds())
+        except (TypeError, ValueError, OverflowError):
+            return None
+
+
 async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None) -> dict:
     pool = get_gemini_pool()
     if pool is None:
@@ -163,6 +181,8 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
         payload["generationConfig"].update(temperature=1.0,
             thinkingConfig={"thinkingLevel": "low", "includeThoughts": False})
     attempted = set()
+    timeout = min(settings.gemini_timeout_seconds, 14.0) if timeout_seconds == 14.0 else timeout_seconds
+    deadline = asyncio.get_running_loop().time() + timeout
     # This skips unusable credentials; it is separate from the OCR correction
     # retry budget, which may be zero. Quota/transient errors never try a new key.
     for _ in range(3):
@@ -171,30 +191,39 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
             break
         attempted.add(entry.safe_id)
         try:
-            timeout = min(settings.gemini_timeout_seconds, 14.0) if timeout_seconds == 14.0 else timeout_seconds
-            deadline = asyncio.get_running_loop().time() + timeout
-            async with httpx.AsyncClient() as client:
-                for attempt in range(2):
-                    remaining = max(0.1, deadline - asyncio.get_running_loop().time())
-                    response = await client.post(
-                        f"{GEMINI_API_BASE}/models/{settings.gemini_model}:generateContent",
-                        headers={"x-goog-api-key": entry.raw_key}, json=payload,
-                        timeout=httpx.Timeout(remaining, connect=min(settings.gemini_connect_timeout_seconds, 4.0)),
-                    )
-                    # Retry a temporarily overloaded model once, on the SAME key
-                    # and within the original time budget. Never retry quota errors.
-                    if response.status_code != 503 or attempt or deadline - asyncio.get_running_loop().time() < 1.0:
-                        break
-                    logger.info("Math tutor Gemini HTTP 503; retrying once within request budget")
-                    await asyncio.sleep(random.uniform(0.3, 0.7))
+            # HTTPX budgets each network phase separately. This deadline bounds
+            # the entire transport, including retry waits and invalid-key skips.
+            async with asyncio.timeout_at(deadline):
+                async with httpx.AsyncClient() as client:
+                    for attempt in range(2):
+                        remaining = deadline - asyncio.get_running_loop().time()
+                        if remaining <= 0:
+                            raise TimeoutError()
+                        response = await client.post(
+                            f"{GEMINI_API_BASE}/models/{settings.gemini_model}:generateContent",
+                            headers={"x-goog-api-key": entry.raw_key}, json=payload,
+                            timeout=httpx.Timeout(remaining, connect=min(settings.gemini_connect_timeout_seconds, 4.0, remaining)),
+                        )
+                        # Retry overload only on the SAME key, honoring the
+                        # provider's backoff. Never retry quota errors.
+                        if response.status_code != 503 or attempt:
+                            break
+                        delay = _retry_after_seconds(response)
+                        if delay is None:
+                            delay = random.uniform(0.3, 0.7)
+                        if deadline - asyncio.get_running_loop().time() <= delay + 1.0:
+                            break
+                        logger.info("Math tutor Gemini HTTP 503; retrying once within request budget")
+                        await asyncio.sleep(delay)
+            retry_after = _retry_after_seconds(response)
             if response.status_code in (401, 403):
                 raise GeminiError("AUTH_ERROR", "Authentication failed")
             if response.status_code == 429:
-                retry_after = response.headers.get("retry-after", "")
-                raise GeminiError("RATE_LIMIT_429", "Rate limited", retry_after=float(retry_after) if retry_after.replace(".", "", 1).isdigit() else None)
+                raise GeminiError("RATE_LIMIT_429", "Rate limited", retry_after=retry_after)
             if not response.is_success:
                 raise GeminiError("MODEL_UNAVAILABLE" if response.status_code == 404 else "SERVER_ERROR_5XX", "Provider unavailable",
-                                  retry_after=5.0 if response.status_code == 503 else None)
+                                  retry_after=retry_after if retry_after is not None else 5.0
+                                  if response.status_code == 503 else None)
             candidate = response.json()["candidates"][0]
             if candidate.get("finishReason", "STOP") != "STOP":
                 raise ValueError("Incomplete response")
@@ -212,7 +241,7 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
             # untried credential. Every quota/transient failure stops immediately.
             if exc.error_class != "AUTH_ERROR":
                 raise TutorUnavailable('rate_limit' if exc.error_class == 'RATE_LIMIT_429' else 'unavailable') from None
-        except httpx.TimeoutException:
+        except (httpx.TimeoutException, TimeoutError):
             pool.mark_failure(entry, 'TIMEOUT_OR_MALFORMED_RESPONSE')
             raise TutorUnavailable('timeout') from None
         except (httpx.HTTPError, KeyError, IndexError, StopIteration, ValueError, TypeError):

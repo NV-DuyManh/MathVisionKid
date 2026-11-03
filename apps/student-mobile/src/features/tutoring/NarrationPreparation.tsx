@@ -10,8 +10,12 @@ export const NarrationCacheContext = createContext<NarrationCache | null>(null);
 export const PlaybackBookmarksContext = createContext<ReturnType<typeof createPlaybackBookmarks> | null>(null);
 
 export function NarrationPreparation({ children, owner, download }: { children: React.ReactNode; owner?: string; download?: typeof downloadNarration }) {
+  return <NarrationPreparationSession key={owner || ''} owner={owner} download={download}>{children}</NarrationPreparationSession>;
+}
+
+function NarrationPreparationSession({ children, owner, download }: { children: React.ReactNode; owner?: string; download?: typeof downloadNarration }) {
   // Quiz keeps the same cache/player lifecycle, with its own authorized endpoint.
-  const cache = useMemo(() => createNarrationCache(download ? { download, prioritize: null } : undefined), [download, owner]);
+  const cache = useMemo(() => createNarrationCache(download ? { download, prioritize: null } : undefined), [download]);
   const bookmarks = useMemo(() => createPlaybackBookmarks(owner), [owner]);
   useEffect(() => () => cache.clear(), [cache]);
   useEffect(()=>{

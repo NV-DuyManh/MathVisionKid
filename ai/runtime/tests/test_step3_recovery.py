@@ -36,6 +36,7 @@ def test_verified_relation_supports_different_populations_and_names(population,c
 
 @pytest.mark.asyncio
 async def test_real_async_planner_deadline_is_classified_and_cancels_only_the_planner(monkeypatch):
+    monkeypatch.setattr('app.tutoring.short_math.verified_plan', lambda _: None)
     real_wait=asyncio.wait_for
     cancelled=asyncio.Event()
     async def slow(_):

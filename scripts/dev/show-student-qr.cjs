@@ -19,7 +19,7 @@ function getExpoGoUrl(manifest, address) {
     throw new Error('Port 8081 did not return the MathVisionKid LAN manifest. Check the Metro terminal.');
   }
   if (typeof client.sdkVersion !== 'string' || client.sdkVersion.split('.')[0] !== sdkMajor) {
-    throw new Error(`The running Student server does not use installed Expo SDK ${sdkMajor}. Close the old Student Metro terminal and restart RUN_EXPO.bat.`);
+    throw new Error(`The running Student server does not use installed Expo SDK ${sdkMajor}. Close the old Student Metro terminal and restart RUN_MATHVISION.bat.`);
   }
   return `exp://${client.hostUri}`;
 }

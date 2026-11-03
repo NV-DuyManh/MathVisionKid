@@ -22,7 +22,7 @@ class RunLauncherTest(unittest.TestCase):
                 return target
 
             # Execute real launchers, replacing only their interactive pauses.
-            for name in ("RUN_MATHVISION.bat", "RUN_EXPO.bat", "DEPLOY_WEB.bat"):
+            for name in ("RUN_MATHVISION.bat", "DEPLOY_WEB.bat"):
                 write(name, (source / name).read_text(encoding="utf-8")
                       .replace("pause >nul", "rem pause suppressed in test"))
             launcher = root / launcher_name
@@ -56,15 +56,13 @@ class RunLauncherTest(unittest.TestCase):
                 self.assertEqual("private-config-retained", preview.read_text(encoding="utf-8"))
             return result, events
 
-    def test_both_local_entry_points_never_publish_even_if_preview_is_configured(self):
-        for name in ("RUN_MATHVISION.bat", "RUN_EXPO.bat"):
-            with self.subTest(name=name):
-                result, events = self.run_launcher(launcher_name=name, public_exit=7)
-                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
-                self.assertEqual(["core", "metro", "diagnostics", "qr"], events)
+    def test_local_entry_point_never_publishes_even_if_preview_is_configured(self):
+        result, events = self.run_launcher(public_exit=7)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertEqual(["core", "metro", "diagnostics", "qr"], events)
 
     def test_fresh_clone_still_runs_expo_without_public_configuration(self):
-        result, events = self.run_launcher(configured=False, launcher_name="RUN_EXPO.bat")
+        result, events = self.run_launcher(configured=False)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         self.assertEqual(["core", "metro", "diagnostics", "qr"], events)
 
@@ -87,7 +85,7 @@ class RunLauncherTest(unittest.TestCase):
         self.assertEqual([], events)
 
     def test_local_failure_does_not_start_publication(self):
-        result, events = self.run_launcher(core_exit=3, launcher_name="RUN_EXPO.bat")
+        result, events = self.run_launcher(core_exit=3)
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)
         self.assertEqual(["core"], events)
         self.assertIn("STARTUP FAILED", result.stdout)

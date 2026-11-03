@@ -6,6 +6,7 @@ import { tokenStorage } from '../services/auth/tokenStorage';
 import { sessionEvents } from '../services/auth/sessionEvents';
 import apiClient from '../services/api/apiClient';
 import { ENV } from '../config/env';
+import { workspaceOrigin } from '../config/workspaceOrigin.web';
 import { RecognitionService } from '../features/recognition/api/RecognitionService';
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 import { recognitionAnalyticsStore } from '../features/recognition/analytics/recognitionAnalyticsStore';
@@ -82,17 +83,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSessionUser(null);
     recognitionDraftStore.clearDraft();
     await tokenStorage.clearTokens();
+    delete apiClient.defaults.headers.common.Authorization;
     try {
       const { data } = await apiClient.post('/auth/login', credentials, { timeout: 15000 });
       if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
-      const { data: verified } = await apiClient.get('/me', { timeout: 15000 });
+      if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
+      // Verify fresh credentials without persisting a Teacher/Admin session in Student storage.
+      const authorization = { Authorization: `Bearer ${data.accessToken}` };
+      const { data: verified } = await axios.get(`${ENV.API_BASE_URL}/me`, { headers: authorization, timeout: 15000 });
       if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      if (verified.role !== 'STUDENT' || verified.active !== true) {
-        await tokenStorage.clearTokens();
+      if (!['STUDENT', 'TEACHER', 'ADMIN'].includes(verified.role) || verified.active !== true) {
         if (portal) window.location.replace('/access-denied');
         throw Object.assign(new Error('Tài khoản chưa được phép học.'), { response: { status: 403 } });
       }
+      if (verified.role === 'TEACHER' || verified.role === 'ADMIN') {
+        const origin = workspaceOrigin(verified.role);
+        const { data: ticket } = await axios.post(`${ENV.API_BASE_URL}/auth/sso/ticket`, { targetApp: verified.role },
+          { headers: authorization, timeout: 15000 });
+        if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
+        if (ticket?.targetApp !== verified.role || typeof ticket.code !== 'string' ||
+            !/^mvk_sso_[a-f0-9]{64}$/.test(ticket.code) || !(ticket.expiresIn > 0)) {
+          throw Object.assign(new Error('Chưa chuyển được tới không gian làm việc. Vui lòng đăng nhập lại.'), { code: 'VALIDATION_ERROR' });
+        }
+        window.location.replace(`${origin}/login#sso=${encodeURIComponent(ticket.code)}`);
+        return;
+      }
+      await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
+      if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
       const profile = studentProfile(verified);
       await tokenStorage.saveUser(profile);
       if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');

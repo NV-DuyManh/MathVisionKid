@@ -78,7 +78,7 @@ async def test_fallback_preserves_reason_without_extra_provider_attempts(monkeyp
 async def test_review_failure_is_typed_and_never_exposes_raw_content(monkeypatch,failure,reason):
     monkeypatch.setattr(lesson,'generate_plan',AsyncMock(side_effect=failure))
     with pytest.raises(service.TutorUnavailable) as result:
-        await lesson.reviewed_plan(lesson.LessonRequest(owner='regression',problemText='Tính 7+9.',problemConfirmed=True),[])
+        await lesson.reviewed_plan(lesson.LessonRequest(owner='regression',problemText='Tìm tổng của bảy và chín.',problemConfirmed=True),[])
     assert result.value.reason == reason and 'private' not in str(result.value)
 
 @pytest.mark.asyncio

@@ -15,22 +15,24 @@ test('student web session validates the backend, rejects cached authority, and s
     IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
   const redirects = [];
+  const workspaceEnvironment = { EXPO_PUBLIC_TEACHER_URL: 'https://teacher.mathvision.example', EXPO_PUBLIC_ADMIN_URL: 'https://admin.mathvision.example' };
   const browser = {
     sessionStorage: dom.window.sessionStorage,
     location: { get pathname() { return dom.window.location.pathname; }, replace: path => redirects.push(path) },
     dispatchEvent: event => dom.window.dispatchEvent(event),
   };
-  const load = (path, imports = {}, browserWindow = browser) => {
+  const load = (path, imports = {}, browserWindow = browser, development = false) => {
     const exports = {};
     const source = transpileModule(readFileSync(new URL(path, import.meta.url), 'utf8'), {
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
     vm.runInNewContext(source, { exports, window: browserWindow === 'server' ? undefined : browserWindow, Event: dom.window.Event,
-      AbortController, setTimeout, clearTimeout,
+      AbortController, setTimeout, clearTimeout, URL, __DEV__: development, process: { env: workspaceEnvironment },
       require: id => imports[id] ?? require(id) });
     return exports;
   };
   const { tokenStorage } = load('../../services/auth/tokenStorage.web.ts');
+  const { workspaceOrigin } = load('../../config/workspaceOrigin.web.ts');
   const profile = { userId: 'student-id', displayName: 'Bình Minh', email: 'private-account@example.com',
     role: 'STUDENT', active: true, gradeLevel: 3 };
   let currentContext;
@@ -40,6 +42,9 @@ test('student web session validates the backend, rejects cached authority, and s
   const logoutRequests = [];
   let sharedPostCalls = 0;
   let clearDraftCalls = 0;
+  const ssoRequests = [];
+  const ssoCode = 'mvk_sso_' + 'a'.repeat(64);
+  let createTicket = async target => ({ data: { targetApp: target, code: ssoCode, expiresIn: 60 } });
   const api = { defaults: { headers: { common: {} } }, get: path => {
     assert.equal(path, '/me');
     return getProfile();
@@ -55,12 +60,23 @@ test('student web session validates the backend, rejects cached authority, and s
     '../services/auth/tokenStorage': { tokenStorage },
     '../services/auth/sessionEvents': { sessionEvents: { subscribe: () => () => {} } },
     '../services/api/apiClient': api,
-    axios: { post: async (url, body, config) => {
+    axios: { get: async (url, config) => {
+      assert.equal(url, 'https://api.mathvision.example/api/v1/me');
+      assert.equal(config.headers.Authorization, 'Bearer login-access');
+      assert.equal(await tokenStorage.getAccessToken(), null);
+      return getProfile();
+    }, post: async (url, body, config) => {
+      if (url.endsWith('/auth/sso/ticket')) {
+        ssoRequests.push({ url, body, config });
+        assert.equal(await tokenStorage.getAccessToken(), null);
+        return createTicket(body.targetApp);
+      }
       logoutCalls++;
       logoutRequests.push({ url, body, config });
       if (logoutError) throw logoutError;
     } },
     '../config/env': { ENV: { API_BASE_URL: 'https://api.mathvision.example/api/v1' } },
+    '../config/workspaceOrigin.web': { workspaceOrigin },
     '../features/recognition/api/RecognitionService': { RecognitionService: { clearCache() {} } },
     '../features/recognition/state/recognitionDraftStore': { recognitionDraftStore: { clearDraft: () => { clearDraftCalls++; } } },
     '../features/recognition/analytics/recognitionAnalyticsStore': { recognitionAnalyticsStore: { setUserScope() {} } },
@@ -189,6 +205,90 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(dom.window.document.body.textContent, 'Login form');
       assert.equal(redirects.length, 0);
       await unmount();
+    });
+    await t.test('Teacher and Admin use a verified one-time handoff without entering or persisting a Student session', async () => {
+      for (const role of ['TEACHER', 'ADMIN']) {
+        redirects.length = 0;
+        await tokenStorage.clearTokens();
+        getProfile = async () => ({ data: { ...profile, role } });
+        await mount();
+        await act(async () => currentContext.login({ email: 'synthetic-workspace', password: 'test-only' }));
+        assert.equal(currentContext.user, null);
+        assert.equal(currentContext.isAuthenticated, false);
+        assert.equal(await tokenStorage.getAccessToken(), null);
+        assert.equal(await tokenStorage.getRefreshToken(), null);
+        assert.equal(await tokenStorage.getUser(), null);
+        assert.equal(redirects.at(-1), `https://${role.toLowerCase()}.mathvision.example/login#sso=${ssoCode}`);
+        assert.equal(ssoRequests.at(-1).body.targetApp, role);
+        assert.equal(ssoRequests.at(-1).config.headers.Authorization, 'Bearer login-access');
+        assert.equal(redirects.at(-1).includes('login-access'), false);
+        await unmount();
+      }
+    });
+    await t.test('inactive authority, a mismatched SSO ticket and SSO failure never grant access', async () => {
+      for (const scenario of ['inactive', 'mismatched', 'offline']) {
+        redirects.length = 0;
+        await tokenStorage.clearTokens();
+        getProfile = async () => ({ data: { ...profile, role: 'TEACHER', active: scenario !== 'inactive' } });
+        createTicket = async () => {
+          if (scenario === 'offline') throw new Error('offline');
+          return { data: { targetApp: 'ADMIN', code: ssoCode, expiresIn: 60 } };
+        };
+        await mount();
+        await act(async () => { await assert.rejects(currentContext.login({ email: 'synthetic', password: 'test-only' })); });
+        assert.equal(redirects.length, 0);
+        assert.equal(currentContext.user, null);
+        assert.equal(await tokenStorage.getAccessToken(), null);
+        await unmount();
+      }
+    });
+    await t.test('an obsolete Teacher handoff cannot redirect after a newer Student login', async () => {
+      redirects.length = 0;
+      await tokenStorage.clearTokens();
+      let resolveTicket;
+      createTicket = () => new Promise(resolve => { resolveTicket = resolve; });
+      getProfile = async () => ({ data: { ...profile, role: 'TEACHER' } });
+      await mount();
+      let oldLogin;
+      await act(async () => {
+        oldLogin = currentContext.login({ email: 'old-workspace', password: 'test-only' }).catch(error => error);
+        await new Promise(resolve => setTimeout(resolve, 0));
+      });
+      assert.equal(typeof resolveTicket, 'function');
+      getProfile = async () => ({ data: profile });
+      await act(async () => currentContext.login({ email: 'new-student', password: 'test-only' }));
+      await act(async () => {
+        resolveTicket({ data: { targetApp: 'TEACHER', code: ssoCode, expiresIn: 60 } });
+        await oldLogin;
+      });
+      assert.equal(redirects.length, 0);
+      assert.equal(currentContext.user.role, 'STUDENT');
+      assert.equal(await tokenStorage.getAccessToken(), 'login-access');
+      await unmount();
+    });
+    await t.test('production workspace configuration rejects missing, insecure or injected redirect destinations', () => {
+      const valid = workspaceEnvironment.EXPO_PUBLIC_TEACHER_URL;
+      try {
+        assert.equal(workspaceOrigin('TEACHER'), valid);
+        for (const origin of [undefined, 'http://teacher.mathvision.example', 'https://localhost',
+          'https://teacher.mathvision.example/login', 'https://user:secret@teacher.mathvision.example',
+          'https://teacher.mathvision.example?redirect=elsewhere', 'javascript:alert(1)']) {
+          workspaceEnvironment.EXPO_PUBLIC_TEACHER_URL = origin;
+          assert.throws(() => workspaceOrigin('TEACHER'));
+        }
+      } finally { workspaceEnvironment.EXPO_PUBLIC_TEACHER_URL = valid; }
+    });
+    await t.test('local web handoff uses the current machine hostname and the correct role port', () => {
+      const saved = { ...workspaceEnvironment };
+      try {
+        delete workspaceEnvironment.EXPO_PUBLIC_TEACHER_URL;
+        delete workspaceEnvironment.EXPO_PUBLIC_ADMIN_URL;
+        for (const hostname of ['localhost', '127.0.0.1', '192.168.1.25']) {
+          const local = load('../../config/workspaceOrigin.web.ts', {}, { location: { hostname } }, true);
+          assert.equal(local.workspaceOrigin('TEACHER'), `http://${hostname}:5173`);
+          assert.equal(local.workspaceOrigin('ADMIN'), `http://${hostname}:5174`);
+        }
+      } finally { Object.assign(workspaceEnvironment, saved); }
     });
   } finally {
     if (root) await unmount();

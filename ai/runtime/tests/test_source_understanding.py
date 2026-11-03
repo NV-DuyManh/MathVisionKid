@@ -126,6 +126,7 @@ def test_explicit_can_bao_nhieu_question_quotes_source_without_waiting_for_a_sol
      'tổng số bút mà Mai có lúc này, tính cả bút ban đầu và bút được thêm, là bao nhiêu?', '12+5', '17'),
 ])
 async def test_unsupported_comprehension_retains_standard_reviewed_math(monkeypatch, source, expression, answer):
+    monkeypatch.setattr('app.tutoring.short_math.verified_plan', lambda _: None)
     candidate = dict(topic='Tìm kết quả', goal='Tính theo đề đã xác nhận.', finalAnswerStep=1, steps=[
         step(title='Chọn cách làm', choices=['Làm theo đề', 'Đổi dữ kiện'], correctChoice='Làm theo đề'),
         step(title='Tính kết quả', expression=expression),
@@ -183,6 +184,7 @@ async def test_unsupported_comprehension_still_propagates_failed_math_planning(m
 
 @pytest.mark.asyncio
 async def test_unsupported_comprehension_never_bypasses_independent_math_review(monkeypatch):
+    monkeypatch.setattr('app.tutoring.short_math.verified_plan', lambda _: None)
     candidate = dict(topic='Tính', goal='Tìm kết quả.', finalAnswerStep=1, steps=[
         step(title='Chọn cách làm', choices=['Gộp', 'Bớt'], correctChoice='Gộp'),
         step(title='Tính tổng', expression='12+5'),

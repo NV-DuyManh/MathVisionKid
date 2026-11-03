@@ -26,6 +26,20 @@ test('local development retains the backend and web port defaults', () => {
   for (const { property, fallback } of links) assert.equal(config[property], fallback);
 });
 
+test('the local Student API proxy preserves the configured backend prefix', () => {
+  const previous = process.env.VITE_API_BASE_URL;
+  try {
+    process.env.VITE_API_BASE_URL = 'http://127.0.0.1:8080/service/api/v1';
+    const config = viteConfig({ command: 'serve', mode: 'development' });
+    const proxy = config.server.proxy['/api/v1'];
+    assert.equal(proxy.target, 'http://127.0.0.1:8080');
+    assert.equal(proxy.rewrite('/api/v1/me?check=1'), '/service/api/v1/me?check=1');
+  } finally {
+    if (previous === undefined) delete process.env.VITE_API_BASE_URL;
+    else process.env.VITE_API_BASE_URL = previous;
+  }
+});
+
 test('production keeps the backend base path and normalizes origins', () => {
   const config = resolveAppConfig(validEnv, true);
   assert.equal(config.apiBaseUrl, 'https://api.mathvision.example/api/v1');

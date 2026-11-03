@@ -7,6 +7,9 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
     return (override || configured || 'http://127.0.0.1:8080/api/v1').replace(/\/+$/, '');
   }
   if (!configured) throw new Error('The student website requires its configured service address.');
+  // An exact same-origin API path works for local Portal and HTTPS gateways;
+  // arbitrary relative paths and external insecure addresses remain invalid.
+  if (configured === '/api/v1') return configured;
   const url = new URL(configured);
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash ||
       /^(localhost|127\.|\[?::1\]?)/i.test(url.hostname) || !url.hostname.includes('.') ||

@@ -102,6 +102,28 @@ it('resumes only an interrupted download on return, retaining the same voice and
 
 it('does not fetch narration while disabled', async () => { await render({ disabled: true }); expect(downloadNarration).not.toHaveBeenCalled(); });
 
+it('shares device paragraph highlighting and click-to-seek with the normal transcript', async () => {
+  await saveNarrationVoice('device');
+  try {
+    await render(); const device=view.root.findByType(DeviceNarration),seek=jest.fn();
+    device.props.controlRef.current={seekTo:seek};
+    act(()=>device.props.onReady([{index:0,start:0,end:8},{index:1,start:8,end:20}]));
+    act(()=>view.root.findByType(DeviceNarration).props.onPosition(10,20));
+    expect(text()).toContain(paragraphs[1]);
+    act(()=>button('Đọc lời giảng chi tiết').props.onPress());
+    act(()=>button(`Nghe đoạn 2: ${paragraphs[1]}`).props.onPress());
+    expect(seek).toHaveBeenCalledWith(8);
+    expect(button(`Nghe đoạn 2: ${paragraphs[1]}`).props.accessibilityState.selected).toBe(true);
+    expect(downloadNarration).not.toHaveBeenCalled();
+  } finally { await saveNarrationVoice('vi-VN-NamMinhNeural'); }
+});
+
+it('does not mount the device player for a disabled lesson', async () => {
+  await saveNarrationVoice('device');
+  try { await render({disabled:true});expect(view.root.findAllByType(DeviceNarration)).toHaveLength(0); }
+  finally { await saveNarrationVoice('vi-VN-NamMinhNeural'); }
+});
+
 it('opens a fast ready file without flashing a preparation panel or hiding the player until an animation ends',async()=>{
   jest.useFakeTimers();await render();
   expect(StyleSheet.flatten(view.root.findAllByProps({testID:'narration-preparation'})[0].props.style).display).toBe('none');

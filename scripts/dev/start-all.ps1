@@ -713,7 +713,9 @@ Start-TrackedService -Name "Admin Web Portal" `
 
 # 5. Wait for readiness with early-exit detection
 Write-Host "`n[5/6] Waiting for application services readiness..." -ForegroundColor Yellow
-$timeoutSeconds = 45
+# A fresh clone also exports the shared Student web preview before Portal listens.
+# Later launches reuse that checked preview and retain the short readiness wait.
+$timeoutSeconds = if (Test-Path (Join-Path $RepoRoot 'infra/local-runtime/student-web-preview/.source-hash')) { 45 } else { 180 }
 $startTime = Get-Date
 $allReady = $false
 
@@ -790,7 +792,7 @@ Write-Host "Spring Business API: http://127.0.0.1:8080"
 Write-Host "FastAPI AI Runtime:  http://127.0.0.1:8000"
 Write-Host "MinIO Web Console:   http://127.0.0.1:9001 (minioadmin / minioadmin123)"
 Write-Host "Logs:                infra\local-runtime\logs\"
-Write-Host "Stop:                scripts\dev\stop-all.bat (or scripts\stop-all.bat)"
+Write-Host "Stop:                scripts\stop-all.bat"
 Write-Host "============================================" -ForegroundColor Cyan
 
 exit $diagCode
