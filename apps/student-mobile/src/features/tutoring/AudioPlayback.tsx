@@ -103,7 +103,7 @@ function Playback({ uri, title, subtitle, durationHint = 0, question = false, co
   return <View style={styles.stack}>
     {preparationSteps && preparationVisible && !status.error && !loadTimedOut ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} percent={95} complete={status.isLoaded} onComplete={() => setPreparationVisible(false)} timeoutSeconds={12} detail={status.isLoaded ? undefined : 'Đã nhận âm thanh. Đang mở tệp để em có thể phát và tua.'} /> : null}
     <MediaTimeline title={title} compact={compact} subtitle={loadTimedOut ? 'Chưa mở được âm thanh' : !status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error) || loadTimedOut} loading={!status.isLoaded && !status.error && !loadTimedOut}
-      playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'} skipSeconds={question ? 5 : 10}
+      playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'}
       onToggle={toggle} onSeek={seconds => { void seek(seconds); }} onRestart={() => { void seek(0, true); }}
       onScrubStart={() => { scrubPlaying.current = player.playing; ++generation.current; clearWatchdog(); player.pause(); }}
       rate={rate} onRate={question ? undefined : value => { try { player.setPlaybackRate(value); setRate(value); setNotice(''); } catch { setNotice('Chưa đổi được tốc độ. Em vẫn có thể nghe ở tốc độ hiện tại.'); } }} />

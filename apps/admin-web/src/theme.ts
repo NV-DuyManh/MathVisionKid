@@ -89,32 +89,34 @@ export const adminTheme = createTheme({
           transition: 'all 180ms cubic-bezier(0.16, 1, 0.3, 1)',
         },
         contained: {
-          backgroundColor: '#0F172A',
-          color: '#FFFFFF',
           boxShadow: '0 1px 2px 0 rgba(15, 23, 42, 0.15)',
+          '&.MuiButton-colorPrimary': {
+            backgroundColor: '#0F172A',
+            color: '#FFFFFF',
+          },
           '&:hover': {
-            backgroundColor: '#1E293B',
             boxShadow: '0 4px 12px 0 rgba(15, 23, 42, 0.25)',
             transform: 'translateY(-1px)',
           },
+          '&.MuiButton-colorPrimary:hover': { backgroundColor: '#1E293B' },
           '&:active': {
             transform: 'translateY(0)',
           },
-          '&.Mui-disabled': {
-            backgroundColor: '#F1F5F9',
-            color: '#94A3B8',
-          },
         },
         outlined: {
-          borderColor: '#CBD5E1',
-          color: '#0F172A',
-          backgroundColor: '#FFFFFF',
           boxShadow: '0 1px 2px 0 rgba(15, 23, 42, 0.03)',
-          '&:hover': {
-            borderColor: '#0F172A',
-            backgroundColor: '#F8FAFC',
+          '&.MuiButton-colorPrimary': {
+            borderColor: '#CBD5E1',
             color: '#0F172A',
+            backgroundColor: '#FFFFFF',
+          },
+          '&:hover': {
             transform: 'translateY(-1px)',
+          },
+          '&.MuiButton-colorPrimary:hover': {
+            borderColor: '#0F172A',
+            color: '#0F172A',
+            backgroundColor: '#F8FAFC',
           },
           '&:active': {
             transform: 'translateY(0)',

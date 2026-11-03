@@ -12,6 +12,14 @@ from _lesson_test_data import step, review_for
 from scripts.benchmark_lesson_validator import evaluate, audit_summary
 
 
+@pytest.mark.parametrize('blank', ['....', '…', '?'])
+def test_conversion_blank_grounds_target_unit_and_its_factor(blank):
+    source = f'Điền vào chỗ chấm: 1,7 km² = {blank} ha'
+    assert {'fromUnit': 'km²', 'toUnit': 'ha', 'factor': '100'} in math_knowledge.unit_conversions(source)
+    assert '100' in math_knowledge.formula_constants(source)
+    assert math_knowledge.unit_conversions('Hà có 2 viên bi.') == []
+
+
 @pytest.mark.parametrize('source,target,factor',[
     ('tấn','kg','1000'),('tạ','kg','100'),('yến','kg','10'),('kg','g','1000'),
     ('hg','g','100'),('dag','g','10'),('g','mg','1000'),('kg','mg','1000000'),

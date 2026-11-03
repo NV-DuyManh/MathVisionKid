@@ -227,7 +227,7 @@ async def test_new_lesson_does_not_cancel_an_active_session(pending_lesson):
 async def test_unsupported_reading_source_keeps_reviewed_full_lesson_path(monkeypatch):
     plan=lesson.Plan(topic='Tính',goal='Tính biểu thức.',steps=[lesson.Step(**step(expression='12+5')),lesson.Step(**step(expression='{s0}*1'))])
     generate=AsyncMock(return_value=plan);monkeypatch.setattr(lesson,'generate_plan',generate)
-    response=await lesson.start_lesson(lesson.LessonRequest(owner='reader',problemText='Tính 12+5.',problemConfirmed=True,
+    response=await lesson.start_lesson(lesson.LessonRequest(owner='reader',problemText='Tìm tổng của một tá và năm đơn vị.',problemConfirmed=True,
         guidedUnderstanding=True,startWithReading=True))
     assert not response.preparingMath and response.step.kind=='MATH'
     generate.assert_awaited_once()

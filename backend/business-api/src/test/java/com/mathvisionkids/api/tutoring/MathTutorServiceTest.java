@@ -522,6 +522,22 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @Test void singleCalculationIsACompleteLessonWithoutArtificialExtraSteps() {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Tính","goal":"Tính kết quả",
+             "outline":["Tính"],"stepIndex":0,"completed":[],"status":"READY","feedback":"",
+             "step":{"title":"Tính","explanation":"Em thực hiện phép cộng.","question":"Em tính được bao nhiêu?",
+                     "choices":[],"expression":"1+1","unit":"","workExcerpt":""}}
+            """;
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andExpect(jsonPath("$.owner").value("student-a"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        var result = service.lesson(new LessonRequest("1+1=?", "", true, false), "student-a");
+        assertEquals(java.util.List.of("Tính"), result.outline());
+        assertEquals("1+1", result.step().expression());
+        server.verify();
+    }
+
     @Test void classroomSolutionFieldsAreBoundedAndFinalAnswerRequiresCompletion() {
         String response = """
                 {"sessionId":"abcdefghijklmnopqrstuv","revision":2,"topic":"Tìm số bút","goal":"Gộp hai nhóm",

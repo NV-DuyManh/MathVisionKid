@@ -77,6 +77,19 @@ const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };
 
+it('accepts a complete single-step calculation and a single-step multiple-choice exercise', async () => {
+  for(const step of [
+    { ...publicLesson.step, title:'Tính', choices:[], expression:'1+1' },
+    { ...publicLesson.step, title:'Chọn số thập phân', choices:['0,850','0,805'] },
+  ]) {
+    const data={...publicLesson,outline:[step.title],step};
+    (apiClient.post as jest.Mock).mockResolvedValue({data});
+    await expect(TutorService.startLesson('1+1=?','',{problemConfirmed:true,workConfirmed:false})).resolves.toEqual(data);
+  }
+  (apiClient.post as jest.Mock).mockResolvedValue({data:{...publicLesson,outline:[]}});
+  await expect(TutorService.startLesson('1+1=?','',{problemConfirmed:true,workConfirmed:false})).rejects.toThrow();
+});
+
 const summaryLesson = { ...publicLesson, revision: 2, understandingSteps: 3, stepIndex: 2,
   outline: ['Dữ kiện', 'Câu hỏi', 'Đối chiếu', ...publicLesson.outline],
   completed: [

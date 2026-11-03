@@ -90,10 +90,10 @@ npm ci
 py -3.12 -m venv ai\runtime\.venv
 .\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
-.\RUN_EXPO.bat
+.\RUN_MATHVISION.bat
 ~~~
 
-Use **`RUN_EXPO.bat`** to start the local stack and display the student app QR code. `RUN_MATHVISION.bat` remains an equivalent local entry point. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available. Local web portals are available at the addresses below; no website is published by either local launcher.
+Use **`RUN_MATHVISION.bat`** to start the local stack and display the student app QR code. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available. Open **http://localhost:8081/login** for the Student login page in a browser. Local web portals are available at the addresses below; this local launcher does not publish a website.
 
 Use **`DEPLOY_WEB.bat`** only when you want to deploy or resume the public websites. It builds the backend/OCR services, starts the configured public API connection, checks readiness, and publishes the three Vercel websites. It does not launch Expo Go/Metro. First-time setup is documented in [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md); deployment requires the private preview configuration and an authenticated Vercel CLI. Login/OCR still require the PC and Docker to remain running.
 
@@ -105,8 +105,13 @@ Use **`DEPLOY_WEB.bat`** only when you want to deploy or resume the public websi
 | Teacher workspace | `http://localhost:5173` |
 | Admin workspace | `http://localhost:5174` |
 | Student app | Scan the launcher QR in a compatible Expo Go client |
+| Student web login | `http://localhost:8081/login` |
 | Runtime health | `.\scripts\health-check.bat` |
 | Stop the local stack | `.\scripts\stop-all.bat` |
+
+The local Portal also opens the shared Student interface at `http://localhost:5172/study/` after Portal login. Starting Portal prepares this generated preview automatically and retains the same browser session. Restart Portal after changing Student code to refresh its preview; the separate Expo development app continues to update normally. Generated Student files stay out of Git.
+
+The root launchers have separate purposes: `RUN_MATHVISION.bat` runs the local app, `RUN_CATALOG_BOT.bat` audits the lesson catalog, and `DEPLOY_WEB.bat` publishes the configured public trial. Maintenance commands live in `scripts/`; their PowerShell implementations live in `scripts/dev/`.
 
 For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [hướng dẫn tiếng Việt](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
 

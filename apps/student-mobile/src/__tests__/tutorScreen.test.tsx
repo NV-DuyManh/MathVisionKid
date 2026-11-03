@@ -9,6 +9,7 @@ import { AuthContext } from '../context/AuthContext';
 import { StudentWorkReview } from '../features/tutoring/StudentWorkReview';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { ProblemSummary } from '../features/tutoring/ProblemSummary';
+import { LessonCalculation } from '../features/tutoring/LessonCalculation';
 import { prepareLessonMedia } from '../features/tutoring/narrationApi';
 import { quizApi } from '../features/quiz/quizApi';
 
@@ -188,6 +189,29 @@ const render = async (confirmProblem = true) => {
   if (confirmProblem && button('Em đã kiểm tra đề bài và các số') && !button('Em đã kiểm tra đề bài và các số').props.disabled)
     act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
 };
+
+it('shows a standalone calculation immediately without making the pupil open a hint', async () => {
+  (useLocalSearchParams as jest.Mock).mockReturnValue({problemText:'1+1=?'});
+  (TutorService.startLesson as jest.Mock).mockResolvedValue({...LESSON,outline:['Tính'],step:{
+    ...LESSON.step,title:'Tính',question:'Em tính được bao nhiêu?',choices:[],expression:'1 + 1',unit:'',
+  }});
+  await render(); await act(async()=>button('Bắt đầu từng bước').props.onPress());
+  expect(view.root.findByType(LessonCalculation).props.expression).toBe('1 + 1');
+  expect(readText()).toContain('Làm xong, em kiểm tra lại kết quả nhé!');
+});
+
+it('clears an expired-session notice after successfully starting a fresh lesson', async () => {
+  const saved={version:1 as const,at:Date.now(),lessonId:'expired-test',sessionId:LESSON.sessionId,revision:0,stepIndex:0,
+    problemText:PROBLEM,workText:'',attempt:''};
+  const load=jest.spyOn(progressStore,'loadLearningProgress').mockResolvedValue(saved);
+  (TutorService.resumeLesson as jest.Mock).mockRejectedValue(new Error('Expired session'));
+  try {
+    await render(false);expect(readText()).toContain('Em bắt đầu lại để mở phiên học mới nhé.');
+    await act(async()=>button('Bắt đầu từng bước').props.onPress());
+    expect(readText()).toContain(LESSON.step.question);
+    expect(readText()).not.toContain('Em bắt đầu lại để mở phiên học mới nhé.');
+  } finally {load.mockRestore();}
+});
 
 it('prepares Quiz from the confirmed text without waiting to start Tutor and invalidates it when editing', async () => {
   let completePreparation!: (value: unknown) => void;
@@ -887,7 +911,7 @@ it('distinguishes lesson generation failure from a network error and offers a co
   (TutorService.startLesson as jest.Mock).mockRejectedValue({ response: { status: 503, data: { message: 'provider secret' } } });
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
-  expect(readText()).toContain('Phần hướng dẫn đang tạm bận');
+  expect(readText()).toContain('Mình chưa chuẩn bị được hướng dẫn lúc này.');
   expect(readText()).not.toContain('em kiểm tra đề đầy đủ');
   expect(readText()).not.toContain('Chưa kết nối được');
   expect(readText()).not.toContain('provider secret');

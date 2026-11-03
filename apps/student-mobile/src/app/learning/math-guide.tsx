@@ -314,6 +314,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem, confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true, startWithReading: true }, signal), result => {
+      setProgressNotice('');
       setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
@@ -544,18 +545,18 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             }) : <View testID="checked-student-answer" style={styles.checkedAnswer}><Text style={styles.caption}>EM VỪA NHẬP</Text>
               <MathText style={styles.body}>{reviewedStep.studentAnswer + (reviewedStep.unit ? ` ${reviewedStep.unit}` : '')}</MathText></View>}
             <CorrectAnswerFeedback key={`feedback:${lesson.sessionId}:${lesson.stepIndex}`} message={lesson.feedback} />
-            {reviewedStep.expression ? <><Text style={styles.heading}>Viết vào bài giải</Text><SolutionLine item={reviewedStep} /></> : null}
+            {reviewedStep.expression ? <><Text style={styles.heading}>{lesson.outline.length === 1 ? 'Đối chiếu kết quả' : 'Viết vào bài giải'}</Text><SolutionLine item={reviewedStep} /></> : null}
             {reviewedStep.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? <ProblemSummary lesson={lesson} compact /> : null}
             {reviewedStep.kind!=='UNDERSTAND'&&lesson.completed.filter(item=>item.kind!=='UNDERSTAND').length%2===0?<ComprehensionCheck key={`check:${lesson.sessionId}:${lesson.revision}`} sessionId={lesson.sessionId} revision={lesson.revision}/>:null}
             <AppButton title={!step ? 'Xem bài giải' : reviewedStep.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? 'Bắt đầu giải' : 'Tiếp tục bước tiếp theo'} disabled={!!busy || expired} onPress={() => { setReviewedStep(null); setAttempt(''); setAnswerEdited(false); scroll.current?.scrollTo({ y: 0, animated: false }); }} />
           </View> : step ? <View style={[styles.card, styles.activeStep]} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>{step.kind === 'UNDERSTAND' ? 'HIỂU ĐỀ' : 'CÙNG GIẢI'} · BƯỚC {step.kind === 'UNDERSTAND' ? lesson.stepIndex + 1 : lesson.stepIndex + 1 - (lesson.understandingSteps || 0)} / {step.kind === 'UNDERSTAND' ? lesson.understandingSteps : lesson.outline.length - (lesson.understandingSteps || 0)}</Text>
             <View style={styles.stepPrompt}><Text style={styles.heading}>{step.title}</Text>
-            {step.kind === 'UNDERSTAND' ? <Text style={styles.stepCaption}>Hiểu đề trước khi tính</Text> : <Text style={styles.stepCaption}>Cùng giải bài toán này nhé!</Text>}</View>
+            {step.kind === 'UNDERSTAND' ? <Text style={styles.stepCaption}>Hiểu đề trước khi tính</Text> : <Text style={styles.stepCaption}>{lesson.outline.length === 1 ? 'Làm xong, em kiểm tra lại kết quả nhé!' : 'Cùng giải bài toán này nhé!'}</Text>}</View>
             {step.kind === 'UNDERSTAND' ? <MathText style={styles.body}>{step.explanation}</MathText> : null}
             {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><MathText style={styles.body}>{step.workExcerpt}</MathText></View> : null}
             <View onLayout={event => { questionPosition.current = event.nativeEvent.layout.y; }}><MathText style={styles.question}>{step.question}</MathText></View>
-            {step.expression && hintCount > 0 ? <LessonCalculation expression={step.expression} /> : null}
+            {step.expression && (hintCount > 0 || lesson.outline.length === 1) ? <LessonCalculation expression={step.expression} /> : null}
             {step.kind !== 'UNDERSTAND' ? <View style={styles.stepNote}><Ionicons name="bulb-outline" size={18} color="#AC8C42" /><View style={styles.flex}><MathText style={styles.stepNoteText}>{step.explanation}</MathText></View></View> : null}
             {step.choices.length ? step.choices.map((choice, index) => <Pressable key={choice} ref={index === 0 ? firstChoice : undefined} accessibilityRole="button" accessibilityLabel={choice} disabled={!!busy || expired}
               aria-pressed={attempt === choice} accessibilityState={Platform.OS === 'web' ? { disabled: !!busy || expired } : { selected: attempt === choice, disabled: !!busy || expired }}

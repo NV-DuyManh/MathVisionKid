@@ -48,7 +48,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
   }, []));
   const editingRewrite = rewrite !== null;
   useEffect(() => { if (editingRewrite) rewriteInput.current?.focus(); }, [editingRewrite]);
-  const review = async () => {
+  const review = useCallback(async () => {
     if (disabledNow || controller.current) return;
     const abort = new AbortController(); controller.current = abort;
     const id = ++sequence.current;
@@ -69,7 +69,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
     } finally {
       if (active.current && sequence.current === id) { controller.current = null; setBusy(false); }
     }
-  };
+  }, [disabledNow, problemText, workText, onReviewReady, onSessionExpired]);
   useEffect(() => {
     if (!autoStart || disabledNow || autoStarted.current) return;
     let current = true;
@@ -80,7 +80,7 @@ function ReviewSession({ problemText, workText, imageUri, lines, enabled, disabl
       void review();
     });
     return () => { current = false; };
-  }, [autoStart, disabledNow]);
+  }, [autoStart, disabledNow, review]);
   const selected = result?.rows.find(row => row.lineIndex === selectedLine);
   const sourceLines = workReviewLines(workText);
   const rewrittenLine = rewrite === null ? '' : trimWorkReviewLine(rewrite);

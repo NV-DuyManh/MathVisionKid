@@ -9,7 +9,7 @@ export async function exportCropImage(sourceUri: string, degrees: number, select
     const image = new Image();
     const timer = setTimeout(() => { image.onload = image.onerror = null; image.src = ''; reject(new Error('Image load timed out')); }, 15000);
     image.crossOrigin = 'anonymous';
-    image.onload = () => { clearTimeout(timer); image.onload = image.onerror = null; image.naturalWidth && image.naturalHeight ? resolve(image) : reject(new Error('Empty image')); };
+    image.onload = () => { clearTimeout(timer); image.onload = image.onerror = null; if (image.naturalWidth && image.naturalHeight) resolve(image); else reject(new Error('Empty image')); };
     image.onerror = () => { clearTimeout(timer); reject(new Error('Cannot load crop source')); };
     image.src = sourceUri;
   });
@@ -36,7 +36,7 @@ export async function exportCropImage(sourceUri: string, degrees: number, select
     const blob = await new Promise<Blob>((resolve, reject) => {
       const timer = setTimeout(() => reject(new Error('Crop save timed out')), 15000);
       try {
-        canvas.toBlob(value => { clearTimeout(timer); value ? resolve(value) : reject(new Error('Cannot save crop')); }, 'image/jpeg', 0.95);
+        canvas.toBlob(value => { clearTimeout(timer); if (value) resolve(value); else reject(new Error('Cannot save crop')); }, 'image/jpeg', 0.95);
       } catch (failure) { clearTimeout(timer); reject(failure); }
     });
     return { uri: URL.createObjectURL(blob), width, height };

@@ -17,7 +17,7 @@ The deployment and current runtime startup succeeded on 9 October 2026. Student 
 
 Start Docker Desktop, then double-click **`DEPLOY_WEB.bat`** when you want to deploy or restore the public website after restarting the PC. It builds the latest backend/OCR/worker images and runs `Start-PC-Preview.ps1 -Build -PublishWeb`. Complete first-time setup below if this checkout has no existing `infra/local-runtime/pc-preview/.env.preview`.
 
-Use **`RUN_EXPO.bat`** (or `RUN_MATHVISION.bat`) for the local Expo QR. Those launchers never publish to Vercel, and the web deploy launcher does not start Metro.
+Use **`RUN_MATHVISION.bat`** for the local Expo QR and the Student browser login at `http://localhost:8081/login`. This launcher never publishes to Vercel, and the web deploy launcher does not start Metro.
 
 To start only the public preview, open PowerShell at the repository root and run:
 

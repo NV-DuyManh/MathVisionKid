@@ -29,6 +29,8 @@ def turn(value, answer):
     ('Tính 5/6 - 1/4.', ['5/6-1/4','{s0}*1'], ['7/12','7/12'], ['','']),
 ])
 async def test_every_source_reaches_model_and_independent_review_unchanged(monkeypatch, source, operations, expected, units):
+    # Exercise the provider branch explicitly; exact short tasks have separate proof tests.
+    monkeypatch.setattr('app.tutoring.short_math.verified_plan', lambda _: None)
     multiple = 'diện tích và chu vi' in source
     candidate=dict(topic='Giải theo đúng đề', goal='Tìm đủ đại lượng đề hỏi.',
                    finalAnswerStep=None if multiple else len(operations)-1,

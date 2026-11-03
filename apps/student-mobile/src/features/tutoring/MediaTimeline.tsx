@@ -6,13 +6,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, FONTS } from '../../constants/theme';
 
 export const mediaTime = (seconds: number) => `${Math.floor(Math.max(0, seconds) / 60)}:${String(Math.floor(Math.max(0, seconds) % 60)).padStart(2, '0')}`;
+const skipSeconds = 5;
 type Props = { title: string; subtitle?: string; currentTime: number; duration: number; playing: boolean; disabled?: boolean; loading?: boolean; compact?: boolean;
   onToggle: () => void; onSeek: (seconds: number) => void; onScrubStart: () => void; onRestart?: () => void;
-  playLabel?: string; pauseLabel?: string; restartLabel?: string; skipSeconds?: number; rate?: number; onRate?: (rate: number) => void };
+  playLabel?: string; pauseLabel?: string; restartLabel?: string; rate?: number; onRate?: (rate: number) => void;
+  estimatedTime?: boolean; statusLabel?: string };
 
 /** Shared time controls for narration and recorded questions. */
 export function MediaTimeline({ title, subtitle, currentTime, duration, playing, disabled = false, loading = false, compact = false, onToggle, onSeek, onScrubStart, onRestart,
-  playLabel = 'Phát lời giảng', pauseLabel = 'Tạm dừng lời giảng', restartLabel = 'Nghe lại từ đầu', skipSeconds = 10, rate = 1, onRate }: Props) {
+  playLabel = 'Phát lời giảng', pauseLabel = 'Tạm dừng lời giảng', restartLabel = 'Nghe lại từ đầu', rate = 1, onRate, estimatedTime = false, statusLabel }: Props) {
   const [dragging, setDragging] = useState<number | null>(null);
   const [focused, setFocused] = useState('');
   const { width, fontScale } = useWindowDimensions();
@@ -27,7 +29,7 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
     },
     onBlur: () => setFocused(''), onPointerDown: () => setFocused(''),
   });
-  const status = !compact ? <View style={[styles.statePill, playing && styles.statePillPlaying]}><View style={[styles.stateDot, playing && styles.stateDotPlaying]} accessible={false}/><Text accessibilityLiveRegion="polite" style={[styles.stateText, playing && styles.stateTextPlaying]}>{loading ? 'Đang chuẩn bị' : playing ? 'Đang phát' : disabled ? 'Chưa sẵn sàng' : total ? 'Sẵn sàng' : 'Đang đọc thời lượng'}</Text></View> : null;
+  const status = !compact ? <View style={[styles.statePill, playing && styles.statePillPlaying]}><View style={[styles.stateDot, playing && styles.stateDotPlaying]} accessible={false}/><Text accessibilityLiveRegion="polite" style={[styles.stateText, playing && styles.stateTextPlaying]}>{statusLabel || (loading ? 'Đang chuẩn bị' : playing ? 'Đang phát' : disabled ? 'Chưa sẵn sàng' : total ? 'Sẵn sàng' : 'Đang đọc thời lượng')}</Text></View> : null;
   return <View testID="media-timeline" style={[styles.card, compact && styles.compactCard]} aria-busy={loading}>
     <View style={styles.heading}><View style={styles.badge}><Ionicons name="headset-outline" size={21} color="#7046DD" accessible={false} /></View>
       <View style={styles.flex}><Text style={styles.title}>{title}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>
@@ -35,12 +37,14 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
     </View>
     {statusBelow && status ? <View style={styles.stateRow}>{status}</View> : null}
     <View style={styles.timeline}>
-      <Slider accessibilityLabel={`Tua ${title.toLowerCase()}`} accessibilityValue={{ min: 0, max: total, now: position, text: `${mediaTime(position)} trên ${mediaTime(total)}` }}
-        style={styles.slider} minimumValue={0} maximumValue={total || 1} value={position} disabled={blocked} tapToSeek
+      {/* A fixed native range prevents quantization shifts when an estimate changes. */}
+      <Slider accessibilityLabel={`Tua ${title.toLowerCase()}`} accessibilityValue={{ min: 0, max: total, now: position, text: `${estimatedTime ? 'Ước tính ' : ''}${mediaTime(position)} trên ${mediaTime(total)}` }}
+        style={styles.slider} minimumValue={0} maximumValue={1} step={0.0001} value={total ? position / total : 0} disabled={blocked} tapToSeek
         minimumTrackTintColor={COLORS.primary} maximumTrackTintColor={COLORS.primaryLight} thumbTintColor={COLORS.primaryDark}
-        onSlidingStart={() => { setDragging(position); onScrubStart(); }} onValueChange={setDragging}
-        onSlidingComplete={value => { setDragging(null); onSeek(Math.max(0, Math.min(value, total))); }} />
+        onSlidingStart={() => { setDragging(position); onScrubStart(); }} onValueChange={value => setDragging(value * total)}
+        onSlidingComplete={value => { setDragging(null); onSeek(Math.max(0, Math.min(value * total, total))); }} />
       <View style={styles.times}><Text style={styles.time}>{mediaTime(position)}</Text><Text style={styles.time}>{mediaTime(total)}</Text></View>
+      {estimatedTime ? <Text style={styles.subtitle}>Thời gian ước tính · Tua theo vị trí lời đọc</Text> : null}
     </View>
     <View style={[styles.controls, compact && styles.compactControls]}>
       <Pressable {...focus('back')} accessibilityRole="button" accessibilityLabel={`Lùi ${skipSeconds} giây`} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={() => onSeek(Math.max(0, currentTime - skipSeconds))}

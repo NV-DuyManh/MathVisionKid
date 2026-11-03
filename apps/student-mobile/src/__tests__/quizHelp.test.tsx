@@ -31,3 +31,15 @@ it('cancels preparation and never publishes its late session after closing',asyn
   act(()=>view.unmount());expect(signal.aborted).toBe(true);
   await act(async()=>finish({sessionId:'late',revision:0,stepIndex:0}));
 });
+it('removes the previous question session immediately when the quiz question changes',async()=>{
+  const assisted=jest.fn(),onReturn=jest.fn();
+  await act(async()=>{view=TestRenderer.create(<QuizHelp quiz={quiz} onAssisted={assisted} onReturn={onReturn}/>);});
+  let finish!:(value:unknown)=>void;
+  (TutorService.startLesson as jest.Mock).mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+  const next={...quiz,questionText:'Tính: 18 - 5'};
+  await act(async()=>view.update(<QuizHelp quiz={next} onAssisted={assisted} onReturn={onReturn}/>));
+  expect(view.root.findAllByType('LessonQuestion' as any)).toHaveLength(0);
+  expect(TutorService.startLesson).toHaveBeenLastCalledWith(next.questionText,'',expect.anything(),expect.any(AbortSignal));
+  await act(async()=>finish({sessionId:'next-question-session',revision:0,stepIndex:0}));
+  expect(view.root.findByType('LessonQuestion' as any).props.sessionId).toBe('next-question-session');
+});

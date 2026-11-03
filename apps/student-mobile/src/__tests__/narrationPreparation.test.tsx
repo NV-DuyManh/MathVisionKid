@@ -120,6 +120,16 @@ it('does not share the previous pupil cache or invent and prefetch future answer
   expect((downloadNarration as jest.Mock).mock.calls.every(call => JSON.stringify(call[1]) === JSON.stringify(parts))).toBe(true);
 });
 
+it('changing the owner prop resets private audio even without a parent React key', async () => {
+  (downloadNarration as jest.Mock).mockImplementation(()=>new Promise(()=>{}));
+  await act(async()=>{view=TestRenderer.create(<NarrationPreparation owner="pupil-a"><Reader/></NarrationPreparation>);});
+  const previousCache=cache,oldSignal=(downloadNarration as jest.Mock).mock.calls[0][2];
+  await act(async()=>view.update(<NarrationPreparation owner="pupil-b"><Reader/></NarrationPreparation>));
+  expect(cache).not.toBe(previousCache);
+  expect(oldSignal.aborted).toBe(true);
+  expect(downloadNarration).toHaveBeenCalledTimes(4);
+});
+
 it('changing voice updates priority without cancelling either current voice', async () => {
   let finish!: (value: Uint8Array) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));

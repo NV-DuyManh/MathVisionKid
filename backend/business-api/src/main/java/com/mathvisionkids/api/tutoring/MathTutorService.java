@@ -343,7 +343,7 @@ public class MathTutorService {
         int understanding = count == null ? 0 : count.asInt();
         boolean preparing = body.has("preparingMath") && flag(body,"preparingMath");
         if (outline == null || !outline.isArray()
-                || (preparing ? understanding != 3 || outline.size() != 3 : outline.size() - understanding < 2 || outline.size() - understanding > 6)
+                || (preparing ? understanding != 3 || outline.size() != 3 : outline.size() - understanding < 1 || outline.size() - understanding > 6)
                 || completed == null || !completed.isArray() || completed.size() > outline.size()) throw unavailable();
         java.util.ArrayList<String> titles = new java.util.ArrayList<>();
         for (JsonNode title : outline) {

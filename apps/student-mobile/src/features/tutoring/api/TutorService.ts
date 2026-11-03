@@ -100,7 +100,7 @@ function lessonResponse(value: any): LessonResponse {
   if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
       || (value.preparingMath !== undefined && typeof value.preparingMath !== 'boolean')
-      || !Array.isArray(value.outline) || (preparing ? understanding !== 3 || value.outline.length !== 3 : value.outline.length - understanding < 2 || value.outline.length - understanding > 6) || !value.outline.every((t: any) => bounded(t, 100))
+      || !Array.isArray(value.outline) || (preparing ? understanding !== 3 || value.outline.length !== 3 : value.outline.length - understanding < 1 || value.outline.length - understanding > 6) || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
       || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
         && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))

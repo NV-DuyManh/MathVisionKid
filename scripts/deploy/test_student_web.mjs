@@ -34,6 +34,26 @@ test('student web mount is opt-in and leaves native identity and configuration i
   }
 });
 
+test('the local Student preview uses one browser entry without changing native or deployed output', () => {
+  const before = process.env.MATHVISION_WEB_EXPORT, preview = process.env.MATHVISION_WEB_PREVIEW;
+  try {
+    delete process.env.MATHVISION_WEB_EXPORT;
+    process.env.MATHVISION_WEB_PREVIEW = 'true';
+    assert.equal(configure({ config }), config);
+    process.env.MATHVISION_WEB_EXPORT = 'true';
+    const web = configure({ config });
+    assert.equal(web.web.output, 'single');
+    assert.equal(web.experiments.baseUrl, '/study');
+    assert.deepEqual(web.android, config.android);
+    assert.deepEqual(web.ios, config.ios);
+    delete process.env.MATHVISION_WEB_PREVIEW;
+    assert.equal(configure({ config }).web.output, config.web.output);
+  } finally {
+    if (before === undefined) delete process.env.MATHVISION_WEB_EXPORT; else process.env.MATHVISION_WEB_EXPORT = before;
+    if (preview === undefined) delete process.env.MATHVISION_WEB_PREVIEW; else process.env.MATHVISION_WEB_PREVIEW = preview;
+  }
+});
+
 test('SDK router preserves learning routes with the student website base path', () => {
   const { stripBaseUrl } = require('expo-router/build/fork/getStateFromPath-forks.js');
   assert.equal(stripBaseUrl('/learning/math-guide', '/study'), '/learning/math-guide');
@@ -51,7 +71,8 @@ test('production student API address is required and rejects unsafe configuratio
     return exports.resolveApiBaseUrl();
   }
   assert.equal(resolve('https://api.mathvisionkids.com/api/v1/'), 'https://api.mathvisionkids.com/api/v1');
-  for (const address of [undefined, 'http://api.mathvisionkids.com/api/v1', 'https://localhost/api/v1', 'https://127.0.0.1/api/v1', 'https://user:secret@api.mathvisionkids.com/api/v1', 'https://api.mathvisionkids.com/api/v1?secret=value', 'https://api.mathvisionkids.com']) {
+  assert.equal(resolve('/api/v1'), '/api/v1');
+  for (const address of [undefined, '/api/v1?token=x', '/api/v1/other', '//other.example/api/v1', 'http://api.mathvisionkids.com/api/v1', 'https://localhost/api/v1', 'https://127.0.0.1/api/v1', 'https://user:secret@api.mathvisionkids.com/api/v1', 'https://api.mathvisionkids.com/api/v1?secret=value', 'https://api.mathvisionkids.com']) {
     assert.throws(() => resolve(address));
   }
 });

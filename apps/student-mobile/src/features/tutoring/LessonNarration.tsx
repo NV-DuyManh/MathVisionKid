@@ -47,6 +47,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     playerMeasure.current?.('ready');
   }, []);
   const transcriptId = useId();
+  const deviceReady = useCallback((points: AudioCue[]) => { setCues(points); setAudioReady(true); }, []);
   const sourceId = source.sessionId, revision = source.revision, text = JSON.stringify(paragraphs);
   const bookmarkId = JSON.stringify([sourceId,voice,text]);
   const onPosition = useCallback((seconds:number,duration:number)=>{
@@ -124,11 +125,11 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   };
   return <View style={styles.stack}>
     <VoicePicker value={voice} disabled={disabled} onChange={chooseVoice} />
-    {deviceVoice ? <DeviceNarration paragraphs={paragraphs} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} /> : error ? <RecoveryNotice
+    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} /> : error ? <RecoveryNotice
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
         { label: 'Giọng có sẵn', accessibilityLabel: 'Dùng giọng đọc trên thiết bị', onPress: () => chooseVoice('device') },
-      ]} /> : disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : <>
+    ]} /> : <>
       {!audioReady ? <View testID="narration-preparation" style={[styles.preparing, !showPreparation && styles.hidden]} aria-hidden={!showPreparation} importantForAccessibility={showPreparation ? 'auto' : 'no-hide-descendants'}>
         <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>
         <TaskProgress compact key={`${voice}:${attempt}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}

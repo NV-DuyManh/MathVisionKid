@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-02",
+  "checkout": "E:/MathVisionKid",
+  "ai": {
+    "warnings": 4,
+    "skipped": 7,
+    "passed": 2388,
+    "log": ".local-artifacts/short-math-tests-final.log"
+  },
+  "student": {
+    "suites": 114,
+    "passed": 1329,
+    "log": ".local-artifacts/short-math-student-final.log",
+    "failed": 0
+  },
+  "backend": {
+    "suites": 41,
+    "tests": 487,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "typeScript": "passed",
+  "scopedEslint": "passed",
+  "exports": [
+    "web",
+    "android"
+  ],
+  "exportLog": ".local-artifacts/short-math-export.log",
+  "physicalAndroidVerified": false,
+  "committed": false,
+  "pushed": false
+}

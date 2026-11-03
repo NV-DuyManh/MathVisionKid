@@ -11,6 +11,7 @@ beforeEach(() => {
   Object.defineProperty(window, 'SpeechSynthesisUtterance', { configurable: true, value: class { text: string; constructor(text: string) { this.text = text; } } });
 });
 afterEach(() => {
+  jest.useRealTimers();
   if (savedSynth) Object.defineProperty(window, 'speechSynthesis', savedSynth); else delete (window as any).speechSynthesis;
   if (savedUtterance) Object.defineProperty(window, 'SpeechSynthesisUtterance', savedUtterance); else delete (window as any).SpeechSynthesisUtterance;
 });
@@ -20,14 +21,35 @@ it('returns an empty inventory immediately rather than hanging on missing voices
   await expect(getAvailableVoicesAsync()).resolves.toEqual([]);
 });
 
+it('waits briefly for the first browser voice inventory and removes its listener', async () => {
+  jest.useFakeTimers(); let changed!:()=>void;
+  const browserSynth={...synth,addEventListener:jest.fn((_,callback)=>{changed=callback;}),removeEventListener:jest.fn()};
+  Object.defineProperty(window,'speechSynthesis',{configurable:true,value:browserSynth});
+  synth.getVoices.mockReturnValue([]);
+  const voices=getAvailableVoicesAsync(); synth.getVoices.mockReturnValue([vi]);changed();
+  await expect(voices).resolves.toEqual([expect.objectContaining({identifier:vi.voiceURI})]);
+  expect(browserSynth.removeEventListener).toHaveBeenCalledWith('voiceschanged',changed);
+  expect(jest.getTimerCount()).toBe(0);expect(synth.speak).not.toHaveBeenCalled();
+});
+
+it('bounds an empty browser inventory wait even when no event arrives', async () => {
+  jest.useFakeTimers();
+  const browserSynth={...synth,addEventListener:jest.fn(),removeEventListener:jest.fn()};
+  Object.defineProperty(window,'speechSynthesis',{configurable:true,value:browserSynth});
+  synth.getVoices.mockReturnValue([]);const voices=getAvailableVoicesAsync();
+  jest.advanceTimersByTime(1000);await expect(voices).resolves.toEqual([]);
+  expect(browserSynth.removeEventListener).toHaveBeenCalled();expect(jest.getTimerCount()).toBe(0);
+});
+
 it('speaks synchronously using the selected Vietnamese voice and forwards lifecycle events', () => {
-  const onDone = jest.fn(), onError = jest.fn();
-  speak('Em đọc lại đề nhé.', { voice: vi.voiceURI, rate: .75, onDone, onError });
+  const onDone = jest.fn(), onError = jest.fn(), onBoundary = jest.fn();
+  speak('Em đọc lại đề nhé.', { voice: vi.voiceURI, rate: .75, onDone, onError, onBoundary });
   expect(synth.speak).toHaveBeenCalledTimes(1);
   const utterance = synth.speak.mock.calls[0][0];
   expect(utterance.voice).toEqual(vi); expect(utterance.lang).toBe('vi-VN'); expect(utterance.rate).toBe(.75);
   utterance.onend(); expect(onDone).toHaveBeenCalledTimes(1);
   utterance.onerror(); expect(onError).toHaveBeenCalledWith(expect.any(Error));
+  utterance.onboundary({charIndex:6,charLength:3}); expect(onBoundary).toHaveBeenCalledWith({charIndex:6,charLength:3});
 });
 
 it('does not silently read Vietnamese with an English voice when the chosen voice disappears', () => {
