@@ -91,7 +91,7 @@ writer/layout evaluation, review and the paired vocabulary/checkpoint.
 
 The 08/10/2026 candidate failed that gate and is **not installed**. Its tiny
 cohort does not establish independent V1 pretraining or writer-disjoint accuracy.
-See [the phase report](../report/OCR_COMPLETION_AND_CANDIDATE_20261008.md).
+See [the phase report (local archive)](../report/README.md#local-archive) (`OCR_COMPLETION_AND_CANDIDATE_20261008.md`).
 
 ### Experimental short numeric fields
 
@@ -123,7 +123,7 @@ denominator, quotient and intermediate-row results separately; correct prose
 must not hide wrong mathematical symbols.
 
 The follow-up field experiments improved limited component measurements but
-still failed the gate. See [the follow-up report](../report/OCR_FIELDS_AND_DECODER_20261008.md).
+still failed the gate. See [the follow-up report (local archive)](../report/README.md#local-archive) (`OCR_FIELDS_AND_DECODER_20261008.md`).
 
 `--numeric-fields-only` creates a separate 14-class vocabulary (blank, digits,
 comma, period and space), initialized from the matching V1 classes. Every record
@@ -158,7 +158,7 @@ report selected component accuracy separately from automatic crop/layout accurac
 The later visual/numeric phase reaches 46/57 exact fields on one new evaluation
 cohort and 17/19 on a different subsequent cohort after expanding TRAIN. Both
 still contain digit errors and fail the gate. Neither is installed. See the
-[visual/numeric phase report](../report/OCR_VISUAL_AND_NUMERIC_ADAPTATION_20261008.md)
+[visual/numeric phase report (local archive)](../report/README.md#local-archive) (`OCR_VISUAL_AND_NUMERIC_ADAPTATION_20261008.md`)
 for reference corrections, exposed-HOLDOUT reuse and limits.
 
 ## Resume page reading safely
@@ -198,7 +198,7 @@ and selects the then-remaining 1,069 sources into its own versioned batch. The e
 do not resume it with changed code or copy old predictions into the new batch.
 The first new attempt stopped before saving a read; a later invocation honored
 its persisted backoff. No cloud result is automatically a training reference.
-See [the guard and queue report](../report/NEUTRAL_FRACTION_EVIDENCE_20261008.md).
+See [the guard and queue report (local archive)](../report/README.md#local-archive) (`NEUTRAL_FRACTION_EVIDENCE_20261008.md`).
 
 The subsequent scale/topic phase adds six reads: **256 saved, 1,063 pending**.
 That phase selected only those pending IDs under its reader version.
@@ -206,7 +206,7 @@ Earlier neutral and scale batches remain immutable historical evidence. The new
 queue inherits the prior provider-failure deadline, so a batch-name change does
 not bypass backoff. The topic guard was checked using a cached-response replay;
 that is control-flow verification, not an independent provider accuracy result.
-See [the follow-up report](../report/OCR_SCALE_AND_TOPIC_GUARDS_20261008.md).
+See [the follow-up report (local archive)](../report/README.md#local-archive) (`OCR_SCALE_AND_TOPIC_GUARDS_20261008.md`).
 
 The 2026-10-09 continuation saves 28 further provider responses: **284/1,319
 saved responses, 1,035 pending sources**. Of these new responses, 16 classify
@@ -215,7 +215,7 @@ rows. Saved responses are therefore not a count of fully recognized pages.
 Four source-linked visual spot reviews remain separate from raw predictions;
 none is automatically approved for training. The queue fingerprint is unchanged
 and its historical queue resumed the remaining IDs after persisted backoff.
-See [the continuation report](../report/CONTINUED_OCR_AND_LESSON_FIXES_20261009.md).
+See [the continuation report (local archive)](../report/README.md#local-archive) (`CONTINUED_OCR_AND_LESSON_FIXES_20261009.md`).
 
 The bounded 2026-10-09 follow-up saves another **10 responses**, bringing the
 immutable total to **294/1,319**, with **1,025 pending**. Six new responses classify
@@ -244,7 +244,7 @@ Its first 20 responses are immutable and will be skipped on resume. The prior
 `cloud_workguard1025_20261009` plan was never invoked; preserve it as provenance
 rather than running it with changed code. Source spot checks still show merged
 prose and a misread operator in a table page. No weights or reference labels were
-changed. See [the physical-row follow-up](../report/OCR_PHYSICAL_ROW_REVIEW_20261009.md).
+changed. See [the physical-row follow-up (local archive)](../report/README.md#local-archive) (`OCR_PHYSICAL_ROW_REVIEW_20261009.md`).
 
 The candidate-band follow-up saves **15 new responses**: **329/1,319 unique source
 IDs have saved responses; 990 remain pending**. Ten are MULTIPLE, three UNREADABLE,
@@ -266,7 +266,7 @@ rows per candidate. Only identical ordered content/roles can reconcile breaks;
 non-singleton grouping cannot supply displayed geometry. The actual comparison
 split wrapped prose but duplicated another row, so the guard rejected adoption.
 This is progress in review and safety, not proof of improved whole-corpus accuracy.
-See [the candidate-band report](../report/OCR_CANDIDATE_BANDS_20261009.md).
+See [the candidate-band report (local archive)](../report/README.md#local-archive) (`OCR_CANDIDATE_BANDS_20261009.md`).
 
 Run dataset safety checks without cloud credentials:
 

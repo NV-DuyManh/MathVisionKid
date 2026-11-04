@@ -159,7 +159,7 @@ Không cần tạo bộ tài liệu lớn cho mọi việc. Với nhiệm vụ n
 
 ## Tài liệu liên quan
 
-- [Báo cáo đánh giá skill ngày 27/10/2026](../report/skill-audit-vibecoding-20261027.md).
-- [Danh mục 87 tệp skill trong phạm vi kiểm kê](../report/skill-inventory-20261027.json).
+- [Báo cáo đánh giá skill ngày 27/10/2026 (local archive)](../report/README.md#local-archive) (`skill-audit-vibecoding-20261027.md`).
+- [Danh mục 87 tệp skill trong phạm vi kiểm kê (local archive)](../report/README.md#local-archive) (`skill-inventory-20261027.json`).
 - Skill được tải theo nhu cầu; nhiều skill không đồng nghĩa chất lượng cao hơn. [Cơ chế tải skill của OpenAI](https://learn.chatgpt.com/docs/build-skills).
 

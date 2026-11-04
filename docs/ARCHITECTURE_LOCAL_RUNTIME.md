@@ -83,7 +83,7 @@ Local development credentials and seeded accounts are examples. The Windows setu
 - Cloud operations can be unavailable because of configuration, network, provider quota, or unsupported requests.
 - The lesson library is a selected practice collection, not complete coverage of every textbook question.
 
-The [line polish report](../report/DRIVE_LINE_POLISH_20261005.md) and [refinement report](../report/DRIVE_LINE_REFINEMENT_20261005.md) record development evidence and unresolved cases. Reported batch execution counts are not equivalent to a held-out recognition accuracy benchmark.
+The [line polish report (local archive)](../report/README.md#local-archive) (`DRIVE_LINE_POLISH_20261005.md`) and [refinement report (local archive)](../report/README.md#local-archive) (`DRIVE_LINE_REFINEMENT_20261005.md`) record development evidence and unresolved cases. Reported batch execution counts are not equivalent to a held-out recognition accuracy benchmark.
 
 Runtime readiness checks Redis/worker availability and the selected grading artifact where applicable. It does not certify cloud access or the CRNN checkpoint. Validate those with a reviewed sample after installation.
 

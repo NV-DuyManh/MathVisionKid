@@ -30,7 +30,7 @@ Oracle documents at most two free E2 Micro instances, each with **1 GB RAM and a
 
 A local AMD64 model compatibility check passed with networking disabled, one numerical-library thread, a 512 MiB container memory/swap limit and a 0.125 CPU limit. CRNN, YOLO and OpenCV ONNX inference completed in 68.0 seconds; the process peak RSS was 438,592 KiB and cgroup memory peak reached the full 512 MiB limit. No OOM kill occurred, but this is insufficient memory headroom evidence for the combined AI API, worker, Redis and operating system on an E2 node. It is not a real-photo accuracy result or native Oracle timing.
 
-See [the E2 attempt report](../report/cloud-e2-fallback-2026-10-10.md). Free host capacity is still the immediate blocker; no SSH connection, cloud data transfer or website backend switch has occurred.
+See [the E2 attempt report (local archive)](../report/README.md#local-archive) (`cloud-e2-fallback-2026-10-10.md`). Free host capacity is still the immediate blocker; no SSH connection, cloud data transfer or website backend switch has occurred.
 
 Do not switch to paid capacity, upgrade the account or create another trial account automatically. Retry later when free capacity is available, checking for existing instances and disks first. The [Oracle FAQ](https://www.oracle.com/cloud/free/faq/) describes capacity shortages and retry options.
 
@@ -56,7 +56,7 @@ The local preview remains running. These checks used separate disposable Docker 
 
 Backups and their private verification manifests are in the ignored `infra/local-runtime/cloud-migration/` directory with restricted Windows permissions. They contain user data and must not be committed or included in a public build. They have **not** been transferred to an Oracle server. Only the eight required runtime model artifacts (32,551,417 bytes) are needed; the training-photo archives stay off the VM.
 
-See [the preparation report](../report/cloud-migration-preflight-2026-10-10.md) for component image IDs, verification boundaries and the remaining deployment checks.
+See [the preparation report (local archive)](../report/README.md#local-archive) (`cloud-migration-preflight-2026-10-10.md`) for component image IDs, verification boundaries and the remaining deployment checks.
 
 ## Reuse the production stack
 

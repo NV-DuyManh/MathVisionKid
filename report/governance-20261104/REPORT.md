@@ -93,12 +93,24 @@ Sửa fixture ghi origin của request; assertion mới đợi Portal xóa token
 
 Skills applied cho kiểm tra tích hợp: mathvision-workflow, mathvision-review, mathvision-quality.
 
+## Tích hợp dọn kho theo yêu cầu owner
+
+Owner yêu cầu commit phần dọn và đưa vào main. Nhánh cleanup mới tách từ `399a7b7f604b8057a2ecf24391f0309e5d490a77`; không tiếp tục ghi vào nhánh task đã merge. Rà lại 921 tệp đã loại: 866 báo cáo/hiện vật cũ, 55 script kiểm chứng một lần và preview. Đối chiếu đủ 921 bản sao với SHA-256 và byte count của hai manifest; tổng 60.501.325 byte. Kho khôi phục vẫn tồn tại trong Recycle Bin của owner; không làm rỗng thùng rác. Git history tại revision gốc cũng giữ bản tracked cho máy clone khác. Đây là số nội dung loại khỏi cây hiện tại, không phải số byte ổ đĩa hay Git history đã được giải phóng.
+
+Giữ 17 tệp báo cáo/biên nhận đang dùng, provenance tác giả và model/dataset. Rà các source/config còn giữ không thấy tham chiếu tới báo cáo bị xóa; tham chiếu script cũ chỉ còn trong inventory attribution và ghi chép lịch sử được giữ lại. Các link Markdown của tài liệu sửa và CONTRIBUTORS không hỏng. Bổ sung đường đọc báo cáo cũ từ Git vào report/README.md để người clone không phụ thuộc đường E hay Recycle Bin. Dọn thêm 77 thư mục report/reports rỗng bằng thao tác không đệ quy; không xóa tệp mới trong lần dọn thư mục này.
+
+Giữ thay đổi `.gitignore`, tài liệu và guard CI do chat cleanup chuẩn bị: từ chối tệp tracked nhưng bị ignore bởi chính repo, kể cả git add -f; không dùng ignore cá nhân làm policy. Kiểm thử guard gồm path có khoảng trắng/ký tự shell, local-only, ngoại lệ biên nhận, tệp bị ép add và checkout CLI thật. Không đổi mã runtime, dependency/lockfile, launcher, model, database, secrets hoặc demoUI.
+
+Local PASS: `npm run check:governance` (8), Metro/QR node tests (2), launcher/migration-runner unittest (9), Student typecheck, 3 pytest đọc checklist/biên nhận giữ lại, git diff --check; pytest còn 4 cảnh báo deprecation có sẵn. Audit manifest, tham chiếu và danh sách thư mục rỗng ở `.local-artifacts/cleanup-review-20261104/`, không commit log/trace/ảnh/manifest local. CI PR sẽ kiểm lại cây commit sạch trước merge; không tuyên bố subset local đã test toàn bộ app hay thiết bị thật.
+
+Skills applied cho cleanup: ponytail, mathvision-review, mathvision-quality; đường dẫn/lý do/phạm vi trong mục Skills Applied dưới đây. Không viết lại lịch sử để giảm số thống kê đóng góp.
+
 ## Skills Applied
 
 - `ponytail`
   - SKILL.md: `.agents/skills/ponytail/SKILL.md`
   - Why selected: Quy trình tập trung, không thêm framework/SDK hoặc wrapper trùng.
-  - Applied to: Registry, bot Job Summary, CI và dừng worker dùng helper/công cụ sẵn có.
+  - Applied to: Registry, bot Job Summary, CI, dừng worker và cleanup dùng helper/công cụ sẵn có, không thêm framework dọn tệp.
 - `skill-creator`
   - SKILL.md: `C:/Users/Admin/.codex/skills/.system/skill-creator/SKILL.md`
   - Why selected: Tạo skill dự án phù hợp và không mở rộng quyền ngoài yêu cầu.
@@ -106,11 +118,11 @@ Skills applied cho kiểm tra tích hợp: mathvision-workflow, mathvision-revie
 - `mathvision-review`
   - SKILL.md: `.agents/skills/mathvision-review/SKILL.md`
   - Why selected: Review chính sách, an toàn dữ liệu và tính đúng của bằng chứng trước tích hợp.
-  - Applied to: Quyền workflow, ruleset không bypass chất lượng, bảo vệ PID/checkout khi dừng worker, phân biệt local/CI và mock/live.
+  - Applied to: Quyền workflow, ruleset không bypass chất lượng, bảo vệ PID/checkout khi dừng worker, giữ provenance/biên nhận khi cleanup, phân biệt local/CI và mock/live.
 - `mathvision-quality`
   - SKILL.md: `.agents/skills/mathvision-quality/SKILL.md`
   - Why selected: Kiểm thử hành vi web bằng trình duyệt, giữ bằng chứng và giới hạn chính xác.
-  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts và hồi quy launcher trên PowerShell 5.1/7.
+  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts, hồi quy launcher trên PowerShell 5.1/7, guard artifact và test phụ thuộc biên nhận sau cleanup.
 - `mathvision-workflow`
   - SKILL.md: `.agents/skills/mathvision-workflow/SKILL.md`
   - Why selected: Owner đã cho phép tích hợp qua PR sau kiểm tra đúng revision.

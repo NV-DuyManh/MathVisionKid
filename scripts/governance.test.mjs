@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { validateTitle, planChecks, checkNewPaths, verifyWorkflow, checkGate } from './governance.mjs';
+import { execFileSync } from 'node:child_process';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { basename, dirname, join, resolve } from 'node:path';
+import { validateTitle, planChecks, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
 import { checkRegistry, routeSkills } from './skills.mjs';
 
 test('registry resolves backend/review without unrelated UI or complexity-only review', async () => {
@@ -34,6 +37,56 @@ test('scope covers shared/CI changes, docs-only changes, deleted files and unusu
 test('new secrets/artifacts are rejected but environment templates remain valid', () => {
   checkNewPaths(['.env.example', 'apps/teacher-web/.env.production.example', 'docs/setup.md']);
   for (const p of ['.env', 'apps/x/.env.local', 'demoUI/a.html', 'data/student.sqlite3', 'a/private.pem']) assert.throws(() => checkNewPaths([p]), /not allowed/);
+});
+
+test('tracked artifacts are blocked even when forced into Git; local outputs and approved receipts pass', t => {
+  const fixture = mkdtempSync(join(tmpdir(), 'mathvision-hygiene-'));
+  t.after(() => {
+    assert.equal(dirname(resolve(fixture)), resolve(tmpdir()));
+    assert.ok(basename(fixture).startsWith('mathvision-hygiene-'));
+    rmSync(fixture, {recursive: true, force: true});
+  });
+  const git = (...args) => execFileSync('git', args, {cwd: fixture, stdio: 'pipe'});
+  const write = (path, content = 'synthetic fixture\n') => {
+    mkdirSync(dirname(join(fixture, path)), {recursive: true});
+    writeFileSync(join(fixture, path), content);
+  };
+  git('init', '--quiet');
+  write('.gitignore', readFileSync(new URL('../.gitignore', import.meta.url), 'utf8'));
+  const approved = ['src/module.ts', 'apps/student-mobile/src/__tests__/example.test.ts',
+    '.env.example', 'report/README.md', 'report/contributor-credit-20261031/verification.json',
+    'reports/archive/HANDWRITING_OCR_LOCKED_BENCHMARK_MANIFEST.json'];
+  for (const path of approved) write(path);
+  git('add', '--', '.gitignore', ...approved);
+  // Local-only files and personal Git exclusions do not change the repository policy.
+  write('report/local-only/REPORT.md');
+  write('coverage/local-only.json');
+  write('.git/info/exclude', 'src/\n');
+  write('global-ignore.txt', 'src/\n');
+  git('config', 'core.excludesFile', join(fixture, 'global-ignore.txt'));
+  assert.doesNotThrow(() => checkTrackedArtifacts(fixture));
+
+  const artifacts = ['report/readded with spaces;$(command).json', 'reports/archive/old.md',
+    'report/contributor-credit-20261031/unapproved.json', 'apps/student-mobile/coverage/lcov.info',
+    'runtime/server.log', 'output/bundle.js', '.local-artifacts/result.json',
+    'ai/runtime/app/__pycache__/cached.pyc', 'demoUI/preview.html', '.env'];
+  for (const path of artifacts) write(path);
+  git('add', '-f', '--', ...artifacts);
+  assert.throws(() => checkTrackedArtifacts(fixture), error => {
+    for (const path of artifacts) assert.ok(error.message.includes(JSON.stringify(path)));
+    return true;
+  });
+  write('scripts/governance.mjs', readFileSync(new URL('./governance.mjs', import.meta.url), 'utf8'));
+  assert.throws(() => execFileSync(process.execPath, [join(fixture, 'scripts/governance.mjs'), 'check'], {stdio: 'pipe'}), error => {
+    assert.equal(error.status, 1);
+    assert.ok(error.stderr.toString().includes('ignored file(s) are tracked'));
+    return true;
+  });
+  // Unstaged deletions allow local cleanup checks; clean CI checks the committed tree.
+  for (const path of artifacts) rmSync(join(fixture, path));
+  assert.doesNotThrow(() => checkTrackedArtifacts(fixture));
+  write('reports/archive/old.md');
+  assert.throws(() => checkTrackedArtifacts(fixture), /reports\/archive\/old\.md/);
 });
 test('PR workflow cannot execute with privileged trigger or movable action tags', () => {
   verifyWorkflow('on:\n  pull_request:\nsteps:\n - uses: actions/checkout@' + 'a'.repeat(40));

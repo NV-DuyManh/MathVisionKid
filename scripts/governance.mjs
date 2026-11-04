@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
+import { appendFileSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,6 +20,15 @@ export function checkNewPaths(paths) {
   const forbidden = paths.filter(p => /(?:^|\/)(?:node_modules|\.venv|demoUI)\/|(?:^|\/)\.env(?:$|\.)|\.(?:pem|pfx|sqlite3?|db|pt|pth|safetensors)$/i.test(p)
     && !/(?:^|\/)\.env(?:\.[a-z-]+)?\.(?:example|sample|template)$|(?:^|\/)\.env\.(?:example|sample|template)$/.test(p));
   if (forbidden.length) throw new Error(`Private/generated paths are not allowed in new changes: ${forbidden.join(', ')}`);
+}
+export function checkTrackedArtifacts(repositoryRoot = root) {
+  // Repository ignore rules only: personal/global exclusions must not affect CI.
+  const ignored = execFileSync('git', ['ls-files', '--cached', '--ignored', '--exclude-per-directory=.gitignore', '-z'], {cwd: repositoryRoot})
+    .toString('utf8').split('\0').filter(Boolean)
+    .filter(path => lstatSync(resolve(repositoryRoot, path), {throwIfNoEntry: false}));
+  if (ignored.length) {
+    throw new Error(`${ignored.length} ignored file(s) are tracked. Keep local artifacts out of Git; approved receipts need an explicit .gitignore exception:\n${ignored.slice(0, 20).map(path => JSON.stringify(path)).join('\n')}`);
+  }
 }
 export function verifyWorkflow(source) {
   if (/pull_request_target\s*:/.test(source)) throw new Error('Privileged PR execution is not allowed');
@@ -42,6 +51,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   try {
     const command = process.argv[2] ?? 'check';
     if (command === 'check') {
+      checkTrackedArtifacts();
       for (const name of readdirSync(resolve(root, '.github/workflows')).filter(n => /\.ya?ml$/.test(n))) verifyWorkflow(readFileSync(resolve(root, '.github/workflows', name), 'utf8'));
       if (process.env.GITHUB_EVENT_NAME === 'pull_request' && !validateTitle(process.env.PR_TITLE ?? '')) throw new Error('PR title: use fix(voice): describe the resulting behavior');
       if (process.env.BASE_SHA) checkNewPaths(changedPaths(process.env.BASE_SHA, 'A'));

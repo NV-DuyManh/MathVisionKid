@@ -53,7 +53,7 @@ After student login, the portal validates the active `STUDENT` role through the 
 
 The web app shares the portal tab's session and validates `/me` before protected screens render. An unauthenticated deep link opens portal login; cached profile data cannot authorize access. This export uses public `EXPO_PUBLIC_API_BASE_URL` and `EXPO_PUBLIC_USE_MOCK=false`, set by the publisher. No provider credentials belong in `EXPO_PUBLIC_*` values either.
 
-The publication namespace is `/study`, with a path-specific SPA fallback before the portal fallback. It must remain consistent with the opt-in `MATHVISION_WEB_EXPORT` base path and exported asset paths. The actual SDK route parser is tested to preserve the learning route. Actual browser checks passed for the shared home, calculator, lessons/profile, gallery/privacy/crop, one structured division reading, and logout/protected reentry. See [the student web parity report](../report/student-web-parity-2026-10-09.md) for the exact evidence and its limits.
+The publication namespace is `/study`, with a path-specific SPA fallback before the portal fallback. It must remain consistent with the opt-in `MATHVISION_WEB_EXPORT` base path and exported asset paths. The actual SDK route parser is tested to preserve the learning route. Actual browser checks passed for the shared home, calculator, lessons/profile, gallery/privacy/crop, one structured division reading, and logout/protected reentry. See [the student web parity report (local archive)](../report/README.md#local-archive) (`student-web-parity-2026-10-09.md`) for the exact evidence and its limits.
 
 ### Public build variables
 
@@ -164,7 +164,7 @@ Use actual deployed origins and owner-provisioned accounts. Complete all of thes
 - Check private image access using the owning teacher. Other teachers and student accounts must not gain teacher image access. Image responses must use `Cache-Control: no-store`.
 - Review the transcription against the photo. A completed job or an HTTP 200 is not evidence that the text, arithmetic, or grade is correct.
 
-The local verification evidence and remaining public checks are recorded in [the deployment readiness report](../report/cloud-deployment-readiness-2026-10-09.md).
+The local verification evidence and remaining public checks are recorded in [the deployment readiness report (local archive)](../report/README.md#local-archive) (`cloud-deployment-readiness-2026-10-09.md`).
 
 The current trial includes owner-requested test accounts provisioned separately from production seeding. Their role/login checks passed in the isolated trial database. These are trial credentials, not the strong owner bootstrap credential or a general-release account setup; keep their credential details out of Git and remove or replace them before inviting users beyond the trial.
 
