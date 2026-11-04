@@ -7,7 +7,7 @@
 - P2: lỗi hành vi có cách tránh; ghi trigger/tác động để ưu tiên đúng.
 - P3: cải thiện nhỏ; không nâng thành blocker vì sở thích.
 
-Finding nêu revision, file/line, trigger, expected/actual, tác động, cách kiểm chứng. Phân biệt lỗi đã xác minh với nghi ngờ. Người review không tự giải quyết discussion của người khác khi chưa thống nhất. AI/CI hỗ trợ, không thay một người khác tác giả approve PR.
+Finding nêu revision, file/line, trigger, expected/actual, tác động, cách kiểm chứng. Phân biệt lỗi đã xác minh với nghi ngờ. Người review không tự giải quyết discussion của người khác khi chưa thống nhất. AI/CI và review thành viên hỗ trợ; chỉ owner quyết định đưa PR vào main sau required checks/discussions.
 
 ## Kiểm tra theo rủi ro
 

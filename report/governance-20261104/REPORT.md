@@ -11,7 +11,7 @@ Triển khai ở nhánh `Manh`, nền `ac7aa8e`. Không đổi mã nghiệp vụ
 - Registry 23 skill và 20 route; bốn skill riêng MathVision bao phủ workflow/requirements/release, review correctness, quality và backend/database. Giữ skill hiện có, không nhập duplicate hay nghiệp vụ café.
 - CI PR có quyền đọc, action SHA cố định, không giữ credential checkout, không dùng pull_request_target hoặc live TTS/model. Bot tổng hợp phạm vi/kết quả trong Job Summary; không giả làm AI semantic review và không auto-approve/merge/comment.
 - Các nhóm Web, Student, Backend/migration PostgreSQL, AI offline, Windows launcher. `Quality gate` là check tổng hợp ổn định; lỗi/cancel hoặc skip bất ngờ không được tính là đạt.
-- JSON chính sách ở `.github/rulesets/`: chỉ owner merge qua PR; một review khác tác giả, hủy approval cũ khi có push, resolve discussions, chống force-push/xóa main, required Quality gate gắn app GitHub Actions.
+- JSON chính sách ở `.github/rulesets/`: chỉ owner quyết định merge qua PR; resolve discussions, chống force-push/xóa main, required Quality gate gắn app GitHub Actions. Theo chỉ đạo mới của owner, bỏ yêu cầu một approval khác tác giả; số approval bắt buộc là 0 như CODEGYM.
 
 ## Kiểm chứng local
 
@@ -47,7 +47,9 @@ CI thật https://github.com/NV-DuyManh/MathVisionKid/actions/runs/41850845448 t
 
 Đã bổ sung hồi quy chọn phạm vi cho root batch launcher, wrapper PowerShell/batch, scripts/deploy và infra: thay đổi triển khai chạy web/launcher; hạ tầng chạy mọi nhóm. Mỗi push còn phải qua check mới trên đúng head PR. File CI/Dependabot trong nhánh chưa merge không đồng nghĩa đã áp dụng làm cấu hình mặc định của main.
 
-Không self-approve hoặc bỏ điều kiện review để đưa bộ luật vào main. Người khác tác giả phải review PR; owner thực hiện merge sau khi checks đạt. Auto-delete không xóa lịch sử đóng góp, nhánh local hoặc nhánh còn PR mở.
+Chỉ owner `NV-DuyManh` quyết định merge sau required checks/discussions. Approval của người khác không cấp quyền merge. Không tự approve hoặc dùng token để tự thực hiện quyết định thay owner. Auto-delete không xóa lịch sử đóng góp, nhánh local hoặc nhánh còn PR mở. Quy tắc review cũ đã được thay bằng yêu cầu owner-only trong cả tài liệu và JSON chính sách.
+
+Đã PUT lại ruleset `24461306` và GET xác nhận `required_approving_review_count=0`, `require_extra_approval_for_unattributed_changes=false`; ruleset `26539651` vẫn chỉ cho user ID 154242112 (`NV-DuyManh`) bypass update ở chế độ pull_request. Không tồn tại thêm ruleset cũ bị bỏ quên; main vẫn protected và không bypass required Quality gate.
 
 ## Cảnh báo dependency hiện hữu
 

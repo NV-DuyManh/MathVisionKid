@@ -49,7 +49,7 @@ test('gate never turns failure, cancellation or unexpectedly skipped checks into
   checkGate(results, {web:'true',student:'false',backend:'false',ai:'false',launcher:'false'});
 });
 
-test('main policies restrict owner updates through PR without bypassing reviews or checks', () => {
+test('main policies reserve the final PR decision to the owner without bypassing checks', () => {
   const policy = name => JSON.parse(readFileSync(new URL(`../.github/rulesets/${name}.json`, import.meta.url), 'utf8'));
   const owner = policy('main-owner-only-merge');
   const quality = policy('main-pr-and-history-protection');
@@ -61,7 +61,8 @@ test('main policies restrict owner updates through PR without bypassing reviews 
   assert.deepEqual(owner.bypass_actors, [{actor_id:154242112,actor_type:'User',bypass_mode:'pull_request'}]);
   assert.deepEqual(quality.bypass_actors, []);
   const review = quality.rules.find(r => r.type === 'pull_request').parameters;
-  assert.equal(review.required_approving_review_count, 1);
+  assert.equal(review.required_approving_review_count, 0);
+  assert.equal(review.require_extra_approval_for_unattributed_changes, false);
   assert.equal(review.dismiss_stale_reviews_on_push, true);
   assert.equal(review.required_review_thread_resolution, true);
   assert.ok(quality.rules.some(r => r.type === 'deletion'));

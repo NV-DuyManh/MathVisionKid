@@ -8,7 +8,7 @@ Small, focused improvements with clear evidence are easier to review. Set up the
 
 Read [workflow](docs/engineering/team-working-agreement.md), [naming conventions](docs/engineering/naming-conventions.md), [API/data](docs/engineering/api-and-data.md), [quality/security](docs/engineering/quality-and-security.md), and [GitHub settings](docs/engineering/github-settings.md). The rules apply to new/changed work; do not rename existing routes, rewrite migrations or reformat research evidence as housekeeping.
 
-Use focused task branches from current `main` and PRs back into `main`. Existing member branches remain compatible. New PR titles use Conventional Commits, e.g. `fix(voice): retain selected voice between steps`. Keep related corrections on the same open PR. A different human reviews; the maintainer merges only after required checks/discussions pass. Bots do not self-approve or auto-merge.
+Use focused task branches from current `main` and PRs back into `main`. Existing member branches remain compatible. New PR titles use Conventional Commits, e.g. `fix(voice): retain selected voice between steps`. Keep related corrections on the same open PR. Only the owner `NV-DuyManh` decides and merges into `main`, through a PR after required checks/discussions pass. Teammate reviews support that decision; no separate teammate approval is required. Bots do not self-approve or auto-merge.
 
 Run `npm run check:governance` for registry and workflow policy. CI selects affected web/Student/backend/AI checks and reports one stable `Quality gate`; a skipped unaffected module is not the same as a failed/cancelled check. PR checks use synthetic data and offline provider mocks, never private datasets or live narration quota. The Catalog Bot remains separate.
 

@@ -20,7 +20,7 @@ Hành vi trước → sau:
 ## Trước khi merge
 
 - [ ] Đạt tiêu chí nghiệm thu; required checks đạt
-- [ ] Người khác tác giả đã review; đã xử lý blockers/discussions
+- [ ] Owner `NV-DuyManh` đã xem xét và quyết định merge; đã xử lý blockers/discussions
 - [ ] Không có secret, ảnh học sinh hoặc dữ liệu nghiên cứu riêng tư
 - [ ] Không bỏ kiểm chứng toán / backend RBAC để làm xanh giao diện
 - [ ] Ghi đúng giới hạn kiểm thử, không coi mock là bằng chứng thiết bị thật
