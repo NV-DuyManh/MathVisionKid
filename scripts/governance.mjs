@@ -7,13 +7,13 @@ export function validateTitle(title) {
   return /^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{7,}$/u.test(title) && !/[\r\n]/.test(title);
 }
 export function planChecks(paths, full = false) {
-  const shared = full || paths.some(p => /^(?:package(?:-lock)?\.json$|\.nvmrc$|\.github\/|scripts\/(?:governance|skills)|vendor\/|packages\/)/.test(p));
+  const shared = full || paths.some(p => /^(?:package(?:-lock)?\.json$|\.nvmrc$|\.github\/|infra\/|scripts\/(?:governance|skills)|vendor\/|packages\/)/.test(p));
   return {
-    web: shared || paths.some(p => /^apps\/(?:portal|teacher|admin)-web\//.test(p)),
+    web: shared || paths.some(p => /^apps\/(?:portal|teacher|admin)-web\/|^scripts\/deploy\//.test(p)),
     student: shared || paths.some(p => /^apps\/student-mobile\//.test(p)),
     backend: shared || paths.some(p => /^backend\/business-api\/|^scripts\/test\/test_postgres_migrations(?:_runner)?\.py$/.test(p)),
     ai: shared || paths.some(p => /^(?:ai\/runtime\/|catalog\/|contracts\/)|^scripts\/(?:ci-tutoring-requirements\.txt|test\/test_runtime_tutor_auth\.py)$/.test(p)),
-    launcher: shared || paths.some(p => /^scripts\/(?:dev\/|test\/(?:local-env\.test\.ps1|test_service_runtime_identity\.ps1|test_run_launcher\.py))|^RUN_MATHVISION\.bat$/.test(p)),
+    launcher: shared || paths.some(p => /^scripts\/(?:dev\/|deploy\/|[^/]+\.(?:ps1|bat)$|test\/(?:local-env\.test\.ps1|test_service_runtime_identity\.ps1|test_run_launcher\.py))|^[^/]+\.bat$/.test(p)),
   };
 }
 export function checkNewPaths(paths) {

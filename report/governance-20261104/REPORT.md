@@ -43,7 +43,9 @@ PR kiểm chứng: https://github.com/NV-DuyManh/MathVisionKid/pull/15. Lượt 
 
 Đã đọc lại qua API: auto-delete head sau merge bật; auto-merge vẫn tắt. Dependabot security updates, secret scanning và secret push protection đã bật. Các cấu hình này không nằm trong git diff.
 
-CI và required status check cần chạy thật trên PR trước khi kích hoạt toàn bộ điều kiện merge. Trạng thái PR/check-run/ruleset cuối cùng được bổ sung sau khi GitHub thực thi, không suy diễn từ kết quả local. File CI/Dependabot trong nhánh chưa merge không đồng nghĩa đã áp dụng làm cấu hình mặc định của main.
+CI thật https://github.com/NV-DuyManh/MathVisionKid/actions/runs/41850845448 tại commit `17932d6` đã đạt toàn bộ 7 jobs, gồm `Quality gate` của GitHub Actions app ID 15368. Sau bằng chứng này mới bật ruleset `24461306` (PR/lịch sử/required Quality gate, không bypass) và `26539651` (owner-only update, bypass chỉ qua PR). Đọc lại API xác nhận cả hai active và `branches/main.protected=true`; main vẫn ở `f1c4bb2`, chưa merge PR này.
+
+Đã bổ sung hồi quy chọn phạm vi cho root batch launcher, wrapper PowerShell/batch, scripts/deploy và infra: thay đổi triển khai chạy web/launcher; hạ tầng chạy mọi nhóm. Mỗi push còn phải qua check mới trên đúng head PR. File CI/Dependabot trong nhánh chưa merge không đồng nghĩa đã áp dụng làm cấu hình mặc định của main.
 
 Không self-approve hoặc bỏ điều kiện review để đưa bộ luật vào main. Người khác tác giả phải review PR; owner thực hiện merge sau khi checks đạt. Auto-delete không xóa lịch sử đóng góp, nhánh local hoặc nhánh còn PR mở.
 
