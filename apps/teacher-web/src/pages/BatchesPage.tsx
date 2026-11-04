@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Typography,
@@ -10,39 +10,23 @@ import {
   TableHead,
   TableRow,
   Skeleton,
+  Alert,
   Chip,
   Card,
 } from '@mui/material';
 import { AddCircleOutlined, FactCheck, ArrowForward, PendingActions } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import type { Batch } from '../types';
 import { StatusChip } from '../components/common/StatusChip';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
 
 export default function BatchesPage() {
-  const [batches, setBatches] = useState<Batch[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let isMounted = true;
-    AppTeacherService.getBatches()
-      .then((data) => {
-        if (isMounted) {
-          setBatches(data);
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: batches = [], isLoading: loading, isError, refetch } = useQuery({
+    queryKey: ['teacher-batches'],
+    queryFn: () => AppTeacherService.getBatches(),
+  });
 
   return (
     <Box>
@@ -61,7 +45,11 @@ export default function BatchesPage() {
         }
       />
 
-      {loading ? (
+      {isError ? (
+        <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
+          Chưa tải được danh sách. Vui lòng thử lại.
+        </Alert>
+      ) : loading ? (
         <Card sx={{ p: 2.5, borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           {[1, 2, 3, 4].map((i) => (
             <Skeleton key={i} variant="rectangular" height={52} sx={{ mb: 1.5, borderRadius: 2 }} />
@@ -71,7 +59,7 @@ export default function BatchesPage() {
         <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           <EmptyState
             title="Chưa có đợt chấm bài nào"
-            description="Tải lên từ 10 đến 30 bài làm để hệ thống AI hỗ trợ kiểm tra từng bước tính toán."
+            description="Tải lên từ 1 đến 30 bài làm để hệ thống AI hỗ trợ kiểm tra từng bước tính toán."
             actionText="Tạo đợt chấm đầu tiên"
             onAction={() => navigate('/batches/create')}
             icon={<FactCheck sx={{ fontSize: 42, color: '#94A3B8' }} />}

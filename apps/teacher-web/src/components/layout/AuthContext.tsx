@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../../services/api/ServiceLocator';
 import { AuthTokenStore } from '../../services/api/AuthTokenStore';
-import apiClient from '../../services/api/apiClient';
+import axios from 'axios';
 import { appConfig } from '../../config/runtime';
 
 interface AuthContextType {
@@ -28,16 +28,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       void queryClient.cancelQueries();
       queryClient.clear();
       setUser(null);
+      if (!AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
+        navigate('/login', { replace: true });
+      }
     };
     window.addEventListener('teacher_auth_changed', clearSession);
     return () => window.removeEventListener('teacher_auth_changed', clearSession);
-  }, [queryClient]);
+  }, [queryClient, navigate]);
 
   useEffect(() => {
     let active = true;
     const version = sessionVersion.current;
     const fetchMe = async () => {
       try {
+        if (!AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
+          if (active) navigate('/login', { replace: true });
+          return;
+        }
         if (!AppTeacherService.getMe) {
             setUser({ displayName: "Giáo viên", role: "TEACHER" }); // Mock fallback
             setLoading(false);
@@ -71,15 +78,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [navigate, location.pathname]);
 
   const logout = async () => {
-    try {
-      await apiClient.post('/auth/logout');
-    } catch {
-      // Ignore network errors
-    } finally {
-      AuthTokenStore.clearTokens();
-      setUser(null);
-      window.location.href = `${appConfig.portalOrigin}/logout?source=teacher`;
-    }
+    const accessToken = AuthTokenStore.getAccessToken();
+    AuthTokenStore.clearTokens();
+    setUser(null);
+    // Revoke only the captured session; network availability must not delay leaving.
+    if (accessToken) void axios.post(`${appConfig.apiBaseUrl}/auth/logout`, {}, {
+      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
+    }).catch(() => {});
+    window.location.replace(`${appConfig.portalOrigin}/logout?source=teacher`);
   };
 
   return (

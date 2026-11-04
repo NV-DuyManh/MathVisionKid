@@ -12,6 +12,7 @@ export const TeacherEntryPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
     const handleEntry = async () => {
       if (!tokenStore.hasTokens()) {
         navigate('/login?role=TEACHER');
@@ -19,7 +20,8 @@ export const TeacherEntryPage: React.FC = () => {
       }
 
       try {
-        const user = await authService.getMe();
+        const user = await authService.getMe(controller.signal);
+        if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
 
         if (role !== 'TEACHER') {
@@ -28,16 +30,19 @@ export const TeacherEntryPage: React.FC = () => {
         }
 
         setStatus('Đang khởi tạo phiên làm việc bảo mật...');
-        const ticket = await authService.requestSsoTicket('TEACHER');
+        const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
+        if (controller.signal.aborted) return;
 
         setStatus('Đang chuyển hướng đến không gian Giáo viên...');
         window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
-      } catch (err: any) {
-        setError(err.response?.data?.message || err.message || 'Lỗi khi khởi tạo phiên làm việc Giáo viên.');
+      } catch {
+        if (controller.signal.aborted) return;
+        setError( 'Lỗi khi khởi tạo phiên làm việc Giáo viên.');
       }
     };
 
-    handleEntry();
+    void handleEntry();
+    return () => controller.abort();
   }, [navigate]);
 
   return (

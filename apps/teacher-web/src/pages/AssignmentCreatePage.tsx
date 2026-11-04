@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -12,13 +12,16 @@ import {
   Divider,
 } from '@mui/material';
 import { ArrowBack, CheckCircleOutlined } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { Class } from '../types';
 import { MathType } from '../types';
 
 export default function AssignmentCreatePage() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const requestedClass = params.get('classId');
+  const submitLock = useRef(false);
   const [classes, setClasses] = useState<Class[]>([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [title, setTitle] = useState('');
@@ -34,19 +37,23 @@ export default function AssignmentCreatePage() {
         if (isMounted) {
           setClasses(data);
           if (data.length > 0) {
-            setSelectedClass(data[0].id || (data[0] as any).classId || '');
+            const chosen = data.find(c => (c.id || c.classId) === requestedClass) || data[0];
+            setSelectedClass(chosen.id || chosen.classId || '');
           }
           setLoadingClasses(false);
         }
       })
       .catch(() => {
-        if (isMounted) setLoadingClasses(false);
+        if (isMounted) {
+          setError('Chưa tải được lớp học. Hãy quay lại danh sách lớp rồi thử lại.');
+          setLoadingClasses(false);
+        }
       });
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [requestedClass]);
 
   const handleCreate = async () => {
     if (!selectedClass || !title.trim()) {
@@ -54,13 +61,17 @@ export default function AssignmentCreatePage() {
       return;
     }
 
+    if (submitLock.current) return;
+    submitLock.current = true;
     try {
       setSubmitting(true);
       setError(null);
       const assignment = await AppTeacherService.createAssignment(selectedClass, title.trim(), mathType);
-      navigate('/batches/create', { state: { assignmentId: assignment.assignmentId || assignment.id } });
+      navigate(`/batches/create?assignmentId=${encodeURIComponent(assignment.assignmentId || assignment.id || '')}`);
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'Không thể tạo bài tập. Vui lòng thử lại.');
+    } finally {
+      submitLock.current = false;
       setSubmitting(false);
     }
   };

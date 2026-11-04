@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useEffect } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, IconButton, Tooltip, Typography, Alert } from '@mui/material';
 import { Close, Brush, ClearAll, Save, Delete as DeleteIcon } from '@mui/icons-material';
 
 interface PrivacyEditorModalProps {
   open: boolean;
   onClose: () => void;
-  file: File | null;
+  file: Blob | null;
   onSave: (sanitizedBlob: Blob) => void;
 }
 
@@ -32,23 +32,27 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
   const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
   const [imageObj, setImageObj] = useState<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const [initialMaskState, setInitialMaskState] = useState<Mask | null>(null);
 
   useEffect(() => {
-    if (open && file) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setMasks([]);
-      setSelectedMask(null);
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => {
-        setImageObj(img);
-        URL.revokeObjectURL(url);
-      };
-      img.src = url;
-    } else {
-      setImageObj(null);
-    }
+    setMasks([]);
+    setSelectedMask(null);
+    setImageObj(null);
+    setImageError(null);
+    setSaving(false);
+    setIsDrawing(false);
+    setIsMoving(null);
+    setIsResizing(null);
+    if (!open || !file) return;
+    let active = true;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { if (active) setImageObj(img); };
+    img.onerror = () => { if (active) setImageError('Chưa mở được ảnh. Hãy chọn ảnh JPG, PNG hoặc WebP rõ nét.'); };
+    img.src = url;
+    return () => { active = false; URL.revokeObjectURL(url); };
   }, [open, file]);
 
   const drawCanvas = () => {
@@ -58,7 +62,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     if (!ctx) return;
 
     const container = containerRef.current;
-    const maxWidth = container.clientWidth;
+    const maxWidth = Math.max(1, container.clientWidth - 32);
     const maxHeight = window.innerHeight * 0.6;
 
     let newScale = 1;
@@ -70,7 +74,9 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     canvas.width = imageObj.width * newScale;
     canvas.height = imageObj.height * newScale;
 
-    ctx.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+    // Store masks in original-image coordinates so resizing never moves a privacy mask.
+    ctx.setTransform(newScale, 0, 0, newScale, 0, 0);
+    ctx.drawImage(imageObj, 0, 0);
 
     masks.forEach(m => {
       ctx.fillStyle = m.id === selectedMask ? 'rgba(0, 0, 0, 0.8)' : 'black';
@@ -78,12 +84,12 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
       
       if (m.id === selectedMask) {
         ctx.strokeStyle = '#1976d2';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2 / newScale;
         ctx.strokeRect(m.x, m.y, m.width, m.height);
         
         // Handles
         ctx.fillStyle = 'white';
-        const hSize = 6;
+        const hSize = 6 / newScale;
         const handles = [
           { x: m.x - hSize/2, y: m.y - hSize/2 }, // nw
           { x: m.x + m.width/2 - hSize/2, y: m.y - hSize/2 }, // n
@@ -111,20 +117,25 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
 
   useEffect(() => {
     drawCanvas();
+    const observer = new ResizeObserver(drawCanvas);
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, [imageObj, masks, isDrawing, currentPos, startPos, selectedMask, scale]);
 
-  const getMousePos = (evt: React.MouseEvent<HTMLCanvasElement>) => {
+  const getMousePos = (evt: React.PointerEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
+      x: Math.max(0, Math.min(imageObj?.width || 0, (evt.clientX - rect.left) / scale)),
+      y: Math.max(0, Math.min(imageObj?.height || 0, (evt.clientY - rect.top) / scale))
     };
   };
 
   const getResizeEdge = (pos: {x: number, y: number}, m: Mask) => {
-    const margin = 8;
+    const margin = 8 / scale;
+    if (pos.x < m.x - margin || pos.x > m.x + m.width + margin ||
+        pos.y < m.y - margin || pos.y > m.y + m.height + margin) return null;
     const isLeft = Math.abs(pos.x - m.x) < margin;
     const isRight = Math.abs(pos.x - (m.x + m.width)) < margin;
     const isTop = Math.abs(pos.y - m.y) < margin;
@@ -141,7 +152,9 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     return null;
   };
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!imageObj || saving) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
     const pos = getMousePos(e);
     
     // Check if clicked on selected mask handle for resize
@@ -178,7 +191,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     setIsDrawing(true);
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const pos = getMousePos(e);
     
     // Update cursor
@@ -260,7 +273,17 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
 
   const handleKeyDown = (e: ReactKeyboardEvent) => {
     if ((e.key === 'Delete' || e.key === 'Backspace') && selectedMask) {
+      e.preventDefault();
       handleDeleteSelected();
+    }
+    const delta = ({ ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] } as Record<string, number[]>)[e.key];
+    if (delta && selectedMask && imageObj) {
+      e.preventDefault();
+      const step = (e.shiftKey ? 10 : 1) / scale;
+      setMasks(prev => prev.map(m => m.id === selectedMask ? { ...m,
+        x: Math.max(0, Math.min(imageObj.width - m.width, m.x + delta[0] * step)),
+        y: Math.max(0, Math.min(imageObj.height - m.height, m.y + delta[1] * step)),
+      } : m));
     }
   };
 
@@ -277,7 +300,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
   };
 
   const handleSave = () => {
-    if (!imageObj || !file) return;
+    if (!imageObj || !file || saving || isDrawing || isMoving || isResizing) return;
 
     const offscreen = document.createElement('canvas');
     offscreen.width = imageObj.width;
@@ -285,33 +308,38 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     const ctx = offscreen.getContext('2d');
     if (!ctx) return;
 
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, offscreen.width, offscreen.height);
     ctx.drawImage(imageObj, 0, 0);
     ctx.fillStyle = 'black';
 
-    const scaleX = imageObj.width / (canvasRef.current?.width || imageObj.width);
-    const scaleY = imageObj.height / (canvasRef.current?.height || imageObj.height);
-
-    masks.forEach(m => {
-      ctx.fillRect(m.x * scaleX, m.y * scaleY, m.width * scaleX, m.height * scaleY);
-    });
-
+    masks.forEach(m => ctx.fillRect(m.x, m.y, m.width, m.height));
+    setSaving(true);
     offscreen.toBlob((blob) => {
+      setSaving(false);
       if (blob) onSave(blob);
-    }, file.type || 'image/jpeg', 0.9);
+      else setImageError('Chưa lưu được ảnh. Hãy thử lại.');
+    }, 'image/jpeg', 0.95);
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth aria-labelledby="privacy-editor-title">
       <DialogTitle id="privacy-editor-title" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6">Che thông tin cá nhân (Privacy Gate)</Typography>
+        <Typography component="span" variant="h6">Che thông tin cá nhân</Typography>
         <IconButton aria-label="Đóng trình che thông tin" onClick={onClose}><Close /></IconButton>
       </DialogTitle>
       <DialogContent dividers>
         <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
           <Typography variant="body2" color="text.secondary">
             <Brush fontSize="small" sx={{ verticalAlign: 'middle', mr: 1 }} />
-            Kéo chuột để vẽ, click để chọn, kéo viền để sửa, hoặc xóa vùng che.
+            Kéo để vẽ vùng che. Chọn một vùng để di chuyển hoặc sửa kích thước. Dùng phím mũi tên để di chuyển, Delete để xóa.
           </Typography>
+          <Button disabled={!imageObj || saving} onClick={() => {
+            if (!imageObj) return;
+            const mask = { id: crypto.randomUUID(), x: 0, y: 0, width: imageObj.width * 0.4, height: imageObj.height * 0.1 };
+            setMasks(prev => [...prev, mask]); setSelectedMask(mask.id);
+            containerRef.current?.focus();
+          }}>Thêm vùng che</Button>
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Xóa vùng đang chọn">
             <span>
@@ -324,7 +352,10 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
             </span>
           </Tooltip>
         </Box>
-        <Box 
+        {imageError && <Alert severity="error" sx={{ mb: 2 }}>{imageError}</Alert>}
+        {!imageObj && !imageError && <Typography role="status">Đang mở ảnh…</Typography>}
+        <Box
+          aria-label="Vùng chỉnh sửa ảnh, dùng phím mũi tên để di chuyển vùng che đã chọn"
           ref={containerRef} 
           sx={{ display: 'flex', justifyContent: 'center', bgcolor: 'grey.100', p: 2, borderRadius: 1, minHeight: 300 }}
           onKeyDown={handleKeyDown}
@@ -332,18 +363,19 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
         >
           <canvas
             ref={canvasRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', outline: 'none' }}
+            onPointerDown={handleMouseDown}
+            onPointerMove={handleMouseMove}
+            onPointerUp={handleMouseUp}
+            onPointerCancel={handleMouseUp}
+            aria-label="Ảnh cần che thông tin"
+            style={{ touchAction: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', outline: 'none' }}
           />
         </Box>
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
         <Button onClick={onClose} color="inherit">Hủy</Button>
-        <Button onClick={handleSave} variant="contained" startIcon={<Save />}>
-          Lưu ảnh đã che
+        <Button disabled={!imageObj || saving || isDrawing || Boolean(isMoving) || Boolean(isResizing)} onClick={handleSave} variant="contained" startIcon={<Save />}>
+          {saving ? 'Đang lưu…' : 'Lưu ảnh đã che'}
         </Button>
       </DialogActions>
     </Dialog>

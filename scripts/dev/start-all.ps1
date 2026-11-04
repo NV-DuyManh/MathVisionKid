@@ -543,9 +543,13 @@ function Start-TrackedService {
             if ($IdentityKind -in @('spring','fastapi')) {
                 $sourceDir = if ($IdentityKind -eq 'spring') { Join-Path $WorkingDirectory 'src/main' } else { Join-Path $WorkingDirectory 'app' }
                 $inputs = @(Get-ChildItem -LiteralPath $sourceDir -Recurse -File | Where-Object { $_.Extension -in @('.java','.sql','.yml','.properties','.py') })
+                $inputs += Get-Item -LiteralPath $PSCommandPath
+                $inputs += Get-Item -LiteralPath (Join-Path $PSScriptRoot 'local-env.ps1')
                 foreach ($envName in @('.env','.env.local')) {
                     $envPath = Join-Path $WorkingDirectory $envName
                     if (Test-Path -LiteralPath $envPath) { $inputs += Get-Item -LiteralPath $envPath }
+                    $sharedPath = Join-Path $RepoRoot $envName
+                    if (Test-Path -LiteralPath $sharedPath) { $inputs += Get-Item -LiteralPath $sharedPath }
                 }
                 $newest = ($inputs | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
                 $stale = @($ownerIds | Where-Object { (Get-Process -Id $_).StartTime.ToUniversalTime() -lt $newest })
@@ -602,6 +606,14 @@ Write-Host "`n[4/6] Starting application services..." -ForegroundColor Yellow
 
 # A. Spring Boot
 $SpringDir = Join-Path $RepoRoot "backend\business-api"
+$sharedInternalEnvFiles = @(
+    (Join-Path $RepoRoot '.env'), (Join-Path $RepoRoot '.env.local'),
+    (Join-Path $SpringDir '.env'), (Join-Path $SpringDir '.env.local')
+)
+# Both services must inherit the same internal credential. Loading independent
+# dotenv defaults can otherwise make health checks pass while tutoring returns 401.
+Invoke-WithLocalEnvironment -Files $sharedInternalEnvFiles -AllowedKeys @('INTERNAL_API_KEY') -Action {
+if (-not $env:INTERNAL_API_KEY) { throw 'INTERNAL_API_KEY is required for the connected local services (value withheld).' }
 $SpringPid = Join-Path $PidDir "spring.pid"
 $SpringLog = Join-Path $LogDir "spring.log"
 # Spring Boot does not read dotenv automatically. Scope these values to its child
@@ -625,6 +637,7 @@ Start-TrackedService -Name "Spring Boot" `
 }
 
 # B. FastAPI
+Invoke-WithLocalAiPort -Action {
 $AiDir = Join-Path $RepoRoot "ai\runtime"
 $FastApiPid = Join-Path $PidDir "fastapi.pid"
 $FastApiLog = Join-Path $LogDir "fastapi.log"
@@ -659,6 +672,21 @@ finally { Pop-Location }
 $celeryOwners = @(Get-CimInstance Win32_Process | Where-Object {
     Test-ServiceProcessIdentity -Process $_ -WorkingDirectory $AiDir -IdentityKind 'celery'
 })
+$workerConfig = @($sharedInternalEnvFiles + @(
+    (Join-Path $AiDir '.env'), (Join-Path $AiDir '.env.local'),
+    $PSCommandPath, (Join-Path $PSScriptRoot 'local-env.ps1')
+) | Where-Object { Test-Path -LiteralPath $_ } | ForEach-Object { Get-Item -LiteralPath $_ })
+$newestWorkerConfig = ($workerConfig | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
+if (@($celeryOwners | Where-Object { $_.CreationDate.ToUniversalTime() -lt $newestWorkerConfig }).Count -gt 0) {
+    Write-Host '  Restarting verified project workers to load current shared configuration.' -ForegroundColor Yellow
+    foreach ($owner in $celeryOwners) {
+        if (Get-Process -Id $owner.ProcessId -ErrorAction SilentlyContinue) {
+            & taskkill /PID $owner.ProcessId /T /F 2>$null | Out-Null
+        }
+    }
+    $celeryOwners = @()
+    $celeryResponding = $false
+}
 if ($celeryOwners.Count -gt 0) { $celeryActive = $true }
 if ($celeryResponding -and -not $celeryActive) {
     throw "WORKER_CONFLICT: A MathVision-named worker replied, but its local project identity could not be verified. Inspect the existing worker before launching; no unrelated process was stopped."
@@ -673,6 +701,26 @@ if ($celeryActive) {
         -WorkingDirectory $AiDir `
         -LogFile $CeleryLog `
         -PidFile $CeleryPid
+}
+
+}
+
+$authReady = $false
+$authWait = [Diagnostics.Stopwatch]::StartNew()
+while ($authWait.Elapsed.TotalSeconds -lt 30) {
+    try {
+        $null = Invoke-WebRequest -Uri 'http://127.0.0.1:8000/internal/v1/tutor/runtime' `
+            -Headers @{ 'X-Internal-API-Key' = $env:INTERNAL_API_KEY } -TimeoutSec 2
+        $authReady = $true
+        break
+    } catch {
+        if ([int]$_.Exception.Response.StatusCode -in @(401,403)) {
+            throw 'AI internal authentication check failed. Restart the project services with the shared configuration; key values are withheld.'
+        }
+        Start-Sleep -Milliseconds 500
+    }
+}
+if (-not $authReady) { throw 'AI authenticated runtime did not become ready within 30 seconds (key values withheld).' }
 }
 
 # D. Unified Portal Web
@@ -778,8 +826,13 @@ if (-not $allReady) {
 # 6. Run Diagnostic
 Write-Host "`n[6/6] Running system diagnostics..." -ForegroundColor Yellow
 $DiagScript = Join-Path $RepoRoot "tools\diagnostics\check_runtime.py"
-& $PyVenvExe $DiagScript
-$diagCode = $LASTEXITCODE
+Invoke-WithLocalEnvironment -Files $sharedInternalEnvFiles -AllowedKeys @('INTERNAL_API_KEY') -Action {
+    Invoke-WithLocalAiPort -Action {
+        Write-Host "Diagnostic internal authentication configured: $([bool]$env:INTERNAL_API_KEY)"
+        & $PyVenvExe $DiagScript
+        $script:diagCode = $LASTEXITCODE
+    }
+}
 
 Write-Host "`n============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Core Stack Services" -ForegroundColor Cyan

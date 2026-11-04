@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Typography,
@@ -30,6 +30,10 @@ import { SubmissionImage } from '../components/common/SubmissionImage';
 
 export default function SubmissionReviewPage() {
   const { id } = useParams<{ id: string }>();
+  return <SubmissionReview key={id} id={id} />;
+}
+
+function SubmissionReview({ id }: { id?: string }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -43,14 +47,6 @@ export default function SubmissionReviewPage() {
     queryFn: () => AppTeacherService.getSubmissionDetail(id!),
     enabled: !!id,
   });
-
-  useEffect(() => {
-    if (sub && editScore === '') {
-      const initial = sub.suggestedScore !== undefined ? sub.suggestedScore : (sub.gradeProposal?.score ?? '');
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setEditScore(initial);
-    }
-  }, [sub, editScore]);
 
   const approveMutation = useMutation({
     mutationFn: (subId: string) => AppTeacherService.approveSubmission(subId),
@@ -112,6 +108,11 @@ export default function SubmissionReviewPage() {
 
   const handleOverride = () => {
     if (id && editScore !== '') {
+      const score = Number(editScore);
+      if (!Number.isFinite(score) || score < 0 || score > (sub.maxScore ?? 10) || !editReason.trim()) {
+        setActionError(`Nhập điểm từ 0 đến ${sub.maxScore ?? 10} và lý do điều chỉnh.`);
+        return;
+      }
       setActionError(null);
       overrideMutation.mutate({ subId: id, score: Number(editScore), reason: editReason.trim() });
     }
@@ -355,7 +356,7 @@ export default function SubmissionReviewPage() {
                         variant="outlined"
                         size="large"
                         startIcon={<Edit />}
-                        onClick={() => setIsEditing(true)}
+                        onClick={() => { setEditScore(suggestedScore ?? ''); setEditReason(''); setIsEditing(true); }}
                         disabled={isPending}
                         sx={{ flex: 1, py: 1.25, fontWeight: 700 }}
                       >
