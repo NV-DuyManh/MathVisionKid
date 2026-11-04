@@ -82,6 +82,7 @@ jobs:
             .local-artifacts/browser/report/
             .local-artifacts/browser/results/
           retention-days: 7
+          include-hidden-files: true
           if-no-files-found: ignore
 
   student:
