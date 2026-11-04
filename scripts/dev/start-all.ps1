@@ -710,7 +710,7 @@ $authWait = [Diagnostics.Stopwatch]::StartNew()
 while ($authWait.Elapsed.TotalSeconds -lt 30) {
     try {
         $null = Invoke-WebRequest -Uri 'http://127.0.0.1:8000/internal/v1/tutor/runtime' `
-            -Headers @{ 'X-Internal-API-Key' = $env:INTERNAL_API_KEY } -TimeoutSec 2
+            -Headers @{ 'X-Internal-API-Key' = $env:INTERNAL_API_KEY } -TimeoutSec 2 -UseBasicParsing
         $authReady = $true
         break
     } catch {

@@ -57,6 +57,14 @@ Sau khi bật security alerts, API GitHub trả đủ 167 cảnh báo mở trên
 
 Đây là cảnh báo từ manifest trên main, không phải bằng chứng 167 lỗi đều có thể khai thác trong tiến trình đang chạy. Cũng không được kết luận an toàn chỉ vì một số manifest thuộc handoff cũ. Cần triage phiên bản/phạm vi sử dụng, cập nhật dependency theo từng PR và chạy hồi quy OCR/ảnh/giọng trước khi thay major hoặc khóa môi trường nghiên cứu. Governance này không nâng hàng loạt thư viện để che cảnh báo; không tuyên bố dự án sạch bảo mật. Snapshot đầy đủ lưu local trong `dependency-alerts-all.ndjson` bên cạnh backup cấu hình.
 
+## Sửa launcher chờ xác nhận PowerShell
+
+Probe `/internal/v1/tutor/runtime` trong `scripts/dev/start-all.ps1` thiếu `-UseBasicParsing`, khác các probe web còn lại. Windows PowerShell 5.1 sau cập nhật bảo mật có thể hỏi xác nhận trước khi phân tích response, chặn khởi động tự động. Đã thêm đúng switch vào probe, giữ nguyên header xác thực, timeout và kiểm tra readiness; không hạ policy bảo mật hệ thống.
+
+Regression trong `local-env.test.ps1` kiểm tra đủ 4 Invoke-WebRequest của launcher phải dùng basic parsing; CI chạy cả pwsh và Windows PowerShell 5.1. Local cả hai đạt. Thử chính câu lệnh probe qua HTTP loopback tạm với khóa tổng hợp ở chế độ NonInteractive đạt trên 5.1.26100.9711 và 7.6.5, không gọi dịch vụ thật hoặc in khóa. Không chạy lại toàn bộ hệ thống đang dùng để kiểm tra việc này. Skills applied cho bản sửa: ponytail, mathvision-quality (đường dẫn và lý do trong mục Skills Applied bên dưới).
+
+Nguồn hành vi PowerShell: [Microsoft Support](https://support.microsoft.com/en-us/servicing/os/windows/2025/12/powershell-5-1-invoke-webrequest-preventing-script-execution-from-web-content).
+
 ## Nguồn và phần không lấy
 
 Tham chiếu governance CODEGYM ở revision `667b580f89d63c7caf176d26869a2b2dbb5e25c8`; chi tiết trong `docs/engineering/skill-provenance.md`. Không nhập Maven/MySQL, mã CF/QA, luật hóa đơn/đơn hàng, skill trùng, prototype daemon, bot AI trả phí hoặc auto-merge. Giữ Catalog Bot hiện có.

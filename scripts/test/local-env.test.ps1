@@ -74,6 +74,22 @@ try {
     else { [Environment]::SetEnvironmentVariable('PORT', $oldPort, 'Process') }
 }
 
+# Windows PowerShell 5.1 can prompt before parsing web content, even for JSON.
+# Check the actual launcher's requests, including the internal auth probe.
+$webRequests = @($ast.FindAll({ param($node)
+    $node -is [Management.Automation.Language.CommandAst] -and
+    $node.GetCommandName() -in @('Invoke-WebRequest', 'iwr', 'wget', 'curl')
+}, $true))
+if ($webRequests.Count -eq 0) { throw 'Expected launcher web readiness requests' }
+foreach ($request in $webRequests) {
+    $basic = @($request.CommandElements | Where-Object {
+        $_ -is [Management.Automation.Language.CommandParameterAst] -and
+        $_.ParameterName -eq 'UseBasicParsing' -and $null -eq $_.Argument
+    })
+    if ($basic.Count -ne 1) { throw "Launcher web request must use basic parsing at line $($request.Extent.StartLineNumber)" }
+}
+Write-Output "PASS: $($webRequests.Count) launcher web requests use non-interactive basic parsing."
+
 $oldPort = [Environment]::GetEnvironmentVariable('PORT', 'Process')
 try {
     $env:PORT = 'inherited-from-another-tool'
