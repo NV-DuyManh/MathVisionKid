@@ -52,7 +52,19 @@ for (const role of ['TEACHER', 'ADMIN']) {
     app.expired = true;
     await page.reload();
     await expect(page).toHaveURL(signedOutUrl);
-    expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(1);
+    // Teacher returns to Portal, which has its own isolated expired session.
+    // Wait for that cleanup rather than counting requests during its startup.
+    if (role === 'TEACHER') {
+      await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+      await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+    }
+    const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
+    expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);
+    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(role === 'TEACHER' ? 1 : 0);
+    expect(refreshes).toHaveLength(role === 'TEACHER' ? 2 : 1);
+    await page.goto(`${site.origin}/dashboard`);
+    await expect(page).toHaveURL(signedOutUrl);
+    expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(refreshes.length);
   });
 }
 

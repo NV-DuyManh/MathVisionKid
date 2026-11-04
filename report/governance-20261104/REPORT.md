@@ -85,6 +85,14 @@ Lượt đầu phát hiện lỗi thật Teacher logout: `clearTokens` phát eve
 
 Giới hạn: production frontend thật, API giả lập; Student chỉ kiểm entry `/study/`, không test toàn bộ nội dung Student. Không thay backend authority, không có bằng chứng thiết bị thật hoặc kiểm thử OCR/giọng từ bộ browser này. Hướng dẫn và chi tiết phạm vi: `docs/engineering/browser-testing.md`.
 
+## Kiểm tra trước merge được owner cho phép
+
+Owner đã yêu cầu merge sau khi nghiệm thu local. CI `41866441567` trên `9e31a5d` chặn đúng vì browser đạt 25/26: test Teacher hết phiên đếm gộp refresh của Teacher và Portal thành hai yêu cầu. Trace mạng chứng minh một POST từ `https://teacher.mathvision.test` lúc 16:24:39.654Z và một POST từ `https://portal.mathvision.test` lúc 16:24:40.058Z, đều 401; không phải hai lần refresh của cùng ứng dụng. Phiên Portal được khởi tạo lại khi Teacher chuyển về trang chủ, nên thời điểm assertion cũ khiến kết quả chập chờn.
+
+Sửa fixture ghi origin của request; assertion mới đợi Portal xóa token, kiểm đúng một refresh cho mỗi origin, tổng số đúng theo luồng và mở lại dashboard không phát sinh refresh nữa. Không sửa production auth, tăng timeout hoặc bật retry để làm xanh. Local `npx playwright test --grep "expired credentials" --repeat-each=3` đạt 12/12 trong 37,7 giây; `npm run test:browser` đạt 26/26 trong 40,3 giây. CI phải chạy lại trên head chứa bản sửa; không dùng kết quả head cũ để merge. Artifact CI tổng hợp lưu local ở `.local-artifacts/merge-review-20261104/`; không commit trace/log.
+
+Skills applied cho kiểm tra tích hợp: mathvision-workflow, mathvision-review, mathvision-quality.
+
 ## Skills Applied
 
 - `ponytail`
@@ -103,6 +111,10 @@ Giới hạn: production frontend thật, API giả lập; Student chỉ kiểm 
   - SKILL.md: `.agents/skills/mathvision-quality/SKILL.md`
   - Why selected: Kiểm thử hành vi web bằng trình duyệt, giữ bằng chứng và giới hạn chính xác.
   - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts và hồi quy launcher trên PowerShell 5.1/7.
+- `mathvision-workflow`
+  - SKILL.md: `.agents/skills/mathvision-workflow/SKILL.md`
+  - Why selected: Owner đã cho phép tích hợp qua PR sau kiểm tra đúng revision.
+  - Applied to: Kiểm tra head/base/checks/discussions, giữ attribution và tách thay đổi dọn dẹp chưa commit.
 - `vercel-react-best-practices`
   - SKILL.md: `.agents/skills/react-best-practices/SKILL.md`
   - Why selected: Browser test phát hiện race điều hướng trong React Teacher AuthProvider.

@@ -37,7 +37,7 @@ export const test = base.extend({
       const method = request.method();
       const body = request.postDataJSON();
       const role = request.headers().authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
-      const record = { method, path, body, role, query: Object.fromEntries(url.searchParams) };
+      const record = { method, path, body, role, origin: request.headers().origin, query: Object.fromEntries(url.searchParams) };
       state.requests.push(record);
       const json = (value, status = 200) => route.fulfill({ status, json: value,
         headers: { 'access-control-allow-origin': '*' } });
