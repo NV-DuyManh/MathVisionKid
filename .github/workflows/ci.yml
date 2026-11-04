@@ -186,7 +186,9 @@ jobs:
           ./scripts/test/test_service_runtime_identity.ps1
       - name: Windows PowerShell 5.1 launcher compatibility
         shell: powershell
-        run: ./scripts/test/local-env.test.ps1
+        run: |
+          ./scripts/test/local-env.test.ps1
+          ./scripts/test/test_service_runtime_identity.ps1
       - run: python -m unittest scripts/test/test_run_launcher.py
 
   gate:

@@ -97,6 +97,65 @@ try {
     Remove-Item Function:Get-CimInstance
 }
 
+$stopFunction = $ast.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Stop-VerifiedWorkerTree' }, $true)
+if (-not $stopFunction) { throw 'Missing verified worker stop function.' }
+Invoke-Expression $stopFunction.Extent.Text
+$worker = [PSCustomObject]@{
+    ProcessId=12345; Name='python.exe'; ExecutablePath=$venvPython;
+    CommandLine="`"$venvPython`" -m celery -A app.jobs.celery_app worker";
+    CreationDate=[datetime]'2026-10-03T20:00:00'
+}
+$reused = $worker.PSObject.Copy(); $reused.CreationDate = $worker.CreationDate.AddSeconds(1)
+$foreign = $worker.PSObject.Copy(); $foreign.CommandLine = 'python C:\OtherProject\server.py'
+$stopCases = @(
+    @{ Name='already exited before stop'; Before=$null; Calls=0 },
+    @{ Name='reused PID is left alone'; Before=$reused; Calls=0 },
+    @{ Name='changed command is rejected'; Before=$foreign; Calls=0; Error='WORKER_IDENTITY_CHANGED' },
+    @{ Name='successful tree stop'; Before=$worker; After=$null; Success=$true; Calls=1 },
+    @{ Name='exited between lookup and taskkill'; Before=$worker; After=$null; Success=$false; Calls=1 },
+    @{ Name='failed stop of active worker blocks replacement'; Before=$worker; After=$worker; Calls=1; Error='WORKER_STOP_FAILED' },
+    @{ Name='success exit cannot hide an active worker'; Before=$worker; After=$worker; Success=$true; Calls=1; Error='WORKER_STOP_FAILED' },
+    @{ Name='timed out stop blocks replacement'; Before=$worker; After=$worker; Calls=1; TimedOut=$true; Error='WORKER_STOP_FAILED' },
+    @{ Name='PID reused after old worker exits is left alone'; Before=$worker; After=$reused; Calls=1 }
+)
+function Get-CimInstance {
+    param($ClassName, $Filter, $ErrorAction)
+    if ($script:stopCalls -eq 0) { return $script:stopCase.Before }
+    return $script:stopCase.After
+}
+function Invoke-CommandWithTimeout {
+    param($FilePath, $ArgumentList, $TimeoutSeconds)
+    if ($FilePath -ne 'taskkill.exe' -or ($ArgumentList -join ' ') -ne '/PID 12345 /T /F' -or $TimeoutSeconds -ne 10) {
+        throw 'Worker stop used an unexpected process or command.'
+    }
+    $script:stopCalls++
+    return [PSCustomObject]@{ Success=[bool]$script:stopCase.Success; TimedOut=[bool]$script:stopCase.TimedOut; ExitCode=$(if ($script:stopCase.Success) { 0 } else { 1 }) }
+}
+try {
+    foreach ($case in $stopCases) {
+        $script:stopCase=$case; $script:stopCalls=0; $failure=$null
+        try { Stop-VerifiedWorkerTree -ObservedProcess $worker -WorkingDirectory $runtimePath }
+        catch { $failure=$_.Exception.Message }
+        if ($case.Error) {
+            if ($failure -notmatch $case.Error) { throw "Expected $($case.Error): $($case.Name)" }
+        } elseif ($failure) { throw $failure }
+        if ($script:stopCalls -ne $case.Calls) { throw "Unexpected termination calls: $($case.Name)" }
+    }
+    Write-Host "PASS: $($stopCases.Count) worker stop races; exited/reused PIDs tolerated, foreign or still-active workers protected."
+} finally {
+    Remove-Item Function:Get-CimInstance
+    Remove-Item Function:Invoke-CommandWithTimeout
+}
+
+# Exercise native stderr capture on both shells, targeting only an absent PID.
+$absentId = [int]::MaxValue
+if (Get-CimInstance Win32_Process -Filter "ProcessId = $absentId") { throw 'Native stderr test target unexpectedly exists.' }
+$commandFunction = $ast.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Invoke-CommandWithTimeout' }, $true)
+Invoke-Expression $commandFunction.Extent.Text
+$nativeResult = Invoke-CommandWithTimeout -FilePath 'taskkill.exe' -ArgumentList @('/PID', "$absentId", '/T', '/F') -TimeoutSeconds 5
+if ($nativeResult.Success -or $nativeResult.TimedOut -or -not $nativeResult.Stderr) { throw 'Expected captured native process-not-found error.' }
+Write-Host 'PASS: Real taskkill process-not-found stderr captured without terminating PowerShell.'
+
 $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
 try {
     $listener.Start()

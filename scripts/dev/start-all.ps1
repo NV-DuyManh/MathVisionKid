@@ -507,6 +507,25 @@ function Test-ServiceProcessIdentity {
     return Test-ServiceCommandIdentity -CommandLine $parent.CommandLine -WorkingDirectory $WorkingDirectory -IdentityKind $IdentityKind
 }
 
+function Stop-VerifiedWorkerTree {
+    param($ObservedProcess, [string]$WorkingDirectory)
+    $targetId = [int]$ObservedProcess.ProcessId
+    $current = Get-CimInstance Win32_Process -Filter "ProcessId = $targetId" -ErrorAction Stop
+    # A parent tree stop may already have removed this child. Never act on a
+    # reused PID or trust an old process-list snapshot to authorize termination.
+    if (-not $current -or $current.CreationDate -ne $ObservedProcess.CreationDate) { return }
+    if (-not $current.CreationDate -or -not (Test-ServiceProcessIdentity -Process $current -WorkingDirectory $WorkingDirectory -IdentityKind 'celery')) {
+        throw "WORKER_IDENTITY_CHANGED: Cannot verify worker PID $targetId; no process was stopped."
+    }
+    # Capture native stderr rather than turning a benign 'process not found'
+    # race into a terminating NativeCommandError in Windows PowerShell 5.1.
+    $result = Invoke-CommandWithTimeout -FilePath 'taskkill.exe' -ArgumentList @('/PID', "$targetId", '/T', '/F') -TimeoutSeconds 10
+    $remaining = Get-CimInstance Win32_Process -Filter "ProcessId = $targetId" -ErrorAction Stop
+    if ($remaining -and $remaining.CreationDate -eq $ObservedProcess.CreationDate) {
+        throw "WORKER_STOP_FAILED: Worker PID $targetId is still active (stop exit $($result.ExitCode)); no replacement worker was started."
+    }
+}
+
 function Start-TrackedService {
     param(
         [string]$Name,
@@ -680,11 +699,12 @@ $newestWorkerConfig = ($workerConfig | Sort-Object LastWriteTimeUtc -Descending 
 if (@($celeryOwners | Where-Object { $_.CreationDate.ToUniversalTime() -lt $newestWorkerConfig }).Count -gt 0) {
     Write-Host '  Restarting verified project workers to load current shared configuration.' -ForegroundColor Yellow
     foreach ($owner in $celeryOwners) {
-        if (Get-Process -Id $owner.ProcessId -ErrorAction SilentlyContinue) {
-            & taskkill /PID $owner.ProcessId /T /F 2>$null | Out-Null
-        }
+        Stop-VerifiedWorkerTree -ObservedProcess $owner -WorkingDirectory $AiDir
     }
-    $celeryOwners = @()
+    $celeryOwners = @(Get-CimInstance Win32_Process | Where-Object {
+        Test-ServiceProcessIdentity -Process $_ -WorkingDirectory $AiDir -IdentityKind 'celery'
+    })
+    if ($celeryOwners.Count -gt 0) { throw 'WORKER_STOP_FAILED: Project workers remain active; no replacement worker was started.' }
     $celeryResponding = $false
 }
 if ($celeryOwners.Count -gt 0) { $celeryActive = $true }

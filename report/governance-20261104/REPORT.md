@@ -65,6 +65,14 @@ Regression trong `local-env.test.ps1` kiểm tra đủ 4 Invoke-WebRequest của
 
 Nguồn hành vi PowerShell: [Microsoft Support](https://support.microsoft.com/en-us/servicing/os/windows/2025/12/powershell-5-1-invoke-webrequest-preventing-script-execution-from-web-content).
 
+## Sửa race khi khởi động lại worker Windows
+
+Danh sách Celery có thể chứa cả tiến trình cha và con. `taskkill /T` dừng cây cha trước, làm PID con trong snapshot cũ không còn tồn tại; Windows PowerShell 5.1 với ErrorActionPreference Stop biến stderr native thành NativeCommandError dù có `2>$null`. Đã dùng helper capture stdout/stderr và timeout hiện có, đọc lại PID/CreationDate và định danh checkout trước khi dừng; bỏ qua tiến trình đã thoát hoặc PID đã được tái sử dụng. Sau lệnh dừng, nếu worker cũ vẫn còn sống thì báo WORKER_STOP_FAILED và không tạo worker thay thế. Đọc lại danh sách worker sau vòng dừng để tránh tạo trùng.
+
+Kiểm thử local `scripts/test/test_service_runtime_identity.ps1` trên Windows PowerShell 5.1 và pwsh 7 đạt: các ca định danh sẵn có, 9 tình huống dừng worker/race/timeout, lỗi process-not-found từ taskkill thật với PID không tồn tại và listener TCP ngoài dự án vẫn được giữ nguyên. `local-env.test.ps1` cũng đạt trên cả hai shell; actionlint và git diff --check của các file sửa đạt. `npm run check:governance` đạt 8 tests trong working tree hiện tại, gồm thay đổi artifact policy của chat dọn dẹp chưa được đưa vào commit bản sửa này. CI bổ sung suite định danh vào step PowerShell 5.1; kết quả local không thay thế kết quả CI của commit mới.
+
+Chạy thật `scripts/start-all.bat` trên máy trả exit code 0 và READY_FOR_CORE_DEMO: Docker, PostgreSQL, MinIO, Redis, Spring, FastAPI, xác thực tutor nội bộ, Celery, Portal/Teacher/Admin đều PASS. Lượt quan sát đầy đủ xác nhận các dịch vụ hiện hành được tái sử dụng; không tuyên bố đây là bằng chứng tất cả tình huống race đều xảy ra trong lần chạy thật. Student Metro chưa chạy; không có bằng chứng Expo Go/thiết bị thật trong bản sửa này. Skills applied: ponytail, mathvision-quality, mathvision-review.
+
 ## Nguồn và phần không lấy
 
 Tham chiếu governance CODEGYM ở revision `667b580f89d63c7caf176d26869a2b2dbb5e25c8`; chi tiết trong `docs/engineering/skill-provenance.md`. Không nhập Maven/MySQL, mã CF/QA, luật hóa đơn/đơn hàng, skill trùng, prototype daemon, bot AI trả phí hoặc auto-merge. Giữ Catalog Bot hiện có.
@@ -82,7 +90,7 @@ Giới hạn: production frontend thật, API giả lập; Student chỉ kiểm 
 - `ponytail`
   - SKILL.md: `.agents/skills/ponytail/SKILL.md`
   - Why selected: Quy trình tập trung, không thêm framework/SDK hoặc wrapper trùng.
-  - Applied to: Registry, bot Job Summary, CI dùng công cụ và kiểm thử sẵn có.
+  - Applied to: Registry, bot Job Summary, CI và dừng worker dùng helper/công cụ sẵn có.
 - `skill-creator`
   - SKILL.md: `C:/Users/Admin/.codex/skills/.system/skill-creator/SKILL.md`
   - Why selected: Tạo skill dự án phù hợp và không mở rộng quyền ngoài yêu cầu.
@@ -90,11 +98,11 @@ Giới hạn: production frontend thật, API giả lập; Student chỉ kiểm 
 - `mathvision-review`
   - SKILL.md: `.agents/skills/mathvision-review/SKILL.md`
   - Why selected: Review chính sách, an toàn dữ liệu và tính đúng của bằng chứng trước tích hợp.
-  - Applied to: Quyền workflow, ruleset không bypass chất lượng, phân biệt local/CI và mock/live.
+  - Applied to: Quyền workflow, ruleset không bypass chất lượng, bảo vệ PID/checkout khi dừng worker, phân biệt local/CI và mock/live.
 - `mathvision-quality`
   - SKILL.md: `.agents/skills/mathvision-quality/SKILL.md`
   - Why selected: Kiểm thử hành vi web bằng trình duyệt, giữ bằng chứng và giới hạn chính xác.
-  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter và CI failure artifacts.
+  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts và hồi quy launcher trên PowerShell 5.1/7.
 - `vercel-react-best-practices`
   - SKILL.md: `.agents/skills/react-best-practices/SKILL.md`
   - Why selected: Browser test phát hiện race điều hướng trong React Teacher AuthProvider.
