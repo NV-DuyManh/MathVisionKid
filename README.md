@@ -141,7 +141,7 @@ Versions above describe the repository, not a recommendation to upgrade independ
 | Guide a math lesson | Validated built-in plans for supported patterns; cloud-generated plans for other supported requests | Business API + AI runtime; cloud access for generated plans |
 | Grade asynchronous arithmetic submissions | Synthetic fixtures by default; YOLO in model mode | YOLO weights for model mode |
 
-Line detection, transcription, and reasoning are separate tasks. A successful health check or an error-free batch does **not** prove that every line or answer is correct. Difficult handwriting, skew, clutter, and incomplete questions still require review. See the [recognition refinement report](report/DRIVE_LINE_REFINEMENT_20261005.md) and [quality notes](docs/ARCHITECTURE_LOCAL_RUNTIME.md#quality-and-current-limits).
+Line detection, transcription, and reasoning are separate tasks. A successful health check or an error-free batch does **not** prove that every line or answer is correct. Difficult handwriting, skew, clutter, and incomplete questions still require review. See the [recognition refinement report (local archive)](report/README.md#local-archive) (`DRIVE_LINE_REFINEMENT_20261005.md`) and [quality notes](docs/ARCHITECTURE_LOCAL_RUNTIME.md#quality-and-current-limits).
 
 ## Project map
 
@@ -155,7 +155,7 @@ MathVisionKid/
 ├── infra/docker/         Local infrastructure
 ├── scripts/              Launch, health, and stop commands
 ├── docs/                 Setup, usage, architecture, and demo media
-└── report/               Dated implementation and validation reports
+└── report/               Local evidence and minimal tracked receipts
 ~~~
 
 ## Documentation
@@ -165,7 +165,7 @@ MathVisionKid/
 | Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) |
 | Deploy the web workspaces | [Vercel and production setup](docs/PRODUCTION_DEPLOYMENT.md) · [API/OCR trial on your PC](docs/PC_PREVIEW_DEPLOYMENT.md) |
 | Clone on another computer or understand the shared link | [Clone and hosting behavior](docs/CLONE_AND_HOSTING.md) · [Free cloud trial](docs/FREE_CLOUD_DEPLOYMENT.md) |
-| Review the shared student website | [Student web parity and verification](report/student-web-parity-2026-10-09.md) |
+| Review the shared student website | [Student web parity and verification (local archive)](report/README.md#local-archive) (`student-web-parity-2026-10-09.md`) |
 | Understand how a student uses it | [User guide](docs/USER_GUIDE.md) |
 | Present the app and view all demo images | [Demo walkthrough](docs/DEMO_GUIDE.md) |
 | Understand services and AI boundaries | [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) |

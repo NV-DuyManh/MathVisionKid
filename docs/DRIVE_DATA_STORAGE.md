@@ -120,7 +120,7 @@ or establish recognition accuracy.
 
 Archive `line-repair-20261008` contains the reviewed empty-source manifest,
 versioned geometry corrections and hash-bearing regression evidence. See
-[the phase report](../report/LINE_REPAIR_AND_SOURCE_TRIAGE_20261008.md).
+[the phase report (local archive)](../report/README.md#local-archive) (`LINE_REPAIR_AND_SOURCE_TRIAGE_20261008.md`).
 
 ```powershell
 py -3 .\scripts\data\restore_drive_archive.py --id line-repair-20261008 `
@@ -138,7 +138,7 @@ revised rectangles alone do not certify transcriptions for training.
 
 Archive `line-expansion-20261008` holds frozen runtime16/final runtime17
 comparisons and 1,000 additional regression sources. See
-[the expansion report](../report/LINE_CONTEXT_EXPANSION_20261008.md).
+[the expansion report (local archive)](../report/README.md#local-archive) (`LINE_CONTEXT_EXPANSION_20261008.md`).
 
 ```powershell
 py -3 .\scripts\data\restore_drive_archive.py --id line-expansion-20261008 `
@@ -155,7 +155,7 @@ overwrite historical evidence or equate a nonempty result with correct OCR.
 
 Archive `sparse-ink-20261008` contains runtime17/final runtime18 comparisons,
 1,671 final source results, the texture triage revision and seven separately
-reviewed math transcriptions. See [the phase report](../report/PAPER_TEXTURE_AND_TRANSCRIPT_REVIEW_20261008.md).
+reviewed math transcriptions. See [the phase report (local archive)](../report/README.md#local-archive) (`PAPER_TEXTURE_AND_TRANSCRIPT_REVIEW_20261008.md`).
 
 ```powershell
 py -3 .\scripts\data\restore_drive_archive.py --id sparse-ink-20261008 `
@@ -186,7 +186,7 @@ reads and 1,180 pending. Provider responses are not approved training labels.
 Archive `math-source-safety-20261008` contains the new 15 reads, 18 real-math
 selections from five source photos, remaining-crop probes, tested-code snapshots,
 test/HTTP receipts and actual browser screenshots. See
-[the phase report](../report/MATH_SOURCE_CONFIRMATION_AND_REMAINDER_20261008.md).
+[the phase report (local archive)](../report/README.md#local-archive) (`MATH_SOURCE_CONFIRMATION_AND_REMAINDER_20261008.md`).
 
 ```powershell
 py -3 .\scripts\data\restore_drive_archive.py --id math-source-safety-20261008 `
@@ -214,7 +214,7 @@ results include unreadable classifications and are not approved labels.
 Archive `ocr-completion-20261008` also contains a private reviewed 48-crop
 TRAIN/DEV/HOLDOUT manifest and an actual, rejected CRNN head-adaptation candidate.
 It does not replace production weights. See
-[the phase report](../report/OCR_COMPLETION_AND_CANDIDATE_20261008.md),
+[the phase report (local archive)](../report/README.md#local-archive) (`OCR_COMPLETION_AND_CANDIDATE_20261008.md`),
 [the review/training guide](OCR_REVIEW_AND_TRAINING.md), and
 [the owner's phone checklist](PHONE_TEST_HANDOFF.md).
 
@@ -240,7 +240,7 @@ HOLDOUT reuse is explicitly recorded in each newer manifest.
 Archive `ocr-fields-decoder-20261008` contains the follow-up evidence, candidates,
 current queue state and source review previews. It supplements the earlier
 archive; it does not replace historical evidence. See
-[the follow-up report](../report/OCR_FIELDS_AND_DECODER_20261008.md).
+[the follow-up report (local archive)](../report/README.md#local-archive) (`OCR_FIELDS_AND_DECODER_20261008.md`).
 
 ```powershell
 py -3 .\scripts\data\restore_drive_archive.py --id ocr-fields-decoder-20261008 `
@@ -270,7 +270,7 @@ py -3 .\scripts\data\restore_drive_archive.py --id ocr-visual-numeric-20261008 `
 Selected component results are 46/57 and, after explicitly retiring that set into
 TRAIN, 17/19 on a different page. Both contain digit errors and fail the gate.
 These are not all-photo accuracy scores. See the
-[phase report](../report/OCR_VISUAL_AND_NUMERIC_ADAPTATION_20261008.md).
+[phase report (local archive)](../report/README.md#local-archive) (`OCR_VISUAL_AND_NUMERIC_ADAPTATION_20261008.md`).
 
 The final resume adds six further reads: **244/1,319 saved, 1,075 pending**.
 Supplement `ocr-visual-numeric-final-20261008` preserves that later queue,
@@ -346,4 +346,4 @@ Use [the reading guide](OCR_REVIEW_AND_TRAINING.md#resume-page-reading-safely)
 to continue with the same reader fingerprint and persisted backoff. Existing
 different bytes are rejected on restore. Mounted archive readback is checked;
 Google's background upload cannot be independently confirmed, so working
-evidence is retained. See [the phase report](../report/CONTINUED_OCR_AND_LESSON_FIXES_20261009.md).
+evidence is retained. See [the phase report (local archive)](../report/README.md#local-archive) (`CONTINUED_OCR_AND_LESSON_FIXES_20261009.md`).
