@@ -10,6 +10,7 @@
     "packages/*"
   ],
   "scripts": {
+    "check:governance": "node scripts/skills.mjs check && node scripts/governance.mjs check && node --test scripts/governance.test.mjs",
     "start:device": "npm run start:device --workspace=student-mobile",
     "start:mobile": "npm run start:device --workspace=student-mobile",
     "test:mobile": "npm test --workspace=student-mobile",

@@ -18,6 +18,8 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 ## PROJECT RULES
 
+- Follow [team workflow](docs/engineering/team-working-agreement.md), [naming](docs/engineering/naming-conventions.md), [API/data contracts](docs/engineering/api-and-data.md), and [quality/security](docs/engineering/quality-and-security.md). Apply naming rules to new/changed code; never mass-rename working code, published contracts or research receipts.
+- Machine-readable routing: `.agents/registry.json`; validate with `npm run check:governance`. Correctness review uses `mathvision-review`; `ponytail-review` is only the optional complexity pass.
 - Inspect → implement → test → report → STOP
 - No commit/push unless owner explicitly permits
 - Preserve contributor attribution: keep original author metadata on merge/cherry-pick; use `cherry-pick -x` for selected commits. For adapted code without original commits, record the source SHA and verified `Co-authored-by` identity. Never claim the integrator wrote all contributed code, invent identities, or rewrite published main solely for credit. Update `CONTRIBUTORS.md` for new integration credit and report the actual PR state.

@@ -1,0 +1,188 @@
+name: MathVision CI
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  governance:
+    name: Governance and review plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      web: ${{ steps.plan.outputs.web }}
+      student: ${{ steps.plan.outputs.student }}
+      backend: ${{ steps.plan.outputs.backend }}
+      ai: ${{ steps.plan.outputs.ai }}
+      launcher: ${{ steps.plan.outputs.launcher }}
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      PR_TITLE: ${{ github.event.pull_request.title }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm run check:governance
+      - id: plan
+        run: node scripts/governance.mjs plan
+
+  web:
+    name: Web checks
+    needs: governance
+    if: needs.governance.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VITE_API_BASE_URL: https://api.mathvision.example/api/v1
+      VITE_PORTAL_URL: https://mathvision.example
+      VITE_TEACHER_URL: https://teacher.mathvision.example
+      VITE_ADMIN_URL: https://admin.mathvision.example
+      VITE_USE_MOCK: 'false'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Lint, contracts, production build and bundled application checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for app in portal-web teacher-web admin-web; do
+            npm run lint --workspace="$app"
+            npm run test:config --workspace="$app"
+            npm run build --workspace="$app"
+            npm run test:production --workspace="$app"
+          done
+
+  student:
+    name: Student checks
+    needs: governance
+    if: needs.governance.outputs.student == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck --workspace=student-mobile
+      - run: npm run test:contracts --workspace=student-mobile
+      - run: npm test --workspace=student-mobile -- --runInBand
+
+  backend:
+    name: Backend and migrations
+    needs: governance
+    if: needs.governance.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16.11
+        env:
+          POSTGRES_DB: mathvision_migration_test
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci-disposable-only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd="pg_isready -U ci -d mathvision_migration_test"
+          --health-interval=5s --health-timeout=5s --health-retries=12
+    env:
+      SPRING_PROFILES_ACTIVE: test
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: mathvision_migration_test
+      PGUSER: ci
+      PGPASSWORD: ci-disposable-only
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Backend behavior tests (H2)
+        working-directory: backend/business-api
+        run: chmod +x gradlew && ./gradlew test --no-daemon --console=plain
+      - name: SQL migration chain on a disposable PostgreSQL database
+        run: |
+          python3 -m unittest scripts/test/test_postgres_migrations_runner.py
+          python3 scripts/test/test_postgres_migrations.py
+
+  ai:
+    name: Offline tutoring and catalog
+    needs: governance
+    if: needs.governance.outputs.ai == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GROQ_ENABLED: 'false'
+      GEMINI_ENABLED: 'false'
+      RUNTIME_MODE: FIXTURE
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Install lightweight tutoring test dependencies (no models)
+        run: pip install -r scripts/ci-tutoring-requirements.txt
+      - name: Math and pronunciation regressions without live providers
+        working-directory: ai/runtime
+        run: python -m pytest -q tests/test_math_knowledge.py tests/test_speech_pronunciation.py
+      - run: python ai/runtime/scripts/test_catalog_store.py -v
+      - run: python ai/runtime/scripts/test_catalog_bot.py -v
+      - run: python -m unittest scripts/test/test_runtime_tutor_auth.py
+
+  launcher:
+    name: Windows launcher contracts
+    needs: governance
+    if: needs.governance.outputs.launcher == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - shell: pwsh
+        run: |
+          ./scripts/test/local-env.test.ps1
+          ./scripts/test/test_service_runtime_identity.ps1
+      - run: python -m unittest scripts/test/test_run_launcher.py
+
+  gate:
+    name: Quality gate
+    if: ${{ always() }}
+    needs: [governance, web, student, backend, ai, launcher]
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify all required results
+        env:
+          CHECK_PLAN: ${{ toJSON(needs.governance.outputs) }}
+          CHECK_RESULTS: '{"governance":"${{ needs.governance.result }}","web":"${{ needs.web.result }}","student":"${{ needs.student.result }}","backend":"${{ needs.backend.result }}","ai":"${{ needs.ai.result }}","launcher":"${{ needs.launcher.result }}"}'
+        run: node scripts/governance.mjs gate
