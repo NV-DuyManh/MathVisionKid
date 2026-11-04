@@ -39,11 +39,19 @@ Log local: `C:\Users\Admin\.codex\tmp\web-audit-20261103\governance-*.log`. Snap
 
 ## GitHub — trạng thái rollout
 
+PR kiểm chứng: https://github.com/NV-DuyManh/MathVisionKid/pull/15. Lượt CI đầu `41849390422` đạt Web, Student, Backend/migrations, AI và governance; launcher Windows thất bại vì fixture Python parent dùng cứng ổ E không tồn tại trên runner. `Quality gate` chặn đúng lỗi đó. Đã sửa riêng test theo đường dẫn checkout và chạy lại cả checkout E lẫn fixture C; không thay launcher nghiệp vụ hoặc bỏ assertion.
+
 Đã đọc lại qua API: auto-delete head sau merge bật; auto-merge vẫn tắt. Dependabot security updates, secret scanning và secret push protection đã bật. Các cấu hình này không nằm trong git diff.
 
 CI và required status check cần chạy thật trên PR trước khi kích hoạt toàn bộ điều kiện merge. Trạng thái PR/check-run/ruleset cuối cùng được bổ sung sau khi GitHub thực thi, không suy diễn từ kết quả local. File CI/Dependabot trong nhánh chưa merge không đồng nghĩa đã áp dụng làm cấu hình mặc định của main.
 
 Không self-approve hoặc bỏ điều kiện review để đưa bộ luật vào main. Người khác tác giả phải review PR; owner thực hiện merge sau khi checks đạt. Auto-delete không xóa lịch sử đóng góp, nhánh local hoặc nhánh còn PR mở.
+
+## Cảnh báo dependency hiện hữu
+
+Sau khi bật security alerts, API GitHub trả đủ 167 cảnh báo mở trên default branch main: 17 critical, 84 high, 57 medium, 9 low. Có 84 mã advisory khác nhau; một advisory có thể xuất hiện ở nhiều manifest. Phân bố: 63 ở handoff OCR `requirements-verified.txt`, 58 ở runtime `requirements-lock.txt`, 41 ở runtime `requirements.txt`, 1 ở runtime `uv.lock`, 4 ở `package-lock.json`.
+
+Đây là cảnh báo từ manifest trên main, không phải bằng chứng 167 lỗi đều có thể khai thác trong tiến trình đang chạy. Cũng không được kết luận an toàn chỉ vì một số manifest thuộc handoff cũ. Cần triage phiên bản/phạm vi sử dụng, cập nhật dependency theo từng PR và chạy hồi quy OCR/ảnh/giọng trước khi thay major hoặc khóa môi trường nghiên cứu. Governance này không nâng hàng loạt thư viện để che cảnh báo; không tuyên bố dự án sạch bảo mật. Snapshot đầy đủ lưu local trong `dependency-alerts-all.ndjson` bên cạnh backup cấu hình.
 
 ## Nguồn và phần không lấy
 
