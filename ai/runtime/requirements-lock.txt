@@ -38,7 +38,7 @@ numpy==2.5.3
 nvidia-ml-py==13.610.43
 opencv-python==5.0.0.93
 packaging==26.3
-pillow==12.3.0
+pillow==13.0.0
 pluggy==1.6.0
 polars==1.44.1
 polars-runtime-32==1.44.1
