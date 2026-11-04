@@ -1,0 +1,22 @@
+name: Báo lỗi
+description: Lỗi có cách tái hiện và tác động rõ
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Cách tái hiện, kết quả mong đợi và thực tế
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Revision, thiết bị/trình duyệt và vai trò
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Mức độ dự kiến
+      options: [P1, P2, P3, P0]
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Bằng chứng đã lọc dữ liệu riêng tư; cách tránh tạm nếu có

@@ -19,11 +19,18 @@ try {
         & $env:ComSpec /d /c 'if "%MVK_ENV_TEST_VALUE%"=="service" (exit 0) else (exit 1)'
         if ($LASTEXITCODE -ne 0) { throw 'Child inheritance failed' }
     }
-    if ($env:MVK_ENV_TEST_VALUE -or $env:MVK_ENV_TEST_LITERAL) { throw 'Environment leaked after child launch' }
+    foreach ($key in @('MVK_ENV_TEST_VALUE', 'MVK_ENV_TEST_LITERAL')) {
+        if ($null -ne [Environment]::GetEnvironmentVariable($key, 'Process')) { throw 'Environment leaked after child launch' }
+    }
+    Invoke-WithLocalEnvironment -Files @($base, $service) -AllowedKeys $keys -Action {
+        if ($env:MVK_ENV_TEST_VALUE -ne 'service') { throw 'Second environment scope skipped dotenv values' }
+        & $env:ComSpec /d /c 'if "%MVK_ENV_TEST_VALUE%"=="service" (exit 0) else (exit 1)'
+        if ($LASTEXITCODE -ne 0) { throw 'Second child inheritance failed' }
+    }
     try {
         Invoke-WithLocalEnvironment -Files @($base) -AllowedKeys $keys -Action { throw 'expected-test-error' }
     } catch { if ($_.Exception.Message -ne 'expected-test-error') { throw } }
-    if ($env:MVK_ENV_TEST_VALUE) { throw 'Environment leaked on failure' }
+    if ($null -ne [Environment]::GetEnvironmentVariable('MVK_ENV_TEST_VALUE', 'Process')) { throw 'Environment leaked on failure' }
     [IO.File]::WriteAllText($service, 'MVK_ENV_TEST_VALUE="unterminated')
     $rejected = $false
     try { Invoke-WithLocalEnvironment -Files @($service) -AllowedKeys $keys -Action {} }
@@ -31,7 +38,8 @@ try {
     if (-not $rejected) { throw 'Invalid syntax was accepted or value was exposed' }
     Write-Output 'PASS: dotenv precedence, literal values, allowlist, child inheritance, cleanup on success/failure, redacted syntax errors.'
 } finally {
-    [Environment]::SetEnvironmentVariable('MVK_ENV_TEST_PARENT', $oldParent, 'Process')
+    if ($null -eq $oldParent) { Remove-Item -LiteralPath 'Env:MVK_ENV_TEST_PARENT' -ErrorAction SilentlyContinue }
+    else { [Environment]::SetEnvironmentVariable('MVK_ENV_TEST_PARENT', $oldParent, 'Process') }
     # Delete only the two exact temporary files created by this test.
     foreach ($file in @($base, $service)) { if (Test-Path -LiteralPath $file) { [IO.File]::Delete($file) } }
     [IO.Directory]::Delete($folder)
@@ -61,4 +69,44 @@ try {
         throw 'Spring could inherit the AI port instead of listening on 8080'
     }
     Write-Output 'PASS: actual Spring launch keeps port 8080 when inherited PORT is 8000.'
-} finally { [Environment]::SetEnvironmentVariable('PORT',$oldPort,'Process') }
+} finally {
+    if ($null -eq $oldPort) { Remove-Item -LiteralPath 'Env:PORT' -ErrorAction SilentlyContinue }
+    else { [Environment]::SetEnvironmentVariable('PORT', $oldPort, 'Process') }
+}
+
+# Windows PowerShell 5.1 can prompt before parsing web content, even for JSON.
+# Check the actual launcher's requests, including the internal auth probe.
+$webRequests = @($ast.FindAll({ param($node)
+    $node -is [Management.Automation.Language.CommandAst] -and
+    $node.GetCommandName() -in @('Invoke-WebRequest', 'iwr', 'wget', 'curl')
+}, $true))
+if ($webRequests.Count -eq 0) { throw 'Expected launcher web readiness requests' }
+foreach ($request in $webRequests) {
+    $basic = @($request.CommandElements | Where-Object {
+        $_ -is [Management.Automation.Language.CommandParameterAst] -and
+        $_.ParameterName -eq 'UseBasicParsing' -and $null -eq $_.Argument
+    })
+    if ($basic.Count -ne 1) { throw "Launcher web request must use basic parsing at line $($request.Extent.StartLineNumber)" }
+}
+Write-Output "PASS: $($webRequests.Count) launcher web requests use non-interactive basic parsing."
+
+$oldPort = [Environment]::GetEnvironmentVariable('PORT', 'Process')
+try {
+    $env:PORT = 'inherited-from-another-tool'
+    Invoke-WithLocalAiPort -Action {
+        if ($env:PORT -ne '8000') { throw 'AI port was not isolated' }
+        & $env:ComSpec /d /c 'if "%PORT%"=="8000" (exit 0) else (exit 1)'
+        if ($LASTEXITCODE -ne 0) { throw 'AI child did not inherit the isolated port' }
+    }
+    if ($env:PORT -ne 'inherited-from-another-tool') { throw 'Inherited port not restored' }
+    try { Invoke-WithLocalAiPort -Action { throw 'expected-ai-error' } }
+    catch { if ($_.Exception.Message -ne 'expected-ai-error') { throw } }
+    if ($env:PORT -ne 'inherited-from-another-tool') { throw 'Port leaked after failure' }
+    Write-Output 'PASS: AI port isolated for child services and restored after success/failure.'
+    Remove-Item -LiteralPath 'Env:PORT' -ErrorAction SilentlyContinue
+    Invoke-WithLocalAiPort -Action { if ($env:PORT -ne '8000') { throw 'AI port missing in clean environment' } }
+    if ($null -ne [Environment]::GetEnvironmentVariable('PORT', 'Process')) { throw 'Absent port restored as an empty override' }
+} finally {
+    if ($null -eq $oldPort) { Remove-Item -LiteralPath 'Env:PORT' -ErrorAction SilentlyContinue }
+    else { [Environment]::SetEnvironmentVariable('PORT', $oldPort, 'Process') }
+}

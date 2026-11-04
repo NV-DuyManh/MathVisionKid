@@ -32,6 +32,7 @@ function App() {
             <Route path="batches/:id/review" element={<ReviewQueuePage />} />
             <Route path="submissions/:id" element={<SubmissionReviewPage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
       </AuthProvider>

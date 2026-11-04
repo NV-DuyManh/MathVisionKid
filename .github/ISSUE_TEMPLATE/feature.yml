@@ -1,0 +1,23 @@
+name: Tính năng / công việc
+description: Mục tiêu, tiêu chí nghiệm thu và kiểm thử
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Nguồn yêu cầu / issue liên quan
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kết quả và tiêu chí nghiệm thu
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Phạm vi, phụ thuộc và điều chưa quyết định
+  - type: textarea
+    id: verification
+    attributes:
+      label: Kế hoạch kiểm thử, owner và reviewer

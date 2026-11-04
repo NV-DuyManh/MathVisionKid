@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Typography,
@@ -7,38 +7,22 @@ import {
   CardContent,
   Button,
   Skeleton,
+  Alert,
   Chip,
   Tooltip,
 } from '@mui/material';
 import { School, Groups, AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import type { Class } from '../types';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
 
 export default function ClassesPage() {
-  const [classes, setClasses] = useState<Class[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let isMounted = true;
-    AppTeacherService.getClasses()
-      .then((data) => {
-        if (isMounted) {
-          setClasses(data);
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: classes = [], isLoading: loading, isError, refetch } = useQuery({
+    queryKey: ['teacher-classes'],
+    queryFn: () => AppTeacherService.getClasses(),
+  });
 
   return (
     <Box>
@@ -57,7 +41,11 @@ export default function ClassesPage() {
         }
       />
 
-      {loading ? (
+      {isError ? (
+        <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
+          Chưa tải được danh sách. Vui lòng thử lại.
+        </Alert>
+      ) : loading ? (
         <Grid container spacing={3}>
           {[1, 2, 3].map((i) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
@@ -156,7 +144,7 @@ export default function ClassesPage() {
                     size="small"
                     fullWidth
                     startIcon={<Assignment />}
-                    onClick={() => navigate('/assignments/create')}
+                    onClick={() => navigate(`/assignments/create?classId=${encodeURIComponent(c.id || c.classId || '')}`)}
                     sx={{ borderRadius: 2, fontWeight: 700 }}
                   >
                     Giao bài tập
@@ -167,7 +155,7 @@ export default function ClassesPage() {
                       size="small"
                       endIcon={<ArrowForward />}
                       sx={{ minWidth: 108, whiteSpace: 'nowrap', borderRadius: 2, fontWeight: 700 }}
-                      onClick={() => navigate('/batches/create')}
+                      onClick={() => navigate('/assignments')}
                     >
                       Chấm bài
                     </Button>

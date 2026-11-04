@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Typography,
@@ -12,6 +12,7 @@ import {
   Paper,
   Skeleton,
   Chip,
+  Alert,
 } from '@mui/material';
 import {
   AssignmentTurnedIn,
@@ -24,7 +25,6 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import type { DashboardStats, Class } from '../types';
 import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
 import { PageHeader } from '../components/common/PageHeader';
@@ -32,33 +32,15 @@ import { StatCard } from '../components/common/StatCard';
 import { EmptyState } from '../components/common/EmptyState';
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [classes, setClasses] = useState<Class[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { user } = useAuth();
-
-  useEffect(() => {
-    let isMounted = true;
-    Promise.all([
-      AppTeacherService.getDashboard(),
-      AppTeacherService.getClasses().catch(() => []),
-    ])
-      .then(([dashStats, classList]) => {
-        if (isMounted) {
-          setStats(dashStats);
-          setClasses(classList);
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: stats, isLoading: statsLoading, refetch } = useQuery({
+    queryKey: ['teacher-dashboard'], queryFn: () => AppTeacherService.getDashboard(),
+  });
+  const { data: classes = [], isLoading: classesLoading, isError: classesError, refetch: refetchClasses } = useQuery({
+    queryKey: ['teacher-classes'], queryFn: () => AppTeacherService.getClasses(),
+  });
+  const loading = statsLoading || classesLoading;
 
   const displayName = user?.firstName
     ? `${user.lastName || ''} ${user.firstName}`.trim()
@@ -120,6 +102,7 @@ export default function DashboardPage() {
           sx={{ mb: 3, p: 2, bgcolor: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', borderRadius: 2.5 }}
         >
           Chưa tải được thống kê tổng quan. Bạn vẫn có thể mở Lớp học, Bài tập và Đợt chấm từ thanh điều hướng.
+          <Button onClick={() => void refetch()}>Thử lại</Button>
         </Paper>
       )}
 
@@ -199,9 +182,9 @@ export default function DashboardPage() {
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Lớp học phụ trách"
-            value={stats ? classes.length : null}
+            value={!classesError ? classes.length : null}
             description={
-              stats
+              !classesError
                 ? `Tổng sĩ số: ${classes.reduce((sum, c) => sum + (c.studentCount || 0), 0)} học sinh`
                 : 'Chưa tải được dữ liệu'
             }
@@ -363,7 +346,9 @@ export default function DashboardPage() {
           </Box>
 
           <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0', p: 2 }}>
-            {classes.length === 0 ? (
+            {classesError ? (
+              <Alert severity="error" action={<Button onClick={() => void refetchClasses()}>Thử lại</Button>}>Chưa tải được lớp học phụ trách.</Alert>
+            ) : classes.length === 0 ? (
               <EmptyState
                 title="Chưa có lớp học phụ trách"
                 description="Bạn chưa được phân công lớp học nào hoặc dữ liệu đang được đồng bộ."
@@ -403,7 +388,7 @@ export default function DashboardPage() {
                       <Button
                         size="small"
                         variant="outlined"
-                        onClick={() => navigate('/assignments/create')}
+                        onClick={() => navigate(`/assignments/create?classId=${encodeURIComponent(cls.id || cls.classId || '')}`)}
                         sx={{ borderRadius: 2, fontWeight: 700, fontSize: '0.75rem', py: 0.25, px: 1.25 }}
                       >
                         Giao bài

@@ -9,6 +9,23 @@ function Invoke-WithLocalSpeechTools {
     } finally { $env:PATH = $previousPath }
 }
 
+# The unified launcher binds the AI service to 8000. Do not let a generic PORT
+# inherited from a shell or hosting tool override that service's settings.
+function Invoke-WithLocalAiPort {
+    param([scriptblock]$Action)
+    $previousPort = [Environment]::GetEnvironmentVariable('PORT', 'Process')
+    try {
+        $env:PORT = '8000'
+        & $Action
+    } finally {
+        if ($null -eq $previousPort) {
+            Remove-Item -LiteralPath 'Env:PORT' -ErrorAction SilentlyContinue
+        } else {
+            [Environment]::SetEnvironmentVariable('PORT', $previousPort, 'Process')
+        }
+    }
+}
+
 function Invoke-WithLocalEnvironment {
     param(
         [string[]]$Files,
@@ -52,7 +69,13 @@ function Invoke-WithLocalEnvironment {
         & $Action
     } finally {
         foreach ($key in $previous.Keys) {
-            [Environment]::SetEnvironmentVariable($key, $previous[$key], 'Process')
+            # PowerShell can coerce null to an empty string in the .NET call.
+            # Remove absent variables so the next scope can load them again.
+            if ($null -eq $previous[$key]) {
+                Remove-Item -LiteralPath ('Env:' + $key) -ErrorAction SilentlyContinue
+            } else {
+                [Environment]::SetEnvironmentVariable($key, $previous[$key], 'Process')
+            }
         }
     }
 }

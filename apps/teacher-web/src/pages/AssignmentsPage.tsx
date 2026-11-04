@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Typography,
@@ -10,39 +10,23 @@ import {
   TableHead,
   TableRow,
   Skeleton,
+  Alert,
   Chip,
   Card,
 } from '@mui/material';
 import { AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import type { Assignment as AssignmentType } from '../types';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
 import { StatusChip } from '../components/common/StatusChip';
 
 export default function AssignmentsPage() {
-  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let isMounted = true;
-    AppTeacherService.getAssignments()
-      .then((data) => {
-        if (isMounted) {
-          setAssignments(data);
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: assignments = [], isLoading: loading, isError, refetch } = useQuery({
+    queryKey: ['teacher-assignments'],
+    queryFn: () => AppTeacherService.getAssignments(),
+  });
 
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
@@ -72,7 +56,11 @@ export default function AssignmentsPage() {
         }
       />
 
-      {loading ? (
+      {isError ? (
+        <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
+          Chưa tải được danh sách. Vui lòng thử lại.
+        </Alert>
+      ) : loading ? (
         <Card sx={{ p: 2.5, borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           {[1, 2, 3, 4].map((i) => (
             <Skeleton key={i} variant="rectangular" height={52} sx={{ mb: 1.5, borderRadius: 2 }} />
@@ -142,9 +130,7 @@ export default function AssignmentsPage() {
                           size="small"
                           endIcon={<ArrowForward />}
                           onClick={() =>
-                            navigate('/batches/create', {
-                              state: { assignmentId: a.assignmentId || a.id },
-                            })
+                            navigate(`/batches/create?assignmentId=${encodeURIComponent(a.assignmentId || a.id || '')}`)
                           }
                           sx={{
                             borderRadius: 2,

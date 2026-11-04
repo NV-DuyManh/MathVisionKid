@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "id": "banner-design",
+      "folder": "banner-design",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "brand",
+      "folder": "brand",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "design",
+      "folder": "design",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "design-system",
+      "folder": "design-system",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "docx",
+      "folder": "docx",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "fixing-accessibility",
+      "folder": "fixing-accessibility",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "fixing-motion-performance",
+      "folder": "fixing-motion-performance",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "mathvision-backend",
+      "folder": "mathvision-backend",
+      "origin": "project"
+    },
+    {
+      "id": "mathvision-quality",
+      "folder": "mathvision-quality",
+      "origin": "project"
+    },
+    {
+      "id": "mathvision-review",
+      "folder": "mathvision-review",
+      "origin": "project"
+    },
+    {
+      "id": "mathvision-workflow",
+      "folder": "mathvision-workflow",
+      "origin": "project"
+    },
+    {
+      "id": "ponytail",
+      "folder": "ponytail",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ponytail-audit",
+      "folder": "ponytail-audit",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ponytail-debt",
+      "folder": "ponytail-debt",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ponytail-gain",
+      "folder": "ponytail-gain",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ponytail-help",
+      "folder": "ponytail-help",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ponytail-review",
+      "folder": "ponytail-review",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "vercel-react-best-practices",
+      "folder": "react-best-practices",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "slides",
+      "folder": "slides",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ui-styling",
+      "folder": "ui-styling",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "ui-ux-pro-max",
+      "folder": "ui-ux-pro-max",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "web-design-guidelines",
+      "folder": "web-design-guidelines",
+      "origin": "existing-workspace"
+    },
+    {
+      "id": "xlsx",
+      "folder": "xlsx",
+      "origin": "existing-workspace"
+    }
+  ],
+  "routes": {
+    "workflow": [
+      "mathvision-workflow"
+    ],
+    "requirements": [
+      "mathvision-workflow"
+    ],
+    "backend": [
+      "mathvision-backend"
+    ],
+    "database": [
+      "mathvision-backend"
+    ],
+    "frontend": [
+      "vercel-react-best-practices",
+      "fixing-accessibility"
+    ],
+    "design": [
+      "ui-ux-pro-max",
+      "fixing-accessibility"
+    ],
+    "accessibility": [
+      "fixing-accessibility"
+    ],
+    "ui-review": [
+      "web-design-guidelines",
+      "fixing-accessibility"
+    ],
+    "motion": [
+      "fixing-motion-performance"
+    ],
+    "quality": [
+      "mathvision-quality"
+    ],
+    "review": [
+      "mathvision-review"
+    ],
+    "simplicity": [
+      "ponytail-review"
+    ],
+    "implementation": [
+      "ponytail"
+    ],
+    "release": [
+      "mathvision-workflow",
+      "mathvision-quality"
+    ],
+    "ai-ocr": [
+      "mathvision-quality"
+    ],
+    "speech": [
+      "mathvision-quality"
+    ],
+    "brand": [
+      "brand"
+    ],
+    "documents": [
+      "docx"
+    ],
+    "spreadsheets": [
+      "xlsx"
+    ],
+    "slides": [
+      "slides"
+    ]
+  }
+}

@@ -227,6 +227,24 @@ def check_fastapi():
         )
 
 
+def check_tutor_auth():
+    key = os.environ.get('INTERNAL_API_KEY', '')
+    fix = 'Start the unified launcher so Spring and AI share their internal configuration.'
+    if not key:
+        record_result('Tutor internal auth', 'BLOCKED', 'Internal credential not provided to this diagnostic (value withheld).', fix)
+        return
+    request = urllib.request.Request('http://127.0.0.1:8000/internal/v1/tutor/runtime',
+                                     headers={'X-Internal-API-Key': key}, method='GET')
+    try:
+        with urllib.request.urlopen(request, timeout=5.0) as response:
+            if response.status != 200:
+                raise ValueError('Unexpected authenticated status')
+        record_result('Tutor internal auth', 'PASS')
+    except Exception:
+        # Never stringify this exception: request headers contain the credential.
+        record_result('Tutor internal auth', 'FAIL', 'Authenticated tutoring endpoint is unavailable or rejected the shared credential (value withheld).', fix)
+
+
 def check_celery():
     # Attempt to ping Celery worker using python in ai-service venv
     python_bin = str(AI_VENV_PYTHON) if AI_VENV_PYTHON.exists() else sys.executable
@@ -521,6 +539,7 @@ def main():
     check_redis()
     check_spring()
     check_fastapi()
+    check_tutor_auth()
     check_celery()
     check_portal_web()
     check_teacher_web()
@@ -535,6 +554,7 @@ def main():
         ("Redis", RESULTS.get("Redis", "NOT_RUNNING")),
         ("Spring Boot", RESULTS.get("Spring Boot", "NOT_RUNNING")),
         ("FastAPI", RESULTS.get("FastAPI", "NOT_RUNNING")),
+        ("Tutor internal auth", RESULTS.get("Tutor internal auth", "NOT_RUNNING")),
         ("Celery Worker", RESULTS.get("Celery Worker", "NOT_RUNNING")),
         ("Unified Portal Web", RESULTS.get("Unified Portal Web", "NOT_RUNNING")),
         ("Teacher Web", RESULTS.get("Teacher Web", "NOT_RUNNING")),
@@ -587,7 +607,7 @@ def main():
     # Determine overall status distinguishing core vs full demo
     core_services = [
         "Docker", "PostgreSQL", "MinIO", "Redis",
-        "Spring Boot", "FastAPI", "Celery Worker",
+        "Spring Boot", "FastAPI", "Tutor internal auth", "Celery Worker",
         "Unified Portal Web", "Teacher Web", "Admin Web"
     ]
     core_pass = all(RESULTS.get(s) == "PASS" for s in core_services)

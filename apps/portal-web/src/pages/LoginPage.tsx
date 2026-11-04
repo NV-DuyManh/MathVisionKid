@@ -215,15 +215,15 @@ export const LoginPage: React.FC = () => {
       } else if (err.code === 'auth/popup-blocked') {
         setError('Trình duyệt đã chặn cửa sổ Facebook. Hãy cho phép cửa sổ bật lên rồi thử lại.');
       } else if (err.code === 'auth/unauthorized-domain') {
-        setError('Tên miền hiện tại chưa được thêm vào Firebase Authentication → Settings → Authorized domains.');
+        setError('Chưa đăng nhập được bằng Facebook tại đây. Hãy dùng email hoặc thử lại sau.');
       } else if (err.code === 'auth/operation-not-allowed') {
-        setError('Facebook Login chưa được bật trong Firebase Authentication.');
+        setError('Đăng nhập Facebook hiện chưa sẵn sàng. Hãy dùng email.');
       } else if (err.code === 'auth/invalid-api-key') {
-        setError('Cấu hình Firebase Web chưa đúng. Hãy kiểm tra API key của ứng dụng Web.');
+        setError('Đăng nhập Facebook hiện chưa sẵn sàng. Hãy dùng email.');
       } else if (err.code === 'auth/network-request-failed') {
-        setError('Không kết nối được Firebase. Hãy kiểm tra mạng rồi thử lại.');
+        setError('Chưa kết nối được dịch vụ đăng nhập. Hãy kiểm tra mạng rồi thử lại.');
       } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        setError('Facebook chưa mở được. Hãy kiểm tra cấu hình Facebook Login trong Meta và Firebase rồi thử lại.');
+        setError('Chưa mở được Facebook. Hãy dùng email hoặc thử lại sau.');
       }
     } finally {
       submitLock.current = false;
@@ -233,12 +233,12 @@ export const LoginPage: React.FC = () => {
 
   const handleSocialStudentSetup = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!beginSubmission()) return;
     if (!socialSetupCredential) {
       setError('Phiên xác minh đã hết. Hãy đăng nhập lại.');
       setAuthView('login');
       return;
     }
+    if (!beginSubmission()) return;
     setLoading(true);
     setError(null);
     try {
@@ -334,6 +334,7 @@ export const LoginPage: React.FC = () => {
       return;
     }
 
+    if (!beginSubmission()) return;
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -359,6 +360,7 @@ export const LoginPage: React.FC = () => {
           ? 'Thông tin đăng ký chưa hợp lệ. Hãy kiểm tra lại các mục đã nhập.'
           : 'Chưa tạo được tài khoản. Hãy kiểm tra kết nối rồi thử lại.');
     } finally {
+      submitLock.current = false;
       setLoading(false);
     }
   };
@@ -369,6 +371,7 @@ export const LoginPage: React.FC = () => {
       setError('Nhập email đã đăng ký để nhận mã xác nhận.');
       return;
     }
+    if (!beginSubmission()) return;
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -379,11 +382,12 @@ export const LoginPage: React.FC = () => {
     } catch (err: any) {
       const errorCode = err.response?.data?.error?.code;
       setError(errorCode === 'EMAIL_DELIVERY_FAILED'
-        ? 'Gmail từ chối đăng nhập SMTP. Quản trị viên cần cập nhật App Password đúng tài khoản gửi trong cấu hình rồi khởi động lại dịch vụ.'
+        ? 'Chưa gửi được email xác nhận. Hãy thử lại sau hoặc liên hệ người hỗ trợ.'
         : err.response?.status === 503
-          ? 'Dịch vụ gửi email chưa được cấu hình đầy đủ. Hãy kiểm tra cấu hình SMTP rồi khởi động lại dịch vụ.'
+          ? 'Dịch vụ gửi email tạm thời chưa sẵn sàng. Hãy thử lại sau.'
           : 'Chưa gửi được mã xác nhận. Hãy kiểm tra kết nối rồi thử lại.');
     } finally {
+      submitLock.current = false;
       setLoading(false);
     }
   };
@@ -394,10 +398,11 @@ export const LoginPage: React.FC = () => {
       setError('Mã xác nhận phải gồm 6 chữ số.');
       return;
     }
-    if (newPassword.length < 8) {
-      setError('Mật khẩu mới phải có ít nhất 8 ký tự.');
+    if (newPassword.length < 8 || newPassword.length > 72) {
+      setError('Mật khẩu mới phải có từ 8 đến 72 ký tự.');
       return;
     }
+    if (!beginSubmission()) return;
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -413,6 +418,7 @@ export const LoginPage: React.FC = () => {
         ? 'Mã không đúng hoặc đã hết hạn. Kiểm tra email rồi thử lại.'
         : 'Chưa đổi được mật khẩu. Hãy thử lại sau.');
     } finally {
+      submitLock.current = false;
       setLoading(false);
     }
   };

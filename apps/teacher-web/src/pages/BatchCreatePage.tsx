@@ -30,8 +30,9 @@ import {
   FactCheck,
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import { useQuery } from '@tanstack/react-query';
 import PrivacyEditorModal from './PrivacyEditorModal';
 
 interface FileState {
@@ -47,43 +48,61 @@ export default function BatchCreatePage() {
   const location = useLocation();
   const assignmentId = location.state?.assignmentId;
 
+  const [params, setParams] = useSearchParams();
+  const chosenId = params.get('assignmentId') || assignmentId;
+  const [hasDraft, setHasDraft] = useState(false);
+  const { data: assignments = [], isLoading, isError, refetch } = useQuery({
+    queryKey: ['teacher-assignments'], queryFn: () => AppTeacherService.getAssignments(),
+  });
+  return <Box>
+    <PageHeader title="Tạo đợt chấm bài" subtitle="Chọn bài tập rồi tải ảnh bài làm của học sinh." />
+    {isError && <Alert severity="error" action={<Button onClick={() => void refetch()}>Thử lại</Button>}>Chưa tải được bài tập.</Alert>}
+    <FormControl fullWidth sx={{ mb: 3 }} disabled={isLoading || hasDraft}>
+      <InputLabel id="batch-assignment-label">Bài tập cần chấm</InputLabel>
+      <Select labelId="batch-assignment-label" label="Bài tập cần chấm" value={chosenId || ''}
+        onChange={e => setParams({ assignmentId: e.target.value })}>
+        {chosenId && !assignments.some(a => (a.assignmentId || a.id) === chosenId) &&
+          <MenuItem value={chosenId}>Bài tập đã chọn</MenuItem>}
+        {assignments.map(a => <MenuItem key={a.assignmentId || a.id} value={a.assignmentId || a.id}>{a.title}</MenuItem>)}
+      </Select>
+    </FormControl>
+    {hasDraft && <Typography variant="body2" sx={{ mb: 2 }}>Xóa các ảnh đã chọn nếu muốn đổi bài tập.</Typography>}
+    {!isLoading && !isError && assignments.length === 0 && !chosenId &&
+      <Alert severity="info" action={<Button onClick={() => navigate('/assignments/create')}>Tạo bài tập</Button>}>Chưa có bài tập để chấm.</Alert>}
+    {chosenId && <BatchUpload key={chosenId} assignmentId={chosenId} onDraftChange={setHasDraft} />}
+  </Box>;
+}
+
+function BatchUpload({ assignmentId, onDraftChange }: { assignmentId: string; onDraftChange: (value: boolean) => void }) {
+  const navigate = useNavigate();
   const [files, setFiles] = useState<FileState[]>([]);
-  const [roster, setRoster] = useState<{ id: string; name: string }[]>([]);
   const [editingFile, setEditingFile] = useState<FileState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-
+  const submitLock = useRef(false);
+  const [createdBatchId, setCreatedBatchId] = useState('');
+  useEffect(() => { onDraftChange(files.length > 0 || uploading); }, [files.length, uploading, onDraftChange]);
+  const { data: roster = [], isLoading: rosterLoading, isError: rosterError, refetch } = useQuery({
+    queryKey: ['assignment-roster', assignmentId],
+    queryFn: () => AppTeacherService.getAssignmentRoster(assignmentId),
+  });
   const filesRef = useRef(files);
-  useEffect(() => {
-    filesRef.current = files;
-  }, [files]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const fetchClass = async () => {
-      try {
-        if (!assignmentId) throw new Error('Missing assignment');
-        const students = await AppTeacherService.getAssignmentRoster(assignmentId);
-        if (isMounted) {
-          setRoster(students);
-          if (!students.length) setError('Lớp chưa có học sinh. Hãy thêm học sinh trước khi gửi bài.');
-        }
-      } catch {
-        if (isMounted) setError('Chưa tải được danh sách học sinh. Hãy quay lại chọn bài tập và thử lại.');
-      }
-    };
-    fetchClass();
-
-    return () => {
-      isMounted = false;
-      // Clean up object URLs
-      filesRef.current.forEach((f) => URL.revokeObjectURL(f.previewUrl));
-    };
-  }, [assignmentId]);
+  useEffect(() => { filesRef.current = files; }, [files]);
+  useEffect(() => () => {
+    filesRef.current.forEach(f => URL.revokeObjectURL(f.previewUrl));
+  }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selected = Array.from(e.target.files);
+      e.target.value = '';
+      if (selected.some(file => !['image/jpeg', 'image/png', 'image/webp'].includes(file.type))) {
+        setError('Hãy chọn ảnh JPG, PNG hoặc WebP.');
+        return;
+      }
+      if (selected.some(file => file.size > 10 * 1024 * 1024)) {
+        setError('Mỗi ảnh tối đa 10 MB. Hãy chọn ảnh nhỏ hơn.'); return;
+      }
       const remainingSlots = 30 - files.length;
       if (remainingSlots <= 0) {
         setError('Đã đạt tối đa 30 ảnh cho một đợt chấm.');
@@ -103,25 +122,30 @@ export default function BatchCreatePage() {
   };
 
   const removeFile = (idToRemove: string) => {
-    setFiles((prev) => {
-      const f = prev.find((x) => x.id === idToRemove);
-      if (f) URL.revokeObjectURL(f.previewUrl);
-      return prev.filter((x) => x.id !== idToRemove);
-    });
+    const removed = files.find(f => f.id === idToRemove);
+    if (removed) URL.revokeObjectURL(removed.previewUrl);
+    setFiles(prev => prev.filter(f => f.id !== idToRemove));
   };
 
   const handleReplaceFile = (idToReplace: string, e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      if (file.size > 10 * 1024 * 1024) { setError('Mỗi ảnh tối đa 10 MB.'); e.target.value = ''; return; }
+      e.target.value = '';
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        setError('Hãy chọn ảnh JPG, PNG hoặc WebP.'); return;
+      }
+      const old = files.find(f => f.id === idToReplace);
+      if (old) URL.revokeObjectURL(old.previewUrl);
+      const previewUrl = URL.createObjectURL(file);
       setFiles((prev) =>
         prev.map((f) => {
           if (f.id === idToReplace) {
-            URL.revokeObjectURL(f.previewUrl);
             return {
               ...f,
               originalFile: file,
               sanitizedBlob: null,
-              previewUrl: URL.createObjectURL(file),
+              previewUrl,
             };
           }
           return f;
@@ -135,14 +159,17 @@ export default function BatchCreatePage() {
   };
 
   const handleSaveSanitized = (blob: Blob) => {
+    if (blob.size > 10 * 1024 * 1024) { setError('Ảnh sau khi che lớn hơn 10 MB. Hãy chọn ảnh nhỏ hơn.'); setEditingFile(null); return; }
     if (editingFile) {
+      URL.revokeObjectURL(editingFile.previewUrl);
+      const previewUrl = URL.createObjectURL(blob);
       setFiles((prev) =>
         prev.map((f) =>
           f.id === editingFile.id
             ? {
                 ...f,
                 sanitizedBlob: blob,
-                previewUrl: URL.createObjectURL(blob),
+                previewUrl,
               }
             : f
         )
@@ -167,9 +194,10 @@ export default function BatchCreatePage() {
   const isCountValid = totalFiles >= 1 && totalFiles <= 30;
   const isMappingValid = mappedCount === totalFiles && totalFiles > 0;
   const isPrivacyValid = sanitizedCount === totalFiles && totalFiles > 0;
-  const isReadyToSubmit = isCountValid && isMappingValid && isPrivacyValid;
+  const isReadyToSubmit = isCountValid && isMappingValid && isPrivacyValid && !rosterLoading && !rosterError && roster.length > 0 && !createdBatchId;
 
   const handleStartProcessing = async () => {
+    if (submitLock.current || !isReadyToSubmit) return;
     setError(null);
     if (totalFiles < 1) {
       setError('Vui lòng tải lên ít nhất 1 ảnh bài làm.');
@@ -188,18 +216,27 @@ export default function BatchCreatePage() {
       return;
     }
 
+    if (files.reduce((size, f) => size + (f.sanitizedBlob?.size || 0), 0) > 95 * 1024 * 1024) {
+      setError('Tổng ảnh quá lớn. Hãy chia thành đợt nhỏ hơn 95 MB.'); return;
+    }
+    submitLock.current = true;
     try {
       setUploading(true);
       const batch = await AppTeacherService.createBatch(assignmentId, files.length);
+      const batchId = batch.batchId || batch.id;
+      if (!batchId) throw new Error('Missing batch identifier');
+      setCreatedBatchId(batchId);
       const uploadFiles = files.map(
-        (f) => new File([f.sanitizedBlob!], f.originalFile.name, { type: f.originalFile.type })
+        (f) => new File([f.sanitizedBlob!], f.originalFile.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' })
       );
       const mappings = files.map((f, i) => ({ fileIndex: i, studentId: f.studentId }));
 
-      await AppTeacherService.uploadImages(batch.batchId || batch.id || '', uploadFiles, mappings);
-      navigate(`/batches/${batch.batchId || batch.id}`);
+      await AppTeacherService.uploadImages(batchId, uploadFiles, mappings);
+      navigate(`/batches/${batchId}`);
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'Có lỗi xảy ra khi tạo lượt chấm.');
+    } finally {
+      submitLock.current = false;
       setUploading(false);
     }
   };
@@ -215,14 +252,14 @@ export default function BatchCreatePage() {
         Quay lại danh sách đợt chấm
       </Button>
 
-      <PageHeader
-        title="Khởi tạo Đợt chấm bài (Batch Upload)"
-        subtitle="Tải lên từ 1 đến 30 ảnh bài làm (thông thường 10–30 bài), che thông tin cá nhân thủ công và ghép cặp minh bạch với học sinh."
-      />
+      {rosterLoading && <Typography role="status" sx={{ mb: 2 }}>Đang tải danh sách học sinh…</Typography>}
+      {rosterError && <Alert severity="error" sx={{ mb: 2 }} action={<Button onClick={() => void refetch()}>Thử lại</Button>}>Chưa tải được danh sách học sinh.</Alert>}
+      {!rosterLoading && !rosterError && !roster.length && <Alert severity="info" sx={{ mb: 2 }}>Lớp chưa có học sinh. Hãy thêm học sinh trước khi gửi bài.</Alert>}
 
       {error && (
         <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
-          {error}
+          {createdBatchId ? 'Đợt chấm đã được tạo nhưng chưa xác nhận được kết quả tải ảnh. Hãy kiểm tra đợt chấm trước khi gửi lại để tránh trùng bài.' : error}
+          {createdBatchId && <Button onClick={() => navigate(`/batches/${createdBatchId}`)}>Kiểm tra đợt chấm</Button>}
         </Alert>
       )}
 
@@ -244,11 +281,11 @@ export default function BatchCreatePage() {
               Tải lên từ 1 đến 30 ảnh bài làm học sinh
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center', maxWidth: 480 }}>
-              Hỗ trợ định dạng JPG, PNG (tối đa 30 bài/đợt; đợt chấm hàng loạt thường gồm 10–30 bài). Ảnh chụp vuông góc, rõ nét để AI nhận diện tối ưu.
+              Hỗ trợ JPG, PNG, WebP, mỗi ảnh tối đa 10 MB (tối đa 30 bài/đợt; đợt chấm hàng loạt thường gồm 10–30 bài). Ảnh chụp vuông góc, rõ nét để AI nhận diện tối ưu.
             </Typography>
-            <Button variant="contained" component="label" size="large" sx={{ px: 4, py: 1.25, fontWeight: 700 }}>
+            <Button disabled={rosterLoading || rosterError || !roster.length} variant="contained" component="label" size="large" sx={{ px: 4, py: 1.25, fontWeight: 700 }}>
               Chọn ảnh từ máy tính
-              <input type="file" hidden multiple accept="image/*" onChange={handleFileSelect} />
+              <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
             </Button>
           </CardContent>
         </Card>
@@ -307,7 +344,7 @@ export default function BatchCreatePage() {
               <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                 <Button variant="outlined" component="label" disabled={totalFiles >= 30 || uploading}>
                   Thêm ảnh
-                  <input type="file" hidden multiple accept="image/*" onChange={handleFileSelect} />
+                  <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
                 </Button>
                 <Button
                   variant="contained"
@@ -384,6 +421,7 @@ export default function BatchCreatePage() {
                     <Box sx={{ position: 'absolute', top: 6, right: 6, zIndex: 10, display: 'flex', gap: 0.5 }}>
                       <Tooltip title="Thay thế ảnh này">
                         <IconButton
+                          disabled={uploading}
                           aria-label="Thay thế ảnh này"
                           component="label"
                           size="small"
@@ -394,11 +432,12 @@ export default function BatchCreatePage() {
                           }}
                         >
                           <Refresh sx={{ fontSize: 16 }} />
-                          <input type="file" hidden accept="image/*" onChange={(e) => handleReplaceFile(file.id, e)} />
+                          <input type="file" hidden accept="image/jpeg,image/png,image/webp" onChange={(e) => handleReplaceFile(file.id, e)} />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Xóa ảnh này">
                         <IconButton
+                          disabled={uploading}
                           aria-label="Xóa ảnh này"
                           size="small"
                           onClick={() => removeFile(file.id)}
@@ -475,6 +514,7 @@ export default function BatchCreatePage() {
                       <FormControl fullWidth size="small" sx={{ mb: 1.5 }}>
                         <InputLabel id={`select-student-label-${file.id}`}>Học sinh thực hiện</InputLabel>
                         <Select
+                          disabled={uploading}
                           labelId={`select-student-label-${file.id}`}
                           value={file.studentId}
                           label="Học sinh thực hiện"
@@ -503,10 +543,11 @@ export default function BatchCreatePage() {
                         variant={file.sanitizedBlob ? 'outlined' : 'contained'}
                         color={file.sanitizedBlob ? 'primary' : 'warning'}
                         startIcon={<PrivacyTip />}
+                        disabled={uploading}
                         onClick={() => setEditingFile(file)}
                         sx={{ fontWeight: 600 }}
                       >
-                        {file.sanitizedBlob ? 'Chỉnh sửa vùng che' : 'Che thông tin cá nhân'}
+                        {file.sanitizedBlob ? 'Bổ sung vùng che' : 'Che thông tin cá nhân'}
                       </Button>
                     </CardContent>
                   </Card>
@@ -521,7 +562,7 @@ export default function BatchCreatePage() {
         <PrivacyEditorModal
           open={Boolean(editingFile)}
           onClose={() => setEditingFile(null)}
-          file={editingFile.originalFile}
+          file={editingFile.sanitizedBlob || editingFile.originalFile}
           onSave={handleSaveSanitized}
         />
       )}

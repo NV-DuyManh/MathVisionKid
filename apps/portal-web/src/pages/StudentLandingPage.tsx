@@ -8,17 +8,19 @@ export const StudentLandingPage: React.FC = () => {
   const navigate = useNavigate();
   useEffect(() => {
     let active = true;
-    authService.getMe().then(user => {
-      if (!active) return;
+    const session = tokenStore.getSessionId();
+    const controller = new AbortController();
+    authService.getMe(controller.signal).then(user => {
+      if (!active || session !== tokenStore.getSessionId()) return;
       if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT' && user.active !== false) {
         window.location.replace('/study/');
       } else {
         navigate('/access-denied', { replace: true });
       }
     }).catch(() => {
-      if (active) { tokenStore.clearTokens(); navigate('/session-expired', { replace: true }); }
+      if (active && session === tokenStore.getSessionId()) { tokenStore.clearTokens(); navigate('/session-expired', { replace: true }); }
     });
-    return () => { active = false; };
+    return () => { active = false; controller.abort(); };
   }, [navigate]);
   return <Box sx={{ textAlign: 'center', py: 8 }}>
     <CircularProgress /><Typography sx={{ mt: 2 }}>Đang mở bài học của em…</Typography>

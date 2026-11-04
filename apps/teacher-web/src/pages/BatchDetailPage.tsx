@@ -16,6 +16,7 @@ export default function BatchDetailPage() {
     enabled: !!id,
     refetchInterval: (query) => {
       const b = query.state.data;
+      if (query.state.status === 'error' || b?.status === 'CREATED') return false;
       if (!b) return 3000;
       if (
         b.status === BatchStatus.COMPLETED ||
@@ -53,6 +54,7 @@ export default function BatchDetailPage() {
         <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
           Không thể tải thông tin đợt chấm bài.
         </Typography>
+        <Button onClick={() => void refetch()}>Thử lại</Button>
         <Button variant="outlined" onClick={() => navigate('/batches')}>
           Quay lại danh sách đợt chấm
         </Button>
@@ -64,7 +66,7 @@ export default function BatchDetailPage() {
   const processed = batch.processedCount || 0;
   const reviewCount = batch.reviewRequiredCount || 0;
   const confidentCount = Math.max(0, processed - reviewCount);
-  const progressPercent = totalImgs > 0 ? Math.round((processed / totalImgs) * 100) : 0;
+  const progressPercent = totalImgs > 0 ? Math.min(100, Math.max(0, Math.round((processed / totalImgs) * 100))) : 0;
 
   const isDone =
     batch.status === BatchStatus.COMPLETED ||

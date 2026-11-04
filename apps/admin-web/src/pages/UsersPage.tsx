@@ -36,11 +36,28 @@ export function UsersPage() {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [search, setSearch] = useState('');
-  const [role, setRole] = useState(params.get('role') || '');
-  const [active, setActive] = useState(params.get('active') || '');
-  const [page, setPage] = useState(0);
+  const role = params.get('role') || '';
+  const active = params.get('active') || '';
+  const rawPage = Number(params.get('page') || 0);
+  const page = Number.isSafeInteger(rawPage) && rawPage >= 0 ? rawPage : 0;
+  const setPage = (value: number) => setParams(prev => {
+    const next = new URLSearchParams(prev);
+    if (value) next.set('page', String(value)); else next.delete('page');
+    return next;
+  });
+  const setFilter = (key: string, value: string) => setParams(prev => {
+    const next = new URLSearchParams(prev);
+    if (value) next.set(key, value); else next.delete(key);
+    next.delete('page');
+    return next;
+  });
   const [size, setSize] = useState(10);
-  const [creating, setCreating] = useState(params.get('create') === 'true');
+  const creating = params.get('create') === 'true';
+  const setCreating = (value: boolean) => setParams(prev => {
+    const next = new URLSearchParams(prev);
+    if (value) next.set('create', 'true'); else next.delete('create');
+    return next;
+  }, { replace: !value });
   const [notice, setNotice] = useState('');
   const users = useQuery({
     queryKey: ['admin-users', role, active, search, page, size],
@@ -134,8 +151,7 @@ export function UsersPage() {
               value={role}
               sx={{ minWidth: 160 }}
               onChange={(e) => {
-                setRole(e.target.value);
-                setPage(0);
+                setFilter('role', e.target.value);
               }}
             >
               <MenuItem value="">Tất cả vai trò</MenuItem>
@@ -150,8 +166,7 @@ export function UsersPage() {
               value={active}
               sx={{ minWidth: 170 }}
               onChange={(e) => {
-                setActive(e.target.value);
-                setPage(0);
+                setFilter('active', e.target.value);
               }}
             >
               <MenuItem value="">Tất cả trạng thái</MenuItem>
@@ -278,10 +293,7 @@ export function UsersPage() {
             onSaved={() => setNotice('Đã tạo tài khoản thành công.')}
             onClose={() => {
               setCreating(false);
-              if (params.has('create')) {
-                params.delete('create');
-                setParams(params, { replace: true });
-              }
+
             }}
           />
         )}
