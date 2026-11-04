@@ -61,6 +61,14 @@ Sau khi bật security alerts, API GitHub trả đủ 167 cảnh báo mở trên
 
 Tham chiếu governance CODEGYM ở revision `667b580f89d63c7caf176d26869a2b2dbb5e25c8`; chi tiết trong `docs/engineering/skill-provenance.md`. Không nhập Maven/MySQL, mã CF/QA, luật hóa đơn/đơn hàng, skill trùng, prototype daemon, bot AI trả phí hoặc auto-merge. Giữ Catalog Bot hiện có.
 
+## Bổ sung kiểm thử trình duyệt
+
+Thêm Playwright 1.64.1 khóa phiên bản, 13 tình huống trên hai viewport Chromium (26 lượt). Build Portal/Teacher/Admin production riêng trong `.local-artifacts/browser/`, API fixture offline; không ghi đè dist đang dùng hoặc gọi dịch vụ thật. `Web checks` chạy browser sau lint/contracts/build và upload report/trace/ảnh tổng hợp khi lỗi, retention 7 ngày. Routing CI nhận diện cả `tests/browser/` và `playwright.config.mjs`.
+
+Lượt đầu phát hiện lỗi thật Teacher logout: `clearTokens` phát event dẫn tới `/login`, effect trang login có thể chuyển về Portal root và thắng điều hướng `/logout`, bỏ sót xóa phiên Portal. Sửa bằng ref đánh dấu explicit logout trước khi clearTokens để chỉ luồng logout quyết định chuyển trang. Ca browser giữ kiểm tra xóa token Portal và không vào lại dashboard sau logout. `npm run test:browser` sau sửa đạt 26/26 local Windows trong 39,1 giây, gồm build cả ba web; Unit/contracts Teacher 31/31 và lint không lỗi; cảnh báo Fast Refresh đã có vẫn còn. CI cần chạy lại trên commit mới, không tính các lượt đang phát triển thất bại là đạt.
+
+Giới hạn: production frontend thật, API giả lập; Student chỉ kiểm entry `/study/`, không test toàn bộ nội dung Student. Không thay backend authority, không có bằng chứng thiết bị thật hoặc kiểm thử OCR/giọng từ bộ browser này. Hướng dẫn và chi tiết phạm vi: `docs/engineering/browser-testing.md`.
+
 ## Skills Applied
 
 - `ponytail`
@@ -75,3 +83,11 @@ Tham chiếu governance CODEGYM ở revision `667b580f89d63c7caf176d26869a2b2dbb
   - SKILL.md: `.agents/skills/mathvision-review/SKILL.md`
   - Why selected: Review chính sách, an toàn dữ liệu và tính đúng của bằng chứng trước tích hợp.
   - Applied to: Quyền workflow, ruleset không bypass chất lượng, phân biệt local/CI và mock/live.
+- `mathvision-quality`
+  - SKILL.md: `.agents/skills/mathvision-quality/SKILL.md`
+  - Why selected: Kiểm thử hành vi web bằng trình duyệt, giữ bằng chứng và giới hạn chính xác.
+  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter và CI failure artifacts.
+- `vercel-react-best-practices`
+  - SKILL.md: `.agents/skills/react-best-practices/SKILL.md`
+  - Why selected: Browser test phát hiện race điều hướng trong React Teacher AuthProvider.
+  - Applied to: Ref trạng thái logout, tránh effect chuyển trang cạnh tranh; giữ cache/session cleanup.

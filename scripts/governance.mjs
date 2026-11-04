@@ -9,7 +9,7 @@ export function validateTitle(title) {
 export function planChecks(paths, full = false) {
   const shared = full || paths.some(p => /^(?:package(?:-lock)?\.json$|\.nvmrc$|\.github\/|infra\/|scripts\/(?:governance|skills)|vendor\/|packages\/)/.test(p));
   return {
-    web: shared || paths.some(p => /^apps\/(?:portal|teacher|admin)-web\/|^scripts\/deploy\//.test(p)),
+    web: shared || paths.some(p => /^apps\/(?:portal|teacher|admin)-web\/|^scripts\/deploy\/|^tests\/browser\/|^playwright\.config\.mjs$/.test(p)),
     student: shared || paths.some(p => /^apps\/student-mobile\//.test(p)),
     backend: shared || paths.some(p => /^backend\/business-api\/|^scripts\/test\/test_postgres_migrations(?:_runner)?\.py$/.test(p)),
     ai: shared || paths.some(p => /^(?:ai\/runtime\/|catalog\/|contracts\/)|^scripts\/(?:ci-tutoring-requirements\.txt|test\/test_runtime_tutor_auth\.py)$/.test(p)),

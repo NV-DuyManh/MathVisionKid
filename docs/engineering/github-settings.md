@@ -18,6 +18,8 @@ Repo: `NV-DuyManh/MathVisionKid`; nhánh mặc định `main`. Thiết lập ser
 
 CI PR không dùng secrets/production DB, không chạy `pull_request_target`, action được pin commit SHA và checkout không giữ credential. Dependency bot chỉ đề xuất PR hàng tuần, giới hạn số lượng; Expo/React không gom cập nhật tự động và ML cần campaign riêng.
 
+`Web checks` còn chạy Playwright Chromium trên production bundles với viewport desktop/mobile và API fixture offline. Lỗi luồng đăng nhập/SSO/đăng xuất/vai trò/form/filter làm Quality gate thất bại; report/trace/ảnh lỗi lưu artifact 7 ngày. Xem [phạm vi và cách chạy browser tests](browser-testing.md); không nhầm API fixture với bằng chứng backend RBAC hoặc test Android thật.
+
 ## Kiểm tra và rollback
 
 Đọc `gh api repos/NV-DuyManh/MathVisionKid/rulesets` và từng ID; `branches/main.protected` phải true. Đối chiếu `delete_branch_on_merge` và check-run thực tế. Bản cấu hình trước khi đổi được lưu ngoài checkout; báo cáo phase ghi trạng thái thật, ID và giới hạn. Thay đổi server không tự xuất hiện trong git diff.

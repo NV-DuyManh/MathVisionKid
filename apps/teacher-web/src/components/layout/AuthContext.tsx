@@ -21,6 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const queryClient = useQueryClient();
   const sessionVersion = useRef(0);
+  const loggingOut = useRef(false);
 
   useEffect(() => {
     const clearSession = () => {
@@ -28,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       void queryClient.cancelQueries();
       queryClient.clear();
       setUser(null);
-      if (!AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
+      if (!loggingOut.current && !AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
         navigate('/login', { replace: true });
       }
     };
@@ -79,6 +80,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     const accessToken = AuthTokenStore.getAccessToken();
+    // Let the explicit Portal logout own navigation. Mounting /login here can
+    // redirect to the landing page before the Portal clears its own session.
+    loggingOut.current = true;
     AuthTokenStore.clearTokens();
     setUser(null);
     // Revoke only the captured session; network availability must not delay leaving.

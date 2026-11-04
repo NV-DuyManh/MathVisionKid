@@ -24,6 +24,7 @@ test('scope covers shared/CI changes, docs-only changes, deleted files and unusu
   assert.equal(planChecks(['scripts/dev/start-all.ps1']).launcher, true);
   for (const path of ['DEPLOY_WEB.bat', 'scripts/start-all.bat', 'scripts/start-student-metro.ps1', 'scripts/deploy/Start-PC-Preview.ps1']) assert.equal(planChecks([path]).launcher, true);
   assert.equal(planChecks(['scripts/deploy/Start-PC-Preview.ps1']).web, true);
+  for (const path of ['tests/browser/workflows.spec.mjs', 'tests/browser/fixtures.mjs', 'playwright.config.mjs']) assert.equal(planChecks([path]).web, true);
   assert.ok(Object.values(planChecks(['infra/docker/docker-compose.yml'])).every(Boolean));
   assert.ok(Object.values(planChecks(['.github/workflows/ci.yml'])).every(Boolean));
   assert.ok(Object.values(planChecks(['package-lock.json'])).every(Boolean));
