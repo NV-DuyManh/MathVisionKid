@@ -170,6 +170,7 @@ jobs:
           tests/test_math_knowledge.py tests/test_speech_pronunciation.py
           tests/test_image_resolver.py tests/test_notebook_tutor.py
           tests/test_notebook_row_panels.py tests/test_notebook_math_layout.py
+          tests/test_neural_speech.py tests/test_quiz_narration.py tests/test_lesson_narration.py
       - run: python ai/runtime/scripts/test_catalog_store.py -v
       - run: python ai/runtime/scripts/test_catalog_bot.py -v
       - run: python -m unittest scripts/test/test_runtime_tutor_auth.py
@@ -194,6 +195,7 @@ jobs:
           ./scripts/test/local-env.test.ps1
           ./scripts/test/test_service_runtime_identity.ps1
       - run: python -m unittest scripts/test/test_run_launcher.py
+      - run: python -m unittest scripts/test/test_python_runtime_pins.py
 
   gate:
     name: Quality gate

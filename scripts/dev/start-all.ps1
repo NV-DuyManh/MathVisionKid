@@ -272,6 +272,20 @@ if (Test-Path $PyVenvExe) {
     }
 }
 
+if ($MissingDeps.Count -eq 0) {
+    $runtimePinCheck = Join-Path $RepoRoot 'scripts\dev\check_python_runtime.py'
+    $pins = Invoke-CommandWithTimeout -FilePath $PyVenvExe -ArgumentList @('"' + $runtimePinCheck + '"') -TimeoutSeconds 8
+    if (-not $pins.Success) {
+        $MissingDeps += @{
+            Tool = 'Python runtime packages'
+            Reason = $pins.Stdout
+            Fix = 'Install ai/runtime/requirements.txt with ai/runtime/requirements-lock.txt constraints in ai/runtime/.venv, then restart.'
+        }
+    } else {
+        Write-Host '  [+] Runtime package pins .... VERIFIED' -ForegroundColor Green
+    }
+}
+
 if ($MissingDeps.Count -gt 0) {
     Write-Host "`n============================================" -ForegroundColor Red
     Write-Host " ERROR: Missing Required Developer Tools" -ForegroundColor Red

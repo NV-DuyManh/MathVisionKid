@@ -154,8 +154,11 @@ def test_retry_is_bounded_and_cache_does_not_cross_challenges_or_solution_revisi
 
 @pytest.mark.asyncio
 async def test_internal_auth_required_and_runtime_does_not_replace_spring_ownership(monkeypatch):
-    from app.main import app
+    from fastapi import FastAPI
+    from app.api.tutor import router
     from app.config import settings
+    app = FastAPI()
+    app.include_router(router, prefix='/internal/v1/tutor')
     monkeypatch.setattr(speech.narration, 'render_audio', lambda *_, **__: pcm())
     source = request()
     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:

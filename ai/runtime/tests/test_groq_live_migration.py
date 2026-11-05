@@ -157,7 +157,7 @@ async def test_model_live_04_groq_returns_structured_response():
 
 
 @pytest.mark.asyncio
-async def test_model_live_05_fallback_works_when_primary_disabled():
+async def test_model_live_05_fallback_works_when_primary_disabled(monkeypatch):
     """MODEL-LIVE-05: When primary model returns MODEL_UNAVAILABLE, system falls back to local."""
     img = np.full((200, 200, 3), 255, dtype=np.uint8)
     _, png_bytes = cv2.imencode(".png", img)
@@ -165,6 +165,10 @@ async def test_model_live_05_fallback_works_when_primary_disabled():
     async def fail_primary(*args, **kwargs):
         raise GroqError("MODEL_UNAVAILABLE", "Model unavailable")
 
+    from app.integrations.groq import line_analyzer
+    monkeypatch.setattr(settings, 'groq_enabled', True)
+    monkeypatch.setattr(line_analyzer, '_pool', GroqKeyPool('fixture-only-key'))
+    monkeypatch.setattr(line_analyzer, '_cache', {})
     with patch("app.integrations.groq.line_analyzer.call_groq_vision", side_effect=fail_primary):
         resp = client.post("/internal/v1/ocr/detect-lines", content=png_bytes.tobytes(), headers=AUTH_HEADERS)
         assert resp.status_code == 200

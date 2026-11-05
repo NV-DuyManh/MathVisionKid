@@ -105,12 +105,30 @@ def test_trigger8_02_missing_token_metrics_cannot_silently_default_to_non_trigge
 # TRIGGER8-03: Hybrid trigger is used in real multiline path
 # ==============================================================================
 
-def test_trigger8_03_hybrid_trigger_used_in_real_multiline_path():
+def test_trigger8_03_hybrid_trigger_used_in_real_multiline_path(monkeypatch):
     """TRIGGER8-03: detect-lines invokes hybrid uncertainty trigger and assigns advisor results."""
     assert FIXTURE_8_LINES.exists()
     with open(FIXTURE_8_LINES, "rb") as f:
         img_bytes = f.read()
 
+    # Exercise the API's scheduling/propagation without requiring local model weights or cloud keys.
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+    from app.api import ocr as ocr_api
+    from app.ocr.crnn_provider import CrnnOcrProvider
+    from app.integrations.groq import corrector
+    provider = MagicMock(spec=CrnnOcrProvider)
+    provider.recognize_batch_with_uncertainty.side_effect = lambda crops, **kwargs: [
+        ('Em học toán', {'rawCrnnConfidence': .5, 'minTokenConfidence': .3, 'p10TokenConfidence': .4})
+        for _ in crops]
+    monkeypatch.setattr(ocr_api, 'get_ocr_provider', lambda _: provider)
+    monkeypatch.setattr(settings, 'groq_enabled', True)
+    monkeypatch.setattr(settings, 'gemini_enabled', False)
+    monkeypatch.setattr(settings, 'groq_line_assist_mode', 'off')
+    monkeypatch.setattr(settings, 'groq_post_correction_enabled', True)
+    correction = AsyncMock(return_value=(SimpleNamespace(suggested_text='Em học toán', confidence=.9),
+                                         'SUGGEST_ONLY', 0, 'fixture'))
+    monkeypatch.setattr(corrector, 'request_groq_correction', correction)
     resp = client.post(
         "/internal/v1/ocr/detect-lines",
         content=img_bytes,
@@ -123,6 +141,7 @@ def test_trigger8_03_hybrid_trigger_used_in_real_multiline_path():
     # Verify that multiline pipeline triggered advisors on uncertain lines
     assert diag.get("correctionTriggeredLines", 0) >= 2
     assert diag.get("groqCalls", 0) >= 2
+    assert correction.await_count == diag['groqCalls']
 
 
 # ==============================================================================

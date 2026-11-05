@@ -24,6 +24,9 @@ DEFAULT_VOICE = SPEECH_VOICES[0]
 logger = logging.getLogger(__name__)
 # Shared across lesson, Q&A and Quiz worker threads; each render may use two turns.
 _provider_slots = threading.BoundedSemaphore(4)
+_edge_backoff_lock = threading.Lock()
+_edge_unavailable_until: dict[str, float] = {}
+EDGE_BACKOFF_SECONDS = 15
 
 
 async def _with_provider_slot(call):
@@ -121,7 +124,10 @@ def synthesize(text: str, path: Path, deadline: float, max_seconds=65):
 
 
 async def _neural_chunk(text: str, voice: str) -> bytes:
-    # Retry transient empty turns within one total deadline; never return partial audio or change the chosen voice.
+    # A voice outage must not multiply retries across chunks, background jobs and Quiz.
+    with _edge_backoff_lock:
+        if _edge_unavailable_until.get(voice, 0) > time.monotonic():
+            raise SpeechNoAudio()
     for attempt in range(3):
         result = bytearray()
         started = time.monotonic()
@@ -139,9 +145,15 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
             if len(result) < 128:
                 raise ValueError('Empty speech response')
             outcome = 'ready'
+            with _edge_backoff_lock:
+                _edge_unavailable_until.pop(voice, None)
             return bytes(result)
         except (edge_tts.exceptions.NoAudioReceived, TimeoutError, aiohttp.ClientConnectionError) as exc:
             outcome = type(exc).__name__
+            if isinstance(exc, edge_tts.exceptions.NoAudioReceived) and attempt >= 1:
+                with _edge_backoff_lock:
+                    _edge_unavailable_until[voice] = time.monotonic() + EDGE_BACKOFF_SECONDS
+                raise
             if attempt == 2:
                 raise
             await asyncio.sleep(.25 * (attempt + 1))
@@ -285,7 +297,8 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
         category = exc.category if isinstance(exc, AzureSpeechError) else type(exc).__name__
         logger.warning('Vietnamese narration unavailable category=%s', category)
         path.unlink(missing_ok=True)
-        if isinstance(exc,edge_tts.exceptions.NoAudioReceived):raise SpeechNoAudio() from None
+        if isinstance(exc, (edge_tts.exceptions.NoAudioReceived, SpeechNoAudio)):
+            raise SpeechNoAudio() from None
         raise TutorUnavailable() from None
     finally:
         source.unlink(missing_ok=True)

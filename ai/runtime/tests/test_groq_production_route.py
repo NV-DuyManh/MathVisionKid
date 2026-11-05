@@ -162,7 +162,7 @@ async def test_model4_05_primary_forced_unavailable_fallback_routing():
 
 
 @pytest.mark.asyncio
-async def test_model4_06_both_unavailable_local_fallback():
+async def test_model4_06_both_unavailable_local_fallback(monkeypatch):
     """MODEL4-06: When both models are unavailable, graceful LOCAL_FALLBACK is returned."""
     img = np.full((200, 200, 3), 255, dtype=np.uint8)
     _, png_bytes = cv2.imencode(".png", img)
@@ -170,6 +170,11 @@ async def test_model4_06_both_unavailable_local_fallback():
     async def mock_fail(*args, **kwargs):
         raise GroqError("MODEL_UNAVAILABLE", "Model unavailable")
 
+    from app.integrations.groq import line_analyzer
+    from app.integrations.groq.key_pool import GroqKeyPool
+    monkeypatch.setattr(settings, 'groq_enabled', True)
+    monkeypatch.setattr(line_analyzer, '_pool', GroqKeyPool('fixture-only-key'))
+    monkeypatch.setattr(line_analyzer, '_cache', {})
     with patch("app.integrations.groq.line_analyzer.call_groq_vision", side_effect=mock_fail):
         resp = client.post("/internal/v1/ocr/detect-lines", content=png_bytes.tobytes(), headers=AUTH_HEADERS)
         assert resp.status_code == 200
