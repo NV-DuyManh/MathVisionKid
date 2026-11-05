@@ -163,9 +163,13 @@ jobs:
           python-version: '3.12'
       - name: Install lightweight tutoring test dependencies (no models)
         run: pip install -r scripts/ci-tutoring-requirements.txt
-      - name: Math and pronunciation regressions without live providers
+      - name: Image, math and pronunciation regressions without live providers
         working-directory: ai/runtime
-        run: python -m pytest -q tests/test_math_knowledge.py tests/test_speech_pronunciation.py
+        run: >-
+          python -m pytest -q
+          tests/test_math_knowledge.py tests/test_speech_pronunciation.py
+          tests/test_image_resolver.py tests/test_notebook_tutor.py
+          tests/test_notebook_row_panels.py tests/test_notebook_math_layout.py
       - run: python ai/runtime/scripts/test_catalog_store.py -v
       - run: python ai/runtime/scripts/test_catalog_bot.py -v
       - run: python -m unittest scripts/test/test_runtime_tutor_auth.py

@@ -16,7 +16,15 @@ Repo: `NV-DuyManh/MathVisionKid`; nhánh mặc định `main`. Thiết lập ser
 
 **MathVision Review Bot** là tên phần tóm tắt phạm vi/checks trong GitHub Actions Job Summary, không phải AI review ngữ nghĩa. Không cần API key, không gửi code/hình học sinh sang nhà cung cấp thứ ba, không tự comment/approve/merge. Bộ `mathvision-review` hỗ trợ review; không thay quyết định của owner. Catalog Bot vẫn làm kiểm tra catalog độc lập.
 
-CI PR không dùng secrets/production DB, không chạy `pull_request_target`, action được pin commit SHA và checkout không giữ credential. Dependency bot chỉ đề xuất PR hàng tuần, giới hạn số lượng; Expo/React không gom cập nhật tự động và ML cần campaign riêng.
+CI PR không dùng secrets/production DB, không chạy `pull_request_target`, action được pin commit SHA và checkout không giữ credential. Dependency bot chỉ đề xuất PR; không tự duyệt hoặc merge.
+
+Dependency được kiểm hàng tuần, thứ Hai 08:00 giờ Việt Nam. PR phiên bản thường được gom theo nhóm, tối đa 5 PR mở (npm 2, Gradle/Python/Actions mỗi nhóm 1); chỉ đề xuất minor/patch. Expo/React và model có nhóm riêng, vẫn cần kiểm thử tương thích và owner duyệt. Major thường được nâng trong đợt riêng. Cooldown 7 ngày chỉ áp dụng cập nhật phiên bản, không trì hoãn bản vá bảo mật. Security có nhóm riêng và giới hạn riêng của GitHub; tổng PR không bị khóa cứng ở 5. Không ignore toàn bộ thư viện ML hoặc tắt cảnh báo để làm gọn số đếm.
+
+Python dùng một updater `uv` cho `/ai/runtime` và `/scripts`, gồm requirements và uv.lock, tránh pip/uv cùng sửa một pin. Khi gom PR cũ vào PR thay thế, ghi rõ số PR/commit nguồn, giữ tác giả với `cherry-pick -x`, chỉ đóng nguồn sau khi phần thay thế được chấp nhận. PR nâng không tương thích được từ chối kèm lý do kiểm chứng. Không đóng bản vá chưa có giải pháp chỉ để giảm số PR.
+
+Auto-delete chỉ dọn head của PR đã merge. Nhánh cũ chỉ xóa sau khi xác minh toàn bộ head đã nằm trên main và không còn PR mở dùng làm head/base; lưu ref trước xóa và dùng expected SHA để tránh xóa commit mới được đồng đội đẩy lên. Nhánh còn commit riêng phải được giữ. Không viết lại lịch sử đóng góp.
+
+Nguồn cấu hình: [Dependabot options](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference). Alert trong manifest nghiên cứu/handoff cũ phải được phân loại riêng; không sửa số phiên bản của biên nhận lịch sử để giả vờ đã vá môi trường đó.
 
 `Web checks` còn chạy Playwright Chromium trên production bundles với viewport desktop/mobile và API fixture offline. Lỗi luồng đăng nhập/SSO/đăng xuất/vai trò/form/filter làm Quality gate thất bại; report/trace/ảnh lỗi lưu artifact 7 ngày. Xem [phạm vi và cách chạy browser tests](browser-testing.md); không nhầm API fixture với bằng chứng backend RBAC hoặc test Android thật.
 

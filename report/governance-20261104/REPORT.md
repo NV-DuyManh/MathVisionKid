@@ -105,12 +105,28 @@ Local PASS: `npm run check:governance` (8), Metro/QR node tests (2), launcher/mi
 
 Skills applied cho cleanup: ponytail, mathvision-review, mathvision-quality; đường dẫn/lý do/phạm vi trong mục Skills Applied dưới đây. Không viết lại lịch sử để giảm số thống kê đóng góp.
 
+## Dọn GitHub và vá bảo mật — 05/11/2026
+
+Owner cho phép thực hiện sau khi xem phương án. Nhánh `codex/github-hygiene-security-20261105` tách từ main `5e3661b`. Snapshot lúc kiểm tra: 26 nhánh remote, 14 PR Dependabot đang mở, 207 dependency alerts thuộc 83 advisory khác nhau; số trên giao diện có thể chậm hơn API. Không dùng số alert làm bằng chứng tất cả đều khai thác được hoặc tất cả đều an toàn.
+
+Đã xác minh và xóa 9 head remote nằm hoàn toàn trong main: Kha, Loc/Web, Namm, codex/line-recognition-polish-20261005, codex/meeting-actions-20261021, codex/repository-showcase-20261005, codex/student-audio-video-removal-20261028, codex/student-responsive-approved và codex/student-web-voice-sync-20261103. Không có PR mở sử dụng các ref này. Trước xóa đã lưu và verify Git bundle của các remote refs trong `.local-artifacts/github-hygiene-20261105/`; thao tác atomic kèm lease theo SHA. Hieu còn 2 commit riêng và Nam còn 6 commit riêng nên giữ lại. Không thay lịch sử main hoặc attribution.
+
+Secret alert #1 là Hugging Face token trong commit lịch sử `705faab`, không có ở cây tracked hiện tại; đối chiếu chính token không thấy trong các cấu hình dịch vụ local đã kiểm. `whoami-v2` trả 401 trước xử lý. Gửi token trong bộ nhớ tới endpoint thu hồi chính thức trả 202; kiểm tra sau vẫn 401. Đã ghi alert resolved/revoked. Đây là bằng chứng yêu cầu thu hồi được tiếp nhận và token không xác thực được tại hai lần kiểm, không chứng minh trước đó token còn hoạt động hoặc bản thân lần thu hồi gây ra 401. Không log/commit token, không thay khóa khác hoặc viết lại history. [Hugging Face token security](https://huggingface.co/docs/hub/en/security-tokens).
+
+Gom các bản vá PR #14 (`1e268da`), #16 (`e5ce209`) và #28 (`57f7ac1`) bằng `cherry-pick -x`, giữ nguyên tác giả Dependabot. Pillow 12.3.0 → 13.0.0 trong requirements runtime/CI; certifi 2026.7.22 → 2026.10.18 trong requirements-lock và uv.lock. `uv lock --upgrade-package certifi==2026.10.18` chỉ đổi package certifi và hashes. Không nâng SDK Expo/React, model hoặc backend trong đợt này.
+
+Dependabot gom minor/patch hàng tuần, có cooldown 7 ngày cho version updates và tổng giới hạn routine 5 PR; security có nhóm/giới hạn riêng, không bị trì hoãn bởi cooldown. Expo/React và model có nhóm riêng. Một updater uv quản lý requirements và uv.lock, tránh hai updater cạnh tranh. Bỏ ignore toàn bộ torch/torchvision/ultralytics/opencv, giữ cảnh báo bảo mật; các nâng major thông thường làm trong đợt riêng. PR #24 springdoc 3.2.0 không được chọn vì backend vẫn Spring Boot 3.3.6; dòng springdoc 3 dành Boot 4 theo [tài liệu dự án](https://springdoc.org/). Không đóng PR security chưa có giải pháp chỉ để hạ số đếm.
+
+Local đạt: 391 tests ảnh/OCR notebook, toán, privacy và phát âm trong 44,72 giây với Pillow/certifi mới qua PYTHONPATH overlay; 283 tests của lệnh CI mở rộng trong 22,09 giây ở venv sạch cài từ `scripts/ci-tutoring-requirements.txt`; 8 governance tests; Dependabot YAML qua JSON Schema; HTTPS PyPI trả 200 với CA bundle certifi mới; `uv lock --check`; git diff --check. Hai cảnh báo deprecation FastAPI/Starlette ở venv cũ và một cảnh báo ở venv sạch vẫn còn. CI bổ sung tests ảnh/notebook vào job offline để kiểm bản nâng Pillow trên máy clone/runner. Môi trường runtime đang chạy không bị đổi package ngay trong lúc test; không giả kết quả thiết bị thật hoặc cloud TTS. CI của PR mới phải đạt trên đúng revision trước tích hợp.
+
+Các alert còn lại cần được xử lý theo manifest/phạm vi: 63 cảnh báo snapshot thuộc handoff OCR lịch sử, các bản vá filelock/torch hoặc package chưa có bản vá không được sửa bừa vào biên nhận. Không dismiss chúng, không tuyên bố dự án hết lỗ hổng. Audit, ref bundle và log chi tiết chỉ lưu local tại `.local-artifacts/github-hygiene-20261105/`, không đưa lên Git.
+
 ## Skills Applied
 
 - `ponytail`
   - SKILL.md: `.agents/skills/ponytail/SKILL.md`
   - Why selected: Quy trình tập trung, không thêm framework/SDK hoặc wrapper trùng.
-  - Applied to: Registry, bot Job Summary, CI, dừng worker và cleanup dùng helper/công cụ sẵn có, không thêm framework dọn tệp.
+  - Applied to: Registry, bot Job Summary, CI, dừng worker, cleanup và Dependabot grouping bằng tính năng sẵn có, không thêm daemon dọn PR.
 - `skill-creator`
   - SKILL.md: `C:/Users/Admin/.codex/skills/.system/skill-creator/SKILL.md`
   - Why selected: Tạo skill dự án phù hợp và không mở rộng quyền ngoài yêu cầu.
@@ -118,11 +134,11 @@ Skills applied cho cleanup: ponytail, mathvision-review, mathvision-quality; đ�
 - `mathvision-review`
   - SKILL.md: `.agents/skills/mathvision-review/SKILL.md`
   - Why selected: Review chính sách, an toàn dữ liệu và tính đúng của bằng chứng trước tích hợp.
-  - Applied to: Quyền workflow, ruleset không bypass chất lượng, bảo vệ PID/checkout khi dừng worker, giữ provenance/biên nhận khi cleanup, phân biệt local/CI và mock/live.
+  - Applied to: Quyền workflow, ruleset không bypass chất lượng, bảo vệ PID/checkout, giữ provenance/biên nhận, kiểm tra ref trước xóa và tác giả khi gom PR; phân biệt local/CI và mock/live.
 - `mathvision-quality`
   - SKILL.md: `.agents/skills/mathvision-quality/SKILL.md`
   - Why selected: Kiểm thử hành vi web bằng trình duyệt, giữ bằng chứng và giới hạn chính xác.
-  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts, hồi quy launcher trên PowerShell 5.1/7, guard artifact và test phụ thuộc biên nhận sau cleanup.
+  - Applied to: Fixture offline, 401/403/503, SSO/phiên/đăng xuất, form/filter, CI failure artifacts, hồi quy launcher, guard artifact, tests ảnh/OCR/toán/giọng trên Pillow mới và kiểm bundle certifi.
 - `mathvision-workflow`
   - SKILL.md: `.agents/skills/mathvision-workflow/SKILL.md`
   - Why selected: Owner đã cho phép tích hợp qua PR sau kiểm tra đúng revision.
