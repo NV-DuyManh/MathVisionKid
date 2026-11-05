@@ -121,6 +121,12 @@ Local đạt: 391 tests ảnh/OCR notebook, toán, privacy và phát âm trong 4
 
 Các alert còn lại cần được xử lý theo manifest/phạm vi: 63 cảnh báo snapshot thuộc handoff OCR lịch sử, các bản vá filelock/torch hoặc package chưa có bản vá không được sửa bừa vào biên nhận. Không dismiss chúng, không tuyên bố dự án hết lỗ hổng. Audit, ref bundle và log chi tiết chỉ lưu local tại `.local-artifacts/github-hygiene-20261105/`, không đưa lên Git.
 
+CI PR #30 run `41949807886` đạt các nhóm ngoài Web nhưng chặn ở browser 25/26: ADMIN expired-session desktop đếm hai refresh cùng origin. Trace ghi dashboard/audit cũ trả 401 lúc 01:40:52.797–.798Z, refresh 01:40:52.870Z bị hủy (`status=-1`) khi reload, rồi trang mới GET /me 01:40:53.065Z và refresh 01:40:53.116Z trả 401. Test chỉ đợi URL sau login, bật fixture expired khi dashboard cũ chưa tải xong và reload ngay. Sửa bước chuẩn bị test đợi đủ response 200 dashboard/audit (Teacher: dashboard) trước khi làm hết hạn phiên; giữ nguyên assertion đúng một refresh ở document kiểm thử và không refresh tiếp sau đăng xuất. Không sửa mã xác thực, nới số request cho phép, thêm retry hoặc tăng timeout. Skill React được dùng thêm để review AuthProvider/interceptor và phân biệt race của test với lỗi runtime.
+
+Lặp ca expired-session đạt 12/12 local. Lượt full local tiếp theo đạt 25/26, phát hiện helper login chỉ đợi URL khiến `openNavigation` kiểm `isVisible=false` khi nút menu Admin mobile chưa render, rồi chờ link trong menu chưa mở. Trace xác nhận false ở call `kdgt@1081`. Sửa helper login đợi heading đã xác thực trước khi trả quyền điều khiển cho test; không đổi UI hoặc timeout.
+
+Sau cả hai sửa test: lặp expired-session và lọc người dùng trên desktop/mobile đạt 18/18 (mỗi ca 3 lần); full browser suite đạt 26/26 trong 46,7 giây. Một lượt chạy local giữa hai lần bị ngắt cùng phiên thực thi, không được tính đạt. CI phải chạy lại trên commit chứa đầy đủ bản sửa; không dùng kết quả head cũ để merge. Skills applied thêm: vercel-react-best-practices (review vòng đời bootstrap, không thay runtime React).
+
 ## Skills Applied
 
 - `ponytail`
