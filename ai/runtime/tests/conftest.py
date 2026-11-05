@@ -25,3 +25,9 @@ def isolate_media_preparation_worker(monkeypatch):
     """Unit tests explicitly drive the worker; never synthesize through a live provider by accident."""
     from app.tutoring import media_preparation
     monkeypatch.setattr(media_preparation, '_launch', lambda: None)
+
+
+@pytest.fixture(autouse=True)
+def isolate_speech_provider_backoff(monkeypatch):
+    from app.tutoring import speech_render
+    monkeypatch.setattr(speech_render, '_edge_unavailable_until', {})

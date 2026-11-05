@@ -60,7 +60,34 @@ def test_persistent_provider_failure_is_not_retried_forever(monkeypatch, failure
     monkeypatch.setattr(speech.asyncio, 'sleep', AsyncMock())
     with pytest.raises(failure):
         asyncio.run(speech._neural_audio('Chào em!', speech.DEFAULT_VOICE))
-    assert len(calls) == 3
+    assert len(calls) == (2 if failure is speech.edge_tts.exceptions.NoAudioReceived else 3)
+
+
+def test_empty_voice_cools_down_across_requests_and_recovers_without_changing_voice(monkeypatch):
+    now = [100.0]
+    calls = []
+    unavailable = [True]
+    class Communicate:
+        def __init__(self, text, voice, **kwargs): calls.append(voice)
+        async def stream(self):
+            if unavailable[0]:
+                raise speech.edge_tts.exceptions.NoAudioReceived('private provider detail')
+            yield {'type': 'audio', 'data': b'a' * 256}
+    monkeypatch.setattr(speech.edge_tts, 'Communicate', Communicate)
+    monkeypatch.setattr(speech.time, 'monotonic', lambda: now[0])
+    monkeypatch.setattr(speech.asyncio, 'sleep', AsyncMock())
+    with pytest.raises(speech.edge_tts.exceptions.NoAudioReceived):
+        asyncio.run(speech._neural_chunk('Chào em!', speech.DEFAULT_VOICE))
+    assert calls == [speech.DEFAULT_VOICE] * 2
+    with pytest.raises(speech.SpeechNoAudio):
+        asyncio.run(speech._neural_chunk('Lời giảng khác', speech.DEFAULT_VOICE))
+    assert len(calls) == 2
+    unavailable[0] = False
+    # A failing male voice must not suppress an available female voice.
+    assert asyncio.run(speech._neural_chunk('Chào em!', speech.SPEECH_VOICES[1])) == b'a' * 256
+    now[0] += speech.EDGE_BACKOFF_SECONDS + 1
+    assert asyncio.run(speech._neural_chunk('Chào em!', speech.DEFAULT_VOICE)) == b'a' * 256
+    assert speech.DEFAULT_VOICE not in speech._edge_unavailable_until
 
 
 @pytest.mark.parametrize('status', [401, 403, 429])

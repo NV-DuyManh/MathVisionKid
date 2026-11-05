@@ -18,7 +18,7 @@ This service acts as the orchestration layer for processing student math submiss
 ## Local Setup
 1. `python -m venv .venv`
 2. `.venv\Scripts\activate` (Windows)
-3. `pip install -r requirements.txt`
+3. `pip install -r requirements.txt -c requirements-lock.txt` (or `uv pip install --python .venv/Scripts/python.exe -r requirements.txt -c requirements-lock.txt` without pip).
 4. Copy `.env.example` to `.env` and fill in necessary details.
 5. Start Redis (e.g. via Docker).
 6. Start Celery worker: `celery -A app.jobs.celery_app worker --loglevel=info -P solo`
@@ -28,7 +28,9 @@ This service acts as the orchestration layer for processing student math submiss
 
 Lesson narration and spoken Q&A explanations default to pinned `edge-tts==7.3.1` with the Vietnamese voices `vi-VN-NamMinhNeural` (male, default) and `vi-VN-HoaiMyNeural` (female). Student narration accepts only these two voices and text already published in the authenticated lesson session/revision. Audio is returned as a complete private WAV so existing seeking and replay keep working; the private in-memory cache separates owners, sessions and voices, with every public read checked against the current revision. The Student lesson flow uses speech only. Lesson-video endpoints, encoders, players and packaged demonstration clips have been removed. Shared speech synthesis lives in `app/tutoring/speech_render.py`.
 
-The runtime needs outbound access to the Microsoft Edge speech service and `ffmpeg` for decoding. This community library uses an online service; it does not require an Azure key and has no guaranteed service availability. Empty turns are retried at most twice within one 25-second speech deadline. Persistent failures return a retryable error; the app keeps the transcript and does not switch language or voice silently. Raw provider errors, lesson text and request URLs are not logged. Temporary MP3/WAV files are removed after rendering or when the learner closes the player.
+The runtime needs outbound access to the Microsoft Edge speech service and `ffmpeg` for decoding. This community library uses an online service; it does not require an Azure key and has no guaranteed service availability. An empty turn gets one retry. Two consecutive empty responses pause requests for that voice for 15 seconds, including background preparation and Quiz, so retry layers cannot repeatedly hammer an unavailable service. The other voice and already-cached audio remain independent. Later requests retry after that short pause. Persistent failures return a retryable error; the app keeps the transcript and does not switch language or voice silently. Raw provider errors, lesson text and request URLs are not logged. Temporary MP3/WAV files are removed after rendering or when the learner closes the player.
+
+The local launcher checks the installed security/speech package versions against the checkout before starting services. Updating Git alone does not update an existing virtual environment; repeat step 3 after dependency changes and restart the runtime/worker. The check never automatically downloads packages or upgrades model libraries.
 
 ### Reading-first lesson opening
 

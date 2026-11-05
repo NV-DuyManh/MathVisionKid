@@ -5,13 +5,13 @@ Matrix: GEMAVAIL-01 to GEMAVAIL-08 (8/8 PASS required).
 import os
 import re
 import pytest
-from app.config import settings
+from app.config import Settings, settings
 from app.schemas.ocr import LineBox
 
 
-def test_gemavail_01_gemini_enabled():
-    """GEMAVAIL-01: Gemini is enabled in system configuration."""
-    assert getattr(settings, "gemini_enabled", False) is True
+def test_gemavail_01_gemini_requires_explicit_opt_in():
+    """A fresh clone must not activate a cloud provider without configuration."""
+    assert Settings.model_fields["gemini_enabled"].default is False
 
 
 def test_gemavail_02_gemini_post_correction_enabled():
