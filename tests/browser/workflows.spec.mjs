@@ -48,7 +48,15 @@ for (const role of ['TEACHER', 'ADMIN']) {
   });
 
   test(`${role} expired credentials leave the protected page instead of looping`, async ({ page, app }) => {
-    await login(page, role);
+    // Finish the valid dashboard load before expiring this session. Otherwise
+    // its pending requests can refresh in the old document just before reload,
+    // and the test counts that aborted refresh alongside the new document's.
+    const initialPaths = role === 'ADMIN' ? ['/admin/dashboard', '/admin/audit'] : ['/teacher/dashboard'];
+    await Promise.all([
+      ...initialPaths.map(path => page.waitForResponse(response =>
+        new URL(response.url()).pathname === `/api/v1${path}` && response.status() === 200)),
+      login(page, role),
+    ]);
     app.expired = true;
     await page.reload();
     await expect(page).toHaveURL(signedOutUrl);

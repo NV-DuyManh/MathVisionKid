@@ -4,37 +4,106 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 3
+      day: monday
+      time: '08:00'
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 2
+    cooldown:
+      default-days: 7
+    # Routine upgrades stay within the current major. Security fixes may still
+    # propose a major, separately reviewed; no blanket ignore hides them.
+    allow:
+      - dependency-type: all
+        update-types: [version-update:semver-minor, version-update:semver-patch]
     commit-message:
       prefix: chore(deps)
     groups:
-      patch-and-minor:
+      web-compatible:
         update-types: [minor, patch]
         exclude-patterns: ['expo*', '@expo/*', 'react', 'react-dom', 'react-native*', '@react-native/*']
+      expo-react-compatible:
+        patterns: ['expo*', '@expo/*', 'react', 'react-dom', 'react-native*', '@react-native/*']
+        update-types: [minor, patch]
+      web-security:
+        applies-to: security-updates
+        patterns: ['*']
+        exclude-patterns: ['expo*', '@expo/*', 'react', 'react-dom', 'react-native*', '@react-native/*']
+      expo-react-security:
+        applies-to: security-updates
+        patterns: ['expo*', '@expo/*', 'react', 'react-dom', 'react-native*', '@react-native/*']
   - package-ecosystem: gradle
     directory: /backend/business-api
     schedule:
       interval: weekly
-    open-pull-requests-limit: 3
+      day: monday
+      time: '08:00'
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: all
+        update-types: [version-update:semver-minor, version-update:semver-patch]
     commit-message:
       prefix: chore(deps)
-  - package-ecosystem: pip
-    directory: /ai/runtime
+    groups:
+      java-compatible:
+        patterns: ['*']
+        update-types: [minor, patch]
+      java-security:
+        applies-to: security-updates
+        patterns: ['*']
+  # uv handles both requirements*.txt and pyproject/uv.lock. One updater owns
+  # these directories, avoiding competing pip and uv PRs for the same pins.
+  - package-ecosystem: uv
+    directories: [/ai/runtime, /scripts]
     schedule:
       interval: weekly
-    open-pull-requests-limit: 2
+      day: monday
+      time: '08:00'
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: all
+        update-types: [version-update:semver-minor, version-update:semver-patch]
     commit-message:
       prefix: chore(deps)
-    # ML versions move together in a measured, owner-approved runtime update.
-    ignore:
-      - dependency-name: torch
-      - dependency-name: torchvision
-      - dependency-name: ultralytics
-      - dependency-name: opencv-python
+    groups:
+      python-compatible:
+        patterns: ['*']
+        exclude-patterns: ['torch*', 'ultralytics', 'opencv-python*']
+        update-types: [minor, patch]
+      model-compatible:
+        patterns: ['torch*', 'ultralytics', 'opencv-python*']
+        update-types: [minor, patch]
+      python-security:
+        applies-to: security-updates
+        patterns: ['*']
+        exclude-patterns: ['torch*', 'ultralytics', 'opencv-python*']
+      model-security:
+        applies-to: security-updates
+        patterns: ['torch*', 'ultralytics', 'opencv-python*']
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 2
+      day: monday
+      time: '08:00'
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: all
+        update-types: [version-update:semver-minor, version-update:semver-patch]
     commit-message:
       prefix: ci(deps)
+    groups:
+      actions-compatible:
+        patterns: ['*']
+        update-types: [minor, patch]
+      actions-security:
+        applies-to: security-updates
+        patterns: ['*']

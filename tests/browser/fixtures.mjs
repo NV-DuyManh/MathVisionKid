@@ -105,7 +105,11 @@ export async function login(page, role) {
   await page.getByRole('textbox', { name: 'Email', exact: true }).fill(`${role.toLowerCase()}@example.test`);
   await page.getByLabel(/^Mật khẩu/).fill('synthetic-password');
   await page.getByRole('button', { name: 'Đăng nhập', exact: true }).click();
-  if (role !== 'STUDENT') await expect(page).toHaveURL(`${sites[role.toLowerCase()].origin}/dashboard`);
+  if (role !== 'STUDENT') {
+    await expect(page).toHaveURL(`${sites[role.toLowerCase()].origin}/dashboard`);
+    // URL changes before auth bootstrap and the responsive navigation render.
+    await expect(page.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
+  }
 }
 
 export async function openNavigation(page, role) {
