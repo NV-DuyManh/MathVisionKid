@@ -23,7 +23,7 @@
     "build:web": "npm run build --workspaces --if-present"
   },
   "dependencies": {
-    "expo": "^58.0.0"
+    "expo": "^58.0.21"
   },
   "overrides": {
     "@firebase/app": "0.14.8",
